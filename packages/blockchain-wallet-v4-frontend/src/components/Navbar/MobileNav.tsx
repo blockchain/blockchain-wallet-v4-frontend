@@ -44,14 +44,14 @@ const StyledNavLink = styled(NavLink)`
   justify-content: space-between;
 `
 
-const MobileNav = ({ handleClose, location, primaryNavItems, tertiaryNavItems }: Props) => {
+const MobileNav = ({ handleClose, location, primaryNavItems, userNavItems }: Props) => {
   const clickAndClose = (clickHandler: () => void = () => {}) => {
     return () => {
       clickHandler()
       handleClose()
     }
   }
-  const logoutInfo = tertiaryNavItems.pop()
+  const logoutInfo = userNavItems.pop()
   return (
     <div
       style={{
@@ -88,7 +88,7 @@ const MobileNav = ({ handleClose, location, primaryNavItems, tertiaryNavItems }:
             <FormattedMessage id='copy.account' defaultMessage='Account' />
           </NavAccount>
           <MobileNavList>
-            {tertiaryNavItems.map(({ clickHandler, copy, 'data-e2e': e2e, to }) => (
+            {userNavItems.map(({ clickHandler, copy, 'data-e2e': e2e, to }) => (
               <StyledLi key={to} selected={to ? location?.pathname?.includes(to) : false}>
                 {to ? (
                   <div role='button' tabIndex={0} onClick={handleClose} onKeyDown={handleClose}>
@@ -140,7 +140,7 @@ type Props = {
   handleClose: () => void
   location: { pathname: string; search: string }
   primaryNavItems: PrimaryNavItem[]
-  tertiaryNavItems: (
+  userNavItems: (
     | {
         clickHandler: () => void
         copy: React.ReactNode
