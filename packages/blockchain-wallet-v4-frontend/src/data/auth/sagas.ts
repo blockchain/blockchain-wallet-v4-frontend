@@ -1,10 +1,11 @@
 import base64url from 'base64url'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
-import { call, fork, put, select, take } from 'redux-saga/effects'
+import { all, call, fork, put, select, take } from 'redux-saga/effects'
 
 import { CountryScope, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
+import { ClientErrorProperties } from 'data/analytics/types/errors'
 import { fetchBalances } from 'data/balances/sagas'
 import { actions as identityVerificationActions } from 'data/components/identityVerification/slice'
 import goalSagas from 'data/goals/sagas'
@@ -263,6 +264,24 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const payloadHealthCheck = function* () {
+    const errors: string[] = yield call(coreSagas.wallet.payloadHealthCheck)
+    yield all(
+      errors.map(function* (error) {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.CLIENT_ERROR,
+            properties: {
+              action: 'PayloadHealthCheck',
+              error,
+              title: 'Payload Health Check'
+            } as ClientErrorProperties
+          })
+        )
+      })
+    )
+  }
+
   const loginRoutineSaga = function* ({
     country = undefined,
     email = undefined,
@@ -413,6 +432,8 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkWalletDefaultAccountIdx)
       // ensure default_derivation is set on each account
       yield fork(checkWalletAccountsDefaultDerivation)
+      // check payload shape
+      yield fork(payloadHealthCheck)
       yield fork(checkDataErrors)
       yield put(actions.auth.loginSuccess(true))
 
