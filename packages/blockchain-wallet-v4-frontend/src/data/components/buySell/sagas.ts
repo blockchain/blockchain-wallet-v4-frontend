@@ -509,6 +509,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       throw new Error(confirmedOrder.paymentError)
     }
 
+    yield put(A.confirmOrderSuccess(confirmedOrder))
+
     yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
   }
 
@@ -673,8 +675,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.confirmOrderLoading())
 
-      // TODO: Change behavior changing a flag to make this async when backend is ready
-      // then we will have to poll this order until it's confirmed and has the 3DS url
       const confirmedOrder: BSOrderType = yield call(
         api.confirmBSOrder,
         freshOrder,
@@ -686,13 +686,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         throw new Error(confirmedOrder.paymentError)
       }
 
-      // Check if the user has a yapily account and if they're submitting a bank transfer order
       if (
         freshOrder.paymentType === BSPaymentTypes.BANK_TRANSFER &&
         account?.partner === BankPartners.YAPILY
       ) {
         const { RETRY_AMOUNT, SECONDS } = ORDER_POLLING
-        // for OB the authorizationUrl isn't in the initial response to confirm
+        // For OB the authorizationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
         yield put(A.setStep({ step: 'LOADING' }))
         const order = yield retry(RETRY_AMOUNT, SECONDS, checkOrderAuthUrl, confirmedOrder.id)
@@ -721,17 +720,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED'
       ) {
         // Have to check if the state is "FINISHED", otherwise poll for 1 minute until it is
-        if (confirmedOrder.state !== 'FINISHED') {
-          try {
-            yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder), CARD_ORDER_POLLING)
-          } catch (e) {
-            // exhausted the retry attempts, so just show the order summary
-          }
+        if (confirmedOrder.state === 'FINISHED') {
+          yield put(A.confirmOrderSuccess(confirmedOrder))
+
+          yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
         }
 
-        yield put(A.confirmOrderSuccess(confirmedOrder))
+        try {
+          // Inside the polling, if the order is finished, we set the order success and set the step to ORDER_SUMMARY
+          yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder), CARD_ORDER_POLLING)
+        } catch (e) {
+          // Exhausted the retry attempts, so just show the order summary with the order we have
+          yield put(A.confirmOrderSuccess(confirmedOrder))
 
-        yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+          yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+        }
       } else if (
         confirmedOrder.attributes?.everypay ||
         (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
