@@ -6,7 +6,8 @@ import {
   NftOrder,
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
-  OpenSeaStatus
+  OpenSeaStatus,
+  OwnerNftBalance
 } from './types'
 
 export const NFT_ORDER_PAGE_LIMIT = 30
@@ -15,6 +16,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   // const nftUrl = 'http://localhost:8081/public/nft' // local testnet only
   const nftUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}`
+  const nftOwnerBalanceUrl = `${apiUrl}/currency/evm/nft`
 
   const getNftUserPreferences = (
     jwt: string
@@ -63,6 +65,16 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
       endPoint: `/status`,
       ignoreQueryParams: true,
       url: nftUrl
+    })
+  }
+
+  const getNftOwnerAssets = (defaultEthAddr?: string, network?: string): OwnerNftBalance => {
+    return post({
+      contentType: 'application/json',
+      data: { address: defaultEthAddr, network },
+      endPoint: `/balance`,
+      ignoreQueryParams: true,
+      url: nftOwnerBalanceUrl
     })
   }
 
@@ -125,6 +137,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   }
 
   return {
+    getNftOwnerAssets,
     getNftUserPreferences,
     getOpenSeaAsset,
     getOpenSeaStatus,
