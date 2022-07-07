@@ -82,7 +82,6 @@ export enum BuySellStepType {
   'OPEN_BANKING_CONNECT',
   'PAYMENT_METHODS',
   'PREVIEW_SELL',
-  'TRADING_CURRENCY_SELECTOR',
   'ORDER_SUMMARY',
   'SELL_ORDER_SUMMARY',
   'TRANSFER_DETAILS',
@@ -103,6 +102,7 @@ export type BSShowModalOriginType =
   | 'Nfts'
   | 'NftsMakeOffer'
   | 'RecurringBuyPromo'
+  | 'AppleAndGooglePayPromo'
   | 'SellEmpty'
   | 'Send'
   | 'SettingsGeneral'
@@ -246,6 +246,5 @@ export type StepActionsPayload =
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
-        | 'TRADING_CURRENCY_SELECTOR'
         | 'FREQUENCY'
     }

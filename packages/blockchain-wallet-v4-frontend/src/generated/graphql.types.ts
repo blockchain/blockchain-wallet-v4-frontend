@@ -631,7 +631,7 @@ export type AssetQueryVariables = Exact<{
 }>;
 
 
-export type AssetQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', animation_url?: string | null, id: string, image_url?: string | null, name?: string | null, network?: string | null, permalink: string, token_id: string, collection: { __typename?: 'Collection', description?: string | null, discord_url?: string | null, external_url?: string | null, image_url?: string | null, instagram_username?: string | null, name: string, safelist_request_status: string, slug: string, telegram_url?: string | null, total_supply?: number | null, twitter_username?: string | null, wiki_url?: string | null }, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, contract?: { __typename?: 'Contract', address: string, schema_name?: string | null } | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, traits?: Array<{ __typename?: 'Trait', trait_count?: number | null, trait_type?: string | null, value?: string | null } | null> | null }> };
+export type AssetQuery = { __typename?: 'Query', assets: Array<{ __typename?: 'Asset', animation_url?: string | null, description?: string | null, id: string, image_url?: string | null, name?: string | null, network?: string | null, permalink: string, token_id: string, collection: { __typename?: 'Collection', description?: string | null, discord_url?: string | null, external_url?: string | null, image_url?: string | null, instagram_username?: string | null, name: string, safelist_request_status: string, slug: string, telegram_url?: string | null, total_supply?: number | null, twitter_username?: string | null, wiki_url?: string | null }, creator?: { __typename?: 'Account', address?: string | null, profile_img_url?: string | null } | null, contract?: { __typename?: 'Contract', address: string, schema_name?: string | null } | null, listings?: Array<{ __typename?: 'Listing', payment_token_symbol?: string | null, starting_price?: string | null } | null> | null, traits?: Array<{ __typename?: 'Trait', trait_count?: number | null, trait_type?: string | null, value?: string | null } | null> | null }> };
 
 export type AssetsQueryVariables = Exact<{
   filter?: InputMaybe<Array<InputMaybe<AssetFilter>> | InputMaybe<AssetFilter>>;
@@ -3039,6 +3039,7 @@ export const AssetDocument = gql`
       address
       schema_name
     }
+    description
     id
     image_url
     listings {

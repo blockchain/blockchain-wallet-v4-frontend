@@ -11,13 +11,10 @@ export const getPriceColumn = () => ({
     return (
       <CellText>
         <Flex gap={6} alignItems='center'>
-          <CoinIcon name={offer.payment_token_contract.symbol} />
-          <CoinDisplay
-            coin={offer.payment_token_contract.symbol}
-            weight={600}
-            size='14px'
-            color='grey900'
-          >
+          {/* TODO: SEAPORT */}
+          <CoinIcon name='WETH' />
+          {/* TODO: SEAPORT */}
+          <CoinDisplay coin='WETH' weight={600} size='14px' color='grey900'>
             {offer.current_price}
           </CoinDisplay>
         </Flex>

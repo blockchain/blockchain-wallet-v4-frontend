@@ -48,7 +48,7 @@ export default () => {
       yield put(actions.components.buySell.fetchBalance({}))
       yield put(actions.components.buySell.fetchOrders())
       // TODO: SELF_CUSTODY, remove
-      const stxEligibility = selectors.coins.getStxSelfCustodyAvailablity(yield select())
+      const stxEligibility = selectors.coins.getStxSelfCustodyAvailability(yield select())
       if (stxEligibility) {
         yield put(actions.core.data.coins.fetchData())
       }
@@ -98,8 +98,8 @@ export default () => {
           yield put(actions.modules.profile.fetchUserCampaigns())
           break
         case contains('/debit-card', pathname):
-          const selectedCard = yield select(selectors.components.debitCard.getCurrentCardSelected)
-          yield put(actions.components.debitCard.getCurrentCardAccount(selectedCard.id))
+          yield put(actions.components.debitCard.getCurrentCardAccount())
+          yield put(actions.components.debitCard.getCardTransactions())
           break
         case contains('/settings/general', pathname):
           yield put(actions.components.buySell.fetchCards(true))

@@ -14,7 +14,7 @@
     "build:staging": "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.dev.js --progress --color",
     "build:prod": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.dev.js --progress --color",
     "ci:test:frontend": "yarn test --runInBand",
-    "ci:compile": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.ci.js",
+    "ci:compile": "cross-env-shell NODE_OPTIONS=\"--max-old-space-size=8192\" NODE_ENV=production webpack-cli --config webpack.config.ci.js",
     "clean": "cross-env rimraf node_modules && rimraf build",
     "coverage": "cross-env npx jest --coverage --silent",
     "debug:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --color",
@@ -164,6 +164,7 @@
   },
   "devDependencies": {
     "jest-styled-components": "6.3.3",
+    "@types/applepayjs": "3.0.4",
     "@types/enzyme": "3.10.11",
     "@testing-library/react-hooks": "6.0.0",
     "@graphql-codegen/cli": "2.5.0",
