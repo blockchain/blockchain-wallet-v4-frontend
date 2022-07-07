@@ -8,7 +8,6 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { getBalanceSelector } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
@@ -106,7 +105,9 @@ const Account: React.FC<AccountProps & any> = ({
   ...props
 }) => {
   const state = useSelector((state: RootState) => state)
-  const balance = getBalanceSelector(account[0].coin)(state).getOrElse(0)
+
+  const balance = selectors.balances.getCoinTotalBalance(account[0].coin)(state).getOrElse(0)
+
   const [tooltipProperties, setTooltipProperties] =
     useState<TooltipProperties>(defaultTooltipProperties)
 
