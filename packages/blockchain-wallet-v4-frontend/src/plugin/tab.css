@@ -5,11 +5,16 @@ body,
     padding: 0;
     margin: 0;
     height: 100%;
+    background-color: #20242C;
+}
+
+#app > div > div:nth-child(2) > div > div {
+    background-image: unset;
+    background-color: #20242C;
 }
 
 html,
 body {
-    background-color: rgb(18, 29, 51);
     overflow: hidden;
 }
 
