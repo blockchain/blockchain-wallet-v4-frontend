@@ -80,7 +80,7 @@ const RecurringBuyDetails = ({
           title={<FormattedMessage id='copy.next_buy' defaultMessage='Next Buy' />}
         />
       </Content>
-      <Footer>
+      <Footer collapsed>
         <Button
           data-e2e='removeRecurringBuyButton'
           nature='light-red'
