@@ -1,11 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { AbstractPlugin } from 'blockchain-wallet-v4-frontend/src/plugin/internal'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { Analytics } from 'data/types'
 import { media } from 'services/styles'
+
+const { isPlugin } = AbstractPlugin
 
 export const CardWrapper = styled.div<{ hideMargin?: boolean }>`
   display: flex;
@@ -28,7 +31,7 @@ export const CardWrapper = styled.div<{ hideMargin?: boolean }>`
   `}
 `
 export const PaddingWrapper = styled.div`
-  padding: 2rem 2rem 0;
+  padding: ${isPlugin() ? '24px' : '2rem'} ${isPlugin() ? '24px' : '2rem'} 0;
 `
 export const Card = styled.div`
   background: ${(props) => props.theme.white};
@@ -84,6 +87,7 @@ export const CardTitle = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: ${isPlugin() && 'center'};
 `
 export const InfoTitle = styled(Text)`
   margin-top: 1.5rem;
@@ -120,14 +124,23 @@ const LoginCard = styled.div`
   justify-content: center;
   margin-top: 24px;
   border-top: 1px solid ${(props) => props.theme.grey000};
-  padding-bottom: 1.5rem;
+  padding: ${isPlugin() ? '24px' : '0'} ${isPlugin() ? '24px' : '0'}
+    ${isPlugin() ? '24px' : '1.5rem'} ${isPlugin() ? '24px' : '0'};
+  & > div {
+    flex-direction: ${isPlugin() && 'column'};
+    &:first-child {
+      text-align: ${isPlugin() && 'center'};
+      cursor: pointer;
+      margin-top: ${!isPlugin() && '16px'};
+    }
+  }
   ${media.tabletL`
   flex-direction: column;
   align-items: center;
 `};
 `
 const LoginLinkText = styled(Text)`
-  margin-top: 16px;
+  margin-top: ${isPlugin() ? '0' : '16px'};
   cursor: pointer;
   ${media.mobile`
   margin-top: 0;
@@ -159,12 +172,7 @@ export const LoginLink = (props: { analyticsActions; unified }) => (
           })
         }
       >
-        <Text
-          size='16px'
-          color='grey600'
-          weight={500}
-          style={{ cursor: 'pointer', marginTop: '16px' }}
-        >
+        <Text size='16px' color='grey600' weight={500}>
           <FormattedMessage
             id='scenes.register.account.link'
             defaultMessage='Already have a Blockchain.com Account?'

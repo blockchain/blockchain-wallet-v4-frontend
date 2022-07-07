@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { AbstractPlugin } from 'blockchain-wallet-v4-frontend/src/plugin/internal'
 import { find, pathOr, propEq } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
@@ -18,11 +19,16 @@ import SignupCard from './components/SignupCard'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
 import { GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
 
+const { isPlugin } = AbstractPlugin
+
 const SignupWrapper = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
   align-items: center;
+  &:first-child > div {
+    width: ${isPlugin() && '360px'};
+  }
 `
 
 const LatamPhone = styled.div`
