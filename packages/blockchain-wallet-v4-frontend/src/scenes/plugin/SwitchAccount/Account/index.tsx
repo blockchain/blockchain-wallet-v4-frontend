@@ -78,7 +78,7 @@ interface TooltipProperties {
 }
 
 type AccountProps = {
-  account: SwapAccountType
+  account: SwapAccountType[]
   copiedAccountIndex: number
   index: number
   selectedAccountIndex: number
@@ -106,12 +106,12 @@ const Account: React.FC<AccountProps & any> = ({
   ...props
 }) => {
   const state = useSelector((state: RootState) => state)
-  const balance = getBalanceSelector(account.coin)(state).getOrElse(0)
+  const balance = getBalanceSelector(account[0].coin)(state).getOrElse(0)
   const [tooltipProperties, setTooltipProperties] =
     useState<TooltipProperties>(defaultTooltipProperties)
 
   useEffect(() => {
-    props.requestActions.getNextAddress(account)
+    props.requestActions.getNextAddress(account[0])
   }, [])
 
   const changeTooltipProperties = (
@@ -126,28 +126,19 @@ const Account: React.FC<AccountProps & any> = ({
   }
 
   const generateNextAddress = () => {
-    if (account.coin === 'STX') {
-      return addressR.cata({
-        Failure: () =>
-          setTooltipProperties(
-            changeTooltipProperties('white', index, 50, 50, 'Please try again', 'black')
-          ),
-        Loading: () =>
-          setTooltipProperties(
-            changeTooltipProperties('white', index, 50, 50, 'Getting address...', 'black')
-          ),
-        NotAsked: () =>
-          setTooltipProperties(
-            changeTooltipProperties('white', index, 50, 50, 'Please try again', 'black')
-          ),
-        Success: (val) => val.address
-      })
-    }
-
     return addressR.cata({
-      Failure: () => null,
-      Loading: () => null,
-      NotAsked: () => null,
+      Failure: () =>
+        setTooltipProperties(
+          changeTooltipProperties('white', index, 50, 50, 'Please try again', 'black')
+        ),
+      Loading: () =>
+        setTooltipProperties(
+          changeTooltipProperties('white', index, 50, 50, 'Getting address...', 'black')
+        ),
+      NotAsked: () =>
+        setTooltipProperties(
+          changeTooltipProperties('white', index, 50, 50, 'Please try again', 'black')
+        ),
       Success: (val) => val.address
     })
   }
@@ -165,7 +156,7 @@ const Account: React.FC<AccountProps & any> = ({
 
   return (
     <AccountBlock key={index} onClick={() => setSelectedAccountIndex(index)}>
-      <Icon size='24' name={account.coin} />
+      <Icon size='24' name={account[0].coin} />
       <AccountInfo>
         {copiedAccountIndex === index ? (
           <Tooltip tooltipProperties={tooltipProperties} />
@@ -182,8 +173,8 @@ const Account: React.FC<AccountProps & any> = ({
           >
             {account.label ? (
               <FormattedMessage
-                id={`plugin.switch.account.label.${account.label}`}
-                defaultMessage={account.label}
+                id={`plugin.switch.account.label.${account[0].label}`}
+                defaultMessage={account[0].label}
               />
             ) : (
               <FormattedMessage
@@ -195,12 +186,12 @@ const Account: React.FC<AccountProps & any> = ({
           <IconCopy width={16} height={16} />
         </WalletBlock>
         <Flex>
-          <FiatDisplay color='grey400' size='12px' weight={500} coin={account.coin}>
+          <FiatDisplay color='grey400' size='12px' weight={500} coin={account[0].coin}>
             {balance}
           </FiatDisplay>
           <CoinTextBlock color='grey400' size='12px' weight={500}>
             &nbsp;(
-            <CoinDisplay coin={account.coin} color='grey400' size='12px' weight={500}>
+            <CoinDisplay coin={account[0].coin} color='grey400' size='12px' weight={500}>
               {balance}
             </CoinDisplay>
             )
@@ -241,7 +232,7 @@ const Account: React.FC<AccountProps & any> = ({
 }
 
 const mapStateToProps = (state, props) => ({
-  addressR: selectors.components.request.getNextAddress(state, props.account)
+  addressR: selectors.components.request.getNextAddress(state, props.account[0])
 })
 
 const mapDispatchToProps = (dispatch) => ({

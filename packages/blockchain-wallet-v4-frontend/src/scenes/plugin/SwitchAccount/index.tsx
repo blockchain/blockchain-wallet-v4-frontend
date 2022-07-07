@@ -41,13 +41,7 @@ const SwitchAccount = (props) => {
   const [copiedAccountIndex, setCopiedAccountIndex] = useState<string | number>('')
   const { accounts, data } = props
 
-  const switchAccounts = [
-    accounts.ETH[0],
-    accounts.BTC[0],
-    accounts.BCH[0],
-    accounts.XLM[0],
-    accounts.STX[0]
-  ]
+  const switchAccounts = [accounts.ETH, accounts.BTC, accounts.BCH, accounts.XLM, accounts.STX]
 
   const totalBalance = data.cata({
     Failure: () => <Failure />,
@@ -60,23 +54,19 @@ const SwitchAccount = (props) => {
     )
   })
 
-  const closeSwitchAccountModal = () => {
-    // TODO: Close switch account modal window.
-  }
-
   return (
     <Wrapper>
       <IconWrapper>
-        <CloseIconWrapper height='24px' width='24px' onClick={closeSwitchAccountModal} />
+        <CloseIconWrapper height='24px' width='24px' />
       </IconWrapper>
       <HeaderText size='20px' color='white' weight={500}>
         <FormattedMessage id='plugin.switch.account.title' defaultMessage='Select account' />
       </HeaderText>
       {totalBalance}
       {switchAccounts.length &&
-        switchAccounts.map((account: SwapAccountType, index: number) => (
+        switchAccounts.map((account: SwapAccountType[], index: number) => (
           <Account
-            key={account.coin}
+            key={account[0].coin}
             index={index}
             account={account}
             setSelectedAccountIndex={setSelectedAccountIndex}
