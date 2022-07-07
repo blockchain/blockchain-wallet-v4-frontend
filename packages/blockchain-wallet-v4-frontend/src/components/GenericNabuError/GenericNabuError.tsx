@@ -28,7 +28,7 @@ const GenericNabuError: GenericNabuErrorComponent = ({ error, onDismiss }) => {
 
   return (
     <GenericErrorLayout>
-      {!!icon && <ErrorIconWithSeverity iconStatusUrl={icon.status.url} iconUrl={icon.url} />}
+      <ErrorIconWithSeverity iconStatusUrl={icon?.status.url || ''} iconUrl={icon?.url || ''} />
 
       <ErrorContent title={error.title} message={error.message} />
 
