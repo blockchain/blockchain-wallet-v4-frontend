@@ -7,8 +7,9 @@ import { getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 import { RemoteDataType } from '@core/types'
 import Form from 'components/Form/Form'
 import { actions, selectors } from 'data'
-import { ProductAuthOptions, RecoverFormType, RecoverSteps } from 'data/types'
+import { AlertsState, ProductAuthOptions, RecoverFormType, RecoverSteps } from 'data/types'
 
+import CheckInbox from './CheckInbox'
 import CloudRecovery from './CloudRecovery'
 import ForgotPasswordEmail from './ForgotPasswordEmail'
 import { RECOVER_FORM } from './model'
@@ -28,6 +29,7 @@ class RecoverWalletContainer extends React.PureComponent<
   }
 
   componentDidMount() {
+    // this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS)
     if (this.state.showPhraseStep) {
       this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_PHRASE)
     } else {
@@ -52,6 +54,8 @@ class RecoverWalletContainer extends React.PureComponent<
           switch (step) {
             case RecoverSteps.FORGOT_PASSWORD_EMAIL:
               return <ForgotPasswordEmail {...this.props} setStep={this.setStep} />
+            case RecoverSteps.CHECK_INBOX:
+              return <CheckInbox {...this.props} setStep={this.setStep} />
             case RecoverSteps.RECOVERY_OPTIONS:
               return <RecoveryOptions {...this.props} setStep={this.setStep} />
             case RecoverSteps.CLOUD_RECOVERY:
@@ -70,6 +74,7 @@ class RecoverWalletContainer extends React.PureComponent<
 }
 
 const mapStateToProps = (state) => ({
+  alerts: selectors.alerts.selectAlerts(state) as AlertsState,
   cachedEmail: selectors.cache.getEmail(state),
   cachedGuid: selectors.cache.getStoredGuid(state),
   emailFromMagicLink: selectors.auth.getMagicLinkData(state)?.wallet?.email as string,

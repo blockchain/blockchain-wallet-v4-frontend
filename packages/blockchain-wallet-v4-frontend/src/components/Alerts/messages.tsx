@@ -1112,6 +1112,20 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Restoring account failed. Please try again.'
         />
       )
+    case C.RECOVERY_EMAIL_SENT:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.recovery_email_sent'
+          defaultMessage='Verification email sent. Please check your email.'
+        />
+      )
+    case C.RECOVERY_EMAIL_SENT_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.recovery_email_sent_error_try_again'
+          defaultMessage='Error sending recovery email. Please try again.'
+        />
+      )
     case C.SAVE_ADDITIONAL_DOCUMENTS_ERROR:
       return buildMessageTemplate(
         <FormattedMessage

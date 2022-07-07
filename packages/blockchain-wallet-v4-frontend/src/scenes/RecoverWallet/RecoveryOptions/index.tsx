@@ -13,12 +13,9 @@ import { Props as OwnProps } from '..'
 import {
   BackArrowFormHeader,
   CircleBackground,
-  ContactSupportText,
   GoBackArrow,
   OuterWrapper,
   RECOVER_FORM,
-  SubCard,
-  TroubleLoggingInRow,
   WrapperWithPadding
 } from '../model'
 
@@ -134,19 +131,39 @@ const RecoveryOptions = (props: Props) => {
           </RecoveryOptionRow>
           <IconTextRow onClick={recoveryPhraseClicked}>
             <CircleBackground color='blue000'>
-              <Icon name='keyboard' color='blue600' size='22px' />
+              <Icon name='key' color='blue600' size='12px' />
             </CircleBackground>
             <TextStack>
               <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
                 <FormattedMessage
-                  id='scenes.login.recovery_options.phrase.title'
-                  defaultMessage='Recover Account with Recovery Phrase'
+                  id='scenes.login.recovery_options.recovery_phrase.title'
+                  defaultMessage='Use your recovery phrase'
                 />
               </Text>
               <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
                 <FormattedMessage
-                  id='scenes.login.recovery_options.phrase'
-                  defaultMessage='Restore your account with your 12-word Secret Private key Recovery Phrase.'
+                  id='scenes.login.recovery_options.recovery_phrase'
+                  defaultMessage='Recover your private key wallet + trading accounts.'
+                />
+              </Text>
+            </TextStack>
+            <Icon name='chevron-right' size='20px' color='grey400' />
+          </IconTextRow>
+          <IconTextRow onClick={resetAccountClicked}>
+            <CircleBackground color='blue000'>
+              <Icon name='refresh' color='blue600' size='28px' />
+            </CircleBackground>
+            <TextStack>
+              <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
+                <FormattedMessage
+                  id='scenes.login.recovery_options.standard_recovery.title'
+                  defaultMessage='Standard account recovery'
+                />
+              </Text>
+              <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
+                <FormattedMessage
+                  id='scenes.login.recovery_options.standard_recovery'
+                  defaultMessage='Recover your trading accounts.'
                 />
               </Text>
             </TextStack>
@@ -154,47 +171,6 @@ const RecoveryOptions = (props: Props) => {
           </IconTextRow>
         </FormBody>
       </WrapperWithPadding>
-      <SubCard>
-        <TroubleLoggingInRow>
-          <Text
-            size='16px'
-            color='grey600'
-            weight={500}
-            style={{ cursor: 'pointer', marginTop: '16px' }}
-          >
-            <FormattedMessage
-              id='scenes.login.trouble_logging_in'
-              defaultMessage='Trouble Logging In?'
-            />
-          </Text>
-          &nbsp;
-          {nabuId ? (
-            <ContactSupportText
-              size='16px'
-              weight={600}
-              color='blue600'
-              data-e2e='troubleLoggingIn'
-              onClick={resetAccountClicked}
-              style={{ marginLeft: '4px' }}
-            >
-              <FormattedMessage
-                id='scenes.login.reset_your_account.arrow'
-                defaultMessage='Reset your account ->'
-              />
-            </ContactSupportText>
-          ) : (
-            <ContactSupportText
-              weight={600}
-              size='16px'
-              target='_blank'
-              href='https://support.blockchain.com/'
-              style={{ marginLeft: '2px' }}
-            >
-              <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
-            </ContactSupportText>
-          )}
-        </TroubleLoggingInRow>
-      </SubCard>
     </OuterWrapper>
   )
 }

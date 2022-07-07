@@ -10,6 +10,7 @@ export type ProductSignupMetadata = {
 }
 
 export enum RecoverSteps {
+  CHECK_INBOX = 'CHECK_INBOX',
   CLOUD_RECOVERY = 'CLOUD_RECOVERY',
   FORGOT_PASSWORD_EMAIL = 'FORGOT_PASSWORD_EMAIL',
   RECOVERY_OPTIONS = 'RECOVERY_OPTIONS',
@@ -23,6 +24,7 @@ export type RecoverFormType = {
   mnemonic?: string
   password: string
   recoverPassword?: string
+  recoveryEmail?: string
   resetAccountPassword?: string
   step: RecoverSteps
 }
