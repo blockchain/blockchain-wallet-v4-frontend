@@ -83,6 +83,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
+  const fetchNftOwnerAssets = function* (action: ReturnType<typeof A.fetchNftOwnerAssets>) {
+    try {
+      yield put(A.fetchNftOwnerAssetsLoading())
+      const res: ReturnType<typeof api.getNftOwnerAssets> = yield call(
+        api.getNftOwnerAssets,
+        action?.payload?.defaultEthAddr,
+        action?.payload?.network || 'ETH'
+      )
+      yield put(A.fetchNftOwnerAssetsSuccess(res))
+    } catch (e) {
+      yield put(A.fetchNftOwnerAssetsFailure(e))
+    }
+  }
+
   const fetchNftUserPreferences = function* () {
     try {
       const prefs = S.getNftUserPreferences(yield select())
@@ -857,6 +871,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
+  const getOwner = function* (action: ReturnType<typeof A.nftSearch>) {
+    try {
+      yield put(A.nftSearchLoading())
+      const search: ReturnType<typeof api.searchNfts> = yield call(
+        api.searchNfts,
+        action.payload.search
+      )
+      yield put(A.nftSearchSuccess(search))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.nftSearchFailure(error))
+    }
+  }
+
   // TODO: SEAPORT - remove wyvern 👇
   const fetchFees_LEGACY = function* (action: ReturnType<typeof A.fetchFees_LEGACY>) {
     try {
@@ -1425,6 +1453,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     fetchFees,
     fetchFeesWrapEth,
     fetchFees_LEGACY,
+    fetchNftOwnerAssets,
     fetchNftUserPreferences,
     fetchOpenSeaAsset,
     fetchOpenseaStatus,

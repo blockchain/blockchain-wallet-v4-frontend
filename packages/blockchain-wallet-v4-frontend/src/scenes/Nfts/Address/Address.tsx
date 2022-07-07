@@ -33,6 +33,7 @@ const NftAddress: React.FC<Props> = ({
   formActions,
   formValues,
   isAuthenticated,
+  nftOwnerAssets,
   nftsActions,
   pathname
 }) => {
@@ -59,6 +60,10 @@ const NftAddress: React.FC<Props> = ({
     }
   }, [isOwner, nftsActions])
 
+  useEffect(() => {
+    nftsActions.fetchNftOwnerAssets({ defaultEthAddr: address, network: 'ETH' })
+  }, [])
+
   if (!address) return null
 
   const filters = [{ field: EventFilterFields.FromAccountAddress, value: address.toLowerCase() }]
@@ -70,30 +75,37 @@ const NftAddress: React.FC<Props> = ({
   if (!address) return null
 
   return (
-    <NftPageFullWidth>
-      <div
-        style={{
-          background: `linear-gradient(45deg, #${address.slice(2, 8)}, #FFF)`,
-          height: '300px',
-          position: 'relative'
-        }}
-      >
-        <NftBannerWrapper>
-          <Flex justifyContent='space-between' alignItems='center'>
-            <Text color='white' size='24px' weight={600}>
-              <CryptoAddress canCopy>{address}</CryptoAddress>
-            </Text>
-            {isOwner ? (
-              <LinkContainer to={`/nfts/address/settings/${ethAddress}`}>
-                <a>
-                  <Icon label='settings' color='white900'>
-                    <IconSettings color={colors.white900} />
-                  </Icon>
-                </a>
-              </LinkContainer>
-            ) : null}
-          </Flex>
-          {/* <div style={{ marginTop: '24px' }}>
+    // <>
+    //   {nftOwnerAssets.cata({
+    //     Failure: () => null,
+    //     Loading: () => null,
+    //     NotAsked: () => null,
+    //     Success: (results) => (
+    <>
+      <NftPageFullWidth>
+        <div
+          style={{
+            background: `linear-gradient(45deg, #${address.slice(2, 8)}, #FFF)`,
+            height: '300px',
+            position: 'relative'
+          }}
+        >
+          <NftBannerWrapper>
+            <Flex justifyContent='space-between' alignItems='center'>
+              <Text color='white' size='24px' weight={600}>
+                <CryptoAddress canCopy>{address}</CryptoAddress>
+              </Text>
+              {isOwner ? (
+                <LinkContainer to={`/nfts/address/settings/${ethAddress}`}>
+                  <a>
+                    <Icon label='settings' color='white900'>
+                      <IconSettings color={colors.white900} />
+                    </Icon>
+                  </a>
+                </LinkContainer>
+              ) : null}
+            </Flex>
+            {/* <div style={{ marginTop: '24px' }}>
             <StatsWrapper>
               <Stat>
                 <Text size='16px' weight={500} color='grey600'>
@@ -105,32 +117,10 @@ const NftAddress: React.FC<Props> = ({
               </Stat>
             </StatsWrapper>
           </div> */}
-        </NftBannerWrapper>
-      </div>
-      <GridWrapper>
-        <NftFilter
-          collections={activeTab === 'ITEMS' && collections.length >= 2 ? collections : []}
-          formActions={formActions}
-          formValues={formValues}
-          isFilterOpen={isFilterOpen}
-          minMaxPriceFilter={activeTab === 'ITEMS'}
-          forSaleFilter={activeTab === 'ITEMS'}
-          traits={[]}
-          opensea_event_types={activeTab === 'ITEMS' ? [] : opensea_event_types}
-          setIsFilterOpen={setIsFilterOpen}
-        />
-        <div style={{ width: '100%' }}>
-          <TraitGridFilters
-            tabs={['ITEMS', 'ACTIVITY']}
-            activeTab={activeTab}
-            formActions={formActions}
-            formValues={formValues}
-            collections={collections}
-            setRefreshTrigger={setRefreshTrigger}
-            setIsFilterOpen={setIsFilterOpen}
-            setActiveTab={setActiveTab}
-          />
-          {activeTab === 'ITEMS' ? (
+          </NftBannerWrapper>
+        </div>
+        <GridWrapper>
+          <div style={{ width: '100%' }}>
             <AddressItems
               collections={collections}
               refreshTrigger={refreshTrigger}
@@ -139,17 +129,20 @@ const NftAddress: React.FC<Props> = ({
               formValues={formValues}
               address={address}
             />
-          ) : (
-            <Events isFetchingParent={false} filters={filters} />
-          )}
-        </div>
-      </GridWrapper>
-    </NftPageFullWidth>
+            )
+          </div>
+        </GridWrapper>
+      </NftPageFullWidth>
+    </>
+    //   )
+    // })}
+    // </>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues('nftFilter')(state) as NftFilterFormValuesType,
+  nftOwnerAssets: selectors.components.nfts.getNftOwnerAssets(state),
   pathname: selectors.router.getPathname(state) as string
 })
 

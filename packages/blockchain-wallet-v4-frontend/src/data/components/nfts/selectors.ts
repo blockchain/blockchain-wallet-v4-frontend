@@ -7,6 +7,7 @@ export const getNftCollection = (state: RootState) => state.components.nfts.coll
 export const getNftSearch = (state: RootState) => state.components.nfts.search
 export const getNftUserPreferences = (state: RootState) => state.components.nfts.userPreferences
 export const getOpenSeaAsset = (state: RootState) => state.components.nfts.openSeaAsset
+export const getNftOwnerAssets = (state: RootState) => state.components.nfts.nftOwnerAssets
 export const getOpenSeaStatus = (state: RootState) => state.components.nfts.openSeaStatus
 export const getOrderFlow = (state: RootState) => state.components.nfts.orderFlow
 
