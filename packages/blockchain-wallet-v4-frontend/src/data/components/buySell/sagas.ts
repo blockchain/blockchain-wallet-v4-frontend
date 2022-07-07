@@ -226,9 +226,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.fetchCards(true))
     } catch (e) {
-      const error = errorHandlerCode(e)
+      if (isNabuError(e)) {
+        yield put(A.activateCardFailure(e))
+      } else {
+        const error = errorHandlerCode(e)
 
-      yield put(A.activateCardFailure(error))
+        yield put(A.activateCardFailure(error))
+      }
     }
   }
 
