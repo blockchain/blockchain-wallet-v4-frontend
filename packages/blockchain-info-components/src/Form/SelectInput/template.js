@@ -192,7 +192,7 @@ const SelectInput = (props) => {
     hideFocusedControl,
     hideIndicator,
     hideValue,
-    inputValue = undefined,
+    inputValue,
     isLoading,
     items,
     menuIsOpen,
