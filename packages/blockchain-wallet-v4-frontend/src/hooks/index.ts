@@ -1,3 +1,4 @@
+export * from './useApplePay'
 export * from './useBankAccountsQuery'
 export * from './useCoinAssetInfo'
 export * from './useCoinBalance'
