@@ -329,7 +329,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               )
         const refundAddr =
           direction === 'FROM_USERKEY'
-            ? yield call(selectReceiveAddress, from, networks)
+            ? yield call(selectReceiveAddress, from, networks, api, coreSagas)
             : undefined
         const sellOrder: SwapOrderType = yield call(
           api.createSwapOrder,
