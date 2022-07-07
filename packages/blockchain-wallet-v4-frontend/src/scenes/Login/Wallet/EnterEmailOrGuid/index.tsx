@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { AbstractPlugin } from 'blockchain-wallet-v4-frontend/src/plugin/internal'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -19,10 +20,14 @@ import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, GuidError, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
 
+const { isPlugin } = AbstractPlugin
+
 const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
-  padding: 0 0 24px 0;
+  height: ${isPlugin() ? '600px' : '100%'};
+  width: ${isPlugin() && '360px'};
+  padding: ${isPlugin() ? '40px' : 0} 0 24px 0;
   ${media.mobile`
     padding: 0 0 16px 0;
   `}
@@ -35,7 +40,12 @@ const EnterEmailOrGuid = (props: Props) => {
 
   return (
     <LoginWrapper>
-      <ProductTabMenu active={ProductAuthOptions.WALLET} onExchangeTabClick={exchangeTabClicked} />
+      {!isPlugin() && (
+        <ProductTabMenu
+          active={ProductAuthOptions.WALLET}
+          onExchangeTabClick={exchangeTabClicked}
+        />
+      )}
       <WrapperWithPadding>
         <FormGroup>
           <FormItem style={{ marginTop: '40px' }}>

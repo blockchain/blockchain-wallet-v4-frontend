@@ -1,25 +1,33 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { AbstractPlugin } from 'blockchain-wallet-v4-frontend/src/plugin/internal'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { PlatformTypes } from 'data/types'
 import { media } from 'services/styles'
 
+const { isPlugin } = AbstractPlugin
+
 const SubCard = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 24px;
+  margin-top: ${isPlugin() ? 'auto ' : '24px'};
   border-top: 1px solid ${(props) => props.theme.grey000};
   padding: 0;
+  & > div {
+    flex-direction: ${isPlugin() && 'column'};
+    width: ${isPlugin() && '248px'};
+    text-align: ${isPlugin() && 'center'};
+  }
   ${media.tabletL`
     flex-direction: column;
     align-items: center;
   `};
 `
 const SignUpText = styled(Text)`
-  margin-top: 16px;
+  margin-top: ${isPlugin() ? '0' : '16px'};
   cursor: pointer;
   ${media.mobile`
     margin-top: 0;

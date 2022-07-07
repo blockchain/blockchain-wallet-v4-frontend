@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { AbstractPlugin } from 'blockchain-wallet-v4-frontend/src/plugin/internal'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -17,6 +18,8 @@ import { Props } from '../..'
 import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
+
+const { isPlugin } = AbstractPlugin
 
 const LoginWrapper = styled(Wrapper)`
   padding: 0 0 24px 0;
@@ -39,12 +42,14 @@ const EnterEmail = (props: Props) => {
 
   return (
     <LoginWrapper>
-      <ProductTabMenu
-        active={ProductAuthOptions.EXCHANGE}
-        onWalletTabClick={walletTabClicked}
-        platform={magicLinkData?.platform_type}
-        product={ProductAuthOptions.EXCHANGE}
-      />
+      {!isPlugin() && (
+        <ProductTabMenu
+          active={ProductAuthOptions.EXCHANGE}
+          onWalletTabClick={walletTabClicked}
+          platform={magicLinkData?.platform_type}
+          product={ProductAuthOptions.EXCHANGE}
+        />
+      )}
       <WrapperWithPadding>
         <FormGroup>
           <FormItem style={{ marginTop: '40px' }}>

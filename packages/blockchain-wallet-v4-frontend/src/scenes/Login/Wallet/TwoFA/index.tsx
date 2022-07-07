@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { AbstractPlugin } from 'blockchain-wallet-v4-frontend/src/plugin/internal'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -23,9 +24,13 @@ import NeedHelpLink from '../../components/NeedHelpLink'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, CenteredColumn, Row, WrapperWithPadding } from '../../model'
 
+const { isPlugin } = AbstractPlugin
+
 const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
+  height: ${isPlugin() ? '600px' : '100%'};
+  width: ${isPlugin() && '360px'};
   padding: 0 0 24px 0;
 `
 const ResponsiveRow = styled(Row)`
@@ -87,7 +92,7 @@ const TwoFAWallet = (props: Props) => {
                   />
                 )}
                 {(authType === 4 || authType === 5) &&
-                  (isMobile() ? (
+                  (isMobile() || isPlugin() ? (
                     <FormattedMessage
                       id='scenes.logins.twofa.enter_code.mobile_width'
                       defaultMessage='Two Factor Authentication Code'

@@ -1,5 +1,6 @@
 import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { AbstractPlugin } from 'blockchain-wallet-v4-frontend/src/plugin/internal'
 import e from 'express'
 import styled from 'styled-components'
 
@@ -14,6 +15,8 @@ import BackArrowHeader from '../../components/BackArrowHeader'
 import SignupLink from '../../components/SignupLink'
 import { CircleBackground, Row, WrapperWithPadding } from '../../model'
 
+const { isPlugin } = AbstractPlugin
+
 const FormBody = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,6 +26,8 @@ const FormBody = styled.div`
 const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
+  height: ${isPlugin() ? '600px' : '100%'};
+  width: ${isPlugin() && '360px'};
   padding: 32px 0 24px;
   ${media.mobile`
   padding: 16px 0;
