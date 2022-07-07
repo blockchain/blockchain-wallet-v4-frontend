@@ -48,7 +48,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.pollOrder.type, buySellSagas.pollBSOrder)
     yield takeLatest(actions.showModal.type, buySellSagas.showModal)
     yield takeLatest(actions.switchFix.type, buySellSagas.switchFix)
-    yield takeLatest(actions.setFiatTradingCurrency.type, buySellSagas.setFiatTradingCurrency)
     yield takeLatest(actions.fetchCrossBorderLimits.type, buySellSagas.fetchCrossBorderLimits)
     yield takeLatest(actions.fetchAccumulatedTrades.type, buySellSagas.fetchAccumulatedTrades)
 

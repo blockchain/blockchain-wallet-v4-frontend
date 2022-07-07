@@ -13,7 +13,8 @@ import {
   MobilePaymentType,
   OrderType,
   WalletCurrencyType,
-  WalletFiatEnum
+  WalletFiatEnum,
+  WalletFiatType
 } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
@@ -189,7 +190,7 @@ const Accounts = (props: Props) => {
       : 'Credit or Debit Card'
   }
 
-  const { orderType } = props
+  const { orderType, userData } = props
   const availableBankAccounts = props.bankTransferAccounts.filter(
     (account) => account.state === 'ACTIVE' && orderType === OrderType.BUY
   )
@@ -206,12 +207,16 @@ const Accounts = (props: Props) => {
     (method) => method.value.type === BSPaymentTypes.BANK_TRANSFER && orderType === OrderType.BUY
   )
 
+  const fiatCurrencies = userData.currencies.userFiatCurrencies
   const funds = defaultMethods.filter(
     (method) =>
       method.value.type === BSPaymentTypes.FUNDS &&
       method.value.currency in WalletFiatEnum &&
       (orderType === OrderType.SELL ||
-        Number(props.balances[method.value.currency as WalletCurrencyType]?.available) > 0)
+        Number(props.balances[method.value.currency as WalletCurrencyType]?.available) > 0) &&
+      // for sell we should show only userFiatCurrencies currencies
+      orderType === OrderType.SELL &&
+      fiatCurrencies.includes(method.value.currency as WalletFiatType)
   )
 
   // use this to get min/max for card buys from eligible/payment-methods
@@ -278,11 +283,7 @@ const Accounts = (props: Props) => {
       setApplePayAvailable(true)
     }
 
-    if (
-      (window as any).google &&
-      (window as any).google.payments.api &&
-      (props.googlePayEnabled || props.isInternalTester)
-    ) {
+    if (props.googlePayEnabled || props.isInternalTester) {
       setGooglePayAvailable(true)
     }
   }, [props.applePayEnabled, props.googlePayEnabled, props.isInternalTester])

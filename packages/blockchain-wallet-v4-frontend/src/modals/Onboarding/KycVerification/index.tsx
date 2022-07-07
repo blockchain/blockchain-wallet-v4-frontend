@@ -24,6 +24,7 @@ const { STEPS } = model.components.identityVerification
 type OwnProps = {
   checkSddEligibility?: boolean
   close: () => void
+  context: string
   emailVerified: boolean
   needMoreInfo: boolean
   onCompletionCallback?: () => void
@@ -58,12 +59,14 @@ class IdentityVerification extends React.PureComponent<Props, State> {
 
   handleClose = () => {
     this.setState({ show: false })
-    setTimeout(this.props.close, duration)
+    setTimeout(() => {
+      this.props.close()
+    }, duration)
   }
 
   initializeVerification = () => {
-    const { needMoreInfo, origin, tier } = this.props
-    this.props.actions.initializeVerification({ needMoreInfo, origin, tier })
+    const { context, needMoreInfo, origin, tier } = this.props
+    this.props.actions.initializeVerification({ context, needMoreInfo, origin, tier })
   }
 
   getStepComponent = (emailVerified: boolean, step: string) => {

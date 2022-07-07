@@ -40,4 +40,28 @@ describe('NabuError()', () => {
     expect(error.message).toEqual(message)
     expect(error.icon).toEqual(icon)
   })
+
+  it('Should remove empty actions', () => {
+    const error = new NabuError({
+      actions: [
+        {
+          title: '',
+          type: 'LAUNCH',
+          url: ''
+        },
+        {
+          title: 'Blockchain',
+          type: 'LAUNCH',
+          url: 'https://blockchain.com'
+        }
+      ],
+      message: 'Message',
+      title: 'Title'
+    })
+
+    const actions = error.actions ?? []
+
+    expect(error.actions?.length).toEqual(1)
+    expect(actions[0].title).toEqual('Blockchain')
+  })
 })

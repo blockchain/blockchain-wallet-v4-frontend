@@ -34,7 +34,7 @@
       "featureFlags": {
         "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
-        "applePayPaymentMethod": false,
+        "applePayPaymentMethod": true,
         "bindIntegrationArEnabled": true,
         "coinViewV2": false,
         "completeYourProfile": true,
@@ -43,7 +43,7 @@
         "eddInterestFileUpload": true,
         "exchangeMobileDuplicateAccountRedirect": true,
         "flexiblePricingModel": true,
-        "googlePayPaymentMethod": false,
+        "googlePayPaymentMethod": true,
         "institutionalPortal": true,
         "isReferralEnabled": true,
         "mergeAndUpgrade": false,

@@ -36,6 +36,17 @@ const genericNabuError = new NabuError({
 })
 
 const paymentFailureError = new NabuError({
+  actions: [
+    {
+      title: 'Different payment',
+      type: 'LAUNCH',
+      url: 'https://blockchain.com/1/1'
+    },
+    {
+      title: 'Close',
+      type: 'CLOSE'
+    }
+  ],
   message:
     'There was an issue with your bank. Please try again or use a different payment method. If this keeps happening, please contact support.',
   title: 'Payment Failed'

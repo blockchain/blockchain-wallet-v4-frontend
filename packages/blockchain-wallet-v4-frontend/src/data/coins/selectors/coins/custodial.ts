@@ -4,10 +4,9 @@ import { BSBalanceType } from '@core/network/api/buySell/types'
 import { ExtractSuccess } from '@core/remote/types'
 import { CoinType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
+import { selectors } from 'data'
 import { generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType } from 'data/types'
-
-import { getTradingBalance } from '..'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => null
@@ -17,7 +16,7 @@ export const getTransactionPageHeaderText = () => null
 // NOT IMPLEMENTED FOR COIN: non-custodial accounts, imported addresses/accounts
 export const getAccounts = createDeepEqualSelector(
   [
-    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
+    (state, { coin }) => selectors.balances.getCoinTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (sbBalanceR, ownProps) => {
