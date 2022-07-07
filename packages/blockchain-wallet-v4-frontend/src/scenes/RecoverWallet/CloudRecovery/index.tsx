@@ -46,7 +46,7 @@ const BadgeRow = styled(CenteredRow)`
 `
 
 const CloudRecovery = (props: Props) => {
-  const { cachedGuid, emailFromMagicLink, lastGuid, qrData } = props
+  const { cachedGuid, emailFromMagicLink, lastGuid, qrData, setStep } = props
 
   return (
     <OuterWrapper>
@@ -61,7 +61,43 @@ const CloudRecovery = (props: Props) => {
         {!emailFromMagicLink && (
           <GoBackArrow handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)} />
         )}
-        <Body>
+        <Text
+          size='20px'
+          color='grey900'
+          weight={600}
+          lineHeight='1.5'
+          style={{ textAlign: 'center' }}
+        >
+          <FormattedMessage
+            id='scenes.cloud_recovery.title'
+            defaultMessage='Open the Blockchain.com app on your mobile device to recover'
+          />
+        </Text>
+        <Text
+          size='14px'
+          color='grey600'
+          weight={500}
+          lineHeight='1.5'
+          style={{ marginTop: '8px', textAlign: 'center' }}
+        >
+          <FormattedMessage
+            id='scenes.cloud_recovery.body_part_one'
+            defaultMessage='Looks like your account was backed up in the cloud from the Blockchain.com mobile app. Simply open the app to recover your account.'
+          />
+        </Text>
+        <Text
+          size='14px'
+          color='grey600'
+          weight={600}
+          lineHeight='1.5'
+          style={{ marginTop: '8px', textAlign: 'center' }}
+        >
+          <FormattedMessage
+            id='scenes.cloud_recovery.body_part_two'
+            defaultMessage='If you don’t have the app installed, scan the QR code with your phone’s camera to install before continuing.'
+          />
+        </Text>
+        {/* <Body>
           {!props.phonePubKey && (
             <TextColumn>
               <Icon
@@ -134,25 +170,20 @@ const CloudRecovery = (props: Props) => {
               )
             }
           })}
-        </Body>
-        <BadgeRow>
-          <Badge size='40px' type='applestore' />
-          <Badge size='40px' type='googleplay' />
-        </BadgeRow>
+        </Body> */}
       </WrapperWithPadding>
       <SubCard>
         <TroubleLoggingInRow>
-          <LinkContainer to='/help'>
-            <ContactSupportText
-              size='16px'
-              weight={600}
-              color='blue600'
-              data-e2e='loginGetHelp'
-              style={{ marginLeft: '4px' }}
-            >
-              <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
-            </ContactSupportText>
-          </LinkContainer>
+          <Text
+            size='16px'
+            weight={600}
+            color='blue600'
+            data-e2e='loginGetHelp'
+            style={{ marginTop: '16px' }}
+            onClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
+          >
+            <FormattedMessage id='copy.try_another' defaultMessage='Try Another Method' />
+          </Text>
         </TroubleLoggingInRow>
       </SubCard>
     </OuterWrapper>

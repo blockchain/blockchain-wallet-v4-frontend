@@ -26,16 +26,21 @@ const FormBody = styled.div`
 const IconTextRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   cursor: pointer;
+  justify-content: space-between;
 `
+const TextRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`
+
 const RecoveryOptionRow = styled(IconTextRow)<{ hasCloudBackup?: boolean }>`
   cursor: ${(props) => (props.hasCloudBackup ? 'pointer' : 'not-allowed')};
-  margin-bottom: 1rem;
-  margin-top: 1rem;
 `
 const TextStack = styled.div`
   max-width: 312px;
+  margin-left: 16px;
 `
 
 const RecoveryOptions = (props: Props) => {
@@ -46,7 +51,6 @@ const RecoveryOptions = (props: Props) => {
     formActions,
     hasCloudBackup,
     lastGuid,
-    nabuId,
     product,
     routerActions
   } = props
@@ -102,70 +106,82 @@ const RecoveryOptions = (props: Props) => {
           />
         )}
         <FormBody>
-          <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
+          <Text
+            color='grey900'
+            size='20px'
+            weight={600}
+            lineHeight='1.5'
+            style={{ marginBottom: '16px' }}
+          >
             <FormattedMessage
-              id='scenes.login.recovery_options.title'
-              defaultMessage='Recovery Options'
+              id='scenes.login.account_recovery_options.title'
+              defaultMessage='Account Recovery Options'
             />
           </Text>
           <RecoveryOptionRow hasCloudBackup={hasCloudBackup} onClick={cloudRecoveryClicked}>
-            <CircleBackground color={hasCloudBackup ? 'blue000' : 'grey000'}>
-              <Icon name='cloud' color={hasCloudBackup ? 'blue600' : 'grey200'} size='16px' />
-            </CircleBackground>
-            <TextStack>
-              <Text color={optionDisabledColor} size='14px' weight={600} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.login.recovery_options.cloud_backup.title'
-                  defaultMessage='Recover Account with Cloud Backup'
-                />
-              </Text>
-              <Text color={optionDisabledColor} size='12px' weight={500} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.login.recovery_options.cloud_backup'
-                  defaultMessage='Restore your account using your phone and the cloud.'
-                />
-              </Text>
-            </TextStack>
+            <TextRow>
+              <CircleBackground color={hasCloudBackup ? 'blue000' : 'grey000'}>
+                <Icon name='cloud' color={hasCloudBackup ? 'blue600' : 'grey200'} size='16px' />
+              </CircleBackground>
+              <TextStack>
+                <Text color={optionDisabledColor} size='14px' weight={600} lineHeight='1.5'>
+                  <FormattedMessage
+                    id='scenes.login.recovery_options.cloud_backup.title'
+                    defaultMessage='Recover Account with Cloud Backup'
+                  />
+                </Text>
+                <Text color={optionDisabledColor} size='12px' weight={500} lineHeight='1.5'>
+                  <FormattedMessage
+                    id='scenes.login.recovery_options.cloud_backup'
+                    defaultMessage='Restore your account using your phone and the cloud.'
+                  />
+                </Text>
+              </TextStack>
+            </TextRow>
             <Icon name='chevron-right' size='20px' color='grey400' />
           </RecoveryOptionRow>
           <IconTextRow onClick={recoveryPhraseClicked}>
-            <CircleBackground color='blue000'>
-              <Icon name='key' color='blue600' size='12px' />
-            </CircleBackground>
-            <TextStack>
-              <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.login.recovery_options.recovery_phrase.title'
-                  defaultMessage='Use your recovery phrase'
-                />
-              </Text>
-              <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.login.recovery_options.recovery_phrase'
-                  defaultMessage='Recover your private key wallet + trading accounts.'
-                />
-              </Text>
-            </TextStack>
+            <TextRow>
+              <CircleBackground color='blue000'>
+                <Icon name='key' color='blue600' size='12px' />
+              </CircleBackground>
+              <TextStack>
+                <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
+                  <FormattedMessage
+                    id='scenes.login.recovery_options.recovery_phrase.title'
+                    defaultMessage='Use your recovery phrase'
+                  />
+                </Text>
+                <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
+                  <FormattedMessage
+                    id='scenes.login.recovery_options.recovery_phrase'
+                    defaultMessage='Recover your private key wallet + trading accounts.'
+                  />
+                </Text>
+              </TextStack>
+            </TextRow>
             <Icon name='chevron-right' size='20px' color='grey400' />
           </IconTextRow>
           <IconTextRow onClick={resetAccountClicked}>
-            <CircleBackground color='blue000'>
-              <Icon name='refresh' color='blue600' size='28px' />
-            </CircleBackground>
-            <TextStack>
-              <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.login.recovery_options.standard_recovery.title'
-                  defaultMessage='Standard account recovery'
-                />
-              </Text>
-              <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.login.recovery_options.standard_recovery'
-                  defaultMessage='Recover your trading accounts.'
-                />
-              </Text>
-            </TextStack>
+            <TextRow>
+              <CircleBackground color='blue000'>
+                <Icon name='refresh' color='blue600' size='28px' />
+              </CircleBackground>
+              <TextStack>
+                <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
+                  <FormattedMessage
+                    id='scenes.login.recovery_options.standard_recovery.title'
+                    defaultMessage='Standard account recovery'
+                  />
+                </Text>
+                <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
+                  <FormattedMessage
+                    id='scenes.login.recovery_options.standard_recovery'
+                    defaultMessage='Recover your trading accounts.'
+                  />
+                </Text>
+              </TextStack>
+            </TextRow>
             <Icon name='chevron-right' size='20px' color='grey400' />
           </IconTextRow>
         </FormBody>
