@@ -11,7 +11,8 @@ import { RootState } from 'data/rootReducer'
 import { RecurringBuyOrigins } from 'data/types'
 import { media } from 'services/styles'
 
-import { BannerButton } from '../styles'
+import { getRecurringBuyAnnouncement } from '../selectors'
+import { BannerButton, CloseLink } from '../styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -38,6 +39,7 @@ const Wrapper = styled.div`
 const Row = styled.div`
   display: flex;
   align-items: center;
+  flex: 1;
 `
 const Column = styled.div`
   display: flex;
@@ -75,6 +77,8 @@ const RecurringBuys = (props: Props) => {
     props.recurringBuyActions.learnMoreLinkClicked(RecurringBuyOrigins.DASHBOARD_PROMO)
   }
 
+  const completeAnnouncement = getRecurringBuyAnnouncement()
+
   return (
     <Wrapper>
       <Row>
@@ -104,6 +108,12 @@ const RecurringBuys = (props: Props) => {
       >
         <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
       </BannerButton>
+      <CloseLink
+        data-e2e='newCoinCloseButton'
+        onClick={() => props.cacheActions.announcementDismissed(completeAnnouncement)}
+      >
+        <Icon size='20px' color='grey400' name='close-circle' />
+      </CloseLink>
     </Wrapper>
   )
 }
@@ -113,6 +123,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  cacheActions: bindActionCreators(actions.cache, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
 })

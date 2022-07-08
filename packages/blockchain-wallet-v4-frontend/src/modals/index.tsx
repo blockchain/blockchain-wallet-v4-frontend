@@ -31,6 +31,7 @@ const SendBch = React.lazy(() => import('./Bch/SendBch'))
 // Debit Card
 const OrderMyCard = React.lazy(() => import('./DebitCard/OrderMyCard'))
 const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
+const TransactionDetail = React.lazy(() => import('./DebitCard/TransactionDetail'))
 const FundsList = React.lazy(() => import('./DebitCard/FundsList'))
 
 // ETH
@@ -263,6 +264,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMINATE_CARD) ? (
           <TerminateCard />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_DETAIL) ? (
+          <TransactionDetail />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS) ? (
           <TermsAndConditions disableOutsideClose />

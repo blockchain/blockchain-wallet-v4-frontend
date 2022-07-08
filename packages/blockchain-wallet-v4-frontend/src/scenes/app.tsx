@@ -8,6 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { createClient, Provider as UrqlProvider } from 'urql'
 
 import { WalletOptionsType } from '@core/types'
+import { NabuErrorDeepLinkHandler } from 'components/NabuErrorDeepLinkHandler'
 import SiftScience from 'components/SiftScience'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
@@ -80,7 +81,6 @@ const App = ({
   coinViewV2,
   history,
   isAuthenticated,
-  isPlugin,
   nftExplorer,
   persistor,
   store,
@@ -95,15 +95,12 @@ const App = ({
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
-  if (!isPlugin) {
-    // lazy load google tag manager
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
-      attributes: {
-        nonce: window.nonce
-      }
-    })
-  }
+  // lazy load google tag manager
+  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
 
   const client = createClient({
     url: `${apiUrl}/nft-market-api/graphql/`
@@ -112,167 +109,180 @@ const App = ({
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <ThemeProvider>
-          <TranslationsProvider>
-            <PersistGate loading={<Loading />} persistor={persistor}>
-              <MediaContextProvider>
-                <UrqlProvider value={client}>
-                  <ConnectedRouter history={history}>
-                    <Suspense fallback={<Loading />}>
-                      <Switch>
-                        {/* Unauthenticated Wallet routes */}
-                        <Route path='/app-error' component={AppError} />
-                        <PluginLayout
-                          path='/plugin/coinslist'
-                          header={<CoinsListHeader />}
-                          footer={<HomeNavbar />}
-                          component={CoinsList}
-                        />
-                        <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
-                        <AuthLayout
-                          path='/help'
-                          component={Help}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
-                        />
-                        <AuthLayout
-                          path='/help-exchange'
-                          component={HelpExchange}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
-                        />
-                        <AuthLayout
-                          path='/login'
-                          component={Login}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
-                        />
-                        <AuthLayout path='/logout' component={Logout} />
-                        <AuthLayout
-                          path='/select-product'
-                          component={ProductPicker}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Product Select`}
-                        />
-                        <AuthLayout
-                          path='/mobile-login'
-                          component={MobileLogin}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
-                        />
-                        <AuthLayout
-                          path='/recover'
-                          component={RecoverWallet}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
-                        />
-                        <AuthLayout
-                          path='/reset-2fa'
-                          component={ResetWallet2fa}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
-                        />
-                        <AuthLayout
-                          path='/reset-two-factor'
-                          component={ResetWallet2faToken}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
-                        />
-                        <AuthLayout
-                          path='/signup'
-                          component={Signup}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`}
-                        />
-                        <AuthLayout
-                          path='/verify-email'
-                          component={VerifyEmailToken}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
-                        />
-                        <AuthLayout
-                          path='/upload-document/success'
-                          component={UploadDocumentsSuccess}
-                          exact
-                        />
-                        <AuthLayout path='/upload-document/:token' component={UploadDocuments} />
-                        <AuthLayout
-                          path='/wallet'
-                          component={Login}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
-                        />
-                        <AuthLayout
-                          path='/verify-email-step'
-                          component={VerifyEmail}
-                          pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
-                        />
+        <NabuErrorDeepLinkHandler>
+          <ThemeProvider>
+            <TranslationsProvider>
+              <PersistGate loading={<Loading />} persistor={persistor}>
+                <MediaContextProvider>
+                  <UrqlProvider value={client}>
+                    <ConnectedRouter history={history}>
+                      <Suspense fallback={<Loading />}>
+                        <Switch>
+                          {/* Unauthenticated Wallet routes */}
+                          <Route path='/app-error' component={AppError} />
+                          <PluginLayout
+                            path='/plugin/coinslist'
+                            header={<CoinsListHeader />}
+                            footer={<HomeNavbar />}
+                            component={CoinsList}
+                          />
+                          <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
+                          <AuthLayout
+                            path='/help'
+                            component={Help}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
+                          />
+                          <AuthLayout
+                            path='/help-exchange'
+                            component={HelpExchange}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
+                          />
+                          <AuthLayout
+                            path='/login'
+                            component={Login}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
+                          />
+                          <AuthLayout path='/logout' component={Logout} />
+                          <AuthLayout
+                            path='/select-product'
+                            component={ProductPicker}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Product Select`}
+                          />
+                          <AuthLayout
+                            path='/mobile-login'
+                            component={MobileLogin}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
+                          />
+                          <AuthLayout
+                            path='/recover'
+                            component={RecoverWallet}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
+                          />
+                          <AuthLayout
+                            path='/reset-2fa'
+                            component={ResetWallet2fa}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
+                          />
+                          <AuthLayout
+                            path='/reset-two-factor'
+                            component={ResetWallet2faToken}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
+                          />
+                          <AuthLayout
+                            path='/signup'
+                            component={Signup}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`}
+                          />
+                          <AuthLayout
+                            path='/verify-email'
+                            component={VerifyEmailToken}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
+                          />
+                          <AuthLayout
+                            path='/upload-document/success'
+                            component={UploadDocumentsSuccess}
+                            exact
+                          />
+                          <AuthLayout path='/upload-document/:token' component={UploadDocuments} />
+                          <AuthLayout
+                            path='/wallet'
+                            component={Login}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
+                          />
+                          <AuthLayout
+                            path='/verify-email-step'
+                            component={VerifyEmail}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
+                          />
 
-                        {/* NFT Explorer routes */}
-                        {nftExplorer && (
-                          <NftsLayout path='/nfts/address/:address' exact component={NftsAddress} />
-                        )}
-                        {nftExplorer && (
-                          <NftsLayout
-                            path='/nfts/address/settings/:address'
-                            exact
-                            component={NftsSettings}
+                          {/* Plugin routes */}
+                          <PluginLayout
+                            path='/plugin/coinslist'
+                            footer={<HomeNavbar />}
+                            component={CoinsList}
                           />
-                        )}
-                        {nftExplorer && (
-                          <NftsLayout
-                            path='/nfts/assets/:contract/:id'
-                            exact
-                            component={NftsAsset}
-                          />
-                        )}
-                        {nftExplorer && (
-                          <NftsLayout
-                            path='/nfts/collection/:slug'
-                            exact
-                            component={NftsCollection}
-                          />
-                        )}
-                        <Route exact path='/nfts'>
-                          <Redirect to='/nfts/home' />
-                        </Route>
-                        {nftExplorer && (
-                          <NftsLayout
-                            path='/nfts/home'
-                            exact
-                            component={NftsHome}
-                            pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
-                          />
-                        )}
-                        {nftExplorer && (
-                          <NftsLayout
-                            path='/nfts/explore'
-                            exact
-                            component={NftsFirehose}
-                            pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
-                          />
-                        )}
 
-                        {/* Authenticated Wallet routes */}
-                        {walletDebitCardEnabled && (
-                          <WalletLayout path='/debit-card' component={DebitCard} />
-                        )}
-                        <WalletLayout path='/airdrops' component={Airdrops} />
-                        <WalletLayout path='/exchange' component={TheExchange} />
-                        <WalletLayout path='/home' component={Home} />
-                        <WalletLayout path='/rewards' component={Interest} exact />
-                        <WalletLayout path='/rewards/history' component={InterestHistory} />
-                        <WalletLayout path='/security-center' component={SecurityCenter} />
-                        <WalletLayout path='/settings/addresses' component={Addresses} />
-                        <WalletLayout path='/settings/general' component={General} />
-                        <WalletLayout path='/settings/preferences' component={Preferences} />
-                        <WalletLayout path='/prices' component={Prices} />
-                        <WalletLayout path='/tax-center' component={TaxCenter} />
-                        <WalletLayout
-                          path='/coins/:coin'
-                          component={coinViewV2 ? CoinPage : Transactions}
-                          hideMenu={coinViewV2}
-                          center={coinViewV2}
-                        />
-                        {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
-                      </Switch>
-                    </Suspense>
-                  </ConnectedRouter>
-                  <SiftScience userId={userData.id} />
-                </UrqlProvider>
-              </MediaContextProvider>
-            </PersistGate>
-          </TranslationsProvider>
-        </ThemeProvider>
+                          {/* NFT Explorer routes */}
+                          {nftExplorer && (
+                            <NftsLayout
+                              path='/nfts/address/:address'
+                              exact
+                              component={NftsAddress}
+                            />
+                          )}
+                          {nftExplorer && (
+                            <NftsLayout
+                              path='/nfts/address/settings/:address'
+                              exact
+                              component={NftsSettings}
+                            />
+                          )}
+                          {nftExplorer && (
+                            <NftsLayout
+                              path='/nfts/assets/:contract/:id'
+                              exact
+                              component={NftsAsset}
+                            />
+                          )}
+                          {nftExplorer && (
+                            <NftsLayout
+                              path='/nfts/collection/:slug'
+                              exact
+                              component={NftsCollection}
+                            />
+                          )}
+                          <Route exact path='/nfts'>
+                            <Redirect to='/nfts/home' />
+                          </Route>
+                          {nftExplorer && (
+                            <NftsLayout
+                              path='/nfts/home'
+                              exact
+                              component={NftsHome}
+                              pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
+                            />
+                          )}
+                          {nftExplorer && (
+                            <NftsLayout
+                              path='/nfts/explore'
+                              exact
+                              component={NftsFirehose}
+                              pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
+                            />
+                          )}
+
+                          {/* Authenticated Wallet routes */}
+                          {walletDebitCardEnabled && (
+                            <WalletLayout path='/debit-card' component={DebitCard} />
+                          )}
+                          <WalletLayout path='/airdrops' component={Airdrops} />
+                          <WalletLayout path='/exchange' component={TheExchange} />
+                          <WalletLayout path='/home' component={Home} />
+                          <WalletLayout path='/rewards' component={Interest} exact />
+                          <WalletLayout path='/rewards/history' component={InterestHistory} />
+                          <WalletLayout path='/security-center' component={SecurityCenter} />
+                          <WalletLayout path='/settings/addresses' component={Addresses} />
+                          <WalletLayout path='/settings/general' component={General} />
+                          <WalletLayout path='/settings/preferences' component={Preferences} />
+                          <WalletLayout path='/prices' component={Prices} />
+                          <WalletLayout path='/tax-center' component={TaxCenter} />
+                          <WalletLayout
+                            path='/coins/:coin'
+                            component={coinViewV2 ? CoinPage : Transactions}
+                            hideMenu={coinViewV2}
+                            center={coinViewV2}
+                          />
+                          {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
+                        </Switch>
+                      </Suspense>
+                    </ConnectedRouter>
+                    <SiftScience userId={userData.id} />
+                  </UrqlProvider>
+                </MediaContextProvider>
+              </PersistGate>
+            </TranslationsProvider>
+          </ThemeProvider>
+        </NabuErrorDeepLinkHandler>
       </Provider>
     </QueryClientProvider>
   )
@@ -285,7 +295,6 @@ const mapStateToProps = (state) => ({
   coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
-  isPlugin: selectors.cache.getIsPluginStatus(state),
   nftExplorer: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletDebitCardEnabled: selectors.core.walletOptions

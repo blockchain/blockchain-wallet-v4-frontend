@@ -1,5 +1,4 @@
 const { compose, evolve, adjust, set, lensProp } = require('ramda')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
@@ -9,12 +8,7 @@ const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const webpackBuilder = require('./webpackBuilder')
 const CONFIG_PATH = require('../../config/paths')
 
-const { devServerConfig, webpackConfig } = webpackBuilder({
-  useDevServer: true,
-  useHMR: true,
-  allowUnsafeStyles: true,
-  allowUnsafeScripts: true,
-})
+const { webpackConfig } = webpackBuilder({})
 
 // evolve base config for plugin mode and HMR
 const pluginWebpackConfig = evolve(
@@ -70,11 +64,6 @@ const pluginWebpackConfig = evolve(
           favicons: true,
         }
       }),
-      new ForkTsCheckerWebpackPlugin({
-        typescript: {
-          configFile: CONFIG_PATH.tsConfig
-        }
-      }),
     ],
     output: {
       filename: () => 'app/[name].[fullhash:8].js',
@@ -90,5 +79,4 @@ const pluginWebpackConfig = evolve(
 
 module.exports = {
   ...pluginWebpackConfig,
-  devServer: devServerConfig
 }

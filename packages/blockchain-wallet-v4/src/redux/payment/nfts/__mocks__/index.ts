@@ -15,7 +15,10 @@ export const MockWallet = ethers.Wallet.fromMnemonic(
 )
 
 export const MockProvider = ethers.providers.getDefaultProvider(
-  `https://api.blockchain.info/eth/nodes/rpc`
+  `https://api.blockchain.info/eth/nodes/rpc`,
+  {
+    eth_chainId: 1
+  }
 )
 
 export const MockSigner = new ethers.Wallet(MockWallet.privateKey, MockProvider)

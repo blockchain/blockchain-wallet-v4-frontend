@@ -50,8 +50,8 @@ export const LeftColWrapper = styled.div`
   display: block;
 
   ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
   `}
 `
 
@@ -71,8 +71,8 @@ export const RightColWrapper = styled.div`
   z-index: 1;
   display: block;
   ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
   `}
 `
 
@@ -83,6 +83,9 @@ export const AssetName = styled(Text)`
   display: flex;
   margin-top: 30px;
   color: ${colors.grey900};
+  ${media.tablet`
+    margin: 0 0 1em 0;
+  `}
 `
 
 export const CurrentPriceBox = styled.div`
@@ -90,6 +93,7 @@ export const CurrentPriceBox = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   margin-top: 20px;
+  background: ${(props) => props.theme.greyFade000};
   padding: 1.2em;
 `
 
@@ -102,21 +106,15 @@ export const Divider = styled.div`
 
 export const MoreAssets = styled.div`
   width: 100%;
+  padding: 40px;
   ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
   `}
 `
 
-export const MoreAssetsList = styled.div`
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-`
-
-export const MoreAssetsListItem = styled.div`
-  width: 25%;
-  ${media.tablet`width: 50%;`}
+export const MoreAssetsWrapper = styled.div`
+  padding: 1em 0em;
 `
 
 export const TraitsWrapper = styled.div`
@@ -133,8 +131,8 @@ export const Trait = styled.div`
   flex-direction: column;
   gap: 6px;
   border-radius: 8px;
-  background: ${(props) => props.theme.blue000};
-  border: 1px solid ${(props) => props.theme.blue600};
+  background: ${(props) => props.theme.greyFade000};
+  border: 1px solid ${(props) => props.theme.grey100};
   &:hover {
     transform: scale(1.02);
     -webkit-transition: transform 0.1s ease-in-out;
@@ -173,6 +171,7 @@ export const CustomLink = styled(LinkContainer)`
 
 export const NftTableWrapper = styled(TableWrapper)`
   .table {
+    overflow: scroll;
     &.no-border {
       border: 0px;
     }

@@ -4,7 +4,7 @@ import { NabuError } from 'services/errors'
 
 type GenericNabuErrorFlyoutProps = {
   error: NabuError
-  onClickClose?: () => void
+  onDismiss?: () => void
 }
 
 type GenericNabuErrorFlyoutComponent = FC<GenericNabuErrorFlyoutProps>
