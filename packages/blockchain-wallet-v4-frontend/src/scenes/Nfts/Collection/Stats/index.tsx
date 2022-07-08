@@ -3,15 +3,23 @@ import { FormattedMessage } from 'react-intl'
 import * as numeral from 'numeral'
 
 import { Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import { actions } from 'data'
 import { CollectionsQuery } from 'generated/graphql.types'
 
 import { Stat, StatsWrapper } from '../../components'
 
-const Stats: React.FC<Props> = ({ formActions, routerActions, slug, stats, total_supply }) => {
+const Stats: React.FC<Props> = ({
+  formActions,
+  num_owners,
+  routerActions,
+  slug,
+  stats,
+  total_supply
+}) => {
   return (
-    <div style={{ margin: '24px' }}>
-      <StatsWrapper>
+    <StatsWrapper>
+      <Flex gap={8} justifyContent='center'>
         <Stat>
           <Text size='16px' weight={500} color='grey400'>
             <FormattedMessage id='copy.items' defaultMessage='Items' />
@@ -36,7 +44,19 @@ const Stats: React.FC<Props> = ({ formActions, routerActions, slug, stats, total
             </Text>
           </Stat>
         ) : null}
-        {typeof stats?.total_volume === 'number' ? (
+      </Flex>
+      <Flex gap={8} justifyContent='center'>
+        {num_owners ? (
+          <Stat>
+            <Text size='16px' weight={500} color='grey400'>
+              <FormattedMessage id='copy.owners' defaultMessage='Owners' />
+            </Text>
+            <Text size='16px' color='black' weight={600}>
+              {numeral(num_owners).format('0,0')}
+            </Text>
+          </Stat>
+        ) : null}
+        {stats?.total_volume ? (
           <Stat>
             <Text size='16px' weight={500} color='grey400'>
               <FormattedMessage id='copy.total_vol' defaultMessage='Total Vol.' />
@@ -46,13 +66,14 @@ const Stats: React.FC<Props> = ({ formActions, routerActions, slug, stats, total
             </Text>
           </Stat>
         ) : null}
-      </StatsWrapper>
-    </div>
+      </Flex>
+    </StatsWrapper>
   )
 }
 
 type Props = {
   formActions: typeof actions.form
+  num_owners: CollectionsQuery['collections'][0]['num_owners']
   routerActions: typeof actions.router
   slug: string
   stats: CollectionsQuery['collections'][0]['stats']

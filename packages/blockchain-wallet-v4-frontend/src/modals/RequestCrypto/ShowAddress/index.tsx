@@ -181,17 +181,19 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 ))
               : null
         })}
-        {coinfig.type.isMemoBased && selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL && (
-          <InfoContainer>
-            <Text color='grey600' size='12px' weight={500}>
-              <FormattedMessage
-                id='modals.requestcrypto.showaddress.memo_required'
-                defaultMessage='If you send funds without the {coin} Memo Text, your funds will be lost and not credited to your account. Please send only {coin} to this address.'
-                values={{ coin: selectedAccount.coin }}
-              />
-            </Text>
-          </InfoContainer>
-        )}
+        {coinfig.type.isMemoBased &&
+          selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL &&
+          this.props.addressR.getOrElse({ address: '', extras: { Memo: '' } }).extras.Memo && (
+            <InfoContainer>
+              <Text color='grey600' size='12px' weight={500}>
+                <FormattedMessage
+                  id='modals.requestcrypto.showaddress.memo_required'
+                  defaultMessage='If you send funds without the {coin} Memo Text, your funds will be lost and not credited to your account. Please send only {coin} to this address.'
+                  values={{ coin: selectedAccount.coin }}
+                />
+              </Text>
+            </InfoContainer>
+          )}
         <QRCodeContainer>
           {this.props.addressR.cata({
             Failure: (err) => (

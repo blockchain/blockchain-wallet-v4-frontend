@@ -72,6 +72,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
       if (isNabuError(error)) {
         return <GenericNabuErrorFlyout error={error} onDismiss={handleBack} />
       }
+
       if (typeof error === 'string') {
         return (
           <Error

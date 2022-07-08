@@ -136,6 +136,7 @@ export type ModalOriginType =
   | 'RetrySendEth'
   | 'RecurringBuys'
   | 'RecurringBuyPromo'
+  | 'AppleAndGooglePayPromo'
   | 'RunKycGoal'
   | 'BSEnterAmountCheckout'
   | 'BSPaymentMethodSelection'

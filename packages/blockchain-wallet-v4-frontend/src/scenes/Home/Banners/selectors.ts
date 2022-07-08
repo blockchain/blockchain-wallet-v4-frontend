@@ -28,12 +28,14 @@ export type BannerType =
   | 'completeYourProfile'
   | 'taxCenter'
   | 'earnRewards'
+  | 'appleAndGooglePay'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
 export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
 
 export const getCompleteProfileAnnouncement = () => `complete-profile-homepage`
+export const getAppleAndGooglePayAnnouncement = () => `apple-and-google-pay`
 export const getSanctionsAnnouncement = () => `sanctions-homepage`
 export const getBuyCryptoAnnouncement = () => `buy-crypto-homepage`
 export const getRecurringBuyAnnouncement = () => `recurring-buys-homepage`
@@ -205,6 +207,18 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     announcementState
   )
 
+  // Apple and Google Pay
+  const appleAndGooglePayAnnouncement = getAppleAndGooglePayAnnouncement()
+  const isAppleAndGooglePayPromoBannerFeatureFlagEnabled = selectors.core.walletOptions
+    .getAppleAndGooglePayPromoBannerEnabled(state)
+    .getOrElse(false) as boolean
+
+  const showAppleAndGooglePayBanner = showBanner(
+    isAppleAndGooglePayPromoBannerFeatureFlagEnabled,
+    appleAndGooglePayAnnouncement,
+    announcementState
+  )
+
   // Continue to Gold
   const continueToGold =
     (userData?.tiers?.current === TIER_TYPES.SILVER ||
@@ -224,6 +238,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const showKYCFinishBanner = showBanner(showFinishKYC, kycFinishAnnouncement, announcementState)
 
   let bannerToShow: BannerType = null
+
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
   } else if (
@@ -251,6 +266,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'earnRewards'
   } else if (showRecurringBuyBanner) {
     bannerToShow = 'recurringBuys'
+  } else if (showAppleAndGooglePayBanner) {
+    bannerToShow = 'appleAndGooglePay'
   } else {
     bannerToShow = null
   }

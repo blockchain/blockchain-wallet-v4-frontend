@@ -155,7 +155,7 @@ const buySellSlice = createSlice({
   name: 'buySell',
   reducers: {
     activateCard: (state, action: PayloadAction<{ card: BSCardType; cvv: string }>) => {},
-    activateCardFailure: (state, action: PayloadAction<string>) => {
+    activateCardFailure: (state, action: PayloadAction<string | Error>) => {
       state.providerDetails = Remote.Failure(action.payload)
     },
     activateCardLoading: (state) => {
@@ -548,9 +548,11 @@ const buySellSlice = createSlice({
       }
     },
     showModal: (
-      state,
+      state: BuySellState,
       action: PayloadAction<{
         cryptoCurrency?: CoinType
+        method?: BSPaymentMethodType
+        mobilePaymentMethod?: MobilePaymentType
         orderType?: BSOrderActionType
         origin: BSShowModalOriginType
         step?: 'DETERMINE_CARD_PROVIDER'
@@ -559,6 +561,8 @@ const buySellSlice = createSlice({
       state.origin = action.payload.origin
       state.cryptoCurrency = action.payload.cryptoCurrency
       state.orderType = action.payload.orderType
+      state.mobilePaymentMethod = action.payload.mobilePaymentMethod
+      state.method = action.payload.method
     },
     startPollBuyQuote: (
       state,

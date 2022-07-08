@@ -11,6 +11,7 @@ export const languages: Array<Language> = [
   { language: 'es-la', name: 'Español (Latinoamérica)' },
   { language: 'fr', name: 'Français' },
   { language: 'pt', name: 'Português' },
+  { language: 'pt-br', name: 'Português (Brasil)' },
   { language: 'ru', name: 'Русский' },
   { language: 'tr', name: 'Türkçe' }
 ]

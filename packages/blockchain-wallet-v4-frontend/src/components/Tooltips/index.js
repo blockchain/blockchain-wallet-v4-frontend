@@ -297,7 +297,19 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='tooltip.opensea_offer_approval_fees' maxWidth='160px'>
           <FormattedMessage
             id='copy.opensea_offer_approval_fees'
+            defaultMessage='A one time fee required to make offers on this collection.'
+          />
+        </Tooltip>
+        <Tooltip id='tooltip.opensea_offer_conduit_approval_fees' maxWidth='160px'>
+          <FormattedMessage
+            id='copy.opensea_offer_conduit_approval_fees'
             defaultMessage='A one time fee required to make offers in the selected ERC20.'
+          />
+        </Tooltip>
+        <Tooltip id='tooltip.opensea_listing_approval_fees' maxWidth='160px'>
+          <FormattedMessage
+            id='copy.opensea_listing_approval_fees'
+            defaultMessage='A listing fee is required. You only need to approve each collection once.'
           />
         </Tooltip>
         <Tooltip id='tooltip.nft_asset_not_for_sale' maxWidth='160px'>

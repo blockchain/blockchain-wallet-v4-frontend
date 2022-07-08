@@ -1,3 +1,5 @@
+import { OrderWithCounter } from '@opensea/seaport-js/lib/types'
+
 import {
   ExplorerGatewaySearchType,
   NftAsset,
@@ -12,7 +14,7 @@ export const NFT_ORDER_PAGE_LIMIT = 30
 export default ({ apiUrl, get, openSeaApi, post }) => {
   // const nftUrl = 'http://localhost:8081/public/nft' // local testnet only
   const nftUrl = `${apiUrl}/nft-market-api/nft`
-  const openSeaUrl = `${openSeaApi}/api/v1`
+  const openSeaUrl = `${openSeaApi}`
 
   const getNftUserPreferences = (
     jwt: string
@@ -50,9 +52,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     defaultEthAddr?: string
   ): NftAsset => {
     return get({
-      endPoint: `/asset/${collection_id}/${asset_number}?include_orders=true${
-        defaultEthAddr ? `&account_address=${defaultEthAddr}` : ''
-      }`,
+      endPoint: `/api/v1/asset/${collection_id}/${asset_number}?include_orders=true&account_address=${defaultEthAddr}`,
       ignoreQueryParams: true,
       url: openSeaUrl
     })
@@ -78,7 +78,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
-  const postNftOrder = (
+  const postNftOrderV1 = (
     order: NftOrder,
     asset_collection_slug: string,
     guid: string,
@@ -94,11 +94,42 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
+  const postNftOrderV2 = ({
+    guid,
+    network,
+    order,
+    side
+  }: {
+    guid: string
+    network: string
+    order: OrderWithCounter
+    side: string
+  }) => {
+    const chain = network === 'rinkeby' ? 'rinkeby' : 'ethereum'
+    const sidePath = side === 'ask' ? 'listings' : 'offers'
+
+    return post({
+      contentType: 'application/json',
+      data: {
+        chain,
+        guid,
+        order,
+        protocol: 'seaport',
+        sidePath
+      },
+      endPoint: '/order-v2',
+      ignoreQueryParams: true,
+      removeDefaultPostData: true,
+      url: nftUrl
+    })
+  }
+
   return {
     getNftUserPreferences,
     getOpenSeaAsset,
     getOpenSeaStatus,
-    postNftOrder,
+    postNftOrderV1,
+    postNftOrderV2,
     searchNfts,
     setNftUserPreferences
   }

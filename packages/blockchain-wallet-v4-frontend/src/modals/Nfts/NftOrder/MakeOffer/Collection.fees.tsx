@@ -2,32 +2,18 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
+import { NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
-import { orderFromJSON } from 'data/components/nfts/utils'
 
 import { RightAlign } from '../../components'
 import { Props as OwnProps } from '..'
+import { NftMakeOfferFormValues } from '.'
 
 const Fees: React.FC<Props> = (props: Props) => {
-  const { nftActions, orderFlow } = props
-
-  // Default to WETH
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const WETH = window.coins.WETH.coinfig.type.erc20Address!
-
-  useEffect(() => {
-    nftActions.fetchFees({
-      asset: props.asset,
-      offer: '0.000001',
-      operation: GasCalculationOperations.CreateOffer,
-      order: orderFlow.orderToMatch ? orderFromJSON(orderFlow.orderToMatch) : undefined,
-      paymentTokenAddress: WETH
-    })
-  }, [])
+  const { orderFlow } = props
 
   return (
     <>
@@ -55,7 +41,7 @@ const Fees: React.FC<Props> = (props: Props) => {
                 <Text size='14px' weight={500}>
                   <FormattedMessage id='copy.offer_fees' defaultMessage='Offer Fees' />
                 </Text>
-                {val.approvalFees > 0 ? (
+                {val.gasFees > 0 ? (
                   <TooltipHost id='tooltip.opensea_offer_approval_fees'>
                     <TooltipIcon name='question-in-circle-filled' />
                   </TooltipHost>
@@ -63,10 +49,10 @@ const Fees: React.FC<Props> = (props: Props) => {
               </Flex>
               <RightAlign>
                 <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                  {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
+                  {new BigNumber(val.gasFees).multipliedBy(val.gasPrice).toString()}
                 </CoinDisplay>
                 <FiatDisplay size='14px' color='grey600' weight={600} coin='ETH'>
-                  {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
+                  {new BigNumber(val.gasFees).multipliedBy(val.gasPrice).toString()}
                 </FiatDisplay>
               </RightAlign>
             </Flex>
@@ -77,6 +63,6 @@ const Fees: React.FC<Props> = (props: Props) => {
   )
 }
 
-type Props = OwnProps & { asset: NftAsset }
+type Props = OwnProps
 
 export default Fees

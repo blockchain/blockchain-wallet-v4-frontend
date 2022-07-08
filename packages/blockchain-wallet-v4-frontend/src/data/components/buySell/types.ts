@@ -102,6 +102,7 @@ export type BSShowModalOriginType =
   | 'Nfts'
   | 'NftsMakeOffer'
   | 'RecurringBuyPromo'
+  | 'AppleAndGooglePayPromo'
   | 'SellEmpty'
   | 'Send'
   | 'SettingsGeneral'

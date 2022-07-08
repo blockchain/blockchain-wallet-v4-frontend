@@ -128,6 +128,10 @@ export const getRewardsFlowUnderSwapEnabled = (state: RootState) =>
 export const getRewardsPromoBannerEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'rewardsPromoBanner']))
 
+// check for rewards promo banner to be enabled
+export const getAppleAndGooglePayPromoBannerEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'appleAndGooglePayPromoBanner']))
+
 // show referral signup input in sign up
 export const getReferralEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
