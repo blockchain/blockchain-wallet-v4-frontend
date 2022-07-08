@@ -11,11 +11,11 @@ import * as ARS from './coins/ars'
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'
 import * as CUSTODIAL from './coins/custodial'
+import * as DYNAMIC_SELF_CUSTODY from './coins/dynamic-self-custody'
 import * as ERC20 from './coins/erc20'
 import * as ETH from './coins/eth'
 import * as EUR from './coins/eur'
 import * as GBP from './coins/gbp'
-import * as SELF_CUSTODY from './coins/self-custody'
 import * as USD from './coins/usd'
 import * as XLM from './coins/xlm'
 
@@ -25,21 +25,22 @@ const coinSelectors = {
   BCH,
   BTC,
   CUSTODIAL,
+  DYNAMIC_SELF_CUSTODY,
   ERC20,
   ETH,
   EUR,
   GBP,
-  SELF_CUSTODY,
   USD,
   XLM
 }
 
-export const getSelector = (coinfig: CoinfigType) => {
+// internal util get locate correct selectors
+const __getSelector = (coinfig: CoinfigType) => {
   if (selectors.core.data.coins.getErc20Coins().includes(coinfig.symbol)) {
     return 'ERC20'
   }
   if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coinfig.symbol)) {
-    return 'SELF_CUSTODY'
+    return 'DYNAMIC_SELF_CUSTODY'
   }
   if (selectors.core.data.coins.getCustodialCoins().includes(coinfig.symbol)) {
     return 'CUSTODIAL'
@@ -48,25 +49,15 @@ export const getSelector = (coinfig: CoinfigType) => {
 }
 
 // retrieves introduction text for coin on its transaction page
-export const getIntroductionText = (coin: string) => {
+const getIntroductionText = (coin: string) => {
   const { coinfig } = window.coins[coin]
-  const selector = getSelector(coinfig)
+  const selector = __getSelector(coinfig)
   return coinSelectors[selector]?.getTransactionPageHeaderText(coinfig.symbol)
-}
-
-// retrieves custodial account balances
-export const getTradingBalance = (coin: CoinType, state) => {
-  return selectors.components.buySell.getBSBalances(state).map((x) => x[coin])
-}
-
-// retrieves custodial account balances
-export const getInterestBalance = (coin: CoinType, state) => {
-  return selectors.components.interest.getInterestAccountBalance(state).map((x) => x[coin])
 }
 
 // generic selector that should be used by all features to request their desired
 // account types for their coins
-export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) => {
+const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) => {
   const getCoinAccountsR = (state: RootState) => {
     const coinList = ownProps?.coins
 
@@ -76,9 +67,9 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
         ? Remote.of({})
         : coinList.reduce((accounts, coin) => {
             const { coinfig } = window.coins[coin]
-            const selector = getSelector(coinfig)
+            const selector = __getSelector(coinfig)
             // eslint-disable-next-line
-            accounts[coin] = coinSelectors[selector]?.getAccounts(state, { coin, ...ownProps })
+          accounts[coin] = coinSelectors[selector]?.getAccounts(state, { coin, ...ownProps })
             return accounts
           }, {})
 
@@ -88,22 +79,20 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
     // @ts-ignore
     return Remote.of(
       map(
-        (coinAccounts: RemoteDataType<any, typeof accounts>) =>
+        (coinAccounts: RemoteDataType<string, typeof accounts>) =>
           (isEmpty(coinAccounts) && []) || (coinAccounts ? coinAccounts.getOrElse([]) : []),
         accounts
       ) as any
     )
   }
 
-  const accountsR: RemoteDataType<any, { [key in CoinType]: Array<SwapAccountType> }> =
+  const accountsR: RemoteDataType<string, { [key in CoinType]: Array<SwapAccountType> }> =
     getCoinAccountsR(state)
 
-  const accounts = accountsR?.getOrElse({}) || {}
-
-  return accounts
+  return accountsR?.getOrElse({}) || {}
 }
 
-export const getStxSelfCustodyAvailablity = (state): boolean => {
+const getStxSelfCustodyAvailability = (state): boolean => {
   const isDoubleEncrypted = selectors.core.wallet.isSecondPasswordOn(state) as boolean
   if (isDoubleEncrypted) return false
 
@@ -122,12 +111,10 @@ export const getStxSelfCustodyAvailablity = (state): boolean => {
     if (tag && featureFlags.stxSelfCustodyEnableAirdrop) {
       return true
     }
-    if (featureFlags.stxSelfCustodyEnableAll) {
-      return true
-    }
-
-    return false
+    return featureFlags.stxSelfCustodyEnableAll
   }
 
   return false
 }
+
+export { getCoinAccounts, getIntroductionText, getStxSelfCustodyAvailability }

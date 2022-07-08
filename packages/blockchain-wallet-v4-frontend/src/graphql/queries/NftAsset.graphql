@@ -23,7 +23,8 @@ query Asset($filter: [AssetFilter], $limit: Int) {
       address
       schema_name
     }
-    id 
+    description
+    id
     image_url
     listings {
       payment_token_symbol
@@ -31,10 +32,6 @@ query Asset($filter: [AssetFilter], $limit: Int) {
     }
 		name
     network
-    owners {
-      address
-      profile_img_url 
-    }
     permalink
     token_id
     traits {

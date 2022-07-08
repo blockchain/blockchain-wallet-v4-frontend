@@ -14,6 +14,7 @@ import {
 
 const initialState: SignupStateType = {
   firstLogin: false,
+  isValidReferralCode: undefined,
   kycReset: undefined,
   metadataRestore: Remote.NotAsked,
   productSignupMetadata: {},
@@ -59,6 +60,12 @@ const signupSlice = createSlice({
     },
     setFirstLogin: (state, action: PayloadAction<SignupStateType['firstLogin']>) => {
       state.firstLogin = action.payload
+    },
+    setIsValidReferralCode: (
+      state,
+      action: PayloadAction<SignupStateType['isValidReferralCode']>
+    ) => {
+      state.isValidReferralCode = action.payload
     },
     setKycResetStatus: (state, action: PayloadAction<SignupStateType['kycReset']>) => {
       state.kycReset = action.payload

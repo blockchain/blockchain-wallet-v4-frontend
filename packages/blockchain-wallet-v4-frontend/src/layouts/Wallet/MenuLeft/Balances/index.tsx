@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { ComponentDropdown, Text } from 'blockchain-info-components'
-import { media, useMedia } from 'services/styles'
+import { media } from 'services/styles'
 
 import CurrencySwitch from './CurrencySwitch'
 import TotalBalance from './TotalBalance'
@@ -93,8 +93,6 @@ const BalanceDropdown = styled.div`
 `
 
 const BalancesContainer = () => {
-  const isLaptop = useMedia('laptop')
-
   return (
     <Wrapper>
       <TitleText data-e2e='totalBalance'>

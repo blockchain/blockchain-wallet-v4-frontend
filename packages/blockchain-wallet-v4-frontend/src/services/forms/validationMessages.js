@@ -174,3 +174,6 @@ export const ValueIsEqualToMaxMessage = () => (
     defaultMessage='Value must not be equal to the max'
   />
 )
+export const InvalidFormat = () => (
+  <FormattedMessage id='formhelper.invalidformat' defaultMessage='Invalid Format' />
+)

@@ -42,6 +42,10 @@ import {
   Events as ViewAndClickEvents,
   TrackEventAction as ViewAndClickTrackEventAction
 } from './viewAndClick'
+import {
+  Events as WalletRewardsEvents,
+  TrackEventAction as WalletRewardsTrackEventAction
+} from './walletRewardsClientEvents'
 
 const TRACK_EVENT = 'trackEvent'
 
@@ -59,6 +63,7 @@ type AnalyticsKey =
   | CoinViewEvents
   | ViewAndClickEvents
   | SwapEvents
+  | WalletRewardsEvents
 
 const Analytics = {
   ...AccountRecoveryEvents,
@@ -73,7 +78,8 @@ const Analytics = {
   ...SendCryptoEvents,
   ...SwapEvents,
   ...TaxCenterEvents,
-  ...ViewAndClickEvents
+  ...ViewAndClickEvents,
+  ...WalletRewardsEvents
 }
 
 // event properties
@@ -98,6 +104,7 @@ type TrackEventAction =
   | TaxCenterTrackEventAction
   | TransactionsTrackEventAction
   | ViewAndClickTrackEventAction
+  | WalletRewardsTrackEventAction
 
 type AnalyticsTraits = {
   email?: string

@@ -41,12 +41,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return accounts.find((account) => account?.balance?.symbol === currentAccountSymbol)
   }
 
-  const getCurrentCardAccount = function* (cardId) {
+  const getCurrentCardAccount = function* () {
+    const selectedCard = yield select(selectors.components.debitCard.getCurrentCardSelected)
     const eligibleAccounts = yield select(selectors.components.debitCard.getEligibleAccountsData)
     try {
       yield put(A.getCurrentCardAccountLoading())
 
-      const { accountCurrency } = yield call(api.getDCCurrentAccount, cardId)
+      const { accountCurrency } = yield call(api.getDCCurrentAccount, selectedCard.id)
 
       const accountFound = findAccount(accountCurrency, eligibleAccounts)
 
@@ -60,6 +61,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const getCardTransactions = function* () {
+    const selectedCard = yield select(selectors.components.debitCard.getCurrentCardSelected)
+    yield put(A.getCardTransactionsLoading())
+    try {
+      const data = yield call(api.getDCTransactions, selectedCard.id)
+      yield put(A.getCardTransactionsSuccess(data))
+    } catch (e) {
+      yield put(A.getCardTransactionsFailure(e))
+    }
+  }
+
   const getCards = function* () {
     try {
       yield put(A.getCardsLoading())
@@ -70,7 +82,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.setCurrentCardSelected(cards[0]))
         yield call(getCardToken, cards[0].id)
         yield call(getEligibleAccounts)
-        yield call(getCurrentCardAccount, cards[0].id)
+        yield call(getCurrentCardAccount)
+        yield call(getCardTransactions)
       }
     } catch (e) {
       console.error('Failed to get account cards', errorHandler(e))
@@ -156,7 +169,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const { payload: symbol } = action
 
       yield call(api.selectDCAccount, id, symbol)
-      yield call(getCurrentCardAccount, id)
+      yield call(getCurrentCardAccount)
       yield put(A.selectAccountSuccess(symbol))
     } catch (e) {
       // This will be logged until error display definition
@@ -169,6 +182,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   return {
     createCard,
+    getCardTransactions,
     getCards,
     getCurrentCardAccount,
     getEligibleAccounts,

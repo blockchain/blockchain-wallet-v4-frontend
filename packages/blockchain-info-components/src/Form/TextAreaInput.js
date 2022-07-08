@@ -3,7 +3,9 @@ import styled from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from './helper'
 
-const BaseTextAreaInput = styled.textarea`
+const BaseTextAreaInput = styled.textarea.attrs((props) => ({
+  autoComplete: props.autoComplete
+}))`
   display: block;
   width: 100%;
   padding: 6px 12px;
@@ -35,7 +37,7 @@ const BaseTextAreaInput = styled.textarea`
   &:disabled {
     cursor: not-allowed;
     background-color: ${(props) => props.theme.grey100};
-    border: '1px solid transparent';
+    border: 1px solid transparent;
   }
 `
 
