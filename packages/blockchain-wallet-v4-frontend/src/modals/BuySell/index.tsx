@@ -45,7 +45,6 @@ import Pending from './template.pending'
 import ThreeDSHandlerCheckoutDotCom from './ThreeDSHandlerCheckoutDotCom'
 import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
 import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
-import TradingCurrencySelector from './TradingCurrencySelector'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
@@ -93,7 +92,7 @@ class BuySell extends PureComponent<Props, State> {
       this.props.deleteGoal(goalID)
     }
     setTimeout(() => {
-      this.props.close()
+      this.props.close(ModalName.SIMPLE_BUY_MODAL)
     }, duration)
   }
 
@@ -222,11 +221,6 @@ class BuySell extends PureComponent<Props, State> {
                 <OrderSummary {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-            {this.props.step === 'TRADING_CURRENCY_SELECTOR' && (
-              <FlyoutChild>
-                <TradingCurrencySelector {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
             {/*
                 used for sell only now, eventually buy as well
                 TODO: use swap2 quote for buy AND sell
@@ -304,6 +298,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
@@ -369,9 +364,6 @@ type LinkStatePropsType =
     }
   | {
       step: 'DETERMINE_CARD_PROVIDER'
-    }
-  | {
-      step: 'TRADING_CURRENCY_SELECTOR'
     }
   | {
       cardId?: string

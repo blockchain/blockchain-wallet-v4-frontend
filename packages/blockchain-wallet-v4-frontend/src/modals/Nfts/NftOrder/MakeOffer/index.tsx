@@ -12,9 +12,10 @@ import { Field, reduxForm } from 'redux-form'
 
 import { Remote } from '@core'
 import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
-import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
+import { GasDataI } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
+<<<<<<< Updated upstream
 import {
   Button,
   CheckBoxInput,
@@ -26,6 +27,10 @@ import {
 import { getEthBalances } from 'components/Balances/selectors'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Row, Title, Value } from 'components/Flyout'
+=======
+import { Text } from 'blockchain-info-components'
+import { Title, Value } from 'components/Flyout'
+>>>>>>> Stashed changes
 import FlyoutHeader from 'components/Flyout/Header'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import SelectBox from 'components/Form/SelectBox'
@@ -66,6 +71,7 @@ const MakeOffer: React.FC<Props> = (props) => {
     })
   }, [])
   const { amount, coin, fix } = formValues
+  const { coinfig } = window.coins[coin]
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
     new BigNumber(0)
@@ -75,7 +81,6 @@ const MakeOffer: React.FC<Props> = (props) => {
       ? convertFiatToCoin({
           coin,
           currency: walletCurrency,
-          maxPrecision: 8,
           rates,
           value: amount
         })
@@ -95,12 +100,19 @@ const MakeOffer: React.FC<Props> = (props) => {
   const ethBalance = new BigNumber(selfCustodyBalance)
   const erc20Balance = erc20BalanceR.getOrElse(0)
   const maxWrapPossible = ethBalance
+    .minus(wrapFees.totalFees * wrapFees.gasPrice)
     .minus(offerFees.totalFees * offerFees.gasPrice)
+<<<<<<< Updated upstream
     .minus(wrapFees.totalFees * offerFees.gasPrice)
   const maxOfferPossible = maxWrapPossible.plus(erc20Balance)
+=======
+  const maxOfferPossible =
+    coin === 'WETH' ? maxWrapPossible.plus(erc20Balance) : new BigNumber(erc20Balance)
+>>>>>>> Stashed changes
   const amtToBuy = maxOfferPossible
     .times(-1)
     .plus(convertCoinToCoin({ baseToStandard: false, coin, value: cryptoAmt }))
+  // Standard Values
   const standardErc20Balance = convertCoinToCoin({
     coin: formValues.coin || 'WETH',
     value: erc20Balance
@@ -109,6 +121,11 @@ const MakeOffer: React.FC<Props> = (props) => {
     coin: 'ETH',
     value: maxWrapPossible.toString()
   })
+  // used to avoid precision error caused by AmountFieldInput component, which
+  // uses max 8 decimal precision
+  const standardMaxOfferPossible =
+    (Math.floor(maxOfferPossible.dividedBy(1e8).toNumber()) * 1e8) / 10 ** coinfig.precision
+
   const amtToWrap = new BigNumber(cryptoAmt || 0).minus(standardErc20Balance)
   const canWrap =
     amtToWrap.isLessThanOrEqualTo(standardMaxWrapPossible) && formValues.coin === 'WETH'
@@ -182,7 +199,7 @@ const MakeOffer: React.FC<Props> = (props) => {
             <AmountFieldInput
               coin={coin}
               fiatCurrency={walletCurrency}
-              amtError={false}
+              amountError={false}
               quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
               fix={fix as 'CRYPTO' | 'FIAT'}
               name='amount'
@@ -208,15 +225,16 @@ const MakeOffer: React.FC<Props> = (props) => {
               name='coin'
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(coin: any) => {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const address = window.coins[coin].coinfig.type.erc20Address!
                 offerWithChangedAnalytics(coin)
+<<<<<<< Updated upstream
                 nftActions.fetchFees({
                   asset: val,
                   offer: '0.0001',
                   operation: GasCalculationOperations.CreateOffer,
                   paymentTokenAddress: address
                 })
+=======
+>>>>>>> Stashed changes
               }}
               component={SelectBox}
               elements={[
@@ -278,6 +296,7 @@ const MakeOffer: React.FC<Props> = (props) => {
       </div>
 
       <StickyCTA>
+<<<<<<< Updated upstream
         {isAuthenticated ? (
           isInvited ? (
             <>
@@ -426,6 +445,24 @@ const MakeOffer: React.FC<Props> = (props) => {
             </Button>
           </LinkContainer>
         )}
+=======
+        <MakeOfferFees {...props} asset={asset} needsWrap={needsWrap} />
+        <br />
+        <MakeOfferCTA
+          {...props}
+          amtToBuy={amtToBuy}
+          asset={asset}
+          canWrap={canWrap}
+          needsWrap={needsWrap}
+          wrapFees={wrapFees}
+          offerFees={offerFees}
+          selfCustodyBalance={selfCustodyBalance}
+          custodialBalance={custodialBalance}
+          cryptoAmt={cryptoAmt}
+          amtToWrap={amtToWrap}
+          standardMaxOfferPossible={standardMaxOfferPossible}
+        />
+>>>>>>> Stashed changes
       </StickyCTA>
     </>
   )
@@ -442,8 +479,14 @@ const mapStateToProps = (state) => {
   const formValues = selectors.form.getFormValues('nftMakeOffer')(state) as NftMakeOfferFormValues
 
   return {
+<<<<<<< Updated upstream
     erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues.coin || 'WETH'),
     ethBalancesR: getEthBalances(state),
+=======
+    erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues?.coin || 'WETH'),
+    ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state),
+    formErrors: selectors.form.getFormSyncErrors('nftMakeOffer')(state) as { amount: boolean },
+>>>>>>> Stashed changes
     formValues,
     rates: getRatesSelector(formValues.coin || 'WETH', state).getOrElse({} as RatesType),
     walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 
 import { displayCoinToCoin } from '@core/exchange'
-import { GasCalculationOperations, RawOrder } from '@core/network/api/nfts/types'
+import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -14,19 +15,26 @@ import FeesDropdown from '../../components/FeesDropdown'
 import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
-  const { nftActions, orderFlow } = props
-  const { listingToCancel } = orderFlow
+  const { asset, nftActions, orderFlow } = props
+  const { seaportOrder, wyvernOrder } = orderFlow
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
 
   useEffect(() => {
-    if (listingToCancel) {
-      nftActions.fetchFees({
+    if (IS_SHARED_STOREFRONT && wyvernOrder) {
+      nftActions.fetchFees_LEGACY({
         operation: GasCalculationOperations.Cancel,
-        order: listingToCancel as unknown as RawOrder
+        order: wyvernOrder
+      })
+    }
+    if (seaportOrder) {
+      nftActions.fetchFees({
+        operation: GasCalculationOperations.CancelOrder,
+        order: seaportOrder
       })
     }
   }, [])
 
-  if (!listingToCancel) return null
+  if (!seaportOrder) return null
 
   return (
     <>
@@ -65,6 +73,6 @@ const Fees: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps
+type Props = OwnProps & { asset: NftAsset }
 
 export default Fees

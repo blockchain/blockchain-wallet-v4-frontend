@@ -7,3 +7,5 @@ export const normalizeDateOfBirth = (val, prevVal) => formatDOB(val, prevVal)
 export const normalizeUSZipcode = (value) => formatUSZipcode(value)
 
 export const removeWhitespace = (string) => string.replace(/\s/g, ``)
+
+export const applyToUpperCase = (string) => string.toUpperCase()

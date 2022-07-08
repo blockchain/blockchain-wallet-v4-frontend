@@ -1,10 +1,16 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
+import { clearSubmitErrors } from 'redux-form'
 
 import { Remote } from '@core'
 import { ExtractSuccess } from '@core/types'
+<<<<<<< Updated upstream
 import CardError from 'components/BuySell/CardError'
+=======
+import Error from 'components/BuySell/Error'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
+>>>>>>> Stashed changes
 import { actions, model, selectors } from 'data'
 import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { RootState } from 'data/rootReducer'
@@ -72,8 +78,15 @@ class CheckoutConfirm extends PureComponent<Props> {
       Failure: (e) => {
         this.trackError(e)
 
+<<<<<<< Updated upstream
+=======
+        if (isNabuError(e)) {
+          return <GenericNabuErrorFlyout error={e} onDismiss={this.handleBack} />
+        }
+
+>>>>>>> Stashed changes
         return (
-          <CardError
+          <Error
             code={e}
             handleRetry={this.handleRetry}
             handleReset={this.handleReset}
@@ -104,6 +117,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  clearFormError: () => dispatch(clearSubmitErrors(FORM_BS_CHECKOUT)),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch

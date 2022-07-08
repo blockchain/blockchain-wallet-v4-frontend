@@ -21,19 +21,21 @@ import { NftFilterFormValuesType } from '../NftFilter'
 import {
   getCollectionFilter,
   getEventFilter,
+  getForSaleFilter,
   getMinMaxFilters,
-  getTraitFilters
+  getTraitFilters,
+  getVerifiedFilter
 } from '../utils/NftUtils'
 import { opensea_event_types } from '.'
 import EventTypeName from './EventTypeName'
 import NftRefreshIcon from './NftRefreshIcon'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ hasBanner: boolean }>`
+  top: ${(props) => (props.hasBanner ? `calc(${FIXED_HEADER_HEIGHT}px)` : `initial`)};
   position: sticky;
-  top: ${FIXED_HEADER_HEIGHT}px;
   background: ${(props) => props.theme.white};
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   z-index: 5;
   ${media.tablet`
     padding: 12px;
@@ -75,12 +77,20 @@ const SortByWrapper = styled.div`
 `}
 `
 
+const ClosedBackground = styled.div`
+  background: grey400;
+  border-radius: 50%;
+  line-height: 0;
+  margin-left: 8px;
+`
+
 const TraitGridFilters: React.FC<Props> = ({
   activeTab,
   analyticsActions,
   collections,
   formActions,
   formValues,
+  hasBanner = false,
   numOfResults,
   routerActions,
   setIsFilterOpen,
@@ -95,7 +105,8 @@ const TraitGridFilters: React.FC<Props> = ({
   const traitFilters = getTraitFilters(formValues)
   const eventFilter = getEventFilter(formValues)
   const collectionFilter = getCollectionFilter(formValues, collections)
-
+  const forSaleFilter = getForSaleFilter(formValues)
+  const verifiedFilter = getVerifiedFilter(formValues)
   const hasSomeFilters =
     (formValues &&
       Object.keys(formValues).some((key) => Object.keys(formValues[key]).some(Boolean))) ||
@@ -138,17 +149,23 @@ const TraitGridFilters: React.FC<Props> = ({
   }
 
   return (
-    <Wrapper>
+    <Wrapper hasBanner={hasBanner}>
       <div style={{ width: '100%' }}>
         <Flex
-          alignItems={isTablet ? 'flex-start' : 'center'}
+          alignItems='center'
           justifyContent='space-between'
           flexDirection={isTablet ? 'column' : 'row'}
         >
           {tabs.length > 1 ? (
-            <TabMenu style={{ marginBottom: isTablet ? '16px' : '0px', width: 'fit-content' }}>
+            <TabMenu
+              style={{
+                marginBottom: isTablet ? '16px' : '0px',
+                width: isTablet ? '100%' : 'fit-content'
+              }}
+            >
               {tabs.map((tab) => (
                 <TabMenuItem
+                  width='100%'
                   key={tab}
                   selected={activeTab === tab}
                   onClick={() => routerActions.push(`${route}?tab=${tab}`)}
@@ -244,6 +261,13 @@ const TraitGridFilters: React.FC<Props> = ({
                       {
                         group: '',
                         items: [
+<<<<<<< Updated upstream
+=======
+                          {
+                            text: 'Recently Listed',
+                            value: `${AssetSortFields.DateIngested}-DESC`
+                          },
+>>>>>>> Stashed changes
                           { text: 'Price: Low to High', value: `${AssetSortFields.Price}-ASC` },
                           { text: 'Price: High to Low', value: `${AssetSortFields.Price}-DESC` },
                           { text: 'Recently Listed', value: `${AssetSortFields.ListingDate}-DESC` }
@@ -264,14 +288,7 @@ const TraitGridFilters: React.FC<Props> = ({
               <Text size='12px' lineHeight='18px' color='grey900' weight={600} capitalize>
                 Collection: {collectionFilter}
               </Text>
-              <div
-                style={{
-                  background: 'grey400',
-                  borderRadius: '50%',
-                  lineHeight: '0',
-                  marginLeft: '8px'
-                }}
-              >
+              <ClosedBackground>
                 <Icon label='close-circle' color='grey200' size='sm'>
                   <IconCloseCircle
                     role='button'
@@ -287,7 +304,7 @@ const TraitGridFilters: React.FC<Props> = ({
                     }}
                   />
                 </Icon>
-              </div>
+              </ClosedBackground>
             </ActiveTraitFilter>
           </div>
         ) : null}
@@ -298,14 +315,7 @@ const TraitGridFilters: React.FC<Props> = ({
                 Event:{' '}
                 <EventTypeName event_type={eventFilter as keyof typeof opensea_event_types} />
               </Text>
-              <div
-                style={{
-                  background: 'grey400',
-                  borderRadius: '50%',
-                  lineHeight: '0',
-                  marginLeft: '8px'
-                }}
-              >
+              <ClosedBackground>
                 <Icon label='close' color='grey200' size='sm'>
                   <IconCloseCircle
                     role='button'
@@ -313,7 +323,43 @@ const TraitGridFilters: React.FC<Props> = ({
                     onClick={() => formActions.change('nftFilter', `event`, undefined)}
                   />
                 </Icon>
-              </div>
+              </ClosedBackground>
+            </ActiveTraitFilter>
+          </div>
+        ) : null}
+        {forSaleFilter ? (
+          <div style={{ height: '100%' }}>
+            <ActiveTraitFilter>
+              <Text size='12px' lineHeight='18px' weight={600} color='grey900' capitalize>
+                Buy Now
+              </Text>
+              <ClosedBackground>
+                <Icon label='close' color='grey200' size='sm'>
+                  <IconCloseCircle
+                    role='button'
+                    cursor='pointer'
+                    onClick={() => formActions.change('nftFilter', `forSale`, undefined)}
+                  />
+                </Icon>
+              </ClosedBackground>
+            </ActiveTraitFilter>
+          </div>
+        ) : null}
+        {verifiedFilter ? (
+          <div style={{ height: '100%' }}>
+            <ActiveTraitFilter>
+              <Text size='12px' lineHeight='18px' weight={600} color='grey900' capitalize>
+                Verified Only
+              </Text>
+              <ClosedBackground>
+                <Icon label='close' color='grey200' size='sm'>
+                  <IconCloseCircle
+                    role='button'
+                    cursor='pointer'
+                    onClick={() => formActions.change('nftFilter', `verifiedOnly`, undefined)}
+                  />
+                </Icon>
+              </ClosedBackground>
             </ActiveTraitFilter>
           </div>
         ) : null}
@@ -418,6 +464,7 @@ type OwnProps = {
   collections: OwnerQuery['assets'][0]['collection'][]
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
+  hasBanner?: boolean
   numOfResults?: number
   setActiveTab: React.Dispatch<React.SetStateAction<'ITEMS' | 'ACTIVITY'>>
   setIsFilterOpen: React.Dispatch<React.SetStateAction<boolean>>

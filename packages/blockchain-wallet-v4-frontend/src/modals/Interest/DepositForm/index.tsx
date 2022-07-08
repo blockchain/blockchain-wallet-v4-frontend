@@ -6,6 +6,7 @@ import { CoinType, FiatType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
+import { Analytics } from 'data/types'
 
 import { getCurrency, getData } from './selectors'
 import Loading from './template.loading'
@@ -13,8 +14,14 @@ import Success from './template.success'
 
 class DepositForm extends PureComponent<Props> {
   componentDidMount() {
-    const { walletCurrency } = this.props
+    const { analyticsActions, coin, walletCurrency } = this.props
     this.handleInitializeDepositForm()
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_DEPOSIT_VIEWED,
+      properties: {
+        currency: coin
+      }
+    })
     this.props.interestActions.fetchEDDDepositLimits({ currency: walletCurrency })
   }
 
@@ -68,6 +75,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
@@ -75,6 +83,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type LinkDispatchPropsType = {
+  analyticsActions: typeof actions.analytics
   formActions: typeof actions.form
   interestActions: typeof actions.components.interest
 }

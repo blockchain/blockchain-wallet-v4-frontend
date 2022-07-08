@@ -1,9 +1,16 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+<<<<<<< Updated upstream
 import { useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+=======
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
+
+import { OPENSEA_SHARED_MARKETPLACE_RINKEBY } from '@core/redux/payment/nfts/constants'
+import { Text } from 'blockchain-info-components'
+>>>>>>> Stashed changes
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
@@ -20,8 +27,13 @@ import { Props as OwnProps } from '..'
 import CancelOfferFees from './fees'
 
 const CancelOffer: React.FC<Props> = (props) => {
+<<<<<<< Updated upstream
   const { close, isInvited, nftActions, openSeaAssetR, orderFlow } = props
   const { offerToCancel } = orderFlow
+=======
+  const { close, openSeaAssetR, orderFlow } = props
+  const { seaportOrder, wyvernOrder } = orderFlow
+>>>>>>> Stashed changes
 
   const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
   const dispatch = useDispatch()
@@ -43,6 +55,8 @@ const CancelOffer: React.FC<Props> = (props) => {
 
   if (!val) return <NftFlyoutFailure error='Error fetching asset data.' close={props.close} />
 
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
+
   return (
     <>
       <FlyoutHeader sticky data-e2e='cancelOffer' mode='back' onClick={() => close()}>
@@ -56,28 +70,24 @@ const CancelOffer: React.FC<Props> = (props) => {
               <FormattedMessage id='copy.offer' defaultMessage='Offer' />
             </Text>
             <Flex flexDirection='column' alignItems='flex-end' gap={4}>
-              <CoinDisplay
-                size='14px'
-                color='black'
-                weight={600}
-                coin={offerToCancel?.payment_token_contract?.symbol}
-              >
-                {offerToCancel?.current_price}
+              {/* TODO: SEAPORT */}
+              <CoinDisplay size='14px' color='black' weight={600} coin='WETH'>
+                {IS_SHARED_STOREFRONT && wyvernOrder
+                  ? wyvernOrder.current_price
+                  : seaportOrder?.current_price}
               </CoinDisplay>
-              <FiatDisplay
-                size='12px'
-                color='grey600'
-                weight={600}
-                coin={offerToCancel?.payment_token_contract?.symbol}
-              >
-                {offerToCancel?.current_price}
+              {/* TODO: SEAPORT */}
+              <FiatDisplay size='12px' color='grey600' weight={600} coin='WETH'>
+                {IS_SHARED_STOREFRONT && wyvernOrder
+                  ? wyvernOrder.current_price
+                  : seaportOrder?.current_price}
               </FiatDisplay>
             </Flex>
           </Flex>
         </NftFlyoutRow>
       </div>
       <StickyCTA>
-        <CancelOfferFees {...props} />
+        <CancelOfferFees {...props} asset={asset} />
         <br />
         {isInvited ? (
           orderFlow.fees.cata({

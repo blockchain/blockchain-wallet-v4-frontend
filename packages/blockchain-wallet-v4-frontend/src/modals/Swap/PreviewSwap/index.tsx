@@ -77,7 +77,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
   }
 
   componentWillUnmount() {
-    this.props.formActions.clearSubmitErrors('previewSwap')
+    this.clearSubmitErrors()
   }
 
   handleSubmit = (e) => {
@@ -85,6 +85,19 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
     this.props.swapActions.createOrder()
   }
 
+<<<<<<< Updated upstream
+=======
+  handleOnClickBack = () => {
+    this.props.swapActions.setStep({
+      step: 'ENTER_AMOUNT'
+    })
+  }
+
+  clearSubmitErrors() {
+    this.props.formActions.clearSubmitErrors('previewSwap')
+  }
+
+>>>>>>> Stashed changes
   render() {
     if (!this.props.initSwapFormValues?.BASE || !this.props.initSwapFormValues?.COUNTER) {
       this.props.swapActions.setStep({ step: 'INIT_SWAP' })
@@ -96,6 +109,14 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
     const { swapActions } = this.props
     const baseCoinDisplaySymbol = window.coins[BASE.coin].coinfig.displaySymbol
     const counterCoinDisplaySymbol = window.coins[COUNTER.coin].coinfig.displaySymbol
+<<<<<<< Updated upstream
+=======
+
+    if (isNabuError(error)) {
+      return <GenericNabuErrorFlyout error={error} onDismiss={this.clearSubmitErrors} />
+    }
+
+>>>>>>> Stashed changes
     return (
       <>
         <FlyoutWrapper>

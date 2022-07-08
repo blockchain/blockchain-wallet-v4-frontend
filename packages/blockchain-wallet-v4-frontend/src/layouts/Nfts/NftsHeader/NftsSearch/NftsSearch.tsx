@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+<<<<<<< Updated upstream
+=======
+import { colors, Icon } from '@blockchain-com/constellation'
+import { IconCloseCircleV2, IconSearch } from '@blockchain-com/icons'
+>>>>>>> Stashed changes
 import NftCollectionImageSmall from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components/NftCollectionImageSmall'
+import Avatar from 'boring-avatars'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -75,7 +81,20 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
                     alt='url'
                     src={item.image_url || item.profile_img_url}
                   />
-                ) : null}
+                ) : (
+                  <Avatar
+                    size={24}
+                    name={item.slug || ''}
+                    variant='marble'
+                    colors={[
+                      colors.blue600,
+                      colors.purple600,
+                      colors.purple300,
+                      colors.green300,
+                      colors.grey900
+                    ]}
+                  />
+                )}
                 <Text weight={600} size='14px'>
                   {item.name || item.address}
                 </Text>

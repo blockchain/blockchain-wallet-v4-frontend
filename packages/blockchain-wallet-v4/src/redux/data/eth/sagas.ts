@@ -272,7 +272,6 @@ export default ({ api }: { api: APIType }) => {
         api.getAccountTokensBalances,
         ethAddr
       )
-      yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
       yield all(
         data.tokenAccounts.map(function* (val) {
           const symbol = Object.keys(window.coins).find(
@@ -281,6 +280,7 @@ export default ({ api }: { api: APIType }) => {
               toLower(val.tokenHash)
           )
           if (!symbol) return
+          if (symbol === 'WETH') return
           const { coinfig } = window.coins[symbol]
           const contract = coinfig.type.erc20Address
           const tokenData = data.tokenAccounts.find(
@@ -326,7 +326,14 @@ export default ({ api }: { api: APIType }) => {
       const wethTokenData = constructDefaultErc20Data(ethAddr, wethAddr, 'WETH', balanceString)
       yield put(A.fetchErc20DataSuccess('WETH', wethTokenData))
 
-      yield put(A.fetchErc20AccountTokenBalancesSuccess([...data.tokenAccounts, wethTokenData]))
+      yield put(
+        A.fetchErc20AccountTokenBalancesSuccess(
+          [
+            ...data.tokenAccounts.filter(({ tokenSymbol }) => tokenSymbol !== 'WETH'),
+            wethTokenData
+          ].sort((a, b) => (a.balance < b.balance ? -1 : 1))
+        )
+      )
     } catch (e) {
       yield put(A.fetchErc20DataFailure(coin, prop('message', e)))
     }

@@ -6,15 +6,22 @@ import { createHashHistory } from 'history'
 import { persistCombineReducers, persistStore } from 'redux-persist'
 import { configureStore } from '@reduxjs/toolkit'
 import { compose } from 'redux'
+import { localStorage } from 'redux-persist-webextension-storage'
 import storage from 'redux-persist/lib/storage'
 import createSagaMiddleware from 'redux-saga'
 import Worker from 'web-worker'
+import axios from "axios"
 
 import { coreMiddleware } from '@core'
 import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network'
 import { serializer } from '@core/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
 import { isBrowserSupported } from 'services/browser'
+<<<<<<< Updated upstream
+=======
+import { createNabuErrorFulfilledInterceptor, createNabuErrorRejectedInterceptor } from "services/errors/NabuError"
+import { AbstractPlugin } from 'plugin/internal'
+>>>>>>> Stashed changes
 
 import {
   analyticsMiddleware,
@@ -131,7 +138,7 @@ const configuredStore = async function () {
       persistCombineReducers(
         {
           key: 'root',
-          storage,
+          storage: AbstractPlugin.isPlugin() ? localStorage : storage,
           whitelist: persistWhitelist
         },
         {

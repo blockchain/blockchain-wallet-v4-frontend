@@ -3,7 +3,17 @@ import { call, delay, put, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
+<<<<<<< Updated upstream
 import { BSPaymentMethodType, BSPaymentTypes, BSTransactionType } from '@core/types'
+=======
+import {
+  BSPaymentMethodType,
+  BSPaymentTypes,
+  BSTransactionStateEnum,
+  BSTransactionType,
+  ExtraKYCContext
+} from '@core/types'
+>>>>>>> Stashed changes
 import { errorCodeAndMessage, errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
@@ -216,6 +226,32 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const handleDepositFiatClick = function* ({
     payload
   }: ReturnType<typeof A.handleDepositFiatClick>) {
+<<<<<<< Updated upstream
+=======
+    const isUserTier2 = yield call(isTier2)
+    // Verify identity before deposit if TIER 2
+    yield put(
+      actions.components.identityVerification.verifyIdentity({
+        context: ExtraKYCContext.FIAT_DEPOSIT,
+        needMoreInfo: false,
+        origin: 'BuySell',
+        tier: 1
+      })
+    )
+    if (!isUserTier2) {
+      return
+    }
+
+    // Wait for KYC flow to end
+    const result = yield take([
+      actions.modals.closeModal.type,
+      actions.components.identityVerification.setAllContextQuestionsAnswered.type
+    ])
+
+    // If KYC was closed without answering, close
+    if (result.type === actions.modals.closeModal.type) return
+
+>>>>>>> Stashed changes
     yield put(
       actions.components.brokerage.showModal({
         modalType: 'BANK_DEPOSIT_MODAL',
@@ -274,6 +310,30 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
+    const isUserTier2 = yield call(isTier2)
+
+    // Verify identity before deposit if TIER 2
+    yield put(
+      actions.components.identityVerification.verifyIdentity({
+        context: ExtraKYCContext.FIAT_WITHDRAW,
+        needMoreInfo: false,
+        origin: 'Withdraw',
+        tier: 1
+      })
+    )
+    if (!isUserTier2) {
+      return
+    }
+
+    // Wait for KYC flow to end
+    const result = yield take([
+      actions.modals.closeModal.type,
+      actions.components.identityVerification.setAllContextQuestionsAnswered.type
+    ])
+
+    // If KYC was closed without answering, close
+    if (result.type === actions.modals.closeModal.type) return
+
     yield put(actions.form.destroy('brokerageTx'))
     yield put(actions.components.withdraw.showModal({ fiatCurrency: payload }))
 

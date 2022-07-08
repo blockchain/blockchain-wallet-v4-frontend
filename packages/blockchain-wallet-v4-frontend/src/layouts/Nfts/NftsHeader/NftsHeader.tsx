@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
-import { IconUser, IconWallet } from '@blockchain-com/icons'
+import { IconWallet } from '@blockchain-com/icons'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -12,6 +12,7 @@ import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import AppSwitcher from 'components/Navbar/AppSwitcher'
 import { Logo, NavButton, NavContainer, NavLeft, NavRight } from 'components/Navbar/Navbar'
+import UserNavDropdown from 'components/Navbar/UserNavDropdown'
 import { actions } from 'data'
 import { Analytics, ModalName } from 'data/types'
 import { media, useMedia } from 'services/styles'
@@ -55,11 +56,12 @@ const NavLinkButton = styled(NavLink)`
   }
 `
 
-const ExploreHeader: React.FC<Props> = ({
+const NftsHeader: React.FC<Props> = ({
   ethAddress,
   isAuthenticated,
   modalActions,
-  pathname
+  pathname,
+  ...rest
 }) => {
   const dispatch = useDispatch()
   const trackExploreClicked = () => {
@@ -71,6 +73,35 @@ const ExploreHeader: React.FC<Props> = ({
     )
   }
   const isTablet = useMedia('tablet')
+
+  const trackEventCallback = useCallback(
+    (eventName) => {
+      rest.settingsActions.generalSettingsInternalRedirect(eventName)
+    },
+    [rest.settingsActions]
+  )
+
+  const logoutCallback = useCallback(() => {
+    rest.sessionActions.logout()
+  }, [rest.sessionActions])
+
+  const limitsCallback = useCallback(() => {
+    modalActions.showModal(ModalName.TRADING_LIMITS_MODAL, {
+      origin: 'TradingLimits'
+    })
+    trackEventCallback('TradingLimits')
+  }, [modalActions, trackEventCallback])
+
+  const taxCenterCallback = useCallback(() => {
+    rest.history.push('/tax-center')
+
+    rest.analyticsActions.trackEvent({
+      key: Analytics.TAX_CENTER_CLICKED,
+      properties: {
+        origin: 'SETTINGS'
+      }
+    })
+  }, [rest.analyticsActions, rest.history])
 
   return (
     <StickyNav>
@@ -120,9 +151,12 @@ const ExploreHeader: React.FC<Props> = ({
             <NavButton data-e2e='settingsLink'>
               <LinkContainer to={`/nfts/address/${ethAddress}`}>
                 <Link>
-                  <Icon color='grey400' label='open-menu' size='sm'>
-                    <IconUser />
-                  </Icon>
+                  <UserNavDropdown
+                    limitsClickHandler={limitsCallback}
+                    trackEventCallback={trackEventCallback}
+                    taxCenterClickHandler={taxCenterCallback}
+                    logoutClickHandler={logoutCallback}
+                  />
                 </Link>
               </LinkContainer>
             </NavButton>
@@ -152,6 +186,6 @@ const ExploreHeader: React.FC<Props> = ({
   )
 }
 
-type Props = OwnProps
+type Props = OwnProps & { history: { push: (path: string) => void } }
 
-export default reduxForm<{}, Props>({ form: 'nftSearch' })(ExploreHeader)
+export default reduxForm<{}, Props>({ form: 'nftSearch' })(NftsHeader)

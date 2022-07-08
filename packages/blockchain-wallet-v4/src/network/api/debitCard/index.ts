@@ -61,6 +61,26 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
       url: nabuUrl
     })
 
+<<<<<<< Updated upstream
+=======
+  const selectDCAccount = (cardId, accountCurrency) =>
+    authorizedPut({
+      contentType: 'application/json',
+      data: {
+        accountCurrency
+      },
+      endPoint: `/card-issuing/cards/${cardId}/account`,
+      url: nabuUrl
+    })
+
+  const getDCTransactions = (cardId) =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/card-issuing/transactions${cardId ? `?cardId=${cardId}&` : ''}`,
+      url: nabuUrl
+    })
+
+>>>>>>> Stashed changes
   return {
     createDCOrder,
     getDCCreated,
@@ -68,6 +88,7 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
     getDCEligibleAccounts,
     getDCProducts,
     getDCToken,
+    getDCTransactions,
     handleDCLock,
     terminateDC
   }

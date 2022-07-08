@@ -126,3 +126,23 @@ export const getNftExplorer = (state: RootState) =>
 // enable/disable BIND integration (AR)
 export const getBindIntegrationArEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'bindIntegrationArEnabled']))
+<<<<<<< Updated upstream
+=======
+
+// check for rewards flow under swap Feature Flag
+export const getRewardsFlowUnderSwapEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'rewardsFlowUnderSwapEnabled']))
+
+// check for rewards promo banner to be enabled
+export const getRewardsPromoBannerEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'rewardsPromoBanner']))
+
+// show referral signup input in sign up
+export const getReferralEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
+
+// show login button redirect for exchange mobile
+// will take user out of webview into native signin
+export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'exchangeMobileDuplicateAccountRedirect']))
+>>>>>>> Stashed changes

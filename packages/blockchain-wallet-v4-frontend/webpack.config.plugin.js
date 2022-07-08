@@ -1,7 +1,11 @@
+<<<<<<< Updated upstream
 const { compose, dissoc, evolve, adjust, set, lensProp } = require('ramda')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const ReactRefreshTypeScript = require('react-refresh-typescript')
+=======
+const { compose, evolve, adjust, set, lensProp } = require('ramda')
+>>>>>>> Stashed changes
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
@@ -11,10 +15,14 @@ const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const webpackBuilder = require('./webpackBuilder')
 const CONFIG_PATH = require('../../config/paths')
 
+<<<<<<< Updated upstream
 const { devServerConfig, webpackConfig } = webpackBuilder({
   useDevServer: true,
   useHMR: true
 })
+=======
+const { webpackConfig } = webpackBuilder({})
+>>>>>>> Stashed changes
 
 // evolve base config for plugin mode and HMR
 const pluginWebpackConfig = evolve(
@@ -68,12 +76,15 @@ const pluginWebpackConfig = evolve(
           favicons: true,
         }
       }),
+<<<<<<< Updated upstream
       new ReactRefreshWebpackPlugin(),
       new ForkTsCheckerWebpackPlugin({
         typescript: {
           configFile: CONFIG_PATH.tsConfig
         }
       }),
+=======
+>>>>>>> Stashed changes
     ],
     output: {
       filename: () => 'app/[name].[fullhash:8].js',
@@ -89,5 +100,4 @@ const pluginWebpackConfig = evolve(
 
 module.exports = {
   ...pluginWebpackConfig,
-  devServer: devServerConfig
 }

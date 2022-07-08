@@ -174,17 +174,31 @@ export const getPaymentMethod = ({
         <FormattedMessage id='modals.simplebuy.confirm.payment_card' defaultMessage='Credit Card' />
       )
     case BSPaymentTypes.FUNDS:
-      return orderType === 'BUY' ? (
+      if (orderType === 'BUY') {
+        const coinName = window.coins[counterCurrency]?.coinfig.name ?? counterCurrency
+
+        return (
+          <FormattedMessage
+            id='modals.simplebuy.confirm.funds_wallet'
+            defaultMessage='{coin} Wallet'
+            values={{
+              coin: coinName
+            }}
+          />
+        )
+      }
+      const coinName = window.coins[baseCurrency]?.coinfig.name ?? baseCurrency
+
+      return (
         <FormattedMessage
-          id='modals.simplebuy.confirm.funds_wallet'
-          defaultMessage='{coin} Wallet'
+          id='modals.simplebuy.confirm.funds_trading_account'
+          defaultMessage='{coin} Trading Account'
           values={{
-            coin: counterCurrency
+            coin: coinName
           }}
         />
-      ) : (
-        `${baseCurrency} Trading Account`
       )
+
     case BSPaymentTypes.BANK_TRANSFER:
       const defaultBankInfo = {
         accountNumber: '',

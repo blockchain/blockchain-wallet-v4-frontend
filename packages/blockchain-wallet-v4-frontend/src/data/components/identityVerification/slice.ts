@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import { ExtraQuestionsType } from '@core/types'
+import { ExtraKYCContext, ExtraQuestionsType } from '@core/types'
 
 import { EMAIL_STEPS } from './model'
 import {
@@ -49,7 +49,7 @@ const identityVerificationSlice = createSlice({
       state.kycExtraQuestions = Remote.Success(action.payload)
     },
     fetchStates: () => {},
-    fetchSupportedCountries: () => {},
+    fetchSupportedCountries: (state, action: PayloadAction<{ scope?: string }>) => {},
     fetchSupportedDocuments: (state, action: PayloadAction<{ countryCode?: string }>) => {},
 
     getPreIdvData: () => {},
@@ -58,7 +58,16 @@ const identityVerificationSlice = createSlice({
 
     initializeVerification: (
       state,
+<<<<<<< Updated upstream
       action: PayloadAction<{ needMoreInfo: boolean; tier: number }>
+=======
+      action: PayloadAction<{
+        context: string
+        needMoreInfo: boolean
+        origin: string
+        tier: number
+      }>
+>>>>>>> Stashed changes
     ) => {},
 
     preIdvCheckFinished: () => {},
@@ -76,6 +85,7 @@ const identityVerificationSlice = createSlice({
     saveKYCExtraQuestions: () => {},
     sendDeepLink: () => {},
     sendEmailVerification: (state, action: PayloadAction<{ email: string }>) => {},
+    setAllContextQuestionsAnswered: () => {},
     setEmailStep: (state, action: PayloadAction<EmailSmsStepType>) => {
       state.emailStep = action.payload
     },
@@ -154,6 +164,7 @@ const identityVerificationSlice = createSlice({
       state,
       action: PayloadAction<{
         checkSddEligibility?: boolean
+        context?: ExtraKYCContext
         needMoreInfo?: boolean
         onCompletionCallback?: () => void
         origin: VerifyIdentityOriginType

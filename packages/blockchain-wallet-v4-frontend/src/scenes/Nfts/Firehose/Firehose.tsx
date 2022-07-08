@@ -8,7 +8,7 @@ import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
-  AssetSortFields,
+  CollectionFilterFields,
   CollectionSortFields,
   SortDirection,
   useTrendingCollectionsQuery
@@ -24,16 +24,19 @@ import TraitGridFilters from '../components/TraitGridFilters'
 import NftFilter, { NftFilterFormValuesType } from '../NftFilter'
 import NftFirehoseResults from './Firehose.results'
 
-const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
-  const isTablet = useMedia('tablet')
+const NftFirehose: React.FC<Props> = ({ formActions, formValues, isTestnet }) => {
   const [collectionsQuery] = useTrendingCollectionsQuery({
     variables: {
+      filter: {
+        field: CollectionFilterFields.Network,
+        value: 'ethereum'
+      },
       sort: { by: CollectionSortFields.OneDayVolume, direction: SortDirection.Desc }
     }
   })
 
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
-
+  const isTablet = useMedia('tablet')
   const [pageVariables, setPageVariables] = useState([{ page: 0 }])
   const [maxItemsFetched, setMaxItemsFetched] = useState(false)
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(true)
@@ -76,7 +79,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
       />
       <div style={{ width: '100%' }}>
         <TraitGridFilters
-          collections={[]}
+          collections={collectionsQuery.data?.collections || []}
           tabs={['EXPLORE']}
           activeTab='EXPLORE'
           showSortBy
@@ -106,6 +109,7 @@ const NftFirehose: React.FC<Props> = ({ formActions, formValues }) => {
                       // @ts-ignore
                       formValues={formValues}
                       key={page}
+                      isTestnet={isTestnet}
                       setMaxItemsFetched={setMaxItemsFetched}
                       setNextPageFetchError={setNextPageFetchError}
                       setNumOfPageItems={setNumOfPageItems}
@@ -133,7 +137,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector> & { isTestnet: boolean }
 
 const enhance = compose(
   reduxForm<{}, Props>({

@@ -21,8 +21,13 @@ import { Props as OwnProps } from '..'
 import CancelListingFees from './fees'
 
 const CancelListing: React.FC<Props> = (props) => {
+<<<<<<< Updated upstream
   const { close, isInvited, nftActions, openSeaAssetR, orderFlow } = props
   const { listingToCancel } = orderFlow
+=======
+  const { close, openSeaAssetR, orderFlow } = props
+  const { seaportOrder } = orderFlow
+>>>>>>> Stashed changes
 
   const dispatch = useDispatch()
   const cancelListingClicked = () => {
@@ -64,28 +69,18 @@ const CancelListing: React.FC<Props> = (props) => {
               <FormattedMessage id='copy.price' defaultMessage='Price' />
             </Text>
             <Flex flexDirection='column' alignItems='flex-end' gap={4}>
-              <CoinDisplay
-                size='14px'
-                color='black'
-                weight={600}
-                coin={listingToCancel?.payment_token_contract?.symbol}
-              >
-                {listingToCancel?.current_price}
+              <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
+                {seaportOrder?.current_price}
               </CoinDisplay>
-              <FiatDisplay
-                size='12px'
-                color='grey600'
-                weight={600}
-                coin={listingToCancel?.payment_token_contract?.symbol}
-              >
-                {listingToCancel?.current_price}
+              <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
+                {seaportOrder?.current_price}
               </FiatDisplay>
             </Flex>
           </Flex>
         </NftFlyoutRow>
       </div>
       <StickyCTA>
-        <CancelListingFees {...props} />
+        <CancelListingFees {...props} asset={asset} />
         <br />
         {isInvited ? (
           orderFlow.fees.cata({

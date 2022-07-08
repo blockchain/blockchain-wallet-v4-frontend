@@ -21,6 +21,7 @@ export type ProductEligibilityForUser = {
     canPlaceOrder: boolean
     enabled: boolean
     id: 'BUY'
+    maxOrdersCap?: number
     maxOrdersLeft: number
     reasonNotEligible?: NotEligibleReason
   }
@@ -67,6 +68,7 @@ export type ProductEligibilityForUser = {
     canPlaceOrder: boolean
     enabled: boolean
     id: 'SWAP'
+    maxOrdersCap?: number
     maxOrdersLeft: number
     reasonNotEligible?: NotEligibleReason
   }

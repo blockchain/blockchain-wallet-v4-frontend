@@ -3,15 +3,15 @@ import { lift } from 'ramda'
 import { convertCoinToFiat } from '@core/exchange'
 import { AccountTokensBalancesResponseType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
-import { getEthBalance } from 'components/Balances/nonCustodial/selectors'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 export const getData = createDeepEqualSelector(
   [
-    getEthBalance,
+    selectors.balances.getCoinNonCustodialBalance('ETH'),
     selectors.core.settings.getCurrency,
     selectors.core.data.eth.getErc20AccountTokenBalances,
+    // @ts-ignore
     (state) => selectors.core.data.coins.getRates('ETH', state),
     (state) => state
   ],

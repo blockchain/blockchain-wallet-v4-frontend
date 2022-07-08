@@ -93,7 +93,7 @@ const MarkForSale: React.FC<Props> = (props) => {
     formValues.starting = ''
     formValues.ending = ''
     formValues.expirationMinutes = 1440
-    formValues.timedAuctionType = 'highestBidder'
+    formValues.timedAuctionType = 'decliningPrice'
   }
   const setToFixed = () => {
     setSaleType('fixed-price')
@@ -156,7 +156,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                       <AmountFieldInput
                         coin={coin}
                         fiatCurrency={props.walletCurrency}
-                        amtError={false}
+                        amountError={false}
                         quote={fix === 'CRYPTO' ? fixFiatAmt : fixCryptoAmt}
                         fix={fix as 'CRYPTO' | 'FIAT'}
                         name='fixAmount'
@@ -212,7 +212,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           <FormattedMessage id='copy.ending_price' defaultMessage='Ending Price' />
                         </Text>
                         <Field
-                          validate={[endingLessThanStarting]}
+                          validate={[endingLessThanStarting, required]}
                           name='ending'
                           component={NumberBox}
                         />
@@ -442,6 +442,7 @@ const MarkForSale: React.FC<Props> = (props) => {
               <NftFlyoutRow>
                 {open && feesR.hasData && fees?.totalFees === 0 ? (
                   <>
+<<<<<<< Updated upstream
                     <Icon
                       onClick={() => {
                         setOpen(false)
@@ -468,6 +469,34 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </Text>
                       <Text size='14px' weight={500} style={{ paddingBottom: '1em' }}>
                         Once sold, the above fees will be deducted from the sale.{' '}
+=======
+                    <GreyMessage>
+                      <Flex alignItems='center' justifyContent='space-between'>
+                        <Text color='grey900' weight={600}>
+                          <FormattedMessage
+                            id='copy.listing_is_free'
+                            defaultMessage='Listing Is Free'
+                          />
+                        </Text>
+                        <Icon
+                          onClick={() => {
+                            setOpen(false)
+                          }}
+                          name='close'
+                          cursor
+                          role='button'
+                          style={{
+                            background: 'lightgrey',
+                            borderRadius: '12px',
+                            color: 'grey',
+                            fontSize: '16px',
+                            padding: '0.3em'
+                          }}
+                        />
+                      </Flex>
+                      <Text size='12px'>
+                        Once sold, the below fees will be deducted from the sale.{' '}
+>>>>>>> Stashed changes
                         <Link
                           href='https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-Service-and-Creator-fees'
                           size='14px'
@@ -482,7 +511,30 @@ const MarkForSale: React.FC<Props> = (props) => {
               </NftFlyoutRow>
             </div>
             <StickyCTA>
+<<<<<<< Updated upstream
               <MarkForSaleFees {...props} asset={val} />
+=======
+              {formValues.timedAuctionType === 'highestBidder' ? (
+                <>
+                  <GreyMessage>
+                    <Text color='grey900' weight={600}>
+                      <FormattedMessage
+                        id='copy.english_auction_not_supported'
+                        defaultMessage='English Auctions Not Supported'
+                      />
+                    </Text>
+                    <Text size='12px'>
+                      <FormattedMessage
+                        id='copy.english_auction_explainer'
+                        defaultMessage='We are working closely with the OpenSea team to add support for selling to the highest bidder. In the meantime, please select another method.'
+                      />
+                    </Text>
+                  </GreyMessage>
+                  <br />
+                </>
+              ) : null}
+              <MarkForSaleFees {...props} asset={asset} />
+>>>>>>> Stashed changes
               <br />
               {isInvited ? (
                 props.orderFlow.fees.cata({
@@ -602,7 +654,7 @@ const enhance = compose(
       expirationMinutes: 1440,
       fix: 'CRYPTO',
       listingTime: format(new Date(), 'yyyy-MM-dd'),
-      timedAuctionType: 'highestBidder'
+      timedAuctionType: 'decliningPrice'
     }
   }),
   connector

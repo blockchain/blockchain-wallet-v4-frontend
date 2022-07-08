@@ -1,11 +1,23 @@
+<<<<<<< Updated upstream
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+=======
+import React, { useCallback, useEffect, useState } from 'react'
+import { connect, ConnectedProps, useDispatch } from 'react-redux'
+>>>>>>> Stashed changes
 import { bindActionCreators } from 'redux'
+import { clearSubmitErrors } from 'redux-form'
 
 import { BSOrderType, ProviderDetailsType, WalletOptionsType } from '@core/types'
+<<<<<<< Updated upstream
 import CardError from 'components/BuySell/CardError'
+=======
+import Error from 'components/BuySell/Error'
+import DataError from 'components/DataError'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
+>>>>>>> Stashed changes
 import { actions, selectors } from 'data'
-import { CARD_ERROR_CODE } from 'data/components/buySell/model'
+import { CARD_ERROR_CODE, FORM_BS_PREVIEW_SELL } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import { useRemote } from 'hooks'
 
@@ -17,6 +29,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   const order = useRemote(() => props.orderR)
   const card = useRemote(() => props.cardR)
   const providerDetails = useRemote(() => props.providerDetailsR)
+  const dispatch = useDispatch()
 
   const handlePostMessage = async ({ data }: { data: { payment: 'SUCCESS' } }) => {
     if (data.payment !== 'SUCCESS') return
@@ -30,7 +43,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     }
   }
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     if (order.hasData) {
       props.buySellActions.setStep({
         step: 'CHECKOUT_CONFIRM'
@@ -42,17 +55,19 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     props.buySellActions.setStep({
       step: 'DETERMINE_CARD_PROVIDER'
     })
-  }
+  }, [order.hasData, props.buySellActions])
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     props.buySellActions.destroyCheckout()
-  }
 
-  const handleRetry = () => {
+    dispatch(clearSubmitErrors(FORM_BS_PREVIEW_SELL))
+  }, [props.buySellActions, dispatch])
+
+  const handleRetry = useCallback(() => {
     props.buySellActions.setStep({
       step: 'DETERMINE_CARD_PROVIDER'
     })
-  }
+  }, [props.buySellActions])
 
   useEffect(() => {
     window.addEventListener('message', handlePostMessage, false)
@@ -60,6 +75,29 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
 
+<<<<<<< Updated upstream
+=======
+  const renderError = useCallback(
+    (error: string | Error) => {
+      if (isNabuError(error)) {
+        return <GenericNabuErrorFlyout error={error} onDismiss={handleBack} />
+      }
+      if (typeof error === 'string') {
+        return (
+          <Error
+            code={error}
+            handleReset={handleReset}
+            handleBack={handleBack}
+            handleRetry={handleRetry}
+          />
+        )
+      }
+      return <DataError message={{ message: error.toString() }} />
+    },
+    [handleReset, handleBack, handleRetry]
+  )
+
+>>>>>>> Stashed changes
   if (order.hasError && order.error) {
     return (
       <CardError
@@ -113,7 +151,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     paymentLink = encodeURIComponent(providerDetails.data.cardProvider.paymentLink)
   } else if (!providerDetails.isLoading && !order.isLoading) {
     return (
-      <CardError
+      <Error
         code={CARD_ERROR_CODE.CREATE_FAILED}
         handleReset={handleReset}
         handleBack={handleBack}

@@ -1,4 +1,6 @@
 import React from 'react'
+import { colors } from '@blockchain-com/constellation'
+import styled from 'styled-components'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
@@ -15,28 +17,43 @@ const NftGridLoading: React.FC<Props> = ({ fullscreen }) => {
 
   const items = getNftGridSize(fullscreen, isDesktop, isLaptopL, isLaptop, isTablet)
 
+  const LoadingAsset = styled(Asset)`
+    background: white;
+    height: 100%;
+  `
+
+  const GridLoadingFooter = styled.div`
+    background-color: ${colors.grey000};
+    border-radius: 0px 0px 4px 4px;
+    margin-top: -12px;
+    padding: 1em;
+  `
+
   return (
     <>
       {[...Array(items * 2)].map((e, i) => (
         // eslint-disable-next-line react/no-array-index-key
-        <Asset key={i}>
-          <div style={{ marginBottom: '12px' }}>
-            <SkeletonRectangle height='28px' width='100%' />
+        <LoadingAsset key={i}>
+          <div style={{ width: '100%' }} className='asset-image-container'>
+            <SkeletonRectangle bgColor='grey000' width='100%' height='100%' />
           </div>
-          <div className='asset-image-container'>
-            <SkeletonRectangle width='100%' height='100%' />
-          </div>
-          <div style={{ boxSizing: 'border-box', padding: '12px 0px 0px' }}>
-            <Flex style={{ height: '100%' }} justifyContent='space-between' flexDirection='column'>
-              <div>
-                <SkeletonRectangle height='24px' width='100%' />
-              </div>
-              <div style={{ marginTop: '16px' }}>
-                <SkeletonRectangle height='30px' width='100%' />
-              </div>
-            </Flex>
-          </div>
-        </Asset>
+          <GridLoadingFooter>
+            <div
+              style={{
+                backgroundColor: colors.grey000
+              }}
+            >
+              <Flex justifyContent='space-between' flexDirection='column'>
+                <div>
+                  <SkeletonRectangle height='24px' width='100%' />
+                </div>
+                <div style={{ marginTop: '16px' }}>
+                  <SkeletonRectangle height='30px' width='100%' />
+                </div>
+              </Flex>
+            </div>
+          </GridLoadingFooter>
+        </LoadingAsset>
       ))}
     </>
   )

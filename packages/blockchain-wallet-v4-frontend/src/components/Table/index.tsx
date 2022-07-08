@@ -84,6 +84,17 @@ export const StickyTableHeader = styled.div`
   background: ${(props) => props.theme.white};
   z-index: 1;
 `
+
+export const StickyColumn = styled.div`
+  position: sticky;
+  left: 0;
+  z-index: 0;
+  background-color: white;
+  ${media.mobile`
+    border-right: 1px solid ${(props) => props.theme.grey100};
+  `}
+`
+
 export const CellHeaderText = styled(Text)`
   font-style: normal;
   font-weight: 500;

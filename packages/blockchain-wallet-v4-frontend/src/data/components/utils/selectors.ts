@@ -18,17 +18,14 @@ import { getOutputFromPair } from '../swap/model'
 export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
   // TODO: SELF_CUSTODY, remove this
-  const stxEligibility = selectors.coins.getStxSelfCustodyAvailablity(state)
+  const stxEligibility = selectors.coins.getStxSelfCustodyAvailability(state)
   // TODO, check all custodial features
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
   const custodials = selectors.core.data.coins.getCustodialCoins()
-  // TODO: Move this code to another place to clean this file
-  const bindIntegrationArEnabled = selectors.core.walletOptions
-    .getBindIntegrationArEnabled(state)
-    .getOrElse(false) as boolean
   const userData = selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
+<<<<<<< Updated upstream
   const userCountryCode = userData?.address?.country || 'default'
   const allFiatCurrencies = Object.keys(WalletFiatEnum).filter(
     (value) =>
@@ -39,6 +36,9 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
     default: allFiatCurrencies
   }
   const fiatCurrencies = countryCurrencies[userCountryCode] || countryCurrencies.default
+=======
+  const fiatCurrencies = userData.currencies?.userFiatCurrencies || []
+>>>>>>> Stashed changes
   // TODO: SELF_CUSTODY
   const selfCustodials = stxEligibility ? ['STX'] : []
 

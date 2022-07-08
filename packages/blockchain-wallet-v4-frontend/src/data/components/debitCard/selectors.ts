@@ -27,3 +27,11 @@ export const getCurrentCardSelected = (state: RootState) =>
 
 export const getTerminateCardHandler = (state: RootState) =>
   state.components.debitCard.terminateHandler
+<<<<<<< Updated upstream
+=======
+
+export const getSelectAccountHandler = (state: RootState) =>
+  state.components.debitCard.selectAccountHandler
+
+export const getCardTransactions = (state: RootState) => state.components.debitCard.transactions
+>>>>>>> Stashed changes

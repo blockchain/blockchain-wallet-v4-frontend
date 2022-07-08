@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
@@ -120,3 +121,7 @@ type State = {
 }
 
 export default connector(SupportChat)
+=======
+export * from './components'
+export { useSupportChat } from './hooks'
+>>>>>>> Stashed changes

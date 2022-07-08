@@ -5,6 +5,7 @@ import { IconAlert } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -21,19 +22,20 @@ const Title = styled(Text)`
 `
 
 const ErrorTextContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-`
-const ErrorText = styled(Text)`
   display: inline-flex;
-  font-weight: 500;
-  font-size: 14px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: ${(props) => props.theme.red000};
   padding: 6px 12px;
   border-radius: 32px;
-  background-color: ${(props) => props.theme.red000};
-  color: ${(props) => props.theme.red800};
   margin-bottom: 16px;
+`
+const ErrorText = styled(Text)`
+  font-weight: 500;
+  font-size: 14px;
+  color: ${(props) => props.theme.red800};
+  margin-left: 0.5rem;
 `
 
 const Failure = (props: FailurePropsType) => {
@@ -44,6 +46,14 @@ const Failure = (props: FailurePropsType) => {
       text = <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
       break
   }
+
+  const message =
+    typeof props.errorMessage === 'string'
+      ? props.errorMessage
+      : props.errorMessage?.network_error_description
+      ? props.errorMessage.network_error_description
+      : null
+
   return (
     <Wrapper>
       <div>
@@ -59,14 +69,12 @@ const Failure = (props: FailurePropsType) => {
             defaultMessage='Oops. Something went wrong on our side. Please try again.'
           />
         </Title>
-        {props.errorMessage && (
+        {message && (
           <ErrorTextContainer>
-            <ErrorText>
-              <Icon label='alert' color='red600'>
-                <IconAlert />
-              </Icon>
-              Error: {props.errorMessage}
-            </ErrorText>
+            <Icon label='alert' color='red600'>
+              <IconAlert />
+            </Icon>
+            <ErrorText>{message}</ErrorText>
           </ErrorTextContainer>
         )}
         <Button
@@ -87,7 +95,7 @@ const Failure = (props: FailurePropsType) => {
 type FailurePropsType = {
   action: 'retry' | 'close'
   'data-e2e': string
-  errorMessage?: string
+  errorMessage?: string | PartialClientErrorProperties
   handler: () => void
 }
 

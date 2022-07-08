@@ -4,6 +4,7 @@ import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Badge, Button, HeartbeatLoader, Text, TextGroup } from 'blockchain-info-components'
+import { PlatformTypes } from 'data/types'
 import { media } from 'services/styles'
 
 import { SubviewProps } from '../../types'
@@ -52,12 +53,14 @@ const SignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
     isLinkAccountGoal,
     onSignupSubmit,
     showForm,
+    signupMetadata,
     toggleSignupFormVisibility
   } = props
   const buttonSubmit = showForm ? onSignupSubmit : toggleSignupFormVisibility
-
   const showOnlySignup = showForm || isLinkAccountGoal
-
+  const { platform } = signupMetadata
+  const isExchangeMobileSignup =
+    platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS
   return (
     <CardWrapper hideMargin={showOnlySignup}>
       <Card>
@@ -180,18 +183,22 @@ const SignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
               )}
             </Button>
           )}
-          {!isLinkAccountGoal && (
-            <>
-              <AppButtons showForm={showForm}>
-                <Bottom>
-                  <Badge type='applestore' />
-                  <Badge type='googleplay' />
-                </Bottom>
-              </AppButtons>
-            </>
-          )}
         </PaddingWrapper>
-        <LoginLink analyticsActions={props.analyticsActions} unified={props.unified} />
+        {!isLinkAccountGoal && !isExchangeMobileSignup && (
+          <>
+            <AppButtons showForm={showForm}>
+              <Bottom>
+                <Badge type='applestore' />
+                <Badge type='googleplay' />
+              </Bottom>
+            </AppButtons>
+          </>
+        )}
+        {isExchangeMobileSignup ? (
+          <Bottom />
+        ) : (
+          <LoginLink analyticsActions={props.analyticsActions} unified={props.unified} />
+        )}
       </Card>
     </CardWrapper>
   )

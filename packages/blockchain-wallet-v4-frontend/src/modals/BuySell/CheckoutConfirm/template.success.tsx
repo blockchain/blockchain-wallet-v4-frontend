@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { intervalToDuration } from 'date-fns'
 import { defaultTo, filter, path, prop } from 'ramda'
-import { InjectedFormProps, reduxForm } from 'redux-form'
+import { clearSubmitErrors, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { coinToString, fiatToString } from '@core/exchange/utils'
@@ -21,6 +22,7 @@ import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
 import Form from 'components/Form/Form'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { model } from 'data'
 import {
   getBaseAmount,
@@ -41,6 +43,7 @@ import {
   UserDataType
 } from 'data/types'
 import { useDefer3rdPartyScript } from 'hooks'
+import { isNabuError } from 'services/errors'
 
 import {
   displayFiat,
@@ -173,7 +176,12 @@ const StickyFooter = styled.div`
 const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
+<<<<<<< Updated upstream
   const [isActiveFeeTooltip, setFeeToolTip] = useState(props.isFlexiblePricingModel)
+=======
+  const [isActiveFeeTooltip, setFeeToolTip] = useState(true)
+  const dispatch = useDispatch()
+>>>>>>> Stashed changes
 
   const [isGooglePayReady] = useDefer3rdPartyScript('https://pay.google.com/gp/p/js/pay.js', {
     attributes: {
@@ -243,7 +251,11 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     props.buySellActions.cancelOrder(props.order)
   }
 
-  const handleSubmit = () => {
+  const clearFormErrors = () => dispatch(clearSubmitErrors(FORM_BS_CHECKOUT_CONFIRM))
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
     const { bankAccounts, cards, isSddFlow, isUserSddVerified, sbBalances, userData } =
       props.data.getOrElse({
         isSddFlow: false,
@@ -347,6 +359,13 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     }
   }
 
+<<<<<<< Updated upstream
+=======
+  if (isNabuError(props.error)) {
+    return <GenericNabuErrorFlyout error={props.error} onDismiss={clearFormErrors} />
+  }
+
+>>>>>>> Stashed changes
   return (
     <CustomForm onSubmit={handleSubmit}>
       <FlyoutWrapper>

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import { clearSubmitErrors, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
@@ -195,6 +195,12 @@ class PreviewSell extends PureComponent<
   }
 
   render() {
+    const { error } = this.props
+
+    if (isNabuError(error)) {
+      return <GenericNabuErrorFlyout error={error} onDismiss={this.props.clearErrors} />
+    }
+
     return this.props.quoteR.cata({
       Failure: () => null,
       Loading: () => <Loading />,
@@ -211,6 +217,10 @@ class PreviewSell extends PureComponent<
         const { rates, ratesEth } = this.props
         const fiatCurrency = getFiatFromPair(this.props.pair.pair)
         const isErc20 = window.coins[COUNTER].coinfig.type.erc20Address
+<<<<<<< Updated upstream
+=======
+        const incomingCoinName = window.coins[counterCoinTicker]?.coinfig.name ?? counterCoinTicker
+>>>>>>> Stashed changes
 
         return (
           <CustomForm onSubmit={this.handleSubmit}>
@@ -344,7 +354,7 @@ class PreviewSell extends PureComponent<
                 <FormattedMessage id='copy.deposit_to' defaultMessage='Deposit To' />
               </RowText>
               <Value data-e2e='sbIncomingAccount'>
-                {counterCoinTicker} <FormattedMessage id='copy.account' defaultMessage='Account' />
+                {incomingCoinName} <FormattedMessage id='copy.account' defaultMessage='Account' />
               </Value>
             </RowItem>
 
@@ -593,7 +603,8 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  clearErrors: () => dispatch(clearSubmitErrors(FORM_BS_PREVIEW_SELL))
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
