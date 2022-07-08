@@ -1,3 +1,4 @@
+import { AbstractPlugin } from 'plugin/internal'
 import styled from 'styled-components'
 
 import { Button, SpinningLoader, TextGroup } from 'blockchain-info-components'
@@ -5,11 +6,13 @@ import FormLabel from 'components/Form/FormLabel'
 import { Wrapper } from 'components/Public'
 import { media } from 'services/styles'
 
+const { isPlugin } = AbstractPlugin
+
 export const LoginWrapper = styled(Wrapper)`
   z-index: 1;
 `
 export const WrapperWithPadding = styled.div`
-  padding: 0 32px;
+  padding: 0 ${isPlugin() ? '24px' : '32px'};
   ${media.mobile`
     padding: 0 16px;
   `}

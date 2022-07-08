@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { AbstractPlugin } from 'blockchain-wallet-v4-frontend/src/plugin/internal'
+import { AbstractPlugin } from 'plugin/internal'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Text } from 'blockchain-info-components'

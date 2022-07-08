@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { AbstractPlugin } from 'blockchain-wallet-v4-frontend/src/plugin/internal'
+import { AbstractPlugin } from 'plugin/internal'
 import { find, pathOr, propEq } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
