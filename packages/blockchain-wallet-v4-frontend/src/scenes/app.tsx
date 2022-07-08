@@ -28,6 +28,7 @@ import { getTracking } from 'services/tracking'
 
 import CoinsList from './plugin/CoinsList'
 import HomeNavbar from './plugin/HomeNavbar'
+import SwitchAccount from './plugin/SwitchAccount'
 
 const queryClient = new QueryClient()
 
@@ -124,6 +125,7 @@ const App = ({
                             footer={<HomeNavbar />}
                             component={CoinsList}
                           />
+                          <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
                             path='/help'
@@ -191,6 +193,13 @@ const App = ({
                             path='/verify-email-step'
                             component={VerifyEmail}
                             pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
+                          />
+
+                          {/* Plugin routes */}
+                          <PluginLayout
+                            path='/plugin/coinslist'
+                            footer={<HomeNavbar />}
+                            component={CoinsList}
                           />
 
                           {/* NFT Explorer routes */}
