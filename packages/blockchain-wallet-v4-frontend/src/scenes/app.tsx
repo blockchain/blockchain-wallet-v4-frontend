@@ -26,6 +26,7 @@ import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
+import BackupSeedPhrase from './plugin/BackupSeedPhrase'
 import CoinsList from './plugin/CoinsList'
 import HomeNavbar from './plugin/HomeNavbar'
 
@@ -194,7 +195,10 @@ const App = ({
                             footer={<HomeNavbar />}
                             component={CoinsList}
                           />
-
+                          <PluginLayout
+                            path='/plugin/backup-seed-phrase'
+                            component={BackupSeedPhrase}
+                          />
                           {/* NFT Explorer routes */}
                           {nftExplorer && (
                             <NftsLayout
