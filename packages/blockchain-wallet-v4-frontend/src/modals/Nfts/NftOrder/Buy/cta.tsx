@@ -113,7 +113,8 @@ const CTA: React.FC<Props> = (props) => {
           <div>
             <Text weight={600} color='grey800' style={{ marginTop: '8px', textAlign: 'center' }}>
               {e === 'INSUFFICIENT_FUNDS' ||
-              e === 'The offerer does not have the amount needed to create or fulfill.' ? (
+              e === 'The offerer does not have the amount needed to create or fulfill.' ||
+              e === 'The fulfiller does not have the balances needed to fulfill.' ? (
                 <>
                   <GetMoreEthComponent
                     amount={amount}
@@ -273,7 +274,7 @@ const CTA: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
- ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state)
+  ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state)
 })
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch)
