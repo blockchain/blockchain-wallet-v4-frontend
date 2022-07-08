@@ -3,7 +3,7 @@ import { Icon } from '@blockchain-com/constellation'
 import { IconDeposit } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
-const FlipPairButton = styled.div<{ animate: boolean }>`
+const Wrapper = styled.div<{ animate: boolean }>`
   position: absolute;
   top: calc(50% - 16px);
   right: calc(50% - 16px);
@@ -38,12 +38,12 @@ const FlipPairButton = styled.div<{ animate: boolean }>`
   }
 `
 
-const PairFlipButton = ({ animate, onFlipPairClick }: OwnProps) => (
-  <FlipPairButton animate={animate} onClick={onFlipPairClick}>
+const FlipPairButton = ({ animate, onFlipPairClick }: OwnProps) => (
+  <Wrapper animate={animate} onClick={onFlipPairClick}>
     <Icon label='arrow down' color='grey400' size='sm'>
       <IconDeposit />
     </Icon>
-  </FlipPairButton>
+  </Wrapper>
 )
 
 type OwnProps = {
@@ -51,4 +51,4 @@ type OwnProps = {
   onFlipPairClick: () => void
 }
 
-export default PairFlipButton
+export default FlipPairButton

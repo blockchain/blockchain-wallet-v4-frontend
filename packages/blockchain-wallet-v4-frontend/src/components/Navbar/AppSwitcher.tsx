@@ -7,12 +7,10 @@ import { bindActionCreators, Dispatch } from '@reduxjs/toolkit'
 import { AnimatePresence, motion } from 'framer-motion'
 import styled, { css } from 'styled-components'
 
-import { WalletOptionsType } from '@core/redux/walletOptions/types'
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import Spacer from 'components/Spacer'
 import { actions, selectors } from 'data'
-import { UserDataType } from 'data/modules/profile/types'
 import { useOnClickOutside } from 'services/misc'
 import { useMedia } from 'services/styles'
 

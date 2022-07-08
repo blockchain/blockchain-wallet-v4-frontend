@@ -13,8 +13,12 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { DexSwapForm, DexSwapSideEnum, ModalName } from 'data/types'
 
-import PairFlipButton from './components/PairFlipButton'
+import { DEX_SWAP_FORM } from '../Dex.model'
+import BaseRateAndFees from './components/BaseRateAndFees'
+import FlipPairButton from './components/FlipPairButton'
+import QuoteDetails from './components/QuoteDetails'
 import SwapPair from './components/SwapPair'
+import getData from './Dex.selectors'
 
 const Header = styled.div`
   display: flex;
@@ -36,25 +40,31 @@ const SwapWrapper = styled.div`
   }
 `
 
-const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
-  const [animate, setAnimate] = useState(false)
+const DexSwap = ({ formActions, formValues, modalActions, rates }: Props) => {
+  const [pairAnimate, setPairAnimate] = useState(false)
+  const [isDetailsExpanded, setDetailsExpanded] = useState(false)
+  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues || {}
 
+  // event handlers
+  const onViewSettings = () => {
+    modalActions.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' })
+  }
   const onFlipPairClick = () => {
-    setAnimate(true)
+    setPairAnimate(true)
+    // delay form change to assist in smoother animation
     setTimeout(() => {
-      // TODO: improve logic, move to better spot
-      if (formValues) {
-        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues
-
-        // flip sides
-        formActions.change('dexSwap', 'baseToken', counterToken)
-        formActions.change('dexSwap', 'counterToken', baseToken)
-        // flip values
-        formActions.change('dexSwap', 'baseTokenAmount', counterTokenAmount)
-        formActions.change('dexSwap', 'counterTokenAmount', baseTokenAmount)
-      }
-      setAnimate(false)
+      // reinitialize form to easily swap all values
+      formActions.initialize(DEX_SWAP_FORM, {
+        baseToken: counterToken,
+        baseTokenAmount: counterTokenAmount,
+        counterToken: baseToken,
+        counterTokenAmount: baseTokenAmount
+      })
+      setPairAnimate(false)
     }, 400)
+  }
+  const onDetailsToggle = () => {
+    setDetailsExpanded(!isDetailsExpanded)
   }
 
   return (
@@ -63,11 +73,7 @@ const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
         <Text color='textBlack' lineHeight='28px' size='24px' weight={600}>
           <FormattedMessage id='copy.swap' defaultMessage='Swap' />
         </Text>
-        <SettingsIcon
-          onClick={() => {
-            modalActions.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' })
-          }}
-        >
+        <SettingsIcon onClick={onViewSettings}>
           <Icon label='settings' color='grey400' size='md'>
             <IconSettings />
           </Icon>
@@ -75,21 +81,29 @@ const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
       </Header>
       <SwapWrapper>
         <SwapPair
-          animate={animate}
+          animate={pairAnimate}
           coin={formValues?.[DexSwapSideEnum.BASE]}
           formValues={formValues}
           swapSide={DexSwapSideEnum.BASE}
         />
-        {/* @ts-ignore */}
-        <PairFlipButton animate={animate} onFlipPairClick={onFlipPairClick} />
+        <FlipPairButton animate={pairAnimate} onFlipPairClick={onFlipPairClick} />
         <SwapPair
-          animate={animate}
+          animate={pairAnimate}
           coin={formValues?.[DexSwapSideEnum.COUNTER]}
           formValues={formValues}
           swapSide={DexSwapSideEnum.COUNTER}
         />
       </SwapWrapper>
-      <Button data-e2e='swap' disabled fullwidth jumbo nature='primary'>
+      {baseToken && counterToken && (
+        <BaseRateAndFees
+          swapDetailsOpen={isDetailsExpanded}
+          handleDetailsToggle={onDetailsToggle}
+        />
+      )}
+      {isDetailsExpanded && (
+        <QuoteDetails handleSettingsClick={onViewSettings} swapDetailsOpen={isDetailsExpanded} />
+      )}
+      <Button data-e2e='swap' fullwidth jumbo nature='primary'>
         <FormattedMessage id='copy.swap' defaultMessage='Swap' />
       </Button>
     </Form>
@@ -97,7 +111,8 @@ const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  formValues: selectors.form.getFormValues('dexSwap')(state) as DexSwapForm
+  formValues: selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm,
+  rates: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -111,9 +126,10 @@ type Props = ConnectedProps<typeof connector> & InjectedFormProps
 
 const enhance = compose<React.ComponentType>(
   reduxForm({
-    form: 'dexSwap',
+    enableReinitialize: true,
+    form: DEX_SWAP_FORM,
     initialValues: {
-      [DexSwapSideEnum.BASE]: undefined,
+      [DexSwapSideEnum.BASE]: 'ETH', // TODO: change once we have multi-chain support
       [DexSwapSideEnum.COUNTER]: undefined
     }
   }),
