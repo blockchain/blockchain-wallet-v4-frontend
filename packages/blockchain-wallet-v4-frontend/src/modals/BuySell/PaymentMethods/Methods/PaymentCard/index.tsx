@@ -33,6 +33,8 @@ const CardContainer = styled.div`
 `
 const ChevronWrapper = styled.div`
   height: 125px;
+  display: flex;
+  align-items: center;
   ${media.mobile`
     height: 132px;
   `};
