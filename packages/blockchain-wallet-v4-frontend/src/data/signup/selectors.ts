@@ -3,6 +3,12 @@ import { RootState } from 'data/rootReducer'
 import { SignupStateType } from './types'
 
 // TODO: organize these functions
+
+export function getAccountRecoveryMagicLinkData(
+  state: RootState
+): SignupStateType['accountRecoveryMagicLinkData'] {
+  return state.signup.accountRecoveryMagicLinkData
+}
 export function getAccountReset(state: RootState): SignupStateType['resetAccount'] {
   return state.signup.resetAccount
 }

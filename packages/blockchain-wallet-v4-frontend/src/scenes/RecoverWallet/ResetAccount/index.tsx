@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import { InjectedFormProps } from 'redux-form'
 
@@ -7,14 +7,15 @@ import { Remote } from '@core'
 import Form from 'components/Form/Form'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { RecoverSteps } from 'data/types'
+import { AccountRecoveryMagicLinkData, RecoverSteps } from 'data/types'
 
-import { Props as OwnProps } from '..'
+import { Props as ResetProps } from '..'
 import { FormWrapper, ResetFormSteps } from '../model'
 import NewPassword from './NewPassword'
 import ResetWarning from './ResetWarning'
+import TwoFAConfirmation from './TwoFAConfirmation'
 
-const ResetAccount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+const ResetAccount: React.FC<InjectedFormProps<{}, ResetProps> & ResetProps> = (props) => {
   const [recoveryStep, setRecoveryStep] = useState(ResetFormSteps.RESET_WARNING)
 
   const setFormStep = (step) => {
@@ -38,6 +39,9 @@ const ResetAccount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => 
         {recoveryStep === ResetFormSteps.RESET_WARNING && (
           <ResetWarning {...props} setFormStep={setFormStep} />
         )}
+        {recoveryStep === ResetFormSteps.TWO_FA_CONFIRMATION && (
+          <TwoFAConfirmation {...props} setFormStep={setFormStep} />
+        )}
         {recoveryStep === ResetFormSteps.NEW_PASSWORD && (
           <NewPassword {...props} isRegistering={isRegistering} />
         )}
@@ -55,9 +59,5 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type Props = OwnProps & {
-  setStep: (step: RecoverSteps) => void
-}
 
 export default connector(ResetAccount)

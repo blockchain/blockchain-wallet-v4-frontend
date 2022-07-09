@@ -27,6 +27,7 @@ export type RecoverFormType = {
   recoveryEmail?: string
   resetAccountPassword?: string
   step: RecoverSteps
+  twoFACode?: string
 }
 
 export type AccountRecoveryMagicLinkData = {

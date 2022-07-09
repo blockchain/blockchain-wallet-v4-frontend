@@ -74,6 +74,7 @@ class RecoverWalletContainer extends React.PureComponent<
 }
 
 const mapStateToProps = (state) => ({
+  accountRecoveryData: selectors.signup.getAccountRecoveryMagicLinkData(state),
   alerts: selectors.alerts.selectAlerts(state) as AlertsState,
   cachedEmail: selectors.cache.getEmail(state),
   cachedGuid: selectors.cache.getStoredGuid(state),

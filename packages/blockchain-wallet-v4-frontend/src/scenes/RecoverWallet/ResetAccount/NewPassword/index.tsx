@@ -11,8 +11,8 @@ import Terms from 'components/Terms'
 import { RecoverSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
+import { Props as OwnProps } from '../..'
 import { ActionButton, BackArrowFormHeader, ReverifyIdentityInfoBox } from '../../model'
-import { Props as OwnProps } from '..'
 
 const Footer = styled(FormGroup)`
   display: flex;

@@ -6,8 +6,9 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
-import { Analytics, RecoverSteps } from 'data/types'
+import { AccountRecoveryMagicLinkData, Analytics, RecoverSteps } from 'data/types'
 
+import { Props as OwnProps } from '../..'
 import {
   ActionButton,
   BackArrowFormHeader,
@@ -16,18 +17,22 @@ import {
   SubCard,
   TryAnotherMethodRow
 } from '../../model'
-import { Props as OwnProps } from '..'
 
 const FormBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `
-const ResetWarning: React.FC<Props> = (props) => {
+const ResetWarning: React.FC<Props> = (props: Props) => {
   const handleResetAccountClick = () => {
-    const { analyticsActions, setFormStep } = props
-    // TODO: Need to check here if 2fa is avail for wallet
-    setFormStep(ResetFormSteps.TWO_FA_CONFIRMATION)
+    const { accountRecoveryData, analyticsActions, setFormStep } = props
+    // will be 0 if no 2fa
+    if (accountRecoveryData?.two_fa_type) {
+      setFormStep(ResetFormSteps.TWO_FA_CONFIRMATION)
+    } else {
+      // TODO: change after deving up
+      setFormStep(ResetFormSteps.TWO_FA_CONFIRMATION)
+    }
     analyticsActions.trackEvent({
       key: Analytics.RECOVERY_RESET_ACCOUNT_CLICKED,
       properties: {
