@@ -90,7 +90,7 @@ export const SubCard = styled.div`
 `};
 `
 
-export const TroubleLoggingInRow = styled.div`
+export const TryAnotherMethodRow = styled.div`
   display: flex;
   align-items: center;
   ${media.mobile`
@@ -108,6 +108,11 @@ export const ContactSupportText = styled(Link)`
     font-weight: 600;
   }
 `
+export enum ResetFormSteps {
+  NEW_PASSWORD = 'NEW_PASSWORD',
+  RESET_WARNING = 'RESET_WARNING',
+  TWO_FA_CONFIRMATION = 'TWO_FA_CONFIRMATION'
+}
 export const ReverifyIdentityInfoBox = () => {
   return (
     <RectangleBackground>

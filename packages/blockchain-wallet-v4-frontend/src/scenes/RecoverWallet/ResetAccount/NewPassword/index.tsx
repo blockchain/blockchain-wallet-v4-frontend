@@ -23,7 +23,7 @@ const Footer = styled(FormGroup)`
 
 const validatePasswordConfirmation = validPasswordConfirmation('resetAccountPassword')
 
-const SecondStep = (props: Props) => {
+const NewPassword = (props: Props) => {
   const { emailFromMagicLink, invalid, isRegistering, setStep } = props
   return (
     <>
@@ -94,4 +94,4 @@ const SecondStep = (props: Props) => {
 type Props = OwnProps & {
   isRegistering: boolean
 }
-export default SecondStep
+export default NewPassword

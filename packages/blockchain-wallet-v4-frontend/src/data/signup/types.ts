@@ -29,6 +29,13 @@ export type RecoverFormType = {
   step: RecoverSteps
 }
 
+export type AccountRecoveryMagicLinkData = {
+  email?: string
+  recovery_token?: string
+  two_fa_type?: number
+  user_id?: string
+}
+
 export type MetadataRestoreType = any
 
 export type RegisteringFailureType = undefined
@@ -38,6 +45,7 @@ export type RegisteringSuccessType = undefined
 export type RestoringType = undefined
 
 export type SignupStateType = {
+  accountRecoveryMagicLinkData?: AccountRecoveryMagicLinkData
   firstLogin: boolean
   isValidReferralCode?: boolean
   kycReset?: boolean

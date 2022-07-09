@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { RemoteDataType } from '@core/types'
-import { Badge, Icon, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
 import { RecoverSteps } from 'data/types'
@@ -20,7 +20,7 @@ import {
   OuterWrapper,
   Row,
   SubCard,
-  TroubleLoggingInRow,
+  TryAnotherMethodRow,
   WrapperWithPadding
 } from '../model'
 
@@ -173,7 +173,7 @@ const CloudRecovery = (props: Props) => {
         </Body> */}
       </WrapperWithPadding>
       <SubCard>
-        <TroubleLoggingInRow>
+        <TryAnotherMethodRow>
           <Text
             size='16px'
             weight={600}
@@ -184,7 +184,7 @@ const CloudRecovery = (props: Props) => {
           >
             <FormattedMessage id='copy.try_another' defaultMessage='Try Another Method' />
           </Text>
-        </TroubleLoggingInRow>
+        </TryAnotherMethodRow>
       </SubCard>
     </OuterWrapper>
   )

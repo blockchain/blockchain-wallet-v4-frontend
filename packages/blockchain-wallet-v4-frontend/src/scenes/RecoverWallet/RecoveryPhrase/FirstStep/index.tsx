@@ -16,7 +16,7 @@ import {
   OuterWrapper,
   RECOVER_FORM,
   SubCard,
-  TroubleLoggingInRow,
+  TryAnotherMethodRow,
   WrapperWithPadding
 } from '../../model'
 
@@ -113,7 +113,7 @@ const FirstStep = (props: Props) => {
         </Button>
       </WrapperWithPadding>
       <SubCard>
-        <TroubleLoggingInRow>
+        <TryAnotherMethodRow>
           <Text
             size='16px'
             color='grey600'
@@ -151,7 +151,7 @@ const FirstStep = (props: Props) => {
               <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
             </ContactSupportText>
           )}
-        </TroubleLoggingInRow>
+        </TryAnotherMethodRow>
       </SubCard>
     </OuterWrapper>
   )

@@ -29,7 +29,7 @@ class RecoverWalletContainer extends React.PureComponent<
   }
 
   componentDidMount() {
-    // this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.CLOUD_RECOVERY)
+    // this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS)
     if (this.state.showPhraseStep) {
       this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_PHRASE)
     } else {

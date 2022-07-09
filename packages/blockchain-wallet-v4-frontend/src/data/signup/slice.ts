@@ -4,6 +4,7 @@ import { Remote } from '@core'
 
 import { PlatformTypes, ProductAuthOptions } from '../auth/types'
 import {
+  AccountRecoveryMagicLinkData,
   MetadataRestoreType,
   ProductSignupMetadata,
   RegisteringFailureType,
@@ -57,6 +58,12 @@ const signupSlice = createSlice({
     },
     restoreSuccess: (state, action: PayloadAction<RestoringType>) => {
       state.restoring = Remote.Success(action.payload)
+    },
+    setAccountRecoveryMagicLinkData: (
+      state,
+      action: PayloadAction<AccountRecoveryMagicLinkData>
+    ) => {
+      state.accountRecoveryMagicLinkData = action.payload
     },
     setFirstLogin: (state, action: PayloadAction<SignupStateType['firstLogin']>) => {
       state.firstLogin = action.payload
