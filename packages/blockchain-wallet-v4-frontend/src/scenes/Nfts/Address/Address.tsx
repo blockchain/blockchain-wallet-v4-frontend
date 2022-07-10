@@ -43,7 +43,7 @@ const NftAddress: React.FC<Props> = ({
   const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
   const [activeTab, setActiveTab] = useState<'ITEMS' | 'ACTIVITY'>(tab)
-  const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
+  const [collections, setCollections] = useState({})
   const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
 
   const isOwner = ethAddress?.toLowerCase() === address?.toLowerCase() && isAuthenticated
@@ -75,37 +75,36 @@ const NftAddress: React.FC<Props> = ({
   if (!address) return null
 
   return (
-    // <>
-    //   {nftOwnerAssets.cata({
-    //     Failure: () => null,
-    //     Loading: () => null,
-    //     NotAsked: () => null,
-    //     Success: (results) => (
     <>
-      <NftPageFullWidth>
-        <div
-          style={{
-            background: `linear-gradient(45deg, #${address.slice(2, 8)}, #FFF)`,
-            height: '300px',
-            position: 'relative'
-          }}
-        >
-          <NftBannerWrapper>
-            <Flex justifyContent='space-between' alignItems='center'>
-              <Text color='white' size='24px' weight={600}>
-                <CryptoAddress canCopy>{address}</CryptoAddress>
-              </Text>
-              {isOwner ? (
-                <LinkContainer to={`/nfts/address/settings/${ethAddress}`}>
-                  <a>
-                    <Icon label='settings' color='white900'>
-                      <IconSettings color={colors.white900} />
-                    </Icon>
-                  </a>
-                </LinkContainer>
-              ) : null}
-            </Flex>
-            {/* <div style={{ marginTop: '24px' }}>
+      {nftOwnerAssets.cata({
+        Failure: () => null,
+        Loading: () => null,
+        NotAsked: () => null,
+        Success: (results) => (
+          <NftPageFullWidth>
+            <div
+              style={{
+                background: `linear-gradient(45deg, #${address.slice(2, 8)}, #FFF)`,
+                height: '300px',
+                position: 'relative'
+              }}
+            >
+              <NftBannerWrapper>
+                <Flex justifyContent='space-between' alignItems='center'>
+                  <Text color='white' size='24px' weight={600}>
+                    <CryptoAddress canCopy>{address}</CryptoAddress>
+                  </Text>
+                  {isOwner ? (
+                    <LinkContainer to={`/nfts/address/settings/${ethAddress}`}>
+                      <a>
+                        <Icon label='settings' color='white900'>
+                          <IconSettings color={colors.white900} />
+                        </Icon>
+                      </a>
+                    </LinkContainer>
+                  ) : null}
+                </Flex>
+                {/* <div style={{ marginTop: '24px' }}>
             <StatsWrapper>
               <Stat>
                 <Text size='16px' weight={500} color='grey600'>
@@ -117,26 +116,25 @@ const NftAddress: React.FC<Props> = ({
               </Stat>
             </StatsWrapper>
           </div> */}
-          </NftBannerWrapper>
-        </div>
-        <GridWrapper>
-          <div style={{ width: '100%' }}>
-            <AddressItems
-              collections={collections}
-              refreshTrigger={refreshTrigger}
-              isFilterOpen={isFilterOpen}
-              setCollections={setCollections}
-              formValues={formValues}
-              address={address}
-            />
-            )
-          </div>
-        </GridWrapper>
-      </NftPageFullWidth>
+              </NftBannerWrapper>
+            </div>
+            <GridWrapper>
+              <div style={{ width: '100%' }}>
+                <AddressItems
+                  collections={results}
+                  refreshTrigger={refreshTrigger}
+                  isFilterOpen={isFilterOpen}
+                  setCollections={setCollections}
+                  formValues={formValues}
+                  address={address}
+                />
+                )
+              </div>
+            </GridWrapper>
+          </NftPageFullWidth>
+        )
+      })}
     </>
-    //   )
-    // })}
-    // </>
   )
 }
 

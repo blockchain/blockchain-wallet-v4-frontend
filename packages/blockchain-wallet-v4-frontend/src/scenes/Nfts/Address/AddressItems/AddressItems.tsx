@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { CombinedError } from 'urql'
 
+import { OwnerNftBalance } from '@core/network/api/nfts/types'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import { OwnerQuery } from 'generated/graphql.types'
 
 import NftError from '../../components/NftError'
 import NftGrid from '../../components/NftGrid'
@@ -74,7 +74,7 @@ const AddressItems: React.FC<Props> = ({
               />
             ))
           : null}
-        {isFetching ? <NftGridLoading fullscreen={!isFilterOpen} /> : null}
+        {/* {isFetching ? <NftGridLoading fullscreen={!isFilterOpen} /> : null} */}
       </NftGrid>
       {errorFetchingNextPage ? <NftError error={errorFetchingNextPage} /> : null}
     </LazyLoadContainer>
@@ -83,11 +83,11 @@ const AddressItems: React.FC<Props> = ({
 
 type Props = {
   address: string
-  collections: OwnerQuery['assets'][0]['collection'][]
+  collections: OwnerNftBalance
   formValues: NftFilterFormValuesType
   isFilterOpen: boolean
   refreshTrigger: number
-  setCollections: React.Dispatch<React.SetStateAction<OwnerQuery['assets'][0]['collection'][]>>
+  setCollections: React.Dispatch<React.SetStateAction<{}>>
 }
 
 export default AddressItems
