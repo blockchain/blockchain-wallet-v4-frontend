@@ -164,7 +164,7 @@ export default ({ api }: { api: APIType }) => {
         })
         txList.push(history)
       }
-      const newPages = flatten([txPage, custodialPage.orders, txList])
+      const newPages = flatten([txList])
       const page = newPages.sort((a, b) => {
         if (a.insertedAt === null) return -1
         if (b.insertedAt === null) return 1

@@ -24,6 +24,7 @@ const threadLoaderSettings = {
 }
 threadLoader.warmup(threadLoaderSettings, ['babel-loader', 'ts-loader'])
 
+const APP_ENV = process.env.APP_ENV_LOCAL
 // csp nonce for local development
 const CSP_NONCE = '2726c7f26c'
 
@@ -36,12 +37,12 @@ const getAndLogEnvConfig = () => {
       fs.existsSync(CONFIG_PATH.sslConfig + '/cert.pem')
 
   try {
-    envConfig = require(CONFIG_PATH.envConfig + `/${process.env.NODE_ENV}` + '.js')
+    envConfig = require(CONFIG_PATH.envConfig + `/${APP_ENV}` + '.js')
   } catch (e) {
     console.log(
       chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
         chalk.yellow(
-          `Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`
+          `Failed to load ${APP_ENV}.js config file! Using the production config instead.\n`
         )
     )
     envConfig = require(CONFIG_PATH.envConfig + '/production.js')

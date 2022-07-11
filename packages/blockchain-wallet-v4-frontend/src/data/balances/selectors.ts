@@ -212,7 +212,7 @@ export const getCoinTotalBalance = (
     default:
       switch (true) {
         case coreSelectors.data.coins.getDynamicSelfCustodyCoins().includes(coin):
-          return getBalance(coin)
+          return __getDynamicSelfCustodyTotalBalance(coin)
         case coreSelectors.data.coins.getCustodialCoins().includes(coin):
           return getCoinCustodialBalance(coin)
         case !!window.coins[coin].coinfig.type.erc20Address:
@@ -343,7 +343,7 @@ export const getCoinNonCustodialBalance = (
 // given a coin, return its balances separated as a list [non-custodial, custodial]
 export const getCoinBalancesTypeSeparated = (coin) =>
   createDeepEqualSelector(
-    [() => getCoinNonCustodialBalance(coin), () => getCoinCustodialBalance(coin)],
+    [getCoinNonCustodialBalance(coin), getCoinCustodialBalance(coin)],
     (nonCustodialBalancesR, custodialBalanceR) => {
       return Remote.of([
         // @ts-ignore
@@ -440,3 +440,16 @@ const __getXlmTotalBalance = createDeepEqualSelector(
     )
   }
 )
+
+// given a dynamic self custody coin, returns its total balances
+const __getDynamicSelfCustodyTotalBalance = (coin: CoinType) =>
+  createDeepEqualSelector(
+    [getBalance(coin), getCoinCustodialBalance(coin)],
+    (balanceR, custodialBalanceR) => {
+      const custodialBalance = custodialBalanceR.getOrElse(0)
+
+      return Remote.of(
+        new BigNumber(balanceR.getOrElse(new BigNumber(0))).plus(custodialBalance).toNumber()
+      )
+    }
+  )

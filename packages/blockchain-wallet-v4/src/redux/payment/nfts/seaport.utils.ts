@@ -30,7 +30,7 @@ import {
 } from './constants'
 
 const getAmountWithBasisPointsApplied = (amount: string, basisPoints: string) => {
-  return makeBigNumber(amount).multipliedBy(basisPoints).dividedBy(INVERSE_BASIS_POINT).toString()
+  return makeBigNumber(amount).multipliedBy(basisPoints).dividedBy(INVERSE_BASIS_POINT).toFixed()
 }
 
 export const getAssetItemType = (schemaName?: WyvernSchemaName) => {

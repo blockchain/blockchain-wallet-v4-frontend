@@ -60,9 +60,6 @@ const Error = ({ code, handleBack, handleReset, handleRetry }: Props) => {
       case CARD_ERROR_CODE.PENDING_CARD_AFTER_POLL:
         return <PendingAfterPoll handleBack={handleBack} />
 
-      case CARD_ERROR_CODE.INTERNAL_SERVER_ERROR:
-        return <InternalServerError handleBack={handleBack} handleRetry={handleRetry} />
-
       case CARD_ERROR_CODE.CREATE_DEBIT_ONLY:
       case ORDER_ERROR_CODE.CARD_CREATE_DEBIT_ONLY:
       case ORDER_ERROR_CODE.CARD_CREATE_EXPIRED:
@@ -73,10 +70,8 @@ const Error = ({ code, handleBack, handleReset, handleRetry }: Props) => {
       case ORDER_ERROR_CODE.CARD_PAYMENT_DEBIT_ONLY:
         return <ProblemCollecting handleReset={handleReset} handleRetry={handleRetry} />
 
-      case CARD_ERROR_CODE.BLOCKCHAIN_DECLINE:
-      case ORDER_ERROR_CODE.CARD_CREATE_ABANDONED:
       default:
-        return <DataError message={{ message: `${code}` }} />
+        return <InternalServerError handleBack={handleBack} handleRetry={handleRetry} />
     }
   }
 
