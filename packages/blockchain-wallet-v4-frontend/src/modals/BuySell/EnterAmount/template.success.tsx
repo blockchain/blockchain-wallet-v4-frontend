@@ -6,7 +6,7 @@ import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 import Checkout from './Checkout'
 import Unsupported from './template.unsupported'
 
-const Success: React.FC<Props> = (props) => {
+const Success = (props: Props) => {
   const isUserEligible =
     props.paymentMethods.methods.length &&
     props.paymentMethods.methods.find(
