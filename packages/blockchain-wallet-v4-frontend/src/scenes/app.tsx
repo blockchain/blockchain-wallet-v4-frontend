@@ -27,6 +27,7 @@ import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
 import CoinsList from './plugin/CoinsList'
+import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
 import HomeNavbar from './plugin/HomeNavbar'
 
 const queryClient = new QueryClient()
@@ -119,6 +120,12 @@ const App = ({
                         <Switch>
                           {/* Unauthenticated Wallet routes */}
                           <Route path='/app-error' component={AppError} />
+                          <PluginLayout
+                            path='/plugin/coinslist'
+                            header={<CoinsListHeader />}
+                            footer={<HomeNavbar />}
+                            component={CoinsList}
+                          />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
                             path='/help'
