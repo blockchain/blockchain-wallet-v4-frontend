@@ -1,10 +1,9 @@
-import React, { PureComponent, useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps, useDispatch, useSelector } from 'react-redux'
 import { compose } from 'redux'
 import styled from 'styled-components'
 
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { duration, FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { AddBankStepType, BankPartners, ModalName } from 'data/types'
@@ -13,7 +12,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../../types'
 
-const FullScreenModal = styled.div`
+const FullScreenModal = styled(FlyoutWrapper)`
   background-color: rgb(18 29 51 / 5%);
   transition: background-color 0.5s ease-in-out;
   bottom: 0;
@@ -21,7 +20,6 @@ const FullScreenModal = styled.div`
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 9999999;
 
   &.active {
     background-color: #121d33;
@@ -61,6 +59,7 @@ const Success: React.FC<ModalPropsType> = ({ close }: ModalPropsType) => {
       return animatedClose()
     }
 
+    setShowing(false)
     // registers bank and start polling api for bank status
     dispatch(
       actions.components.brokerage.fetchBankTransferUpdate({
@@ -68,11 +67,7 @@ const Success: React.FC<ModalPropsType> = ({ close }: ModalPropsType) => {
         public_token
       })
     )
-    dispatch(actions.components.brokerage.fetchBTUpdateLoading())
-    // set buy sell flow step to loading so user sees spinner
-    // dispatch(actions.components.buySell.setStep({ step: 'LOADING' }))
-    // closes the brokerage (bank add) modal, not the buy sell modal
-    animatedClose()
+    dispatch(actions.components.brokerage.setAddBankStep({ addBankStep: AddBankStepType.LOADING }))
   }
 
   useEffect(() => {
@@ -96,9 +91,7 @@ const Success: React.FC<ModalPropsType> = ({ close }: ModalPropsType) => {
   )
 }
 
-const mapStateToProps = (state: RootState) => ({
-  step: selectors.components.brokerage.getAddBankStep(state)
-})
+const mapStateToProps = (state: RootState) => ({})
 
 const connector = connect(mapStateToProps)
 
@@ -108,10 +101,7 @@ const enhance = compose(
 )
 
 type OwnProps = ModalPropsType
-type LinkStatePropsType = {
-  step: AddBankStepType
-}
 
-export type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default enhance(Success)

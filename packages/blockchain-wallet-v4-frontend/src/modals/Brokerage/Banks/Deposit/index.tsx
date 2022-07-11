@@ -84,74 +84,92 @@ class Deposit extends PureComponent<Props, State> {
             isOpen={this.state.show}
             data-e2e='bankDepositModal'
           >
-            <FlyoutChild>
-              {this.props.step === BankDWStepType.LOADING && (
+            {this.props.step === BankDWStepType.LOADING && (
+              <FlyoutChild>
                 <Loading {...this.props} text={LoadingTextEnum.LOADING} />
-              )}
-              {this.props.step === BankDWStepType.DEPOSIT_METHODS && (
-                /*
-                 * loads deposit payment methods ui
-                 * bank_transfer or loads wire transfer screen
-                 */
+              </FlyoutChild>
+            )}
+            {this.props.step === BankDWStepType.DEPOSIT_METHODS && (
+              /*
+               * loads deposit payment methods ui
+               * bank_transfer or loads wire transfer screen
+               */
 
+              <FlyoutChild>
                 <DepositMethods {...this.props} />
-              )}
-              {this.props.step === BankDWStepType.ENTER_AMOUNT && (
-                /*
-                 * The enter amount form shows the amount input, limits, and default
-                 * or last used ach account. If user clicks on "Add a bank" or their
-                 * last used bank, transition to add bank modal or linked banks list ui
-                 */
+              </FlyoutChild>
+            )}
+            {this.props.step === BankDWStepType.ENTER_AMOUNT && (
+              /*
+               * The enter amount form shows the amount input, limits, and default
+               * or last used ach account. If user clicks on "Add a bank" or their
+               * last used bank, transition to add bank modal or linked banks list ui
+               */
 
+              <FlyoutChild>
                 <EnterAmount {...this.props} handleClose={this.handleClose} />
-              )}
-              {this.props.step === BankDWStepType.AUTHORIZE && (
-                /*
-                 * After user already has a bank linked and then enters amount to deposit,
-                 * they need to authorize each individual payment. User is then taken to the
-                 * confirm step
-                 */
+              </FlyoutChild>
+            )}
+            {this.props.step === BankDWStepType.AUTHORIZE && (
+              /*
+               * After user already has a bank linked and then enters amount to deposit,
+               * they need to authorize each individual payment. User is then taken to the
+               * confirm step
+               */
 
+              <FlyoutChild>
                 <Authorize {...this.props} handleClose={this.handleClose} />
-              )}
-              {this.props.step === BankDWStepType.BANK_LIST && (
-                /*
-                 * list a users saved bank accounts if they have more than one and
-                 * add show an "add new" button which transitions them to a payment
-                 * method selection screen
-                 */
+              </FlyoutChild>
+            )}
+            {this.props.step === BankDWStepType.BANK_LIST && (
+              /*
+               * list a users saved bank accounts if they have more than one and
+               * add show an "add new" button which transitions them to a payment
+               * method selection screen
+               */
 
+              <FlyoutChild>
                 <BankList
                   fiatCurrency={this.props.fiatCurrency as WalletFiatType}
                   handleClose={this.handleClose}
                 />
-              )}
-              {this.props.step === BankDWStepType.CONFIRM && (
-                /*
-                 * this step shows a confirmation screen for a created deposit with
-                 * the option to confirm or cancel the order
-                 */
+              </FlyoutChild>
+            )}
+            {this.props.step === BankDWStepType.CONFIRM && (
+              /*
+               * this step shows a confirmation screen for a created deposit with
+               * the option to confirm or cancel the order
+               */
 
+              <FlyoutChild>
                 <Confirm {...this.props} handleClose={this.handleClose} />
-              )}
-              {this.props.step === BankDWStepType.DEPOSIT_STATUS && (
-                /*
-                 * depending on the servers response we'll display a successful
-                 * or unsuccessful deposit screen9
-                 */
+              </FlyoutChild>
+            )}
+            {this.props.step === BankDWStepType.DEPOSIT_STATUS && (
+              /*
+               * depending on the servers response we'll display a successful
+               * or unsuccessful deposit screen9
+               */
 
+              <FlyoutChild>
                 <DepositStatus {...this.props} handleClose={this.handleClose} />
-              )}
-              {this.props.step === BankDWStepType.WIRE_INSTRUCTIONS && (
+              </FlyoutChild>
+            )}
+            {this.props.step === BankDWStepType.WIRE_INSTRUCTIONS && (
+              <FlyoutChild>
                 <WireInstructions {...this.props} handleClose={this.handleClose} />
-              )}
-              {this.props.step === BankDWStepType.DEPOSIT_CONNECT && (
+              </FlyoutChild>
+            )}
+            {this.props.step === BankDWStepType.DEPOSIT_CONNECT && (
+              <FlyoutChild>
                 <OpenBankingConnect {...this.props} handleClose={this.handleClose} />
-              )}
-              {this.props.step === BankDWStepType.INELIGIBLE && (
+              </FlyoutChild>
+            )}
+            {this.props.step === BankDWStepType.INELIGIBLE && (
+              <FlyoutChild>
                 <DataError message={{ message: BROKERAGE_INELIGIBLE }} />
-              )}
-            </FlyoutChild>
+              </FlyoutChild>
+            )}
           </Flyout>
         )
       }

@@ -1388,8 +1388,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const handleRefreshIfNeeded = function* (method: BSPaymentMethodType) {
-    const requiresRefresh = method.attributes?.requiresRefresh
-    if (!requiresRefresh || !method.id) return
+    if (!method.id) return
+
+    const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
+      api.updateBankAccountLink,
+      method.id,
+      { amount: 0, product: 'SIMPLEBUY' }
+    )
 
     const domainsR = yield select(selectors.core.walletOptions.getDomains)
     const { comRoot } = domainsR.getOrElse({
@@ -1508,10 +1513,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           })
         )
 
-        // the buySell modal step is still `LOADING` at this point
-
-        // listen for add bank close modal action
-        // if there was an error go back to payment methods
+        // wait for the add bank modal to open and then change the step to payment method
+        yield take(actions.modals.showModal.type)
+        yield put(A.setStep({ cryptoCurrency, fiatCurrency, pair, step: 'PAYMENT_METHODS' }))
         return
       case BSPaymentTypes.PAYMENT_CARD:
         if (mobilePaymentMethod) {

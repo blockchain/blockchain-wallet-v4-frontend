@@ -71,9 +71,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const conditionalRetry = function* (id: string) {
-    const { RETRY_AMOUNT, SECONDS } = POLLING
-    const data = yield retry(RETRY_AMOUNT, SECONDS * 1000, transferAccountState, id)
-    return data
+    const MAX_TRIES = Array(6)
+    let ITERATION = 1
+
+    const decay = (multiplier: number) => {
+      return multiplier * 1000
+    }
+
+    while (MAX_TRIES.length) {
+      try {
+        return yield call(transferAccountState, id)
+      } catch (error) {
+        yield delay(decay(ITERATION))
+        ITERATION += ITERATION * 2
+        MAX_TRIES.pop()
+      }
+    }
   }
 
   const fetchBankTransferUpdate = function* ({
@@ -145,6 +158,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             account: bankData
           })
         )
+        const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(yield select())
+        const sbMethods = sbMethodsR.getOrElse(DEFAULT_METHODS)
+        if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
+          const bankTransferMethod = sbMethods.methods.filter(
+            (method) => method.type === BSPaymentTypes.BANK_TRANSFER
+          )[0]
+          yield put(
+            actions.components.buySell.handleMethodChange({
+              isFlow: true,
+              method: {
+                ...bankData,
+                limits: bankTransferMethod.limits,
+                type: BSPaymentTypes.BANK_TRANSFER
+              }
+            })
+          )
+        }
+
         if (values?.amount) {
           yield put(
             actions.components.buySell.createOrder({
@@ -152,24 +183,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               paymentType: BSPaymentTypes.BANK_TRANSFER
             })
           )
-        } else {
-          const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(yield select())
-          const sbMethods = sbMethodsR.getOrElse(DEFAULT_METHODS)
-          if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
-            const bankTransferMethod = sbMethods.methods.filter(
-              (method) => method.type === BSPaymentTypes.BANK_TRANSFER
-            )[0]
-            yield put(
-              actions.components.buySell.handleMethodChange({
-                isFlow: false,
-                method: {
-                  ...bankData,
-                  limits: bankTransferMethod.limits,
-                  type: BSPaymentTypes.BANK_TRANSFER
-                }
-              })
-            )
-          }
         }
       }
     } catch (e) {

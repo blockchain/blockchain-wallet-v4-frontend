@@ -128,6 +128,7 @@ export type BrokerageAddBankStepPayload =
         | AddBankStepType.ADD_BANK_HANDLER
         | AddBankStepType.ADD_BANK_AUTHORIZE
         | AddBankStepType.ADD_BANK_CONNECT
+        | AddBankStepType.LOADING
     }
   | {
       addBankStep: AddBankStepType.ADD_BANK_STATUS
