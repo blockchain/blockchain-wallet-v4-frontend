@@ -30,7 +30,7 @@ export const InstantlyEasyBankTransferCard: InstantlyEasyBankTransferCardCompone
         </Text>
         <Text size='14px' lineHeight='20px' weight={500}>
           <FormattedMessage
-            id='modals.simplebuy.instant_easy_bank_transfer.sub_title'
+            id='modals.simplebuy.instant_easy_bank_transfer.sub_title.instantly'
             defaultMessage='Should arrive instantly'
           />
         </Text>

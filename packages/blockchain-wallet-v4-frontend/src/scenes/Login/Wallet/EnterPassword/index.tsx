@@ -140,7 +140,7 @@ const EnterPasswordWallet = (props: Props) => {
           <FormGroup>
             <FormItem>
               <FormLabel htmlFor='password'>
-                <FormattedMessage id='scenes.login.your_password' defaultMessage='Password' />
+                <FormattedMessage id='buttons.password' defaultMessage='Password' />
               </FormLabel>
               <Field
                 autoFocus
