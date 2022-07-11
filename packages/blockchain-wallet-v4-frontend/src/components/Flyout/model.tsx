@@ -582,6 +582,20 @@ const renderBankFullName = (
 const renderBankSubText = (
   value: BSPaymentMethodType | BankTransferAccountType | BeneficiaryType
 ): string | ReactElement => {
+  if ('limits' in value) {
+    return (
+      <FormattedMessage
+        id='modals.simplebuy.bank_item_with_limits'
+        defaultMessage='{limitAmount} Limit'
+        values={{
+          limitAmount: fiatToString({
+            unit: value.currency,
+            value: convertBaseToStandard('FIAT', value.limits.max)
+          })
+        }}
+      />
+    )
+  }
   if ('agent' in value) {
     // BeneficiaryType
     return value.address
@@ -603,29 +617,56 @@ const renderBank = (value: BSPaymentMethodType | BankTransferAccountType | Benef
 )
 
 const renderCardText = (value: BSPaymentMethodType): string => {
-  return value.card
-    ? value.card.label
-      ? value.card.label.toLowerCase()
-      : value.card.type
-    : 'Credit or Debit Card'
+  if (value.card) {
+    if (value.card.number) {
+      return `****${value.card.number}`
+    }
+
+    if (value.card.label) {
+      return value.card.label.toLocaleLowerCase()
+    }
+  }
+
+  return 'Credit or Debit Card'
+}
+
+const renderCardSubtitle = (value: BSPaymentMethodType) => {
+  if (value.limits) {
+    return (
+      <FormattedMessage
+        id='modals.simplebuy.card_limits'
+        defaultMessage='{limitAmount} Limit'
+        values={{
+          limitAmount: fiatToString({
+            unit: value.currency,
+            value: convertBaseToStandard('FIAT', value.limits.max)
+          })
+        }}
+      />
+    )
+  }
+
+  if (value.card) {
+    return (
+      <FormattedMessage
+        id='modals.simplebuy.card_ending_in'
+        defaultMessage='Card Ending in {lastFour}'
+        values={{
+          lastFour: value.card.number
+        }}
+      />
+    )
+  }
+
+  return (
+    <FormattedMessage id='modals.simplebuy.paymentcard' defaultMessage='Credit or Debit Card' />
+  )
 }
 
 const renderCard = (value: BSPaymentMethodType) => (
   <>
     <DisplayValue capitalize>{renderCardText(value)}</DisplayValue>
-    <DisplayTitle>
-      {value.card ? (
-        <FormattedMessage
-          id='modals.simplebuy.card_ending_in'
-          defaultMessage='Card Ending in {lastFour}'
-          values={{
-            lastFour: value.card.number
-          }}
-        />
-      ) : (
-        <FormattedMessage id='modals.simplebuy.paymentcard' defaultMessage='Credit or Debit Card' />
-      )}
-    </DisplayTitle>
+    <DisplayTitle>{renderCardSubtitle(value)}</DisplayTitle>
   </>
 )
 
