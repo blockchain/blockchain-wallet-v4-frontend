@@ -4,6 +4,7 @@ import {
   ExplorerGatewaySearchType,
   NftAsset,
   NftOrder,
+  NftTemplateParams,
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
   OpenSeaStatus
@@ -78,6 +79,20 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
+  const notifyNftPurchase = (jwt: string, template_params: NftTemplateParams) => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        jwt,
+        template_params
+      },
+      endPoint: '/purchase',
+      ignoreQueryParams: true,
+      removeDefaultPostData: true,
+      url: nftUrl
+    })
+  }
+
   const postNftOrderV1 = (
     order: NftOrder,
     asset_collection_slug: string,
@@ -128,6 +143,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     getNftUserPreferences,
     getOpenSeaAsset,
     getOpenSeaStatus,
+    notifyNftPurchase,
     postNftOrderV1,
     postNftOrderV2,
     searchNfts,

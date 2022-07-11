@@ -915,3 +915,14 @@ export type SeaportRawOrder = {
   } | null
   taker_fees: []
 }
+
+export type NftTemplateParams = {
+  amount?: string | null // ETH
+  nft_activity_link: string
+  nft_bidder?: string | null
+  nft_image: string
+  nft_marketplace_link: string
+  nft_name: string
+  nft_seller?: string | null
+  value?: string | null // USD
+}
