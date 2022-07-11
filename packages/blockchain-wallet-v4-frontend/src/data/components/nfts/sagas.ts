@@ -424,7 +424,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield call(api.postNftOrderV2, { guid, network, order: seaportOrder, side: 'bid' })
       yield call(notifyNftPurchase, {
         amount: amount.toString(),
-        nft_activity_link: `${baseWalletUrl}/nfts/assets/${asset.asset_contract.address}${asset.token_id}`,
+        nft_activity_link: `${baseWalletUrl}/nfts/address/${signer.address}`,
         nft_bidder: signer.address || null,
         nft_image: asset.image_preview_url,
         nft_marketplace_link: `${baseWalletUrl}/nfts/assets/${asset.asset_contract.address}${asset.token_id}`,
@@ -1396,7 +1396,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield call(notifyNftPurchase, {
         amount: amount.toString(),
-        nft_activity_link: `${baseWalletUrl}/nfts/assets/${asset.asset_contract.address}${asset.token_id}`,
+        nft_activity_link: `${baseWalletUrl}/nfts/address/${signer.address}`,
         nft_bidder: signer.address || null,
         nft_image: asset.image_preview_url,
         nft_marketplace_link: `${baseWalletUrl}/nfts/assets/${asset.asset_contract.address}${asset.token_id}`,
