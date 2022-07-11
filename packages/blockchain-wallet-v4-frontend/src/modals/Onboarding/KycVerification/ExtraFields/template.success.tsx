@@ -290,7 +290,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   }
 
   const RenderDropDownBasedQuestion = (node: NodeType, updateItem) => {
-    const questionElements = useMemo(() => getNodeQuestionElements(node), [node])
+    const questionElements = useMemo(() => GetNodeQuestionElements(node), [node])
 
     const onChangeItem = (e, value) => {
       updateItem(node.id, value)
