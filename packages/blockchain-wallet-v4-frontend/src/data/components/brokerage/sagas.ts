@@ -1,5 +1,5 @@
 import { getFormValues } from 'redux-form'
-import { call, delay, put, retry, select, take } from 'redux-saga/effects'
+import { call, delay, put, race, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
@@ -8,7 +8,8 @@ import {
   BSPaymentTypes,
   BSTransactionStateEnum,
   BSTransactionType,
-  ExtraKYCContext
+  ExtraKYCContext,
+  WalletFiatType
 } from '@core/types'
 import { errorCodeAndMessage, errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
@@ -30,7 +31,7 @@ import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { BankCredentialsType, OBType, PlaidAccountType } from './types'
+import { BankCredentialsType, OBType } from './types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
 const EXPECTED_MODAL_NAMES = [undefined, 'KYC_MODAL']
@@ -193,6 +194,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       )
     }
+  }
+
+  const setupBankTransferProvider = function* () {
+    const fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
+    // FIXME: need to fetch fast link too???
+    yield put(actions.components.brokerage.fetchBankLinkCredentials(fiatCurrency as WalletFiatType))
+    return yield race({
+      bankCredentials: take(actions.components.brokerage.setBankCredentials.type),
+      fastLink: take(actions.components.brokerage.setFastLink.type)
+    })
   }
 
   const fetchBankLinkCredentials = function* ({
@@ -547,6 +558,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchCrossBorderLimits,
     handleDepositFiatClick,
     handleWithdrawClick,
+    setupBankTransferProvider,
     showModal
   }
 }

@@ -98,7 +98,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const { fetchBankTransferAccounts } = brokerageSagas({ api, coreSagas, networks })
+  const { fetchBankTransferAccounts, setupBankTransferProvider } = brokerageSagas({
+    api,
+    coreSagas,
+    networks
+  })
 
   const generateApplePayToken = async ({
     applePayInfo,
@@ -1393,7 +1397,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
       api.updateBankAccountLink,
       method.id,
-      { amount: 0, product: 'SIMPLEBUY' }
+      { attributes: { settlementRequest: { amount: 10, product: ProductTypes.SIMPLEBUY } } }
     )
 
     const domainsR = yield select(selectors.core.walletOptions.getDomains)
@@ -1474,16 +1478,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             step: 'BANK_WIRE_DETAILS'
           })
         )
-      case BSPaymentTypes.LINK_BANK:
+      case BSPaymentTypes.LINK_BANK: // Yapily, Yodlee, Plaid, ...
         yield put(actions.components.buySell.setStep({ step: 'LOADING' }))
-        // FIXME: need to fetch fast link too???
-        yield put(
-          actions.components.brokerage.fetchBankLinkCredentials(fiatCurrency as WalletFiatType)
-        )
-        const { bankCredentials, fastLink } = yield race({
-          bankCredentials: take(actions.components.brokerage.setBankCredentials.type),
-          fastLink: take(actions.components.brokerage.setFastLink.type)
-        })
+        const { bankCredentials, fastLink } = yield call(setupBankTransferProvider)
 
         let modalType: ModalName
         switch (true) {
