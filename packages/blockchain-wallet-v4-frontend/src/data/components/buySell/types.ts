@@ -170,7 +170,7 @@ export type BuySellState = {
 
 export type InitializeCheckout = {
   account?: SwapAccountType
-  amount: string
+  amount?: string
   cryptoAmount?: string
   fix: BSFixType
   orderType: BSOrderActionType

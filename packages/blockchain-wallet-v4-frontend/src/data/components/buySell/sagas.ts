@@ -52,6 +52,7 @@ import swapSagas from '../swap/sagas'
 import { SwapBaseCounterTypes } from '../swap/types'
 import { getRate } from '../swap/utils'
 import { selectReceiveAddress } from '../utils/sagas'
+import { SAVED_AMOUNT } from './constants'
 import {
   BS_ERROR,
   CARD_ERROR_CODE,
@@ -320,7 +321,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (!from) throw new Error(BS_ERROR.NO_ACCOUNT)
 
         const direction = getDirection(from)
-        const cryptoAmt =
+        const cryptoAmount =
           fix === 'CRYPTO'
             ? amount
             : convertStandardToBase(
@@ -335,7 +336,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           api.createSwapOrder,
           direction,
           quote.quote.id,
-          cryptoAmt,
+          cryptoAmount,
           getFiatFromPair(pair.pair),
           undefined,
           refundAddr
@@ -361,6 +362,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
         yield put(actions.form.stopSubmit(FORM_BS_PREVIEW_SELL))
         yield put(actions.components.refresh.refreshClicked())
+
         return yield put(actions.components.swap.fetchTrades())
       }
 
@@ -400,6 +402,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.createOrderLoading())
+
+      const rawStoredAmount = sessionStorage.getItem(SAVED_AMOUNT)
+
+      if (rawStoredAmount) {
+        const parsedStoredAmount = JSON.parse(rawStoredAmount)
+
+        parsedStoredAmount[pair.pair] = values.amount
+
+        sessionStorage.setItem(SAVED_AMOUNT, JSON.stringify(parsedStoredAmount))
+      } else {
+        const storedAmount = { [pair.pair]: values.amount }
+
+        sessionStorage.setItem(SAVED_AMOUNT, JSON.stringify(storedAmount))
+      }
 
       // This code is handles refreshing the buy order when the user sits on
       // the order confirmation screen.
@@ -766,6 +782,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.fetchOrders())
+
+      const rawStoredAmount = sessionStorage.getItem(SAVED_AMOUNT)
+
+      if (rawStoredAmount) {
+        const parsedStoredAmount = JSON.parse(rawStoredAmount)
+
+        if (parsedStoredAmount[confirmedOrder.pair]) {
+          delete parsedStoredAmount[confirmedOrder.pair]
+        }
+
+        sessionStorage.setItem(SAVED_AMOUNT, JSON.stringify(parsedStoredAmount))
+      }
     } catch (e) {
       const skipErrorDisplayList = [
         BS_ERROR.USER_CANCELLED_APPLE_PAY,
@@ -1258,14 +1286,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const quoteR = S.getSellQuote(yield select())
       const quote = quoteR.getOrFail(BS_ERROR.NO_QUOTE)
 
-      const amt = getQuote(pair.pair, quote.rate, formValues.fix, formValues.amount)
+      const amount = getQuote(pair.pair, quote.rate, formValues.fix, formValues.amount)
 
-      const cryptoAmt = formValues.fix === 'CRYPTO' ? formValues.amount : amt
-      yield put(actions.form.change(FORM_BS_CHECKOUT, 'cryptoAmount', cryptoAmt))
+      const cryptoAmount = formValues.fix === 'CRYPTO' ? formValues.amount : amount
+      yield put(actions.form.change(FORM_BS_CHECKOUT, 'cryptoAmount', cryptoAmount))
       if (account.type === SwapBaseCounterTypes.CUSTODIAL) return
       // @ts-ignore
       let payment = paymentGetOrElse(account.coin, paymentR)
-      const paymentAmount = generateProvisionalPaymentAmount(account.coin, Number(cryptoAmt))
+      const paymentAmount = generateProvisionalPaymentAmount(account.coin, Number(cryptoAmount))
       payment = yield payment.amount(paymentAmount)
       payment = yield payment.build()
       yield put(A.updatePaymentSuccess(payment.value()))
@@ -1309,36 +1337,36 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payload
   }: ReturnType<typeof A.handleBuyMaxAmountClick>) {
     const { amount, coin } = payload
-    const standardAmt = convertBaseToStandard(coin, amount)
+    const standardAmount = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmount))
   }
 
   const handleBuyMinAmountClick = function* ({
     payload
   }: ReturnType<typeof A.handleBuyMinAmountClick>) {
     const { amount, coin } = payload
-    const standardAmt = convertBaseToStandard(coin, amount)
+    const standardAmount = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmount))
   }
 
   const handleSellMaxAmountClick = function* ({
     payload
   }: ReturnType<typeof A.handleSellMaxAmountClick>) {
     const { amount, coin } = payload
-    const standardAmt = convertBaseToStandard(coin, amount)
+    const standardAmount = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmount))
   }
 
   const handleSellMinAmountClick = function* ({
     payload
   }: ReturnType<typeof A.handleSellMinAmountClick>) {
     const { amount, coin } = payload
-    const standardAmt = convertBaseToStandard(coin, amount)
+    const standardAmount = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmount))
   }
 
   const handleBSMethodChange = function* ({
@@ -1534,10 +1562,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         .getFeatureFlagRecurringBuys(yield select())
         .getOrElse(false) as boolean
 
+      const rawStoredAmount = sessionStorage.getItem(SAVED_AMOUNT)
+      let savedAmount
+
+      if (rawStoredAmount) {
+        const parsedStoredAmount = JSON.parse(rawStoredAmount)
+
+        if (parsedStoredAmount[pair.pair]) {
+          savedAmount = parsedStoredAmount[pair.pair]
+        }
+      }
+
       yield put(
         actions.form.initialize(FORM_BS_CHECKOUT, {
-          amount,
-          cryptoAmount,
+          amount: amount || savedAmount || '0',
+          cryptoAmount: cryptoAmount || savedAmount || '0',
           fix,
           orderType,
           period: isRecurringBuy ? period : undefined

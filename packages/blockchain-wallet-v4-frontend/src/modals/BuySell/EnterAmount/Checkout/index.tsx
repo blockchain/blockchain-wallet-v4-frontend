@@ -8,6 +8,7 @@ import { BSPaymentTypes, CrossBorderLimitsPayload, OrderType, WalletAccountEnum 
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
+import { SAVED_AMOUNT } from 'data/components/buySell/constants'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import {
@@ -140,8 +141,11 @@ const Checkout = (props: Props) => {
   useEffect(() => {
     const dataGoal = find(propEq('name', 'buySell'), props.goals)
     const goalAmount = pathOr('', ['data', 'amount'], dataGoal)
-    const amount = goalAmount || props.formValues?.amount || '0'
+
+    const amount = goalAmount || props.formValues?.amount
+
     const cryptoAmount = props.formValues?.cryptoAmount
+
     const period = props.formValues?.period || RecurringBuyPeriods.ONE_TIME
 
     props.buySellActions.initializeCheckout({
