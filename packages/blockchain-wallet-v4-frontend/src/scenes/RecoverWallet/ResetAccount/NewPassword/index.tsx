@@ -12,7 +12,12 @@ import { RecoverSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
 import { Props as OwnProps } from '../..'
-import { ActionButton, BackArrowFormHeader, ReverifyIdentityInfoBox } from '../../model'
+import {
+  ActionButton,
+  BackArrowFormHeader,
+  ResetFormSteps,
+  ReverifyIdentityInfoBox
+} from '../../model'
 
 const Footer = styled(FormGroup)`
   display: flex;
@@ -24,11 +29,11 @@ const Footer = styled(FormGroup)`
 const validatePasswordConfirmation = validPasswordConfirmation('resetAccountPassword')
 
 const NewPassword = (props: Props) => {
-  const { emailFromMagicLink, invalid, isRegistering, setStep } = props
+  const { emailFromMagicLink, invalid, isRegistering, setFormStep, setStep } = props
   return (
     <>
       <BackArrowFormHeader
-        handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
+        handleBackArrowClick={() => setFormStep(ResetFormSteps.TWO_FA_CONFIRMATION)}
         email={emailFromMagicLink}
         step={RecoverSteps.RESET_ACCOUNT}
       />
@@ -93,5 +98,6 @@ const NewPassword = (props: Props) => {
 
 type Props = OwnProps & {
   isRegistering: boolean
+  setFormStep: (step) => void
 }
 export default NewPassword

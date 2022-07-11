@@ -116,6 +116,21 @@ const TwoFAConfirmation = (props: Props) => {
           </Text>
         )}
       </ActionButton>
+      <ResponsiveRow>
+        <Text
+          color='blue600'
+          size='14px'
+          weight={500}
+          lineHeight='1.5'
+          style={{ cursor: 'pointer' }}
+          onClick={() => setFormStep(ResetFormSteps.NEW_PASSWORD)}
+        >
+          <FormattedMessage
+            id='scenes.reset.skip_2fa'
+            defaultMessage='placeholder text for skipping'
+          />
+        </Text>
+      </ResponsiveRow>
     </>
   )
 }

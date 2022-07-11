@@ -43,7 +43,7 @@ const ResetAccount: React.FC<InjectedFormProps<{}, ResetProps> & ResetProps> = (
           <TwoFAConfirmation {...props} setFormStep={setFormStep} />
         )}
         {recoveryStep === ResetFormSteps.NEW_PASSWORD && (
-          <NewPassword {...props} isRegistering={isRegistering} />
+          <NewPassword {...props} isRegistering={isRegistering} setFormStep={setFormStep} />
         )}
       </Form>
     </FormWrapper>
