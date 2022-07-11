@@ -1184,6 +1184,8 @@
   "modals.onboarding.kyc_verification.extra_fields.INITIAL_SET-q4-a3-a2": "Su relación contigo",
   "modals.onboarding.kyc_verification.extra_fields.INITIAL_SET-q4-a3-a2_hint": "Miembro de la familia",
   "modals.onboarding.kyc_verification.extra_fields.INITIAL_SET-q4_instructions": "(Seleccione solo uno)",
+  "modals.onboarding.kyc_verification.extra_fields.header.description": "Para cumplir con la regulación de su país, necesitamos algunos datos más antes de que esté listo para comenzar a operar con criptomonedas.",
+  "modals.onboarding.kyc_verification.extra_fields.header.title": "Información adicional necesaria",
   "modals.onboarding.linkfromexchange.back_to_exchange": "Volver al intercambio",
   "modals.onboarding.linkfromexchange.conflict": "detalles del perfil",
   "modals.onboarding.linkfromexchange.conflict_address": "Seleccione su dirección residencial más actualizada",
