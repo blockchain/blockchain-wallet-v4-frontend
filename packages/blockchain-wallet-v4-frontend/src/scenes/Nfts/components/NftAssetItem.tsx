@@ -211,7 +211,7 @@ const NftAssetItem: React.FC<Props> = ({ asset, isAddressPage = false }) => {
               <NotForSale style={{ marginBottom: '1em' }}>
                 {isAddressPage ? (
                   <Text weight={500} color='white'>
-                    <FormattedMessage id='copy.view_details' defaultMessage='See Details' />
+                    <FormattedMessage id='copy.see_details' defaultMessage='See Details' />
                   </Text>
                 ) : (
                   <Text weight={500} color='white'>
@@ -319,7 +319,7 @@ const NftAssetItem: React.FC<Props> = ({ asset, isAddressPage = false }) => {
                   ) : isAddressPage ? (
                     <NotForSale>
                       <Text style={{ paddingBottom: '0.4em' }} weight={500} color='white'>
-                        <FormattedMessage id='copy.not_for_sale' defaultMessage='See Details' />
+                        <FormattedMessage id='copy.see_details' defaultMessage='See Details' />
                       </Text>
                       <Text size='12px' weight={500} color='white'>
                         <FormattedMessage

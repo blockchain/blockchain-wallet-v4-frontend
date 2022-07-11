@@ -29,7 +29,7 @@ export const ArriveInThreeDaysEasyBankTransferCard: ArriveInThreeDaysEasyBankTra
           </Text>
           <Text size='14px' lineHeight='20px' weight={500}>
             <FormattedMessage
-              id='modals.simplebuy.instant_easy_bank_transfer.sub_title'
+              id='modals.simplebuy.instant_easy_bank_transfer.sub_title.3_days'
               defaultMessage='Should arrive in 3 business days'
             />
           </Text>

@@ -143,7 +143,7 @@ const renderAdditionalSectionIDAndPassport = () => {
         <li>
           <Text color='blue900' size='16px' weight={400}>
             <FormattedMessage
-              id='scenes.uploaddoc.appears_well_lit'
+              id='scenes.uploaddoc.in_focus'
               defaultMessage='Is in focus and fully visible.'
             />
           </Text>
