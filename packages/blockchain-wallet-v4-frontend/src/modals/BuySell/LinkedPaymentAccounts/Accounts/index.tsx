@@ -215,8 +215,9 @@ const Accounts = (props: Props) => {
       (orderType === OrderType.SELL ||
         Number(props.balances[method.value.currency as WalletCurrencyType]?.available) > 0) &&
       // for sell we should show only userFiatCurrencies currencies
-      orderType === OrderType.SELL &&
-      fiatCurrencies.includes(method.value.currency as WalletFiatType)
+      (orderType === OrderType.BUY ||
+        (orderType === OrderType.SELL &&
+          fiatCurrencies.includes(method.value.currency as WalletFiatType)))
   )
 
   // use this to get min/max for card buys from eligible/payment-methods
