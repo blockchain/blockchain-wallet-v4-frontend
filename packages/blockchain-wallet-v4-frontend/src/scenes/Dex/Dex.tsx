@@ -3,12 +3,13 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { media } from 'services/styles'
 
-import { DEX_INTRO_VIEWED_KEY } from './Dex.model'
 import Intro from './Intro'
 import Swap from './Swap'
+
+const { DEX_INTRO_VIEWED_KEY } = model.components.dex
 
 const PageWrapper = styled.div`
   display: flex;
@@ -46,7 +47,7 @@ const Dex = ({ dexActions }: Props) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  dexActions: bindActionCreators(actions.dex, dispatch)
+  dexActions: bindActionCreators(actions.components.dex, dispatch)
 })
 
 const connector = connect(null, mapDispatchToProps)

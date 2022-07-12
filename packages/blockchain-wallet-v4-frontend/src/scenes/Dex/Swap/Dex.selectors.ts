@@ -2,11 +2,11 @@ import { lift } from 'ramda'
 
 import { Remote } from '@core'
 import { ExtractSuccess } from '@core/remote/types'
-import { selectors } from 'data'
-import { DexSwapForm, DexSwapSideEnum } from 'data/dex/types'
+import { model, selectors } from 'data'
+import { DexSwapForm, DexSwapSideEnum } from 'data/components/dex/types'
 import { RootState } from 'data/rootReducer'
 
-import { DEX_SWAP_FORM } from '../Dex.model'
+const { DEX_SWAP_FORM } = model.components.dex
 
 const getData = (state: RootState) => {
   const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm

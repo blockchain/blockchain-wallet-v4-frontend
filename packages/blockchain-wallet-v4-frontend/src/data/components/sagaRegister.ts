@@ -6,6 +6,7 @@ import btcTransactions from './btcTransactions/sagaRegister'
 import buySell from './buySell/sagaRegister'
 import coinTransactions from './coinTransactions/sagaRegister'
 import debitCard from './debitCard/sagaRegister'
+import dex from './dex/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import fiatTransactions from './fiatTransactions/sagaRegister'
 import fundRecovery from './fundRecovery/sagaRegister'
@@ -44,6 +45,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(btcTransactions())
     yield fork(coinTransactions())
     yield fork(debitCard({ api, coreSagas, networks }))
+    yield fork(dex({ api }))
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
     yield fork(fiatTransactions())

@@ -4,9 +4,11 @@ import { IconArrowLeft, IconArrowRight } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
+import { model } from 'data'
 
-import { DEX_INTRO_VIEWED_KEY } from '../Dex.model'
 import Swap from '../Swap'
+
+const { DEX_INTRO_VIEWED_KEY } = model.components.dex
 
 const StepBubble = styled.div<{ active?: boolean }>`
   height: 8px;

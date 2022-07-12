@@ -2,7 +2,6 @@ import * as analytics from './analytics/sagas'
 import * as auth from './auth/sagas'
 import * as components from './components/sagas'
 import * as custodial from './custodial/sagas'
-import * as dex from './dex/sagas'
 import * as middleware from './middleware/sagas'
 import * as misc from './misc/sagas'
 import * as modules from './modules/sagas'
@@ -17,7 +16,6 @@ export {
   auth,
   components,
   custodial,
-  dex,
   middleware,
   misc,
   modules,

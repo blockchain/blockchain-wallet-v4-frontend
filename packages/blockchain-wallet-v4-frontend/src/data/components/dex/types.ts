@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 
+import { DexSwapQuoteResponse } from '@core/network/api/dex/types'
 import { CoinType, RemoteDataType } from '@core/types'
 
 export type DexToken = {
@@ -31,6 +32,7 @@ export type DexStateType = {
   chains: RemoteDataType<string, DexChainList>
   currentChain?: DexChain
   currentChainTokens: RemoteDataType<string, DexChainTokenList>
+  swapQuote: RemoteDataType<string, DexSwapQuoteResponse>
 }
 
 export enum DexSwapSideEnum {

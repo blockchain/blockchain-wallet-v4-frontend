@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { DexSwapQuoteErrorResponse, DexSwapQuoteSuccessResponse } from '@core/network/api/dex/types'
 import Remote from '@core/remote'
 
 import { DexChain, DexChainList, DexChainTokenList, DexStateType } from './types'
@@ -7,7 +8,8 @@ import { DexChain, DexChainList, DexChainTokenList, DexStateType } from './types
 const initialState: DexStateType = {
   chains: Remote.NotAsked,
   currentChain: undefined,
-  currentChainTokens: Remote.NotAsked
+  currentChainTokens: Remote.NotAsked,
+  swapQuote: Remote.NotAsked
 }
 
 const dexSlice = createSlice({
@@ -33,6 +35,15 @@ const dexSlice = createSlice({
     },
     fetchChainsSuccess: (state, action: PayloadAction<DexChainList>) => {
       state.chains = Remote.Success(action.payload)
+    },
+    fetchSwapQuoteFailure: (state, action: PayloadAction<DexSwapQuoteErrorResponse | string>) => {
+      state.swapQuote = Remote.Failure(action.payload)
+    },
+    fetchSwapQuoteLoading: (state) => {
+      state.swapQuote = Remote.Loading
+    },
+    fetchSwapQuoteSuccess: (state, action: PayloadAction<DexSwapQuoteSuccessResponse>) => {
+      state.swapQuote = Remote.Success(action.payload)
     },
     setCurrentChain: (state, action: PayloadAction<DexChain>) => {
       state.currentChain = action.payload

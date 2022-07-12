@@ -1,13 +1,13 @@
 import { RootState } from 'data/rootReducer'
 
 export function getChains(state: RootState) {
-  return state.dex.chains
+  return state.components.dex.chains
 }
 
 export function getCurrentChain(state: RootState) {
-  return state.dex.currentChain
+  return state.components.dex.currentChain
 }
 
 export function getCurrentChainTokens(state: RootState) {
-  return state.dex.currentChainTokens
+  return state.components.dex.currentChainTokens
 }

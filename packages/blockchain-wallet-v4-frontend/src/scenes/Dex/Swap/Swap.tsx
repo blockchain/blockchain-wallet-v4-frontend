@@ -9,16 +9,17 @@ import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import Form from 'components/Form/Form'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { DexSwapForm, DexSwapSideEnum, ModalName } from 'data/types'
 
-import { DEX_SWAP_FORM } from '../Dex.model'
 import BaseRateAndFees from './components/BaseRateAndFees'
 import FlipPairButton from './components/FlipPairButton'
 import QuoteDetails from './components/QuoteDetails'
 import SwapPair from './components/SwapPair'
 import getData from './Dex.selectors'
+
+const { DEX_SWAP_FORM } = model.components.dex
 
 const Header = styled.div`
   display: flex;
@@ -40,10 +41,10 @@ const SwapWrapper = styled.div`
   }
 `
 
-const DexSwap = ({ formActions, formValues, modalActions, rates }: Props) => {
+const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
   const [pairAnimate, setPairAnimate] = useState(false)
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
-  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues || {}
+  const { baseToken, counterToken } = formValues || {}
 
   // event handlers
   const onViewSettings = () => {
@@ -53,13 +54,7 @@ const DexSwap = ({ formActions, formValues, modalActions, rates }: Props) => {
     setPairAnimate(true)
     // delay form change to assist in smoother animation
     setTimeout(() => {
-      // reinitialize form to easily swap all values
-      formActions.initialize(DEX_SWAP_FORM, {
-        baseToken: counterToken,
-        baseTokenAmount: counterTokenAmount,
-        counterToken: baseToken,
-        counterTokenAmount: baseTokenAmount
-      })
+      formActions.change(DEX_SWAP_FORM, 'flipPairs', undefined)
       setPairAnimate(false)
     }, 400)
   }
