@@ -774,8 +774,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
 
-      if (!skipErrorDisplayList.includes(e as BS_ERROR)) {
+      if (skipErrorDisplayList.includes(e as BS_ERROR)) {
         yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
+        yield put(A.resetConfirmOrder())
 
         return
       }
