@@ -5,7 +5,6 @@ import {
   DEFAULT_CARD_SVG_LOGO
 } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 import { Form, reduxForm } from 'redux-form'
-import styled from 'styled-components'
 
 import {
   BSPaymentMethodType,
@@ -27,37 +26,11 @@ import BankWire from './BankWire'
 import GooglePay from './GooglePay'
 import { InstantlyEasyBankTransferCard } from './InstantlyEasyBankTransferCard'
 import LinkBank from './LinkBank'
+import { IconContainer, NoMethods, PaymentsWrapper, TopText, Wrapper } from './Methods.styles'
 import { OneDayBankTransferCard } from './OneDayBankTransferCard'
 import PaymentCard from './PaymentCard'
 import { SameDayBankTransferCard } from './SameDayBankTransferCard'
 import { WireTransferCard } from './WireTransferCard'
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  height: 100%;
-`
-const TopText = styled(Text)`
-  display: flex;
-  align-items: center;
-  margin-bottom: 7px;
-`
-const PaymentsWrapper = styled.div`
-  border-top: 1px solid ${(props) => props.theme.grey000};
-`
-const NoMethods = styled(FlyoutWrapper)`
-  text-align: center;
-`
-const IconContainer = styled.div`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.blue000};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
 
 export type Props = OwnProps & SuccessStateType
 
@@ -448,22 +421,6 @@ const Methods = (props: Props) => {
           ) : null}
 
           {bankTransferCard}
-
-          {bankTransfer ? (
-            <LinkBank
-              {...bankTransfer}
-              // @ts-ignore
-              icon={getIcon({ type: BSPaymentTypes.BANK_TRANSFER })}
-              onClick={() =>
-                handlePaymentMethodSelect({
-                  method: {
-                    ...bankTransfer.value,
-                    type: BSPaymentTypes.LINK_BANK
-                  }
-                })
-              }
-            />
-          ) : null}
 
           {bankMethodCard}
         </PaymentsWrapper>
