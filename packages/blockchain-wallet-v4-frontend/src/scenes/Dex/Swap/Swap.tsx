@@ -86,7 +86,7 @@ const DexSwap = ({ formActions, formValues, modalActions, rates }: Props) => {
           formValues={formValues}
           swapSide={DexSwapSideEnum.BASE}
         />
-        <FlipPairButton animate={pairAnimate} onFlipPairClick={onFlipPairClick} />
+        <FlipPairButton onFlipPairClick={onFlipPairClick} />
         <SwapPair
           animate={pairAnimate}
           coin={formValues?.[DexSwapSideEnum.COUNTER]}

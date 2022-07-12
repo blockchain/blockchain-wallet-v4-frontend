@@ -3,7 +3,7 @@ import { Icon } from '@blockchain-com/constellation'
 import { IconDeposit } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
-const Wrapper = styled.div<{ animate: boolean }>`
+const Wrapper = styled.div`
   position: absolute;
   top: calc(50% - 16px);
   right: calc(50% - 16px);
@@ -20,6 +20,11 @@ const Wrapper = styled.div<{ animate: boolean }>`
     left: 8px;
     z-index: 99 !important;
     cursor: pointer;
+    transition: 0.45s;
+  }
+
+  > :hover:nth-child(1) {
+    transform: rotate(180deg);
   }
 
   &:after {
@@ -38,8 +43,8 @@ const Wrapper = styled.div<{ animate: boolean }>`
   }
 `
 
-const FlipPairButton = ({ animate, onFlipPairClick }: OwnProps) => (
-  <Wrapper animate={animate} onClick={onFlipPairClick}>
+const FlipPairButton = ({ onFlipPairClick }: OwnProps) => (
+  <Wrapper onClick={onFlipPairClick}>
     <Icon label='arrow down' color='grey400' size='sm'>
       <IconDeposit />
     </Icon>
@@ -47,7 +52,6 @@ const FlipPairButton = ({ animate, onFlipPairClick }: OwnProps) => (
 )
 
 type OwnProps = {
-  animate: boolean
   onFlipPairClick: () => void
 }
 
