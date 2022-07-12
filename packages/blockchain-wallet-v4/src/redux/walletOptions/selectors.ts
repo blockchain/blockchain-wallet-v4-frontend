@@ -1,7 +1,7 @@
 import { path, prop } from 'ramda'
 
 import { Remote } from '@core'
-import { /* AccountTokensBalancesResponseType, */ Product, RemoteDataType } from '@core/types'
+import { Product, RemoteDataType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import { WalletOptionsType } from './types'

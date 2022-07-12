@@ -1,13 +1,11 @@
+import { CoinType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
-export function getChains(state: RootState) {
-  return state.components.dex.chains
-}
+export const getChains = (state: RootState) => state.components.dex.chains
 
-export function getCurrentChain(state: RootState) {
-  return state.components.dex.currentChain
-}
+export const getCurrentChain = (state: RootState) => state.components.dex.currentChain
 
-export function getCurrentChainTokens(state: RootState) {
-  return state.components.dex.currentChainTokens
-}
+export const getCurrentChainTokens = (state: RootState) => state.components.dex.currentChainTokens
+
+export const getChainTokenInfo = (state: RootState, coinSymbol: CoinType) =>
+  getCurrentChainTokens(state).map((tokenList) => tokenList.find((x) => x.symbol === coinSymbol))

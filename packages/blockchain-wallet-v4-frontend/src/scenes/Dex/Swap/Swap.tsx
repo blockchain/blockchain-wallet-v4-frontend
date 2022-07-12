@@ -40,11 +40,17 @@ const SwapWrapper = styled.div`
     margin-top: 8px;
   }
 `
+const LoginInfoText = styled(Text)`
+  margin-top: 24px;
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+`
 
-const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
+const DexSwap = ({ formActions, formValues, isAuthenticated, modalActions }: Props) => {
   const [pairAnimate, setPairAnimate] = useState(false)
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
-  const { baseToken, counterToken } = formValues || {}
+  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues || {}
 
   // event handlers
   const onViewSettings = () => {
@@ -54,6 +60,11 @@ const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
     setPairAnimate(true)
     // delay form change to assist in smoother animation
     setTimeout(() => {
+      formActions.initialize(DEX_SWAP_FORM, {
+        baseToken: counterToken,
+        baseTokenAmount: counterTokenAmount,
+        counterToken: baseToken
+      })
       formActions.change(DEX_SWAP_FORM, 'flipPairs', undefined)
       setPairAnimate(false)
     }, 400)
@@ -98,15 +109,24 @@ const DexSwap = ({ formActions, formValues, modalActions }: Props) => {
       {isDetailsExpanded && (
         <QuoteDetails handleSettingsClick={onViewSettings} swapDetailsOpen={isDetailsExpanded} />
       )}
-      <Button data-e2e='swap' fullwidth jumbo nature='primary'>
+      <Button data-e2e='swap' disabled={!isAuthenticated} fullwidth jumbo nature='primary'>
         <FormattedMessage id='copy.swap' defaultMessage='Swap' />
       </Button>
+      {!isAuthenticated && baseToken && counterToken && baseTokenAmount && (
+        <LoginInfoText>
+          <FormattedMessage
+            id='copy.login_to_swap'
+            defaultMessage='Signin to complete your Swap!'
+          />
+        </LoginInfoText>
+      )}
     </Form>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm,
+  isAuthenticated: selectors.auth.isAuthenticated(state),
   rates: getData(state)
 })
 
@@ -121,12 +141,9 @@ type Props = ConnectedProps<typeof connector> & InjectedFormProps
 
 const enhance = compose<React.ComponentType>(
   reduxForm({
+    destroyOnUnmount: false,
     enableReinitialize: true,
-    form: DEX_SWAP_FORM,
-    initialValues: {
-      [DexSwapSideEnum.BASE]: 'ETH', // TODO: change once we have multi-chain support
-      [DexSwapSideEnum.COUNTER]: undefined
-    }
+    form: DEX_SWAP_FORM
   }),
   connector
 )

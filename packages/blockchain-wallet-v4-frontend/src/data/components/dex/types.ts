@@ -1,5 +1,3 @@
-import BigNumber from 'bignumber.js'
-
 import { DexSwapQuoteResponse } from '@core/network/api/dex/types'
 import { CoinType, RemoteDataType } from '@core/types'
 
@@ -42,7 +40,14 @@ export enum DexSwapSideEnum {
 
 export type DexSwapForm = {
   baseToken?: CoinType
-  baseTokenAmount?: number | BigNumber
+  baseTokenAmount?: number | string
   counterToken?: CoinType
-  counterTokenAmount?: number | BigNumber
+  counterTokenAmount?: number | string
+  slippage?: string | null
+}
+
+export type DexSwapSettingsForm = {
+  activeSlippage?: string | null
+  customSlippage?: string
+  standardSlippage?: string
 }

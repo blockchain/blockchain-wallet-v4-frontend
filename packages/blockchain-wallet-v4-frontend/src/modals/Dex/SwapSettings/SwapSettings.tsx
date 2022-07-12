@@ -10,12 +10,14 @@ import styled from 'styled-components'
 import { Button, Modal, Text } from 'blockchain-info-components'
 import Form from 'components/Form/Form'
 import NumberBox from 'components/Form/NumberBox'
-import { actions } from 'data'
+import { actions, model } from 'data'
+import { DEX_SWAP_FORM } from 'data/components/dex/model'
+import { DexSwapSettingsForm } from 'data/components/dex/types'
 import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-const FORM_NAME = 'dexSwapSettings'
+const { DEX_SWAP_SETTINGS_FORM } = model.components.dex
 
 const Header = styled.div`
   display: flex;
@@ -51,20 +53,20 @@ const SlippageButtons = styled.div`
   }
 `
 
-// determine active slippage with priority on custom, then standard values else default to 'auto'
-const determineActiveSlippage = (formValues?: FormFieldProps) => {
-  return (
-    formValues?.customSlippage?.toString() || formValues?.standardSlippage?.toString() || 'auto'
-  )
+// determine active slippage with priority on custom, then standard values else default to 'Auto' (null)
+const determineActiveSlippage = (formValues?: DexSwapSettingsForm) => {
+  return formValues?.customSlippage?.toString() || formValues?.standardSlippage?.toString() || null
 }
 
 const DexSwapSettings = ({ formActions, formValues, modalActions, position, total }: Props) => {
   const onStandardSlippageSelect = (val) => {
-    formActions.change('dexSwapSettings', 'customSlippage', undefined)
-    formActions.change('dexSwapSettings', 'standardSlippage', val)
+    formActions.change(DEX_SWAP_SETTINGS_FORM, 'customSlippage', undefined)
+    formActions.change(DEX_SWAP_SETTINGS_FORM, 'standardSlippage', val)
   }
   const onSaveSettings = () => {
-    formActions.change('dexSwapSettings', 'activeSlippage', determineActiveSlippage(formValues))
+    const slippage = determineActiveSlippage(formValues)
+    formActions.change(DEX_SWAP_SETTINGS_FORM, 'activeSlippage', slippage)
+    formActions.change(DEX_SWAP_FORM, 'slippage', slippage)
     modalActions.closeModal()
   }
   const activeSlippage = determineActiveSlippage(formValues)
@@ -91,16 +93,23 @@ const DexSwapSettings = ({ formActions, formValues, modalActions, position, tota
             <FormattedMessage id='copy.allowed_slippage' defaultMessage='Allowed Slippage' />
           </Text>
           <SlippageButtons>
-            {['0.5', '2', '5', 'auto'].map((val) => (
+            {[
+              { display: '0.5%', value: '0.005' },
+              { display: '2%', value: '0.02' },
+              { display: '5%', value: '0.05' },
+              { display: 'Auto', value: null }
+            ].map((option) => (
               <Button
-                className={activeSlippage === val && !formValues?.customSlippage ? 'active' : ''}
-                data-e2e={`dexSlippage${val}Btn`}
+                className={
+                  activeSlippage === option.value && !formValues?.customSlippage ? 'active' : ''
+                }
+                data-e2e={`dexSlippage${option.display}Btn`}
                 height='48px'
-                key={val}
+                key={option.display}
                 nature='empty-blue'
-                onClick={() => onStandardSlippageSelect(val)}
+                onClick={() => onStandardSlippageSelect(option.value)}
               >
-                {val === 'auto' ? 'Auto' : `${val}%`}
+                {option.display}
               </Button>
             ))}
           </SlippageButtons>
@@ -139,7 +148,7 @@ const DexSwapSettings = ({ formActions, formValues, modalActions, position, tota
 }
 
 const mapStateToProps = (state: RootState) => ({
-  formValues: getFormValues(FORM_NAME)(state) as FormFieldProps
+  formValues: getFormValues(DEX_SWAP_SETTINGS_FORM)(state) as DexSwapSettingsForm
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -148,11 +157,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type FormFieldProps = {
-  activeSlippage: string
-  customSlippage: string
-  standardSlippage: string
-}
 type Props = ConnectedProps<typeof connector> &
   InjectedFormProps & {
     position: number
@@ -164,7 +168,7 @@ const enhance = compose<React.ComponentType>(
   connector,
   reduxForm({
     destroyOnUnmount: false,
-    form: FORM_NAME
+    form: DEX_SWAP_SETTINGS_FORM
   })
 )
 

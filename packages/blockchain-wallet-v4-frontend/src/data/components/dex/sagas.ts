@@ -1,5 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 
+import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import { actions, model, selectors } from 'data'
 
@@ -42,73 +43,101 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const formChanged = function* (action) {
-    try {
-      const {
-        meta: { field, form }
-      } = action
-      if (form !== DEX_SWAP_FORM) return
-      const state = yield select()
-      const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm
-      if (!formValues) return
+  const fetchSwapQuote = function* (action) {
+    const {
+      meta: { field, form }
+    } = action
+    // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
+    if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
+    const state = yield select()
+    const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm
+    if (!formValues) return
 
-      switch (field) {
-        case 'flipPairs':
-          yield put(
-            actions.form.initialize(DEX_SWAP_FORM, {
-              baseToken: formValues.counterToken,
-              baseTokenAmount: formValues.counterTokenAmount,
-              counterToken: formValues.baseToken,
-              counterTokenAmount: formValues.baseTokenAmount
-            })
-          )
-          break
-        default:
-          break
-      }
+    let quoteResponse
+    const { baseToken, baseTokenAmount, counterToken, slippage } = formValues
 
-      // only fetch/update swap quote if we have a valid pair
-      if (formValues.baseToken && formValues.counterToken) {
-        try {
-          yield put(A.fetchSwapQuoteLoading())
-          // TODO: dont hardcode
-          const quoteResponse = yield call(api.getDexSwapQuote, {
-            fromCurrency: {
-              address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
-              amount: '100000000000000000',
-              chainId: 3,
-              symbol: 'ETH'
-            },
-            params: {
-              slippage: '0.03'
-            },
-            toCurrency: {
-              address: '0xad6d458402f60fd3bd25163575031acdce07538d',
-              chainId: 3,
-              symbol: 'DAI'
-            },
-            venue: 'ZEROX'
-          })
+    // only fetch/update swap quote if we have a valid pair and a base amount
+    if (baseToken && counterToken && baseTokenAmount) {
+      try {
+        yield put(A.fetchSwapQuoteLoading())
 
-          // check for error
-          if (quoteResponse?.code) {
-            yield put(A.fetchSwapQuoteFailure(quoteResponse))
-          } else {
-            yield put(A.fetchSwapQuoteSuccess(quoteResponse))
-          }
-        } catch (e) {
-          yield put(A.fetchSwapQuoteFailure(e.toString()))
+        // get chain config and user settings
+        const currentChain: DexChain = yield select(selectors.components.dex.getCurrentChain)
+        const baseTokenInfo = (yield select(
+          selectors.components.dex.getChainTokenInfo,
+          baseToken
+        )).getOrFail()
+        const counterTokenInfo = (yield select(
+          selectors.components.dex.getChainTokenInfo,
+          counterToken
+        )).getOrFail()
+
+        const baseAmountGwei = Exchange.convertCoinToCoin({
+          baseToStandard: false,
+          coin: currentChain.nativeCurrency.symbol,
+          value: baseTokenAmount || 0
+        })
+
+        quoteResponse = yield call(api.getDexSwapQuote, {
+          fromCurrency: {
+            address: baseTokenInfo.address,
+            amount: baseAmountGwei,
+            chainId: currentChain.chainId,
+            symbol: baseToken
+          },
+          params: {
+            slippage: slippage || null
+          },
+          toCurrency: {
+            address: counterTokenInfo.address,
+            chainId: currentChain.chainId,
+            symbol: counterToken
+          },
+          venue: 'ZEROX'
+        })
+
+        // check for error
+        if (quoteResponse?.code) {
+          yield put(A.fetchSwapQuoteFailure(quoteResponse))
+        } else {
+          yield put(A.fetchSwapQuoteSuccess(quoteResponse))
         }
+
+        // now that we have an updated quote, determine which fields we need to update
+        switch (field) {
+          case 'flipPairs':
+          case 'baseTokenAmount':
+            const counterTokenInfo =
+              quoteResponse.quotes[quoteResponse.type === 'SINGLE' ? 0 : 1].buyAmount
+            const counterAmountGwei = Exchange.convertCoinToCoin({
+              baseToStandard: true,
+              coin: counterTokenInfo.symbol,
+              value: counterTokenInfo.amount
+            })
+            yield put(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', counterAmountGwei))
+            break
+          case 'counterTokenAmount':
+            const baseTokenInfo =
+              quoteResponse.quotes[quoteResponse.type === 'SINGLE' ? 0 : 1].sellAmount
+            const baseAmountGwei = Exchange.convertCoinToCoin({
+              baseToStandard: true,
+              coin: baseTokenInfo.symbol,
+              value: baseTokenInfo.amount
+            })
+            yield put(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', baseAmountGwei))
+            break
+          default:
+            break
+        }
+      } catch (e) {
+        yield put(A.fetchSwapQuoteFailure(e.toString()))
       }
-    } catch (e) {
-      // eslint-disable-next-line
-      console.log(e)
     }
   }
 
   return {
     fetchChainTopTokens,
     fetchChains,
-    formChanged
+    fetchSwapQuote
   }
 }
