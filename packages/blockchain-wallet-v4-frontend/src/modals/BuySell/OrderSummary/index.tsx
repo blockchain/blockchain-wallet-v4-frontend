@@ -31,7 +31,6 @@ import {
 } from 'data/types'
 
 import Loading from '../template.loading'
-import InterestBanner from './InterestBanner'
 import { getData } from './selectors'
 import SuccessSdd from './template.sdd.success'
 
@@ -49,7 +48,8 @@ class OrderSummaryContainer extends PureComponent<Props> {
 
     this.props.buySellActions.fetchOrders()
 
-    this.props.interestActions.fetchShowInterestCardAfterTransaction({})
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchInterestRate()
   }
 
   handleOkButton = () => {
@@ -80,7 +80,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => {
-        const { order } = val
+        const { interestEligible, interestRate, order } = val
         const { state } = order
         const currencySymbol = getSymbol(getCounterCurrency(order))
         const [recurringBuy] = val.recurringBuyList.filter((rb) => {
@@ -148,25 +148,25 @@ class OrderSummaryContainer extends PureComponent<Props> {
           <SuccessSdd {...val} {...this.props} />
         ) : (
           <OrderSummary
+            analyticsActions={this.props.analyticsActions}
             baseAmount={getBaseAmount(order)}
             baseCurrency={getBaseCurrency(order)}
             counterAmount={getCounterAmount(order)}
             currencySymbol={currencySymbol}
+            frequencyText={frequencyText}
             handleClose={this.props.handleClose}
             handleCompleteButton={handleCompleteButton}
             handleOkButton={this.handleOkButton}
+            interestActions={this.props.interestActions}
+            interestEligible={interestEligible}
+            interestRate={interestRate}
             lockTime={val.lockTime}
             orderState={state}
             orderType={getOrderType(order) as OrderType}
             outputCurrency={order.outputCurrency}
             paymentState={order.attributes?.everypay?.paymentState || null}
             paymentType={order.paymentType}
-            frequencyText={frequencyText}
-          >
-            {val.interestAfterTransaction.show ? (
-              <InterestBanner handleClose={this.props.handleClose} />
-            ) : null}
-          </OrderSummary>
+          />
         )
       }
     })
@@ -188,6 +188,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): LinkStatePropsTy
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
   recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),

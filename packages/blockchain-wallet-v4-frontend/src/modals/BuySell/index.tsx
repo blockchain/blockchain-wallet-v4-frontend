@@ -93,7 +93,7 @@ class BuySell extends PureComponent<Props, State> {
       this.props.deleteGoal(goalID)
     }
     setTimeout(() => {
-      this.props.close()
+      this.props.close(ModalName.SIMPLE_BUY_MODAL)
     }, duration)
   }
 
@@ -304,6 +304,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
