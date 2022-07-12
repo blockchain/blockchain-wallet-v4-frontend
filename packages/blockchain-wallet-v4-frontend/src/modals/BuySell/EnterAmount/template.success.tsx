@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { BSPaymentTypes, OrderType } from '@core/types'
+import { BSPaymentTypes, FiatType, OrderType } from '@core/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import Checkout from './Checkout'
@@ -30,6 +30,6 @@ const Success = (props: Props) => {
   )
 }
 
-export type Props = OwnProps & SuccessStateType
+export type Props = OwnProps & SuccessStateType & { cryptoCurrency: string; fiatCurrency: FiatType }
 
 export default Success

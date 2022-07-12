@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps, useSelector } from 'react-redux'
 import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
@@ -27,13 +27,19 @@ import Success from './template.success'
 const EnterAmount = (props: Props) => {
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
 
+  const cryptoCurrency = useSelector(
+    (state: RootState) => selectors.components.buySell.getCryptoCurrency(state) || 'BTC'
+  )
+  const fiatCurrency = useSelector(
+    (state: RootState) => selectors.components.buySell.getFiatCurrency(state) || 'USD'
+  )
   useEffect(() => {
-    if (props.fiatCurrency && !data) {
-      props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
-      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
+    if (fiatCurrency && !data) {
+      props.buySellActions.fetchPaymentMethods(fiatCurrency)
+      props.buySellActions.fetchFiatEligible(fiatCurrency)
       props.buySellActions.fetchPairs({
-        coin: props.cryptoCurrency,
-        currency: props.fiatCurrency
+        coin: cryptoCurrency,
+        currency: fiatCurrency
       })
       props.brokerageActions.fetchBankTransferAccounts()
       props.buySellActions.fetchCards(false)
@@ -41,9 +47,9 @@ const EnterAmount = (props: Props) => {
     }
 
     // data was successful but paymentMethods was DEFAULT_BS_METHODS
-    if (props.fiatCurrency && data) {
+    if (fiatCurrency && data) {
       if (equals(data.paymentMethods, DEFAULT_BS_METHODS)) {
-        props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
+        props.buySellActions.fetchPaymentMethods(fiatCurrency)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,7 +57,7 @@ const EnterAmount = (props: Props) => {
 
   const errorCallback = () => {
     props.buySellActions.setStep({
-      fiatCurrency: props.fiatCurrency || 'USD',
+      fiatCurrency: fiatCurrency || 'USD',
       step: 'CRYPTO_SELECTION'
     })
   }
@@ -72,7 +78,9 @@ const EnterAmount = (props: Props) => {
   )
 
   useEffect(() => {
-    trackError(error)
+    if (error) {
+      trackError(error)
+    }
   }, [error, trackError])
 
   if (error) {
@@ -111,13 +119,10 @@ const EnterAmount = (props: Props) => {
     )
   }
 
-  return <Success {...data} {...props} />
+  return (
+    <Success fiatCurrency={fiatCurrency} cryptoCurrency={cryptoCurrency} {...data} {...props} />
+  )
 }
-
-const mapStateToProps = (state: RootState) => ({
-  cryptoCurrency: selectors.components.buySell.getCryptoCurrency(state) || 'BTC',
-  fiatCurrency: selectors.components.buySell.getFiatCurrency(state)
-})
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
@@ -126,7 +131,7 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(null, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void

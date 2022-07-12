@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps, useSelector } from 'react-redux'
 import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
@@ -7,13 +7,14 @@ import {
   BSPaymentTypes,
   CrossBorderLimitsPayload,
   ExtractSuccess,
+  FiatType,
   OrderType,
   WalletAccountEnum
 } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
-import { ClientErrorProperties } from 'data/analytics/types/errors'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import {
@@ -38,10 +39,21 @@ const { FORM_BS_CHECKOUT } = model.components.buySell
 
 const Checkout = (props: Props) => {
   const { data, error, isLoading, isNotAsked } = useRemote<
-    string | Partial<ClientErrorProperties> | undefined,
+    string | PartialClientErrorProperties | undefined,
     ExtractSuccess<ReturnType<typeof getData>>,
     RootState
   >((state) => getData(state, props))
+
+  const formValues = useSelector((state: RootState) =>
+    selectors.form.getFormValues(FORM_BS_CHECKOUT)(state)
+  ) as BSCheckoutFormValuesType
+  const goals = useSelector((state: RootState) => selectors.goals.getGoals(state))
+  const isPristine = useSelector((state: RootState) =>
+    selectors.form.isPristine(FORM_BS_CHECKOUT)(state)
+  )
+  const preferences = useSelector((state: RootState) =>
+    selectors.preferences.getBSCheckoutPreferences(state)
+  )
 
   const methodRef = useRef<string>()
 
@@ -52,7 +64,7 @@ const Checkout = (props: Props) => {
     // if the user is tier 2 try to submit order, let BE fail
     const { hasPaymentAccount, isSddFlow, userData } = data
 
-    const buySellGoal = find(propEq('name', 'buySell'), props.goals)
+    const buySellGoal = find(propEq('name', 'buySell'), goals)
 
     const id = propOr('', 'id', buySellGoal)
 
@@ -65,7 +77,7 @@ const Checkout = (props: Props) => {
     // TODO: sell
     // need to do kyc check
     // SELL
-    if (props.formValues?.orderType === OrderType.SELL) {
+    if (formValues?.orderType === OrderType.SELL) {
       return props.buySellActions.setStep({
         sellOrderType: props.swapAccount?.type,
         step: 'PREVIEW_SELL'
@@ -100,7 +112,7 @@ const Checkout = (props: Props) => {
       })
     } else if (userData.tiers.current < 2) {
       props.buySellActions.createOrder({ paymentMethodId: getValidPaymentMethod(method.type) })
-    } else if (props.formValues && method) {
+    } else if (formValues && method) {
       switch (method.type) {
         case BSPaymentTypes.PAYMENT_CARD:
           if (props.mobilePaymentMethod) {
@@ -142,23 +154,23 @@ const Checkout = (props: Props) => {
 
   const errorCallback = () => {
     props.buySellActions.setStep({
-      fiatCurrency: props.fiatCurrency || 'USD',
+      fiatCurrency: props.fiatCurrency,
       step: 'CRYPTO_SELECTION'
     })
   }
 
   useEffect(() => {
-    const dataGoal = find(propEq('name', 'buySell'), props.goals)
+    const dataGoal = find(propEq('name', 'buySell'), goals)
     const goalAmount = pathOr('', ['data', 'amount'], dataGoal)
-    const amount = goalAmount || props.formValues?.amount || '0'
-    const cryptoAmount = props.formValues?.cryptoAmount
-    const period = props.formValues?.period || RecurringBuyPeriods.ONE_TIME
+    const amount = goalAmount || formValues?.amount || '0'
+    const cryptoAmount = formValues?.cryptoAmount
+    const period = formValues?.period || RecurringBuyPeriods.ONE_TIME
 
     props.buySellActions.initializeCheckout({
       account: props.swapAccount,
       amount,
       cryptoAmount,
-      fix: props.preferences[props.orderType].fix,
+      fix: preferences[props.orderType].fix,
       orderType: props.orderType,
       pair: props.pair,
       pairs: props.pairs,
@@ -239,20 +251,17 @@ const Checkout = (props: Props) => {
     return null
   }
 
-  return <Success {...props} {...data} onSubmit={handleSubmit} />
+  return (
+    <Success
+      formValues={formValues}
+      isPristine={isPristine}
+      preferences={preferences}
+      {...props}
+      {...data}
+      onSubmit={handleSubmit}
+    />
+  )
 }
-
-const mapStateToProps = (state: RootState) => ({
-  cryptoCurrency: selectors.components.buySell.getCryptoCurrency(state) || 'BTC',
-  fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD',
-  formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as
-    | BSCheckoutFormValuesType
-    | undefined,
-  goals: selectors.goals.getGoals(state),
-  isPristine: selectors.form.isPristine(FORM_BS_CHECKOUT)(state),
-  preferences: selectors.preferences.getBSCheckoutPreferences(state),
-  sbOrders: selectors.components.buySell.getBSOrders(state).getOrElse([])
-})
 
 const mapDispatchToProps = (dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
@@ -281,9 +290,10 @@ const mapDispatchToProps = (dispatch) => ({
   }
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(null, mapDispatchToProps)
 
-export type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
+export type OwnProps = EnterAmountOwnProps &
+  EnterAmountSuccessStateType & { cryptoCurrency: string; fiatCurrency: FiatType }
 export type SuccessStateType = ReturnType<typeof getData>['data'] & {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   hasPaymentAccount: boolean

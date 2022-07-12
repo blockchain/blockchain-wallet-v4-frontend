@@ -2,13 +2,14 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { FiatType } from '@core/types'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { capitalizeFirstLetter } from 'services/forms'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 
-export type Props = OwnProps & SuccessStateType
+export type Props = OwnProps & SuccessStateType & { cryptoCurrency: string; fiatCurrency: FiatType }
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
