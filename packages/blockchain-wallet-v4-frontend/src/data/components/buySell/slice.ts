@@ -277,6 +277,7 @@ const buySellSlice = createSlice({
     fetchCardsFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.cards = Remote.Success([])
     },
+
     fetchCardsLoading: (state) => {
       state.cards = Remote.Loading
     },
@@ -302,10 +303,10 @@ const buySellSlice = createSlice({
     ) => {
       state.fiatEligible = Remote.Failure(action.payload)
     },
-
     fetchFiatEligibleLoading: (state) => {
       state.fiatEligible = Remote.Loading
     },
+
     fetchFiatEligibleSuccess: (state, action: PayloadAction<FiatEligibleType>) => {
       state.fiatEligible = Remote.Success(action.payload)
     },
@@ -472,6 +473,9 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{ cvv: string; paymentMethodTokens: { [key: string]: string } }>
     ) => {},
+    resetConfirmOrder: (state) => {
+      state.order = state.pendingOrder ? Remote.Success(state.pendingOrder) : Remote.NotAsked
+    },
     setApplePayInfo: (state, action: PayloadAction<ApplePayInfoType>) => {
       state.applePayInfo = action.payload
     },
