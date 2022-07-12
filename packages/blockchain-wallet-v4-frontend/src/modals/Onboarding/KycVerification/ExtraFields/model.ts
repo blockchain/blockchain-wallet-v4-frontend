@@ -21,3 +21,11 @@ export const GetNodeQuestionElements = (node: NodeType) => {
     }
   ]
 }
+
+export const GetInputPlaceholder = (child) => {
+  const intl = useIntl()
+  return intl.formatMessage({
+    defaultMessage: child.text,
+    id: `modals.onboarding.kyc_verification.extra_fields.${child.id}_hint`
+  })
+}

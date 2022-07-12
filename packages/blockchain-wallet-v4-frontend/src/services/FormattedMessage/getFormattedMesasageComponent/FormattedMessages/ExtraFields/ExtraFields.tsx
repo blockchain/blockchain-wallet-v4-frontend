@@ -367,6 +367,18 @@ const FormattedMessages = {
       id='modals.onboarding.kyc_verification.extra_fields.INITIAL_SET-q4_instructions'
       defaultMessage='(Select only one)'
     />
+  ),
+  'header.description': (
+    <FormattedMessage
+      id='modals.onboarding.kyc_verification.extra_fields.header.description'
+      defaultMessage='To comply with your country regulation, we need a few more pieces of information before you are all set up to start trading crypto.'
+    />
+  ),
+  'header.title': (
+    <FormattedMessage
+      id='modals.onboarding.kyc_verification.extra_fields.header.title'
+      defaultMessage='Additional Information Needed'
+    />
   )
 }
 

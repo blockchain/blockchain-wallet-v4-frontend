@@ -17,7 +17,7 @@ import { getFormattedMesasageComponent } from 'services/FormattedMessage/getForm
 import { required, validFormat } from 'services/forms'
 
 import { Props as OwnProps, SuccessStateType } from '.'
-import { GetNodeQuestionElements } from './model'
+import { GetInputPlaceholder, GetNodeQuestionElements } from './model'
 
 const { KYC_EXTRA_QUESTIONS_FORM } = model.components.identityVerification
 
@@ -250,17 +250,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
         {node.children &&
           node.children.map((child) => {
-            const ChildTranslations = {
-              defaultMessage: child.text,
-              id: `modals.onboarding.kyc_verification.extra_fields.${child.id}`
-            }
             return (
-              <FormItem key={child.id}>
+              <FormItem key={`checkbox-${child.id}`}>
                 <CheckBoxContainer>
                   <CenterField>
-                    <CheckBoxText>
-                      <FormattedMessage {...ChildTranslations} />
-                    </CheckBoxText>
+                    <CheckBoxText>{getFormattedMesasageComponent(child.id)}</CheckBoxText>
                   </CenterField>
                   <CenterField>
                     <Field
@@ -281,7 +275,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   }
 
   const RenderDropDownBasedQuestion = (node: NodeType, updateItem) => {
-    const questionElements = useMemo(() => GetNodeQuestionElements(node), [node])
+    const questionElements = GetNodeQuestionElements(node)
 
     const onChangeItem = (e, value) => {
       updateItem(node.id, value)
@@ -317,7 +311,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             (child) =>
               child.children &&
               formValue === child.id && (
-                <FormItem style={{ marginTop: '10px' }}>
+                <FormItem style={{ marginTop: '10px' }} key={`option-${child.id}`}>
                   {child.children.map((item) => (
                     <Field
                       key={item.id}
@@ -325,7 +319,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       errorBottom
                       validate={required}
                       component={TextBox}
-                      placeholder={item.text}
                       onChange={onChangeInput}
                     />
                   ))}
@@ -352,16 +345,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           <FormItem>
             {node.children &&
               node.children.map((child) => {
-                const ChildTranslations = {
-                  defaultMessage: child.text,
-                  id: `modals.onboarding.kyc_verification.extra_fields.${child.id}`
-                }
                 return (
                   <CheckBoxContainer key={child.id}>
                     <CenterField>
-                      <CheckBoxText>
-                        <FormattedMessage {...ChildTranslations} />
-                      </CheckBoxText>
+                      <CheckBoxText>{getFormattedMesasageComponent(child.id)}</CheckBoxText>
                     </CenterField>
                     <CenterField>
                       <Field
@@ -384,17 +371,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             (child) =>
               child.children &&
               formValue === child.id && (
-                <FormGroup>
+                <FormGroup key={`form-group-${child.id}`}>
                   {child.children.map((item, index) => {
-                    const ItemTranslation = {
-                      field: getFormattedMesasageComponent(`${item.id}_hint`),
-                      label: getFormattedMesasageComponent(item.id)
-                    }
                     return (
-                      <FormItem key={item.id} style={{ marginTop: index > 0 ? '5px' : null }}>
+                      <FormItem
+                        key={`form-item-${item.id}`}
+                        style={{ marginTop: index > 0 ? '5px' : null }}
+                      >
                         <Label htmlFor={item.id}>
                           <Text weight={500} size='14px' color='grey900'>
-                            {ItemTranslation.label}
+                            {getFormattedMesasageComponent(item.id)}
                           </Text>
                         </Label>
 
@@ -403,6 +389,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                           errorBottom
                           validate={required}
                           component={TextBox}
+                          placeholder={GetInputPlaceholder(item)}
                           onChange={onChangeInput}
                         />
                       </FormItem>
@@ -440,6 +427,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             errorBottom
             validate={validations}
             component={TextBox}
+            placeholder={GetInputPlaceholder(node)}
             pattern={node.regex || ''}
             onChange={onChangeInput}
           />
