@@ -2,7 +2,7 @@ import React from 'react'
 
 import { BSPaymentTypes, OrderType } from '@core/types'
 
-import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 import Checkout from './Checkout'
 import Unsupported from './template.unsupported'
 
@@ -30,6 +30,6 @@ const Success = (props: Props) => {
   )
 }
 
-export type Props = OwnProps & SuccessStateType & LinkStatePropsType
+export type Props = OwnProps & SuccessStateType
 
 export default Success

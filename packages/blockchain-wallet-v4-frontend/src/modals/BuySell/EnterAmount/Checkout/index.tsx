@@ -3,11 +3,17 @@ import { connect, ConnectedProps } from 'react-redux'
 import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
-import { Remote } from '@core'
-import { BSPaymentTypes, CrossBorderLimitsPayload, OrderType, WalletAccountEnum } from '@core/types'
+import {
+  BSPaymentTypes,
+  CrossBorderLimitsPayload,
+  ExtractSuccess,
+  OrderType,
+  WalletAccountEnum
+} from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
+import { ClientErrorProperties } from 'data/analytics/types/errors'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import {
@@ -15,9 +21,9 @@ import {
   BSCheckoutFormValuesType,
   ModalName,
   RecurringBuyPeriods,
-  SwapBaseCounterTypes,
-  UserDataType
+  SwapBaseCounterTypes
 } from 'data/types'
+import { useRemote } from 'hooks'
 import { isNabuError } from 'services/errors'
 
 import Loading from '../../template.loading'
@@ -31,17 +37,21 @@ import Success from './template.success'
 const { FORM_BS_CHECKOUT } = model.components.buySell
 
 const Checkout = (props: Props) => {
+  const { data, error, isLoading, isNotAsked } = useRemote<
+    string | Partial<ClientErrorProperties> | undefined,
+    ExtractSuccess<ReturnType<typeof getData>>,
+    RootState
+  >((state) => getData(state, props))
+
   const methodRef = useRef<string>()
 
   const handleSubmit = () => {
+    if (!data) return
+
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
-    const { formValues } = props
-    const { hasPaymentAccount, isSddFlow, userData } = props.data.getOrElse({
-      hasPaymentAccount: false,
-      isSddFlow: false,
-      userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
-    } as SuccessStateType)
+    const { hasPaymentAccount, isSddFlow, userData } = data
+
     const buySellGoal = find(propEq('name', 'buySell'), props.goals)
 
     const id = propOr('', 'id', buySellGoal)
@@ -55,7 +65,7 @@ const Checkout = (props: Props) => {
     // TODO: sell
     // need to do kyc check
     // SELL
-    if (formValues?.orderType === OrderType.SELL) {
+    if (props.formValues?.orderType === OrderType.SELL) {
       return props.buySellActions.setStep({
         sellOrderType: props.swapAccount?.type,
         step: 'PREVIEW_SELL'
@@ -90,7 +100,7 @@ const Checkout = (props: Props) => {
       })
     } else if (userData.tiers.current < 2) {
       props.buySellActions.createOrder({ paymentMethodId: getValidPaymentMethod(method.type) })
-    } else if (formValues && method) {
+    } else if (props.formValues && method) {
       switch (method.type) {
         case BSPaymentTypes.PAYMENT_CARD:
           if (props.mobilePaymentMethod) {
@@ -161,7 +171,7 @@ const Checkout = (props: Props) => {
       props.buySellActions.setMethod(props.defaultMethod)
     }
 
-    if (!Remote.Success.is(props.data)) {
+    if (!data) {
       props.buySellActions.fetchSDDEligibility()
       props.buySellActions.fetchCards(false)
       props.brokerageActions.fetchBankTransferAccounts()
@@ -202,30 +212,38 @@ const Checkout = (props: Props) => {
     }
   }, [props.buySellActions, props.defaultMethod])
 
-  return props.data.cata({
-    Failure: (error) => {
-      if (isNabuError(error)) {
-        return <GenericNabuErrorFlyout error={error} onDismiss={errorCallback} />
-      }
+  if (error) {
+    if (isNabuError(error)) {
+      return <GenericNabuErrorFlyout error={error} onDismiss={errorCallback} />
+    }
 
-      return (
-        <FlyoutOopsError
-          action='retry'
-          data-e2e='sbTryCurrencySelectionAgain'
-          handler={errorCallback}
-          errorMessage={error}
-        />
-      )
-    },
-    Loading: () => <Loading />,
-    NotAsked: () => <Loading />,
-    Success: (val) => <Success {...props} {...val} onSubmit={handleSubmit} />
-  })
+    return (
+      <FlyoutOopsError
+        action='retry'
+        data-e2e='sbTryCurrencySelectionAgain'
+        handler={errorCallback}
+        errorMessage={error}
+      />
+    )
+  }
+
+  if (isNotAsked) {
+    return null
+  }
+
+  if (isLoading) {
+    return <Loading />
+  }
+
+  if (!data) {
+    return null
+  }
+
+  return <Success {...props} {...data} onSubmit={handleSubmit} />
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
+const mapStateToProps = (state: RootState) => ({
   cryptoCurrency: selectors.components.buySell.getCryptoCurrency(state) || 'BTC',
-  data: getData(state, ownProps),
   fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD',
   formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as
     | BSCheckoutFormValuesType

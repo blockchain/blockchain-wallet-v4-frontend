@@ -203,7 +203,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       fiatCurrency: props.fiatCurrency || 'USD',
       step: 'CRYPTO_SELECTION'
     })
-  }, [props.fiatCurrency, props.buySellActions, dispatch, props.form])
+  }, [props.fiatCurrency, props.buySellActions])
 
   const isSddBuy = props.isSddFlow && props.orderType === OrderType.BUY
 
