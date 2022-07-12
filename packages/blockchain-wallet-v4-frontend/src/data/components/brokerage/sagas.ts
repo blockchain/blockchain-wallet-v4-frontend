@@ -33,6 +33,7 @@ import { actions as A } from './slice'
 import { OBType } from './types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
+const EXPECTED_MODAL_NAMES = [undefined, 'KYC_MODAL']
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { isTier2 } = profileSagas({
@@ -236,14 +237,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       return
     }
 
-    // Wait for KYC flow to end
-    const result = yield take([
-      actions.modals.closeModal.type,
-      actions.components.identityVerification.setAllContextQuestionsAnswered.type
-    ])
+    while (true) {
+      // Wait for KYC flow to end
+      const { payload, type } = yield take([
+        actions.modals.closeModal.type,
+        actions.components.identityVerification.setAllContextQuestionsAnswered.type
+      ])
 
-    // If KYC was closed without answering, close
-    if (result.type === actions.modals.closeModal.type) return
+      // If KYC was answered, break and continue
+      if (type === actions.components.identityVerification.setAllContextQuestionsAnswered.type)
+        break
+
+      // If KYC was closed without answering, close
+      if (
+        type === actions.modals.closeModal.type &&
+        EXPECTED_MODAL_NAMES.includes(payload.modalName)
+      )
+        return
+    }
 
     yield put(
       actions.components.brokerage.showModal({
@@ -318,14 +329,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       return
     }
 
-    // Wait for KYC flow to end
-    const result = yield take([
-      actions.modals.closeModal.type,
-      actions.components.identityVerification.setAllContextQuestionsAnswered.type
-    ])
+    while (true) {
+      // Wait for KYC flow to end
+      const { payload, type } = yield take([
+        actions.modals.closeModal.type,
+        actions.components.identityVerification.setAllContextQuestionsAnswered.type
+      ])
 
-    // If KYC was closed without answering, close
-    if (result.type === actions.modals.closeModal.type) return
+      // If KYC was answered, break and continue
+      if (type === actions.components.identityVerification.setAllContextQuestionsAnswered.type)
+        break
+
+      // If KYC was closed without answering, close
+      if (
+        type === actions.modals.closeModal.type &&
+        EXPECTED_MODAL_NAMES.includes(payload.modalName)
+      )
+        return
+    }
 
     yield put(actions.form.destroy('brokerageTx'))
     yield put(actions.components.withdraw.showModal({ fiatCurrency: payload }))
