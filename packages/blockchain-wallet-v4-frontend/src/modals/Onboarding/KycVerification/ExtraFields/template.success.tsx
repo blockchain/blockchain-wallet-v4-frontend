@@ -13,6 +13,7 @@ import FormItem from 'components/Form/FormItem'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
+import { getFormattedMesasageComponent } from 'services/FormattedMessage/getFormattedMesasageComponent'
 import { required, validFormat } from 'services/forms'
 
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -238,24 +239,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const renderCheckBoxBasedQuestion = (node: NodeType, updateItem) => {
     const nodeTranslation = {
-      instructions: {
-        defaultMessage: node.instructions,
-        id: `modals.onboarding.kyc_verification.extra_fields.${node.id}_instructions`
-      },
-      title: {
-        defaultMessage: node.text,
-        id: `modals.onboarding.kyc_verification.extra_fields.${node.id}`
-      }
+      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
+      title: getFormattedMesasageComponent(node.id)
     }
     return (
       <FormGroup>
-        <QuestionTitle>
-          <FormattedMessage {...nodeTranslation.title} />
-        </QuestionTitle>
+        <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
-        <QuestionDescription>
-          <FormattedMessage {...nodeTranslation.instructions} />
-        </QuestionDescription>
+        <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
 
         {node.children &&
           node.children.map((child) => {
@@ -299,24 +290,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const formValue = props?.formValues ? props?.formValues[node.id] : null
 
     const nodeTranslation = {
-      instructions: {
-        defaultMessage: node.instructions,
-        id: `modals.onboarding.kyc_verification.extra_fields.${node.id}_instructions`
-      },
-      title: {
-        defaultMessage: node.text,
-        id: `modals.onboarding.kyc_verification.extra_fields.${node.id}`
-      }
+      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
+      title: getFormattedMesasageComponent(node.id)
     }
+
     return (
       <FormGroup>
-        <QuestionTitle>
-          <FormattedMessage {...nodeTranslation.title} />
-        </QuestionTitle>
+        <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
-        <QuestionDescription>
-          <FormattedMessage {...nodeTranslation.instructions} />
-        </QuestionDescription>
+        <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
 
         <FormItem>
           <Field
@@ -357,24 +339,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const RenderSingleSelectionQuestion = (node: NodeType, updateItem) => {
     const formValue = props?.formValues ? props?.formValues[node.id] : null
     const nodeTranslation = {
-      instructions: {
-        defaultMessage: node.instructions,
-        id: `modals.onboarding.kyc_verification.extra_fields.${node.id}_instructions`
-      },
-      title: {
-        defaultMessage: node.text,
-        id: `modals.onboarding.kyc_verification.extra_fields.${node.id}`
-      }
+      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
+      title: getFormattedMesasageComponent(node.id)
     }
     return (
       <>
         <FormGroup>
-          <QuestionTitle>
-            <FormattedMessage {...nodeTranslation.title} />
-          </QuestionTitle>
-          <QuestionDescription>
-            <FormattedMessage {...nodeTranslation.instructions} />
-          </QuestionDescription>
+          <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
+
+          <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
 
           <FormItem>
             {node.children &&
@@ -414,34 +387,24 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 <FormGroup>
                   {child.children.map((item, index) => {
                     const ItemTranslation = {
-                      field: {
-                        defaultMessage: item.hint,
-                        id: `modals.onboarding.kyc_verification.extra_fields.${item.id}_hint`
-                      },
-                      label: {
-                        defaultMessage: item.text,
-                        id: `modals.onboarding.kyc_verification.extra_fields.${item.id}`
-                      }
+                      field: getFormattedMesasageComponent(`${item.id}_hint`),
+                      label: getFormattedMesasageComponent(item.id)
                     }
                     return (
                       <FormItem key={item.id} style={{ marginTop: index > 0 ? '5px' : null }}>
                         <Label htmlFor={item.id}>
                           <Text weight={500} size='14px' color='grey900'>
-                            <FormattedMessage {...ItemTranslation.label} />
+                            {ItemTranslation.label}
                           </Text>
                         </Label>
-                        <FormattedMessage {...ItemTranslation.field}>
-                          {(placeholder) => (
-                            <Field
-                              name={item.id}
-                              errorBottom
-                              validate={required}
-                              component={TextBox}
-                              placeholder={placeholder}
-                              onChange={onChangeInput}
-                            />
-                          )}
-                        </FormattedMessage>
+
+                        <Field
+                          name={item.id}
+                          errorBottom
+                          validate={required}
+                          component={TextBox}
+                          onChange={onChangeInput}
+                        />
                       </FormItem>
                     )
                   })}
@@ -456,47 +419,30 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const validFormatCb = useCallback(validFormat(node.regex), [node.regex])
     const validations = [required, validFormatCb]
     const displayInstructions = node.instructions && !!node.instructions.length
+
     const nodeTranslation = {
-      field: {
-        defaultMessage: node.hint,
-        id: `modals.onboarding.kyc_verification.extra_fields.${node.id}_hint`
-      },
-      instructions: {
-        defaultMessage: node.instructions,
-        id: `modals.onboarding.kyc_verification.extra_fields.${node.id}_instructions`
-      },
-      title: {
-        defaultMessage: node.text,
-        id: `modals.onboarding.kyc_verification.extra_fields.${node.id}`
-      }
+      field: getFormattedMesasageComponent(`${node.id}hint`),
+      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
+      title: getFormattedMesasageComponent(node.id)
     }
 
     return (
       <FormGroup>
-        <QuestionTitle>
-          <FormattedMessage {...nodeTranslation.title} />
-        </QuestionTitle>
+        <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
         {displayInstructions && (
-          <QuestionDescription>
-            <FormattedMessage {...nodeTranslation.instructions} />
-          </QuestionDescription>
+          <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
         )}
 
         <FormItem key={node.id} style={{ marginBottom: '10px' }}>
-          <FormattedMessage {...nodeTranslation.field}>
-            {(placeholder) => (
-              <Field
-                name={node.id}
-                errorBottom
-                validate={validations}
-                component={TextBox}
-                placeholder={placeholder}
-                pattern={node.regex || ''}
-                onChange={onChangeInput}
-              />
-            )}
-          </FormattedMessage>
+          <Field
+            name={node.id}
+            errorBottom
+            validate={validations}
+            component={TextBox}
+            pattern={node.regex || ''}
+            onChange={onChangeInput}
+          />
         </FormItem>
       </FormGroup>
     )
@@ -504,15 +450,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const RenderHeader = (header) => {
     const headerTrandlation = {
-      description: {
-        defaultMessage: header.description,
-        id: `modals.onboarding.kyc_verification.extra_fields.header.description`
-      },
-      title: {
-        defaultMessage: header.title,
-        id: `modals.onboarding.kyc_verification.extra_fields.header.title`
-      }
+      description: getFormattedMesasageComponent('header.description'),
+      title: getFormattedMesasageComponent('header.title')
     }
+
     return (
       <TopHeader color='grey800' size='20px' weight={600}>
         <Icon
@@ -521,13 +462,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           color='blue600'
           style={{ marginBottom: '10px', marginRight: '4px' }}
         />
-        <TopHeaderTitle>
-          <FormattedMessage {...headerTrandlation.title} />
-        </TopHeaderTitle>
+        <TopHeaderTitle>{headerTrandlation.title}</TopHeaderTitle>
         {header.description && (
-          <TopHeaderDescription>
-            <FormattedMessage {...headerTrandlation.description} />
-          </TopHeaderDescription>
+          <TopHeaderDescription>{headerTrandlation.description}</TopHeaderDescription>
         )}
       </TopHeader>
     )
