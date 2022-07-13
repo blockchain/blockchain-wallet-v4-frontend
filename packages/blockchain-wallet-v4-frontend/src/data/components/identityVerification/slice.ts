@@ -65,7 +65,7 @@ const identityVerificationSlice = createSlice({
         tier: number
       }>
     ) => {},
-
+    kycModalClosed: () => {},
     preIdvCheckFinished: () => {},
     registerUserCampaign: (state, action: PayloadAction<{ newUser: boolean }>) => {},
     resendSmsCode: (state, action) => {},
