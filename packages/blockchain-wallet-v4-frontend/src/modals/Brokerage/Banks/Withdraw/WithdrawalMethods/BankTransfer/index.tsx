@@ -14,6 +14,8 @@ import {
 } from 'components/BuySell'
 import { SuccessCartridge } from 'components/Cartridge'
 
+import { getSubTitleByCurrency } from './utils'
+
 const DisplayTitleBank = styled(DisplayTitle)`
   margin-bottom: 2px;
 `
@@ -39,7 +41,6 @@ const TopSection = styled.div`
 type Props = {
   icon: ReactElement
   onClick: (string) => void
-  text: ReactElement | string
   value: BSPaymentMethodType
 }
 
@@ -54,11 +55,9 @@ const BankTransfer = ({ icon, onClick, value }: Props) => (
         <DisplayIconBank>{icon}</DisplayIconBank>
         <Content>
           <DisplayTitleBank>
-            <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
+            <FormattedMessage id='copy.bank_account' defaultMessage='Easy Bank Transfer' />
           </DisplayTitleBank>
-          <DisplaySubTitle>
-            <FormattedMessage id='copy.instantly_available' defaultMessage='Instantly Available' />
-          </DisplaySubTitle>
+          <DisplaySubTitle>{getSubTitleByCurrency(value.currency)}</DisplaySubTitle>
           <Description>
             <FormattedMessage
               id='modals.brokerage.bank_deposit_description'

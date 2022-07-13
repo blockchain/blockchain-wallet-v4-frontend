@@ -13,6 +13,8 @@ import {
   DisplayTitle
 } from 'components/BuySell'
 
+import { getSubTitleByCurrency } from './utils'
+
 const DisplayTitleBank = styled(DisplayTitle)`
   margin-bottom: 2px;
 `
@@ -36,26 +38,22 @@ const BankWire: React.FC<Props> = ({ icon, onClick, text, value }) => (
     <DisplayIconBank>{icon}</DisplayIconBank>
     <Content>
       <DisplayTitleBank>{text}</DisplayTitleBank>
-      <DisplaySubTitle>
-        {value.currency === 'ARS' ? (
-          <FormattedMessage
-            id='copy.number_of_business_days_ars'
-            defaultMessage='{first} to {second} Business Days'
-            values={{ first: '1', second: '3' }}
-          />
-        ) : (
-          <FormattedMessage
-            id='copy.number_of_business_days'
-            defaultMessage='{first} to {second} Business Days'
-            values={{ first: '3', second: '5' }}
-          />
-        )}
-      </DisplaySubTitle>
+      <DisplaySubTitle>{getSubTitleByCurrency(value.currency)}</DisplaySubTitle>
       <Description>
-        {value.currency === 'USD' ? (
+        {value.currency === 'EUR' ? (
+          <FormattedMessage
+            id='modals.simplebuy.bankwire.eur_description'
+            defaultMessage=' Bank fees may apply.'
+          />
+        ) : value.currency === 'GBP' ? (
+          <FormattedMessage
+            id='modals.simplebuy.bankwire.gbp_description'
+            defaultMessage='Transfers are made through the UK Faster Payments System and usually arrive in seconds.'
+          />
+        ) : value.currency === 'USD' ? (
           <FormattedMessage
             id='modals.simplebuy.bankwire.description_v'
-            defaultMessage='Send funds directly from your bank to your Blockchain.com Account. Once we receive the wire transfer, we’ll complete your purchase.'
+            defaultMessage='For transferring large amounts. Bank fees may apply.'
           />
         ) : value.currency === 'ARS' ? (
           <FormattedMessage

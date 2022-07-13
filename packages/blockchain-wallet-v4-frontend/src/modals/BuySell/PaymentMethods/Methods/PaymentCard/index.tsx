@@ -57,7 +57,7 @@ const PaymentCard: React.FC<Props> = ({ icon, onClick, text, value }) => (
     <Content>
       <DisplayTitle>{text}</DisplayTitle>
       <DisplaySubTitle>
-        <FormattedMessage id='copy.instantly_available' defaultMessage='Instantly Available' />
+        <FormattedMessage id='copy.instantly_available' defaultMessage='Buy Small Amounts' />
       </DisplaySubTitle>
       <Description>
         <FormattedMessage
