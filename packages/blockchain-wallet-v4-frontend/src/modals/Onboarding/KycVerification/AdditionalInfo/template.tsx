@@ -98,6 +98,8 @@ const AdditionalInfo: React.FC<Props> = (props) => {
     })
   }
 
+  const isAR = props.userData?.address?.country === 'AR'
+
   return (
     <Wrapper>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
@@ -134,23 +136,27 @@ const AdditionalInfo: React.FC<Props> = (props) => {
         </Text>
       </FlyoutWrapper>
       <Requirements>
-        <ContentItem>
-          <Text color='grey800' weight={600}>
-            <FormattedMessage
-              id='modals.kycverification.additionalinfo.requirement_1'
-              defaultMessage='Government Issued ID'
-            />
-          </Text>
-        </ContentItem>
+        {!isAR && (
+          <>
+            <ContentItem>
+              <Text color='grey800' weight={600}>
+                <FormattedMessage
+                  id='modals.kycverification.additionalinfo.requirement_1'
+                  defaultMessage='Government Issued ID'
+                />
+              </Text>
+            </ContentItem>
 
-        <ContentItem>
-          <Text color='grey800' weight={600}>
-            <FormattedMessage
-              id='modals.kycverification.additionalinfo.requirement_2'
-              defaultMessage='Valid Driver’s License'
-            />
-          </Text>
-        </ContentItem>
+            <ContentItem>
+              <Text color='grey800' weight={600}>
+                <FormattedMessage
+                  id='modals.kycverification.additionalinfo.requirement_2'
+                  defaultMessage='Valid Driver’s License'
+                />
+              </Text>
+            </ContentItem>
+          </>
+        )}
 
         <ContentItem>
           <Text color='grey800' weight={600}>
