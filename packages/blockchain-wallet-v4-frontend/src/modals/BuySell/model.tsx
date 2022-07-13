@@ -175,17 +175,7 @@ export const getPaymentMethod = ({
       )
     case BSPaymentTypes.FUNDS:
       if (orderType === 'BUY') {
-        const coinName = window.coins[counterCurrency]?.coinfig.name ?? counterCurrency
-
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.confirm.funds_wallet'
-            defaultMessage='{coin} Wallet'
-            values={{
-              coin: coinName
-            }}
-          />
-        )
+        return window.coins[counterCurrency]?.coinfig.name ?? counterCurrency
       }
       const coinName = window.coins[baseCurrency]?.coinfig.name ?? baseCurrency
 
@@ -226,6 +216,12 @@ export const displayFiat = (order: BSOrderType, amt: string) => {
   })
 }
 
+const defaultBankInfo = {
+  accountNumber: '',
+  bankAccountType: '',
+  bankName: 'Bank Transfer'
+}
+
 export const getPaymentMethodDetails = ({
   bankAccount,
   cardDetails,
@@ -237,15 +233,12 @@ export const getPaymentMethodDetails = ({
 }) => {
   switch (order.paymentType) {
     case BSPaymentTypes.PAYMENT_CARD:
-      return `${cardDetails?.card?.type || ''} ${cardDetails?.card?.number || ''}`
+      return `${cardDetails?.card?.type || ''} ***${cardDetails?.card?.number || ''}`
     case BSPaymentTypes.BANK_TRANSFER:
-      const defaultBankInfo = {
-        accountNumber: '',
-        bankAccountType: '',
-        bankName: 'Bank Transfer'
-      }
-      const d = (bankAccount && bankAccount.details) || defaultBankInfo
-      return `${d.bankAccountType?.toLowerCase() || ''} ${d.accountNumber || ''}`
+      const effectiveBankAccount = (bankAccount && bankAccount.details) || defaultBankInfo
+      return `${effectiveBankAccount.bankName || ''} ****${
+        effectiveBankAccount.accountNumber || ''
+      }`
     default:
       return null
   }

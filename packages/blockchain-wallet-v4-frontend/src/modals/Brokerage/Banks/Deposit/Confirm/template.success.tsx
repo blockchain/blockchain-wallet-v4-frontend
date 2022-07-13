@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { getLockRuleMessaging } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/model'
 import { addDays, format, intervalToDuration } from 'date-fns'
@@ -47,6 +47,18 @@ const Success = (props: Props) => {
     ? (intervalToDuration({ end: props.withdrawLockCheck?.lockTime || 0, start: 0 }).days as number)
     : 0
 
+  const targetCoinName = useMemo(() => {
+    const currency = props.defaultMethod?.currency
+
+    if (!currency) return null
+
+    const coin = window.coins[currency]
+
+    if (!coin) return currency
+
+    return coin.coinfig.name
+  }, [props.defaultMethod])
+
   return (
     <FlyoutContainer>
       <FlyoutHeader data-e2e='confirmDepositBackButton' mode='back' onClick={backButtonClick}>
@@ -71,13 +83,7 @@ const Success = (props: Props) => {
           <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
             <FormattedMessage id='copy.to' defaultMessage='To' />
           </Text>
-          <LineItemText>
-            <FormattedMessage
-              id='modals.brokerage.fiat_account'
-              defaultMessage='{currency} Account'
-              values={{ currency: props.defaultMethod?.currency }}
-            />
-          </LineItemText>
+          <LineItemText>{targetCoinName}</LineItemText>
         </Row>
         {!isOpenBanking && (
           <Row>
