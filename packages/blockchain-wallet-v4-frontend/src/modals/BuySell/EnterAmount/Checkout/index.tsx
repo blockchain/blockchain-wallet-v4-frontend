@@ -162,7 +162,7 @@ const Checkout = (props: Props) => {
   useEffect(() => {
     const dataGoal = find(propEq('name', 'buySell'), goals)
     const goalAmount = pathOr('', ['data', 'amount'], dataGoal)
-    const amount = goalAmount || formValues?.amount || '0'
+    const amount = goalAmount || formValues?.amount
     const cryptoAmount = formValues?.cryptoAmount
     const period = formValues?.period || RecurringBuyPeriods.ONE_TIME
 

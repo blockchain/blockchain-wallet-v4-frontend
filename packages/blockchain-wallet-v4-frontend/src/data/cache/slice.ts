@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState = {
   announcements: {},
@@ -12,6 +12,7 @@ const initialState = {
   lastEmail: undefined,
   lastGuid: undefined,
   lastLogoutTimestamp: undefined,
+  lastUnusedAmounts: {},
   mobileConnected: undefined,
   unifiedAccount: undefined
 }
@@ -69,6 +70,11 @@ const cacheSlice = createSlice({
       state.exchangeWalletGuid = undefined
       state.unifiedAccount = undefined
     },
+    removeLastUsedAmount: (state, action: PayloadAction<{ pair: string }>) => {
+      if (state.lastUnusedAmounts[action.payload.pair]) {
+        delete state.lastUnusedAmounts[action.payload.pair]
+      }
+    },
     removeStoredLogin: (state) => {
       state.exchangeEmail = undefined
       state.exchangeWalletGuid = undefined
@@ -86,6 +92,9 @@ const cacheSlice = createSlice({
       state.mobileConnected = undefined
       state.hasCloudBackup = undefined
       state.unifiedAccount = undefined
+    },
+    setLastUnusedAmount: (state, action: PayloadAction<{ amount: string; pair: string }>) => {
+      state.lastUnusedAmounts[action.payload.pair] = action.payload.amount
     },
     setUnifiedAccount: (state, action) => {
       state.unifiedAccount = action.payload
