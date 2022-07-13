@@ -68,7 +68,6 @@ const identityVerificationSlice = createSlice({
     kycModalClosed: () => {},
     preIdvCheckFinished: () => {},
     registerUserCampaign: (state, action: PayloadAction<{ newUser: boolean }>) => {},
-    resendSmsCode: (state, action) => {},
     resetVerificationStep: (state, action) => {
       state.verificationStep = null
     },
@@ -105,10 +104,6 @@ const identityVerificationSlice = createSlice({
     setPreIdvDataSuccess: (state, action: PayloadAction<PreIdvDataType>) => {
       state.preIdvData = Remote.Success(action.payload)
     },
-    setSmsStep: (state, action: PayloadAction<EmailSmsStepType>) => {
-      state.smsStep = Remote.Success(action.payload)
-    },
-
     setStatesFailure: (state, action: PayloadAction<string>) => {
       state.states = Remote.Failure(action.payload)
     },
@@ -154,8 +149,6 @@ const identityVerificationSlice = createSlice({
     updateExtraKYCQuestions: (state, action: PayloadAction<ExtraQuestionsType>) => {
       state.kycExtraQuestions = Remote.Success(action.payload)
     },
-    updateSmsNumber: () => {},
-    updateSmsStep: () => {},
     verifyIdentity: (
       state,
       action: PayloadAction<{
@@ -166,8 +159,7 @@ const identityVerificationSlice = createSlice({
         origin: VerifyIdentityOriginType
         tier: number
       }>
-    ) => {},
-    verifySmsNumber: () => {}
+    ) => {}
   }
 })
 

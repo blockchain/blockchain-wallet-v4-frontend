@@ -72,7 +72,9 @@ export default ({ api, coreSagas }) => {
 
   const updateMobile = function* (action) {
     try {
-      yield call(coreSagas.settings.setMobile, action.payload)
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
+      const { mobile } = action.payload
+      yield call(coreSagas.settings.setMobile, mobile, nabuSessionToken)
       yield call(syncUserWithWallet)
       yield put(actions.alerts.displaySuccess(C.MOBILE_UPDATE_SUCCESS))
     } catch (e) {
@@ -84,7 +86,9 @@ export default ({ api, coreSagas }) => {
 
   const resendMobile = function* (action) {
     try {
-      yield call(coreSagas.settings.setMobile, action.payload)
+      const { mobile } = action.payload
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
+      yield call(coreSagas.settings.setMobile, mobile, nabuSessionToken)
       yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'resendMobile', e))
