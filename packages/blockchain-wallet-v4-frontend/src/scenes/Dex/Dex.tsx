@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
+import { put } from 'redux-saga/effects'
 import styled from 'styled-components'
 
 import { actions, model } from 'data'
@@ -33,10 +34,11 @@ const ContentWrapper = styled.div`
   `}
 `
 
-const Dex = ({ dexActions }: Props) => {
+const Dex = ({ dexActions, ratesActions }: Props) => {
   useEffect(() => {
     dexActions.fetchChains()
-  }, [dexActions])
+    ratesActions.fetchCoinsRates()
+  }, [dexActions, ratesActions])
 
   const wasIntroViewed = !!localStorage.getItem(DEX_INTRO_VIEWED_KEY)
   return (
@@ -47,7 +49,8 @@ const Dex = ({ dexActions }: Props) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  dexActions: bindActionCreators(actions.components.dex, dispatch)
+  dexActions: bindActionCreators(actions.components.dex, dispatch),
+  ratesActions: bindActionCreators(actions.core.data.coins, dispatch)
 })
 
 const connector = connect(null, mapDispatchToProps)

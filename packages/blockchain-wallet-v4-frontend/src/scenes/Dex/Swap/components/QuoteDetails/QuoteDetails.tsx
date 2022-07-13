@@ -1,6 +1,8 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
 
+import { DexSwapQuoteResponse } from '@core/network/api/dex/types'
+import { RemoteDataType } from '@core/remote/types'
 import { Text } from 'blockchain-info-components'
 
 const slideInTop = keyframes`
@@ -18,7 +20,7 @@ const QuoteWrapper = styled.div<{ animate: boolean }>`
   display: flex;
   flex-direction: column;
   margin-bottom: 24px;
-  animation: ${slideInTop} 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: ${slideInTop} 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 16px;
   > :last-child {
@@ -68,7 +70,7 @@ const EditSlippageText = styled(Text)`
 `
 
 // TODO: formatted messages
-const QuoteDetails = ({ handleSettingsClick, swapDetailsOpen }: Props) => {
+const QuoteDetails = ({ handleSettingsClick, quoteR, swapDetailsOpen }: Props) => {
   return (
     <QuoteWrapper animate={swapDetailsOpen}>
       <RowDetails>
@@ -119,6 +121,7 @@ const QuoteDetails = ({ handleSettingsClick, swapDetailsOpen }: Props) => {
 
 type Props = {
   handleSettingsClick: () => void
+  quoteR: RemoteDataType<string, DexSwapQuoteResponse>
   swapDetailsOpen: boolean
 }
 

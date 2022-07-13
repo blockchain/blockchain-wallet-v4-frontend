@@ -7,17 +7,18 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Remote } from '@core'
 import { Button, Text } from 'blockchain-info-components'
 import Form from 'components/Form/Form'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { DexSwapForm, DexSwapSideEnum, ModalName } from 'data/types'
+import { DexChain, DexSwapForm, DexSwapSideEnum, ModalName } from 'data/types'
+import { useRemote } from 'hooks'
 
 import BaseRateAndFees from './components/BaseRateAndFees'
 import FlipPairButton from './components/FlipPairButton'
 import QuoteDetails from './components/QuoteDetails'
 import SwapPair from './components/SwapPair'
-import getData from './Dex.selectors'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
@@ -46,11 +47,28 @@ const LoginInfoText = styled(Text)`
   font-size: 14px;
   text-align: center;
 `
+const ErrorText = styled(Text)`
+  margin-top: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: ${(props) => props.theme.red600};
+  text-align: center;
+`
 
-const DexSwap = ({ formActions, formValues, isAuthenticated, modalActions }: Props) => {
+const DexSwap = ({
+  formActions,
+  formValues,
+  isAuthenticated,
+  modalActions,
+  quoteR,
+  walletCurrency
+}: Props) => {
   const [pairAnimate, setPairAnimate] = useState(false)
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
-  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues || {}
+  const { baseToken, counterToken, counterTokenAmount } = formValues || {}
+  const hasQuote = !Remote.NotAsked.is(quoteR)
+  const hasQuoteError = Remote.Failure.is(quoteR)
+  const { data: currentChain } = useRemote(selectors.components.dex.getCurrentChain)
 
   // event handlers
   const onViewSettings = () => {
@@ -100,19 +118,30 @@ const DexSwap = ({ formActions, formValues, isAuthenticated, modalActions }: Pro
           swapSide={DexSwapSideEnum.COUNTER}
         />
       </SwapWrapper>
-      {baseToken && counterToken && (
+      {hasQuote && !hasQuoteError && (
+        // @ts-ignore
         <BaseRateAndFees
-          swapDetailsOpen={isDetailsExpanded}
+          currentChain={currentChain}
           handleDetailsToggle={onDetailsToggle}
+          swapDetailsOpen={isDetailsExpanded}
+          walletCurrency={walletCurrency}
+          quoteR={quoteR}
         />
       )}
       {isDetailsExpanded && (
-        <QuoteDetails handleSettingsClick={onViewSettings} swapDetailsOpen={isDetailsExpanded} />
+        <QuoteDetails
+          handleSettingsClick={onViewSettings}
+          swapDetailsOpen={isDetailsExpanded}
+          quoteR={quoteR}
+        />
       )}
       <Button data-e2e='swap' disabled={!isAuthenticated} fullwidth jumbo nature='primary'>
         <FormattedMessage id='copy.swap' defaultMessage='Swap' />
       </Button>
-      {!isAuthenticated && baseToken && counterToken && baseTokenAmount && (
+      {Remote.Failure.is(quoteR) && (
+        <ErrorText>Failed to obtain quote. Please refresh and try again.</ErrorText>
+      )}
+      {!isAuthenticated && hasQuote && !hasQuoteError && (
         <LoginInfoText>
           <FormattedMessage
             id='copy.login_to_swap'
@@ -127,7 +156,8 @@ const DexSwap = ({ formActions, formValues, isAuthenticated, modalActions }: Pro
 const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm,
   isAuthenticated: selectors.auth.isAuthenticated(state),
-  rates: getData(state)
+  quoteR: selectors.components.dex.getSwapQuote(state),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -137,7 +167,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector> & InjectedFormProps
+export type Props = ConnectedProps<typeof connector> &
+  InjectedFormProps & {
+    currentChain: DexChain | undefined
+  }
 
 const enhance = compose<React.ComponentType>(
   reduxForm({

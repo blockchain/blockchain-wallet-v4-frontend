@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { DexSwapQuoteErrorResponse, DexSwapQuoteSuccessResponse } from '@core/network/api/dex/types'
+import { DexSwapQuoteResponse } from '@core/network/api/dex/types'
 import Remote from '@core/remote'
 
 import { DexChain, DexChainList, DexChainTokenList, DexStateType } from './types'
 
 const initialState: DexStateType = {
   chains: Remote.NotAsked,
-  currentChain: undefined,
+  currentChain: Remote.NotAsked, // TODO: might not need Remote type
   currentChainTokens: Remote.NotAsked,
   swapQuote: Remote.NotAsked
 }
@@ -36,17 +36,20 @@ const dexSlice = createSlice({
     fetchChainsSuccess: (state, action: PayloadAction<DexChainList>) => {
       state.chains = Remote.Success(action.payload)
     },
-    fetchSwapQuoteFailure: (state, action: PayloadAction<DexSwapQuoteErrorResponse | string>) => {
+    fetchSwapQuoteFailure: (
+      state,
+      action: PayloadAction<DexSwapQuoteResponse | { status?: string; type?: string }>
+    ) => {
       state.swapQuote = Remote.Failure(action.payload)
     },
     fetchSwapQuoteLoading: (state) => {
       state.swapQuote = Remote.Loading
     },
-    fetchSwapQuoteSuccess: (state, action: PayloadAction<DexSwapQuoteSuccessResponse>) => {
+    fetchSwapQuoteSuccess: (state, action: PayloadAction<DexSwapQuoteResponse>) => {
       state.swapQuote = Remote.Success(action.payload)
     },
     setCurrentChain: (state, action: PayloadAction<DexChain>) => {
-      state.currentChain = action.payload
+      state.currentChain = Remote.Success(action.payload)
     }
   }
 })

@@ -38,14 +38,11 @@ const Wrapper = styled.div`
     border-radius: 50%;
     background-color: ${(props) => props.theme.grey000};
   }
-  &:hover:after {
-    background-color: ${(props) => props.theme.blue100};
-  }
 `
 
 const FlipPairButton = ({ onFlipPairClick }: OwnProps) => (
   <Wrapper onClick={onFlipPairClick}>
-    <Icon label='arrow down' color='grey400' size='sm'>
+    <Icon label='arrow down' color='blue600' size='sm'>
       <IconDeposit />
     </Icon>
   </Wrapper>

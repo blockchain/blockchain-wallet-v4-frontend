@@ -19,22 +19,16 @@ export type DexSwapQuoteRequest = {
   venue: 'ZEROX'
 }
 
-export type DexSwapQuoteSuccessResponse = {
-  approxConfirmationTime: number
-  legs: number
-  quotes: Array<SwapQuoteLegInfo>
-  txs: Array<SwapQuoteTxInfo>
-  type: 'SINGLE' | 'MULTI'
-  venueType: 'AGGREGATOR' | 'ZEROX'
+export type DexSwapQuoteResponse = {
+  approxConfirmationTime?: number
+  code?: number
+  legs?: number
+  message?: string
+  quotes?: Array<SwapQuoteLegInfo>
+  txs?: Array<SwapQuoteTxInfo>
+  type?: 'SINGLE' | 'MULTI' | string
+  venueType?: 'AGGREGATOR' | 'ZEROX'
 }
-
-export type DexSwapQuoteErrorResponse = {
-  code: number
-  message: string
-  type: string
-}
-
-export type DexSwapQuoteResponse = DexSwapQuoteSuccessResponse | DexSwapQuoteErrorResponse
 
 type SwapQuoteLegInfo = {
   buyAmount: {

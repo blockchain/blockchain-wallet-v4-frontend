@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDown } from '@blockchain-com/icons'
+import BigNumber from 'bignumber.js'
 import { bindActionCreators, Dispatch } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -39,7 +40,7 @@ const PairWrapper = styled.div<{ animate: boolean; swapSide: DexSwapSideEnum }>`
 const PairValueColumn = styled.div<{ areValuesEntered: boolean }>`
   display: flex;
   flex-direction: column;
-  justify-content: ${({ areValuesEntered }) => (areValuesEntered ? 'space-between' : 'center')};
+  justify-content: ${({ areValuesEntered }) => (areValuesEntered ? 'space-evenly' : 'center')};
   align-items: flex-start;
   > :first-child {
     padding-top: ${({ areValuesEntered }) => (areValuesEntered ? '2px' : '0')};
@@ -48,7 +49,7 @@ const PairValueColumn = styled.div<{ areValuesEntered: boolean }>`
 const PairSelectColumn = styled.div<{ isCoinSelected: boolean }>`
   display: flex;
   flex-direction: ${({ isCoinSelected }) => (isCoinSelected ? 'column' : 'row')};
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
 `
 const TokenSelectWrapper = styled.div`
@@ -117,6 +118,11 @@ const DexSwapPair = ({
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
           placeholder='0.00'
+          unit='Gwei'
+          // parse={(val) => {
+          //   console.log(val)
+          //   return new BigNumber(val).toFixed(8).valueOf()
+          // }}
           name={amountInputField}
           validate={[]}
         />

@@ -30,7 +30,7 @@ export default ({ api }: { api: APIType }) => {
   const fetchChainTopTokens = function* () {
     try {
       yield put(A.fetchChainTopTokensLoading())
-      const currentChain = yield select(S.getCurrentChain)
+      const currentChain = (yield select(S.getCurrentChain)).getOrFail('unknown chain')
       const tokenList: DexChainTokenList = yield call(
         api.getDexChainTopTokens,
         currentChain.chainId
@@ -62,21 +62,22 @@ export default ({ api }: { api: APIType }) => {
         yield put(A.fetchSwapQuoteLoading())
 
         // get chain config and user settings
-        const currentChain: DexChain = yield select(selectors.components.dex.getCurrentChain)
+        const currentChain: DexChain = (yield select(
+          selectors.components.dex.getCurrentChain
+        )).getOrFail()
         const baseTokenInfo = (yield select(
           selectors.components.dex.getChainTokenInfo,
           baseToken
         )).getOrFail()
-        const counterTokenInfo = (yield select(
-          selectors.components.dex.getChainTokenInfo,
-          counterToken
-        )).getOrFail()
-
         const baseAmountGwei = Exchange.convertCoinToCoin({
           baseToStandard: false,
           coin: currentChain.nativeCurrency.symbol,
           value: baseTokenAmount || 0
         })
+        const counterTokenInfo = (yield select(
+          selectors.components.dex.getChainTokenInfo,
+          counterToken
+        )).getOrFail()
 
         quoteResponse = yield call(api.getDexSwapQuote, {
           fromCurrency: {
@@ -104,33 +105,69 @@ export default ({ api }: { api: APIType }) => {
         }
 
         // now that we have an updated quote, determine which fields we need to update
-        switch (field) {
-          case 'flipPairs':
-          case 'baseTokenAmount':
-            const counterTokenInfo =
-              quoteResponse.quotes[quoteResponse.type === 'SINGLE' ? 0 : 1].buyAmount
-            const counterAmountGwei = Exchange.convertCoinToCoin({
-              baseToStandard: true,
-              coin: counterTokenInfo.symbol,
-              value: counterTokenInfo.amount
-            })
-            yield put(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', counterAmountGwei))
-            break
-          case 'counterTokenAmount':
-            const baseTokenInfo =
-              quoteResponse.quotes[quoteResponse.type === 'SINGLE' ? 0 : 1].sellAmount
-            const baseAmountGwei = Exchange.convertCoinToCoin({
-              baseToStandard: true,
-              coin: baseTokenInfo.symbol,
-              value: baseTokenInfo.amount
-            })
-            yield put(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', baseAmountGwei))
-            break
-          default:
-            break
+        // counterToken = quotes.buyAmount
+        // baseToken = quotes.sellAmount
+        const quote = quoteResponse?.quotes[quoteResponse.type === 'SINGLE' ? 0 : 1]
+        if (quote) {
+          switch (field) {
+            case 'flipPairs':
+            case 'baseTokenAmount':
+              yield put(
+                actions.form.change(
+                  DEX_SWAP_FORM,
+                  'counterTokenAmount',
+                  Exchange.convertCoinToCoin({
+                    baseToStandard: true,
+                    coin: quote.buyAmount.symbol,
+                    value: quote.buyAmount.amount
+                  })
+                )
+              )
+              break
+            case 'counterTokenAmount':
+              yield put(
+                actions.form.change(
+                  DEX_SWAP_FORM,
+                  'baseTokenAmount',
+                  Exchange.convertCoinToCoin({
+                    baseToStandard: true,
+                    coin: quote.sellAmount.symbol,
+                    value: quote.sellAmount.amount
+                  })
+                )
+              )
+              break
+            case 'baseToken':
+            case 'counterToken':
+              yield put(
+                actions.form.change(
+                  DEX_SWAP_FORM,
+                  'baseTokenAmount',
+                  Exchange.convertCoinToCoin({
+                    baseToStandard: true,
+                    coin: quote.sellAmount.symbol,
+                    value: quote.sellAmount.amount
+                  })
+                )
+              )
+              yield put(
+                actions.form.change(
+                  DEX_SWAP_FORM,
+                  'counterTokenAmount',
+                  Exchange.convertCoinToCoin({
+                    baseToStandard: true,
+                    coin: quote.buyAmount.symbol,
+                    value: quote.buyAmount.amount
+                  })
+                )
+              )
+              break
+            default:
+              break
+          }
         }
       } catch (e) {
-        yield put(A.fetchSwapQuoteFailure(e.toString()))
+        yield put(A.fetchSwapQuoteFailure(e))
       }
     }
   }

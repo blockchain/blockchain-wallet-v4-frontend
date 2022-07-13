@@ -28,7 +28,7 @@ export type DexChainList = Array<DexChain>
 
 export type DexStateType = {
   chains: RemoteDataType<string, DexChainList>
-  currentChain?: DexChain
+  currentChain: RemoteDataType<string, DexChain>
   currentChainTokens: RemoteDataType<string, DexChainTokenList>
   swapQuote: RemoteDataType<string, DexSwapQuoteResponse>
 }

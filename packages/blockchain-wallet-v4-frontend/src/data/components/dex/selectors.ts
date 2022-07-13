@@ -9,3 +9,5 @@ export const getCurrentChainTokens = (state: RootState) => state.components.dex.
 
 export const getChainTokenInfo = (state: RootState, coinSymbol: CoinType) =>
   getCurrentChainTokens(state).map((tokenList) => tokenList.find((x) => x.symbol === coinSymbol))
+
+export const getSwapQuote = (state: RootState) => state.components.dex.swapQuote
