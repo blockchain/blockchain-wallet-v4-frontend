@@ -341,7 +341,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
       const prevEmail = (yield select(selectors.core.settings.getEmail)).getOrElse('')
-      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrElse('')
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
       const { email } = payload
       if (prevEmail === email)
         yield call(coreSagas.settings.resendVerifyEmail, { email }, 'VERIFICATION')

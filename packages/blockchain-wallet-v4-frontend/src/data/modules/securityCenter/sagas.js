@@ -10,7 +10,7 @@ export default ({ coreSagas }) => {
   const updateEmail = function* (action) {
     const { email } = action.payload
     try {
-      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrElse('')
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
       yield put(actions.modules.settings.clearEmailCodeFailure())
       yield call(coreSagas.settings.setEmail, email, nabuSessionToken)
     } catch (e) {
@@ -101,7 +101,7 @@ export default ({ coreSagas }) => {
   const sendMobileVerificationCode = function* (action) {
     try {
       const { mobile } = action.payload
-      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrElse('')
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
       yield call(coreSagas.settings.setMobile, mobile, nabuSessionToken)
       yield put(actions.alerts.displaySuccess(C.MOBILE_CODE_SENT_SUCCESS))
     } catch (e) {
