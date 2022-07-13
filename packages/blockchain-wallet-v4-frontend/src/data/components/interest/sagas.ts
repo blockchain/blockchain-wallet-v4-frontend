@@ -588,7 +588,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'INTEREST_PROMO_MODAL', e))
     }
-    yield put(actions.modals.closeModal('INTEREST_PROMO_MODAL'))
+    yield put(actions.modals.closeModal(ModalName.INTEREST_PROMO_MODAL))
   }
 
   const fetchEDDStatus = function* () {

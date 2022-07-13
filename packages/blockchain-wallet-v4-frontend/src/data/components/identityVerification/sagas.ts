@@ -2,7 +2,7 @@ import { isEmpty, prop, toUpper } from 'ramda'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
 import { Types } from '@core'
-import { ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
+import { ExtraKYCContext, ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { KycStateType } from 'data/types'
@@ -83,7 +83,7 @@ export default ({ api, coreSagas, networks }) => {
       // Buffer for tagging user
       const wallet = yield select(selectors.core.wallet.getWallet)
       if (Types.Wallet.isDoubleEncrypted(wallet)) {
-        yield take([actionTypes.wallet.SUBMIT_SECOND_PASSWORD, actionTypes.modals.CLOSE_MODAL])
+        yield take([actionTypes.wallet.SUBMIT_SECOND_PASSWORD, actions.modals.closeModal.type])
       }
       yield delay(3000)
       yield put(actions.modules.profile.fetchUser())
@@ -119,7 +119,7 @@ export default ({ api, coreSagas, networks }) => {
     yield call(fetchUser)
   }
 
-  const defineSteps = function* (tier, needMoreInfo) {
+  const defineSteps = function* (tier, needMoreInfo, context) {
     yield put(A.setStepsLoading())
     try {
       yield call(createUser)
@@ -169,17 +169,18 @@ export default ({ api, coreSagas, networks }) => {
     }
 
     let addExtraStep = false
-    if (tiers.current !== 2) {
-      // check extra KYC fields
-      yield put(actions.components.identityVerification.fetchExtraKYC())
-      yield take([A.fetchExtraKYCSuccess.type, A.fetchExtraKYCFailure.type])
-      const kycExtraSteps = selectors.components.identityVerification
-        .getKYCExtraSteps(yield select())
-        .getOrElse({} as ExtraQuestionsType)
-      const showExtraKycSteps = kycExtraSteps?.nodes?.length > 0
-      if (showExtraKycSteps) {
-        addExtraStep = true
-      }
+    // check extra KYC fields
+    const contextPayload =
+      tiers.current === TIERS[2] ? context : ExtraKYCContext.TIER_TWO_VERIFICATION
+
+    yield put(actions.components.identityVerification.fetchExtraKYC(contextPayload))
+    yield take([A.fetchExtraKYCSuccess.type, A.fetchExtraKYCFailure.type])
+    const kycExtraSteps = selectors.components.identityVerification
+      .getKYCExtraSteps(yield select())
+      .getOrElse({} as ExtraQuestionsType)
+    const showExtraKycSteps = kycExtraSteps?.nodes?.length > 0
+    if (showExtraKycSteps) {
+      addExtraStep = true
     }
 
     const steps = computeSteps({
@@ -189,7 +190,15 @@ export default ({ api, coreSagas, networks }) => {
       tiers
     })
 
-    yield put(A.setStepsSuccess(steps))
+    // filter steps if tier 2, only extraKYC if needed.
+    let filteredSteps = steps
+    if (tiers.current === TIERS[2]) {
+      filteredSteps = steps.filter((step) => {
+        return step !== 'additionalInfo' && step !== 'submitted'
+      })
+    }
+
+    yield put(A.setStepsSuccess(filteredSteps))
   }
 
   const initializeStep = function* () {
@@ -198,10 +207,21 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const initializeVerification = function* ({ payload }) {
-    const { tier = TIERS[2], needMoreInfo = false } = payload
+    const {
+      tier = TIERS[2],
+      needMoreInfo = false,
+      context = ExtraKYCContext.TIER_TWO_VERIFICATION
+    } = payload
     yield put(A.setEmailStep(STEPS.edit as EmailSmsStepType))
-    yield call(defineSteps, tier, needMoreInfo)
-    yield call(initializeStep)
+    yield call(defineSteps, tier, needMoreInfo, context)
+    const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
+    if (!steps.length) {
+      // if no steps to be shown, close modal
+      yield put(actions.components.identityVerification.setAllContextQuestionsAnswered())
+      yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
+    } else {
+      yield call(initializeStep)
+    }
   }
 
   const goToPrevStep = function* () {
@@ -226,6 +246,7 @@ export default ({ api, coreSagas, networks }) => {
     if (step) return yield put(A.setVerificationStep(step))
 
     yield put(actions.modules.profile.fetchUser())
+    yield put(actions.components.identityVerification.setAllContextQuestionsAnswered())
     yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
   }
 
@@ -287,10 +308,11 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchSupportedCountries = function* () {
+  const fetchSupportedCountries = function* ({ payload }) {
     try {
       yield put(A.setSupportedCountriesLoading())
-      const countries = yield call(api.getSupportedCountries)
+      const { scope } = payload
+      const countries = yield call(api.getSupportedCountries, scope)
       yield put(A.setSupportedCountriesSuccess(countries))
     } catch (e) {
       yield put(A.setSupportedCountriesFailure(e))
@@ -406,15 +428,13 @@ export default ({ api, coreSagas, networks }) => {
         yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { dob, firstName, lastName }
 
-      // in case of US we have to append state with prefix
-      const userState = country.code === 'US' ? `US-${state}` : state
       const address = {
         city,
-        country: country.code,
+        country,
         line1,
         line2,
         postCode,
-        state: userState
+        state: state?.code ?? null
       }
 
       yield call(updateUser, { payload: { data: personalData } })
@@ -488,10 +508,10 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchExtraKYC = function* () {
+  const fetchExtraKYC = function* ({ payload }) {
     try {
       yield put(A.fetchExtraKYCLoading())
-      const questions = yield call(api.fetchKYCExtraQuestions)
+      const questions = yield call(api.fetchKYCExtraQuestions, payload)
       yield put(A.fetchExtraKYCSuccess(questions))
     } catch (e) {
       yield put(A.fetchExtraKYCFailure(e))

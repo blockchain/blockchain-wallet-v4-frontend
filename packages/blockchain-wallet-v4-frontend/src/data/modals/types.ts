@@ -1,5 +1,3 @@
-import * as AT from './actionTypes'
-
 export enum RecurringBuyOrigins {
   BUY_CONFIRMATION = 'BUY_CONFIRMATION',
   COIN_PAGE = 'COIN_PAGE',
@@ -31,6 +29,7 @@ export enum ModalName {
   DELETE_ADDRESS_LABEL_MODAL = 'DELETE_ADDRESS_LABEL_MODAL',
   EDIT_TX_DESCRIPTION_MODAL = 'EDIT_TX_DESCRIPTION_MODAL',
   ETH_WALLET_BALANCES = 'ETH_WALLET_BALANCES',
+  FUNDS_LIST = 'FUNDS_LIST',
   FUND_RECOVERY_MODAL = 'FUND_RECOVERY_MODAL',
   GENERATE_REPORT_MODAL = 'GENERATE_REPORT_MODAL',
   GET_FEATURED = 'GET_FEATURED',
@@ -80,6 +79,7 @@ export enum ModalName {
   TERMS_AND_CONDITIONS = 'TERMS_AND_CONDITIONS',
   TRADE_MODAL = 'TRADE_MODAL',
   TRADING_LIMITS_MODAL = 'TRADING_LIMITS_MODAL',
+  TRANSACTION_DETAIL = 'TRANSACTION_DETAIL',
   TRANSACTION_REPORT_MODAL = 'TRANSACTION_REPORT_MODAL',
   TRANSFER_ETH_MODAL = 'TRANSFER_ETH_MODAL',
   TWO_STEP_GOOGLE_AUTH_MODAL = 'TWO_STEP_GOOGLE_AUTH_MODAL',
@@ -134,6 +134,7 @@ export type ModalOriginType =
   | 'RetrySendEth'
   | 'RecurringBuys'
   | 'RecurringBuyPromo'
+  | 'AppleAndGooglePayPromo'
   | 'RunKycGoal'
   | 'BSEnterAmountCheckout'
   | 'BSPaymentMethodSelection'
@@ -180,28 +181,12 @@ export type ModalType = {
 // State
 export type ModalsState = Array<ModalType>
 
-// Actions
-interface CloseAllModals {
-  type: typeof AT.CLOSE_ALL_MODALS
+export type UpdateModalPayload = {
+  options?: any
+  props: ModalParamPropsType
+  type: ModalNameType
 }
 
-interface CloseModal {
-  payload: {
-    modalName?: ModalNameType
-  }
-  type: typeof AT.CLOSE_MODAL
+export type UpdateModalOptionsPayload = {
+  options: any
 }
-
-interface ShowModal {
-  payload: ModalType
-  type: typeof AT.SHOW_MODAL
-}
-
-interface UpdateModalOptions {
-  payload: {
-    options: any
-  }
-  type: typeof AT.UPDATE_MODAL
-}
-
-export type ModalActionTypes = CloseAllModals | CloseModal | ShowModal | UpdateModalOptions

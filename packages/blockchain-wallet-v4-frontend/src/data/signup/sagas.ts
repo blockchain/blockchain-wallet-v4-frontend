@@ -10,6 +10,7 @@ import {
   AuthMagicLink,
   CaptchaActionName,
   ExchangeAuthOriginType,
+  ModalName,
   PlatformTypes,
   ProductAuthOptions
 } from 'data/types'
@@ -50,8 +51,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(authNabu)
       yield call(createUser)
       // store initial address in case of US state we add prefix
-      const userState = country === 'US' ? `US-${state}` : state
-      yield call(api.setUserInitialAddress, country, userState)
+      yield call(api.setUserInitialAddress, country, state)
       yield call(coreSagas.settings.fetchSettings)
       yield call(createExchangeUser, country)
       yield put(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup))
@@ -281,7 +281,9 @@ export default ({ api, coreSagas, networks }) => {
       )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
-      yield put(actions.modals.showModal('RESET_ACCOUNT_FAILED', { origin: 'ResetAccount' }))
+      yield put(
+        actions.modals.showModal(ModalName.RESET_ACCOUNT_FAILED, { origin: 'ResetAccount' })
+      )
     }
   }
 

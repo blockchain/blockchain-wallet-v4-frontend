@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import { clearSubmitErrors, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
@@ -19,12 +19,14 @@ import {
 } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { getFiatFromPair } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
 import { BSCheckoutFormValuesType, SwapAccountType, SwapBaseCounterTypes } from 'data/types'
+import { isNabuError } from 'services/errors'
 
 import { Border, TopText } from '../../Swap/components'
 import { ErrorCodeMappings } from '../model'
@@ -153,6 +155,17 @@ class PreviewSell extends PureComponent<
     this.props.buySellActions.createOrder({})
   }
 
+  handleOnClickBack = (BASE: string) => {
+    this.props.buySellActions.setStep({
+      cryptoCurrency: BASE,
+      fiatCurrency: getFiatFromPair(this.props.pair.pair),
+      orderType: this.props.orderType,
+      pair: this.props.pair,
+      step: 'ENTER_AMOUNT',
+      swapAccount: this.props.account
+    })
+  }
+
   networkFee = (value: PaymentValue | undefined) => (value ? getNetworkValue(value) : 0)
 
   displayAmount = (formValues, account) => {
@@ -195,6 +208,12 @@ class PreviewSell extends PureComponent<
   }
 
   render() {
+    const { error } = this.props
+
+    if (isNabuError(error)) {
+      return <GenericNabuErrorFlyout error={error} onDismiss={this.props.clearErrors} />
+    }
+
     return this.props.quoteR.cata({
       Failure: () => null,
       Loading: () => <Loading />,
@@ -211,6 +230,7 @@ class PreviewSell extends PureComponent<
         const { rates, ratesEth } = this.props
         const fiatCurrency = getFiatFromPair(this.props.pair.pair)
         const isErc20 = window.coins[COUNTER].coinfig.type.erc20Address
+        const incomingCoinName = window.coins[counterCoinTicker]?.coinfig.name ?? counterCoinTicker
 
         return (
           <CustomForm onSubmit={this.handleSubmit}>
@@ -223,16 +243,7 @@ class PreviewSell extends PureComponent<
                   cursor
                   size='24px'
                   color='grey600'
-                  onClick={() => {
-                    this.props.buySellActions.setStep({
-                      cryptoCurrency: BASE,
-                      fiatCurrency: getFiatFromPair(this.props.pair.pair),
-                      orderType: this.props.orderType,
-                      pair: this.props.pair,
-                      step: 'ENTER_AMOUNT',
-                      swapAccount: this.props.account
-                    })
-                  }}
+                  onClick={() => this.handleOnClickBack(BASE)}
                 />{' '}
                 <Text size='20px' color='grey900' weight={600} style={{ marginLeft: '24px' }}>
                   <FormattedMessage
@@ -344,7 +355,7 @@ class PreviewSell extends PureComponent<
                 <FormattedMessage id='copy.deposit_to' defaultMessage='Deposit To' />
               </RowText>
               <Value data-e2e='sbIncomingAccount'>
-                {counterCoinTicker} <FormattedMessage id='copy.account' defaultMessage='Account' />
+                {incomingCoinName} <FormattedMessage id='copy.account' defaultMessage='Account' />
               </Value>
             </RowItem>
 
@@ -593,7 +604,8 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  clearErrors: () => dispatch(clearSubmitErrors(FORM_BS_PREVIEW_SELL))
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

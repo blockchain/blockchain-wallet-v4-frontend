@@ -8,6 +8,7 @@ import {
   curry,
   find,
   findLastIndex,
+  flatten,
   head,
   is,
   isEmpty,
@@ -27,6 +28,8 @@ import { call, put, select } from 'redux-saga/effects'
 import { DEFAULT_DERIVATION_TYPE, DERIVATION_LIST } from '@core/types/HDAccount'
 
 import { DerivationList, HDAccount, HDWallet, KVStoreEntry, Wallet, Wrapper } from '../../types'
+// eslint-disable-next-line
+import * as wrapperV4 from '../../types/__mocks__/wrapper.v4-segwit.json'
 import { callTask } from '../../utils/functional'
 import { generateMnemonic } from '../../walletCrypto'
 import * as A from '../actions'
@@ -348,6 +351,92 @@ export default ({ api, networks }) => {
     yield call(api.triggerNonCustodialSendAlert, sharedKey, guid, currency, amount)
   }
 
+  // log wallet payload shape discrepencies
+  const payloadHealthCheck = function* () {
+    const issues: string[] = []
+
+    try {
+      const wallet = yield select(S.getWallet)
+      const walletJS: typeof wrapperV4['wallet'] = wallet.toJS()
+      const hdWallets = walletJS.hd_wallets
+      const hdWallet = hdWallets[0]
+      const accounts = flatten(hdWallets.map((wallet) => wallet.accounts))
+      const derivations = flatten(accounts.map((account) => account.derivations))
+      const possibleDerivationTypes = DERIVATION_LIST.map(({ type }) => type)
+      const possibleDerivationPurposes = DERIVATION_LIST.map(({ purpose }) => purpose)
+
+      if (hdWallets.length > 1) {
+        issues.push('MULTIPLE_HD_WALLETS')
+      }
+      // ts-ignores because of shift prop in HDWallet 'seed_hex' => 'seedHex'
+      // @ts-ignore
+      if (!hdWallet.seedHex) {
+        issues.push('MISSING_SEED_HEX')
+      }
+      // @ts-ignore
+      if (hdWallet.seedHex.length !== 32) {
+        issues.push('INCORRECT_SEED_HEX_LENGTH')
+      }
+      if (hdWallet.default_account_idx === undefined || hdWallet.default_account_idx < 0) {
+        issues.push('INCORRECT_DEFAULT_ACCOUNT_IDX')
+      }
+      if (typeof hdWallet.mnemonic_verified !== 'boolean') {
+        issues.push('INCORRECT_MNEMONIC_VERIFIED_TYPE')
+      }
+      if (typeof hdWallet.passphrase !== 'string') {
+        issues.push('INCORRECT_PASSPHRASE_TYPE')
+      }
+
+      accounts.forEach((account) => {
+        if (account.derivations.length !== DERIVATION_LIST.length) {
+          issues.push(`INCORRECT_NUMBER_OF_ACCOUNT_DERIVATIONS_${account.derivations.length}`)
+        }
+        if (!possibleDerivationTypes.includes(account.default_derivation)) {
+          issues.push(`INCORRECT_ACCOUNT_DERIVATION_TYPE_FOUND_${account.default_derivation}`)
+        }
+        if (typeof account.label !== 'string') {
+          issues.push(`INCORRECT_ACCOUNT_LABEL_TYPE`)
+        }
+        if (typeof account.archived !== 'boolean') {
+          issues.push(`INCORRECT_ACCOUNT_ARCHIVED_TYPE`)
+        }
+        if (Object.keys(account).length > 5) {
+          issues.push(
+            `INCORRECT_ACCOUNT_NUMBER_OF_KEYS_FOUND_${Object.keys(account).length}_${Object.keys(
+              account
+            ).join('_')}`
+          )
+        }
+      })
+
+      derivations.forEach((derivation) => {
+        if (!derivation.cache.receiveAccount) {
+          issues.push('MISSING_DERIVATION_CACHE_RECEIVE_ACCOUNT')
+        }
+        if (!derivation.cache.changeAccount) {
+          issues.push('MISSING_DERIVATION_CACHE_CHANGE_ACCOUNT')
+        }
+        if (!possibleDerivationPurposes.includes(derivation.purpose)) {
+          issues.push(`INCORRECT_DERIVATION_PURPOSE_FOUND_${derivation.purpose}`)
+        }
+        if (!possibleDerivationTypes.includes(derivation.type)) {
+          issues.push(`INCORRECT_DERIVATION_TYPE_FOUND_${derivation.type}`)
+        }
+        if (Object.keys(derivation).length > 6) {
+          issues.push(
+            `INCORRECT_DERIVATION_NUMBER_OF_KEYS_FOUND_${
+              Object.keys(derivation).length
+            }_${Object.keys(derivation).join('_')}`
+          )
+        }
+      })
+    } catch (e) {
+      // dont throw
+    }
+
+    return issues
+  }
+
   // client payload bugs
   // https://www.notion.so/blockchaincom/wallet-json-historic-bugs-63f97dc837e54cd19c09c2e44b9baf21
   const getAccountsWithIncompleteDerivations = function* () {
@@ -432,6 +521,7 @@ export default ({ api, networks }) => {
     getHdWalletWithMissingDefaultAccountIdx,
     importLegacyAddress,
     newHDAccount,
+    payloadHealthCheck,
     refetchContextData,
     replenishDerivations,
     resendSmsLoginCode,

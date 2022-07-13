@@ -10,6 +10,7 @@ import { Button, HeartbeatLoader, IconButton } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { InterestHistoryCoinFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
+import { Analytics } from 'data/types'
 
 const IconButtonCss = css`
   border: 1px solid ${(props) => props.theme.grey100};
@@ -61,7 +62,17 @@ class DownloadTransactions extends React.PureComponent<Props> {
   }
 
   handleDownload = () => {
-    const { interestActions } = this.props
+    const {
+      analyticsActions,
+      formValues: { coin },
+      interestActions
+    } = this.props
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_TRANSACTION_HISTORY_DOWNLOAD_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
     interestActions.fetchInterestTransactionsReport()
   }
 
@@ -165,6 +176,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 

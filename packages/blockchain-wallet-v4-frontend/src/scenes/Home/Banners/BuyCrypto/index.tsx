@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -10,7 +10,8 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
 
-import { BannerButton, IconWrapper } from '../styles'
+import { getBuyCryptoAnnouncement } from '../selectors'
+import { BannerButton, CloseLink, IconWrapper, Row } from '../styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,10 +30,6 @@ const Wrapper = styled.div`
     padding: 12px;
     flex-direction: column;
   `}
-`
-const Row = styled.div`
-  display: flex;
-  align-items: center;
 `
 const Column = styled.div`
   display: flex;
@@ -56,49 +53,50 @@ const Copy = styled(Text)`
   `}
 `
 
-class BuyCrypto extends PureComponent<Props> {
-  showModal = () => {
-    this.props.buySellActions.showModal({ origin: 'WelcomeModal' })
+const BuyCrypto = ({ buySellActions, cacheActions, fiatCurrency }: Props) => {
+  const showModal = useCallback(() => {
+    buySellActions.showModal({ origin: 'WelcomeModal' })
 
-    this.props.buySellActions.setStep({
-      fiatCurrency: this.props.fiatCurrency,
+    buySellActions.setStep({
+      fiatCurrency,
       step: 'CRYPTO_SELECTION'
     })
-  }
+  }, [buySellActions, fiatCurrency])
 
-  render() {
-    return (
-      <Wrapper>
-        <Row>
-          <PendingIconWrapper>
-            <Icon name='plus' color='blue600' size='30px' />
-          </PendingIconWrapper>
-          <Column>
-            <Text size='20px' weight={600} color='grey800'>
-              <FormattedMessage
-                id='modals.simplebuy.buy_crypto_now'
-                defaultMessage='Buy Crypto Now'
-              />
-            </Text>
-            <Copy size='16px' color='grey600' weight={500}>
-              <FormattedMessage
-                id='scenes.home.banner.buy_crypto_sdd_description'
-                defaultMessage='Select the crypto you want to buy, verify your identity and buy instantly'
-              />
-            </Copy>
-          </Column>
-        </Row>
-        <BannerButton
-          onClick={() => this.showModal()}
-          jumbo
-          data-e2e='openSDDFlow'
-          nature='primary'
-        >
-          <FormattedMessage id='modals.simplebuy.confirm.buynow' defaultMessage='Buy Now' />
-        </BannerButton>
-      </Wrapper>
-    )
-  }
+  const completeAnnouncement = getBuyCryptoAnnouncement()
+
+  return (
+    <Wrapper>
+      <Row>
+        <PendingIconWrapper>
+          <Icon name='plus' color='blue600' size='30px' />
+        </PendingIconWrapper>
+        <Column>
+          <Text size='20px' weight={600} color='grey800'>
+            <FormattedMessage
+              id='modals.simplebuy.buy_crypto_now'
+              defaultMessage='Buy Crypto Now'
+            />
+          </Text>
+          <Copy size='16px' color='grey600' weight={500}>
+            <FormattedMessage
+              id='scenes.home.banner.buy_crypto_sdd_description'
+              defaultMessage='Select the crypto you want to buy, verify your identity and buy instantly'
+            />
+          </Copy>
+        </Column>
+      </Row>
+      <BannerButton onClick={showModal} jumbo data-e2e='openSDDFlow' nature='primary'>
+        <FormattedMessage id='modals.simplebuy.confirm.buynow' defaultMessage='Buy Now' />
+      </BannerButton>
+      <CloseLink
+        data-e2e='newCoinCloseButton'
+        onClick={() => cacheActions.announcementDismissed(completeAnnouncement)}
+      >
+        <Icon size='20px' color='grey400' name='close-circle' />
+      </CloseLink>
+    </Wrapper>
+  )
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
@@ -107,6 +105,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  cacheActions: bindActionCreators(actions.cache, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

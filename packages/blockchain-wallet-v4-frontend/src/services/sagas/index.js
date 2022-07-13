@@ -3,13 +3,14 @@ import { call, put, race, select, take } from 'redux-saga/effects'
 
 import { Types } from '@core'
 import { actions, actionTypes, selectors } from 'data'
+import { ModalName } from 'data/types'
 
 export const askSecondPasswordEnhancer = (coreSaga) =>
   function* (args) {
     let enhancedArgs = args
     const wallet = yield select(selectors.core.wallet.getWallet)
     if (Types.Wallet.isDoubleEncrypted(wallet)) {
-      yield put(actions.modals.showModal('SECOND_PASSWORD_MODAL'))
+      yield put(actions.modals.showModal(ModalName.SECOND_PASSWORD_MODAL))
       const secPassAct = yield take(actionTypes.wallet.SUBMIT_SECOND_PASSWORD)
       const secPass = secPassAct.payload.password
       enhancedArgs = assoc('password', secPass, args)
@@ -20,9 +21,9 @@ export const askSecondPasswordEnhancer = (coreSaga) =>
 export const promptForSecondPassword = function* (purposes) {
   const wallet = yield select(selectors.core.wallet.getWallet)
   if (Types.Wallet.isDoubleEncrypted(wallet)) {
-    yield put(actions.modals.showModal('SECOND_PASSWORD_MODAL', { purposes }))
+    yield put(actions.modals.showModal(ModalName.SECOND_PASSWORD_MODAL, { purposes }))
     const { cancelled, response } = yield race({
-      cancelled: take(actionTypes.modals.CLOSE_MODAL),
+      cancelled: take(actions.modals.closeModal.type),
       response: take(actionTypes.wallet.SUBMIT_SECOND_PASSWORD)
     })
     if (cancelled) {
@@ -41,7 +42,7 @@ export const promptForInput = function* ({
   validations = []
 }) {
   yield put(
-    actions.modals.showModal('PROMPT_INPUT_MODAL', {
+    actions.modals.showModal(ModalName.PROMPT_INPUT_MODAL, {
       initial,
       maxLength,
       secret,
@@ -50,7 +51,7 @@ export const promptForInput = function* ({
     })
   )
   const { cancelled, response } = yield race({
-    cancelled: take(actionTypes.modals.CLOSE_MODAL),
+    cancelled: take(actions.modals.closeModal.type),
     response: take(actionTypes.wallet.SUBMIT_PROMPT_INPUT)
   })
   if (cancelled) {
@@ -71,7 +72,7 @@ export const confirm = function* ({
   title
 }) {
   yield put(
-    actions.modals.showModal('CONFIRMATION_MODAL', {
+    actions.modals.showModal(ModalName.CONFIRMATION_MODAL, {
       cancel,
       confirm,
       image,
@@ -82,7 +83,7 @@ export const confirm = function* ({
     })
   )
   const { cancelled, response } = yield race({
-    cancelled: take(actionTypes.modals.CLOSE_MODAL),
+    cancelled: take(actions.modals.closeModal.type),
     response: take(actionTypes.wallet.SUBMIT_CONFIRMATION)
   })
   if (cancelled) {

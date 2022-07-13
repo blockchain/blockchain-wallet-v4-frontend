@@ -1,33 +1,21 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
-import {
-  BoxContainer,
-  BoxRow,
-  BoxRowItemSubTitle,
-  BoxRowItemTitle,
-  BoxRowWithBorder
-} from '../CardDashboard.model'
+import { actions } from 'data'
 
-const TransactionsBox = () => (
-  <BoxContainer width='662px'>
-    <BoxRowWithBorder>
-      <BoxRowItemTitle>
-        <FormattedMessage
-          id='scenes.debit_card.dashboard.transactions.title'
-          defaultMessage='Recent Transactions'
-        />
-      </BoxRowItemTitle>
-    </BoxRowWithBorder>
-    <BoxRow>
-      <BoxRowItemSubTitle style={{ margin: 'auto' }}>
-        <FormattedMessage
-          id='scenes.debit_card.dashboard.transactions.empty_state'
-          defaultMessage='Your most recent purchases will show up here'
-        />
-      </BoxRowItemSubTitle>
-    </BoxRow>
-  </BoxContainer>
-)
+import TransactionsBox from './TransactionsBox.template'
 
-export default TransactionsBox
+const TransactionsBoxContainer = (props) => <TransactionsBox {...props} />
+
+const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+export type Props = ConnectedProps<typeof connector>
+
+const enhance = compose(connector)
+
+export default enhance(TransactionsBoxContainer)

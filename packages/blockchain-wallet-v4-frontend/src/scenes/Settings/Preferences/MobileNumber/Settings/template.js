@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import { Button, Text } from 'blockchain-info-components'
 import { SettingWrapper } from 'components/Setting'
+import { ModalName } from 'data/types'
 
 const Setting = (props) => {
   const { handleClick, modalActions, resetWarning, showWarning, smsNumber, smsVerified } = props
@@ -23,7 +24,7 @@ const Setting = (props) => {
             nature='primary'
             onClick={() => {
               resetWarning()
-              modalActions.showModal('CONFIRM_DISABLE_2FA', {
+              modalActions.showModal(ModalName.CONFIRM_DISABLE_2FA, {
                 authName: '2FA using SMS',
                 extraCopy: (
                   <FormattedMessage

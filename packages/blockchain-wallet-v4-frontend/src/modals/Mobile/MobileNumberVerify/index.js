@@ -5,6 +5,7 @@ import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import MobileNumberVerify from './template.js'

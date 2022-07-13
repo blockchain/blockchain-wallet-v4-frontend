@@ -1,22 +1,22 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { colors, Icon } from '@blockchain-com/constellation'
+import { IconChevronUpV2, IconInstagram, IconTwitter } from '@blockchain-com/icons'
 import { compose } from 'redux'
 import styled from 'styled-components'
 
 import {
   Button,
+  Image,
   Link,
   Modal,
   ModalBody,
-  ModalFooter,
   ModalHeader,
-  Text,
-  TextGroup
+  Text
 } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { useMedia } from 'services/styles'
+import { media, useMedia } from 'services/styles'
 
 const NumberCircle = styled.div`
   border-radius: 50%;
@@ -27,11 +27,25 @@ const NumberCircle = styled.div`
   text-align: center;
 `
 
+const FlexVertical = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 1em;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  ${media.atLeastTablet`
+    flex-direction: row;
+    gap: unset;
+    justify-content: space-around;
+  `};
+`
+
 const GetFeatured = (props) => {
   const isTablet = useMedia('tablet')
   const { closeAllModals } = props
   return (
-    <Modal size='medium'>
+    <Modal size='medium' style={isTablet ? { margin: '2em' } : {}}>
       <ModalHeader onClose={closeAllModals}>
         <Text color='grey900' size='18px' weight={600}>
           Get Featured On The NFT Homepage
@@ -39,8 +53,8 @@ const GetFeatured = (props) => {
       </ModalHeader>
       <ModalBody>
         <Text size='14px' weight={500}>
-          We regularly check and select a hashtaged NFT to promote on the Blockchain.com NFT
-          homepage
+          Share your NFT on social media for a chance to have it featured on the Blockchain.com NFT
+          homepage.
         </Text>
         <Flex alignItems='center' gap={8} style={{ padding: '1.5em 0em' }}>
           <NumberCircle>
@@ -53,7 +67,7 @@ const GetFeatured = (props) => {
               Post your NFT
             </Text>
             <Text weight={500} size='12px'>
-              Post a link to your Blockchain.com NFT on Twitter or Instagram
+              Post a link to your Blockchain.com NFT on Twitter or Instagram.
             </Text>
           </div>
         </Flex>
@@ -68,7 +82,7 @@ const GetFeatured = (props) => {
               Use a Hashtag
             </Text>
             <Text weight={500} size='12px'>
-              Include <b>#BlockchainNFT</b> in your post
+              Include <b>#BlockchainNFT</b> in your post.
             </Text>
           </div>
         </Flex>
@@ -88,19 +102,35 @@ const GetFeatured = (props) => {
           </div>
         </Flex>
       </ModalBody>
-      <ModalFooter align='spaced'>
+      <FlexVertical>
         <Link href='https://twitter.com/blockchain' target='_blank'>
-          <Button width={isTablet ? '150px' : '185px'} nature='primary' data-e2e='twitter'>
+          <Button
+            style={{ display: 'flex', gap: '4px' }}
+            width={isTablet ? '300px' : '185px'}
+            nature='primary'
+            data-e2e='twitter'
+          >
+            <Icon label='' size='sm' color='white900'>
+              <IconTwitter />
+            </Icon>
             <FormattedMessage id='copy.twitter' defaultMessage='Twitter' />
           </Button>
         </Link>
 
         <Link href='https://www.instagram.com/blockchainofficial' target='_blank'>
-          <Button width={isTablet ? '150px' : '185px'} nature='primary' data-e2e='instagram'>
+          <Button
+            style={{ display: 'flex', gap: '4px' }}
+            width={isTablet ? '300px' : '185px'}
+            nature='primary'
+            data-e2e='instagram'
+          >
+            <Icon label='' size='sm' color='white900'>
+              <IconInstagram />
+            </Icon>
             <FormattedMessage id='copy.instagram' defaultMessage='Instagram' />
           </Button>
         </Link>
-      </ModalFooter>
+      </FlexVertical>
     </Modal>
   )
 }

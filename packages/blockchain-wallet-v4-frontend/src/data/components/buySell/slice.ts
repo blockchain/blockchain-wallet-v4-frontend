@@ -155,7 +155,7 @@ const buySellSlice = createSlice({
   name: 'buySell',
   reducers: {
     activateCard: (state, action: PayloadAction<{ card: BSCardType; cvv: string }>) => {},
-    activateCardFailure: (state, action: PayloadAction<string>) => {
+    activateCardFailure: (state, action: PayloadAction<string | Error>) => {
       state.providerDetails = Remote.Failure(action.payload)
     },
     activateCardLoading: (state) => {
@@ -176,7 +176,7 @@ const buySellSlice = createSlice({
         paymentMethodId: BSCardType['id']
       }>
     ) => {},
-    confirmOrderFailure: (state, action: PayloadAction<string | number>) => {
+    confirmOrderFailure: (state, action: PayloadAction<string | number | Error>) => {
       state.order = Remote.Failure(action.payload)
     },
     confirmOrderLoading: (state) => {
@@ -188,7 +188,7 @@ const buySellSlice = createSlice({
       state.pendingOrder = undefined
     },
     createCard: (state, action: PayloadAction<{ [key: string]: string }>) => {},
-    createCardFailure: (state, action: PayloadAction<string | number>) => {
+    createCardFailure: (state, action: PayloadAction<string | number | Error>) => {
       state.card = Remote.Failure(action.payload)
     },
     createCardLoading: (state) => {
@@ -277,6 +277,7 @@ const buySellSlice = createSlice({
     fetchCardsFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.cards = Remote.Success([])
     },
+
     fetchCardsLoading: (state) => {
       state.cards = Remote.Loading
     },
@@ -296,13 +297,16 @@ const buySellSlice = createSlice({
       state.crossBorderLimits = Remote.Success(action.payload)
     },
     fetchFiatEligible: (state, action: PayloadAction<FiatType>) => {},
-    fetchFiatEligibleFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
+    fetchFiatEligibleFailure: (
+      state,
+      action: PayloadAction<PartialClientErrorProperties | Error>
+    ) => {
       state.fiatEligible = Remote.Failure(action.payload)
     },
-
     fetchFiatEligibleLoading: (state) => {
       state.fiatEligible = Remote.Loading
     },
+
     fetchFiatEligibleSuccess: (state, action: PayloadAction<FiatEligibleType>) => {
       state.fiatEligible = Remote.Success(action.payload)
     },
@@ -469,14 +473,14 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{ cvv: string; paymentMethodTokens: { [key: string]: string } }>
     ) => {},
+    resetConfirmOrder: (state) => {
+      state.order = state.pendingOrder ? Remote.Success(state.pendingOrder) : Remote.NotAsked
+    },
     setApplePayInfo: (state, action: PayloadAction<ApplePayInfoType>) => {
       state.applePayInfo = action.payload
     },
     setBuyCrypto: (state, action: PayloadAction<string>) => {},
     setFiatCurrency: (state, action: PayloadAction<FiatType>) => {
-      state.fiatCurrency = action.payload
-    },
-    setFiatTradingCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload
     },
     setGooglePayInfo: (state, action: PayloadAction<GooglePayInfoType>) => {
@@ -548,9 +552,11 @@ const buySellSlice = createSlice({
       }
     },
     showModal: (
-      state,
+      state: BuySellState,
       action: PayloadAction<{
         cryptoCurrency?: CoinType
+        method?: BSPaymentMethodType
+        mobilePaymentMethod?: MobilePaymentType
         orderType?: BSOrderActionType
         origin: BSShowModalOriginType
         step?: 'DETERMINE_CARD_PROVIDER'
@@ -559,6 +565,8 @@ const buySellSlice = createSlice({
       state.origin = action.payload.origin
       state.cryptoCurrency = action.payload.cryptoCurrency
       state.orderType = action.payload.orderType
+      state.mobilePaymentMethod = action.payload.mobilePaymentMethod
+      state.method = action.payload.method
     },
     startPollBuyQuote: (
       state,

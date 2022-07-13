@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Route } from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
 import { CoinfigType, CoinType } from '@core/types'
@@ -60,14 +60,19 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftSearch')(state) as { search: string },
   isAuthenticated: selectors.auth.isAuthenticated(state),
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
+  isTestnet: selectors.components.nfts.getIsTestnet(state),
   pathname: selectors.router.getPathname(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   coinsActions: bindActionCreators(actions.core.data.coins, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch)
+  refreshActions: bindActionCreators(actions.components.refresh, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch),
+  sessionActions: bindActionCreators(actions.session, dispatch),
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -82,4 +87,4 @@ export type Props = ConnectedProps<typeof connector> & {
   path: string
 }
 
-export default connector(NftsContainer)
+export default withRouter(connector(NftsContainer))

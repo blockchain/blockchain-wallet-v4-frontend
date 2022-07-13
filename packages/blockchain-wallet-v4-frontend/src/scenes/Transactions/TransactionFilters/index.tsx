@@ -4,13 +4,14 @@ import { bindActionCreators } from 'redux'
 
 import { CoinType } from '@core/types'
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 
 import Menu from './template'
 
 class TransactionFiltersContainer extends React.PureComponent<Props> {
   handleClickReporting = () => {
     const { coin, modalActions } = this.props
-    modalActions.showModal('TRANSACTION_REPORT_MODAL', {
+    modalActions.showModal(ModalName.TRANSACTION_REPORT_MODAL, {
       coin,
       origin: 'TransactionList'
     })

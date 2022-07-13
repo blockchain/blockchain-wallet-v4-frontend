@@ -2,34 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Icon, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
-
-export const Coin = styled.div`
-  display: flex;
-  align-items: center;
-`
-export const CoinIcon = styled(Icon)`
-  font-size: 32px;
-  margin-right: 16px;
-`
-export const CoinName = styled(Text)`
-  font-size: 20px;
-  font-weight: 500;
-  color: ${(props) => props.theme.grey900};
-`
-export const Amount = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  > div:last-child {
-    margin-top: 5px;
-  }
-`
-export const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
+import { SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
 
 const SkeletonLoader = styled.div`
   display: flex;

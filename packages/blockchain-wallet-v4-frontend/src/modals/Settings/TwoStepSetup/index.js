@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import TwoStepSetup from './template.js'
@@ -21,16 +22,16 @@ class TwoStepSetupContainer extends React.PureComponent {
   }
 
   handleYubico() {
-    this.props.modalActions.showModal('TWO_STEP_YUBICO_MODAL')
+    this.props.modalActions.showModal(ModalName.TWO_STEP_YUBICO_MODAL)
   }
 
   handleMobile() {
     const { smsNumber, smsVerified } = this.props
 
     if (!smsNumber) {
-      this.props.modalActions.showModal('MOBILE_NUMBER_ADD_MODAL')
+      this.props.modalActions.showModal(ModalName.MOBILE_NUMBER_ADD_MODAL)
     } else if (!smsVerified) {
-      this.props.modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL', {
+      this.props.modalActions.showModal(ModalName.MOBILE_NUMBER_VERIFY_MODAL, {
         mobileNumber: smsNumber
       })
     } else {

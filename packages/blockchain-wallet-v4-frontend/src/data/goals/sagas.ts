@@ -14,7 +14,7 @@ import {
 } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, model, selectors } from 'data'
-import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
+import { getBchBalance, getBtcBalance } from 'data/balances/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { ModalName } from 'data/modals/types'
@@ -437,7 +437,7 @@ export default ({ api, coreSagas, networks }) => {
 
       if (new Date() > new Date(paymentRequest.expires)) {
         return yield put(
-          actions.modals.showModal('BITPAY_INVOICE_EXPIRED_MODAL', {
+          actions.modals.showModal(ModalName.BITPAY_INVOICE_EXPIRED_MODAL, {
             origin: 'PaymentProtocolGoal'
           })
         )
@@ -713,7 +713,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(
       actions.components.nfts.nftOrderFlowOpen({
         asset_contract_address: goal.data.contract_address,
-        order: goal.data.order,
+        seaportOrder: goal.data.order,
         step: NftOrderStepEnum.BUY,
         token_id: goal.data.token_id
       })

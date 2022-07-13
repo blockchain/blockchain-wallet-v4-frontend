@@ -1,30 +1,37 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
+import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
 
 import { displayCoinToCoin } from '@core/exchange'
-import { GasCalculationOperations, RawOrder } from '@core/network/api/nfts/types'
+import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
 
 import { RightAlign } from '../../components'
-import FeesDropdown from '../../components/FeesDropdown'
+import NftDropdown from '../../components/NftDropdown'
 import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
-  const { nftActions, orderFlow } = props
-  const { offerToCancel } = orderFlow
+  const { asset, nftActions, orderFlow } = props
+  const { seaportOrder, wyvernOrder } = orderFlow
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront(asset)
 
   useEffect(() => {
-    nftActions.fetchFees({
-      operation: GasCalculationOperations.Cancel,
-      order: offerToCancel as unknown as RawOrder
-    })
-  }, [])
-
-  if (!offerToCancel) return null
+    if (seaportOrder) {
+      nftActions.fetchFees({
+        offer: seaportOrder,
+        operation: GasCalculationOperations.CancelOffer
+      })
+    } else if (IS_SHARED_STOREFRONT && wyvernOrder) {
+      nftActions.fetchFees_LEGACY({
+        operation: GasCalculationOperations.Cancel,
+        order: wyvernOrder
+      })
+    }
+  }, [seaportOrder, nftActions, wyvernOrder, IS_SHARED_STOREFRONT])
 
   return (
     <>
@@ -35,8 +42,10 @@ const Fees: React.FC<Props> = (props) => {
         Success: (val) => {
           return (
             <>
-              <FeesDropdown
-                totalFees={displayCoinToCoin({
+              <NftDropdown
+                title='Total Fees'
+                hasPadding
+                titleRight={displayCoinToCoin({
                   coin: 'ETH',
                   value: new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()
                 })}
@@ -54,7 +63,7 @@ const Fees: React.FC<Props> = (props) => {
                     </FiatDisplay>
                   </RightAlign>
                 </Flex>
-              </FeesDropdown>
+              </NftDropdown>
             </>
           )
         }
@@ -63,6 +72,6 @@ const Fees: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps
+type Props = OwnProps & { asset: NftAsset }
 
 export default Fees

@@ -133,7 +133,6 @@ export const getMaxMin = (
   orderType: BSOrderActionType,
   QUOTE: BSQuoteType | SwapQuoteStateType | BuyQuoteStateType,
   pair: BSPairType,
-  isFlexiblePricingModel: boolean,
   payment?: PaymentValue,
   allValues?: BSCheckoutFormValuesType,
   method?: BSPaymentMethodType,
@@ -165,23 +164,14 @@ export const getMaxMin = (
           }
 
           const defaultMax = {
-            CRYPTO: isFlexiblePricingModel
-              ? getBuyQuote(
-                  quote.pair,
-                  quote.rate,
-                  'FIAT',
-                  isSddFlow
-                    ? convertBaseToStandard('FIAT', Number(sddLimit.max))
-                    : convertBaseToStandard('FIAT', pair.buyMax)
-                )
-              : getQuote(
-                  quote.pair,
-                  quote.rate,
-                  'FIAT',
-                  isSddFlow
-                    ? convertBaseToStandard('FIAT', Number(sddLimit.max))
-                    : convertBaseToStandard('FIAT', pair.buyMax)
-                ),
+            CRYPTO: getBuyQuote(
+              quote.pair,
+              quote.rate,
+              'FIAT',
+              isSddFlow
+                ? convertBaseToStandard('FIAT', Number(sddLimit.max))
+                : convertBaseToStandard('FIAT', pair.buyMax)
+            ),
             FIAT: isSddFlow
               ? convertBaseToStandard('FIAT', Number(sddLimit.max))
               : convertBaseToStandard('FIAT', pair.buyMax),
@@ -233,12 +223,7 @@ export const getMaxMin = (
 
           const maxFiat = !fundsChangedMax ? convertBaseToStandard('FIAT', max) : max
 
-          let maxCrypto
-          if (isFlexiblePricingModel) {
-            maxCrypto = getBuyQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
-          } else {
-            maxCrypto = getQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
-          }
+          const maxCrypto = getBuyQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
 
           return { CRYPTO: maxCrypto, FIAT: maxFiat, type: limitType }
         case 'min':
@@ -255,23 +240,14 @@ export const getMaxMin = (
           }
 
           const defaultMin = {
-            CRYPTO: isFlexiblePricingModel
-              ? getBuyQuote(
-                  quote.pair,
-                  quote.rate,
-                  'FIAT',
-                  isSddFlow
-                    ? convertBaseToStandard('FIAT', Number(sddLimit.min))
-                    : convertBaseToStandard('FIAT', pair.buyMin)
-                )
-              : getQuote(
-                  quote.pair,
-                  quote.rate,
-                  'FIAT',
-                  isSddFlow
-                    ? convertBaseToStandard('FIAT', Number(sddLimit.min))
-                    : convertBaseToStandard('FIAT', pair.buyMin)
-                ),
+            CRYPTO: getBuyQuote(
+              quote.pair,
+              quote.rate,
+              'FIAT',
+              isSddFlow
+                ? convertBaseToStandard('FIAT', Number(sddLimit.min))
+                : convertBaseToStandard('FIAT', pair.buyMin)
+            ),
             FIAT: isSddFlow
               ? convertBaseToStandard('FIAT', Number(sddLimit.min))
               : convertBaseToStandard('FIAT', pair.buyMin)
@@ -295,12 +271,7 @@ export const getMaxMin = (
 
           const minFiat = convertBaseToStandard('FIAT', min)
 
-          let minCrypto
-          if (isFlexiblePricingModel) {
-            minCrypto = getBuyQuote(quote.pair, quote.rate, 'FIAT', minFiat)
-          } else {
-            minCrypto = getQuote(quote.pair, quote.rate, 'FIAT', minFiat)
-          }
+          const minCrypto = getBuyQuote(quote.pair, quote.rate, 'FIAT', minFiat)
 
           return { CRYPTO: minCrypto, FIAT: minFiat }
         default:
@@ -340,7 +311,6 @@ export const maximumAmount = (
 
   const {
     defaultMethod,
-    isFlexiblePricingModel,
     isSddFlow,
     limits,
     method: selectedMethod,
@@ -362,7 +332,6 @@ export const maximumAmount = (
     orderType,
     quote,
     pair,
-    isFlexiblePricingModel,
     payment,
     allValues,
     method,
@@ -384,7 +353,6 @@ export const minimumAmount = (
 
   const {
     defaultMethod,
-    isFlexiblePricingModel,
     isSddFlow,
     limits,
     method: selectedMethod,
@@ -406,7 +374,6 @@ export const minimumAmount = (
         orderType,
         quote,
         pair,
-        isFlexiblePricingModel,
         payment,
         allValues,
         method,

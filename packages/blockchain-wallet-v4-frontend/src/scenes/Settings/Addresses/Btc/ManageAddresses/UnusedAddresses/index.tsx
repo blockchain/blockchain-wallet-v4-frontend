@@ -20,6 +20,7 @@ import {
 } from 'blockchain-info-components'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/types'
 import * as C from 'services/alerts'
 
 import UnusedAddresses from './template'
@@ -83,7 +84,7 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
 
   onDeleteLabel = (i) => {
     const { accountIndex, derivation, modalsActions, walletIndex } = this.props
-    modalsActions.showModal('DELETE_ADDRESS_LABEL_MODAL', {
+    modalsActions.showModal(ModalName.DELETE_ADDRESS_LABEL_MODAL, {
       accountIdx: accountIndex,
       addressIdx: i,
       derivation,
@@ -104,12 +105,12 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
 
   onShowXPub = () => {
     const { modalsActions, xpub } = this.props
-    modalsActions.showModal('SHOW_XPUB_MODAL', { origin: 'SettingsPage', xpub })
+    modalsActions.showModal(ModalName.SHOW_XPUB_MODAL, { origin: 'SettingsPage', xpub })
   }
 
   onShowFundRecovery = (accountIndex) => {
     const { modalsActions } = this.props
-    modalsActions.showModal('FUND_RECOVERY_MODAL', {
+    modalsActions.showModal(ModalName.FUND_RECOVERY_MODAL, {
       accountIndex,
       coin: 'BTC',
       origin: 'SettingsPage'

@@ -1,9 +1,9 @@
-import { ExtraQuestionsType, SDDEligibleType, SDDVerifiedType } from './types'
+import { CountryScopeType, ExtraQuestionsType, SDDEligibleType, SDDVerifiedType } from './types'
 
 export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post }) => {
-  const getSupportedCountries = () =>
+  const getSupportedCountries = (scope: CountryScopeType) =>
     get({
-      data: { scope: 'kyc' },
+      data: { scope },
       endPoint: '/countries',
       url: nabuUrl
     })
@@ -111,18 +111,19 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
-  const fetchKYCExtraQuestions = (): ExtraQuestionsType =>
+  const fetchKYCExtraQuestions = (context): ExtraQuestionsType =>
     authorizedGet({
       contentType: 'application/json',
+      data: { context },
       endPoint: '/kyc/extra-questions',
-      ignoreQueryParams: true,
+      ignoreQueryParams: false,
       url: nabuUrl
     })
 
   const updateKYCExtraQuestions = (extraQuestions: ExtraQuestionsType): SDDVerifiedType =>
     authorizedPut({
       contentType: 'application/json',
-      data: { nodes: extraQuestions.nodes },
+      data: { context: extraQuestions.context, nodes: extraQuestions.nodes },
       endPoint: '/kyc/extra-questions',
       ignoreQueryParams: true,
       url: nabuUrl

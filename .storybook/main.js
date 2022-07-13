@@ -31,7 +31,8 @@ module.exports = {
       middleware: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/middleware/'),
       providers: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/providers/'),
       services: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/services/'),
-      utils: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/utils/')
+      utils: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/utils/'),
+      generated: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/generated/')
     }
 
     // Return the altered config

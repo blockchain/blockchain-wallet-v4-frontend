@@ -13,7 +13,9 @@ import Success from './template.success'
 
 const ThreeDSHandlerStripe = ({ data, ...props }: Props) => {
   return data.cata({
-    Failure: (e) => <DataError message={{ message: e }} />,
+    Failure: (e) => {
+      return <DataError message={{ message: e }} />
+    },
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => <Success {...props} {...val} />

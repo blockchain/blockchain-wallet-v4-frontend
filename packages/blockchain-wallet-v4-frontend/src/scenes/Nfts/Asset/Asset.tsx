@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import ReactMarkdown from 'react-markdown'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors } from '@blockchain-com/constellation'
+import { colors, Icon } from '@blockchain-com/constellation'
+import { IconComputer, IconInstagram, IconLink, IconTwitter } from '@blockchain-com/icons'
 import BigNumber from 'bignumber.js'
+import NftDropdown from 'blockchain-wallet-v4-frontend/src/modals/Nfts/components/NftDropdown'
+import {
+  AvatarGradientColors,
+  LinksContainer
+} from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
+import Avatar from 'boring-avatars'
 import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { RawOrder } from '@core/network/api/nfts/types'
-import { NULL_ADDRESS } from '@core/redux/payment/nfts/constants'
+import { NftAsset as NftAssetType, WyvernRawOrder } from '@core/network/api/nfts/types'
 import { WalletOptionsType } from '@core/types'
 import {
   Button,
@@ -17,10 +24,7 @@ import {
   Link,
   SkeletonRectangle,
   SpinningLoader,
-  TabMenu,
-  TabMenuItem,
-  Text,
-  TextGroup
+  Text
 } from 'blockchain-info-components'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
@@ -33,13 +37,14 @@ import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 import { AssetFilterFields, EventFilterFields, useAssetQuery } from 'generated/graphql.types'
 import { useRemote } from 'hooks'
+import { isMobile, media, useMedia } from 'services/styles'
 
-import NftAssetImageType from '../components/NftAssetImageType'
 import NftCollectionImage from '../components/NftCollectionImage'
 import NftError from '../components/NftError'
 import NftRefreshIcon from '../components/NftRefreshIcon'
 import Events from '../Events'
 import Offers from '../Offers'
+import { getIsSharedStorefront } from '../utils/NftUtils'
 import {
   AssetName,
   CollectionName,
@@ -49,7 +54,6 @@ import {
   EthText,
   Highest,
   LeftColWrapper,
-  NftAssetStickyWrapper,
   RightColWrapper,
   Top,
   Trait,
@@ -62,13 +66,26 @@ import NftAssetLoading from './components/NftAssetLoading'
 
 const AssetImageContainer = styled.div`
   position: relative;
-  border-radius: 8px;
-  border-width: 1px;
-  border: 1px solid ${(props) => props.theme.grey100};
-  box-shadow: inset 0px 0px 10px 0px ${(props) => props.theme.grey000};
-  box-sizing: border-box;
+  border-radius: 16px;
   margin-bottom: 0.5rem;
   padding: 30px;
+  ${media.mobile`
+    padding: 0;
+  `};
+`
+
+const AssetImg = styled.img`
+  border-radius: 18px;
+  box-shadow: 0px 0px 40px 0px ${(props) => props.theme.grey200};
+  box-sizing: border-box;
+`
+
+const Description = styled.div`
+  margin-bottom: 1em;
+  padding: 1em;
+  background: rgb(240, 242, 247, 0.3);
+  border: 1px solid ${(props) => props.theme.greyFade000};
+  border-radius: 16px;
 `
 
 const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
@@ -89,6 +106,7 @@ const SocialLink = styled.div`
   display: flex;
   width: 40px;
   height: 40px;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
   border-right: 1px solid ${(props) => props.theme.grey000};
@@ -99,15 +117,7 @@ const SocialLink = styled.div`
 
 const ActivityWrapper = styled.div`
   max-height: 300px;
-  border: 1px solid ${(props) => props.theme.grey000};
-  border-radius: 8px;
   overflow: auto;
-`
-
-const CustomTabMenu = styled(TabMenu)`
-  color: ${colors.grey900};
-  margin: 24px 0;
-  background: ${colors.grey000};
 `
 
 const CreatorOwnerAddress = styled.div`
@@ -128,11 +138,8 @@ const TokenDisplay = styled(Text)`
   width: 200px;
   text-align: right;
 `
-
-const AdditionalDetailsWrapper = styled.div`
-  border: 1px solid ${colors.grey000};
-  border-radius: 8px;
-  margin-top: 24px;
+const DropdownPadding = styled.div`
+  padding-bottom: 1em;
 `
 
 const Detail = styled(Text)`
@@ -148,6 +155,31 @@ const Detail = styled(Text)`
   }
 `
 
+const ShadowTag = styled.div`
+  background: ${colors.white900};
+  box-shadow: 0px 4px 16px rgba(5, 24, 61, 0.1);
+  border-radius: 16px;
+  padding: 6px 6px;
+  width: fit-content;
+`
+
+const CollectionHeader = styled.div`
+  ${media.atLeastTablet`
+    justify-content: left;
+    gap: 24px;
+  `};
+  display: flex;
+  margin-top: 2px;
+  width: 100%;
+  justify-content: space-between;
+`
+
+const GradientCoinDisplay = styled(CoinDisplay)`
+  background: linear-gradient(92.99deg, #7663ff 0.55%, #0069fc 98.76%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`
+
 const DetailsAndOffers = styled.div``
 
 const NftAsset: React.FC<Props> = ({
@@ -161,9 +193,12 @@ const NftAsset: React.FC<Props> = ({
   ...rest
 }) => {
   const { contract, id } = rest.computedMatch.params
+  const IS_SHARED_STOREFRONT = getIsSharedStorefront({
+    asset_contract: { address: contract }
+  } as NftAssetType)
   const [isRefreshRotating, setIsRefreshRotating] = useState<boolean>(false)
   // @ts-ignore
-  const [assetQuery, reexecuteQuery] = useAssetQuery({
+  const [assetQuery, reExecuteQuery] = useAssetQuery({
     requestPolicy: 'network-only',
     variables: {
       filter: [
@@ -174,14 +209,16 @@ const NftAsset: React.FC<Props> = ({
   })
 
   const openSeaAsset = useRemote(selectors.components.nfts.getOpenSeaAsset)
-  const [Tab, setTab] = useState('about')
+  const [moreAssetToggle, setMoreAssetToggle] = useState(true)
+  const isTablet = useMedia('tablet')
 
   useEffect(() => {
     nftsActions.fetchOpenSeaAsset({
       asset_contract_address: contract,
+      defaultEthAddr,
       token_id: id
     })
-  }, [contract, id, nftsActions])
+  }, [contract, id, nftsActions, defaultEthAddr])
 
   useEffect(() => {
     if (isRefreshRotating) {
@@ -192,50 +229,73 @@ const NftAsset: React.FC<Props> = ({
   }, [isRefreshRotating])
 
   const currentAsset = assetQuery.data?.assets[0]
-  const isOwner = currentAsset?.owners
-    ? currentAsset.owners.find((owner) => {
-        return owner?.address?.toLowerCase() === defaultEthAddr?.toLowerCase()
-      })
-    : null
+  const isOwner =
+    openSeaAsset.data?.ownership?.owner.address.toLowerCase() === defaultEthAddr.toLowerCase()
 
-  const owner = currentAsset?.owners ? currentAsset.owners[0] : null
+  const owner = isOwner ? openSeaAsset.data?.ownership?.owner : openSeaAsset.data?.owner
   const collectionName = currentAsset?.collection?.name || ''
+  const assetDecription = currentAsset?.description || ''
+  const collectionDescription = currentAsset?.collection?.description || ''
 
+  // seaport sell orders (aka listing)
+  let asks =
+    openSeaAsset.data?.seaport_sell_orders
+      ?.filter(({ side }) => side === 'ask')
+      ?.sort((a, b) => (new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1)) || []
+  // seaport buy orders (aka offer)
   let bids =
-    openSeaAsset.data?.orders?.filter((x) => {
-      return x.side === 0 && x.taker.address !== NULL_ADDRESS
-    }, []) || []
-  // Offers have taker as null address
-  let offers =
-    openSeaAsset.data?.orders?.filter((x) => {
-      return x.side === 0 && x.taker.address === NULL_ADDRESS
-    }, []) || []
-  const sellOrders =
-    openSeaAsset.data?.orders?.filter((x) => {
-      return x.side === 1
-    }) || []
-  bids = bids.length
-    ? bids.sort((a: any, b: any) => {
-        return b.current_price - a.current_price
-      })
-    : []
-  offers = offers.length
-    ? offers.sort((a: any, b: any) => {
-        return b.current_price - a.current_price
-      })
-    : []
-  const bidsAndOffers = bids.concat(offers).sort((a: any, b: any) => {
-    return b.current_price - a.current_price
-  })
-  if (offers.length < 1) offers = bids
-  const highest_bid = bids[0]
-  const highest_offer = offers[0]
-  const lowest_order = sellOrders.sort((a, b) =>
-    new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
-  )[0]
-  const is_lowest_order_dutch = lowest_order && lowest_order.sale_kind === 1
-  const is_lowest_order_english =
-    lowest_order && !lowest_order.r && !lowest_order.s && !lowest_order.v
+    openSeaAsset.data?.seaport_sell_orders
+      ?.filter(({ side }) => side === 'bid')
+      ?.sort((a, b) => (new BigNumber(a.current_price).isLessThan(b.current_price) ? 1 : -1)) || []
+  let highestBid = bids[0]
+  let lowestAsk = asks[0]
+  let isLowestAskDutch = !!lowestAsk?.protocol_data.parameters.consideration.find(
+    (x) => x.token === window.coins.WETH.coinfig.type.erc20Address
+  )
+  // TODO: SEAPORT
+  let isLowestAskEnglish = false
+  let isLowestAskReserved = lowestAsk?.taker
+    ? lowestAsk?.taker.address.toLowerCase() !== defaultEthAddr.toLowerCase()
+    : false
+
+  // TODO: SEAPORT - remove wyvern 👇
+  if (IS_SHARED_STOREFRONT) {
+    const bids_LEGACY =
+      openSeaAsset.data?.orders?.filter((x) => {
+        return x.side === 0
+      }, []) || []
+    const asks_LEGACY =
+      openSeaAsset.data?.orders?.filter((x) => {
+        return x.side === 1
+      }) || []
+    const highestBid_LEGACY = bids_LEGACY.sort((a, b) =>
+      new BigNumber(a.current_price).isLessThan(b.current_price) ? 1 : -1
+    )[0]
+    const lowestAsk_LEGACY = asks_LEGACY.sort((a, b) =>
+      new BigNumber(a.current_price).isLessThan(b.current_price) ? -1 : 1
+    )[0]
+    const isLowestAskDutch_LEGACY = lowestAsk_LEGACY && lowestAsk_LEGACY.sale_kind === 1
+    const isLowestAskEnglish_LEGACY =
+      lowestAsk_LEGACY && !lowestAsk_LEGACY.r && !lowestAsk_LEGACY.s && !lowestAsk_LEGACY.v
+    const isLowestAskReserved_LEGACY = lowestAsk?.taker
+      ? lowestAsk_LEGACY?.taker.address.toLowerCase() !== defaultEthAddr.toLowerCase()
+      : false
+
+    isLowestAskDutch = isLowestAskDutch_LEGACY
+    isLowestAskEnglish = isLowestAskEnglish_LEGACY
+    // @ts-ignore
+    asks = asks_LEGACY
+    // @ts-ignore
+    bids = bids_LEGACY
+    // @ts-ignore
+    lowestAsk = lowestAsk_LEGACY
+    // @ts-ignore
+    highestBid = highestBid_LEGACY
+    isLowestAskReserved = isLowestAskReserved_LEGACY
+  }
+  // TODO: SEAPORT - remove wyvern 👆
+
+  const paymentTokenContractSymbol = isLowestAskDutch ? 'WETH' : 'ETH'
 
   if (assetQuery.error) return <NftError error={assetQuery.error} />
 
@@ -245,45 +305,58 @@ const NftAsset: React.FC<Props> = ({
 
   const { network } = currentAsset
   const unsupportedNetwork = network !== 'ethereum' && network !== 'rinkeby'
+  const sortedTraits =
+    currentAsset?.traits?.sort((a, b) =>
+      a?.trait_count && b?.trait_count && a.trait_count > b.trait_count ? 1 : -1
+    ) || []
 
   return (
     <Wrapper>
-      <>
+      <div style={{ marginTop: '20px' }}>
         <div style={{ display: 'block' }}>
           <Top>
             <LeftColWrapper>
-              <NftAssetStickyWrapper>
-                <AssetImageContainer>
-                  {currentAsset.animation_url ? (
-                    <iframe
-                      title='Asset Animation'
-                      allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
-                      frameBorder='0'
-                      height='100%'
-                      sandbox='allow-scripts'
-                      width='100%'
-                      style={{ minHeight: '500px' }}
-                      src={`${domains.walletHelper}/wallet-helper/nfts/#/url/${encodeURIComponent(
-                        currentAsset.animation_url
-                      )}`}
-                    />
-                  ) : currentAsset.image_url ? (
-                    <img alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
-                  ) : (
-                    <Image width='100%' height='500px' name='nft-img-placeholder' />
-                  )}
-                  <NftAssetImageType
-                    animation_url={currentAsset.animation_url}
-                    image_url={currentAsset.image_url}
-                    top='40px'
-                    right='40px'
+              <AssetImageContainer>
+                {currentAsset.animation_url ? (
+                  <iframe
+                    title='Asset Animation'
+                    allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+                    frameBorder='0'
+                    height='100%'
+                    sandbox='allow-scripts'
+                    width='100%'
+                    style={{ minHeight: '500px' }}
+                    src={`${domains.walletHelper}/wallet-helper/nfts/#/url/${encodeURIComponent(
+                      currentAsset.animation_url
+                    )}`}
                   />
-                </AssetImageContainer>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                ) : currentAsset.image_url ? (
+                  <AssetImg alt='Asset Logo' width='100%' src={currentAsset.image_url || ''} />
+                ) : (
+                  <Image width='100%' height='500px' name='nft-img-placeholder' />
+                )}
+              </AssetImageContainer>
+              {isTablet && (
+                <div style={{ display: 'flex', justifyContent: 'center', padding: '1em 0' }}>
                   <Socials>
+                    <SocialLink
+                      id='nft-refresh'
+                      role='button'
+                      onClick={() => {
+                        reExecuteQuery()
+                        nftsActions.fetchOpenSeaAsset({
+                          asset_contract_address: contract,
+                          defaultEthAddr,
+                          token_id: id
+                        })
+                        setIsRefreshRotating(true)
+                      }}
+                    >
+                      <NftRefreshIcon isActive={isRefreshRotating} size='sm' color='grey700' />
+                    </SocialLink>
                     <SocialLink>
                       <CopyClipboardButton
-                        color='grey600'
+                        color='grey700'
                         textToCopy={`${domains.comWalletApp}/#/nfts/assets/${contract}/${id}`}
                         onClick={() =>
                           analyticsActions.trackEvent({
@@ -296,6 +369,7 @@ const NftAsset: React.FC<Props> = ({
                     {isOwner && (
                       <SocialLink>
                         <BlockchainIcon
+                          role='button'
                           onClick={() => {
                             analyticsActions.trackEvent({
                               key: Analytics.NFT_TRANSFER_CLICKED,
@@ -308,31 +382,188 @@ const NftAsset: React.FC<Props> = ({
                             })
                           }}
                           cursor
-                          color='grey600'
+                          color='grey700'
                           name='send'
                         />
                       </SocialLink>
                     )}
-                    {/* <SocialLink>
-                      <BlockchainIcon
-                        onClick={() => {
-                          analyticsActions.trackEvent({
-                            key: Analytics.NFT_MORE_CLICKED,
-                            properties: {}
-                          })
-                          // more
-                        }}
-                        cursor
-                        color='grey600'
-                        name='ellipsis'
-                        size='4px'
-                      />
-                    </SocialLink> */}
                   </Socials>
                 </div>
-              </NftAssetStickyWrapper>
+              )}
+              {!isTablet && (
+                <>
+                  {assetDecription !== '' ? (
+                    <Description>
+                      <Flex flexDirection='column'>
+                        <Text size='16px' color='grey900' weight={600}>
+                          <FormattedMessage id='copy.description' defaultMessage='Description' />
+                        </Text>
+                        <Text
+                          size='16px'
+                          color='grey900'
+                          weight={500}
+                          style={{ wordBreak: 'break-word' }}
+                        >
+                          {moreAssetToggle && assetDecription?.length > 82 ? (
+                            <ReactMarkdown linkTarget='_blank'>
+                              {`${assetDecription.substring(0, 82)}...`}
+                            </ReactMarkdown>
+                          ) : (
+                            <ReactMarkdown linkTarget='_blank'>{assetDecription}</ReactMarkdown>
+                          )}
+                        </Text>
+                        {assetDecription?.length > 82 && (
+                          <Text
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              if (assetDecription?.length > 82) setMoreAssetToggle(!moreAssetToggle)
+                            }}
+                            size='16px'
+                            color='blue600'
+                            weight={600}
+                          >
+                            {moreAssetToggle ? (
+                              <FormattedMessage id='copy.more' defaultMessage='See More' />
+                            ) : (
+                              <FormattedMessage id='copy.less' defaultMessage='Less' />
+                            )}
+                          </Text>
+                        )}
+                      </Flex>
+                    </Description>
+                  ) : null}
+                  {sortedTraits.length ? (
+                    <DropdownPadding style={{ paddingTop: '1em' }}>
+                      <NftDropdown expanded title='Traits'>
+                        <div style={{ padding: '1em' }}>
+                          <Flex flexDirection='column'>
+                            <TraitsWrapper>
+                              {sortedTraits.map((trait) => {
+                                if (!trait) return null
+
+                                const assetTraits = sortedTraits?.find(
+                                  (t) => t?.trait_type === trait.trait_type
+                                )
+                                const traitCount = assetTraits?.trait_count
+                                const rarity =
+                                  traitCount && currentAsset.collection.total_supply
+                                    ? `${parseFloat(
+                                        (
+                                          (traitCount / currentAsset.collection.total_supply) *
+                                          100
+                                        ).toFixed(1)
+                                      )}% Rarity`
+                                    : 'New Trait'
+
+                                return (
+                                  <Trait
+                                    key={trait.value}
+                                    onClick={() => {
+                                      routerActions.push(
+                                        `/nfts/collection/${currentAsset.collection.slug}`
+                                      )
+                                      formActions.change(
+                                        'nftFilter',
+                                        `${trait.trait_type}.${trait.value}`,
+                                        true
+                                      )
+                                    }}
+                                  >
+                                    <Text capitalize color='blue400' size='12px' weight={400}>
+                                      <b>{trait?.trait_type}</b>
+                                    </Text>
+                                    <Text capitalize color='blue600' size='14px' weight={600}>
+                                      {trait?.value}
+                                    </Text>
+                                    <Text capitalize color='grey900' size='12px' weight={500}>
+                                      {rarity}
+                                    </Text>
+                                  </Trait>
+                                )
+                              })}
+                            </TraitsWrapper>
+                          </Flex>
+                        </div>
+                      </NftDropdown>
+                    </DropdownPadding>
+                  ) : null}
+                  {collectionDescription !== '' ? (
+                    <DropdownPadding style={{ paddingTop: '1em' }}>
+                      <NftDropdown expanded title={`About ${collectionName}`}>
+                        <div style={{ padding: '1em' }}>
+                          <div>
+                            <Flex flexDirection='column'>
+                              <Text
+                                size='16px'
+                                color='grey900'
+                                weight={500}
+                                style={{ wordBreak: 'break-word' }}
+                              >
+                                <ReactMarkdown linkTarget='_blank'>
+                                  {collectionDescription}
+                                </ReactMarkdown>
+                              </Text>
+                              <LinksContainer style={{ width: 'fit-content' }}>
+                                {currentAsset?.collection.external_url ? (
+                                  <Link
+                                    target='_blank'
+                                    href={currentAsset?.collection.external_url}
+                                  >
+                                    <Icon size='sm' label='globe'>
+                                      <IconLink fill={colors.blue600} />
+                                    </Icon>
+                                  </Link>
+                                ) : null}
+                                {currentAsset?.collection.twitter_username ? (
+                                  <Link
+                                    target='_blank'
+                                    href={`https://twitter.com/${currentAsset?.collection.twitter_username}`}
+                                  >
+                                    <Icon size='sm' label='twitter'>
+                                      <IconTwitter fill={colors.blue600} />
+                                    </Icon>
+                                  </Link>
+                                ) : null}
+                                {currentAsset?.collection.instagram_username ? (
+                                  <Link
+                                    target='_blank'
+                                    href={`https://instagram.com/${currentAsset?.collection.instagram_username}`}
+                                  >
+                                    <Icon size='sm' label='camera'>
+                                      <IconInstagram fill={colors.blue600} />
+                                    </Icon>
+                                  </Link>
+                                ) : null}
+                                {currentAsset?.collection.discord_url ? (
+                                  <Link
+                                    target='_blank'
+                                    href={`${currentAsset?.collection.discord_url}`}
+                                  >
+                                    <Icon size='sm' label='computer'>
+                                      <IconComputer fill={colors.blue600} />
+                                    </Icon>
+                                  </Link>
+                                ) : null}
+                              </LinksContainer>
+                            </Flex>
+                          </div>
+                        </div>
+                      </NftDropdown>
+                    </DropdownPadding>
+                  ) : null}
+                </>
+              )}
             </LeftColWrapper>
             <RightColWrapper>
+              {isTablet && (
+                <AssetName>
+                  {currentAsset?.name
+                    ? currentAsset?.name?.length > 10
+                      ? `${currentAsset?.name.substring(0, 10)}...`
+                      : currentAsset?.name
+                    : `#${currentAsset?.token_id}`}
+                </AssetName>
+              )}
               <div
                 style={{
                   alignItems: 'center',
@@ -340,95 +571,172 @@ const NftAsset: React.FC<Props> = ({
                   justifyContent: 'space-between'
                 }}
               >
-                <div style={{ display: 'block', marginTop: '2px' }}>
-                  <Text
-                    size='14px'
-                    weight={600}
-                    style={{
-                      alignItems: 'center',
-                      padding: '0em 0em 0.5em 0em'
-                    }}
-                  >
-                    Collection
-                  </Text>
-                  <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
-                    <CollectionName>
-                      {currentAsset.collection.image_url ? (
-                        <NftCollectionImage
-                          alt='Dapp Logo'
-                          src={currentAsset.collection?.image_url || ''}
-                          isVerified={
-                            currentAsset.collection.safelist_request_status === 'verified'
+                <CollectionHeader>
+                  <div>
+                    <Text
+                      size='14px'
+                      weight={600}
+                      style={{
+                        alignItems: 'center',
+                        padding: '0em 0em 0.5em 0em'
+                      }}
+                    >
+                      Collection
+                    </Text>
+                    <div style={{ padding: '6px 0px' }}>
+                      <ShadowTag>
+                        <CustomLink to={`/nfts/collection/${currentAsset.collection?.slug}`}>
+                          <CollectionName>
+                            {currentAsset.collection.image_url ? (
+                              <NftCollectionImage
+                                alt='Dapp Logo'
+                                src={currentAsset.collection?.image_url || ''}
+                                isVerified={
+                                  currentAsset.collection.safelist_request_status === 'verified'
+                                }
+                              />
+                            ) : (
+                              <Flex alignItems='center' flexDirection='row'>
+                                <Avatar
+                                  size={34}
+                                  name={currentAsset.collection.slug || ''}
+                                  variant='marble'
+                                  colors={AvatarGradientColors}
+                                />
+                              </Flex>
+                            )}
+                            <Text
+                              size='16px'
+                              weight={600}
+                              style={{
+                                maxWidth: '120px',
+                                overflow: 'hidden',
+                                paddingLeft: '8px',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap'
+                              }}
+                            >
+                              {currentAsset.collection?.name}
+                            </Text>
+                          </CollectionName>
+                        </CustomLink>
+                      </ShadowTag>
+                    </div>
+                  </div>
+                  {owner?.address ? (
+                    <div>
+                      <Text
+                        size='14px'
+                        weight={600}
+                        style={{
+                          alignItems: 'center',
+                          padding: '0em 0em 0.5em 0em'
+                        }}
+                      >
+                        Owner
+                      </Text>
+                      <div style={{ padding: '6px 0px' }}>
+                        <ShadowTag>
+                          <CustomLink to={`/nfts/address/${owner.address}`}>
+                            <CollectionName>
+                              {owner?.profile_img_url ? (
+                                <NftCollectionImage
+                                  alt='Owner Logo'
+                                  src={owner?.profile_img_url || ''}
+                                  isVerified={
+                                    currentAsset.collection.safelist_request_status === 'verified'
+                                  }
+                                />
+                              ) : (
+                                <Flex alignItems='center' flexDirection='row'>
+                                  <Avatar
+                                    size={34}
+                                    name={owner.address || ''}
+                                    variant='marble'
+                                    colors={AvatarGradientColors}
+                                  />{' '}
+                                </Flex>
+                              )}
+
+                              <Text
+                                size='16px'
+                                weight={600}
+                                color='blue600'
+                                style={{ paddingLeft: '8px' }}
+                              >
+                                <CryptoAddress>{owner.address}</CryptoAddress>
+                              </Text>
+                            </CollectionName>
+                          </CustomLink>
+                        </ShadowTag>
+                      </div>
+                    </div>
+                  ) : null}
+                </CollectionHeader>
+                {!isTablet && (
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Socials>
+                      <SocialLink
+                        id='nft-refresh'
+                        role='button'
+                        onClick={() => {
+                          reExecuteQuery()
+                          nftsActions.fetchOpenSeaAsset({
+                            asset_contract_address: contract,
+                            defaultEthAddr,
+                            token_id: id
+                          })
+                          setIsRefreshRotating(true)
+                        }}
+                      >
+                        <NftRefreshIcon isActive={isRefreshRotating} size='sm' color='grey700' />
+                      </SocialLink>
+                      <SocialLink>
+                        <CopyClipboardButton
+                          color='grey700'
+                          textToCopy={`${domains.comWalletApp}/#/nfts/assets/${contract}/${id}`}
+                          onClick={() =>
+                            analyticsActions.trackEvent({
+                              key: Analytics.NFT_SHARE_CLICKED,
+                              properties: {}
+                            })
                           }
                         />
-                      ) : null}
-
-                      <div style={{ paddingLeft: '8px' }}>{currentAsset.collection?.name}</div>
-                    </CollectionName>
-                  </CustomLink>
-                </div>
-                <Button
-                  id='nft-refresh'
-                  data-e2e='nftAssetRefresh'
-                  style={{
-                    borderRadius: '50%',
-                    height: '40px',
-                    maxWidth: '40px',
-                    minWidth: '40px',
-                    padding: '12px'
-                  }}
-                  nature='empty-blue'
-                  onClick={() => {
-                    reexecuteQuery()
-                    nftsActions.fetchOpenSeaAsset({
-                      asset_contract_address: contract,
-                      token_id: id
-                    })
-                    setIsRefreshRotating(true)
-                  }}
-                >
-                  <NftRefreshIcon isActive={isRefreshRotating} size='lg' />
-                </Button>
+                      </SocialLink>
+                      {isOwner && (
+                        <SocialLink>
+                          <BlockchainIcon
+                            role='button'
+                            onClick={() => {
+                              analyticsActions.trackEvent({
+                                key: Analytics.NFT_TRANSFER_CLICKED,
+                                properties: {}
+                              })
+                              nftsActions.nftOrderFlowOpen({
+                                asset_contract_address: contract,
+                                step: NftOrderStepEnum.TRANSFER,
+                                token_id: id
+                              })
+                            }}
+                            cursor
+                            color='grey700'
+                            name='send'
+                          />
+                        </SocialLink>
+                      )}
+                    </Socials>
+                  </div>
+                )}
               </div>
-              <AssetName>{currentAsset.name || `#${currentAsset?.token_id}`}</AssetName>
-              {owner?.address ? (
-                <TextGroup inline style={{ marginTop: '24px' }}>
-                  <Text size='16px' color='grey600' weight={600}>
-                    <FormattedMessage id='copy.owned_by' defaultMessage='Owned by' />
-                  </Text>
-                  {!isOwner ? (
-                    <Text
-                      color='blue600'
-                      weight={600}
-                      cursor='pointer'
-                      onClick={() => {
-                        analyticsActions.trackEvent({
-                          key: Analytics.NFT_OWNER_CLICKED,
-                          properties: {}
-                        })
-                        routerActions.push(`/nfts/address/${owner.address}`)
-                      }}
-                    >
-                      <CryptoAddress>{owner.address}</CryptoAddress>
-                    </Text>
-                  ) : (
-                    <Text
-                      color='blue600'
-                      weight={600}
-                      cursor='pointer'
-                      onClick={() => {
-                        analyticsActions.trackEvent({
-                          key: Analytics.NFT_OWNER_CLICKED,
-                          properties: {}
-                        })
-                        routerActions.push(`/nfts/address/${owner.address}`)
-                      }}
-                    >
-                      You
-                    </Text>
-                  )}
-                </TextGroup>
-              ) : null}
+              {!isTablet && (
+                <AssetName>
+                  {currentAsset?.name
+                    ? currentAsset?.name?.length > 10
+                      ? `${currentAsset?.name.substring(0, 10)}...`
+                      : currentAsset?.name
+                    : `#${currentAsset?.token_id}`}
+                </AssetName>
+              )}
               <CurrentPriceBox>
                 {openSeaAsset.isLoading ? (
                   <div>
@@ -456,85 +764,44 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 ) : (
                   <>
-                    {highest_bid ? (
+                    {lowestAsk && !highestBid ? (
                       <>
                         <Highest>
-                          <div style={{ marginBottom: '1em' }}>
-                            Bid expires in{' '}
-                            {formatDistanceToNow(new Date(highest_bid?.expiration_time * 1000))}:
-                          </div>
-                          <NftAssetCountdown countDownDate={highest_bid.expiration_time * 1000} />
-                        </Highest>
-                        <Divider style={{ marginBottom: '1em' }} />
-                        <Highest>Top Bid</Highest>
-                        <EthText>
-                          <CoinIcon
-                            name={bidsAndOffers[0].payment_token_contract.symbol || 'ETH'}
-                          />
-                          <CoinDisplay
-                            weight={600}
-                            color={colors.grey900}
-                            size='24px'
-                            coin={bidsAndOffers[0].payment_token_contract.symbol}
-                          >
-                            {bidsAndOffers[0].current_price}
-                          </CoinDisplay>
-                          &nbsp;{' '}
-                          <Text
-                            size='16px'
-                            weight={500}
-                            style={{ display: 'flex' }}
-                            color='grey500'
-                          >
-                            (
-                            <FiatDisplay
-                              weight={500}
-                              currency={walletCurrency}
-                              color='grey500'
-                              size='16px'
-                              coin={bidsAndOffers[0].payment_token_contract.symbol}
-                            >
-                              {bidsAndOffers[0].current_price}
-                            </FiatDisplay>
-                            )
-                          </Text>
-                        </EthText>
-                      </>
-                    ) : lowest_order ? (
-                      <>
-                        <Highest>
-                          <div style={{ marginBottom: '1em' }}>
-                            Sale ends in{' '}
-                            {formatDistanceToNow(
-                              new Date(
-                                (is_lowest_order_english
-                                  ? lowest_order.listing_time
-                                  : lowest_order?.expiration_time) * 1000
-                              )
-                            )}
-                          </div>
+                          {isLowestAskEnglish || isLowestAskDutch ? (
+                            <div style={{ marginBottom: '1em' }}>Auction Ends In </div>
+                          ) : (
+                            <div style={{ marginBottom: '1em' }}>
+                              Sale ends in{' '}
+                              {formatDistanceToNow(
+                                new Date(
+                                  (isLowestAskEnglish
+                                    ? lowestAsk.listing_time
+                                    : lowestAsk?.expiration_time) * 1000
+                                )
+                              )}
+                            </div>
+                          )}
+
                           <NftAssetCountdown
                             countDownDate={
-                              (is_lowest_order_english
-                                ? lowest_order.listing_time
-                                : lowest_order?.expiration_time) * 1000
+                              (isLowestAskEnglish
+                                ? lowestAsk.listing_time
+                                : lowestAsk?.expiration_time) * 1000
                             }
                           />
                         </Highest>
                         <Divider style={{ marginBottom: '1em' }} />
-                        <Highest>
-                          {is_lowest_order_english ? 'Minimum Bid' : 'Current Price'}
-                        </Highest>
+                        <Highest>{isLowestAskEnglish ? 'Minimum Bid' : 'Current Price'}</Highest>
                         <EthText>
-                          <CoinIcon name={lowest_order.payment_token_contract.symbol || 'ETH'} />
-                          <CoinDisplay
+                          <CoinIcon name={paymentTokenContractSymbol} />
+                          <GradientCoinDisplay
                             weight={600}
                             color={colors.grey900}
                             size='24px'
-                            coin={lowest_order.payment_token_contract.symbol}
+                            coin={paymentTokenContractSymbol}
                           >
-                            {lowest_order.current_price}
-                          </CoinDisplay>
+                            {lowestAsk.current_price}
+                          </GradientCoinDisplay>
                           &nbsp;{' '}
                           <Text
                             size='16px'
@@ -548,35 +815,36 @@ const NftAsset: React.FC<Props> = ({
                               currency={walletCurrency}
                               color='grey500'
                               size='16px'
-                              coin={lowest_order.payment_token_contract.symbol}
+                              coin={paymentTokenContractSymbol}
                             >
-                              {lowest_order.current_price}
+                              {lowestAsk.current_price}
                             </FiatDisplay>
                             )
                           </Text>
                         </EthText>
                       </>
-                    ) : highest_offer ? (
+                    ) : highestBid ? (
                       <>
                         <Highest>
                           <div style={{ marginBottom: '1em' }}>
                             Offer expires in{' '}
-                            {formatDistanceToNow(new Date(highest_offer.expiration_time * 1000))}
+                            {formatDistanceToNow(new Date(highestBid.expiration_time * 1000))}
                           </div>
-                          <NftAssetCountdown countDownDate={highest_offer.expiration_time * 1000} />
+                          <NftAssetCountdown countDownDate={highestBid.expiration_time * 1000} />
                         </Highest>
                         <Divider style={{ marginBottom: '1em' }} />
                         <Highest>Highest Offer</Highest>
                         <EthText>
-                          <CoinIcon name={highest_offer.payment_token_contract.symbol || 'ETH'} />
-                          <CoinDisplay
+                          {/* TODO: SEAPORT */}
+                          <CoinIcon name='WETH' />
+                          <GradientCoinDisplay
                             weight={600}
                             color={colors.grey900}
                             size='24px'
-                            coin={highest_offer.payment_token_contract.symbol}
+                            coin='WETH'
                           >
-                            {highest_offer.current_price}
-                          </CoinDisplay>
+                            {highestBid.current_price}
+                          </GradientCoinDisplay>
                           &nbsp;{' '}
                           <Text
                             size='16px'
@@ -584,15 +852,15 @@ const NftAsset: React.FC<Props> = ({
                             style={{ display: 'flex' }}
                             color='grey500'
                           >
-                            (
+                            ({/* TODO: SEAPORT */}
                             <FiatDisplay
                               weight={500}
                               currency={walletCurrency}
                               color='grey500'
                               size='16px'
-                              coin={highest_offer.payment_token_contract.symbol}
+                              coin='WETH'
                             >
-                              {highest_offer.current_price}
+                              {highestBid.current_price}
                             </FiatDisplay>
                             )
                           </Text>
@@ -602,17 +870,13 @@ const NftAsset: React.FC<Props> = ({
                     <Flex gap={8}>
                       {isOwner ? (
                         <>
-                          {!lowest_order ? (
+                          {!lowestAsk ||
+                          lowestAsk.maker.address.toLowerCase() !== defaultEthAddr.toLowerCase() ? (
                             <Button
                               data-e2e='openNftFlow'
                               nature='primary'
                               jumbo
                               onClick={() => {
-                                nftsActions.nftOrderFlowOpen({
-                                  asset_contract_address: contract,
-                                  step: NftOrderStepEnum.MARK_FOR_SALE,
-                                  token_id: id
-                                })
                                 analyticsActions.trackEvent({
                                   key: Analytics.NFT_MARK_FOR_SALE,
                                   properties: {
@@ -620,6 +884,19 @@ const NftAsset: React.FC<Props> = ({
                                     collection_id: id
                                   }
                                 })
+                                if (IS_SHARED_STOREFRONT) {
+                                  nftsActions.nftOrderFlowOpen_LEGACY({
+                                    asset_contract_address: contract,
+                                    step: NftOrderStepEnum.MARK_FOR_SALE,
+                                    token_id: id
+                                  })
+                                } else {
+                                  nftsActions.nftOrderFlowOpen({
+                                    asset_contract_address: contract,
+                                    step: NftOrderStepEnum.MARK_FOR_SALE,
+                                    token_id: id
+                                  })
+                                }
                               }}
                             >
                               <FormattedMessage
@@ -632,15 +909,24 @@ const NftAsset: React.FC<Props> = ({
                               data-e2e='openNftFlow'
                               nature='primary'
                               jumbo
-                              onClick={() =>
-                                nftsActions.nftOrderFlowOpen({
-                                  asset_contract_address: contract,
-                                  offer: undefined,
-                                  order: lowest_order,
-                                  step: NftOrderStepEnum.CANCEL_LISTING,
-                                  token_id: id
-                                })
-                              }
+                              onClick={() => {
+                                if (IS_SHARED_STOREFRONT) {
+                                  nftsActions.nftOrderFlowOpen_LEGACY({
+                                    asset_contract_address: contract,
+                                    // @ts-ignore
+                                    order: lowestAsk as WyvernRawOrder,
+                                    step: NftOrderStepEnum.CANCEL_LISTING,
+                                    token_id: id
+                                  })
+                                } else {
+                                  nftsActions.nftOrderFlowOpen({
+                                    asset_contract_address: contract,
+                                    seaportOrder: lowestAsk,
+                                    step: NftOrderStepEnum.CANCEL_LISTING,
+                                    token_id: id
+                                  })
+                                }
+                              }}
                             >
                               <FormattedMessage
                                 id='copy.cancel_listing'
@@ -649,18 +935,28 @@ const NftAsset: React.FC<Props> = ({
                             </Button>
                           )}
 
-                          {highest_offer && !sellOrders.length ? (
+                          {highestBid && !asks.length ? (
                             <Button
                               data-e2e='acceptNftOffer'
                               nature='dark'
                               jumbo
                               onClick={() => {
-                                nftsActions.nftOrderFlowOpen({
-                                  asset_contract_address: contract,
-                                  order: highest_offer,
-                                  step: NftOrderStepEnum.ACCEPT_OFFER,
-                                  token_id: id
-                                })
+                                if (IS_SHARED_STOREFRONT) {
+                                  nftsActions.nftOrderFlowOpen_LEGACY({
+                                    asset_contract_address: contract,
+                                    // @ts-ignore
+                                    order: highestBid,
+                                    step: NftOrderStepEnum.ACCEPT_OFFER,
+                                    token_id: id
+                                  })
+                                } else {
+                                  nftsActions.nftOrderFlowOpen({
+                                    asset_contract_address: contract,
+                                    seaportOrder: highestBid,
+                                    step: NftOrderStepEnum.ACCEPT_OFFER,
+                                    token_id: id
+                                  })
+                                }
                               }}
                             >
                               <FormattedMessage
@@ -672,18 +968,28 @@ const NftAsset: React.FC<Props> = ({
                         </>
                       ) : null}
                       {!isOwner ? (
-                        is_lowest_order_english || is_lowest_order_dutch ? (
+                        isLowestAskEnglish || isLowestAskDutch ? (
                           <Button
                             data-e2e='openNftFlow'
-                            nature='dark'
+                            nature='primary'
+                            width='50%'
                             jumbo
                             onClick={() => {
-                              nftsActions.nftOrderFlowOpen({
-                                asset_contract_address: contract,
-                                order: lowest_order,
-                                step: NftOrderStepEnum.MAKE_OFFER,
-                                token_id: id
-                              })
+                              if (IS_SHARED_STOREFRONT) {
+                                nftsActions.nftOrderFlowOpen_LEGACY({
+                                  asset_contract_address: contract,
+                                  // @ts-ignore
+                                  order: lowestAsk,
+                                  step: NftOrderStepEnum.MAKE_OFFER,
+                                  token_id: id
+                                })
+                              } else {
+                                nftsActions.nftOrderFlowOpen({
+                                  asset_contract_address: contract,
+                                  step: NftOrderStepEnum.MAKE_OFFER,
+                                  token_id: id
+                                })
+                              }
                               analyticsActions.trackEvent({
                                 key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
                                 properties: {}
@@ -696,13 +1002,22 @@ const NftAsset: React.FC<Props> = ({
                           <Button
                             data-e2e='openNftFlow'
                             nature='dark'
+                            fullwidth={isMobile()}
                             jumbo
                             onClick={() => {
-                              nftsActions.nftOrderFlowOpen({
-                                asset_contract_address: contract,
-                                step: NftOrderStepEnum.MAKE_OFFER,
-                                token_id: id
-                              })
+                              if (IS_SHARED_STOREFRONT) {
+                                nftsActions.nftOrderFlowOpen_LEGACY({
+                                  asset_contract_address: contract,
+                                  step: NftOrderStepEnum.MAKE_OFFER,
+                                  token_id: id
+                                })
+                              } else {
+                                nftsActions.nftOrderFlowOpen({
+                                  asset_contract_address: contract,
+                                  step: NftOrderStepEnum.MAKE_OFFER,
+                                  token_id: id
+                                })
+                              }
                               analyticsActions.trackEvent({
                                 key: Analytics.NFT_MAKE_AN_OFFER_CLICKED,
                                 properties: {}
@@ -716,19 +1031,34 @@ const NftAsset: React.FC<Props> = ({
                           </Button>
                         )
                       ) : null}
-                      {lowest_order && !isOwner && !is_lowest_order_english ? (
+                      {lowestAsk &&
+                      !isOwner &&
+                      !isLowestAskEnglish &&
+                      !isLowestAskDutch &&
+                      !isLowestAskReserved ? (
                         <>
                           <Button
                             data-e2e='openNftFlow'
                             nature='primary'
+                            fullwidth={isMobile()}
                             jumbo
                             onClick={() => {
-                              nftsActions.nftOrderFlowOpen({
-                                asset_contract_address: contract,
-                                order: lowest_order as RawOrder,
-                                step: NftOrderStepEnum.BUY,
-                                token_id: id
-                              })
+                              if (IS_SHARED_STOREFRONT) {
+                                nftsActions.nftOrderFlowOpen_LEGACY({
+                                  asset_contract_address: contract,
+                                  // @ts-ignore
+                                  order: lowestAsk,
+                                  step: NftOrderStepEnum.BUY,
+                                  token_id: id
+                                })
+                              } else {
+                                nftsActions.nftOrderFlowOpen({
+                                  asset_contract_address: contract,
+                                  seaportOrder: lowestAsk,
+                                  step: NftOrderStepEnum.BUY,
+                                  token_id: id
+                                })
+                              }
                               analyticsActions.trackEvent({
                                 key: Analytics.NFT_BUY_NOW_CLICKED,
                                 properties: {
@@ -746,78 +1076,65 @@ const NftAsset: React.FC<Props> = ({
                   </>
                 )}
               </CurrentPriceBox>
-              <CustomTabMenu>
-                <TabMenuItem width='33%' onClick={() => setTab('about')} selected={Tab === 'about'}>
-                  <FormattedMessage id='copy.about' defaultMessage='About' />
-                </TabMenuItem>
-                <TabMenuItem
-                  width='33%'
-                  onClick={() => setTab('activity')}
-                  selected={Tab === 'activity'}
-                >
-                  <FormattedMessage id='copy.activity' defaultMessage='Activity' />
-                </TabMenuItem>
-                <TabMenuItem
-                  width='33%'
-                  onClick={() => setTab('offers')}
-                  selected={Tab === 'offers'}
-                >
-                  <FormattedMessage id='copy.offers' defaultMessage='Offers' />
-                </TabMenuItem>
-              </CustomTabMenu>
-              {Tab === 'about' && (
-                <DetailsAndOffers>
-                  {currentAsset.traits?.length ? (
-                    <TraitsWrapper>
-                      {currentAsset.traits.map((trait) => {
-                        if (!trait) return null
-
-                        const assetTraits = currentAsset.traits?.find(
-                          (t) => t?.trait_type === trait.trait_type
-                        )
-                        const traitCount = assetTraits?.trait_count
-                        const rarity =
-                          traitCount && currentAsset.collection.total_supply
-                            ? `${parseFloat(
-                                ((traitCount / currentAsset.collection.total_supply) * 100).toFixed(
-                                  1
-                                )
-                              )}%`
-                            : 'New Trait'
-
-                        return (
-                          <Trait
-                            key={trait.value}
-                            onClick={() => {
-                              routerActions.push(`/nfts/collection/${currentAsset.collection.slug}`)
-                              formActions.change(
-                                'nftFilter',
-                                `${trait.trait_type}.${trait.value}`,
-                                true
-                              )
-                            }}
-                          >
-                            <Text capitalize color='blue400' size='12px' weight={400}>
-                              <b>{trait?.trait_type}</b>
-                            </Text>
-                            <Text capitalize color='blue600' size='14px' weight={600}>
-                              {trait?.value}
-                            </Text>
-                            <Text capitalize color='grey900' size='12px' weight={500}>
-                              {rarity}
-                            </Text>
-                          </Trait>
-                        )
-                      })}
-                    </TraitsWrapper>
-                  ) : null}
-                  <AdditionalDetailsWrapper>
+              <DropdownPadding style={{ paddingTop: '1em' }}>
+                <NftDropdown expanded title='Activity'>
+                  <ActivityWrapper>
+                    <Events
+                      noBorder
+                      columns={['event_type', 'price', 'from', 'date']}
+                      isFetchingParent={false}
+                      filters={[
+                        {
+                          field: EventFilterFields.AssetContractAddress,
+                          value: currentAsset.contract?.address
+                        },
+                        { field: EventFilterFields.AssetTokenId, value: currentAsset.token_id }
+                      ]}
+                      key='events'
+                    />
+                  </ActivityWrapper>
+                </NftDropdown>
+              </DropdownPadding>
+              <DropdownPadding>
+                <NftDropdown title='Offers'>
+                  {bids && bids.length > 0 ? (
+                    <ActivityWrapper>
+                      <Offers
+                        asset={openSeaAsset.data}
+                        isOwner={isOwner}
+                        columns={['price', 'from', 'expiration', 'action']}
+                        offers={bids}
+                        defaultEthAddr={defaultEthAddr}
+                      />
+                    </ActivityWrapper>
+                  ) : openSeaAsset.isLoading ? (
+                    <Flex style={{ padding: '12px' }} justifyContent='center'>
+                      <SpinningLoader height='14px' width='14px' borderWidth='3px' />
+                    </Flex>
+                  ) : (
+                    <Flex
+                      style={{ padding: '12px' }}
+                      justifyContent='center'
+                      alignItems='center'
+                      flexDirection='column'
+                    >
+                      <Image height='80px' name='nft-img-placeholder' />
+                      <Text style={{ margin: '8px 0' }} size='14px' weight={600}>
+                        <FormattedMessage id='copy.no_offers' defaultMessage='No Offers' />
+                      </Text>
+                    </Flex>
+                  )}
+                </NftDropdown>
+              </DropdownPadding>
+              <DropdownPadding>
+                <NftDropdown expanded title='Details'>
+                  <DetailsAndOffers>
                     <Detail>
                       <Text size='16px' weight={500} color='grey900'>
                         Blockchain
                       </Text>{' '}
-                      <Text size='16px' weight={600} color='grey600'>
-                        Ethereum
+                      <Text capitalize size='16px' weight={600} color='grey600'>
+                        {currentAsset.network}
                       </Text>
                     </Detail>
                     <Detail>
@@ -852,7 +1169,11 @@ const NftAsset: React.FC<Props> = ({
                       </Text>
 
                       <TokenDisplay size='16px' weight={600} color='grey600'>
-                        {currentAsset.token_id}{' '}
+                        {currentAsset.token_id.length > 20 ? (
+                          <CryptoAddress canCopy>{currentAsset.token_id}</CryptoAddress>
+                        ) : (
+                          currentAsset.token_id
+                        )}
                       </TokenDisplay>
                     </Detail>
                     <Detail>
@@ -863,49 +1184,172 @@ const NftAsset: React.FC<Props> = ({
                         {currentAsset.contract?.schema_name}
                       </Text>
                     </Detail>
-                  </AdditionalDetailsWrapper>
-                </DetailsAndOffers>
+                  </DetailsAndOffers>
+                </NftDropdown>
+              </DropdownPadding>
+              {isTablet && (
+                <>
+                  {assetDecription !== '' ? (
+                    <Description>
+                      <Flex flexDirection='column'>
+                        <Text size='16px' color='grey900' weight={600}>
+                          <FormattedMessage id='copy.description' defaultMessage='Description' />
+                        </Text>
+                        <Text
+                          size='16px'
+                          color='grey900'
+                          weight={500}
+                          style={{ wordBreak: 'break-word' }}
+                        >
+                          {moreAssetToggle && assetDecription?.length > 82 ? (
+                            <ReactMarkdown linkTarget='_blank'>
+                              {`${assetDecription.substring(0, 82)}...`}
+                            </ReactMarkdown>
+                          ) : (
+                            <ReactMarkdown linkTarget='_blank'>{assetDecription}</ReactMarkdown>
+                          )}
+                        </Text>
+                        {assetDecription?.length > 82 && (
+                          <Text
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              if (assetDecription?.length > 82) setMoreAssetToggle(!moreAssetToggle)
+                            }}
+                            size='16px'
+                            color='blue600'
+                            weight={600}
+                          >
+                            {moreAssetToggle ? (
+                              <FormattedMessage id='copy.more' defaultMessage='See More' />
+                            ) : (
+                              <FormattedMessage id='copy.less' defaultMessage='Less' />
+                            )}
+                          </Text>
+                        )}
+                      </Flex>
+                    </Description>
+                  ) : null}
+                  {sortedTraits.length ? (
+                    <DropdownPadding>
+                      <NftDropdown expanded title='Traits'>
+                        <div style={{ padding: '1em' }}>
+                          <Flex flexDirection='column'>
+                            <TraitsWrapper>
+                              {sortedTraits.map((trait) => {
+                                if (!trait) return null
+
+                                const assetTraits = sortedTraits?.find(
+                                  (t) => t?.trait_type === trait.trait_type
+                                )
+                                const traitCount = assetTraits?.trait_count
+                                const rarity =
+                                  traitCount && currentAsset.collection.total_supply
+                                    ? `${parseFloat(
+                                        (
+                                          (traitCount / currentAsset.collection.total_supply) *
+                                          100
+                                        ).toFixed(1)
+                                      )}% Rarity`
+                                    : 'New Trait'
+
+                                return (
+                                  <Trait
+                                    key={trait.value}
+                                    onClick={() => {
+                                      routerActions.push(
+                                        `/nfts/collection/${currentAsset.collection.slug}`
+                                      )
+                                      formActions.change(
+                                        'nftFilter',
+                                        `${trait.trait_type}.${trait.value}`,
+                                        true
+                                      )
+                                    }}
+                                  >
+                                    <Text capitalize color='blue400' size='12px' weight={400}>
+                                      <b>{trait?.trait_type}</b>
+                                    </Text>
+                                    <Text capitalize color='blue600' size='14px' weight={600}>
+                                      {trait?.value}
+                                    </Text>
+                                    <Text capitalize color='grey900' size='12px' weight={500}>
+                                      {rarity}
+                                    </Text>
+                                  </Trait>
+                                )
+                              })}
+                            </TraitsWrapper>
+                          </Flex>
+                        </div>
+                      </NftDropdown>
+                    </DropdownPadding>
+                  ) : null}
+                  {collectionDescription !== '' ? (
+                    <DropdownPadding>
+                      <NftDropdown expanded title={`About ${collectionName}`}>
+                        <div style={{ padding: '1em' }}>
+                          <div>
+                            <Flex flexDirection='column'>
+                              <Text
+                                size='16px'
+                                color='grey900'
+                                weight={500}
+                                style={{ wordBreak: 'break-word' }}
+                              >
+                                <ReactMarkdown linkTarget='_blank'>
+                                  {collectionDescription}
+                                </ReactMarkdown>
+                              </Text>
+                              <LinksContainer style={{ width: 'fit-content' }}>
+                                {currentAsset?.collection.external_url ? (
+                                  <Link
+                                    target='_blank'
+                                    href={currentAsset?.collection.external_url}
+                                  >
+                                    <Icon size='sm' label='globe'>
+                                      <IconLink fill={colors.blue600} />
+                                    </Icon>
+                                  </Link>
+                                ) : null}
+                                {currentAsset?.collection.twitter_username ? (
+                                  <Link
+                                    target='_blank'
+                                    href={`https://twitter.com/${currentAsset?.collection.twitter_username}`}
+                                  >
+                                    <Icon size='sm' label='twitter'>
+                                      <IconTwitter fill={colors.blue600} />
+                                    </Icon>
+                                  </Link>
+                                ) : null}
+                                {currentAsset?.collection.instagram_username ? (
+                                  <Link
+                                    target='_blank'
+                                    href={`https://instagram.com/${currentAsset?.collection.instagram_username}`}
+                                  >
+                                    <Icon size='sm' label='camera'>
+                                      <IconInstagram fill={colors.blue600} />
+                                    </Icon>
+                                  </Link>
+                                ) : null}
+                                {currentAsset?.collection.discord_url ? (
+                                  <Link
+                                    target='_blank'
+                                    href={`${currentAsset?.collection.discord_url}`}
+                                  >
+                                    <Icon size='sm' label='computer'>
+                                      <IconComputer fill={colors.blue600} />
+                                    </Icon>
+                                  </Link>
+                                ) : null}
+                              </LinksContainer>
+                            </Flex>
+                          </div>
+                        </div>
+                      </NftDropdown>
+                    </DropdownPadding>
+                  ) : null}
+                </>
               )}
-              {Tab === 'activity' && (
-                <ActivityWrapper>
-                  <Events
-                    noBorder
-                    columns={['event_type', 'price', 'from', 'date']}
-                    isFetchingParent={false}
-                    filters={[
-                      {
-                        field: EventFilterFields.AssetContractAddress,
-                        value: currentAsset.contract?.address
-                      },
-                      { field: EventFilterFields.AssetTokenId, value: currentAsset.token_id }
-                    ]}
-                    key='events'
-                  />
-                </ActivityWrapper>
-              )}
-              {Tab === 'offers' ? (
-                bidsAndOffers.length > 0 ? (
-                  <ActivityWrapper>
-                    <Offers
-                      asset={openSeaAsset.data}
-                      columns={['price', 'from', 'expiration', 'action']}
-                      bidsAndOffers={bidsAndOffers}
-                      defaultEthAddr={defaultEthAddr}
-                    />
-                  </ActivityWrapper>
-                ) : openSeaAsset.isLoading ? (
-                  <Flex justifyContent='center'>
-                    <SpinningLoader height='14px' width='14px' borderWidth='3px' />
-                  </Flex>
-                ) : (
-                  <Flex justifyContent='center' alignItems='center' flexDirection='column'>
-                    <Image height='100px' name='nft-img-placeholder' />
-                    <Text style={{ marginTop: '8px' }} size='16px' weight={600}>
-                      <FormattedMessage id='copy.no_offers' defaultMessage='No Offers' />
-                    </Text>
-                  </Flex>
-                )
-              ) : null}
             </RightColWrapper>
           </Top>
           {currentAsset &&
@@ -914,7 +1358,7 @@ const NftAsset: React.FC<Props> = ({
             <AssetMoreItems asset={currentAsset} />
           ) : null}
         </div>
-      </>
+      </div>
     </Wrapper>
   )
 }
@@ -939,6 +1383,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & {
   computedMatch: { params: { contract: string; id: string } }
+  isTestnet: boolean
 }
 
 export default connector(NftAsset)
