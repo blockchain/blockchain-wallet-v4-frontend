@@ -109,10 +109,13 @@ export const ContactSupportText = styled(Link)`
   }
 `
 export enum ResetFormSteps {
+  AUTHENTICATOR_SETUP = 'AUTHENTICATOR_SETUP',
+  CHOOSE_TWOFA = 'CHOOSE_TWOFA',
   NEW_PASSWORD = 'NEW_PASSWORD',
-  NEW_TWOFA = 'NEW_TWOFA',
   RESET_WARNING = 'RESET_WARNING',
-  TWO_FA_CONFIRMATION = 'TWO_FA_CONFIRMATION'
+  SMS_SETUP = 'SMS_SETUP',
+  TWO_FA_CONFIRMATION = 'TWO_FA_CONFIRMATION',
+  YUBIKEY_SETUP = 'YUBIKEY_SETUP'
 }
 export const ReverifyIdentityInfoBox = () => {
   return (
