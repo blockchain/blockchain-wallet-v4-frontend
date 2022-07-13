@@ -92,6 +92,9 @@ const NewPassword = (props: Props) => {
           )}
         </ActionButton>
       </Footer>
+      <Text style={{ cursor: 'pointer' }} onClick={() => setFormStep(ResetFormSteps.NEW_TWOFA)}>
+        Placeholder skip text
+      </Text>
     </>
   )
 }

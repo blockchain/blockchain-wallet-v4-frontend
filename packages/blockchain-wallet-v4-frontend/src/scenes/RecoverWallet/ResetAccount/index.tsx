@@ -12,6 +12,7 @@ import { AccountRecoveryMagicLinkData, RecoverSteps } from 'data/types'
 import { Props as ResetProps } from '..'
 import { FormWrapper, ResetFormSteps } from '../model'
 import NewPassword from './NewPassword'
+import NewTwoFA from './NewTwoFA'
 import ResetWarning from './ResetWarning'
 import TwoFAConfirmation from './TwoFAConfirmation'
 
@@ -45,6 +46,7 @@ const ResetAccount: React.FC<InjectedFormProps<{}, ResetProps> & ResetProps> = (
         {recoveryStep === ResetFormSteps.NEW_PASSWORD && (
           <NewPassword {...props} isRegistering={isRegistering} setFormStep={setFormStep} />
         )}
+        {recoveryStep === ResetFormSteps.NEW_TWOFA && <NewTwoFA {...props} />}
       </Form>
     </FormWrapper>
   )
