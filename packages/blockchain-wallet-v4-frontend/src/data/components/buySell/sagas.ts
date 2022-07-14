@@ -4,7 +4,7 @@ import { addSeconds, differenceInMilliseconds } from 'date-fns'
 import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
-import { Coin, Remote } from '@core'
+import { Remote } from '@core'
 import { UnitType } from '@core/exchange'
 import Currencies from '@core/exchange/currencies'
 import { APIType } from '@core/network/api'
@@ -40,6 +40,7 @@ import {
   ProductEligibilityForUser,
   UserDataType
 } from 'data/types'
+import { Coin } from 'middleware/analyticsMiddleware/types'
 import { isNabuError } from 'services/errors'
 
 import { actions as cacheActions } from '../../cache/slice'
