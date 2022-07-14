@@ -1397,8 +1397,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
       api.updateBankAccountLink,
       method.id,
-      { attributes: { settlementRequest: { amount: 10, product: ProductTypes.SIMPLEBUY } } }
+      { settlementRequest: { amount: 10, product: ProductTypes.SIMPLEBUY } }
     )
+
+    if (status.attributes.settlementResponse.reason !== 'REQUIRES_UPDATE') return
 
     const domainsR = yield select(selectors.core.walletOptions.getDomains)
     const { comRoot } = domainsR.getOrElse({

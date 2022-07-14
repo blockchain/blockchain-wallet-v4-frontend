@@ -22,7 +22,6 @@ import {
   BrokerageModalOriginType,
   BSCheckoutFormValuesType,
   CustodialSanctionsEnum,
-  FastLinkType,
   ModalName,
   ProductEligibilityForUser
 } from 'data/types'
@@ -31,7 +30,7 @@ import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { BankCredentialsType, OBType } from './types'
+import { BankCredentialsType, PlaidAccountType, YodleeAccountType } from './types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
 const EXPECTED_MODAL_NAMES = [undefined, 'KYC_MODAL']
@@ -90,38 +89,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchBankTransferUpdate = function* ({
-    payload
-  }: ReturnType<typeof A.fetchBankTransferUpdate>) {
-    try {
-      const account = payload
-
-      let bankId
-      let attributes
-      const bankCredentials = S.getBankCredentials(yield select()).getOrElse({} as OBType)
-      const fastLink = S.getFastLink(yield select()).getOrElse({} as FastLinkType)
-      if (typeof account === 'string' && bankCredentials) {
+  const getBankUpdatePayload = function* (
+    bankCredentials: BankCredentialsType,
+    account: string | PlaidAccountType | YodleeAccountType
+  ) {
+    switch (true) {
+      case typeof account === 'string' && bankCredentials:
         // Yapily
         const domainsR = yield select(selectors.core.walletOptions.getDomains)
         const { comRoot } = domainsR.getOrElse({
           comRoot: 'https://www.blockchain.com'
         })
         const callback = `${comRoot}/brokerage-link-success`
-        bankId = bankCredentials.id
-        attributes = { callback, institutionId: account }
-      } else if (typeof account !== 'string' && 'public_token' in account) {
+        return [bankCredentials.id, { callback, institutionId: account }]
+      case typeof account !== 'string':
+      default:
         // Plaid
-        bankId = bankCredentials.id
-        attributes = account
-      } else if (typeof account === 'object' && fastLink) {
         // Yodlee
-        bankId = fastLink.id
-        attributes = {
-          accountId: account.accountId,
-          providerAccountId: account.providerAccountId
-        }
-      }
+        return [bankCredentials.id, account]
+    }
+  }
 
+  const fetchBankTransferUpdate = function* ({
+    payload
+  }: ReturnType<typeof A.fetchBankTransferUpdate>) {
+    try {
+      const bankCredentials = S.getBankCredentials(yield select()).getOrFail(
+        'Could not retrieve bank credentials'
+      )
+      const [bankId, attributes] = yield call(getBankUpdatePayload, bankCredentials, payload)
       const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
         api.updateBankAccountLink,
         bankId,
@@ -198,11 +194,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const setupBankTransferProvider = function* () {
     const fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
-    // FIXME: need to fetch fast link too???
     yield put(actions.components.brokerage.fetchBankLinkCredentials(fiatCurrency as WalletFiatType))
     return yield race({
-      bankCredentials: take(actions.components.brokerage.setBankCredentials.type),
-      fastLink: take(actions.components.brokerage.setFastLink.type)
+      bankCredentials: take(actions.components.brokerage.setBankCredentials.type)
     })
   }
 
@@ -223,17 +217,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield put(A.fetchBankLinkCredentialsLoading())
       const credentials: BankCredentialsType = yield call(api.createBankAccountLink, data)
-      switch (credentials.partner) {
-        case BankPartners.YODLEE:
-          yield put(A.setFastLink(credentials))
-          break
-        case BankPartners.YAPILY:
-        case BankPartners.PLAID:
-          yield put(A.setBankCredentials(credentials))
-          break
-        default:
-          throw new Error('No available banking partner')
-      }
+      yield put(A.setBankCredentials(credentials))
     } catch (e) {
       yield put(A.fetchBankLinkCredentialsError(e.description))
     }

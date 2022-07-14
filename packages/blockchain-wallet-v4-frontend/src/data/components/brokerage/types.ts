@@ -229,7 +229,6 @@ export type BrokerageState = {
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   dwStep: BankDWStepType
-  fastLink: RemoteDataType<string, FastLinkType>
   fiatCurrency: WalletFiatType | undefined
   isFlow: boolean
   redirectBackToStep: boolean

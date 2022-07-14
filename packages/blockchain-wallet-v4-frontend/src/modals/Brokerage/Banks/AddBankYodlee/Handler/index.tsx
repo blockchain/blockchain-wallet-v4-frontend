@@ -7,7 +7,7 @@ import { RemoteDataType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AddBankStepType } from 'data/types'
+import { AddBankStepType, YodleeAccountType } from 'data/types'
 
 import { LoadingUpdating as Loading } from '../../../../components'
 import { getData } from './selectors'
@@ -26,10 +26,14 @@ class LinkBankHandler extends PureComponent<Props, State> {
     if (event.data.from !== 'yodlee') return
     if (event.data.to !== 'sb') return
 
-    const { error, sites } = event.data
+    const { error, sites }: { error: string; sites: [YodleeAccountType] } = event.data
     if (!isEmpty(sites)) {
-      this.props.brokerageActions.fetchBankTransferUpdate(sites[0])
-      this.props.brokerageActions.fetchBTUpdateLoading()
+      try {
+        this.props.brokerageActions.fetchBankTransferUpdate(sites[0])
+        this.props.brokerageActions.fetchBankLinkCredentialsLoading()
+      } catch (error) {
+        // do nothing
+      }
     } else if (error) {
       this.props.brokerageActions.setAddBankStep({
         addBankStep: AddBankStepType.ADD_BANK

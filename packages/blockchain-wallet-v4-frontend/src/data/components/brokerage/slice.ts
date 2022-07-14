@@ -16,7 +16,6 @@ import {
   BrokerageDWStepPayload,
   BrokerageModalOriginType,
   BrokerageState,
-  FastLinkType,
   PlaidAccountType,
   YodleeAccountType
 } from './types'
@@ -31,7 +30,6 @@ const initialState: BrokerageState = {
   bankTransferAccounts: Remote.NotAsked,
   crossBorderLimits: Remote.NotAsked,
   dwStep: BankDWStepType.DEPOSIT_METHODS,
-  fastLink: Remote.NotAsked,
   fiatCurrency: undefined,
   isFlow: false,
   redirectBackToStep: false
@@ -43,9 +41,6 @@ const brokerageSlice = createSlice({
   reducers: {
     createFiatDeposit: () => {},
     deleteSavedBank: (state, action: PayloadAction<BankTransferAccountType['id']>) => {},
-    fetchBTUpdateLoading: (state) => {
-      state.fastLink = Remote.Loading
-    },
     fetchBankLinkCredentials: (state, action: PayloadAction<WalletFiatType>) => {},
     fetchBankLinkCredentialsError: (state, action: PayloadAction<string>) => {
       state.bankCredentials = Remote.Failure(action.payload)
@@ -107,9 +102,6 @@ const brokerageSlice = createSlice({
         state.addNew = action.payload.addNew || false
       }
     },
-    setFastLink: (state, action: PayloadAction<FastLinkType>) => {
-      state.fastLink = Remote.Success(action.payload)
-    },
     showModal: (
       state,
       action: PayloadAction<{
@@ -126,7 +118,6 @@ const brokerageSlice = createSlice({
 export const {
   createFiatDeposit,
   deleteSavedBank,
-  fetchBTUpdateLoading,
   fetchBankLinkCredentials,
   fetchBankLinkCredentialsError,
   fetchBankLinkCredentialsLoading,
@@ -141,7 +132,6 @@ export const {
   setBankCredentials,
   setBankDetails,
   setDWStep,
-  setFastLink,
   showModal
 } = brokerageSlice.actions
 const { actions } = brokerageSlice

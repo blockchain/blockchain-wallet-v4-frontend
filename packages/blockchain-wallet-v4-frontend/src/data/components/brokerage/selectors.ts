@@ -12,8 +12,6 @@ export const getBankCredentials = (state: RootState) => state.components.brokera
 export const getBankTransferAccounts = (state: RootState) =>
   state.components.brokerage.bankTransferAccounts
 
-export const getFastLink = (state: RootState) => state.components.brokerage.fastLink
-
 export const getAddBankStep = (state: RootState) => state.components.brokerage.addBankStep
 
 export const getDWStep = (state: RootState) => state.components.brokerage.dwStep
