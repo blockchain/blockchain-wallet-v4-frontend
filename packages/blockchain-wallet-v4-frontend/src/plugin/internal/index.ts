@@ -4,9 +4,6 @@
 export class AbstractPlugin {
   // Indicates if application is chrome browser extension.
   public static isPlugin(): boolean {
-    return (
-      window.location.protocol === 'chrome-extension:' ||
-      window.location.origin === 'http://localhost:8080'
-    )
+    return window.location.protocol === 'chrome-extension:'
   }
 }
