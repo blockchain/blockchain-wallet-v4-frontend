@@ -36,6 +36,7 @@ import {
   BrokerageOrderType,
   RecurringBuyPeriods
 } from 'data/types'
+import { Coin } from 'middleware/analyticsMiddleware/types'
 import { formatTextAmount } from 'services/forms'
 import { getBankLogoImageName } from 'services/images'
 
@@ -590,7 +591,7 @@ const renderBankSubText = (
         values={{
           limitAmount: fiatToString({
             unit: value.currency,
-            value: convertBaseToStandard('FIAT', value.limits.max)
+            value: convertBaseToStandard(Coin.FIAT, value.limits.max)
           })
         }}
       />
@@ -639,7 +640,7 @@ const renderCardSubtitle = (value: BSPaymentMethodType) => {
         values={{
           limitAmount: fiatToString({
             unit: value.currency,
-            value: convertBaseToStandard('FIAT', value.limits.max)
+            value: convertBaseToStandard(Coin.FIAT, value.limits.max)
           })
         }}
       />

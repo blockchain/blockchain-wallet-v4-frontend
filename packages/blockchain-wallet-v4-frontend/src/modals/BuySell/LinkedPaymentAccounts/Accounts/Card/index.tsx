@@ -8,6 +8,7 @@ import { DisplayContainer, DisplayIcon, MultiRowContainer } from 'components/Buy
 import { Flex } from 'components/Flex'
 import { Title, Value } from 'components/Flyout'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Coin } from 'middleware/analyticsMiddleware/types'
 
 const StyledValue = styled(Value)`
   text-transform: capitalize;
@@ -32,7 +33,7 @@ const Card: React.FC<Props> = ({ icon, onClick, text, value }) => {
 
     return fiatToString({
       unit: value.currency,
-      value: convertBaseToStandard('FIAT', value.limits.max)
+      value: convertBaseToStandard(Coin.FIAT, value.limits.max)
     })
   }, [value])
 

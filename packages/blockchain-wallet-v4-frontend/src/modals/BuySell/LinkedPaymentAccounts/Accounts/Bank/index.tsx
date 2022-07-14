@@ -8,6 +8,7 @@ import { DisplayContainer, DisplayIcon, MultiRowContainer } from 'components/Buy
 import { Flex } from 'components/Flex'
 import { Title, Value } from 'components/Flyout'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Coin } from 'middleware/analyticsMiddleware/types'
 
 const StyledTitle = styled(Title)`
   text-transform: capitalize;
@@ -31,11 +32,13 @@ type Props = {
 
 const Bank = ({ icon, onClick, text, value }: Props) => {
   const limitAmount = useMemo(() => {
-    if (!value.limits) return null
+    const { limits } = value
+
+    if (!limits) return null
 
     return fiatToString({
       unit: value.currency,
-      value: convertBaseToStandard('FIAT', value.limits.max)
+      value: convertBaseToStandard(Coin.FIAT, limits.max)
     })
   }, [value])
 
@@ -50,7 +53,7 @@ const Bank = ({ icon, onClick, text, value }: Props) => {
         <Flex justifyContent='space-between'>
           <StyledValue asTitle>{text}</StyledValue>
 
-          <StyledValue asTitle>***{value.details?.accountNumber}</StyledValue>
+          {!!value.details && <StyledValue asTitle>***{value.details.accountNumber}</StyledValue>}
         </Flex>
 
         <Flex justifyContent='space-between'>
@@ -65,7 +68,9 @@ const Bank = ({ icon, onClick, text, value }: Props) => {
               />
             )}
           </StyledTitle>
-          <StyledTitle asValue>{value.details?.bankAccountType?.toLowerCase()}</StyledTitle>
+          {!!value.details?.bankAccountType && (
+            <StyledTitle asValue>{value.details?.bankAccountType?.toLowerCase()}</StyledTitle>
+          )}
         </Flex>
       </MultiRowContainer>
     </DisplayContainer>

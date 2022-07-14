@@ -13,6 +13,7 @@ import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankTransferAccountType } from 'data/types'
 import { useRemote } from 'hooks'
+import { Coin } from 'middleware/analyticsMiddleware/types'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
 
@@ -38,13 +39,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const bankLimit = useMemo(() => {
     if (isLoadingPaymentMethods) return
 
-    return (
-      paymentMethods?.methods.find((method) => method.type === BSPaymentTypes.BANK_TRANSFER)
-        ?.limits || {
-        max: '200000',
-        min: '100'
-      }
-    )
+    return paymentMethods?.methods.find((method) => method.type === BSPaymentTypes.BANK_TRANSFER)
+      ?.limits
   }, [paymentMethods, isLoadingPaymentMethods])
 
   const walletBeneficiaries = props.bankAccounts.filter(
@@ -106,7 +102,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                               values={{
                                 limitAmount: fiatToString({
                                   unit: account.currency,
-                                  value: convertBaseToStandard('FIAT', bankLimit.max)
+                                  value: convertBaseToStandard(Coin.FIAT, bankLimit.max)
                                 })
                               }}
                             />
@@ -136,40 +132,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     </RemoveButton>
                   </Flex>
                 </Flex>
-
-                {/* <Child>
-                  <BankIconWrapper>
-                    <Image name={getBankLogoImageName(account.details?.bankName)} />
-                  </BankIconWrapper>
-                  <CardDetails>
-                    <Text size='16px' color='grey800' weight={600}>
-                      {account.details?.bankName}
-                    </Text>
-                    <Text size='14px' color='grey600' weight={500} capitalize>
-                      {account.details?.bankAccountType?.toLowerCase() || ''}{' '}
-                      <FormattedMessage
-                        id='scenes.settings.general.account'
-                        defaultMessage='account'
-                      />{' '}
-                      {account.details?.accountNumber || ''}
-                    </Text>
-                  </CardDetails>
-                </Child>
-                <Child>
-                  <RemoveButton
-                    data-e2e={`removeBankAccount-${account.id}`}
-                    nature='light-red'
-                    disabled={props.submitting}
-                    style={{ marginLeft: '18px', minWidth: 'auto' }}
-                    // @ts-ignore
-                    onClick={(e: SyntheticEvent) => {
-                      e.stopPropagation()
-                      props.handleDeleteBank(account)
-                    }}
-                  >
-                    <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
-                  </RemoveButton>
-                </Child> */}
               </Box>
             )
           })}

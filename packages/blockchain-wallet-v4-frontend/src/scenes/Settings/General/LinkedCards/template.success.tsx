@@ -14,6 +14,7 @@ import { Expanded, Flex } from 'components/Flex'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Coin } from 'middleware/analyticsMiddleware/types'
 import { media } from 'services/styles'
 
 import { CustomSettingHeader, RemoveButton } from '../styles'
@@ -110,7 +111,7 @@ const Success: React.FC<
                             values={{
                               limitAmount: fiatToString({
                                 unit: card.currency,
-                                value: convertBaseToStandard('FIAT', ccPaymentMethod.limits.max)
+                                value: convertBaseToStandard(Coin.FIAT, ccPaymentMethod.limits.max)
                               })
                             }}
                           />
