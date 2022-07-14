@@ -32,7 +32,7 @@ const Header = styled.div`
 `
 
 const Content = styled.div`
-  padding: 28px 24px;
+  padding: 24px;
   box-sizing: border-box;
   height: 100%;
 `
