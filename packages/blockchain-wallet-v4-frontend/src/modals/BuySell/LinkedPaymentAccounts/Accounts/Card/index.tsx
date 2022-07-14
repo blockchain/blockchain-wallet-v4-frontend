@@ -28,26 +28,24 @@ type Props = {
 }
 
 const Card: React.FC<Props> = ({ icon, onClick, text, value }) => {
+  const { card, currency, limits, type } = value
+
   const limitAmount = useMemo(() => {
-    if (!value.limits) return null
+    if (!limits) return null
 
     return fiatToString({
-      unit: value.currency,
-      value: convertBaseToStandard(Coin.FIAT, value.limits.max)
+      unit: currency,
+      value: convertBaseToStandard(Coin.FIAT, limits.max)
     })
-  }, [value])
+  }, [currency, limits])
 
   return (
-    <DisplayContainer
-      data-e2e={`sb${value.type.toLowerCase()}Cards`}
-      role='button'
-      onClick={onClick}
-    >
+    <DisplayContainer data-e2e={`sb${type.toLowerCase()}Cards`} role='button' onClick={onClick}>
       <DisplayIcon>{icon}</DisplayIcon>
       <MultiRowContainer>
         <Flex justifyContent='space-between'>
           <StyledValue asTitle>{text.toLowerCase()}</StyledValue>
-          {!!value.card && <StyledTitle asValue>***{value.card?.number}</StyledTitle>}
+          {!!card && <StyledTitle asValue>***{card.number}</StyledTitle>}
         </Flex>
 
         <Flex justifyContent='space-between'>
@@ -62,9 +60,9 @@ const Card: React.FC<Props> = ({ icon, onClick, text, value }) => {
               />
             )}
           </StyledTitle>
-          {!!value.card && (
+          {!!card && (
             <StyledTitle asValue>
-              Exp: {value.card?.expireMonth}/{value.card?.expireYear}
+              Exp: {card.expireMonth}/{card.expireYear}
             </StyledTitle>
           )}
         </Flex>

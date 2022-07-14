@@ -31,29 +31,25 @@ type Props = {
 }
 
 const Bank = ({ icon, onClick, text, value }: Props) => {
-  const limitAmount = useMemo(() => {
-    const { limits } = value
+  const { currency, details, limits, type } = value
 
+  const limitAmount = useMemo(() => {
     if (!limits) return null
 
     return fiatToString({
-      unit: value.currency,
+      unit: currency,
       value: convertBaseToStandard(Coin.FIAT, limits.max)
     })
-  }, [value])
+  }, [limits, currency])
 
   return (
-    <DisplayContainer
-      data-e2e={`sb${value.type.toLowerCase()}Banks`}
-      role='button'
-      onClick={onClick}
-    >
+    <DisplayContainer data-e2e={`sb${type.toLowerCase()}Banks`} role='button' onClick={onClick}>
       <DisplayIcon>{icon}</DisplayIcon>
       <MultiRowContainer>
         <Flex justifyContent='space-between'>
           <StyledValue asTitle>{text}</StyledValue>
 
-          {!!value.details && <StyledValue asTitle>***{value.details.accountNumber}</StyledValue>}
+          {!!details && <StyledValue asTitle>***{details.accountNumber}</StyledValue>}
         </Flex>
 
         <Flex justifyContent='space-between'>
@@ -68,8 +64,8 @@ const Bank = ({ icon, onClick, text, value }: Props) => {
               />
             )}
           </StyledTitle>
-          {!!value.details?.bankAccountType && (
-            <StyledTitle asValue>{value.details?.bankAccountType?.toLowerCase()}</StyledTitle>
+          {!!details?.bankAccountType && (
+            <StyledTitle asValue>{details.bankAccountType.toLowerCase()}</StyledTitle>
           )}
         </Flex>
       </MultiRowContainer>

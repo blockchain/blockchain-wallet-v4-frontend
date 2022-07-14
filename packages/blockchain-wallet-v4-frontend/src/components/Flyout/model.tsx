@@ -584,14 +584,16 @@ const renderBankSubText = (
   value: BSPaymentMethodType | BankTransferAccountType | BeneficiaryType
 ): string | ReactElement => {
   if ('limits' in value) {
+    const { currency, limits } = value
+
     return (
       <FormattedMessage
         id='modals.simplebuy.bank_item_with_limits'
         defaultMessage='{limitAmount} Limit'
         values={{
           limitAmount: fiatToString({
-            unit: value.currency,
-            value: convertBaseToStandard(Coin.FIAT, value.limits.max)
+            unit: currency,
+            value: convertBaseToStandard(Coin.FIAT, limits.max)
           })
         }}
       />
@@ -602,10 +604,9 @@ const renderBankSubText = (
     return value.address
   }
   if ('details' in value && value.details?.bankAccountType) {
+    const { details } = value
     // BankTransferAccountType | BSPaymentMethodType
-    return `${value.details?.bankAccountType?.toLowerCase() || ''} account ${
-      value.details?.accountNumber || ''
-    }`
+    return `${details.bankAccountType?.toLowerCase() || ''} account ${details.accountNumber || ''}`
   }
   return <></>
 }
@@ -618,13 +619,17 @@ const renderBank = (value: BSPaymentMethodType | BankTransferAccountType | Benef
 )
 
 const renderCardText = (value: BSPaymentMethodType): string => {
-  if (value.card) {
-    if (value.card.number) {
-      return `****${value.card.number}`
+  const { card } = value
+
+  if (card) {
+    const { label, number } = card
+
+    if (number) {
+      return `****${number}`
     }
 
-    if (value.card.label) {
-      return value.card.label.toLocaleLowerCase()
+    if (label) {
+      return label.toLocaleLowerCase()
     }
   }
 
