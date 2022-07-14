@@ -52,7 +52,7 @@ type TransactionStatusProps = {
   title: string
 }
 
-// Common wrapper for success/canceled transaction component
+// Common wrapper for success/cancelled transaction component
 const TransactionStatus: React.FC<TransactionStatusProps> = (props) => {
   const { children, closePopup, history, messageId, title } = props
   const datae2e = title.split(' ').join('')
@@ -68,7 +68,7 @@ const TransactionStatus: React.FC<TransactionStatusProps> = (props) => {
       <Content>
         <IconWrapper>{children}</IconWrapper>
         <TextWrapper>
-          <FormattedMessage id={`${messageId}_title`} defaultMessage={title} />
+          <FormattedMessage id={messageId} defaultMessage={title} />
         </TextWrapper>
       </Content>
       <Button
