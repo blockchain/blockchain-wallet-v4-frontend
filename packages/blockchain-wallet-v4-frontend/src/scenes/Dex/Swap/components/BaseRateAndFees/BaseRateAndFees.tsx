@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import { DexSwapQuoteResponse } from '@core/network/api/dex/types'
 import { Image, SkeletonRectangle, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { DexSwapForm } from 'data/components/dex/types'
 
 import type { Props } from '../../Swap'
 
@@ -55,7 +54,6 @@ const BaseRateAndFees = ({
 }: OwnProps) => {
   return (
     <Wrapper>
-      {/* @ts-ignore */}
       {quoteR?.cata({
         Failure: () => null,
         Loading: () => (
@@ -108,12 +106,9 @@ const BaseRateAndFees = ({
   )
 }
 
-// TODO: figure out props
 type OwnProps = {
-  // eslint-disable-next-line react/no-unused-prop-types
-  formValues?: DexSwapForm
   handleDetailsToggle: () => void
   swapDetailsOpen: boolean
-} & Props
+} & Pick<Props, 'currentChain' | 'quoteR' | 'walletCurrency'>
 
 export default BaseRateAndFees

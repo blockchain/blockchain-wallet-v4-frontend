@@ -119,7 +119,6 @@ const DexSwap = ({
         />
       </SwapWrapper>
       {hasQuote && !hasQuoteError && (
-        // @ts-ignore
         <BaseRateAndFees
           currentChain={currentChain}
           handleDetailsToggle={onDetailsToggle}
