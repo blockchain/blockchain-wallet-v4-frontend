@@ -16,6 +16,12 @@ import { getBaseCurrency, getCounterCurrency, getOrderType } from 'data/componen
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankTransferAccountType } from 'data/types'
 
+const defaultBankInfo = {
+  accountNumber: '',
+  bankAccountType: '',
+  bankName: 'Bank Transfer'
+}
+
 export const ErrorCodeMappings = ({ code }: { code: number | string }) => {
   switch (code) {
     case 41:
@@ -190,13 +196,9 @@ export const getPaymentMethod = ({
       )
 
     case BSPaymentTypes.BANK_TRANSFER:
-      const defaultBankInfo = {
-        accountNumber: '',
-        bankAccountType: '',
-        bankName: 'Bank Transfer'
-      }
-      const d = (bankAccount && bankAccount.details) || defaultBankInfo
-      return `${d.bankName}`
+      const effectiveBankAccount = (bankAccount && bankAccount.details) || defaultBankInfo
+
+      return effectiveBankAccount.bankName
     default:
       return (
         <FormattedMessage
@@ -214,12 +216,6 @@ export const displayFiat = (order: BSOrderType, amt: string) => {
     unit: counterCurrency as FiatType,
     value: convertBaseToStandard('FIAT', amt)
   })
-}
-
-const defaultBankInfo = {
-  accountNumber: '',
-  bankAccountType: '',
-  bankName: 'Bank Transfer'
 }
 
 export const getPaymentMethodDetails = ({

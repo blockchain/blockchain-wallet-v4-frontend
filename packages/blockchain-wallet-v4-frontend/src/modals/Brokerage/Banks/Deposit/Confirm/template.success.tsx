@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { getLockRuleMessaging } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/model'
 import { addDays, format, intervalToDuration } from 'date-fns'
@@ -17,6 +17,7 @@ import { BankDWStepType, BankPartners } from 'data/types'
 
 import { Props as _P, SuccessStateType as _S } from '.'
 import { FormattedBank, LineItemText } from './model'
+import { getCurrencyName } from './utils'
 
 const BareRow = styled.div`
   padding: 18px 40px;
@@ -28,6 +29,7 @@ const Row = styled(BareRow)`
 
 const Success = (props: Props) => {
   const [submitting, setSubmitting] = useState<boolean>(false)
+  const targetCoinName = getCurrencyName(props.defaultMethod?.currency)
 
   const isOpenBanking = props.defaultMethod?.partner === BankPartners.YAPILY
   const backButtonClick = useCallback(() => {
@@ -46,18 +48,6 @@ const Success = (props: Props) => {
   const days = showLock
     ? (intervalToDuration({ end: props.withdrawLockCheck?.lockTime || 0, start: 0 }).days as number)
     : 0
-
-  const targetCoinName = useMemo(() => {
-    const currency = props.defaultMethod?.currency
-
-    if (!currency) return null
-
-    const coin = window.coins[currency]
-
-    if (!coin) return currency
-
-    return coin.coinfig.name
-  }, [props.defaultMethod])
 
   return (
     <FlyoutContainer>
