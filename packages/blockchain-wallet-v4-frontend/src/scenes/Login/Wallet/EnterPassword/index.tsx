@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { AbstractPlugin } from 'plugin/internal'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -25,6 +26,8 @@ import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, CenteredColumn, WrapperWithPadding } from '../../model'
 
+const { isPlugin } = AbstractPlugin
+
 const OuterWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -38,7 +41,7 @@ const OuterWrapper = styled.div`
 `
 const SideWrapper = styled.div`
   height: 96%;
-  width: 274px;
+  width: ${!isPlugin() && '274px'};
   ${media.tabletL`
     display: none;
   `};
@@ -106,7 +109,7 @@ const EnterPasswordWallet = (props: Props) => {
     <OuterWrapper>
       <SideWrapper />
       <FormWrapper>
-        {!settingsRedirect && (
+        {!settingsRedirect && !isPlugin() && (
           <ProductTabMenu
             active={ProductAuthOptions.WALLET}
             onExchangeTabClick={exchangeTabClicked}
@@ -190,7 +193,7 @@ const EnterPasswordWallet = (props: Props) => {
         </WrapperWithPadding>
         <SignupLink platform={magicLinkData?.platform_type} />
       </FormWrapper>
-      {!isMobile() && (
+      {!isMobile() && !isPlugin() && (
         <SideWrapper>
           <MobileAuthSideWrapper>
             <TextColumn>

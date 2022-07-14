@@ -28,7 +28,10 @@ import { getTracking } from 'services/tracking'
 
 import BackupSeedPhrase from './plugin/BackupSeedPhrase'
 import CoinsList from './plugin/CoinsList'
+import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
 import HomeNavbar from './plugin/HomeNavbar'
+import Settings from './plugin/Settings'
+import SwitchAccount from './plugin/SwitchAccount'
 
 const queryClient = new QueryClient()
 
@@ -120,6 +123,14 @@ const App = ({
                         <Switch>
                           {/* Unauthenticated Wallet routes */}
                           <Route path='/app-error' component={AppError} />
+                          <PluginLayout
+                            path='/plugin/coinslist'
+                            header={<CoinsListHeader />}
+                            footer={<HomeNavbar />}
+                            component={CoinsList}
+                          />
+                          <PluginLayout path='/plugin/settings' component={Settings} />
+                          <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
                             path='/help'

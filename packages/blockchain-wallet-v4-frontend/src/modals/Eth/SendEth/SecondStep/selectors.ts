@@ -71,8 +71,12 @@ export const getData = (state, coin) => {
       amount: payment.amount,
       description: payment.description,
       fee: payment.fee,
+      feeInGwei: payment.feeInGwei,
       fromAddress: fromLabel,
       fromType: payment.from.type,
+      minFee: payment.fees.limits.min,
+      priorityFee: payment.fees.priority,
+      regularFee: payment.fees.regular,
       submitting: isSubmitting(state),
       toAddress: payment.to.label || payment.to.address,
       // @ts-ignore
