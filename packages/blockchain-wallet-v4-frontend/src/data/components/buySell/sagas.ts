@@ -4,7 +4,7 @@ import { addSeconds, differenceInMilliseconds } from 'date-fns'
 import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
-import { Coin, Remote } from '@core'
+import { Remote } from '@core'
 import { UnitType } from '@core/exchange'
 import Currencies from '@core/exchange/currencies'
 import { APIType } from '@core/network/api'
@@ -26,7 +26,7 @@ import {
   SwapOrderType,
   WalletOptionsType
 } from '@core/types'
-import { errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
+import { Coin, errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
