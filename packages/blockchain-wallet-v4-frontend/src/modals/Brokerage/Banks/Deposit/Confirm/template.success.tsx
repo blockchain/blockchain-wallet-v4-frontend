@@ -17,6 +17,7 @@ import { BankDWStepType, BankPartners } from 'data/types'
 
 import { Props as _P, SuccessStateType as _S } from '.'
 import { FormattedBank, LineItemText } from './model'
+import { getCurrencyName } from './utils'
 
 const BareRow = styled.div`
   padding: 18px 40px;
@@ -28,6 +29,7 @@ const Row = styled(BareRow)`
 
 const Success = (props: Props) => {
   const [submitting, setSubmitting] = useState<boolean>(false)
+  const targetCoinName = getCurrencyName(props.defaultMethod?.currency)
 
   const isOpenBanking = props.defaultMethod?.partner === BankPartners.YAPILY
   const backButtonClick = useCallback(() => {
@@ -71,13 +73,7 @@ const Success = (props: Props) => {
           <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
             <FormattedMessage id='copy.to' defaultMessage='To' />
           </Text>
-          <LineItemText>
-            <FormattedMessage
-              id='modals.brokerage.fiat_account'
-              defaultMessage='{currency} Account'
-              values={{ currency: props.defaultMethod?.currency }}
-            />
-          </LineItemText>
+          <LineItemText>{targetCoinName}</LineItemText>
         </Row>
         {!isOpenBanking && (
           <Row>
