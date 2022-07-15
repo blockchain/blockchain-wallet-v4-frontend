@@ -29,6 +29,7 @@ import { getTracking } from 'services/tracking'
 import BackupSeedPhrase from './plugin/BackupSeedPhrase'
 import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/Header'
+import { ConnectDapp } from './plugin/ConnectDapp'
 import HomeNavbar from './plugin/HomeNavbar'
 import Nft from './plugin/Nft'
 import Settings from './plugin/Settings'
@@ -138,6 +139,7 @@ const App = ({
                           />
                           <PluginLayout path='/plugin/settings' component={Settings} />
                           <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
+                          <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
                             path='/help'
