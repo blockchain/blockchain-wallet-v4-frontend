@@ -4,7 +4,7 @@ import { addSeconds, differenceInMilliseconds } from 'date-fns'
 import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
-import { Coin, Remote } from '@core'
+import { Remote } from '@core'
 import { UnitType } from '@core/exchange'
 import Currencies from '@core/exchange/currencies'
 import { APIType } from '@core/network/api'
@@ -27,7 +27,7 @@ import {
   SwapOrderType,
   WalletOptionsType
 } from '@core/types'
-import { errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
+import { Coin, errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
@@ -290,9 +290,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const pair = S.getBSPair(yield select())
 
-      if (!values) throw new Error(BS_ERROR.NO_AMOUNT)
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
+      if (!values?.amount) throw new Error(BS_ERROR.NO_AMOUNT)
       if (parseFloat(values.amount) <= 0) throw new Error(BS_ERROR.NO_AMOUNT)
+
       const { fix, orderType, period } = values
 
       // since two screens use this order creation saga and they have different
@@ -470,13 +471,40 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const error: number | string = errorHandlerCode(e)
 
-      yield call(fetchBankTransferAccounts)
-
       const skipErrorDisplayList = [BS_ERROR.NO_AMOUNT]
 
-      if (!skipErrorDisplayList.includes(error as BS_ERROR)) {
-        yield put(A.createOrderFailure(e))
+      if (skipErrorDisplayList.includes(error as BS_ERROR)) {
+        const pair = S.getBSPair(yield select())
+        const method = S.getBSPaymentMethod(yield select())
+        const from = S.getSwapAccount(yield select())
+
+        // If user doesn't enter amount into checkout
+        // they are redirected back to checkout screen
+        // ensures newly linked bank account is fetched
+        yield call(fetchBankTransferAccounts)
+
+        if (pair) {
+          yield put(
+            A.setStep({
+              cryptoCurrency: getCoinFromPair(pair.pair),
+              fiatCurrency: getFiatFromPair(pair.pair),
+              method,
+              orderType: values?.orderType,
+              pair,
+              step: 'ENTER_AMOUNT',
+              swapAccount: from
+            })
+          )
+        }
+
+        yield put(actions.form.focus(FORM_BS_CHECKOUT, 'amount'))
+
+        return
       }
+
+      yield call(fetchBankTransferAccounts)
+
+      yield put(A.createOrderFailure(e))
 
       if (values?.orderType === OrderType.SELL) {
         yield put(actions.form.stopSubmit(FORM_BS_PREVIEW_SELL, { _error: error }))

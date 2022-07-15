@@ -5,8 +5,7 @@ import {
   BSPaymentTypes,
   CoinfigType,
   ExtractSuccess,
-  SwapOrderType,
-  WalletFiatEnum
+  SwapOrderType
 } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'

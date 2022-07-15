@@ -140,3 +140,7 @@ export const getReferralEnabled = (state: RootState) =>
 // will take user out of webview into native signin
 export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'exchangeMobileDuplicateAccountRedirect']))
+
+// secure update endpoint for email and sms
+export const getSecureEmailSmsUpdate = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'secureEmailSmsUpdate']))
