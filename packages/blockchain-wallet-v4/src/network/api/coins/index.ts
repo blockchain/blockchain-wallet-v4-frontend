@@ -4,6 +4,9 @@ import {
   BuildTxResponseType,
   DeriveAddressResponseType,
   IndexMultiResponseType,
+  PubkeyServiceAuthenticationInRequestType,
+  PubkeyServiceAuthenticationRequestType,
+  PubkeyServiceSubscriptions,
   TickerResponseType,
   TxHistoryResponseType
 } from './types'
@@ -100,6 +103,21 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  const authWalletPubkeyService = ({
+    guid,
+    sharedKeyHash
+  }: PubkeyServiceAuthenticationRequestType) =>
+    post({
+      contentType: 'application/json',
+      data: {
+        guid,
+        sharedKeyHash
+      },
+      endPoint: '/wallet-pubkey/auth',
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+
   const getCoinPrices = (
     coins: { base: string; quote: string }[],
     timestamp?: number
@@ -108,6 +126,21 @@ export default ({ apiUrl, get, post }) => {
       contentType: 'application/json',
       data: coins,
       endPoint: timestamp ? `/price/index-multi?time=${timestamp}` : '/price/index-multi',
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+
+  const getSubscriptions = ({
+    guidHash,
+    sharedKeyHash
+  }: PubkeyServiceAuthenticationInRequestType): PubkeyServiceSubscriptions =>
+    post({
+      contentType: 'application/json',
+      data: {
+        guidHash,
+        sharedKeyHash
+      },
+      endPoint: '/wallet-pubkey/subscriptions',
       removeDefaultPostData: true,
       url: apiUrl
     })
@@ -122,11 +155,13 @@ export default ({ apiUrl, get, post }) => {
     })
 
   return {
+    authWalletPubkeyService,
     balance,
     buildTx,
     deriveAddress,
     getBtcTicker,
     getCoinPrices,
+    getSubscriptions,
     pushTx,
     txHistory,
     validateAddress

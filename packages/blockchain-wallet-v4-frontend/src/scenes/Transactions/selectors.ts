@@ -17,7 +17,7 @@ import {
 } from 'ramda'
 import { createSelector } from 'reselect'
 
-import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
+import { IngestedSelfCustodyType } from '@core/network/api/coins/types'
 import {
   AddressTypesType,
   BSOrderType,

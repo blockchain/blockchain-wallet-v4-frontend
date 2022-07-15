@@ -15,6 +15,7 @@
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
+    "strictPropertyInitialization": false,
     "target": "es6",
     "useUnknownInCatchVariables": false,
     "paths": {

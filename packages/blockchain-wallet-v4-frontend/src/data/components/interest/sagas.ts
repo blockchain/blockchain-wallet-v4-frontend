@@ -17,6 +17,7 @@ import {
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
+import { CoinAccountTypeEnum } from 'data/coins/accountTypes/accountTypes.classes'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { CustodialSanctionsErrorCodeEnum, ModalName } from 'data/types'
@@ -519,8 +520,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           origin: 'SAVINGS'
         })
       } else {
-        const receiveAddress = yield call(getNextReceiveAddressForCoin, coin)
-        yield call(api.initiateInterestWithdrawal, withdrawalAmountBase, coin, receiveAddress)
+        const receiveAddress: ReturnType<typeof getNextReceiveAddressForCoin> = yield call(
+          getNextReceiveAddressForCoin,
+          coin,
+          CoinAccountTypeEnum.NON_CUSTODIAL
+        )
+        yield call(
+          api.initiateInterestWithdrawal,
+          withdrawalAmountBase,
+          coin,
+          receiveAddress.address
+        )
       }
 
       // notify success

@@ -1,37 +1,24 @@
-import { CoinType, PaymentType, PaymentValue, RemoteDataType } from '@core/types'
+import { CoinType, PaymentValue, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
+import { RequestExtrasType } from 'data/types'
 
-import * as BCH from './coins/bch'
-import * as BTC from './coins/btc'
-import * as ERC20 from './coins/erc20'
-import * as ETH from './coins/eth'
-import * as SELF_CUSTODY from './coins/self-custody'
-// import * as EUR from './coins/eur'
-// import * as GBP from './coins/gbp'
-// import * as USD from './coins/usd'
-import * as XLM from './coins/xlm'
+import {
+  CoinAccountTypeEnum,
+  NonCustodialAccountTypeClass
+} from '../accountTypes/accountTypes.classes'
+import { CustodialAccountType } from '../accountTypes/accountTypes.custodial'
+import { DynamicSelfCustodyAccountType } from '../accountTypes/accountTypes.dynamicSelfCustody'
+import { ERC20AccountType } from '../accountTypes/accountTypes.erc20'
+import { NonCustodialAccountType } from '../accountTypes/accountTypes.nonCustodial'
 
-const getSaga = (coin: CoinType) => {
+const getKey = (coin: CoinType) => {
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return 'ERC20'
   }
   if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
-    return 'SELF_CUSTODY'
+    return 'DYNAMIC_SELF_CUSTODY'
   }
-  return coin
-}
-
-// create a function map of all coins
-const coinSagas = {
-  BCH,
-  BTC,
-  ERC20,
-  ETH,
-  SELF_CUSTODY,
-  // EUR,
-  // GBP,
-  // USD,
-  XLM
+  return 'NON_CUSTODIAL'
 }
 
 //
@@ -40,11 +27,19 @@ const coinSagas = {
 //
 
 export default ({ api, coreSagas, networks }) => {
+  const accounts = {
+    CUSTODIAL: new CustodialAccountType(api, networks),
+    DYNAMIC_SELF_CUSTODY: new DynamicSelfCustodyAccountType(api, networks),
+    ERC20: new ERC20AccountType(api, networks),
+    NON_CUSTODIAL: new NonCustodialAccountType(api, networks)
+  }
   // gets the default account/address for requested coin
-  const getDefaultAccountForCoin = function* (coin: CoinType): Generator<string> {
-    const saga = getSaga(coin)
-    const defaultAccountR = yield coinSagas[saga]?.getDefaultAccount(coin)
-    // @ts-ignore
+  const getDefaultAccountForCoin = function* (coin: CoinType) {
+    const accountType = getKey(coin)
+    const defaultAccountR = yield (
+      accounts[accountType] as NonCustodialAccountTypeClass
+    ).getDefaultAccount(coin)
+
     return defaultAccountR.getOrFail('Failed to find default account')
   }
 
@@ -52,10 +47,11 @@ export default ({ api, coreSagas, networks }) => {
   // account based currencies will just return the account address
   const getNextReceiveAddressForCoin = function* (
     coin: CoinType,
+    coinAccountType: CoinAccountTypeEnum,
     index?: number
-  ): Generator<string> {
-    const saga = getSaga(coin)
-    return yield coinSagas[saga]?.getNextReceiveAddress(coin, networks, index, api)
+    // @ts-ignore
+  ): { address: string; extras?: RequestExtrasType } {
+    return yield accounts[coinAccountType].getNextReceiveAddress(coin, index)
   }
 
   // gets or updates a provisional payment for a coin
@@ -64,13 +60,11 @@ export default ({ api, coreSagas, networks }) => {
   const getOrUpdateProvisionalPaymentForCoin = function* (
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
-  ): Generator<PaymentType> {
-    const saga = getSaga(coin)
-    return yield coinSagas[saga]?.getOrUpdateProvisionalPayment(
-      coreSagas,
-      networks,
-      paymentR
-    ) as PaymentType
+  ) {
+    const accountType = getKey(coin)
+    return yield (
+      accounts[accountType] as NonCustodialAccountTypeClass
+    ).getOrUpdateProvisionalPayment(coreSagas, paymentR, coin)
   }
 
   return {

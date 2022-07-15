@@ -5,7 +5,7 @@ import secp256k1 from 'secp256k1'
 
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { BuildTxIntentType, BuildTxResponseType } from '@core/network/api/coin/types'
+import { BuildTxIntentType, BuildTxResponseType } from '@core/network/api/coins/types'
 import { getPrivKey, getPubKey } from '@core/redux/data/self-custody/sagas'
 import { FiatType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
