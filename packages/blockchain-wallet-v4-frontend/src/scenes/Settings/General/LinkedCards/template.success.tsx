@@ -9,12 +9,12 @@ import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import { BSPaymentTypes, FiatType } from '@core/types'
+import { Coin } from '@core/utils'
 import { Box, Button, Text } from 'blockchain-info-components'
 import { Expanded, Flex } from 'components/Flex'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Coin } from 'middleware/analyticsMiddleware/types'
 import { media } from 'services/styles'
 
 import { CustomSettingHeader, RemoveButton } from '../styles'

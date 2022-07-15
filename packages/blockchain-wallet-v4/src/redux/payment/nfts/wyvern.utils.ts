@@ -2016,7 +2016,9 @@ export async function calculateProxyApprovalFees(order: NftOrder, signer: Signer
     tokenContract = new ethers.Contract(order.metadata.asset.address, ERC1155_ABI, signer)
   }
   const approved = await tokenContract.isApprovedForAll(accountAddress, proxyAddress)
+  // eslint-disable-next-line no-console
   console.log(`is approved: ${approved}`)
+  // eslint-disable-next-line no-console
   console.log(`proxy address: ${proxyAddress}`)
   return approved
     ? new BigNumber(0)

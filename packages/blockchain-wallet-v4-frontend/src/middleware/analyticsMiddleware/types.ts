@@ -1,4 +1,5 @@
 import { BSPaymentTypes } from '@core/types'
+import { Coin } from '@core/utils'
 import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
 enum AnalyticsKey {
@@ -91,11 +92,6 @@ enum AccountType {
   SAVINGS = 'SAVINGS',
   TRADING = 'TRADING',
   USERKEY = 'USERKEY'
-}
-
-enum Coin {
-  CRYPTO = 'CRYPTO',
-  FIAT = 'FIAT'
 }
 
 enum Order {
@@ -795,7 +791,6 @@ export interface TrackEventAction {
 export {
   AccountType,
   AnalyticsKey,
-  Coin,
   DepositMethod,
   FeeRate,
   Order,

@@ -62,7 +62,7 @@ const Success = (props: Props) => {
       <Expanded>
         <Flex flexDirection='column' style={{ height: '100%' }} gap={16}>
           <Expanded>
-            <Iframe src={props.domain} />
+            <Iframe sandbox='allow-forms allow-scripts allow-same-origin' src={props.domain} />
           </Expanded>
 
           <Card backgroundColor='grey000' borderRadius='md'>
