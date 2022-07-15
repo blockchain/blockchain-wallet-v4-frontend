@@ -17,6 +17,7 @@ import {
   NabuSymbolNumberType,
   WalletCurrencyType
 } from '@core/types'
+import { Coin } from '@core/utils'
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
 import {
   Content,
@@ -582,15 +583,30 @@ const renderBankFullName = (
 const renderBankSubText = (
   value: BSPaymentMethodType | BankTransferAccountType | BeneficiaryType
 ): string | ReactElement => {
+  if ('limits' in value) {
+    const { currency, limits } = value
+
+    return (
+      <FormattedMessage
+        id='modals.simplebuy.bank_item_with_limits'
+        defaultMessage='{limitAmount} Limit'
+        values={{
+          limitAmount: fiatToString({
+            unit: currency,
+            value: convertBaseToStandard(Coin.FIAT, limits.max)
+          })
+        }}
+      />
+    )
+  }
   if ('agent' in value) {
     // BeneficiaryType
     return value.address
   }
   if ('details' in value && value.details?.bankAccountType) {
+    const { details } = value
     // BankTransferAccountType | BSPaymentMethodType
-    return `${value.details?.bankAccountType?.toLowerCase() || ''} account ${
-      value.details?.accountNumber || ''
-    }`
+    return `${details.bankAccountType?.toLowerCase() || ''} account ${details.accountNumber || ''}`
   }
   return <></>
 }
@@ -603,29 +619,60 @@ const renderBank = (value: BSPaymentMethodType | BankTransferAccountType | Benef
 )
 
 const renderCardText = (value: BSPaymentMethodType): string => {
-  return value.card
-    ? value.card.label
-      ? value.card.label.toLowerCase()
-      : value.card.type
-    : 'Credit or Debit Card'
+  const { card } = value
+
+  if (card) {
+    const { label, number } = card
+
+    if (number) {
+      return `****${number}`
+    }
+
+    if (label) {
+      return label.toLocaleLowerCase()
+    }
+  }
+
+  return 'Credit or Debit Card'
+}
+
+const renderCardSubtitle = (value: BSPaymentMethodType) => {
+  if (value.limits) {
+    return (
+      <FormattedMessage
+        id='modals.simplebuy.card_limits'
+        defaultMessage='{limitAmount} Limit'
+        values={{
+          limitAmount: fiatToString({
+            unit: value.currency,
+            value: convertBaseToStandard(Coin.FIAT, value.limits.max)
+          })
+        }}
+      />
+    )
+  }
+
+  if (value.card) {
+    return (
+      <FormattedMessage
+        id='modals.simplebuy.card_ending_in'
+        defaultMessage='Card Ending in {lastFour}'
+        values={{
+          lastFour: value.card.number
+        }}
+      />
+    )
+  }
+
+  return (
+    <FormattedMessage id='modals.simplebuy.paymentcard' defaultMessage='Credit or Debit Card' />
+  )
 }
 
 const renderCard = (value: BSPaymentMethodType) => (
   <>
     <DisplayValue capitalize>{renderCardText(value)}</DisplayValue>
-    <DisplayTitle>
-      {value.card ? (
-        <FormattedMessage
-          id='modals.simplebuy.card_ending_in'
-          defaultMessage='Card Ending in {lastFour}'
-          values={{
-            lastFour: value.card.number
-          }}
-        />
-      ) : (
-        <FormattedMessage id='modals.simplebuy.paymentcard' defaultMessage='Credit or Debit Card' />
-      )}
-    </DisplayTitle>
+    <DisplayTitle>{renderCardSubtitle(value)}</DisplayTitle>
   </>
 )
 

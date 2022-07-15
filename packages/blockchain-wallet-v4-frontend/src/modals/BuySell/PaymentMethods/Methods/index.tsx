@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { getIcon } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 
@@ -13,20 +13,16 @@ import {
 } from '@core/types'
 import { Image, Text } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutHeader } from 'components/Flyout/Layout'
+import { Padding } from 'components/Padding'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import ApplePay from './ApplePay'
-import { ArriveInThreeDaysEasyBankTransferCard } from './ArriveInThreeDaysEasyBankTransferCard'
-import BankWire from './BankWire'
+import { BankWireCard } from './BankWireCard'
 import GooglePay from './GooglePay'
-import { InstantlyEasyBankTransferCard } from './InstantlyEasyBankTransferCard'
 import LinkBank from './LinkBank'
 import { NoMethods, PaymentsWrapper } from './Methods.styles'
-import { OneDayBankTransferCard } from './OneDayBankTransferCard'
 import PaymentCard from './PaymentCard'
-import { SameDayBankTransferCard } from './SameDayBankTransferCard'
-import { WireTransferCard } from './WireTransferCard'
 
 export type Props = OwnProps & SuccessStateType
 
@@ -50,7 +46,7 @@ const Methods: React.FC<Props> = (props: Props) => {
         ) : (
           <FormattedMessage
             id='modals.simplebuy.deposit.regular_bank_transfer'
-            defaultMessage='Regular Bank Transfer'
+            defaultMessage='Bank Transfer'
           />
         )
       case BSPaymentTypes.PAYMENT_CARD:
@@ -215,91 +211,6 @@ const Methods: React.FC<Props> = (props: Props) => {
     }
   }, [props.applePayEnabled, props.googlePayEnabled, props.isInternalTester])
 
-  const bankMethodCard = useMemo(() => {
-    if (!bankAccount) return null
-
-    if (fiatCurrency === 'GBP') {
-      return (
-        <SameDayBankTransferCard
-          onClick={() => handlePaymentMethodSelect({ method: bankAccount.value })}
-        />
-      )
-    }
-
-    if (fiatCurrency === 'USD') {
-      return (
-        <WireTransferCard
-          onClick={() => handlePaymentMethodSelect({ method: bankAccount.value })}
-        />
-      )
-    }
-
-    if (fiatCurrency === 'EUR') {
-      return (
-        <OneDayBankTransferCard
-          onClick={() => handlePaymentMethodSelect({ method: bankAccount.value })}
-        />
-      )
-    }
-
-    return (
-      <BankWire
-        {...bankAccount}
-        icon={getIcon(bankAccount.value)}
-        onClick={() => handlePaymentMethodSelect({ method: bankAccount.value })}
-      />
-    )
-  }, [bankAccount, fiatCurrency, handlePaymentMethodSelect])
-
-  const bankTransferCard = useMemo(() => {
-    if (!bankTransfer) return null
-
-    if (fiatCurrency === 'USD') {
-      return (
-        <ArriveInThreeDaysEasyBankTransferCard
-          onClick={() =>
-            handlePaymentMethodSelect({
-              method: {
-                ...bankTransfer.value,
-                type: BSPaymentTypes.LINK_BANK
-              }
-            })
-          }
-        />
-      )
-    }
-
-    if (fiatCurrency === 'EUR' || fiatCurrency === 'GBP') {
-      return (
-        <InstantlyEasyBankTransferCard
-          onClick={() =>
-            handlePaymentMethodSelect({
-              method: {
-                ...bankTransfer.value,
-                type: BSPaymentTypes.LINK_BANK
-              }
-            })
-          }
-        />
-      )
-    }
-
-    return (
-      <LinkBank
-        {...bankTransfer}
-        icon={getIcon({ type: BSPaymentTypes.BANK_TRANSFER })}
-        onClick={() =>
-          handlePaymentMethodSelect({
-            method: {
-              ...bankTransfer.value,
-              type: BSPaymentTypes.LINK_BANK
-            }
-          })
-        }
-      />
-    )
-  }, [bankTransfer, handlePaymentMethodSelect, fiatCurrency])
-
   return (
     <FlyoutContainer>
       <FlyoutHeader
@@ -365,9 +276,30 @@ const Methods: React.FC<Props> = (props: Props) => {
             />
           ) : null}
 
-          {bankTransferCard}
+          {!!bankTransfer && (
+            <LinkBank
+              {...bankTransfer}
+              // @ts-ignore
+              icon={getIcon({ type: BSPaymentTypes.BANK_TRANSFER })}
+              onClick={() =>
+                handlePaymentMethodSelect({
+                  method: {
+                    ...bankTransfer.value,
+                    type: BSPaymentTypes.LINK_BANK
+                  }
+                })
+              }
+            />
+          )}
 
-          {bankMethodCard}
+          {!!bankAccount && (
+            <Padding all={24}>
+              <BankWireCard
+                {...bankAccount}
+                onClick={() => handlePaymentMethodSelect({ method: bankAccount.value })}
+              />
+            </Padding>
+          )}
         </PaymentsWrapper>
       </FlyoutContent>
     </FlyoutContainer>

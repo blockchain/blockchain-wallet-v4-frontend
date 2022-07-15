@@ -80,14 +80,25 @@ const getType = (value: BSPaymentMethodType) => {
         />
       )
     case BSPaymentTypes.BANK_ACCOUNT:
-      return value.currency === 'USD' ? (
-        <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
-      ) : (
-        <FormattedMessage
-          id='modals.simplebuy.deposit.regular_bank_transfer'
-          defaultMessage='Regular Bank Transfer'
-        />
-      )
+      switch (value.currency) {
+        case 'USD':
+          return <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
+        case 'GBP':
+        case 'EUR':
+          return (
+            <FormattedMessage
+              id='modals.simplebuy.deposit.bank_transfer'
+              defaultMessage='Bank Transfer'
+            />
+          )
+        default:
+          return (
+            <FormattedMessage
+              id='modals.simplebuy.deposit.regular_bank_transfer'
+              defaultMessage='Regular Bank Transfer'
+            />
+          )
+      }
   }
 }
 
@@ -147,7 +158,6 @@ const Success = ({
                 step: WithdrawStepEnum.ENTER_AMOUNT
               })
             }}
-            text={getType(bankTransfer)}
             value={bankTransfer}
           />
         )}

@@ -35,10 +35,19 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
     })
 
   const secureUpdateEmail = (guid, sharedKey, email, nabuSessionToken) =>
-    updateSettingsAuthorized(guid, sharedKey, 'update-email', email, nabuSessionToken)
+    updateSettingsAuthorized(guid, sharedKey, 'secure-update-email', email, nabuSessionToken)
 
   const secureUpdateMobile = (guid, sharedKey, mobile, nabuSessionToken) =>
-    updateSettingsAuthorized(guid, sharedKey, 'update-sms', mobile, nabuSessionToken)
+    updateSettingsAuthorized(guid, sharedKey, 'secure-update-sms', mobile, nabuSessionToken)
+
+  // leaving old unsecured enpoints in because above is wrapped in feature flag
+  // in case somethig needs to be rolled back
+
+  const updateEmail = (guid, sharedKey, email) =>
+    updateSettings(guid, sharedKey, 'update-email', email)
+
+  const updateMobile = (guid, sharedKey, email) =>
+    updateSettings(guid, sharedKey, 'update-mobile', email)
 
   const sendConfirmationCodeEmail = (guid, sharedKey, email) =>
     updateSettings(guid, sharedKey, 'send-verify-email-mail', email)
@@ -124,12 +133,14 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
     updateBlockTorIps,
     updateCommunicationLanguage,
     updateCurrency,
+    updateEmail,
     updateHint,
     updateIpLock,
     updateIpLockOn,
     updateLanguage,
     updateLastTxTime,
     updateLoggingLevel,
+    updateMobile,
     updateNotificationsType,
     verifyEmail,
     verifyMobile
