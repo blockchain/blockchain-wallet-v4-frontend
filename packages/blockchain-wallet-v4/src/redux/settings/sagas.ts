@@ -43,9 +43,16 @@ export default ({ api }) => {
   }
 
   const setEmail = function* (email, nabuSessionToken) {
+    // use feature flag for latest secure enpoint
+    // in case it needs to be rolled back
+    const secureUpdate = (yield select(selectors.walletOptions.getSecureEmailSmsUpdate)).getOrElse(
+      false
+    )
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.secureUpdateEmail, guid, sharedKey, email, nabuSessionToken)
+    const response = secureUpdate
+      ? yield call(api.secureUpdateEmail, guid, sharedKey, email, nabuSessionToken)
+      : yield call(api.updateEmail, guid, sharedKey, email)
     if (!contains('updated', toLower(response))) {
       throw new Error(response)
     }
@@ -81,9 +88,16 @@ export default ({ api }) => {
   }
 
   const setMobile = function* (mobile, nabuSessionToken) {
+    // use feature flag for latest secure enpoint
+    // in case it needs to be rolled back
+    const secureUpdate = (yield select(selectors.walletOptions.getSecureEmailSmsUpdate)).getOrElse(
+      false
+    )
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.secureUpdateMobile, guid, sharedKey, mobile, nabuSessionToken)
+    const response = secureUpdate
+      ? yield call(api.secureUpdateMobile, guid, sharedKey, mobile, nabuSessionToken)
+      : yield call(api.updateMobile, guid, sharedKey, mobile)
     yield put(actions.setMobile(mobile, nabuSessionToken))
     return response
   }
