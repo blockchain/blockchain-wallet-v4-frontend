@@ -15,16 +15,6 @@ import PinPluginInfo from './PinPluginInfo'
 import RecoveryWords from './RecoveryWords'
 import ShortcutInfo from './ShortcutInfo'
 
-export type LinkStatePropsType = {
-  step:
-    | 'RECOVERY_PHRASE_INTRO'
-    | 'FIRST_SET_WORDS'
-    | 'CONFIRM_WORDS'
-    | 'CONFIRM_WORDS_SUCCESS'
-    | 'CONFIRM_WORDS_SHORTCUT'
-    | 'CONFIRM_WORDS_PIN'
-}
-
 const Wrapper = styled(Flex)`
   height: 100%;
   > div {

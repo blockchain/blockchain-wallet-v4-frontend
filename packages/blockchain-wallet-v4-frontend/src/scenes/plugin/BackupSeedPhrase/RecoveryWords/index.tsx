@@ -37,13 +37,13 @@ const RecoveryWords = (props) => {
     text-shadow: ${isPhraseVisible && '0 0 5px rgb(255 255 255 / 50%)'};
   `
   const downloadBackupSeedPhrase = () => {
+    const recoveryPhraseWithSpaces = recoveryPhrase.map((item) => `${`${item} `}`)
     const element = document.createElement('a')
-    const file = new Blob([recoveryPhrase], {
+    const file = new Blob(recoveryPhraseWithSpaces, {
       type: 'text/plain'
     })
     element.href = URL.createObjectURL(file)
     element.download = 'backup-seed-phrase.txt'
-    document.body.appendChild(element)
     element.click()
   }
 
