@@ -1,10 +1,14 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
 import { BSPaymentMethodType } from '@core/types'
+import { Coin } from '@core/utils'
 import { DisplayContainer, DisplayIcon, MultiRowContainer } from 'components/BuySell'
+import { Flex } from 'components/Flex'
 import { Title, Value } from 'components/Flyout'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 
 const StyledValue = styled(Value)`
   text-transform: capitalize;
@@ -23,27 +27,48 @@ type Props = {
   value: BSPaymentMethodType
 }
 
-const Card: React.FC<Props> = ({ icon, onClick, text, value }) => (
-  <DisplayContainer data-e2e={`sb${value.type.toLowerCase()}Cards`} role='button' onClick={onClick}>
-    <DisplayIcon>{icon}</DisplayIcon>
-    <MultiRowContainer>
-      <StyledValue asTitle>{text.toLowerCase()}</StyledValue>
-      <StyledTitle asValue>
-        {value.card ? (
-          <FormattedMessage
-            id='modals.simplebuy.card_ending_in'
-            defaultMessage='Card Ending in {lastFour}'
-            values={{ lastFour: value.card.number }}
-          />
-        ) : (
-          <FormattedMessage
-            id='modals.simplebuy.paymentcard'
-            defaultMessage='Credit or Debit Card'
-          />
-        )}
-      </StyledTitle>
-    </MultiRowContainer>
-  </DisplayContainer>
-)
+const Card: React.FC<Props> = ({ icon, onClick, text, value }) => {
+  const { card, currency, limits, type } = value
+
+  const limitAmount = useMemo(() => {
+    if (!limits) return null
+
+    return fiatToString({
+      unit: currency,
+      value: convertBaseToStandard(Coin.FIAT, limits.max)
+    })
+  }, [currency, limits])
+
+  return (
+    <DisplayContainer data-e2e={`sb${type.toLowerCase()}Cards`} role='button' onClick={onClick}>
+      <DisplayIcon>{icon}</DisplayIcon>
+      <MultiRowContainer>
+        <Flex justifyContent='space-between'>
+          <StyledValue asTitle>{text.toLowerCase()}</StyledValue>
+          {!!card && <StyledTitle asValue>***{card.number}</StyledTitle>}
+        </Flex>
+
+        <Flex justifyContent='space-between'>
+          <StyledTitle asValue>
+            {limitAmount && (
+              <FormattedMessage
+                id='modals.simplebuy.card_with_limits'
+                defaultMessage='{limitAmount} Limit'
+                values={{
+                  limitAmount
+                }}
+              />
+            )}
+          </StyledTitle>
+          {!!card && (
+            <StyledTitle asValue>
+              Exp: {card.expireMonth}/{card.expireYear}
+            </StyledTitle>
+          )}
+        </Flex>
+      </MultiRowContainer>
+    </DisplayContainer>
+  )
+}
 
 export default Card
