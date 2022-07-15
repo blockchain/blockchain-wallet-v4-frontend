@@ -69,10 +69,7 @@ export const PhraseContainer = styled(Flex)`
   position: relative;
   flex-wrap: wrap;
   width: 100%;
-  height: 152px;
-  border: 0.3px solid ${(props) => props.theme.grey600};
-  border-radius: 6px;
-  margin: 76px 0 13px;
+  height: 80px;
   padding: 10px 12px;
   box-sizing: border-box;
 `
@@ -82,14 +79,13 @@ export const HiddenPhraseBlock = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  height: 152px;
   top: 0;
   left: 0;
   cursor: pointer;
 `
 export const ButtonWrapper = styled(Text)`
-  color: ${(props) => props.theme['marketing-primary']};
-  size: '12px';
+  color: ${(props) => props.theme.blue600};
   font-weight: 500;
   line-height: '150%';
   font-size: 12px;

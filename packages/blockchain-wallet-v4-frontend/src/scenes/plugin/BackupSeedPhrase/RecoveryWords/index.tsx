@@ -3,7 +3,7 @@ import CopyToClipBoard from 'react-copy-to-clipboard'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Link, Text, TooltipHost } from 'blockchain-info-components'
+import { Button, Link, Text, Tooltip, TooltipHost } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 
 import {
@@ -26,12 +26,23 @@ const PointerButtonWrapper = styled(ButtonWrapper)`
 const TextWrapper = styled(Text)`
   margin-bottom: 5px;
 `
+const Wrapper = styled(Flex)`
+  height: 152px;
+  border: 0.3px solid ${(props) => props.theme.grey600};
+  border-radius: 6px;
+  margin: 76px 0 13px;
+`
+const TooltipWrapper = styled(Tooltip)`
+  width: 50px;
+  text-align: center;
+`
 const RecoveryWords = (props) => {
   const [isPhraseVisible, setIsPhraseVisible] = useState<boolean>(true)
   const [isPhraseCopied, setIsPhraseCopied] = useState<boolean>(false)
   const { handleClick, recoveryPhrase } = props
 
   const RecoveryPhrase = styled(Text)`
+    height: 20px;
     padding-right: 15px;
     color: ${isPhraseVisible ? 'transparent' : 'white'};
     text-shadow: ${isPhraseVisible && '0 0 5px rgb(255 255 255 / 50%)'};
@@ -69,11 +80,11 @@ const RecoveryWords = (props) => {
       <TextWrapper color='grey400' size='14px' weight={500} lineHeight='150%'>
         <FormattedMessage
           id='plugin.backup-seed-phrase.text.firstsetwords'
-          defaultMessage='Your Secret Private Key protects your account.'
+          defaultMessage='Your Secret Private Key protects your account. '
         />
         <FormattedMessage
           id='plugin.backup-seed-phrase.text.secondsetwords'
-          defaultMessage='You will need it if you lose or reinstall your wallet.'
+          defaultMessage='You will need it if you lose or reinstall your wallet. '
         />
         <FormattedMessage
           id='plugin.backup-seed-phrase.text.thirdsetwords'
@@ -88,7 +99,7 @@ const RecoveryWords = (props) => {
       >
         <FormattedMessage id='buttons.learn_more_arrow' defaultMessage='Learn more' />
       </Link>
-      <Flex>
+      <Wrapper>
         {props.step === 'FIRST_SET_WORDS' && (
           <PhraseContainer>
             <HiddenPhraseBlock onClick={() => setIsPhraseVisible(!isPhraseVisible)}>
@@ -102,21 +113,36 @@ const RecoveryWords = (props) => {
               ))}
           </PhraseContainer>
         )}
-      </Flex>
+      </Wrapper>
       <Flex alignItems='center' justifyContent='space-between'>
-        <CopyToClipBoard text={recoveryPhrase} onCopy={handleClick}>
-          <CopyButtonWrapper onClick={copyBackupPhrase}>
-            <FormattedMessage
-              defaultMessage={`${isPhraseCopied ? 'Copied' : 'Copy'}`}
-              id={`${isPhraseCopied ? 'tooltip.copied' : 'modals.airdropsuccess.copy'}`}
-            />
-          </CopyButtonWrapper>
-        </CopyToClipBoard>
-        <TooltipHost id='copy.on_chain_txs'>
+        <TooltipHost id='copy_phrase'>
+          <CopyToClipBoard text={recoveryPhrase} onCopy={handleClick}>
+            <CopyButtonWrapper onClick={copyBackupPhrase}>
+              <FormattedMessage
+                defaultMessage={`${isPhraseCopied ? 'Copied' : 'Copy'}`}
+                id={`${isPhraseCopied ? 'tooltip.copied' : 'modals.airdropsuccess.copy'}`}
+              />
+            </CopyButtonWrapper>
+          </CopyToClipBoard>
+        </TooltipHost>
+        <TooltipWrapper id='copy_phrase' place='top'>
+          <Text color='grey400' size='12px'>
+            <FormattedMessage id='plugin.copy.to.clipboard' defaultMessage='Copy to clipboard' />
+          </Text>
+        </TooltipWrapper>
+        <TooltipHost id='download_txt'>
           <PointerButtonWrapper data-e2e='generateTxReport' onClick={downloadBackupSeedPhrase}>
             <FormattedMessage id='copy.download' defaultMessage='Download' />
           </PointerButtonWrapper>
         </TooltipHost>
+        <TooltipWrapper id='download_txt' place='top'>
+          <Text color='grey400' size='12px'>
+            <FormattedMessage
+              id='plugin.copy.download.txt.file'
+              defaultMessage='Download txt file'
+            />
+          </Text>
+        </TooltipWrapper>
       </Flex>
       <Bottom>
         <Button
