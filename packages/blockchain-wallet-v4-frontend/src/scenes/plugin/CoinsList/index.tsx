@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import Balance from './Balance'
 import CoinsVirtList from './CoinsVirtList'
-import Header from './Header'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 const CoinList = () => {
   return (
     <Wrapper>
-      <Header />
+      <Balance />
       <CoinsVirtList />
     </Wrapper>
   )

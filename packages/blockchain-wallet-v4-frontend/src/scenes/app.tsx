@@ -28,10 +28,10 @@ import { getTracking } from 'services/tracking'
 
 import BackupSeedPhrase from './plugin/BackupSeedPhrase'
 import CoinsList from './plugin/CoinsList'
-import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
+import CoinsListHeader from './plugin/CoinsList/Header'
 import HomeNavbar from './plugin/HomeNavbar'
 import Settings from './plugin/Settings'
-import SwitchAccount from './plugin/SwitchAccount'
+import { SwitchAccount } from './plugin/SwitchAccount'
 
 const queryClient = new QueryClient()
 

@@ -21,14 +21,16 @@ const Wrapper = styled.div`
 `
 
 const Header = styled.div`
+  box-sizing: border-box;
   position: absolute;
   height: 67px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   background: ${(props) => props.theme.exchangeLogin};
   top: 0;
   width: 100%;
+  padding: 20px;
 `
 
 const Content = styled.div`

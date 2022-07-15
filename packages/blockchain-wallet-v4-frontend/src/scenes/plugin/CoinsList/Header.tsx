@@ -1,104 +1,116 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
-import { IconArrowUpRight, IconDownload } from '@blockchain-com/icons'
+import React, { useEffect, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
+import { colors, Icon } from '@blockchain-com/constellation'
+import { IconMoreHorizontal } from '@blockchain-com/icons'
+import { CombinedState } from 'redux'
 import styled from 'styled-components'
 
-import { IconButton, SkeletonRectangle, Text } from 'blockchain-info-components'
-import { Flex } from 'components/Flex'
+import { Text } from 'blockchain-info-components'
 import { selectors } from 'data'
+import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
+import { getCoinAccounts } from 'data/coins/selectors'
+
+import { SwitchAccount } from '../SwitchAccount'
 
 const HeaderWrapper = styled.div`
-  height: 207px;
-  text-align: center;
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
+  gap: 40px;
 `
 
-const IconButtonStyled = styled(IconButton)`
-  align-items: center;
+const WalletWapper = styled.button`
+  display: flex;
   justify-content: center;
-  background: ${(p) => p.theme.white};
-  border-color: ${(p) => p.theme.white};
-
-  svg {
-    fill: ${(props) => props.theme.exchangeLogin};
-  }
-
-  span {
-    margin-right: 0 !important;
-  }
+  align-items: center;
+  gap: 10px;
+  padding: 3px 10px;
+  background-color: ${colors.smoke800};
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  cursor: pointer;
 `
 
-const ButtonWrapper = styled.div`
-  text-align: center;
-
-  & > *:first-child {
-    margin-bottom: 5px;
-  }
+const Wallet = styled(Text)`
+  color: ${(props) => props.theme.grey400};
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
 `
 
-const Header = (props: any) => {
-  const balance = props.data.cata({
-    Failure: () => (
-      <Text weight={700} size='24px' color='grey200'>
-        Error
-      </Text>
-    ),
-    Loading: () => <SkeletonRectangle width='120px' height='25px' />,
-    NotAsked: () => <SkeletonRectangle width='120px' height='25px' />,
-    Success: (val) => <>{val.totalBalance}</>
-  })
+const AssetWrapper = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background-color: ${(props) => props.theme.exchangeLogin};
+`
+
+const StatusLabel = styled.span`
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: ${colors.green500};
+`
+
+const SettingsButton = styled.button`
+  background: none;
+  border: none;
+  outline: none;
+`
+
+const Header = () => {
+  const [isSwitchAccountVisible, setIsSwitchAccountVisible] = useState(false)
+  const [selectedAccountIndex, setSelectedAccountIndex] = useState<number>(0)
+  const coins = useSelector(selectors.components.swap.getCoins)
+  const balance = useSelector(selectors.balances.getTotalWalletBalance)
+  const accounts = useSelector((state) =>
+    getCoinAccounts(state as CombinedState<any>, { coins, ...SWAP_ACCOUNTS_SELECTOR })
+  )
+  const switchAccounts = [accounts.ETH, accounts.BTC, accounts.BCH, accounts.XLM, accounts.STX]
+  const setSwitchAccountVisibility = () => {
+    setIsSwitchAccountVisible(true)
+  }
+
   return (
-    <HeaderWrapper data-testid='coinview-header'>
-      <Text style={{ margin: '20px 0' }} color='white' size='40px' weight={500}>
-        {balance}
-      </Text>
-      <Flex justifyContent='center' gap={24}>
-        <ButtonWrapper>
-          <IconButtonStyled
-            padding='0'
-            name='receive'
-            rounded
-            width='40px'
-            height='40px'
-            data-e2e='coinview-header-receive-btn'
-          >
-            <Icon label=''>
-              <IconDownload />
-            </Icon>
-          </IconButtonStyled>
-          <Text color='white' size='10px' weight={500}>
-            Receive
-          </Text>
-        </ButtonWrapper>
-        <ButtonWrapper>
-          <IconButtonStyled
-            padding='0'
-            name='IconArrowUpRight'
-            rounded
-            width='40px'
-            height='40px'
-            data-e2e='coinview-header-send-btn'
-          >
-            <Icon label='IconArrowUpRight'>
-              <IconArrowUpRight />
-            </Icon>
-          </IconButtonStyled>
-          <Text color='white' size='10px' weight={500}>
-            Send
-          </Text>
-        </ButtonWrapper>
-      </Flex>
-    </HeaderWrapper>
+    <header>
+      <HeaderWrapper>
+        <WalletWapper onClick={setSwitchAccountVisibility}>
+          <Wallet>
+            <FormattedMessage
+              id='scenes.plugin.coinslist.private_key_wallet'
+              defaultMessage='Private Key Wallet'
+            />
+          </Wallet>
+          <AssetWrapper>
+            <Wallet>{switchAccounts[selectedAccountIndex][1]?.baseCoin}</Wallet>
+            <StatusLabel />
+          </AssetWrapper>
+        </WalletWapper>
+        <SettingsButton>
+          <Icon label='IconMore' size='md'>
+            <IconMoreHorizontal />
+          </Icon>
+        </SettingsButton>
+      </HeaderWrapper>
+      {isSwitchAccountVisible && (
+        <SwitchAccount
+          balance={balance}
+          coins={coins}
+          accounts={accounts}
+          setIsSwitchAccountVisible={setIsSwitchAccountVisible}
+          selectedAccountIndex={selectedAccountIndex}
+          setSelectedAccountIndex={setSelectedAccountIndex}
+        />
+      )}
+    </header>
   )
 }
 
-const mapStateToProps = (state) => ({
-  data: selectors.balances.getTotalWalletBalance(state),
-  userCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
-  walletAddress: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
-})
-
-export default connect(mapStateToProps, null)(Header)
+export default Header
