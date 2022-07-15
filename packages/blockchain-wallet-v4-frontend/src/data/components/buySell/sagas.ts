@@ -17,6 +17,7 @@ import {
   BSPaymentTypes,
   BSQuoteType,
   CardAcquirer,
+  ExtraKYCContext,
   FiatEligibleType,
   FiatType,
   GooglePayInfoType,
@@ -38,9 +39,11 @@ import {
   CustodialSanctionsEnum,
   ModalName,
   ProductEligibilityForUser,
-  UserDataType
+  UserDataType,
+  VerifyIdentityOriginType
 } from 'data/types'
 import { isNabuError } from 'services/errors'
+import { getExtraKYCCompletedStatus } from 'services/extraKYC'
 
 import { actions as cacheActions } from '../../cache/slice'
 import { actions as custodialActions } from '../../custodial/slice'
@@ -1800,6 +1803,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
         return
       }
+    }
+
+    const completedKYC = yield call(getExtraKYCCompletedStatus, {
+      api,
+      context: ExtraKYCContext.TRADING,
+      origin: 'BuySell' as VerifyIdentityOriginType
+    })
+
+    // If KYC was closed before answering, return
+    if (!completedKYC) {
+      return
     }
 
     // show sanctions for buy
