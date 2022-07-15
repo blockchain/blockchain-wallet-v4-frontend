@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { Image, Text } from 'blockchain-info-components'
 
 import { Props as OwnProps } from '../../..'
-import { ButtonPanel } from '../../../model'
+import { ButtonPanel, ResetFormSteps } from '../../../model'
 
 export const AUTH_TYPE_SELECTION = {
   GOOGLE: 'google',
@@ -40,10 +40,10 @@ const StyledImage = styled(Image)`
   margin-right: 1rem;
 `
 
-const ChooseTwoFA = (props: OwnProps) => {
+const ChooseTwoFA = (props: Props) => {
   return (
     <>
-      <ButtonPanel>
+      <ButtonPanel onClick={() => props.setFormStep(ResetFormSteps.AUTHENTICATOR_SETUP)}>
         <Column>
           <Text color='grey900' size='16px' weight={600} lineHeight='1.5'>
             <FormattedMessage
@@ -118,6 +118,10 @@ const ChooseTwoFA = (props: OwnProps) => {
       </ButtonPanel>
     </>
   )
+}
+
+type Props = OwnProps & {
+  setFormStep: (step) => void
 }
 
 export default ChooseTwoFA

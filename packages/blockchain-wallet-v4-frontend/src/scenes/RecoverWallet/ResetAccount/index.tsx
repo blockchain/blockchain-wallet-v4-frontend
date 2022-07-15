@@ -11,10 +11,10 @@ import { AccountRecoveryMagicLinkData, RecoverSteps } from 'data/types'
 
 import { Props as ResetProps } from '..'
 import { FormWrapper, ResetFormSteps } from '../model'
-// import Authenticator from './NewTwoFA/Authenticator'
 // import SMS from './NewTwoFA/SMS'
 // import Yubikey from './NewTwoFA/Yubikey'
 import NewPassword from './NewPassword'
+import Authenticator from './NewTwoFA/Authenticator'
 import ChooseTwoFA from './NewTwoFA/ChoooseTwoFA'
 import ResetWarning from './ResetWarning'
 import TwoFAConfirmation from './TwoFAConfirmation'
@@ -49,9 +49,11 @@ const ResetAccount: React.FC<InjectedFormProps<{}, ResetProps> & ResetProps> = (
         {recoveryStep === ResetFormSteps.NEW_PASSWORD && (
           <NewPassword {...props} isRegistering={isRegistering} setFormStep={setFormStep} />
         )}
-        {recoveryStep === ResetFormSteps.CHOOSE_TWOFA && <ChooseTwoFA {...props} />}
-        {/* {recoveryStep === ResetFormSteps.AUTHENTICATOR_SETUP && <Authenticator {...props} />}
-        {recoveryStep === ResetFormSteps.SMS_SETUP && <SMS {...props} />}
+        {recoveryStep === ResetFormSteps.CHOOSE_TWOFA && (
+          <ChooseTwoFA {...props} setFormStep={setFormStep} />
+        )}
+        {recoveryStep === ResetFormSteps.AUTHENTICATOR_SETUP && <Authenticator {...props} />}
+        {/* {recoveryStep === ResetFormSteps.SMS_SETUP && <SMS {...props} />}
         {recoveryStep === ResetFormSteps.YUBIKEY_SETUP && <Yubikey {...props} />} */}
       </Form>
     </FormWrapper>
