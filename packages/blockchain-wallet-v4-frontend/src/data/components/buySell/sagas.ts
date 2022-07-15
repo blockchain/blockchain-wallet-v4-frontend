@@ -286,9 +286,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const pair = S.getBSPair(yield select())
 
-      if (!values) throw new Error(BS_ERROR.NO_AMOUNT)
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
+      if (!values?.amount) throw new Error(BS_ERROR.NO_AMOUNT)
       if (parseFloat(values.amount) <= 0) throw new Error(BS_ERROR.NO_AMOUNT)
+
       const { fix, orderType, period } = values
 
       // since two screens use this order creation saga and they have different
@@ -484,6 +485,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             })
           )
         }
+
+        yield put(actions.form.focus(FORM_BS_CHECKOUT, 'amount'))
 
         return
       }
