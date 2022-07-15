@@ -19,14 +19,14 @@ const LocalCurrency = (props) => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.settings.preferences.localcurrency.success.title'
-            defaultMessage='Local Currency'
+            id='scenes.settings.preferences.wallet_display_currency.success.title'
+            defaultMessage='Wallet Display Currency'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.settings.preferences.localcurrency.success.description'
-            defaultMessage='Select your local currency.'
+            id='scenes.settings.preferences.wallet_display_currency.success.description'
+            defaultMessage='Select your wallet display currency.'
           />
         </SettingDescription>
       </SettingSummary>
