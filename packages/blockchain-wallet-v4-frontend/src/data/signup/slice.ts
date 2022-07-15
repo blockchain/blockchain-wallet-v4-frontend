@@ -9,6 +9,7 @@ import {
   RegisteringFailureType,
   RegisteringSuccessType,
   RestoringType,
+  SignupRedirectTypes,
   SignupStateType
 } from './types'
 
@@ -71,11 +72,12 @@ const signupSlice = createSlice({
       state.kycReset = action.payload
     },
     setProductSignupMetadata: (state, action: PayloadAction<ProductSignupMetadata>) => {
-      const { platform, product, referrerUsername, tuneTid } = action.payload
+      const { platform, product, referrerUsername, signupRedirect, tuneTid } = action.payload
       state.productSignupMetadata = {
         platform: platform?.toUpperCase() as PlatformTypes,
         product: product?.toUpperCase() as ProductAuthOptions,
         referrerUsername,
+        signupRedirect: signupRedirect?.toUpperCase() as SignupRedirectTypes,
         tuneTid
       }
     },
