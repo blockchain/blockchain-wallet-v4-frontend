@@ -30,6 +30,7 @@ import BackupSeedPhrase from './plugin/BackupSeedPhrase'
 import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/Header'
 import HomeNavbar from './plugin/HomeNavbar'
+import Nft from './plugin/Nft'
 import Settings from './plugin/Settings'
 import { SwitchAccount } from './plugin/SwitchAccount'
 
@@ -128,6 +129,12 @@ const App = ({
                             header={<CoinsListHeader />}
                             footer={<HomeNavbar />}
                             component={CoinsList}
+                          />
+                          <PluginLayout
+                            path='/plugin/nft'
+                            header={<CoinsListHeader />}
+                            footer={<HomeNavbar />}
+                            component={Nft}
                           />
                           <PluginLayout path='/plugin/settings' component={Settings} />
                           <PluginLayout path='/plugin/switch-account' component={SwitchAccount} />
