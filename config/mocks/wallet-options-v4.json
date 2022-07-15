@@ -52,6 +52,7 @@
         "recurringBuys": true,
         "rewardsFlowUnderSwapEnabled": true,
         "rewardsPromoBanner": true,
+        "secureEmailSmsUpdate": true,
         "showSilverRevamp": true,
         "showTermsAndConditions": false,
         "stxSelfCustodyEnableAirdrop": true,
