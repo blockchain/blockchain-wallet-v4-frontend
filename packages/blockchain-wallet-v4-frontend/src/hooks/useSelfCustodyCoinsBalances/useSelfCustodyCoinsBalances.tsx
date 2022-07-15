@@ -19,7 +19,6 @@ export const useSelfCustodyCoinsBalances = () => {
       // TODO: Check active wallet
       Object.entries(window.coins).forEach(([coin, { coinfig }]: any) => {
         const balance = selectors.balances.getCoinTotalBalance(coin)(state).getOrElse(0)
-
         if (
           (allowedChains.includes(coinfig.symbol) ||
             allowedChains.includes(coinfig.type.parentChain)) &&
