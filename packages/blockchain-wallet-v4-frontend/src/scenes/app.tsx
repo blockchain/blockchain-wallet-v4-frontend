@@ -28,6 +28,7 @@ import { getTracking } from 'services/tracking'
 
 import BackupSeedPhrase from './plugin/BackupSeedPhrase'
 import CoinsList from './plugin/CoinsList'
+import Receive from './plugin/Funding/Receive'
 import CoinsListHeader from './plugin/CoinsList/Header'
 import { ConnectDapp } from './plugin/ConnectDapp'
 import HomeNavbar from './plugin/HomeNavbar'
@@ -131,6 +132,7 @@ const App = ({
                             footer={<HomeNavbar />}
                             component={CoinsList}
                           />
+                          <PluginLayout path='/plugin/funding' component={Receive} />
                           <PluginLayout
                             path='/plugin/nft'
                             header={<CoinsListHeader />}
