@@ -1,63 +1,49 @@
-import React, { useEffect } from 'react'
-import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
+// import React, { useEffect, useState } from 'react'
+// import { FormattedMessage } from 'react-intl'
+// import { connect, ConnectedProps } from 'react-redux'
+// import { bindActionCreators } from 'redux'
 
-import { Badge, Button, Text } from 'blockchain-info-components'
-import CopyClipboard from 'components/Clipboard/CopyClipboard'
-import QRCodeWrapper from 'components/QRCodeWrapper'
-import { actions } from 'data'
-import { LOGIN_FORM } from 'data/auth/model'
+// import AuthenticatorCode from './template.qrcode'
+// import AuthenticatorVerify from './template.verify'
 
-const Authenticator = (props) => {
-  useEffect(() => {
-    props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
-  }, [])
+// import { Props as OwnProps } from '../../..'
 
-  return (
-    <>
-      <Text>
-        <FormattedMessage
-          id='scenes.login.upgrade.googleAuth.text'
-          defaultMessage='With your Google Authenticator app, scan the QR code below to make a secure connection.'
-        />
-      </Text>
-      <Text>
-        <FormattedMessage id='scenes.login.upgrade.2fa.header' defaultMessage='Set Up 2FA' />
-      </Text>
+// // import { Badge, Button, Text } from 'blockchain-info-components'
+// // import CopyClipboard from 'components/Clipboard/CopyClipboard'
+// // import QRCodeWrapper from 'components/QRCodeWrapper'
+// import { actions, selectors } from 'data'
+// // import { LOGIN_FORM } from 'data/auth/model'
 
-      {/* <QRCodeWrapper size={150} value={props.data.googleAuthSecretUrl || ''} /> */}
+// const Authenticator = (props) => {
+//   const [step, setStep] = useState(1)
 
-      {/* <CopyClipboard address={props.data.secret || ''} /> */}
+//   const changeAuthenticatorStep = (authStep: number) => {
+//     setStep(authStep)
+//   }
+//   return (
+//     <>
+//       {step === 1 && <AuthenticatorCode {...props} />}
+//       {step === 2 && <AuthenticatorVerify {...props} />}
+//     </>
+//   )
+// }
 
-      <Badge type='applestore' />
-      <Badge type='googleplay' />
+// // const mapStateToProps = (state) => ({
+// //   authCode: formValueSelector('securityGoogleAuthenticator')(state, 'authCode'),
+// // authType: selectors.core.settings.getAuthType(state).getOrElse(0)
+// //   data: getData(state)
+// // })
 
-      <Button
-        nature='primary'
-        data-e2e='nextButton'
-        fullwidth
-        height='48px'
-        //   onClick={handleNext}
-      >
-        <FormattedMessage id='buttons.next' defaultMessage='Next' />
-      </Button>
-    </>
-  )
-}
-
-// const mapStateToProps = (state) => ({
-//   authCode: formValueSelector('securityGoogleAuthenticator')(state, 'authCode'),
-//   data: getData(state)
+// const mapDispatchToProps = (dispatch) => ({
+//   formActions: bindActionCreators(actions.form, dispatch),
+//   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 // })
 
-const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
-})
+// const connector = connect(null, mapDispatchToProps)
 
-const connector = connect(null, mapDispatchToProps)
+// export type Props = ConnectedProps<typeof connector> &
+//   OwnProps & {
+//     changeAuthenticatorStep: (number) => void
+//   }
 
-export type Props = ConnectedProps<typeof connector>
-
-export default connector(Authenticator)
+// export default connector(Authenticator)
