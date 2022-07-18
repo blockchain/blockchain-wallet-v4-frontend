@@ -1,4 +1,5 @@
 import base64url from 'base64url'
+import { savePassword } from 'plugin/internal/chromeStorage'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
@@ -540,6 +541,8 @@ export default ({ api, coreSagas, networks }) => {
       // before exchange login is complete for unified accounts
       // heartbeat loader would stop for a second before
       // opening exchange window
+
+      yield savePassword(password)
       if (product !== ProductAuthOptions.EXCHANGE) {
         yield put(stopSubmit(LOGIN_FORM))
       }
@@ -845,6 +848,7 @@ export default ({ api, coreSagas, networks }) => {
 
   // this is the function we run when submitting the login form
   const continueLoginProcess = function* () {
+    const form = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const {
       code,
       email,

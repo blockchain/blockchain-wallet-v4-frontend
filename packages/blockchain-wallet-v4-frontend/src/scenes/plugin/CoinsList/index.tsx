@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-
 import Balance from './Balance'
 import CoinsVirtList from './CoinsVirtList'
 
