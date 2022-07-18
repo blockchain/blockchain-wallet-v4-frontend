@@ -19,7 +19,7 @@ const Dapp = styled.li`
 const DisconnectButton = styled.button`
   width: 100%;
   height: 48px;
-  background-color: #0c6cf2;
+  background-color: ${(props) => props.theme.white};
   color: black;
   font-size: 16px;
   font-weight: 600;
@@ -43,13 +43,13 @@ export const Connected = () => {
       <SettingsList>
         <Dapp>
           <Text>test.org</Text>
-          <Icon color='white800' label='IconClose' size='md'>
+          <Icon color='white600' label='IconClose' size='md'>
             <IconCloseV2 />
           </Icon>
         </Dapp>
         <Dapp>
           <Text>test2.org</Text>
-          <Icon color='white800' label='IconClose' size='md'>
+          <Icon color='white600' label='IconClose' size='md'>
             <IconCloseV2 />
           </Icon>
         </Dapp>

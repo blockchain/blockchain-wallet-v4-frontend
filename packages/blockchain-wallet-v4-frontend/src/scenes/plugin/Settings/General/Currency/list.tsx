@@ -46,7 +46,7 @@ export const CurrecyItemWrapper = styled.div`
 `
 const StyledSearch = styled.input`
   padding: 12px 16px;
-  margin-bottom: 32px;
+  margin-bottom: 17px auto 32px;
   background: transparent;
   border-radius: 8px;
   font-size: 14px;
