@@ -26,7 +26,7 @@ import {
   ProductEligibilityForUser,
   VerifyIdentityOriginType
 } from 'data/types'
-import { getExtraKYCCompletedStatus } from 'services/extraKYC'
+import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'

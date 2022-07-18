@@ -43,7 +43,7 @@ import {
   VerifyIdentityOriginType
 } from 'data/types'
 import { isNabuError } from 'services/errors'
-import { getExtraKYCCompletedStatus } from 'services/extraKYC'
+import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import { actions as cacheActions } from '../../cache/slice'
 import { actions as custodialActions } from '../../custodial/slice'
