@@ -1,12 +1,22 @@
 import React from 'react'
-import { connect, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconCheckCircle } from '@blockchain-com/icons'
+import styled from 'styled-components'
 
+import { Text } from 'blockchain-info-components'
 import { selectors } from 'data'
 import { languagesSortedByName } from 'services/locales'
 
 import { CurrecyItemWrapper, CurrenciesList, CurrencySelectButton } from '../Currency/list'
+
+const LanguagesList = styled(CurrenciesList)`
+  gap: 54px;
+`
+
+const LanguageLabel = styled(Text)`
+  color: ${(props) => props.theme.white};
+`
 
 const List = (props) => {
   const currentLanguage = useSelector(selectors.preferences.getLanguage)
@@ -18,12 +28,12 @@ const List = (props) => {
 
   return (
     <>
-      <CurrenciesList>
+      <LanguagesList>
         {languages.map((language) => (
           <li key={language.language}>
             <CurrencySelectButton onClick={() => selectCurrency(language.language)}>
               <CurrecyItemWrapper>
-                <span>{language.name}</span>
+                <LanguageLabel>{language.name}</LanguageLabel>
               </CurrecyItemWrapper>
               {language.language === currentLanguage && (
                 <Icon color='white800' label='IconCheckCircle' size='md'>
@@ -33,7 +43,7 @@ const List = (props) => {
             </CurrencySelectButton>
           </li>
         ))}
-      </CurrenciesList>
+      </LanguagesList>
     </>
   )
 }

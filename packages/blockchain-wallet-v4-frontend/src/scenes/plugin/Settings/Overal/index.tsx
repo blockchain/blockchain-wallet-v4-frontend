@@ -60,7 +60,7 @@ const Overal = (props) => {
       <IconWallet />
     ),
     new Setting('layouts.wallet.header.general', 'General', `${path}/general`, <IconSettings />),
-    new Setting('scenes.plugin.settings.info', 'Info', `${path}/info`, <IconInformation />)
+    new Setting('scenes.plugin.settings.info', 'About', `${path}/about`, <IconInformation />)
   ]
   const logout = () => {
     const sessionActions = bindActionCreators(actions.session, dispatch)
@@ -77,13 +77,13 @@ const Overal = (props) => {
           <li key={setting.label}>
             <SettingsLink to={setting.path}>
               <Flex justifyContent='space-between' alignItems='center'>
-                <Icon color='white400' label='IconBack' size='md'>
+                <Icon color='grey700' label='IconBack' size='md'>
                   {setting.icon}
                 </Icon>
                 <SettingsLinkLabel>
                   <FormattedMessage id={setting.id} defaultMessage={setting.label} />
                 </SettingsLinkLabel>
-                <Icon color='white400' label='IconBack' size='md'>
+                <Icon color='grey700' label='IconBack' size='md'>
                   <IconChevronRightV2 />
                 </Icon>
               </Flex>

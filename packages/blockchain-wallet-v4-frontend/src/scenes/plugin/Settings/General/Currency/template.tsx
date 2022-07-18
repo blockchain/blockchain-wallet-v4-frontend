@@ -6,13 +6,15 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import styled from 'styled-components'
 
+import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
 
-import { SettingsHeading } from '../..'
 import Selection from './selection'
 
-const CurrencySettingsHeading = styled(SettingsHeading)`
-  margin-bottom: 17px;
+const CurrencySettingsHeading = styled(Text)`
+  font-size: 20px;
+  margin: 34px 0 17px;
+  color: ${(props) => props.theme.white};
 `
 
 const Currency = (props) => {

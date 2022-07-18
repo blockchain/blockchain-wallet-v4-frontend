@@ -43,13 +43,13 @@ export const Connected = () => {
       <SettingsList>
         <Dapp>
           <Text>test.org</Text>
-          <Icon color='white600' label='IconClose' size='md'>
+          <Icon color='grey700' label='IconClose' size='md'>
             <IconCloseV2 />
           </Icon>
         </Dapp>
         <Dapp>
           <Text>test2.org</Text>
-          <Icon color='white600' label='IconClose' size='md'>
+          <Icon color='grey700' label='IconClose' size='md'>
             <IconCloseV2 />
           </Icon>
         </Dapp>

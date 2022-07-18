@@ -26,7 +26,7 @@ export const Overal = (props) => {
                 defaultMessage='Local Currency'
               />
             </Text>
-            <Icon color='white800' label='IconBack' size='md'>
+            <Icon color='grey700' label='IconBack' size='md'>
               <IconChevronRightV2 />
             </Icon>
           </Flex>
@@ -35,11 +35,11 @@ export const Overal = (props) => {
           <Flex justifyContent='space-between' alignItems='center'>
             <Text>
               <FormattedMessage
-                id='scenes.settings.preferences.walletlanguage.success.title'
+                id='scenes.settings.prefer ences.walletlanguage.success.title'
                 defaultMessage='Wallet Language'
               />
             </Text>
-            <Icon color='white800' label='IconBack' size='md'>
+            <Icon color='grey700' label='IconBack' size='md'>
               <IconChevronRightV2 />
             </Icon>
           </Flex>

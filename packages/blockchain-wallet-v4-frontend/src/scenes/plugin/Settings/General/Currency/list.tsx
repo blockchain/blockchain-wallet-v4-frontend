@@ -14,7 +14,7 @@ export const CurrenciesList = styled.ul`
   padding-left: 0;
   list-style: none;
   overflow-y: scroll;
-  height: 320px;
+  height: 350px;
 `
 
 export const CurrencySelectButton = styled.button`

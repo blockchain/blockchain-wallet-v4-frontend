@@ -54,7 +54,7 @@ const Settings = (props) => {
       <Flex justifyContent={`#${path}` !== window.location.hash ? 'space-between' : 'flex-end'}>
         {`#${path}` !== window.location.hash ? (
           <Link to={path} onClick={goBack}>
-            <Icon color='white600' label='IconBack' size='md'>
+            <Icon color='grey700' label='IconBack' size='md'>
               <IconArrowLeft />
             </Icon>
           </Link>
@@ -62,7 +62,7 @@ const Settings = (props) => {
           <></>
         )}
         <Link to='/extension/home'>
-          <Icon color='white600' label='IconClose' size='md'>
+          <Icon color='grey700' label='IconClose' size='md'>
             <IconClose />
           </Icon>
         </Link>
@@ -74,7 +74,7 @@ const Settings = (props) => {
           <Route component={Networks} path={`${path}/networks`} />
           <Route component={Connected} path={`${path}/connected-dapps`} />
           <Route component={General} path={`${path}/general`} />
-          <Route component={Info} path={`${path}/info`} />
+          <Route component={Info} path={`${path}/about`} />
         </Switch>
       </SettingsContainer>
     </SettingsContainer>
