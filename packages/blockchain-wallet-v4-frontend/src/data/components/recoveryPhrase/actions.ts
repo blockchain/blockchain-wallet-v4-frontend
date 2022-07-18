@@ -8,6 +8,8 @@ export const setStep = (
     | 'SECOND_SET_WORDS'
     | 'CONFIRM_WORDS'
     | 'CONFIRM_WORDS_SUCCESS'
+    | 'CONFIRM_WORDS_SHORTCUT'
+    | 'CONFIRM_WORDS_PIN'
 ): RecoveryPhraseActionTypes => ({
   payload: {
     step

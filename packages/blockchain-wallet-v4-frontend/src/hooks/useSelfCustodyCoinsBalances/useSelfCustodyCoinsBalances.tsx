@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import { getBalanceSelector } from 'components/Balances/selectors'
+import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { CoinDataItem } from '.'
@@ -18,7 +18,7 @@ export const useSelfCustodyCoinsBalances = () => {
 
       // TODO: Check active wallet
       Object.entries(window.coins).forEach(([coin, { coinfig }]: any) => {
-        const balance = getBalanceSelector(coin)(state).getOrElse(0)
+        const balance = selectors.balances.getCoinTotalBalance(coin)(state).getOrElse(0)
         if (
           (allowedChains.includes(coinfig.symbol) ||
             allowedChains.includes(coinfig.type.parentChain)) &&

@@ -5,7 +5,6 @@ import { IconArrowUpRight, IconDownload } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { IconButton, SkeletonRectangle, Text, TooltipIcon } from 'blockchain-info-components'
-import { getTotalBalance } from 'components/Balances/total/selectors'
 import { Flex } from 'components/Flex'
 import { selectors } from 'data'
 
@@ -97,7 +96,7 @@ const Header = (props: any) => {
 }
 
 const mapStateToProps = (state) => ({
-  data: getTotalBalance(state),
+  data: selectors.balances.getTotalWalletBalance(state),
   userCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
   walletAddress: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
 })
