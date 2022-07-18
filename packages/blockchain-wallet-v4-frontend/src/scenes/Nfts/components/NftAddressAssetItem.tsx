@@ -164,7 +164,7 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
           </LinkContainer>
         </Flex>
         <PriceCTA>
-          <LinkContainer to={`/nfts/assets/${asset.contract?.address}/${asset.tokenId}`}>
+          <LinkContainer to={`/nfts/assets/${asset.contract?.identifier}/${asset.tokenId}`}>
             <NotForSale style={{ marginBottom: '1em' }}>
               <Text weight={500} color='white'>
                 <FormattedMessage id='copy.view_details' defaultMessage='See Details' />
@@ -188,7 +188,7 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
               }
             : { display: 'flex', height: '100%', position: 'relative' }
         }
-        to={`/nfts/assets/${asset.contract?.address}/${asset.tokenId}`}
+        to={`/nfts/assets/${asset.contract?.identifier}/${asset.tokenId}`}
       >
         <Link>
           <HoverBackground
