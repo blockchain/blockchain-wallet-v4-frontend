@@ -9,10 +9,20 @@
     "default_title": "Open plugin"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["contentScript.js"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
   "permissions": [
-    "storage"
+    "storage",
+    "tabs"
   ],
   "icons": {
     "16": "/img/favicons/favicon-16x16.png"
@@ -22,6 +32,12 @@
   },
   "host_permissions": [
     "*://*/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["inpage.js"],
+      "matches": ["*://*/*"]
+    }
   ],
   "key": "oglcnddafdppkfghbjgfbgmmmdompgmp"
 }

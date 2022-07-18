@@ -213,11 +213,6 @@ const App = ({
 
                           {/* Plugin routes */}
                           <PluginLayout
-                            path='/plugin/coinslist'
-                            footer={<HomeNavbar />}
-                            component={CoinsList}
-                          />
-                          <PluginLayout
                             path='/plugin/backup-seed-phrase'
                             component={BackupSeedPhrase}
                           />

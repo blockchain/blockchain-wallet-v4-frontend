@@ -10,10 +10,24 @@ const CONFIG_PATH = require('../../config/paths')
 
 const { webpackConfig } = webpackBuilder({})
 
+const pluginRelatedFiles = [
+  'background',
+  'contentScript',
+  'inpage',
+]
+
 // evolve base config for plugin mode and HMR
 const pluginWebpackConfig = evolve(
   {
     devtool: () => 'inline-source-map',
+    entry: () => {
+      return {
+        app: `${CONFIG_PATH.src}/index.js`,
+        background: `${CONFIG_PATH.src}/plugin/internal/background.ts`,
+        contentScript: `${CONFIG_PATH.src}/plugin/internal/contentScript.ts`,
+        inpage: `${CONFIG_PATH.src}/plugin/internal/inpage.ts`,
+      }
+    },
     module: {
       rules: compose(
         // edits babel-loader config
@@ -24,18 +38,16 @@ const pluginWebpackConfig = evolve(
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         template: CONFIG_PATH.src + '/plugin/index.html',
+        chunks : ['app'],
         filename: 'index.html'
       }),
       new HtmlWebpackPlugin({
         template: CONFIG_PATH.src + '/plugin/index-tab.html',
+        chunks : ['app'],
         filename: 'index-tab.html'
       }),
       new CopyWebpackPlugin({
         patterns: [
-          {
-            force: true,
-            from: CONFIG_PATH.src + '/plugin/background.js',
-          },
           {
             force: true,
             from: CONFIG_PATH.src + '/plugin/manifest.json',
@@ -66,7 +78,9 @@ const pluginWebpackConfig = evolve(
       }),
     ],
     output: {
-      filename: () => 'app/[name].[fullhash:8].js',
+      filename: () => (pathData) => {
+        return pluginRelatedFiles.includes(pathData.chunk.name) ? '[name].js' : 'app/[name].[fullhash:8].js';
+      },
       chunkFilename: () => 'app/[chunkhash:8].js',
       path: () => CONFIG_PATH.appBuild
     },

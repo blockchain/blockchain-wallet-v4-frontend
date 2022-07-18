@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import { IconCheckCircle } from '@blockchain-com/icons'
+import { addConnection, TabMetadata } from 'plugin/internal'
 import styled, { keyframes } from 'styled-components'
-
-import { ConnectStep } from '.'
 
 const showingFrames = keyframes`
   from { opacity: 0; transform: scale(0.1) }
@@ -14,12 +13,21 @@ const ConnectedIcon = styled(IconCheckCircle)`
   color: ${(props) => props.theme.white};
 `
 export const Connected: React.FC<{
-  setConnectStep: React.Dispatch<React.SetStateAction<ConnectStep>>
-}> = ({ setConnectStep }) => {
+  metadata: TabMetadata
+}> = ({ metadata }) => {
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setConnectStep(ConnectStep.InitialScreen)
-      window.location.replace('/#/plugin/coinslist')
+    const timeout = setTimeout(async () => {
+      try {
+        await addConnection(metadata.origin)
+        await chrome.runtime.sendMessage({
+          data: 'random address',
+          type: 'approved'
+        })
+        window.close()
+      } catch (e) {
+        // eslint-disable-next-line
+        console.log(e)
+      }
     }, 2000)
     return () => {
       clearTimeout(timeout)
