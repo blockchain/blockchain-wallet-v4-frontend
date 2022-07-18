@@ -38,7 +38,7 @@ const ErrorText = styled(Text)`
   margin-left: 0.5rem;
 `
 
-const Failure = (props: FailurePropsType) => {
+const Failure = (props: Props) => {
   let text = <FormattedMessage id='buttons.close' defaultMessage='Close' />
   switch (props.action) {
     case 'retry':
@@ -92,7 +92,7 @@ const Failure = (props: FailurePropsType) => {
   )
 }
 
-type FailurePropsType = {
+type Props = {
   action: 'retry' | 'close'
   'data-e2e': string
   errorMessage?: string | PartialClientErrorProperties

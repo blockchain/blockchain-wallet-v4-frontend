@@ -1,3 +1,4 @@
+import { OrderWithCounter } from '@opensea/seaport-js/lib/types'
 import BigNumber from 'bignumber.js'
 import { NftFilterFormValuesType } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/NftFilter'
 import { addMinutes, addSeconds, getUnixTime } from 'date-fns'
@@ -7,7 +8,12 @@ import { all, call, put, select } from 'redux-saga/effects'
 import { Exchange, Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
+import {
+  GasCalculationOperations,
+  GasDataI,
+  NftAsset,
+  NftTemplateParams
+} from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
   cancelNftOrder,
@@ -32,6 +38,7 @@ import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, selectors } from 'data'
+import { ClientErrorProperties } from 'data/analytics/types/errors'
 import { ModalName } from 'data/modals/types'
 import { Analytics } from 'data/types'
 import { AssetSortFields } from 'generated/graphql.types'
@@ -50,12 +57,41 @@ const INSUFFICIENT_FUNDS = 'insufficient funds'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; networks }) => {
   const IS_TESTNET = api.ethProvider.network?.name === 'rinkeby'
+  const baseWalletUrl = IS_TESTNET
+    ? 'https://login-dev.blockchain.com'
+    : 'https://login.blockchain.com'
 
   const { generateRetailToken } = profileSagas({
     api,
     coreSagas,
     networks
   })
+
+  const notifyNftPurchase = function* (amount: number, value: number, address, asset: NftAsset) {
+    try {
+      const jwt = yield call(generateRetailToken)
+      yield call(api.notifyNftPurchase, jwt, {
+        amount: `${amount.toFixed(8)} ETH`,
+        nft_activity_link: `${baseWalletUrl}/nfts/address/${address}`,
+        nft_bidder: address || null,
+        nft_image: asset.image_preview_url,
+        nft_marketplace_link: `${baseWalletUrl}/nfts/assets/${asset.asset_contract.address}${asset.token_id}`,
+        nft_name: `${asset.collection.name} ${asset.name || `#${asset.token_id}`}`,
+        value: `${value.toFixed(2)} USD`
+      })
+    } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.CLIENT_ERROR,
+          properties: {
+            action: 'notifyNftPurchase',
+            error: e,
+            title: 'Nft Notification Post Failed'
+          } as ClientErrorProperties
+        })
+      )
+    }
+  }
 
   const fetchOpenSeaAsset = function* (action: ReturnType<typeof A.fetchOpenSeaAsset>) {
     try {
@@ -400,7 +436,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       }
 
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER))
-      const seaportOrder = yield call(createBuyOrder, {
+      const seaportOrder: OrderWithCounter = yield call(createBuyOrder, {
         accountAddress: signer.address,
         execute: true,
         expirationTime,
@@ -413,6 +449,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         startAmount: amount || '0'
       })
       yield call(api.postNftOrderV2, { guid, network, order: seaportOrder, side: 'bid' })
+      yield call(notifyNftPurchase, amount, amount_usd, signer.address, asset)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
       yield put(
         actions.analytics.trackEvent({
@@ -1387,9 +1424,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     try {
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER))
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
-      const { buy, gasData, sell } = action.payload
+      const { asset, buy, gasData, sell } = action.payload
       const signer = yield call(getEthSigner)
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
+      yield call(notifyNftPurchase, amount, amount_usd, signer.address, asset)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER_SUCCESS))
 
       yield put(

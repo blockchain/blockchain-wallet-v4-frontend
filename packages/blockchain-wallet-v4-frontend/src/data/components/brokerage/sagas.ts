@@ -33,6 +33,7 @@ import { actions as A } from './slice'
 import { OBType } from './types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
+const EXPECTED_MODAL_NAMES = [undefined, 'KYC_MODAL']
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { isTier2 } = profileSagas({
@@ -237,13 +238,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     // Wait for KYC flow to end
-    const result = yield take([
-      actions.modals.closeModal.type,
+    const { type } = yield take([
+      actions.components.identityVerification.kycModalClosed.type,
       actions.components.identityVerification.setAllContextQuestionsAnswered.type
     ])
 
-    // If KYC was closed without answering, close
-    if (result.type === actions.modals.closeModal.type) return
+    // If KYC was closed before answering, return
+    if (type === actions.components.identityVerification.kycModalClosed.type) return
 
     yield put(
       actions.components.brokerage.showModal({
@@ -319,13 +320,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     // Wait for KYC flow to end
-    const result = yield take([
-      actions.modals.closeModal.type,
+    const { type } = yield take([
+      actions.components.identityVerification.kycModalClosed.type,
       actions.components.identityVerification.setAllContextQuestionsAnswered.type
     ])
 
-    // If KYC was closed without answering, close
-    if (result.type === actions.modals.closeModal.type) return
+    // If KYC was closed before answering, return
+    if (type === actions.components.identityVerification.kycModalClosed.type) return
 
     yield put(actions.form.destroy('brokerageTx'))
     yield put(actions.components.withdraw.showModal({ fiatCurrency: payload }))

@@ -88,15 +88,7 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
         <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
           <FormattedMessage id='copy.from' defaultMessage='From' />
         </Text>
-        <Value>
-          <FormattedMessage
-            id='modals.brokerage.fiat_account'
-            defaultMessage='{currency} Account'
-            values={{
-              currency: window.coins[props.fiatCurrency]?.coinfig.name ?? props.fiatCurrency
-            }}
-          />
-        </Value>
+        <Value>{window.coins[props.fiatCurrency]?.coinfig.name ?? props.fiatCurrency}</Value>
       </Row>
       <Row>
         <Text color='grey600' size='14px' weight={500} lineHeight='21px'>

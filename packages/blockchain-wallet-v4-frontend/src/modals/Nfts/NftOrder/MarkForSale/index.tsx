@@ -349,7 +349,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                 <NftFlyoutRow>
                   <Title>
                     <b>
-                      <FormattedMessage id='copy.starting_price' defaultMessage='Method' />
+                      <FormattedMessage id='buttons.method' defaultMessage='Method' />
                     </b>
                   </Title>
                   <Value>

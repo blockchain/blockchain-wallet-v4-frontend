@@ -319,7 +319,7 @@ const NftFilter: React.FC<Props> = ({
                   }}
                 >
                   <Text size='16px' weight={500} color='black'>
-                    <FormattedMessage id='copy.collections' defaultMessage='Collection' />
+                    <FormattedMessage id='copy.collection' defaultMessage='Collection' />
                   </Text>
                   <Icon label='control' color='grey400'>
                     {collectionOpen ? <IconChevronUp /> : <IconChevronDown />}

@@ -63,7 +63,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       <Text size='14px' color='grey600' weight={500}>
                         <FormattedMessage
                           id='scenes.settings.linked_banks.daily_limit'
-                          defaultMessage='{amount} Daily Limit'
+                          defaultMessage='{amount} Limit'
                           values={{
                             amount: fiatToString({
                               unit: (beneficiary.currency || 'EUR') as WalletFiatType,

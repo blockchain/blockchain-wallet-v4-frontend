@@ -12,10 +12,6 @@ export default ({ api, coreSagas }) => {
       actions.initializeVerification.type,
       identityVerificationSagas.initializeVerification
     )
-    yield takeLatest(actions.updateSmsStep.type, identityVerificationSagas.updateSmsStep)
-    yield takeLatest(actions.updateSmsNumber.type, identityVerificationSagas.updateSmsNumber)
-    yield takeLatest(actions.verifySmsNumber.type, identityVerificationSagas.verifySmsNumber)
-    yield takeLatest(actions.resendSmsCode.type, identityVerificationSagas.resendSmsCode)
     yield takeLatest(
       actions.fetchSupportedCountries.type,
       identityVerificationSagas.fetchSupportedCountries

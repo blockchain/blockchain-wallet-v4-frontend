@@ -176,7 +176,7 @@ const NftSettings: React.FC<Props> = ({
             </Text>
             <Text size='12px' weight={500}>
               <FormattedMessage
-                id='copy.get_notified_for_items_i_own'
+                id='copy.get_notified_for_items_i_interact'
                 defaultMessage='Get notified for items that I interact with'
               />
             </Text>
