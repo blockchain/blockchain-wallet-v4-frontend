@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { AbstractPlugin } from 'plugin/internal'
 import { bindActionCreators } from 'redux'
 
 import { Remote } from '@core'
@@ -12,6 +13,8 @@ import ProductPicker from './template'
 import Error from './template.error'
 import ExchangeUserConflict from './template.error.exchange'
 import ExchangeMobileUserConflict from './template.error.exchangeMobile'
+
+const { isPlugin } = AbstractPlugin
 
 const ProductPickerContainer: React.FC<Props> = (props) => {
   const [showExchangeUserConflict, setExchangeUserConflict] = useState(false)
@@ -54,16 +57,22 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
       props.routerActions.push('/login?product=exchange')
       return null
     },
-    Success: () =>
-      showExchangeUserConflict ? (
-        <ExchangeUserConflict {...props} walletRedirect={walletRedirect} />
-      ) : (
+    Success: () => {
+      if (isPlugin()) {
+        props.routerActions.push('/plugin/coinslist')
+        return null
+      }
+      if (showExchangeUserConflict) {
+        return <ExchangeUserConflict {...props} walletRedirect={walletRedirect} />
+      }
+      return (
         <ProductPicker
           {...props}
           walletRedirect={walletRedirect}
           exchangeRedirect={exchangeRedirect}
         />
       )
+    }
   })
 }
 const mapStateToProps = (state) => ({
