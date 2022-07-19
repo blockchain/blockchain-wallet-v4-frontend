@@ -125,6 +125,18 @@ export enum BSCardStateEnum {
   PENDING = 'PENDING'
 }
 
+export type BSCardSuccessRateType = {
+  details?: {
+    actions: {
+      title: string
+      url: string
+    }[]
+    message: string
+    title: string
+  }
+  isBlocked: boolean
+}
+
 // State
 export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
@@ -135,6 +147,7 @@ export type BuySellState = {
   buyQuote: RemoteDataType<PartialClientErrorProperties, BuyQuoteStateType>
   card: RemoteDataType<string, BSCardType>
   cardId?: string
+  cardSuccessRate?: BSCardSuccessRateType
   cards: RemoteDataType<PartialClientErrorProperties, Array<BSCardType>>
   checkoutDotComAccountCodes?: Array<string>
   checkoutDotComApiKey?: string

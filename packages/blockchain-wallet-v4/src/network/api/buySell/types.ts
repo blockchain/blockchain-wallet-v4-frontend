@@ -458,3 +458,17 @@ export type GooglePayInfoType = {
   googlePayParameters: string
   merchantBankCountry: string
 }
+
+export type CardSuccessRateResponse = {
+  block: boolean
+  ux?: {
+    actions: {
+      title: string
+      type: string
+      url: string
+    }[]
+    categories: string[]
+    message: string
+    title: string
+  }
+}
