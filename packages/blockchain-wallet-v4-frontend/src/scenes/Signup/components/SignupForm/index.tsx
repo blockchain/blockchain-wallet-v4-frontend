@@ -193,7 +193,7 @@ const SignupForm = (props: Props) => {
                 />{' '}
               </PasswordRequirementText>
               <PasswordRequirementText isValid>
-                <FormattedMessage id='scenes.register.password.part7' defaultMessage='long' />.
+                <FormattedMessage id='copy.long' defaultMessage='long' />.
               </PasswordRequirementText>
             </TextGroup>
           </div>

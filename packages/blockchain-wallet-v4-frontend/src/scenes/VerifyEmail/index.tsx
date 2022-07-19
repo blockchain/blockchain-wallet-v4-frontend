@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { Remote } from '@core'
 import { actions, selectors } from 'data'
+import { ProductSignupMetadata, SignupRedirectTypes } from 'data/types'
 
 import VerifyEmail from './template'
 
@@ -19,8 +20,10 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   // We don't want to direct the user to /select-product
   // rather take them straight to home screen of the wallet
   static getDerivedStateFromProps(nextProps) {
-    if (nextProps.isEmailVerified) {
-      if (nextProps.createExchangeUserFlag) {
+    const { createExchangeUserFlag, isEmailVerified, signupMetadata } = nextProps
+    const { signupRedirect } = signupMetadata
+    if (isEmailVerified) {
+      if (createExchangeUserFlag && signupRedirect !== SignupRedirectTypes.WALLET_HOME) {
         nextProps.routerActions.push('/select-product')
       } else {
         nextProps.routerActions.push('/home')
@@ -68,7 +71,8 @@ const mapStateToProps = (state) => ({
     .getOrElse(false),
   email: selectors.signup.getRegisterEmail(state) as string,
   isEmailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(false),
-  isMetadataRecoveryR: selectors.signup.getMetadataRestore(state)
+  isMetadataRecoveryR: selectors.signup.getMetadataRestore(state),
+  signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata
 })
 
 const mapDispatchToProps = (dispatch) => ({

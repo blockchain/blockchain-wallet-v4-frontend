@@ -36,10 +36,10 @@ const Row = styled.div`
 `
 
 const TransferEth = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { ethAddr, ethBalance, handleSubmit, legacyEthAddr, txFee } = props
+  const { ethAddr, ethBalance, handleSubmit, legacyEthAddr, position, total, txFee } = props
 
   return (
-    <Modal size='medium'>
+    <Modal size='medium' position={position} total={total}>
       <ModalHeader closeButton={false}>
         <FormattedMessage
           id='modals.transfereth.title1'
@@ -125,6 +125,8 @@ type Props = {
   ethAddr: string
   ethBalance: string
   legacyEthAddr: string
+  position: number
+  total: number
   txFee: string
 }
 

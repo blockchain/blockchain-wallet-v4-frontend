@@ -130,8 +130,8 @@ class ResetWallet2fa extends React.PureComponent<InjectedFormProps<{}, Props> & 
               <TextGroup>
                 <Text size='13px' weight={400}>
                   <FormattedMessage
-                    id='scenes.reset2fa.firststep.explain'
-                    defaultMessage='Fill out the form below to regain access to your Blockchain.com Account by resetting your 2FA, restricted IP, and verified email.'
+                    id='scenes.reset2fa.firststep.explanation'
+                    defaultMessage='Fill out the form below to regain access to your Blockchain.com Account by resetting your 2FA or restricted IP.'
                   />
                 </Text>
                 <Text size='13px' weight={400}>
@@ -192,34 +192,13 @@ class ResetWallet2fa extends React.PureComponent<InjectedFormProps<{}, Props> & 
                     />
                     <Text size='12px' weight={400}>
                       <FormattedMessage
-                        id='scenes.reset2fa.firststep.firststepform.emailexplain'
-                        defaultMessage="Enter the email associated with your wallet (even if you've lost access to it)."
+                        id='scenes.reset2fa.firststep.firststepform.emailexplanation'
+                        defaultMessage='Enter the email associated with your wallet.'
                       />
                     </Text>
                   </FormItem>
                 </FormGroup>
-                <FormGroup>
-                  <FormItem>
-                    <FormLabel htmlFor='newEmail'>
-                      <FormattedMessage
-                        id='scenes.reset2fa.firststep.newEmail'
-                        defaultMessage='New Email (Optional)'
-                      />
-                    </FormLabel>
-                    <Field
-                      bgColor='grey000'
-                      name='newEmail'
-                      validate={[validNullableEmail]}
-                      component={TextBox}
-                    />
-                    <InfoMsg size='12px' weight={400}>
-                      <FormattedMessage
-                        id='scenes.reset2fa.firststep.newEmailExplain'
-                        defaultMessage="Enter your updated email if you've lost access to your previously verified email. If your 2FA reset request is approved, this will automatically be set as your wallet's new email address."
-                      />
-                    </InfoMsg>
-                  </FormItem>
-                </FormGroup>
+
                 <Footer>
                   <Button
                     data-e2e='2faResetContinue'

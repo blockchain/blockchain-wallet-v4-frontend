@@ -7,7 +7,8 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSTransactionStateEnum,
-  BSTransactionType
+  BSTransactionType,
+  ExtraKYCContext
 } from '@core/types'
 import { errorCodeAndMessage, errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
@@ -32,6 +33,7 @@ import { actions as A } from './slice'
 import { OBType } from './types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
+const EXPECTED_MODAL_NAMES = [undefined, 'KYC_MODAL']
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { isTier2 } = profileSagas({
@@ -221,14 +223,28 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const handleDepositFiatClick = function* ({
     payload
   }: ReturnType<typeof A.handleDepositFiatClick>) {
+    const isUserTier2 = yield call(isTier2)
     // Verify identity before deposit if TIER 2
     yield put(
       actions.components.identityVerification.verifyIdentity({
+        context: ExtraKYCContext.FIAT_DEPOSIT,
         needMoreInfo: false,
         origin: 'BuySell',
         tier: 1
       })
     )
+    if (!isUserTier2) {
+      return
+    }
+
+    // Wait for KYC flow to end
+    const { type } = yield take([
+      actions.components.identityVerification.kycModalClosed.type,
+      actions.components.identityVerification.setAllContextQuestionsAnswered.type
+    ])
+
+    // If KYC was closed before answering, return
+    if (type === actions.components.identityVerification.kycModalClosed.type) return
 
     yield put(
       actions.components.brokerage.showModal({
@@ -288,6 +304,30 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
+    const isUserTier2 = yield call(isTier2)
+
+    // Verify identity before deposit if TIER 2
+    yield put(
+      actions.components.identityVerification.verifyIdentity({
+        context: ExtraKYCContext.FIAT_WITHDRAW,
+        needMoreInfo: false,
+        origin: 'Withdraw',
+        tier: 1
+      })
+    )
+    if (!isUserTier2) {
+      return
+    }
+
+    // Wait for KYC flow to end
+    const { type } = yield take([
+      actions.components.identityVerification.kycModalClosed.type,
+      actions.components.identityVerification.setAllContextQuestionsAnswered.type
+    ])
+
+    // If KYC was closed before answering, return
+    if (type === actions.components.identityVerification.kycModalClosed.type) return
+
     yield put(actions.form.destroy('brokerageTx'))
     yield put(actions.components.withdraw.showModal({ fiatCurrency: payload }))
 

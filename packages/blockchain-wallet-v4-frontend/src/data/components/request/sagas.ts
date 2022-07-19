@@ -42,7 +42,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             account.coin
           )
           address = custodial.address
-          if (window.coins[account.coin].coinfig.type.isMemoBased) {
+          if (window.coins[account.coin].coinfig.type.isMemoBased && address.split(':')[1]) {
             // eslint-disable-next-line prefer-destructuring
             extras.Memo = address.split(':')[1]
             // eslint-disable-next-line prefer-destructuring

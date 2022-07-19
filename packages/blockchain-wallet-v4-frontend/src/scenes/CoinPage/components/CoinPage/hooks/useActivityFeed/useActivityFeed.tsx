@@ -42,7 +42,7 @@ const useActivityFeed: ActivityFeedHook = ({ coin }) => {
 
     if (filteredTransactions.length === 0) {
       return (
-        <Card>
+        <Card borderWidth={1} borderRadius='md'>
           <Padding all={32}>
             <EmptyResults />
           </Padding>
@@ -51,7 +51,7 @@ const useActivityFeed: ActivityFeedHook = ({ coin }) => {
     }
 
     return (
-      <Card>
+      <Card borderWidth={1} borderRadius='md'>
         <Flex flexDirection='column'>
           {filteredTransactions?.map((transaction) => (
             <TransactionListItem

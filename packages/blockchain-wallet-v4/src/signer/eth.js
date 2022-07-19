@@ -95,7 +95,7 @@ export const signLegacy = curry((network = 1, seedHex, data) => {
   }
 
   const tx = new EthereumTx(txParams)
-  tx.sign(privateKey)
+  tx.sign(Buffer.from(privateKey.substr(2), 'hex'))
   const rawTx = `0x${tx.serialize().toString('hex')}`
   return Task.of(rawTx)
 })

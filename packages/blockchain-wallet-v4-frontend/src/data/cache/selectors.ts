@@ -26,6 +26,8 @@ export const getLastLogoutTimestamp = (state): boolean | undefined =>
   path(['cache', 'lastLogoutTimestamp'], state)
 export const getUnifiedAccountStatus = (state): boolean | undefined =>
   path(['cache', 'unifiedAccount'], state)
+export const getLastUnusedAmounts = (state): boolean | undefined =>
+  path(['cache', 'lastUnusedAmounts'], state)
 
 export const getChannelPrivKeyForQrData = (state) => {
   const channelPrivKey = getChannelPrivKey(state)

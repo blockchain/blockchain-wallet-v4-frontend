@@ -237,6 +237,14 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const setUserCurrentCurrency = (currency) =>
+    authorizedPut({
+      contentType: 'application/json',
+      data: { fiatTradingCurrency: currency },
+      endPoint: '/users/current/currency',
+      url: nabuUrl
+    })
+
   const getUserTermsAndConditions = (): TermsAndConditionType =>
     authorizedGet({
       endPoint: '/user/terms-and-conditions',
@@ -295,6 +303,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     registerUserCampaign,
     resetUserAccount,
     resetUserKyc,
+    setUserCurrentCurrency,
     setUserInitialAddress,
     shareWalletDepositAddresses,
     signUserTermsAndConditionsLast,

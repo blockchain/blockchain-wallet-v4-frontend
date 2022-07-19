@@ -29,6 +29,7 @@ const Success: React.FC<Props> = (props) => {
           onClick={props.handleBack}
         />
         <Iframe
+          sandbox='allow-forms allow-scripts allow-same-origin'
           src={`${props.domains.walletHelper}/wallet-helper/everypay/#/paymentLink/${props.paymentLink}`}
         />
       </>

@@ -10,17 +10,12 @@ import * as C from 'services/alerts'
 
 import profileSagas from '../../modules/profile/sagas'
 import {
-  BAD_CODE_ERROR,
   EMAIL_STEPS,
   FLOW_TYPES,
   ID_VERIFICATION_SUBMITTED_FORM,
   INFO_AND_RESIDENTIAL_FORM,
   KYC_EXTRA_QUESTIONS_FORM,
-  PERSONAL_FORM,
-  PHONE_EXISTS_ERROR,
-  SMS_NUMBER_FORM,
-  SMS_STEPS,
-  UPDATE_FAILURE
+  PERSONAL_FORM
 } from './model'
 import * as S from './selectors'
 import computeSteps from './services'
@@ -119,7 +114,7 @@ export default ({ api, coreSagas, networks }) => {
     yield call(fetchUser)
   }
 
-  const defineSteps = function* (tier, needMoreInfo, origin) {
+  const defineSteps = function* (tier, needMoreInfo, context) {
     yield put(A.setStepsLoading())
     try {
       yield call(createUser)
@@ -170,12 +165,10 @@ export default ({ api, coreSagas, networks }) => {
 
     let addExtraStep = false
     // check extra KYC fields
-    const context =
-      origin === 'BuySell' && tiers.current === TIERS[2]
-        ? ExtraKYCContext.FIAT_DEPOSIT
-        : ExtraKYCContext.TIER_TWO_VERIFICATION
+    const contextPayload =
+      tiers.current === TIERS[2] ? context : ExtraKYCContext.TIER_TWO_VERIFICATION
 
-    yield put(actions.components.identityVerification.fetchExtraKYC(context))
+    yield put(actions.components.identityVerification.fetchExtraKYC(contextPayload))
     yield take([A.fetchExtraKYCSuccess.type, A.fetchExtraKYCFailure.type])
     const kycExtraSteps = selectors.components.identityVerification
       .getKYCExtraSteps(yield select())
@@ -209,12 +202,17 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const initializeVerification = function* ({ payload }) {
-    const { tier = TIERS[2], needMoreInfo = false, origin = 'Unknown' } = payload
+    const {
+      tier = TIERS[2],
+      needMoreInfo = false,
+      context = ExtraKYCContext.TIER_TWO_VERIFICATION
+    } = payload
     yield put(A.setEmailStep(STEPS.edit as EmailSmsStepType))
-    yield call(defineSteps, tier, needMoreInfo, origin)
+    yield call(defineSteps, tier, needMoreInfo, context)
     const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
     if (!steps.length) {
       // if no steps to be shown, close modal
+      yield put(actions.components.identityVerification.setAllContextQuestionsAnswered())
       yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
     } else {
       yield call(initializeStep)
@@ -243,64 +241,8 @@ export default ({ api, coreSagas, networks }) => {
     if (step) return yield put(A.setVerificationStep(step))
 
     yield put(actions.modules.profile.fetchUser())
-
+    yield put(actions.components.identityVerification.setAllContextQuestionsAnswered())
     yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
-  }
-
-  const updateSmsStep = ({ smsNumber, smsVerified }) => {
-    if (smsNumber && !smsVerified) return SMS_STEPS.verify
-    return SMS_STEPS.edit
-  }
-
-  const updateSmsNumber = function* () {
-    try {
-      const { smsNumber } = yield select(selectors.form.getFormValues(SMS_NUMBER_FORM))
-      yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
-      yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
-      yield put(A.setSmsStep(STEPS.verify as EmailSmsStepType))
-      yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
-    } catch (e) {
-      yield put(
-        actions.form.stopSubmit(SMS_NUMBER_FORM, {
-          smsNumber: invalidNumberError
-        })
-      )
-    }
-  }
-
-  const verifySmsNumber = function* () {
-    try {
-      yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
-      const { code } = yield select(selectors.form.getFormValues(SMS_NUMBER_FORM))
-      yield call(coreSagas.settings.setMobileVerified, { code })
-      yield call(syncUserWithWallet)
-      yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
-      yield call(goToNextStep)
-    } catch (e) {
-      const description = prop('description', e)
-
-      let error
-      if (description === PHONE_EXISTS_ERROR) error = PHONE_EXISTS_ERROR
-      else if (e === BAD_CODE_ERROR) error = BAD_CODE_ERROR
-      else error = UPDATE_FAILURE
-      yield put(actions.form.stopSubmit(SMS_NUMBER_FORM, { _error: error }))
-    }
-  }
-
-  const resendSmsCode = function* () {
-    try {
-      yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
-      const smsNumber = (yield select(selectors.core.settings.getSmsNumber)).getOrFail()
-      yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
-      yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
-      yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
-    } catch (e) {
-      yield put(
-        actions.form.stopSubmit(SMS_NUMBER_FORM, {
-          code: failedResendError
-        })
-      )
-    }
   }
 
   const fetchSupportedCountries = function* ({ payload }) {
@@ -399,10 +341,11 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
       const prevEmail = (yield select(selectors.core.settings.getEmail)).getOrElse('')
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
       const { email } = payload
       if (prevEmail === email)
         yield call(coreSagas.settings.resendVerifyEmail, { email }, 'VERIFICATION')
-      else yield call(coreSagas.settings.setEmail, { email })
+      else yield call(coreSagas.settings.setEmail, email, nabuSessionToken)
       yield put(actions.form.stopAsyncValidation(PERSONAL_FORM))
       yield put(A.setEmailStep(EMAIL_STEPS.verify as EmailSmsStepType))
     } catch (e) {
@@ -428,7 +371,7 @@ export default ({ api, coreSagas, networks }) => {
         line1,
         line2,
         postCode,
-        state: state.code
+        state: state?.code ?? null
       }
 
       yield call(updateUser, { payload: { data: personalData } })
@@ -556,16 +499,12 @@ export default ({ api, coreSagas, networks }) => {
     initializeStep,
     initializeVerification,
     registerUserCampaign,
-    resendSmsCode,
     saveInfoAndResidentialData,
     saveKYCExtraQuestions,
     selectTier,
     sendDeepLink,
     sendEmailVerification,
     updateEmail,
-    updateSmsNumber,
-    updateSmsStep,
-    verifyIdentity,
-    verifySmsNumber
+    verifyIdentity
   }
 }

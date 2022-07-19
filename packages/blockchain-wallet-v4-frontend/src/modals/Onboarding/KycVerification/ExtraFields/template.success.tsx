@@ -13,10 +13,11 @@ import FormItem from 'components/Form/FormItem'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
+import { getFormattedMesasageComponent } from 'services/FormattedMessage/getFormattedMesasageComponent'
 import { required, validFormat } from 'services/forms'
 
 import { Props as OwnProps, SuccessStateType } from '.'
-import { getNodeQuestionElements } from './model'
+import { GetInputPlaceholder, GetNodeQuestionElements } from './model'
 
 const { KYC_EXTRA_QUESTIONS_FORM } = model.components.identityVerification
 
@@ -189,8 +190,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             child.checked = !child.checked
             isChanged = true
           }
-          // for dropdown options remove all other checked values
-          if (child.id !== childId && node.isDropdown && child.checked) {
+          // remove all other checked values
+          if (
+            child.id !== childId &&
+            child.checked &&
+            node.type !== NodeItemTypes.MULTIPLE_SELECTION
+          ) {
             child.checked = false
             isChanged = true
           }
@@ -208,9 +213,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const { blocking, context, nodes } = props.extraSteps
     const isChanged = false
 
-    nodes.map(
-      (node) =>
-        node.children &&
+    nodes.map((node) => {
+      if (node.children) {
         node.children.map(
           (child) =>
             child.children &&
@@ -221,7 +225,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               return item
             })
         )
-    )
+      }
+      if (node.id === itemId && node.input !== value) {
+        node.input = value
+      }
+      return node
+    })
 
     if (isChanged) {
       props.identityVerificationActions.updateExtraKYCQuestions({ blocking, context, nodes })
@@ -229,19 +238,23 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   }
 
   const renderCheckBoxBasedQuestion = (node: NodeType, updateItem) => {
+    const nodeTranslation = {
+      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
+      title: getFormattedMesasageComponent(node.id)
+    }
     return (
       <FormGroup>
-        <QuestionTitle>{node.text}</QuestionTitle>
+        <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
-        <QuestionDescription>{node.instructions}</QuestionDescription>
+        <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
 
         {node.children &&
           node.children.map((child) => {
             return (
-              <FormItem key={child.id}>
+              <FormItem key={`checkbox-${child.id}`}>
                 <CheckBoxContainer>
                   <CenterField>
-                    <CheckBoxText>{child.text}</CheckBoxText>
+                    <CheckBoxText>{getFormattedMesasageComponent(child.id)}</CheckBoxText>
                   </CenterField>
                   <CenterField>
                     <Field
@@ -262,7 +275,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   }
 
   const RenderDropDownBasedQuestion = (node: NodeType, updateItem) => {
-    const questionElements = useMemo(() => getNodeQuestionElements(node), [node])
+    const questionElements = GetNodeQuestionElements(node)
 
     const onChangeItem = (e, value) => {
       updateItem(node.id, value)
@@ -270,11 +283,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
     const formValue = props?.formValues ? props?.formValues[node.id] : null
 
+    const nodeTranslation = {
+      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
+      title: getFormattedMesasageComponent(node.id)
+    }
+
     return (
       <FormGroup>
-        <QuestionTitle>{node.text}</QuestionTitle>
+        <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
-        <QuestionDescription>{node.instructions}</QuestionDescription>
+        <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
 
         <FormItem>
           <Field
@@ -293,7 +311,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             (child) =>
               child.children &&
               formValue === child.id && (
-                <FormItem style={{ marginTop: '10px' }}>
+                <FormItem style={{ marginTop: '10px' }} key={`option-${child.id}`}>
                   {child.children.map((item) => (
                     <Field
                       key={item.id}
@@ -301,7 +319,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       errorBottom
                       validate={required}
                       component={TextBox}
-                      placeholder={item.text}
                       onChange={onChangeInput}
                     />
                   ))}
@@ -314,13 +331,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const RenderSingleSelectionQuestion = (node: NodeType, updateItem) => {
     const formValue = props?.formValues ? props?.formValues[node.id] : null
-
+    const nodeTranslation = {
+      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
+      title: getFormattedMesasageComponent(node.id)
+    }
     return (
       <>
         <FormGroup>
-          <QuestionTitle>{node.text}</QuestionTitle>
+          <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
-          <QuestionDescription>{node.instructions}</QuestionDescription>
+          <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
 
           <FormItem>
             {node.children &&
@@ -328,7 +348,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 return (
                   <CheckBoxContainer key={child.id}>
                     <CenterField>
-                      <CheckBoxText>{child.text}</CheckBoxText>
+                      <CheckBoxText>{getFormattedMesasageComponent(child.id)}</CheckBoxText>
                     </CenterField>
                     <CenterField>
                       <Field
@@ -351,24 +371,30 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             (child) =>
               child.children &&
               formValue === child.id && (
-                <FormGroup>
-                  {child.children.map((item, index) => (
-                    <FormItem key={item.id} style={{ marginTop: index > 0 ? '5px' : null }}>
-                      <Label htmlFor={item.id}>
-                        <Text weight={500} size='14px' color='grey900'>
-                          {item.text}
-                        </Text>
-                      </Label>
-                      <Field
-                        name={item.id}
-                        errorBottom
-                        validate={required}
-                        component={TextBox}
-                        placeholder={item.hint}
-                        onChange={onChangeInput}
-                      />
-                    </FormItem>
-                  ))}
+                <FormGroup key={`form-group-${child.id}`}>
+                  {child.children.map((item, index) => {
+                    return (
+                      <FormItem
+                        key={`form-item-${item.id}`}
+                        style={{ marginTop: index > 0 ? '5px' : null }}
+                      >
+                        <Label htmlFor={item.id}>
+                          <Text weight={500} size='14px' color='grey900'>
+                            {getFormattedMesasageComponent(item.id)}
+                          </Text>
+                        </Label>
+
+                        <Field
+                          name={item.id}
+                          errorBottom
+                          validate={required}
+                          component={TextBox}
+                          placeholder={GetInputPlaceholder(item)}
+                          onChange={onChangeInput}
+                        />
+                      </FormItem>
+                    )
+                  })}
                 </FormGroup>
               )
           )}
@@ -380,11 +406,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const validFormatCb = useCallback(validFormat(node.regex), [node.regex])
     const validations = [required, validFormatCb]
     const displayInstructions = node.instructions && !!node.instructions.length
+
+    const nodeTranslation = {
+      field: getFormattedMesasageComponent(`${node.id}hint`),
+      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
+      title: getFormattedMesasageComponent(node.id)
+    }
+
     return (
       <FormGroup>
-        <QuestionTitle>{node.text}</QuestionTitle>
+        <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
-        {displayInstructions && <QuestionDescription>{node.instructions}</QuestionDescription>}
+        {displayInstructions && (
+          <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
+        )}
 
         <FormItem key={node.id} style={{ marginBottom: '10px' }}>
           <Field
@@ -392,8 +427,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             errorBottom
             validate={validations}
             component={TextBox}
-            placeholder={node.hint}
+            placeholder={GetInputPlaceholder(node)}
             pattern={node.regex || ''}
+            onChange={onChangeInput}
           />
         </FormItem>
       </FormGroup>
@@ -401,6 +437,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   }
 
   const RenderHeader = (header) => {
+    const headerTrandlation = {
+      description: getFormattedMesasageComponent('header.description'),
+      title: getFormattedMesasageComponent('header.title')
+    }
+
     return (
       <TopHeader color='grey800' size='20px' weight={600}>
         <Icon
@@ -409,8 +450,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           color='blue600'
           style={{ marginBottom: '10px', marginRight: '4px' }}
         />
-        <TopHeaderTitle>{header.title}</TopHeaderTitle>
-        {header.description && <TopHeaderDescription>{header.description}</TopHeaderDescription>}
+        <TopHeaderTitle>{headerTrandlation.title}</TopHeaderTitle>
+        {header.description && (
+          <TopHeaderDescription>{headerTrandlation.description}</TopHeaderDescription>
+        )}
       </TopHeader>
     )
   }

@@ -7,10 +7,9 @@ import { BSBalanceType } from '@core/network/api/buySell/types'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { ExtractSuccess } from '@core/remote/types'
 import { createDeepEqualSelector } from '@core/utils'
+import { selectors } from 'data'
 import { generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType } from 'data/types'
-
-import { getTradingBalance } from '..'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
@@ -28,7 +27,7 @@ export const getAccounts = createDeepEqualSelector(
     coreSelectors.data.bch.getAddresses, // non-custodial xpub info
     coreSelectors.kvStore.bch.getAccounts, // non-custodial metadata info
     coreSelectors.common.bch.getActiveAddresses, // imported addresses
-    (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
+    (state, { coin }) => selectors.balances.getCoinTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
   (bchAccounts, bchDataR, bchMetadataR, importedAddressesR, sbBalanceR, ownProps) => {
@@ -57,7 +56,7 @@ export const getAccounts = createDeepEqualSelector(
               return {
                 accountIndex: prop('index', acc),
                 address: index,
-                archived: prop('archived', metadata),
+                archived: prop('archived', metadata) || false,
                 balance: prop('final_balance', data),
                 baseCoin: coin,
                 coin,
