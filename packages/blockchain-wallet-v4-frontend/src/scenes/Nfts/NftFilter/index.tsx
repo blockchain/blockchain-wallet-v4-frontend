@@ -30,11 +30,10 @@ import NftCollectionImageSmall from '../components/NftCollectionImageSmall'
 export const FILTER_WIDTH = '300'
 export const FILTER_WIDTH_CLOSED = '20'
 
-const Wrapper = styled.div<{ isFilterOpen: boolean }>`
-  top: calc(${FIXED_HEADER_HEIGHT}px);
-  padding-right: 24px;
-  padding-top: 20px;
+const Wrapper = styled.div<{ hasBanner: boolean; isFilterOpen: boolean }>`
+  top: ${(props) => (props.hasBanner ? `calc(151px)` : `calc(${FIXED_HEADER_HEIGHT}px)`)};
   position: sticky;
+  padding: 0 24px 0 0;
   transition: width 0.3s ease, min-width 0.3s ease;
   width: ${(props) => (props.isFilterOpen ? `${FILTER_WIDTH}px` : `${FILTER_WIDTH_CLOSED}px`)};
   min-width: ${(props) => (props.isFilterOpen ? `${FILTER_WIDTH}px` : `${FILTER_WIDTH_CLOSED}px`)};
@@ -50,8 +49,8 @@ const Wrapper = styled.div<{ isFilterOpen: boolean }>`
     z-index: 1000;
     height: 100vh;
     width: 100%;
-    position: fixed;
-    padding: 20px;
+    position: ${(props) => (props.hasBanner ? `sticky` : `initial`)};
+    padding: 0 20px;
     top: ${FIXED_HEADER_HEIGHT}px;
     bottom: 0;
     left: 0;
@@ -67,7 +66,7 @@ const FilterHeader = styled.div<{ isFilterOpen: boolean }>`
   display: flex;
   padding-bottom: 16px;
   border-bottom: ${(props) => (props.isFilterOpen ? `1px solid ${props.theme.grey000}` : '')};
-  margin-bottom: 24px;
+  margin: 24px 0;
 `
 const FilterHeaderText = styled(Text)<{ isFilterOpen: boolean }>`
   display: ${(props) => (props.isFilterOpen ? 'block' : 'none')};
@@ -108,12 +107,19 @@ const TraitItem = styled.div`
   }
 `
 
+const IconBorder = styled.div`
+  padding: 12px 16px;
+  border: 1px solid ${colors.grey100};
+  border-radius: 8px;
+`
+
 const NftFilter: React.FC<Props> = ({
   analyticsActions,
   collections,
   forSaleFilter,
   formActions,
   formValues,
+  hasBanner = false,
   isFilterOpen,
   minMaxPriceFilter,
   opensea_event_types,
@@ -124,7 +130,7 @@ const NftFilter: React.FC<Props> = ({
 }) => {
   const ref = useRef<HTMLDivElement | null>(null)
   const [activeTraits, setActiveTraits] = useState<string[]>([])
-
+  const [collectionOpen, setCollectionOpen] = useState(false)
   if (!traits) return null
 
   const organizedTraits = traits.reduce(
@@ -149,7 +155,7 @@ const NftFilter: React.FC<Props> = ({
   )
 
   return (
-    <Wrapper ref={ref} isFilterOpen={isFilterOpen}>
+    <Wrapper ref={ref} isFilterOpen={isFilterOpen} hasBanner={hasBanner}>
       <FilterHeader isFilterOpen={isFilterOpen}>
         <FilterHeaderText isFilterOpen={isFilterOpen} size='20px' weight={500} color='black'>
           <FormattedMessage defaultMessage='Filter' id='copy.filter' />
@@ -242,7 +248,9 @@ const NftFilter: React.FC<Props> = ({
               <div style={{ alignItems: 'center', display: 'flex', gap: '12px' }}>
                 <Field name='min' component={NumberBox} placeholder='Min' />
                 <Field name='max' component={NumberBox} placeholder='Max' />
-                <ComponentIcon size='18px' name='ETH' />
+                <IconBorder>
+                  <ComponentIcon size='24px' name='ETH' />
+                </IconBorder>
               </div>
             </div>
           ) : null}
@@ -305,12 +313,19 @@ const NftFilter: React.FC<Props> = ({
           {collections?.length ? (
             <div style={{ marginTop: '24px' }}>
               <TraitWrapper>
-                <TraitHeader>
+                <TraitHeader
+                  onClick={() => {
+                    setCollectionOpen(!collectionOpen)
+                  }}
+                >
                   <Text size='16px' weight={500} color='black'>
-                    <FormattedMessage id='copy.collections' defaultMessage='Collections' />
+                    <FormattedMessage id='copy.collections' defaultMessage='Collection' />
                   </Text>
+                  <Icon label='control' color='grey400'>
+                    {collectionOpen ? <IconChevronUp /> : <IconChevronDown />}
+                  </Icon>
                 </TraitHeader>
-                <TraitList isActive>
+                <TraitList isActive={collectionOpen}>
                   {collections.map((collection) => {
                     return (
                       <TraitItem key={collection.name}>
@@ -348,8 +363,16 @@ const NftFilter: React.FC<Props> = ({
                                   colors={AvatarGradientColors}
                                 />
                               )}
+
                               <Text
-                                style={{ marginLeft: '4px' }}
+                                style={{
+                                  marginLeft: '4px',
+                                  maxWidth: '160px',
+                                  overflow: 'hidden',
+                                  paddingLeft: '8px',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap'
+                                }}
                                 size='12px'
                                 weight={600}
                                 color='black'
@@ -502,6 +525,7 @@ type OwnProps = {
   forSaleFilter: boolean
   formActions: typeof actions.form
   formValues: NftFilterFormValuesType
+  hasBanner?: boolean
   isFilterOpen: boolean
   minMaxPriceFilter: boolean
   opensea_event_types?: string[]

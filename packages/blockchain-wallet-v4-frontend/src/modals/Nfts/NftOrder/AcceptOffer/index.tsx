@@ -17,7 +17,7 @@ import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import AcceptOfferCTA from './cta'
 import AcceptOfferFees from './fees'
-import { getData } from './selectors'
+import { getData_LEGACY } from './selectors'
 
 const AcceptOffer: React.FC<Props> = (props) => {
   const { close, openSeaAssetR, orderFlow } = props
@@ -51,21 +51,13 @@ const AcceptOffer: React.FC<Props> = (props) => {
                 <FormattedMessage id='copy.offer' defaultMessage='Offer' />
               </Text>
               <Flex flexDirection='column' alignItems='flex-end' gap={4}>
-                <CoinDisplay
-                  size='20px'
-                  color='black'
-                  weight={600}
-                  coin={orderFlow.orderToMatch?.payment_token_contract?.symbol}
-                >
-                  {orderFlow.orderToMatch?.current_price}
+                {/* TODO: SEAPORT */}
+                <CoinDisplay size='20px' color='black' weight={600} coin='WETH'>
+                  {orderFlow.seaportOrder?.current_price}
                 </CoinDisplay>
-                <FiatDisplay
-                  size='14px'
-                  color='grey600'
-                  weight={500}
-                  coin={orderFlow.orderToMatch?.payment_token_contract?.symbol}
-                >
-                  {orderFlow.orderToMatch?.current_price}
+                {/* TODO: SEAPORT */}
+                <FiatDisplay size='14px' color='grey600' weight={500} coin='WETH'>
+                  {orderFlow.seaportOrder?.current_price}
                 </FiatDisplay>
               </Flex>
             </Flex>
@@ -82,7 +74,7 @@ const AcceptOffer: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state)
+  data_LEGACY: getData_LEGACY(state)
 })
 
 const connector = connect(mapStateToProps)

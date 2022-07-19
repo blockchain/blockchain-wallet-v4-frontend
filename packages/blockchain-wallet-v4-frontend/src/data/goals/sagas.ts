@@ -13,8 +13,8 @@ import {
   WalletFiatType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions, model, selectors } from 'data'
-import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
+import { actions, actionTypes, model, selectors } from 'data'
+import { getBchBalance, getBtcBalance } from 'data/balances/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { ModalName } from 'data/modals/types'
@@ -182,6 +182,13 @@ export default ({ api, coreSagas, networks }) => {
     )
 
     if (amount && crypto && email && fiatCurrency) {
+      // because of react router 'isFirstRendering' check
+      // push to /signup won't be saved on state, app
+      // will reroute to /login, skipping buy goal
+
+      // waiting for the firstRender of app before pushing
+      // route to signup
+      yield take(actionTypes.router.LOCATION_CHANGE)
       yield put(actions.router.push('/signup'))
     }
   }
@@ -706,7 +713,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(
       actions.components.nfts.nftOrderFlowOpen({
         asset_contract_address: goal.data.contract_address,
-        order: goal.data.order,
+        seaportOrder: goal.data.order,
         step: NftOrderStepEnum.BUY,
         token_id: goal.data.token_id
       })

@@ -43,7 +43,7 @@ const QuoteRow = styled.div`
 `
 
 const AmountFieldInput: React.FC<Props> = ({
-  amtError,
+  amountError,
   coin,
   fiatCurrency,
   fix,
@@ -87,10 +87,10 @@ const AmountFieldInput: React.FC<Props> = ({
 
   return (
     <AmountContainer>
-      <AmountRow isError={!!amtError}>
+      <AmountRow isError={!!amountError}>
         <div id='amount-row'>
           {fix === 'FIAT' && (
-            <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
+            <Text size='56px' color={amountError ? 'red400' : 'textBlack'} weight={500}>
               {Currencies[fiatCurrency].units[fiatCurrency].symbol}
             </Text>
           )}
@@ -109,7 +109,7 @@ const AmountFieldInput: React.FC<Props> = ({
             placeholder='0'
             // leave fiatActive always to avoid 50% width in HOC?
             fiatActive
-            haveError={!!amtError}
+            haveError={!!amountError}
             {...{
               autoFocus: true,
               hideError: true
@@ -117,7 +117,7 @@ const AmountFieldInput: React.FC<Props> = ({
           />
 
           {fix === 'CRYPTO' && (
-            <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
+            <Text size='56px' color={amountError ? 'red400' : 'textBlack'} weight={500}>
               {coin}
             </Text>
           )}
@@ -139,7 +139,7 @@ const AmountFieldInput: React.FC<Props> = ({
         {showCounter ? (
           <>
             <Text
-              color={amtError ? 'red400' : 'grey600'}
+              color={amountError ? 'red400' : 'grey600'}
               size='14px'
               weight={500}
               data-e2e='sendQuoteAmount'
@@ -154,7 +154,7 @@ const AmountFieldInput: React.FC<Props> = ({
 }
 
 export type Props = {
-  amtError: string | boolean
+  amountError: string | boolean
   'data-e2e': string
   fiatCurrency: string
   fix: 'FIAT' | 'CRYPTO'
