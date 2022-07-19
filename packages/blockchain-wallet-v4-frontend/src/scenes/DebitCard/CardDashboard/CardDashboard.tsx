@@ -28,8 +28,11 @@ const CardDashboard = ({
   domains,
   last4,
   lockHandler,
-  modalActions
+  modalActions,
+  profileData
 }) => {
+  const fullName = `${profileData.firstName} ${profileData.lastName}`
+
   return (
     <DashboardWrapper>
       <ColumnWrapper>
@@ -37,7 +40,7 @@ const CardDashboard = ({
           <CardWrapper>
             <Iframe
               id='marqeta-card-iframe'
-              src={`${domains.walletHelper}/wallet-helper/marqeta-card/#/${cardToken}/${last4}`}
+              src={`${domains.walletHelper}/wallet-helper/marqeta-card/#/${cardToken}/${last4}/${fullName}`}
             />
             <CardList>
               <CardListHeader>
