@@ -1,9 +1,11 @@
 import { FC } from 'react'
 
-type DeepLinkHandler = (link: string) => void
+import { DeepLinkClickState } from 'services/deepLinkListener/contexts'
+
+type DeepLinkHandler = (link: string) => DeepLinkClickState
 
 type DeepLinkListenerProps = {
-  handlers: { [link: string]: DeepLinkHandler }
+  onClickDeepLink: DeepLinkHandler
 }
 
 type DeepLinkListenerComponent = FC<DeepLinkListenerProps>

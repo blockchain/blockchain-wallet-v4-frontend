@@ -45,13 +45,11 @@ describe('NabuError()', () => {
     const error = new NabuError({
       actions: [
         {
-          title: '',
-          type: 'LAUNCH',
-          url: ''
+          title: 'Go to enter amount',
+          url: 'https://blockchain.com/go/to/enter'
         },
         {
           title: 'Blockchain',
-          type: 'LAUNCH',
           url: 'https://blockchain.com'
         }
       ],
@@ -61,7 +59,8 @@ describe('NabuError()', () => {
 
     const actions = error.actions ?? []
 
-    expect(error.actions?.length).toEqual(1)
-    expect(actions[0].title).toEqual('Blockchain')
+    expect(error.actions?.length).toEqual(2)
+    expect(actions[0].title).toEqual('Go to enter amount')
+    expect(actions[1].title).toEqual('Blockchain')
   })
 })
