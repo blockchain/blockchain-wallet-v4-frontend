@@ -70,10 +70,10 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
-  const getNftOwnerAssets = (defaultEthAddr?: string): OwnerNftBalance => {
+  const getNftOwnerAssets = (defaultEthAddr?: string, cursor?: string): OwnerNftBalance => {
     return get({
       contentType: 'application/json',
-      endPoint: `/account_assets/${defaultEthAddr}/`,
+      endPoint: `/account_assets/${defaultEthAddr}/${cursor || ''}`,
       ignoreQueryParams: true,
       url: nftUrl
     })

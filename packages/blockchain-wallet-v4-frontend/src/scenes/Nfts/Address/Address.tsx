@@ -61,7 +61,7 @@ const NftAddress: React.FC<Props> = ({
   }, [isOwner, nftsActions])
 
   useEffect(() => {
-    nftsActions.fetchNftOwnerAssets({ defaultEthAddr: address, network: 'ETH' })
+    nftsActions.fetchNftOwnerAssets({ cursor: undefined, defaultEthAddr: address })
   }, [])
 
   if (!address) return null
