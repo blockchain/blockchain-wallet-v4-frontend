@@ -1,6 +1,4 @@
 export * from './createNabuErrorFulfilledInterceptor'
 export * from './createNabuErrorRejectedInterceptor'
 export * from './isNabuError'
-export * from './isNabuErrorCloseAction'
 export * from './isNabuErrorInNetworkResponse'
-export * from './isNabuErrorLaunchAction'

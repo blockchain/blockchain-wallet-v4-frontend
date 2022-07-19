@@ -15,7 +15,7 @@ class NabuError extends Error {
     this.title = title
     this.message = message
     this.icon = icon
-    this.actions = actions?.filter((action) => !!action.title)
+    this.actions = actions
   }
 }
 
