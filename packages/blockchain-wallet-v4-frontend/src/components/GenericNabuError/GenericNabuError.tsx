@@ -8,8 +8,7 @@ import {
   GenericErrorLayout
 } from 'components/GenericError'
 import { useDeepLink } from 'services/deepLinkListener'
-import { isNabuErrorCloseAction, isNabuErrorLaunchAction } from 'services/errors'
-import { NabuErrorLaunchAction } from 'services/errors/NabuError/NabuError.types'
+import { NabuErrorAction } from 'services/errors'
 
 import { GenericNabuErrorComponent } from './GenericNabuError.types'
 
@@ -19,9 +18,14 @@ const GenericNabuError: GenericNabuErrorComponent = ({ error, onDismiss }) => {
   const { actions } = error
 
   const handleOnClickLaunchAction = useCallback(
-    (action: NabuErrorLaunchAction) => {
+    (action: NabuErrorAction) => {
+      const { url } = action
+
       onDismiss?.()
-      onClickDeepLink(action.url)
+
+      if (url) {
+        onClickDeepLink(url)
+      }
     },
     [onClickDeepLink, onDismiss]
   )
@@ -34,32 +38,16 @@ const GenericNabuError: GenericNabuErrorComponent = ({ error, onDismiss }) => {
 
       {!!actions?.length && (
         <ActionsList>
-          {actions
-            .map((action) => {
-              if (isNabuErrorCloseAction(action)) {
-                return (
-                  <Button key={action.title} data-e2e='close-action' onClick={onDismiss}>
-                    {action.title}
-                  </Button>
-                )
-              }
-
-              if (isNabuErrorLaunchAction(action)) {
-                return (
-                  <Button
-                    key={action.title}
-                    data-e2e='close-action'
-                    nature='primary'
-                    onClick={() => handleOnClickLaunchAction(action)}
-                  >
-                    {action.title}
-                  </Button>
-                )
-              }
-
-              return null
-            })
-            .filter((action) => !!action)}
+          {actions.map((action) => (
+            <Button
+              key={action.title}
+              data-e2e='close-action'
+              nature='primary'
+              onClick={() => handleOnClickLaunchAction(action)}
+            >
+              {action.title}
+            </Button>
+          ))}
         </ActionsList>
       )}
     </GenericErrorLayout>
