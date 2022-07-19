@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { SceneWrapper } from 'components/Layout'
@@ -54,4 +55,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default withRouter(Home)

@@ -44,8 +44,11 @@ export type EthProcessedTxType = {
   erc20: boolean
   fee: RemoteDataType<string, number>
   from: string
+  gasLimit: string
+  gasPrice: string
   hash: string
   insertedAt: number
+  nonce: string
   state: 'PENDING' | 'CONFIRMED'
   time: string
   timeFormatted: string

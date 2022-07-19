@@ -22,6 +22,11 @@ export const getTime = (timeStamp: number | Date) => {
     : format(date, 'MMMM d yyyy @ h:mm a')
 }
 
+export const getShortTime = (timeStamp: number | Date) => {
+  const date = new Date(getUnixTime(timeStamp) * 1000)
+  return isSameYear(date, new Date()) ? format(date, 'MMM d') : format(date, 'MMM d yyyy')
+}
+
 const getType = (tx, addresses) => {
   const lowerAddresses = map(toLower, addresses)
 
@@ -73,8 +78,11 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx: EthRawT
     erc20: isErc20,
     fee: Remote.Success(fee),
     from: getLabel(tx.from, state),
+    gasLimit: tx.gasLimit,
+    gasPrice: tx.gasPrice,
     hash: tx.hash,
     insertedAt: Number(time) * 1000,
+    nonce: tx.nonce,
     state: tx.state,
     time,
     timeFormatted: getTime(new Date(time * 1000)),

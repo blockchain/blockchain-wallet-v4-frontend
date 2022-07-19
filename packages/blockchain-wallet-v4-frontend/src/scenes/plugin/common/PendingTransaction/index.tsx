@@ -30,7 +30,7 @@ type PendingTransactionProps = {
 const PendingTransaction: React.FC<PendingTransactionProps> = (props) => {
   const { history } = props
 
-  // Returs to previous page
+  // Returns to previous page
   const goBack = () => {
     history.goBack(-1)
   }

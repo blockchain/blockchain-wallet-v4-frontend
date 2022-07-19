@@ -26,6 +26,7 @@ import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
+import Activity from './plugin/Activity'
 import BackupSeedPhrase from './plugin/BackupSeedPhrase'
 import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/Header'
@@ -133,6 +134,12 @@ const App = ({
                             header={<CoinsListHeader />}
                             footer={<HomeNavbar />}
                             component={CoinsList}
+                          />
+                          <PluginLayout
+                            path='/plugin/activity'
+                            header={<CoinsListHeader />}
+                            footer={<HomeNavbar />}
+                            component={Activity}
                           />
                           <PluginLayout
                             path='/plugin/backup-seed-phrase'
