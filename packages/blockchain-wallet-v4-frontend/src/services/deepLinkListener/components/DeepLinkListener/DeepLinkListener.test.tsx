@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { mount } from 'enzyme'
 
-import { DeepLinkListener, useDeepLink } from 'services/deepLinkListener'
+import { DeepLinkClickState, DeepLinkListener, useDeepLink } from 'services/deepLinkListener'
 
 const DeepLinkButton: FC<{ link: string; onResult: (value: unknown) => void; title: string }> = ({
   link,
@@ -39,5 +39,25 @@ describe('DeepLinkListener', () => {
     )
     wrapper.find('button[children="Deep link one"]').simulate('click')
     expect(deepLinkHandlerSpy).toHaveBeenCalled()
+  })
+  it('Should promote the click event until it find a handler', () => {
+    const deepLinkRootHandlerSpy = jest.fn(() => DeepLinkClickState.notHandled)
+    const deepLinkSecondHandlerSpy = jest.fn(() => DeepLinkClickState.handled)
+    const onResultSpy = jest.fn()
+
+    const wrapper = mount(
+      <DeepLinkListener onClickDeepLink={deepLinkRootHandlerSpy}>
+        <DeepLinkListener onClickDeepLink={deepLinkSecondHandlerSpy}>
+          <DeepLinkListener onClickDeepLink={() => DeepLinkClickState.notHandled}>
+            <DeepLinkButton link='deep_link_one' title='Deep link one' onResult={onResultSpy} />
+          </DeepLinkListener>
+        </DeepLinkListener>
+      </DeepLinkListener>
+    )
+    wrapper.find('button[children="Deep link one"]').simulate('click')
+
+    expect(deepLinkSecondHandlerSpy).toHaveBeenCalled()
+    expect(deepLinkRootHandlerSpy).not.toHaveBeenCalled()
+    expect(onResultSpy).toHaveBeenCalledWith(DeepLinkClickState.handled)
   })
 })
