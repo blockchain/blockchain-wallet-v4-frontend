@@ -6,10 +6,21 @@ import { OwnerNftBalance } from '@core/network/api/nfts/types'
 import NftAddressAssetItem from '../../components/NftAddressAssetItem'
 import { NftFilterFormValuesType } from '../../NftFilter'
 
+// useEffect(() => {
+//   nftsActions.fetchNftOwnerAssets({ defaultEthAddr: address, network: 'ETH' })
+// }, [])
+
+// useEffect(() => {
+//   if (result.data?.assets.length !== undefined) {
+//     setNumOfPageItems(result.data.assets.length)
+//     setMaxItemsFetched(result.data.assets.length < NFT_ORDER_PAGE_LIMIT)
+//   }
+// }, [result.data?.assets?.length, setMaxItemsFetched, setNumOfPageItems])
+
 const NftAddressResults: React.FC<Props> = ({ collections }) => {
   return (
     <>
-      {collections.nftBalances.balances.map((asset) => {
+      {collections.assets.map((asset) => {
         return asset ? <NftAddressAssetItem asset={asset} /> : null
       })}
     </>

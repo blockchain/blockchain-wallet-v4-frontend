@@ -68,7 +68,7 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
       actions.analytics.trackEvent({
         key: Analytics.NFT_NFT_CLICKED,
         properties: {
-          collection_name: asset.contract.name,
+          collection_name: asset.asset_contract.name,
           image_logo: true,
           name_click: false
         }
@@ -80,7 +80,7 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
       actions.analytics.trackEvent({
         key: Analytics.NFT_NFT_CLICKED,
         properties: {
-          collection_name: asset.contract.name,
+          collection_name: asset.asset_contract.name,
           image_logo: false,
           name_click: true
         }
@@ -99,10 +99,10 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
   const image = asset.image_url
 
   return !hover ? (
-    <Asset key={asset?.tokenId} className='asset' onMouseEnter={() => setHoverTrue()}>
+    <Asset key={asset?.token_id} className='asset' onMouseEnter={() => setHoverTrue()}>
       <LinkContainer
         style={{ display: 'flex', height: 'fit-content', position: 'relative' }}
-        to={`/nfts/assets/${asset.contract?.identifier}/${asset.tokenId}`}
+        to={`/nfts/assets/${asset?.asset_contract.address}/${asset.token_id}`}
       >
         <Link>
           {image ? (
@@ -128,7 +128,7 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
             color='white'
             weight={600}
           >
-            #{asset?.tokenId}
+            #{asset?.token_id}
           </OverflowText>
           <LinkContainer onClick={logoClickTracking} to='/nfts/collection/azuki-god'>
             <Link>
@@ -144,7 +144,7 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
                 ) : (
                   <Avatar
                     size={24}
-                    name={asset.contract.identifier || ''}
+                    name={asset?.asset_contract.address || ''}
                     variant='marble'
                     colors={AvatarGradientColors}
                   />
@@ -156,7 +156,7 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
                     color='white'
                     weight={600}
                   >
-                    {asset?.contract?.name}
+                    {asset?.asset_contract?.name}
                   </Text>
                 </AssetCollection>
               </Flex>
@@ -164,7 +164,7 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
           </LinkContainer>
         </Flex>
         <PriceCTA>
-          <LinkContainer to={`/nfts/assets/${asset.contract?.identifier}/${asset.tokenId}`}>
+          <LinkContainer to={`/nfts/assets/${asset?.asset_contract.address}/${asset.token_id}`}>
             <NotForSale style={{ marginBottom: '1em' }}>
               <Text weight={500} color='white'>
                 <FormattedMessage id='copy.view_details' defaultMessage='See Details' />
@@ -188,7 +188,7 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
               }
             : { display: 'flex', height: '100%', position: 'relative' }
         }
-        to={`/nfts/assets/${asset.contract?.identifier}/${asset.tokenId}`}
+        to={`/nfts/assets/${asset?.asset_contract.address}/${asset.token_id}`}
       >
         <Link>
           <HoverBackground
@@ -213,7 +213,7 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
                 />
               ) : null}
               <OverflowText size='18px' weight={600} lineHeight='150%' color='white'>
-                #{asset?.tokenId}
+                #{asset?.token_id}
               </OverflowText>
               <Flex alignItems='center' gap={8}>
                 {asset.image_url ? (
@@ -227,17 +227,19 @@ const NftAddressAssetItem: React.FC<Props> = ({ asset }) => {
                 ) : (
                   <Avatar
                     size={24}
-                    name={asset.contract.identifier || ''}
+                    name={asset?.asset_contract.address || ''}
                     variant='marble'
                     colors={AvatarGradientColors}
                   />
                 )}
                 <Text weight={600} lineHeight='150%' color='white'>
-                  {asset?.contract?.name}
+                  {asset?.asset_contract?.name}
                 </Text>
               </Flex>
               <PriceCTA style={{ margin: '12px 0' }}>
-                <LinkContainer to={`/nfts/assets/${asset.contract?.identifier}/${asset.tokenId}`}>
+                <LinkContainer
+                  to={`/nfts/assets/${asset?.asset_contract.address}/${asset.token_id}`}
+                >
                   <NotForSale>
                     <Text style={{ paddingBottom: '0.4em' }} weight={500} color='white'>
                       <FormattedMessage id='copy.not_for_sale' defaultMessage='See Details' />

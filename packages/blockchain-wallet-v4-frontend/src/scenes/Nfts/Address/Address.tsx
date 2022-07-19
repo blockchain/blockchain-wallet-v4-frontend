@@ -128,7 +128,6 @@ const NftAddress: React.FC<Props> = ({
                   formValues={formValues}
                   address={address}
                 />
-                )
               </div>
             </GridWrapper>
           </NftPageFullWidth>

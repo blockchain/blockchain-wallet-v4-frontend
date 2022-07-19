@@ -83,7 +83,7 @@ export const LazyLoadWrapper = styled(LazyLoadContainer)`
 
 export const GridWrapper = styled.div`
   display: flex;
-  padding: 0 24px;
+  padding: 24px 24px;
   align-items: flex-start;
   ${media.tablet`
     padding: 0px;

@@ -191,35 +191,9 @@ export interface OpenSeaStatus {
 }
 
 export interface OwnerNftBalance {
-  nftBalances: {
-    address: string
-    balances: [
-      {
-        additionalProp1: {}
-        amount: string
-        attributes: [
-          {
-            trait_count: string
-            trait_type: string
-            value: string
-          }
-        ]
-        contract: {
-          baseUri: string
-          identifier: string
-          interface: string
-          name: string
-          network: string
-        }
-        description: string
-        image_original_url: string
-        image_thumbnail_url: string
-        image_url: string
-        name: string
-        tokenId: string
-      }
-    ]
-  }
+  assets: OpenSeaAsset[]
+  next: string
+  previous: string
 }
 
 export interface ComputedFees extends OpenSeaFees {

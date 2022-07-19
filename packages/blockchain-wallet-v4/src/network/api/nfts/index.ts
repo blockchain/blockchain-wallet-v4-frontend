@@ -17,7 +17,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   // const nftUrl = 'http://localhost:8081/public/nft' // local testnet only
   const nftUrl = `${apiUrl}/nft-market-api/nft`
   const openSeaUrl = `${openSeaApi}`
-  const nftOwnerBalanceUrl = `${apiUrl}/currency/evm/nft`
 
   const getNftUserPreferences = (
     jwt: string
@@ -71,13 +70,12 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     })
   }
 
-  const getNftOwnerAssets = (defaultEthAddr?: string, network?: string): OwnerNftBalance => {
-    return post({
+  const getNftOwnerAssets = (defaultEthAddr?: string): OwnerNftBalance => {
+    return get({
       contentType: 'application/json',
-      data: { address: defaultEthAddr, network },
-      endPoint: `/balance`,
+      endPoint: `/account_assets/${defaultEthAddr}/`,
       ignoreQueryParams: true,
-      url: nftOwnerBalanceUrl
+      url: nftUrl
     })
   }
 
