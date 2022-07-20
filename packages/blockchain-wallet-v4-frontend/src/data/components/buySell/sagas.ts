@@ -17,6 +17,7 @@ import {
   BSPaymentTypes,
   BSQuoteType,
   CardAcquirer,
+  CardSuccessRateResponse,
   ExtraKYCContext,
   FiatEligibleType,
   FiatType,
@@ -205,6 +206,34 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           step: 'DETERMINE_CARD_PROVIDER'
         })
       )
+    }
+  }
+
+  const checkCardSuccessRate = function* ({ payload }: ReturnType<typeof A.checkCardSuccessRate>) {
+    try {
+      const data: CardSuccessRateResponse = yield call(api.checkCardSuccessRate, payload.bin)
+
+      if (!data) {
+        return
+      }
+
+      yield put(
+        A.setCardSuccessRate({
+          details: data.ux
+            ? {
+                actions: data.ux.actions.map((action) => ({
+                  title: action.title,
+                  url: action.url
+                })),
+                message: data.ux.message,
+                title: data.ux.title
+              }
+            : undefined,
+          isBlocked: data.block
+        })
+      )
+    } catch (e) {
+      console.error(e)
     }
   }
 
@@ -1321,8 +1350,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       payment = yield payment.build()
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (e) {
-      // eslint-disable-next-line
-      console.log(e)
+      console.error(e)
     }
   }
 
@@ -2024,6 +2052,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   return {
     activateBSCard,
     cancelBSOrder,
+    checkCardSuccessRate,
     confirmBSFundsOrder,
     confirmOrder,
     confirmOrderPoll,

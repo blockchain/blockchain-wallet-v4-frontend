@@ -45,7 +45,7 @@ import {
 } from 'data/types'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
-import { BuySellState, BuySellStepType } from './types'
+import { BSCardSuccessRateType, BuySellState, BuySellStepType } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
@@ -56,6 +56,7 @@ const initialState: BuySellState = {
   buyQuote: Remote.NotAsked,
   card: Remote.NotAsked,
   cardId: undefined,
+  cardSuccessRate: undefined,
   cards: Remote.NotAsked,
   checkoutDotComAccountCodes: [],
   checkoutDotComApiKey: undefined,
@@ -167,6 +168,7 @@ const buySellSlice = createSlice({
     cancelOrder: (state, action: PayloadAction<BSOrderType>) => {
       state.pendingOrder = undefined
     },
+    checkCardSuccessRate: (state, action: PayloadAction<{ bin: string; scheme: string }>) => {},
     confirmFundsOrder: () => {},
     confirmOrder: (
       state,
@@ -480,6 +482,9 @@ const buySellSlice = createSlice({
       state.applePayInfo = action.payload
     },
     setBuyCrypto: (state, action: PayloadAction<string>) => {},
+    setCardSuccessRate: (state, action: PayloadAction<BSCardSuccessRateType>) => {
+      state.cardSuccessRate = action.payload
+    },
     setFiatCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload
     },
