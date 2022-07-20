@@ -40,7 +40,7 @@ const ButtonWrapper = styled.div`
   }
 `
 
-const Balance = () => {
+const Balance = (props) => {
   const data = useSelector(selectors.balances.getTotalWalletBalance)
   const balance = data.cata({
     Failure: () => (
@@ -52,6 +52,11 @@ const Balance = () => {
     NotAsked: () => <SkeletonRectangle width='120px' height='25px' />,
     Success: (val) => <>{val.totalBalance}</>
   })
+
+  const goToSendScene = () => {
+    props.history.push('/plugin/send')
+  }
+
   return (
     <BalanceWrapper data-testid='coinview-header'>
       <Text style={{ margin: '20px 0' }} color='white' size='40px' weight={500}>
@@ -75,7 +80,7 @@ const Balance = () => {
             Receive
           </Text>
         </ButtonWrapper>
-        <ButtonWrapper>
+        <ButtonWrapper onClick={goToSendScene}>
           <IconButtonStyled
             padding='0'
             name='IconArrowUpRight'

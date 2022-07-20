@@ -59,8 +59,7 @@ const TransactionStatus: React.FC<TransactionStatusProps> = (props) => {
 
   const goToActitiviesTab = () => {
     closePopup()
-    // TODO: finalize path
-    history.push('/activities')
+    history.push('/plugin/activity')
   }
 
   return (

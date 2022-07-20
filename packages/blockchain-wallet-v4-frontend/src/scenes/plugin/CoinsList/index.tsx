@@ -8,10 +8,10 @@ const Wrapper = styled.div`
   height: 100%;
 `
 
-const CoinList = () => {
+const CoinList = (props) => {
   return (
     <Wrapper>
-      <Balance />
+      <Balance {...props} />
       <CoinsVirtList />
     </Wrapper>
   )
