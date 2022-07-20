@@ -7,9 +7,10 @@ import {
   Maybe,
   ProviderConnectInfo,
   ProviderMessage,
-  RequestArguments
+  RequestArguments,
+  StandardEvents
 } from './types'
-import { messages, supportedRPCMethods } from './utils'
+import { messages, SupportedRPCMethods } from './utils'
 
 export class BCDCInpageProvider extends SafeEventEmitter {
   private connection: Duplex
@@ -72,7 +73,7 @@ export class BCDCInpageProvider extends SafeEventEmitter {
       })
     }
 
-    if (!supportedRPCMethods.includes(method)) {
+    if (!Object.values(SupportedRPCMethods).includes(method as SupportedRPCMethods)) {
       throw ethErrors.provider.unsupportedMethod({
         message: messages.errors.unsupportedRPCMethod(method)
       })
@@ -88,12 +89,16 @@ export class BCDCInpageProvider extends SafeEventEmitter {
           return
         }
 
-        if (msg.type === 'rejected') {
+        if (!msg.data) {
           reject(
             ethErrors.provider.userRejectedRequest({
               message: messages.errors.userRejectedRequest()
             })
           )
+        }
+
+        if (msg.type === SupportedRPCMethods.RequestAccounts) {
+          this.emit(StandardEvents.AccountsChanged, [msg.data as T])
         }
 
         resolve(msg.data as T)
@@ -112,6 +117,13 @@ export class BCDCInpageProvider extends SafeEventEmitter {
   }
 
   private setConnectionHandler(): void {
+    this.connection.on('close', () => {
+      this.isConnected = false
+      throw ethErrors.provider.disconnected({
+        message: messages.errors.permanentlyDisconnected()
+      })
+    })
+
     this.connection.on('data', (msg: ProviderMessage | string) => {
       if (typeof msg === 'string') return
 
@@ -130,6 +142,7 @@ export class BCDCInpageProvider extends SafeEventEmitter {
         const { chainId } = msg.data as ProviderConnectInfo
 
         this.emit(ConnectionEvents.Connected, { message: messages.info.connected(chainId) })
+        this.emit(StandardEvents.ChainChanged, this.chainId)
         this.chainId = chainId
       }
     })

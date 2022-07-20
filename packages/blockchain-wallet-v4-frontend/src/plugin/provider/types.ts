@@ -21,3 +21,8 @@ export enum ConnectionEvents {
   Connected = 'connected',
   Disconnected = 'disconnected'
 }
+
+export enum StandardEvents {
+  AccountsChanged = 'accountsChanged',
+  ChainChanged = 'chainChanged'
+}

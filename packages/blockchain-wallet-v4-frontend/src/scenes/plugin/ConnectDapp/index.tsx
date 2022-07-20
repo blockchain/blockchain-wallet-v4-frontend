@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import { IconBlockchain } from '@blockchain-com/icons'
 import { TabMetadata } from 'plugin/internal'
+import { SupportedRPCMethods } from 'plugin/provider/utils'
 import styled, { keyframes } from 'styled-components'
 
 import { Flex } from 'components/Flex'
@@ -46,7 +47,7 @@ export const ConnectDapp: FC<Props> = (props) => {
     window.onbeforeunload = () => {
       chrome.runtime.sendMessage({
         data: null,
-        type: 'rejected'
+        type: SupportedRPCMethods.RequestAccounts
       })
     }
   }, [])

@@ -14,11 +14,10 @@ export const messages = {
   }
 }
 
-export const supportedRPCMethods = [
-  'eth_requestAccounts',
-  'eth_sign',
-  'eth_signTypedData',
-  'eth_sendTransaction',
-  'eth_signTransaction',
-  'eth_sendRawTransaction'
-]
+export enum SupportedRPCMethods {
+  RequestAccounts = 'eth_requestAccounts',
+  Send = 'eth_sendTransaction',
+  SendRaw = 'eth_sendRawTransaction',
+  SignMessage = 'eth_sign',
+  SignTransaction = 'eth_signTransaction'
+}

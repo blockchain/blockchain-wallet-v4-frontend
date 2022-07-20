@@ -1,6 +1,7 @@
 import { openPopup } from 'plugin/internal/browser'
 import { TabMetadata } from 'plugin/internal/index'
 import { ConnectionEvents, ProviderMessage, RequestArguments } from 'plugin/provider/types'
+import { SupportedRPCMethods } from 'plugin/provider/utils'
 
 chrome.runtime.onInstalled.addListener(function () {
   // eslint-disable-next-line
@@ -27,7 +28,7 @@ chrome.runtime.onConnect.addListener(function (port: chrome.runtime.Port) {
       chrome.runtime.onMessage.removeListener(listener)
     }
 
-    if (msg.method === 'eth_requestAccounts') {
+    if (msg.method === SupportedRPCMethods.RequestAccounts) {
       chrome.runtime.onMessage.addListener(listener)
 
       // eslint-disable-next-line

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { IconCheckCircle } from '@blockchain-com/icons'
 import { addConnection, TabMetadata } from 'plugin/internal'
+import { SupportedRPCMethods } from 'plugin/provider/utils'
 import styled, { keyframes } from 'styled-components'
 
 const showingFrames = keyframes`
@@ -21,7 +22,7 @@ export const Connected: React.FC<{
         await addConnection(metadata.origin)
         await chrome.runtime.sendMessage({
           data: 'random address',
-          type: 'approved'
+          type: SupportedRPCMethods.RequestAccounts
         })
         window.close()
       } catch (e) {
