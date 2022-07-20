@@ -149,7 +149,6 @@ export default ({ api }) => {
 
   const setTradingCurrency = function* ({ currency }) {
     yield call(api.setUserCurrentCurrency, currency)
-    yield put(actions.setCurrency(currency))
   }
 
   const setAutoLogout = function* ({ autoLogout }) {
