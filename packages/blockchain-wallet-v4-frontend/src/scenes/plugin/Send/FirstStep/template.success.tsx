@@ -9,6 +9,8 @@ import {
 } from '@blockchain-com/icons'
 import { AvailableSteps } from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send'
 import Amount from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send/FirstStep/Amount'
+import Assets from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send/FirstStep/Assets'
+import Asset from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send/FirstStep/Assets/Asset'
 import styled from 'styled-components'
 
 import { Button, Text, TooltipHost } from 'blockchain-info-components'
@@ -157,8 +159,8 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
   const [isNotEnoughCoins, setIsNotEnoughCoins] = useState<boolean>(false)
   const [address, setAddress] = useState<string>('')
 
-  // changes select crypto list visibility
-  const changeAssetsPopupVisibility = () => {
+  // Closes assets popup
+  const closeAssetsPopup = () => {
     setIsAssetsPopupVisible(!isAssetsPopupVisible)
   }
 
@@ -176,7 +178,7 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
 
   const selectCoin = (coin: string) => {
     changeCoin(coin)
-    changeAssetsPopupVisibility()
+    closeAssetsPopup()
   }
 
   const confirm = () => {
@@ -242,6 +244,7 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
           <FormattedMessage id='plugin.send.assets_label' defaultMessage='Asset' />
         </Label>
         <SelectedAssetWrapper alignItems='center'>
+          <Asset coin={coin} selectCoin={selectCoin} />
           <AssetIconWrapper>
             <IconChevronDownV2 />
           </AssetIconWrapper>
@@ -279,6 +282,7 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
           </Flex>
         )}
       </ButtonsWrapper>
+      {isAssetsPopupVisible && <Assets closePopup={closeAssetsPopup} selectCoin={selectCoin} />}
     </Wrapper>
   )
 }
