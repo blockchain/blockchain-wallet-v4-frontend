@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 
+import FirstStep from './FirstStep'
 import SelectAddress from './SelectAddress'
 
 // defines available steps to send amount
@@ -27,6 +28,9 @@ const Send = (props) => {
   const { sendActions } = props
   // indicates if recents wallets are shown
   const isRecentsWalletsShown: boolean = step === AvailableSteps.SelectAddress
+  // indicates if first and second steps are shown
+  const isFirstStepShown: boolean = step === AvailableSteps.FirstStep
+  const isSecondStepShown: boolean = step === AvailableSteps.SecondStep
 
   // changes step
   const changeStep = (step: AvailableSteps) => {
@@ -37,10 +41,18 @@ const Send = (props) => {
     sendActions.initialized(coin)
   }, [coin])
 
+  // changes coin
+  const changeCoin = (coin: string) => {
+    setCoin(coin)
+  }
+
   return (
     <>
       {isRecentsWalletsShown && (
         <SelectAddress changeStep={changeStep} step={step} coin={coin} {...props} />
+      )}
+      {isFirstStepShown && (
+        <FirstStep changeStep={changeStep} changeCoin={changeCoin} coin={coin} {...props} />
       )}
     </>
   )

@@ -38,6 +38,7 @@ const getData = createDeepEqualSelector(
 
     const transform = (payment) => {
       const amount = prop('amount', payment)
+      const to = prop('to', payment)
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const unconfirmedTx = prop('unconfirmedTx', payment)
       const fee = propOr('0', 'fee', payment)
@@ -95,6 +96,7 @@ const getData = createDeepEqualSelector(
         priorityFee,
         regularFee,
         sendLimits,
+        to,
         unconfirmedTx
       }
     }
