@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import * as ethers from 'ethers'
+import { AbstractPlugin } from 'plugin/internal'
 import { equals, head, identity, includes, path, pathOr, prop, propOr } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
 import { call, put, select, take } from 'redux-saga/effects'
@@ -33,6 +34,8 @@ import {
 
 const ETH = 'ETH'
 export const logLocation = 'components/sendEth/sagas'
+
+const { isPlugin } = AbstractPlugin
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; networks }) => {
   const { showWithdrawalLockAlert } = sendSagas({
@@ -290,20 +293,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         )
       }
       // Display success
-      yield put(actions.router.push(`/coins/${coin}`))
+      if (!isPlugin) {
+        yield put(actions.router.push(`/coins/${coin}`))
+      }
       if (coin === ETH) {
         yield put(actions.core.data.eth.fetchTransactions(null, true))
       } else {
         yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
       }
-      yield put(
-        actions.alerts.displaySuccess(
-          isRetryAttempt ? C.RESEND_COIN_SUCCESS : C.SEND_COIN_SUCCESS,
-          {
-            coinName: coinfig.name
-          }
+      if (!isPlugin) {
+        yield put(
+          actions.alerts.displaySuccess(
+            isRetryAttempt ? C.RESEND_COIN_SUCCESS : C.SEND_COIN_SUCCESS,
+            {
+              coinName: coinfig.name
+            }
+          )
         )
-      )
+      }
       const coinAmount = Exchange.convertCoinToCoin({
         coin,
         value: payment.value().amount || 0

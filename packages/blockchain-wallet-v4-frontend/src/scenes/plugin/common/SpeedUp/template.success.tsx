@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { IconCloseCircle } from '@blockchain-com/icons'
+import { AvailableCoins } from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -64,9 +65,10 @@ const PriorityItem = styled.li`
     outline: none;
     cursor: pointer;
 
-    :checked {
+    &:checked {
       border: 1px solid ${(props) => props.theme.black};
-      ::after {
+
+      &::after {
         position: absolute;
         content: '';
         top: 4px;
@@ -180,7 +182,13 @@ const SpeedUpPopup: React.FC<Props> = (props) => {
           <Text size='32px' lineHeight='40px' weight={600} color='black'>
             ~
           </Text>
-          <CoinDisplay width='20px' size='32px' color='black' weight={600} coin={coin}>
+          <CoinDisplay
+            width='20px'
+            size='32px'
+            color='black'
+            weight={600}
+            coin={AvailableCoins.ETH}
+          >
             {totalCrypto}
           </CoinDisplay>
         </Flex>
@@ -191,11 +199,17 @@ const SpeedUpPopup: React.FC<Props> = (props) => {
               defaultMessage='Max fee: '
             />
           </Text>
-          <CoinDisplay color='black' size='12px' weight={500} coin={coin} hideCoinTicker>
+          <CoinDisplay
+            color='black'
+            size='12px'
+            weight={500}
+            coin={AvailableCoins.ETH}
+            hideCoinTicker
+          >
             {fee}
           </CoinDisplay>
           (
-          <FiatDisplay color='black' size='12px' weight={500} coin={coin}>
+          <FiatDisplay color='black' size='12px' weight={500} coin={AvailableCoins.ETH}>
             {fee}
           </FiatDisplay>
           )

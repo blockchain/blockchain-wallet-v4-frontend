@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 
 import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
 import SelectAddress from './SelectAddress'
 
 // defines available steps to send amount
@@ -54,6 +55,7 @@ const Send = (props) => {
       {isFirstStepShown && (
         <FirstStep changeStep={changeStep} changeCoin={changeCoin} coin={coin} {...props} />
       )}
+      {isSecondStepShown && <SecondStep changeStep={changeStep} coin={coin} {...props} />}
     </>
   )
 }
