@@ -7,6 +7,7 @@ import { actions } from 'data'
 import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
+import { ModalPropsType } from '../../types'
 import { getData } from './selectors'
 import TransferEth from './template'
 
@@ -75,7 +76,7 @@ const enhance = compose(modalEnhancer(ModalName.TRANSFER_ETH_MODAL), connector)
 
 type OwnProps = {
   legacyEthAddr: string
-}
+} & ModalPropsType
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 

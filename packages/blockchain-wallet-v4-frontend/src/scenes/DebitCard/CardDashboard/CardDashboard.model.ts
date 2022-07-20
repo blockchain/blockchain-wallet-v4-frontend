@@ -44,8 +44,8 @@ export const BoxRowItemSubTitle = styled(Text)`
 
 export const Iframe = styled.iframe`
   border: 0;
-  width: 340px;
-  height: 220px;
+  height: 355px;
+  width: 246px;
 `
 
 export const CardWrapper = styled.div`

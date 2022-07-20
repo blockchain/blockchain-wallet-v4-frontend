@@ -42,7 +42,7 @@ const LinkBank: React.FC<Props> = ({ icon, onClick, value }) => (
         />
       </DisplayTitleBank>
       <DisplaySubTitle>
-        <FormattedMessage id='copy.instantly_available' defaultMessage='Buy Large Amounts' />
+        <FormattedMessage id='copy.buy_large_amounts' defaultMessage='Buy Large Amounts' />
       </DisplaySubTitle>
       <Description>
         <FormattedMessage

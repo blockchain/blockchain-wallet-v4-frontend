@@ -39,12 +39,10 @@ const paymentFailureError = new NabuError({
   actions: [
     {
       title: 'Different payment',
-      type: 'LAUNCH',
       url: 'https://blockchain.com/1/1'
     },
     {
-      title: 'Close',
-      type: 'CLOSE'
+      title: 'Close'
     }
   ],
   message:
