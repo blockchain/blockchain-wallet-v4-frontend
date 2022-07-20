@@ -33,7 +33,8 @@ const DebitCard = ({
   debitCardActions,
   domains,
   lockHandler,
-  modalActions
+  modalActions,
+  profileData
 }: Props) => {
   useEffect(() => {
     debitCardActions.getCards()
@@ -80,6 +81,7 @@ const DebitCard = ({
           debitCardActions={debitCardActions}
           lockHandler={lockHandler}
           modalActions={modalActions}
+          profileData={profileData}
         />
       )}
     </Wrapper>

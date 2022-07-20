@@ -20,4 +20,10 @@ describe('isNabuError()', () => {
 
     expect(isNabuError(error)).toBe(false)
   })
+
+  it('Should return false when the error is a string', () => {
+    const error = 'not a error'
+
+    expect(isNabuError(error)).toBe(false)
+  })
 })

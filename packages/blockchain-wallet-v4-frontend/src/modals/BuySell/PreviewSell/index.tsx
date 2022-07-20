@@ -275,6 +275,7 @@ class PreviewSell extends PureComponent<
                         return (
                           <>
                             {counterCoinTicker}
+                            &nbsp;
                             {formatFiat(Number(success.amt) + Number(feeInFiat))}
                           </>
                         )
@@ -354,9 +355,7 @@ class PreviewSell extends PureComponent<
               <RowText>
                 <FormattedMessage id='copy.deposit_to' defaultMessage='Deposit To' />
               </RowText>
-              <Value data-e2e='sbIncomingAccount'>
-                {incomingCoinName} <FormattedMessage id='copy.account' defaultMessage='Account' />
-              </Value>
+              <Value data-e2e='sbIncomingAccount'>{incomingCoinName}</Value>
             </RowItem>
 
             {account.type !== SwapBaseCounterTypes.CUSTODIAL && (
@@ -501,6 +500,7 @@ class PreviewSell extends PureComponent<
                         return (
                           <>
                             {counterCoinTicker}
+                            &nbsp;
                             {formatFiat(Number(success.amt) + Number(feeInFiat))}
                           </>
                         )

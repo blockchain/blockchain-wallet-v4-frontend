@@ -141,6 +141,10 @@ export const getReferralEnabled = (state: RootState) =>
 export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'exchangeMobileDuplicateAccountRedirect']))
 
+// secure update endpoint for email and sms
+export const getSecureEmailSmsUpdate = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'secureEmailSmsUpdate']))
+
 // dex feature flag
 export const getDexProductEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'dex']))

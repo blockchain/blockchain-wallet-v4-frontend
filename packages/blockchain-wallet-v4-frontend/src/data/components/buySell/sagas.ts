@@ -17,6 +17,7 @@ import {
   BSPaymentTypes,
   BSQuoteType,
   CardAcquirer,
+  ExtraKYCContext,
   FiatEligibleType,
   FiatType,
   GooglePayInfoType,
@@ -26,7 +27,7 @@ import {
   SwapOrderType,
   WalletOptionsType
 } from '@core/types'
-import { errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
+import { Coin, errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
@@ -38,10 +39,13 @@ import {
   CustodialSanctionsEnum,
   ModalName,
   ProductEligibilityForUser,
-  UserDataType
+  UserDataType,
+  VerifyIdentityOriginType
 } from 'data/types'
 import { isNabuError } from 'services/errors'
+import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
+import { actions as cacheActions } from '../../cache/slice'
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
 import brokerageSagas from '../brokerage/sagas'
@@ -286,9 +290,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const pair = S.getBSPair(yield select())
 
-      if (!values) throw new Error(BS_ERROR.NO_AMOUNT)
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
+      if (!values?.amount) throw new Error(BS_ERROR.NO_AMOUNT)
       if (parseFloat(values.amount) <= 0) throw new Error(BS_ERROR.NO_AMOUNT)
+
       const { fix, orderType, period } = values
 
       // since two screens use this order creation saga and they have different
@@ -304,8 +309,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const fiat = getFiatFromPair(pair.pair)
       const coin = getCoinFromPair(pair.pair)
       const amount =
-        fix === 'FIAT'
-          ? convertStandardToBase('FIAT', values.amount)
+        fix === Coin.FIAT
+          ? convertStandardToBase(Coin.FIAT, values.amount)
           : convertStandardToBase(coin, values.amount)
       const inputCurrency = orderType === OrderType.BUY ? fiat : coin
       const outputCurrency = orderType === OrderType.BUY ? coin : fiat
@@ -325,7 +330,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             ? amount
             : convertStandardToBase(
                 from.coin,
-                getQuote(pair.pair, convertStandardToBase('FIAT', quote.rate), fix, amount)
+                getQuote(pair.pair, convertStandardToBase(Coin.FIAT, quote.rate), fix, amount)
               )
         const refundAddr =
           direction === 'FROM_USERKEY'
@@ -377,9 +382,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (orderType === OrderType.BUY && fix === 'CRYPTO') {
         // @ts-ignore
         delete output.amount
-        input.amount = convertStandardToBase('FIAT', inputAmount) // ex. 5 -> 500
+        input.amount = convertStandardToBase(Coin.FIAT, inputAmount) // ex. 5 -> 500
       }
-      if (orderType === OrderType.BUY && fix === 'FIAT') {
+      if (orderType === OrderType.BUY && fix === Coin.FIAT) {
         // @ts-ignore
         delete output.amount
       }
@@ -400,6 +405,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.createOrderLoading())
+
+      yield put(
+        cacheActions.setLastUnusedAmount({
+          amount: convertBaseToStandard(Coin.FIAT, input.amount),
+          pair: pair.pair
+        })
+      )
 
       // This code is handles refreshing the buy order when the user sits on
       // the order confirmation screen.
@@ -459,13 +471,40 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const error: number | string = errorHandlerCode(e)
 
-      yield call(fetchBankTransferAccounts)
-
       const skipErrorDisplayList = [BS_ERROR.NO_AMOUNT]
 
-      if (!skipErrorDisplayList.includes(error as BS_ERROR)) {
-        yield put(A.createOrderFailure(e))
+      if (skipErrorDisplayList.includes(error as BS_ERROR)) {
+        const pair = S.getBSPair(yield select())
+        const method = S.getBSPaymentMethod(yield select())
+        const from = S.getSwapAccount(yield select())
+
+        // If user doesn't enter amount into checkout
+        // they are redirected back to checkout screen
+        // ensures newly linked bank account is fetched
+        yield call(fetchBankTransferAccounts)
+
+        if (pair) {
+          yield put(
+            A.setStep({
+              cryptoCurrency: getCoinFromPair(pair.pair),
+              fiatCurrency: getFiatFromPair(pair.pair),
+              method,
+              orderType: values?.orderType,
+              pair,
+              step: 'ENTER_AMOUNT',
+              swapAccount: from
+            })
+          )
+        }
+
+        yield put(actions.form.focus(FORM_BS_CHECKOUT, 'amount'))
+
+        return
       }
+
+      yield call(fetchBankTransferAccounts)
+
+      yield put(A.createOrderFailure(e))
 
       if (values?.orderType === OrderType.SELL) {
         yield put(actions.form.stopSubmit(FORM_BS_PREVIEW_SELL, { _error: error }))
@@ -514,6 +553,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     yield put(A.confirmOrderSuccess(confirmedOrder))
+
+    yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
     yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
   }
@@ -718,6 +759,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (confirmedOrder.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.confirmOrderSuccess(confirmedOrder))
 
+        yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
+
         yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       } else if (
         confirmedOrder.attributes?.everypay?.paymentState === 'SETTLED' ||
@@ -726,6 +769,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // Have to check if the state is "FINISHED", otherwise poll for 1 minute until it is
         if (confirmedOrder.state === 'FINISHED') {
           yield put(A.confirmOrderSuccess(confirmedOrder))
+
+          yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
           yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
         }
@@ -736,6 +781,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         } catch (e) {
           // Exhausted the retry attempts, so just show the order summary with the order we have
           yield put(A.confirmOrderSuccess(confirmedOrder))
+
+          yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
           yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
         }
@@ -774,8 +821,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
 
-      if (!skipErrorDisplayList.includes(e as BS_ERROR)) {
+      if (skipErrorDisplayList.includes(e as BS_ERROR)) {
         yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
+        yield put(A.resetConfirmOrder())
 
         return
       }
@@ -798,6 +847,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield put(A.fetchOrders())
       yield put(A.confirmOrderSuccess(confirmedOrder))
+
+      yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     } catch (e) {
@@ -1032,7 +1083,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const filteredPairs = pairs.filter((pair) => {
         return (
           window.coins[getCoinFromPair(pair.pair)] &&
-          window.coins[getCoinFromPair(pair.pair)].coinfig.type.name !== 'FIAT'
+          window.coins[getCoinFromPair(pair.pair)].coinfig.type.name !== Coin.FIAT
         )
       })
       yield put(A.fetchPairsSuccess({ coin, pairs: filteredPairs }))
@@ -1490,11 +1541,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
       // Fetch rates
       if (orderType === OrderType.BUY) {
-        const amount = '500'
+        const fakeQuoteAmount = '500'
 
         yield put(
           A.startPollBuyQuote({
-            amount,
+            amount: fakeQuoteAmount,
             pair: pair.pair,
             paymentMethod: BSPaymentTypes.FUNDS
           })
@@ -1534,9 +1585,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         .getFeatureFlagRecurringBuys(yield select())
         .getOrElse(false) as boolean
 
+      const lastUnusedAmounts = selectors.cache.getLastUnusedAmounts(yield select())
+
+      const lastUnusedAmount = lastUnusedAmounts ? lastUnusedAmounts[pair.pair] : null
+
       yield put(
         actions.form.initialize(FORM_BS_CHECKOUT, {
-          amount,
+          amount: amount || (fix === Coin.FIAT && lastUnusedAmount) ? lastUnusedAmount : '0',
           cryptoAmount,
           fix,
           orderType,
@@ -1663,6 +1718,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.createOrderSuccess(order))
+
+      yield put(cacheActions.removeLastUsedAmount({ pair: order.pair }))
     } catch (e) {
       yield put(A.createOrderFailure(ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
     } finally {
@@ -1774,6 +1831,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
         return
       }
+    }
+
+    const completedKYC = yield call(getExtraKYCCompletedStatus, {
+      api,
+      context: ExtraKYCContext.TRADING,
+      origin: 'BuySell' as VerifyIdentityOriginType
+    })
+
+    // If KYC was closed before answering, return
+    if (!completedKYC) {
+      return
     }
 
     // show sanctions for buy

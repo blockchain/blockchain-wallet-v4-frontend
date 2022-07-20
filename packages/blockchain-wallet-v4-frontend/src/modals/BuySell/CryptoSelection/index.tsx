@@ -9,7 +9,7 @@ import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
 import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { RootState } from 'data/rootReducer'
-import { Analytics } from 'data/types'
+import { Analytics, UserDataType } from 'data/types'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -22,7 +22,10 @@ const CryptoSelection: React.FC<Props> = memo((props) => {
       props.priceActions.fetchCoinPricesPreviousDay()
       const currentCurrencyIsInSupportedFiat = props.fiatCurrency in WalletFiatEnum
       // for other currencies use as pre fill USD
-      const currency = currentCurrencyIsInSupportedFiat ? props.fiatCurrency : 'USD'
+      const { preferredFiatTradingCurrency } = props.userData?.currencies
+      const currency =
+        preferredFiatTradingCurrency ||
+        (currentCurrencyIsInSupportedFiat ? props.fiatCurrency : 'USD')
       props.buySellActions.fetchPairs({ currency })
       props.buySellActions.fetchFiatEligible(props.fiatCurrency)
       props.buySellActions.fetchSDDEligibility()
@@ -71,7 +74,8 @@ const mapStateToProps = (state: RootState) => ({
   fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD',
   isFirstLogin: selectors.signup.getFirstLogin(state),
   originalFiatCurrency: selectors.components.buySell.getOriginalFiatCurrency(state),
-  sddTransactionFinished: selectors.components.buySell.getSddTransactionFinished(state)
+  sddTransactionFinished: selectors.components.buySell.getSddTransactionFinished(state),
+  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({

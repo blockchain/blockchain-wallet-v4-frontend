@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { BSPaymentMethodType } from '@core/types'
@@ -12,6 +11,8 @@ import {
   DisplaySubTitle,
   DisplayTitle
 } from 'components/BuySell'
+
+import { getDescriptionFromCurrency, getSubTitleByCurrency } from './utils'
 
 const DisplayTitleBank = styled(DisplayTitle)`
   margin-bottom: 2px;
@@ -36,39 +37,8 @@ const BankWire: React.FC<Props> = ({ icon, onClick, text, value }) => (
     <DisplayIconBank>{icon}</DisplayIconBank>
     <Content>
       <DisplayTitleBank>{text}</DisplayTitleBank>
-      <DisplaySubTitle>
-        {value.currency === 'ARS' ? (
-          <FormattedMessage
-            id='copy.number_of_business_days_ars'
-            defaultMessage='{first} to {second} Business Days'
-            values={{ first: '1', second: '3' }}
-          />
-        ) : (
-          <FormattedMessage
-            id='copy.number_of_business_days'
-            defaultMessage='{first} to {second} Business Days'
-            values={{ first: '3', second: '5' }}
-          />
-        )}
-      </DisplaySubTitle>
-      <Description>
-        {value.currency === 'USD' ? (
-          <FormattedMessage
-            id='modals.simplebuy.bankwire.description_v'
-            defaultMessage='Send funds directly from your bank to your Blockchain.com Account. Once we receive the wire transfer, we’ll complete your purchase.'
-          />
-        ) : value.currency === 'ARS' ? (
-          <FormattedMessage
-            id='modals.simplebuy.banktransfer.description_ars'
-            defaultMessage='Transfer funds from your bank account to your Blockchain.com Wallet with a bank transfer. Your bank may charge additional fees.'
-          />
-        ) : (
-          <FormattedMessage
-            id='modals.simplebuy.banktransfer.description'
-            defaultMessage='Send funds directly from your bank to your Blockchain.com Account. Once we receive the bank transfer, we’ll complete your purchase.'
-          />
-        )}
-      </Description>
+      <DisplaySubTitle>{getSubTitleByCurrency(value.currency)}</DisplaySubTitle>
+      <Description>{getDescriptionFromCurrency(value.currency)}</Description>
     </Content>
     <Icon name='chevron-right' size='24px' color='grey400' />
   </DisplayContainer>

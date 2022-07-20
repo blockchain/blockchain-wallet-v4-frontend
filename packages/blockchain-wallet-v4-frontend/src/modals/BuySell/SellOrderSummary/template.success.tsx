@@ -43,6 +43,8 @@ const Success: React.FC<Props> = (props) => {
   const sellCounterCurrency = sellOrder ? getFiatFromPair(sellOrder.pair) : 'USD'
   const isInternal = sellOrder?.kind.direction === 'INTERNAL'
   const sellCounterAmount = sellOrder ? getSellCounterAmount(sellOrder) : 0
+  const sellCurrencyName = window.coins[sellCounterCurrency]?.coinfig.name || sellCounterCurrency
+
   return sellOrder ? (
     <Wrapper>
       <div>
@@ -116,7 +118,7 @@ const Success: React.FC<Props> = (props) => {
             <Title>
               <FormattedMessage id='modals.simplebuy.summary.sent_to' defaultMessage='Sent To' />
             </Title>
-            <Value data-e2e='sbSentTo'>{sellCounterCurrency} Wallet</Value>
+            <Value data-e2e='sbSentTo'>{sellCurrencyName}</Value>
           </Row>
         )}
         {sellOrder.priceFunnel.outputMoney !== '0' && (

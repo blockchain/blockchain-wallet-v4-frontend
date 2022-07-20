@@ -100,7 +100,7 @@ const LayoutUsdArs: React.FC<Props> = (props) => {
           </TopText>
           <TopText color='grey600' size='24px' weight={600}>
             <FormattedMessage
-              id='modals.simplebuy.deposit.regular_bank_transfer_details'
+              id='modals.simplebuy.deposit.bank_transfer_details'
               defaultMessage='Transfer Details'
             />
           </TopText>

@@ -8,7 +8,12 @@ import { all, call, put, select } from 'redux-saga/effects'
 import { Exchange, Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { GasCalculationOperations, GasDataI, NftTemplateParams } from '@core/network/api/nfts/types'
+import {
+  GasCalculationOperations,
+  GasDataI,
+  NftAsset,
+  NftTemplateParams
+} from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
   cancelNftOrder,
@@ -62,10 +67,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     networks
   })
 
-  const notifyNftPurchase = function* (templateParams: NftTemplateParams) {
+  const notifyNftPurchase = function* (amount: number, value: number, address, asset: NftAsset) {
     try {
       const jwt = yield call(generateRetailToken)
-      yield call(api.notifyNftPurchase, jwt, templateParams)
+      yield call(api.notifyNftPurchase, jwt, {
+        amount: `${amount.toFixed(8)} ETH`,
+        nft_activity_link: `${baseWalletUrl}/nfts/address/${address}`,
+        nft_bidder: address || null,
+        nft_image: asset.image_preview_url,
+        nft_marketplace_link: `${baseWalletUrl}/nfts/assets/${asset.asset_contract.address}${asset.token_id}`,
+        nft_name: `${asset.collection.name} ${asset.name || `#${asset.token_id}`}`,
+        value: `${value.toFixed(2)} USD`
+      })
     } catch (e) {
       yield put(
         actions.analytics.trackEvent({
@@ -422,15 +435,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         startAmount: amount || '0'
       })
       yield call(api.postNftOrderV2, { guid, network, order: seaportOrder, side: 'bid' })
-      yield call(notifyNftPurchase, {
-        amount: amount.toString(),
-        nft_activity_link: `${baseWalletUrl}/nfts/address/${signer.address}`,
-        nft_bidder: signer.address || null,
-        nft_image: asset.image_preview_url,
-        nft_marketplace_link: `${baseWalletUrl}/nfts/assets/${asset.asset_contract.address}${asset.token_id}`,
-        nft_name: asset.name,
-        value: amount_usd.toString()
-      })
+      yield call(notifyNftPurchase, amount, amount_usd, signer.address, asset)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_OFFER_SUCCESS))
       yield put(
         actions.analytics.trackEvent({
@@ -1394,15 +1399,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const { asset, buy, gasData, sell } = action.payload
       const signer = yield call(getEthSigner)
       yield call(fulfillNftOrder, { buy, gasData, sell, signer })
-      yield call(notifyNftPurchase, {
-        amount: amount.toString(),
-        nft_activity_link: `${baseWalletUrl}/nfts/address/${signer.address}`,
-        nft_bidder: signer.address || null,
-        nft_image: asset.image_preview_url,
-        nft_marketplace_link: `${baseWalletUrl}/nfts/assets/${asset.asset_contract.address}${asset.token_id}`,
-        nft_name: asset.name,
-        value: amount_usd.toString()
-      })
+      yield call(notifyNftPurchase, amount, amount_usd, signer.address, asset)
       yield put(A.setNftOrderStatus(NftOrderStatusEnum.POST_BUY_ORDER_SUCCESS))
 
       yield put(
