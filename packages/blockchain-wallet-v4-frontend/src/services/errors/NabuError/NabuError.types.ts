@@ -15,6 +15,7 @@ type NabuErrorIconProps = {
 
 type NabuErrorProps = {
   actions?: NabuErrorAction[]
+  categories?: string[]
   icon?: NabuErrorIconProps
   message: string
   title: string

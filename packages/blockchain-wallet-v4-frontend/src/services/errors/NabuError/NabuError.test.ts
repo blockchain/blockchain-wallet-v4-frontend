@@ -63,4 +63,14 @@ describe('NabuError()', () => {
     expect(actions[0].title).toEqual('Go to enter amount')
     expect(actions[1].title).toEqual('Blockchain')
   })
+
+  it('Should include the error categories when available', () => {
+    const error = new NabuError({
+      categories: ['TestCategory'],
+      message: 'Message',
+      title: 'Title'
+    })
+
+    expect(error.categories).toEqual(['TestCategory'])
+  })
 })

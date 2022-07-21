@@ -7,13 +7,16 @@ class NabuError extends Error {
 
   message: string
 
+  categories?: string[]
+
   actions?: NabuErrorAction[]
 
-  constructor({ actions, icon, message, title }: NabuErrorProps) {
+  constructor({ actions, categories, icon, message, title }: NabuErrorProps) {
     super(title)
 
     this.title = title
     this.message = message
+    this.categories = categories
     this.icon = icon
     this.actions = actions
   }
