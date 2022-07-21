@@ -24596,9 +24596,9 @@ underscore.deferred@^0.4.0:
   integrity sha1-J1PeYzuf99tgGi8/oq+Ss90pDmw=
 
 undici@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-5.0.0.tgz#3c1e08c7f0df90c485d5d8dbb0517e11e34f2090"
-  integrity sha512-VhUpiZ3No1DOPPQVQnsDZyfcbTTcHdcgWej1PdFnSvOeJmOVDgiOHkunJmBLfmjt4CqgPQddPVjSWW0dsTs5Yg==
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-5.8.0.tgz#dec9a8ccd90e5a1d81d43c0eab6503146d649a4f"
+  integrity sha512-1F7Vtcez5w/LwH2G2tGnFIihuWUlc58YidwLiCv+jR2Z50x0tNXpRRw7eOIJ+GvqCqIkg9SB7NWAJ/T9TLfv8Q==
 
 unfetch@^4.2.0:
   version "4.2.0"
