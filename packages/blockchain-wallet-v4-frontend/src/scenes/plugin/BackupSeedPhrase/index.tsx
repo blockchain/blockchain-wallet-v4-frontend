@@ -28,7 +28,6 @@ const BackupSeedPhrase = (props) => {
   const [isShow, setIsShow] = useState<boolean>(false)
 
   const handleBackupNow = () => {
-    props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
     props.walletActions.triggerMnemonicViewedAlert()
   }
 
@@ -44,7 +43,11 @@ const BackupSeedPhrase = (props) => {
   }
 
   useEffect(() => {
-    props.recoveryPhraseActions.setStep('RECOVERY_PHRASE_INTRO')
+    if (props.isMnemonicVerified) {
+      props.recoveryPhraseActions.setStep('CONFIRM_WORDS_SHORTCUT')
+    } else {
+      props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
+    }
   }, [])
 
   useEffect(() => {

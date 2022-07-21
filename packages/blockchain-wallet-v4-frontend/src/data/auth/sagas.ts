@@ -1,4 +1,5 @@
 import base64url from 'base64url'
+import { AbstractPlugin } from 'plugin/internal'
 import { savePassword } from 'plugin/internal/chromeStorage'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
@@ -40,6 +41,8 @@ import {
   PlatformTypes,
   ProductAuthOptions
 } from './types'
+
+const { isPlugin } = AbstractPlugin
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
@@ -363,7 +366,11 @@ export default ({ api, coreSagas, networks }) => {
             return
           }
           if (product === ProductAuthOptions.WALLET) {
-            yield put(actions.router.push('/home'))
+            if (isPlugin()) {
+              yield put(actions.router.push('/plugin/coinslist'))
+            } else {
+              yield put(actions.router.push('/home'))
+            }
           } else {
             yield put(actions.router.push('/select-product'))
           }
@@ -371,7 +378,17 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.router.push('/verify-email-step'))
         }
       } else {
-        yield put(actions.router.push('/home'))
+        const isPluginTabPath = window.location.pathname === '/index-tab.html'
+
+        if (isPlugin()) {
+          if (isPluginTabPath) {
+            yield put(actions.router.push('/plugin/backup-seed-phrase'))
+          } else {
+            yield put(actions.router.push('/plugin/coinslist'))
+          }
+        } else {
+          yield put(actions.router.push('/home'))
+        }
       }
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
