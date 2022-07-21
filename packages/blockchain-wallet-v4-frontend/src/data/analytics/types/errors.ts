@@ -23,6 +23,7 @@ type ErrorSource = 'CLIENT' | 'NABU' | 'UNKNOWN'
 
 export type ClientErrorProperties = {
   action?: string
+  category?: string[]
   error: ErrorType
   network_endpoint?: string
   network_error_code?: number
