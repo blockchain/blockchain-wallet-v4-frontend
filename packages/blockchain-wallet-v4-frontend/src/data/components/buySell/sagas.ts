@@ -488,7 +488,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     } catch (e) {
       if (isNabuError(e)) {
-        return yield put(
+        yield put(A.createOrderFailure(e))
+
+        yield put(
           actions.form.stopSubmit(
             values?.orderType === OrderType.SELL ? FORM_BS_PREVIEW_SELL : FORM_BS_CHECKOUT,
             {
@@ -496,6 +498,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             }
           )
         )
+
+        return
       }
 
       const error: number | string = errorHandlerCode(e)
