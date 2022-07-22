@@ -22,10 +22,10 @@ describe('NabuError()', () => {
       "We are having problems fetching a quote for USDC-USD, don't worry - we're on it"
     const icon: NabuErrorIconProps = {
       accessibility: {
-        description: ''
+        description: 'error-icon'
       },
       status: {
-        url: ''
+        url: 'https://blockchain.com/asset/warning.png'
       },
       url: 'https://blockchain.com/asset/quote/usd-usdc.png'
     }
