@@ -1,10 +1,10 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconArrowUpRight, IconDownload } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
-import { IconButton, SkeletonRectangle, Text, TooltipIcon } from 'blockchain-info-components'
+import { IconButton, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import { selectors } from 'data'
 

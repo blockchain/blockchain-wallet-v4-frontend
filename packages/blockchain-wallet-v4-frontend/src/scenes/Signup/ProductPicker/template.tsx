@@ -1,9 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { AbstractPlugin } from 'plugin/internal'
 import styled from 'styled-components'
 
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
+
+const { isPlugin } = AbstractPlugin
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -18,6 +21,7 @@ const ProductImageRow = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
+  width: ${isPlugin() && '100%'};
   margin: 32px 0;
   ${media.mobile`
   flex-direction: column;
@@ -29,6 +33,7 @@ const ProductImage = styled(Image)`
   margin: 0 1.5rem;
   cursor: pointer;
   height: 400px;
+  width: ${isPlugin() && '88%'};
   transition: transform 0.5s ease 0s, box-shadow 0.5s ease 0s;
   &:hover {
     transform: scale(1.05);
@@ -75,9 +80,11 @@ const ProductPicker = ({ exchangeRedirect, walletRedirect }: Props) => {
         <Link onClick={walletRedirect}>
           <ProductImage name='product-redirect-wallet' />
         </Link>
-        <Link onClick={exchangeRedirect}>
-          <ProductImage name='product-redirect-exchange' />
-        </Link>
+        {!isPlugin() && (
+          <Link onClick={exchangeRedirect}>
+            <ProductImage name='product-redirect-exchange' />
+          </Link>
+        )}
       </ProductImageRow>
     </>
   )
