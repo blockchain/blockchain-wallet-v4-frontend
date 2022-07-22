@@ -27,6 +27,7 @@ import TranslationsProvider from 'providers/TranslationsProvider'
 import { getTracking } from 'services/tracking'
 
 import CoinsList from './plugin/CoinsList'
+import Receive from './plugin/Funding'
 import CoinsListHeader from './plugin/CoinsList/CoinsListHeader'
 import HomeNavbar from './plugin/HomeNavbar'
 
@@ -126,6 +127,7 @@ const App = ({
                             footer={<HomeNavbar />}
                             component={CoinsList}
                           />
+                          <PluginLayout path='/plugin/funding' component={Receive} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
                             path='/help'
