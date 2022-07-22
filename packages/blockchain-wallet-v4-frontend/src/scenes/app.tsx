@@ -36,7 +36,6 @@ import HomeNavbar from './plugin/HomeNavbar'
 import Nft from './plugin/Nft'
 import Send from './plugin/Send'
 import Settings from './plugin/Settings'
-import Unlock from './plugin/Unlock'
 
 const queryClient = new QueryClient()
 
@@ -152,7 +151,6 @@ const App = ({
                             footer={<HomeNavbar />}
                             component={Nft}
                           />
-                          <PluginLayout path='/plugin/unlock' component={Unlock} />
                           <PluginLayout path='/plugin/send' component={Send} />
                           <PluginLayout path='/plugin/settings' component={Settings} />
                           <PluginLayout path='/plugin/connect-dapp' component={ConnectDapp} />

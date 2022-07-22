@@ -1,6 +1,6 @@
 import base64url from 'base64url'
 import { AbstractPlugin } from 'plugin/internal'
-import { savePassword } from 'plugin/internal/chromeStorage'
+import { setSessionExpireTime } from 'plugin/internal/chromeStorage'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
@@ -559,7 +559,6 @@ export default ({ api, coreSagas, networks }) => {
       // heartbeat loader would stop for a second before
       // opening exchange window
 
-      yield savePassword(password)
       if (product !== ProductAuthOptions.EXCHANGE) {
         yield put(stopSubmit(LOGIN_FORM))
       }
@@ -920,6 +919,9 @@ export default ({ api, coreSagas, networks }) => {
         yield put(
           actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
         )
+        if (isPlugin()) {
+          yield setSessionExpireTime()
+        }
       } else if (
         (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) &&
         userType !== AuthUserType.INSTITUTIONAL
