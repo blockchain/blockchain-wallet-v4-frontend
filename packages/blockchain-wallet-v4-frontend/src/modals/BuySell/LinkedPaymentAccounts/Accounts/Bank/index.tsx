@@ -45,11 +45,20 @@ const Bank = ({ icon, onClick, text, value }: Props) => {
   return (
     <DisplayContainer data-e2e={`sb${type.toLowerCase()}Banks`} role='button' onClick={onClick}>
       <DisplayIcon>{icon}</DisplayIcon>
-      <MultiRowContainer>
+      <MultiRowContainer style={{ minWidth: 0 }}>
         <Flex justifyContent='space-between'>
-          <StyledValue asTitle>{text}</StyledValue>
+          <StyledValue
+            asTitle
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {text}
+          </StyledValue>
 
-          {!!details && <StyledValue asTitle>***{details.accountNumber}</StyledValue>}
+          {!!details && <StyledTitle asValue>***{details.accountNumber}</StyledTitle>}
         </Flex>
 
         <Flex justifyContent='space-between'>

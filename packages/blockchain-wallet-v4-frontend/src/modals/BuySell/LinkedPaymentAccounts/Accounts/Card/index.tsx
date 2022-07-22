@@ -42,10 +42,19 @@ const Card: React.FC<Props> = ({ icon, onClick, text, value }) => {
   return (
     <DisplayContainer data-e2e={`sb${type.toLowerCase()}Cards`} role='button' onClick={onClick}>
       <DisplayIcon>{icon}</DisplayIcon>
-      <MultiRowContainer>
+      <MultiRowContainer style={{ minWidth: 0 }}>
         <Flex justifyContent='space-between'>
-          <StyledValue asTitle>{text.toLowerCase()}</StyledValue>
-          {!!card && <StyledTitle asValue>***{card.number}</StyledTitle>}
+          <StyledValue
+            asTitle
+            style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {text.toLowerCase()}
+          </StyledValue>
+          {!!card && <StyledTitle asValue>****{card.number}</StyledTitle>}
         </Flex>
 
         <Flex justifyContent='space-between'>

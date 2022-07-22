@@ -98,7 +98,7 @@ const Success: React.FC<
                       </Text>
 
                       <Text size='14px' color='grey600' weight={500}>
-                        ***{card.card.number}
+                        ****{card.card.number}
                       </Text>
                     </Flex>
 

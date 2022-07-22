@@ -613,7 +613,15 @@ const renderBankSubText = (
 
 const renderBank = (value: BSPaymentMethodType | BankTransferAccountType | BeneficiaryType) => (
   <>
-    <DisplayValue>{renderBankText(value)}</DisplayValue>
+    <DisplayValue
+      style={{
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap'
+      }}
+    >
+      {renderBankText(value)}
+    </DisplayValue>
     <DisplayTitle>{renderBankSubText(value)}</DisplayTitle>
   </>
 )

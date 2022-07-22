@@ -81,10 +81,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     <Image name={getBankLogoImageName(account.details?.bankName)} />
                   </Flex>
 
-                  <Expanded>
+                  <Expanded style={{ minWidth: 0 }}>
                     <Flex flexDirection='column'>
                       <Flex justifyContent='space-between'>
-                        <Text size='16px' color='grey800' weight={600}>
+                        <Text
+                          size='16px'
+                          color='grey800'
+                          weight={600}
+                          style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}
+                        >
                           {account.details?.bankName}
                         </Text>
 
