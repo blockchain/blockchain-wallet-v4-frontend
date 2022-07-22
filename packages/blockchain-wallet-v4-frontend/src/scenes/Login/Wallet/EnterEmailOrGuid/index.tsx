@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { AbstractPlugin } from 'plugin/internal'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -19,10 +20,12 @@ import ProductTabMenu from '../../components/ProductTabMenu'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, GuidError, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
 
+const { isPlugin } = AbstractPlugin
+
 const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
-  padding: 0 0 24px 0;
+  padding: ${isPlugin() ? '40px' : 0} 0 24px 0;
   ${media.mobile`
     padding: 0 0 16px 0;
   `}
@@ -35,7 +38,12 @@ const EnterEmailOrGuid = (props: Props) => {
 
   return (
     <LoginWrapper>
-      <ProductTabMenu active={ProductAuthOptions.WALLET} onExchangeTabClick={exchangeTabClicked} />
+      {!isPlugin() && (
+        <ProductTabMenu
+          active={ProductAuthOptions.WALLET}
+          onExchangeTabClick={exchangeTabClicked}
+        />
+      )}
       <WrapperWithPadding>
         <FormGroup>
           <FormItem style={{ marginTop: '40px' }}>
@@ -84,14 +92,16 @@ const EnterEmailOrGuid = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <LinkContainer to={{ pathname: '/recover', state: { showPhraseStep: true } }}>
-            <Link size='13px' weight={600} data-e2e='loginImportAccount'>
-              <FormattedMessage
-                id='scenes.login.import_your_account'
-                defaultMessage='Import Your Account'
-              />
-            </Link>
-          </LinkContainer>
+          {!isPlugin() && (
+            <LinkContainer to={{ pathname: '/recover', state: { showPhraseStep: true } }}>
+              <Link size='13px' weight={600} data-e2e='loginImportAccount'>
+                <FormattedMessage
+                  id='scenes.login.import_your_account'
+                  defaultMessage='Import Your Account'
+                />
+              </Link>
+            </LinkContainer>
+          )}
         </LinkRow>
       </WrapperWithPadding>
       <SignupLink platform={magicLinkData?.platform_type} />

@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { AbstractPlugin } from 'plugin/internal'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -22,6 +23,8 @@ import BackArrowHeader from '../../components/BackArrowHeader'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, CenteredColumn, Row, WrapperWithPadding } from '../../model'
+
+const { isPlugin } = AbstractPlugin
 
 const LoginWrapper = styled(Wrapper)`
   display: flex;
@@ -87,7 +90,7 @@ const TwoFAWallet = (props: Props) => {
                   />
                 )}
                 {(authType === 4 || authType === 5) &&
-                  (isMobile() ? (
+                  (isMobile() || isPlugin() ? (
                     <FormattedMessage
                       id='scenes.logins.twofa.enter_code.mobile_width'
                       defaultMessage='Two Factor Authentication Code'
