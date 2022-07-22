@@ -1,6 +1,6 @@
 import React, { MouseEvent, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { IconCheckCircle, IconCopy } from '@blockchain-com/icons'
 import { SwapAccountType } from 'blockchain-wallet-v4-frontend/src/data/components/swap/types'
 import Tooltip from 'blockchain-wallet-v4-frontend/src/scenes/plugin/SwitchAccount/Tooltip'
@@ -12,6 +12,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
+import { actions as cacheActions } from 'data/cache/slice'
 import { RootState } from 'data/rootReducer'
 
 const AccountBlock = styled.div`
@@ -99,11 +100,11 @@ const Account: React.FC<AccountProps & any> = ({
   addressR,
   copiedAccountIndex,
   index,
-  selectedAccountIndex,
   setCopiedAccountIndex,
-  setSelectedAccountIndex,
   ...props
 }) => {
+  const dispatch = useDispatch()
+  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
   const state = useSelector((state: RootState) => state)
 
   const balance = selectors.balances.getCoinTotalBalance(account[0].coin)(state).getOrElse(0)
@@ -155,8 +156,12 @@ const Account: React.FC<AccountProps & any> = ({
     }
   }
 
+  const selectAccount = (account) => {
+    dispatch(cacheActions.setSelectedAccount(account))
+  }
+
   return (
-    <AccountBlock key={index} onClick={() => setSelectedAccountIndex(index)}>
+    <AccountBlock key={index} onClick={() => selectAccount(account)}>
       <Icon size='24' name={account[0].coin} />
       <AccountInfo>
         {copiedAccountIndex === index ? (
@@ -199,7 +204,7 @@ const Account: React.FC<AccountProps & any> = ({
           </CoinTextBlock>
         </Flex>
       </AccountInfo>
-      {selectedAccountIndex === index ? (
+      {selectedAccount && selectedAccount[0].coin === account[0].coin ? (
         <ConnectBlock>
           <IconCheckWrapper height='24px' width='24px' />
           <Tooltip

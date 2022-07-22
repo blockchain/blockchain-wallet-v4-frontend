@@ -67,16 +67,16 @@ const SettingsButton = styled.button`
 
 const Header = () => {
   const [isSwitchAccountVisible, setIsSwitchAccountVisible] = useState(false)
-  const [selectedAccountIndex, setSelectedAccountIndex] = useState<number>(0)
+
+  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
   const coins = useSelector(selectors.components.swap.getCoins)
-  const balance = useSelector(selectors.balances.getTotalWalletBalance)
   const accounts = useSelector((state) =>
     getCoinAccounts(state as CombinedState<any>, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   )
+  const activeAccountCoin = selectedAccount && selectedAccount[0].baseCoin
 
   const switchAccounts = [accounts.ETH, accounts.BTC, accounts.BCH, accounts.XLM, accounts.STX]
-  const activeAccountCoin =
-    switchAccounts[selectedAccountIndex] && switchAccounts[selectedAccountIndex][0].baseCoin
+
   const setSwitchAccountVisibility = () => {
     setIsSwitchAccountVisible(true)
   }
@@ -104,12 +104,9 @@ const Header = () => {
       </HeaderWrapper>
       {isSwitchAccountVisible && (
         <SwitchAccount
-          balance={balance}
           coins={coins}
           accounts={switchAccounts}
           setIsSwitchAccountVisible={setIsSwitchAccountVisible}
-          selectedAccountIndex={selectedAccountIndex}
-          setSelectedAccountIndex={setSelectedAccountIndex}
         />
       )}
     </header>
