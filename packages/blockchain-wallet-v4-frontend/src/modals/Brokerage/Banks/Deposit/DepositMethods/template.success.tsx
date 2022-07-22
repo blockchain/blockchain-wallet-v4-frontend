@@ -2,7 +2,13 @@ import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { BSPaymentMethodsType, BSPaymentMethodType, BSPaymentTypes, FiatType } from '@core/types'
+import {
+  BSPaymentMethodsType,
+  BSPaymentMethodType,
+  BSPaymentTypes,
+  FiatType,
+  WalletFiatType
+} from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/types'
@@ -158,6 +164,7 @@ const Success = ({ addNew, brokerageActions, close, fiatCurrency, paymentMethods
 
 type Props = {
   close: () => void
+  fiatCurrency: WalletFiatType
   paymentMethods: BSPaymentMethodsType
 } & ReturnType<typeof mapDispatchToProps> &
   _P
