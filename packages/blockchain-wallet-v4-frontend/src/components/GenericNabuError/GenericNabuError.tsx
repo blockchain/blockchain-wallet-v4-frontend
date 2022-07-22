@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react'
+import { IconAlert } from '@blockchain-com/icons'
 
 import { Button } from 'blockchain-info-components'
+import { IconBadge } from 'components/Badge'
 import {
   ActionsList,
   ErrorContent,
@@ -32,7 +34,15 @@ const GenericNabuError: GenericNabuErrorComponent = ({ error, onDismiss }) => {
 
   return (
     <GenericErrorLayout>
-      <ErrorIconWithSeverity iconStatusUrl={icon?.status.url || ''} iconUrl={icon?.url || ''} />
+      <ErrorIconWithSeverity
+        iconStatusUrl={icon?.status.url || ''}
+        iconUrl={icon?.url || ''}
+        statusFallback={
+          <IconBadge color='orange600' size={1.5}>
+            <IconAlert />
+          </IconBadge>
+        }
+      />
 
       <ErrorContent title={error.title} message={error.message} />
 
