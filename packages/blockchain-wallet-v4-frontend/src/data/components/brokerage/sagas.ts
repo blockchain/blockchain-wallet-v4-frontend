@@ -9,6 +9,7 @@ import {
   BSTransactionStateEnum,
   BSTransactionType,
   ExtraKYCContext,
+  ProductTypes,
   WalletFiatType
 } from '@core/types'
 import { errorCodeAndMessage, errorHandler } from '@core/utils'
@@ -533,6 +534,48 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const paymentAccountCheck = function* (methodId: BSPaymentMethodType['id']) {
+    // Only used for Bank Transfers for now
+    if (!methodId) return yield put(A.paymentAccountRefreshCanceled)
+
+    const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
+      api.updateBankAccountLink,
+      methodId,
+      { settlementRequest: { amount: 0, product: ProductTypes.SIMPLEBUY } }
+    )
+
+    const { reason, settlementType } = status.attributes?.settlementResponse
+
+    if (settlementType !== 'UNAVAILABLE') {
+      return yield put(A.paymentAccountRefreshCanceled)
+    }
+
+    yield put(actions.components.buySell.setStep({ reason, step: 'PAYMENT_ACCOUNT_ERROR' }))
+
+    // const domainsR = yield select(selectors.core.walletOptions.getDomains)
+    // const { comRoot } = domainsR.getOrElse({
+    //   comRoot: 'https://www.blockchain.com'
+    // })
+    // const redirect_uri = `${comRoot}/brokerage-link-success`
+    // const attributes = { redirect_uri }
+    // try {
+    //   yield put(actions.components.brokerage.fetchBankLinkCredentialsLoading())
+    //   const data: BankCredentialsType = yield call(
+    //     api.refreshBankAccountLink,
+    //     method.id,
+    //     attributes
+    //   )
+    //   yield put(actions.components.brokerage.setBankCredentials(data))
+    // } catch (error) {
+    //   yield put(actions.components.brokerage.fetchBankLinkCredentialsError(error))
+    // }
+
+    // const refreshRequired = yield call(refreshCheck, method)
+    // if (refreshRequired) {
+    //   method.type = BSPaymentTypes.LINK_BANK
+    // }
+  }
+
   return {
     createFiatDeposit,
     deleteSavedBank,
@@ -542,6 +585,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchCrossBorderLimits,
     handleDepositFiatClick,
     handleWithdrawClick,
+    paymentAccountCheck,
     setupBankTransferProvider,
     showModal
   }

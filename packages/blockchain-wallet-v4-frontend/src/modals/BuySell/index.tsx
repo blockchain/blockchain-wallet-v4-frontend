@@ -14,11 +14,12 @@ import {
   MobilePaymentType
 } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import RefreshPaymentAccount from 'components/Flyout/RefreshPaymentAccount'
 import { actions, model, selectors } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import { BankStatusType, FastLinkType, ModalName } from 'data/types'
+import { BankStatusType, FastLinkType, ModalName, PlaidSettlementErrorReasons } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
@@ -274,6 +275,12 @@ class BuySell extends PureComponent<Props, State> {
                 <StdLoading text={LoadingTextEnum.GETTING_READY} />
               </FlyoutChild>
             )}
+            {/** Only Plaid errors for now */}
+            {this.props.step === 'PAYMENT_ACCOUNT_ERROR' && (
+              <FlyoutChild>
+                <RefreshPaymentAccount />
+              </FlyoutChild>
+            )}
           </Flyout>
         )
       }
@@ -384,6 +391,10 @@ type LinkStatePropsType =
       orderType: BSOrderActionType
       pair: BSPairType
       step: 'PAYMENT_METHODS'
+    }
+  | {
+      reason: PlaidSettlementErrorReasons
+      step: 'PAYMENT_ACCOUNT_ERROR'
     }
   | {
       orderType: BSOrderActionType

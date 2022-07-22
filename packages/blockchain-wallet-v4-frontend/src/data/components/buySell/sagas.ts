@@ -98,11 +98,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const { fetchBankTransferAccounts, setupBankTransferProvider } = brokerageSagas({
-    api,
-    coreSagas,
-    networks
-  })
+  const { fetchBankTransferAccounts, paymentAccountCheck, setupBankTransferProvider } =
+    brokerageSagas({
+      api,
+      coreSagas,
+      networks
+    })
 
   const generateApplePayToken = async ({
     applePayInfo,
@@ -567,6 +568,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { order } = payload
 
     try {
+      yield call(paymentAccountCheck, order.paymentMethodId)
+      yield race({
+        canceled: take(actions.components.brokerage.paymentAccountRefreshCanceled.type),
+        success: take(actions.components.brokerage.paymentAccountRefreshed.type)
+      })
+
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
 
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
@@ -1485,7 +1492,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
       case BSPaymentTypes.LINK_BANK: // Yapily, Yodlee, Plaid, ...
         yield put(actions.components.buySell.setStep({ step: 'LOADING' }))
-        const { bankCredentials, fastLink } = yield call(setupBankTransferProvider)
+        const { bankCredentials } = yield call(setupBankTransferProvider)
 
         let modalType: ModalName
         switch (true) {
@@ -1495,8 +1502,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           case bankCredentials && bankCredentials.payload.partner === 'PLAID':
             modalType = ModalName.ADD_BANK_PLAID_MODAL
             break
-          case fastLink: // YODLEE
           default:
+            // YODLEE
             modalType = ModalName.ADD_BANK_YODLEE_MODAL
             break
         }

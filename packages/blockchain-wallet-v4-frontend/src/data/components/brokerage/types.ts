@@ -181,6 +181,12 @@ export type PlaidAccountType = {
   public_token: string
 }
 
+export type PlaidSettlementErrorReasons =
+  | 'INSUFFICIENT_BALANCE'
+  | 'STALE_BALANCE'
+  | 'GENERIC'
+  | 'REQUIRES_UPDATE'
+
 export enum AddBankStepType {
   ADD_BANK = 'ADD_BANK',
   ADD_BANK_AUTHORIZE = 'ADD_BANK_AUTHORIZE',

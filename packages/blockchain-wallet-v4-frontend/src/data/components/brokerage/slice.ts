@@ -83,6 +83,8 @@ const brokerageSlice = createSlice({
       state.fiatCurrency = action.payload
     },
     handleWithdrawClick: (state, action: PayloadAction<WalletFiatType>) => {},
+    paymentAccountRefreshCanceled: () => {},
+    paymentAccountRefreshed: () => {},
     setAddBankStep: (state, action: PayloadAction<BrokerageAddBankStepPayload>) => {
       state.addBankStep = action.payload.addBankStep
       if (action.payload.addBankStep === AddBankStepType.ADD_BANK_STATUS) {
