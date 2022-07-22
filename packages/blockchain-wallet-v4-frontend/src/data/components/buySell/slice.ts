@@ -194,6 +194,9 @@ const buySellSlice = createSlice({
     createCardLoading: (state) => {
       state.card = Remote.Loading
     },
+    createCardNotAsked: (state, action: PayloadAction<void>) => {
+      state.card = Remote.NotAsked
+    },
     createCardSuccess: (state, action: PayloadAction<BSCardType>) => {
       state.card = Remote.Success(action.payload)
     },

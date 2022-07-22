@@ -5,8 +5,11 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Remote } from '@core'
 import { BSPairType, CoinType, OrderType, WalletOptionsType } from '@core/types'
 import DataError from 'components/DataError'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { useRemote } from 'hooks'
+import { isNabuError } from 'services/errors'
 
 import { getData } from './selectors'
 import Success from './template.success'
@@ -15,6 +18,7 @@ import Unsupported from './template.unsupported'
 const AddCardCheckoutDotCom = (props: Props) => {
   const [isError, setError] = useState(false)
   const [cvv, setCVV] = useState('')
+  const { error: cardError } = useRemote(() => props.cardRemote)
 
   const handlePostMessage = async ({
     data
@@ -83,6 +87,15 @@ const AddCardCheckoutDotCom = (props: Props) => {
     return <DataError />
   }
 
+  if (cardError && isNabuError(cardError)) {
+    return (
+      <GenericNabuErrorFlyout
+        error={cardError}
+        onDismiss={() => props.buySellActions.createCardNotAsked()}
+      />
+    )
+  }
+
   return props.data.cata({
     Failure: (e) => (
       <DataError message={{ message: e }} onClick={props.buySellActions.fetchPaymentMethods} />
@@ -116,6 +129,7 @@ const AddCardCheckoutDotCom = (props: Props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  cardRemote: selectors.components.buySell.getBSCard(state),
   checkoutDotComAccountCodes: selectors.components.buySell.getCheckoutAccountCodes(state),
   checkoutDotComApiKey: selectors.components.buySell.getCheckoutApiKey(state),
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),

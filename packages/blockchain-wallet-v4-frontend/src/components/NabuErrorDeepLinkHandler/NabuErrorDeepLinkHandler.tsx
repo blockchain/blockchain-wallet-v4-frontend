@@ -26,6 +26,12 @@ export const NabuErrorDeepLinkHandler: NabuErrorDeepLinkHandlerComponent = ({ ch
     )
   }, [cryptoCurrency, dispatch, fiatCurrency, pair])
 
+  const goToDashboard = useCallback(() => {
+    dispatch(actions.modals.closeModal())
+
+    dispatch(actions.router.push('/home'))
+  }, [dispatch])
+
   const openContactCustomerSupport = useCallback(() => {
     window.open('https://support.blockchain.com')
   }, [])
@@ -39,6 +45,14 @@ export const NabuErrorDeepLinkHandler: NabuErrorDeepLinkHandlerComponent = ({ ch
   }, [dispatch])
 
   const tryDifferentCard = useCallback(() => {
+    dispatch(
+      actions.components.buySell.setStep({
+        step: 'DETERMINE_CARD_PROVIDER'
+      })
+    )
+  }, [dispatch])
+
+  const tryDifferentPaymentMethod = useCallback(() => {
     if (!cryptoCurrency || !fiatCurrency || !pair) return
 
     dispatch(
@@ -51,22 +65,10 @@ export const NabuErrorDeepLinkHandler: NabuErrorDeepLinkHandlerComponent = ({ ch
     )
   }, [cryptoCurrency, dispatch, fiatCurrency, pair])
 
-  const tryDifferentPaymentMethod = useCallback(() => {
-    if (!cryptoCurrency || !fiatCurrency || !pair) return
-
-    dispatch(
-      actions.components.buySell.setStep({
-        cryptoCurrency,
-        fiatCurrency,
-        pair,
-        step: 'PAYMENT_METHODS'
-      })
-    )
-  }, [cryptoCurrency, dispatch, fiatCurrency, pair])
-
   const actionToHandler: Record<NabuErrorDeepLinkActions, (url: URL) => void> = useMemo(
     () => ({
       [NabuErrorDeepLinkActions.BACK_TO_ENTER_AMOUNT]: goBackToEnterAmount,
+      [NabuErrorDeepLinkActions.GO_TO_DASHBOARD]: goToDashboard,
       [NabuErrorDeepLinkActions.OPEN_CONTACT_CUSTOMER_SUPPORT]: openContactCustomerSupport,
       [NabuErrorDeepLinkActions.OPEN_KYC]: openKYC,
       [NabuErrorDeepLinkActions.TRY_DIFFERENT_CARD]: tryDifferentCard,
