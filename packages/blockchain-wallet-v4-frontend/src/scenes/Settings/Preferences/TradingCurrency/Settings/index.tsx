@@ -27,10 +27,14 @@ const SettingsContainer = (props: Props) => {
     props.formActions.initialize('settingTradingCurrency', {
       currency: props.userData.currencies.preferredFiatTradingCurrency
     })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const updateCurrency = (currency: string) => {
     props.settingsActions.setTradingCurrency(currency)
+
+    props.buySellActions.fetchPaymentMethods()
   }
 
   return (
@@ -54,6 +58,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
