@@ -4,6 +4,7 @@ import btcTransactions from './btcTransactions/sagas'
 import buySell from './buySell/sagas'
 import coinTransactions from './coinTransactions/sagas'
 import debitCard from './debitCard/sagas'
+import dex from './dex/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
 import fundRecovery from './fundRecovery/sagas'
@@ -42,6 +43,7 @@ export default ({ api, coreSagas, networks }) => ({
   buySell: buySell({ api, coreSagas, networks }),
   coinTransactions: coinTransactions(),
   debitCard: debitCard({ api, coreSagas, networks }),
+  dex: dex({ api }),
   ethTransactions: ethTransactions(),
   fiatTransactions: fiatTransactions(),
   fundRecovery: fundRecovery({ api }),
