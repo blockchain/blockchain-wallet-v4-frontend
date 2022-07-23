@@ -51,7 +51,7 @@ type SwapQuoteLegInfo = {
 type SwapQuoteTxInfo = {
   chainId: string
   data: string
-  gas: string
+  gasLimit: string
   gasPrice: string
   to: string
   value: string

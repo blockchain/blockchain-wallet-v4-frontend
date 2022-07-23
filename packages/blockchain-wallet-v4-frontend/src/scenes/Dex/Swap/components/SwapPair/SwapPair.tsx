@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronDown } from '@blockchain-com/icons'
-import BigNumber from 'bignumber.js'
 import { bindActionCreators, Dispatch } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -118,11 +117,6 @@ const DexSwapPair = ({
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
           placeholder='0.00'
-          unit='Gwei'
-          // parse={(val) => {
-          //   console.log(val)
-          //   return new BigNumber(val).toFixed(8).valueOf()
-          // }}
           name={amountInputField}
           validate={[]}
         />
@@ -138,7 +132,7 @@ const DexSwapPair = ({
           >
             {Exchange.convertCoinToCoin({
               baseToStandard: false,
-              coin: 'ETH',
+              coin,
               value: amountInputValue
             })}
           </FiatDisplay>

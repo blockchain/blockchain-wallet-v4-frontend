@@ -1,9 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import BigNumber from 'bignumber.js'
 import styled, { keyframes } from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { Exchange } from '@core'
+import { DexSwapQuoteResponse } from '@core/network/api/dex/types'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import { model, selectors } from 'data'
 import { DexSwapSettingsForm } from 'data/components/dex/types'
 import { RootState } from 'data/rootReducer'
@@ -75,13 +79,33 @@ const EditSlippageText = styled(Text)`
     cursor: pointer;
   }
 `
+const LoadingBox = styled(SkeletonRectangle)`
+  height: 39px;
+  width: 75px;
+`
 
+// TODO: ETH is hardcoded in some spots, should be from current chain data
+// TODO: hardcoded for only single-leg swaps
 const QuoteDetails = ({
   handleSettingsClick,
   quoteR,
   swapDetailsOpen,
-  swapSettingsFormValues
+  swapSettingsFormValues,
+  walletCurrency
 }: Props) => {
+  let isQuoteLoading = true
+  let quote
+  /* eslint-disable no-return-assign */
+  quoteR.cata({
+    Failure: () => (isQuoteLoading = true),
+    Loading: () => (isQuoteLoading = true),
+    NotAsked: () => (isQuoteLoading = true),
+    Success: (val) => {
+      isQuoteLoading = false
+      return (quote = val as DexSwapQuoteResponse)
+    }
+  })
+
   return (
     <QuoteWrapper animate={swapDetailsOpen}>
       <RowDetails>
@@ -104,8 +128,14 @@ const QuoteDetails = ({
           <FormattedMessage id='copy.minimum_received' defaultMessage='Minimum Received' />
         </RowTitle>
         <RowValue>
-          <ValueText>$3,091.30</ValueText>
-          <ValueSubText>3,091.3 USDC</ValueSubText>
+          {isQuoteLoading ? (
+            <LoadingBox bgColor='white' />
+          ) : (
+            <>
+              <ValueText>?</ValueText>
+              <ValueSubText>?</ValueSubText>
+            </>
+          )}
         </RowValue>
       </RowDetails>
       <RowDetails>
@@ -113,8 +143,37 @@ const QuoteDetails = ({
           <FormattedMessage id='copy.send_amount' defaultMessage='Send Amount' />
         </RowTitle>
         <RowValue>
-          <ValueText>$3,254.00</ValueText>
-          <ValueSubText>1.001 ETH</ValueSubText>
+          {isQuoteLoading ? (
+            <LoadingBox bgColor='white' />
+          ) : (
+            <>
+              <FiatDisplay
+                coin={quote?.quotes[0].sellAmount.symbol}
+                currency={walletCurrency}
+                color='textBlack'
+                lineHeight='150%'
+                loadingHeight='14px'
+                size='14px'
+                weight={600}
+              >
+                {Exchange.convertCoinToCoin({
+                  baseToStandard: false,
+                  coin: quote?.quotes[0].sellAmount.symbol,
+                  value: Exchange.convertCoinToCoin({
+                    coin: quote?.quotes[0].sellAmount.symbol,
+                    value: quote?.quotes[0].sellAmount.amount
+                  })
+                })}
+              </FiatDisplay>
+              <ValueSubText>
+                {Exchange.convertCoinToCoin({
+                  coin: quote?.quotes[0].sellAmount.symbol,
+                  value: quote?.quotes[0].sellAmount.amount
+                })}{' '}
+                {quote?.quotes[0].sellAmount.symbol}
+              </ValueSubText>
+            </>
+          )}
         </RowValue>
       </RowDetails>
       <RowDetails>
@@ -122,8 +181,32 @@ const QuoteDetails = ({
           <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
         </RowTitle>
         <RowValue>
-          <ValueText>$9.52</ValueText>
-          <ValueSubText>0.005 ETH</ValueSubText>
+          {isQuoteLoading ? (
+            <LoadingBox bgColor='white' />
+          ) : (
+            <>
+              <FiatDisplay
+                coin={quote?.quotes[0].sellAmount.symbol}
+                currency={walletCurrency}
+                color='textBlack'
+                lineHeight='150%'
+                loadingHeight='14px'
+                size='14px'
+                weight={600}
+              >
+                {new BigNumber(quote?.txs[0].gasPrice || 0)
+                  .multipliedBy(quote.txs[0].gasLimit || 0)
+                  .toString()}
+              </FiatDisplay>
+              <ValueSubText>
+                {Exchange.convertCoinToCoin({
+                  coin: 'ETH',
+                  value: quote.txs[0].gasPrice * quote.txs[0].gasLimit
+                })}
+                {' ETH'}
+              </ValueSubText>
+            </>
+          )}
         </RowValue>
       </RowDetails>
       <RowDetails>
@@ -131,8 +214,14 @@ const QuoteDetails = ({
           <FormattedMessage id='copy.blockchain_fee' defaultMessage='Blockchain.com Fee' />
         </RowTitle>
         <RowValue>
-          <ValueText>$2.40</ValueText>
-          <ValueSubText>0.0005 ETH</ValueSubText>
+          {isQuoteLoading ? (
+            <LoadingBox bgColor='white' />
+          ) : (
+            <>
+              <ValueText>?</ValueText>
+              <ValueSubText>?</ValueSubText>
+            </>
+          )}
         </RowValue>
       </RowDetails>
       <RowDetails>
@@ -140,8 +229,14 @@ const QuoteDetails = ({
           <FormattedMessage id='copy.total' defaultMessage='Total' />
         </RowTitle>
         <RowValue>
-          <ValueText>$3,265.92</ValueText>
-          <ValueSubText>1.009 ETH</ValueSubText>
+          {isQuoteLoading ? (
+            <LoadingBox bgColor='white' />
+          ) : (
+            <>
+              <ValueText>?</ValueText>
+              <ValueSubText>?</ValueSubText>
+            </>
+          )}
         </RowValue>
       </RowDetails>
     </QuoteWrapper>
@@ -159,6 +254,6 @@ const connector = connect(mapStateToProps)
 type Props = ConnectedProps<typeof connector> & {
   handleSettingsClick: () => void
   swapDetailsOpen: boolean
-} & Pick<OwnProps, 'quoteR'>
+} & Pick<OwnProps, 'quoteR' | 'walletCurrency'>
 
 export default connector(QuoteDetails)

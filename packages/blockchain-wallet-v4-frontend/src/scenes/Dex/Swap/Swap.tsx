@@ -131,6 +131,7 @@ const DexSwap = ({
         <QuoteDetails
           handleSettingsClick={onViewSettings}
           swapDetailsOpen={isDetailsExpanded}
+          walletCurrency={walletCurrency}
           quoteR={quoteR}
         />
       )}

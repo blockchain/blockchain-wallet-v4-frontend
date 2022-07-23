@@ -82,7 +82,9 @@ const BaseRateAndFees = ({
                     coin={currentChain?.nativeCurrency.symbol}
                     currency={walletCurrency}
                   >
-                    {new BigNumber(txLeg?.gas || 0).multipliedBy(txLeg?.gasPrice || 0).toString()}
+                    {new BigNumber(txLeg?.gasLimit || 0)
+                      .multipliedBy(txLeg?.gasPrice || 0)
+                      .toString()}
                   </FiatDisplay>
                 </GasFeeWrapper>
                 <ShowDetailsWrapper>
