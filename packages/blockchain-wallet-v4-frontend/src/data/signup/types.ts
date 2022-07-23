@@ -22,6 +22,7 @@ export enum RecoverSteps {
 export type RecoverFormType = {
   email?: string
   mnemonic?: string
+  newTwoFACode?: string
   password: string
   recoverPassword?: string
   recoveryEmail?: string

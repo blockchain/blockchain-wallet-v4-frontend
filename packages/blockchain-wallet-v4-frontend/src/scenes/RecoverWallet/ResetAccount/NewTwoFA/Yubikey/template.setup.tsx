@@ -1,110 +1,63 @@
-// import React, { useState } from 'react'
-// import { FormattedMessage, useIntl } from 'react-intl'
-// import { connect, ConnectedProps } from 'react-redux'
-// import { bindActionCreators } from 'redux'
+import React, { useState } from 'react'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Field, InjectedFormProps } from 'redux-form'
 
-// import { TextInput } from 'blockchain-info-components'
-// import { Wrapper } from 'components/Public'
-// import { actions } from 'data'
-// import { LOGIN_FORM } from 'data/auth/model'
-// import { TwoFASetupSteps, UpgradeSteps } from 'data/auth/types'
+import { Button, Text } from 'blockchain-info-components'
+import Form from 'components/Form/Form'
+import FormError from 'components/Form/FormError'
+import FormGroup from 'components/Form/FormGroup'
+import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
+import PasswordBox from 'components/Form/PasswordBox'
+import { actions } from 'data'
+import { required } from 'services/forms'
+import { removeWhitespace } from 'services/forms/normalizers'
 
-// import ScreenHeader from '../../components/ScreenHeader'
-// import { ButtonNext, InputWrapper, StyledTemporaryButton } from '../AccountUpgrade.models'
+import { Props } from '.'
 
-// const YubiKeySetup = (props) => {
-//   const { formatMessage } = useIntl()
-//   const [inputValue, setInputValue] = useState('')
-//   const [isInputValid, setIsInputValid] = useState(false)
-//   const steps = {
-//     actualStep: 2,
-//     totalSteps: 3
-//   }
+const YubiKeySetup = (props: Props) => {
+  const { formatMessage } = useIntl()
 
-//   const handlePrev = () => {
-//     props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.SELECT_2FA_TYPE)
-//   }
+  const handleSubmit = () => {
+    props.securityCenterActions.setYubikey()
+  }
 
-//   const handleInputChange = (event: React.FormEvent<HTMLInputElement>) => {
-//     const {
-//       currentTarget: { value }
-//     } = event
-//     if (!value) setIsInputValid(false)
-//     if (value.length === 44) setIsInputValid(true)
-//     setInputValue(value)
-//   }
+  return (
+    <>
+      <Text>
+        <FormattedMessage
+          id='scenes.login.upgrade.yubikey.header'
+          defaultMessage='Verify with Your Yubikey'
+        />
+      </Text>
+      <Text>
+        <FormattedMessage
+          id='scenes.login.upgrade.yubikey.text'
+          defaultMessage='Insert the Yubikey into your computer´s USB port. Pair your Yubikey by tapping your key.'
+        />
+      </Text>
 
-//   const handleSubmit = () => {
-//     props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.YUBIKEY_VERIFIED)
-//   }
+      <Field
+        name='newTwoFACode'
+        component={PasswordBox}
+        placeholder={formatMessage({
+          defaultMessage: 'Tap Yubikey to enter code',
+          id: 'scenes.login.upgrade.googleAuthVerify.input.placeholder'
+        })}
+        normalize={removeWhitespace}
+        validate={[required]}
+        noLastPass
+        autoFocus
+        data-e2e='recoverSetUpCode'
+      />
 
-//   return (
-//     <>
-//       <Wrapper>
-//         <ScreenHeader
-//           handleBack={handlePrev}
-//           steps={steps}
-//           title={
-//             <FormattedMessage
-//               id='scenes.login.upgrade.yubikey.header'
-//               defaultMessage='Verify with Your Yubikey'
-//             />
-//           }
-//           description={
-//             <FormattedMessage
-//               id='scenes.login.upgrade.yubikey.text'
-//               defaultMessage='Insert the Yubikey into your computer´s USB port. Pair your Yubikey by tapping your key.'
-//             />
-//           }
-//         />
-//         <InputWrapper>
-//           <TextInput
-//             name='6digitcode'
-//             type='text'
-//             value={inputValue}
-//             onChange={handleInputChange}
-//             placeholder={formatMessage({
-//               defaultMessage: 'Tap Yubikey to enter code',
-//               id: 'scenes.login.upgrade.googleAuthVerify.input.placeholder'
-//             })}
-//           />
-//         </InputWrapper>
+      <Button nature='primary' data-e2e='nextButton' fullwidth height='48px' onClick={handleSubmit}>
+        <FormattedMessage id='buttons.next' defaultMessage='Next' />
+      </Button>
+    </>
+  )
+}
 
-//         <ButtonNext
-//           nature='primary'
-//           data-e2e='nextButton'
-//           disabled={isInputValid}
-//           fullwidth
-//           height='48px'
-//           onClick={handleSubmit}
-//         >
-//           <FormattedMessage id='buttons.next' defaultMessage='Next' />
-//         </ButtonNext>
-//       </Wrapper>
-//       <StyledTemporaryButton
-//         onClick={() => props.formActions.change(LOGIN_FORM, 'step', UpgradeSteps.UPGRADE_SUCCESS)}
-//         type='button'
-//       >
-//         Prev Step
-//       </StyledTemporaryButton>
-//       <StyledTemporaryButton
-//         onClick={() =>
-//           props.formActions.change(LOGIN_FORM, 'step', TwoFASetupSteps.YUBIKEY_VERIFIED)
-//         }
-//         type='button'
-//       >
-//         Next Step
-//       </StyledTemporaryButton>
-//     </>
-//   )
-// }
-
-// const mapDispatchToProps = (dispatch) => ({
-//   formActions: bindActionCreators(actions.form, dispatch)
-// })
-
-// const connector = connect(null, mapDispatchToProps)
-
-// export type Props = ConnectedProps<typeof connector>
-
-// export default connect(null, mapDispatchToProps)(YubiKeySetup)
+export default YubiKeySetup
