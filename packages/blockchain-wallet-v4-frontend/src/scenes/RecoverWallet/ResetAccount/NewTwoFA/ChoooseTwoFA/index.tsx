@@ -88,7 +88,7 @@ const ChooseTwoFA = (props: Props) => {
           <IconChevronRightV2 />
         </ButtonIcon>
       </ButtonPanel>
-      <ButtonPanel>
+      <ButtonPanel onClick={() => props.setFormStep(ResetFormSteps.SMS_SETUP)}>
         <Column>
           <Text color='grey900' size='16px' weight={600} lineHeight='1.5'>
             <FormattedMessage id='scenes.login.upgrade.2fa.item_3.title' defaultMessage='SMS' />

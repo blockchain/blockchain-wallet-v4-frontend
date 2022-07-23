@@ -53,7 +53,15 @@ const YubiKeySetup = (props: Props) => {
         data-e2e='recoverSetUpCode'
       />
 
-      <Button nature='primary' data-e2e='nextButton' fullwidth height='48px' onClick={handleSubmit}>
+      <Button
+        nature='primary'
+        data-e2e='nextButton'
+        fullwidth
+        height='48px'
+        // TODO: Temporary step change
+        onClick={() => props.changeAuthenticatorStep(2)}
+        // onClick={handleSubmit}
+      >
         <FormattedMessage id='buttons.next' defaultMessage='Next' />
       </Button>
     </>

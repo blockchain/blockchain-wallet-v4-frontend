@@ -5,10 +5,10 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 
 import { Props as OwnProps } from '../../..'
-import YubikeySetup from './template.setup'
-import YubikeyVerified from './template.verified'
+import SMSSetup from './template.setup'
+import SMSVerified from './template.verified'
 
-const Yubikey = (props) => {
+const SMS = (props: Props) => {
   const [step, setStep] = useState(1)
 
   const changeAuthenticatorStep = (authStep: number) => {
@@ -16,10 +16,8 @@ const Yubikey = (props) => {
   }
   return (
     <>
-      {step === 1 && <YubikeySetup {...props} changeAuthenticatorStep={changeAuthenticatorStep} />}
-      {step === 2 && (
-        <YubikeyVerified {...props} changeAuthenticatorStep={changeAuthenticatorStep} />
-      )}
+      {step === 1 && <SMSSetup {...props} />}
+      {step === 2 && <SMSVerified {...props} />}
     </>
   )
 }
@@ -33,7 +31,7 @@ const connector = connect(null, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector> &
   OwnProps & {
-    changeAuthenticatorStep: (number) => void
+    // changeAuthenticatorStep: (number) => void
   }
 
-export default connector(Yubikey)
+export default connector(SMS)
