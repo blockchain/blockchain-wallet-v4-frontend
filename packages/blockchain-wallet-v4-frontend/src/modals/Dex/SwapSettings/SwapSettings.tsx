@@ -55,7 +55,32 @@ const SlippageButtons = styled.div`
 
 // determine active slippage with priority on custom, then standard values else default to 'Auto' (null)
 const determineActiveSlippage = (formValues?: DexSwapSettingsForm) => {
-  return formValues?.customSlippage?.toString() || formValues?.standardSlippage?.toString() || null
+  if (formValues?.customSlippage) {
+    return (parseFloat(formValues?.customSlippage) * 100).toString()
+  }
+  return formValues?.standardSlippage?.toString() || null
+}
+
+// validators for custom slippage
+const validateMin = (value) => {
+  if (!value) return
+  if (value < 1)
+    return (
+      <FormattedMessage
+        id='dex.settings.invalid_min_slippage_percentage'
+        defaultMessage='Value must be greater than 0'
+      />
+    )
+}
+const validateMax = (value) => {
+  if (!value) return
+  if (value > 99)
+    return (
+      <FormattedMessage
+        id='dex.settings.invalid_max_slippage_percentage'
+        defaultMessage='Value must be less than 99'
+      />
+    )
 }
 
 const DexSwapSettings = ({ formActions, formValues, modalActions, position, total }: Props) => {
@@ -64,9 +89,14 @@ const DexSwapSettings = ({ formActions, formValues, modalActions, position, tota
     formActions.change(DEX_SWAP_SETTINGS_FORM, 'standardSlippage', val)
   }
   const onSaveSettings = () => {
-    const slippage = determineActiveSlippage(formValues)
-    formActions.change(DEX_SWAP_SETTINGS_FORM, 'activeSlippage', slippage)
-    formActions.change(DEX_SWAP_FORM, 'slippage', slippage)
+    let newSlippage: string | null = null
+    if (formValues?.customSlippage) {
+      newSlippage = (parseInt(formValues?.customSlippage) / 100).toString()
+    } else if (formValues?.standardSlippage) {
+      newSlippage = formValues?.standardSlippage?.toString()
+    }
+    formActions.change(DEX_SWAP_SETTINGS_FORM, 'activeSlippage', newSlippage)
+    formActions.change(DEX_SWAP_FORM, 'slippage', newSlippage)
     modalActions.closeModal()
   }
   const activeSlippage = determineActiveSlippage(formValues)
@@ -90,7 +120,10 @@ const DexSwapSettings = ({ formActions, formValues, modalActions, position, tota
       <Form>
         <Section>
           <Text color='textBlack' lineHeight='20px' size='14px' weight={600}>
-            <FormattedMessage id='copy.allowed_slippage' defaultMessage='Allowed Slippage' />
+            <FormattedMessage
+              id='copy.allowed_slippage_percentage'
+              defaultMessage='Allowed Slippage %'
+            />
           </Text>
           <SlippageButtons>
             {[
@@ -122,13 +155,17 @@ const DexSwapSettings = ({ formActions, formValues, modalActions, position, tota
             weight={600}
             style={{ marginBottom: '8px' }}
           >
-            <FormattedMessage id='copy.custom_slippage' defaultMessage='Custom Slippage' />
+            <FormattedMessage
+              id='copy.custom_slippage_percentage'
+              defaultMessage='Custom Slippage %'
+            />
           </Text>
           <Field
             component={NumberBox}
             data-e2e='customSlippageInput'
             name='customSlippage'
             placeholder='Enter Custom Slippage'
+            validate={[validateMin, validateMax]}
           />
         </Section>
         <Section>
