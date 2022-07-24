@@ -16,8 +16,8 @@ const SMS = (props: Props) => {
   }
   return (
     <>
-      {step === 1 && <SMSSetup {...props} />}
-      {step === 2 && <SMSVerified {...props} />}
+      {step === 1 && <SMSSetup {...props} changeAuthenticatorStep={changeAuthenticatorStep} />}
+      {step === 2 && <SMSVerified {...props} changeAuthenticatorStep={changeAuthenticatorStep} />}
     </>
   )
 }
@@ -31,7 +31,7 @@ const connector = connect(null, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector> &
   OwnProps & {
-    // changeAuthenticatorStep: (number) => void
+    changeAuthenticatorStep: (number) => void
   }
 
 export default connector(SMS)

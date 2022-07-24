@@ -7,7 +7,7 @@ import { Button, Text } from 'blockchain-info-components'
 
 import { Props } from '.'
 
-const YubiKeyVerified = (props: Props) => {
+const YubikeyVerified = (props: Props) => {
   return (
     <>
       <Icon label='checkmark-circle-filled' color='green600' size='lg'>
@@ -39,4 +39,4 @@ const YubiKeyVerified = (props: Props) => {
   )
 }
 
-export default YubiKeyVerified
+export default YubikeyVerified

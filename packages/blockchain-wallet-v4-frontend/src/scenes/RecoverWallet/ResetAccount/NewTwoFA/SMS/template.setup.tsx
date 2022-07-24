@@ -55,7 +55,8 @@ const SMSSetup = (props: Props) => {
             data-e2e='submitCode'
             fullwidth
             height='48px'
-            // TODO: Add on click event
+            // TODO: Add real on click event
+            onClick={() => props.changeAuthenticatorStep(2)}
           >
             <FormattedMessage
               id='scenes.recovery.setup2FA.submitCode'

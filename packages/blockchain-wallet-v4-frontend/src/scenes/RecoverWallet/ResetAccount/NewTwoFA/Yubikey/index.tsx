@@ -8,7 +8,7 @@ import { Props as OwnProps } from '../../..'
 import YubikeySetup from './template.setup'
 import YubikeyVerified from './template.verified'
 
-const Yubikey = (props) => {
+const Yubikey = (props: Props) => {
   const [step, setStep] = useState(1)
 
   const changeAuthenticatorStep = (authStep: number) => {

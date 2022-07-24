@@ -15,14 +15,14 @@ const SMSVerified = (props: Props) => {
       </Icon>
       <Text>
         <FormattedMessage
-          id='scenes.login.upgrade.yubikeyVerify.header'
-          defaultMessage='Yubikey Verified'
+          id='scenes.recovery.sms_verified.header'
+          defaultMessage='Mobile Number Verified'
         />
       </Text>
       <Text>
         <FormattedMessage
-          id='scenes.login.upgrade.yubikeyVerify.text'
-          defaultMessage='Make sure your Yubikey is plugged in next time you log into your Blockchain account.'
+          id='components.alerts.twofa_mobile_verify_success'
+          defaultMessage='Your mobile number is now your two-factor authentication method.'
         />
       </Text>
 

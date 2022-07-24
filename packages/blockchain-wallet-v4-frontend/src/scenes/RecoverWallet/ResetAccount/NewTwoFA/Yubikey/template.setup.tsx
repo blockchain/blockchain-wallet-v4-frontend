@@ -11,7 +11,6 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
-import { actions } from 'data'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 

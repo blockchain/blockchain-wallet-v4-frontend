@@ -108,7 +108,10 @@ type FormProps = {
 }
 
 type State = { showPhraseStep: boolean }
-export type Props = ConnectedProps<typeof connector> & FormProps
+export type Props = ConnectedProps<typeof connector> &
+  FormProps & {
+    changeAuthenticatorStep: (number) => void
+  }
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 const enhance = compose<React.ComponentType>(

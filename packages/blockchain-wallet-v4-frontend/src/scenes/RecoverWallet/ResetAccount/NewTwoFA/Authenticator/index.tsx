@@ -8,7 +8,7 @@ import { Props as OwnProps } from '../../..'
 import AuthenticatorCode from './template.qrcode'
 import AuthenticatorVerify from './template.verify'
 
-const Authenticator = (props) => {
+const Authenticator = (props: Props) => {
   const [step, setStep] = useState(1)
 
   const changeAuthenticatorStep = (authStep: number) => {

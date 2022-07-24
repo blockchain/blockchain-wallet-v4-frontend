@@ -19,7 +19,9 @@ import Yubikey from './NewTwoFA/Yubikey'
 import ResetWarning from './ResetWarning'
 import TwoFAConfirmation from './TwoFAConfirmation'
 
-const ResetAccount: React.FC<InjectedFormProps<{}, ResetProps> & ResetProps> = (props) => {
+const ResetAccount: React.FC<InjectedFormProps<{}, ResetProps> & ResetProps> = (
+  props: ResetProps
+) => {
   const [recoveryStep, setRecoveryStep] = useState(ResetFormSteps.RESET_WARNING)
 
   const setFormStep = (step) => {
