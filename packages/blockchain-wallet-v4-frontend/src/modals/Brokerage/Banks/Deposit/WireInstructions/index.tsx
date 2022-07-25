@@ -18,7 +18,7 @@ const WireInstructions = (props) => {
       props.buySellActions.setFiatCurrency(props.fiatCurrency)
       props.buySellActions.fetchPaymentAccount()
     }
-  }, [])
+  }, [props.buySellActions, props.fiatCurrency])
 
   return props.data.cata({
     Failure: (e) => <DataError message={{ message: e }} />,
