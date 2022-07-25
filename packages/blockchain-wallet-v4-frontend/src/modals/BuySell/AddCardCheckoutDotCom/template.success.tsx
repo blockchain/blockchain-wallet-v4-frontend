@@ -64,7 +64,7 @@ const Success = (props: Props) => {
           <Expanded>
             <Iframe
               ref={props.iframeRef}
-              sandbox='allow-popups allow-forms allow-scripts allow-same-origin'
+              sandbox='allow-forms allow-scripts allow-same-origin'
               src={props.domain}
             />
           </Expanded>

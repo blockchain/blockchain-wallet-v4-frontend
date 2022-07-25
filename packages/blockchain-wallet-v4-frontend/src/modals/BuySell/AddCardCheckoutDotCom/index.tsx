@@ -9,6 +9,7 @@ import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { useRemote } from 'hooks'
+import { useDeepLink } from 'services/deepLinkListener'
 import { isNabuError } from 'services/errors'
 
 import { ADD_CARD_ERROR, IFRAME_ACTION } from './model'
@@ -18,6 +19,7 @@ import Unsupported from './template.unsupported'
 
 const AddCardCheckoutDotCom = (props: Props) => {
   const ref = useRef<HTMLIFrameElement>(null)
+  const { onClickDeepLink } = useDeepLink()
   const [isError, setError] = useState(false)
   const [cvv, setCVV] = useState('')
   const { error: cardError } = useRemote(() => props.cardRemote)
@@ -47,6 +49,11 @@ const AddCardCheckoutDotCom = (props: Props) => {
             bin: string
             provider: 'CHECKOUTDOTCOM'
             scheme: string
+          }
+        | {
+            action: IFRAME_ACTION.DEEP_LINK
+            provider: 'CHECKOUTDOTCOM'
+            url: string
           }
     }) => {
       if (data.provider !== 'CHECKOUTDOTCOM') return
@@ -91,8 +98,14 @@ const AddCardCheckoutDotCom = (props: Props) => {
 
         props.buySellActions.checkCardSuccessRate({ bin: data.bin, scheme: data.scheme })
       }
+
+      if (data.action === IFRAME_ACTION.DEEP_LINK) {
+        if (!data.url) throw new Error(ADD_CARD_ERROR.NO_DEEP_LINK_URL)
+
+        onClickDeepLink(data.url)
+      }
     },
-    [cvv, props.buySellActions, props.checkoutDotComAccountCodes]
+    [cvv, onClickDeepLink, props.buySellActions, props.checkoutDotComAccountCodes]
   )
 
   useEffect(() => {
