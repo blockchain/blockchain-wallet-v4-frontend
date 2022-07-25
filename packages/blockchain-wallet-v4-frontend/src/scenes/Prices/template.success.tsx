@@ -27,11 +27,9 @@ const initialState = {
 
 const PricesTable = (props: Props) => {
   const {
-    analyticsActions,
     buySellActions,
     data,
     formActions,
-    interestActions,
     modalActions,
     routerActions,
     swapActions,
@@ -40,10 +38,8 @@ const PricesTable = (props: Props) => {
 
   const columns = useMemo(
     getTableColumns({
-      analyticsActions,
       buySellActions,
       formActions,
-      interestActions,
       modalActions,
       routerActions,
       swapActions,
