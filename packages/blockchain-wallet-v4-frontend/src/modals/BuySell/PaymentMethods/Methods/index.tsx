@@ -174,7 +174,7 @@ const Methods = (props: Props) => {
     }
   }
 
-  const { fiatCurrency, orderType } = props
+  const { orderType } = props
 
   const availableCards = props.cards.filter(
     (card) => card.state === 'ACTIVE' && orderType === OrderType.BUY
@@ -299,7 +299,6 @@ const Methods = (props: Props) => {
               </Text>
             </NoMethods>
           ) : null}
-
           {paymentCard ? (
             <PaymentCard
               {...paymentCard}
@@ -307,7 +306,6 @@ const Methods = (props: Props) => {
               onClick={() => handlePaymentMethodSelect({ method: paymentCard.value })}
             />
           ) : null}
-
           {applePay && isApplePayAvailable ? (
             <ApplePay
               onClick={() => {
@@ -318,7 +316,6 @@ const Methods = (props: Props) => {
               }}
             />
           ) : null}
-
           {googlePay && isGooglePayAvailable ? (
             <GooglePay
               onClick={() => {
@@ -329,7 +326,6 @@ const Methods = (props: Props) => {
               }}
             />
           ) : null}
-
           {!!bankTransfer && (
             <LinkBank
               {...bankTransfer}
@@ -345,7 +341,6 @@ const Methods = (props: Props) => {
               }
             />
           )}
-
           {!!bankAccount && (
             <Padding all={24}>
               <BankWireCard
