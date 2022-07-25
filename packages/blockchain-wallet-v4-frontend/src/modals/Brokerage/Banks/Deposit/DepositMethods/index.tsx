@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
@@ -21,11 +21,13 @@ const DepositMethods = (props) => {
     if (props.fiatCurrency) {
       props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
     }
-  }, [])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.brokerageActions, props.buySellActions, props.fiatCurrency])
 
   const errorCallback = useCallback(() => {
     props.brokerageActions.fetchBankTransferAccounts()
-  }, [])
+  }, [props.brokerageActions])
 
   return props.data.cata({
     Failure: () => (
@@ -39,8 +41,7 @@ const DepositMethods = (props) => {
 
 const mapStateToProps = (state: RootState) => ({
   addNew: state.components.brokerage.addNew,
-  data: getData(state),
-  fiatCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+  data: getData(state)
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({

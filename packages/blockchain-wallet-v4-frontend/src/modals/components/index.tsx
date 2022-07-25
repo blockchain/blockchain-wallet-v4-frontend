@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import styled, { css } from 'styled-components'
 
 import { Button, Icon, Image, SpinningLoader, Text } from 'blockchain-info-components'
 import { OBInstitution } from 'data/types'
 
 const BankWrapper = styled.div`
-  padding: 37px 0 34px;
+  padding: 40px 0 36px;
   height: 100%;
   width: 100%;
   display: flex;
@@ -17,7 +16,6 @@ const NavText = styled(Text)`
   display: flex;
   align-items: center;
   margin-bottom: 24px;
-  padding-left: 40px;
 `
 
 const Section = styled.div`
@@ -25,7 +23,7 @@ const Section = styled.div`
   flex-direction: column;
   flex: 2;
   align-items: center;
-  padding: 20px;
+  padding: 16px;
 `
 const QrContainer = styled.div`
   width: 150px;

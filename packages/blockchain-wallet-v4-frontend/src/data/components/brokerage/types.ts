@@ -1,4 +1,10 @@
-import { CrossBorderLimits, FiatType, RemoteDataType, WalletFiatType } from '@core/types'
+import {
+  BSTransactionType,
+  CrossBorderLimits,
+  FiatType,
+  RemoteDataType,
+  WalletFiatType
+} from '@core/types'
 
 export enum BankPartners {
   YAPILY = 'YAPILY',
@@ -185,6 +191,8 @@ export type BrokerageTxFormValuesType =
   | {
       amount?: number
       currency?: FiatType
+      order?: BSTransactionType
+      retryTimeout?: boolean
     }
   | undefined
 

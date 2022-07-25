@@ -1,0 +1,1 @@
+export { AppleAndGooglePayBanner } from './AppleAndGooglePayBanner'

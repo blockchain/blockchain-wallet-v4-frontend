@@ -1,11 +1,10 @@
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useCallback, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 import { Form, reduxForm } from 'redux-form'
-import styled from 'styled-components'
 
 import {
   BSPaymentMethodType,
@@ -18,41 +17,16 @@ import {
 } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import { Padding } from 'components/Padding'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import ApplePay from './ApplePay'
-import BankWire from './BankWire'
+import { BankWireCard } from './BankWireCard'
 import GooglePay from './GooglePay'
 import LinkBank from './LinkBank'
+import { IconContainer, NoMethods, PaymentsWrapper, TopText, Wrapper } from './Methods.styles'
 import PaymentCard from './PaymentCard'
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  height: 100%;
-`
-const TopText = styled(Text)`
-  display: flex;
-  align-items: center;
-  margin-bottom: 7px;
-`
-const PaymentsWrapper = styled.div`
-  border-top: 1px solid ${(props) => props.theme.grey000};
-`
-const NoMethods = styled(FlyoutWrapper)`
-  text-align: center;
-`
-const IconContainer = styled.div`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.blue000};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
 
 export type Props = OwnProps & SuccessStateType
 
@@ -76,7 +50,7 @@ const Methods = (props: Props) => {
         ) : (
           <FormattedMessage
             id='modals.simplebuy.deposit.regular_bank_transfer'
-            defaultMessage='Regular Bank Transfer'
+            defaultMessage='Bank Transfer'
           />
         )
       case BSPaymentTypes.PAYMENT_CARD:
@@ -149,15 +123,18 @@ const Methods = (props: Props) => {
     }
   }
 
-  const handlePaymentMethodSelect = ({
-    method,
-    mobilePaymentMethod
-  }: {
-    method: BSPaymentMethodType
-    mobilePaymentMethod?: MobilePaymentType
-  }) => {
-    props.buySellActions.handleMethodChange({ isFlow: true, method, mobilePaymentMethod })
-  }
+  const handlePaymentMethodSelect = useCallback(
+    ({
+      method,
+      mobilePaymentMethod
+    }: {
+      method: BSPaymentMethodType
+      mobilePaymentMethod?: MobilePaymentType
+    }) => {
+      props.buySellActions.handleMethodChange({ isFlow: true, method, mobilePaymentMethod })
+    },
+    [props.buySellActions]
+  )
 
   const getIcon = (value: BSPaymentMethodType): ReactElement => {
     switch (value.type) {
@@ -353,7 +330,7 @@ const Methods = (props: Props) => {
             />
           ) : null}
 
-          {bankTransfer ? (
+          {!!bankTransfer && (
             <LinkBank
               {...bankTransfer}
               // @ts-ignore
@@ -367,17 +344,16 @@ const Methods = (props: Props) => {
                 })
               }
             />
-          ) : null}
+          )}
 
-          {bankAccount && fiatCurrency ? (
-            <>
-              <BankWire
+          {!!bankAccount && (
+            <Padding all={24}>
+              <BankWireCard
                 {...bankAccount}
-                icon={getIcon(bankAccount.value)}
                 onClick={() => handlePaymentMethodSelect({ method: bankAccount.value })}
               />
-            </>
-          ) : null}
+            </Padding>
+          )}
         </PaymentsWrapper>
       </Form>
     </Wrapper>

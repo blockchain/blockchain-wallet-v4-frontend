@@ -44,6 +44,7 @@ const TextBox = (field) => {
     maxLength,
     meta,
     noLastPass,
+    pattern,
     placeholder
   } = field
   const { active, error, initial, touched, warning } = meta
@@ -68,6 +69,7 @@ const TextBox = (field) => {
         maxLength={maxLength}
         noLastPass={noLastPass}
         placeholder={placeholder}
+        pattern={pattern}
       />
       {touched && error && (
         <Error

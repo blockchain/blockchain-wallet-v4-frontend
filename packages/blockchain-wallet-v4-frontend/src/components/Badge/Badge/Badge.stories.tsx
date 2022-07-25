@@ -6,10 +6,10 @@ import { Badge, BadgeComponent } from '.'
 export default {
   argTypes: {
     outlineSize: {
-      defaultValue: 4
+      defaultValue: 0.25
     },
     size: {
-      defaultValue: 32
+      defaultValue: 2
     }
   },
   component: Badge,

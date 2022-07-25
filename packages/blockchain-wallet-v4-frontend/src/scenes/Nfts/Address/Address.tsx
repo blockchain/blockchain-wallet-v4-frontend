@@ -12,7 +12,12 @@ import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { EventFilterFields, OwnerQuery } from 'generated/graphql.types'
+import {
+  AssetSortFields,
+  ChainOperators,
+  EventFilterFields,
+  OwnerQuery
+} from 'generated/graphql.types'
 import { Props as OwnProps } from 'layouts/Nfts/Nfts'
 import { useMedia } from 'services/styles'
 
@@ -28,23 +33,31 @@ const NftAddress: React.FC<Props> = ({
   formActions,
   formValues,
   isAuthenticated,
+  nftsActions,
   pathname
 }) => {
+  const isTablet = useMedia('tablet')
   const address = pathname.split('/nfts/address/')[1]
   const params = new URLSearchParams(window.location.hash.split('?')[1])
-  const tab = params.get('tab') === 'EVENTS' ? 'EVENTS' : 'ITEMS'
-
-  const isTablet = useMedia('tablet')
+  const tab = params.get('tab') === 'ACTIVITY' ? 'ACTIVITY' : 'ITEMS'
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0)
-  const [activeTab, setActiveTab] = useState<'ITEMS' | 'EVENTS'>(tab)
+  const [activeTab, setActiveTab] = useState<'ITEMS' | 'ACTIVITY'>(tab)
   const [collections, setCollections] = useState([] as OwnerQuery['assets'][0]['collection'][])
   const [isFilterOpen, setIsFilterOpen] = useState(!isTablet)
+
+  const isOwner = ethAddress?.toLowerCase() === address?.toLowerCase() && isAuthenticated
 
   const eventFilter = getEventFilter(formValues)
 
   useEffect(() => {
     setActiveTab(tab)
   }, [tab])
+
+  useEffect(() => {
+    if (isOwner) {
+      nftsActions.fetchNftUserPreferences()
+    }
+  }, [isOwner, nftsActions])
 
   if (!address) return null
 
@@ -68,9 +81,9 @@ const NftAddress: React.FC<Props> = ({
         <NftBannerWrapper>
           <Flex justifyContent='space-between' alignItems='center'>
             <Text color='white' size='24px' weight={600}>
-              <CryptoAddress>{address}</CryptoAddress>
+              <CryptoAddress canCopy>{address}</CryptoAddress>
             </Text>
-            {ethAddress.toLowerCase() === address.toLowerCase() && isAuthenticated ? (
+            {isOwner ? (
               <LinkContainer to={`/nfts/address/settings/${ethAddress}`}>
                 <a>
                   <Icon label='settings' color='white900'>
@@ -96,7 +109,7 @@ const NftAddress: React.FC<Props> = ({
       </div>
       <GridWrapper>
         <NftFilter
-          collections={activeTab === 'ITEMS' ? collections : []}
+          collections={activeTab === 'ITEMS' && collections.length >= 2 ? collections : []}
           formActions={formActions}
           formValues={formValues}
           isFilterOpen={isFilterOpen}
@@ -108,7 +121,7 @@ const NftAddress: React.FC<Props> = ({
         />
         <div style={{ width: '100%' }}>
           <TraitGridFilters
-            tabs={['ITEMS', 'EVENTS']}
+            tabs={['ITEMS', 'ACTIVITY']}
             activeTab={activeTab}
             formActions={formActions}
             formValues={formValues}

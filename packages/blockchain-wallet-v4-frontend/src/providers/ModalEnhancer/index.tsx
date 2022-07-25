@@ -32,7 +32,7 @@ type LinkDispatchPropsType = {
   cancelBSOrder: (order: BSOrderType) => void
   close: (modalName?: ModalNameType) => void
   closeAll: () => void
-  update: () => void
+  update: (options?: Object) => void
 }
 type LinkStatePropsType = {
   buySellOrder: BSOrderType | null

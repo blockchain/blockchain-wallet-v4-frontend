@@ -3,7 +3,7 @@ import { lift } from 'ramda'
 import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BankTransferAccountType } from 'data/types'
+import { BankTransferAccountType, UserDataType } from 'data/types'
 
 import { OwnProps } from '.'
 
@@ -15,6 +15,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     state
   )
   const defaultMethodR = selectors.components.brokerage.getAccount(state) as BankTransferAccountType
+  const userDataR = selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 
   return lift(
     (
@@ -23,7 +24,8 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     ) => ({
       defaultBeneficiary,
       defaultMethod: defaultMethodR,
-      fees
+      fees,
+      userData: userDataR
     })
   )(defaultBeneficiaryR, feesR)
 }

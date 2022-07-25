@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { CombinedError } from 'urql'
 
-import { SpinningLoader } from 'blockchain-info-components'
+import { Image, SpinningLoader, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { EventFilter, EventsQuery, InputMaybe } from 'generated/graphql.types'
 
@@ -58,17 +59,24 @@ const Events: React.FC<Props> = ({ columns, filters, isFetchingParent, noBorder 
           ))
         : null}
       <NftTableWrapper height='auto'>
-        {events.length ? (
+        {events.length > 1 ? (
           <EventsTable
             columns={columns || ['event_type', 'item', 'price', 'from', 'to', 'date']}
             events={events}
             noBorder={noBorder}
           />
         ) : (
-          <Centered style={{ padding: '12px' }}>
+          <Centered style={{ boxSizing: 'border-box', padding: '1em' }}>
             {isFetchingNextPage || isFetchingParent ? (
               <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-            ) : null}
+            ) : (
+              <Flex flexDirection='column' gap={8}>
+                <Image name='nft-nothing-here' />
+                <Text size='14px' weight={600}>
+                  Not Much Here
+                </Text>
+              </Flex>
+            )}
           </Centered>
         )}
       </NftTableWrapper>

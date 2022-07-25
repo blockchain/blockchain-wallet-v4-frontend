@@ -3,7 +3,13 @@ import { call, delay, put, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
-import { BSPaymentMethodType, BSPaymentTypes, BSTransactionType } from '@core/types'
+import {
+  BSPaymentMethodType,
+  BSPaymentTypes,
+  BSTransactionStateEnum,
+  BSTransactionType,
+  ExtraKYCContext
+} from '@core/types'
 import { errorCodeAndMessage, errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
@@ -42,8 +48,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield take([A.fetchBankTransferAccountsSuccess.type, A.fetchBankTransferAccountsError.type])
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
-      yield put(actions.modals.closeModal('BANK_DETAILS_MODAL'))
-      yield put(actions.modals.closeModal('REMOVE_BANK_MODAL'))
+      yield put(actions.modals.closeModal(ModalName.BANK_DETAILS_MODAL))
+      yield put(actions.modals.closeModal(ModalName.REMOVE_BANK_MODAL))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('linkedBanks', { _error: error }))
@@ -216,6 +222,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const handleDepositFiatClick = function* ({
     payload
   }: ReturnType<typeof A.handleDepositFiatClick>) {
+    const isUserTier2 = yield call(isTier2)
+    // Verify identity before deposit if TIER 2
+    yield put(
+      actions.components.identityVerification.verifyIdentity({
+        context: ExtraKYCContext.FIAT_DEPOSIT,
+        needMoreInfo: false,
+        origin: 'BuySell',
+        tier: 1
+      })
+    )
+    if (!isUserTier2) {
+      return
+    }
+
+    // Wait for KYC flow to end
+    const result = yield take([
+      actions.modals.closeModal.type,
+      actions.components.identityVerification.setAllContextQuestionsAnswered.type
+    ])
+
+    // If KYC was closed without answering, close
+    if (result.type === actions.modals.closeModal.type) return
+
     yield put(
       actions.components.brokerage.showModal({
         modalType: 'BANK_DEPOSIT_MODAL',
@@ -274,6 +303,30 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
+    const isUserTier2 = yield call(isTier2)
+
+    // Verify identity before deposit if TIER 2
+    yield put(
+      actions.components.identityVerification.verifyIdentity({
+        context: ExtraKYCContext.FIAT_WITHDRAW,
+        needMoreInfo: false,
+        origin: 'Withdraw',
+        tier: 1
+      })
+    )
+    if (!isUserTier2) {
+      return
+    }
+
+    // Wait for KYC flow to end
+    const result = yield take([
+      actions.modals.closeModal.type,
+      actions.components.identityVerification.setAllContextQuestionsAnswered.type
+    ])
+
+    // If KYC was closed without answering, close
+    if (result.type === actions.modals.closeModal.type) return
+
     yield put(actions.form.destroy('brokerageTx'))
     yield put(actions.components.withdraw.showModal({ fiatCurrency: payload }))
 
@@ -297,7 +350,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // get current user tier
     const isUserTier2 = yield call(isTier2)
-
     yield put(actions.custodial.fetchProductEligibilityForUser())
     yield take([
       actions.custodial.fetchProductEligibilityForUserSuccess.type,
@@ -323,6 +375,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
       return
     }
+
     // check is user eligible to do sell/buy
     // we skip this for gold users
     if (!isUserTier2) {
@@ -345,10 +398,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const order: BSTransactionType = yield call(api.getPaymentById, orderId)
 
     if (
-      order.state === 'CLEARED' ||
-      order.state === 'COMPLETE' ||
-      order.state === 'FAILED' ||
-      order.state === 'MANUAL_REVIEW'
+      order.state === BSTransactionStateEnum.CLEARED ||
+      order.state === BSTransactionStateEnum.COMPLETE ||
+      order.state === BSTransactionStateEnum.FAILED ||
+      order.state === BSTransactionStateEnum.MANUAL_REVIEW
     ) {
       return order
     }
@@ -362,7 +415,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       (order.extraAttributes &&
         'authorisationUrl' in order.extraAttributes &&
         order.extraAttributes.authorisationUrl) ||
-      order.state === 'FAILED'
+      order.state === BSTransactionStateEnum.FAILED
     ) {
       return order
     }

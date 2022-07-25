@@ -2,7 +2,13 @@ import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { BSPaymentMethodsType, BSPaymentMethodType, BSPaymentTypes } from '@core/types'
+import {
+  BSPaymentMethodsType,
+  BSPaymentMethodType,
+  BSPaymentTypes,
+  FiatType,
+  WalletFiatType
+} from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/types'
@@ -11,6 +17,8 @@ import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/
 import BankWire from '../../../../BuySell/PaymentMethods/Methods/BankWire'
 import { mapDispatchToProps, Props as _P } from '.'
 import BankDeposit from './BankDeposit'
+
+const currenciesForBankTransferLabel: FiatType[] = ['EUR', 'GBP', 'ARS']
 
 const Wrapper = styled.section`
   display: flex;
@@ -67,8 +75,8 @@ const getType = (value: BSPaymentMethodType) => {
       )
     case BSPaymentTypes.BANK_ACCOUNT:
       let text
-      if (value.currency === 'EUR' || value.currency === 'GBP') {
-        text = <FormattedMessage id='buttons.transfer' defaultMessage='Regular Bank Transfer' />
+      if (currenciesForBankTransferLabel.includes(value.currency)) {
+        text = <FormattedMessage id='buttons.transfer' defaultMessage='Bank Transfer' />
       } else {
         text = <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
       }
@@ -156,6 +164,7 @@ const Success = ({ addNew, brokerageActions, close, fiatCurrency, paymentMethods
 
 type Props = {
   close: () => void
+  fiatCurrency: WalletFiatType
   paymentMethods: BSPaymentMethodsType
 } & ReturnType<typeof mapDispatchToProps> &
   _P

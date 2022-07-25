@@ -147,6 +147,10 @@ export default ({ api }) => {
     yield put(actions.setCurrency(currency))
   }
 
+  const setTradingCurrency = function* ({ currency }) {
+    yield call(api.setUserCurrentCurrency, currency)
+  }
+
   const setAutoLogout = function* ({ autoLogout }) {
     yield put(walletActions.setAutoLogout(autoLogout))
   }
@@ -303,6 +307,7 @@ export default ({ api }) => {
     setMobileVerifiedAs2FA,
     setNotificationsOn,
     setNotificationsType,
+    setTradingCurrency,
     setYubikey,
     verifyEmailCode
   }

@@ -3,6 +3,7 @@ import { CoinfigType } from '@core/types'
 declare global {
   interface Window {
     APP_VERSION: string // build injected app version
+    ApplePaySession?: ApplePaySession
     BCAndroidSSI: any // android <-> web messaging
     CAPTCHA_KEY: string // build injected recaptcha key
     coins: {

@@ -7,13 +7,17 @@ import {
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
 import { BSPaymentTypes, FiatType } from '@core/types'
 import { Box, Button, Text } from 'blockchain-info-components'
+import { Expanded, Flex } from 'components/Flex'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { model } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Coin } from 'middleware/analyticsMiddleware/types'
 import { media } from 'services/styles'
 
-import { CardDetails, Child, CustomSettingHeader, RemoveButton } from '../styles'
+import { CustomSettingHeader, RemoveButton } from '../styles'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const { FORM_BS_CHECKOUT_CONFIRM } = model.components.buySell
@@ -36,19 +40,13 @@ const CardImg = styled.img`
   width: 24px;
 `
 
-const CardIconWrapper = styled.div`
-  margin-right: 14px;
-  justify-content: center;
-  flex-direction: column;
-  display: flex;
-`
-
 const Success: React.FC<
   InjectedFormProps<{}, Props & { fiatCurrency?: FiatType }> & Props & { fiatCurrency?: FiatType }
 > = (props) => {
   const ccPaymentMethod = props.paymentMethods.methods.find(
     (m) => m.type === BSPaymentTypes.PAYMENT_CARD
   )
+
   const activeCards = props.cards.filter((card) => card.state === 'ACTIVE')
 
   return (
@@ -77,40 +75,72 @@ const Success: React.FC<
 
           return (
             <Box isMobile={media.mobile} key={card.id} style={{ width: '430px' }}>
-              <Child>
-                <CardIconWrapper>
+              <Flex style={{ width: '100%' }} gap={8}>
+                <Flex alignItems='center'>
                   <CardImg src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO} />
-                </CardIconWrapper>
-                <CardDetails>
-                  <Text size='16px' color='grey800' weight={600} capitalize>
-                    {cardLabel.length > 22 ? `${cardLabel.slice(0, 22)}…` : cardLabel}
-                  </Text>
-                  {ccPaymentMethod && (
-                    <Text size='14px' color='grey600' weight={500}>
-                      <FormattedMessage
-                        id='scenes.settings.card_ending_in'
-                        defaultMessage='Card Ending in {cardNumber}'
-                        values={{ cardNumber: card.card.number }}
-                      />
-                    </Text>
-                  )}
-                </CardDetails>
-              </Child>
-              <Child>
-                <RemoveButton
-                  data-e2e='removeCard'
-                  nature='light-red'
-                  disabled={props.submitting}
-                  style={{ marginLeft: '18px', minWidth: 'auto' }}
-                  // @ts-ignore
-                  onClick={(e: SyntheticEvent) => {
-                    e.stopPropagation()
-                    props.buySellActions.deleteCard(card.id)
-                  }}
-                >
-                  <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
-                </RemoveButton>
-              </Child>
+                </Flex>
+
+                <Expanded style={{ minWidth: 0 }}>
+                  <Flex flexDirection='column'>
+                    <Flex justifyContent='space-between'>
+                      <Text
+                        size='16px'
+                        color='grey800'
+                        weight={600}
+                        capitalize
+                        style={{
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {cardLabel}
+                      </Text>
+
+                      <Text size='14px' color='grey600' weight={500}>
+                        ****{card.card.number}
+                      </Text>
+                    </Flex>
+
+                    <Flex justifyContent='space-between'>
+                      <Text size='14px' color='grey600' weight={500}>
+                        {!!ccPaymentMethod && (
+                          <FormattedMessage
+                            id='scenes.settings.card_limits'
+                            defaultMessage='{limitAmount} Limit'
+                            values={{
+                              limitAmount: fiatToString({
+                                unit: card.currency,
+                                value: convertBaseToStandard(Coin.FIAT, ccPaymentMethod.limits.max)
+                              })
+                            }}
+                          />
+                        )}
+                      </Text>
+
+                      <Text size='14px' color='grey600' weight={500}>
+                        Exp: {card.card.expireMonth}/{card.card.expireYear}
+                      </Text>
+                    </Flex>
+                  </Flex>
+                </Expanded>
+
+                <Flex alignItems='center'>
+                  <RemoveButton
+                    data-e2e='removeCard'
+                    nature='light-red'
+                    disabled={props.submitting}
+                    style={{ minWidth: 'auto' }}
+                    // @ts-ignore
+                    onClick={(e: SyntheticEvent) => {
+                      e.stopPropagation()
+                      props.buySellActions.deleteCard(card.id)
+                    }}
+                  >
+                    <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
+                  </RemoveButton>
+                </Flex>
+              </Flex>
             </Box>
           )
         })}

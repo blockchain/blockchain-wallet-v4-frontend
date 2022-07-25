@@ -1,14 +1,17 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
+import { clearSubmitErrors } from 'redux-form'
 
 import { Remote } from '@core'
-import { ExtractSuccess } from '@core/types'
-import CardError from 'components/BuySell/CardError'
+import { BSPaymentTypes, ExtractSuccess } from '@core/types'
+import Error from 'components/BuySell/Error'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { RootState } from 'data/rootReducer'
 import { Analytics, BSCheckoutFormValuesType } from 'data/types'
+import { isNabuError } from 'services/errors'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -48,7 +51,15 @@ class CheckoutConfirm extends PureComponent<Props> {
       return
     }
 
-    this.props.buySellActions.createOrderSuccess(this.props.pendingOrder)
+    this.props.buySellActions.createOrder({
+      mobilePaymentMethod: this.props.mobilePaymentMethod,
+      paymentMethodId: this.props.pendingOrder.paymentMethodId,
+      paymentType:
+        this.props.pendingOrder.paymentType !== BSPaymentTypes.USER_CARD &&
+        this.props.pendingOrder.paymentType !== BSPaymentTypes.BANK_ACCOUNT
+          ? this.props.pendingOrder.paymentType
+          : undefined
+    })
   }
 
   trackError = (error: PartialClientErrorProperties | string) => {
@@ -72,8 +83,12 @@ class CheckoutConfirm extends PureComponent<Props> {
       Failure: (e) => {
         this.trackError(e)
 
+        if (isNabuError(e)) {
+          return <GenericNabuErrorFlyout error={e} onDismiss={this.handleBack} />
+        }
+
         return (
-          <CardError
+          <Error
             code={e}
             handleRetry={this.handleRetry}
             handleReset={this.handleReset}
@@ -93,9 +108,6 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
   googlePayInfo: selectors.components.buySell.getGooglePayInfo(state),
-  isFlexiblePricingModel: selectors.core.walletOptions
-    .getFlexiblePricingModel(state)
-    .getOrElse(false),
   mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
   pendingOrder: selectors.components.buySell.getBSPendingOrder(state)
 })
@@ -104,6 +116,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  clearFormError: () => dispatch(clearSubmitErrors(FORM_BS_CHECKOUT)),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
