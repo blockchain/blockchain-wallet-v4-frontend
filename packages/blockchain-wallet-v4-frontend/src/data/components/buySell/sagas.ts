@@ -678,13 +678,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error(BS_ERROR.GOOGLE_PAY_INFO_NOT_FOUND)
           }
 
-          const allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
-
-          const allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
-            'PAN_ONLY',
-            'CRYPTOGRAM_3DS'
-          ]
-
           // inputAmount is in cents, but amount has to be in decimals
           const amount = parseInt(order.inputQuantity, 10) / 100
 
@@ -700,10 +693,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error(BS_ERROR.GOOGLE_PAY_PARAMETERS_NOT_FOUND)
           }
 
+          const allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
+
+          const allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
+            'PAN_ONLY',
+            'CRYPTOGRAM_3DS'
+          ]
+
+          const { allowCreditCards, allowPrepaidCards } = googlePayInfo
+
           const paymentDataRequest = {
             allowedPaymentMethods: [
               {
                 parameters: {
+                  allowCreditCards,
+                  allowPrepaidCards,
                   allowedAuthMethods,
                   allowedCardNetworks,
                   billingAddressParameters: {
