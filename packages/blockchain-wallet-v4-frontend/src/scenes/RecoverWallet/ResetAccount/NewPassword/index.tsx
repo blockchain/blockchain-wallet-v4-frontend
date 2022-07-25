@@ -37,6 +37,18 @@ const NewPassword = (props: Props) => {
         email={emailFromMagicLink}
         step={RecoverSteps.RESET_ACCOUNT}
       />
+      <Text
+        size='20px'
+        weight={600}
+        color='grey900'
+        lineHeight='1.5'
+        style={{ marginBottom: '16px' }}
+      >
+        <FormattedMessage
+          id='scenes.recovry.resetpassword.title'
+          defaultMessage='Reset Your Password'
+        />
+      </Text>
       <FormGroup>
         <FormLabel htmlFor='password'>
           <FormattedMessage id='copy.new_password' defaultMessage='New Password' />
