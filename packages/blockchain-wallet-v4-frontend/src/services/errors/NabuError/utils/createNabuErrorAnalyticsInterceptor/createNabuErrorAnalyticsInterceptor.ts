@@ -11,6 +11,7 @@ export const createNabuErrorAnalyticsInterceptor: CreateNabuErrorAnalyticsInterc
       const clientError: ClientErrorProperties = {
         category: error.categories,
         error: 'NABU_ERROR',
+        id: error.id,
         network_error_description: error.message,
         network_error_type: 'NABU_ERROR',
         source: 'NABU',
