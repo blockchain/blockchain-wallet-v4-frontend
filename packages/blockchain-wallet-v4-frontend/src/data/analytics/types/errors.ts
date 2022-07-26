@@ -25,6 +25,7 @@ export type ClientErrorProperties = {
   action?: string
   category?: string[]
   error: ErrorType
+  id?: string
   network_endpoint?: string
   network_error_code?: number
   network_error_description?: string
