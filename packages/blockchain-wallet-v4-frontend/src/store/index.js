@@ -15,7 +15,7 @@ import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@co
 import { serializer } from '@core/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
 import { isBrowserSupported } from 'services/browser'
-import { createNabuErrorFulfilledInterceptor, createNabuErrorRejectedInterceptor } from "services/errors/NabuError"
+import { createNabuErrorFulfilledInterceptor, createNabuErrorRejectedInterceptor, createNabuErrorAnalyticsInterceptor } from "services/errors/NabuError"
 import axios from "axios"
 
 import {
@@ -103,7 +103,7 @@ const configuredStore = async function () {
   axios.interceptors.response.use(
     createNabuErrorFulfilledInterceptor(),
     createNabuErrorRejectedInterceptor()
-  );
+  )
   
   const api = createWalletApi({
     apiKey: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8',
@@ -161,6 +161,11 @@ const configuredStore = async function () {
   })
 
   store.dispatch(actions.goals.defineGoals())
+
+  axios.interceptors.response.use(
+    (response) => response,
+    createNabuErrorAnalyticsInterceptor(store.dispatch)
+  )
 
   return {
     history,

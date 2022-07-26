@@ -385,9 +385,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         delete output.amount
       }
 
-      let buyOrder: BSOrderType
-      let oldBuyOrder: BSOrderType | undefined
-
       if (mobilePaymentMethod === MobilePaymentType.APPLE_PAY) {
         const applePayInfo: ApplePayInfoType = yield call(api.getApplePayInfo, fiat)
 
@@ -402,13 +399,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.createOrderLoading())
 
+      let buyOrder: BSOrderType
+
+      let oldBuyOrder: BSOrderType | undefined
+
       // This code is handles refreshing the buy order when the user sits on
       // the order confirmation screen.
       while (true) {
+        // need to get current step and break if not checkout confirm
+        // usually happens when the user goes back to the enter amount form
+        const currentStep = S.getStep(yield select())
+
+        if (currentStep !== 'CHECKOUT_CONFIRM') {
+          break
+        }
+
         // non gold users can only make one order at a time so we need to cancel the old one
         if (oldBuyOrder) {
           yield call(api.cancelBSOrder, oldBuyOrder)
         }
+
         // get the current order, if any
         const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
 
@@ -439,16 +449,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         // pause the while loop here until if/when the quote expires again, then refresh the order
         yield take(A.fetchBuyQuoteSuccess)
-        // need to get current step and break if not checkout confirm
-        // usually happens when the user goes back to the enter amount form
-        const currentStep = S.getStep(yield select())
-        if (currentStep !== 'CHECKOUT_CONFIRM') {
-          break
-        }
       }
     } catch (e) {
       if (isNabuError(e)) {
-        return yield put(
+        yield put(A.createOrderFailure(e))
+
+        yield put(
           actions.form.stopSubmit(
             values?.orderType === OrderType.SELL ? FORM_BS_PREVIEW_SELL : FORM_BS_CHECKOUT,
             {
@@ -456,6 +462,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             }
           )
         )
+
+        return
       }
 
       const error: number | string = errorHandlerCode(e)
@@ -806,7 +814,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
 
-      if (!skipErrorDisplayList.includes(e as BS_ERROR)) {
+      if (skipErrorDisplayList.includes(e as BS_ERROR)) {
         yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
         return

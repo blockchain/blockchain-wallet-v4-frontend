@@ -211,7 +211,7 @@ const buySellSlice = createSlice({
         >
       }>
     ) => {},
-    createOrderFailure: (state, action: PayloadAction<string>) => {
+    createOrderFailure: (state, action: PayloadAction<string | number | Error>) => {
       state.order = Remote.Failure(action.payload)
     },
     createOrderLoading: (state) => {

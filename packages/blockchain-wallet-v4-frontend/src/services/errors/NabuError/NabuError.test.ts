@@ -17,6 +17,7 @@ describe('NabuError()', () => {
   })
 
   it('Should create a nabu error with all properties', () => {
+    const id = 'nabu_error_id'
     const title = 'Unable to quote USDC-USD'
     const message =
       "We are having problems fetching a quote for USDC-USD, don't worry - we're on it"
@@ -32,11 +33,13 @@ describe('NabuError()', () => {
 
     const error = new NabuError({
       icon,
+      id,
       message,
       title
     })
 
     expect(error.title).toEqual(title)
+    expect(error.id).toEqual(id)
     expect(error.message).toEqual(message)
     expect(error.icon).toEqual(icon)
   })
@@ -62,5 +65,15 @@ describe('NabuError()', () => {
     expect(error.actions?.length).toEqual(2)
     expect(actions[0].title).toEqual('Go to enter amount')
     expect(actions[1].title).toEqual('Blockchain')
+  })
+
+  it('Should include the error categories when available', () => {
+    const error = new NabuError({
+      categories: ['TestCategory'],
+      message: 'Message',
+      title: 'Title'
+    })
+
+    expect(error.categories).toEqual(['TestCategory'])
   })
 })
