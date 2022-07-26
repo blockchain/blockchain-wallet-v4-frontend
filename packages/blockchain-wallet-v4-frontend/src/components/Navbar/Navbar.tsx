@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon, Text } from '@blockchain-com/constellation'
@@ -88,7 +89,8 @@ const ListStyles = styled.ul`
       transition-duration: 0.5s;
     }
 
-    &.refresh:active {
+    &.refresh:active,
+    &.refresh:focus {
       transform: rotate(360deg);
     }
   }
@@ -182,6 +184,10 @@ const Navbar = ({
   const [isMobileNavOpen, setMobileNav] = useState(false)
   const isMobile = useMedia('mobile')
   const isTablet = useMedia('tablet')
+  useHotkeys('cmd+r', (e) => {
+    e.preventDefault()
+    refreshClickHandler()
+  })
 
   const closeMobileNavOpenSendCallback = useCallback(() => {
     setMobileNav(false)
@@ -242,13 +248,15 @@ const Navbar = ({
       name: 'mobile-app'
     },
     {
-      component: () => (
-        <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
-          <Icon color='grey400' label='refresh' size='sm'>
-            <IconRefresh />
-          </Icon>
-        </NavButton>
-      ),
+      component: () => {
+        return (
+          <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
+            <Icon color='grey400' label='refresh' size='sm'>
+              <IconRefresh />
+            </Icon>
+          </NavButton>
+        )
+      },
       name: 'Refresh'
     },
     {
