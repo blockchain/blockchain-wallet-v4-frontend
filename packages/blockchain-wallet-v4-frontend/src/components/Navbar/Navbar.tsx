@@ -248,15 +248,13 @@ const Navbar = ({
       name: 'mobile-app'
     },
     {
-      component: () => {
-        return (
-          <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
-            <Icon color='grey400' label='refresh' size='sm'>
-              <IconRefresh />
-            </Icon>
-          </NavButton>
-        )
-      },
+      component: () => (
+        <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
+          <Icon color='grey400' label='refresh' size='sm'>
+            <IconRefresh />
+          </Icon>
+        </NavButton>
+      ),
       name: 'Refresh'
     },
     {
