@@ -15,6 +15,7 @@ import Error from 'components/BuySell/Error'
 import DataError from 'components/DataError'
 import { OrderSummary } from 'components/Flyout/Brokerage'
 import { getPeriodForSuccess } from 'components/Flyout/model'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import {
   getBaseAmount,
@@ -30,6 +31,7 @@ import {
   RecurringBuyPeriods,
   RecurringBuyStepType
 } from 'data/types'
+import { isNabuError } from 'services/errors'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -81,14 +83,20 @@ class OrderSummaryContainer extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Failure: (e) => (
-        <Error
-          code={e}
-          handleRetry={this.handleErrorAction}
-          handleReset={this.handleErrorAction}
-          handleBack={this.handleErrorAction}
-        />
-      ),
+      Failure: (e) => {
+        if (isNabuError(e)) {
+          return <GenericNabuErrorFlyout error={e} onDismiss={this.handleErrorAction} />
+        }
+
+        return (
+          <Error
+            code={e}
+            handleRetry={this.handleErrorAction}
+            handleReset={this.handleErrorAction}
+            handleBack={this.handleErrorAction}
+          />
+        )
+      },
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => {
