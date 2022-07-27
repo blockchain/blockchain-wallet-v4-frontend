@@ -5,7 +5,6 @@ import { IconArrowLeft } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import Receive from './Receive'
-import { Success } from './Success'
 
 export const FundingWrapper = styled.section`
   display: flex;
@@ -14,16 +13,14 @@ export const FundingWrapper = styled.section`
   letter-spacing: 0em;
   font-family: Inter, sans-serif;
   color: ${(props) => props.theme.white};
-  background-color: ${(props) => props.theme.exchangeLogin};
-  padding: 24px;
 `
 
-export const Funding = (props) => {
+const Funding = (props) => {
   const { path } = props.match
 
   return (
     <FundingWrapper>
-      <Link to='/extension/home'>
+      <Link to='/plugin/coinslist'>
         <Icon color='white060' label='IconActivity' size='md'>
           <IconArrowLeft />
         </Icon>
@@ -34,3 +31,5 @@ export const Funding = (props) => {
     </FundingWrapper>
   )
 }
+
+export default Funding

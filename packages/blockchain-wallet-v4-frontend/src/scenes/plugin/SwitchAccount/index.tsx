@@ -79,6 +79,7 @@ export const SwitchAccount = (props) => {
             account={account}
             setCopiedAccountIndex={setCopiedAccountIndex}
             copiedAccountIndex={copiedAccountIndex}
+            setIsSwitchAccountVisible={setIsSwitchAccountVisible}
           />
         ))}
     </Wrapper>

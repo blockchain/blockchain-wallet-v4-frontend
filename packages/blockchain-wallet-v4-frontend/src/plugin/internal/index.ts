@@ -46,6 +46,10 @@ export async function removeConnection(domain: string): Promise<void> {
   await chrome.storage.local.set({ connections })
 }
 
+export async function removeAllConnections(): Promise<void> {
+  await chrome.storage.local.set({ connections: [] })
+}
+
 export async function isDomainConnected(domain: string): Promise<boolean> {
   if (!domain) {
     throw Error("domain can't be empty")

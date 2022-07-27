@@ -57,13 +57,17 @@ const Balance = (props) => {
     props.history.push('/plugin/send')
   }
 
+  const goToReceiveScene = () => {
+    props.history.push('/plugin/funding')
+  }
+
   return (
     <BalanceWrapper data-testid='coinview-header'>
       <Text style={{ margin: '20px 0' }} color='white' size='40px' weight={500}>
         {balance}
       </Text>
       <Flex justifyContent='center' gap={24}>
-        <ButtonWrapper>
+        <ButtonWrapper onClick={goToReceiveScene}>
           <IconButtonStyled
             padding='0'
             name='receive'

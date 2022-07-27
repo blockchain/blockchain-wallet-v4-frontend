@@ -31,7 +31,7 @@ import BackupSeedPhrase from './plugin/BackupSeedPhrase'
 import CoinsList from './plugin/CoinsList'
 import CoinsListHeader from './plugin/CoinsList/Header'
 import { ConnectDapp } from './plugin/ConnectDapp'
-import Receive from './plugin/Funding/Receive'
+import Funding from './plugin/Funding'
 import HomeNavbar from './plugin/HomeNavbar'
 import Nft from './plugin/Nft'
 import Send from './plugin/Send'
@@ -144,7 +144,7 @@ const App = ({
                             path='/plugin/backup-seed-phrase'
                             component={BackupSeedPhrase}
                           />
-                          <PluginLayout path='/plugin/funding' component={Receive} />
+                          <PluginLayout path='/plugin/funding' component={Funding} />
                           <PluginLayout
                             path='/plugin/nft'
                             header={<CoinsListHeader />}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
+import { Link, Route, Switch } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconMoreHorizontal } from '@blockchain-com/icons'
 import { CombinedState } from 'redux'
@@ -11,6 +12,7 @@ import { selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 
+import Settings from '../Settings'
 import { SwitchAccount } from '../SwitchAccount'
 
 const HeaderWrapper = styled.div`
@@ -63,10 +65,12 @@ const SettingsButton = styled.button`
   background: none;
   border: none;
   outline: none;
+  cursor: pointer;
 `
 
 const Header = () => {
   const [isSwitchAccountVisible, setIsSwitchAccountVisible] = useState(false)
+  const [isSettingsVisible, setIsSettingsVisible] = useState(false)
 
   const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
   const coins = useSelector(selectors.components.swap.getCoins)
@@ -79,6 +83,10 @@ const Header = () => {
 
   const setSwitchAccountVisibility = () => {
     setIsSwitchAccountVisible(true)
+  }
+
+  const setSettingsVisibility = () => {
+    setIsSettingsVisible(true)
   }
 
   return (
@@ -96,11 +104,11 @@ const Header = () => {
             <StatusLabel />
           </AssetWrapper>
         </WalletWapper>
-        <SettingsButton>
+        <Link to='/plugin/coinslist' onClick={setSettingsVisibility}>
           <Icon label='IconMore' size='md'>
             <IconMoreHorizontal />
           </Icon>
-        </SettingsButton>
+        </Link>
       </HeaderWrapper>
       {isSwitchAccountVisible && (
         <SwitchAccount
@@ -109,6 +117,7 @@ const Header = () => {
           setIsSwitchAccountVisible={setIsSwitchAccountVisible}
         />
       )}
+      {isSettingsVisible && <Settings setIsSettingsVisible={setIsSettingsVisible} />}
     </header>
   )
 }

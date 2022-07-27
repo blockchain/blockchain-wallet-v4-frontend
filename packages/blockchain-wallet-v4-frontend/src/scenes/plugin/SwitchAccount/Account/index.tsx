@@ -101,6 +101,7 @@ const Account: React.FC<AccountProps & any> = ({
   copiedAccountIndex,
   index,
   setCopiedAccountIndex,
+  setIsSwitchAccountVisible,
   ...props
 }) => {
   const dispatch = useDispatch()
@@ -158,6 +159,7 @@ const Account: React.FC<AccountProps & any> = ({
 
   const selectAccount = (account) => {
     dispatch(cacheActions.setSelectedAccount(account))
+    setIsSwitchAccountVisible(false)
   }
 
   return (
