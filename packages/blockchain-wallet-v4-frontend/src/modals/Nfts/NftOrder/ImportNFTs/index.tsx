@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
@@ -11,14 +12,18 @@ import {
   SkeletonRectangle,
   Text
 } from 'blockchain-info-components'
+import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import { Flex } from 'components/Flex'
 import FlyoutHeader from 'components/Flyout/Header'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
+import { actions } from 'data'
 import { media } from 'services/styles'
 
 import { Props as OwnProps } from '..'
 
 const ImportNFTs: React.FC<Props> = (props) => {
-  const { close } = props
+  const { close, defaultEthAddr } = props
+  const dispatch = useDispatch()
 
   const CustomText = styled(Text)`
     text-align: center;
@@ -27,7 +32,13 @@ const ImportNFTs: React.FC<Props> = (props) => {
   width: 100%;
   `}
   `
-
+  const QRCodeContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    padding: 30px 0 0;
+  `
   const NumberCircle = styled.div`
     border-radius: 50%;
     width: 18px;
@@ -37,9 +48,14 @@ const ImportNFTs: React.FC<Props> = (props) => {
     text-align: center;
   `
 
-  const Row = styled(Flex)`
-    display: flex;
+  const Address = styled(Flex)`
+    width: fit-content;
   `
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(defaultEthAddr)
+    dispatch(actions.alerts.displaySuccess('Copied to clipboard!'))
+  }
 
   return (
     <>
@@ -56,10 +72,25 @@ const ImportNFTs: React.FC<Props> = (props) => {
             Already have NFTs somewhere else? Import them by sending from external wallet to the
             address below.
           </CustomText>
-          <Button onClick={() => {}} width='182px' nature='primary' data-e2e='get-started'>
+          <QRCodeContainer>
+            <QRCodeWrapper value={defaultEthAddr} size={256} />
+          </QRCodeContainer>
+          <Address justifyContent='space-between' alignItems='center'>
+            <Text color='grey700' size='14px' weight={600}>
+              <CryptoAddress canCopy>{defaultEthAddr}</CryptoAddress>
+            </Text>
+          </Address>{' '}
+          <Button
+            onClick={() => {
+              copyToClipboard()
+            }}
+            width='182px'
+            nature='primary'
+            data-e2e='get-started'
+          >
             Copy Address
           </Button>
-          <Flex flexDirection='column' alignItems='flex-start' style={{ padding: '1em' }}>
+          <Flex flexDirection='column' alignItems='flex-start' style={{ padding: '1em 1em 2em' }}>
             <Text color='grey900' size='16px' weight={600}>
               Instructions
             </Text>

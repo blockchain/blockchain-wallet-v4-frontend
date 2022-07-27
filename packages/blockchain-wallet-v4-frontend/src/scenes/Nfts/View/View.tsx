@@ -94,8 +94,7 @@ const CustomStat = styled(Stat)`
 `
 
 const View: React.FC<Props> = (props) => {
-  const { nftsActions } = props
-  const address = '0x0000000000000000000000000000000000000000'
+  const { defaultEthAddr, nftsActions } = props
   return (
     <NftPageV2>
       <Header>
@@ -106,7 +105,7 @@ const View: React.FC<Props> = (props) => {
             </Text>
             <Address justifyContent='space-between' alignItems='center'>
               <Text color='grey900' size='16px' weight={600}>
-                <CryptoAddress canCopy>{address}</CryptoAddress>
+                <CryptoAddress canCopy>{defaultEthAddr}</CryptoAddress>
               </Text>
             </Address>
             <Flex>
@@ -194,6 +193,9 @@ const View: React.FC<Props> = (props) => {
     </NftPageV2>
   )
 }
+const mapStateToProps = (state: RootState) => ({
+  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
+})
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
@@ -201,7 +203,7 @@ const mapDispatchToProps = (dispatch) => ({
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 
