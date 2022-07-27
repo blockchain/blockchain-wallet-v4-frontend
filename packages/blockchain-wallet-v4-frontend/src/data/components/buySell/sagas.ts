@@ -410,8 +410,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
 
         // non gold users can only make one order at a time so we need to cancel the old one
-        if (oldBuyOrder && !Remote.Loading.is(S.getBSOrder(yield select()))) {
-          yield call(api.cancelBSOrder, oldBuyOrder)
+        try {
+          if (oldBuyOrder && !Remote.Loading.is(S.getBSOrder(yield select()))) {
+            yield call(api.cancelBSOrder, oldBuyOrder)
+          }
+        } catch(e) {
+          console.log("---- new eeror place", e)
+          throw e
         }
 
         buyOrder = yield call(
@@ -517,22 +522,32 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const checkOrderAuthUrl = function* (orderId) {
-    const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
-    if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
-      return order
-    }
+    try {
+      const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
+      if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
+        return order
+      }
 
-    throw new Error(BS_ERROR.RETRYING_TO_GET_AUTH_URL)
+      throw new Error(BS_ERROR.RETRYING_TO_GET_AUTH_URL)
+    } catch (error) {
+      console.log('--------------- error 2222', error)
+      throw error
+    }
   }
 
   const orderConfirmCheck = function* (orderId) {
-    const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
+    try {
+      const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
 
-    if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
-      return order
+      if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
+        return order
+      }
+
+      throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
+    } catch (error) {
+      console.log('--------------- error', error)
+      throw error
     }
-
-    throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
   }
 
   const confirmOrderPoll = function* (
@@ -543,6 +558,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   ) {
     const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS, orderConfirmCheck, payload.id)
+    console.log("confirmedOrder", confirmedOrder)
     yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
     yield put(A.confirmOrderSuccess(confirmedOrder))
@@ -803,6 +819,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.fetchOrders())
     } catch (e) {
+      console.log("--- error here ---", e);
       const skipErrorDisplayList = [
         BS_ERROR.USER_CANCELLED_APPLE_PAY,
         BS_ERROR.USER_CANCELLED_GOOGLE_PAY
@@ -837,6 +854,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     } catch (e) {
+      console.log("---- another error", e)
       if (isNabuError(e)) {
         yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: e }))
       } else {
@@ -1698,9 +1716,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield delay(2000)
       }
 
-      yield put(A.createOrderSuccess(order))
+      yield put(A.confirmOrderSuccess(order))
     } catch (e) {
-      yield put(A.createOrderFailure(ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
+      yield put(A.createOrderFailure(isNabuError(e) ? e : ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
     } finally {
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     }
