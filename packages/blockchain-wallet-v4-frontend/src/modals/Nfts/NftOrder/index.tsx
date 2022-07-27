@@ -15,9 +15,11 @@ import AcceptOffer from './AcceptOffer'
 import Buy from './Buy'
 import CancelListing from './CancelListing'
 import CancelOffer from './CancelOffer'
+import ImportNFTs from './ImportNFTs'
 import MakeOffer from './MakeOffer'
 import MarkForSale from './MarkForSale'
 import NotVerified from './NotVerified'
+import PurchaseNFTs from './PurchaseNFTs'
 import Status from './Status'
 import Transfer from './Transfer'
 
@@ -105,6 +107,16 @@ class NftOrder extends PureComponent<Props, State> {
         {step === NftOrderStepEnum.STATUS && (
           <StyledFlyoutChild>
             <Status {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
+        )}
+        {step === NftOrderStepEnum.IMPORT_NFTS && (
+          <StyledFlyoutChild>
+            <ImportNFTs {...this.props} close={() => this.handleClose()} />
+          </StyledFlyoutChild>
+        )}
+        {step === NftOrderStepEnum.PURCHASE_NFTS && (
+          <StyledFlyoutChild>
+            <PurchaseNFTs {...this.props} close={() => this.handleClose()} />
           </StyledFlyoutChild>
         )}
       </Flyout>
