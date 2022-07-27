@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
@@ -23,7 +23,7 @@ export enum AvailableCoins {
 }
 
 const Send = (props) => {
-  const [step, setStep] = useState<number>(AvailableSteps.SelectAddress)
+  const { step } = props
   const [coin, setCoin] = useState<string>(AvailableCoins.ETH)
 
   const { sendActions } = props
@@ -32,11 +32,6 @@ const Send = (props) => {
   // indicates if first and second steps are shown
   const isFirstStepShown: boolean = step === AvailableSteps.FirstStep
   const isSecondStepShown: boolean = step === AvailableSteps.SecondStep
-
-  // changes step
-  const changeStep = (step: AvailableSteps) => {
-    setStep(step)
-  }
 
   useEffect(() => {
     sendActions.initialized(coin)
@@ -49,19 +44,19 @@ const Send = (props) => {
 
   return (
     <>
-      {isRecentsWalletsShown && (
-        <SelectAddress changeStep={changeStep} step={step} coin={coin} {...props} />
-      )}
-      {isFirstStepShown && (
-        <FirstStep changeStep={changeStep} changeCoin={changeCoin} coin={coin} {...props} />
-      )}
-      {isSecondStepShown && <SecondStep changeStep={changeStep} coin={coin} {...props} />}
+      {isRecentsWalletsShown && <SelectAddress step={step} coin={coin} {...props} />}
+      {isFirstStepShown && <FirstStep changeCoin={changeCoin} coin={coin} {...props} />}
+      {isSecondStepShown && <SecondStep coin={coin} {...props} />}
     </>
   )
 }
+
+const mapStateToProps = (state) => ({
+  step: selectors.components.sendEth.getStep(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   sendActions: bindActionCreators(actions.components.sendEth, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(Send)
+export default connect(mapStateToProps, mapDispatchToProps)(Send)

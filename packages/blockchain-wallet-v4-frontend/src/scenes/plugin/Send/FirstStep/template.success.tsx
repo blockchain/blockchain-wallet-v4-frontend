@@ -7,7 +7,6 @@ import {
   IconClose,
   IconCloseCircle
 } from '@blockchain-com/icons'
-import { AvailableSteps } from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send'
 import Amount from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send/FirstStep/Amount'
 import Assets from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send/FirstStep/Assets'
 import Asset from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send/FirstStep/Assets/Asset'
@@ -130,7 +129,6 @@ const Label = styled(Text)`
 type FirstStepSuccessProps = {
   amount: string
   changeCoin: (coin: string) => void
-  changeStep: (step: AvailableSteps) => void
   coin: string
   effectiveBalance: string
   firstStepConfirm: () => void
@@ -147,7 +145,6 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
   const {
     amount,
     changeCoin,
-    changeStep,
     coin,
     effectiveBalance,
     firstStepConfirm,
@@ -157,7 +154,6 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
   } = props
   const [isAssetsPopupVisible, setIsAssetsPopupVisible] = useState<boolean>(false)
   const [isNotEnoughCoins, setIsNotEnoughCoins] = useState<boolean>(false)
-  const [address, setAddress] = useState<string>('')
 
   // Closes assets popup
   const closeAssetsPopup = () => {
@@ -170,7 +166,6 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
 
   const deleteCurrentAddress = () => {
     reInitCoinPayment()
-    changeStep(AvailableSteps.SelectAddress)
   }
   const closeNotEnoughCoinsTooltip = () => {
     setIsNotEnoughCoins(false)
@@ -183,7 +178,7 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
 
   const confirm = () => {
     const isEnoughBalanceToSendCrypto: boolean = Number(amount) <= Number(effectiveBalance)
-    if (!(isEnoughBalanceToSendCrypto && effectiveBalance)) {
+    if (!(isEnoughBalanceToSendCrypto && effectiveBalance && Number(amount))) {
       setIsNotEnoughCoins(true)
       return
     }
@@ -191,16 +186,8 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
   }
 
   const addCrypto = () => {
-    history.push(`/receive${coin}`)
+    history.push(`/receive`)
   }
-
-  useEffect(() => {
-    if (!to) {
-      changeStep(AvailableSteps.SelectAddress)
-      return
-    }
-    setAddress(to.address)
-  }, [])
 
   return (
     <Wrapper>
@@ -221,7 +208,7 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
         </IconWrapper>
         <SavedWallet>
           <Text color='grey400' size='14px' lineHeight='21px' weight={500}>
-            {address}
+            {to.address}
           </Text>
           <IconCheckWrapper>
             <IconCheckCircle width='16px' height='16px' color='white' />

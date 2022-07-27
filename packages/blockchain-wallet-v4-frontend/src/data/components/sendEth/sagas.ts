@@ -293,7 +293,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         )
       }
       // Display success
-      if (!isPlugin) {
+      if (!isPlugin()) {
         yield put(actions.router.push(`/coins/${coin}`))
       }
       if (coin === ETH) {
@@ -301,7 +301,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       } else {
         yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
       }
-      if (!isPlugin) {
+      if (!isPlugin()) {
         yield put(
           actions.alerts.displaySuccess(
             isRetryAttempt ? C.RESEND_COIN_SUCCESS : C.SEND_COIN_SUCCESS,

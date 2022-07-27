@@ -31,7 +31,7 @@ const WallerWrapper = styled(Flex)`
 `
 
 const Label = styled(Text)`
-  margin: 16px 0;
+  margin: 20px 0;
 `
 
 const Recents: React.FC<Props> = (props) => {

@@ -1,3 +1,4 @@
+import { AbstractPlugin } from 'plugin/internal'
 import { assoc } from 'ramda'
 
 import { Remote } from '@core'
@@ -5,12 +6,14 @@ import { Remote } from '@core'
 import * as AT from './actionTypes'
 import { SendEthState } from './types'
 
+const { isPlugin } = AbstractPlugin
+
 const INITIAL_STATE: SendEthState = {
   feeToggled: false,
   isContract: Remote.NotAsked,
   payment: Remote.NotAsked,
   sendLimits: Remote.NotAsked,
-  step: 1
+  step: isPlugin() ? 0 : 1
 }
 
 export function sendEthReducer(state = INITIAL_STATE, action) {
@@ -52,6 +55,9 @@ export function sendEthReducer(state = INITIAL_STATE, action) {
       return assoc('step', 2, state)
     }
     case AT.SEND_ETH_SECOND_STEP_CANCEL_CLICKED: {
+      return assoc('step', 1, state)
+    }
+    case AT.SEND_ETH_SET_FIRST_STEP: {
       return assoc('step', 1, state)
     }
     case AT.SEND_ETH_FIRST_STEP_FEE_TOGGLED: {

@@ -11,12 +11,11 @@ import { actions } from 'data'
 
 import FirstStepSuccess from './template.success'
 
-const FirstStep: React.FC<Props> = ({ changeStep, ...props }) => {
+const FirstStep: React.FC<Props> = (props) => {
   const { changeCoin, coin, data, history, sendActions } = props
 
   const firstStepConfirm = () => {
     sendActions.sendEthFirstStepSubmitClicked()
-    changeStep(AvailableSteps.SecondStep)
   }
 
   // Re-inits payment provider for selected coin, i.e 'ETH' or erc20 token
@@ -32,7 +31,6 @@ const FirstStep: React.FC<Props> = ({ changeStep, ...props }) => {
       return (
         <FirstStepSuccess
           changeCoin={changeCoin}
-          changeStep={changeStep}
           coin={coin}
           firstStepConfirm={firstStepConfirm}
           history={history}
@@ -56,7 +54,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type FirstStepProps = {
   changeCoin: (coin: string) => void
-  changeStep: (step: AvailableSteps) => void
   coin: string
   history: {
     push: (path: string) => void

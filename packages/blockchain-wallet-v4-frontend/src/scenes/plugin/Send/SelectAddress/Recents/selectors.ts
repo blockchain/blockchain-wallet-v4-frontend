@@ -17,7 +17,7 @@ export const getData = (state: RootState, coin: string): { addresses: string[] }
     const FIRST_TRANSACTION_INDEX = 0
     let addresses: string[] = []
 
-    if (!transactions[FIRST_TRANSACTION_INDEX].data) {
+    if (!transactions[FIRST_TRANSACTION_INDEX]) {
       return {
         addresses
       }

@@ -4,10 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { IconArrowLeft, IconArrowUpRight, IconCheck } from '@blockchain-com/icons'
 import SpeedUpPopup from 'blockchain-wallet-v4-frontend/src/scenes/plugin/common/SpeedUp'
 import TransactionStatus from 'blockchain-wallet-v4-frontend/src/scenes/plugin/common/TransactionStatus'
-import {
-  AvailableCoins,
-  AvailableSteps
-} from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send'
+import { AvailableCoins } from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -76,7 +73,7 @@ const TextWrapper = styled(Text)`
 `
 
 const Success: React.FC<Props> = (props) => {
-  const { amount, changeStep, coin, fee, from, handleSubmit, history, toAddress } = props
+  const { amount, coin, fee, from, handleSubmit, history, sendActions, toAddress } = props
   const [isSpeedUpTransactionPopupVisible, setIsSpeedUpTransactionPopupVisible] =
     useState<boolean>(false)
   const [isCancelButtonClicked, setIsCancelButtonClicked] = useState<boolean>(false)
@@ -104,7 +101,7 @@ const Success: React.FC<Props> = (props) => {
     <Wrapper>
       <IconArrowLeftWrapper
         data-e2e='back-send'
-        onClick={() => changeStep(AvailableSteps.FirstStep)}
+        onClick={() => sendActions.sendEthSecondStepCancelClicked()}
       >
         <IconArrowLeft height='24px' width='24px' cursor='pointer' />
       </IconArrowLeftWrapper>
@@ -257,7 +254,6 @@ const connector = connect(null, mapDispatchToProps)
 
 type SuccessProps = {
   amount: string
-  changeStep: (step: AvailableSteps) => void
   coin: string
   fee: string
   from: {

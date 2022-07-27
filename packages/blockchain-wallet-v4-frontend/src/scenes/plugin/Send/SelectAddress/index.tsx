@@ -36,7 +36,6 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type SendProps = {
-  changeStep: (step: AvailableSteps) => void
   coin: string
   history: {
     goBack: (value: number) => void

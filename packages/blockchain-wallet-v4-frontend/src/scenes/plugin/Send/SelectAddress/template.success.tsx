@@ -2,19 +2,18 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { IconClose } from '@blockchain-com/icons'
-import { AvailableSteps } from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send'
 import Recents from 'blockchain-wallet-v4-frontend/src/scenes/plugin/Send/SelectAddress/Recents'
-import { compose } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { isValidAddress } from '@core/utils/eth'
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import { model } from 'data'
+import SelectBoxEthAddresses from 'components/Form/SelectBoxEthAddresses'
+import { actions, model } from 'data'
 import { getPayment } from 'data/components/sendEth/selectors'
 import { required, validEthAddress } from 'services/forms'
-
-import AddressInput from './AddressInput'
 
 const Wrapper = styled(Flex)`
   flex-direction: column;
@@ -41,8 +40,20 @@ const IconWrapper = styled(Flex)`
 
 const InputWrapper = styled(Flex)`
   color: ${(props) => props.theme.grey400};
-  .invalid-wallet-address {
-    border: 1px solid ${(props) => props.theme.red400};
+  margin: 17px auto;
+  width: 100%;
+
+  & .bc__control {
+    background-color: transparent;
+  }
+
+  & .bc__control.bc__control--menu-is-open {
+    background-color: transparent;
+  }
+
+  & label {
+    top: 50px;
+    left: 0;
   }
 `
 
@@ -54,11 +65,15 @@ const Title = styled(Text)`
 `
 
 const Success: React.FC<Props> = (props) => {
-  const { changeStep, coin, from, history } = props
+  const { coin, from, history, sendActions } = props
 
   // changes and validates wallet address
-  const changeAddress = () => {
-    changeStep(AvailableSteps.FirstStep)
+  const handleChange = (e) => {
+    const value = e ? e.value.value : ''
+
+    if (isValidAddress(value)) {
+      sendActions.sendEthSetFirstStep()
+    }
   }
 
   const goBack = () => {
@@ -76,13 +91,13 @@ const Success: React.FC<Props> = (props) => {
       <InputWrapper>
         <Field
           coin={coin}
-          component={AddressInput}
+          onChange={handleChange}
+          component={SelectBoxEthAddresses}
           dataE2e='sendEthAddressInput'
           id='sendEthAddressInput'
           exclude={from ? [from.label] : []}
           includeAll={false}
           includeExchangeAddress
-          changeAddress={changeAddress}
           isCreatable
           isValidNewOption={() => false}
           includeCustodial={false}
@@ -102,11 +117,14 @@ const mapStateToProps = (state) => ({
   payment: getPayment(state)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+  sendActions: bindActionCreators(actions.components.sendEth, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   amount: string
-  changeStep: (step: AvailableSteps) => void
   coin: string
   from: {
     label: string
