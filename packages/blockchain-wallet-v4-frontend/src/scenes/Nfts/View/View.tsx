@@ -141,7 +141,11 @@ const View: React.FC<Props> = (props) => {
                 address below.
               </CustomText>
               <Button
-                onClick={() => nftsActions.setOrderFlowStep({ step: NftOrderStepEnum.IMPORT_NFTS })}
+                onClick={() =>
+                  nftsActions.nftOrderFlowOpen({
+                    step: NftOrderStepEnum.IMPORT_NFTS
+                  })
+                }
                 width='300px'
                 nature='primary'
                 data-e2e='get-started'
@@ -172,7 +176,9 @@ const View: React.FC<Props> = (props) => {
                   weight={500}
                   style={{ cursor: 'pointer' }}
                   onClick={() =>
-                    nftsActions.setOrderFlowStep({ step: NftOrderStepEnum.PURCHASE_NFTS })
+                    nftsActions.nftOrderFlowOpen({
+                      step: NftOrderStepEnum.PURCHASE_NFTS
+                    })
                   }
                 >
                   <FormattedMessage

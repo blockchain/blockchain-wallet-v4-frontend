@@ -395,6 +395,10 @@ const nftsSlice = createSlice({
             step: NftOrderStepEnum
             token_id: string
           }
+        | {
+            seaportOrder?: never
+            step: NftOrderStepEnum
+          }
       >
     ) => {
       state.orderFlow.step = action.payload.step
