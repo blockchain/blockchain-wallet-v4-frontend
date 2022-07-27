@@ -545,10 +545,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS, orderConfirmCheck, payload.id)
     yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
-    if (confirmedOrder.paymentError) {
-      throw new Error(confirmedOrder.paymentError)
-    }
-
     yield put(A.confirmOrderSuccess(confirmedOrder))
 
     yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
@@ -726,10 +722,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         paymentMethodId
       )
 
-      if (confirmedOrder.paymentError) {
-        throw new Error(confirmedOrder.paymentError)
-      }
-
       if (
         freshOrder.paymentType === BSPaymentTypes.BANK_TRANSFER &&
         account?.partner === BankPartners.YAPILY
@@ -775,9 +767,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder), CARD_ORDER_POLLING)
         } catch (e) {
           // Exhausted the retry attempts, so just show the order summary with the order we have
-          yield put(A.confirmOrderSuccess(confirmedOrder))
+          if (e === BS_ERROR.ORDER_VERIFICATION_TIMED_OUT) {
+            yield put(A.confirmOrderSuccess(confirmedOrder))
 
-          yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+            yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+          } else {
+            throw new Error(e)
+          }
         }
       } else if (
         confirmedOrder.attributes?.everypay ||
