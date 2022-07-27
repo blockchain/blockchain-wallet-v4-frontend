@@ -84,7 +84,6 @@ const AccountSummary: React.FC<Props> = (props) => {
     })
   }, [coin])
 
-
   return (
     <Wrapper>
       <Top>

@@ -16,7 +16,10 @@ export const setSettings = (data) => ({
   payload: { data },
   type: AT.SET_SETTINGS
 })
-export const setEmail = (email) => ({ payload: { email }, type: AT.SET_EMAIL })
+export const setEmail = (email, nabuSessionToken) => ({
+  payload: { email, nabuSessionToken },
+  type: AT.SET_EMAIL
+})
 export const sentConfirmationCodeSuccess = (email) => ({
   payload: { email },
   type: AT.SENT_CONFIRMATION_CODE_SUCCESS
@@ -30,8 +33,8 @@ export const setEmailVerifiedFailedStatus = (isFailed) => ({
   payload: { isFailed },
   type: AT.SET_EMAIL_VERIFIED_FAILED_STATUS
 })
-export const setMobile = (mobile) => ({
-  payload: { mobile },
+export const setMobile = (mobile, nabuSessionToken) => ({
+  payload: { mobile, nabuSessionToken },
   type: AT.SET_MOBILE
 })
 export const setMobileVerified = () => ({ type: AT.SET_MOBILE_VERIFIED })

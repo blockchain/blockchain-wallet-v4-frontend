@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { RefObject } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -29,12 +28,13 @@ const Top = styled(Text)`
   margin-bottom: 20px;
 `
 
-const UnstyledHyperlink = styled.a`
+const RawHyperlink = styled.a`
   color: inherit;
   text-decoration: inherit;
 `
 
-export type Props = OwnProps & SuccessStateType & { domain: string }
+export type Props = OwnProps &
+  SuccessStateType & { domain: string; iframeRef: RefObject<HTMLIFrameElement> }
 
 const Success = (props: Props) => {
   return (
@@ -62,7 +62,11 @@ const Success = (props: Props) => {
       <Expanded>
         <Flex flexDirection='column' style={{ height: '100%' }} gap={16}>
           <Expanded>
-            <Iframe src={props.domain} />
+            <Iframe
+              ref={props.iframeRef}
+              sandbox='allow-forms allow-scripts allow-same-origin'
+              src={props.domain}
+            />
           </Expanded>
 
           <Card backgroundColor='grey000' borderRadius='md'>
@@ -84,17 +88,17 @@ const Success = (props: Props) => {
                   </Text>
                 </Flex>
 
-                <UnstyledHyperlink
+                <RawHyperlink
                   href='https://support.blockchain.com/hc/en-us/articles/5154350610716'
                   target='_blank'
                 >
-                  <Button data-e2e='creditCardInfo.learnMoreButton' nature='dark' rounded>
+                  <Button data-e2e='creditCardInfo.learnMoreButton' nature='dark'>
                     <FormattedMessage
                       id='addCardCheckoutDotCom.creditCardInfoCard.button'
                       defaultMessage='Learn More'
                     />
                   </Button>
-                </UnstyledHyperlink>
+                </RawHyperlink>
               </Flex>
             </Padding>
           </Card>

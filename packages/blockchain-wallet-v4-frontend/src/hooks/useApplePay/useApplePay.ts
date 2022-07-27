@@ -7,7 +7,7 @@ import { ApplePayHook } from './useApplePay.types'
 import { isApplePayAvailable } from './utils'
 
 export const useApplePay: ApplePayHook = () => {
-  const isAvailableRef = useRef<boolean>(isApplePayAvailable())
+  const isAvailable = useMemo<boolean>(isApplePayAvailable, [])
 
   const { data: applePayEnabled, isLoading } = useRemote(
     selectors.core.walletOptions.getApplePayAsNewPaymentMethod
@@ -18,7 +18,7 @@ export const useApplePay: ApplePayHook = () => {
   }, [applePayEnabled, isLoading])
 
   return {
-    isAvailable: isAvailableRef.current,
+    isAvailable,
     isFeatureFlagEnabled
   }
 }

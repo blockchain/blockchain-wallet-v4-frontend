@@ -33,6 +33,8 @@ const CardContainer = styled.div`
 `
 const ChevronWrapper = styled.div`
   height: 125px;
+  display: flex;
+  align-items: center;
   ${media.mobile`
     height: 132px;
   `};
@@ -55,7 +57,7 @@ const PaymentCard: React.FC<Props> = ({ icon, onClick, text, value }) => (
     <Content>
       <DisplayTitle>{text}</DisplayTitle>
       <DisplaySubTitle>
-        <FormattedMessage id='copy.instantly_available' defaultMessage='Instantly Available' />
+        <FormattedMessage id='copy.buy_small_amounts' defaultMessage='Buy Small Amounts' />
       </DisplaySubTitle>
       <Description>
         <FormattedMessage

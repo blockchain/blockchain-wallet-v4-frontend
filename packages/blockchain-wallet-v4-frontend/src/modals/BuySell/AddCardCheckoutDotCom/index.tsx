@@ -1,73 +1,131 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { BSPairType, CoinType, OrderType, WalletOptionsType } from '@core/types'
 import DataError from 'components/DataError'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { useRemote } from 'hooks'
+import { useDeepLink } from 'services/deepLinkListener'
+import { isNabuError } from 'services/errors'
 
+import { ADD_CARD_ERROR, IFRAME_ACTION } from './model'
 import { getData } from './selectors'
 import Success from './template.success'
 import Unsupported from './template.unsupported'
 
 const AddCardCheckoutDotCom = (props: Props) => {
+  const ref = useRef<HTMLIFrameElement>(null)
+  const { onClickDeepLink } = useDeepLink()
   const [isError, setError] = useState(false)
   const [cvv, setCVV] = useState('')
+  const { error: cardError } = useRemote(() => props.cardRemote)
 
-  const handlePostMessage = async ({
-    data
-  }: {
-    data: {
-      action: 'ADD_CARD' | 'CHANGE_BILLING_ADDRESS' | 'ADD_CVV'
-      cvv?: string
-      provider: 'CHECKOUTDOTCOM'
-      status: 'ERROR' | 'SUCCESS'
-      token?: string
-    }
-  }) => {
-    if (data.provider !== 'CHECKOUTDOTCOM') return
-
-    if (data.action === 'ADD_CVV') {
-      if (!data.cvv) throw new Error('CVV is required')
-
-      setCVV(data.cvv)
-    }
-
-    if (data.action === 'CHANGE_BILLING_ADDRESS') {
-      props.buySellActions.setStep({ step: 'BILLING_ADDRESS' })
-    }
-
-    if (data.action === 'ADD_CARD') {
-      if (data.status === 'ERROR') {
-        setError(true)
-      }
-
-      if (data.status === 'SUCCESS') {
-        const paymentMethodTokens = props.checkoutDotComAccountCodes?.reduce((prev, curr) => {
-          if (!data.token) return prev
-
-          return {
-            ...prev,
-            [curr]: data.token
+  const handleReceivedPostMessage = useCallback(
+    async ({
+      data
+    }: {
+      data:
+        | {
+            action: IFRAME_ACTION.ADD_CARD
+            provider: 'CHECKOUTDOTCOM'
+            status: 'ERROR' | 'SUCCESS'
+            token?: string
           }
-        }, {})
+        | {
+            action: IFRAME_ACTION.CHANGE_BILLING_ADDRESS
+            provider: 'CHECKOUTDOTCOM'
+          }
+        | {
+            action: IFRAME_ACTION.ADD_CVV
+            cvv: string
+            provider: 'CHECKOUTDOTCOM'
+          }
+        | {
+            action: IFRAME_ACTION.BIN_CHANGED
+            bin: string
+            provider: 'CHECKOUTDOTCOM'
+            scheme: string
+          }
+        | {
+            action: IFRAME_ACTION.DEEP_LINK
+            provider: 'CHECKOUTDOTCOM'
+            url: string
+          }
+    }) => {
+      if (data.provider !== 'CHECKOUTDOTCOM') return
 
-        if (!paymentMethodTokens) throw new Error('No payment method tokens')
+      if (data.action === IFRAME_ACTION.ADD_CVV) {
+        if (!data.cvv) throw new Error(ADD_CARD_ERROR.NO_CVV)
 
-        if (!cvv) throw new Error('No CVV')
-
-        props.buySellActions.registerCard({ cvv, paymentMethodTokens })
+        setCVV(data.cvv)
       }
-    }
-  }
+
+      if (data.action === IFRAME_ACTION.CHANGE_BILLING_ADDRESS) {
+        props.buySellActions.setStep({ step: 'BILLING_ADDRESS' })
+      }
+
+      if (data.action === IFRAME_ACTION.ADD_CARD) {
+        if (!data.status) throw new Error(ADD_CARD_ERROR.NO_STATUS)
+        if (data.status === 'ERROR') {
+          setError(true)
+        }
+
+        if (data.status === 'SUCCESS') {
+          const paymentMethodTokens = props.checkoutDotComAccountCodes?.reduce((prev, curr) => {
+            if (!data.token) return prev
+
+            return {
+              ...prev,
+              [curr]: data.token
+            }
+          }, {})
+
+          if (!paymentMethodTokens) throw new Error(ADD_CARD_ERROR.NO_PAYMENT_METHOD_TOKENS)
+
+          if (!cvv) throw new Error(ADD_CARD_ERROR.NO_CVV)
+
+          props.buySellActions.registerCard({ cvv, paymentMethodTokens })
+        }
+      }
+
+      if (data.action === IFRAME_ACTION.BIN_CHANGED) {
+        if (!data.bin) throw new Error(ADD_CARD_ERROR.NO_BIN)
+        if (!data.scheme) throw new Error(ADD_CARD_ERROR.NO_SCHEME)
+
+        props.buySellActions.checkCardSuccessRate({ bin: data.bin, scheme: data.scheme })
+      }
+
+      if (data.action === IFRAME_ACTION.DEEP_LINK) {
+        if (!data.url) throw new Error(ADD_CARD_ERROR.NO_DEEP_LINK_URL)
+
+        onClickDeepLink(data.url)
+      }
+    },
+    [cvv, onClickDeepLink, props.buySellActions, props.checkoutDotComAccountCodes]
+  )
 
   useEffect(() => {
-    window.addEventListener('message', handlePostMessage, false)
+    window.addEventListener('message', handleReceivedPostMessage, false)
 
-    return () => window.removeEventListener('message', handlePostMessage, false)
-  })
+    return () => window.removeEventListener('message', handleReceivedPostMessage, false)
+  }, [handleReceivedPostMessage])
+
+  useEffect(() => {
+    if (!props.cardSuccessRate) return
+
+    if (!ref.current?.contentWindow) {
+      return
+    }
+
+    ref.current.contentWindow.postMessage(
+      { ...props.cardSuccessRate, provider: 'BLOCKCHAINDOTCOM' },
+      '*'
+    )
+  }, [props.cardSuccessRate])
 
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
@@ -77,10 +135,20 @@ const AddCardCheckoutDotCom = (props: Props) => {
     if (props.fiatCurrency) {
       props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (isError) {
     return <DataError />
+  }
+
+  if (cardError && isNabuError(cardError)) {
+    return (
+      <GenericNabuErrorFlyout
+        error={cardError}
+        onDismiss={() => props.buySellActions.createCardNotAsked()}
+      />
+    )
   }
 
   return props.data.cata({
@@ -102,6 +170,7 @@ const AddCardCheckoutDotCom = (props: Props) => {
           {...props}
           {...val}
           domain={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/add-card/${props.checkoutDotComApiKey}`}
+          iframeRef={ref}
         />
       ) : (
         <Unsupported
@@ -116,6 +185,8 @@ const AddCardCheckoutDotCom = (props: Props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  cardRemote: selectors.components.buySell.getBSCard(state),
+  cardSuccessRate: selectors.components.buySell.getCardSuccessRate(state),
   checkoutDotComAccountCodes: selectors.components.buySell.getCheckoutAccountCodes(state),
   checkoutDotComApiKey: selectors.components.buySell.getCheckoutApiKey(state),
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),

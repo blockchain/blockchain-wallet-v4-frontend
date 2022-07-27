@@ -29,6 +29,7 @@ const Success = (props: Props) => {
           onClick={props.handleBack}
         />
         <Iframe
+          sandbox='allow-forms allow-scripts allow-same-origin'
           src={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/paymentLink/${props.paymentLink}`}
         />
       </>

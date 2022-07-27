@@ -4,6 +4,7 @@ import {
   ExplorerGatewaySearchType,
   NftAsset,
   NftOrder,
+  NftTemplateParams,
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
   OpenSeaStatus
@@ -52,7 +53,9 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     defaultEthAddr?: string
   ): NftAsset => {
     return get({
-      endPoint: `/api/v1/asset/${collection_id}/${asset_number}?include_orders=true`,
+      endPoint: `/api/v1/asset/${collection_id}/${asset_number}?include_orders=true${
+        defaultEthAddr ? `&account_address=${defaultEthAddr}` : ''
+      }`,
       ignoreQueryParams: true,
       url: openSeaUrl
     })
@@ -74,6 +77,20 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
       },
       endPoint: `/search`,
       ignoreQueryParams: true,
+      url: nftUrl
+    })
+  }
+
+  const notifyNftPurchase = (jwt: string, template_params: NftTemplateParams) => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        jwt,
+        template_params
+      },
+      endPoint: '/purchase',
+      ignoreQueryParams: true,
+      removeDefaultPostData: true,
       url: nftUrl
     })
   }
@@ -128,6 +145,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
     getNftUserPreferences,
     getOpenSeaAsset,
     getOpenSeaStatus,
+    notifyNftPurchase,
     postNftOrderV1,
     postNftOrderV2,
     searchNfts,

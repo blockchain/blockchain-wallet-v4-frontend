@@ -14,8 +14,8 @@ const Template: ComponentStory<ExternalSVGComponent> = (args) => <ExternalSVG {.
 
 export const Default = Template.bind({})
 Default.args = {
+  fallback: <Image name='empty-search' width='100%' height='100%' />,
   height: 3,
   href: 'https://blockchain.com/storage/general.svg',
-  width: 3,
-  fallback: <Image name='empty-search' width='100%' height='100%' />
+  width: 3
 }

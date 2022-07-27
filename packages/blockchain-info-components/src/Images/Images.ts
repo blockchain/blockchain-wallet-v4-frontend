@@ -79,6 +79,7 @@ import exchangeNoBackground from './img/exchange-no-background.svg'
 import fiatIcons from './img/fiatIcons'
 import fileDelete from './img/file-delete.svg'
 import fileDownload from './img/file-download.svg'
+import gasIcon from './img/gas-icon.svg'
 import globe from './img/globe.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
@@ -230,6 +231,7 @@ const Images = {
   'exchange-no-background': exchangeNoBackground,
   'file-delete': fileDelete,
   'file-download': fileDownload,
+  'gas-icon': gasIcon,
   globe,
   'gold-notice': goldNotice,
   'gold-verified': goldVerified,

@@ -1,15 +1,7 @@
-type NabuErrorCloseAction = {
+type NabuErrorAction = {
   title: string
-  type: 'CLOSE'
+  url?: string
 }
-
-type NabuErrorLaunchAction = {
-  title: string
-  type: 'LAUNCH'
-  url: string
-}
-
-type NabuErrorAction = NabuErrorCloseAction | NabuErrorLaunchAction
 
 type NabuErrorIconProps = {
   accessibility: {
@@ -23,15 +15,11 @@ type NabuErrorIconProps = {
 
 type NabuErrorProps = {
   actions?: NabuErrorAction[]
+  categories?: string[]
   icon?: NabuErrorIconProps
+  id?: string
   message: string
   title: string
 }
 
-export type {
-  NabuErrorAction,
-  NabuErrorCloseAction,
-  NabuErrorIconProps,
-  NabuErrorLaunchAction,
-  NabuErrorProps
-}
+export type { NabuErrorAction, NabuErrorIconProps, NabuErrorProps }

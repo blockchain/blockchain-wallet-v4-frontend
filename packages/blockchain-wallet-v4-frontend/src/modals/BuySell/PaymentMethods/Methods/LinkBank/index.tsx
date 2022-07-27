@@ -42,12 +42,12 @@ const LinkBank: React.FC<Props> = ({ icon, onClick, value }) => (
         />
       </DisplayTitleBank>
       <DisplaySubTitle>
-        <FormattedMessage id='copy.instantly_available' defaultMessage='Instantly Available' />
+        <FormattedMessage id='copy.buy_large_amounts' defaultMessage='Buy Large Amounts' />
       </DisplaySubTitle>
       <Description>
         <FormattedMessage
           id='modals.simplebuy.linkbank.description'
-          defaultMessage='Link your bank and instantly buy crypto at anytime.'
+          defaultMessage='Quick and secure without entering account details'
         />
       </Description>
     </Content>

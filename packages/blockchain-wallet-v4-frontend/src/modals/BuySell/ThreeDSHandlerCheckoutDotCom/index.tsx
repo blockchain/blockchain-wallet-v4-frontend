@@ -3,7 +3,7 @@ import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { clearSubmitErrors } from 'redux-form'
 
-import { BSOrderType, ProviderDetailsType, WalletOptionsType } from '@core/types'
+import { BSOrderType, BSPaymentTypes, ProviderDetailsType, WalletOptionsType } from '@core/types'
 import Error from 'components/BuySell/Error'
 import DataError from 'components/DataError'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
@@ -36,9 +36,15 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   }
 
   const handleBack = useCallback(() => {
-    if (order.hasData) {
-      props.buySellActions.setStep({
-        step: 'CHECKOUT_CONFIRM'
+    if (order.data) {
+      props.buySellActions.createOrder({
+        mobilePaymentMethod: props.mobilePaymentMethod,
+        paymentMethodId: order.data.paymentMethodId,
+        paymentType:
+          order.data.paymentType !== BSPaymentTypes.USER_CARD &&
+          order.data.paymentType !== BSPaymentTypes.BANK_ACCOUNT
+            ? order.data.paymentType
+            : undefined
       })
 
       return
@@ -47,7 +53,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     props.buySellActions.setStep({
       step: 'DETERMINE_CARD_PROVIDER'
     })
-  }, [order.hasData, props.buySellActions])
+  }, [order.data, props.buySellActions, props.mobilePaymentMethod])
 
   const handleReset = useCallback(() => {
     props.buySellActions.destroyCheckout()
@@ -149,6 +155,7 @@ const mapStateToProps = (state: RootState) => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
   } as WalletOptionsType['domains']),
+  mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
   orderR: selectors.components.buySell.getBSOrder(state),
   origin: selectors.components.buySell.getOrigin(state),
   providerDetailsR: selectors.components.buySell.getBSProviderDetails(state)

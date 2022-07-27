@@ -1,31 +1,28 @@
 import React, { useCallback } from 'react'
 
-import {
-  DeepLinkListenerContext,
-  deepLinkListenerContext
-} from 'services/deepLinkListener/contexts'
+import { DeepLinkClickState, deepLinkListenerContext } from 'services/deepLinkListener/contexts'
 import { useDeepLink } from 'services/deepLinkListener/hooks/useDeepLink/useDeepLink'
 
 import { DeepLinkHandler, DeepLinkListenerComponent } from './DeepLinkListener.types'
 
-const DeepLinkListener: DeepLinkListenerComponent = ({ children, handlers }) => {
+const DeepLinkListener: DeepLinkListenerComponent = ({
+  children,
+  onClickDeepLink: onClickDeepLinkHandler
+}) => {
   const { Provider } = deepLinkListenerContext
   const { onClickDeepLink } = useDeepLink()
 
-  const handleOnClickDeepLink: DeepLinkListenerContext['onClickDeepLink'] = useCallback(
+  const handleOnClickDeepLink: DeepLinkHandler = useCallback(
     (link) => {
-      const handler: DeepLinkHandler | undefined = handlers[link]
+      const handled = onClickDeepLinkHandler(link)
 
-      if (!handler) {
+      if (handled === DeepLinkClickState.notHandled) {
         return onClickDeepLink(link)
       }
-      handler(link)
 
-      return {
-        handled: true
-      }
+      return handled
     },
-    [onClickDeepLink, handlers]
+    [onClickDeepLink, onClickDeepLinkHandler]
   )
 
   return <Provider value={{ onClickDeepLink: handleOnClickDeepLink }}>{children}</Provider>

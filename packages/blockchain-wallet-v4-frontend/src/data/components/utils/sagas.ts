@@ -1,11 +1,19 @@
 import * as ethers from 'ethers'
 import { equals, identity, is, isEmpty, prop } from 'ramda'
-import { select } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 
 import { utils } from '@core'
 import { selectors } from 'data'
 
-export const selectReceiveAddress = function* (source, networks) {
+import coinSagas from '../../coins/sagas'
+
+export const selectReceiveAddress = function* (source, networks, api, coreSagas) {
+  const { getNextReceiveAddressForCoin } = coinSagas({
+    api,
+    coreSagas,
+    networks
+  })
+
   const appState = yield select(identity)
   const coin = prop('coin', source)
   const address = prop('address', source)
@@ -51,7 +59,12 @@ export const selectReceiveAddress = function* (source, networks) {
     return btcReceiveAddress.getOrElse('')
   }
 
-  throw new Error('Could not generate receive address')
+  try {
+    const address = yield call(getNextReceiveAddressForCoin, coin)
+    return address
+  } catch (e) {
+    throw new Error('Could not generate receive address')
+  }
 }
 
 export default selectReceiveAddress
