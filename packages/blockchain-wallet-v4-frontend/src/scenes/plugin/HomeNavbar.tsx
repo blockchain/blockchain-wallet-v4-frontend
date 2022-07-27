@@ -1,8 +1,11 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { Icon } from '@blockchain-com/constellation'
 import { IconHistory, IconListBullets, IconNft } from '@blockchain-com/icons'
 import styled from 'styled-components'
+
+import { selectors } from 'data'
 
 const HomeNavbarItem = styled(NavLink)`
   display: block;
@@ -49,24 +52,34 @@ const HomeNavbarWrapper = styled.div`
   justify-content: center;
 `
 
-const HomeNavbar = () => (
-  <HomeNavbarWrapper>
-    <HomeNavbarItem exact to='/plugin/coinslist'>
-      <Icon label='icon-listbullets'>
-        <IconListBullets />
-      </Icon>
-    </HomeNavbarItem>
-    <HomeNavbarItem to='/plugin/activity'>
-      <Icon label='icon-history'>
-        <IconHistory color='white' />
-      </Icon>
-    </HomeNavbarItem>
-    <HomeNavbarItem to='/plugin/nft'>
-      <Icon label='icon-nft'>
-        <IconNft />
-      </Icon>
-    </HomeNavbarItem>
-  </HomeNavbarWrapper>
-)
+const HomeNavbar = () => {
+  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
+  const isEthAccountSelected =
+    selectedAccount && selectedAccount[0] && selectedAccount[0].baseCoin === 'ETH'
+
+  return (
+    <HomeNavbarWrapper>
+      <HomeNavbarItem exact to='/plugin/coinslist'>
+        <Icon label='icon-listbullets'>
+          <IconListBullets />
+        </Icon>
+      </HomeNavbarItem>
+      {isEthAccountSelected && (
+        <HomeNavbarItem to='/plugin/activity'>
+          <Icon label='icon-history'>
+            <IconHistory color='white' />
+          </Icon>
+        </HomeNavbarItem>
+      )}
+      {isEthAccountSelected && (
+        <HomeNavbarItem to='/plugin/nft'>
+          <Icon label='icon-nft'>
+            <IconNft />
+          </Icon>
+        </HomeNavbarItem>
+      )}
+    </HomeNavbarWrapper>
+  )
+}
 
 export default HomeNavbar

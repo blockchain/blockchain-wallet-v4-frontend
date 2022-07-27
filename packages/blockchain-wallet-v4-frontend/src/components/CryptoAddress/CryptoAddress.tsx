@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 
 import { actions } from 'data'
 
-const CryptoAddress: React.FC<Props> = ({ canCopy, children }) => {
+const CryptoAddress: React.FC<Props> = ({ canCopy, children, onCopySuccess }) => {
   const dispatch = useDispatch()
 
   if (!children) return null
@@ -14,7 +14,12 @@ const CryptoAddress: React.FC<Props> = ({ canCopy, children }) => {
     <span
       onClick={() => {
         if (canCopy) {
-          navigator.clipboard.writeText(children)
+          navigator.clipboard.writeText(children).then(() => {
+            if (onCopySuccess) {
+              onCopySuccess(children)
+            }
+          })
+
           dispatch(actions.alerts.displaySuccess('Copied to clipboard!'))
         }
       }}
@@ -29,6 +34,7 @@ const CryptoAddress: React.FC<Props> = ({ canCopy, children }) => {
 type Props = {
   canCopy?: boolean
   children: string
+  onCopySuccess?(address?: string): void
 }
 
 export default CryptoAddress

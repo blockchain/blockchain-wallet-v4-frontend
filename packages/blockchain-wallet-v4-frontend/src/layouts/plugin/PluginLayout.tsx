@@ -1,6 +1,6 @@
 import React, { ComponentType, useEffect, useState } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { Route, withRouter } from 'react-router-dom'
+import { connect, ConnectedProps, useSelector } from 'react-redux'
+import { Route } from 'react-router-dom'
 import { isSessionActive, setSessionExpireTime } from 'plugin/internal/chromeStorage'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
@@ -52,6 +52,8 @@ const Footer = styled.div`
   width: 100%;
 `
 
+const ethOnlyPaths = ['/plugin/activity', '/plugin/nft']
+
 const PluginLayout = (props: Props) => {
   const {
     component: Component,
@@ -62,6 +64,10 @@ const PluginLayout = (props: Props) => {
     path,
     routerActions
   } = props
+
+  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
+  const isEthAccountSelected =
+    selectedAccount && selectedAccount[0] && selectedAccount[0].baseCoin === 'ETH'
 
   const [isLoading, setLoading] = useState(true)
 
@@ -85,6 +91,12 @@ const PluginLayout = (props: Props) => {
   }, [])
 
   if (!isReady) return null
+
+  if (!isEthAccountSelected && ethOnlyPaths.includes(path)) {
+    routerActions.push('/plugin/coinslist')
+
+    return null
+  }
 
   return (
     <Route

@@ -7,13 +7,14 @@ import styled from 'styled-components'
 
 import { EthProcessedTxType } from '@core/transactions/types'
 import { convertGweiToWei } from '@core/utils/eth'
-import { Button, Link, Text, Toast } from 'blockchain-info-components'
+import { Button, Link, Text } from 'blockchain-info-components'
 import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Flex } from 'components/Flex'
 import { Padding } from 'components/Padding'
 
+import Tooltip from '../../SwitchAccount/Tooltip'
 import TransactionIcon from '../TransactionIcon/TransactionIcon'
 import StatusBadge from './StatusBadge'
 import TransactionDetailsItem from './TransactionDetailsItem'
@@ -38,6 +39,13 @@ const ButtonWrapper = styled.div`
   display: grid;
 `
 
+const TooltipWrapper = styled.div<{ isVisible: boolean }>`
+  position: relative;
+  #tooltip {
+    display: ${(props) => (props.isVisible ? 'block' : 'none')};
+  }
+`
+
 const getTransactionLinkInEthExplorer = (hash: string) =>
   `https://www.blockchain.com/eth/tx/${hash}`
 
@@ -47,17 +55,40 @@ const TransactionDetails: React.FC<ITransactionDetailsProps> = ({
   status,
   transaction
 }) => {
-  const [toastMessage, setToastMessage] = React.useState('')
+  const [toastItemVisible, setToastItemVisible] = React.useState<string | null>(null)
+  const timerRef = React.useRef<NodeJS.Timeout | null>(null)
+
+  React.useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+    }
+  }, [])
 
   const handleBackClick = () => {
     onClose()
   }
 
+  const handleChangeToastVisible = (item: string) => {
+    setToastItemVisible(item)
+
+    if (timerRef.current) {
+      timerRef.current = setTimeout(() => {
+        setToastItemVisible(null)
+      }, 2000)
+    }
+  }
+
+  const handleSpeedUpClick = () => {}
+
   const handleCopyToClipboard = () => {
     if (!navigator.clipboard) {
       return
     }
-    navigator.clipboard.writeText(transaction.hash)
+    navigator.clipboard.writeText(transaction.hash).then(() => {
+      handleChangeToastVisible('txId')
+    })
   }
 
   return (
@@ -114,17 +145,23 @@ const TransactionDetails: React.FC<ITransactionDetailsProps> = ({
       </Padding>
 
       <Link size='12px' onClick={handleCopyToClipboard}>
+        <TooltipWrapper isVisible={toastItemVisible === 'txId'}>
+          <Tooltip
+            tooltipProperties={{
+              backgroundColor: 'white',
+              index: 1,
+              leftBlockPosition: 10,
+              leftTrianglePosition: 50,
+              text: 'Copied!',
+              textColor: 'black'
+            }}
+          />
+        </TooltipWrapper>
         <FormattedMessage
           id='plugin.activity.transactionDetails.copyId'
           defaultMessage='Copy transaction ID'
         />
       </Link>
-
-      {toastMessage && (
-        <Toast nature='success' onClose={() => setToastMessage('')} timeout={1000}>
-          {toastMessage}
-        </Toast>
-      )}
 
       <Padding top={43} bottom={40}>
         <Flex justifyContent='space-between' alignItems='center'>
@@ -138,7 +175,22 @@ const TransactionDetails: React.FC<ITransactionDetailsProps> = ({
               </Text>
             </Padding>
             <Text size='14px' lineHeight='21px' color='white' weight={500}>
-              <CryptoAddress canCopy>{transaction.from}</CryptoAddress>
+              <TooltipWrapper isVisible={toastItemVisible === 'from'}>
+                <Tooltip
+                  tooltipProperties={{
+                    backgroundColor: 'white',
+                    index: 1,
+                    leftBlockPosition: 70,
+                    leftTrianglePosition: 50,
+                    text: 'Copied!',
+                    textColor: 'black'
+                  }}
+                />
+              </TooltipWrapper>
+
+              <CryptoAddress canCopy onCopySuccess={() => handleChangeToastVisible('from')}>
+                {transaction.from}
+              </CryptoAddress>
             </Text>
           </Flex>
 
@@ -155,7 +207,22 @@ const TransactionDetails: React.FC<ITransactionDetailsProps> = ({
             </Padding>
 
             <Text size='14px' lineHeight='21px' color='white' weight={500}>
-              <CryptoAddress canCopy>{transaction.to}</CryptoAddress>
+              <TooltipWrapper isVisible={toastItemVisible === 'to'}>
+                <Tooltip
+                  tooltipProperties={{
+                    backgroundColor: 'white',
+                    index: 1,
+                    leftBlockPosition: 70,
+                    leftTrianglePosition: 50,
+                    text: 'Copied!',
+                    textColor: 'black'
+                  }}
+                />
+              </TooltipWrapper>
+
+              <CryptoAddress canCopy onCopySuccess={() => handleChangeToastVisible('to')}>
+                {transaction.to}
+              </CryptoAddress>
             </Text>
           </Flex>
         </Flex>
@@ -274,20 +341,39 @@ const TransactionDetails: React.FC<ITransactionDetailsProps> = ({
         />
       </Flex>
 
-      <Padding bottom={24} top={33}>
-        <ButtonWrapper>
-          <Button
-            height='48px'
-            data-e2e='transaction-details-go-back-button'
-            onClick={handleBackClick}
-          >
-            <FormattedMessage
-              id='plugin.activity.transactionDetails.goBack'
-              defaultMessage='Go Back'
-            />
-          </Button>
-        </ButtonWrapper>
-      </Padding>
+      {status === 'CONFIRMED' && (
+        <Padding bottom={24} top={33}>
+          <ButtonWrapper>
+            <Button
+              height='48px'
+              data-e2e='transaction-details-go-back-button'
+              onClick={handleBackClick}
+            >
+              <FormattedMessage
+                id='plugin.activity.transactionDetails.goBack'
+                defaultMessage='Go Back'
+              />
+            </Button>
+          </ButtonWrapper>
+        </Padding>
+      )}
+
+      {status === 'PENDING' && (
+        <Padding bottom={24} top={33}>
+          <ButtonWrapper>
+            <Button
+              height='48px'
+              data-e2e='transaction-details-speed-up-button'
+              onClick={handleSpeedUpClick}
+            >
+              <FormattedMessage
+                id='plugin.activity.transactionDetails.goBack'
+                defaultMessage='Speed up'
+              />
+            </Button>
+          </ButtonWrapper>
+        </Padding>
+      )}
     </Wrapper>
   )
 }
