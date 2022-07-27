@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from '@blockchain-com/constellation'
 import { IconChevronRightV2, IconPhone } from '@blockchain-com/icons'
-import Success from 'blockchain-wallet-v4-frontend/src/scenes/Airdrops/PastAirdrops/template.success'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'
@@ -16,7 +15,9 @@ const Column = styled.div`
   flex-direction: column;
 `
 
-const CenteredColumn = styled(Column)`
+const CenteredColumn = styled.div`
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `
@@ -24,6 +25,7 @@ const CenteredColumn = styled(Column)`
 const Row = styled.div`
   display: flex;
   margin-top: 0.5rem;
+  min-width: 95%;
 `
 
 const IconWrapper = styled.div`
@@ -137,8 +139,15 @@ const ChooseTwoFA = (props: Props) => {
           <Icon color='blue600' size='md' label='sms-2fa'>
             <IconPhone />
           </Icon>
+
           <Column>
-            <Text color='grey900' size='16px' weight={600} lineHeight='1.5'>
+            <Text
+              color='grey900'
+              size='16px'
+              weight={600}
+              lineHeight='1.5'
+              style={{ marginLeft: '1rem' }}
+            >
               <FormattedMessage id='scenes.login.upgrade.2fa.item_3.title' defaultMessage='SMS' />
             </Text>
 
