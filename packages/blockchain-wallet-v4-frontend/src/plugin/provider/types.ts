@@ -19,7 +19,8 @@ export type Maybe<T> = Partial<T> | null | undefined
 
 export enum ConnectionEvents {
   Connected = 'connected',
-  Disconnected = 'disconnected'
+  Disconnected = 'disconnected',
+  Error = 'error'
 }
 
 export enum StandardEvents {

@@ -15,6 +15,7 @@ import { actions as layoutWallet } from './layoutWallet/slice'
 import * as manageAddresses from './manageAddresses/actions'
 import { actions as nfts } from './nfts/slice'
 import * as onboarding from './onboarding/actions'
+import { actions as plugin } from './plugin/slice'
 import { actions as priceChart } from './priceChart/slice'
 import * as recoveryPhrase from './recoveryPhrase/actions'
 import { actions as recurringBuy } from './recurringBuy/slice'
@@ -55,6 +56,7 @@ export {
   manageAddresses,
   nfts,
   onboarding,
+  plugin,
   priceChart,
   recoveryPhrase,
   recurringBuy,

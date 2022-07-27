@@ -1,10 +1,13 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { IconBlockchain } from '@blockchain-com/icons'
 import { TabMetadata } from 'plugin/internal'
+import { getSessionPayload } from 'plugin/internal/chromeStorage'
 import { SupportedRPCMethods } from 'plugin/provider/utils'
 import styled, { keyframes } from 'styled-components'
 
 import { Flex } from 'components/Flex'
+import { actions } from 'data'
 
 import { Confirmation } from './Confirmation'
 import { Connected } from './Connected'
@@ -43,6 +46,8 @@ export const ConnectDapp: FC<Props> = (props) => {
   const [connectStep, setConnectStep] = useState<ConnectStep>(ConnectStep.InitialScreen)
   const [metadata, setMetadata] = useState<TabMetadata>({ origin: '' })
 
+  const dispatch = useDispatch()
+
   useEffect(() => {
     window.onbeforeunload = () => {
       chrome.runtime.sendMessage({
@@ -50,7 +55,11 @@ export const ConnectDapp: FC<Props> = (props) => {
         type: SupportedRPCMethods.RequestAccounts
       })
     }
-  }, [])
+    ;(async function () {
+      const wrapper = await getSessionPayload()
+      dispatch(actions.core.wallet.setWrapper(wrapper))
+    })()
+  }, [dispatch])
 
   useEffect(() => {
     const params = new URLSearchParams(props.history.location.search)

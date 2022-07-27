@@ -145,6 +145,13 @@ export class BCDCInpageProvider extends SafeEventEmitter {
         this.emit(StandardEvents.ChainChanged, this.chainId)
         this.chainId = chainId
       }
+
+      if (msg.type === ConnectionEvents.Error) {
+        throw ethErrors.provider.custom({
+          code: 0,
+          message: msg.data as string
+        })
+      }
     })
   }
 }

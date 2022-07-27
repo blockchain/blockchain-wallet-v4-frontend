@@ -2,7 +2,12 @@ import BIP39 from 'bip39-light'
 import * as Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
 import { AbstractPlugin } from 'plugin/internal'
-import { saveSessionPayload, setSessionExpireTime } from 'plugin/internal/chromeStorage'
+import {
+  getSessionPayload,
+  isSessionActive,
+  saveSessionPayload,
+  setSessionExpireTime
+} from 'plugin/internal/chromeStorage'
 import {
   add,
   any,
@@ -113,9 +118,7 @@ export default ({ api, networks }) => {
   const fetchWalletSaga = function* ({ code, guid, password, session, sharedKey }) {
     const wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password, code)
     yield put(A.wallet.setWrapper(wrapper))
-    if (isPlugin()) {
-      yield saveSessionPayload(wrapper)
-    }
+    if (isPlugin()) yield saveSessionPayload(wrapper)
   }
 
   const upgradeToV3 = function* ({ password }) {

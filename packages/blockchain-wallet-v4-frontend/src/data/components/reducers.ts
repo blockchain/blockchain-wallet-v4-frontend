@@ -10,6 +10,7 @@ import { reducer as interestUploadDocumentReducer } from './interestUploadDocume
 import { layoutWalletReducer as layoutWallet } from './layoutWallet/slice'
 import manageAddresses from './manageAddresses/reducers'
 import { nftsReducer } from './nfts/slice'
+import { pluginReducer } from './plugin/slice'
 import { priceChartReducer } from './priceChart/slice'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
 import { reducer as recurringBuy } from './recurringBuy/slice'
@@ -41,6 +42,7 @@ const componentReducer = combineReducers({
   layoutWallet,
   manageAddresses,
   nfts: nftsReducer,
+  plugin: pluginReducer,
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
   recurringBuy,
