@@ -1702,9 +1702,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield delay(2000)
       }
 
-      yield put(A.createOrderSuccess(order))
+      yield put(A.confirmOrderSuccess(order))
     } catch (e) {
-      yield put(A.createOrderFailure(ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
+      yield put(A.createOrderFailure(isNabuError(e) ? e : ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
     } finally {
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     }
