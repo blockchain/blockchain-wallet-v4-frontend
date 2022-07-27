@@ -50,7 +50,7 @@ const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 const Dex = React.lazy(() => import('./Dex'))
 
 // NFTs
-const NftsHome = React.lazy(() => import('./Nfts/Home'))
+const NftsView = React.lazy(() => import('./Nfts/View'))
 const NftsFirehose = React.lazy(() => import('./Nfts/Firehose'))
 const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
 const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
@@ -229,13 +229,13 @@ const App = ({
                             />
                           )}
                           <Route exact path='/nfts'>
-                            <Redirect to='/nfts/home' />
+                            <Redirect to='/nfts/view' />
                           </Route>
                           {isNftExplorerEnabled && (
                             <NftsLayout
-                              path='/nfts/home'
+                              path='/nfts/view'
                               exact
-                              component={NftsHome}
+                              component={NftsView}
                               pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                             />
                           )}

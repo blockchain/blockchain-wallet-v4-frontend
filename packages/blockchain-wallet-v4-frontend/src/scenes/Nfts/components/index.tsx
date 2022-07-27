@@ -30,7 +30,6 @@ export const NftPageV2 = styled.div`
   width: 100%;
   margin: 8px auto;
   box-sizing: border-box;
-  margin-top: -56px;
   ${media.mobile`
     margin-top: 0;
   `}

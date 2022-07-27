@@ -95,7 +95,7 @@ const appConfigMap = {
     color: 'purple600',
     displayName: 'NFTs',
     name: 'nfts',
-    route: '/nfts/home',
+    route: '/nfts/view',
     subtitle: () => (
       <FormattedMessage id='navbar.nfts.desc' defaultMessage='Buy, Sell & Discover NFTs' />
     ),
