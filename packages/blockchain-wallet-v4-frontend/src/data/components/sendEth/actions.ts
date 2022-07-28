@@ -98,3 +98,7 @@ export const sendEthFetchLimitsSuccess = (limitsResponse: CrossBorderLimits) => 
   payload: limitsResponse,
   type: AT.SEND_ETH_FETCH_LIMITS_SUCCESS
 })
+export const sendEthUpdateTo = (to: string) => ({
+  payload: to,
+  type: AT.SEND_ETH_UPDATE_TO
+})

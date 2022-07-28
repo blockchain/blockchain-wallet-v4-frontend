@@ -524,6 +524,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
+  const updateTo = function* (action) {
+    const to = action.payload
+    const prepareTo = (to) => {
+      return to ? { value: { label: to, value: to } } : null
+    }
+
+    yield put(actions.form.change(FORM, 'to', prepareTo(to)))
+  }
+
   return {
     checkIsContract,
     destroyed,
@@ -537,6 +546,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     priorityFeeClicked,
     regularFeeClicked,
     retrySendEth,
-    secondStepSubmitClicked
+    secondStepSubmitClicked,
+    updateTo
   }
 }
