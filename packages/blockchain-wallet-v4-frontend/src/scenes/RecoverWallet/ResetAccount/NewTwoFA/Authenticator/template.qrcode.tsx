@@ -6,7 +6,7 @@ import { Badge, Button, Image, Text } from 'blockchain-info-components'
 import CopyClipboard from 'components/Clipboard/CopyClipboard'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 
-import { CenteredColumn } from '../../../model'
+import { BackArrowFormHeader, CenteredColumn, ResetFormSteps } from '../../../model'
 import { Props } from '.'
 
 const StyledQrCode = styled(Image)`
@@ -27,6 +27,9 @@ const AuthenticatorCode = (props: Props) => {
 
   return (
     <>
+      <BackArrowFormHeader
+        handleBackArrowClick={() => props.setFormStep(ResetFormSteps.CHOOSE_TWOFA)}
+      />
       <CenteredColumn>
         <Text size='20px' weight={600} color='grey900' lineHeight='1.5' style={{ margin: '8px 0' }}>
           <FormattedMessage id='scenes.login.upgrade.2fa.header' defaultMessage='Set Up 2FA' />

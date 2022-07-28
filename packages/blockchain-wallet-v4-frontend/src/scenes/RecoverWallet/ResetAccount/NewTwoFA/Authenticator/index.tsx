@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 
 import { Props as OwnProps } from '../../..'
+import { ResetFormSteps } from '../../../model'
 import AuthenticatorCode from './template.qrcode'
 import AuthenticatorVerify from './template.verify'
 
@@ -36,6 +37,7 @@ const connector = connect(null, mapDispatchToProps)
 export type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     changeAuthenticatorStep: (number) => void
+    setFormStep: (ResetFormSteps) => void
   }
 
 export default connector(Authenticator)

@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 
 import { Props as OwnProps } from '../../..'
+import { ResetFormSteps } from '../../../model'
 import YubikeySetup from './template.setup'
 import YubikeyVerified from './template.verified'
 
@@ -34,6 +35,7 @@ const connector = connect(null, mapDispatchToProps)
 export type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     changeAuthenticatorStep: (number) => void
+    setFormStep: (ResetFormSteps) => void
   }
 
 export default connector(Yubikey)

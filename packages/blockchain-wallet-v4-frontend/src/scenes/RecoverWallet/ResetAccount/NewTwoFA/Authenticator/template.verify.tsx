@@ -12,7 +12,7 @@ import TextBox from 'components/Form/TextBox'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 
-import { CenteredColumn } from '../../../model'
+import { BackArrowFormHeader, CenteredColumn } from '../../../model'
 
 const AuthenticatorVerify = (props) => {
   const [inputValue, setInputValue] = useState('')
@@ -23,43 +23,58 @@ const AuthenticatorVerify = (props) => {
   }
   return (
     <>
-      <Text>
-        <FormattedMessage
-          id='scenes.login.upgrade.googleAuthVerify.header'
-          defaultMessage='Verify Your Google Account'
-        />
-      </Text>
-      <Text>
-        <FormattedMessage
-          id='scenes.login.upgrade.googleAuthVerify.text'
-          defaultMessage='Enter the 6-digit code you see in your Google Auth App.'
-        />
-      </Text>
-
-      <FormGroup>
-        <FormItem>
-          <FormLabel htmlFor='authCode' id='authCode'>
-            <FormattedMessage
-              id='scenes.login.upgrade.googleAuthVerify.6digitcode'
-              defaultMessage='6 digit code'
-            />
-          </FormLabel>
-          <Field
-            name='newTwoFACode'
-            component={TextBox}
-            placeholder='Enter 6 digit code'
-            normalize={removeWhitespace}
-            validate={[required]}
-            noLastPass
-            autoFocus
-            data-e2e='recoverSetUpCode'
+      <BackArrowFormHeader handleBackArrowClick={() => props.changeAuthenticatorStep(1)} />
+      <CenteredColumn>
+        <Text size='20px' weight={600} color='grey900' lineHeight='1.5' style={{ margin: '8px 0' }}>
+          <FormattedMessage
+            id='scenes.login.upgrade.googleAuthVerify.header'
+            defaultMessage='Verify Your Google Account'
           />
-        </FormItem>
-      </FormGroup>
+        </Text>
+        <Text
+          size='14px'
+          weight={500}
+          color='grey900'
+          lineHeight='1.5'
+          style={{ marginBottom: '24px', textAlign: 'center' }}
+        >
+          <FormattedMessage
+            id='scenes.login.upgrade.googleAuthVerify.text'
+            defaultMessage='Enter the 6-digit code you see in your Google Auth App.'
+          />
+        </Text>
 
-      <Button nature='primary' data-e2e='nextButton' fullwidth height='48px' onClick={handleSubmit}>
-        <FormattedMessage id='buttons.next' defaultMessage='Next' />
-      </Button>
+        <FormGroup>
+          <FormItem>
+            <FormLabel htmlFor='authCode' id='authCode'>
+              <FormattedMessage
+                id='scenes.login.upgrade.googleAuthVerify.6digitcode'
+                defaultMessage='6 digit code'
+              />
+            </FormLabel>
+            <Field
+              name='newTwoFACode'
+              component={TextBox}
+              placeholder='Enter 6 digit code'
+              normalize={removeWhitespace}
+              validate={[required]}
+              noLastPass
+              autoFocus
+              data-e2e='recoverSetUpCode'
+            />
+          </FormItem>
+        </FormGroup>
+
+        <Button
+          nature='primary'
+          data-e2e='nextButton'
+          fullwidth
+          height='48px'
+          onClick={handleSubmit}
+        >
+          <FormattedMessage id='buttons.next' defaultMessage='Next' />
+        </Button>
+      </CenteredColumn>
     </>
   )
 }
