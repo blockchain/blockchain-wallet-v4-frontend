@@ -11,6 +11,7 @@ import {
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
   OpenSeaStatus,
+  OwnerNftBalance,
   SeaportRawOrder,
   UnsignedOrder,
   WyvernRawOrder
@@ -32,6 +33,7 @@ const initialState: NftsStateType = {
   },
   collection: Remote.NotAsked,
   collections: Remote.NotAsked,
+  nftOwnerAssets: Remote.NotAsked,
   openSeaAsset: Remote.NotAsked,
   openSeaStatus: Remote.NotAsked,
   orderFlow: {
@@ -312,6 +314,21 @@ const nftsSlice = createSlice({
       state.orderFlow.matchingOrder_LEGACY = Remote.Success(action.payload)
     },
     fetchNftOrderAsset: () => {},
+    fetchNftOwnerAssets: (
+      state,
+      action: PayloadAction<{
+        defaultEthAddr: string | undefined
+      }>
+    ) => {},
+    fetchNftOwnerAssetsFailure: (state, action: PayloadAction<OwnerNftBalance>) => {
+      state.nftOwnerAssets = Remote.Failure(action.payload)
+    },
+    fetchNftOwnerAssetsLoading: (state) => {
+      state.nftOwnerAssets = Remote.Loading
+    },
+    fetchNftOwnerAssetsSuccess: (state, action: PayloadAction<OwnerNftBalance>) => {
+      state.nftOwnerAssets = Remote.Success(action.payload)
+    },
     fetchNftUserPreferences: (state) => {},
     fetchNftUserPreferencesFailure: (state, action: PayloadAction<string>) => {
       state.userPreferences = Remote.Failure(action.payload)
