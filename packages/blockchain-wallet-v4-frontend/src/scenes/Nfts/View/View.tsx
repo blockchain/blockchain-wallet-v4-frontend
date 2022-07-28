@@ -31,6 +31,8 @@ import {
 import { media, useMedia } from 'services/styles'
 
 import { NftPageV2, Stat, StatsWrapper } from '../components'
+import NftGrid from '../components/NftGrid'
+import NftViewResults from './View.results'
 
 const Header = styled.div`
   height: 232px;
@@ -104,8 +106,17 @@ const View: React.FC<Props> = (props) => {
         Failure: () => null,
         Loading: () => null,
         NotAsked: () => null,
-        Success: ({ assets }) =>
-          assets.length ? (
+        Success: ({ assets }) => {
+          const totalEthSpent = assets
+            .filter((asset) => {
+              // @ts-ignore
+              return asset.last_sale?.payment_token?.eth_price
+            })
+            // @ts-ignore
+            .map((asset) => Number(asset.last_sale.payment_token.eth_price))
+            .reduce((prev_asset, curr_asset) => prev_asset + curr_asset, 0)
+          const averageEthSpent = totalEthSpent / assets.length
+          return assets.length ? (
             <NftPageV2>
               <HeaderContent>
                 <Text size='32px' weight={600} color='grey900'>
@@ -128,19 +139,32 @@ const View: React.FC<Props> = (props) => {
                     </CustomStat>
                     <CustomStat>
                       <Text size='16px' weight={500} color='grey600'>
-                        <FormattedMessage
-                          id='copy.total_vol'
-                          defaultMessage='Average Floor Price'
-                        />
+                        <FormattedMessage id='copy.total_vol' defaultMessage='Average ETH Spent' />
                       </Text>
                       <Text size='16px' color='black' weight={600}>
-                        0.00 ETH
+                        {averageEthSpent.toString().substring(0, 4)} ETH
+                      </Text>
+                    </CustomStat>
+                    <CustomStat>
+                      <Text size='16px' weight={500} color='grey600'>
+                        <FormattedMessage id='copy.total_vol' defaultMessage='Total ETH Spent' />
+                      </Text>
+                      <Text size='16px' color='black' weight={600}>
+                        {totalEthSpent.toString().substring(0, 4)} ETH
                       </Text>
                     </CustomStat>
                   </StatsWrapper>
                 </Flex>
               </HeaderContent>
-              {JSON.stringify(assets)}
+              <NftGrid moreAssetsPage fullscreen>
+                {assets?.map((asset) => {
+                  return (
+                    <div key={asset.tokenId}>
+                      <NftViewResults asset={asset} />
+                    </div>
+                  )
+                })}
+              </NftGrid>
             </NftPageV2>
           ) : (
             <NftPageV2>
@@ -155,29 +179,6 @@ const View: React.FC<Props> = (props) => {
                         <CryptoAddress canCopy>{defaultEthAddr}</CryptoAddress>
                       </Text>
                     </Address>
-                    <Flex>
-                      <StatsWrapper style={{ margin: '0' }}>
-                        <CustomStat>
-                          <Text size='16px' weight={500} color='grey600'>
-                            <FormattedMessage id='copy.total_vol' defaultMessage='Total Items' />
-                          </Text>
-                          <Text size='16px' color='black' weight={600}>
-                            0
-                          </Text>
-                        </CustomStat>
-                        <CustomStat>
-                          <Text size='16px' weight={500} color='grey600'>
-                            <FormattedMessage
-                              id='copy.total_vol'
-                              defaultMessage='Average Floor Price'
-                            />
-                          </Text>
-                          <Text size='16px' color='black' weight={600}>
-                            0.00 ETH
-                          </Text>
-                        </CustomStat>
-                      </StatsWrapper>
-                    </Flex>
                   </HeaderContent>
                   <Body>
                     <Left>
@@ -246,6 +247,7 @@ const View: React.FC<Props> = (props) => {
               </Header>
             </NftPageV2>
           )
+        }
       })}
     </>
   )
