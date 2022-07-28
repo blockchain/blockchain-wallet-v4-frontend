@@ -4,8 +4,7 @@ import { bindActionCreators } from 'redux'
 import { clearSubmitErrors } from 'redux-form'
 
 import { BSOrderType, BSPaymentTypes, ProviderDetailsType, WalletOptionsType } from '@core/types'
-import Error from 'components/BuySell/Error'
-import DataError from 'components/DataError'
+import BaseError from 'components/BuySell/Error'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
 import { CARD_ERROR_CODE, FORM_BS_PREVIEW_SELL } from 'data/components/buySell/model'
@@ -74,22 +73,19 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   })
 
   const renderError = useCallback(
-    (error: string | Error) => {
+    (error: unknown) => {
       if (isNabuError(error)) {
         return <GenericNabuErrorFlyout error={error} onDismiss={handleBack} />
       }
 
-      if (typeof error === 'string') {
-        return (
-          <Error
-            code={error}
-            handleReset={handleReset}
-            handleBack={handleBack}
-            handleRetry={handleRetry}
-          />
-        )
-      }
-      return <DataError message={{ message: error.toString() }} />
+      return (
+        <BaseError
+          code={error}
+          handleReset={handleReset}
+          handleBack={handleBack}
+          handleRetry={handleRetry}
+        />
+      )
     },
     [handleReset, handleBack, handleRetry]
   )
@@ -126,7 +122,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     paymentLink = encodeURIComponent(providerDetails.data.cardProvider.paymentLink)
   } else if (!providerDetails.isLoading && !order.isLoading) {
     return (
-      <Error
+      <BaseError
         code={CARD_ERROR_CODE.CREATE_FAILED}
         handleReset={handleReset}
         handleBack={handleBack}
