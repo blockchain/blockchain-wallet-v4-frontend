@@ -4,9 +4,10 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { BSPairType, CoinType, OrderType, WalletOptionsType } from '@core/types'
-import DataError from 'components/DataError'
+import BaseError from 'components/BuySell/Error'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
+import { CARD_ERROR_CODE } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import { useRemote } from 'hooks'
 import { isNabuError } from 'services/errors'
@@ -16,7 +17,7 @@ import Success from './template.success'
 import Unsupported from './template.unsupported'
 
 const AddCardCheckoutDotCom = (props: Props) => {
-  const [isError, setError] = useState(false)
+  const [errorOnTokenization, setErrorOnTokenization] = useState(false)
   const [cvv, setCVV] = useState('')
   const { error: cardError } = useRemote(() => props.cardRemote)
 
@@ -45,7 +46,7 @@ const AddCardCheckoutDotCom = (props: Props) => {
 
     if (data.action === 'ADD_CARD') {
       if (data.status === 'ERROR') {
-        setError(true)
+        setErrorOnTokenization(true)
       }
 
       if (data.status === 'SUCCESS') {
@@ -67,6 +68,9 @@ const AddCardCheckoutDotCom = (props: Props) => {
     }
   }
 
+  const handleAction = () => {
+    props.buySellActions.destroyCheckout()
+  }
   useEffect(() => {
     window.addEventListener('message', handlePostMessage, false)
 
@@ -83,10 +87,6 @@ const AddCardCheckoutDotCom = (props: Props) => {
     }
   }, [])
 
-  if (isError) {
-    return <DataError />
-  }
-
   if (cardError && isNabuError(cardError)) {
     return (
       <GenericNabuErrorFlyout
@@ -96,10 +96,32 @@ const AddCardCheckoutDotCom = (props: Props) => {
     )
   }
 
+  if (errorOnTokenization) {
+    return (
+      <BaseError
+        code={CARD_ERROR_CODE.CREATE_FAILED}
+        handleRetry={handleAction}
+        handleReset={handleAction}
+        handleBack={handleAction}
+      />
+    )
+  }
+
   return props.data.cata({
-    Failure: (e) => (
-      <DataError message={{ message: e }} onClick={props.buySellActions.fetchPaymentMethods} />
-    ),
+    Failure: (e) => {
+      if (isNabuError(e)) {
+        return <GenericNabuErrorFlyout error={e} onDismiss={handleAction} />
+      }
+
+      return (
+        <BaseError
+          code={e}
+          handleRetry={handleAction}
+          handleReset={handleAction}
+          handleBack={handleAction}
+        />
+      )
+    },
     Loading: () => null,
     NotAsked: () => null,
     Success: (val) => {

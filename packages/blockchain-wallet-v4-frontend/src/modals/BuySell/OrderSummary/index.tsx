@@ -4,15 +4,8 @@ import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Exchange, Remote } from '@core'
-import {
-  BSOrderType,
-  BSPaymentMethodType,
-  ExtractSuccess,
-  OrderType,
-  RemoteDataType
-} from '@core/types'
-import Error from 'components/BuySell/Error'
-import DataError from 'components/DataError'
+import { BSPaymentMethodType, ExtractSuccess, OrderType } from '@core/types'
+import BaseError from 'components/BuySell/Error'
 import { OrderSummary } from 'components/Flyout/Brokerage'
 import { getPeriodForSuccess } from 'components/Flyout/model'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
@@ -89,7 +82,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
         }
 
         return (
-          <Error
+          <BaseError
             code={e}
             handleRetry={this.handleErrorAction}
             handleReset={this.handleErrorAction}
@@ -163,7 +156,12 @@ class OrderSummaryContainer extends PureComponent<Props> {
         }
 
         return state === 'FAILED' || state === 'CANCELED' || !order.paymentType ? (
-          <DataError />
+          <BaseError
+            code='INTERNAL_SERVER_ERROR'
+            handleRetry={this.handleErrorAction}
+            handleReset={this.handleErrorAction}
+            handleBack={this.handleErrorAction}
+          />
         ) : val.userData?.tiers?.current !== 2 ? (
           <SuccessSdd {...val} {...this.props} />
         ) : (
@@ -193,7 +191,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state),
   formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
   hasAvailablePeriods: selectors.components.recurringBuy.hasAvailablePeriods(ownProps.method)(
@@ -223,15 +221,6 @@ export type OwnProps = {
 
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  formValues: BSCheckoutFormValuesType
-  hasAvailablePeriods: boolean
-  hasQuote: boolean
-  isGoldVerified: boolean
-  isRecurringBuy: boolean
-  orders: BSOrderType[]
-}
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(OrderSummaryContainer)
