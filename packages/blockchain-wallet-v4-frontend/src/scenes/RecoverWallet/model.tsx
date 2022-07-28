@@ -237,3 +237,10 @@ const ClickablePanelWrapper = styled.div`
 export const ButtonPanel = ({ children, ...rest }) => {
   return <ClickablePanelWrapper {...rest}>{children}</ClickablePanelWrapper>
 }
+
+export const CenteredColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`

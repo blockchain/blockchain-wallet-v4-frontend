@@ -8,24 +8,18 @@ import { Image, Text } from 'blockchain-info-components'
 import { GreyCartridge, SuccessCartridge } from 'components/Cartridge'
 
 import { Props as OwnProps } from '../../..'
-import { ButtonPanel, ResetFormSteps } from '../../../model'
+import { ButtonPanel, CenteredColumn, ResetFormSteps } from '../../../model'
 
 const Column = styled.div`
   display: flex;
   flex-direction: column;
 `
 
-const CenteredColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-
 const Row = styled.div`
   display: flex;
   margin-top: 0.5rem;
   min-width: 95%;
+  align-items: center;
 `
 
 const IconWrapper = styled.div`

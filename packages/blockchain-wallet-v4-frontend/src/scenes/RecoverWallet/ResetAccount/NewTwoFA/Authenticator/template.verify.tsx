@@ -12,6 +12,8 @@ import TextBox from 'components/Form/TextBox'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 
+import { CenteredColumn } from '../../../model'
+
 const AuthenticatorVerify = (props) => {
   const [inputValue, setInputValue] = useState('')
   const [isInputValid, setIsInputValid] = useState(false)
@@ -20,7 +22,7 @@ const AuthenticatorVerify = (props) => {
     props.securityCenterActions.verifyGoogleAuthenticator(inputValue)
   }
   return (
-    <Form>
+    <>
       <Text>
         <FormattedMessage
           id='scenes.login.upgrade.googleAuthVerify.header'
@@ -58,7 +60,7 @@ const AuthenticatorVerify = (props) => {
       <Button nature='primary' data-e2e='nextButton' fullwidth height='48px' onClick={handleSubmit}>
         <FormattedMessage id='buttons.next' defaultMessage='Next' />
       </Button>
-    </Form>
+    </>
   )
 }
 
