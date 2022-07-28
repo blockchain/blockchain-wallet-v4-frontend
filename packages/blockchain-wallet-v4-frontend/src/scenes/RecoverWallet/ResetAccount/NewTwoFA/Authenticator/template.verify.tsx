@@ -32,7 +32,7 @@ const AuthenticatorVerify = (props) => {
           />
         </Text>
         <Text
-          size='14px'
+          size='16px'
           weight={500}
           color='grey900'
           lineHeight='1.5'

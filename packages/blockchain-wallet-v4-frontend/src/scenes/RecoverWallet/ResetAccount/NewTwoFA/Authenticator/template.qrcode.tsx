@@ -35,7 +35,7 @@ const AuthenticatorCode = (props: Props) => {
           <FormattedMessage id='scenes.login.upgrade.2fa.header' defaultMessage='Set Up 2FA' />
         </Text>
         <Text
-          size='14px'
+          size='16px'
           weight={500}
           color='grey900'
           lineHeight='1.5'

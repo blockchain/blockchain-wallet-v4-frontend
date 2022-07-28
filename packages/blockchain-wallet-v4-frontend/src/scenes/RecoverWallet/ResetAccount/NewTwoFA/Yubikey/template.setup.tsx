@@ -30,13 +30,19 @@ const YubiKeySetup = (props: Props) => {
         handleBackArrowClick={() => props.setFormStep(ResetFormSteps.CHOOSE_TWOFA)}
       />
       <CenteredColumn>
-        <Text>
+        <Text size='20px' weight={600} color='grey900' lineHeight='1.5' style={{ margin: '8px 0' }}>
           <FormattedMessage
             id='scenes.login.upgrade.yubikey.header'
             defaultMessage='Verify with Your Yubikey'
           />
         </Text>
-        <Text>
+        <Text
+          size='16px'
+          weight={500}
+          color='grey900'
+          lineHeight='1.5'
+          style={{ marginBottom: '24px', textAlign: 'center' }}
+        >
           <FormattedMessage
             id='scenes.login.upgrade.yubikey.text'
             defaultMessage='Insert the Yubikey into your computer´s USB port. Pair your Yubikey by tapping your key.'
@@ -65,6 +71,7 @@ const YubiKeySetup = (props: Props) => {
           // TODO: Temporary step change
           onClick={() => props.changeAuthenticatorStep(2)}
           // onClick={handleSubmit}
+          style={{ marginTop: '24px' }}
         >
           <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </Button>

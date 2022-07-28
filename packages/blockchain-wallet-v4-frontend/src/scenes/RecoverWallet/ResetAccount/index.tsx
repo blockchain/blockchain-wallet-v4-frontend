@@ -57,7 +57,7 @@ const ResetAccount: React.FC<InjectedFormProps<{}, ResetProps> & ResetProps> = (
         {recoveryStep === ResetFormSteps.AUTHENTICATOR_SETUP && (
           <Authenticator {...props} setFormStep={setFormStep} />
         )}
-        {recoveryStep === ResetFormSteps.SMS_SETUP && <SMS {...props} />}
+        {recoveryStep === ResetFormSteps.SMS_SETUP && <SMS {...props} setFormStep={setFormStep} />}
         {recoveryStep === ResetFormSteps.YUBIKEY_SETUP && (
           <Yubikey {...props} setFormStep={setFormStep} />
         )}

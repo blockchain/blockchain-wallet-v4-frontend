@@ -32,6 +32,7 @@ const connector = connect(null, mapDispatchToProps)
 export type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     changeAuthenticatorStep: (number) => void
+    setFormStep: (ResetFormSteps) => void
   }
 
 export default connector(SMS)

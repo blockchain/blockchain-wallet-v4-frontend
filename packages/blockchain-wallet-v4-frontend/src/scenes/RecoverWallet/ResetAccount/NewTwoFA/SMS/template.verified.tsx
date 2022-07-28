@@ -5,27 +5,36 @@ import { IconCheckCircle } from '@blockchain-com/icons'
 
 import { Button, Text } from 'blockchain-info-components'
 
+import { BackArrowFormHeader, CenteredColumn } from '../../../model'
 import { Props } from '.'
 
 const SMSVerified = (props: Props) => {
   return (
     <>
-      <Icon label='checkmark-circle-filled' color='green600' size='lg'>
-        <IconCheckCircle />
-      </Icon>
-      <Text>
-        <FormattedMessage
-          id='scenes.recovery.sms_verified.header'
-          defaultMessage='Mobile Number Verified'
-        />
-      </Text>
-      <Text>
-        <FormattedMessage
-          id='components.alerts.twofa_mobile_verify_success'
-          defaultMessage='Your mobile number is now your two-factor authentication method.'
-        />
-      </Text>
-
+      <BackArrowFormHeader handleBackArrowClick={() => props.changeAuthenticatorStep(1)} />
+      <CenteredColumn>
+        <Icon label='checkmark-circle-filled' color='green600' size='lg'>
+          <IconCheckCircle />
+        </Icon>
+        <Text size='20px' weight={600} color='grey900' lineHeight='1.5' style={{ margin: '8px 0' }}>
+          <FormattedMessage
+            id='scenes.recovery.sms_verified.header'
+            defaultMessage='Mobile Number Verified'
+          />
+        </Text>
+        <Text
+          size='16px'
+          weight={500}
+          color='grey900'
+          lineHeight='1.5'
+          style={{ marginBottom: '24px', textAlign: 'center' }}
+        >
+          <FormattedMessage
+            id='components.alerts.twofa_mobile_verify_success'
+            defaultMessage='Your mobile number is now your two-factor authentication method.'
+          />
+        </Text>
+      </CenteredColumn>
       <Button
         nature='primary'
         data-e2e='nextButton'

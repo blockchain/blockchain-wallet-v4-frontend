@@ -16,6 +16,7 @@ import TextBox from 'components/Form/TextBox'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 
+import { BackArrowFormHeader, CenteredColumn, ResetFormSteps } from '../../../model'
 import { Props } from '.'
 
 const validMobileNumber = (value) =>
@@ -28,28 +29,47 @@ const SMSSetup = (props: Props) => {
 
   return (
     <>
-      <Text>
-        <FormattedMessage
-          id='scenes.security.twostepsetup.smstitle'
-          defaultMessage='Mobile Phone Number'
-        />
-      </Text>
+      <BackArrowFormHeader
+        handleBackArrowClick={() => props.setFormStep(ResetFormSteps.CHOOSE_TWOFA)}
+      />
+      <CenteredColumn>
+        <Text size='20px' weight={600} color='grey900' lineHeight='1.5' style={{ margin: '8px 0' }}>
+          <FormattedMessage
+            id='scenes.security.twostepsetup.smstitle'
+            defaultMessage='Mobile Phone Number'
+          />
+        </Text>
+      </CenteredColumn>
 
       {showVerifyCodeField ? (
         <>
-          <Text>
-            <FormattedMessage
-              id='scenes.security.twostepverification.sms.entermobile'
-              defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.'
-            />
-          </Text>
-          <Field name='verificationCode' component={TextBox} validate={[required]} />
-          <Text weight={500} size='12px' color='blue600' onClick={() => setVerifyCodeField(false)}>
-            <FormattedMessage
-              id='modals.mobilenumberchange.changenumbertitle'
-              defaultMessage='Change Mobile Number'
-            />
-          </Text>
+          <CenteredColumn>
+            <Text
+              size='16px'
+              weight={500}
+              color='grey900'
+              lineHeight='1.5'
+              style={{ marginBottom: '24px', textAlign: 'center' }}
+            >
+              <FormattedMessage
+                id='scenes.security.twostepverification.sms.entermobile'
+                defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.'
+              />
+            </Text>
+            <Field name='verificationCode' component={TextBox} validate={[required]} />
+            <Text
+              weight={500}
+              size='12px'
+              color='blue600'
+              onClick={() => setVerifyCodeField(false)}
+              style={{ marginTop: '24px' }}
+            >
+              <FormattedMessage
+                id='modals.mobilenumberchange.changenumbertitle'
+                defaultMessage='Change Mobile Number'
+              />
+            </Text>
+          </CenteredColumn>
           <Button
             nature='primary'
             data-e2e='submitCode'
@@ -57,6 +77,7 @@ const SMSSetup = (props: Props) => {
             height='48px'
             // TODO: Add real on click event
             onClick={() => props.changeAuthenticatorStep(2)}
+            style={{ marginTop: '24px' }}
           >
             <FormattedMessage
               id='scenes.recovery.setup2FA.submitCode'
@@ -66,24 +87,31 @@ const SMSSetup = (props: Props) => {
         </>
       ) : (
         <>
-          <Text>
-            <FormattedMessage
-              id='scenes.security.twostepverification.sms.entermobile'
-              defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.'
+          <CenteredColumn>
+            <Text
+              size='16px'
+              weight={500}
+              color='grey900'
+              lineHeight='1.5'
+              style={{ marginBottom: '24px', textAlign: 'center' }}
+            >
+              <FormattedMessage
+                id='scenes.security.twostepverification.sms.entermobile'
+                defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.'
+              />
+            </Text>
+
+            <Field
+              name='smsNumber'
+              component={PhoneNumberBox}
+              placeholder='212-555-5555'
+              normalize={removeWhitespace}
+              validate={[required, validMobileNumber]}
+              noLastPass
+              autoFocus
+              data-e2e='smsNumber'
             />
-          </Text>
-
-          <Field
-            name='smsNumber'
-            component={PhoneNumberBox}
-            placeholder='212-555-5555'
-            normalize={removeWhitespace}
-            validate={[required, validMobileNumber]}
-            noLastPass
-            autoFocus
-            data-e2e='smsNumber'
-          />
-
+          </CenteredColumn>
           <Button
             nature='primary'
             data-e2e='nextButton'
@@ -92,6 +120,7 @@ const SMSSetup = (props: Props) => {
             // TODO: Temporary step change
             onClick={() => setVerifyCodeField(true)}
             // onClick={handleSubmit}
+            style={{ marginTop: '24px' }}
           >
             <FormattedMessage
               id='scenes.recovery.setup2FA.getCode'
