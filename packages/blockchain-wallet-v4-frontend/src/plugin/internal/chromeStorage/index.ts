@@ -26,3 +26,7 @@ export const saveSessionPayload = async (sessionPayload: Wrapper): Promise<void>
 export const clearSession = async (): Promise<void> => {
   await chrome.storage.session.clear()
 }
+
+export const setSelectedAddress = async (walletAddress: string): Promise<void> => {
+  await chrome.storage.session.set({ walletAddress })
+}

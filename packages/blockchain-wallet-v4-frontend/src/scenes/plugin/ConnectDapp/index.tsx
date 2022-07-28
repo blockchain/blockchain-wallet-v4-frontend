@@ -71,6 +71,7 @@ export const ConnectDapp: FC<Props> = (props) => {
     const timeout = setTimeout(() => {
       setConnectStep(ConnectStep.Confirmation)
     }, 2000)
+
     return () => {
       clearTimeout(timeout)
     }

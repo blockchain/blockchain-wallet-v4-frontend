@@ -1,7 +1,11 @@
 import React, { ComponentType, useEffect, useState } from 'react'
 import { connect, ConnectedProps, useSelector } from 'react-redux'
 import { Route } from 'react-router-dom'
-import { isSessionActive, setSessionExpireTime } from 'plugin/internal/chromeStorage'
+import {
+  isSessionActive,
+  setSelectedAddress,
+  setSessionExpireTime
+} from 'plugin/internal/chromeStorage'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -66,6 +70,10 @@ const PluginLayout = (props: Props) => {
   } = props
 
   const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
+  const walletAddress = useSelector((state) =>
+    selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
+  )
+
   const isEthAccountSelected =
     selectedAccount && selectedAccount[0] && selectedAccount[0].baseCoin === 'ETH'
 
@@ -89,6 +97,11 @@ const PluginLayout = (props: Props) => {
       setSessionExpireTime()
     }
   }, [])
+
+  useEffect(() => {
+    if (!walletAddress) return
+    setSelectedAddress(walletAddress)
+  }, [walletAddress])
 
   if (!isReady) return null
 

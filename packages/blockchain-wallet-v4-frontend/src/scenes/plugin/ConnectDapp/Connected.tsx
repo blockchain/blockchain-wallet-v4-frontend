@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IconCheckCircle } from '@blockchain-com/icons'
 import { addConnection, TabMetadata } from 'plugin/internal'
+import { ConnectionEvents } from 'plugin/provider/types'
 import { SupportedRPCMethods } from 'plugin/provider/utils'
 import styled, { keyframes } from 'styled-components'
 
@@ -41,8 +42,10 @@ export const Connected: React.FC<{
         })
         window.close()
       } catch (e) {
-        // eslint-disable-next-line
-        console.log(e)
+        await chrome.runtime.sendMessage({
+          data: e.message,
+          type: ConnectionEvents.Error
+        })
       }
     }, 2000)
     return () => {
