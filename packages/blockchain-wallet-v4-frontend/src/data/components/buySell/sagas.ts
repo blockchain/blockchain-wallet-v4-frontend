@@ -807,6 +807,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.fetchOrders())
     } catch (e) {
+      const error: number | string = errorHandlerCode(e)
+
       const skipErrorDisplayList = [
         BS_ERROR.USER_CANCELLED_APPLE_PAY,
         BS_ERROR.USER_CANCELLED_GOOGLE_PAY
@@ -814,7 +816,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
 
-      if (skipErrorDisplayList.includes(e as BS_ERROR)) {
+      if (skipErrorDisplayList.includes(error as BS_ERROR)) {
         yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
         return
