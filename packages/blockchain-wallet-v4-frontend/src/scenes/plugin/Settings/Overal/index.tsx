@@ -9,6 +9,7 @@ import {
   IconSettings,
   IconWallet
 } from '@blockchain-com/icons'
+import { removeAllConnections } from 'plugin/internal'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -62,7 +63,8 @@ const Overal = (props) => {
     new Setting('layouts.wallet.header.general', 'General', `${path}/general`, <IconSettings />),
     new Setting('scenes.plugin.settings.info', 'About', `${path}/about`, <IconInformation />)
   ]
-  const logout = () => {
+  const logout = async () => {
+    await removeAllConnections()
     const sessionActions = bindActionCreators(actions.session, dispatch)
     dispatch(sessionActions.logout())
   }
