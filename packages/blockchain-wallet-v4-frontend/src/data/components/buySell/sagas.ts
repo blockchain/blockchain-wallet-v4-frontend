@@ -1685,6 +1685,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let step = S.getStep(yield select())
 
       while (order.state === 'PENDING_DEPOSIT' && retryAttempts < maxRetryAttempts) {
+        debugger
         order = yield call(api.getBSOrder, payload)
         step = S.getStep(yield select())
         retryAttempts += 1
@@ -1699,14 +1700,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.confirmOrderSuccess(order))
+      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     } catch (e) {
       if (isNabuError(e)) {
         yield put(A.createOrderFailure(e))
       } else {
         yield put(A.createOrderFailure(ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
       }
-    } finally {
-      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     }
   }
 
