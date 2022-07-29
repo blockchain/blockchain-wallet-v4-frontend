@@ -81,6 +81,7 @@
     "@formatjs/intl-relativetimeformat": "7.2.10",
     "@graphql-codegen/cli": "2.5.0",
     "@reduxjs/toolkit": "1.6.0",
+    "@ramonak/react-progress-bar": "5.0.1",
     "@storybook/addon-actions": "6.3.6",
     "@storybook/react": "6.3.6",
     "@veriff/incontext-sdk": "0.3.0",

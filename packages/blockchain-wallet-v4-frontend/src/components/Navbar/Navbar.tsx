@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon, Text } from '@blockchain-com/constellation'
 import { IconClose, IconMenu, IconRefresh } from '@blockchain-com/icons'
+import ProgressBar from '@ramonak/react-progress-bar'
 import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'
@@ -22,6 +23,7 @@ export type PrimaryNavItem = {
 }
 
 export const NavContainer = styled.div`
+  position: relative;
   width: 100%;
   box-sizing: border-box;
   background-color: ${colors.white100};
@@ -182,11 +184,27 @@ const Navbar = ({
   trackEventCallback
 }: Props) => {
   const [isMobileNavOpen, setMobileNav] = useState(false)
+  const [progressWidth, setProgressWidth] = useState(0)
   const isMobile = useMedia('mobile')
   const isTablet = useMedia('tablet')
+
   useHotkeys('cmd+r', (e) => {
     e.preventDefault()
-    refreshClickHandler()
+    setProgressWidth(30)
+    // delay refresh so progress bar animation isn't interrupted
+    setTimeout(() => {
+      refreshClickHandler()
+    }, 200)
+
+    // while data refreshes, dalay finishing progress bar
+    setTimeout(() => {
+      setProgressWidth(100)
+
+      // reset progress bar after slight delay
+      setTimeout(() => {
+        setProgressWidth(0)
+      }, 2000)
+    }, 3000)
   })
 
   const closeMobileNavOpenSendCallback = useCallback(() => {
@@ -275,6 +293,19 @@ const Navbar = ({
 
   return (
     <NavContainer>
+      <div style={{ left: '0', position: 'absolute', top: '0', width: '100%' }}>
+        <ProgressBar
+          completed={progressWidth}
+          height='3px'
+          width='100%'
+          bgColor={colors.blue600}
+          isLabelVisible={false}
+          baseBgColor='white'
+          borderRadius='0px'
+          transitionDuration={progressWidth === 100 ? '1s' : '0.2s'}
+          transitionTimingFunction='ease-in'
+        />
+      </div>
       {isMobileNavOpen && (
         <MobileNav
           handleClose={closeMobileNavCallback}
