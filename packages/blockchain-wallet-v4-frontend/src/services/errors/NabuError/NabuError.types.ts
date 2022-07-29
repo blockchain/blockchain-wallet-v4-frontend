@@ -4,10 +4,10 @@ type NabuErrorAction = {
 }
 
 type NabuErrorIconProps = {
-  accessibility: {
+  accessibility?: {
     description: string
   }
-  status: {
+  status?: {
     url: string
   }
   url: string

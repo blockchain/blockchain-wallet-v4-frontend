@@ -35,7 +35,7 @@ const GenericNabuError: GenericNabuErrorComponent = ({ error, onDismiss }) => {
   return (
     <GenericErrorLayout>
       <ErrorIconWithSeverity
-        iconStatusUrl={icon?.status.url || ''}
+        iconStatusUrl={icon?.status?.url || ''}
         iconUrl={icon?.url || ''}
         statusFallback={
           <IconBadge color='orange600' size={1.5}>
