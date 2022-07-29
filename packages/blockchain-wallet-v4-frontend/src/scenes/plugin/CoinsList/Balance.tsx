@@ -61,6 +61,9 @@ const Balance = (props) => {
     props.history.push('/plugin/funding')
   }
 
+  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
+  const activeAccountCoin = selectedAccount && selectedAccount[0].baseCoin
+
   return (
     <BalanceWrapper data-testid='coinview-header'>
       <Text style={{ margin: '20px 0' }} color='white' size='40px' weight={500}>
@@ -84,23 +87,25 @@ const Balance = (props) => {
             Receive
           </Text>
         </ButtonWrapper>
-        <ButtonWrapper onClick={goToSendScene}>
-          <IconButtonStyled
-            padding='0'
-            name='IconArrowUpRight'
-            rounded
-            width='40px'
-            height='40px'
-            data-e2e='coinview-header-send-btn'
-          >
-            <Icon label='IconArrowUpRight'>
-              <IconArrowUpRight />
-            </Icon>
-          </IconButtonStyled>
-          <Text color='white' size='10px' weight={500}>
-            Send
-          </Text>
-        </ButtonWrapper>
+        {activeAccountCoin === 'ETH' ? (
+          <ButtonWrapper onClick={goToSendScene}>
+            <IconButtonStyled
+              padding='0'
+              name='IconArrowUpRight'
+              rounded
+              width='40px'
+              height='40px'
+              data-e2e='coinview-header-send-btn'
+            >
+              <Icon label='IconArrowUpRight'>
+                <IconArrowUpRight />
+              </Icon>
+            </IconButtonStyled>
+            <Text color='white' size='10px' weight={500}>
+              Send
+            </Text>
+          </ButtonWrapper>
+        ) : null}
       </Flex>
     </BalanceWrapper>
   )

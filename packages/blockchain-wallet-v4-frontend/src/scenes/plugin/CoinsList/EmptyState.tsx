@@ -28,7 +28,7 @@ const EmptyState = () => (
             Receive
           </Text>
         </div>
-        <ButtonStyled style={{ marginTop: '2rem' }} data-e2e='coinview-empty-add-crypto-btn'>
+        <ButtonStyled style={{ marginTop: '150px' }} data-e2e='coinview-empty-add-crypto-btn'>
           <FormattedMessage id='copy.add_crypto' defaultMessage='Add Crypto' />
         </ButtonStyled>
       </Wrapper>
