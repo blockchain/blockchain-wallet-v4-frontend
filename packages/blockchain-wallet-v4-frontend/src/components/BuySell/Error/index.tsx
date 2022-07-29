@@ -78,7 +78,7 @@ const Error = ({ code, handleBack, handleReset, handleRetry }: Props) => {
 }
 
 type Props = {
-  code: number | string
+  code: unknown
   handleBack: () => void
   handleReset: () => void
   handleRetry: () => void
