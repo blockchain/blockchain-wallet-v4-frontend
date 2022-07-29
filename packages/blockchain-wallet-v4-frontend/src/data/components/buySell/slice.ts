@@ -478,9 +478,6 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{ cvv: string; paymentMethodTokens: { [key: string]: string } }>
     ) => {},
-    resetConfirmOrder: (state) => {
-      state.order = state.pendingOrder ? Remote.Success(state.pendingOrder) : Remote.NotAsked
-    },
     setApplePayInfo: (state, action: PayloadAction<ApplePayInfoType>) => {
       state.applePayInfo = action.payload
     },
