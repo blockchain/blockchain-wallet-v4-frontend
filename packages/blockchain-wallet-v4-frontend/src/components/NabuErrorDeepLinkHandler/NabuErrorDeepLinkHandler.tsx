@@ -45,6 +45,8 @@ export const NabuErrorDeepLinkHandler: NabuErrorDeepLinkHandlerComponent = ({ ch
   }, [dispatch])
 
   const tryDifferentCard = useCallback(() => {
+    dispatch(actions.components.buySell.createCardNotAsked())
+
     dispatch(
       actions.components.buySell.setStep({
         step: 'DETERMINE_CARD_PROVIDER'
