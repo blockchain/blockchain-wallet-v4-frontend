@@ -51,7 +51,8 @@ const queueCallback = async (rawEvents: RawEvent[]) => {
         context,
         device: 'WEB',
         events,
-        platform: 'WALLET'
+        platform: 'WALLET',
+        version: window.APP_VERSION
       }),
       credentials: 'include',
       headers: {
