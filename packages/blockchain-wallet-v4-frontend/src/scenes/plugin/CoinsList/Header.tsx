@@ -77,7 +77,7 @@ const Header = () => {
   const accounts = useSelector((state) =>
     getCoinAccounts(state as CombinedState<any>, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   )
-  const activeAccountCoin = selectedAccount && selectedAccount[0].baseCoin
+  const activeAccountCoin = selectedAccount ? selectedAccount[0]?.baseCoin : 'ETH'
 
   const switchAccounts = [accounts.ETH, accounts.BTC, accounts.BCH, accounts.XLM, accounts.STX]
 

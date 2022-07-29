@@ -71,7 +71,8 @@ export const SwitchAccount = (props) => {
       <BalanceText>
         <TotalBalance size='14px' weight={500} />
       </BalanceText>
-      {accounts &&
+      {accounts[0] &&
+        accounts[0][0] &&
         accounts.map((account: SwapAccountType[], index: number) => (
           <Account
             key={account[0].coin}
