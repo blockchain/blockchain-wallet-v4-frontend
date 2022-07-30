@@ -253,7 +253,6 @@ const Methods: React.FC<Props> = (props: Props) => {
               onClick={() => handlePaymentMethodSelect({ method: paymentCard.value })}
             />
           ) : null}
-
           {applePay && isApplePayAvailable ? (
             <ApplePay
               onClick={() => {
@@ -264,7 +263,6 @@ const Methods: React.FC<Props> = (props: Props) => {
               }}
             />
           ) : null}
-
           {googlePay && isGooglePayAvailable ? (
             <GooglePay
               onClick={() => {
@@ -275,7 +273,6 @@ const Methods: React.FC<Props> = (props: Props) => {
               }}
             />
           ) : null}
-
           {!!bankTransfer && (
             <LinkBank
               {...bankTransfer}
@@ -291,7 +288,6 @@ const Methods: React.FC<Props> = (props: Props) => {
               }
             />
           )}
-
           {!!bankAccount && (
             <Padding all={24}>
               <BankWireCard

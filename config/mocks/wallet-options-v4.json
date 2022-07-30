@@ -36,7 +36,7 @@
         "addPlaidPaymentProvider": true,
         "addStripePaymentProvider": false,
         "applePayPaymentMethod": true,
-        "appleAndGooglePayPromoBanner": false,
+        "appleAndGooglePayPromoBanner": true,
         "bindIntegrationArEnabled": true,
         "coinViewV2": false,
         "completeYourProfile": true,

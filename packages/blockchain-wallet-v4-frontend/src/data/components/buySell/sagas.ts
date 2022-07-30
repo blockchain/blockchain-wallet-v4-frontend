@@ -392,9 +392,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         delete output.amount
       }
 
-      let buyOrder: BSOrderType
-      let oldBuyOrder: BSOrderType | undefined
-
       if (mobilePaymentMethod === MobilePaymentType.APPLE_PAY) {
         const applePayInfo: ApplePayInfoType = yield call(api.getApplePayInfo, fiat)
 
@@ -415,16 +412,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           pair: pair.pair
         })
       )
+      let buyOrder: BSOrderType
+
+      let oldBuyOrder: BSOrderType | undefined
 
       // This code is handles refreshing the buy order when the user sits on
       // the order confirmation screen.
       while (true) {
-        // non gold users can only make one order at a time so we need to cancel the old one
-        if (oldBuyOrder) {
-          yield call(api.cancelBSOrder, oldBuyOrder)
-        }
         // get the current order, if any
         const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
+
+        // non gold users can only make one order at a time so we need to cancel the old one
+        if (oldBuyOrder && !Remote.Loading.is(S.getBSOrder(yield select()))) {
+          yield call(api.cancelBSOrder, oldBuyOrder)
+        }
 
         buyOrder = yield call(
           api.createBSOrder,
@@ -453,16 +454,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         // pause the while loop here until if/when the quote expires again, then refresh the order
         yield take(A.fetchBuyQuoteSuccess)
-        // need to get current step and break if not checkout confirm
-        // usually happens when the user goes back to the enter amount form
+
         const currentStep = S.getStep(yield select())
+
+        // need to break if not checkout confirm
+        // usually happens when the user goes back to the enter amount form
         if (currentStep !== 'CHECKOUT_CONFIRM') {
           break
         }
       }
     } catch (e) {
       if (isNabuError(e)) {
-        return yield put(
+        yield put(A.createOrderFailure(e))
+
+        yield put(
           actions.form.stopSubmit(
             values?.orderType === OrderType.SELL ? FORM_BS_PREVIEW_SELL : FORM_BS_CHECKOUT,
             {
@@ -470,6 +475,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             }
           )
         )
+
+        return
       }
 
       const error: number | string = errorHandlerCode(e)
@@ -654,13 +661,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error(BS_ERROR.GOOGLE_PAY_INFO_NOT_FOUND)
           }
 
-          const allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
-
-          const allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
-            'PAN_ONLY',
-            'CRYPTOGRAM_3DS'
-          ]
-
           // inputAmount is in cents, but amount has to be in decimals
           const amount = parseInt(order.inputQuantity, 10) / 100
 
@@ -676,10 +676,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error(BS_ERROR.GOOGLE_PAY_PARAMETERS_NOT_FOUND)
           }
 
+          const allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
+
+          const allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
+            'PAN_ONLY',
+            'CRYPTOGRAM_3DS'
+          ]
+
+          const { allowCreditCards, allowPrepaidCards } = googlePayInfo
+
           const paymentDataRequest = {
             allowedPaymentMethods: [
               {
                 parameters: {
+                  allowCreditCards,
+                  allowPrepaidCards,
                   allowedAuthMethods,
                   allowedCardNetworks,
                   billingAddressParameters: {
@@ -823,6 +834,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.fetchOrders())
     } catch (e) {
+      const error: number | string = errorHandlerCode(e)
+
       const skipErrorDisplayList = [
         BS_ERROR.USER_CANCELLED_APPLE_PAY,
         BS_ERROR.USER_CANCELLED_GOOGLE_PAY
@@ -830,7 +843,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM' }))
 
-      if (skipErrorDisplayList.includes(e as BS_ERROR)) {
+      if (skipErrorDisplayList.includes(error as BS_ERROR)) {
         yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
         yield put(A.resetConfirmOrder())
@@ -1667,22 +1680,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const pollBSCardErrorHandler = function* (state: BSCardStateType) {
-    let error
-    switch (state) {
-      case 'PENDING':
-        error = CARD_ERROR_CODE.PENDING_CARD_AFTER_POLL
-        break
-      case 'BLOCKED':
-        error = CARD_ERROR_CODE.BLOCKED_CARD_AFTER_POLL
-        break
-      default:
-        error = CARD_ERROR_CODE.LINK_CARD_FAILED
-    }
-
-    yield put(A.createCardFailure(error))
-  }
-
   const pollBSBalances = function* () {
     const skipLoading = true
 
@@ -1693,68 +1690,78 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let retryAttempts = 0
     const maxRetryAttempts = 10
 
-    let card: ReturnType<typeof api.getBSCard> = yield call(api.getBSCard, payload)
-    let step = S.getStep(yield select())
+    try {
+      let card: ReturnType<typeof api.getBSCard> = yield call(api.getBSCard, payload)
+      let step = S.getStep(yield select())
 
-    while (
-      (card.state === 'CREATED' || card.state === 'PENDING') &&
-      retryAttempts < maxRetryAttempts
-    ) {
-      card = yield call(api.getBSCard, payload)
-      retryAttempts += 1
-      step = S.getStep(yield select())
-      if (
-        step !== '3DS_HANDLER_EVERYPAY' &&
-        step !== '3DS_HANDLER_STRIPE' &&
-        step !== '3DS_HANDLER_CHECKOUTDOTCOM'
+      while (
+        (card.state === 'CREATED' || card.state === 'PENDING') &&
+        retryAttempts < maxRetryAttempts
       ) {
-        yield cancel()
+        card = yield call(api.getBSCard, payload)
+        retryAttempts += 1
+        step = S.getStep(yield select())
+        if (
+          step !== '3DS_HANDLER_EVERYPAY' &&
+          step !== '3DS_HANDLER_STRIPE' &&
+          step !== '3DS_HANDLER_CHECKOUTDOTCOM'
+        ) {
+          yield cancel()
+        }
+        yield delay(2000)
       }
-      yield delay(2000)
+
+      if (card.state === 'ACTIVE') {
+        const skipLoading = true
+        const order = S.getBSLatestPendingOrder(yield select())
+        yield put(A.fetchCards(skipLoading))
+        const cardMethodR = S.getMethodByType(yield select(), BSPaymentTypes.PAYMENT_CARD)
+
+        // If the order was already created
+        if (order && order.state === 'PENDING_CONFIRMATION') {
+          return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
+        }
+
+        const origin = S.getOrigin(yield select())
+
+        if (origin === 'SettingsGeneral') {
+          yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
+
+          yield put(actions.alerts.displaySuccess('Card Added.'))
+        }
+
+        // Sets the payment method to the newly created card in the enter amount form
+        if (Remote.Success.is(cardMethodR)) {
+          const method = cardMethodR.getOrFail(BS_ERROR.NO_PAYMENT_METHODS)
+          const newCardMethod = {
+            ...card,
+            ...method,
+            type: BSPaymentTypes.USER_CARD
+          } as BSPaymentMethodType
+          yield put(A.setMethod(newCardMethod))
+        }
+
+        return yield put(
+          A.createOrder({ paymentMethodId: card.id, paymentType: BSPaymentTypes.PAYMENT_CARD })
+        )
+      }
+
+      if (card.state === 'PENDING') {
+        yield put(A.createCardFailure(CARD_ERROR_CODE.PENDING_CARD_AFTER_POLL))
+
+        return
+      }
+
+      yield put(A.createCardFailure(CARD_ERROR_CODE.LINK_CARD_FAILED))
+    } catch (e) {
+      if (isNabuError(e)) {
+        yield put(A.createCardFailure(e))
+      } else {
+        const error = errorHandlerCode(e)
+
+        yield put(A.createCardFailure(error))
+      }
     }
-
-    if (card.state === 'ACTIVE') {
-      const skipLoading = true
-      const order = S.getBSLatestPendingOrder(yield select())
-      yield put(A.fetchCards(skipLoading))
-      const cardMethodR = S.getMethodByType(yield select(), BSPaymentTypes.PAYMENT_CARD)
-
-      // If the order was already created
-      if (order && order.state === 'PENDING_CONFIRMATION') {
-        return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
-      }
-
-      const origin = S.getOrigin(yield select())
-
-      if (origin === 'SettingsGeneral') {
-        yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
-
-        yield put(actions.alerts.displaySuccess('Card Added.'))
-      }
-
-      // Sets the payment method to the newly created card in the enter amount form
-      if (Remote.Success.is(cardMethodR)) {
-        const method = cardMethodR.getOrFail(BS_ERROR.NO_PAYMENT_METHODS)
-        const newCardMethod = {
-          ...card,
-          ...method,
-          type: BSPaymentTypes.USER_CARD
-        } as BSPaymentMethodType
-        yield put(A.setMethod(newCardMethod))
-      }
-
-      return yield put(
-        A.createOrder({ paymentMethodId: card.id, paymentType: BSPaymentTypes.PAYMENT_CARD })
-      )
-    }
-
-    // TODO handle statuses here, on lastError somehow
-    // to test you can use an email with +onlystripe on it
-    // add a card with checkout and you'll receive an error on activate
-    // I can get the ID from there and test getting the card, so I can see the lastError
-    yield call(pollBSCardErrorHandler, card.state)
-
-    // TODO pass this function to here, and not send to DETERMINE_CARD_PROVIDER depending on a feature flag
   }
 
   const pollBSOrder = function* ({ payload }: ReturnType<typeof A.pollOrder>) {
@@ -1780,12 +1787,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.createOrderSuccess(order))
-
+      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       yield put(cacheActions.removeLastUsedAmount({ pair: order.pair }))
     } catch (e) {
-      yield put(A.createOrderFailure(ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
-    } finally {
-      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+      if (isNabuError(e)) {
+        yield put(A.createOrderFailure(e))
+      } else {
+        yield put(A.createOrderFailure(ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
+      }
     }
   }
 

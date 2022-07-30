@@ -10,8 +10,8 @@ import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { BankDWStepType } from 'data/types'
 
-import { Props as OwnProps, SuccessStateType } from '../..'
-import { TransferType } from '../../types'
+import { Props as OwnProps, SuccessStateType } from '.'
+import { TransferType } from './types'
 
 const RowCopy = styled(Row)`
   display: flex;

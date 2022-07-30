@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { Image } from 'blockchain-info-components'
 import { BadgePlacement } from 'components/Badge'
 import { ExternalSVG } from 'components/ExternalSVG'
 import { Flex } from 'components/Flex'
@@ -11,7 +10,13 @@ const ErrorIconWithSeverity: ErrorIconWithSeverityComponent = ({
   iconStatusUrl,
   iconUrl,
   statusFallback,
-  iconFallback = <Image name='card-error-icon' width='84px' />
+  iconFallback = (
+    <ExternalSVG
+      width={4.5}
+      height={4.5}
+      href='https://www.blockchain.com/static/img/icons/icon-card.svg'
+    />
+  )
 }) => {
   return (
     <Flex justifyContent='center'>

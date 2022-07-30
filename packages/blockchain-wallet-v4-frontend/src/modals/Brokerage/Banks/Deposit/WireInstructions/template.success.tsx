@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Props as OwnProps, SuccessStateType } from '.'
-import LayoutDefault from './CurrencyLayouts/default'
-import LayoutUsdArs from './CurrencyLayouts/LayoutUsdArs'
+import InstructionDetails from './InstructionDetails'
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,20 +11,10 @@ const Wrapper = styled.div`
   height: 100%;
 `
 
-const Success: React.FC<Props> = (props) => {
-  const userCountryCode = props.userData?.address?.country || 'default'
-
-  const currencyLayouts = {
-    ARS: <LayoutUsdArs {...props} />,
-    USD: userCountryCode !== 'AR' ? <LayoutDefault {...props} /> : <LayoutUsdArs {...props} />,
-    default: <LayoutDefault {...props} />
-  }
-
+const Success = (props: Props) => {
   return (
     <Wrapper>
-      {currencyLayouts[props.account.currency]
-        ? currencyLayouts[props.account.currency]
-        : currencyLayouts.default}
+      <InstructionDetails {...props} />
     </Wrapper>
   )
 }

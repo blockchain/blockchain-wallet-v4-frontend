@@ -98,7 +98,9 @@ const Payment: React.FC<Props> = (props: Props) => {
       >
         <DisplayPaymentIcon showBackground={!props.method}>{renderIcon()}</DisplayPaymentIcon>
 
-        <PaymentText isMethod={!!props.method}>{renderText()}</PaymentText>
+        <PaymentText style={{ minWidth: 0 }} isMethod={!!props.method}>
+          {renderText()}
+        </PaymentText>
 
         {!props.isSddFlow && (
           <PaymentArrowContainer>
