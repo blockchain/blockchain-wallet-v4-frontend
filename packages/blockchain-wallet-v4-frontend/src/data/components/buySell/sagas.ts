@@ -1685,7 +1685,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let step = S.getStep(yield select())
 
       while (order.state === 'PENDING_DEPOSIT' && retryAttempts < maxRetryAttempts) {
-        debugger
         order = yield call(api.getBSOrder, payload)
         step = S.getStep(yield select())
         retryAttempts += 1
