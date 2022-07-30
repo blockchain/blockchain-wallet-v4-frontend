@@ -1699,14 +1699,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.confirmOrderSuccess(order))
+      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     } catch (e) {
       if (isNabuError(e)) {
         yield put(A.createOrderFailure(e))
       } else {
         yield put(A.createOrderFailure(ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
       }
-    } finally {
-      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     }
   }
 
