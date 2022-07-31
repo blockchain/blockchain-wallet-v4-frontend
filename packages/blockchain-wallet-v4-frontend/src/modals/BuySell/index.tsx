@@ -14,12 +14,18 @@ import {
   MobilePaymentType
 } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import RefreshPaymentAccount from 'components/Flyout/RefreshPaymentAccount'
+import PaymentAccountError from 'components/Flyout/PaymentAccountError'
 import { actions, model, selectors } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import { BankStatusType, FastLinkType, ModalName, PlaidSettlementErrorReasons } from 'data/types'
+import {
+  BankStatusType,
+  BrokerageModalOriginType,
+  FastLinkType,
+  ModalName,
+  PlaidSettlementErrorReasons
+} from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
@@ -82,6 +88,24 @@ class BuySell extends PureComponent<Props, State> {
         pair: this.props.pair,
         step: 'ENTER_AMOUNT'
       })
+    }
+  }
+
+  paymentErrorHandler = () => {
+    switch (this.props.reason) {
+      case 'REQUIRES_UPDATE':
+        this.props.brokerageActions.showModal({
+          modalType: ModalName.ADD_BANK_PLAID_MODAL,
+          origin: BrokerageModalOriginType.ADD_BANK_BUY
+        })
+        this.backToEnterAmount()
+        break
+      case 'INSUFFICIENT_BALANCE':
+      case 'GENERIC':
+      case 'STALE_BALANCE':
+      default:
+        this.backToEnterAmount()
+        break
     }
   }
 
@@ -278,7 +302,10 @@ class BuySell extends PureComponent<Props, State> {
             {/** Only Plaid errors for now */}
             {this.props.step === 'PAYMENT_ACCOUNT_ERROR' && (
               <FlyoutChild>
-                <RefreshPaymentAccount />
+                <PaymentAccountError
+                  reason={this.props.reason}
+                  buttonHandler={this.paymentErrorHandler}
+                />
               </FlyoutChild>
             )}
           </Flyout>
@@ -301,11 +328,13 @@ const mapStateToProps = (state: RootState) => ({
   mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
   orderType: selectors.components.buySell.getOrderType(state),
   pair: selectors.components.buySell.getBSPair(state),
+  reason: selectors.components.buySell.getReason(state),
   step: selectors.components.buySell.getStep(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),

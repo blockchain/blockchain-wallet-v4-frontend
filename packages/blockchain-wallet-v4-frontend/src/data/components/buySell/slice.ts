@@ -436,6 +436,7 @@ const buySellSlice = createSlice({
       switch (action.payload.step) {
         case 'PAYMENT_ACCOUNT_ERROR':
           state.reason = action.payload.reason
+          state.step = action.payload.step
           break
         case 'ENTER_AMOUNT':
         case 'VERIFY_EMAIL':

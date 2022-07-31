@@ -46,7 +46,7 @@ import { actions as cacheActions } from '../../cache/slice'
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
 import brokerageSagas from '../brokerage/sagas'
-import { BankCredentialsType, OBType } from '../brokerage/types'
+import { BankCredentialsType } from '../brokerage/types'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
 import sendSagas from '../send/sagas'
 import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
@@ -298,6 +298,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (parseFloat(values.amount) <= 0) throw new Error(BS_ERROR.NO_AMOUNT)
 
       const { fix, orderType, period } = values
+
+      yield call(paymentAccountCheck, paymentMethodId, values.amount)
+      yield race({
+        canceled: take(actions.components.brokerage.paymentAccountRefreshCanceled.type),
+        success: take(actions.components.brokerage.paymentAccountRefreshed.type)
+      })
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
@@ -575,12 +581,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { order } = payload
 
     try {
-      yield call(paymentAccountCheck, order.paymentMethodId)
-      yield race({
-        canceled: take(actions.components.brokerage.paymentAccountRefreshCanceled.type),
-        success: take(actions.components.brokerage.paymentAccountRefreshed.type)
-      })
-
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
 
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
@@ -1414,40 +1414,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
-  const handleRefreshIfNeeded = function* (method: BSPaymentMethodType) {
-    if (!method.id) return
-
-    const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
-      api.updateBankAccountLink,
-      method.id,
-      { settlementRequest: { amount: 10, product: ProductTypes.SIMPLEBUY } }
-    )
-
-    if (status.attributes.settlementResponse.reason !== 'REQUIRES_UPDATE') return
-
-    const domainsR = yield select(selectors.core.walletOptions.getDomains)
-    const { comRoot } = domainsR.getOrElse({
-      comRoot: 'https://www.blockchain.com'
-    })
-    const redirect_uri = `${comRoot}/brokerage-link-success`
-    const attributes = { redirect_uri }
-    try {
-      yield put(actions.components.brokerage.fetchBankLinkCredentialsLoading())
-      const data: BankCredentialsType = yield call(
-        api.refreshBankAccountLink,
-        method.id,
-        attributes
-      )
-      yield put(actions.components.brokerage.setBankCredentials(data))
-    } catch (error) {
-      yield put(actions.components.brokerage.fetchBankLinkCredentialsError(error))
-    }
-  }
-
   const handleMethodChange = function* ({
     payload: { isFlow, method, mobilePaymentMethod }
   }: ReturnType<typeof A.handleMethodChange>) {
-    yield call(handleRefreshIfNeeded, method)
     const values: T.BSCheckoutFormValuesType = yield select(
       selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )

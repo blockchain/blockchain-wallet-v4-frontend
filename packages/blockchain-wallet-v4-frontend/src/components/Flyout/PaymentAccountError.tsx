@@ -1,5 +1,4 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 
 import { Button, Image } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
@@ -9,9 +8,12 @@ import {
   ErrorIconWithSeverity,
   GenericErrorLayout
 } from 'components/GenericError'
+import usePaymentErrorReason from 'components/Hooks/usePaymentErrorReason'
 import { Padding } from 'components/Padding'
+import { PlaidSettlementErrorReasons } from 'data/types'
 
-const RefreshPaymentAccount = () => {
+const PaymentAccountError = ({ buttonHandler, reason }) => {
+  const [title, message, actionText] = usePaymentErrorReason(reason)
   return (
     <Flex flexDirection='column' style={{ height: '100%' }}>
       <Flex alignItems='center' justifyContent='center' style={{ flexGrow: 1 }}>
@@ -22,23 +24,10 @@ const RefreshPaymentAccount = () => {
               iconStatusUrl=''
               iconUrl=''
             />
-            <ErrorContent
-              title={
-                <FormattedMessage
-                  id='modals.brokerage.plaid_refresh_error.title'
-                  defaultMessage='One last thing...'
-                />
-              }
-              message={
-                <FormattedMessage
-                  id='modals.brokerage.plaid_refresh_error.message'
-                  defaultMessage='We need to quickly relink your bank account. The process will only take a minute.'
-                />
-              }
-            />
+            <ErrorContent title={title} message={message} />
             <ActionsList>
-              <Button data-e2e='close-action' nature='primary' onClick={() => {}}>
-                <FormattedMessage id='copy.relink' defaultMessage='Relink' />
+              <Button data-e2e='close-action' nature='primary' onClick={buttonHandler}>
+                {actionText}
               </Button>
             </ActionsList>
           </GenericErrorLayout>
@@ -48,6 +37,9 @@ const RefreshPaymentAccount = () => {
   )
 }
 
-export type Props = {}
+export type Props = {
+  reason: PlaidSettlementErrorReasons
+  relinkHandler: () => void
+}
 
-export default RefreshPaymentAccount
+export default PaymentAccountError

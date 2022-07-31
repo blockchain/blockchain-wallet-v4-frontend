@@ -1,29 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { connect, ConnectedProps, useDispatch, useSelector } from 'react-redux'
-import { compose } from 'redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-import { duration, FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
-import { AddBankStepType, BankPartners, ModalName } from 'data/types'
+import { AddBankStepType, BankPartners, PlaidSettlementErrorReasons } from 'data/types'
 import { useRemote } from 'hooks'
-import ModalEnhancer from 'providers/ModalEnhancer'
-
-import { ModalPropsType } from '../../../../types'
 
 const FullScreenModal = styled(FlyoutWrapper)`
   background-color: rgb(18 29 51 / 5%);
   transition: background-color 0.5s ease-in-out;
+  padding: 0;
   bottom: 0;
   left: 0;
   position: absolute;
   right: 0;
   top: 0;
-
-  &.active {
-    background-color: #121d33;
-  }
 `
 
 const Iframe = styled.iframe`
@@ -32,22 +24,18 @@ const Iframe = styled.iframe`
   width: 100%;
 `
 
-const Success: React.FC<ModalPropsType> = ({ close }: ModalPropsType) => {
+const Success: React.FC<Props> = ({ handleClose, reason }: Props) => {
   const dispatch = useDispatch()
-  const [showing, setShowing] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => {
-      setShowing(true)
-    }, 1000)
-  })
-
-  const animatedClose = () => {
-    setShowing(false)
-    setTimeout(() => {
-      close()
-    }, 200)
-  }
+    switch (reason) {
+      case 'REQUIRES_UPDATE':
+        dispatch(actions.components.brokerage.fetchBankRefreshCredentials())
+        break
+      default:
+        break
+    }
+  }, [reason, dispatch])
 
   const handlePostMessage = (event: MessageEvent) => {
     if (event.data.from !== 'plaid') return
@@ -56,10 +44,9 @@ const Success: React.FC<ModalPropsType> = ({ close }: ModalPropsType) => {
     const { error, metadata, public_token } = event.data
     if (error) throw new Error(error)
     if (!public_token) {
-      return animatedClose()
+      return handleClose()
     }
 
-    setShowing(false)
     // registers bank and start polling api for bank status
     dispatch(
       actions.components.brokerage.fetchBankTransferUpdate({
@@ -85,23 +72,12 @@ const Success: React.FC<ModalPropsType> = ({ close }: ModalPropsType) => {
   if (!data || data.partner !== BankPartners.PLAID) return null
 
   return (
-    <FullScreenModal className={showing ? 'active' : ''}>
+    <FullScreenModal>
       <Iframe src={`${iFrameUrl}#/token/${data.attributes.link_token}`} />
     </FullScreenModal>
   )
 }
 
-const mapStateToProps = (state: RootState) => ({})
+type Props = { handleClose: () => void; reason?: PlaidSettlementErrorReasons }
 
-const connector = connect(mapStateToProps)
-
-const enhance = compose(
-  ModalEnhancer(ModalName.ADD_BANK_PLAID_MODAL, { transition: duration }),
-  connector
-)
-
-type OwnProps = ModalPropsType
-
-export type Props = OwnProps & ConnectedProps<typeof connector>
-
-export default enhance(Success)
+export default Success

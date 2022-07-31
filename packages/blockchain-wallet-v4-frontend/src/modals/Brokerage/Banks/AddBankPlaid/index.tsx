@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AddBankStepType, ModalName } from 'data/types'
+import { AddBankStepType, ModalName, PlaidSettlementErrorReasons } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading, LoadingTextEnum } from '../../../components'
@@ -40,7 +40,7 @@ class Success extends PureComponent<ModalPropsType & LinkStatePropsType> {
       >
         {this.props.step === AddBankStepType.ADD_BANK && (
           <FlyoutChild>
-            <Handler />
+            <Handler handleClose={this.handleClose} reason={this.props.reason} />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_STATUS && (
@@ -59,6 +59,7 @@ class Success extends PureComponent<ModalPropsType & LinkStatePropsType> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  reason: selectors.components.buySell.getReason(state),
   step: selectors.components.brokerage.getAddBankStep(state)
 })
 
@@ -71,6 +72,7 @@ const enhance = compose(
 
 type OwnProps = ModalPropsType
 type LinkStatePropsType = {
+  reason?: PlaidSettlementErrorReasons
   step: AddBankStepType
 }
 

@@ -48,6 +48,7 @@ const brokerageSlice = createSlice({
     fetchBankLinkCredentialsLoading: (state) => {
       state.bankCredentials = Remote.Loading
     },
+    fetchBankRefreshCredentials: () => {},
     fetchBankTransferAccounts: () => {},
     fetchBankTransferAccountsError: (
       state,
