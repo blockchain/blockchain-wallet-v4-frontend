@@ -37,7 +37,7 @@
         "applePayPaymentMethod": true,
         "appleAndGooglePayPromoBanner": true,
         "bindIntegrationArEnabled": true,
-        "coinViewV2": false,
+        "coinViewV2": true,
         "completeYourProfile": true,
         "createExchangeUserOnSignupOrLogin": true,
         "developerMobilePairing": true,

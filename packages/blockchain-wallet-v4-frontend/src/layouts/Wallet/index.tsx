@@ -15,6 +15,7 @@ const WalletLayoutContainer: FC<Props> = ({
   isAuthenticated,
   isCoinDataLoaded,
   path,
+  removeContentPadding,
   ...rest
 }: Props) => {
   let isValidRoute = true
@@ -36,7 +37,12 @@ const WalletLayoutContainer: FC<Props> = ({
     <Route
       path={path}
       render={(props) => (
-        <WalletLayout hideMenu={hideMenu} center={center} pathname={props.location.pathname}>
+        <WalletLayout
+          removeContentPadding={removeContentPadding}
+          hideMenu={hideMenu}
+          center={center}
+          pathname={props.location.pathname}
+        >
           <Component computedMatch={computedMatch} {...rest} coin={coin} />
         </WalletLayout>
       )}
@@ -60,6 +66,7 @@ type Props = ConnectedProps<typeof connector> & {
   exact?: boolean
   hideMenu?: boolean
   path: string
+  removeContentPadding?: boolean
 }
 
 export default connector(WalletLayoutContainer)
