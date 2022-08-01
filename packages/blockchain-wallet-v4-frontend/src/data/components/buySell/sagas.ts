@@ -299,12 +299,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const { fix, orderType, period } = values
 
-      yield call(paymentAccountCheck, paymentMethodId, values.amount)
-      yield race({
-        canceled: take(actions.components.brokerage.paymentAccountRefreshCanceled.type),
-        success: take(actions.components.brokerage.paymentAccountRefreshed.type)
-      })
-
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
       let buyQuote
@@ -325,6 +319,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const outputCurrency = orderType === OrderType.BUY ? coin : fiat
       const input = { amount, symbol: inputCurrency }
       const output = { amount, symbol: outputCurrency }
+
+      // Checks the status of the baank account before creating the order in case
+      // we need to redirect the user to the the brokerage flow
+      yield put(
+        actions.components.brokerage.paymentAccountCheck({ amount: values.amount, paymentMethodId })
+      )
+      take(actions.components.brokerage.paymentAccountRefreshSkipped.type)
 
       // used for sell only now, eventually buy as well
       // TODO: use swap2 quote for buy AND sell

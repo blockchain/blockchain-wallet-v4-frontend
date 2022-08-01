@@ -1,4 +1,5 @@
 import { getFormValues } from 'redux-form'
+import { END } from 'redux-saga'
 import { call, delay, put, race, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
@@ -555,13 +556,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const paymentAccountCheck = function* (methodId: BSPaymentMethodType['id'], amount: string) {
+  const paymentAccountCheck = function* ({ payload }: ReturnType<typeof A.paymentAccountCheck>) {
+    const { amount, paymentMethodId } = payload
+    const plaidEnabled = (yield select(
+      selectors.core.walletOptions.getAddPlaidPaymentProvider
+    )).getOrElse(false)
+
     // Only used for Bank Transfers for now
-    if (!methodId) return yield put(A.paymentAccountRefreshCanceled)
+    if (!paymentMethodId || !plaidEnabled) {
+      yield put(A.paymentAccountRefreshSkipped())
+      return
+    }
 
     const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
       api.updateBankAccountLink,
-      methodId,
+      paymentMethodId,
       { settlementRequest: { amount, product: ProductTypes.SIMPLEBUY } }
     )
 
@@ -569,10 +578,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     if (settlementType !== 'UNAVAILABLE') {
       // If settlement is available, we can proceed
-      return yield put(A.paymentAccountRefreshCanceled)
+      return yield put(A.paymentAccountRefreshSkipped())
     }
 
+    // take user to error screen where they can start the varioud processes depending on what the `reason` is
     yield put(actions.components.buySell.setStep({ reason, step: 'PAYMENT_ACCOUNT_ERROR' }))
+    // terminate any sagas depending on this saga
+    yield put(END)
   }
 
   return {
