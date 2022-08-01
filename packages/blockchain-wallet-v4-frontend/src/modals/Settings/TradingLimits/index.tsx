@@ -31,6 +31,7 @@ class TradingLimits extends PureComponent<Props, State> {
     this.props.profileActions.fetchUserDataLoading()
     this.props.profileActions.fetchUser()
     this.props.fetchLimitsAndDetails()
+    this.props.custodialActions.fetchProductEligibilityForUser()
   }
 
   handleClose = () => {
@@ -67,6 +68,7 @@ class TradingLimits extends PureComponent<Props, State> {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  custodialActions: bindActionCreators(actions.custodial, dispatch),
   fetchLimitsAndDetails: () => dispatch(actions.components.settings.fetchLimitsAndDetails()),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
