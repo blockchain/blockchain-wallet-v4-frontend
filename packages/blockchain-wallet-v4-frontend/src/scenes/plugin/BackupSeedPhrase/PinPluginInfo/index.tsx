@@ -1,9 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
+import { actions } from 'data'
 
 import { BackIconWrapper, Bottom, TextWithMargin, TextWithMargins } from '../model'
 
@@ -16,7 +19,7 @@ const PinPluginInfo = (props) => {
   }
 
   const goToHomePage = () => {
-    props.history.push('/plugin/coinslist')
+    props.routerActions.push('/plugin/coinslist')
   }
 
   return (
@@ -65,4 +68,10 @@ const PinPluginInfo = (props) => {
   )
 }
 
-export default PinPluginInfo
+const mapDispatchToProps = (dispatch) => ({
+  routerActions: bindActionCreators(actions.router, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+export default connector(PinPluginInfo)

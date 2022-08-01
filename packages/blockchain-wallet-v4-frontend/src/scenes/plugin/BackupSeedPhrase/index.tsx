@@ -15,8 +15,21 @@ import PinPluginInfo from './PinPluginInfo'
 import RecoveryWords from './RecoveryWords'
 import ShortcutInfo from './ShortcutInfo'
 
-const Wrapper = styled(Flex)`
+const MainWrapper = styled.div`
+  width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const Wrapper = styled(Flex)`
+  position: relative;
+  background: ${(props) => props.theme.black};
+  width: 360px;
+  height: 600px;
+  padding: 24px;
+  box-sizing: border-box;
   > div {
     height: 100%;
   }
@@ -77,25 +90,29 @@ const BackupSeedPhrase = (props) => {
   }
 
   return (
-    <Wrapper
-      {...props}
-      isOpen={isShow}
-      onClose={handleClose}
-      data-e2e='recoveryPhraseModal'
-      flexDirection='column'
-    >
-      {props.step === 'FIRST_SET_WORDS' && <RecoveryWords {...props} />}
-      {props.step === 'CONFIRM_WORDS' && (
-        <ConfirmWords {...props} handleBackArrow={handleBackArrow} />
-      )}
-      {props.step === 'CONFIRM_WORDS_SUCCESS' && (
-        <ConfirmWordsSuccess {...props} handleClose={handleClose} />
-      )}
-      {props.step === 'CONFIRM_WORDS_SHORTCUT' && (
-        <ShortcutInfo {...props} handleClose={handleClose} />
-      )}
-      {props.step === 'CONFIRM_WORDS_PIN' && <PinPluginInfo {...props} handleClose={handleClose} />}
-    </Wrapper>
+    <MainWrapper>
+      <Wrapper
+        {...props}
+        isOpen={isShow}
+        onClose={handleClose}
+        data-e2e='recoveryPhraseModal'
+        flexDirection='column'
+      >
+        {props.step === 'FIRST_SET_WORDS' && <RecoveryWords {...props} />}
+        {props.step === 'CONFIRM_WORDS' && (
+          <ConfirmWords {...props} handleBackArrow={handleBackArrow} />
+        )}
+        {props.step === 'CONFIRM_WORDS_SUCCESS' && (
+          <ConfirmWordsSuccess {...props} handleClose={handleClose} />
+        )}
+        {props.step === 'CONFIRM_WORDS_SHORTCUT' && (
+          <ShortcutInfo {...props} handleClose={handleClose} />
+        )}
+        {props.step === 'CONFIRM_WORDS_PIN' && (
+          <PinPluginInfo {...props} handleClose={handleClose} />
+        )}
+      </Wrapper>
+    </MainWrapper>
   )
 }
 

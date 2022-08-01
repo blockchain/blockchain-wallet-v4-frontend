@@ -144,6 +144,10 @@ const App = ({
                           />
                           {isPlugin() ? (
                             <Switch>
+                              <BackupSeedPhrase
+                                path='/plugin/backup-seed-phrase'
+                                component={BackupSeedPhrase}
+                              />
                               <PluginLayout
                                 path='/plugin/coinslist'
                                 header={<CoinsListHeader />}
@@ -155,10 +159,6 @@ const App = ({
                                 header={<CoinsListHeader />}
                                 footer={<HomeNavbar />}
                                 component={Activity}
-                              />
-                              <PluginLayout
-                                path='/plugin/backup-seed-phrase'
-                                component={BackupSeedPhrase}
                               />
                               <PluginLayout path='/plugin/funding' component={Funding} />
                               <PluginLayout
