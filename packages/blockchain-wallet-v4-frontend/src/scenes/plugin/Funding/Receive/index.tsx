@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button } from '@blockchain-com/constellation'
 import QRCodeReact from 'qrcode.react'
 import styled from 'styled-components'
-
-import { Text } from 'blockchain-info-components'
-import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import { selectors } from 'data'
 
-import { RootState } from '../../../../data/rootReducer'
+import { Text } from 'blockchain-info-components'
 
 export const ReceiveHeading = styled(Text)`
   font-size: 20px;
@@ -77,7 +74,8 @@ const InlineLink = styled.a`
 `
 
 const Receive = (props) => {
-  const { walletAddress } = props
+  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
+  const [walletAddress, setWalletAddress] = useState('')
   const [isCoppied, setIsCoppied] = useState<boolean>(false)
 
   /** Copies wallet addres into clipboard */
@@ -85,6 +83,12 @@ const Receive = (props) => {
     navigator.clipboard.writeText(walletAddress)
     setIsCoppied(true)
   }
+
+  useEffect(() => {
+    if(selectedAccount && selectedAccount[0]) {
+      setWalletAddress(selectedAccount[0].address)
+    }
+  }, [selectedAccount])
 
   return (
     <>
@@ -108,7 +112,7 @@ const Receive = (props) => {
         </WalletAddressWrapper>
       </QrCodeWrapper>
       <GoBackWrapper>
-        <GoBack to='/extension/home'>
+        <GoBack to='/plugin/coinslist'>
           <FormattedMessage id='buttons.go_back' defaultMessage='Go back' />
         </GoBack>
       </GoBackWrapper>
@@ -116,8 +120,4 @@ const Receive = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  walletAddress: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse('')
-})
-
-export default connect(mapStateToProps)(Receive)
+export default Receive

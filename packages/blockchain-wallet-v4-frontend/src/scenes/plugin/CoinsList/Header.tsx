@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, Route, Switch } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconMoreHorizontal } from '@blockchain-com/icons'
 import { CombinedState } from 'redux'
 import styled from 'styled-components'
+import { actions } from 'data/cache/slice'
 
 import { Text } from 'blockchain-info-components'
 import { selectors } from 'data'
@@ -69,6 +70,7 @@ const SettingsButton = styled.button`
 `
 
 const Header = () => {
+  const dispatch = useDispatch()
   const [isSwitchAccountVisible, setIsSwitchAccountVisible] = useState(false)
   const [isSettingsVisible, setIsSettingsVisible] = useState(false)
 
@@ -77,7 +79,7 @@ const Header = () => {
   const accounts = useSelector((state) =>
     getCoinAccounts(state as CombinedState<any>, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   )
-  const activeAccountCoin = selectedAccount ? selectedAccount[0]?.baseCoin : 'ETH'
+  const activeAccountCoin = selectedAccount && selectedAccount[0]?.baseCoin
 
   const switchAccounts = [accounts.ETH, accounts.BTC, accounts.BCH, accounts.XLM, accounts.STX]
 
@@ -88,6 +90,12 @@ const Header = () => {
   const setSettingsVisibility = () => {
     setIsSettingsVisible(true)
   }
+
+  useEffect(() => {
+    if (accounts.ETH && accounts.ETH[0] && !selectedAccount) {
+      dispatch(actions.setSelectedAccount(accounts.ETH[0].address))
+    }
+  }, [accounts])
 
   return (
     <header>

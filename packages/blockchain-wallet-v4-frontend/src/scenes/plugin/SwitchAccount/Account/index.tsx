@@ -158,7 +158,8 @@ const Account: React.FC<AccountProps & any> = ({
   }
 
   const selectAccount = (account) => {
-    dispatch(cacheActions.setSelectedAccount(account))
+    const accountAddress = generateNextAddress()
+    dispatch(cacheActions.setSelectedAccount([{ ...account[0], address: accountAddress }, account[1]]))
     setIsSwitchAccountVisible(false)
   }
 
