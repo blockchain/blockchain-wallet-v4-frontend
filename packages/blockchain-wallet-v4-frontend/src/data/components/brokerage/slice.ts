@@ -109,6 +109,7 @@ const brokerageSlice = createSlice({
         state.addNew = action.payload.addNew || false
       }
     },
+    setupBankTransferProvider: () => {},
     showModal: (
       state,
       action: PayloadAction<{

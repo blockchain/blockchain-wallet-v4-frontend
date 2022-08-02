@@ -96,7 +96,10 @@ class Deposit extends PureComponent<Props, State> {
                */
 
               <FlyoutChild>
-                <DepositMethods {...this.props} />
+                <DepositMethods
+                  fiatCurrency={this.props.fiatCurrency as WalletFiatType}
+                  handleClose={this.handleClose}
+                />
               </FlyoutChild>
             )}
             {this.props.step === BankDWStepType.ENTER_AMOUNT && (

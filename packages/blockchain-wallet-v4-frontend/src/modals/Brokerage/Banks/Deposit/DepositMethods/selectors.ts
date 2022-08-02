@@ -10,18 +10,31 @@ export const getData = (state: RootState) => {
   // TODO: Move payment methods reducer to brokerage
   const paymentMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
+  const bankCredentialsR = selectors.components.brokerage.getBankCredentials(state)
+  const tradingCurrencyR = selectors.modules.profile.getTradingCurrency(state)
 
   return lift(
     (
       balances: ExtractSuccess<typeof balancesR>,
+      bankCredentials: ExtractSuccess<typeof bankCredentialsR>,
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
+      tradingCurrency: ExtractSuccess<typeof tradingCurrencyR>,
       walletCurrency: FiatType
     ) => ({
       balances,
+      bankCredentials,
       bankTransferAccounts,
       paymentMethods,
+      tradingCurrency,
       walletCurrency
     })
-  )(balancesR, bankTransferAccountsR, paymentMethodsR, walletCurrencyR)
+  )(
+    balancesR,
+    bankCredentialsR,
+    bankTransferAccountsR,
+    paymentMethodsR,
+    tradingCurrencyR,
+    walletCurrencyR
+  )
 }

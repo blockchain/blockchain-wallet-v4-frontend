@@ -325,7 +325,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         actions.components.brokerage.paymentAccountCheck({ amount: values.amount, paymentMethodId })
       )
-      take(actions.components.brokerage.paymentAccountRefreshSkipped.type)
+      yield take(actions.components.brokerage.paymentAccountRefreshSkipped.type)
 
       // used for sell only now, eventually buy as well
       // TODO: use swap2 quote for buy AND sell

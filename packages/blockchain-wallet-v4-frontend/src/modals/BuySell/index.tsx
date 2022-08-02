@@ -20,6 +20,7 @@ import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
 import {
+  AddBankStepType,
   BankStatusType,
   BrokerageModalOriginType,
   FastLinkType,
@@ -97,6 +98,9 @@ class BuySell extends PureComponent<Props, State> {
         this.props.brokerageActions.showModal({
           modalType: ModalName.ADD_BANK_PLAID_MODAL,
           origin: BrokerageModalOriginType.ADD_BANK_BUY
+        })
+        this.props.brokerageActions.setAddBankStep({
+          addBankStep: AddBankStepType.ADD_BANK
         })
         this.backToEnterAmount()
         break

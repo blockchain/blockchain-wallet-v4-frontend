@@ -232,7 +232,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const data = {
       attributes: plaidEnabled
         ? {
-            supportedPartners: ['PLAID', 'YAPILY']
+            supportedPartners: [BankPartners.PLAID, BankPartners.YAPILY]
           }
         : undefined,
       currency
@@ -575,7 +575,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     )
 
     const { reason, settlementType } = status.attributes?.settlementResponse
-
     if (settlementType !== 'UNAVAILABLE') {
       // If settlement is available, we can proceed
       return yield put(A.paymentAccountRefreshSkipped())
@@ -583,8 +582,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // take user to error screen where they can start the varioud processes depending on what the `reason` is
     yield put(actions.components.buySell.setStep({ reason, step: 'PAYMENT_ACCOUNT_ERROR' }))
-    // terminate any sagas depending on this saga
-    yield put(END)
   }
 
   return {

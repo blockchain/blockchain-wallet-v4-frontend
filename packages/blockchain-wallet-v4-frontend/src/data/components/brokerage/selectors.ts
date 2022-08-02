@@ -44,8 +44,8 @@ export const getCrossBorderLimits = (state: RootState) =>
 export const getWithdrawableBalance = createSelector(
   (state: RootState) => selectors.components.buySell.getBSBalances(state),
   (state: RootState) => selectors.modules.profile.getUserCurrencies(state),
-  (sbBalancesR, userCurrencies) => {
-    const { defaultWalletCurrency } = userCurrencies
+  (sbBalancesR, userCurrenciesR) => {
+    const { defaultWalletCurrency } = userCurrenciesR.getOrFail('could not get user currencies')
 
     return Remote.of(
       sbBalancesR.getOrElse({
