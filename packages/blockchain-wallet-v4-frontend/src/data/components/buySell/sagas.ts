@@ -1745,7 +1745,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (card.state === 'PENDING') {
         yield put(A.createCardFailure(CARD_ERROR_CODE.PENDING_CARD_AFTER_POLL))
-
         return
       }
 
@@ -1755,7 +1754,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.createCardFailure(e))
       } else {
         const error = errorHandlerCode(e)
-
         yield put(A.createCardFailure(error))
       }
     }
@@ -1783,7 +1781,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield delay(2000)
       }
 
-      yield put(A.createOrderSuccess(order))
+      yield put(A.confirmOrderSuccess(order))
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       yield put(cacheActions.removeLastUsedAmount({ pair: order.pair }))
     } catch (e) {
