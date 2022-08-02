@@ -25,10 +25,11 @@ const OrderMyCard = (props: Props) => {
   useEffect(() => {
     // Initialize selector for preventing wrong state
     props.debitCardActions.resetCreateCardState()
-  }, [])
+  }, [props.debitCardActions])
 
   const handleClose = () => {
     setShow(false)
+
     setTimeout(() => {
       props.close()
     })
