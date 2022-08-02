@@ -89,10 +89,23 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
           await chrome.runtime.onMessage.addListener(listener)
           try {
             const isConnected = await isDomainConnected(metadata.origin)
-
-            if (isConnected) {
-              // TODO pass params
-              openPopup(`/plugin/signature-request`)
+            if (!msg.params || !msg.params[0]) {
+              port.postMessage({
+                data: 'Error: Not binary data: undefined',
+                type: ConnectionEvents.Error
+              })
+              break
+            }
+            if (isSessionActive) {
+              if (isConnected) {
+                openPopup(
+                  `/plugin/signature-request?domain=${metadata.origin}&favicon=${metadata.favicon}&message=${msg.params[0]}`
+                )
+              }
+            } else {
+              await chrome.storage.session.clear()
+              // eslint-disable-next-line
+              await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html') }).catch((err) => console.log(err))
             }
           } catch (e) {
             await port.postMessage({
