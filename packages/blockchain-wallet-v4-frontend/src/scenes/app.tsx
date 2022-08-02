@@ -43,6 +43,7 @@ const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
 const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Success'))
+const VerifyAccountRecovery = React.lazy(() => import('./RecoverWallet/EmailAuthLanding'))
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
@@ -120,6 +121,7 @@ const App = ({
                         <Switch>
                           {/* Unauthenticated Wallet routes */}
                           <Route path='/app-error' component={AppError} />
+                          <AuthLayout path='/account-recovery' component={VerifyAccountRecovery} />
                           <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                           <AuthLayout
                             path='/help'
