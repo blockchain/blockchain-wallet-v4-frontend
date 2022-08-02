@@ -55,7 +55,24 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
             })
           }
           break
+        case SupportedRPCMethods.SignMessage:
+          await chrome.runtime.onMessage.addListener(listener)
+          try {
+            const isConnected = await isDomainConnected(metadata.origin)
+
+            if (isConnected) {
+              // TODO pass params
+              openPopup(`/plugin/signature-request`)
+            }
+          } catch (e) {
+            await port.postMessage({
+              data: e.message,
+              type: ConnectionEvents.Error
+            })
+          }
+          break
         default:
+          break
       }
     } catch (e) {
       await port.postMessage({
