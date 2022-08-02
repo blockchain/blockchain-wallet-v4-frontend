@@ -2,12 +2,7 @@ import BIP39 from 'bip39-light'
 import * as Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
 import { AbstractPlugin } from 'plugin/internal'
-import {
-  getSessionPayload,
-  isSessionActive,
-  saveSessionPayload,
-  setSessionExpireTime
-} from 'plugin/internal/chromeStorage'
+import { saveSessionPayload } from 'plugin/internal/chromeStorage'
 import {
   add,
   any,
