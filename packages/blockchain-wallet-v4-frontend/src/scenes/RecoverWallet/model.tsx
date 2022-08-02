@@ -62,7 +62,7 @@ export const LoaderRow = styled(Row)`
 export const FormWrapper = styled(Wrapper)`
   padding: 24px 32px 32px;
   ${media.mobile`
-  padding: 16px;
+  padding: 24px;
 `}
 `
 

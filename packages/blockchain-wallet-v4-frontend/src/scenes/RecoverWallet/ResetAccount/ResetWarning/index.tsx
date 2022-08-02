@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { AccountRecoveryMagicLinkData, Analytics, RecoverSteps } from 'data/types'
+import { media } from 'services/styles'
 
 import { Props as OwnProps } from '../..'
 import {
@@ -22,6 +23,13 @@ const FormBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`
+
+const MobileText = styled(Text)`
+  ${media.mobile`
+font-size: 14px;
+margin-bottom: 12px;
+`}
 `
 const ResetWarning: React.FC<Props> = (props: Props) => {
   const handleResetAccountClick = () => {
@@ -92,7 +100,7 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
       </ActionButton>
       <SubCard>
         <TryAnotherMethodRow>
-          <Text
+          <MobileText
             size='16px'
             weight={600}
             color='blue600'
@@ -101,7 +109,7 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
             onClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
           >
             <FormattedMessage id='copy.try_another' defaultMessage='Try Another Method' />
-          </Text>
+          </MobileText>
         </TryAnotherMethodRow>
       </SubCard>
     </>

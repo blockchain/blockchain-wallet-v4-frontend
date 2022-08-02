@@ -62,7 +62,7 @@ const SMSSetup = (props: Props) => {
               size='12px'
               color='blue600'
               onClick={() => setVerifyCodeField(false)}
-              style={{ marginTop: '24px' }}
+              style={{ cursor: 'pointer', marginTop: '24px' }}
             >
               <FormattedMessage
                 id='modals.mobilenumberchange.changenumbertitle'
