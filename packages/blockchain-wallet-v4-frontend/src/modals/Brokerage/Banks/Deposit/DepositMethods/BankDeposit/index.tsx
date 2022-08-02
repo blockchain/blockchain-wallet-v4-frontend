@@ -55,15 +55,12 @@ const BankDeposit = ({ icon, onClick, value }: Props) => (
         <DisplayIconBank>{icon}</DisplayIconBank>
         <Content>
           <DisplayTitleBank>
-            <FormattedMessage
-              id='modals.simplebuy.easybanktransfer'
-              defaultMessage='Easy Bank Transfer'
-            />
+            <FormattedMessage id='copy.easy_bank_transfer' defaultMessage='Easy Bank Transfer' />
           </DisplayTitleBank>
           <DisplaySubTitle>{getSubTitleByCurrency(value.currency)}</DisplaySubTitle>
           <Description>
             <FormattedMessage
-              id='modals.brokerage.bank_deposit_description'
+              id='modals.brokerage.easy_bank_transfer_description'
               defaultMessage='Quick and secure without entering account details.'
             />
           </Description>

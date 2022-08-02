@@ -35,6 +35,7 @@ export type FetchSendLimitsPayload = {
 }
 
 export enum SendCryptoStepType {
+  'NO_FUNDS',
   'COIN_SELECTION',
   'ENTER_TO',
   'ENTER_AMOUNT',

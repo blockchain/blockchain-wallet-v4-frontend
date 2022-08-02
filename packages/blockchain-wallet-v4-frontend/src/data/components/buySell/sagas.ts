@@ -11,12 +11,13 @@ import { APIType } from '@core/network/api'
 import {
   ApplePayInfoType,
   BSAccountType,
-  BSCardStateType,
   BSOrderType,
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
   CardAcquirer,
+  CardSuccessRateResponse,
+  ExtraKYCContext,
   FiatEligibleType,
   FiatType,
   GooglePayInfoType,
@@ -38,15 +39,16 @@ import {
   CustodialSanctionsEnum,
   ModalName,
   ProductEligibilityForUser,
-  UserDataType
+  UserDataType,
+  VerifyIdentityOriginType
 } from 'data/types'
 import { isNabuError } from 'services/errors'
+import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import { actions as cacheActions } from '../../cache/slice'
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
 import brokerageSagas from '../brokerage/sagas'
-import { BankCredentialsType } from '../brokerage/types'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
 import sendSagas from '../send/sagas'
 import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
@@ -208,6 +210,34 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           step: 'DETERMINE_CARD_PROVIDER'
         })
       )
+    }
+  }
+
+  const checkCardSuccessRate = function* ({ payload }: ReturnType<typeof A.checkCardSuccessRate>) {
+    try {
+      const data: CardSuccessRateResponse = yield call(api.checkCardSuccessRate, payload.bin)
+
+      if (!data) {
+        return
+      }
+
+      yield put(
+        A.setCardSuccessRate({
+          details: data.ux
+            ? {
+                actions: data.ux.actions.map((action) => ({
+                  title: action.title,
+                  url: action.url
+                })),
+                message: data.ux.message,
+                title: data.ux.title
+              }
+            : undefined,
+          isBlocked: data.block
+        })
+      )
+    } catch (e) {
+      console.error(e)
     }
   }
 
@@ -847,8 +877,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (skipErrorDisplayList.includes(error as BS_ERROR)) {
         yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
-        yield put(A.resetConfirmOrder())
-
         return
       }
 
@@ -1344,8 +1372,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       payment = yield payment.build()
       yield put(A.updatePaymentSuccess(payment.value()))
     } catch (e) {
-      // eslint-disable-next-line
-      console.log(e)
+      console.error(e)
     }
   }
 
@@ -1874,6 +1901,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
+    const completedKYC = yield call(getExtraKYCCompletedStatus, {
+      api,
+      context: ExtraKYCContext.TRADING,
+      origin: 'BuySell' as VerifyIdentityOriginType
+    })
+
+    // If KYC was closed before answering, return
+    if (!completedKYC) {
+      return
+    }
+
     // show sanctions for buy
     if (products?.buy?.reasonNotEligible) {
       const message =
@@ -2054,6 +2092,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   return {
     activateBSCard,
     cancelBSOrder,
+    checkCardSuccessRate,
     confirmBSFundsOrder,
     confirmOrder,
     confirmOrderPoll,

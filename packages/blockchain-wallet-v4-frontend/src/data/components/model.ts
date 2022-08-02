@@ -1,4 +1,5 @@
 import * as buySell from './buySell/model'
+import * as dex from './dex/model'
 import * as identityVerification from './identityVerification/model'
 import * as interestUploadDocument from './interestUploadDocument/model'
 import * as sendBch from './sendBch/model'
@@ -9,6 +10,7 @@ import * as termsAndConditions from './termsAndConditions/model'
 
 export {
   buySell,
+  dex,
   identityVerification,
   interestUploadDocument,
   sendBch,

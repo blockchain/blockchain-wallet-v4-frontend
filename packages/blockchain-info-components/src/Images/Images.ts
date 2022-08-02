@@ -79,6 +79,7 @@ import exchangeNoBackground from './img/exchange-no-background.svg'
 import fiatIcons from './img/fiatIcons'
 import fileDelete from './img/file-delete.svg'
 import fileDownload from './img/file-download.svg'
+import gasIcon from './img/gas-icon.svg'
 import globe from './img/globe.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
@@ -122,6 +123,7 @@ import selectArrow from './img/select-arrow.png'
 import sell from './img/sell.svg'
 import send from './img/send.svg'
 import sendCrypto from './img/send-crypto.svg'
+import sendNoFundsPromo from './img/send-no-funds-promo.svg'
 import smartphone from './img/smartphone.png'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import ssBcLogo from './img/ss-bc-logo.svg'
@@ -229,6 +231,7 @@ const Images = {
   'exchange-no-background': exchangeNoBackground,
   'file-delete': fileDelete,
   'file-download': fileDownload,
+  'gas-icon': gasIcon,
   globe,
   'gold-notice': goldNotice,
   'gold-verified': goldVerified,
@@ -270,6 +273,7 @@ const Images = {
   sell,
   send,
   'send-crypto': sendCrypto,
+  'send-no-funds': sendNoFundsPromo,
   'sesocio-to-blockchain-logo': ssBcLogo,
   smartphone,
   'source-of-wealth': sourceOfWealth,

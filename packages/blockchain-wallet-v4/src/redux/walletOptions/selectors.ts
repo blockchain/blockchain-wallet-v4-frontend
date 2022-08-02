@@ -1,7 +1,7 @@
 import { path, prop } from 'ramda'
 
 import { Remote } from '@core'
-import { /* AccountTokensBalancesResponseType, */ Product, RemoteDataType } from '@core/types'
+import { Product, RemoteDataType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import { WalletOptionsType } from './types'
@@ -148,3 +148,7 @@ export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
 // secure update endpoint for email and sms
 export const getSecureEmailSmsUpdate = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'secureEmailSmsUpdate']))
+
+// dex feature flag
+export const getDexProductEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'dex']))

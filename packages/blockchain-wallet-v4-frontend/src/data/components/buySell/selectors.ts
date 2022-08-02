@@ -299,3 +299,5 @@ export const getCheckoutAccountCodes = (state: RootState) =>
 export const getCheckoutApiKey = (state: RootState) => state.components.buySell.checkoutDotComApiKey
 
 export const getAccumulatedTrades = (state: RootState) => state.components.buySell.accumulatedTrades
+
+export const getCardSuccessRate = (state: RootState) => state.components.buySell.cardSuccessRate

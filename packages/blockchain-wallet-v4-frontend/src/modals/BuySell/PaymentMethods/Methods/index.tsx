@@ -45,7 +45,7 @@ const Methods: React.FC<Props> = (props: Props) => {
           <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
         ) : (
           <FormattedMessage
-            id='modals.simplebuy.deposit.regular_bank_transfer'
+            id='modals.simplebuy.deposit.bank_transfer'
             defaultMessage='Bank Transfer'
           />
         )

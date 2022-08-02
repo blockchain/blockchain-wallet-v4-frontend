@@ -42,6 +42,7 @@
         "completeYourProfile": true,
         "createExchangeUserOnSignupOrLogin": true,
         "developerMobilePairing": true,
+        "dex": true,
         "eddInterestFileUpload": true,
         "exchangeMobileDuplicateAccountRedirect": true,
         "flexiblePricingModel": true,
