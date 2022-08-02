@@ -38,6 +38,7 @@ import Nft from './plugin/Nft'
 import Send from './plugin/Send'
 import Settings from './plugin/Settings'
 import SignatureRequest from './plugin/SignatureRequest'
+import SignTransaction from './plugin/SignTransaction'
 
 const queryClient = new QueryClient()
 
@@ -153,6 +154,10 @@ const App = ({
                                 header={<CoinsListHeader />}
                                 footer={<HomeNavbar />}
                                 component={CoinsList}
+                              />
+                              <PluginLayout
+                                path='/plugin/sign-transaction'
+                                component={SignTransaction}
                               />
                               <PluginLayout
                                 path='/plugin/activity'

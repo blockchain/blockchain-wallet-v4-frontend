@@ -136,7 +136,7 @@ export const Confirmation: React.FC<{
     <ConfirmationWrapper>
       <IconsWrapper>
         <BlockchainIcon width='78px' height='78px' />
-        {metadata.favicon !== '' ? (
+        {metadata.favicon ? (
           <SiteIconContainer>
             <SiteIcon src={metadata.favicon} alt='icon' />
           </SiteIconContainer>

@@ -8,5 +8,6 @@ export default ({ api }) => {
 
   return function* pluginSaga() {
     yield takeLatest(actions.getPublicAddress, pluginSagas.getPublicAddress)
+    yield takeLatest(actions.getWallet, pluginSagas.getWallet)
   }
 }
