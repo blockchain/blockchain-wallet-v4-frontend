@@ -34,7 +34,7 @@ export const useSelfCustodyCoinsBalances = () => {
       setCoins(coinsArr)
     }
     getCoins()
-  }, [window.coins])
+  }, [activeAccountCoin])
 
   return coins
 }

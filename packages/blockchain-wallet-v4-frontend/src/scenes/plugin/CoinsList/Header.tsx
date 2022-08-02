@@ -6,10 +6,10 @@ import { colors, Icon } from '@blockchain-com/constellation'
 import { IconMoreHorizontal } from '@blockchain-com/icons'
 import { CombinedState } from 'redux'
 import styled from 'styled-components'
-import { actions } from 'data/cache/slice'
 
 import { Text } from 'blockchain-info-components'
 import { selectors } from 'data'
+import { actions } from 'data/cache/slice'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 

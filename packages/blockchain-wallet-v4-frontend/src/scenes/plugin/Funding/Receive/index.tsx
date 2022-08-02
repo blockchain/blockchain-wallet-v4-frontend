@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 import { Button } from '@blockchain-com/constellation'
 import QRCodeReact from 'qrcode.react'
 import styled from 'styled-components'
-import { selectors } from 'data'
 
 import { Text } from 'blockchain-info-components'
+import { selectors } from 'data'
 
 export const ReceiveHeading = styled(Text)`
   font-size: 20px;
@@ -85,7 +85,7 @@ const Receive = (props) => {
   }
 
   useEffect(() => {
-    if(selectedAccount && selectedAccount[0]) {
+    if (selectedAccount && selectedAccount[0]) {
       setWalletAddress(selectedAccount[0].address)
     }
   }, [selectedAccount])
