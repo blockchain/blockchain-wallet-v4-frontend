@@ -11,7 +11,6 @@ import { APIType } from '@core/network/api'
 import {
   ApplePayInfoType,
   BSAccountType,
-  BSCardStateType,
   BSOrderType,
   BSPaymentMethodType,
   BSPaymentTypes,
@@ -1713,7 +1712,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (card.state === 'PENDING') {
         yield put(A.createCardFailure(CARD_ERROR_CODE.PENDING_CARD_AFTER_POLL))
-
         return
       }
 
@@ -1723,7 +1721,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.createCardFailure(e))
       } else {
         const error = errorHandlerCode(e)
-
         yield put(A.createCardFailure(error))
       }
     }
@@ -1752,16 +1749,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.confirmOrderSuccess(order))
-
-      yield put(cacheActions.removeLastUsedAmount({ pair: order.pair }))
+      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     } catch (e) {
       if (isNabuError(e)) {
         yield put(A.createOrderFailure(e))
       } else {
         yield put(A.createOrderFailure(ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
       }
-    } finally {
-      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     }
   }
 
