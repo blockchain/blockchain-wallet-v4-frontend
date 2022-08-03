@@ -53,7 +53,7 @@ export default ({ api, coreSagas, networks }) => ({
   manageAddresses: manageAddresses({ api, networks }),
   nfts: nfts({ api, coreSagas, networks }),
   onboarding: onboarding(),
-  plugin: plugin({ api }),
+  plugin: plugin({ api, coreSagas, networks }),
   priceChart: priceChart(),
   recurringBuy: recurringBuy({ api }),
   refresh: refresh(),

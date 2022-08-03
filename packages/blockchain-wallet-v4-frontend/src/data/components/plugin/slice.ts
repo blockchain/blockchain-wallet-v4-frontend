@@ -15,8 +15,10 @@ const pluginSlice = createSlice({
   initialState,
   name: 'plugin',
   reducers: {
+    autoLogin: () => {},
     getPublicAddress: () => {},
     getWallet: () => {},
+    loginRoutineSaga: () => {},
     setPublicAddress: (state, action: PayloadAction<string>) => {
       state.publicAddress = action.payload
     },

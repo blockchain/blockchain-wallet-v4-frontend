@@ -28,7 +28,7 @@ const EmptyState = ({ routerActions }) => (
       <Wrapper style={{ height, width }}>
         <div>
           <Text color='white' size='14px' weight={500}>
-            Receive
+            Empty state image
           </Text>
         </div>
         <ButtonStyled

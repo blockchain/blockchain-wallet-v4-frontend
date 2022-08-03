@@ -8,7 +8,7 @@ import { transactionRequestToQueryParameters } from './transactions'
 
 chrome.runtime.onInstalled.addListener(function () {
   // eslint-disable-next-line
-  chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html') }).catch((err) => console.log(err))
+  chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html#/login') }).catch((err) => console.log(err))
 })
 
 chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
