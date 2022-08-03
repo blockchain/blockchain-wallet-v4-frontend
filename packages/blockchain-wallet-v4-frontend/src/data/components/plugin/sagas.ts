@@ -2,7 +2,7 @@ import BIP39 from 'bip39-light'
 import { ProductAuthOptions } from 'blockchain-wallet-v4-frontend/src/data/auth/types'
 import { ethers } from 'ethers'
 import { getSessionPayload } from 'plugin/internal/chromeStorage'
-import { find, propEq } from 'ramda'
+import { find, path, propEq } from 'ramda'
 import { call, fork, put, select, take } from 'redux-saga/effects'
 
 import { CountryScope } from '@core/types'
@@ -22,7 +22,7 @@ import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { actions as signerActions } from './slice'
 
-const logLocation = 'auth/sagas'
+const logLocation = 'components/plugin/sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const {
@@ -51,7 +51,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(signerActions.setWallet(wallet))
       return wallet
     } catch (e) {
-      throw new Error(WALLET_SIGNER_ERR)
+      throw new Error(`Failed to get wallet. ${e}`)
     }
   }
 
@@ -62,6 +62,45 @@ export default ({ api, coreSagas, networks }) => {
       yield put(signerActions.setPublicAddress(address))
     } catch (e) {
       throw new Error(`Failed to get address. ${e}`)
+    }
+  }
+
+  const initTransactionRequestParameters = function* (action) {
+    /* eslint-disable */
+    let { chainId, from, to, data, gasLimit, value, nonce } = action.payload
+    try {
+      const wallet = yield call(getWallet)
+
+      let payment = coreSagas.payment.eth.create({
+        network: networks.eth
+      })
+      payment = yield payment.init({ coin: 'ETH', isErc20: false })
+
+      if (!from) {
+        from = yield wallet.getAddress()
+      }
+
+      if (!gasLimit) {
+        gasLimit = path(['fees', 'gasLimit'], payment.value())
+      }
+
+      const feeData = yield wallet.getFeeData()
+      const maxFeePerGas = feeData.maxFeePerGas._hex
+      const maxPriorityFeePerGas = feeData.maxPriorityFeePerGas._hex
+
+      //@ts-ignore
+      yield put(A.setTransactionRequest({ from, to, gasLimit, data, value, nonce, maxPriorityFeePerGas, maxFeePerGas }))
+    } catch (e) {
+      throw new Error(`Failed to init transaction. ${e}`)
+    }
+  }
+
+  const sendTransaction = function* (action) {
+    try {
+      const wallet: ethers.Wallet = yield call(getWallet)
+      wallet.sendTransaction(action.payload)
+    } catch (e) {
+      throw new Error(`Failed to send transaction. ${e}`)
     }
   }
 
@@ -276,6 +315,8 @@ export default ({ api, coreSagas, networks }) => {
     autoLogin,
     getPublicAddress,
     getWallet,
-    loginRoutineSaga
+    initTransactionRequestParameters,
+    loginRoutineSaga,
+    sendTransaction
   }
 }

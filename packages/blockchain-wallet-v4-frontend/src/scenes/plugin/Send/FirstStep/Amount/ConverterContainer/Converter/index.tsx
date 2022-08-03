@@ -30,8 +30,14 @@ const ConverterContainer = (props) => {
   // Changes coin and sets converted fiat to state
   const changeCoin = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { currency, rates, unit } = props
-    const convertedProps = convertCoinToFiat(unit, e.target.value, currency, rates)
-    setCoin(e.target.value)
+    let { value } = e.target
+
+    if (!(Number(value) >= 0)) {
+      value = ''
+    }
+
+    const convertedProps = convertCoinToFiat(unit, value, currency, rates)
+    setCoin(value)
     props.onChange(convertedProps)
     setFiat(convertedProps.fiat)
     props.closeNotEnoughCoinsTooltip()
@@ -40,8 +46,14 @@ const ConverterContainer = (props) => {
   // Changes fiat and sets converted coin to state
   const changeFiat = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { currency, rates, unit } = props
-    setFiat(e.target.value)
-    const convertedProps = convertFiatToCoin(unit, e.target.value, currency, rates)
+    let { value } = e.target
+
+    if (!(Number(value) >= 0)) {
+      value = ''
+    }
+
+    setFiat(value)
+    const convertedProps = convertFiatToCoin(unit, value, currency, rates)
     props.onChange(convertedProps)
     setCoin(convertedProps.coin)
     props.closeNotEnoughCoinsTooltip()

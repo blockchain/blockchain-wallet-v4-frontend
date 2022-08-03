@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconAlert, IconBlockchainCircle } from '@blockchain-com/icons'
+import { useQueryTransactionRequestPameters } from 'blockchain-wallet-v4-frontend/src/hooks/useQueryTransactionRequestPameters'
 import { BigNumberish, BytesLike, ethers, providers } from 'ethers'
 import { TabMetadata } from 'plugin/internal'
 import { ConnectionEvents } from 'plugin/provider/types'
@@ -157,6 +158,9 @@ const SignTransaction = (props) => {
   const [fees, setFees] = useState<FeeState>(new FeeState())
   const [transactionRequest, setTransactionRequest] = useState<Transaction>(new Transaction())
 
+  const queryTransactionRequestParameters = useQueryTransactionRequestPameters(
+    props.history.location.search
+  )
   const signer = useSelector((state: CombinedState<any>) =>
     selectors.components.plugin.getWallet(state)
   )
@@ -207,20 +211,11 @@ const SignTransaction = (props) => {
       favicon: params.get('favicon') || '',
       origin: params.get('domain') || ''
     })
-
-    setTransactionRequest(
-      new Transaction(
-        params.get('to') || '',
-        params.get('from') || '',
-        params.get('nonce') || '',
-        params.get('gasLimit') || '',
-        params.get('gasPrice') || '',
-        params.get('data') || '',
-        params.get('value') || '',
-        Number(params.get('chainId')) || 0
-      )
-    )
   }, [props.history.location.search])
+
+  useEffect(() => {
+    queryTransactionRequestParameters &&  setTransactionRequest(queryTransactionRequestParameters)
+  }, [queryTransactionRequestParameters])
 
   useEffect(() => {
     dispatch(actions.components.plugin.getWallet())

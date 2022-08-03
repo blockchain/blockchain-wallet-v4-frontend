@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
   IconAlert,
@@ -109,8 +109,13 @@ const AssetWrapper = styled(Flex)`
   cursor: pointer;
 `
 
-const SelectedAssetWrapper = styled(Flex)`
+const SelectedAssetWrapper = styled.button`
+  display: flex;
+  align-items: center;
   width: 100%;
+  outline: none;
+  border: none;
+  background: transparent;
 
   &:hover {
     background: ${(props) => props.theme.exchangeLogin};
@@ -173,12 +178,13 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
 
   const selectCoin = (coin: string) => {
     changeCoin(coin)
-    closeAssetsPopup()
   }
 
   const confirm = () => {
     const isEnoughBalanceToSendCrypto: boolean = Number(amount) <= Number(effectiveBalance)
-    if (!(isEnoughBalanceToSendCrypto && effectiveBalance && Number(amount))) {
+    if (
+      !(isEnoughBalanceToSendCrypto && effectiveBalance && Number(amount) && Number(Amount) > 0)
+    ) {
       setIsNotEnoughCoins(true)
       return
     }
@@ -186,7 +192,7 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
   }
 
   const addCrypto = () => {
-    history.push(`/receive`)
+    history.push(`/plugin/funding`)
   }
 
   return (
@@ -230,7 +236,7 @@ const FirstStepSuccess: React.FC<FirstStepSuccessProps> = (props) => {
         <Label>
           <FormattedMessage id='plugin.send.assets_label' defaultMessage='Asset' />
         </Label>
-        <SelectedAssetWrapper alignItems='center'>
+        <SelectedAssetWrapper onClick={closeAssetsPopup}>
           <Asset coin={coin} selectCoin={selectCoin} />
           <AssetIconWrapper>
             <IconChevronDownV2 />

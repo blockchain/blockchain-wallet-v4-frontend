@@ -10,7 +10,7 @@ import {
   RequestArguments,
   StandardEvents
 } from './types'
-import { messages, SupportedRPCMethods } from './utils'
+import { messages, SupportedRPCMethods, validateSendTransactionRequestParams } from './utils'
 
 export class BCDCInpageProvider extends SafeEventEmitter {
   private connection: Duplex
@@ -77,6 +77,10 @@ export class BCDCInpageProvider extends SafeEventEmitter {
       throw ethErrors.provider.unsupportedMethod({
         message: messages.errors.unsupportedRPCMethod(method)
       })
+    }
+
+    if ((method as SupportedRPCMethods) === SupportedRPCMethods.SendTransaction) {
+      validateSendTransactionRequestParams(params)
     }
 
     this.connection.write(args)
@@ -148,7 +152,7 @@ export class BCDCInpageProvider extends SafeEventEmitter {
 
       if (msg.type === ConnectionEvents.Error) {
         throw ethErrors.provider.custom({
-          code: 0,
+          code: 1001,
           message: msg.data as string
         })
       }

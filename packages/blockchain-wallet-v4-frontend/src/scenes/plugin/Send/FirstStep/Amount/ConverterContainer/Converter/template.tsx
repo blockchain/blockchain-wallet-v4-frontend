@@ -112,6 +112,7 @@ const Converter: React.FC<Props> = (props) => {
             onChange={isCoinReplacedToFiat ? changeCoin : changeFiat}
             data-e2e={`${props['data-e2e']}FiatAmount`}
             noLastPass
+            autoComplete='off'
           />
         </Container>
         <Container>

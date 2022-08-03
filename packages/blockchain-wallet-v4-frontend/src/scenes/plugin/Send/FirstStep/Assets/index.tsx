@@ -19,6 +19,7 @@ const Wrapper = styled(Flex)`
 
 const IconArrowLeftWrapper = styled.div`
   margin: 25px 0 0 25px;
+  cursor: pointer;
 `
 
 const IconSearchWrrapper = styled.div`

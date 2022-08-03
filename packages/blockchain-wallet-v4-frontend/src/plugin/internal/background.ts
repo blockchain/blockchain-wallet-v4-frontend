@@ -30,6 +30,8 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
       const { sessionExpiresAt } = await chrome.storage.local.get('sessionExpiresAt')
       const isSessionActive = sessionExpiresAt ? new Date(sessionExpiresAt) > new Date() : false
 
+      const transactionParams = msg.params ? msg.params[0] : ({} as providers.TransactionRequest)
+
       switch (msg.method) {
         case SupportedRPCMethods.RequestAccounts:
           await chrome.runtime.onMessage.addListener(listener)
@@ -58,13 +60,28 @@ chrome.runtime.onConnect.addListener(async (port: chrome.runtime.Port) => {
             })
           }
           break
+        case SupportedRPCMethods.SendTransaction:
+          try {
+            await chrome.runtime.onMessage.addListener(listener)
+            if (isSessionActive) {
+              // eslint-disable-next-line
+              openPopup(`/plugin/send-transaction?${transactionRequestToQueryParameters(transactionParams)}`).catch((e) => console.log(e))
+            } else {
+              await chrome.storage.session.clear()
+              // eslint-disable-next-line
+              await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html') }).catch((err) => console.log(err))
+            }
+          } catch (e) {
+            await port.postMessage({
+              data: e.message,
+              type: ConnectionEvents.Error
+            })
+          }
+          break
         case SupportedRPCMethods.SignTransaction:
           await chrome.runtime.onMessage.addListener(listener)
           try {
             const isConnected = await isDomainConnected(metadata.origin)
-            const transactionParams = msg.params
-              ? msg.params[0]
-              : ({} as providers.TransactionRequest)
             if (isSessionActive) {
               if (isConnected) {
                 openPopup(
