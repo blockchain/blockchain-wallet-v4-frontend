@@ -5,7 +5,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { media } from 'services/styles'
 
-export const maxWidth = '1200px'
+export const maxWidth = '100%'
 
 export const opensea_event_types = [
   'bid_entered',

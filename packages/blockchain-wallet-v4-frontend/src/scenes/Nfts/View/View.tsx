@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import { WalletOptionsType } from '@core/types'
 import {
   Button,
+  Icon as BlockchainIcon,
   Image,
   Link,
   SkeletonCircle,
@@ -30,7 +31,7 @@ import {
 } from 'generated/graphql.types'
 import { media, useMedia } from 'services/styles'
 
-import { NftPageV2, Stat, StatsWrapper } from '../components'
+import { GridWrapper, NftPageV2, Stat, StatsWrapper } from '../components'
 import NftGrid from '../components/NftGrid'
 import NftViewResults from './View.results'
 
@@ -89,6 +90,14 @@ const CustomText = styled(Text)`
   `}
 `
 
+const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
+  margin-right: 8px;
+  > img {
+    height: 24px;
+    width: 24px;
+  }
+`
+
 const Right = styled(Left)``
 
 const CustomStat = styled(Stat)`
@@ -123,6 +132,7 @@ const View: React.FC<Props> = (props) => {
                   My NFTs
                 </Text>
                 <Address justifyContent='space-between' alignItems='center'>
+                  <CoinIcon name='ETH' />
                   <Text color='grey900' size='16px' weight={600}>
                     <CryptoAddress canCopy>{defaultEthAddr}</CryptoAddress>
                   </Text>
@@ -156,15 +166,17 @@ const View: React.FC<Props> = (props) => {
                   </StatsWrapper>
                 </Flex>
               </HeaderContent>
-              <NftGrid moreAssetsPage fullscreen>
-                {assets?.map((asset) => {
-                  return (
-                    <div key={asset.tokenId}>
-                      <NftViewResults asset={asset} />
-                    </div>
-                  )
-                })}
-              </NftGrid>
+              <GridWrapper>
+                <NftGrid fullscreen>
+                  {assets?.map((asset) => {
+                    return (
+                      <div key={asset.token_id}>
+                        <NftViewResults asset={asset} />
+                      </div>
+                    )
+                  })}
+                </NftGrid>
+              </GridWrapper>
             </NftPageV2>
           ) : (
             <NftPageV2>
@@ -175,6 +187,7 @@ const View: React.FC<Props> = (props) => {
                       My NFTs
                     </Text>
                     <Address justifyContent='space-between' alignItems='center'>
+                      <CoinIcon name='ETH' />
                       <Text color='grey900' size='16px' weight={600}>
                         <CryptoAddress canCopy>{defaultEthAddr}</CryptoAddress>
                       </Text>
@@ -184,7 +197,7 @@ const View: React.FC<Props> = (props) => {
                     <Left>
                       <Image name='nft-import' />
                       <Text color='grey900' size='20px' weight={600}>
-                        Import your NFTs
+                        Add your NFTs
                       </Text>
                       <CustomText color='grey700' size='16px' weight={500}>
                         Already have NFTs somewhere else? Import them by sending from external

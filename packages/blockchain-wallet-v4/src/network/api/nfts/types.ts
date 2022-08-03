@@ -191,7 +191,7 @@ export interface OpenSeaStatus {
 }
 
 export interface OwnerNftBalance {
-  assets: OpenSeaAsset[]
+  assets: NftAsset[]
   next: string
   previous: string
 }

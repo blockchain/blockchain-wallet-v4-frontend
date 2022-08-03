@@ -8,7 +8,7 @@ import { Flex } from 'components/Flex'
 
 const Wrapper = styled.div`
   border: 1px solid ${(props) => props.theme.grey000};
-  border-radius: 8px;
+  border-radius: 16px;
 `
 
 const Top = styled.div.attrs({ role: 'button' })`

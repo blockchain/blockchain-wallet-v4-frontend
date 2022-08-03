@@ -12,9 +12,7 @@ import { NftPage } from '../../components'
 export const Wrapper = styled(NftPage)`
   display: block;
   margin: 0 auto;
-  padding: 20px 0 0 0;
   box-sizing: border-box;
-  margin-top: 8px;
   ${media.atLeastTablet`
     height: 100%;
   `}
@@ -32,8 +30,7 @@ export const Top = styled.div`
 export const LeftColWrapper = styled.div`
   ${media.atLeastTablet`
   box-sizing: border-box;
-  max-width: 625px;
-  width: 50%;
+  width: 66%;
   `} > form {
     ${media.tablet`
     display: flex;
@@ -58,7 +55,8 @@ export const LeftColWrapper = styled.div`
 export const RightColWrapper = styled.div`
   ${media.atLeastTablet`
   height: 100%;
-  width: 50%;
+  width: 34%;
+  margin-right: 2em;
   `} > form {
     ${media.tablet`
     display: flex;
@@ -82,6 +80,10 @@ export const AssetName = styled(Text)`
   font-size: 40px;
   display: flex;
   margin-top: 30px;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: ${colors.grey900};
   ${media.tablet`
     margin: 0 0 1em 0;
@@ -118,7 +120,6 @@ export const MoreAssetsWrapper = styled.div`
 `
 
 export const TraitsWrapper = styled.div`
-  margin-top: 1em;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -133,10 +134,6 @@ export const Trait = styled.div`
   border-radius: 8px;
   background: ${(props) => props.theme.greyFade000};
   border: 1px solid ${(props) => props.theme.grey100};
-  &:hover {
-    transform: scale(1.02);
-    -webkit-transition: transform 0.1s ease-in-out;
-  }
 `
 
 export const Highest = styled(Text)`
