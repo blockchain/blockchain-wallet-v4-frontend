@@ -3,6 +3,9 @@ import { ModalOriginType } from 'data/types'
 
 type OpenSendCryptoModalHookOpenCallback = (props: {
   coin: CoinType
+  initialValue?: {
+    account: any
+  }
   origin: ModalOriginType
 }) => void
 
