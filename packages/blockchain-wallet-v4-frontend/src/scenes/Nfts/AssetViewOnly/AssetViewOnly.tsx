@@ -42,14 +42,17 @@ import NftCollectionImage from '../components/NftCollectionImage'
 const AssetImageContainer = styled.div`
   position: relative;
   border-radius: 16px;
-  ${media.mobile`
+  ${media.tablet`
     padding: 0;
   `};
 `
 
 const AssetImg = styled.img`
   object-fit: cover;
-  height: 100vh;
+  height: 115vh;
+  ${media.tablet`
+    height: 100%;
+  `};
 `
 
 const Description = styled.div`
@@ -125,6 +128,10 @@ const ItemDetails = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`
+
+const MarginButton = styled(Button)`
+  margin: 1em 0;
 `
 
 const DetailsAndOffers = styled.div``
@@ -230,7 +237,11 @@ const NftAssetViewOnly: React.FC<Props> = ({
                           </div>
                         </div>
                       </CollectionHeader>
-                      <AssetName>{`#${asset?.token_id}`}</AssetName>
+                      <AssetName>
+                        {asset?.token_id && asset?.token_id.length > 12
+                          ? `${asset?.token_id.substring(0, 12)}...`
+                          : `#${asset?.token_id}`}
+                      </AssetName>
                       {asset?.description !== '' && asset?.description?.length ? (
                         <Description>
                           <Flex flexDirection='column'>
@@ -277,7 +288,7 @@ const NftAssetViewOnly: React.FC<Props> = ({
                           </Flex>
                         </Description>
                       ) : null}
-                      <Button
+                      <MarginButton
                         onClick={() =>
                           nftsActions.nftOrderFlowOpen({
                             asset_contract_address: contract,
@@ -286,13 +297,13 @@ const NftAssetViewOnly: React.FC<Props> = ({
                           })
                         }
                         fullwidth
-                        data-e2e='send-nft'
+                        data-e2e='transfer-nft'
                         nature='primary'
                       >
                         Transfer NFT
-                      </Button>
+                      </MarginButton>
                       {asset?.traits.length ? (
-                        <DropdownPadding style={{ paddingTop: '1em' }}>
+                        <DropdownPadding>
                           <NftDropdown expanded title='Traits'>
                             <div style={{ padding: '1em' }}>
                               <Flex flexDirection='column'>

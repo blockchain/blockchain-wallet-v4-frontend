@@ -105,6 +105,7 @@ import cryptoad2903 from './img/nfts/cryptoadz-2903.png'
 import cryptoad4502 from './img/nfts/cryptoadz-4502.png'
 import cryptoadlarge from './img/nfts/cryptoadz-large.png'
 import cryptoadsmall from './img/nfts/cryptoadz-small.png'
+import nftEmpty from './img/nfts/nft-empty.svg'
 import nftImgPlaceholder from './img/nfts/nft-img-placeholder.svg'
 import nftImport from './img/nfts/nft-import.svg'
 import nftNothingHere from './img/nfts/nft-nothing-here.svg'
@@ -254,6 +255,7 @@ const Images = {
   money,
   nft,
   'nft-collections': nftcollections,
+  'nft-empty': nftEmpty,
   'nft-img-placeholder': nftImgPlaceholder,
   'nft-import': nftImport,
   'nft-nothing-here': nftNothingHere,

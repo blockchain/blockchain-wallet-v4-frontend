@@ -220,11 +220,12 @@ export const StatsWrapper = styled.div`
   display: flex;
   gap: 8px;
   margin: 24px;
-  ${media.tablet`
+  ${media.laptop`
     justify-content: center;
     display: flex;
     flex-direction: column;
     margin: 0 0 1em 0;
+    width: 100%;
   `}
 `
 
@@ -238,13 +239,10 @@ export const Stat = styled.div`
   white-space: nowrap;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid ${colors.grey000};
-  ${media.tablet`
+  ${media.laptop`
     > div {
       font-size: 12px;
     }
-    padding: 15px 30px;
-    width: 110px;
-    max-width: 150px;
   `}
 `
 

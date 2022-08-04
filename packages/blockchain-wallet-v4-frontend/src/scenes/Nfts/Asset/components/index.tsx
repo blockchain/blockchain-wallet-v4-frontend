@@ -47,8 +47,8 @@ export const LeftColWrapper = styled.div`
   display: block;
 
   ${media.tablet`
-    padding-right: 0.5em;
-    padding-left: 0.5em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
   `}
 `
 
@@ -69,8 +69,8 @@ export const RightColWrapper = styled.div`
   z-index: 1;
   display: block;
   ${media.tablet`
-    padding-right: 0.5em;
-    padding-left: 0.5em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
   `}
 `
 
@@ -80,14 +80,7 @@ export const AssetName = styled(Text)`
   font-size: 40px;
   display: flex;
   margin-top: 30px;
-  max-width: 250px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   color: ${colors.grey900};
-  ${media.tablet`
-    margin: 0 0 1em 0;
-  `}
 `
 
 export const CurrentPriceBox = styled.div`
@@ -127,7 +120,6 @@ export const TraitsWrapper = styled.div`
 
 export const Trait = styled.div`
   display: flex;
-  cursor: pointer;
   padding: 0.5em 1em;
   flex-direction: column;
   gap: 6px;

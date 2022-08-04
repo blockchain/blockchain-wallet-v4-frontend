@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { NftAsset } from '@core/network/api/nfts/types'
 import { Image, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
+import { media } from 'services/styles'
 
 const NftViewResults: React.FC<Props> = (props) => {
   const { asset, nftsActions } = props
@@ -15,14 +16,20 @@ const NftViewResults: React.FC<Props> = (props) => {
     object-fit: cover;
     box-sizing: border-box;
     cursor: pointer;
+    width: 175px;
+    height: 175px;
     &:hover {
       box-shadow: 0px 0px 12px 0px ${(props) => props.theme.grey200};
     }
+    ${media.laptop`
+      width: 100%;
+      height: 175px;
+    `};
   `
   const EmptyState = styled.div`
     border-radius: 18px;
-    width: 200px;
-    height: 200px;
+    width: 175px;
+    height: 175px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,6 +45,10 @@ const NftViewResults: React.FC<Props> = (props) => {
       rgba(194, 218, 252, 1) 100%,
       rgba(12, 108, 242, 1) 100%
     );
+    ${media.laptop`
+      width: 100%;
+      height: 175px;
+    `};
   `
   const Center = styled.div`
     display: flex;
@@ -53,8 +64,6 @@ const NftViewResults: React.FC<Props> = (props) => {
           <AssetImg
             onClick={() => nftsActions.setViewOrder({ viewOrder: asset })}
             alt='Asset Logo'
-            width='200px'
-            height='200px'
             src={asset.image_url}
           />
         </LinkContainer>
