@@ -30,9 +30,9 @@ const CardDashboard = ({
   last4,
   lockHandler,
   modalActions,
-  profileData
+  userData
 }) => {
-  const fullName = `${profileData.firstName} ${profileData.lastName}`
+  const fullName = `${userData.firstName} ${userData.lastName}`
 
   return (
     <DashboardWrapper>

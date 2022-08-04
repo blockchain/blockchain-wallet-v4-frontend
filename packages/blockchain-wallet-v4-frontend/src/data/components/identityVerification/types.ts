@@ -21,6 +21,7 @@ export type VerifyIdentityOriginType =
   | 'BuySell'
   | 'Interest'
   | 'Withdraw'
+  | 'DebitCard'
 
 export type StepsType = 'personal' | 'moreInfo' | 'mobile' | 'verify' | 'submitted'
 
