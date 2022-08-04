@@ -18,6 +18,7 @@ describe('createNabuErrorAnalyticsInterceptor()', () => {
     const dispatchSpy = jest.fn()
     const error = new NabuError({
       categories: ['TestCategory'],
+      id: 'nabu_error_id',
       message: 'Message',
       title: 'Error title'
     })
@@ -34,6 +35,7 @@ describe('createNabuErrorAnalyticsInterceptor()', () => {
         properties: {
           category: ['TestCategory'],
           error: 'NABU_ERROR',
+          id: error.id,
           network_error_description: error.message,
           network_error_type: 'NABU_ERROR',
           source: 'NABU',

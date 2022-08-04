@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react'
+import React, { RefObject, useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
@@ -7,6 +7,7 @@ import { Card } from 'components/Card'
 import { Expanded, Flex } from 'components/Flex'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Padding } from 'components/Padding'
+import { ModalOriginType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 
@@ -34,9 +35,36 @@ const RawHyperlink = styled.a`
 `
 
 export type Props = OwnProps &
-  SuccessStateType & { domain: string; iframeRef: RefObject<HTMLIFrameElement> }
+  SuccessStateType & {
+    domain: string
+    handleClose?: () => void
+    iframeRef: RefObject<HTMLIFrameElement>
+    origin?: ModalOriginType
+  }
 
-const Success = (props: Props) => {
+const Success = ({
+  buySellActions,
+  cryptoCurrency,
+  domain,
+  fiatCurrency,
+  handleClose,
+  iframeRef,
+  origin,
+  pair
+}: Props) => {
+  const handleOnClickBack = useCallback(() => {
+    if (origin === 'SettingsGeneral') {
+      handleClose?.()
+    } else {
+      buySellActions.setStep({
+        cryptoCurrency: cryptoCurrency || 'BTC',
+        fiatCurrency,
+        pair,
+        step: 'PAYMENT_METHODS'
+      })
+    }
+  }, [origin, handleClose, buySellActions, cryptoCurrency, fiatCurrency, pair])
+
   return (
     <CustomFlyoutWrapper>
       <Top color='grey800' size='20px' weight={600}>
@@ -47,14 +75,7 @@ const Success = (props: Props) => {
           color='grey600'
           role='button'
           style={{ marginRight: '24px' }}
-          onClick={() =>
-            props.buySellActions.setStep({
-              cryptoCurrency: props.cryptoCurrency || 'BTC',
-              fiatCurrency: props.fiatCurrency,
-              pair: props.pair,
-              step: 'PAYMENT_METHODS'
-            })
-          }
+          onClick={handleOnClickBack}
         />
         <FormattedMessage id='buttons.add_card' defaultMessage='Add Card' />
       </Top>
@@ -63,9 +84,9 @@ const Success = (props: Props) => {
         <Flex flexDirection='column' style={{ height: '100%' }} gap={16}>
           <Expanded>
             <Iframe
-              ref={props.iframeRef}
-              sandbox='allow-popups allow-forms allow-scripts allow-same-origin'
-              src={props.domain}
+              ref={iframeRef}
+              sandbox='allow-forms allow-scripts allow-same-origin'
+              src={domain}
             />
           </Expanded>
 

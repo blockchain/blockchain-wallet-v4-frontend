@@ -32,6 +32,7 @@ const LeftTopCol = styled.div`
   align-items: center;
 `
 
+// TODO migrate this to use constellation
 const FlyoutHeader = memo(
   (props: Props) => {
     return (

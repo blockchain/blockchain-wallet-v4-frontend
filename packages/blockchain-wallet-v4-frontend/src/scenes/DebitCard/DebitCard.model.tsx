@@ -7,5 +7,5 @@ export const Wrapper = styled.div`
 export const IntroCardWrapper = styled.div`
   text-align: center;
   margin: auto;
-  width: 393px;
+  width: 420px;
 `

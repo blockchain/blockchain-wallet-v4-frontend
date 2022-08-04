@@ -1,3 +1,3 @@
-import { TimeRange } from '@core/types'
+import { FiatType, TimeRange } from '@core/types'
 
-export type UseChartArgs = { timeRange: TimeRange }
+export type UseChartArgs = { currency: FiatType; timeRange: TimeRange }

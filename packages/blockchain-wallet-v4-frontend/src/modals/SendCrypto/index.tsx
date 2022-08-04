@@ -17,6 +17,7 @@ import Confirm from './Confirm'
 import EnterAmount from './EnterAmount'
 import EnterTo from './EnterTo'
 import { SEND_FORM } from './model'
+import NoFunds from './NoFunds'
 import { getData } from './selectors'
 import Status from './Status'
 import { SendFormType } from './types'
@@ -31,12 +32,14 @@ class SendCrypto extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    this.props.sendCryptoActions.initializeSend()
+
     this.props.sendCryptoActions.fetchWithdrawalFees({})
     this.props.sendCryptoActions.fetchWithdrawalLocks()
   }
 
   componentWillUnmount() {
-    this.props.sendCryptoActions.setStep({ step: SendCryptoStepType.COIN_SELECTION })
+    // this.props.sendCryptoActions.setStep({ step: SendCryptoStepType.COIN_SELECTION })
   }
 
   handleClose = () => {
@@ -49,6 +52,11 @@ class SendCrypto extends PureComponent<Props, State> {
   render() {
     return (
       <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
+        {this.props.step === SendCryptoStepType.NO_FUNDS && (
+          <FlyoutChild>
+            <NoFunds {...this.props} close={this.handleClose} />
+          </FlyoutChild>
+        )}
         {this.props.step === SendCryptoStepType.COIN_SELECTION && (
           <FlyoutChild>
             <CoinSelect {...this.props} close={this.handleClose} />

@@ -4,11 +4,13 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { BSPairType, CoinType, OrderType, WalletOptionsType } from '@core/types'
-import DataError from 'components/DataError'
+import BaseError from 'components/BuySell/Error'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
+import { CARD_ERROR_CODE } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import { useRemote } from 'hooks'
+import { useDeepLink } from 'services/deepLinkListener'
 import { isNabuError } from 'services/errors'
 
 import { ADD_CARD_ERROR, IFRAME_ACTION } from './model'
@@ -18,7 +20,8 @@ import Unsupported from './template.unsupported'
 
 const AddCardCheckoutDotCom = (props: Props) => {
   const ref = useRef<HTMLIFrameElement>(null)
-  const [isError, setError] = useState(false)
+  const { onClickDeepLink } = useDeepLink()
+  const [errorOnTokenization, setErrorOnTokenization] = useState(false)
   const [cvv, setCVV] = useState('')
   const { error: cardError } = useRemote(() => props.cardRemote)
 
@@ -48,6 +51,11 @@ const AddCardCheckoutDotCom = (props: Props) => {
             provider: 'CHECKOUTDOTCOM'
             scheme: string
           }
+        | {
+            action: IFRAME_ACTION.DEEP_LINK
+            provider: 'CHECKOUTDOTCOM'
+            url: string
+          }
     }) => {
       if (data.provider !== 'CHECKOUTDOTCOM') return
 
@@ -63,8 +71,9 @@ const AddCardCheckoutDotCom = (props: Props) => {
 
       if (data.action === IFRAME_ACTION.ADD_CARD) {
         if (!data.status) throw new Error(ADD_CARD_ERROR.NO_STATUS)
+
         if (data.status === 'ERROR') {
-          setError(true)
+          setErrorOnTokenization(true)
         }
 
         if (data.status === 'SUCCESS') {
@@ -91,9 +100,19 @@ const AddCardCheckoutDotCom = (props: Props) => {
 
         props.buySellActions.checkCardSuccessRate({ bin: data.bin, scheme: data.scheme })
       }
+
+      if (data.action === IFRAME_ACTION.DEEP_LINK) {
+        if (!data.url) throw new Error(ADD_CARD_ERROR.NO_DEEP_LINK_URL)
+
+        onClickDeepLink(data.url)
+      }
     },
-    [cvv, props.buySellActions, props.checkoutDotComAccountCodes]
+    [cvv, onClickDeepLink, props.buySellActions, props.checkoutDotComAccountCodes]
   )
+
+  const handleAction = () => {
+    props.buySellActions.destroyCheckout()
+  }
 
   useEffect(() => {
     window.addEventListener('message', handleReceivedPostMessage, false)
@@ -125,10 +144,6 @@ const AddCardCheckoutDotCom = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (isError) {
-    return <DataError />
-  }
-
   if (cardError && isNabuError(cardError)) {
     return (
       <GenericNabuErrorFlyout
@@ -138,10 +153,32 @@ const AddCardCheckoutDotCom = (props: Props) => {
     )
   }
 
+  if (errorOnTokenization) {
+    return (
+      <BaseError
+        code={CARD_ERROR_CODE.CREATE_FAILED}
+        handleRetry={handleAction}
+        handleReset={handleAction}
+        handleBack={handleAction}
+      />
+    )
+  }
+
   return props.data.cata({
-    Failure: (e) => (
-      <DataError message={{ message: e }} onClick={props.buySellActions.fetchPaymentMethods} />
-    ),
+    Failure: (e) => {
+      if (isNabuError(e)) {
+        return <GenericNabuErrorFlyout error={e} onDismiss={handleAction} />
+      }
+
+      return (
+        <BaseError
+          code={e}
+          handleRetry={handleAction}
+          handleReset={handleAction}
+          handleBack={handleAction}
+        />
+      )
+    },
     Loading: () => null,
     NotAsked: () => null,
     Success: (val) => {

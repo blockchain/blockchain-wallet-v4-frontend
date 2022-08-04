@@ -3,7 +3,9 @@ import styled from 'styled-components'
 export const Container = styled.div`
   display: flex;
   flex: 1;
-  justify-content: space-between;
+  width: 100%;
+  justify-content: center;
+  font-feature-settings: 'zero' on, 'ss01' on;
 `
 
 export const Grid = styled.div`
