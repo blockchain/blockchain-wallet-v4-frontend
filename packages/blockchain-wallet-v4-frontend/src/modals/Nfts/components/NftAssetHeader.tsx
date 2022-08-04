@@ -51,7 +51,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
             ) : null}
           </Flex>
           <Flex alignItems='center' justifyContent='space-between'>
-            {asset.collection.safelist_request_status === 'verified' ? (
+            {/* {asset.collection.safelist_request_status === 'verified' ? (
               <Text
                 size='14px'
                 weight={600}
@@ -81,7 +81,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
               >
                 Not Verified
               </Text>
-            )}
+            )} */}
             {lowest_order?.current_price ? (
               <FiatDisplay
                 size='14px'

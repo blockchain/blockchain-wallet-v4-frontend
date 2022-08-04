@@ -115,6 +115,9 @@ const CollectionHeader = styled.div`
   margin-top: 2px;
   width: 100%;
   justify-content: space-between;
+  ${media.mobile`
+    padding-top: 32px;
+  `};
 `
 
 const GradientCoinDisplay = styled(CoinDisplay)`
@@ -164,6 +167,22 @@ const NftAssetViewOnly: React.FC<Props> = ({
                 <div style={{ display: 'block' }}>
                   <Top>
                     <LeftColWrapper>
+                      {isMobile() && (
+                        <ItemDetails>
+                          <Text color='grey900' size='20px' weight={600}>
+                            Item Details
+                          </Text>
+                          <BlockchainIcon
+                            cursor
+                            data-e2e='close'
+                            name='close'
+                            size='20px'
+                            color='grey600'
+                            role='button'
+                            onClick={() => goToView()}
+                          />
+                        </ItemDetails>
+                      )}
                       <AssetImageContainer>
                         {asset?.image_url ? (
                           <AssetImg alt='Asset Logo' width='100%' src={asset?.image_url || ''} />
@@ -173,20 +192,22 @@ const NftAssetViewOnly: React.FC<Props> = ({
                       </AssetImageContainer>
                     </LeftColWrapper>
                     <RightColWrapper>
-                      <ItemDetails>
-                        <Text color='grey900' size='20px' weight={600}>
-                          Item Details
-                        </Text>
-                        <BlockchainIcon
-                          cursor
-                          data-e2e='close'
-                          name='close'
-                          size='20px'
-                          color='grey600'
-                          role='button'
-                          onClick={() => goToView()}
-                        />
-                      </ItemDetails>
+                      {!isMobile() && (
+                        <ItemDetails>
+                          <Text color='grey900' size='20px' weight={600}>
+                            Item Details
+                          </Text>
+                          <BlockchainIcon
+                            cursor
+                            data-e2e='close'
+                            name='close'
+                            size='20px'
+                            color='grey600'
+                            role='button'
+                            onClick={() => goToView()}
+                          />
+                        </ItemDetails>
+                      )}
                       <CollectionHeader>
                         <div>
                           <Text

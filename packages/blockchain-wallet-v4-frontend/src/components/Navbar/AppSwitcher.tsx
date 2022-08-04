@@ -91,16 +91,16 @@ const appConfigMap = {
     ),
     title: () => <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
   },
-  nfts: {
-    color: 'purple600',
-    displayName: 'NFTs',
-    name: 'nfts',
-    route: '/nfts/view',
-    subtitle: () => (
-      <FormattedMessage id='navbar.nfts.desc' defaultMessage='Buy, Sell & Discover NFTs' />
-    ),
-    title: () => <FormattedMessage id='navbar.nfts.title' defaultMessage='NFT Marketplace' />
-  },
+  // nfts: {
+  //   color: 'purple600',
+  //   displayName: 'NFTs',
+  //   name: 'nfts',
+  //   route: '/nfts/view',
+  //   subtitle: () => (
+  //     <FormattedMessage id='navbar.nfts.desc' defaultMessage='Buy, Sell & Discover NFTs' />
+  //   ),
+  //   title: () => <FormattedMessage id='navbar.nfts.title' defaultMessage='NFT Marketplace' />
+  // },
   dex: {
     color: 'blue600',
     displayName: 'DEX',
@@ -116,9 +116,9 @@ const getAppConfig = () => {
   if (window.location.hash.includes('dex')) {
     return appConfigMap.dex
   }
-  if (window.location.hash.includes('nfts')) {
-    return appConfigMap.nfts
-  }
+  // if (window.location.hash.includes('nfts')) {
+  //   return appConfigMap.nfts
+  // }
   return appConfigMap.wallet
 }
 
