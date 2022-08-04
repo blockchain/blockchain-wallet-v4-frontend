@@ -1,0 +1,32 @@
+const mapCoinIconColor: Record<string, string> = {
+  AAVE: '#2EBAC6',
+  ALGO: '#000000',
+  BAT: '#FF4724',
+  BTC: '#FF9B22',
+  CLOUT: '#000000',
+  COMP: '#00D395',
+  DAI: '#F5AC37',
+  DOGE: '#C2A633',
+  DOT: '#E6007A',
+  ENJ: '#624DBF',
+  EOS: '#000000',
+  ETC: '#33FF99',
+  ETH: '#473bcb',
+  LINK: '#2A5ADA',
+  LTC: '#BFBBBB',
+  MOB: '#243855',
+  NEAR: '#000000',
+  OGN: '#1A82FF',
+  PAX: '#00522C',
+  STX: '#211F6D',
+  THETA: '#2AB8E6',
+  UNI: '#FF007A',
+  USDC: '#2775CA',
+  USDT: '#26A17B',
+  WDGLD: '#A39424',
+  XTZ: '#2C7DF7',
+  YFI: '#0074FA',
+  ZEN: '#041742'
+}
+
+export const getCoinColor = (coin: string): string | undefined => mapCoinIconColor[coin]
