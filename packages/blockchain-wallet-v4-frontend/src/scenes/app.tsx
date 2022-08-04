@@ -200,7 +200,7 @@ const App = ({
                           )}
 
                           {/* NFT Explorer routes */}
-                          {isNftExplorerEnabled && (
+                          {/* {isNftExplorerEnabled && (
                             <NftsLayout
                               path='/nfts/address/:address'
                               exact
@@ -214,18 +214,19 @@ const App = ({
                               component={NftsSettings}
                             />
                           )}
-                          {isNftExplorerEnabled && (
-                            <NftsLayout
-                              path='/nfts/assets/:contract/:id'
-                              exact
-                              component={NftsAsset}
-                            />
-                          )}
+
                           {isNftExplorerEnabled && (
                             <NftsLayout
                               path='/nfts/collection/:slug'
                               exact
                               component={NftsCollection}
+                            />
+                          )} */}
+                          {isNftExplorerEnabled && (
+                            <NftsLayout
+                              path='/nfts/assets/:contract/:id'
+                              exact
+                              component={NftsAsset}
                             />
                           )}
                           <Route exact path='/nfts'>
@@ -239,14 +240,14 @@ const App = ({
                               pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                             />
                           )}
-                          {isNftExplorerEnabled && (
+                          {/* {isNftExplorerEnabled && (
                             <NftsLayout
                               path='/nfts/explore'
                               exact
                               component={NftsFirehose}
                               pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                             />
-                          )}
+                          )} */}
 
                           {/* Authenticated Wallet routes */}
                           {isDebitCardEnabled && (
