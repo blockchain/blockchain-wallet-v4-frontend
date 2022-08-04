@@ -86,7 +86,8 @@ const Checkout = (props: Props) => {
 
     // BUY
     if (isSddFlow) {
-      const currentTier = userData?.tiers?.current
+      const currentTier = userData?.tiers?.current ?? 0
+
       if (currentTier === 2 || currentTier === 1) {
         // user in SDD but already completed eligibility check, continue to payment
         props.buySellActions.createOrder({ paymentType: BSPaymentTypes.PAYMENT_CARD })
