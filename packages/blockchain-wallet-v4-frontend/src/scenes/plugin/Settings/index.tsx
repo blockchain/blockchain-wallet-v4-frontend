@@ -67,19 +67,21 @@ export class Setting {
   }
 }
 
-const Settings = ({ setIsSettingsVisible }) => {
-  const closeSettings = () => {
-    setIsSettingsVisible(false)
+const Settings = (props) => {
+  const isRootPath = () => {
+    return props.location.pathname === '/plugin/settings'
   }
   return (
     <SettingsContainer>
-      <SettingsLinksWrapper justifyContent='space-between'>
+      <SettingsLinksWrapper justifyContent={`${isRootPath() ? 'flex-end' : 'space-between'}`}>
+        {!isRootPath() && (
+          <Link to='/plugin/settings'>
+            <Icon color='grey700' label='IconBack' size='md'>
+              <IconArrowLeft />
+            </Icon>
+          </Link>
+        )}
         <Link to='/plugin/coinslist'>
-          <Icon color='grey700' label='IconBack' size='md'>
-            <IconArrowLeft />
-          </Icon>
-        </Link>
-        <Link to='/plugin/coinslist' onClick={closeSettings}>
           <Icon color='grey700' label='IconClose' size='md'>
             <IconClose />
           </Icon>
@@ -87,12 +89,12 @@ const Settings = ({ setIsSettingsVisible }) => {
       </SettingsLinksWrapper>
       <SettingsItemsWrapper>
         <Switch>
-          <Route component={Overal} path='/plugin/coinslist' exact />
-          <Route component={Account} path='/plugin/coinslist/account' />
-          <Route component={Networks} path='/plugin/coinslist/networks' />
-          <Route component={Connected} path='/plugin/coinslist/connected-dapps' />
-          <Route component={General} path='/plugin/coinslist/general' />
-          <Route component={Info} path='/plugin/coinslist/about' />
+          <Route component={Overal} path='/plugin/settings' exact />
+          <Route component={Account} path='/plugin/settings/account' />
+          <Route component={Networks} path='/plugin/settings/networks' />
+          <Route component={Connected} path='/plugin/settings/connected-dapps' />
+          <Route component={General} path='/plugin/settings/general' />
+          <Route component={Info} path='/plugin/settings/about' />
         </Switch>
       </SettingsItemsWrapper>
     </SettingsContainer>

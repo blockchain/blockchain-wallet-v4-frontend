@@ -25,7 +25,7 @@ const EmailAndGuid = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  overflow: ${isPlugin() && 'hidden'}
+  overflow: ${isPlugin() && 'hidden'};
   text-overflow: ${isPlugin() && 'ellipsis'};
   width: ${isPlugin() && '70%'};
 `
