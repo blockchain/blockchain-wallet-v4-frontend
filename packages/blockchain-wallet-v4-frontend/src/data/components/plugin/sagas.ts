@@ -10,7 +10,6 @@ import { getPrivateKey } from '@core/utils/eth'
 import { actions, actionTypes, selectors } from 'data'
 import { fetchBalances } from 'data/balances/sagas'
 import { actions as identityVerificationActions } from 'data/components/identityVerification/slice'
-import { WALLET_SIGNER_ERR } from 'data/components/nfts/sagas'
 import goalSagas from 'data/goals/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
@@ -88,8 +87,7 @@ export default ({ api, coreSagas, networks }) => {
       const maxFeePerGas = feeData.maxFeePerGas._hex
       const maxPriorityFeePerGas = feeData.maxPriorityFeePerGas._hex
 
-      //@ts-ignore
-      yield put(A.setTransactionRequest({ from, to, gasLimit, data, value, nonce, maxPriorityFeePerGas, maxFeePerGas }))
+      yield put(signerActions.setTransactionRequest({ from, to, gasLimit, data, value, nonce, maxPriorityFeePerGas, maxFeePerGas }))
     } catch (e) {
       throw new Error(`Failed to init transaction. ${e}`)
     }

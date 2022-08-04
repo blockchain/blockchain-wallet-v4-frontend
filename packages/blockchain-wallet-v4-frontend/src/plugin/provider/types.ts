@@ -13,6 +13,11 @@ export interface ProviderMessage {
   readonly type: string
 }
 
+export type ProviderMessageData = string & {
+  code: number
+  message: string
+}
+
 export interface ProviderConnectInfo {
   readonly chainId: string
 }

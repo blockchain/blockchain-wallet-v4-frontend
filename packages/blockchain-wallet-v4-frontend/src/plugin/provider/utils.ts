@@ -1,18 +1,19 @@
 import { serializeError } from 'eth-rpc-errors'
-import { providers } from 'ethers'
+import { providers, utils } from 'ethers'
 
 export const messages = {
   errors: {
     invalidRequestArgs: () => `Expected a single, non-array, object argument.`,
     invalidRequestMethod: () => `'args.method' must be a non-empty string.`,
     invalidRequestParams: () => `'args.params' must be an object or array if provided.`,
-    invalidSendTransactionRequestParams: () =>
-      `Invalid parameters: must provide an Ethereum address`,
+    invalidRequestParamsAddress: () => `Invalid parameters: must provide an Ethereum address`,
     invalidSendTransactionRequestParamsMissingTo: () =>
       `Invalid transaction params: must specify 'to' for all other types of transactions. `,
     invalidSendTransactionRequestParamsTo: () => `Invalid 'to' address.`,
     invalidSendTransactionRequestParamsValue: (value) =>
       `Invalid transaction value: '${value}' not a positive number `,
+    invalidSignMessageRequestParams: () => `Cannot read properties of undefined (reading '0')`,
+    notAuthorized: () => `The requested account and/or method has not been authorized by the user.`,
     permanentlyDisconnected: () =>
       'Blockchain.com: Disconnected from extension background. Page reload required.',
     unsupportedRPCMethod: (method: string) =>
@@ -42,7 +43,7 @@ export const validateSendTransactionRequestParams = (params) => {
     if (!isTransactionParametersType(param)) {
       throw serializeError({
         code: -32602,
-        message: messages.errors.invalidSendTransactionRequestParams()
+        message: messages.errors.invalidRequestParamsAddress()
       })
     }
 
@@ -67,4 +68,20 @@ export const validateSendTransactionRequestParams = (params) => {
       })
     }
   })
+}
+
+export const validateSignMessageRequestParams = (params) => {
+  if (!params) {
+    throw serializeError({
+      code: -32603,
+      message: messages.errors.invalidSignMessageRequestParams()
+    })
+  }
+
+  if (!params[0]) {
+    throw serializeError({
+      code: -32602,
+      message: messages.errors.invalidRequestParamsAddress()
+    })
+  }
 }

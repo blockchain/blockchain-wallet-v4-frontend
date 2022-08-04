@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { IconArrowUpRight } from '@blockchain-com/icons'
 import { useQueryTransactionRequestPameters } from 'blockchain-wallet-v4-frontend/src/hooks/useQueryTransactionRequestPameters'
-import { Transaction } from 'plugin/internal/transactions'
 import { SupportedRPCMethods } from 'plugin/provider/utils'
 import { CombinedState } from 'redux'
 import styled from 'styled-components'
@@ -42,6 +41,7 @@ const TextWrapper = styled(Text)`
 `
 
 const SendTransaction = (props) => {
+  const { isCoinDataLoaded } = props
   const dispatch = useDispatch()
 
   const queryTransactionRequestParameters = useQueryTransactionRequestPameters(
@@ -115,7 +115,7 @@ const SendTransaction = (props) => {
   }, [])
 
   return (
-    <Wrapper>
+    isCoinDataLoaded && <Wrapper>
       <Text size='20px' lineHeight='30px' weight={500} color='white'>
         <FormattedMessage id='scenes.plugin.send.second-step.title' defaultMessage='Sending' />
       </Text>
@@ -227,4 +227,9 @@ const SendTransaction = (props) => {
   )
 }
 
-export default SendTransaction
+
+const mapStateToProps = (state) => ({
+  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
+})
+
+export default connect(mapStateToProps)(SendTransaction)
