@@ -1,16 +1,26 @@
 import React, { ReactNode, useMemo } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { CoinType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
 import { IconCircularBackground } from 'components/IconCircularBackground'
 import { StandardRow } from 'components/Rows'
-import { getCoinColor, useCoinBalance, useCoinRates, useCurrency, useWalletsForCoin } from 'hooks'
+import {
+  getCoinColor,
+  useCoinBalance,
+  useCoinRates,
+  useCurrency,
+  useOpenViewPrivateKeyModal,
+  useWalletsForCoin
+} from 'hooks'
 
 import { WalletsCard } from '../../../WalletsCard'
 import { transformToAccounts } from './utils'
 
 export const useWalletsCard = (coin: CoinType): [ReactNode] => {
   const currency = useCurrency()
+  const dispatch = useDispatch()
+  const [openViewPrivateKeyModal] = useOpenViewPrivateKeyModal()
 
   const {
     data: rates,
@@ -46,7 +56,7 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
     if (rates === undefined) return []
 
     return (
-      coinAddressesData?.map(({ address, balance, label }) => ({
+      coinAddressesData?.map(({ address, balance, label, type }) => ({
         ...transformToAccounts({
           coin,
           currency,
@@ -54,7 +64,8 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
           value: balance ?? available ?? 0
         }),
         key: address,
-        label
+        label,
+        type
       })) ?? []
     )
   }, [rates, coinAddressesData, coin, currency, available])
@@ -76,7 +87,7 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
 
     return (
       <WalletsCard>
-        {accounts?.map(({ key, label, totalCrypto, totalFiat }) => {
+        {accounts?.map(({ key, label, totalCrypto, totalFiat, type }) => {
           const coinColor = getCoinColor(coin)
 
           return (
@@ -84,7 +95,14 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
               key={key}
               bottomLeftText={label}
               bottomRightText={totalCrypto}
-              onClick={() => {}}
+              onClick={() => {
+                if (type === 'ACCOUNT') {
+                  openViewPrivateKeyModal({
+                    coin,
+                    origin: 'CoinPageHoldings'
+                  })
+                }
+              }}
               topLeftText={label}
               topRightText={totalFiat}
               icon={
@@ -97,7 +115,7 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
         })}
       </WalletsCard>
     )
-  }, [isLoading, isNotAsked, rates, available, accounts, coin])
+  }, [isLoading, isNotAsked, rates, available, accounts, coin, openViewPrivateKeyModal])
 
   return [walletsCardNode]
 }
