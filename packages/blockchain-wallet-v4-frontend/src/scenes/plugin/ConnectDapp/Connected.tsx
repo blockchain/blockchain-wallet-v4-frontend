@@ -37,7 +37,7 @@ export const Connected: React.FC<{
       try {
         await addConnection(metadata.origin)
         await chrome.runtime.sendMessage({
-          data: address,
+          data: [address],
           type: SupportedRPCMethods.RequestAccounts
         })
         window.close()
