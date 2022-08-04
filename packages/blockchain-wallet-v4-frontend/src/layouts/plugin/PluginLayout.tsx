@@ -78,10 +78,18 @@ const PluginLayout = (props: Props) => {
 
     const setup = async () => {
       const wrapper = await getSessionPayload()
-      dispatch(actions.core.wallet.setWrapper(wrapper))
+
+      if (!wrapper) {
+        await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html#/login') })
+        window.close()
+      } else {
+        dispatch(actions.core.wallet.setWrapper(wrapper))
+      }
 
       const isPluginAuthenticated = await isSessionActive()
+
       if (!isPluginAuthenticated) {
+        await chrome.storage.session.clear()
         await chrome.tabs.create({ url: chrome.runtime.getURL('index-tab.html#/login') })
         window.close()
       } else {
