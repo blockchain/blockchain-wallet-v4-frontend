@@ -127,6 +127,7 @@ import selectArrow from './img/select-arrow.png'
 import sell from './img/sell.svg'
 import send from './img/send.svg'
 import sendCrypto from './img/send-crypto.svg'
+import sendNoFundsPromo from './img/send-no-funds-promo.svg'
 import smartphone from './img/smartphone.png'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import ssBcLogo from './img/ss-bc-logo.svg'
@@ -280,6 +281,7 @@ const Images = {
   sell,
   send,
   'send-crypto': sendCrypto,
+  'send-no-funds': sendNoFundsPromo,
   'sesocio-to-blockchain-logo': ssBcLogo,
   smartphone,
   'source-of-wealth': sourceOfWealth,

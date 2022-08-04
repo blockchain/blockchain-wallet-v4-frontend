@@ -5,7 +5,7 @@ import { clearSubmitErrors } from 'redux-form'
 
 import { Remote } from '@core'
 import { BSPaymentTypes, ExtractSuccess } from '@core/types'
-import Error from 'components/BuySell/Error'
+import BaseError from 'components/BuySell/Error'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
@@ -88,7 +88,7 @@ class CheckoutConfirm extends PureComponent<Props> {
         }
 
         return (
-          <Error
+          <BaseError
             code={e}
             handleRetry={this.handleRetry}
             handleReset={this.handleReset}

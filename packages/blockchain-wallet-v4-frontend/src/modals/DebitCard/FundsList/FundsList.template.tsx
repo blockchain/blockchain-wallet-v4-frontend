@@ -15,8 +15,9 @@ import { Loading, LoadingTextEnum } from '../../components'
 import { Props } from './FundsList'
 
 const ItemWrapper = styled.div`
-  padding: 16px 24px;
+  padding: 1rem 1.5rem;
   border-top: 1px solid ${(props) => props.theme.grey000};
+  cursor: pointer;
 
   &:hover {
     background: ${(props) => props.theme.grey000};

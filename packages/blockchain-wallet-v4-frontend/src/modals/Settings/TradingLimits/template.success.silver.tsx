@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContent } from 'components/Flyout/Layout'
@@ -24,6 +25,8 @@ import {
   UpgradeRowWithBlueBorder,
   UpgradeRowWithBorder
 } from './styles'
+
+const SWAP_LIMIT = 2000
 
 const Wrapper = styled.div`
   width: 100%;
@@ -207,10 +210,23 @@ const Template: React.FC<Props> = (props) => {
                   />
                 </RowItemTitle>
                 <RowItemSubTitle>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.one_time_between_private_key_wallets'
-                    defaultMessage='One-Time Between Private Key Wallets'
-                  />
+                  {props.products?.swap?.maxOrdersCap === 1 ? (
+                    <FormattedMessage
+                      id='modals.onboarding.upgrade_now.one_time_between_private_key_wallets'
+                      defaultMessage='One-Time Between Private Key Wallets'
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='modals.onboarding.upgrade_now.swap_without_limits'
+                      defaultMessage='Up to {amount}'
+                      values={{
+                        amount: fiatToString({
+                          unit: props.walletCurrency,
+                          value: SWAP_LIMIT
+                        })
+                      }}
+                    />
+                  )}
                 </RowItemSubTitle>
               </RowItemWrapper>
               <Image name='check-empty-blue' size='20px' />

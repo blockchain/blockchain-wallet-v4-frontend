@@ -14,9 +14,10 @@ const { devServerConfig, webpackConfig } = webpackBuilder({
     new ReactRefreshWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin({
       typescript: {
+        memoryLimit: 4096,
         configFile: CONFIG_PATH.tsConfig
       }
-    }),
+    })
   ],
   useDevServer: true,
   useHMR: true
@@ -34,20 +35,26 @@ const devWebpackConfig = evolve(
     module: {
       rules: compose(
         // edits babel-loader config
-        adjust(0, rule => set(lensProp('use'), ['cache-loader', 'babel-loader'], rule)),
+        adjust(0, (rule) => set(lensProp('use'), ['cache-loader', 'babel-loader'], rule)),
         // next two `adjusts`, edit the ts-loader config
-        adjust(1, rule => dissoc('loader', rule)),
-        adjust(1, rule => set(lensProp('use'), [
-          {
-            loader: 'ts-loader',
-            options: {
-              getCustomTransformers: () => ({
-                before: [ReactRefreshTypeScript()]
-              }),
-              transpileOnly: true
-            }
-          }
-        ], rule))
+        adjust(1, (rule) => dissoc('loader', rule)),
+        adjust(1, (rule) =>
+          set(
+            lensProp('use'),
+            [
+              {
+                loader: 'ts-loader',
+                options: {
+                  getCustomTransformers: () => ({
+                    before: [ReactRefreshTypeScript()]
+                  }),
+                  transpileOnly: true
+                }
+              }
+            ],
+            rule
+          )
+        )
       )
     },
     output: { path: () => CONFIG_PATH.appBuild }

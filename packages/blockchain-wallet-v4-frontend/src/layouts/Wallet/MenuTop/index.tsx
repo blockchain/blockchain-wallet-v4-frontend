@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
@@ -7,16 +7,17 @@ import { InvitationsType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import Header from './template'
+import Header from './Header'
 
-const HeaderContainer: FC<Props> = (props) => <Header {...props} />
+const HeaderContainer = (props: Props) => <Header {...props} />
 
 const mapStateToProps = (state: RootState) => ({
   featureFlags: selectors.core.walletOptions
     .getFeatureFlags(state)
     .getOrElse({} as { [key in string]: boolean }),
   invitations: selectors.core.settings.getInvitations(state).getOrElse({} as InvitationsType),
-  nftsEnabled: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean
+  nftsEnabled: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
+  walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

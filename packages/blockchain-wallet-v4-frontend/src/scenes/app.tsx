@@ -269,6 +269,7 @@ const App = ({
                             component={isCoinViewV2Enabled ? CoinPage : Transactions}
                             hideMenu={isCoinViewV2Enabled}
                             center={isCoinViewV2Enabled}
+                            removeContentPadding
                           />
                           {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                         </Switch>

@@ -85,17 +85,8 @@ const ExchangeNavItem = (props) => (
   </>
 )
 
-const DebitCardNavItem = () => (
-  <>
-    <MenuIcon className='icon' name='credit-card-sb' style={{ marginLeft: '-4px' }} size='21px' />
-    <Destination style={{ marginLeft: '2px' }}>
-      <FormattedMessage id='copy.debit_card' defaultMessage='Debit Card' />
-    </Destination>
-  </>
-)
-
 const Navigation = (props: OwnProps & Props) => {
-  const { coinList, walletDebitCardEnabled, ...rest } = props
+  const { coinList, ...rest } = props
 
   return (
     <Wrapper {...rest}>
@@ -117,19 +108,6 @@ const Navigation = (props: OwnProps & Props) => {
         Success: (coinList) => <Success coinList={coinList} />
       })}
       <Divider margin='0 16px 8px 16px' />
-      {walletDebitCardEnabled && (
-        <LinkContainer to='/debit-card' activeClassName='active'>
-          <MenuItem data-e2e='debitCardLink'>
-            <DebitCardNavItem />
-            <NewCartridge style={{ textTransform: 'uppercase' }}>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.debit_card.order'
-                defaultMessage='order'
-              />
-            </NewCartridge>
-          </MenuItem>
-        </LinkContainer>
-      )}
       <LinkContainer to='/airdrops' activeClassName='active'>
         <MenuItem data-e2e='airdropLink' className='airdrop'>
           <MenuIcon className='icon' name='parachute' size='24px' />

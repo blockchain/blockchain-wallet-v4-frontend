@@ -4,8 +4,16 @@ import { format } from 'date-fns'
 import { CoinData, TooltipBuilder } from '../../CoinChart'
 import { CoinChartTooltip } from '../CoinChartTooltip'
 
-export const createCoinChartTooltipBuilder =
-  <DATA extends CoinData = CoinData>(): TooltipBuilder<DATA> =>
+type CreateCoinChartTooltipBuilderProps = {
+  yFormatter?: (value: number) => string
+}
+
+type CreateCoinChartTooltipBuilder = <DATA extends CoinData = CoinData>(
+  props?: CreateCoinChartTooltipBuilderProps
+) => TooltipBuilder<DATA>
+
+export const createCoinChartTooltipBuilder: CreateCoinChartTooltipBuilder =
+  ({ yFormatter } = {}) =>
   ({ cursorTop, getX, getY, tooltipData, tooltipLeft }) =>
     (
       <CoinChartTooltip
@@ -14,6 +22,10 @@ export const createCoinChartTooltipBuilder =
         offsetLeft={22}
         offsetTop={-28}
         title={format(new Date(getX(tooltipData)), 'MMM d, hh:mm aaa')}
-        subtitle={getY(tooltipData).toString()}
+        subtitle={
+          yFormatter
+            ? yFormatter(getY(tooltipData).valueOf())
+            : getY(tooltipData).valueOf().toString()
+        }
       />
     )
