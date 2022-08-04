@@ -45,6 +45,7 @@ const initialState: NftsStateType = {
     status: null,
     step: null,
     userHasPendingTxR: Remote.NotAsked,
+    viewOrder: null,
     wrapEthFees: Remote.NotAsked,
     wyvernOrder: null
   },
@@ -516,6 +517,9 @@ const nftsSlice = createSlice({
     },
     setOrderFlowStep: (state, action: PayloadAction<{ step: NftOrderStepEnum }>) => {
       state.orderFlow.step = action.payload.step
+    },
+    setViewOrder: (state, action: PayloadAction<{ viewOrder: NftAsset }>) => {
+      state.orderFlow.viewOrder = action.payload.viewOrder
     },
     updateUserPreferences: (
       state,

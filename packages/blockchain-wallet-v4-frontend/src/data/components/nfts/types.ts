@@ -79,6 +79,7 @@ export type NftsStateType = {
     status: NftOrderStatusEnum | null
     step: NftOrderStepEnum | null
     userHasPendingTxR: RemoteDataType<string, boolean>
+    viewOrder: NftAsset | null
     wrapEthFees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     wyvernOrder: WyvernRawOrder | null
   }

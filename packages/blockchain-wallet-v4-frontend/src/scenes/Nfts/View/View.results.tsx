@@ -1,11 +1,15 @@
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { NftAsset } from '@core/network/api/nfts/types'
 import { Image, Text } from 'blockchain-info-components'
+import { actions, selectors } from 'data'
 
-const NftViewResults: React.FC<Props> = ({ asset }) => {
+const NftViewResults: React.FC<Props> = (props) => {
+  const { asset, nftsActions } = props
   const AssetImg = styled.img`
     border-radius: 18px;
     object-fit: cover;
@@ -46,7 +50,13 @@ const NftViewResults: React.FC<Props> = ({ asset }) => {
     <>
       {asset.image_url ? (
         <LinkContainer to={`/nfts/assets/${asset.asset_contract?.address}/${asset.token_id}`}>
-          <AssetImg alt='Asset Logo' width='200px' height='200px' src={asset.image_url} />
+          <AssetImg
+            onClick={() => nftsActions.setViewOrder({ viewOrder: asset })}
+            alt='Asset Logo'
+            width='200px'
+            height='200px'
+            src={asset.image_url}
+          />
         </LinkContainer>
       ) : (
         <EmptyState>
@@ -62,8 +72,14 @@ const NftViewResults: React.FC<Props> = ({ asset }) => {
   )
 }
 
-type Props = {
+const mapDispatchToProps = (dispatch) => ({
+  nftsActions: bindActionCreators(actions.components.nfts, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+export type Props = ConnectedProps<typeof connector> & {
   asset: NftAsset
 }
 
-export default NftViewResults
+export default connector(NftViewResults)

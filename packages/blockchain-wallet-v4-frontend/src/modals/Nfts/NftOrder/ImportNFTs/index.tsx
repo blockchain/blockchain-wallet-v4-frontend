@@ -64,7 +64,7 @@ const ImportNFTs: React.FC<Props> = (props) => {
           <FormattedMessage id='copy.get-started' defaultMessage='Get Started' />
         </FlyoutHeader>
         <Flex flexDirection='column' gap={16} alignItems='center'>
-          <Image width='300px' name='nft-import' />
+          <Image width='200px' name='nft-import' />
           <Text color='grey900' size='20px' weight={600}>
             Import your NFTs
           </Text>

@@ -78,7 +78,6 @@ const Left = styled.div`
   align-items: center;
   ${media.tablet`
     width: 100%;
-    padding-top: 2em;
   `}
 `
 
@@ -98,7 +97,11 @@ const CoinIcon = styled(BlockchainIcon).attrs({ className: 'coin-icon' })`
   }
 `
 
-const Right = styled(Left)``
+const Right = styled(Left)`
+  ${media.tablet`
+    padding-top: 4em;
+  `}
+`
 
 const CustomStat = styled(Stat)`
   border-radius: 24px;

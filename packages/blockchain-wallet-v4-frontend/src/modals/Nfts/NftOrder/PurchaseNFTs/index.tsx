@@ -44,7 +44,7 @@ const PurchaseNFTs: React.FC<Props> = (props) => {
           <FormattedMessage id='copy.how-does-this-work' defaultMessage='How Does This Work' />
         </FlyoutHeader>
         <Flex flexDirection='column' gap={16} alignItems='center'>
-          <Image width='300px' name='nft-purchase' />
+          <Image width='200px' name='nft-purchase' />
           <Text color='grey900' size='20px' weight={600}>
             Purchase NFTs
           </Text>
@@ -63,7 +63,7 @@ const PurchaseNFTs: React.FC<Props> = (props) => {
               </NumberCircle>
               <div>
                 <Text color='grey900' weight={600} size='16px'>
-                  Click On One Of The Marketplace’s Above
+                  Go To One Of The Marketplace’s Above
                 </Text>
               </div>
             </Flex>
