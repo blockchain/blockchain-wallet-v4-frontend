@@ -68,8 +68,7 @@ const RecoveryWords = (props) => {
 
   return (
     <Flex flexDirection='column'>
-      <Flex alignItems='center' justifyContent='space-between'>
-        <BackIconWrapper width={24} height={24} onClick={props.handleBackArrow} />
+      <Flex alignItems='center' justifyContent='flex-end'>
         <Link target='_blank' href='https://support.blockchain.com/hc/en-us/'>
           <InfoIconWrapper width={20} height={20} />
         </Link>

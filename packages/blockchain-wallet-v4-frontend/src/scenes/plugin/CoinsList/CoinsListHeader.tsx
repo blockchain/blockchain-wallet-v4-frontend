@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconMoreHorizontal } from '@blockchain-com/icons'
 import styled from 'styled-components'
@@ -40,6 +40,8 @@ const WalletSymbol = styled.div`
 `
 
 const CoinsListHeader = () => {
+  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
+  const activeAccountCoin = selectedAccount && selectedAccount[0].baseCoin
   return (
     <DefaultHeader
       suffix={
@@ -53,7 +55,7 @@ const CoinsListHeader = () => {
           <FormattedMessage id='plugin.privateKeyWallet' defaultMessage='Private Key Wallet' />
         </Text>
         <WalletSymbol>
-          <Text size='12px'>ETH</Text>
+          <Text size='12px'>{activeAccountCoin}</Text>
           <span />
         </WalletSymbol>
       </WalletAddress>

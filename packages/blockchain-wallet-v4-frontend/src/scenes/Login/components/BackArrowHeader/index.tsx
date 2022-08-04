@@ -1,10 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { AbstractPlugin } from 'plugin/internal'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { LoginFormType, LoginSteps, PlatformTypes, ProductAuthOptions } from 'data/auth/types'
 import { isMobile } from 'services/styles'
+
+const { isPlugin } = AbstractPlugin
 
 const BackArrowWrapper = styled.div<{ hideBackArrow?: boolean; marginTop?: string }>`
   display: flex;
@@ -22,6 +25,9 @@ const EmailAndGuid = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  overflow: ${isPlugin() && 'hidden'}
+  text-overflow: ${isPlugin() && 'ellipsis'};
+  width: ${isPlugin() && '70%'};
 `
 
 const BackArrowHeader = (props: {

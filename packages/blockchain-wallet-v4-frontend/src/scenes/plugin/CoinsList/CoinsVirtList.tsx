@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
@@ -36,6 +36,11 @@ const Cell = styled.div<{ align?: string }>`
   }
 `
 
+const CellWrapper = styled(Cell)`
+  flex: 30%;
+  padding-left: 14px;
+`
+
 const ListRow = ({
   data,
   index,
@@ -51,9 +56,9 @@ const ListRow = ({
   } = data[index]
   return (
     <ListRowStyled style={style}>
-      <Cell style={{ flex: '30%', paddingLeft: '14px' }}>
+      <CellWrapper>
         <Icon size='24' name={symbol} />
-      </Cell>
+      </CellWrapper>
       <Cell>
         <Text color='white900' size='16px' weight={600}>
           {displaySymbol}

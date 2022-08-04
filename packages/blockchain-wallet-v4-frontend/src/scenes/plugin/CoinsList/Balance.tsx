@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconArrowUpRight, IconDownload } from '@blockchain-com/icons'
@@ -45,7 +46,10 @@ const Balance = (props) => {
   const balance = data.cata({
     Failure: () => (
       <Text weight={700} size='24px' color='grey200'>
-        Error
+        <FormattedMessage
+          id='plugin.coinslist.failed.balance'
+          defaultMessage='Failed to get total balance'
+        />
       </Text>
     ),
     Loading: () => <SkeletonRectangle width='120px' height='25px' />,
@@ -84,7 +88,7 @@ const Balance = (props) => {
             </Icon>
           </IconButtonStyled>
           <Text color='white' size='10px' weight={500}>
-            Receive
+            <FormattedMessage id='scenes.exchange.exchangeform.to' defaultMessage='Receive' />
           </Text>
         </ButtonWrapper>
         {activeAccountCoin === 'ETH' ? (
@@ -102,7 +106,10 @@ const Balance = (props) => {
               </Icon>
             </IconButtonStyled>
             <Text color='white' size='10px' weight={500}>
-              Send
+              <FormattedMessage
+                id='plugin.activity.transactionDetails.send'
+                defaultMessage='Send'
+              />
             </Text>
           </ButtonWrapper>
         ) : null}
