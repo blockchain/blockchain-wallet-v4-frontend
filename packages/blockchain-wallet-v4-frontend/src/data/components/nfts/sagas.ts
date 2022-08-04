@@ -656,6 +656,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         gasPrice: action.payload.gasData.gasPrice.toString()
       })
       yield put(actions.modals.closeAllModals())
+      // For NFT View: once transferred go back to owned assets page
+      yield put(actions.router.push('/nfts/view'))
       yield put(actions.alerts.displaySuccess('Transfer successful!'))
       yield put(
         actions.analytics.trackEvent({
