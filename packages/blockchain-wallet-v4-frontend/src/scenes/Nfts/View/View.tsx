@@ -121,10 +121,8 @@ const View: React.FC<Props> = (props) => {
         Success: ({ assets }) => {
           const totalEthSpent = assets
             .filter((asset) => {
-              // @ts-ignore
               return asset.last_sale?.payment_token?.eth_price
             })
-            // @ts-ignore
             .map((asset) => Number(asset.last_sale.payment_token.eth_price))
             .reduce((prev_asset, curr_asset) => prev_asset + curr_asset, 0)
           const averageEthSpent = totalEthSpent / assets.length
