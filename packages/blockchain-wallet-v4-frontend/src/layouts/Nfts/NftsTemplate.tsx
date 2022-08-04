@@ -22,10 +22,6 @@ const Page = styled.div`
 `
 
 const NftsTemplate: React.FC<any> = (props) => {
-  // useEffect(() => {
-  //   props.nftsActions.handleRouterChange({ location: { pathname: window.location.hash } })
-  // }, [window.location.hash, props.nftsActions])
-
   return (
     <ErrorBoundary>
       <Wrapper>

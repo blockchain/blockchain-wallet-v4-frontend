@@ -51,37 +51,6 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
             ) : null}
           </Flex>
           <Flex alignItems='center' justifyContent='space-between'>
-            {/* {asset.collection.safelist_request_status === 'verified' ? (
-              <Text
-                size='14px'
-                weight={600}
-                color='green600'
-                style={{
-                  background: colors.green100,
-                  borderRadius: '8px',
-                  padding: '5px 8px',
-                  textAlign: 'center',
-                  width: 'fit-content'
-                }}
-              >
-                Verified
-              </Text>
-            ) : (
-              <Text
-                size='14px'
-                weight={600}
-                color='orange600'
-                style={{
-                  background: colors.orange100,
-                  borderRadius: '8px',
-                  padding: '5px 8px',
-                  textAlign: 'center',
-                  width: 'fit-content'
-                }}
-              >
-                Not Verified
-              </Text>
-            )} */}
             {lowest_order?.current_price ? (
               <FiatDisplay
                 size='14px'

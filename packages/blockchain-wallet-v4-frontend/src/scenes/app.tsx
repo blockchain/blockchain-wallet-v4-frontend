@@ -198,30 +198,7 @@ const App = ({
                               pageTitle={`${BLOCKCHAIN_TITLE} | DEX`}
                             />
                           )}
-
                           {/* NFT Explorer routes */}
-                          {/* {isNftExplorerEnabled && (
-                            <NftsLayout
-                              path='/nfts/address/:address'
-                              exact
-                              component={NftsAddress}
-                            />
-                          )}
-                          {isNftExplorerEnabled && (
-                            <NftsLayout
-                              path='/nfts/address/settings/:address'
-                              exact
-                              component={NftsSettings}
-                            />
-                          )}
-
-                          {isNftExplorerEnabled && (
-                            <NftsLayout
-                              path='/nfts/collection/:slug'
-                              exact
-                              component={NftsCollection}
-                            />
-                          )} */}
                           {isNftExplorerEnabled && (
                             <NftsLayout
                               path='/nfts/assets/:contract/:id'
@@ -240,15 +217,6 @@ const App = ({
                               pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                             />
                           )}
-                          {/* {isNftExplorerEnabled && (
-                            <NftsLayout
-                              path='/nfts/explore'
-                              exact
-                              component={NftsFirehose}
-                              pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
-                            />
-                          )} */}
-
                           {/* Authenticated Wallet routes */}
                           {isDebitCardEnabled && (
                             <WalletLayout path='/debit-card' component={DebitCard} />
