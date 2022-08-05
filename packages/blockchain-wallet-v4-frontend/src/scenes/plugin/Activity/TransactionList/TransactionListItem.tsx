@@ -62,14 +62,12 @@ const TransactionListItem: React.FC<ITransactionListItemProps> = ({
   const handleItemClick = () => {
     onClick(item)
   }
-
   return (
     <ItemWrapper onClick={handleItemClick}>
       <Flex gap={20}>
         <Flex alignItems='center' justifyContent='center'>
           <TransactionIcon size='sm' type={item.type} />
         </Flex>
-
         <Expanded>
           <Flex flexDirection='column'>
             <Flex justifyContent='space-between'>

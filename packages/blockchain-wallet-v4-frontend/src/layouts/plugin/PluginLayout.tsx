@@ -139,7 +139,7 @@ const PluginLayout = (props: Props) => {
             <Content>
               <Component {...matchProps} />
             </Content>
-            {footer && <Footer>{footer}</Footer>}
+            {footer && isEthAccountSelected && <Footer>{footer}</Footer>}
           </Wrapper>
         </MainWrapper>
       )}

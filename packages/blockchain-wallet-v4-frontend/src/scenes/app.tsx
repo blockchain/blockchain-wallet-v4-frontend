@@ -168,6 +168,7 @@ const App = ({
                                 component={Activity}
                               />
                               <PluginLayout path='/plugin/funding' component={Funding} />
+                              <PluginLayout path='/plugin/settings' component={Settings} />
                               <PluginLayout
                                 path='/plugin/nft'
                                 header={<CoinsListHeader />}
@@ -175,7 +176,6 @@ const App = ({
                                 component={Nft}
                               />
                               <PluginLayout path='/plugin/send' component={Send} />
-                              <PluginLayout path='/plugin/settings' component={Settings} />
                               <RPCMethodsLayout
                                 path='/plugin/connect-dapp'
                                 component={ConnectDapp}

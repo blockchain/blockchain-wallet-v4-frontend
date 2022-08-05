@@ -29,18 +29,12 @@ const Wrapper = styled.div`
 const TransactionList: React.FC<ITransactionListProps> = ({ blockHeight, coin, transactions }) => {
   const [selectedTx, setSelectedTx] = React.useState<EthProcessedTxType | null>(null)
 
-  const confirmedTransactions = React.useMemo(
-    () =>
-      transactions.filter((tx) => getIsConfirmed(blockHeight.number, Number(tx.blockHeight), coin)),
-    [blockHeight.number, coin, transactions]
+  const confirmedTransactions = transactions.filter((tx) =>
+    getIsConfirmed(blockHeight.number, Number(tx.blockHeight), coin)
   )
 
-  const pendingTransactions = React.useMemo(
-    () =>
-      transactions.filter(
-        (tx) => !getIsConfirmed(blockHeight.number, Number(tx.blockHeight), coin)
-      ),
-    [blockHeight.number, coin, transactions]
+  const pendingTransactions = transactions.filter(
+    (tx) => !getIsConfirmed(blockHeight.number, Number(tx.blockHeight), coin)
   )
 
   const handleTransactionClick = React.useCallback(
@@ -56,19 +50,21 @@ const TransactionList: React.FC<ITransactionListProps> = ({ blockHeight, coin, t
         <>
           <Text size='14px' lineHeight='150%' color='grey400' weight={500}>
             <FormattedMessage id='plugin.activity.transactionList.queue' defaultMessage='Queue' /> (
-            {pendingTransactions.length}
+            {pendingTransactions.length})
           </Text>
           <Padding top={16} bottom={45}>
             <Flex flexDirection='column'>
-              {pendingTransactions.map((item) => (
-                <TransactionListItem
-                  coin={coin}
-                  item={item}
-                  key={item.hash}
-                  status='PENDING'
-                  onClick={handleTransactionClick}
-                />
-              ))}
+              {pendingTransactions.map((item) => {
+                return (
+                  <TransactionListItem
+                    coin={coin}
+                    item={item}
+                    key={item.hash}
+                    status='PENDING'
+                    onClick={handleTransactionClick}
+                  />
+                )
+              })}
             </Flex>
           </Padding>
         </>
@@ -103,9 +99,7 @@ const TransactionList: React.FC<ITransactionListProps> = ({ blockHeight, coin, t
         {selectedTx && (
           <TransactionDetails
             coin={coin}
-            status={
-              getIsConfirmed(blockHeight, selectedTx.blockHeight, coin) ? 'CONFIRMED' : 'PENDING'
-            }
+            status={selectedTx.state}
             transaction={selectedTx}
             onClose={handleCloseModal}
           />
