@@ -7,7 +7,7 @@ import { Flex } from 'components/Flex'
 
 const Wrapper = styled(Flex)`
   position: absolute;
-  bottom: 0;
+  top: -460px;
   left: 0;
   flex-direction: column;
   align-items: center;
@@ -52,15 +52,14 @@ type TransactionStatusProps = {
   title: string
 }
 
-// Common wrapper for success/cancelled transaction component
+// Common wrapper for success/canceled transaction components
 const TransactionStatus: React.FC<TransactionStatusProps> = (props) => {
   const { children, closePopup, history, messageId, title } = props
   const datae2e = title.split(' ').join('')
 
   const goToActitiviesTab = () => {
     closePopup()
-    // TODO: finalize path
-    history.push('/activities')
+    history.push('/plugin/activity')
   }
 
   return (
@@ -68,7 +67,7 @@ const TransactionStatus: React.FC<TransactionStatusProps> = (props) => {
       <Content>
         <IconWrapper>{children}</IconWrapper>
         <TextWrapper>
-          <FormattedMessage id={messageId} defaultMessage={title} />
+          <FormattedMessage id={`${messageId}_title`} defaultMessage={title} />
         </TextWrapper>
       </Content>
       <Button

@@ -14,6 +14,7 @@ import interestUploadDocument from './interestUploadDocument/sagas'
 import manageAddresses from './manageAddresses/sagas'
 import nfts from './nfts/sagas'
 import onboarding from './onboarding/sagas'
+import plugin from './plugin/sagas'
 import priceChart from './priceChart/sagas'
 import recurringBuy from './recurringBuy/sagas'
 import refresh from './refresh/sagas'
@@ -52,6 +53,7 @@ export default ({ api, coreSagas, networks }) => ({
   manageAddresses: manageAddresses({ api, networks }),
   nfts: nfts({ api, coreSagas, networks }),
   onboarding: onboarding(),
+  plugin: plugin({ api, coreSagas, networks }),
   priceChart: priceChart(),
   recurringBuy: recurringBuy({ api }),
   refresh: refresh(),

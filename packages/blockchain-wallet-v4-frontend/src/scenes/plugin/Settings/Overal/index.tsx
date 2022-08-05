@@ -9,12 +9,11 @@ import {
   IconSettings,
   IconWallet
 } from '@blockchain-com/icons'
-import { bindActionCreators } from 'redux'
+import { removeAllConnections } from 'plugin/internal'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import { actions } from 'data'
 
 import { Setting, SettingsHeading } from '..'
 
@@ -46,6 +45,7 @@ const LogoutButton = styled.button`
   border: 1px solid ${(props) => props.theme.grey400};
   background: transparent;
   border-radius: 10px;
+  cursor: pointer;
 `
 
 const Overal = (props) => {
@@ -62,9 +62,10 @@ const Overal = (props) => {
     new Setting('layouts.wallet.header.general', 'General', `${path}/general`, <IconSettings />),
     new Setting('scenes.plugin.settings.info', 'About', `${path}/about`, <IconInformation />)
   ]
-  const logout = () => {
-    const sessionActions = bindActionCreators(actions.session, dispatch)
-    dispatch(sessionActions.logout())
+  const logout = async () => {
+    await removeAllConnections()
+    await chrome.storage.session.clear()
+    window.close()
   }
 
   return (

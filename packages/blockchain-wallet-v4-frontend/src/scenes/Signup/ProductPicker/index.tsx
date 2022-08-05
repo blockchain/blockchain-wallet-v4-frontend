@@ -50,6 +50,10 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
       ),
     Loading: () => <SpinningLoader />,
     NotAsked: () => {
+      if (isPlugin() && isMetadataRecovery) {
+        props.routerActions.push('/plugin/backup-seed-phrase')
+        return null
+      }
       if (isMetadataRecovery) {
         props.routerActions.push('/home')
         return null
@@ -59,7 +63,7 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
     },
     Success: () => {
       if (isPlugin()) {
-        props.routerActions.push('/plugin/coinslist')
+        props.routerActions.push('/plugin/backup-seed-phrase')
         return null
       }
       if (showExchangeUserConflict) {

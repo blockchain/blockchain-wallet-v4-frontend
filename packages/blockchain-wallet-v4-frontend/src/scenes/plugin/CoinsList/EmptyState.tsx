@@ -1,9 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import AutoSizer from 'react-virtualized-auto-sizer'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
+import { actions } from 'data'
 
 const Wrapper = styled.div`
   position: relative;
@@ -19,16 +22,23 @@ const ButtonStyled = styled(Button)`
   color: ${(props) => props.theme.exchangeLogin};
 `
 
-const EmptyState = () => (
+const EmptyState = ({ routerActions }) => (
   <AutoSizer>
     {({ height, width }) => (
       <Wrapper style={{ height, width }}>
         <div>
           <Text color='white' size='14px' weight={500}>
-            Receive
+            <FormattedMessage
+              id='plugin.coinslist.empty.image'
+              defaultMessage='Empty state image'
+            />
           </Text>
         </div>
-        <ButtonStyled style={{ marginTop: '2rem' }} data-e2e='coinview-empty-add-crypto-btn'>
+        <ButtonStyled
+          onClick={() => routerActions.push('/plugin/funding')}
+          style={{ marginTop: '150px' }}
+          data-e2e='coinview-empty-add-crypto-btn'
+        >
           <FormattedMessage id='copy.add_crypto' defaultMessage='Add Crypto' />
         </ButtonStyled>
       </Wrapper>
@@ -36,4 +46,8 @@ const EmptyState = () => (
   </AutoSizer>
 )
 
-export default EmptyState
+const mapDispatchToProps = (dispatch) => ({
+  routerActions: bindActionCreators(actions.router, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(EmptyState)

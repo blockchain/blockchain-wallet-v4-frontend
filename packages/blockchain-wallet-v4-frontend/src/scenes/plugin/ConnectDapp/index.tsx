@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { IconBlockchain } from '@blockchain-com/icons'
+import { TabMetadata } from 'plugin/internal'
+import { getSessionPayload } from 'plugin/internal/chromeStorage'
+import { SupportedRPCMethods } from 'plugin/provider/utils'
 import styled, { keyframes } from 'styled-components'
 
 import { Flex } from 'components/Flex'
+import { actions } from 'data'
 
 import { Confirmation } from './Confirmation'
 import { Connected } from './Connected'
@@ -25,30 +30,61 @@ const BlockchainIcon = styled(IconBlockchain)`
 export enum ConnectStep {
   Confirmation = 'Confirmation',
   Connected = 'Connected',
-  Connectiing = 'Connectiing',
+  Connecting = 'Connecting',
   InitialScreen = 'InitialScreen'
 }
 
-export const ConnectDapp = () => {
+type Props = {
+  history: {
+    location: {
+      search: string
+    }
+  }
+}
+
+export const ConnectDapp: FC<Props> = (props) => {
   const [connectStep, setConnectStep] = useState<ConnectStep>(ConnectStep.InitialScreen)
+  const [metadata, setMetadata] = useState<TabMetadata>({ origin: '' })
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
+    window.onbeforeunload = () => {
+      chrome.runtime.sendMessage({
+        data: null,
+        type: SupportedRPCMethods.RequestAccounts
+      })
+    }
+    ;(async function () {
+      const wrapper = await getSessionPayload()
+      dispatch(actions.core.wallet.setWrapper(wrapper))
+    })()
+  }, [dispatch])
+
+  useEffect(() => {
+    const params = new URLSearchParams(props.history.location.search)
+    setMetadata({
+      favicon: params.get('favicon') || '',
+      origin: params.get('domain') || ''
+    })
+
     const timeout = setTimeout(() => {
       setConnectStep(ConnectStep.Confirmation)
     }, 2000)
+
     return () => {
       clearTimeout(timeout)
     }
-  }, [])
+  }, [props.history.location.search])
 
   const getConnectStep = () => {
     switch (connectStep) {
       case ConnectStep.Confirmation:
-        return <Confirmation setConnectStep={setConnectStep} />
-      case ConnectStep.Connectiing:
-        return <Connecting setConnectStep={setConnectStep} />
+        return <Confirmation setConnectStep={setConnectStep} metadata={metadata} />
+      case ConnectStep.Connecting:
+        return <Connecting setConnectStep={setConnectStep} metadata={metadata} />
       case ConnectStep.Connected:
-        return <Connected setConnectStep={setConnectStep} />
+        return <Connected metadata={metadata} />
       default:
         return <BlockchainIcon width='137px' height='137px' />
     }

@@ -16,6 +16,7 @@ import interestUploadDocument from './interestUploadDocument/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
 import nfts from './nfts/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
+import plugin from './plugin/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import recurringBuy from './recurringBuy/sagaRegister'
 import refresh from './refresh/sagaRegister'
@@ -56,6 +57,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(manageAddresses({ api, networks }))
     yield fork(onboarding())
     yield fork(nfts({ api, coreSagas, networks }))
+    yield fork(plugin({ api, coreSagas, networks }))
     yield fork(priceChart())
     yield fork(refresh())
     yield fork(request({ api, coreSagas, networks }))

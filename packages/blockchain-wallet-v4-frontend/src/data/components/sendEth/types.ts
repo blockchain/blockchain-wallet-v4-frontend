@@ -12,7 +12,7 @@ export type SendEthState = {
   isContract: RemoteDataType<string, boolean>
   payment: RemoteDataType<string, ReturnType<EthPaymentType['value']>>
   sendLimits: RemoteDataType<string, CrossBorderLimits>
-  step: 1 | 2
+  step: 0 | 1 | 2
 }
 
 export type ISendEthFormChangeActionType = {

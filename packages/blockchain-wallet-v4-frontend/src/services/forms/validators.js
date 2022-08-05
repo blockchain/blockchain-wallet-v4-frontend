@@ -106,6 +106,10 @@ export const validEthAddress = ({ value: dropdownValue }) => {
   return utils.eth.isValidAddress(address) ? undefined : <M.InvalidEthAddressMessage />
 }
 
+export const validEthAddressValue = (value) => {
+  return utils.eth.isValidAddress(value) ? undefined : <M.InvalidEthAddressMessage />
+}
+
 export const validXlmAddress = ({ value: dropdownValue }) => {
   if (!dropdownValue) return
   const { value } = dropdownValue

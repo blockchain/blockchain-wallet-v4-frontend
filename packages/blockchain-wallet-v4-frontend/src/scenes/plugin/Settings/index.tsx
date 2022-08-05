@@ -21,8 +21,33 @@ export const SettingsHeading = styled(Text)`
 `
 
 export const SettingsContainer = styled(Flex)`
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 360px;
+  height: 600px;
+  padding: 24px;
+  box-sizing: border-box;
   flex-direction: column;
-  height: 100%;
+  z-index: 2;
+  background: ${(props) => props.theme.black};
+`
+
+const SettingsItemsWrapper = styled(Flex)`
+  flex-direction: column;
+  flex-grow: 1;
+`
+
+const SettingsLinksWrapper = styled(Flex)`
+  z-index: 3;
+`
+
+const SettingsControl = styled.button`
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  outline: none;
 `
 
 export class Setting {
@@ -43,40 +68,35 @@ export class Setting {
 }
 
 const Settings = (props) => {
-  const { path } = props.match
-
-  const goBack = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault()
-    props.history.goBack()
+  const isRootPath = () => {
+    return props.location.pathname === '/plugin/settings'
   }
   return (
     <SettingsContainer>
-      <Flex justifyContent={`#${path}` !== window.location.hash ? 'space-between' : 'flex-end'}>
-        {`#${path}` !== window.location.hash ? (
-          <Link to={path} onClick={goBack}>
+      <SettingsLinksWrapper justifyContent={`${isRootPath() ? 'flex-end' : 'space-between'}`}>
+        {!isRootPath() && (
+          <Link to='/plugin/settings'>
             <Icon color='grey700' label='IconBack' size='md'>
               <IconArrowLeft />
             </Icon>
           </Link>
-        ) : (
-          <></>
         )}
-        <Link to='/extension/home'>
+        <Link to='/plugin/coinslist'>
           <Icon color='grey700' label='IconClose' size='md'>
             <IconClose />
           </Icon>
         </Link>
-      </Flex>
-      <SettingsContainer>
+      </SettingsLinksWrapper>
+      <SettingsItemsWrapper>
         <Switch>
-          <Route component={Overal} path={path} exact />
-          <Route component={Account} path={`${path}/account`} />
-          <Route component={Networks} path={`${path}/networks`} />
-          <Route component={Connected} path={`${path}/connected-dapps`} />
-          <Route component={General} path={`${path}/general`} />
-          <Route component={Info} path={`${path}/about`} />
+          <Route component={Overal} path='/plugin/settings' exact />
+          <Route component={Account} path='/plugin/settings/account' />
+          <Route component={Networks} path='/plugin/settings/networks' />
+          <Route component={Connected} path='/plugin/settings/connected-dapps' />
+          <Route component={General} path='/plugin/settings/general' />
+          <Route component={Info} path='/plugin/settings/about' />
         </Switch>
-      </SettingsContainer>
+      </SettingsItemsWrapper>
     </SettingsContainer>
   )
 }

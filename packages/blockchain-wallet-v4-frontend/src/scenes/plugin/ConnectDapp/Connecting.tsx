@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { IconBlockchainCircle } from '@blockchain-com/icons'
+import { TabMetadata } from 'plugin/internal'
 import styled, { keyframes } from 'styled-components'
 
 import { Flex } from 'components/Flex'
@@ -23,17 +24,26 @@ const BlockchainIcon = styled(IconBlockchainCircle)`
   z-index: 2;
   animation: ${blockchainIconFrames} 2s ease-in both;
 `
-const SiteIcon = styled(IconBlockchainCircle)`
-  color: ${(props) => props.theme.white};
+const SiteIconContainer = styled('div')`
+  z-index: 1;
   animation: ${siteIconFrames} 2s ease-in both;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: auto;
+`
+const SiteIcon = styled('img')`
+  width: 100%;
 `
 const ConnectingWrapper = styled(Flex)`
   width: 100%;
+  align-items: center;
   justify-content: space-between;
 `
 export const Connecting: React.FC<{
+  metadata: TabMetadata
   setConnectStep: React.Dispatch<React.SetStateAction<ConnectStep>>
-}> = ({ setConnectStep }) => {
+}> = ({ metadata, setConnectStep }) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setConnectStep(ConnectStep.Connected)
@@ -41,11 +51,18 @@ export const Connecting: React.FC<{
     return () => {
       clearTimeout(timeout)
     }
-  }, [])
+  }, [setConnectStep])
+
   return (
     <ConnectingWrapper>
       <BlockchainIcon width='120px' height='120px' />
-      <SiteIcon width='120px' height='120px' />
+      {metadata.favicon !== '' ? (
+        <SiteIconContainer>
+          <SiteIcon src={metadata.favicon} alt='icon' />
+        </SiteIconContainer>
+      ) : (
+        <BlockchainIcon width='120px' height='120px' />
+      )}
     </ConnectingWrapper>
   )
 }

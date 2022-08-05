@@ -22,6 +22,7 @@ export const fromJS = (labels) => {
   if (is(AddressBook, labels)) {
     return labels
   }
+
   if (labels == null) {
     return new AddressBook()
   }

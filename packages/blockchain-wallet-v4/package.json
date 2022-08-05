@@ -39,7 +39,8 @@
       "<rootDir>/lib"
     ],
     "moduleNameMapper": {
-      "@core(.*)$": "<rootDir>/src/$1"
+      "@core(.*)$": "<rootDir>/src/$1",
+      "plugin/internal": "<rootDir>/../blockchain-wallet-v4-frontend/src/plugin/internal"
     },
     "setupFiles": [
       "<rootDir>/../../config/jest/jest.shim.js",
