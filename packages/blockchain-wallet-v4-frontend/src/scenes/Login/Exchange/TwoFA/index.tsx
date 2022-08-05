@@ -91,7 +91,7 @@ const TwoFAExchange = (props: Props) => {
             nature='primary'
             fullwidth
             height='48px'
-            disabled={submitting || invalid || busy || (formValues?.exchangeTwoFA?.length || 0) < 5}
+            disabled={submitting || invalid || busy || (formValues?.exchangeTwoFA?.length || 0) < 6}
             data-e2e='loginButton'
             style={{ marginBottom: '16px' }}
           >
