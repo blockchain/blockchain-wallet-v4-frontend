@@ -99,7 +99,7 @@ const Header = () => {
       setIsLoadingAccounts(false)
     }
     if (accounts.ETH && accounts.ETH[0] && !selectedAccount) {
-      dispatch(actions.setSelectedAccount(accounts.ETH[0].address))
+      dispatch(actions.setSelectedAccount(accounts.ETH))
     }
   }, [accounts, dispatch, selectedAccount])
 
