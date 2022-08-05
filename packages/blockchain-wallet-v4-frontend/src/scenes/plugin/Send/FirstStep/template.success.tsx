@@ -98,6 +98,7 @@ const IconCheckWrapper = styled.div`
 
 const AssetIconWrapper = styled.div`
   margin-left: 10px;
+  color: ${(props) => props.theme.grey400};
 `
 
 const AssetWrapper = styled(Flex)`
@@ -116,6 +117,7 @@ const SelectedAssetWrapper = styled.button`
   outline: none;
   border: none;
   background: transparent;
+  cursor: pointer;
 
   &:hover {
     background: ${(props) => props.theme.exchangeLogin};
