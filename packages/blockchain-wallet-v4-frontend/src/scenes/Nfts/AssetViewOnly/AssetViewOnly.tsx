@@ -55,6 +55,46 @@ const AssetImg = styled.img`
   `};
 `
 
+export const ResultImg = styled.img`
+  border-radius: 18px;
+  object-fit: cover;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 175px;
+  height: 175px;
+  &:hover {
+    box-shadow: 0px 0px 12px 0px ${(props) => props.theme.grey200};
+  }
+  ${media.laptop`
+  width: 100%;
+  height: 175px;
+`};
+`
+export const EmptyState = styled.div`
+  border-radius: 18px;
+  width: 175px;
+  height: 175px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  object-fit: cover;
+  box-sizing: border-box;
+  background: rgb(192, 217, 252);
+  background: radial-gradient(
+    circle,
+    rgba(192, 217, 252, 1) 0%,
+    rgba(255, 255, 255, 1) 100%,
+    rgba(194, 218, 252, 1) 100%,
+    rgba(12, 108, 242, 1) 100%
+  );
+  ${media.laptop`
+  width: 100%;
+  height: 175px;
+`};
+`
+
 const Description = styled.div`
   margin: 1em 0em;
   padding: 1em;
@@ -118,12 +158,6 @@ const CollectionHeader = styled.div`
   ${media.mobile`
     padding-top: 32px;
   `};
-`
-
-const GradientCoinDisplay = styled(CoinDisplay)`
-  background: linear-gradient(92.99deg, #7663ff 0.55%, #0069fc 98.76%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 `
 
 const ItemDetails = styled.div`
@@ -260,7 +294,7 @@ const NftAssetViewOnly: React.FC<Props> = ({
                       </CollectionHeader>
                       <AssetName>
                         {asset?.token_id && asset?.token_id.length > 12
-                          ? `${asset?.token_id.substring(0, 12)}...`
+                          ? `#${asset?.token_id.substring(0, 12)}...`
                           : `#${asset?.token_id}`}
                       </AssetName>
                       {asset?.description !== '' && asset?.description?.length ? (
@@ -323,21 +357,21 @@ const NftAssetViewOnly: React.FC<Props> = ({
                       >
                         Transfer NFT
                       </MarginButton>
-                      {asset?.traits.length ? (
+                      {asset && asset.traits && asset.traits.length ? (
                         <DropdownPadding>
                           <NftDropdown expanded title='Traits'>
                             <div style={{ padding: '1em' }}>
                               <Flex flexDirection='column'>
                                 <TraitsWrapper>
-                                  {asset?.traits.map((trait) => {
+                                  {asset.traits.map((trait) => {
                                     if (!trait) return null
 
-                                    const assetTraits = asset?.traits?.find(
+                                    const assetTraits = asset.traits.find(
                                       (t) => t?.trait_type === trait.trait_type
                                     )
                                     const traitCount = assetTraits?.trait_count
                                     const rarity =
-                                      traitCount && asset?.asset_contract.total_supply
+                                      traitCount && asset.asset_contract.total_supply
                                         ? `${parseFloat(
                                             (
                                               (traitCount / asset?.asset_contract.total_supply) *

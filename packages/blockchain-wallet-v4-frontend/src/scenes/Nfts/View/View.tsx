@@ -47,12 +47,6 @@ const Address = styled(Flex)`
   width: fit-content;
 `
 
-const FlexLeft = styled.div`
-  display: flex;
-  justify-content: left;
-  flex-direction: column;
-`
-
 const HeaderContent = styled.div`
   padding: 40px;
   display: flex;
@@ -182,7 +176,7 @@ const View: React.FC<Props> = (props) => {
           ) : (
             <NftPageV2>
               <Header>
-                <FlexLeft>
+                <Flex flexDirection='column'>
                   <HeaderContent>
                     <Text size='32px' weight={600} color='grey900'>
                       My NFTs
@@ -201,8 +195,11 @@ const View: React.FC<Props> = (props) => {
                         Add your NFTs
                       </Text>
                       <CustomText color='grey700' size='16px' weight={500}>
-                        Already have NFTs somewhere else? Import them by sending from external
-                        wallet to the address below.
+                        <FormattedMessage
+                          id='scenes.nfts.view.already_have_nfts_from_somewhere'
+                          defaultMessage='Already have NFTs somewhere else? Import them by sending from external
+                        wallet to the address below.'
+                        />
                       </CustomText>
                       <Button
                         onClick={() =>
@@ -257,7 +254,7 @@ const View: React.FC<Props> = (props) => {
                       </Flex>
                     </Right>
                   </Body>
-                </FlexLeft>
+                </Flex>
               </Header>
             </NftPageV2>
           )

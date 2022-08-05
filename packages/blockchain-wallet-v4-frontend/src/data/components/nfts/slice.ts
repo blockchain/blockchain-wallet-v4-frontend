@@ -318,7 +318,7 @@ const nftsSlice = createSlice({
     fetchNftOwnerAssets: (
       state,
       action: PayloadAction<{
-        defaultEthAddr: string | undefined
+        defaultEthAddr: string
       }>
     ) => {},
     fetchNftOwnerAssetsFailure: (state, action: PayloadAction<OwnerNftBalance>) => {

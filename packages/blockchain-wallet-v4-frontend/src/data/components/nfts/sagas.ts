@@ -124,7 +124,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(A.fetchNftOwnerAssetsLoading())
       const res: ReturnType<typeof api.getNftOwnerAssets> = yield call(
         api.getNftOwnerAssets,
-        action?.payload?.defaultEthAddr
+        action.payload.defaultEthAddr
       )
       yield put(A.fetchNftOwnerAssetsSuccess(res))
     } catch (e) {

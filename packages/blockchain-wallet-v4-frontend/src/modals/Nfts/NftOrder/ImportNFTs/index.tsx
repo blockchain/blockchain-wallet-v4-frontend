@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
-import { colors } from '@blockchain-com/constellation'
+import { colors, Padding } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import {
@@ -58,43 +58,39 @@ const ImportNFTs: React.FC<Props> = (props) => {
   }
 
   return (
-    <>
+    <Flex flexDirection='column' gap={16} alignItems='center'>
+      <FlyoutHeader sticky data-e2e='getStarted' mode='back' onClick={close}>
+        <FormattedMessage id='copy.get-started' defaultMessage='Get Started' />
+      </FlyoutHeader>
       <Flex flexDirection='column' gap={16} alignItems='center'>
-        <FlyoutHeader sticky data-e2e='getStarted' mode='back' onClick={() => close()}>
-          <FormattedMessage id='copy.get-started' defaultMessage='Get Started' />
-        </FlyoutHeader>
-        <Flex flexDirection='column' gap={16} alignItems='center'>
-          <Image width='200px' name='nft-import' />
-          <Text color='grey900' size='20px' weight={600}>
-            Import your NFTs
+        <Image width='200px' name='nft-import' />
+        <Text color='grey900' size='20px' weight={600}>
+          Import your NFTs
+        </Text>
+        <CustomText color='grey700' size='16px' weight={500}>
+          <FormattedMessage
+            id='scenes.nfts.view.already_have_nfts_from_somewhere'
+            defaultMessage='Already have NFTs somewhere else? Import them by sending from external
+                        wallet to the address below.'
+          />
+        </CustomText>
+        <QRCodeContainer>
+          <QRCodeWrapper value={defaultEthAddr} size={256} />
+        </QRCodeContainer>
+        <Address justifyContent='space-between' alignItems='center'>
+          <Text color='grey700' size='14px' weight={600}>
+            <CryptoAddress canCopy>{defaultEthAddr}</CryptoAddress>
           </Text>
-          <CustomText color='grey700' size='16px' weight={500}>
-            Already have NFTs somewhere else? Import them by sending from external wallet to the
-            address below.
-          </CustomText>
-          <QRCodeContainer>
-            <QRCodeWrapper value={defaultEthAddr} size={256} />
-          </QRCodeContainer>
-          <Address justifyContent='space-between' alignItems='center'>
-            <Text color='grey700' size='14px' weight={600}>
-              <CryptoAddress canCopy>{defaultEthAddr}</CryptoAddress>
-            </Text>
-          </Address>{' '}
-          <Button
-            onClick={() => {
-              copyToClipboard()
-            }}
-            width='182px'
-            nature='primary'
-            data-e2e='get-started'
-          >
-            Copy Address
-          </Button>
-          <Flex flexDirection='column' alignItems='flex-start' style={{ padding: '1em 1em 2em' }}>
-            <Text color='grey900' size='16px' weight={600}>
-              Instructions
-            </Text>
-            <Flex alignItems='center' gap={8} style={{ padding: '1.5em 0em' }}>
+        </Address>{' '}
+        <Button onClick={copyToClipboard} width='182px' nature='primary' data-e2e='get-started'>
+          Copy Address
+        </Button>
+        <Flex flexDirection='column' alignItems='flex-start' style={{ padding: '1em 1em 2em' }}>
+          <Text color='grey900' size='16px' weight={600}>
+            Instructions
+          </Text>
+          <Padding top={16}>
+            <Flex alignItems='center' gap={8}>
               <NumberCircle>
                 <Text color='grey600' weight={600}>
                   1
@@ -109,6 +105,8 @@ const ImportNFTs: React.FC<Props> = (props) => {
                 </Text>
               </div>
             </Flex>
+          </Padding>
+          <Padding top={16}>
             <Flex alignItems='center' gap={8}>
               <NumberCircle>
                 <Text color='grey600' weight={600}>
@@ -124,7 +122,9 @@ const ImportNFTs: React.FC<Props> = (props) => {
                 </Text>
               </div>
             </Flex>
-            <Flex alignItems='center' gap={8} style={{ padding: '1.5em 0em 0em' }}>
+          </Padding>
+          <Padding top={16}>
+            <Flex alignItems='center' gap={8}>
               <NumberCircle>
                 <Text color='grey600' weight={600}>
                   3
@@ -139,7 +139,9 @@ const ImportNFTs: React.FC<Props> = (props) => {
                 </Text>
               </div>
             </Flex>
-            <Flex alignItems='center' gap={8} style={{ padding: '1.5em 0em 0em' }}>
+          </Padding>
+          <Padding top={16}>
+            <Flex alignItems='center' gap={8}>
               <NumberCircle>
                 <Text color='grey600' weight={600}>
                   4
@@ -154,10 +156,10 @@ const ImportNFTs: React.FC<Props> = (props) => {
                 </Text>
               </div>
             </Flex>
-          </Flex>
+          </Padding>
         </Flex>
       </Flex>
-    </>
+    </Flex>
   )
 }
 

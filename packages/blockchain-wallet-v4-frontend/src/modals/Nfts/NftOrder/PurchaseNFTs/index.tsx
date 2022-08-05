@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors } from '@blockchain-com/constellation'
+import { colors, Padding } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import {
@@ -55,75 +55,85 @@ const PurchaseNFTs: React.FC<Props> = (props) => {
             <Text color='grey900' size='16px' weight={600}>
               Instructions
             </Text>
-            <Flex alignItems='center' gap={8} style={{ padding: '1.5em 0em' }}>
-              <NumberCircle>
-                <Text color='grey600' weight={600}>
-                  1
-                </Text>
-              </NumberCircle>
-              <div>
-                <Text color='grey900' weight={600} size='16px'>
-                  Go To One Of The Marketplace’s Above
-                </Text>
-              </div>
-            </Flex>
-            <Flex alignItems='center' gap={8}>
-              <NumberCircle>
-                <Text color='grey600' weight={600}>
-                  2
-                </Text>
-              </NumberCircle>
-              <div>
-                <Text color='grey900' weight={600} size='16px'>
-                  Open Your Blockchain.com App
-                </Text>
-              </div>
-            </Flex>
-            <Flex alignItems='center' gap={8} style={{ padding: '1.5em 0em 0em' }}>
-              <NumberCircle>
-                <Text color='grey600' weight={600}>
-                  3
-                </Text>
-              </NumberCircle>
-              <div>
-                <Text color='grey900' weight={600} size='16px'>
-                  Open WalletConnect
-                </Text>
-                <Text weight={500} size='12px'>
-                  Square icon in the upper right corner of the app.
-                </Text>
-              </div>
-            </Flex>
-            <Flex alignItems='center' gap={8} style={{ padding: '1.5em 0em 0em' }}>
-              <NumberCircle>
-                <Text color='grey600' weight={600}>
-                  4
-                </Text>
-              </NumberCircle>
-              <div>
-                <Text color='grey900' weight={600} size='16px'>
-                  Login to the marketplace with WalletConnect
-                </Text>
-                <Text weight={500} size='12px'>
-                  This will be an option after selecting Login
-                </Text>
-              </div>
-            </Flex>
-            <Flex alignItems='center' gap={8} style={{ padding: '1.5em 0em 0em' }}>
-              <NumberCircle>
-                <Text color='grey600' weight={600}>
-                  5
-                </Text>
-              </NumberCircle>
-              <div>
-                <Text color='grey900' weight={600} size='16px'>
-                  Once Purchased, NFTs will show up here
-                </Text>
-                <Text weight={500} size='12px'>
-                  Access your NFTs from your Blockchain Wallet
-                </Text>
-              </div>
-            </Flex>
+            <Padding top={16}>
+              <Flex alignItems='center' gap={8}>
+                <NumberCircle>
+                  <Text color='grey600' weight={600}>
+                    1
+                  </Text>
+                </NumberCircle>
+                <div>
+                  <Text color='grey900' weight={600} size='16px'>
+                    Go To One Of The Marketplace’s Above
+                  </Text>
+                </div>
+              </Flex>
+            </Padding>
+            <Padding top={16}>
+              <Flex alignItems='center' gap={8}>
+                <NumberCircle>
+                  <Text color='grey600' weight={600}>
+                    2
+                  </Text>
+                </NumberCircle>
+                <div>
+                  <Text color='grey900' weight={600} size='16px'>
+                    Open Your Blockchain.com App
+                  </Text>
+                </div>
+              </Flex>
+            </Padding>
+            <Padding top={16}>
+              <Flex alignItems='center' gap={8}>
+                <NumberCircle>
+                  <Text color='grey600' weight={600}>
+                    3
+                  </Text>
+                </NumberCircle>
+                <div>
+                  <Text color='grey900' weight={600} size='16px'>
+                    Open WalletConnect
+                  </Text>
+                  <Text weight={500} size='12px'>
+                    Square icon in the upper right corner of the app.
+                  </Text>
+                </div>
+              </Flex>
+            </Padding>
+            <Padding top={16}>
+              <Flex alignItems='center' gap={8}>
+                <NumberCircle>
+                  <Text color='grey600' weight={600}>
+                    4
+                  </Text>
+                </NumberCircle>
+                <div>
+                  <Text color='grey900' weight={600} size='16px'>
+                    Login to the marketplace with WalletConnect
+                  </Text>
+                  <Text weight={500} size='12px'>
+                    This will be an option after selecting Login
+                  </Text>
+                </div>
+              </Flex>
+            </Padding>
+            <Padding top={16}>
+              <Flex alignItems='center' gap={8}>
+                <NumberCircle>
+                  <Text color='grey600' weight={600}>
+                    5
+                  </Text>
+                </NumberCircle>
+                <div>
+                  <Text color='grey900' weight={600} size='16px'>
+                    Once Purchased, NFTs will show up here
+                  </Text>
+                  <Text weight={500} size='12px'>
+                    Access your NFTs from your Blockchain Wallet
+                  </Text>
+                </div>
+              </Flex>
+            </Padding>
           </Flex>
         </Flex>
       </Flex>
