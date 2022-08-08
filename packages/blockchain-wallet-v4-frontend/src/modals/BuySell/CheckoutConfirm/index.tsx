@@ -4,8 +4,8 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { clearSubmitErrors } from 'redux-form'
 
 import { Remote } from '@core'
-import { ExtractSuccess } from '@core/types'
-import Error from 'components/BuySell/Error'
+import { BSPaymentTypes, ExtractSuccess } from '@core/types'
+import BaseError from 'components/BuySell/Error'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
@@ -51,7 +51,15 @@ class CheckoutConfirm extends PureComponent<Props> {
       return
     }
 
-    this.props.buySellActions.createOrderSuccess(this.props.pendingOrder)
+    this.props.buySellActions.createOrder({
+      mobilePaymentMethod: this.props.mobilePaymentMethod,
+      paymentMethodId: this.props.pendingOrder.paymentMethodId,
+      paymentType:
+        this.props.pendingOrder.paymentType !== BSPaymentTypes.USER_CARD &&
+        this.props.pendingOrder.paymentType !== BSPaymentTypes.BANK_ACCOUNT
+          ? this.props.pendingOrder.paymentType
+          : undefined
+    })
   }
 
   trackError = (error: PartialClientErrorProperties | string) => {
@@ -80,7 +88,7 @@ class CheckoutConfirm extends PureComponent<Props> {
         }
 
         return (
-          <Error
+          <BaseError
             code={e}
             handleRetry={this.handleRetry}
             handleReset={this.handleReset}

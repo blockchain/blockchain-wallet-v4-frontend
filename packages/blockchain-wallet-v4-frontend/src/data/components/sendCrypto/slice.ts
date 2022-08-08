@@ -91,6 +91,7 @@ const sendCryptoSlice = createSlice({
     fetchWithdrawalLocksSuccess: (state, action: PayloadAction<WithdrawalLockResponseType>) => {
       state.withdrawLocks = Remote.Success(action.payload)
     },
+    initializeSend: (state) => {},
     setInitialCoin: (state, action: PayloadAction<string>) => {
       state.initialCoin = action.payload
     },

@@ -250,6 +250,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
+  } else if (showAppleAndGooglePayBanner) {
+    bannerToShow = 'appleAndGooglePay'
   } else if (showServicePriceUnavailableBanner) {
     bannerToShow = 'servicePriceUnavailable'
   } else if (showKYCFinishBanner) {
@@ -266,8 +268,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'earnRewards'
   } else if (showRecurringBuyBanner) {
     bannerToShow = 'recurringBuys'
-  } else if (showAppleAndGooglePayBanner) {
-    bannerToShow = 'appleAndGooglePay'
   } else {
     bannerToShow = null
   }

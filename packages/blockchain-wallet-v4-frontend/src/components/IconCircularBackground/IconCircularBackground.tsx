@@ -16,7 +16,7 @@ export const IconCircularBackground: IconCircularBackgroundComponent = ({
     <div
       style={{
         alignItems: 'center',
-        backgroundColor: colors[color],
+        backgroundColor: colors[color] ?? color,
         borderRadius: '50%',
         display: 'flex',
         height: sizeToPixels[size] ?? size,

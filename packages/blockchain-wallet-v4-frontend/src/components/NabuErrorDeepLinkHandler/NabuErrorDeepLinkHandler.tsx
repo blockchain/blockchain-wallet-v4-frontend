@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { actions, selectors } from 'data'
-import { DeepLinkHandler, DeepLinkListener } from 'services/deepLinkListener'
+import { DeepLinkClickState, DeepLinkHandler, DeepLinkListener } from 'services/deepLinkListener'
 import { NabuErrorDeepLinkActions } from 'services/errors'
 
 import { NabuErrorDeepLinkHandlerComponent } from './NabuErrorDeepLinkHandler.types'
@@ -13,54 +13,97 @@ export const NabuErrorDeepLinkHandler: NabuErrorDeepLinkHandlerComponent = ({ ch
   const fiatCurrency = useSelector(selectors.components.buySell.getFiatCurrency)
   const pair = useSelector(selectors.components.buySell.getBSPair)
 
-  const handlers: Record<NabuErrorDeepLinkActions, DeepLinkHandler> = {
-    [NabuErrorDeepLinkActions.BACK_TO_ENTER_AMOUNT]: () => {
-      if (!cryptoCurrency || !fiatCurrency || !pair) return
+  const goBackToEnterAmount = useCallback(() => {
+    if (!cryptoCurrency || !fiatCurrency || !pair) return
 
-      dispatch(
-        actions.components.buySell.setStep({
-          cryptoCurrency,
-          fiatCurrency,
-          pair,
-          step: 'ENTER_AMOUNT'
-        })
-      )
-    },
-    [NabuErrorDeepLinkActions.OPEN_CONTACT_CUSTOMER_SUPPORT]: () => {
-      window.open('https://support.blockchain.com')
-    },
-    [NabuErrorDeepLinkActions.OPEN_KYC]: () => {
-      dispatch(
-        actions.components.buySell.setStep({
-          step: 'KYC_REQUIRED'
-        })
-      )
-    },
-    [NabuErrorDeepLinkActions.TRY_DIFFERENT_CARD]: () => {
-      if (!cryptoCurrency || !fiatCurrency || !pair) return
+    dispatch(
+      actions.components.buySell.setStep({
+        cryptoCurrency,
+        fiatCurrency,
+        pair,
+        step: 'ENTER_AMOUNT'
+      })
+    )
+  }, [cryptoCurrency, dispatch, fiatCurrency, pair])
 
-      dispatch(
-        actions.components.buySell.setStep({
-          cryptoCurrency,
-          fiatCurrency,
-          pair,
-          step: 'LINKED_PAYMENT_ACCOUNTS'
-        })
-      )
+  const goToDashboard = useCallback(() => {
+    dispatch(actions.modals.closeModal())
+
+    dispatch(actions.router.push('/home'))
+  }, [dispatch])
+
+  const openContactCustomerSupport = useCallback(() => {
+    window.open('https://support.blockchain.com')
+  }, [])
+
+  const openKYC = useCallback(() => {
+    dispatch(
+      actions.components.buySell.setStep({
+        step: 'KYC_REQUIRED'
+      })
+    )
+  }, [dispatch])
+
+  const tryDifferentCard = useCallback(() => {
+    dispatch(actions.components.buySell.createCardNotAsked())
+
+    dispatch(
+      actions.components.buySell.setStep({
+        step: 'DETERMINE_CARD_PROVIDER'
+      })
+    )
+  }, [dispatch])
+
+  const tryDifferentPaymentMethod = useCallback(() => {
+    if (!cryptoCurrency || !fiatCurrency || !pair) return
+
+    dispatch(
+      actions.components.buySell.setStep({
+        cryptoCurrency,
+        fiatCurrency,
+        pair,
+        step: 'LINKED_PAYMENT_ACCOUNTS'
+      })
+    )
+  }, [cryptoCurrency, dispatch, fiatCurrency, pair])
+
+  const actionToHandler: Record<NabuErrorDeepLinkActions, (url: URL) => void> = useMemo(
+    () => ({
+      [NabuErrorDeepLinkActions.BACK_TO_ENTER_AMOUNT]: goBackToEnterAmount,
+      [NabuErrorDeepLinkActions.GO_TO_DASHBOARD]: goToDashboard,
+      [NabuErrorDeepLinkActions.OPEN_CONTACT_CUSTOMER_SUPPORT]: openContactCustomerSupport,
+      [NabuErrorDeepLinkActions.OPEN_KYC]: openKYC,
+      [NabuErrorDeepLinkActions.TRY_DIFFERENT_CARD]: tryDifferentCard,
+      [NabuErrorDeepLinkActions.TRY_DIFFERENT_PAYMENT_METHOD]: tryDifferentPaymentMethod
+    }),
+    [
+      goBackToEnterAmount,
+      goToDashboard,
+      openContactCustomerSupport,
+      openKYC,
+      tryDifferentCard,
+      tryDifferentPaymentMethod
+    ]
+  )
+
+  const onClickDeepLinkHandler: DeepLinkHandler = useCallback(
+    (link) => {
+      const url = new URL(link)
+
+      const handler = actionToHandler[url.pathname]
+
+      if (handler) {
+        handler(url)
+      } else if (url.hostname.endsWith('blockchain.com')) {
+        window.open(link, '_blank')
+      } else {
+        window.open(link, '_blank', 'noopener, noreferrer')
+      }
+
+      return DeepLinkClickState.handled
     },
-    [NabuErrorDeepLinkActions.TRY_DIFFERENT_PAYMENT_METHOD]: () => {
-      if (!cryptoCurrency || !fiatCurrency || !pair) return
+    [actionToHandler]
+  )
 
-      dispatch(
-        actions.components.buySell.setStep({
-          cryptoCurrency,
-          fiatCurrency,
-          pair,
-          step: 'PAYMENT_METHODS'
-        })
-      )
-    }
-  }
-
-  return <DeepLinkListener handlers={handlers}>{children}</DeepLinkListener>
+  return <DeepLinkListener onClickDeepLink={onClickDeepLinkHandler}>{children}</DeepLinkListener>
 }

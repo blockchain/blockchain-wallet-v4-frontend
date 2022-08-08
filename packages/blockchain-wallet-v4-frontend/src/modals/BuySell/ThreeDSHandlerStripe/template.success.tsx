@@ -59,6 +59,8 @@ const Success = ({ buySellActions, domains, order }: Props) => {
   return (
     <CustomFlyoutWrapper>
       <Iframe
+        allow='payment *; publickey-credentials-get *'
+        sandbox='allow-forms allow-scripts allow-same-origin'
         src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order.attributes.cardProvider.publishableApiKey}/${order.attributes.cardProvider.clientSecret}`}
       />
     </CustomFlyoutWrapper>

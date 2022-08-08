@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { BSPaymentTypes, OrderType } from '@core/types'
+import { BSPaymentTypes, FiatType, OrderType } from '@core/types'
 
-import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 import Checkout from './Checkout'
 import Unsupported from './template.unsupported'
 
@@ -21,7 +21,7 @@ const Success = (props: Props) => {
       props.paymentMethods.methods
         .filter((method) => method.type === BSPaymentTypes.FUNDS)
         .map((method) => method.currency)
-        .includes(props.walletCurrency))
+        .includes(props.tradingCurrency))
 
   return isUserEligible && sellCurrencyAvailable ? (
     <Checkout {...props} />
@@ -30,6 +30,6 @@ const Success = (props: Props) => {
   )
 }
 
-export type Props = OwnProps & SuccessStateType & LinkStatePropsType
+export type Props = OwnProps & SuccessStateType & { cryptoCurrency: string; fiatCurrency: FiatType }
 
 export default Success

@@ -12,6 +12,7 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   CoinType,
+  FiatType,
   OrderType
 } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
@@ -25,7 +26,7 @@ import Form from 'components/Form/Form'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { model } from 'data'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
-import { BSCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
+import { BSCheckoutFormValuesType, BSFixType, SwapBaseCounterTypes } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { isNabuError, NabuError } from 'services/errors'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
@@ -190,7 +191,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const dispatch = useDispatch()
 
   const [fontRatio, setFontRatio] = useState(1)
-  const setOrderFrequncy = useCallback(() => {
+  const setOrderFrequency = useCallback(() => {
     props.buySellActions.setStep({ step: 'FREQUENCY' })
   }, [props.buySellActions])
 
@@ -203,7 +204,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       fiatCurrency: props.fiatCurrency || 'USD',
       step: 'CRYPTO_SELECTION'
     })
-  }, [props.fiatCurrency, props.buySellActions, dispatch, props.form])
+  }, [props.fiatCurrency, props.buySellActions])
 
   const isSddBuy = props.isSddFlow && props.orderType === OrderType.BUY
 
@@ -426,7 +427,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 props.buySellActions.setStep({
                   // Always reset back to walletCurrency
                   // Otherwise FUNDS currency and Pairs currency can mismatch
-                  fiatCurrency: props.walletCurrency || 'USD',
+                  fiatCurrency: props.fiatCurrency || 'USD',
                   step: 'CRYPTO_SELECTION'
                 })
               }
@@ -534,7 +535,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             !props.isSddFlow &&
             props.orderType === OrderType.BUY && (
               <Scheduler
-                onClick={setOrderFrequncy}
+                onClick={setOrderFrequency}
                 period={props.formValues.period}
                 method={method || props.defaultMethod}
               >
@@ -926,7 +927,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   )
 }
 
-export type Props = OwnProps & SuccessStateType & { error?: string | NabuError }
+export type Props = OwnProps &
+  SuccessStateType & {
+    cryptoCurrency: string
+    error?: string | NabuError
+    fiatCurrency: FiatType
+    formValues: BSCheckoutFormValuesType
+    isPristine: boolean
+    preferences: {
+      [key in BSOrderActionType]: {
+        fix: BSFixType
+      }
+    }
+  }
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,

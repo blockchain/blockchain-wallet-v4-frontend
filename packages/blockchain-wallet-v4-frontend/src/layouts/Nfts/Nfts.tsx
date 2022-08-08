@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Route, withRouter } from 'react-router-dom'
+import { Redirect, Route, withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
 import { CoinfigType, CoinType } from '@core/types'
@@ -10,7 +10,16 @@ import Loading from '../Auth/template.loading'
 import NftsTemplate from './NftsTemplate'
 
 const NftsContainer = (props) => {
-  const { component: Component, isCoinDataLoaded, pageTitle, path, ...rest } = props
+  const {
+    component: Component,
+    isAuthenticated,
+    isCoinDataLoaded,
+    pageTitle,
+    path,
+    ...rest
+  } = props
+  const isValidRoute = true
+
   if (pageTitle) document.title = pageTitle
 
   const doRefresh = (e) => {
@@ -42,16 +51,19 @@ const NftsContainer = (props) => {
 
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />
-
-  return (
+  return !isAuthenticated ? (
+    <Redirect to={{ pathname: '/login', state: { from: '' } }} />
+  ) : isValidRoute ? (
     <Route
       path={path}
-      render={() => (
+      render={(props) => (
         <NftsTemplate {...props}>
           <Component computedMatch={rest.computedMatch} {...rest} />
         </NftsTemplate>
       )}
     />
+  ) : (
+    <Redirect to={{ pathname: '/home', state: { from: '' } }} />
   )
 }
 

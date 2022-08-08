@@ -176,7 +176,7 @@ const TransactionsBox = ({ modalActions }) => {
   )
 
   return (
-    <BoxContainer width='662px'>
+    <BoxContainer>
       <BoxRowWithBorder>
         <BoxRowItemTitle>
           <FormattedMessage

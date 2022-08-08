@@ -21,6 +21,17 @@ import { actions as A } from './slice'
 import { SendCryptoStepType } from './types'
 
 export default ({ api }: { api: APIType }) => {
+  const initializeSend = function* () {
+    const totalBalanceR = yield select(selectors.balances.getTotalWalletBalanceNotFormatted)
+    const totalBalance = totalBalanceR.getOrElse({ total: 0 })
+
+    if (totalBalance?.total === 0) {
+      yield put(A.setStep({ step: SendCryptoStepType.NO_FUNDS }))
+    } else {
+      yield put(A.setStep({ step: SendCryptoStepType.COIN_SELECTION }))
+    }
+  }
+
   const buildTx = function* (action: ReturnType<typeof A.buildTx>) {
     let coin
     let fee
@@ -375,6 +386,7 @@ export default ({ api }: { api: APIType }) => {
     fetchFeesAndMins,
     fetchLocks,
     fetchSendLimits,
+    initializeSend,
     onFormChange,
     // fetchTransactionDetails,
     submitTransaction,

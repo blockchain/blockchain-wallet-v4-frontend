@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react'
+import { IconAlert } from '@blockchain-com/icons'
 
 import { Button } from 'blockchain-info-components'
+import { IconBadge } from 'components/Badge'
 import {
   ActionsList,
   ErrorContent,
@@ -8,8 +10,7 @@ import {
   GenericErrorLayout
 } from 'components/GenericError'
 import { useDeepLink } from 'services/deepLinkListener'
-import { isNabuErrorCloseAction, isNabuErrorLaunchAction } from 'services/errors'
-import { NabuErrorLaunchAction } from 'services/errors/NabuError/NabuError.types'
+import { NabuErrorAction } from 'services/errors'
 
 import { GenericNabuErrorComponent } from './GenericNabuError.types'
 
@@ -19,47 +20,44 @@ const GenericNabuError: GenericNabuErrorComponent = ({ error, onDismiss }) => {
   const { actions } = error
 
   const handleOnClickLaunchAction = useCallback(
-    (action: NabuErrorLaunchAction) => {
+    (action: NabuErrorAction) => {
+      const { url } = action
+
       onDismiss?.()
-      onClickDeepLink(action.url)
+
+      if (url) {
+        onClickDeepLink(url)
+      }
     },
     [onClickDeepLink, onDismiss]
   )
 
   return (
     <GenericErrorLayout>
-      <ErrorIconWithSeverity iconStatusUrl={icon?.status.url || ''} iconUrl={icon?.url || ''} />
+      <ErrorIconWithSeverity
+        iconStatusUrl={icon?.status?.url || ''}
+        iconUrl={icon?.url || ''}
+        statusFallback={
+          <IconBadge color='orange600' size={1.5}>
+            <IconAlert />
+          </IconBadge>
+        }
+      />
 
       <ErrorContent title={error.title} message={error.message} />
 
       {!!actions?.length && (
         <ActionsList>
-          {actions
-            .map((action) => {
-              if (isNabuErrorCloseAction(action)) {
-                return (
-                  <Button key={action.title} data-e2e='close-action' onClick={onDismiss}>
-                    {action.title}
-                  </Button>
-                )
-              }
-
-              if (isNabuErrorLaunchAction(action)) {
-                return (
-                  <Button
-                    key={action.title}
-                    data-e2e='close-action'
-                    nature='primary'
-                    onClick={() => handleOnClickLaunchAction(action)}
-                  >
-                    {action.title}
-                  </Button>
-                )
-              }
-
-              return null
-            })
-            .filter((action) => !!action)}
+          {actions.map((action) => (
+            <Button
+              key={action.title}
+              data-e2e='close-action'
+              nature='primary'
+              onClick={() => handleOnClickLaunchAction(action)}
+            >
+              {action.title}
+            </Button>
+          ))}
         </ActionsList>
       )}
     </GenericErrorLayout>

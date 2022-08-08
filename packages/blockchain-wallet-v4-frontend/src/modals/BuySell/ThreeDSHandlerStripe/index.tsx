@@ -12,6 +12,7 @@ import { getData } from './selectors'
 import Success from './template.success'
 
 const ThreeDSHandlerStripe = ({ data, ...props }: Props) => {
+  // TODO pass the logic to here
   return data.cata({
     Failure: (e) => {
       return <DataError message={{ message: e }} />

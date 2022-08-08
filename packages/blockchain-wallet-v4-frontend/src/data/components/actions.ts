@@ -4,6 +4,7 @@ import * as btcTransactions from './btcTransactions/actions'
 import { actions as buySell } from './buySell/slice'
 import * as coinTransactions from './coinTransactions/actions'
 import { actions as debitCard } from './debitCard/slice'
+import { actions as dex } from './dex/slice'
 import * as ethTransactions from './ethTransactions/actions'
 import * as fiatTransactions from './fiatTransactions/actions'
 import * as fundRecovery from './fundRecovery/actions'
@@ -44,6 +45,7 @@ export {
   buySell,
   coinTransactions,
   debitCard,
+  dex,
   ethTransactions,
   fiatTransactions,
   fundRecovery,

@@ -57,6 +57,10 @@ class IdentityVerification extends React.PureComponent<Props, State> {
     this.initializeVerification()
   }
 
+  componentWillUnmount() {
+    this.props.actions.kycModalClosed()
+  }
+
   handleClose = () => {
     this.setState({ show: false })
     setTimeout(() => {

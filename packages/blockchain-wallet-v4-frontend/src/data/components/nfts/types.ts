@@ -6,6 +6,7 @@ import {
   NftCollection,
   NftOrder,
   NftUserPreferencesReturnType,
+  OwnerNftBalance,
   SeaportRawOrder,
   WyvernRawOrder
 } from '@core/network/api/nfts/types'
@@ -28,9 +29,11 @@ export enum NftOrderStepEnum {
   BUY = 'BUY',
   CANCEL_LISTING = 'CANCEL_LISTING',
   CANCEL_OFFER = 'CANCEL_OFFER',
+  IMPORT_NFTS = 'IMPORT_NFTS',
   MAKE_OFFER = 'MAKE_OFFER',
   MARK_FOR_SALE = 'MARK_FOR_SALE',
   NOT_VERIFIED = 'NOT_VERIFIED',
+  PURCHASE_NFTS = 'PURCHASE_NFTS',
   STATUS = 'STATUS',
   TRANSFER = 'TRANSFER',
   WRAP_ETH = 'WRAP_ETH'
@@ -49,6 +52,7 @@ export type NftsStateType = {
   }
   collection: RemoteDataType<string, NftCollection>
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
+  nftOwnerAssets: RemoteDataType<string, OwnerNftBalance>
   openSeaAsset: RemoteDataType<string, NftAsset>
   openSeaStatus: RemoteDataType<
     string,
@@ -75,6 +79,7 @@ export type NftsStateType = {
     status: NftOrderStatusEnum | null
     step: NftOrderStepEnum | null
     userHasPendingTxR: RemoteDataType<string, boolean>
+    viewOrder: NftAsset | null
     wrapEthFees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     wyvernOrder: WyvernRawOrder | null
   }

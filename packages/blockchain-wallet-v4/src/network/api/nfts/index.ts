@@ -7,7 +7,8 @@ import {
   NftTemplateParams,
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
-  OpenSeaStatus
+  OpenSeaStatus,
+  OwnerNftBalance
 } from './types'
 
 export const NFT_ORDER_PAGE_LIMIT = 30
@@ -64,6 +65,15 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   const getOpenSeaStatus = (): OpenSeaStatus => {
     return get({
       endPoint: `/status`,
+      ignoreQueryParams: true,
+      url: nftUrl
+    })
+  }
+
+  const getNftOwnerAssets = (defaultEthAddr: string, cursor?: string): OwnerNftBalance => {
+    return get({
+      contentType: 'application/json',
+      endPoint: `/account_assets/${defaultEthAddr}/${cursor || ''}`,
       ignoreQueryParams: true,
       url: nftUrl
     })
@@ -142,6 +152,7 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   }
 
   return {
+    getNftOwnerAssets,
     getNftUserPreferences,
     getOpenSeaAsset,
     getOpenSeaStatus,

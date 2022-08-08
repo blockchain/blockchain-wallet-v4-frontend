@@ -12,9 +12,7 @@ import { NftPage } from '../../components'
 export const Wrapper = styled(NftPage)`
   display: block;
   margin: 0 auto;
-  padding: 20px 0 0 0;
   box-sizing: border-box;
-  margin-top: 8px;
   ${media.atLeastTablet`
     height: 100%;
   `}
@@ -32,8 +30,7 @@ export const Top = styled.div`
 export const LeftColWrapper = styled.div`
   ${media.atLeastTablet`
   box-sizing: border-box;
-  max-width: 625px;
-  width: 50%;
+  width: 66%;
   `} > form {
     ${media.tablet`
     display: flex;
@@ -50,15 +47,16 @@ export const LeftColWrapper = styled.div`
   display: block;
 
   ${media.tablet`
-    padding-right: 0.5em;
-    padding-left: 0.5em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
   `}
 `
 
 export const RightColWrapper = styled.div`
   ${media.atLeastTablet`
   height: 100%;
-  width: 50%;
+  width: 34%;
+  margin-right: 2em;
   `} > form {
     ${media.tablet`
     display: flex;
@@ -71,8 +69,8 @@ export const RightColWrapper = styled.div`
   z-index: 1;
   display: block;
   ${media.tablet`
-    padding-right: 0.5em;
-    padding-left: 0.5em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
   `}
 `
 
@@ -83,9 +81,6 @@ export const AssetName = styled(Text)`
   display: flex;
   margin-top: 30px;
   color: ${colors.grey900};
-  ${media.tablet`
-    margin: 0 0 1em 0;
-  `}
 `
 
 export const CurrentPriceBox = styled.div`
@@ -118,7 +113,6 @@ export const MoreAssetsWrapper = styled.div`
 `
 
 export const TraitsWrapper = styled.div`
-  margin-top: 1em;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -126,17 +120,12 @@ export const TraitsWrapper = styled.div`
 
 export const Trait = styled.div`
   display: flex;
-  cursor: pointer;
   padding: 0.5em 1em;
   flex-direction: column;
   gap: 6px;
   border-radius: 8px;
   background: ${(props) => props.theme.greyFade000};
   border: 1px solid ${(props) => props.theme.grey100};
-  &:hover {
-    transform: scale(1.02);
-    -webkit-transition: transform 0.1s ease-in-out;
-  }
 `
 
 export const Highest = styled(Text)`

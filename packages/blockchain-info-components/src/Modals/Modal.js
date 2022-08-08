@@ -17,7 +17,7 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: flex-start;
   background-color: ${(props) =>
-    props.isLast && props.theme.black && transparentize(0.5, props.theme.black)};
+    props.isLast && props.theme.black && transparentize(0.3, props.theme.greyFade800)};
   z-index: ${START_INTERVAL};
 
   ${(props) =>
@@ -26,8 +26,10 @@ const ModalBackground = styled.div`
       display: flex;
       z-index: ${(props) => (props.zIndex ? props.zIndex : START_INTERVAL)};
       background-color: ${(props) =>
-        props.isLast && props.theme.black ? transparentize(0.5, props.theme.black) : 'transparent'};
-    `}
+        props.isLast && props.theme.black
+          ? transparentize(0.3, props.theme.greyFade800)
+          : 'transparent'};
+    `};
 
   @media (min-width: 768px) {
     align-items: center;
@@ -47,15 +49,16 @@ const BaseModal = styled.div`
   width: 100%;
   z-index: ${(props) => (props.type === 'tray' ? START_INTERVAL - 1 : START_INTERVAL)};
   background-color: ${(props) => props.theme.white};
-  box-shadow: none;
-  border-radius: 8px;
+  border: 1px solid ${(props) => props.theme.grey100};
+  border-radius: 24px;
+  box-shadow: 0 4px 32px ${(props) => props.theme.greyFade400};
 
   ${(props) =>
     props.doNotHide &&
     css`
       display: block;
       z-index: ${(props) => (props.zIndex ? props.zIndex : START_INTERVAL)};
-    `}
+    `};
 
   @media (min-width: 768px) {
     width: ${(props) => props.width};
