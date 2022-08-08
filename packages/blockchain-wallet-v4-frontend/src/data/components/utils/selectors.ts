@@ -48,13 +48,11 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
         ...custodials,
         ...(erc20s
           .map(({ tokenHash }) => {
-            return Object.keys(window.coins)
-              .find(
-                (coin) =>
-                  window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
-                  tokenHash.toLowerCase()
-              )
-              ?.toUpperCase()
+            return Object.keys(window.coins).find(
+              (coin) =>
+                window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
+                tokenHash.toLowerCase()
+            )
           })
           .filter(Boolean) as string[]),
         ...custodialErc20s,

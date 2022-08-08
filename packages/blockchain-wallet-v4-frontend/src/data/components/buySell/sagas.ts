@@ -1912,9 +1912,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { cryptoCurrency, origin }))
-    const fiatCurrency = selectors.core.settings
-      .getCurrency(yield select())
-      .getOrElse('USD') as FiatType
+
+    // Use the user's trading currency setting whenever opening the buy flow
+    const { preferredFiatTradingCurrency: fiatCurrency } =
+      selectors.modules.profile.getUserCurrencies(yield select()) || {
+        preferredFiatTradingCurrency: 'USD'
+      }
 
     // When user closes the QR code modal and opens it via one of the pending
     // buy buttons in the app. We need to take them to the qrcode screen and
