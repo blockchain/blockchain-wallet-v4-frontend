@@ -33,12 +33,12 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
   } = useWalletsForCoin({ coin })
 
   const isNotAsked = useMemo(
-    () => isCoinRatesNotAsked && isCoinBalanceNotAsked && isAddressDataNotAsked,
+    () => isCoinRatesNotAsked || isCoinBalanceNotAsked || isAddressDataNotAsked,
     [isCoinRatesNotAsked, isCoinBalanceNotAsked, isAddressDataNotAsked]
   )
 
   const isLoading = useMemo(
-    () => isLoadingCoinRates && isLoadingCoinBalance && isLoadingAddressData,
+    () => isLoadingCoinRates || isLoadingCoinBalance || isLoadingAddressData,
     [isLoadingCoinRates, isLoadingCoinBalance, isLoadingAddressData]
   )
 
