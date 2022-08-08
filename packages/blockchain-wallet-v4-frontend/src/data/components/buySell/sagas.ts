@@ -1603,7 +1603,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const initializeCheckout = function* ({
-    payload: { account, amount, cryptoAmount, fix, orderType, period }
+    payload: {
+      account,
+      amount,
+      cryptoAmount,
+      fix,
+      orderType,
+      paymentMethodId,
+      paymentMethodType,
+      period
+    }
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(waitForUserData)
@@ -1619,7 +1628,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           A.startPollBuyQuote({
             amount: fakeQuoteAmount,
             pair: pair.pair,
-            paymentMethod: BSPaymentTypes.FUNDS
+            paymentMethod: paymentMethodType,
+            paymentMethodId
           })
         )
         yield race({

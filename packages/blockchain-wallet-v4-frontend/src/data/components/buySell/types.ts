@@ -8,6 +8,7 @@ import type {
   BSPairType,
   BSPaymentMethodsType,
   BSPaymentMethodType,
+  BSPaymentTypes,
   BSQuoteType,
   BuyQuoteStateType,
   CoinType,
@@ -193,6 +194,8 @@ export type InitializeCheckout = {
   orderType: BSOrderActionType
   pair?: BSPairType
   pairs: Array<BSPairType>
+  paymentMethodId?: BSPaymentMethodType['id']
+  paymentMethodType: BSPaymentTypes
   period: RecurringBuyPeriods
 }
 

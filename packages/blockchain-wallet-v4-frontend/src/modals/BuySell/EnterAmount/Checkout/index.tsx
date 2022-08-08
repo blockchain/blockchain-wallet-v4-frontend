@@ -174,6 +174,8 @@ const Checkout = (props: Props) => {
       orderType: props.orderType,
       pair: props.pair,
       pairs: props.pairs,
+      paymentMethodId: props.method?.id || props.defaultMethod?.id,
+      paymentMethodType: props.method?.type || props.defaultMethod?.type || BSPaymentTypes.FUNDS,
       period
     })
 
