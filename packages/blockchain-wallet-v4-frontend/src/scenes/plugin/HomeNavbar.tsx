@@ -53,10 +53,6 @@ const HomeNavbarWrapper = styled.div`
 `
 
 const HomeNavbar = () => {
-  const selectedAccount = useSelector((state) => selectors.cache.getCache(state).selectedAccount)
-  const isEthAccountSelected =
-    selectedAccount && selectedAccount[0] && selectedAccount[0].baseCoin === 'ETH'
-
   return (
     <HomeNavbarWrapper>
       <HomeNavbarItem exact to='/plugin/coinslist'>
@@ -64,20 +60,16 @@ const HomeNavbar = () => {
           <IconListBullets />
         </Icon>
       </HomeNavbarItem>
-      {isEthAccountSelected && (
-        <HomeNavbarItem to='/plugin/activity'>
-          <Icon label='icon-history'>
-            <IconHistory color='white' />
-          </Icon>
-        </HomeNavbarItem>
-      )}
-      {isEthAccountSelected && (
-        <HomeNavbarItem to='/plugin/nft'>
-          <Icon label='icon-nft'>
-            <IconNft />
-          </Icon>
-        </HomeNavbarItem>
-      )}
+      <HomeNavbarItem to='/plugin/activity'>
+        <Icon label='icon-history'>
+          <IconHistory color='white' />
+        </Icon>
+      </HomeNavbarItem>
+      <HomeNavbarItem to='/plugin/nft'>
+        <Icon label='icon-nft'>
+          <IconNft />
+        </Icon>
+      </HomeNavbarItem>
     </HomeNavbarWrapper>
   )
 }

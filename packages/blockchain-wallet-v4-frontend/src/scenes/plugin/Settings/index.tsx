@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
 import { Icon } from '@blockchain-com/constellation'
 import { IconArrowLeft, IconClose } from '@blockchain-com/icons'
@@ -68,6 +68,12 @@ export class Setting {
 }
 
 const Settings = (props) => {
+  const [prevPath, setPrevPath] = useState('')
+
+  useEffect(() => {
+    setPrevPath(props.location.state.prevPath)
+  }, [])
+
   const isRootPath = () => {
     return props.location.pathname === '/plugin/settings'
   }
@@ -81,7 +87,7 @@ const Settings = (props) => {
             </Icon>
           </Link>
         )}
-        <Link to='/plugin/coinslist'>
+        <Link to={prevPath || '/plugin/coinslist'}>
           <Icon color='grey700' label='IconClose' size='md'>
             <IconClose />
           </Icon>

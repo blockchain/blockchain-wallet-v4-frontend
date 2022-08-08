@@ -125,7 +125,6 @@ const TransactionDetails: React.FC<ITransactionDetailsProps> = ({
               defaultMessage='Status'
             />
           </Text>
-
           <StatusBadge status={status} />
         </Flex>
       </Padding>

@@ -144,6 +144,22 @@ export class BCDCInpageProvider extends SafeEventEmitter {
     this.connection.on('data', (msg: ProviderMessage | string) => {
       if (typeof msg === 'string') return
 
+      if (msg.type === ConnectionEvents.Error) {
+        const data = msg.data as ProviderMessageData
+
+        if (data.code) {
+          throw ethErrors.provider.custom({
+            code: data.code,
+            message: data.message
+          })
+        }
+
+        throw ethErrors.provider.custom({
+          code: 1001,
+          message: msg.data as string
+        })
+      }
+
       if (msg.type === ConnectionEvents.Disconnected) {
         this.isConnected = false
         throw ethErrors.provider.disconnected({
@@ -161,22 +177,6 @@ export class BCDCInpageProvider extends SafeEventEmitter {
         this.emit(ConnectionEvents.Connected, { message: messages.info.connected(chainId) })
         this.emit(StandardEvents.ChainChanged, this.chainId)
         this.chainId = chainId
-      }
-
-      if (msg.type === ConnectionEvents.Error) {
-        const data = msg.data as ProviderMessageData
-
-        if (data.code) {
-          throw ethErrors.provider.custom({
-            code: data.code,
-            message: data.message
-          })
-        }
-
-        throw ethErrors.provider.custom({
-          code: 1001,
-          message: msg.data as string
-        })
       }
     })
   }

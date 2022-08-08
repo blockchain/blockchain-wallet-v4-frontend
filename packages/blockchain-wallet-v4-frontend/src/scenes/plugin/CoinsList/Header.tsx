@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { colors, Icon } from '@blockchain-com/constellation'
 import { IconMoreHorizontal } from '@blockchain-com/icons'
 import { CombinedState } from 'redux'
@@ -13,7 +13,6 @@ import { actions } from 'data/cache/slice'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 
-import Settings from '../Settings'
 import { SwitchAccount } from '../SwitchAccount'
 
 const HeaderWrapper = styled.div`
@@ -76,7 +75,7 @@ const LoadingWrapper = styled.div`
   background: ${(props) => props.theme.black};
 `
 
-const Header = () => {
+const Header = (props) => {
   const dispatch = useDispatch()
   const [isSwitchAccountVisible, setIsSwitchAccountVisible] = useState(false)
   const [isLoadingAccounts, setIsLoadingAccounts] = useState(true)
@@ -99,7 +98,7 @@ const Header = () => {
       setIsLoadingAccounts(false)
     }
     if (accounts.ETH && accounts.ETH[0] && !selectedAccount) {
-      dispatch(actions.setSelectedAccount(accounts.ETH[0].address))
+      dispatch(actions.setSelectedAccount(accounts.ETH))
     }
   }, [accounts, dispatch, selectedAccount])
 
@@ -124,7 +123,9 @@ const Header = () => {
                 <StatusLabel />
               </AssetWrapper>
             </WalletWapper>
-            <Link to='/plugin/settings'>
+            <Link
+              to={{ pathname: '/plugin/settings', state: { prevPath: props.location.pathname } }}
+            >
               <Icon label='IconMore' size='md'>
                 <IconMoreHorizontal />
               </Icon>
@@ -143,4 +144,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default withRouter(Header)

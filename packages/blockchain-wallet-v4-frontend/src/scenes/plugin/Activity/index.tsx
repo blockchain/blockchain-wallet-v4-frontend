@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { isEmpty } from 'ramda'
@@ -34,21 +34,15 @@ const Activity: React.FC<Props> = ({ fetchErc20Transactions, fetchTransactions, 
 
   const hasCoinBalances = coinBalances && !isEmpty(coinBalances)
 
-  React.useEffect(() => {
+  useEffect(() => {
+    setSelectedCoin('ETH')
+  }, [])
+
+  useEffect(() => {
     if (hasCoinBalances) {
-      setSelectedCoin('ETH')
+      fetchTransactions()
     }
   }, [hasCoinBalances])
-
-  React.useEffect(() => {
-    if (hasCoinBalances && selectedCoin) {
-      if (selectedCoin === 'ETH') {
-        fetchTransactions()
-      } else {
-        fetchErc20Transactions(selectedCoin)
-      }
-    }
-  }, [fetchErc20Transactions, fetchTransactions, hasCoinBalances, coinBalances, selectedCoin])
 
   const handleSelectCoin = React.useCallback((coin: string) => {
     setSelectedCoin(coin)
@@ -77,6 +71,7 @@ const Activity: React.FC<Props> = ({ fetchErc20Transactions, fetchTransactions, 
         </TitleWrapper>
 
         {showEthTransactions &&
+          transactions.eth[0] &&
           transactions.eth[0].cata({
             Failure: (message) => <>{message}</>,
             Loading: () => (
@@ -94,6 +89,7 @@ const Activity: React.FC<Props> = ({ fetchErc20Transactions, fetchTransactions, 
           })}
 
         {showErc20Transactions &&
+          transactions[selectedCoin][0] &&
           transactions[selectedCoin][0].cata({
             Failure: (message) => <>{message}</>,
             Loading: () => (
@@ -129,7 +125,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   fetchErc20Transactions: (token: string) =>
     dispatch(actions.core.data.eth.fetchErc20Transactions(token, true)),
-  fetchTransactions: () => dispatch(actions.core.data.eth.fetchTransactions(null, true))
+  fetchTransactions: () => dispatch(actions.core.data.eth.fetchTransactions('', true))
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
