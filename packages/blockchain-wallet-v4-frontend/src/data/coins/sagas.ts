@@ -5,13 +5,13 @@ import { RequestExtrasType } from 'data/types'
 import {
   CoinAccountTypeEnum,
   NonCustodialAccountTypeClass
-} from '../accountTypes/accountTypes.classes'
-import { CustodialAccountType } from '../accountTypes/accountTypes.custodial'
-import { DynamicSelfCustodyAccountType } from '../accountTypes/accountTypes.dynamicSelfCustody'
-import { ERC20AccountType } from '../accountTypes/accountTypes.erc20'
-import { NonCustodialAccountType } from '../accountTypes/accountTypes.nonCustodial'
+} from './accountTypes/accountTypes.classes'
+import { CustodialAccountType } from './accountTypes/accountTypes.custodial'
+import { DynamicSelfCustodyAccountType } from './accountTypes/accountTypes.dynamicSelfCustody'
+import { ERC20AccountType } from './accountTypes/accountTypes.erc20'
+import { NonCustodialAccountType } from './accountTypes/accountTypes.nonCustodial'
 
-const getKey = (coin: CoinType) => {
+export const getKey = (coin: CoinType) => {
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return 'ERC20'
   }
@@ -20,11 +20,6 @@ const getKey = (coin: CoinType) => {
   }
   return 'NON_CUSTODIAL'
 }
-
-//
-// for now this is a dumping ground for both sagas and util functions (not generator functions)
-// that require coin specific logic to execute. perhaps in the future we split these out further
-//
 
 export default ({ api, coreSagas, networks }) => {
   const accounts = {

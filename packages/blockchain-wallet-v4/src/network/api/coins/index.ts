@@ -137,8 +137,10 @@ export default ({ apiUrl, get, post }) => {
     post({
       contentType: 'application/json',
       data: {
-        guidHash,
-        sharedKeyHash
+        auth: {
+          guidHash,
+          sharedKeyHash
+        }
       },
       endPoint: '/wallet-pubkey/subscriptions',
       removeDefaultPostData: true,

@@ -265,8 +265,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const guidHash = sha256(guid).toString('hex')
     const sharedKeyHash = sha256(sharedKey).toString('hex')
 
-    yield call(authWalletPubkeyService, { guid, sharedKey })
-    // if (!auth) return
+    const auth = yield call(authWalletPubkeyService, { guid, sharedKey })
+    if (!auth) return
 
     const subscriptions = yield call(api.getSubscriptions, { guidHash, sharedKeyHash })
     console.log(subscriptions)
