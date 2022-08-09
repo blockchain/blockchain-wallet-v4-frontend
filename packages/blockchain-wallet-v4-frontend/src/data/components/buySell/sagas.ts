@@ -210,7 +210,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const checkCardSuccessRate = function* ({ payload }: ReturnType<typeof A.checkCardSuccessRate>) {
     try {
-      yield call(api.checkCardSuccessRate, payload.bin)
+      const data: CardSuccessRateResponse = yield call(api.checkCardSuccessRate, payload.bin)
+
+      yield put(A.setCardSuccessRate({ isBlocked: !!data.block }))
     } catch (e) {
       if (isNabuError(e)) {
         yield put(
