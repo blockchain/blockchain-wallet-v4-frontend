@@ -72,7 +72,7 @@ const MarkForSale: React.FC<Props> = (props) => {
     formValues.starting = ''
     formValues.ending = ''
     formValues.expirationMinutes = 1440
-    formValues.timedAuctionType = 'highestBidder'
+    formValues.timedAuctionType = 'decliningPrice'
   }
   const setToFixed = () => {
     setSaleType('fixed-price')
@@ -135,7 +135,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                       <AmountFieldInput
                         coin={coin}
                         fiatCurrency={props.walletCurrency}
-                        amtError={false}
+                        amountError={false}
                         quote={fix === 'CRYPTO' ? fixFiatAmt : fixCryptoAmt}
                         fix={fix as 'CRYPTO' | 'FIAT'}
                         name='fixAmount'
@@ -349,7 +349,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                 <NftFlyoutRow>
                   <Title>
                     <b>
-                      <FormattedMessage id='copy.starting_price' defaultMessage='Method' />
+                      <FormattedMessage id='buttons.method' defaultMessage='Method' />
                     </b>
                   </Title>
                   <Value>
@@ -447,7 +447,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         />
                       </Flex>
                       <Text size='12px'>
-                        Once sold, the above fees will be deducted from the sale.{' '}
+                        Once sold, the below fees will be deducted from the sale.{' '}
                         <Link
                           href='https://support.opensea.io/hc/en-us/articles/1500011590241-What-are-Service-and-Creator-fees'
                           size='12px'
@@ -462,6 +462,25 @@ const MarkForSale: React.FC<Props> = (props) => {
               </NftFlyoutRow>
             </div>
             <StickyCTA>
+              {formValues.timedAuctionType === 'highestBidder' ? (
+                <>
+                  <GreyMessage>
+                    <Text color='grey900' weight={600}>
+                      <FormattedMessage
+                        id='copy.english_auction_not_supported'
+                        defaultMessage='English Auctions Not Supported'
+                      />
+                    </Text>
+                    <Text size='12px'>
+                      <FormattedMessage
+                        id='copy.english_auction_explainer'
+                        defaultMessage='We are working closely with the OpenSea team to add support for selling to the highest bidder. In the meantime, please select another method.'
+                      />
+                    </Text>
+                  </GreyMessage>
+                  <br />
+                </>
+              ) : null}
               <MarkForSaleFees {...props} asset={asset} />
               <br />
               <MarkForSaleCTA {...props} asset={asset} amount={amount} saleType={saleType} />
@@ -494,7 +513,7 @@ const enhance = compose(
       expirationMinutes: 1440,
       fix: 'CRYPTO',
       listingTime: format(new Date(), 'yyyy-MM-dd'),
-      timedAuctionType: 'highestBidder'
+      timedAuctionType: 'decliningPrice'
     }
   }),
   connector

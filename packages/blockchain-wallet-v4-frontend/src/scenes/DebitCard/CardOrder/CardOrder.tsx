@@ -2,73 +2,56 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Image } from 'blockchain-info-components'
-import { SceneHeaderText, SceneSubHeaderText } from 'components/Layout'
 
 import { IntroCardWrapper } from '../DebitCard.model'
+import {
+  CardOrderDisclaimer,
+  CardOrderHeader,
+  CardOrderNote,
+  CardOrderSubHeader
+} from './CardOrder.model'
 
-type ButtonProps = {
-  onClick: () => void
-}
+const CardOrder = ({ handleOpenOrderMyCard }: { handleOpenOrderMyCard: () => void }) => (
+  <IntroCardWrapper>
+    <Image name='intro-card' />
 
-const OrderMyCardButton = ({ onClick }: ButtonProps) => (
-  <div style={{ marginTop: '32px' }}>
+    <CardOrderHeader>
+      <FormattedMessage
+        id='scenes.debit_card.intro.content.header'
+        defaultMessage='Get the Blockchain.com Visa® Card'
+      />
+    </CardOrderHeader>
+
+    <CardOrderSubHeader>
+      <FormattedMessage
+        id='scenes.debit_card.intro.content.subheader'
+        defaultMessage='Spend your crypto or cash without fees. Earn 1% back in crypto.'
+      />
+    </CardOrderSubHeader>
+
+    <CardOrderNote>
+      <FormattedMessage
+        id='scenes.debit_card.intro.content.note'
+        defaultMessage='*This optional offer is not a Pathward product or service nor does Pathward endorse this offer.'
+      />
+    </CardOrderNote>
+
     <Button
       data-e2e='orderMyCard'
       nature='primary'
       height='48px'
-      width='327px'
-      margin='auto'
-      onClick={onClick}
+      fullwidth
+      onClick={handleOpenOrderMyCard}
     >
       <FormattedMessage id='scenes.debit_card.intro.order_my_card' defaultMessage='Order My Card' />
     </Button>
-  </div>
-)
 
-const LinkHereButton = () => (
-  <div style={{ marginTop: '16px' }}>
-    <Button
-      data-e2e='linkCard'
-      nature='empty-blue'
-      height='48px'
-      width='327px'
-      margin='auto'
-      onClick={() => {}}
-    >
+    <CardOrderDisclaimer>
       <FormattedMessage
-        id='scenes.debit_card.intro.already_have_a_card'
-        defaultMessage='Already Have A Card? Link It Here'
+        id='scenes.debit_card.intro.content.disclaimer'
+        defaultMessage='This Blockchain.com Visa® Card is issued by Pathward, N.A., Member FDIC, pursuant to a license from Visa U.S.A. Inc. Blockchain.com Visa card can be used everywhere Visa debit cards are accepted.'
       />
-    </Button>
-  </div>
-)
-
-type Props = {
-  handleOpenOrderMyCard: () => void
-}
-
-const CardOrder = ({ handleOpenOrderMyCard }: Props) => (
-  <IntroCardWrapper>
-    <Image name='intro-card' />
-
-    <SceneHeaderText>
-      <FormattedMessage
-        id='scenes.debit_card.intro.content.header'
-        defaultMessage='Your Gateway To The Blockchain Debit Card'
-      />
-    </SceneHeaderText>
-
-    <SceneSubHeaderText>
-      <FormattedMessage
-        id='scenes.debit_card.intro.content.subheader'
-        defaultMessage='A card that lets you spend and earn in crypto right from your Blockchain account.'
-      />
-    </SceneSubHeaderText>
-    <OrderMyCardButton onClick={handleOpenOrderMyCard} />
-    {/*
-          Waiting for UX designs
-          <LinkHereButton />
-     */}
+    </CardOrderDisclaimer>
   </IntroCardWrapper>
 )
 

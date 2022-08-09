@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import { brokerageReducer as brokerage } from './brokerage/slice'
 import { buySellReducer as buySell } from './buySell/slice'
 import { debitCardReducer } from './debitCard/slice'
+import { dexReducer } from './dex/slice'
 import { fundRecoveryReducer } from './fundRecovery/reducers'
 import { identityVerificationReducer } from './identityVerification/slice'
 import { interestReducer } from './interest/slice'
@@ -34,6 +35,7 @@ const componentReducer = combineReducers({
   brokerage,
   buySell,
   debitCard: debitCardReducer,
+  dex: dexReducer,
   fundRecovery: fundRecoveryReducer,
   identityVerification: identityVerificationReducer,
   interest: interestReducer,

@@ -47,7 +47,7 @@ export const useChartBalancePanel: UseChartBalancePanel = ({ coin }) => {
         price={formattedCurrentPrice}
       />
     )
-  }, [coinPrice])
+  }, [coin, coinPrice, formattedCurrentPrice, formattedHourPrice])
 
   return [chartBalancePanelNode]
 }

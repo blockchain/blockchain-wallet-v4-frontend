@@ -14,6 +14,8 @@ import {
 } from 'components/BuySell'
 import { SuccessCartridge } from 'components/Cartridge'
 
+import { getSubTitleByCurrency } from './utils'
+
 const DisplayTitleBank = styled(DisplayTitle)`
   margin-bottom: 2px;
 `
@@ -53,18 +55,13 @@ const BankDeposit = ({ icon, onClick, value }: Props) => (
         <DisplayIconBank>{icon}</DisplayIconBank>
         <Content>
           <DisplayTitleBank>
-            <FormattedMessage
-              id='modals.simplebuy.easybanktransfer'
-              defaultMessage='Easy Bank Transfer'
-            />
+            <FormattedMessage id='copy.easy_bank_transfer' defaultMessage='Easy Bank Transfer' />
           </DisplayTitleBank>
-          <DisplaySubTitle>
-            <FormattedMessage id='copy.instantly_available' defaultMessage='Instantly Available' />
-          </DisplaySubTitle>
+          <DisplaySubTitle>{getSubTitleByCurrency(value.currency)}</DisplaySubTitle>
           <Description>
             <FormattedMessage
-              id='modals.brokerage.bank_deposit_description'
-              defaultMessage='Securely link a bank and send cash to your Blockchain.com Account at anytime.'
+              id='modals.brokerage.easy_bank_transfer_description'
+              defaultMessage='Quick and secure without entering account details.'
             />
           </Description>
         </Content>

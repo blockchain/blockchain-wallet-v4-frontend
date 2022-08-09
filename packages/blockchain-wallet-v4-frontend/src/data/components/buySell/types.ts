@@ -82,7 +82,6 @@ export enum BuySellStepType {
   'OPEN_BANKING_CONNECT',
   'PAYMENT_METHODS',
   'PREVIEW_SELL',
-  'TRADING_CURRENCY_SELECTOR',
   'ORDER_SUMMARY',
   'SELL_ORDER_SUMMARY',
   'TRANSFER_DETAILS',
@@ -103,6 +102,7 @@ export type BSShowModalOriginType =
   | 'Nfts'
   | 'NftsMakeOffer'
   | 'RecurringBuyPromo'
+  | 'AppleAndGooglePayPromo'
   | 'SellEmpty'
   | 'Send'
   | 'SettingsGeneral'
@@ -125,6 +125,18 @@ export enum BSCardStateEnum {
   PENDING = 'PENDING'
 }
 
+export type BSCardSuccessRateType = {
+  details?: {
+    actions: {
+      title: string
+      url: string
+    }[]
+    message: string
+    title: string
+  }
+  isBlocked: boolean
+}
+
 // State
 export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
@@ -135,6 +147,7 @@ export type BuySellState = {
   buyQuote: RemoteDataType<PartialClientErrorProperties, BuyQuoteStateType>
   card: RemoteDataType<string, BSCardType>
   cardId?: string
+  cardSuccessRate?: BSCardSuccessRateType
   cards: RemoteDataType<PartialClientErrorProperties, Array<BSCardType>>
   checkoutDotComAccountCodes?: Array<string>
   checkoutDotComApiKey?: string
@@ -170,7 +183,7 @@ export type BuySellState = {
 
 export type InitializeCheckout = {
   account?: SwapAccountType
-  amount: string
+  amount?: string
   cryptoAmount?: string
   fix: BSFixType
   orderType: BSOrderActionType
@@ -246,6 +259,5 @@ export type StepActionsPayload =
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
-        | 'TRADING_CURRENCY_SELECTOR'
         | 'FREQUENCY'
     }

@@ -98,12 +98,16 @@ class PasswordInput extends React.Component {
 
   onFocus = (e) => {
     this.setState({ focused: true })
-    this.props.onFocus(e)
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
   }
 
   onBlur = (e) => {
     this.setState({ focused: false })
-    this.props.onBlur(e)
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
   }
 
   refInput = (input) => {
@@ -111,14 +115,8 @@ class PasswordInput extends React.Component {
   }
 
   render() {
-    const {
-      errorState,
-      isPasswordVisible,
-      noLastPass,
-      setPasswordVisible,
-      value,
-      ...rest
-    } = this.props
+    const { errorState, isPasswordVisible, noLastPass, setPasswordVisible, value, ...rest } =
+      this.props
 
     return (
       <Wrapper>

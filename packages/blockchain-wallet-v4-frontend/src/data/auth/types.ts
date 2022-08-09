@@ -244,3 +244,20 @@ export type MobileAuthExchangeMessage = {
   error?: string
   status: 'error' | 'success'
 }
+
+export type MobileAuthLoginMessage = {
+  data?: {
+    action: 'login'
+  }
+}
+
+export type MobileMessageTypes =
+  | MobileAuthConnectedMessage
+  | MobileAuthWalletMergeMessage
+  | MobileAuthExchangeMessage
+  | MobileAuthLoginMessage
+
+export type MobileAuthLoginPayloadType = {
+  message?: MobileMessageTypes
+  platform: PlatformTypes
+}

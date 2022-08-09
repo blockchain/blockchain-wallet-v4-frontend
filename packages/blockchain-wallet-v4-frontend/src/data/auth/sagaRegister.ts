@@ -22,5 +22,9 @@ export default ({ api, coreSagas, networks }) => {
       actions.secondAuthenticationForMerge.type,
       authSagas.secondAuthenticationForMerge
     )
+    yield takeLatest(
+      actions.sendLoginMessageToMobile,
+      authSagas.sendLoginMessageToExchangeMobileApp
+    )
   }
 }

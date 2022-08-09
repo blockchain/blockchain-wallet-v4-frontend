@@ -98,7 +98,8 @@ const EnterPasswordWallet = (props: Props) => {
   const accountLocked =
     walletError &&
     (walletError.toLowerCase().includes('this account has been locked') ||
-      walletError.toLowerCase().includes('account is locked'))
+      walletError.toLowerCase().includes('account is locked') ||
+      walletError.toLowerCase().includes('account deactivated'))
   const settingsRedirect = Object.values(UnifiedAccountRedirectType).includes(initialRedirect)
 
   return (
@@ -139,7 +140,7 @@ const EnterPasswordWallet = (props: Props) => {
           <FormGroup>
             <FormItem>
               <FormLabel htmlFor='password'>
-                <FormattedMessage id='scenes.login.your_password' defaultMessage='Password' />
+                <FormattedMessage id='buttons.password' defaultMessage='Password' />
               </FormLabel>
               <Field
                 autoFocus
@@ -150,7 +151,7 @@ const EnterPasswordWallet = (props: Props) => {
                 validate={[required]}
               />
               {passwordError && (
-                <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
+                <FormError data-e2e='passwordError' style={{ paddingTop: '4px' }}>
                   <FormattedMessage
                     id='scenes.login.wrong_password'
                     defaultMessage='Wrong password.'

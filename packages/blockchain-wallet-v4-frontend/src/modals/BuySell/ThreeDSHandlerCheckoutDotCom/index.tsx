@@ -1,25 +1,26 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { clearSubmitErrors } from 'redux-form'
 
-import { BSOrderType, ProviderDetailsType, WalletOptionsType } from '@core/types'
-import CardError from 'components/BuySell/CardError'
+import { BSOrderType, BSPaymentTypes, ProviderDetailsType, WalletOptionsType } from '@core/types'
+import BaseError from 'components/BuySell/Error'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
-import { CARD_ERROR_CODE } from 'data/components/buySell/model'
+import { CARD_ERROR_CODE, FORM_BS_PREVIEW_SELL } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import { useRemote } from 'hooks'
 import { isNabuError } from 'services/errors'
 
 import Loading from './template.loading'
 import Success from './template.success'
-import DataError from 'components/DataError'
 
 const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   const [isPolling, setPolling] = useState(false)
   const order = useRemote(() => props.orderR)
   const card = useRemote(() => props.cardR)
   const providerDetails = useRemote(() => props.providerDetailsR)
+  const dispatch = useDispatch()
 
   const handlePostMessage = async ({ data }: { data: { payment: 'SUCCESS' } }) => {
     if (data.payment !== 'SUCCESS') return
@@ -33,10 +34,16 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     }
   }
 
-  const handleBack = () => {
-    if (order.hasData) {
-      props.buySellActions.setStep({
-        step: 'CHECKOUT_CONFIRM'
+  const handleBack = useCallback(() => {
+    if (order.data) {
+      props.buySellActions.createOrder({
+        mobilePaymentMethod: props.mobilePaymentMethod,
+        paymentMethodId: order.data.paymentMethodId,
+        paymentType:
+          order.data.paymentType !== BSPaymentTypes.USER_CARD &&
+          order.data.paymentType !== BSPaymentTypes.BANK_ACCOUNT
+            ? order.data.paymentType
+            : undefined
       })
 
       return
@@ -45,17 +52,19 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     props.buySellActions.setStep({
       step: 'DETERMINE_CARD_PROVIDER'
     })
-  }
+  }, [order.data, props.buySellActions, props.mobilePaymentMethod])
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     props.buySellActions.destroyCheckout()
-  }
 
-  const handleRetry = () => {
+    dispatch(clearSubmitErrors(FORM_BS_PREVIEW_SELL))
+  }, [props.buySellActions, dispatch])
+
+  const handleRetry = useCallback(() => {
     props.buySellActions.setStep({
       step: 'DETERMINE_CARD_PROVIDER'
     })
-  }
+  }, [props.buySellActions])
 
   useEffect(() => {
     window.addEventListener('message', handlePostMessage, false)
@@ -64,21 +73,19 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
   })
 
   const renderError = useCallback(
-    (error: string | Error) => {
+    (error: unknown) => {
       if (isNabuError(error)) {
-        return <GenericNabuErrorFlyout error={error} onClickClose={handleBack} />
-      } else if (typeof error === 'string') {
-        return (
-          <CardError
-            code={error}
-            handleReset={handleReset}
-            handleBack={handleBack}
-            handleRetry={handleRetry}
-          />
-        )
-      } else {
-        return <DataError message={{ message: error.toString() }} />
+        return <GenericNabuErrorFlyout error={error} onDismiss={handleBack} />
       }
+
+      return (
+        <BaseError
+          code={error}
+          handleReset={handleReset}
+          handleBack={handleBack}
+          handleRetry={handleRetry}
+        />
+      )
     },
     [handleReset, handleBack, handleRetry]
   )
@@ -115,7 +122,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     paymentLink = encodeURIComponent(providerDetails.data.cardProvider.paymentLink)
   } else if (!providerDetails.isLoading && !order.isLoading) {
     return (
-      <CardError
+      <BaseError
         code={CARD_ERROR_CODE.CREATE_FAILED}
         handleReset={handleReset}
         handleBack={handleBack}
@@ -144,6 +151,7 @@ const mapStateToProps = (state: RootState) => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
   } as WalletOptionsType['domains']),
+  mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
   orderR: selectors.components.buySell.getBSOrder(state),
   origin: selectors.components.buySell.getOrigin(state),
   providerDetailsR: selectors.components.buySell.getBSProviderDetails(state)

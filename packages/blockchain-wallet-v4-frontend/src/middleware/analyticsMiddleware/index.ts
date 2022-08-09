@@ -1,6 +1,7 @@
 // DO NOT ADD ANYTHING TO THIS, ONLY REMOVE ENTRIES
 // It's being deprecated, see notion doc
 
+import { Coin } from '@core/utils'
 import { actions, actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
@@ -14,7 +15,6 @@ import analytics from 'middleware/analyticsMiddleware/analytics'
 import {
   AccountType,
   AnalyticsKey,
-  Coin,
   DepositMethod,
   FeeRate,
   Order,

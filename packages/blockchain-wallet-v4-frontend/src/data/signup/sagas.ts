@@ -14,6 +14,7 @@ import {
   ModalName,
   PlatformTypes,
   ProductAuthOptions,
+  SignupRedirectTypes,
   TwoFASetupSteps
 } from 'data/types'
 import * as C from 'services/alerts'
@@ -32,6 +33,8 @@ export default ({ api, coreSagas, networks }) => {
     coreSagas,
     networks
   })
+
+  const REFERRAL_ERROR_MESSAGE = 'Invalid Referral Code'
 
   const { generateCaptchaToken } = miscSagas()
 
@@ -52,16 +55,9 @@ export default ({ api, coreSagas, networks }) => {
       yield call(authNabu)
       yield call(createUser)
       // store initial address in case of US state we add prefix
-      const userState = country === 'US' ? `US-${state}` : state
-      yield call(api.setUserInitialAddress, country, userState)
+      yield call(api.setUserInitialAddress, country, state)
       yield call(coreSagas.settings.fetchSettings)
-
-      const guid = yield select(selectors.core.wallet.getGuid)
-
       yield call(createExchangeUser, country)
-      yield put(actions.cache.exchangeEmail(email))
-      yield put(actions.cache.exchangeWalletGuid(guid))
-      yield put(actions.cache.setUnifiedAccount(true))
       yield put(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Signup))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeMobileAppSignup', e))
@@ -111,12 +107,29 @@ export default ({ api, coreSagas, networks }) => {
       // Handle Errors
     }
   }
+  const checkReferralCode = function* (referral) {
+    try {
+      yield call(api.checkIsValidReferralCode, referral)
+      yield put(actions.signup.setIsValidReferralCode(true))
+    } catch (e) {
+      yield put(actions.signup.setIsValidReferralCode(false))
+      throw new Error(REFERRAL_ERROR_MESSAGE)
+    }
+  }
 
   const register = function* (action) {
-    const { country, email, language, password, state } = action.payload
+    const { country, email, language, password, referral, state } = action.payload
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
+    const isExchangeMobileSignup =
+      product === ProductAuthOptions.EXCHANGE &&
+      (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS)
     try {
+      const isReferralEntered = referral && referral.length > 0
+      if (isReferralEntered) {
+        yield call(checkReferralCode, referral)
+      }
+
       yield put(actions.signup.registerLoading())
       yield put(actions.auth.loginLoading())
       yield put(actions.signup.setRegisterEmail(email))
@@ -129,13 +142,10 @@ export default ({ api, coreSagas, networks }) => {
         password
       })
       // We don't want to show the account success message if user is resetting their account
-      if (!isAccountReset) {
+      if (!isAccountReset && !isExchangeMobileSignup) {
         yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       }
-      if (
-        product === ProductAuthOptions.EXCHANGE &&
-        (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS)
-      ) {
+      if (isExchangeMobileSignup) {
         yield call(exchangeMobileAppSignup, {
           country,
           email,
@@ -148,9 +158,8 @@ export default ({ api, coreSagas, networks }) => {
           firstLogin: true,
           state
         })
+        yield put(actions.signup.registerSuccess(undefined))
       }
-
-      yield put(actions.signup.registerSuccess(undefined))
 
       yield put(
         actions.analytics.trackEvent({
@@ -175,11 +184,16 @@ export default ({ api, coreSagas, networks }) => {
           })
         )
       }
+      if (isReferralEntered) {
+        yield call(api.createReferral, referral)
+      }
     } catch (e) {
-      yield put(actions.signup.registerFailure(undefined))
-      yield put(actions.auth.loginFailure(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
-      yield put(actions.alerts.displayError(C.REGISTER_ERROR))
+      if (e.message !== REFERRAL_ERROR_MESSAGE) {
+        yield put(actions.signup.registerFailure(undefined))
+        yield put(actions.auth.loginFailure(e))
+        yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
+        yield put(actions.alerts.displayError(C.REGISTER_ERROR))
+      }
     }
   }
 
@@ -328,11 +342,13 @@ export default ({ api, coreSagas, networks }) => {
     const tuneTid = queryParams.get('tuneTid') as string
     const product = queryParams.get('product') as ProductAuthOptions
     const platform = queryParams.get('platform') as PlatformTypes
+    const signupRedirect = queryParams.get('redirect') as SignupRedirectTypes
     yield put(
       actions.signup.setProductSignupMetadata({
         platform,
         product,
         referrerUsername,
+        signupRedirect,
         tuneTid
       })
     )

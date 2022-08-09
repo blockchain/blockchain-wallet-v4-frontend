@@ -4,16 +4,16 @@ import { ExtractSuccess } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
-export const getData = createDeepEqualSelector(
+export const getData_LEGACY = createDeepEqualSelector(
   [selectors.components.nfts.getOrderFlow],
   (orderflow) => {
     const transform = (
       fees: ExtractSuccess<typeof orderflow['fees']>,
-      matchingOrder: ExtractSuccess<typeof orderflow['matchingOrder']>
+      matchingOrder_LEGACY: ExtractSuccess<typeof orderflow['matchingOrder_LEGACY']>
     ) => ({
       fees,
-      matchingOrder
+      matchingOrder_LEGACY
     })
-    return lift(transform)(orderflow.fees, orderflow.matchingOrder)
+    return lift(transform)(orderflow.fees, orderflow.matchingOrder_LEGACY)
   }
 )

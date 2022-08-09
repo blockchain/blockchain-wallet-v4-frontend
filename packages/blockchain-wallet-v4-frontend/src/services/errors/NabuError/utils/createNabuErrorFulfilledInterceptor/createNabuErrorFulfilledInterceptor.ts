@@ -5,10 +5,12 @@ import { CreateNabuErrorFulfilledInterceptorUtility } from './createNabuErrorFul
 const createNabuErrorFulfilledInterceptor: CreateNabuErrorFulfilledInterceptorUtility =
   () => (response) => {
     try {
-      const { data } = response
+      const data = response?.data
 
-      if (isNabuErrorInNetworkResponse(data)) {
-        const error = new NabuError(data.ux)
+      if (!!data && isNabuErrorInNetworkResponse(data)) {
+        const { ux, ...dataFields } = data
+
+        const error = new NabuError({ ...ux, dataFields })
 
         return Promise.reject(error)
       }

@@ -84,7 +84,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
           >
             <FormattedMessage
               id='scenes.interest.additional_information_required_description'
-              defaultMessage='Blockchain.com needs more information to verify your identity. This will speed up your future Deposits & Withrdawals as well as protect your account.'
+              defaultMessage='Blockchain.com needs more information to verify your identity. This will speed up your future Deposits & Withdrawals as well as protect your account.'
             />
           </Text>
           <Link

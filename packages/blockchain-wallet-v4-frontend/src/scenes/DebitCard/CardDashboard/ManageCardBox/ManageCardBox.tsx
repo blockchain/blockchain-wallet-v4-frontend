@@ -42,7 +42,7 @@ const ManageCardBox = ({ alertActions, cards, debitCardActions, lockHandler, mod
         alertActions.displaySuccess(C.DEBIT_CARD_DASHBOARD_LOCK_SUCCESS)
       }
     })
-  }, [lockHandler])
+  }, [alertActions, isCardLocked, lockHandler])
 
   const onTerminate = () => {
     modalActions.showModal(ModalName.TERMINATE_CARD, { origin: 'DebitCardDashboard' })
@@ -54,7 +54,7 @@ const ManageCardBox = ({ alertActions, cards, debitCardActions, lockHandler, mod
   }
 
   return (
-    <BoxContainer width='380px'>
+    <BoxContainer>
       <BoxRowWithBorder>
         <BoxRowItemTitle>
           <FormattedMessage

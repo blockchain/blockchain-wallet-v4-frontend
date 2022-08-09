@@ -9,7 +9,6 @@ import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-compone
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
-import { getPreferredCurrency } from 'data/components/buySell/utils'
 import { ModalName, SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
@@ -89,7 +88,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
   }
 
   handleBuy = (pair: BSPairType) => {
-    const currentTier = this.props.userData?.tiers?.current
+    const currentTier = this.props.userData?.tiers?.current ?? 0
 
     // if first time user, send to verify email step which is required future SDD check
     if (!this.props.emailVerified && currentTier !== 2 && currentTier !== 1) {
@@ -110,17 +109,10 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     }
 
     // in case of not directly supported fiat currency lend user to select trading currency from list
-    const preferredCurrencyFromStorage = getPreferredCurrency()
-    if (this.props.originalFiatCurrency && !preferredCurrencyFromStorage) {
-      return this.props.buySellActions.setStep({
-        step: 'TRADING_CURRENCY_SELECTOR'
-      })
-    }
-
-    // use preferred currency from local storage if it exists
+    const { preferredFiatTradingCurrency } = this.props.userData.currencies
     const fiatCurrency =
-      this.props.originalFiatCurrency && preferredCurrencyFromStorage
-        ? preferredCurrencyFromStorage
+      this.props.originalFiatCurrency && preferredFiatTradingCurrency
+        ? preferredFiatTradingCurrency
         : getFiatFromPair(pair.pair)
 
     // default continue to enter amount step
@@ -137,10 +129,9 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     const pair = this.props.pairs.find((value) => getCoinFromPair(value.pair) === swapAccount.coin)
 
     if (!pair) return
-
     this.props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
-      fiatCurrency: getFiatFromPair(pair.pair),
+      fiatCurrency: this.props.fiatCurrency,
       orderType: this.state.orderType,
       pair,
       step: 'ENTER_AMOUNT',

@@ -3,6 +3,15 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { colors } from '@blockchain-com/constellation'
+import {
+  Asset,
+  AssetCollection,
+  AssetDetails,
+  AssetImageContainer,
+  AvatarGradientColors,
+  PriceCTA
+} from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
+import Avatar from 'boring-avatars'
 import { F } from 'ramda'
 import styled from 'styled-components'
 
@@ -15,8 +24,6 @@ import { Analytics } from 'data/types'
 import { AssetsQuery } from 'generated/graphql.types'
 import { useMedia } from 'services/styles'
 
-import { Asset, AssetCollection, AssetDetails, AssetImageContainer, PriceCTA } from '.'
-import NftAssetImageType from './NftAssetImageType'
 import NftCollectionImageSmall from './NftCollectionImageSmall'
 
 const XSmallButton = styled(Button)`
@@ -41,14 +48,20 @@ const HoverBackground = styled.div<{ background: string }>`
 `
 
 const NotForSale = styled.div`
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 1px solid ${colors.grey700};
+  background-color: ${colors.smoke800};
+  border: 1px solid ${colors.smoke600};
   border-radius: 8px;
   padding: 0.5em;
   width: fit-content;
 `
 
-const NftAssetItem: React.FC<Props> = ({ asset }) => {
+const OverflowText = styled(Text)`
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
+
+const NftAssetItem: React.FC<Props> = ({ asset, isAddressPage = false }) => {
   const [hover, setHover] = useState(false)
   const dispatch = useDispatch()
   const isMobile = useMedia('mobile')
@@ -116,19 +129,20 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               background='linear-gradient(127.95deg, #DADADA 0%, #F4F7FB 0.01%, #2F7CF6 100%)'
             />
           )}
-          <NftAssetImageType
-            top='10px'
-            right='10px'
-            animation_url={asset.animation_url}
-            image_url={image}
-          />
         </Link>
       </LinkContainer>
       <AssetDetails>
         <Flex flexDirection='column' gap={8}>
-          <Text size='18px' style={{ marginTop: '4px' }} color='white' weight={600}>
+          <OverflowText
+            size='18px'
+            style={{
+              marginTop: '4px'
+            }}
+            color='white'
+            weight={600}
+          >
             #{asset?.token_id}
-          </Text>
+          </OverflowText>
           <LinkContainer
             onClick={logoClickTracking}
             to={`/nfts/collection/${asset.collection.slug}`}
@@ -140,16 +154,15 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                     isVerified={asset.collection.safelist_request_status === 'verified'}
                     alt='Dapp Logo'
                     src={asset.collection.image_url}
-                    height='16px'
-                    width='16px'
+                    height='24px'
+                    width='24px'
                   />
                 ) : (
-                  <NftCollectionImageSmall
-                    isVerified={asset.collection.safelist_request_status === 'verified'}
-                    alt='Dapp Logo'
-                    src=''
-                    height='16px'
-                    width='16px'
+                  <Avatar
+                    size={24}
+                    name={asset.collection.slug || ''}
+                    variant='marble'
+                    colors={AvatarGradientColors}
                   />
                 )}
                 <AssetCollection onClick={nameClickTracking}>
@@ -196,9 +209,15 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
               </Flex>
             ) : (
               <NotForSale style={{ marginBottom: '1em' }}>
-                <Text weight={500} color='white'>
-                  <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
-                </Text>
+                {isAddressPage ? (
+                  <Text weight={500} color='white'>
+                    <FormattedMessage id='copy.see_details' defaultMessage='See Details' />
+                  </Text>
+                ) : (
+                  <Text weight={500} color='white'>
+                    <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
+                  </Text>
+                )}
               </NotForSale>
             )}
           </LinkContainer>
@@ -243,25 +262,24 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                   src={image.replace(/=s\d*/, '')}
                 />
               ) : null}
-              <Text size='18px' weight={600} lineHeight='150%' color='white'>
+              <OverflowText size='18px' weight={600} lineHeight='150%' color='white'>
                 #{asset?.token_id}
-              </Text>
+              </OverflowText>
               <Flex alignItems='center' gap={8}>
                 {asset.collection.image_url ? (
                   <NftCollectionImageSmall
                     isVerified={asset.collection.safelist_request_status === 'verified'}
                     alt='Dapp Logo'
                     src={asset.collection.image_url}
-                    height='16px'
-                    width='16px'
+                    height='24px'
+                    width='24px'
                   />
                 ) : (
-                  <NftCollectionImageSmall
-                    isVerified={asset.collection.safelist_request_status === 'verified'}
-                    alt='Dapp Logo'
-                    src=''
-                    height='16px'
-                    width='16px'
+                  <Avatar
+                    size={24}
+                    name={asset.collection.slug || ''}
+                    variant='marble'
+                    colors={AvatarGradientColors}
                   />
                 )}
                 <Text weight={600} lineHeight='150%' color='white'>
@@ -298,20 +316,30 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
                         </Link>
                       </LinkContainer>
                     </Flex>
+                  ) : isAddressPage ? (
+                    <NotForSale>
+                      <Text style={{ paddingBottom: '0.4em' }} weight={500} color='white'>
+                        <FormattedMessage id='copy.see_details' defaultMessage='See Details' />
+                      </Text>
+                      <Text size='12px' weight={500} color='white'>
+                        <FormattedMessage
+                          id='copy.click_to_view_more'
+                          defaultMessage='Click to view more information about this NFT.'
+                        />
+                      </Text>
+                    </NotForSale>
                   ) : (
-                    <>
-                      <NotForSale>
-                        <Text style={{ paddingBottom: '0.4em' }} weight={500} color='white'>
-                          <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
-                        </Text>
-                        <Text size='12px' weight={500} color='white'>
-                          <FormattedMessage
-                            id='copy.item_not_for_sale'
-                            defaultMessage='You can still make offers with ERC-20 assets like WETH'
-                          />
-                        </Text>
-                      </NotForSale>
-                    </>
+                    <NotForSale>
+                      <Text style={{ paddingBottom: '0.4em' }} weight={500} color='white'>
+                        <FormattedMessage id='copy.not_for_sale' defaultMessage='Not For Sale' />
+                      </Text>
+                      <Text size='12px' weight={500} color='white'>
+                        <FormattedMessage
+                          id='copy.item_not_for_sale'
+                          defaultMessage='You can still make offers with ERC-20 assets like WETH'
+                        />
+                      </Text>
+                    </NotForSale>
                   )}
                 </LinkContainer>
               </PriceCTA>
@@ -328,6 +356,7 @@ const NftAssetItem: React.FC<Props> = ({ asset }) => {
 
 type Props = {
   asset: AssetsQuery['assets'][0]
+  isAddressPage?: boolean
 }
 
 export default NftAssetItem

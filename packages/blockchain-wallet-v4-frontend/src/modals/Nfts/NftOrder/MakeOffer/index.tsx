@@ -8,11 +8,10 @@ import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
-import { GasCalculationOperations, GasDataI } from '@core/network/api/nfts/types'
+import { GasDataI } from '@core/network/api/nfts/types'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Text } from 'blockchain-info-components'
-import { getEthBalances } from 'components/Balances/selectors'
 import { Title, Value } from 'components/Flyout'
 import FlyoutHeader from 'components/Flyout/Header'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
@@ -59,6 +58,7 @@ const MakeOffer: React.FC<Props> = (props) => {
   if (!formValues) return null
 
   const { amount, coin, fix } = formValues
+  const { coinfig } = window.coins[coin]
   const [selfCustodyBalance, custodialBalance] = ethBalancesR.getOrElse([
     new BigNumber(0),
     new BigNumber(0)
@@ -68,7 +68,6 @@ const MakeOffer: React.FC<Props> = (props) => {
       ? convertFiatToCoin({
           coin,
           currency: walletCurrency,
-          maxPrecision: 8,
           rates,
           value: amount
         })
@@ -88,13 +87,14 @@ const MakeOffer: React.FC<Props> = (props) => {
   const ethBalance = new BigNumber(selfCustodyBalance)
   const erc20Balance = erc20BalanceR.getOrElse(0)
   const maxWrapPossible = ethBalance
+    .minus(wrapFees.totalFees * wrapFees.gasPrice)
     .minus(offerFees.totalFees * offerFees.gasPrice)
-    .minus(wrapFees.totalFees * offerFees.gasPrice)
   const maxOfferPossible =
     coin === 'WETH' ? maxWrapPossible.plus(erc20Balance) : new BigNumber(erc20Balance)
   const amtToBuy = maxOfferPossible
     .times(-1)
     .plus(convertCoinToCoin({ baseToStandard: false, coin, value: cryptoAmt }))
+  // Standard Values
   const standardErc20Balance = convertCoinToCoin({
     coin: formValues.coin || 'WETH',
     value: erc20Balance
@@ -103,6 +103,11 @@ const MakeOffer: React.FC<Props> = (props) => {
     coin: 'ETH',
     value: maxWrapPossible.toString()
   })
+  // used to avoid precision error caused by AmountFieldInput component, which
+  // uses max 8 decimal precision
+  const standardMaxOfferPossible =
+    (Math.floor(maxOfferPossible.dividedBy(1e8).toNumber()) * 1e8) / 10 ** coinfig.precision
+
   const amtToWrap = new BigNumber(cryptoAmt || 0).minus(standardErc20Balance)
   const canWrap =
     amtToWrap.isLessThanOrEqualTo(standardMaxWrapPossible) && formValues.coin === 'WETH'
@@ -161,7 +166,7 @@ const MakeOffer: React.FC<Props> = (props) => {
             <AmountFieldInput
               coin={coin}
               fiatCurrency={walletCurrency}
-              amtError={false}
+              amountError={false}
               quote={fix === 'CRYPTO' ? fiatAmt : cryptoAmt}
               fix={fix as 'CRYPTO' | 'FIAT'}
               name='amount'
@@ -187,15 +192,7 @@ const MakeOffer: React.FC<Props> = (props) => {
               name='coin'
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(coin: any) => {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                const address = window.coins[coin].coinfig.type.erc20Address!
                 offerWithChangedAnalytics(coin)
-                nftActions.fetchFees({
-                  asset,
-                  offer: '0.0001',
-                  operation: GasCalculationOperations.CreateOffer,
-                  paymentTokenAddress: address
-                })
               }}
               component={SelectBox}
               elements={[
@@ -259,7 +256,7 @@ const MakeOffer: React.FC<Props> = (props) => {
       </div>
 
       <StickyCTA>
-        <MakeOfferFees {...props} asset={asset} />
+        <MakeOfferFees {...props} asset={asset} needsWrap={needsWrap} />
         <br />
         <MakeOfferCTA
           {...props}
@@ -268,12 +265,12 @@ const MakeOffer: React.FC<Props> = (props) => {
           canWrap={canWrap}
           needsWrap={needsWrap}
           wrapFees={wrapFees}
+          offerFees={offerFees}
           selfCustodyBalance={selfCustodyBalance}
           custodialBalance={custodialBalance}
           cryptoAmt={cryptoAmt}
-          offerFees={offerFees}
           amtToWrap={amtToWrap}
-          maxOfferPossible={maxOfferPossible}
+          standardMaxOfferPossible={standardMaxOfferPossible}
         />
       </StickyCTA>
     </>
@@ -292,7 +289,7 @@ const mapStateToProps = (state) => {
 
   return {
     erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues?.coin || 'WETH'),
-    ethBalancesR: getEthBalances(state),
+    ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state),
     formErrors: selectors.form.getFormSyncErrors('nftMakeOffer')(state) as { amount: boolean },
     formValues,
     rates: getRatesSelector(formValues?.coin || 'WETH', state).getOrElse({} as RatesType),

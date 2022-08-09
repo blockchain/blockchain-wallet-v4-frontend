@@ -42,7 +42,7 @@ const FundsBox = ({ brokerageActions, buySellActions, modalActions }: Props) => 
   }
 
   return (
-    <BoxContainer width='380px'>
+    <BoxContainer>
       <BoxRowWithBorder>
         {data && !isLoading ? (
           <CoinWithBalance {...data.balance} />
@@ -59,6 +59,7 @@ const FundsBox = ({ brokerageActions, buySellActions, modalActions }: Props) => 
           margin='auto'
           onClick={handleAddFunds}
           disabled={isLoadingState}
+          fullwidth
         >
           <FormattedMessage id='buttons.add_funds' defaultMessage='Add Funds' />
         </Button>
@@ -68,6 +69,7 @@ const FundsBox = ({ brokerageActions, buySellActions, modalActions }: Props) => 
           margin='auto'
           onClick={openFundsList}
           disabled={isLoadingState}
+          fullwidth
         >
           <FormattedMessage id='buttons.change_source' defaultMessage='Change Source' />
         </Button>

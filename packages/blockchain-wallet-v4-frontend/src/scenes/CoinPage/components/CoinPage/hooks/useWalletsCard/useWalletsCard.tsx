@@ -4,7 +4,7 @@ import { CoinType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
 import { IconCircularBackground } from 'components/IconCircularBackground'
 import { StandardRow } from 'components/Rows'
-import { useCoinBalance, useCoinRates, useCurrency, useWalletsForCoin } from 'hooks'
+import { getCoinColor, useCoinBalance, useCoinRates, useCurrency, useWalletsForCoin } from 'hooks'
 
 import { WalletsCard } from '../../../WalletsCard'
 import { transformToAccounts } from './utils'
@@ -33,12 +33,12 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
   } = useWalletsForCoin({ coin })
 
   const isNotAsked = useMemo(
-    () => isCoinRatesNotAsked && isCoinBalanceNotAsked && isAddressDataNotAsked,
+    () => isCoinRatesNotAsked || isCoinBalanceNotAsked || isAddressDataNotAsked,
     [isCoinRatesNotAsked, isCoinBalanceNotAsked, isAddressDataNotAsked]
   )
 
   const isLoading = useMemo(
-    () => isLoadingCoinRates && isLoadingCoinBalance && isLoadingAddressData,
+    () => isLoadingCoinRates || isLoadingCoinBalance || isLoadingAddressData,
     [isLoadingCoinRates, isLoadingCoinBalance, isLoadingAddressData]
   )
 
@@ -57,7 +57,7 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
         label
       })) ?? []
     )
-  }, [coinAddressesData, rates, currency, available])
+  }, [rates, coinAddressesData, coin, currency, available])
 
   const walletsCardNode = useMemo(() => {
     if (isLoading || isNotAsked) {
@@ -76,24 +76,28 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
 
     return (
       <WalletsCard>
-        {accounts?.map(({ key, label, totalCrypto, totalFiat }) => (
-          <StandardRow
-            key={key}
-            bottomLeftText={label}
-            bottomRightText={totalCrypto}
-            onClick={() => {}}
-            topLeftText={label}
-            topRightText={totalFiat}
-            icon={
-              <IconCircularBackground color='grey200'>
-                <Icon name='key' size='8px' color='grey600' />
-              </IconCircularBackground>
-            }
-          />
-        ))}
+        {accounts?.map(({ key, label, totalCrypto, totalFiat }) => {
+          const coinColor = getCoinColor(coin)
+
+          return (
+            <StandardRow
+              key={key}
+              bottomLeftText={label}
+              bottomRightText={totalCrypto}
+              onClick={() => {}}
+              topLeftText={label}
+              topRightText={totalFiat}
+              icon={
+                <IconCircularBackground color={coinColor || 'grey200'}>
+                  <Icon name='key' size='8px' color='white' />
+                </IconCircularBackground>
+              }
+            />
+          )
+        })}
       </WalletsCard>
     )
-  }, [isLoading, isNotAsked, rates, accounts, available])
+  }, [isLoading, isNotAsked, rates, available, accounts, coin])
 
   return [walletsCardNode]
 }

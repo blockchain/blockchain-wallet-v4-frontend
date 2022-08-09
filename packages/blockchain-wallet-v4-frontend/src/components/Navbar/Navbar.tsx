@@ -1,20 +1,17 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { colors, Icon, Text } from '@blockchain-com/constellation'
-import { IconClose, IconMenu, IconRefresh, IconUser } from '@blockchain-com/icons'
+import { IconClose, IconMenu, IconRefresh } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
-import { Destination } from 'layouts/Wallet/components'
-import { useOnClickOutside } from 'services/misc'
 import { media, useMedia } from 'services/styles'
 
-import AppSwitcher from './AppSwitcher'
-import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from './Dropdown'
 import MobileDropdown from './MobileDropdown'
 import MobileNav from './MobileNav'
+import UserNavDropdown, { userNavItems } from './UserNavDropdown'
 
 export type PrimaryNavItem = {
   dest: string
@@ -181,16 +178,9 @@ const Navbar = ({
   taxCenterClickHandler,
   trackEventCallback
 }: Props) => {
-  const ref = useRef(null)
-  const [isMenuOpen, toggleIsMenuOpen] = useState(false)
-  useOnClickOutside(ref, () => toggleIsMenuOpen(false))
   const [isMobileNavOpen, setMobileNav] = useState(false)
   const isMobile = useMedia('mobile')
   const isTablet = useMedia('tablet')
-
-  const handleMenuToggle = () => {
-    toggleIsMenuOpen((isMenuOpen) => !isMenuOpen)
-  }
 
   const closeMobileNavOpenSendCallback = useCallback(() => {
     setMobileNav(false)
@@ -213,66 +203,6 @@ const Navbar = ({
   const openMobileNavCallback = useCallback(() => {
     setMobileNav(true)
   }, [])
-
-  const tertiaryNavItems = [
-    {
-      clickHandler: () => {
-        trackEventCallback('General')
-      },
-      copy: <FormattedMessage id='navbar.settings.general' defaultMessage='General' />,
-      'data-e2e': 'settings_generalLink',
-      to: '/settings/general'
-    },
-    {
-      copy: <FormattedMessage id='buttons.security' defaultMessage='Security' />,
-      'data-e2e': 'securityCenterLink',
-      to: '/security-center'
-    },
-    {
-      clickHandler: limitsClickHandler,
-      copy: (
-        <FormattedMessage
-          id='layouts.wallet.header.tradinglimits'
-          defaultMessage='Trading Limits'
-        />
-      ),
-      'data-e2e': 'settings_profileLink'
-    },
-    {
-      clickHandler: () => {
-        trackEventCallback('Preferences')
-      },
-      copy: (
-        <FormattedMessage id='layouts.wallet.header.preferences' defaultMessage='Preferences' />
-      ),
-      'data-e2e': 'settings_preferencesLink',
-      to: '/settings/preferences'
-    },
-    {
-      clickHandler: () => {
-        trackEventCallback('Preferences')
-      },
-      copy: (
-        <FormattedMessage
-          id='layouts.wallet.header.walletsaddresses'
-          defaultMessage='Wallets & Addresses'
-        />
-      ),
-      'data-e2e': 'settings_walletsLink',
-      to: '/settings/addresses'
-    },
-    {
-      clickHandler: logoutClickHandler,
-      copy: <FormattedMessage id='layouts.wallet.header.Sign Out' defaultMessage='Sign Out' />,
-      'data-e2e': 'logoutLink'
-    }
-  ]
-
-  tertiaryNavItems.splice(0, 0, {
-    clickHandler: taxCenterClickHandler,
-    copy: <FormattedMessage id='navbar.tax' defaultMessage='Tax Center' />,
-    'data-e2e': 'tax_CenterLink'
-  })
 
   const secondaryNavItems = [
     {
@@ -322,32 +252,12 @@ const Navbar = ({
     },
     {
       component: () => (
-        <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
-          <Icon color='grey400' label='open-menu' size='sm'>
-            <IconUser />
-          </Icon>
-          {isMenuOpen && (
-            <DropdownMenu ref={ref}>
-              <DropdownMenuArrow />
-              {tertiaryNavItems.map(({ clickHandler = () => {}, copy, 'data-e2e': e2e, to }) => {
-                if (!to) {
-                  return (
-                    <DropdownMenuItem key={e2e} onClick={clickHandler} data-e2e={e2e}>
-                      <Destination>{copy}</Destination>
-                    </DropdownMenuItem>
-                  )
-                }
-                return (
-                  <DropdownNavLink key={e2e} to={to}>
-                    <DropdownMenuItem data-e2e={e2e} onClick={clickHandler}>
-                      <Destination>{copy}</Destination>
-                    </DropdownMenuItem>
-                  </DropdownNavLink>
-                )
-              })}
-            </DropdownMenu>
-          )}
-        </NavButton>
+        <UserNavDropdown
+          limitsClickHandler={limitsClickHandler}
+          logoutClickHandler={logoutClickHandler}
+          taxCenterClickHandler={taxCenterClickHandler}
+          trackEventCallback={trackEventCallback}
+        />
       ),
       name: 'Settings'
     }
@@ -363,7 +273,12 @@ const Navbar = ({
           handleClose={closeMobileNavCallback}
           primaryNavItems={primaryNavItems}
           secondaryNavItems={secondaryMobileNavItems}
-          tertiaryNavItems={tertiaryNavItems}
+          userNavItems={userNavItems({
+            limitsClickHandler,
+            logoutClickHandler,
+            taxCenterClickHandler,
+            trackEventCallback
+          })}
         />
       )}
       <NavLeft>
@@ -372,7 +287,6 @@ const Navbar = ({
             <Image width='25px' name='blockchain-icon' />
           </NavLink>
         </Logo>
-        {nftsEnabled ? <AppSwitcher /> : null}
         {!isMobile && !isTablet && (
           <PrimaryNavItems>
             {primaryNavItems.map((item: PrimaryNavItem) => (

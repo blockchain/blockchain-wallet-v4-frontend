@@ -3,7 +3,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Remote } from '@core'
 import { RemoteDataType } from '@core/remote/types'
 
-import { AccountType, CardActionType, DebitCardState, DebitCardType, ProductType } from './types'
+import {
+  AccountType,
+  CardActionType,
+  CardTransaction,
+  DebitCardState,
+  DebitCardType,
+  ProductType
+} from './types'
 
 const initialState: DebitCardState = {
   cardCreationData: Remote.NotAsked,
@@ -15,7 +22,8 @@ const initialState: DebitCardState = {
   lockHandler: Remote.NotAsked,
   products: [],
   selectAccountHandler: Remote.NotAsked,
-  terminateHandler: Remote.NotAsked
+  terminateHandler: Remote.NotAsked,
+  transactions: Remote.NotAsked
 }
 
 const debitCardSlice = createSlice({
@@ -28,6 +36,7 @@ const debitCardSlice = createSlice({
       state.currentCardSelected = undefined
       state.currentCardAccount = Remote.NotAsked
       state.lockHandler = Remote.NotAsked
+      state.transactions = Remote.NotAsked
     },
     cleanTerminateHandler: (state) => {
       state.terminateHandler = Remote.NotAsked
@@ -42,6 +51,16 @@ const debitCardSlice = createSlice({
     createCardSuccess: (state, action: PayloadAction<DebitCardType>) => {
       state.cardCreationData = Remote.Success(action.payload)
     },
+    getCardTransactions: (state) => {},
+    getCardTransactionsFailure: (state, action: PayloadAction<string>) => {
+      state.transactions = Remote.Failure(action.payload)
+    },
+    getCardTransactionsLoading: (state) => {
+      state.transactions = Remote.Loading
+    },
+    getCardTransactionsSuccess: (state, action: PayloadAction<Array<CardTransaction>>) => {
+      state.transactions = Remote.Success(action.payload)
+    },
     getCards: () => {},
     getCardsFailure: (state) => {
       state.cards = Remote.Failure()
@@ -52,7 +71,7 @@ const debitCardSlice = createSlice({
     getCardsSuccess: (state, action: PayloadAction<Array<DebitCardType>>) => {
       state.cards = Remote.Success(action.payload)
     },
-    getCurrentCardAccount: (state, action: PayloadAction<string>) => {},
+    getCurrentCardAccount: (state) => {},
     getCurrentCardAccountFailure: (state, action: PayloadAction<string>) => {
       state.currentCardAccount = Remote.Failure(action.payload)
     },

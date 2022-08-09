@@ -1,7 +1,7 @@
 import { path, prop } from 'ramda'
 
 import { Remote } from '@core'
-import { /* AccountTokensBalancesResponseType, */ Product, RemoteDataType } from '@core/types'
+import { Product, RemoteDataType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import { WalletOptionsType } from './types'
@@ -133,3 +133,24 @@ export const getRewardsFlowUnderSwapEnabled = (state: RootState) =>
 // check for rewards promo banner to be enabled
 export const getRewardsPromoBannerEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'rewardsPromoBanner']))
+
+// check for rewards promo banner to be enabled
+export const getAppleAndGooglePayPromoBannerEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'appleAndGooglePayPromoBanner']))
+
+// show referral signup input in sign up
+export const getReferralEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
+
+// show login button redirect for exchange mobile
+// will take user out of webview into native signin
+export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'exchangeMobileDuplicateAccountRedirect']))
+
+// secure update endpoint for email and sms
+export const getSecureEmailSmsUpdate = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'secureEmailSmsUpdate']))
+
+// dex feature flag
+export const getDexProductEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'dex']))
