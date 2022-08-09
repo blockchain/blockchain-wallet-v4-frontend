@@ -16,6 +16,7 @@ type NabuErrorIconProps = {
 type NabuErrorProps = {
   actions?: NabuErrorAction[]
   categories?: string[]
+  dataFields?: { [key: string]: unknown }
   icon?: NabuErrorIconProps
   id?: string
   message: string

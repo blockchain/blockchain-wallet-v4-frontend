@@ -67,7 +67,8 @@ class Swap extends PureComponent<Props, State> {
       Loading: () => null,
       NotAsked: () => null,
       Success: (val) => {
-        const currentTier = val.userData?.tiers?.current
+        const currentTier = val.userData?.tiers?.current ?? 0
+
         return (
           <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
             {this.props.step === 'INIT_SWAP' && (

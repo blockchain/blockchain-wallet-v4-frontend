@@ -6,6 +6,9 @@ import { RootState } from 'data/rootReducer'
 
 const getData = (state: RootState) => {
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
+  const userCurrencies = selectors.modules.profile.getUserCurrencies(state) || {
+    preferredFiatTradingCurrency: 'USD'
+  }
   const defaultMethodR = selectors.components.buySell.getDefaultPaymentMethod(state)
   const eligibilityR = selectors.components.buySell.getBSFiatEligible(state)
   const pairsR = selectors.components.buySell.getBSPairs(state)
@@ -25,6 +28,7 @@ const getData = (state: RootState) => {
       pairs,
       paymentMethods,
       swapAccount,
+      tradingCurrency: userCurrencies.preferredFiatTradingCurrency,
       walletCurrency
     })
   )(defaultMethodR, eligibilityR, pairsR, paymentMethodsR, walletCurrencyR)

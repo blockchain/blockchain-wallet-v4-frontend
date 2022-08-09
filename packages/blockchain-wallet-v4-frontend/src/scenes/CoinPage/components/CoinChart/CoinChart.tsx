@@ -5,11 +5,9 @@ import { LinearGradient } from '@visx/gradient'
 import { Group } from '@visx/group'
 import { Bar, Circle } from '@visx/shape'
 import { Numeric } from 'd3-array'
-import { useTheme } from 'styled-components'
 
 import {
   AnimatedLinePath,
-  // AxisBottom,
   useLinearScale,
   useTimeScale,
   useTooltipHandlers,
@@ -40,7 +38,7 @@ export const CoinChart = <DATA extends CoinData = CoinData>({
   tooltip
 }: CoinChartProps<DATA>) => {
   const getX = useCallback((dataItem: DATA): Date => new Date(dataItem[x].valueOf()), [x])
-  const getY = useCallback((dataItem: DATA): Numeric => dataItem[y]!, [y])
+  const getY = useCallback((dataItem: DATA): Numeric => dataItem[y], [y])
 
   const layout = useCoinChartLayout({
     bottomAxisHeight: 32,

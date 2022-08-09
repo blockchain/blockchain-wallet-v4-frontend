@@ -1,15 +1,9 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon, SkeletonRectangle } from 'blockchain-info-components'
+import { SkeletonRectangle } from 'blockchain-info-components'
 import { Container } from 'components/Box'
-import {
-  HeaderTextWrapper,
-  IconBackground,
-  SceneHeader,
-  SceneHeaderText,
-  SceneSubHeaderText
-} from 'components/Layout'
+import { HeaderTextWrapper, SceneHeader, SceneHeaderText } from 'components/Layout'
 import { selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { useRemote } from 'hooks'
@@ -19,56 +13,56 @@ import CardOrder from './CardOrder'
 import { Props } from './DebitCard'
 import { Wrapper } from './DebitCard.model'
 
-const Loading = () => {
-  return (
-    <Container>
-      <SkeletonRectangle width='330px' height='270px' />
-    </Container>
-  )
-}
-
 const DebitCard = ({
   alertActions,
   cardToken,
   debitCardActions,
   domains,
+  identityVerificationActions,
   lockHandler,
   modalActions,
-  profileData
+  userData
 }: Props) => {
+  const { data: cards = [], isLoading } = useRemote(selectors.components.debitCard.getCards)
+
+  const handleOpenOrderMyCard = () => {
+    const currentTier = userData?.tiers?.current ?? 0
+
+    if (currentTier === 2 || currentTier === 1) {
+      // user in SDD but already completed eligibility check, continue to payment
+      modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCard' })
+    } else {
+      identityVerificationActions.verifyIdentity({
+        onCompletionCallback: () => {
+          modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCard' })
+        },
+        origin: 'DebitCard',
+        tier: 2
+      })
+    }
+  }
+
   useEffect(() => {
     debitCardActions.getCards()
     return () => {
       debitCardActions.cleanCardData()
     }
-  }, [])
-
-  const cardsR = useRemote(selectors.components.debitCard.getCards)
-  const { data: cards = [], isLoading } = cardsR
-
-  const handleOpenOrderMyCard = () =>
-    modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
+  }, [debitCardActions])
 
   return (
     <Wrapper>
       <SceneHeader>
         <HeaderTextWrapper>
-          <IconBackground>
-            <Icon name='credit-card-sb' color='blue600' size='26px' />
-          </IconBackground>
           <SceneHeaderText>
-            <FormattedMessage id='copy.debit_card' defaultMessage='Debit Card' />
+            <FormattedMessage id='copy.debit_card' defaultMessage='Blockchain.com Visa Card' />
           </SceneHeaderText>
         </HeaderTextWrapper>
       </SceneHeader>
-      <SceneSubHeaderText>
-        <FormattedMessage
-          id='scenes.debit_card.intro.subheader'
-          defaultMessage='Taking crypto into the physical world.'
-        />
-      </SceneSubHeaderText>
+
       {isLoading ? (
-        <Loading />
+        <Container>
+          <SkeletonRectangle width='330px' height='270px' />
+        </Container>
       ) : cards.length === 0 ? (
         <CardOrder handleOpenOrderMyCard={handleOpenOrderMyCard} />
       ) : (
@@ -81,7 +75,7 @@ const DebitCard = ({
           debitCardActions={debitCardActions}
           lockHandler={lockHandler}
           modalActions={modalActions}
-          profileData={profileData}
+          userData={userData}
         />
       )}
     </Wrapper>

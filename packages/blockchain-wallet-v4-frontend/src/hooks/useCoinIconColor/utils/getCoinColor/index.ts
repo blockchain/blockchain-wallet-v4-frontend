@@ -1,0 +1,1 @@
+export { getCoinColor } from './getCoinColor'

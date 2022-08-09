@@ -5,7 +5,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { media } from 'services/styles'
 
-export const maxWidth = '1200px'
+export const maxWidth = '100%'
 
 export const opensea_event_types = [
   'bid_entered',
@@ -30,7 +30,6 @@ export const NftPageV2 = styled.div`
   width: 100%;
   margin: 8px auto;
   box-sizing: border-box;
-  margin-top: -56px;
   ${media.mobile`
     margin-top: 0;
   `}
@@ -221,11 +220,12 @@ export const StatsWrapper = styled.div`
   display: flex;
   gap: 8px;
   margin: 24px;
-  ${media.tablet`
+  ${media.laptop`
     justify-content: center;
     display: flex;
     flex-direction: column;
     margin: 0 0 1em 0;
+    width: 100%;
   `}
 `
 
@@ -239,13 +239,10 @@ export const Stat = styled.div`
   white-space: nowrap;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid ${colors.grey000};
-  ${media.tablet`
+  ${media.laptop`
     > div {
       font-size: 12px;
     }
-    padding: 15px 30px;
-    width: 110px;
-    max-width: 150px;
   `}
 `
 

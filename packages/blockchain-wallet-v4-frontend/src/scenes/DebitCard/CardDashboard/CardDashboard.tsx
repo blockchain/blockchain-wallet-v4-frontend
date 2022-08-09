@@ -6,6 +6,7 @@ import { Button, Text } from 'blockchain-info-components'
 import {
   BoxContainer,
   CardItem,
+  CardItemBlock,
   CardItemTitle,
   CardList,
   CardListHeader,
@@ -29,14 +30,14 @@ const CardDashboard = ({
   last4,
   lockHandler,
   modalActions,
-  profileData
+  userData
 }) => {
-  const fullName = `${profileData.firstName} ${profileData.lastName}`
+  const fullName = `${userData.firstName} ${userData.lastName}`
 
   return (
     <DashboardWrapper>
       <ColumnWrapper>
-        <BoxContainer width='662px'>
+        <BoxContainer>
           <CardWrapper>
             <Iframe
               id='marqeta-card-iframe'
@@ -50,15 +51,16 @@ const CardDashboard = ({
                 />
               </CardListHeader>
               <CardItem>
-                <div>
+                <CardItemBlock>
                   <CardItemTitle>
                     <FormattedMessage
                       id='scenes.debit_card.dashboard.cards_title'
                       defaultMessage='Virtual Card'
                     />
                   </CardItemTitle>
+
                   <Last4Wrapper>***{last4}</Last4Wrapper>
-                </div>
+                </CardItemBlock>
                 <CardStatus status={cards[0].status} />
               </CardItem>
               <Button nature='empty' data-e2e='addNewCard' fullwidth disabled>
@@ -73,8 +75,10 @@ const CardDashboard = ({
             </CardList>
           </CardWrapper>
         </BoxContainer>
+
         <TransactionsBox />
       </ColumnWrapper>
+
       <ColumnWrapper>
         <FundsBox />
         <ManageCardBox

@@ -51,10 +51,10 @@ const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 const Dex = React.lazy(() => import('./Dex'))
 
 // NFTs
-const NftsHome = React.lazy(() => import('./Nfts/Home'))
+const NftsView = React.lazy(() => import('./Nfts/View'))
 const NftsFirehose = React.lazy(() => import('./Nfts/Firehose'))
 const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
-const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
+const NftsAsset = React.lazy(() => import('./Nfts/AssetViewOnly'))
 const NftsAddress = React.lazy(() => import('./Nfts/Address/Address'))
 const NftsSettings = React.lazy(() => import('./Nfts/Settings'))
 
@@ -200,22 +200,7 @@ const App = ({
                               pageTitle={`${BLOCKCHAIN_TITLE} | DEX`}
                             />
                           )}
-
                           {/* NFT Explorer routes */}
-                          {isNftExplorerEnabled && (
-                            <NftsLayout
-                              path='/nfts/address/:address'
-                              exact
-                              component={NftsAddress}
-                            />
-                          )}
-                          {isNftExplorerEnabled && (
-                            <NftsLayout
-                              path='/nfts/address/settings/:address'
-                              exact
-                              component={NftsSettings}
-                            />
-                          )}
                           {isNftExplorerEnabled && (
                             <NftsLayout
                               path='/nfts/assets/:contract/:id'
@@ -223,33 +208,17 @@ const App = ({
                               component={NftsAsset}
                             />
                           )}
-                          {isNftExplorerEnabled && (
-                            <NftsLayout
-                              path='/nfts/collection/:slug'
-                              exact
-                              component={NftsCollection}
-                            />
-                          )}
                           <Route exact path='/nfts'>
-                            <Redirect to='/nfts/home' />
+                            <Redirect to='/nfts/view' />
                           </Route>
                           {isNftExplorerEnabled && (
                             <NftsLayout
-                              path='/nfts/home'
+                              path='/nfts/view'
                               exact
-                              component={NftsHome}
+                              component={NftsView}
                               pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                             />
                           )}
-                          {isNftExplorerEnabled && (
-                            <NftsLayout
-                              path='/nfts/explore'
-                              exact
-                              component={NftsFirehose}
-                              pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
-                            />
-                          )}
-
                           {/* Authenticated Wallet routes */}
                           {isDebitCardEnabled && (
                             <WalletLayout path='/debit-card' component={DebitCard} />
@@ -270,6 +239,7 @@ const App = ({
                             component={isCoinViewV2Enabled ? CoinPage : Transactions}
                             hideMenu={isCoinViewV2Enabled}
                             center={isCoinViewV2Enabled}
+                            removeContentPadding
                           />
                           {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                         </Switch>

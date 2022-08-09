@@ -11,6 +11,7 @@ import {
   NftUserPreferencesReturnType,
   NftUserPreferencesType,
   OpenSeaStatus,
+  OwnerNftBalance,
   SeaportRawOrder,
   UnsignedOrder,
   WyvernRawOrder
@@ -32,6 +33,7 @@ const initialState: NftsStateType = {
   },
   collection: Remote.NotAsked,
   collections: Remote.NotAsked,
+  nftOwnerAssets: Remote.NotAsked,
   openSeaAsset: Remote.NotAsked,
   openSeaStatus: Remote.NotAsked,
   orderFlow: {
@@ -43,6 +45,7 @@ const initialState: NftsStateType = {
     status: null,
     step: null,
     userHasPendingTxR: Remote.NotAsked,
+    viewOrder: null,
     wrapEthFees: Remote.NotAsked,
     wyvernOrder: null
   },
@@ -312,6 +315,21 @@ const nftsSlice = createSlice({
       state.orderFlow.matchingOrder_LEGACY = Remote.Success(action.payload)
     },
     fetchNftOrderAsset: () => {},
+    fetchNftOwnerAssets: (
+      state,
+      action: PayloadAction<{
+        defaultEthAddr: string
+      }>
+    ) => {},
+    fetchNftOwnerAssetsFailure: (state, action: PayloadAction<OwnerNftBalance>) => {
+      state.nftOwnerAssets = Remote.Failure(action.payload)
+    },
+    fetchNftOwnerAssetsLoading: (state) => {
+      state.nftOwnerAssets = Remote.Loading
+    },
+    fetchNftOwnerAssetsSuccess: (state, action: PayloadAction<OwnerNftBalance>) => {
+      state.nftOwnerAssets = Remote.Success(action.payload)
+    },
     fetchNftUserPreferences: (state) => {},
     fetchNftUserPreferencesFailure: (state, action: PayloadAction<string>) => {
       state.userPreferences = Remote.Failure(action.payload)
@@ -394,6 +412,10 @@ const nftsSlice = createSlice({
             seaportOrder?: never
             step: NftOrderStepEnum
             token_id: string
+          }
+        | {
+            seaportOrder?: never
+            step: NftOrderStepEnum
           }
       >
     ) => {
@@ -495,6 +517,9 @@ const nftsSlice = createSlice({
     },
     setOrderFlowStep: (state, action: PayloadAction<{ step: NftOrderStepEnum }>) => {
       state.orderFlow.step = action.payload.step
+    },
+    setViewOrder: (state, action: PayloadAction<{ viewOrder: NftAsset }>) => {
+      state.orderFlow.viewOrder = action.payload.viewOrder
     },
     updateUserPreferences: (
       state,

@@ -23,8 +23,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
-  coinList: selectors.balances.getTotalWalletBalancesSorted(state),
-  walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
+  coinList: selectors.balances.getTotalWalletBalancesSorted(state)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
