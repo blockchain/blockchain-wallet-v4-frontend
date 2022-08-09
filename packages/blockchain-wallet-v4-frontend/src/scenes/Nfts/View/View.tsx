@@ -21,7 +21,7 @@ import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import {
   AssetFilterFields,
   CollectionSortFields,
@@ -102,10 +102,25 @@ const CustomStat = styled(Stat)`
 `
 
 const View: React.FC<Props> = (props) => {
-  const { defaultEthAddr, nftOwnerAssets, nftsActions } = props
+  const { analyticsActions, defaultEthAddr, nftOwnerAssets, nftsActions } = props
   useEffect(() => {
     nftsActions.fetchNftOwnerAssets({ defaultEthAddr })
   }, [])
+  const AddNFTsClicked = () => {
+    nftsActions.nftOrderFlowOpen({
+      step: NftOrderStepEnum.IMPORT_NFTS
+    })
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_BUY_ON_OPENSEA_CLICKED,
+      properties: {}
+    })
+  }
+  const BuyOnOpenseaClicked = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_BUY_ON_OPENSEA_CLICKED,
+      properties: {}
+    })
+  }
   return (
     <>
       {nftOwnerAssets.cata({
@@ -202,11 +217,7 @@ const View: React.FC<Props> = (props) => {
                         />
                       </CustomText>
                       <Button
-                        onClick={() =>
-                          nftsActions.nftOrderFlowOpen({
-                            step: NftOrderStepEnum.IMPORT_NFTS
-                          })
-                        }
+                        onClick={AddNFTsClicked}
                         width='300px'
                         nature='primary'
                         data-e2e='get-started'
@@ -225,7 +236,12 @@ const View: React.FC<Props> = (props) => {
                       </CustomText>
                       <Flex flexDirection='column' alignItems='center' gap={16}>
                         <Link href='https://opensea.com/' target='_blank'>
-                          <Button width='300px' nature='empty-blue' data-e2e='buy-on-opensea'>
+                          <Button
+                            onClick={BuyOnOpenseaClicked}
+                            width='300px'
+                            nature='empty-blue'
+                            data-e2e='buy-on-opensea'
+                          >
                             <Flex gap={8}>
                               <Image name='opensea' height='16px' />
                               <FormattedMessage
@@ -269,6 +285,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)

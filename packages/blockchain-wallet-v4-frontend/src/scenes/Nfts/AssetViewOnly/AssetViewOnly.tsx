@@ -24,6 +24,7 @@ import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
+import { Analytics } from 'data/types'
 import { isMobile, media, useMedia } from 'services/styles'
 
 import {
@@ -174,6 +175,7 @@ const MarginButton = styled(Button)`
 const DetailsAndOffers = styled.div``
 
 const NftAssetViewOnly: React.FC<Props> = ({
+  analyticsActions,
   nftOwnerAssets,
   nftsActions,
   routerActions,
@@ -184,7 +186,17 @@ const NftAssetViewOnly: React.FC<Props> = ({
   }
   const { contract, id } = rest.computedMatch.params
   const [moreAssetToggle, setMoreAssetToggle] = useState(true)
-
+  const transferClicked = () => {
+    nftsActions.nftOrderFlowOpen({
+      asset_contract_address: contract,
+      step: NftOrderStepEnum.TRANSFER,
+      token_id: id
+    })
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_TRANSFER_CLICKED,
+      properties: {}
+    })
+  }
   return (
     <>
       {nftOwnerAssets.cata({
@@ -344,13 +356,7 @@ const NftAssetViewOnly: React.FC<Props> = ({
                         </Description>
                       ) : null}
                       <MarginButton
-                        onClick={() =>
-                          nftsActions.nftOrderFlowOpen({
-                            asset_contract_address: contract,
-                            step: NftOrderStepEnum.TRANSFER,
-                            token_id: id
-                          })
-                        }
+                        onClick={transferClicked}
                         fullwidth
                         data-e2e='transfer-nft'
                         nature='primary'
