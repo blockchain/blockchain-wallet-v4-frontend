@@ -210,29 +210,25 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const checkCardSuccessRate = function* ({ payload }: ReturnType<typeof A.checkCardSuccessRate>) {
     try {
-      const data: CardSuccessRateResponse = yield call(api.checkCardSuccessRate, payload.bin)
-
-      if (!data) {
-        return
-      }
-
-      yield put(
-        A.setCardSuccessRate({
-          details: data.ux
-            ? {
-                actions: data.ux.actions.map((action) => ({
-                  title: action.title,
-                  url: action.url
-                })),
-                message: data.ux.message,
-                title: data.ux.title
-              }
-            : undefined,
-          isBlocked: data.block
-        })
-      )
+      yield call(api.checkCardSuccessRate, payload.bin)
     } catch (e) {
-      console.error(e)
+      if (isNabuError(e)) {
+        yield put(
+          A.setCardSuccessRate({
+            details: {
+              actions: e.actions
+                ? e.actions.map((action) => ({
+                    title: action.title,
+                    url: action.url || ''
+                  }))
+                : [],
+              message: e.message,
+              title: e.title
+            },
+            isBlocked: !!e.dataFields?.block
+          })
+        )
+      }
     }
   }
 
