@@ -119,6 +119,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
+  const fetchNftOwnerAssets = function* (action: ReturnType<typeof A.fetchNftOwnerAssets>) {
+    try {
+      yield put(A.fetchNftOwnerAssetsLoading())
+      const res: ReturnType<typeof api.getNftOwnerAssets> = yield call(
+        api.getNftOwnerAssets,
+        action.payload.defaultEthAddr
+      )
+      yield put(A.fetchNftOwnerAssetsSuccess(res))
+    } catch (e) {
+      yield put(A.fetchNftOwnerAssetsFailure(e))
+    }
+  }
+
   const fetchNftUserPreferences = function* () {
     try {
       const prefs = S.getNftUserPreferences(yield select())
@@ -643,11 +656,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         gasPrice: action.payload.gasData.gasPrice.toString()
       })
       yield put(actions.modals.closeAllModals())
+      // For NFT View: once transferred go back to owned assets page
+      yield put(actions.router.push('/nfts/view'))
       yield put(actions.alerts.displaySuccess('Transfer successful!'))
       yield put(
         actions.analytics.trackEvent({
-          key: Analytics.NFT_SEND_SUCCESS_FAIL,
+          key: Analytics.NFT_TRANSFER_SUCCESS_FAIL,
           properties: {
+            collection_name: action.payload.asset.collection.name,
+            contract_address: action.payload.asset.asset_contract.address,
+            from: signer.address,
+            to: action.payload.to,
+            token_id: action.payload.asset.token_id,
             type: 'SUCCESS'
           }
         })
@@ -1463,6 +1483,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     fetchFees,
     fetchFeesWrapEth,
     fetchFees_LEGACY,
+    fetchNftOwnerAssets,
     fetchNftUserPreferences,
     fetchOpenSeaAsset,
     fetchOpenseaStatus,

@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { WalletOptionsType } from '@core/redux/walletOptions/types'
-import { RemoteDataType } from '@core/remote/types'
 import { actions, selectors } from 'data'
 import { UserDataType } from 'data/modules/profile/types'
 
@@ -22,13 +21,16 @@ const mapStateToProps = (state) => ({
     walletHelper: 'https://wallet-helper.blockchain.com'
   } as WalletOptionsType['domains']),
   lockHandler: selectors.components.debitCard.getLockHandler(state),
-  profileData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
+  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
   debitCardActions: bindActionCreators(actions.components.debitCard, dispatch),
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
   modalActions: bindActionCreators(actions.modals, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
@@ -37,12 +39,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   alertActions: typeof actions.alerts
-  cardToken: string
-  debitCardActions: typeof actions.components.debitCard
-  domains: { walletHelper: string }
-  lockHandler: RemoteDataType<string, boolean>
-  modalActions: typeof actions.modals
-  profileData: UserDataType
 }
 
 export type Props = OwnProps & ConnectedProps<typeof connector>

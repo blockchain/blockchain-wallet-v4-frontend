@@ -212,27 +212,25 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const data: CardSuccessRateResponse = yield call(api.checkCardSuccessRate, payload.bin)
 
-      if (!data) {
-        return
-      }
-
-      yield put(
-        A.setCardSuccessRate({
-          details: data.ux
-            ? {
-                actions: data.ux.actions.map((action) => ({
-                  title: action.title,
-                  url: action.url
-                })),
-                message: data.ux.message,
-                title: data.ux.title
-              }
-            : undefined,
-          isBlocked: data.block
-        })
-      )
+      yield put(A.setCardSuccessRate({ isBlocked: !!data.block }))
     } catch (e) {
-      console.error(e)
+      if (isNabuError(e)) {
+        yield put(
+          A.setCardSuccessRate({
+            details: {
+              actions: e.actions
+                ? e.actions.map((action) => ({
+                    title: action.title,
+                    url: action.url || ''
+                  }))
+                : [],
+              message: e.message,
+              title: e.title
+            },
+            isBlocked: !!e.dataFields?.block
+          })
+        )
+      }
     }
   }
 
@@ -1912,9 +1910,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { cryptoCurrency, origin }))
-    const fiatCurrency = selectors.core.settings
-      .getCurrency(yield select())
-      .getOrElse('USD') as FiatType
+
+    // Use the user's trading currency setting whenever opening the buy flow
+    const { preferredFiatTradingCurrency: fiatCurrency } =
+      selectors.modules.profile.getUserCurrencies(yield select()) || {
+        preferredFiatTradingCurrency: 'USD'
+      }
 
     // When user closes the QR code modal and opens it via one of the pending
     // buy buttons in the app. We need to take them to the qrcode screen and

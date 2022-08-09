@@ -190,6 +190,12 @@ export interface OpenSeaStatus {
   }
 }
 
+export interface OwnerNftBalance {
+  assets: NftAsset[]
+  next: string
+  previous: string
+}
+
 export interface ComputedFees extends OpenSeaFees {
   // Fees that go to whoever refers the order to the taker.
   // Comes out of OpenSea fees

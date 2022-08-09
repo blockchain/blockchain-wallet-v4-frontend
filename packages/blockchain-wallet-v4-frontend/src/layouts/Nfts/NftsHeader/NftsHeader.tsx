@@ -116,7 +116,7 @@ const NftsHeader: React.FC<Props> = ({
       </NavLeft>
       <NavCenter>
         {isTablet ? null : (
-          <NavLinkButton to='/nfts/home' onClick={trackExploreClicked}>
+          <NavLinkButton to='/nfts/view' onClick={trackExploreClicked}>
             <Text size='14px' weight={600}>
               <FormattedMessage id='copy.home' defaultMessage='Home' />
             </Text>

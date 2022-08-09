@@ -21,7 +21,7 @@ const Success = (props: Props) => {
       props.paymentMethods.methods
         .filter((method) => method.type === BSPaymentTypes.FUNDS)
         .map((method) => method.currency)
-        .includes(props.walletCurrency))
+        .includes(props.tradingCurrency))
 
   return isUserEligible && sellCurrencyAvailable ? (
     <Checkout {...props} />

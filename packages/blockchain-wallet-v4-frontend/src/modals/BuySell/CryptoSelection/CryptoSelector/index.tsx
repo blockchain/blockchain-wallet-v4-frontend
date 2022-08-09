@@ -88,7 +88,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
   }
 
   handleBuy = (pair: BSPairType) => {
-    const currentTier = this.props.userData?.tiers?.current
+    const currentTier = this.props.userData?.tiers?.current ?? 0
 
     // if first time user, send to verify email step which is required future SDD check
     if (!this.props.emailVerified && currentTier !== 2 && currentTier !== 1) {
@@ -129,10 +129,9 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     const pair = this.props.pairs.find((value) => getCoinFromPair(value.pair) === swapAccount.coin)
 
     if (!pair) return
-
     this.props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
-      fiatCurrency: getFiatFromPair(pair.pair),
+      fiatCurrency: this.props.fiatCurrency,
       orderType: this.state.orderType,
       pair,
       step: 'ENTER_AMOUNT',
