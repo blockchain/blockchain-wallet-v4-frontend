@@ -287,11 +287,9 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     })
 
   return {
-    checkIsValidReferralCode,
     createExchangeUser,
     createLinkAccountId,
     createOrGetUser,
-    createReferral,
     exchangeResetPassword,
     exchangeSignIn,
     finaliseLinking,
