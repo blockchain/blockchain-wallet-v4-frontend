@@ -67,7 +67,7 @@ const initialState: BuySellState = {
   fiatEligible: Remote.NotAsked,
   googlePayInfo: undefined,
   limits: Remote.NotAsked,
-  method: undefined,
+  method: undefined, // TODO: Deprecate this in favor of brokerage `account` instead
   methods: Remote.NotAsked,
   mobilePaymentMethod: undefined,
   order: Remote.NotAsked,
@@ -430,7 +430,7 @@ const buySellSlice = createSlice({
     setGooglePayInfo: (state, action: PayloadAction<GooglePayInfoType>) => {
       state.googlePayInfo = action.payload
     },
-    setMethod: (state, action: PayloadAction<BSPaymentMethodType>) => {
+    setMethod: (state, action: PayloadAction<BSPaymentMethodType | undefined>) => {
       state.method = action.payload
     },
     setSellCrypto: (state, action: PayloadAction<string>) => {},

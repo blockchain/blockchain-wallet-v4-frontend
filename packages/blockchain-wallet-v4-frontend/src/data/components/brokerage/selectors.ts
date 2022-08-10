@@ -27,6 +27,8 @@ export const getFiatCurrency = (state: RootState) => state.components.brokerage.
 
 export const getIsFlow = (state: RootState) => state.components.brokerage.isFlow
 
+export const getReason = (state: RootState) => state.components.brokerage.reason
+
 export const getPlaidWalletHelperLink = createSelector(
   (state: RootState) => selectors.core.walletOptions.getDomains(state),
   (domainsR) => {

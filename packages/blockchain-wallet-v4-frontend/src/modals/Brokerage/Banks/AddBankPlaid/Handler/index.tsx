@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
+import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { AddBankStepType, BankPartners, PlaidSettlementErrorReasons } from 'data/types'
@@ -24,13 +25,13 @@ const Iframe = styled.iframe`
   width: 100%;
 `
 
-const Success: React.FC<Props> = ({ handleClose, reason }: Props) => {
+const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Props) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
     switch (reason) {
       case 'REQUIRES_UPDATE':
-        dispatch(actions.components.brokerage.fetchBankRefreshCredentials())
+        dispatch(actions.components.brokerage.fetchBankRefreshCredentials(paymentMethodId))
         break
       default:
         break
@@ -68,7 +69,9 @@ const Success: React.FC<Props> = ({ handleClose, reason }: Props) => {
   const iFrameUrl = useSelector(selectors.components.brokerage.getPlaidWalletHelperLink)
   const { data, error, hasError } = useRemote(selectors.components.brokerage.getBankCredentials)
 
-  if (hasError) return <>{error}</>
+  if (hasError) {
+    return <DataError />
+  }
   if (!data || data.partner !== BankPartners.PLAID) return null
 
   return (
@@ -78,6 +81,9 @@ const Success: React.FC<Props> = ({ handleClose, reason }: Props) => {
   )
 }
 
-type Props = { handleClose: () => void; reason?: PlaidSettlementErrorReasons }
+type Props = { handleClose: () => void } & (
+  | { paymentMethodId: string; reason?: PlaidSettlementErrorReasons }
+  | { paymentMethodId: never; reason: never }
+)
 
 export default Success

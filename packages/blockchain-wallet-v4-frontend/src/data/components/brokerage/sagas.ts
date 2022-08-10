@@ -203,21 +203,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     })
   }
 
-  const fetchBankRefreshCredentials = function* () {
-    const method = yield select(selectors.components.buySell.getBSPaymentMethod)
-    const domainsR = yield select(selectors.core.walletOptions.getDomains)
-    const { comRoot } = domainsR.getOrElse({
-      comRoot: 'https://www.blockchain.com'
-    })
-    const redirect_uri = `${comRoot}/brokerage-link-success`
-    const attributes = { redirect_uri }
+  const fetchBankRefreshCredentials = function* ({
+    payload
+  }: ReturnType<typeof A.fetchBankRefreshCredentials>) {
     try {
       yield put(actions.components.brokerage.fetchBankLinkCredentialsLoading())
-      const data: BankCredentialsType = yield call(
-        api.refreshBankAccountLink,
-        method.id,
-        attributes
-      )
+      const data: BankCredentialsType = yield call(api.refreshBankAccountLink, payload)
       yield put(actions.components.brokerage.setBankCredentials(data))
     } catch (error) {
       yield put(actions.components.brokerage.fetchBankLinkCredentialsError(error))
@@ -471,6 +462,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       partner === BankPartners.YAPILY ? `${comRoot}/brokerage-link-success` : undefined
     const attributes = { callback }
     try {
+      // Checks the status of the baank account before creating the order in case
+      // we need to redirect the user to the the brokerage flow
+      yield put(A.paymentAccountCheck({ amount, paymentMethodId: id }))
+      yield take(actions.components.brokerage.paymentAccountRefreshSkipped.type)
+
       const data = yield call(api.createFiatDeposit, amount, id, currency, attributes)
       const { RETRY_AMOUNT, SECONDS } = POLLING
       // If yapily we need to transition to another screen and poll for auth
@@ -563,9 +559,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { reason, settlementType } = status.attributes?.settlementResponse
     if (settlementType !== 'UNAVAILABLE') {
       // If settlement is available, we can proceed
-      return yield put(A.paymentAccountRefreshSkipped())
+      yield put(A.paymentAccountRefreshSkipped())
+      return
     }
 
+    yield put(
+      A.setDWStep({
+        dwStep: BankDWStepType.PAYMENT_ACCOUNT_ERROR,
+        reason
+      })
+    )
     // take user to error screen where they can start the varioud processes depending on what the `reason` is
     yield put(actions.components.buySell.setStep({ reason, step: 'PAYMENT_ACCOUNT_ERROR' }))
   }

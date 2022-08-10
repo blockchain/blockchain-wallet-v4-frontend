@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, PayloadActionCreator } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 import { CrossBorderLimits, CrossBorderLimitsPayload, WalletFiatType } from '@core/types'
@@ -24,7 +24,6 @@ const initialState: BrokerageState = {
   account: undefined,
   addBankStep: AddBankStepType.ADD_BANK,
   addNew: false,
-  // TODO: Put this stuff in redux-form
   bankCredentials: Remote.NotAsked,
   bankStatus: Remote.NotAsked,
   bankTransferAccounts: Remote.NotAsked,
@@ -32,6 +31,7 @@ const initialState: BrokerageState = {
   dwStep: BankDWStepType.DEPOSIT_METHODS,
   fiatCurrency: undefined,
   isFlow: false,
+  reason: undefined,
   redirectBackToStep: false
 }
 
@@ -48,7 +48,7 @@ const brokerageSlice = createSlice({
     fetchBankLinkCredentialsLoading: (state) => {
       state.bankCredentials = Remote.Loading
     },
-    fetchBankRefreshCredentials: () => {},
+    fetchBankRefreshCredentials: (state, action: PayloadAction<string>) => {},
     fetchBankTransferAccounts: () => {},
     fetchBankTransferAccountsError: (
       state,
@@ -105,8 +105,15 @@ const brokerageSlice = createSlice({
     },
     setDWStep: (state, action: PayloadAction<BrokerageDWStepPayload>) => {
       state.dwStep = action.payload.dwStep
-      if (action.payload.dwStep === BankDWStepType.DEPOSIT_METHODS) {
-        state.addNew = action.payload.addNew || false
+      switch (action.payload.dwStep) {
+        case BankDWStepType.DEPOSIT_METHODS:
+          state.addNew = action.payload.addNew || false
+          break
+        case BankDWStepType.PAYMENT_ACCOUNT_ERROR:
+          state.reason = action.payload.reason
+          break
+        default:
+          break
       }
     },
     setupBankTransferProvider: () => {},

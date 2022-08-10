@@ -5,9 +5,10 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { WalletFiatType } from '@core/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import PaymentAccountError from 'components/Flyout/PaymentAccountError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BankDWStepType, ModalName } from 'data/types'
+import { AddBankStepType, BankDWStepType, BrokerageModalOriginType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { BROKERAGE_INELIGIBLE, Loading, LoadingTextEnum } from '../../../components'
@@ -38,6 +39,36 @@ class Deposit extends PureComponent<Props, State> {
   handleClose = () => {
     this.setState({ show: false })
     setTimeout(this.props.close, duration)
+  }
+
+  backToEnterAmount = () => {
+    this.props.brokerageActions.setDWStep({ dwStep: BankDWStepType.ENTER_AMOUNT })
+  }
+
+  paymentErrorHandler = () => {
+    switch (this.props.reason) {
+      case 'REQUIRES_UPDATE':
+        if (this.props.paymentAccount) {
+          // We need to make sure only brokerage account is set, so set it here and delete buySell method
+          this.props.brokerageActions.setBankDetails({ account: this.props.paymentAccount })
+          this.props.buySellActions.setMethod(undefined)
+        }
+        this.props.brokerageActions.showModal({
+          modalType: ModalName.ADD_BANK_PLAID_MODAL,
+          origin: BrokerageModalOriginType.ADD_BANK_BUY
+        })
+        this.props.brokerageActions.setAddBankStep({
+          addBankStep: AddBankStepType.ADD_BANK
+        })
+        this.backToEnterAmount()
+        break
+      case 'INSUFFICIENT_BALANCE':
+      case 'GENERIC':
+      case 'STALE_BALANCE':
+      default:
+        this.backToEnterAmount()
+        break
+    }
   }
 
   render() {
@@ -173,6 +204,14 @@ class Deposit extends PureComponent<Props, State> {
                 <DataError message={{ message: BROKERAGE_INELIGIBLE }} />
               </FlyoutChild>
             )}
+            {this.props.step === BankDWStepType.PAYMENT_ACCOUNT_ERROR && (
+              <FlyoutChild>
+                <PaymentAccountError
+                  reason={this.props.reason}
+                  buttonHandler={this.paymentErrorHandler}
+                />
+              </FlyoutChild>
+            )}
           </Flyout>
         )
       }
@@ -183,11 +222,14 @@ class Deposit extends PureComponent<Props, State> {
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   fiatCurrency: selectors.components.brokerage.getFiatCurrency(state),
+  paymentAccount: selectors.components.brokerage.getAccount(state),
+  reason: selectors.components.brokerage.getReason(state),
   step: selectors.components.brokerage.getDWStep(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

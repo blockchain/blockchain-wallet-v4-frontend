@@ -1,12 +1,12 @@
-import React, { PureComponent, useState } from 'react'
-import { connect, ConnectedProps, useDispatch } from 'react-redux'
+import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
-import styled from 'styled-components'
 
+import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AddBankStepType, ModalName, PlaidSettlementErrorReasons } from 'data/types'
+import { AddBankStepType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading, LoadingTextEnum } from '../../../components'
@@ -40,7 +40,21 @@ class Success extends PureComponent<ModalPropsType & LinkStatePropsType> {
       >
         {this.props.step === AddBankStepType.ADD_BANK && (
           <FlyoutChild>
-            <Handler handleClose={this.handleClose} reason={this.props.reason} />
+            {this.props.buySellMethod?.id ? (
+              <Handler
+                handleClose={this.handleClose}
+                reason={this.props.reason}
+                paymentMethodId={this.props.buySellMethod.id}
+              />
+            ) : this.props.brokerageMethod?.id ? (
+              <Handler
+                handleClose={this.handleClose}
+                reason={this.props.reason}
+                paymentMethodId={this.props.brokerageMethod.id}
+              />
+            ) : (
+              <DataError />
+            )}
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_STATUS && (
@@ -59,6 +73,8 @@ class Success extends PureComponent<ModalPropsType & LinkStatePropsType> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  brokerageMethod: selectors.components.brokerage.getAccount(state),
+  buySellMethod: selectors.components.buySell.getBSPaymentMethod(state),
   reason: selectors.components.buySell.getReason(state),
   step: selectors.components.brokerage.getAddBankStep(state)
 })
@@ -71,10 +87,7 @@ const enhance = compose(
 )
 
 type OwnProps = ModalPropsType
-type LinkStatePropsType = {
-  reason?: PlaidSettlementErrorReasons
-  step: AddBankStepType
-}
+type LinkStatePropsType = ReturnType<typeof mapStateToProps>
 
 type State = { show: boolean }
 

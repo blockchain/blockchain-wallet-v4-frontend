@@ -350,13 +350,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const input = { amount, symbol: inputCurrency }
       const output = { amount, symbol: outputCurrency }
 
-      // Checks the status of the baank account before creating the order in case
-      // we need to redirect the user to the the brokerage flow
-      yield put(
-        actions.components.brokerage.paymentAccountCheck({ amount: values.amount, paymentMethodId })
-      )
-      yield take(actions.components.brokerage.paymentAccountRefreshSkipped.type)
-
       // used for sell only now, eventually buy as well
       // TODO: use swap2 quote for buy AND sell
       if (orderType === OrderType.SELL) {

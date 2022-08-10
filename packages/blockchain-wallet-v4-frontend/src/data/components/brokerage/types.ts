@@ -100,6 +100,7 @@ export enum BankDWStepType {
   ENTER_AMOUNT = 'ENTER_AMOUNT',
   INELIGIBLE = 'INELIGIBLE',
   LOADING = 'LOADING',
+  PAYMENT_ACCOUNT_ERROR = 'PAYMENT_ACCOUNT_ERROR',
   WIRE_INSTRUCTIONS = 'WIRE_INSTRUCTIONS'
 }
 
@@ -115,6 +116,10 @@ export type BrokerageDWStepPayload =
         | BankDWStepType.BANK_LIST
         | BankDWStepType.INELIGIBLE
         | BankDWStepType.LOADING
+    }
+  | {
+      dwStep: BankDWStepType.PAYMENT_ACCOUNT_ERROR
+      reason: PlaidSettlementErrorReasons
     }
   | {
       addNew?: boolean
@@ -237,5 +242,6 @@ export type BrokerageState = {
   dwStep: BankDWStepType
   fiatCurrency: WalletFiatType | undefined
   isFlow: boolean
+  reason: PlaidSettlementErrorReasons | undefined
   redirectBackToStep: boolean
 }
