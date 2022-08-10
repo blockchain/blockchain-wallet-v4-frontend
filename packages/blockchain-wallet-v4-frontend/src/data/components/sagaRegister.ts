@@ -19,6 +19,7 @@ import nfts from './nfts/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import recurringBuy from './recurringBuy/sagaRegister'
+import referral from './referral/sagaRegister'
 import refresh from './refresh/sagaRegister'
 import request from './request/sagaRegister'
 import resetWallet2fa from './resetWallet2fa/sagaRegister'
@@ -59,6 +60,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(onboarding())
     yield fork(nfts({ api, coreSagas, networks }))
     yield fork(priceChart())
+    yield fork(referral({ api, coreSagas, networks }))
     yield fork(refresh())
     yield fork(request({ api, coreSagas, networks }))
     yield fork(recurringBuy({ api }))
