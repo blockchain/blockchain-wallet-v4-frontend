@@ -173,6 +173,8 @@ export const NavButton = styled(Button)`
 
 const Navbar = ({
   fabClickHandler,
+  isReferralAvailable,
+  isReferralRetrievalEnabled,
   limitsClickHandler,
   logoutClickHandler,
   nftsEnabled,
@@ -256,6 +258,8 @@ const Navbar = ({
     {
       component: () => (
         <UserNavDropdown
+          isReferralAvailable={isReferralAvailable}
+          isReferralRetrievalEnabled={isReferralRetrievalEnabled}
           limitsClickHandler={limitsClickHandler}
           logoutClickHandler={logoutClickHandler}
           taxCenterClickHandler={taxCenterClickHandler}
@@ -277,6 +281,8 @@ const Navbar = ({
           primaryNavItems={primaryNavItems}
           secondaryNavItems={secondaryMobileNavItems}
           userNavItems={userNavItems({
+            isReferralAvailable,
+            isReferralRetrievalEnabled,
             limitsClickHandler,
             logoutClickHandler,
             taxCenterClickHandler,
@@ -364,6 +370,8 @@ const Navbar = ({
 
 type Props = {
   fabClickHandler: () => void
+  isReferralAvailable: boolean
+  isReferralRetrievalEnabled: boolean
   limitsClickHandler: () => void
   logoutClickHandler: () => void
   nftsEnabled: boolean
