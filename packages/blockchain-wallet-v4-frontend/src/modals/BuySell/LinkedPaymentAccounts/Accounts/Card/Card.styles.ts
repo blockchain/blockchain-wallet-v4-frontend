@@ -7,9 +7,11 @@ import {
 
 export const DisplayContainer = styled(BSDisplayContainer)`
   flex-direction: row;
+  align-items: flex-start;
 `
 
 export const DisplayIcon = styled(BSDisplayIcon)`
   min-height: 42px;
   align-items: center;
+  flex-direction: row;
 `

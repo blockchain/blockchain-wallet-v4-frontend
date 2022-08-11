@@ -122,16 +122,15 @@ const Card: React.FC<Props> = ({ icon, onClick, onClickNabuErrorInfo, text, valu
           <Padding top={8}>
             <Flex gap={8} alignItems='center'>
               <Tag variant={block ? 'error' : 'warning'}>{nabuError.title}</Tag>
-              {block !== true && (
-                <div
-                  role='button'
-                  tabIndex={-1}
-                  onClick={handleOnClickNabuErrorInfoIcon}
-                  onKeyPress={handleOnKeyPressNabuErrorInfoIcon}
-                >
-                  <Icon name='info' size='12px' color='grey600' />
-                </div>
-              )}
+
+              <div
+                role='button'
+                tabIndex={-1}
+                onClick={handleOnClickNabuErrorInfoIcon}
+                onKeyPress={handleOnKeyPressNabuErrorInfoIcon}
+              >
+                <Icon name='info' size='12px' color='grey600' />
+              </div>
             </Flex>
           </Padding>
         )}
