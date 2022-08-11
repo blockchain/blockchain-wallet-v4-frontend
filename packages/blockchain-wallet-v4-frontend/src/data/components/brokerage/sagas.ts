@@ -569,8 +569,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         reason
       })
     )
-    // take user to error screen where they can start the varioud processes depending on what the `reason` is
-    yield put(actions.components.buySell.setStep({ reason, step: 'PAYMENT_ACCOUNT_ERROR' }))
   }
 
   return {

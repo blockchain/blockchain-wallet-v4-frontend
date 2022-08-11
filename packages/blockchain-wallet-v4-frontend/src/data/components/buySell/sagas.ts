@@ -15,6 +15,7 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
+  BuyQuoteStateType,
   CardAcquirer,
   CardSuccessRateResponse,
   ExtraKYCContext,
@@ -100,12 +101,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const { fetchBankTransferAccounts, paymentAccountCheck, setupBankTransferProvider } =
-    brokerageSagas({
-      api,
-      coreSagas,
-      networks
-    })
+  const { fetchBankTransferAccounts, setupBankTransferProvider } = brokerageSagas({
+    api,
+    coreSagas,
+    networks
+  })
 
   const generateApplePayToken = async ({
     applePayInfo,
@@ -331,7 +331,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
-      let buyQuote
+      let buyQuote: BuyQuoteStateType | undefined
       if (orderType === OrderType.SELL) {
         yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
       } else {
@@ -404,10 +404,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!paymentType) throw new Error(BS_ERROR.NO_PAYMENT_TYPE)
 
+      if (buyQuote) {
+        const { availability, reason } = buyQuote.quote.settlementDetails
+        if (availability === 'UNAVAILABLE') {
+          yield put(actions.components.buySell.setStep({ reason, step: 'PAYMENT_ACCOUNT_ERROR' }))
+          return
+        }
+      }
       // FIXME: this temporarily enables users to purchase min amounts of crypto with the enter amount fix set to CRYPTO
       // remove this section when backend updates the flexiblePricing APIs to handle crypto amounts
       const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
-      const standardRate = convertBaseToStandard(coin, buyQuote.rate)
+      const standardRate = convertBaseToStandard(coin, buyQuote && buyQuote.rate)
       const standardInputAmount = convertBaseToStandard(coin, input.amount)
       const inputAmount = new BigNumber(standardInputAmount || '0')
         .dividedBy(standardRate)
