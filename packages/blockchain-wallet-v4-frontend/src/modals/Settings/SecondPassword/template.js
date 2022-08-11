@@ -65,7 +65,7 @@ const SecondPassword = (props) => {
           <Padding bottom='1em'>
             <Text color='grey600' weight={500} size='16px'>
               <FormattedMessage
-                id='modals.secondpassword.title1'
+                id='modals.secondpassword.requesting_second_password'
                 defaultMessage='We are requesting second password for your security. You can change this in settings.'
               />
             </Text>
