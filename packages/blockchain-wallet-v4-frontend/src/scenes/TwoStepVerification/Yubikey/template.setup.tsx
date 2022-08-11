@@ -14,7 +14,7 @@ import PasswordBox from 'components/Form/PasswordBox'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 
-import { BackArrowFormHeader, CenteredColumn, ResetFormSteps } from '../../../model'
+import { BackArrowFormHeader, CenteredColumn, TwoFactorSetupSteps } from '../model'
 import { Props } from '.'
 
 const YubiKeySetup = (props: Props) => {
@@ -27,7 +27,7 @@ const YubiKeySetup = (props: Props) => {
   return (
     <>
       <BackArrowFormHeader
-        handleBackArrowClick={() => props.setFormStep(ResetFormSteps.CHOOSE_TWOFA)}
+        handleBackArrowClick={() => props.setFormStep(TwoFactorSetupSteps.CHOOSE_TWOFA)}
       />
       <CenteredColumn>
         <Text size='20px' weight={600} color='grey900' lineHeight='1.5' style={{ margin: '8px 0' }}>

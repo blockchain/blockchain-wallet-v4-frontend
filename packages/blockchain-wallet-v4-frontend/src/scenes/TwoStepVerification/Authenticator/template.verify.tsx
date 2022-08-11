@@ -12,7 +12,7 @@ import TextBox from 'components/Form/TextBox'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 
-import { BackArrowFormHeader, CenteredColumn } from '../../../model'
+import { BackArrowFormHeader, CenteredColumn } from '../model'
 
 const AuthenticatorVerify = (props) => {
   const [inputValue, setInputValue] = useState('')

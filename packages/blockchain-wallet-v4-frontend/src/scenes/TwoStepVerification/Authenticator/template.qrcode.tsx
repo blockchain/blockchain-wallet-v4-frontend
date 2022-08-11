@@ -6,7 +6,7 @@ import { Badge, Button, Image, Text } from 'blockchain-info-components'
 import CopyClipboard from 'components/Clipboard/CopyClipboard'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 
-import { BackArrowFormHeader, CenteredColumn, ResetFormSteps } from '../../../model'
+import { BackArrowFormHeader, CenteredColumn, TwoFactorSetupSteps } from '../model'
 import { Props } from '.'
 
 const StyledQrCode = styled(Image)`
@@ -28,7 +28,7 @@ const AuthenticatorCode = (props: Props) => {
   return (
     <>
       <BackArrowFormHeader
-        handleBackArrowClick={() => props.setFormStep(ResetFormSteps.CHOOSE_TWOFA)}
+        handleBackArrowClick={() => props.setFormStep(TwoFactorSetupSteps.CHOOSE_TWOFA)}
       />
       <CenteredColumn>
         <Text size='20px' weight={600} color='grey900' lineHeight='1.5' style={{ margin: '8px 0' }}>

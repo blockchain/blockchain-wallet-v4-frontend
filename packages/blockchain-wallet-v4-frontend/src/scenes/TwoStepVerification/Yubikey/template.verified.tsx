@@ -5,10 +5,10 @@ import { IconCheckCircle } from '@blockchain-com/icons'
 
 import { Button, Text } from 'blockchain-info-components'
 
-import { BackArrowFormHeader, CenteredColumn } from '../../../model'
+import { BackArrowFormHeader, CenteredColumn } from '../model'
 import { Props } from '.'
 
-const SMSVerified = (props: Props) => {
+const YubikeyVerified = (props: Props) => {
   return (
     <>
       <BackArrowFormHeader handleBackArrowClick={() => props.changeAuthenticatorStep(1)} />
@@ -18,8 +18,8 @@ const SMSVerified = (props: Props) => {
         </Icon>
         <Text size='20px' weight={600} color='grey900' lineHeight='1.5' style={{ margin: '8px 0' }}>
           <FormattedMessage
-            id='scenes.recovery.sms_verified.header'
-            defaultMessage='Mobile Number Verified'
+            id='scenes.login.upgrade.yubikeyVerify.header'
+            defaultMessage='Yubikey Verified'
           />
         </Text>
         <Text
@@ -30,8 +30,8 @@ const SMSVerified = (props: Props) => {
           style={{ marginBottom: '24px', textAlign: 'center' }}
         >
           <FormattedMessage
-            id='components.alerts.twofa_mobile_verify_success'
-            defaultMessage='Your mobile number is now your two-factor authentication method.'
+            id='scenes.login.upgrade.yubikeyVerify.text'
+            defaultMessage='Make sure your Yubikey is plugged in next time you log into your Blockchain account.'
           />
         </Text>
       </CenteredColumn>
@@ -48,4 +48,4 @@ const SMSVerified = (props: Props) => {
   )
 }
 
-export default SMSVerified
+export default YubikeyVerified

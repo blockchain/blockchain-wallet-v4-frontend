@@ -381,7 +381,7 @@ export default ({ api, coreSagas, networks }) => {
             return
           }
           if (product === ProductAuthOptions.WALLET) {
-            yield put(actions.router.push('/home'))
+            yield put(actions.router.push('/setup-two-factor'))
           } else {
             yield put(actions.router.push('/select-product'))
           }

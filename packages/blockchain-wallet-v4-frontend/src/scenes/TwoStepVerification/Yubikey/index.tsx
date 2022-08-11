@@ -5,11 +5,11 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 
 import { Props as OwnProps } from '../../..'
-import { ResetFormSteps } from '../../../model'
-import AuthenticatorCode from './template.qrcode'
-import AuthenticatorVerify from './template.verify'
+import { TwoFactorSetupSteps } from '../model'
+import YubikeySetup from './template.setup'
+import YubikeyVerified from './template.verified'
 
-const Authenticator = (props: Props) => {
+const Yubikey = (props: Props) => {
   const [step, setStep] = useState(1)
 
   const changeAuthenticatorStep = (authStep: number) => {
@@ -17,11 +17,9 @@ const Authenticator = (props: Props) => {
   }
   return (
     <>
-      {step === 1 && (
-        <AuthenticatorCode {...props} changeAuthenticatorStep={changeAuthenticatorStep} />
-      )}
+      {step === 1 && <YubikeySetup {...props} changeAuthenticatorStep={changeAuthenticatorStep} />}
       {step === 2 && (
-        <AuthenticatorVerify {...props} changeAuthenticatorStep={changeAuthenticatorStep} />
+        <YubikeyVerified {...props} changeAuthenticatorStep={changeAuthenticatorStep} />
       )}
     </>
   )
@@ -37,7 +35,7 @@ const connector = connect(null, mapDispatchToProps)
 export type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     changeAuthenticatorStep: (number) => void
-    setFormStep: (ResetFormSteps) => void
+    setFormStep: (TwoFactorSetupSteps) => void
   }
 
-export default connector(Authenticator)
+export default connector(Yubikey)

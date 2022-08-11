@@ -8,7 +8,7 @@ import { Image, Text } from 'blockchain-info-components'
 import { GreyCartridge, SuccessCartridge } from 'components/Cartridge'
 
 import { Props as OwnProps } from '../../..'
-import { ButtonPanel, CenteredColumn, ResetFormSteps } from '../../../model'
+import { ButtonPanel, CenteredColumn, TwoFactorSetupSteps } from '../model'
 
 const Column = styled.div`
   display: flex;
@@ -68,7 +68,7 @@ const ChooseTwoFA = (props: Props) => {
           />
         </Text>
       </CenteredColumn>
-      <ButtonPanel onClick={() => props.setFormStep(ResetFormSteps.AUTHENTICATOR_SETUP)}>
+      <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.AUTHENTICATOR_SETUP)}>
         <Row>
           <IconWrapper>
             <StyledImage name='google-authenticator' height='24px' />
@@ -99,7 +99,7 @@ const ChooseTwoFA = (props: Props) => {
           <IconChevronRightV2 />
         </ButtonIcon>
       </ButtonPanel>
-      <ButtonPanel onClick={() => props.setFormStep(ResetFormSteps.YUBIKEY_SETUP)}>
+      <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.YUBIKEY_SETUP)}>
         <Row>
           <IconWrapper>
             <StyledImage name='yubikey-logo' />
@@ -128,7 +128,7 @@ const ChooseTwoFA = (props: Props) => {
           <IconChevronRightV2 />
         </ButtonIcon>
       </ButtonPanel>
-      <ButtonPanel onClick={() => props.setFormStep(ResetFormSteps.SMS_SETUP)}>
+      <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.SMS_SETUP)}>
         <Row>
           <Icon color='blue600' size='md' label='sms-2fa'>
             <IconPhone />

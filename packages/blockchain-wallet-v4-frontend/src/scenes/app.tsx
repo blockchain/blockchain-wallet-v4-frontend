@@ -41,6 +41,8 @@ const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
 const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
+// need to be authed to see this, but uses public layout
+const TwoStepVerification = React.lazy(() => import('./TwoStepVerification'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
 const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Success'))
 const VerifyAccountRecovery = React.lazy(() => import('./RecoverWallet/EmailAuthLanding'))
@@ -164,6 +166,13 @@ const App = ({
                             component={ResetWallet2faToken}
                             pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
                           />
+                          {isAuthenticated && (
+                            <AuthLayout
+                              path='/setup-two-factor'
+                              component={TwoStepVerification}
+                              pageTitle={`${BLOCKCHAIN_TITLE} | Setup 2FA`}
+                            />
+                          )}
                           <AuthLayout
                             path='/signup'
                             component={Signup}
