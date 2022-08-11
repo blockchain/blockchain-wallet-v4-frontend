@@ -80,6 +80,7 @@ const Settings = (props) => {
               component={PasswordBox}
               validate={[required, validateSecondPassword]}
               data-e2e='secondPasswordInput'
+              placeholder='Enter second password'
             />
             <ButtonWrapper>
               <Button
@@ -153,6 +154,7 @@ const Settings = (props) => {
                 name='secondPassword'
                 validate={[validateSecondPassword, isMainPassword]}
                 component={PasswordBox}
+                placeholder='Enter second password'
               />
             </FormItem>
             <FormItem style={{ 'margin-top': '10px' }}>
