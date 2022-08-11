@@ -1,3 +1,4 @@
+import { startSubmit, stopSubmit } from 'redux-form'
 import { call, put, select } from 'redux-saga/effects'
 
 import { errorHandler } from '@core/utils'
@@ -32,6 +33,7 @@ export default ({ api, coreSagas, networks }) => {
   })
 
   const REFERRAL_ERROR_MESSAGE = 'Invalid Referral Code'
+  const RECOVER_FORM = 'recover'
 
   const { generateCaptchaToken } = miscSagas()
 
@@ -308,11 +310,30 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
+  const triggerRecoverEmail = function* (action) {
+    const email = action.payload
+    try {
+      // TODO: confirm session token logic
+      let sessionToken
+      yield put(startSubmit(RECOVER_FORM))
+      sessionToken = yield select(selectors.session.getSession, null, email)
+      if (!sessionToken) {
+        sessionToken = yield call(api.obtainSessionToken)
+        yield put(actions.session.saveWalletSession({ email, id: sessionToken }))
+      }
+      yield call(api.triggerResetAccountEmail, email, sessionToken)
+      yield put(stopSubmit(RECOVER_FORM))
+    } catch {
+      yield put(stopSubmit(RECOVER_FORM))
+    }
+  }
+
   return {
     initializeSignUp,
     register,
     resetAccount,
     restore,
-    restoreFromMetadata
+    restoreFromMetadata,
+    triggerRecoverEmail
   }
 }

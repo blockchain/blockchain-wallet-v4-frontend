@@ -173,6 +173,17 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const triggerResetAccountEmail = (email, sessionToken) =>
+    post({
+      contentType: 'application/json',
+      data: {
+        email
+      },
+      endPoint: '/nabu-auth/request-account-recovery',
+      sessionToken,
+      url: rootUrl
+    })
+
   const resetUserKyc = (userId, lifetimeToken, retailToken) =>
     post({
       contentType: 'application/json',
@@ -308,6 +319,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     shareWalletDepositAddresses,
     signUserTermsAndConditionsLast,
     syncUserWithWallet,
+    triggerResetAccountEmail,
     updateUser,
     updateUserAddress
   }

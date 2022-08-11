@@ -16,12 +16,14 @@ import { Props } from '..'
 import { BackArrowFormHeader, FormWrapper } from '../model'
 
 const ForgotPasswordEmail = (props: Props) => {
-  const { busy, formValues, invalid, product, routerActions, setStep, submitting } = props
+  const { busy, formValues, invalid, product, routerActions, setStep, signupActions, submitting } =
+    props
 
   const handleSubmit = (e) => {
     e.preventDefault()
     // trigger email request for recovery token
     // for now, just setting step to 'check your email' template
+    signupActions.triggerRecoverEmail(formValues?.recoveryEmail)
     setStep(RecoverSteps.CHECK_INBOX)
   }
 

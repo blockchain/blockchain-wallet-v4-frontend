@@ -96,7 +96,8 @@ const signupSlice = createSlice({
     },
     setResetLogin: (state, action: PayloadAction<SignupStateType['resetAccount']>) => {
       state.resetAccount = action.payload
-    }
+    },
+    triggerRecoverEmail: (state, action) => {}
   }
 })
 
