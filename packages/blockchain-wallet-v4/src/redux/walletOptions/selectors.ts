@@ -108,6 +108,9 @@ export const getShowTermsAndConditions = (state: RootState) =>
 export const getCoinViewV2 = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'coinViewV2']))
 
+export const getRecurringBuysInCheckoutPage = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'recurringBuysInCheckoutPage']))
+
 // SSO creating exchange users under the hood
 // for all wallet logins and signup
 export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
