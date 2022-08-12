@@ -39,9 +39,10 @@ export type RecoverFormType = {
 
 export type AccountRecoveryMagicLinkData = {
   email?: string
+  guid?: string
   recovery_token?: string
   two_fa_type?: number
-  user_id?: string
+  userId?: string
 }
 
 export type MetadataRestoreType = any
@@ -54,6 +55,7 @@ export type RestoringType = undefined
 
 export type SignupStateType = {
   accountRecoveryMagicLinkData?: AccountRecoveryMagicLinkData
+  accountRecoveryMagicLinkDataEncoded?: string
   firstLogin: boolean
   isValidReferralCode?: boolean
   kycReset?: boolean

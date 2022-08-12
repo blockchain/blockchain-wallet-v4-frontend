@@ -1,3 +1,4 @@
+import base64url from 'base64url'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, put, select } from 'redux-saga/effects'
 
@@ -7,6 +8,7 @@ import authSagas from 'data/auth/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 import {
+  AccountRecoveryMagicLinkData,
   Analytics,
   AuthMagicLink,
   CaptchaActionName,
@@ -314,22 +316,44 @@ export default ({ api, coreSagas, networks }) => {
     const email = action.payload
     try {
       // TODO: confirm session token logic
-      let sessionToken
       yield put(startSubmit(RECOVER_FORM))
+      let sessionToken
+      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.RECOVER)
       sessionToken = yield select(selectors.session.getSession, null, email)
       if (!sessionToken) {
         sessionToken = yield call(api.obtainSessionToken)
         yield put(actions.session.saveWalletSession({ email, id: sessionToken }))
       }
-      yield call(api.triggerResetAccountEmail, email, sessionToken)
+      yield call(api.triggerResetAccountEmail, captchaToken, email, sessionToken)
       yield put(stopSubmit(RECOVER_FORM))
     } catch {
       yield put(stopSubmit(RECOVER_FORM))
     }
   }
 
+  const pollForResetApproval = function* () {
+    const { recoveryEmail } = yield select(selectors.form.getFormValues(RECOVER_FORM))
+    const sessionToken = yield select(selectors.session.getWalletSessionId, null, recoveryEmail)
+    yield call(api.pollForResetApprovalStatus, sessionToken)
+  }
+
+  const approveAccountReset = function* () {
+    const pathname = yield select(selectors.router.getPathname)
+    const urlPathParams = pathname.split('/')
+    const accountRecoveryDataEncoded = urlPathParams[2]
+    yield put(actions.signup.setAccountRecoveryMagicLinkDataEncoded(accountRecoveryDataEncoded))
+    const accountRecoveryData = JSON.parse(
+      base64url.decode(accountRecoveryDataEncoded)
+    ) as AccountRecoveryMagicLinkData
+    const { email, recovery_token: token, userId } = accountRecoveryData
+    const sessionToken = yield select(selectors.session.getWalletSessionId, null, email)
+    yield call(api.approveAcountReset, email, sessionToken, token, userId)
+  }
+
   return {
+    approveAccountReset,
     initializeSignUp,
+    pollForResetApproval,
     register,
     resetAccount,
     restore,

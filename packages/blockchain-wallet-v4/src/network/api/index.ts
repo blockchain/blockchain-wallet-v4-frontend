@@ -76,6 +76,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     ...misc({ apiUrl, ...http }),
     ...nfts({ apiUrl, openSeaApi, ...http }),
     ...profile({
+      apiUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,

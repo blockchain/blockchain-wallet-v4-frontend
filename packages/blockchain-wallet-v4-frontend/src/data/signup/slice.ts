@@ -30,7 +30,9 @@ const signupSlice = createSlice({
   initialState,
   name: 'signup',
   reducers: {
+    approveAccountReset: () => {},
     initializeSignup: () => {},
+    pollForResetApproval: () => {},
     register: (state, action) => {},
     registerFailure: (state, action: PayloadAction<RegisteringFailureType>) => {
       state.registering = Remote.Failure(action.payload)
@@ -65,6 +67,9 @@ const signupSlice = createSlice({
       action: PayloadAction<AccountRecoveryMagicLinkData>
     ) => {
       state.accountRecoveryMagicLinkData = action.payload
+    },
+    setAccountRecoveryMagicLinkDataEncoded: (state, action: PayloadAction<string>) => {
+      state.accountRecoveryMagicLinkDataEncoded = action.payload
     },
     setFirstLogin: (state, action: PayloadAction<SignupStateType['firstLogin']>) => {
       state.firstLogin = action.payload
