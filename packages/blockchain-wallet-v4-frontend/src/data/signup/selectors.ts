@@ -16,6 +16,12 @@ export function getAccountRecoveryMagicLinkDataEncoded(
   return state.signup.accountRecoveryMagicLinkDataEncoded
 }
 
+export function getAccountRecoveryVerify(
+  state: RootState
+): SignupStateType['accountRecoveryVerify'] {
+  return state.signup.accountRecoveryVerify
+}
+
 export function getAccountReset(state: RootState): SignupStateType['resetAccount'] {
   return state.signup.resetAccount
 }

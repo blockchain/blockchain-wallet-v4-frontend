@@ -15,6 +15,7 @@ import {
 } from './types'
 
 const initialState: SignupStateType = {
+  accountRecoveryVerify: Remote.NotAsked,
   firstLogin: false,
   isValidReferralCode: undefined,
   kycReset: undefined,
@@ -30,6 +31,16 @@ const signupSlice = createSlice({
   initialState,
   name: 'signup',
   reducers: {
+    accountRecoveryVerify: (state, action?) => {},
+    accountRecoveryVerifyFailure: (state, action) => {
+      state.accountRecoveryVerify = Remote.Failure(action.payload)
+    },
+    accountRecoveryVerifyLoading: (state) => {
+      state.accountRecoveryVerify = Remote.Loading
+    },
+    accountRecoveryVerifySuccess: (state, action) => {
+      state.accountRecoveryVerify = Remote.Success(action.payload)
+    },
     approveAccountReset: () => {},
     initializeSignup: () => {},
     pollForResetApproval: () => {},

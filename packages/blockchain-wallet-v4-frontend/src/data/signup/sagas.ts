@@ -338,16 +338,23 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const approveAccountReset = function* () {
-    const pathname = yield select(selectors.router.getPathname)
-    const urlPathParams = pathname.split('/')
-    const accountRecoveryDataEncoded = urlPathParams[2]
-    yield put(actions.signup.setAccountRecoveryMagicLinkDataEncoded(accountRecoveryDataEncoded))
-    const accountRecoveryData = JSON.parse(
-      base64url.decode(accountRecoveryDataEncoded)
-    ) as AccountRecoveryMagicLinkData
-    const { email, recovery_token: token, userId } = accountRecoveryData
-    const sessionToken = yield select(selectors.session.getWalletSessionId, null, email)
-    yield call(api.approveAcountReset, email, sessionToken, token, userId)
+    try {
+      yield put(actions.signup.accountRecoveryVerifyLoading())
+      const pathname = yield select(selectors.router.getPathname)
+      const urlPathParams = pathname.split('/')
+      const accountRecoveryDataEncoded = urlPathParams[2]
+      yield put(actions.signup.setAccountRecoveryMagicLinkDataEncoded(accountRecoveryDataEncoded))
+      const accountRecoveryData = JSON.parse(
+        base64url.decode(accountRecoveryDataEncoded)
+      ) as AccountRecoveryMagicLinkData
+      const { email, recovery_token: token, userId } = accountRecoveryData
+      const sessionToken = yield select(selectors.session.getWalletSessionId, null, email)
+      yield call(api.approveAccountReset, email, sessionToken, token, userId)
+      yield put(actions.signup.accountRecoveryVerifySuccess(true))
+    } catch (e) {
+      // TODO: handle error
+      yield put(actions.signup.accountRecoveryVerifyFailure(e))
+    }
   }
 
   return {

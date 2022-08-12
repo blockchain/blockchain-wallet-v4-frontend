@@ -56,6 +56,7 @@ export type RestoringType = undefined
 export type SignupStateType = {
   accountRecoveryMagicLinkData?: AccountRecoveryMagicLinkData
   accountRecoveryMagicLinkDataEncoded?: string
+  accountRecoveryVerify: RemoteDataType<string, any>
   firstLogin: boolean
   isValidReferralCode?: boolean
   kycReset?: boolean

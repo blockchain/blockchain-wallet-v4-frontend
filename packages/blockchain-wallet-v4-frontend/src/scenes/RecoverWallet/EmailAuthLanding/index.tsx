@@ -9,12 +9,10 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-const VerifyAccountRecovery = ({ data, location, miscActions }: Props) => {
-  const token = decodeURIComponent(location.pathname.split('/verify-email/')[1])
-
-  // useEffect(() => {
-  //   miscActions.verifyEmailToken(token)
-  // }, [])
+const VerifyAccountRecovery = ({ data, signupActions }: Props) => {
+  useEffect(() => {
+    signupActions.approveAccountReset()
+  }, [])
 
   return (
     <Wrapper>
@@ -29,18 +27,15 @@ const VerifyAccountRecovery = ({ data, location, miscActions }: Props) => {
 }
 
 const mapStateToProps = (state) => ({
-  appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
-  data: selectors.core.data.misc.verifyEmailToken(state)
+  data: selectors.signup.getAccountRecoveryVerify(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  miscActions: bindActionCreators(actions.core.data.misc, dispatch)
+  signupActions: bindActionCreators(actions.signup, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector> & {
-  location: { pathname: string; search: string }
-}
+type Props = ConnectedProps<typeof connector>
 
 export default connector(VerifyAccountRecovery)
