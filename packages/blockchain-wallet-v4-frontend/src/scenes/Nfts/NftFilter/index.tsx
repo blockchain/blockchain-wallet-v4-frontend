@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Icon, Switch } from '@blockchain-com/constellation'
 import {
   IconChevronDown,
   IconChevronUp,
   IconCloseCircleV2,
-  IconFilter
-} from '@blockchain-com/icons'
+  IconFilter,
+  PaletteColors,
+  Switch
+} from '@blockchain-com/constellation'
 import Avatar from 'boring-avatars'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
@@ -75,7 +76,7 @@ const FilterHeaderText = styled(Text)<{ isFilterOpen: boolean }>`
 const TraitWrapper = styled.div`
   margin-top: 8px;
   border-radius: 8px;
-  border: 1px solid ${colors.grey000};
+  border: 1px solid ${PaletteColors['grey-000']};
 `
 
 const TraitList = styled.div<{ isActive: boolean }>`
@@ -109,7 +110,7 @@ const TraitItem = styled.div`
 
 const IconBorder = styled.div`
   padding: 12px 16px;
-  border: 1px solid ${colors.grey100};
+  border: 1px solid ${PaletteColors['grey-100']};
   border-radius: 8px;
 `
 
@@ -162,33 +163,31 @@ const NftFilter: React.FC<Props> = ({
         </FilterHeaderText>
         <IconWrapper isFilterOpen={isFilterOpen}>
           {isFilterOpen ? (
-            <Icon label='filter-control' color='grey500'>
-              <IconCloseCircleV2
-                role='button'
-                onClick={() => {
-                  setIsFilterOpen(false)
-                  analyticsActions.trackEvent({
-                    key: Analytics.NFT_LEFT_MENU_CLOSED,
-                    properties: {}
-                  })
-                }}
-                cursor='pointer'
-              />
-            </Icon>
+            <IconCloseCircleV2
+              label='filter-control'
+              color={PaletteColors['grey-500']}
+              role='button'
+              onClick={() => {
+                setIsFilterOpen(false)
+                analyticsActions.trackEvent({
+                  key: Analytics.NFT_LEFT_MENU_CLOSED,
+                  properties: {}
+                })
+              }}
+            />
           ) : (
-            <Icon label='filter-control' color='grey500'>
-              <IconFilter
-                role='button'
-                onClick={() => {
-                  setIsFilterOpen(true)
-                  analyticsActions.trackEvent({
-                    key: Analytics.NFT_LEFT_MENU_EXPANDED,
-                    properties: {}
-                  })
-                }}
-                cursor='pointer'
-              />
-            </Icon>
+            <IconFilter
+              label='filter-control'
+              color={PaletteColors['grey-500']}
+              role='button'
+              onClick={() => {
+                setIsFilterOpen(true)
+                analyticsActions.trackEvent({
+                  key: Analytics.NFT_LEFT_MENU_EXPANDED,
+                  properties: {}
+                })
+              }}
+            />
           )}
         </IconWrapper>
       </FilterHeader>
@@ -321,9 +320,11 @@ const NftFilter: React.FC<Props> = ({
                   <Text size='16px' weight={500} color='black'>
                     <FormattedMessage id='copy.collection' defaultMessage='Collection' />
                   </Text>
-                  <Icon label='control' color='grey400'>
-                    {collectionOpen ? <IconChevronUp /> : <IconChevronDown />}
-                  </Icon>
+                  {collectionOpen ? (
+                    <IconChevronUp label='control' color={PaletteColors['green-400']} />
+                  ) : (
+                    <IconChevronDown label='control' color={PaletteColors['green-400']} />
+                  )}
                 </TraitHeader>
                 <TraitList isActive={collectionOpen}>
                   {collections.map((collection) => {
@@ -420,9 +421,11 @@ const NftFilter: React.FC<Props> = ({
                       <Text size='14px' weight={500} color='black'>
                         {trait}
                       </Text>
-                      <Icon label='control' color='grey400'>
-                        {isActive ? <IconChevronUp /> : <IconChevronDown />}
-                      </Icon>
+                      {isActive ? (
+                        <IconChevronUp label='control' color={PaletteColors['grey-400']} />
+                      ) : (
+                        <IconChevronDown label='control' color={PaletteColors['grey-400']} />
+                      )}
                     </TraitHeader>
                     <TraitList isActive={isActive}>
                       {Object.keys(organizedTraits[trait])

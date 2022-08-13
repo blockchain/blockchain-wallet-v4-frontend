@@ -1,27 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconBlockchain, IconSettings, IconVerified } from '@blockchain-com/icons'
+import { Flex, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { WalletOptionsType } from '@core/types'
-import {
-  Button,
-  Icon as BlockchainIcon,
-  Image,
-  Link,
-  SkeletonCircle,
-  SkeletonRectangle,
-  Text
-} from 'blockchain-info-components'
+import { Button, Icon as BlockchainIcon, Image, Link, Text } from 'blockchain-info-components'
 import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
-import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
-import { Analytics, ModalName } from 'data/types'
+import { Analytics } from 'data/types'
 import {
   AssetFilterFields,
   CollectionSortFields,
@@ -29,7 +18,7 @@ import {
   useAssetsQuery,
   useTrendingCollectionsQuery
 } from 'generated/graphql.types'
-import { media, useMedia } from 'services/styles'
+import { media } from 'services/styles'
 
 import { GridWrapper, NftPageV2, Stat, StatsWrapper } from '../components'
 import NftGrid from '../components/NftGrid'
@@ -41,7 +30,7 @@ const Header = styled.div`
 `
 
 const Address = styled(Flex)`
-  background-color: ${colors.grey000};
+  background-color: ${PaletteColors['gray-000']};
   border-radius: 100px;
   padding: 8px;
   width: fit-content;
