@@ -1,12 +1,6 @@
-import { lift, mapObjIndexed, values } from 'ramda'
+import { lift, mapObjIndexed, uniq, values } from 'ramda'
 
-import {
-  AccountTokensBalancesResponseType,
-  BSPaymentTypes,
-  CoinfigType,
-  ExtractSuccess,
-  SwapOrderType
-} from '@core/types'
+import { BSPaymentTypes, CoinfigType, ExtractSuccess, SwapOrderType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
@@ -16,45 +10,29 @@ import { getOutputFromPair } from '../swap/model'
 // eslint-disable-next-line import/prefer-default-export
 export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
-  // TODO: SELF_CUSTODY, remove this
-  const stxEligibility = selectors.coins.getStxSelfCustodyAvailability(state)
-  // TODO, check all custodial features
+  const unifiedBalancesR = selectors.balancesV2.getUnifiedBalances(state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
-  const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
   const custodials = selectors.core.data.coins.getCustodialCoins()
   const userData = selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
   const fiatCurrencies = userData.currencies?.userFiatCurrencies || []
-  // TODO: SELF_CUSTODY
-  const selfCustodials = stxEligibility ? ['STX'] : []
 
   const transform = (
+    unifiedBalances: ExtractSuccess<typeof unifiedBalancesR>,
     paymentMethods: ExtractSuccess<typeof sbMethodsR>,
-    sbBalances: ExtractSuccess<typeof sbBalancesR>,
-    erc20s: AccountTokensBalancesResponseType['tokenAccounts']
+    sbBalances: ExtractSuccess<typeof sbBalancesR>
   ) => {
     const custodialErc20s = Object.keys(sbBalances).filter(
       (coin) => window.coins[coin] && window.coins[coin].coinfig.type.erc20Address
     )
     const coinsInRecentSwaps = recentSwapTxs.map((tx) => getOutputFromPair(tx.pair))
+    const coinsInUnifiedBalances = uniq(unifiedBalances.map(({ ticker }) => ticker))
+
     const coinOrder = [
       ...new Set([
         ...fiatCurrencies,
-        'BTC',
-        'ETH',
-        'BCH',
-        'XLM',
-        ...selfCustodials,
+        ...coinsInUnifiedBalances,
         ...custodials,
-        ...(erc20s
-          .map(({ tokenHash }) => {
-            return Object.keys(window.coins).find(
-              (coin) =>
-                window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
-                tokenHash.toLowerCase()
-            )
-          })
-          .filter(Boolean) as string[]),
         ...custodialErc20s,
         ...coinsInRecentSwaps
       ])
@@ -77,7 +55,7 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
     )
   }
 
-  return lift(transform)(sbMethodsR, sbBalancesR, erc20sR)
+  return lift(transform)(unifiedBalancesR, sbMethodsR, sbBalancesR)
 }
 
 export default getCoinsWithBalanceOrMethod
