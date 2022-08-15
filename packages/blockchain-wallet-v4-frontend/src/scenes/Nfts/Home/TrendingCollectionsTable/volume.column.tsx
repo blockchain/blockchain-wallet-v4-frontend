@@ -27,7 +27,7 @@ export const getVolumeColumn = () => ({
     return (
       <CellHeaderText>
         {isMobile || isTablet ? (
-          <FormattedMessage id='copy.24h_volume' defaultMessage='Volume' />
+          <FormattedMessage id='buttons.volume' defaultMessage='Volume' />
         ) : (
           <FormattedMessage id='copy.24h_volume' defaultMessage='24 Hour Volume' />
         )}

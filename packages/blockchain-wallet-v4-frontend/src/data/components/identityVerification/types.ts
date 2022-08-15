@@ -20,6 +20,8 @@ export type VerifyIdentityOriginType =
   | 'Settings'
   | 'BuySell'
   | 'Interest'
+  | 'Withdraw'
+  | 'DebitCard'
 
 export type StepsType = 'personal' | 'moreInfo' | 'mobile' | 'verify' | 'submitted'
 
@@ -47,6 +49,8 @@ export type ScopesType = Array<'KYC' | 'Mercury'>
 export type CampaignsType = 'BLOCKSTACK' | 'POWER_PAX' | 'SUNRIVER'
 
 export type StateType = {
+  code: string
+  countryCode: string
   name: string
   scopes: ScopesType
 }
@@ -67,7 +71,7 @@ export interface IdentityVerificationState {
   kycExtraQuestions: RemoteDataType<string, ExtraQuestionsType>
   preIdvData: RemoteDataType<string, PreIdvDataType>
   smsStep: RemoteDataType<string, EmailSmsStepType>
-  states: RemoteDataType<string, StateType>
+  states: RemoteDataType<string, Array<StateType>>
   steps: RemoteDataType<string, Array<StepsType>>
   supportedCountries: RemoteDataType<string, Array<CountryType>>
   supportedDocuments: RemoteDataType<string, Array<DocumentType>>

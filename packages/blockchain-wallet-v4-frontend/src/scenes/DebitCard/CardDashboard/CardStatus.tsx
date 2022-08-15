@@ -7,10 +7,9 @@ import { CardStateType } from 'data/components/debitCard/types'
 
 const StatusMessageWrapper = styled(Text)`
   font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
-  height: 24px;
+  font-size: 0.75rem;
   align-items: center;
+  padding-top: 0.25rem;
 `
 
 const CardStatus = ({ status }) => {

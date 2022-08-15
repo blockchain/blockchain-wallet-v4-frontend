@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import { useGlobalFilter, useSortBy, useTable } from 'react-table'
 import styled from 'styled-components'
 
 import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
+import { selectors } from 'data'
 
 import { Props as _P, SuccessStateType as _S } from '.'
 import { getTableColumns } from './Table'
@@ -30,6 +32,7 @@ const PricesTable = (props: Props) => {
     buySellActions,
     data,
     formActions,
+    isCoinViewV2Enabled,
     modalActions,
     routerActions,
     swapActions,
@@ -40,12 +43,13 @@ const PricesTable = (props: Props) => {
     getTableColumns({
       buySellActions,
       formActions,
+      isCoinViewV2Enabled,
       modalActions,
       routerActions,
       swapActions,
       walletCurrency
     }),
-    []
+    [isCoinViewV2Enabled]
   )
 
   const {
@@ -150,5 +154,12 @@ const PricesTable = (props: Props) => {
   )
 }
 
-type Props = _P & { data: _S }
-export default PricesTable
+const mapStateToProps = (state) => ({
+  isCoinViewV2Enabled: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean
+})
+
+const connector = connect(mapStateToProps)
+
+type Props = _P & { data: _S; isCoinViewV2Enabled: boolean }
+
+export default connector(PricesTable)

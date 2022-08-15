@@ -18,6 +18,8 @@ export type WalletFormType =
   | 'confirmCustodyWithdraw'
   | 'confirmRecoveryWords'
   | 'custodyWithdrawForm'
+  | 'dexSwapSettings'
+  | 'dexSelectToken'
   | 'initSwap'
   | 'interestDepositForm'
   | 'interestHistoryCoin'

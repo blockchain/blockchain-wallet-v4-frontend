@@ -20,63 +20,55 @@ import TransferCTA from './cta'
 import TransferFees from './fees'
 
 const Transfer: React.FC<Props> = (props) => {
-  const { close, openSeaAssetR } = props
+  const { close, orderFlow } = props
+  const { viewOrder } = orderFlow
 
-  return (
+  return viewOrder ? (
     <>
-      {openSeaAssetR.cata({
-        Failure: (e) => <NftFlyoutFailure error={e} close={close} />,
-        Loading: () => <NftFlyoutLoader close={props.close} />,
-        NotAsked: () => <NftFlyoutLoader close={props.close} />,
-        Success: (asset) => (
-          <>
-            <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
-              Transfer Item
-            </FlyoutHeader>
-            <NftAssetHeaderRow asset={asset} />
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%'
-              }}
-            >
-              <NftFlyoutRow>
-                <Title>
-                  <b>
-                    <Text weight={600}>Where Is This Going?</Text>
-                  </b>
-                </Title>
-                <Value>
-                  <Field
-                    onChange={(e) =>
-                      props.nftActions.fetchFees({
-                        asset,
-                        operation: GasCalculationOperations.Transfer,
-                        to: e.target.value
-                      })
-                    }
-                    name='to'
-                    component={TextBox}
-                    placeholder='i.e 0x234...4589 or john.eth'
-                    validate={[required, validEthAddress]}
-                  />
-                </Value>
-                <Value>
-                  <Text size='12px'>Double check the address above before clicking Transfer </Text>
-                </Value>
-              </NftFlyoutRow>
-            </div>
-            <StickyCTA>
-              <TransferFees {...props} asset={asset} />
-              <br />
-              <TransferCTA {...props} asset={asset} />
-            </StickyCTA>
-          </>
-        )
-      })}
+      <FlyoutHeader sticky data-e2e='wrapEthHeader' mode='back' onClick={() => close()}>
+        Transfer Item
+      </FlyoutHeader>
+      <NftAssetHeaderRow asset={viewOrder} />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%'
+        }}
+      >
+        <NftFlyoutRow>
+          <Title>
+            <b>
+              <Text weight={600}>Where Is This Going?</Text>
+            </b>
+          </Title>
+          <Value>
+            <Field
+              onChange={(e) =>
+                props.nftActions.fetchFees({
+                  asset: viewOrder,
+                  operation: GasCalculationOperations.Transfer,
+                  to: e.target.value
+                })
+              }
+              name='to'
+              component={TextBox}
+              placeholder='i.e 0x234...4589 or john.eth'
+              validate={[required, validEthAddress]}
+            />
+          </Value>
+          <Value>
+            <Text size='12px'>Double check the address above before clicking Transfer </Text>
+          </Value>
+        </NftFlyoutRow>
+      </div>
+      <StickyCTA>
+        <TransferFees {...props} asset={viewOrder} />
+        <br />
+        <TransferCTA {...props} asset={viewOrder} />
+      </StickyCTA>
     </>
-  )
+  ) : null
 }
 
 const mapStateToProps = (state) => ({

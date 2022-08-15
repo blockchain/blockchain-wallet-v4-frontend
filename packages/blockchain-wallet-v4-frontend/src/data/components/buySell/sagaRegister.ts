@@ -23,6 +23,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.confirmFundsOrder.type, buySellSagas.confirmBSFundsOrder)
     yield takeLatest(actions.confirmOrderPoll.type, buySellSagas.confirmOrderPoll)
     yield takeLatest(actions.confirmOrder.type, buySellSagas.confirmOrder)
+    yield takeLatest(actions.checkCardSuccessRate.type, buySellSagas.checkCardSuccessRate)
     yield takeLatest(actions.fetchBalance.type, buySellSagas.fetchBSBalances)
     yield takeLatest(actions.deleteCard.type, buySellSagas.deleteBSCard)
     yield takeLatest(actions.createCard.type, buySellSagas.createBSCard)
@@ -48,7 +49,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.pollOrder.type, buySellSagas.pollBSOrder)
     yield takeLatest(actions.showModal.type, buySellSagas.showModal)
     yield takeLatest(actions.switchFix.type, buySellSagas.switchFix)
-    yield takeLatest(actions.setFiatTradingCurrency.type, buySellSagas.setFiatTradingCurrency)
     yield takeLatest(actions.fetchCrossBorderLimits.type, buySellSagas.fetchCrossBorderLimits)
     yield takeLatest(actions.fetchAccumulatedTrades.type, buySellSagas.fetchAccumulatedTrades)
 

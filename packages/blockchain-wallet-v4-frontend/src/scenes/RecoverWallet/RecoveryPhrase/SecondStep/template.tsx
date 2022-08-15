@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { has } from 'ramda'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -188,11 +187,7 @@ class SecondStep extends React.PureComponent<Props, State> {
                           />{' '}
                         </PasswordRequirementText>
                         <PasswordRequirementText isValid>
-                          <FormattedMessage
-                            id='scenes.register.password.part7'
-                            defaultMessage='long'
-                          />
-                          .
+                          <FormattedMessage id='copy.long' defaultMessage='long' />.
                         </PasswordRequirementText>
                       </TextGroup>
                     </div>

@@ -27,6 +27,8 @@ export enum ModalName {
   CUSTODY_WITHDRAW_MODAL = 'CUSTODY_WITHDRAW_MODAL',
   CUSTOMIZABLE_CONFIRM_MODAL = 'CUSTOMIZABLE_CONFIRM_MODAL',
   DELETE_ADDRESS_LABEL_MODAL = 'DELETE_ADDRESS_LABEL_MODAL',
+  DEX_SWAP_SETTINGS = 'DEX_SWAP_SETTINGS',
+  DEX_TOKEN_SELECT = 'DEX_TOKEN_SELECT',
   EDIT_TX_DESCRIPTION_MODAL = 'EDIT_TX_DESCRIPTION_MODAL',
   ETH_WALLET_BALANCES = 'ETH_WALLET_BALANCES',
   FUNDS_LIST = 'FUNDS_LIST',
@@ -79,6 +81,7 @@ export enum ModalName {
   TERMS_AND_CONDITIONS = 'TERMS_AND_CONDITIONS',
   TRADE_MODAL = 'TRADE_MODAL',
   TRADING_LIMITS_MODAL = 'TRADING_LIMITS_MODAL',
+  TRANSACTION_DETAIL = 'TRANSACTION_DETAIL',
   TRANSACTION_REPORT_MODAL = 'TRANSACTION_REPORT_MODAL',
   TRANSFER_ETH_MODAL = 'TRANSFER_ETH_MODAL',
   TWO_STEP_GOOGLE_AUTH_MODAL = 'TWO_STEP_GOOGLE_AUTH_MODAL',
@@ -90,7 +93,6 @@ export enum ModalName {
   UPGRADE_NOW_SILVER_MODAL = 'UPGRADE_NOW_SILVER_MODAL',
   VERIFY_MESSAGE_MODAL = 'VERIFY_MESSAGE_MODAL',
   VERIFY_NOTICE = 'VERIFY_NOTICE',
-  WALLET_CONNECT_MODAL = 'WALLET_CONNECT_MODAL',
   WELCOME_MODAL = 'WELCOME_MODAL'
 }
 
@@ -108,9 +110,10 @@ export type ModalOriginType =
   | 'CoinPageHoldings'
   | 'CompleteProfileBanner'
   | 'CompleteProfile'
-  | 'DebitCardPage'
+  | 'DebitCard'
   | 'DebitCardDashboard'
   | 'DepositWithdrawalModal'
+  | 'Dex'
   | 'EmptyFeed'
   | 'ExchangeForm'
   | 'FeaturesTopNav'
@@ -133,6 +136,7 @@ export type ModalOriginType =
   | 'RetrySendEth'
   | 'RecurringBuys'
   | 'RecurringBuyPromo'
+  | 'AppleAndGooglePayPromo'
   | 'RunKycGoal'
   | 'BSEnterAmountCheckout'
   | 'BSPaymentMethodSelection'

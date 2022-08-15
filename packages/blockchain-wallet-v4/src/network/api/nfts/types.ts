@@ -190,6 +190,12 @@ export interface OpenSeaStatus {
   }
 }
 
+export interface OwnerNftBalance {
+  assets: NftAsset[]
+  next: string
+  previous: string
+}
+
 export interface ComputedFees extends OpenSeaFees {
   // Fees that go to whoever refers the order to the taker.
   // Comes out of OpenSea fees
@@ -412,6 +418,8 @@ export enum GasCalculationOperations {
   AcceptOffer = 'accept-offer',
   Buy = 'buy',
   Cancel = 'cancel',
+  CancelOffer = 'cancel-offer',
+  CancelOrder = 'cancel-order',
   CreateOffer = 'create-offer',
   Sell = 'sell',
   Transfer = 'transfer',
@@ -431,7 +439,7 @@ export interface txnData {
   gasPrice: number
 }
 
-export interface RawOrder {
+export interface WyvernRawOrder {
   approved_on_chain: boolean
   base_price: string
   bounty_multiple: string
@@ -649,7 +657,7 @@ export interface NftAsset {
   listing_date: null
   name: string
   num_sales: number
-  orders: RawOrder[] | null
+  orders: WyvernRawOrder[] | null
   owner: {
     address: string
     config: string
@@ -658,12 +666,21 @@ export interface NftAsset {
       username: string | null
     }
   }
-
+  ownership?: {
+    owner: {
+      address: string
+      config: string
+      profile_img_url: string
+      user: { username: string }
+    }
+    quantity: number
+  }
   permalink: string
+  seaport_sell_orders: SeaportRawOrder[] | null
   token_id: string
   token_metadata: null
   top_bid: null
-  top_ownerships: [
+  top_ownerships?: [
     {
       owner: {
         address: string
@@ -832,4 +849,86 @@ export type NftUserPreferencesReturnType = {
   offer_accepted: boolean | null
   outbid: boolean | null
   successful_purchase: boolean | null
+}
+
+export type SeaportRawOrder = {
+  cancelled: false
+  client_signature: string
+  closing_date: string
+  created_date: string
+  current_price: string
+  expiration_time: number
+  finalized: boolean
+  listing_time: number
+  maker: {
+    address: string
+    config: ''
+    profile_img_url: string
+    user: number | null
+  }
+  maker_fees: {
+    account: {
+      address: string
+      config: ''
+      profile_img_url: string
+      user: number | null
+    }
+    basis_points: string
+  }[]
+  marked_invalid: boolean
+  order_hash: string
+  order_type: 'basic'
+  protocol_address: string
+  protocol_data: {
+    parameters: {
+      conduitKey: string
+      consideration: {
+        endAmount: string
+        identifierOrCriteria: string
+        itemType: number
+        recipient: string
+        startAmount: string
+        token: string
+      }[]
+      counter: number
+      endTime: string
+      offer: [
+        {
+          endAmount: string
+          identifierOrCriteria: string
+          itemType: number
+          startAmount: string
+          token: string
+        }
+      ]
+      offerer: string
+      orderType: number
+      salt: string
+      startTime: string
+      totalOriginalConsiderationItems: number
+      zone: string
+      zoneHash: string
+    }
+    signature: string
+  }
+  relay_id: string
+  side: 'ask' | 'bid'
+  taker: {
+    address: string
+    config: ''
+    profile_img_url: string
+    user: number | null
+  } | null
+  taker_fees: []
+}
+
+export type NftTemplateParams = {
+  amount?: string | null // ETH
+  nft_activity_link: string
+  nft_bidder?: string | null
+  nft_image: string
+  nft_marketplace_link: string
+  nft_name: string
+  nft_seller?: string | null
+  value?: string | null // USD
 }

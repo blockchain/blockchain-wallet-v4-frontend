@@ -186,9 +186,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const amount = convertStandardToBase(BASE.coin, swapAmountFormValues.cryptoAmount)
 
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
-      const refundAddr = onChain ? yield call(selectReceiveAddress, BASE, networks) : undefined
+      const refundAddr = onChain
+        ? yield call(selectReceiveAddress, BASE, networks, api, coreSagas)
+        : undefined
       const destinationAddr = toChain
-        ? yield call(selectReceiveAddress, COUNTER, networks)
+        ? yield call(selectReceiveAddress, COUNTER, networks, api, coreSagas)
         : undefined
       const order: ReturnType<typeof api.createSwapOrder> = yield call(
         api.createSwapOrder,
@@ -493,9 +495,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     // we skip this for gold users
     if (!isUserTier2 && !latestPendingOrder) {
       // in case that there are no maxOrdersLeft user can swap freely
-      const userSwapBuyMore = !products.swap?.maxOrdersLeft || products.swap?.maxOrdersLeft > 0
+      const userCanSwapMore = !products.swap?.maxOrdersLeft || products.swap?.maxOrdersLeft > 0
       // prompt upgrade modal in case that user can't buy more
-      if (!userSwapBuyMore) {
+      if (!userCanSwapMore) {
         yield put(
           actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
             origin: 'BuySellInit'

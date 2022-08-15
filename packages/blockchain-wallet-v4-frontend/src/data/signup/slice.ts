@@ -9,11 +9,13 @@ import {
   RegisteringFailureType,
   RegisteringSuccessType,
   RestoringType,
+  SignupRedirectTypes,
   SignupStateType
 } from './types'
 
 const initialState: SignupStateType = {
   firstLogin: false,
+  isValidReferralCode: undefined,
   kycReset: undefined,
   metadataRestore: Remote.NotAsked,
   productSignupMetadata: {},
@@ -60,15 +62,22 @@ const signupSlice = createSlice({
     setFirstLogin: (state, action: PayloadAction<SignupStateType['firstLogin']>) => {
       state.firstLogin = action.payload
     },
+    setIsValidReferralCode: (
+      state,
+      action: PayloadAction<SignupStateType['isValidReferralCode']>
+    ) => {
+      state.isValidReferralCode = action.payload
+    },
     setKycResetStatus: (state, action: PayloadAction<SignupStateType['kycReset']>) => {
       state.kycReset = action.payload
     },
     setProductSignupMetadata: (state, action: PayloadAction<ProductSignupMetadata>) => {
-      const { platform, product, referrerUsername, tuneTid } = action.payload
+      const { platform, product, referrerUsername, signupRedirect, tuneTid } = action.payload
       state.productSignupMetadata = {
         platform: platform?.toUpperCase() as PlatformTypes,
         product: product?.toUpperCase() as ProductAuthOptions,
         referrerUsername,
+        signupRedirect: signupRedirect?.toUpperCase() as SignupRedirectTypes,
         tuneTid
       }
     },

@@ -2,10 +2,16 @@ import { RemoteDataType } from '@core/types'
 
 import { PlatformTypes, ProductAuthOptions } from '../auth/types'
 
+export enum SignupRedirectTypes {
+  EXCHANGE_HOME = 'EXCHANGE_HOME',
+  WALLET_HOME = 'WALLET_HOME'
+}
+
 export type ProductSignupMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions
   referrerUsername?: string
+  signupRedirect?: SignupRedirectTypes
   tuneTid?: string
 }
 
@@ -36,6 +42,7 @@ export type RestoringType = undefined
 
 export type SignupStateType = {
   firstLogin: boolean
+  isValidReferralCode?: boolean
   kycReset?: boolean
   metadataRestore: RemoteDataType<string, MetadataRestoreType>
   productSignupMetadata?: ProductSignupMetadata

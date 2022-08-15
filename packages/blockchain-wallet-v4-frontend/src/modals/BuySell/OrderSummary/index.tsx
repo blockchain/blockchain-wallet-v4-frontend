@@ -4,16 +4,11 @@ import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Exchange, Remote } from '@core'
-import {
-  BSOrderType,
-  BSPaymentMethodType,
-  ExtractSuccess,
-  OrderType,
-  RemoteDataType
-} from '@core/types'
-import DataError from 'components/DataError'
+import { BSPaymentMethodType, ExtractSuccess, OrderType } from '@core/types'
+import BaseError from 'components/BuySell/Error'
 import { OrderSummary } from 'components/Flyout/Brokerage'
 import { getPeriodForSuccess } from 'components/Flyout/model'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import {
   getBaseAmount,
@@ -29,9 +24,9 @@ import {
   RecurringBuyPeriods,
   RecurringBuyStepType
 } from 'data/types'
+import { isNabuError } from 'services/errors'
 
 import Loading from '../template.loading'
-import InterestBanner from './InterestBanner'
 import { getData } from './selectors'
 import SuccessSdd from './template.sdd.success'
 
@@ -49,7 +44,8 @@ class OrderSummaryContainer extends PureComponent<Props> {
 
     this.props.buySellActions.fetchOrders()
 
-    this.props.interestActions.fetchShowInterestCardAfterTransaction({})
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchInterestRate()
   }
 
   handleOkButton = () => {
@@ -74,13 +70,30 @@ class OrderSummaryContainer extends PureComponent<Props> {
     }
   }
 
+  handleErrorAction = () => {
+    this.props.buySellActions.destroyCheckout()
+  }
+
   render() {
     return this.props.data.cata({
-      Failure: () => <DataError />,
+      Failure: (e) => {
+        if (isNabuError(e)) {
+          return <GenericNabuErrorFlyout error={e} onDismiss={this.handleErrorAction} />
+        }
+
+        return (
+          <BaseError
+            code={e}
+            handleRetry={this.handleErrorAction}
+            handleReset={this.handleErrorAction}
+            handleBack={this.handleErrorAction}
+          />
+        )
+      },
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => {
-        const { order } = val
+        const { interestEligible, interestRate, order } = val
         const { state } = order
         const currencySymbol = getSymbol(getCounterCurrency(order))
         const [recurringBuy] = val.recurringBuyList.filter((rb) => {
@@ -143,37 +156,42 @@ class OrderSummaryContainer extends PureComponent<Props> {
         }
 
         return state === 'FAILED' || state === 'CANCELED' || !order.paymentType ? (
-          <DataError />
+          <BaseError
+            code='INTERNAL_SERVER_ERROR'
+            handleRetry={this.handleErrorAction}
+            handleReset={this.handleErrorAction}
+            handleBack={this.handleErrorAction}
+          />
         ) : val.userData?.tiers?.current !== 2 ? (
           <SuccessSdd {...val} {...this.props} />
         ) : (
           <OrderSummary
+            analyticsActions={this.props.analyticsActions}
             baseAmount={getBaseAmount(order)}
             baseCurrency={getBaseCurrency(order)}
             counterAmount={getCounterAmount(order)}
             currencySymbol={currencySymbol}
+            frequencyText={frequencyText}
             handleClose={this.props.handleClose}
             handleCompleteButton={handleCompleteButton}
             handleOkButton={this.handleOkButton}
+            interestActions={this.props.interestActions}
+            interestEligible={interestEligible}
+            interestRate={interestRate}
             lockTime={val.lockTime}
             orderState={state}
             orderType={getOrderType(order) as OrderType}
             outputCurrency={order.outputCurrency}
             paymentState={order.attributes?.everypay?.paymentState || null}
             paymentType={order.paymentType}
-            frequencyText={frequencyText}
-          >
-            {val.interestAfterTransaction.show ? (
-              <InterestBanner handleClose={this.props.handleClose} />
-            ) : null}
-          </OrderSummary>
+          />
         )
       }
     })
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state),
   formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
   hasAvailablePeriods: selectors.components.recurringBuy.hasAvailablePeriods(ownProps.method)(
@@ -188,6 +206,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): LinkStatePropsTy
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
   recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
@@ -202,15 +221,6 @@ export type OwnProps = {
 
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  formValues: BSCheckoutFormValuesType
-  hasAvailablePeriods: boolean
-  hasQuote: boolean
-  isGoldVerified: boolean
-  isRecurringBuy: boolean
-  orders: BSOrderType[]
-}
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(OrderSummaryContainer)

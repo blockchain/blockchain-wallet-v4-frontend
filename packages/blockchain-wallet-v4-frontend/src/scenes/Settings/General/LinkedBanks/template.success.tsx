@@ -1,25 +1,24 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { any } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
 import { BSPaymentMethodType, BSPaymentTypes, WalletFiatEnum } from '@core/types'
+import { Coin } from '@core/utils'
 import { Box, Button, Image, Text } from 'blockchain-info-components'
+import { Expanded, Flex } from 'components/Flex'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
+import { selectors } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankTransferAccountType } from 'data/types'
+import { useRemote } from 'hooks'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
 
-import { CardDetails, Child, CustomSettingHeader, RemoveButton } from '../styles'
+import { CustomSettingHeader, RemoveButton } from '../styles'
 import { Props as OwnProps, SuccessStateType } from '.'
-
-const BankIconWrapper = styled.div`
-  margin-right: 14px;
-  justify-content: center;
-  flex-direction: column;
-  display: flex;
-`
 
 const CustomSettingComponent = styled(SettingComponent)`
   margin-top: 36px;
@@ -33,6 +32,17 @@ const StyledSettingsContainer = styled(SettingContainer)`
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+  const { data: paymentMethods, isLoading: isLoadingPaymentMethods } = useRemote(
+    selectors.components.buySell.getBSPaymentMethods
+  )
+
+  const bankLimit = useMemo(() => {
+    if (isLoadingPaymentMethods) return
+
+    return paymentMethods?.methods.find((method) => method.type === BSPaymentTypes.BANK_TRANSFER)
+      ?.limits
+  }, [paymentMethods, isLoadingPaymentMethods])
+
   const walletBeneficiaries = props.bankAccounts.filter(
     (account) => account.currency in WalletFiatEnum
   )
@@ -40,6 +50,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const isEligible = any(
     (method: BSPaymentMethodType) => method.type === BSPaymentTypes.BANK_TRANSFER
   )(props.paymentMethods.methods)
+
   return (
     <StyledSettingsContainer>
       <SettingSummary>
@@ -65,39 +76,71 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 isMobile={media.mobile}
                 style={{ width: '430px' }}
               >
-                <Child>
-                  <BankIconWrapper>
+                <Flex style={{ width: '100%' }} gap={8}>
+                  <Flex alignItems='center'>
                     <Image name={getBankLogoImageName(account.details?.bankName)} />
-                  </BankIconWrapper>
-                  <CardDetails>
-                    <Text size='16px' color='grey800' weight={600}>
-                      {account.details?.bankName}
-                    </Text>
-                    <Text size='14px' color='grey600' weight={500} capitalize>
-                      {account.details?.bankAccountType?.toLowerCase() || ''}{' '}
-                      <FormattedMessage
-                        id='scenes.settings.general.account'
-                        defaultMessage='account'
-                      />{' '}
-                      {account.details?.accountNumber || ''}
-                    </Text>
-                  </CardDetails>
-                </Child>
-                <Child>
-                  <RemoveButton
-                    data-e2e={`removeBankAccount-${account.id}`}
-                    nature='light-red'
-                    disabled={props.submitting}
-                    style={{ marginLeft: '18px', minWidth: 'auto' }}
-                    // @ts-ignore
-                    onClick={(e: SyntheticEvent) => {
-                      e.stopPropagation()
-                      props.handleDeleteBank(account)
-                    }}
-                  >
-                    <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
-                  </RemoveButton>
-                </Child>
+                  </Flex>
+
+                  <Expanded style={{ minWidth: 0 }}>
+                    <Flex flexDirection='column'>
+                      <Flex justifyContent='space-between'>
+                        <Text
+                          size='16px'
+                          color='grey800'
+                          weight={600}
+                          style={{
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}
+                        >
+                          {account.details?.bankName}
+                        </Text>
+
+                        <Text size='14px' color='grey600' weight={500} capitalize>
+                          ***{account.details.accountNumber}
+                        </Text>
+                      </Flex>
+
+                      <Flex justifyContent='space-between'>
+                        <Text size='14px' color='grey600' weight={500} capitalize>
+                          {bankLimit && (
+                            <FormattedMessage
+                              id='modals.simplebuy.card_limits'
+                              defaultMessage='{limitAmount} Limit'
+                              values={{
+                                limitAmount: fiatToString({
+                                  unit: account.currency,
+                                  value: convertBaseToStandard(Coin.FIAT, bankLimit.max)
+                                })
+                              }}
+                            />
+                          )}
+                        </Text>
+
+                        <Text size='14px' color='grey600' weight={500} capitalize>
+                          {account.details?.bankAccountType?.toLowerCase()}
+                        </Text>
+                      </Flex>
+                    </Flex>
+                  </Expanded>
+
+                  <Flex alignItems='center'>
+                    <RemoveButton
+                      data-e2e={`removeBankAccount-${account.id}`}
+                      nature='light-red'
+                      disabled={props.submitting}
+                      style={{ minWidth: 'auto' }}
+                      // @ts-ignore
+                      onClick={(e: SyntheticEvent) => {
+                        e.stopPropagation()
+                        props.handleDeleteBank(account)
+                      }}
+                    >
+                      <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
+                    </RemoveButton>
+                  </Flex>
+                </Flex>
               </Box>
             )
           })}

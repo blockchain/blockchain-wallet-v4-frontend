@@ -232,27 +232,6 @@ export const StxFooterCta = ({ kycState, tags, userCampaignsInfoResponseList }: 
 
   if (stxCampaign) {
     switch (stxCampaign.userCampaignState) {
-      case 'REWARD_SENT':
-      case 'TASK_FINISHED':
-      case 'REWARD_RECEIVED':
-        return (
-          <Text size='12px' color='grey600' weight={500}>
-            <FormattedMessage
-              id='scenes.airdrop.stx.wallet.balance'
-              defaultMessage='Please note the balance is currently non-transferable. Learn more about this and future wallet support for STX'
-            />{' '}
-            <Link
-              href='https://support.blockchain.com/hc/en-us/articles/360038745191'
-              target='_blank'
-              size='12px'
-              weight={500}
-              style={{ textDecoration: 'underline' }}
-            >
-              <FormattedMessage id='copy.here' defaultMessage='here' />
-            </Link>
-            .
-          </Text>
-        )
       case 'FAILED':
         return (
           <Link href='https://support.blockchain.com' target='_blank' rel='noopener noreferrer'>
@@ -264,6 +243,9 @@ export const StxFooterCta = ({ kycState, tags, userCampaignsInfoResponseList }: 
       case undefined:
       case 'REGISTERED':
       case 'NONE':
+      case 'REWARD_SENT':
+      case 'TASK_FINISHED':
+      case 'REWARD_RECEIVED':
       default:
         return null
     }

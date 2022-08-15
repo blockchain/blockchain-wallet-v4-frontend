@@ -9,11 +9,14 @@ import * as xlm from './xlm'
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, deepEqual)
 
-export { bch, btc, checks, createDeepEqualSelector, eth, xlm }
+enum Coin {
+  CRYPTO = 'CRYPTO',
+  FIAT = 'FIAT'
+}
 
-export const MISSING_WALLET = 'MISSING_WALLET'
+const MISSING_WALLET = 'MISSING_WALLET'
 
-export const errorHandler = (e): string => {
+const errorHandler = (e): string => {
   return typeof e === 'object'
     ? e.description
       ? e.description
@@ -25,11 +28,25 @@ export const errorHandler = (e): string => {
     : 'Unknown Error'
 }
 
-export const errorHandlerCode = (e) => {
+const errorHandlerCode = (e) => {
   return typeof e === 'object' && e.code ? e.code : errorHandler(e)
 }
 
-export const errorCodeAndMessage = (e) => ({
+const errorCodeAndMessage = (e) => ({
   code: typeof e === 'object' ? Number(e.code) : 1,
   message: errorHandler(e)
 })
+
+export {
+  bch,
+  btc,
+  checks,
+  Coin,
+  createDeepEqualSelector,
+  errorCodeAndMessage,
+  errorHandler,
+  errorHandlerCode,
+  eth,
+  MISSING_WALLET,
+  xlm
+}

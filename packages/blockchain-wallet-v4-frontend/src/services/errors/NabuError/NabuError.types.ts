@@ -1,17 +1,26 @@
+type NabuErrorAction = {
+  title: string
+  url?: string
+}
+
 type NabuErrorIconProps = {
-  accessibility: {
+  accessibility?: {
     description: string
   }
-  status: {
+  status?: {
     url: string
   }
   url: string
 }
 
 type NabuErrorProps = {
+  actions?: NabuErrorAction[]
+  categories?: string[]
+  dataFields?: { [key: string]: unknown }
   icon?: NabuErrorIconProps
+  id?: string
   message: string
   title: string
 }
 
-export type { NabuErrorIconProps, NabuErrorProps }
+export type { NabuErrorAction, NabuErrorIconProps, NabuErrorProps }

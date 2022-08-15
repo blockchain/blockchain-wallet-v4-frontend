@@ -1,11 +1,11 @@
 import { FiatType, RemoteDataType } from '@core/types'
 
-export type NabuProductType = 'SWAP' | 'SIMPLEBUY' | 'SAVINGS' | 'BROKERAGE'
+export type NabuProductType = 'swap' | 'simplebuy' | 'savings' | 'brokerage'
 export enum NabuProducts {
-  BROKERAGE = 'BROKERAGE',
-  SAVINGS = 'SAVINGS',
-  SIMPLEBUY = 'SIMPLEBUY',
-  SWAP = 'SWAP'
+  BROKERAGE = 'brokerage',
+  SAVINGS = 'savings',
+  SIMPLEBUY = 'simplebuy',
+  SWAP = 'swap'
 }
 
 export type ProductEligibilityResponse = {

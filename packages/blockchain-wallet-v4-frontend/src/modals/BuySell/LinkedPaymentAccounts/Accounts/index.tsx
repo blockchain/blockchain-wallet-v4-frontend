@@ -13,11 +13,14 @@ import {
   MobilePaymentType,
   OrderType,
   WalletCurrencyType,
-  WalletFiatEnum
+  WalletFiatEnum,
+  WalletFiatType
 } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
+import { GenericNabuErrorCard } from 'components/GenericNabuErrorCard'
+import { Padding } from 'components/Padding'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { getBankLogoImageName } from 'services/images'
 
@@ -27,12 +30,13 @@ import Bank from './Bank'
 import Card from './Card'
 import Fund from './Fund'
 import GooglePay from './GooglePay'
+import { useCardState } from './hooks'
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
 `
 const TopText = styled(Text)`
   display: flex;
@@ -41,6 +45,8 @@ const TopText = styled(Text)`
 `
 const PaymentsWrapper = styled.div`
   border-top: 1px solid ${(props) => props.theme.grey000};
+  flex-grow: 1;
+  overflow-y: scroll;
 `
 const NoMethods = styled(FlyoutWrapper)`
   text-align: center;
@@ -60,6 +66,7 @@ export type Props = OwnProps & SuccessStateType
 const Accounts = (props: Props) => {
   const [isApplePayAvailable, setApplePayAvailable] = useState(false)
   const [isGooglePayAvailable, setGooglePayAvailable] = useState(false)
+  const { addCard, card, clearCard } = useCardState()
 
   const getType = (value: BSPaymentMethodType) => {
     switch (value.type) {
@@ -189,7 +196,7 @@ const Accounts = (props: Props) => {
       : 'Credit or Debit Card'
   }
 
-  const { orderType } = props
+  const { orderType, userData } = props
   const availableBankAccounts = props.bankTransferAccounts.filter(
     (account) => account.state === 'ACTIVE' && orderType === OrderType.BUY
   )
@@ -206,12 +213,17 @@ const Accounts = (props: Props) => {
     (method) => method.value.type === BSPaymentTypes.BANK_TRANSFER && orderType === OrderType.BUY
   )
 
+  const fiatCurrencies = userData.currencies.userFiatCurrencies
   const funds = defaultMethods.filter(
     (method) =>
       method.value.type === BSPaymentTypes.FUNDS &&
       method.value.currency in WalletFiatEnum &&
       (orderType === OrderType.SELL ||
-        Number(props.balances[method.value.currency as WalletCurrencyType]?.available) > 0)
+        Number(props.balances[method.value.currency as WalletCurrencyType]?.available) > 0) &&
+      // for sell we should show only userFiatCurrencies currencies
+      (orderType === OrderType.BUY ||
+        (orderType === OrderType.SELL &&
+          fiatCurrencies.includes(method.value.currency as WalletFiatType)))
   )
 
   // use this to get min/max for card buys from eligible/payment-methods
@@ -278,19 +290,15 @@ const Accounts = (props: Props) => {
       setApplePayAvailable(true)
     }
 
-    if (
-      (window as any).google &&
-      (window as any).google.payments.api &&
-      (props.googlePayEnabled || props.isInternalTester)
-    ) {
+    if (props.googlePayEnabled || props.isInternalTester) {
       setGooglePayAvailable(true)
     }
   }, [props.applePayEnabled, props.googlePayEnabled, props.isInternalTester])
 
   return (
-    <Wrapper>
-      <Form>
-        <FlyoutWrapper>
+    <Form>
+      <Wrapper>
+        <FlyoutWrapper style={{ flexShrink: 0 }}>
           <TopText color='grey800' size='20px' weight={600}>
             <Icon
               cursor
@@ -382,6 +390,16 @@ const Accounts = (props: Props) => {
                   text={renderCardText(cardMethod.value)}
                   icon={getIcon(cardMethod.value)}
                   onClick={() => handlePaymentMethodSelect({ method: cardMethod.value })}
+                  onClickNabuErrorInfo={(error) =>
+                    addCard(
+                      <GenericNabuErrorCard
+                        error={error}
+                        variant={cardMethod.value.block ? 'error' : 'warning'}
+                        onActionClick={clearCard}
+                        onClickClose={clearCard}
+                      />
+                    )
+                  }
                 />
               ))
             : null}
@@ -409,8 +427,16 @@ const Accounts = (props: Props) => {
             </AddNewButton>
           ) : null}
         </PaymentsWrapper>
-      </Form>
-    </Wrapper>
+
+        {card && (
+          <div style={{ flexShrink: 0 }}>
+            <Padding horizontal={40} bottom={40}>
+              {card}
+            </Padding>
+          </div>
+        )}
+      </Wrapper>
+    </Form>
   )
 }
 

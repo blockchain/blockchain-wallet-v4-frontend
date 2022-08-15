@@ -7,6 +7,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 
+import { AppleAndGooglePayBanner } from './AppleAndGooglePayBanner'
 import BSOrderBanner from './BSOrderBanner'
 import BuyCrypto from './BuyCrypto'
 import CoinRename from './CoinRename'
@@ -48,6 +49,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <KycResubmit />
+          </BannerWrapper>
+        )
+      case 'appleAndGooglePay':
+        return (
+          <BannerWrapper>
+            <AppleAndGooglePayBanner />
           </BannerWrapper>
         )
       case 'finishKyc':

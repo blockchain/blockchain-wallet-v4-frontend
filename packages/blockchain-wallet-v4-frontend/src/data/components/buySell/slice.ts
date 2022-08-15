@@ -45,7 +45,7 @@ import {
 } from 'data/types'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
-import { BuySellState, BuySellStepType } from './types'
+import { BSCardSuccessRateType, BuySellState, BuySellStepType } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
@@ -56,6 +56,7 @@ const initialState: BuySellState = {
   buyQuote: Remote.NotAsked,
   card: Remote.NotAsked,
   cardId: undefined,
+  cardSuccessRate: undefined,
   cards: Remote.NotAsked,
   checkoutDotComAccountCodes: [],
   checkoutDotComApiKey: undefined,
@@ -155,7 +156,7 @@ const buySellSlice = createSlice({
   name: 'buySell',
   reducers: {
     activateCard: (state, action: PayloadAction<{ card: BSCardType; cvv: string }>) => {},
-    activateCardFailure: (state, action: PayloadAction<string>) => {
+    activateCardFailure: (state, action: PayloadAction<string | Error>) => {
       state.providerDetails = Remote.Failure(action.payload)
     },
     activateCardLoading: (state) => {
@@ -167,6 +168,7 @@ const buySellSlice = createSlice({
     cancelOrder: (state, action: PayloadAction<BSOrderType>) => {
       state.pendingOrder = undefined
     },
+    checkCardSuccessRate: (state, action: PayloadAction<{ bin: string; scheme: string }>) => {},
     confirmFundsOrder: () => {},
     confirmOrder: (
       state,
@@ -194,6 +196,9 @@ const buySellSlice = createSlice({
     createCardLoading: (state) => {
       state.card = Remote.Loading
     },
+    createCardNotAsked: (state, action: PayloadAction<void>) => {
+      state.card = Remote.NotAsked
+    },
     createCardSuccess: (state, action: PayloadAction<BSCardType>) => {
       state.card = Remote.Success(action.payload)
     },
@@ -208,7 +213,7 @@ const buySellSlice = createSlice({
         >
       }>
     ) => {},
-    createOrderFailure: (state, action: PayloadAction<string>) => {
+    createOrderFailure: (state, action: PayloadAction<string | number | Error>) => {
       state.order = Remote.Failure(action.payload)
     },
     createOrderLoading: (state) => {
@@ -277,6 +282,7 @@ const buySellSlice = createSlice({
     fetchCardsFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.cards = Remote.Success([])
     },
+
     fetchCardsLoading: (state) => {
       state.cards = Remote.Loading
     },
@@ -302,10 +308,10 @@ const buySellSlice = createSlice({
     ) => {
       state.fiatEligible = Remote.Failure(action.payload)
     },
-
     fetchFiatEligibleLoading: (state) => {
       state.fiatEligible = Remote.Loading
     },
+
     fetchFiatEligibleSuccess: (state, action: PayloadAction<FiatEligibleType>) => {
       state.fiatEligible = Remote.Success(action.payload)
     },
@@ -476,10 +482,10 @@ const buySellSlice = createSlice({
       state.applePayInfo = action.payload
     },
     setBuyCrypto: (state, action: PayloadAction<string>) => {},
-    setFiatCurrency: (state, action: PayloadAction<FiatType>) => {
-      state.fiatCurrency = action.payload
+    setCardSuccessRate: (state, action: PayloadAction<BSCardSuccessRateType>) => {
+      state.cardSuccessRate = action.payload
     },
-    setFiatTradingCurrency: (state, action: PayloadAction<FiatType>) => {
+    setFiatCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload
     },
     setGooglePayInfo: (state, action: PayloadAction<GooglePayInfoType>) => {
@@ -551,9 +557,11 @@ const buySellSlice = createSlice({
       }
     },
     showModal: (
-      state,
+      state: BuySellState,
       action: PayloadAction<{
         cryptoCurrency?: CoinType
+        method?: BSPaymentMethodType
+        mobilePaymentMethod?: MobilePaymentType
         orderType?: BSOrderActionType
         origin: BSShowModalOriginType
         step?: 'DETERMINE_CARD_PROVIDER'
@@ -562,6 +570,8 @@ const buySellSlice = createSlice({
       state.origin = action.payload.origin
       state.cryptoCurrency = action.payload.cryptoCurrency
       state.orderType = action.payload.orderType
+      state.mobilePaymentMethod = action.payload.mobilePaymentMethod
+      state.method = action.payload.method
     },
     startPollBuyQuote: (
       state,

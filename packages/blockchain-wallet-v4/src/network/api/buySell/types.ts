@@ -3,6 +3,7 @@ import { CardNameType } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/P
 import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/types'
 import { ORDER_ERROR_CODE } from 'data/components/buySell/model'
 import { BankDetails, RecurringBuyFailureReasons, RecurringBuyPeriods } from 'data/types'
+import { NabuErrorProps } from 'services/errors'
 
 export type IBSAccountType = {
   address: string
@@ -139,6 +140,7 @@ export type BSPaymentMethodType = {
   addedAt?: string
   address?: null | NabuAddressType
   attributes?: {}
+  block?: boolean
   card?: BSCard
   cardFundSources?: CardFundSourceType[]
   currency: FiatType
@@ -154,6 +156,7 @@ export type BSPaymentMethodType = {
   state?: 'ACTIVE' | Exclude<BSCardStateType, 'ACTIVE'>
   subTypes?: [] | [CardNameType]
   type: BSPaymentTypes
+  ux?: NabuErrorProps
 }
 
 export type BSPaymentMethodsType = {
@@ -457,4 +460,18 @@ export type GooglePayInfoType = {
   cardAcquirerName: 'STRIPE' | 'CHECKOUTDOTCOM'
   googlePayParameters: string
   merchantBankCountry: string
+}
+
+export type CardSuccessRateResponse = {
+  block: boolean
+  ux?: {
+    actions: {
+      title: string
+      type: string
+      url: string
+    }[]
+    categories: string[]
+    message: string
+    title: string
+  }
 }

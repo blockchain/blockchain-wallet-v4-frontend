@@ -1,10 +1,11 @@
+import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { media } from 'services/styles'
 
-export const maxWidth = '1200px'
+export const maxWidth = '100%'
 
 export const opensea_event_types = [
   'bid_entered',
@@ -29,6 +30,9 @@ export const NftPageV2 = styled.div`
   width: 100%;
   margin: 8px auto;
   box-sizing: border-box;
+  ${media.mobile`
+    margin-top: 0;
+  `}
 `
 
 export const NftPageFullWidth = styled.div`
@@ -91,12 +95,19 @@ export const CTAWrapper = styled.div`
 
 // asset
 export const Asset = styled.div`
-  padding: 12px;
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
   display: flex;
+  position: relative;
   flex-direction: column;
-  border: ${(props) => `1px solid ${props.theme.grey000}`};
+  height: 340px;
+  ${media.laptopM`
+    height: 100%;
+  `}
+  &:hover {
+    box-shadow: 0px 0px 30px 0px ${(props) => props.theme.grey200};
+    transition: 0.3s ease-out;
+  }
 `
 
 export const InfoStatsWrapper = styled.div`
@@ -109,32 +120,32 @@ export const InfoStatsWrapper = styled.div`
 export const AssetImageContainer = styled.div<{
   background?: string
   backgroundColor?: string
+  backgroundImage?: string
 }>`
   align-items: center;
   display: flex;
   justify-content: center;
-  max-height: 100%;
+  max-height: fit-content;
   max-width: 100%;
   width: 100%;
-  margin-top: 12px;
   overflow: hidden;
   position: relative;
   background-size: cover;
   background-position: center;
-  border-radius: 6px;
   cursor: pointer;
   background-image: ${(props) => props.background};
   background-color: ${(props) => props.backgroundColor};
   transition: height 0.2s ease-in-out;
 `
 export const AssetDetails = styled.div`
-  margin-top: 12px;
   flex: 1;
   height: 100%;
   display: flex;
+  padding: 0 0.75em 0;
   flex-direction: column;
-  justify-content: space-between;
-  background: ${(props) => props.theme.white};
+  gap: 6px;
+  justify-content: center;
+  background: linear-gradient(270deg, rgba(25, 14, 60, 0.95) 0%, rgba(14, 18, 27, 0.95) 102.1%);
   ${media.laptopL`
     padding-bottom: 4px;
   `}
@@ -143,7 +154,6 @@ export const AssetCollection = styled.div`
   overflow: hidden;
 `
 export const PriceCTA = styled.div`
-  margin-top: 16px;
   display: flex;
   width: 100%;
   align-items: center;
@@ -157,12 +167,12 @@ export const StyledCoinDisplay = styled(CoinDisplay)`
 
 // collection
 export const CollectionHeader = styled.div<{ bgUrl?: string }>`
-  height: 300px;
+  height: 400px;
   display: flex;
   justify-content: space-between;
+  background: center ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'unset')};
+  background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
-  background-image: ${(props) => (props.bgUrl ? `url(${props.bgUrl})` : 'none')};
   position: relative;
   ${media.tablet`
     flex-direction: column;
@@ -180,8 +190,6 @@ export const Centered = styled.div`
 `
 //
 export const NftBannerWrapper = styled.div`
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.24) 0%, #000000 100%);
-  backdrop-filter: blur(10px);
   box-sizing: border-box;
   position: absolute;
   bottom: 0;
@@ -192,23 +200,92 @@ export const NftBannerWrapper = styled.div`
   `}
 `
 
+export const CollectionInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  justify-content: center;
+  bottom: 0;
+  width: 100%;
+  margin: 24px;
+  ${media.tablet`
+    padding: 12px;
+    margin: 0;
+    margin-bottom: 1em;
+    flex-direction: row;
+  `}
+`
+
 export const StatsWrapper = styled.div`
   display: flex;
   gap: 8px;
+  margin: 24px;
+  ${media.laptop`
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 1em 0;
+    width: 100%;
+  `}
 `
 
 export const Stat = styled.div`
-  padding: 16px;
+  padding: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 8px;
   gap: 16px;
+  white-space: nowrap;
   background: rgba(255, 255, 255, 0.08);
-  ${media.tablet`
-    padding: 10px;
+  border: 1px solid ${colors.grey000};
+  ${media.laptop`
     > div {
       font-size: 12px;
     }
   `}
+`
+
+export const AvatarGradientColors = [
+  colors.blue600,
+  colors.purple600,
+  colors.purple300,
+  colors.green300,
+  colors.grey900
+]
+
+export const LinksContainer = styled.div`
+  display: flex;
+  border: 1px solid ${(props) => props.theme.grey000};
+  border-radius: 8px;
+  justify-content: center;
+  > a {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    padding-right: 0px;
+    svg {
+      fill: ${(props) => props.theme.grey200};
+      transition: fill 0.2s ease-in-out;
+    }
+    &:hover {
+      svg {
+        fill: ${(props) => props.theme.white};
+      }
+    }
+    &:after {
+      content: '';
+      display: block;
+      height: 90%;
+      width: 1px;
+      margin-left: 16px;
+      background-color: ${(props) => props.theme.grey000};
+    }
+    &:last-child {
+      padding-right: 16px;
+    }
+    &:last-child:after {
+      display: none;
+    }
+  }
 `

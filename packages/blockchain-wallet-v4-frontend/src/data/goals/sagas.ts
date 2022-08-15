@@ -13,8 +13,8 @@ import {
   WalletFiatType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions, model, selectors } from 'data'
-import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
+import { actions, actionTypes, model, selectors } from 'data'
+import { getBchBalance, getBtcBalance } from 'data/balances/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { ModalName } from 'data/modals/types'
@@ -153,6 +153,15 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
+  const defineDeeplinkDexGoal = function* (pathname) {
+    yield put(
+      actions.goals.saveGoal({
+        data: { pathname },
+        name: DeepLinkGoal.NFTS
+      })
+    )
+  }
+
   const defineSwapGoal = function* () {
     yield put(actions.goals.saveGoal({ data: {}, name: 'swap' }))
   }
@@ -182,6 +191,13 @@ export default ({ api, coreSagas, networks }) => {
     )
 
     if (amount && crypto && email && fiatCurrency) {
+      // because of react router 'isFirstRendering' check
+      // push to /signup won't be saved on state, app
+      // will reroute to /login, skipping buy goal
+
+      // waiting for the firstRender of app before pushing
+      // route to signup
+      yield take(actionTypes.router.LOCATION_CHANGE)
       yield put(actions.router.push('/signup'))
     }
   }
@@ -250,7 +266,11 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineDeeplinkNftsGoal, pathname)
     }
 
-    // exchange deeplink to chanage password /#/open/change-password
+    if (startsWith(DeepLinkGoal.DEX, pathname)) {
+      return yield call(defineDeeplinkDexGoal, pathname)
+    }
+
+    // exchange deeplink to change password /#/open/change-password
     if (startsWith(DeepLinkGoal.SETTINGS, pathname)) {
       return yield call(defineExchangeSettingsGoal, search)
     }
@@ -706,7 +726,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(
       actions.components.nfts.nftOrderFlowOpen({
         asset_contract_address: goal.data.contract_address,
-        order: goal.data.order,
+        seaportOrder: goal.data.order,
         step: NftOrderStepEnum.BUY,
         token_id: goal.data.token_id
       })
@@ -714,6 +734,11 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runDeeplinkNftGoal = function* (goal: GoalType) {
+    yield take(actions.auth.loginSuccess)
+    yield put(actions.router.push(`/${goal.data.pathname}`))
+  }
+
+  const runDeeplinkDexGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
     yield put(actions.router.push(`/${goal.data.pathname}`))
   }
@@ -970,11 +995,14 @@ export default ({ api, coreSagas, networks }) => {
         case 'airdropClaim':
           yield call(runAirdropClaimGoal, goal)
           break
+        case 'buy-nft':
+          yield call(runBuyNftGoal, goal)
+          break
         case 'buySell':
           yield call(runBuySellGoal, goal)
           break
-        case 'settings':
-          yield call(runSettingsDeeplinkRedirect, goal)
+        case 'dex':
+          yield call(runDeeplinkDexGoal, goal)
           break
         case 'kyc':
           yield call(runKycGoal, goal)
@@ -982,23 +1010,23 @@ export default ({ api, coreSagas, networks }) => {
         case 'kycDocResubmit':
           yield call(runKycDocResubmitGoal, goal)
           break
+        case 'kycUpgradeRequiredNotice':
+          yield call(runKycUpgradeRequiredNoticeGoal, goal)
+          break
         case 'interest':
           yield call(runInterestRedirect, goal)
           break
         case 'interestPromo':
           yield call(runInterestPromo, goal)
           break
+        case 'linkAccount':
+          yield call(runLinkAccountGoal, goal)
+          break
         case 'make-offer-nft':
           yield call(runMakeOfferNftGoal, goal)
           break
-        case 'buy-nft':
-          yield call(runBuyNftGoal, goal)
-          break
         case 'nfts':
           yield call(runDeeplinkNftGoal, goal)
-          break
-        case 'linkAccount':
-          yield call(runLinkAccountGoal, goal)
           break
         case 'payment':
           yield call(runSendBtcGoal, goal)
@@ -1009,6 +1037,12 @@ export default ({ api, coreSagas, networks }) => {
         case 'referral':
           yield call(runReferralGoal, goal)
           break
+        case 'sanctionsNotice':
+          yield call(runSanctionsNoticeGoal, goal)
+          break
+        case 'settings':
+          yield call(runSettingsDeeplinkRedirect, goal)
+          break
         case 'swap':
           yield call(runSwapModal, goal)
           break
@@ -1018,6 +1052,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'syncPit':
           yield call(runSyncPitGoal, goal)
           break
+        case 'termsAndConditions':
+          yield call(runTermsAndConditionsGoal, goal)
+          break
         case 'transferEth':
           yield call(runTransferEthGoal, goal)
           break
@@ -1026,23 +1063,6 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
-          break
-        // eslint-disable-next-line no-duplicate-case
-        case 'interest':
-          yield call(runInterestRedirect, goal)
-          break
-        // eslint-disable-next-line no-duplicate-case
-        case 'interestPromo':
-          yield call(runInterestPromo, goal)
-          break
-        case 'termsAndConditions':
-          yield call(runTermsAndConditionsGoal, goal)
-          break
-        case 'kycUpgradeRequiredNotice':
-          yield call(runKycUpgradeRequiredNoticeGoal, goal)
-          break
-        case 'sanctionsNotice':
-          yield call(runSanctionsNoticeGoal, goal)
           break
         default:
           break

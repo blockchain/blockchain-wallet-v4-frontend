@@ -74,8 +74,3 @@ export const CAMPAIGNS = {
     coinName: 'Stellar'
   }
 }
-
-export enum EXTRA_KYC_CONTEXTS {
-  FIAT_DEPOSIT = 'FIAT_DEPOSIT',
-  TIER_TWO_VERIFICATION = 'TIER_TWO_VERIFICATION'
-}

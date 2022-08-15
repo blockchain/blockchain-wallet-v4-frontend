@@ -6,7 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
-import SupportChat from 'components/SupportChat'
+import { SupportChatForGoldUserOnly } from 'components/SupportChat'
 import Tooltips from 'components/Tooltips'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
@@ -24,7 +24,8 @@ const WalletLayout: Props = ({
   children,
   hideMenu = false,
   modalActions,
-  pathname
+  pathname,
+  removeContentPadding
 }) => {
   useIdleTimer({
     element: document,
@@ -65,11 +66,15 @@ const WalletLayout: Props = ({
         </Nav>
         <Container>
           {hideMenu ? null : <MenuLeft />}
-          <Content center={center} data-e2e={`page${replace(/\//g, '-', pathname)}`}>
+          <Content
+            center={center}
+            removeContentPadding={removeContentPadding}
+            data-e2e={`page${replace(/\//g, '-', pathname)}`}
+          >
             <Page center={center}>{children}</Page>
           </Content>
         </Container>
-        <SupportChat />
+        <SupportChatForGoldUserOnly />
       </ErrorBoundary>
     </Wrapper>
   )
@@ -91,6 +96,7 @@ type Props = FC<
     children: ReactElement
     hideMenu?: boolean
     pathname: string
+    removeContentPadding?: boolean
   } & ConnectedProps<typeof connector>
 >
 

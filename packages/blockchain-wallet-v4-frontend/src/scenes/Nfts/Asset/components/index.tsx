@@ -12,9 +12,7 @@ import { NftPage } from '../../components'
 export const Wrapper = styled(NftPage)`
   display: block;
   margin: 0 auto;
-  padding: 20px 0 0 0;
   box-sizing: border-box;
-  margin-top: 8px;
   ${media.atLeastTablet`
     height: 100%;
   `}
@@ -32,8 +30,7 @@ export const Top = styled.div`
 export const LeftColWrapper = styled.div`
   ${media.atLeastTablet`
   box-sizing: border-box;
-  max-width: 625px;
-  width: 50%;
+  width: 66%;
   `} > form {
     ${media.tablet`
     display: flex;
@@ -50,15 +47,16 @@ export const LeftColWrapper = styled.div`
   display: block;
 
   ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
   `}
 `
 
 export const RightColWrapper = styled.div`
   ${media.atLeastTablet`
   height: 100%;
-  width: 50%;
+  width: 34%;
+  margin-right: 2em;
   `} > form {
     ${media.tablet`
     display: flex;
@@ -71,8 +69,8 @@ export const RightColWrapper = styled.div`
   z-index: 1;
   display: block;
   ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
   `}
 `
 
@@ -90,6 +88,7 @@ export const CurrentPriceBox = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   margin-top: 20px;
+  background: ${(props) => props.theme.greyFade000};
   padding: 1.2em;
 `
 
@@ -102,25 +101,18 @@ export const Divider = styled.div`
 
 export const MoreAssets = styled.div`
   width: 100%;
+  padding: 40px;
   ${media.tablet`
-    padding-right: 1em;
-    padding-left: 1em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
   `}
 `
 
-export const MoreAssetsList = styled.div`
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-`
-
-export const MoreAssetsListItem = styled.div`
-  width: 25%;
-  ${media.tablet`width: 50%;`}
+export const MoreAssetsWrapper = styled.div`
+  padding: 1em 0em;
 `
 
 export const TraitsWrapper = styled.div`
-  margin-top: 1em;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -128,17 +120,12 @@ export const TraitsWrapper = styled.div`
 
 export const Trait = styled.div`
   display: flex;
-  cursor: pointer;
   padding: 0.5em 1em;
   flex-direction: column;
   gap: 6px;
   border-radius: 8px;
-  background: ${(props) => props.theme.blue000};
-  border: 1px solid ${(props) => props.theme.blue600};
-  &:hover {
-    transform: scale(1.02);
-    -webkit-transition: transform 0.1s ease-in-out;
-  }
+  background: ${(props) => props.theme.greyFade000};
+  border: 1px solid ${(props) => props.theme.grey100};
 `
 
 export const Highest = styled(Text)`
@@ -173,6 +160,7 @@ export const CustomLink = styled(LinkContainer)`
 
 export const NftTableWrapper = styled(TableWrapper)`
   .table {
+    overflow: scroll;
     &.no-border {
       border: 0px;
     }
