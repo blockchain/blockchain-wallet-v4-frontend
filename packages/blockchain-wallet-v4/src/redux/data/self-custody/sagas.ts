@@ -16,6 +16,15 @@ export const getSeed = function* (password?: string) {
   return seed
 }
 
+export const getMnemonic = function* (password?: string) {
+  const getMnemonic = (state) => selectors.wallet.getMnemonic(state, password)
+  const mnemonicT = yield select(getMnemonic)
+  // // @ts-ignore
+  const mnemonic = yield call(() => taskToPromise(mnemonicT))
+
+  return mnemonic
+}
+
 export const getPubKey = function* (password?: string) {
   const seed = yield call(getSeed, password)
   // TODO: SELF_CUSTODY

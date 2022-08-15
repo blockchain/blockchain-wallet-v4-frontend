@@ -253,7 +253,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const response = yield call(api.authWalletPubkeyService, { guid, sharedKeyHash })
       return response.success
     } catch (e) {
-      console.log('Failed to auth wallet pubkey service', e)
       return false
     }
   }
@@ -268,8 +267,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const auth = yield call(authWalletPubkeyService, { guid, sharedKey })
     if (!auth) return
 
-    const subscriptions = yield call(api.getSubscriptions, { guidHash, sharedKeyHash })
-    console.log(subscriptions)
+    const subscriptions: ReturnType<typeof api.getSubscriptions> = yield call(
+      api.getSubscriptions,
+      { guidHash, sharedKeyHash }
+    )
+    if (subscriptions.currencies.length === 0) {
+      yield put(actions.balancesV2.initializeSubscriptions())
+    } else {
+      yield put(actions.balancesV2.unsubscribe('BTC'))
+      yield put(actions.balancesV2.unsubscribe('BCH'))
+      yield put(actions.balancesV2.unsubscribe('ETH'))
+      yield put(actions.balancesV2.unsubscribe('XLM'))
+      yield put(actions.balancesV2.unsubscribe('STX'))
+    }
   }
 
   const checkWalletDerivationsLegitimacy = function* () {

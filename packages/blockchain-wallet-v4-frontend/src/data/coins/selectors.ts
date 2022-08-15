@@ -11,7 +11,16 @@ import { CustodialAccountType } from './accountTypes/accountTypes.custodial'
 import { DynamicSelfCustodyAccountType } from './accountTypes/accountTypes.dynamicSelfCustody'
 import { ERC20AccountType } from './accountTypes/accountTypes.erc20'
 import { NonCustodialAccountType } from './accountTypes/accountTypes.nonCustodial'
-import { getKey } from './sagas'
+
+export const getKey = (coin: CoinType) => {
+  if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
+    return 'ERC20'
+  }
+  if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
+    return 'DYNAMIC_SELF_CUSTODY'
+  }
+  return 'NON_CUSTODIAL'
+}
 
 // retrieves introduction text for coin on its transaction page
 const getIntroductionText = (coin: string) => {

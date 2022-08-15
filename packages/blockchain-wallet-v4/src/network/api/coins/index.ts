@@ -7,6 +7,7 @@ import {
   PubkeyServiceAuthenticationInRequestType,
   PubkeyServiceAuthenticationRequestType,
   PubkeyServiceSubscriptions,
+  SubscribeRequestType,
   TickerResponseType,
   TxHistoryResponseType
 } from './types'
@@ -130,6 +131,24 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
+  // 🔥
+  // BTC price ticker is used to triangulate FIAT prices
+  const getBtcTicker = (): TickerResponseType =>
+    get({
+      data: { base: 'BTC' },
+      endPoint: '/ticker',
+      url: apiUrl
+    })
+
+  const subscribe = (data: SubscribeRequestType): { success: boolean } =>
+    post({
+      contentType: 'application/json',
+      data,
+      endPoint: '/wallet-pubkey/subscribe',
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+
   const getSubscriptions = ({
     guidHash,
     sharedKeyHash
@@ -147,14 +166,66 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  // 🔥
-  // BTC price ticker is used to triangulate FIAT prices
-  const getBtcTicker = (): TickerResponseType =>
-    get({
-      data: { base: 'BTC' },
-      endPoint: '/ticker',
+  const getUnifiedActivity = ({
+    fiatCurrency,
+    guidHash,
+    sharedKeyHash
+  }: PubkeyServiceAuthenticationInRequestType & { fiatCurrency: string }) => {
+    post({
+      contentType: 'application/json',
+      data: {
+        auth: {
+          guidHash,
+          sharedKeyHash
+        },
+        fiatCurrency
+      },
+      endPoint: '/wallet-pubkey/activity',
+      removeDefaultPostData: true,
       url: apiUrl
     })
+  }
+
+  const getUnifiedBalances = ({
+    currencies,
+    fiatCurrency,
+    guidHash,
+    sharedKeyHash
+  }: PubkeyServiceAuthenticationInRequestType & {
+    currencies: { ticker: string }[]
+    fiatCurrency: string
+  }) =>
+    post({
+      contentType: 'application/json',
+      data: {
+        auth: {
+          guidHash,
+          sharedKeyHash
+        },
+        currencies,
+        fiatCurrency
+      },
+      endPoint: '/wallet-pubkey/balance',
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+
+  const unsubscribe = ({
+    currency,
+    guidHash,
+    sharedKeyHash
+  }: PubkeyServiceAuthenticationInRequestType & { currency: string }) => {
+    post({
+      contentType: 'application/json',
+      data: {
+        auth: { guidHash, sharedKeyHash },
+        currency
+      },
+      endPoint: '/wallet-pubkey/unsubscribe',
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+  }
 
   return {
     authWalletPubkeyService,
@@ -164,8 +235,12 @@ export default ({ apiUrl, get, post }) => {
     getBtcTicker,
     getCoinPrices,
     getSubscriptions,
+    getUnifiedActivity,
+    getUnifiedBalances,
     pushTx,
+    subscribe,
     txHistory,
+    unsubscribe,
     validateAddress
   }
 }

@@ -1,5 +1,4 @@
 import { CoinType, PaymentValue, RemoteDataType } from '@core/types'
-import { selectors } from 'data'
 import { RequestExtrasType } from 'data/types'
 
 import {
@@ -10,16 +9,7 @@ import { CustodialAccountType } from './accountTypes/accountTypes.custodial'
 import { DynamicSelfCustodyAccountType } from './accountTypes/accountTypes.dynamicSelfCustody'
 import { ERC20AccountType } from './accountTypes/accountTypes.erc20'
 import { NonCustodialAccountType } from './accountTypes/accountTypes.nonCustodial'
-
-export const getKey = (coin: CoinType) => {
-  if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
-    return 'ERC20'
-  }
-  if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
-    return 'DYNAMIC_SELF_CUSTODY'
-  }
-  return 'NON_CUSTODIAL'
-}
+import { getKey } from './selectors'
 
 export default ({ api, coreSagas, networks }) => {
   const accounts = {

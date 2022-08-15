@@ -157,3 +157,34 @@ export type PubkeyServiceAuthenticationInRequestType = {
 export type PubkeyServiceSubscriptions = {
   currencies: { ticker: string }[]
 }
+
+export type SubscribeRequestType = {
+  auth: PubkeyServiceAuthenticationInRequestType
+  data: {
+    account: {
+      index: number
+      name?: string
+    }
+    currency: string
+    pubKeys: [
+      {
+        descriptor: 0 | 'p2wpkh' | 'legacy'
+        pubKey: string
+        style: 'SINGLE' | 'EXTENDED'
+      }
+    ]
+  }[]
+}
+
+export type BalanceEntryResponseType = {
+  currencies: [
+    {
+      account: { index: number; name: string }
+      amount: { amount: string; precision: number } | null
+      price: number
+      ticker: string
+      unconfirmed: { amount: string; precision: number } | null
+    }
+  ]
+  subscriptions: [{ accounts: number; pubKeyCount: string; ticker: string }]
+}
