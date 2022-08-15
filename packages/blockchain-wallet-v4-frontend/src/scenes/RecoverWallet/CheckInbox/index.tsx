@@ -6,7 +6,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { RecoverSteps } from 'data/types'
 import { RECOVERY_EMAIL_SENT_ERROR } from 'services/alerts'
 
-import { Props as OwnProps } from '..'
+import { Props } from '..'
 import { BackArrowFormHeader, CircleBackground, FormWrapper, Row } from '../model'
 
 const FormBody = styled.div`
@@ -32,6 +32,13 @@ const CheckInbox = (props: Props) => {
   }, [disabled, sentState])
 
   const hasErrorAlert = props.alerts.find((alert) => alert.message === RECOVERY_EMAIL_SENT_ERROR)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // trigger email request for recovery token
+    // for now, just setting step to 'check your email' template
+    props.signupActions.triggerRecoverEmail(props.formValues?.recoveryEmail)
+  }
 
   return (
     <FormWrapper>
@@ -71,7 +78,7 @@ const CheckInbox = (props: Props) => {
           setDisabled(true)
           setSentState('sent')
           // TODO: correctly handle this resend email button
-          props.handleSubmit(e)
+          handleSubmit(e)
         }}
       >
         {disabled && sentState === 'sent' && !hasErrorAlert && (
@@ -106,11 +113,6 @@ const CheckInbox = (props: Props) => {
       </Text>
     </FormWrapper>
   )
-}
-
-type Props = OwnProps & {
-  handleSubmit: (e) => void
-  setStep: (step: RecoverSteps) => void
 }
 
 export default CheckInbox
