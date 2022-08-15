@@ -16,11 +16,10 @@
 
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import BigNumber from 'bignumber.js'
-import { add, curry, flatten, lift, map, pathOr, reduce, reject } from 'ramda'
+import { add, curry, lift, map, reject } from 'ramda'
 
 import { coreSelectors, Exchange, Remote } from '@core'
 import { fiatToString } from '@core/exchange/utils'
-import { getBalance } from '@core/redux/data/coins/selectors'
 import {
   BSBalancesType,
   BSBalanceType,
@@ -36,6 +35,7 @@ import {
   WalletFiatType
 } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
+import { selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { DEFAULT_BS_BALANCE } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -50,14 +50,6 @@ import {
 } from '../components/selectors'
 import * as custodialSelectors from '../custodial/selectors'
 import * as routerSelectors from '../router/selectors'
-// these selectors need to be external to this file to avoid hoisting/initialization errors
-import {
-  __getBchNonCustodialBalance,
-  __getBtcNonCustodialBalance,
-  __getErc20NonCustodialBalance,
-  __getEthNonCustodialBalance,
-  __getXlmNonCustodialBalance
-} from './selectors.utils'
 
 // these functions are private as denoted by the '__' prefix but must be at the top of this
 // file to avoid function hoisting issues. they also cannot be included in the external
@@ -196,31 +188,22 @@ export const getCoinTotalBalance = (
   coin: CoinType | FiatType
 ): ((state: RootState) => RemoteDataType<string, number>) => {
   switch (coin) {
-    case 'BCH':
-      return __getBchTotalBalance
-    case 'BTC':
-      return __getBtcTotalBalance
-    case 'ETH':
-      return __getEthTotalBalance
-    case 'XLM':
-      return __getXlmTotalBalance
     case 'EUR':
     case 'GBP':
     case 'USD':
     case 'ARS':
       return getFiatCurrencyBalance(coin)
     default:
-      switch (true) {
-        case coreSelectors.data.coins.getDynamicSelfCustodyCoins().includes(coin):
-          return __getDynamicSelfCustodyTotalBalance(coin)
-        case coreSelectors.data.coins.getCustodialCoins().includes(coin):
-          return getCoinCustodialBalance(coin)
-        case !!window.coins[coin].coinfig.type.erc20Address:
-          return __getErc20TotalBalance(coin)
-        default:
-          // coin not supported by wallet, just return 0 value
-          return () => Remote.Success(0)
-      }
+      return createDeepEqualSelector(
+        [getCoinNonCustodialBalance(coin), getCoinCustodialBalance(coin)],
+        (balancesR, custodialBalanceR) => {
+          const custodialBalance = custodialBalanceR.getOrElse(0)
+
+          return Remote.of(
+            new BigNumber(balancesR.getOrElse(new BigNumber(0))).plus(custodialBalance).toNumber()
+          )
+        }
+      )
   }
 }
 
@@ -339,19 +322,24 @@ export const getTotalWalletBalancesSorted = createDeepEqualSelector(
 export const getCoinNonCustodialBalance = (
   coin: CoinType
 ): ((state: RootState) => RemoteDataType<string, number | BigNumber>) => {
-  switch (true) {
-    case coin === 'BTC':
-      return __getBtcNonCustodialBalance
-    case coin === 'BCH':
-      return __getBchNonCustodialBalance
-    case coin === 'ETH':
-      return __getEthNonCustodialBalance
-    case coin === 'XLM':
-      return __getXlmNonCustodialBalance
-    case !!window.coins[coin].coinfig.type.erc20Address:
-      return __getErc20NonCustodialBalance(coin)
-    default:
-      throw Error(`Coin "${coin}" not supported by getCoinNonCustodialBalance`)
+  const balance = new BigNumber(0)
+  return (state: RootState) => {
+    return createDeepEqualSelector(
+      [selectors.balancesV2.getUnifiedBalances],
+      (unifiedBalancesR) => {
+        const transform = (unifiedBalances: ExtractSuccess<typeof unifiedBalancesR>) => {
+          unifiedBalances
+            .filter(({ ticker }) => ticker === coin)
+            .forEach(({ amount }) => {
+              balance.plus(amount.amount)
+            })
+
+          return balance
+        }
+
+        return lift(transform)(unifiedBalancesR)
+      }
+    )(state)
   }
 }
 
@@ -366,105 +354,5 @@ export const getCoinBalancesTypeSeparated = (coin) =>
         // @ts-ignore
         custodialBalanceR.getOrElse(0)
       ])
-    }
-  )
-
-//
-// INTERNAL SELECTORS, DO NOT USE OUTSIDE OF THIS FILE!
-//
-
-// returns BTC total balance
-const __getBtcTotalBalance = createDeepEqualSelector(
-  [
-    coreSelectors.wallet.getSpendableContext,
-    coreSelectors.data.btc.getAddresses,
-    getCoinCustodialBalance('BTC')
-  ],
-  (context, addressesR, custodialBalanceR) => {
-    const contextToBalances = (
-      context,
-      balances,
-      custodialBalance: ExtractSuccess<typeof custodialBalanceR>
-    ): Array<number> => {
-      const walletBalances: Array<number> = flatten(context).map((a) =>
-        pathOr(0, [a, 'final_balance'], balances)
-      )
-      return walletBalances.concat(custodialBalance)
-    }
-    const balancesR = lift(contextToBalances)(Remote.of(context), addressesR, custodialBalanceR)
-    return balancesR.map(reduce<number, number>(add, 0))
-  }
-)
-
-// returns BCH total balance
-const __getBchTotalBalance = createDeepEqualSelector(
-  [
-    coreSelectors.kvStore.bch.getSpendableContext,
-    coreSelectors.data.bch.getAddresses,
-    getCoinCustodialBalance('BCH')
-  ],
-  (context, addressesR, custodialBalanceR) => {
-    const contextToBalances = (
-      context,
-      balances,
-      custodialBalance: ExtractSuccess<typeof custodialBalanceR>
-    ) => {
-      const walletBalances: Array<number> = context.map((a) =>
-        pathOr(0, [a, 'final_balance'], balances)
-      )
-      return walletBalances.concat(custodialBalance)
-    }
-    const balancesR = lift(contextToBalances)(Remote.of(context), addressesR, custodialBalanceR)
-    return balancesR.map(reduce<number, number>(add, 0))
-  }
-)
-
-// returns ETH total balance
-const __getEthTotalBalance = createDeepEqualSelector(
-  [getCoinNonCustodialBalance('ETH'), getCoinCustodialBalance('ETH')],
-  (balancesR, custodialBalanceR) => {
-    const custodialBalance = custodialBalanceR.getOrElse(0)
-
-    return Remote.of(
-      new BigNumber(balancesR.getOrElse(new BigNumber(0))).plus(custodialBalance).toNumber()
-    )
-  }
-)
-
-// given an erc20 coin, returns its total balances
-const __getErc20TotalBalance = (coin: CoinType) =>
-  createDeepEqualSelector(
-    [getCoinNonCustodialBalance(coin), getCoinCustodialBalance(coin)],
-    (balanceR, custodialBalanceR) => {
-      const custodialBalance = custodialBalanceR.getOrElse(0)
-
-      return Remote.of(
-        new BigNumber(balanceR.getOrElse(new BigNumber(0))).plus(custodialBalance).toNumber()
-      )
-    }
-  )
-
-// returns XLM total balances
-const __getXlmTotalBalance = createDeepEqualSelector(
-  [getCoinNonCustodialBalance('XLM'), getCoinCustodialBalance('XLM')],
-  (balanceR, custodialBalanceR) => {
-    const custodialBalance = custodialBalanceR.getOrElse(0)
-
-    return Remote.of(
-      new BigNumber(balanceR.getOrElse(new BigNumber(0))).plus(custodialBalance).toNumber()
-    )
-  }
-)
-
-// given a dynamic self custody coin, returns its total balances
-const __getDynamicSelfCustodyTotalBalance = (coin: CoinType) =>
-  createDeepEqualSelector(
-    [getBalance(coin), getCoinCustodialBalance(coin)],
-    (balanceR, custodialBalanceR) => {
-      const custodialBalance = custodialBalanceR.getOrElse(0)
-
-      return Remote.of(
-        new BigNumber(balanceR.getOrElse(new BigNumber(0))).plus(custodialBalance).toNumber()
-      )
     }
   )

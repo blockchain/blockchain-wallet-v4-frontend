@@ -11,14 +11,19 @@ import { dataPath } from '../../paths'
 export const getContext = createDeepEqualSelector(
   [kvStoreSelectors.getContext],
   (walletContextR) => {
+    // @ts-ignore
     return walletContextR.map((x) => x).getOrElse([])
   }
 )
 export const getAddresses = path([dataPath, 'eth', 'addresses'])
 export const getFee = path([dataPath, 'eth', 'fee'])
+// @ts-ignore
 export const getFeeRegular = (state) => getFee(state).map(prop('regular'))
+// @ts-ignore
 export const getFeePriority = (state) => getFee(state).map(prop('priority'))
+// @ts-ignore
 export const getGasLimit = (state) => getFee(state).map(prop('gasLimit'))
+// @ts-ignore
 export const getAddress = (state, address) => getAddresses(state).map(prop(address))
 export const getDefaultAddressBalance = (state) => {
   const defaultAddr = kvStoreSelectors
@@ -29,10 +34,12 @@ export const getDefaultAddressBalance = (state) => {
 }
 export const getLegacyBalance = path([dataPath, 'eth', 'legacy_balance'])
 export const getHeight = path([dataPath, 'eth', 'latest_block'])
+// @ts-ignore
 export const getNonce = (state, address) => getAddresses(state).map(path([address, 'nonce']))
 
 export const getBalance = (state) => {
   const ethData = path([dataPath, 'eth', 'info', 'eth'])(state)
+  // @ts-ignore
   return ethData ? ethData.map(prop('final_balance')) : Remote.NotAsked
 }
 export const getCurrentBalance = () => path([dataPath, 'eth', 'current_balance', 'eth'])
@@ -48,7 +55,8 @@ export const getTransactionHistory = path([dataPath, 'eth', 'transaction_history
 export const getErc20Balance = (state, token) => {
   const tokenData = path([dataPath, 'eth', 'info', token])(state)
   return tokenData
-    ? tokenData.map(prop('balance'))
+    ? // @ts-ignore
+      tokenData.map(prop('balance'))
     : // TODO: erc20 phase 2, default to Remote.NotAsked
       // Remote.NotAsked
       Remote.Success('0')
@@ -64,7 +72,4 @@ export const getErc20TransactionsAtBound = (state, token) => {
 }
 export const getErc20TransactionHistory = (state, token) => {
   return path([dataPath, 'eth', 'transaction_history', token])(state) || Remote.NotAsked
-}
-export const getErc20AccountTokenBalances = (state) => {
-  return state.dataPath.eth.erc20s
 }

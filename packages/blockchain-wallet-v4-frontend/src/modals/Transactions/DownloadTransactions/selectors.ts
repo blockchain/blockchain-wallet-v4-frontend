@@ -33,6 +33,7 @@ const getErc20Data = createSelector(
       return [reportHeaders].concat(transformedData)
     }
     return {
+      // @ts-ignore
       csvData: dataR.map(transform).getOrElse([])
     }
   }
@@ -40,6 +41,7 @@ const getErc20Data = createSelector(
 
 const getEthData = createSelector(
   [selectors.core.data.eth.getTransactionHistory],
+  // @ts-ignore
   (dataR: selectors.core.data.eth.getTransactionHistory) => {
     const transform = (data) => {
       const transformedData = map((tx) => formatTxData(tx, 'ETH'), data)
