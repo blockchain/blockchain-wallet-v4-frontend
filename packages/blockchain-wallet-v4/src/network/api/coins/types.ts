@@ -8,6 +8,19 @@ export type BalanceResponseType = {
   }[]
 }
 
+export type UnifiedBalancesResponseType = {
+  currencies: [
+    {
+      account: { index: number; name: string }
+      amount: { amount: string; precision: number }
+      price: number
+      ticker: string
+      unconfirmed: { amount: string; precision: number }
+    }
+  ]
+  subscriptions: [{ accounts: number; pubKeyCount: number; ticker: string }]
+}
+
 export type BuildTxFeeType = 'LOW' | 'NORMAL' | 'HIGH'
 
 export type BuildTxIntentType = {
@@ -188,3 +201,5 @@ export type BalanceEntryResponseType = {
   ]
   subscriptions: [{ accounts: number; pubKeyCount: string; ticker: string }]
 }
+
+export type ActivityResponseType = {}

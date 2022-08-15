@@ -274,11 +274,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (subscriptions.currencies.length === 0) {
       yield put(actions.balancesV2.initializeSubscriptions())
     } else {
-      yield put(actions.balancesV2.unsubscribe('BTC'))
-      yield put(actions.balancesV2.unsubscribe('BCH'))
-      yield put(actions.balancesV2.unsubscribe('ETH'))
-      yield put(actions.balancesV2.unsubscribe('XLM'))
-      yield put(actions.balancesV2.unsubscribe('STX'))
+      yield put(actions.balancesV2.fetchUnifiedBalances())
     }
   }
 

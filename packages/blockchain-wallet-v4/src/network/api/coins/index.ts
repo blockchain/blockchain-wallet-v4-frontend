@@ -9,7 +9,8 @@ import {
   PubkeyServiceSubscriptions,
   SubscribeRequestType,
   TickerResponseType,
-  TxHistoryResponseType
+  TxHistoryResponseType,
+  UnifiedBalancesResponseType
 } from './types'
 
 export default ({ apiUrl, get, post }) => {
@@ -186,15 +187,13 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  const getUnifiedBalances = ({
-    currencies,
+  const fetchUnifiedBalances = ({
     fiatCurrency,
     guidHash,
     sharedKeyHash
   }: PubkeyServiceAuthenticationInRequestType & {
-    currencies: { ticker: string }[]
     fiatCurrency: string
-  }) =>
+  }): UnifiedBalancesResponseType =>
     post({
       contentType: 'application/json',
       data: {
@@ -202,7 +201,6 @@ export default ({ apiUrl, get, post }) => {
           guidHash,
           sharedKeyHash
         },
-        currencies,
         fiatCurrency
       },
       endPoint: '/wallet-pubkey/balance',
@@ -232,11 +230,11 @@ export default ({ apiUrl, get, post }) => {
     balance,
     buildTx,
     deriveAddress,
+    fetchUnifiedBalances,
     getBtcTicker,
     getCoinPrices,
     getSubscriptions,
     getUnifiedActivity,
-    getUnifiedBalances,
     pushTx,
     subscribe,
     txHistory,

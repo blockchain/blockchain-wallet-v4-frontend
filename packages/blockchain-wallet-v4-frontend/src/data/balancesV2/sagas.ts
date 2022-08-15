@@ -1,6 +1,8 @@
-import { call, select } from '@redux-saga/core/effects'
+import { all, call, put, select } from '@redux-saga/core/effects'
+import BigNumber from 'bignumber.js'
 import BIP39 from 'bip39-light'
 import * as Bitcoin from 'bitcoinjs-lib'
+import { ethers } from 'ethers'
 
 import { APIType } from '@core/network/api'
 import { SubscribeRequestType } from '@core/network/api/coins/types'
@@ -84,9 +86,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         .getDefaultAccount(yield select())
         .getOrFail('No eth account')
       const { label } = ethAccount
-      const { publicKey: ethPublicKey } = Bitcoin.bip32
-        .fromSeed(seed)
-        .derivePath(`m/44'/60'/0'/0/0`)
+      const ethPublicKey = ethers.Wallet.fromMnemonic(mnemonic).publicKey
       accounts.push({
         account: {
           index: 0,
@@ -96,13 +96,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         pubKeys: [
           {
             descriptor: 0,
-            pubKey: ethPublicKey.toString('hex'),
+            pubKey: ethPublicKey.substr(2),
             style: 'SINGLE'
           }
         ]
       })
 
-      // // XLM
+      // XLM
       // const xlmKeyPair = yield call(getKeyPair, mnemonic)
       // accounts.push({
       //   account: {
@@ -132,11 +132,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       })
 
       const fiatCurrency = selectors.core.settings.getCurrency(yield select()).getOrElse('USD')
-      const activity = yield call(api.getUnifiedActivity, { fiatCurrency, guidHash, sharedKeyHash })
-      console.log(activity)
+      // Check for balances
+      const balances: ReturnType<typeof api.fetchUnifiedBalances> = yield call(
+        api.fetchUnifiedBalances,
+        {
+          fiatCurrency,
+          guidHash,
+          sharedKeyHash
+        }
+      )
+      const filteredBalances = balances
+      // If no balance unsubscribe coin
+      yield all(
+        balances.currencies.map(function* (res) {
+          const siblingAccounts = balances.currencies.filter(({ ticker }) => ticker === res.ticker)
+          const someBalance = siblingAccounts.some(({ amount }) =>
+            new BigNumber(amount.amount).isGreaterThan(0)
+          )
+          if (!someBalance) {
+            yield put(A.unsubscribe(res.ticker))
+            filteredBalances.currencies.filter(({ ticker }) => ticker !== res.ticker)
+          }
+        })
+      )
+      yield put(A.fetchUnifiedBalancesSuccess(filteredBalances.currencies))
     } catch (e) {
       const error = errorHandler(e)
-      console.log(error)
+      yield put(A.fetchUnifiedBalancesFailure(error))
     }
   }
 
@@ -145,23 +167,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     try {
       yield call(api.unsubscribe, { currency: action.payload, guidHash, sharedKeyHash })
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.log(e)
     }
   }
 
-  const getUnifiedBalances = function* () {
-    const { guidHash, sharedKeyHash } = yield call(getAuth)
-    const fiatCurrency = selectors.core.settings.getCurrency(yield select()).getOrElse('USD')
-    const balances = yield call(api.getUnifiedBalances, {
-      currencies: [{ ticker: 'BTC' }, { ticker: 'ETH' }],
-      fiatCurrency,
-      guidHash,
-      sharedKeyHash
-    })
+  const fetchUnifiedBalances = function* () {
+    try {
+      yield put(A.fetchUnifiedBalancesLoading())
+      const { guidHash, sharedKeyHash } = yield call(getAuth)
+      const fiatCurrency = selectors.core.settings.getCurrency(yield select()).getOrElse('USD')
+      const balances: ReturnType<typeof api.fetchUnifiedBalances> = yield call(
+        api.fetchUnifiedBalances,
+        {
+          fiatCurrency,
+          guidHash,
+          sharedKeyHash
+        }
+      )
+      yield put(A.fetchUnifiedBalancesSuccess(balances.currencies))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchUnifiedBalancesFailure(error))
+    }
   }
 
   return {
-    getUnifiedBalances,
+    fetchUnifiedBalances,
     initializeSubscriptions,
     unsubscribe
   }
