@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { FormattedMessage } from 'react-intl'
 
 import { Button, Image } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
@@ -37,7 +36,7 @@ export const useBlockedPayments: BlockedPaymentsHook = (selectedMethod) => {
   }, [nabuError, isCardVisible])
 
   const paymentErrorButton = useMemo(() => {
-    if (!isPaymentMethodBlocked) return
+    if (!isPaymentMethodBlocked || !nabuError) return
 
     return (
       <Button
@@ -49,14 +48,11 @@ export const useBlockedPayments: BlockedPaymentsHook = (selectedMethod) => {
       >
         <Flex alignItems='center' gap={8}>
           <Image name='alert-orange' />
-          <FormattedMessage
-            id='EnterAmount.paymentMethodBlockedButton.label'
-            defaultMessage='Buying crypto not supported'
-          />
+          {nabuError.title}
         </Flex>
       </Button>
     )
-  }, [isPaymentMethodBlocked, setCardVisibility])
+  }, [isPaymentMethodBlocked, setCardVisibility, nabuError])
 
   useEffect(() => setCardVisibility(false), [selectedMethod, setCardVisibility])
 
