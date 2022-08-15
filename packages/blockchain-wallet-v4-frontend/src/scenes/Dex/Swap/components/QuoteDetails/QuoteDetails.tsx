@@ -12,7 +12,8 @@ import { model, selectors } from 'data'
 import { DexSwapSettingsForm } from 'data/components/dex/types'
 import { RootState } from 'data/rootReducer'
 
-import { Props as OwnProps } from '../../Swap'
+// TODO: better way to expose props?
+import { Props as OwnProps } from '../../EnterSwapDetails/EnterSwapDetails'
 
 const { DEX_SWAP_SETTINGS_FORM } = model.components.dex
 
@@ -95,6 +96,7 @@ const QuoteDetails = ({
 }: Props) => {
   let isQuoteLoading = true
   let quote
+  // TODO: use useRemote hook
   /* eslint-disable no-return-assign */
   quoteR.cata({
     Failure: () => (isQuoteLoading = true),
