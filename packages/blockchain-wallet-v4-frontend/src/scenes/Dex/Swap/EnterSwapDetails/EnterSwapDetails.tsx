@@ -3,22 +3,19 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconSettings } from '@blockchain-com/icons'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { InjectedFormProps, reduxForm } from 'redux-form'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { Button, Text } from 'blockchain-info-components'
-import Form from 'components/Form/Form'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { DexChain, DexSwapForm, DexSwapSideEnum, ModalName } from 'data/types'
-import { useRemote } from 'hooks'
+import { DexSwapForm, DexSwapSideEnum, DexSwapSteps, ModalName } from 'data/types'
 
-import BaseRateAndFees from './components/BaseRateAndFees'
-import FlipPairButton from './components/FlipPairButton'
-import QuoteDetails from './components/QuoteDetails'
-import SwapPair from './components/SwapPair'
+import BaseRateAndFees from '../components/BaseRateAndFees'
+import FlipPairButton from '../components/FlipPairButton'
+import QuoteDetails from '../components/QuoteDetails'
+import SwapPair from '../components/SwapPair'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
@@ -41,12 +38,6 @@ const SwapWrapper = styled.div`
     margin-top: 8px;
   }
 `
-const LoginInfoText = styled(Text)`
-  margin-top: 24px;
-  font-weight: 500;
-  font-size: 14px;
-  text-align: center;
-`
 const ErrorText = styled(Text)`
   margin-top: 24px;
   font-size: 14px;
@@ -55,7 +46,7 @@ const ErrorText = styled(Text)`
   text-align: center;
 `
 
-const DexSwap = ({
+const EnterSwapDetails = ({
   formActions,
   formValues,
   isAuthenticated,
@@ -66,9 +57,9 @@ const DexSwap = ({
   const [pairAnimate, setPairAnimate] = useState(false)
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
   const { baseToken, counterToken, counterTokenAmount } = formValues || {}
-  const hasQuote = !Remote.NotAsked.is(quoteR)
+  // TODO: useRemote hook
+  const hasQuote = Remote.Success.is(quoteR)
   const hasQuoteError = Remote.Failure.is(quoteR)
-  const { data: currentChain } = useRemote(selectors.components.dex.getCurrentChain)
 
   // event handlers
   const onViewSettings = () => {
@@ -92,7 +83,7 @@ const DexSwap = ({
   }
 
   return (
-    <Form>
+    <>
       <Header>
         <Text color='textBlack' lineHeight='28px' size='24px' weight={600}>
           <FormattedMessage id='copy.swap' defaultMessage='Swap' />
@@ -118,9 +109,8 @@ const DexSwap = ({
           swapSide={DexSwapSideEnum.COUNTER}
         />
       </SwapWrapper>
-      {hasQuote && !hasQuoteError && (
+      {hasQuote && (
         <BaseRateAndFees
-          currentChain={currentChain}
           handleDetailsToggle={onDetailsToggle}
           swapDetailsOpen={isDetailsExpanded}
           walletCurrency={walletCurrency}
@@ -135,21 +125,30 @@ const DexSwap = ({
           quoteR={quoteR}
         />
       )}
-      <Button data-e2e='swap' disabled={!isAuthenticated} fullwidth jumbo nature='primary'>
-        <FormattedMessage id='copy.swap' defaultMessage='Swap' />
+      <Button
+        data-e2e='dexInitSwapBtn'
+        disabled={!hasQuote}
+        // disabled={!isAuthenticated || !hasQuote}
+        fullwidth
+        jumbo
+        nature='primary'
+        onClick={() => formActions.change(DEX_SWAP_FORM, 'step', DexSwapSteps.CONFIRM_SWAP)}
+      >
+        {isAuthenticated ? (
+          <FormattedMessage id='copy.swap' defaultMessage='Swap' />
+        ) : (
+          <FormattedMessage id='copy.login_to_swap' defaultMessage='Signin to Continue' />
+        )}
       </Button>
-      {Remote.Failure.is(quoteR) && (
-        <ErrorText>Failed to obtain quote. Please refresh and try again.</ErrorText>
-      )}
-      {!isAuthenticated && hasQuote && !hasQuoteError && (
-        <LoginInfoText>
+      {hasQuoteError && (
+        <ErrorText>
           <FormattedMessage
-            id='copy.login_to_swap'
-            defaultMessage='Signin to complete your Swap!'
+            id='dex.quote_failure'
+            defaultMessage='Failed to obtain quote. Please refresh and try again.'
           />
-        </LoginInfoText>
+        </ErrorText>
       )}
-    </Form>
+    </>
   )
 }
 
@@ -167,18 +166,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type Props = ConnectedProps<typeof connector> &
-  InjectedFormProps & {
-    currentChain: DexChain | undefined
-  }
+export type Props = ConnectedProps<typeof connector>
 
-const enhance = compose<React.ComponentType>(
-  reduxForm({
-    destroyOnUnmount: false,
-    enableReinitialize: true,
-    form: DEX_SWAP_FORM
-  }),
-  connector
-)
-
-export default enhance(DexSwap)
+export default connector(EnterSwapDetails)
