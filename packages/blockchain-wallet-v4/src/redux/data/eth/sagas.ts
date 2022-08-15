@@ -248,8 +248,10 @@ export default ({ api }: { api: APIType }) => {
       // from previous page is before requested start date
       while (
         currentPage <= Math.ceil(txCount / TX_REPORT_PAGE_SIZE) &&
-        // @ts-ignore
-        isAfter(getUnixTime(prop('timestamp', last(fullTxList))), startDate)
+        isAfter(
+          Number(fullTxList[fullTxList.length - 1].timestamp),
+          getUnixTime(new Date(startDate))
+        )
       ) {
         const txPage = yield call(
           api.getEthTransactionsV2,
