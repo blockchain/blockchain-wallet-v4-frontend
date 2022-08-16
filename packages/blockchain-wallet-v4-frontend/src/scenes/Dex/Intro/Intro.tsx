@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 import { Icon } from '@blockchain-com/constellation'
 import { IconArrowLeft, IconArrowRight } from '@blockchain-com/icons'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
-import { model } from 'data'
+import { actions, model } from 'data'
+import { DexSwapSteps } from 'data/components/dex/types'
 
-import Swap from '../Swap'
-
-const { DEX_INTRO_VIEWED_KEY } = model.components.dex
+const { DEX_INTRO_VIEWED_KEY, DEX_SWAP_FORM } = model.components.dex
 
 const StepBubble = styled.div<{ active?: boolean }>`
   height: 8px;
@@ -38,56 +39,57 @@ const IntroStepWrapper = styled.div`
 `
 
 // TODO: translations once copy is finalized
-// TODO: create stepper and step templates once designs finalized
-const DexIntro = () => {
-  const [wasIntroViewed, setIntroViewed] = useState(false)
-
-  return wasIntroViewed ? (
-    <Swap />
-  ) : (
-    <>
-      <Image width='100%' height='100px' name='nft-img-placeholder' />
-      <IntroWrapper>
-        <Text
-          color='textBlack'
-          lineHeight='32px'
-          size='24px'
-          weight={600}
-          style={{ margin: '20px 0 8px' }}
-        >
-          Welcome to the DEX
-        </Text>
-        <Text color='grey600' lineHeight='24px' size='16px' weight={500}>
-          A Decentralized Exchange (DEX) is a way to swap and exchange cryptocurrencies on-chain.
-        </Text>
-      </IntroWrapper>
-      <IntroStepWrapper>
-        <Icon label='step back' color='blue600' size='md'>
-          <IconArrowLeft />
-        </Icon>
-        <StepBubblesWrapper>
-          <StepBubble active />
-          <StepBubble />
-          <StepBubble />
-        </StepBubblesWrapper>
-        <Icon label='step forward' color='blue600' size='md'>
-          <IconArrowRight />
-        </Icon>
-      </IntroStepWrapper>
-      <Button
-        data-e2e='startTrading'
-        fullwidth
-        jumbo
-        nature='primary'
-        onClick={() => {
-          localStorage.setItem(DEX_INTRO_VIEWED_KEY, 'true')
-          setIntroViewed(true)
-        }}
+const DexIntro = ({ formActions }: Props) => (
+  <>
+    <Image width='100%' height='100px' name='nft-img-placeholder' />
+    <IntroWrapper>
+      <Text
+        color='textBlack'
+        lineHeight='32px'
+        size='24px'
+        weight={600}
+        style={{ margin: '20px 0 8px' }}
       >
-        Start Trading
-      </Button>
-    </>
-  )
-}
+        Welcome to the DEX
+      </Text>
+      <Text color='grey600' lineHeight='24px' size='16px' weight={500}>
+        A Decentralized Exchange (DEX) is a way to swap and exchange cryptocurrencies on-chain.
+      </Text>
+    </IntroWrapper>
+    <IntroStepWrapper>
+      <Icon label='step back' color='blue600' size='md'>
+        <IconArrowLeft />
+      </Icon>
+      <StepBubblesWrapper>
+        <StepBubble active />
+        <StepBubble />
+        <StepBubble />
+      </StepBubblesWrapper>
+      <Icon label='step forward' color='blue600' size='md'>
+        <IconArrowRight />
+      </Icon>
+    </IntroStepWrapper>
+    <Button
+      data-e2e='startTrading'
+      fullwidth
+      jumbo
+      nature='primary'
+      onClick={() => {
+        localStorage.setItem(DEX_INTRO_VIEWED_KEY, 'true')
+        formActions.change(DEX_SWAP_FORM, 'step', DexSwapSteps.ENTER_DETAILS)
+      }}
+    >
+      Start Trading
+    </Button>
+  </>
+)
 
-export default DexIntro
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(DexIntro)

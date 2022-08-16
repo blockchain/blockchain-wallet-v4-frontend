@@ -15,6 +15,7 @@ import {
 } from 'components/Flyout/model'
 
 import { Props } from '../template.success'
+import { DisplayIcon, DisplayIconAligned } from './Payment.styles'
 
 const RightArrowIcon = styled(Icon)<{
   disabled?: boolean
@@ -95,17 +96,22 @@ const Payment: React.FC<Props> = (props: Props) => {
         data-e2e='paymentMethodSelect'
         onClick={onPaymentMethodClick}
         disabled={props.isSddFlow}
+        style={{ alignItems: 'flex-start' }}
       >
-        <DisplayPaymentIcon showBackground={!props.method}>{renderIcon()}</DisplayPaymentIcon>
+        <DisplayIcon>
+          <DisplayPaymentIcon showBackground={!props.method}>{renderIcon()}</DisplayPaymentIcon>
+        </DisplayIcon>
 
         <PaymentText style={{ minWidth: 0 }} isMethod={!!props.method}>
           {renderText()}
         </PaymentText>
 
         {!props.isSddFlow && (
-          <PaymentArrowContainer>
-            <RightArrowIcon cursor name='arrow-back' size='20px' color='grey600' />
-          </PaymentArrowContainer>
+          <DisplayIconAligned>
+            <PaymentArrowContainer>
+              <RightArrowIcon cursor name='arrow-back' size='20px' color='grey600' />
+            </PaymentArrowContainer>
+          </DisplayIconAligned>
         )}
       </Box>
     </>

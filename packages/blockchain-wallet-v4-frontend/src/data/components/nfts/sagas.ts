@@ -661,8 +661,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(actions.alerts.displaySuccess('Transfer successful!'))
       yield put(
         actions.analytics.trackEvent({
-          key: Analytics.NFT_SEND_SUCCESS_FAIL,
+          key: Analytics.NFT_TRANSFER_SUCCESS_FAIL,
           properties: {
+            collection_name: action.payload.asset.collection.name,
+            contract_address: action.payload.asset.asset_contract.address,
+            from: signer.address,
+            to: action.payload.to,
+            token_id: action.payload.asset.token_id,
             type: 'SUCCESS'
           }
         })

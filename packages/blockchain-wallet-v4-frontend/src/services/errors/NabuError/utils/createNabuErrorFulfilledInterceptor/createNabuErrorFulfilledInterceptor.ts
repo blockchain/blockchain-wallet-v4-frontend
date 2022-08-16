@@ -8,7 +8,9 @@ const createNabuErrorFulfilledInterceptor: CreateNabuErrorFulfilledInterceptorUt
       const data = response?.data
 
       if (!!data && isNabuErrorInNetworkResponse(data)) {
-        const error = new NabuError(data.ux)
+        const { ux, ...dataFields } = data
+
+        const error = new NabuError({ ...ux, dataFields })
 
         return Promise.reject(error)
       }

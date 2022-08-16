@@ -38,12 +38,18 @@ export enum DexSwapSideEnum {
   COUNTER = 'counterToken'
 }
 
+export enum DexSwapSteps {
+  CONFIRM_SWAP = 'CONFIRM_SWAP',
+  ENTER_DETAILS = 'ENTER_DETAILS'
+}
+
 export type DexSwapForm = {
   baseToken?: CoinType
   baseTokenAmount?: number | string
   counterToken?: CoinType
   counterTokenAmount?: number | string
   slippage?: string | null
+  step: DexSwapSteps
 }
 
 export type DexSwapSettingsForm = {

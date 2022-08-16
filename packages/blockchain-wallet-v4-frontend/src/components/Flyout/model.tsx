@@ -28,6 +28,8 @@ import {
 } from 'components/BuySell'
 import { GreyCartridge, OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
+import { Padding } from 'components/Padding'
+import { Tag } from 'components/Tag'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   ActionEnum,
@@ -681,6 +683,11 @@ const renderCard = (value: BSPaymentMethodType) => (
   <>
     <DisplayValue capitalize>{renderCardText(value)}</DisplayValue>
     <DisplayTitle>{renderCardSubtitle(value)}</DisplayTitle>
+    {value.block === false && !!value.ux?.title && (
+      <Padding top={8}>
+        <Tag variant='warning'>{value.ux?.title}</Tag>
+      </Padding>
+    )}
   </>
 )
 

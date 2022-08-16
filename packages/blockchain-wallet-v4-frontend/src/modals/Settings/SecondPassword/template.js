@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -16,6 +17,7 @@ import {
 } from 'blockchain-info-components'
 import Form from 'components/Form/Form'
 import FormLabel from 'components/Form/FormLabel'
+import { Padding } from 'components/Padding'
 
 const SecPasswordHeader = styled(ModalHeader)`
   border-bottom: 0;
@@ -24,6 +26,10 @@ const SecPasswordHeader = styled(ModalHeader)`
 
 const PurposeContainer = styled.div`
   padding: 6px 30px 0px 30px;
+`
+
+const RemovePassword = styled(Text)`
+  cursor: pointer;
 `
 
 const PURPOSES = {
@@ -56,6 +62,14 @@ const SecondPassword = (props) => {
           <PurposeContainer>{purposes.map((purpose) => PURPOSES[purpose])}</PurposeContainer>
         ) : null}
         <ModalBody>
+          <Padding bottom='1em'>
+            <Text color='grey600' weight={500} size='16px'>
+              <FormattedMessage
+                id='modals.secondpassword.requesting_second_password'
+                defaultMessage='We are requesting second password for your security. You can change this in settings.'
+              />
+            </Text>
+          </Padding>
           <FormLabel>
             <FormattedMessage
               id='modals.secondpassword.explain1'
@@ -66,12 +80,23 @@ const SecondPassword = (props) => {
             value={value}
             onChange={handleChange}
             data-e2e='secondPasswordModalInput'
+            placeholder='Enter second password'
           />
+          <Padding top='.5em'>
+            <LinkContainer to='/security-center/advanced'>
+              <RemovePassword size='12px' weight={500} color='blue600' lineHeight='16px'>
+                <FormattedMessage
+                  id='modals.secondpassword.remove_pasword'
+                  defaultMessage='Remove second password?'
+                />
+              </RemovePassword>
+            </LinkContainer>
+          </Padding>
         </ModalBody>
         <ModalFooter align='spaced'>
-          <Link size='13px' weight={400} onClick={close} data-e2e='secondPasswordModalCancelButton'>
+          <Button nature='empty-blue' onClick={close} data-e2e='secondPasswordModalCancelButton'>
             <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
-          </Link>
+          </Button>
           <Button
             type='submit'
             nature='primary'

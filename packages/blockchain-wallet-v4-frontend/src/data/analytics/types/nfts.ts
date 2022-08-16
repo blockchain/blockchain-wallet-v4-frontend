@@ -5,8 +5,10 @@ export enum Events {
   NFT_ACTIVITY_CANCEL_CLICKED = 'NFT Activity Cancel Clicked',
   NFT_ACTIVITY_CHART_ENGAGED = 'NFT Activity Chart Engaged',
   NFT_AMOUNT_ENTERED_SWITCHED = 'NFT Amount Entered Switched',
+  NFT_ASSET_CLICKED = 'NFT Asset Clicked',
   NFT_ATTRIBUTES_CLICKED = 'NFT Attributes Clicked',
   NFT_BUY_NOW_CLICKED = 'NFT Buy Now Clicked',
+  NFT_BUY_ON_OPENSEA_CLICKED = 'NFT Buy On Opensea Clicked',
   NFT_BUY_SUCCESS_FAIL = 'NFT Buy Success/Fail',
   NFT_CANCEL_LISTING_CLICKED = 'NFT Cancel Listing Clicked',
   NFT_CANCEL_LISTING_SUCCESS_FAIL = 'NFT Cancel Listing Success/Fail',
@@ -20,6 +22,7 @@ export enum Events {
   NFT_FILTER_LISTING_TYPE = 'NFT Filter Listing Type',
   NFT_FILTER_PRICE_APPLIED = 'NFT Filter Price Applied',
   NFT_FILTER_REMOVED = 'NFT Filter Removed',
+  NFT_GET_STARTED_CLICKED = 'NFT Get Started Clicked',
   NFT_GO_TO_PORTFOLIO_CLICKED = 'NFT Go To Portfolio Clicked',
   NFT_LEFT_MENU_CLOSED = 'NFT Left Menu Closed',
   NFT_LEFT_MENU_EXPANDED = 'NFT Left Menu Expanded',
@@ -41,6 +44,7 @@ export enum Events {
   NFT_SEND_SUCCESS_FAIL = 'NFT Send Success/Fail',
   NFT_SHARE_CLICKED = 'NFT Share Clicked',
   NFT_TRANSFER_CLICKED = 'NFT Transfer Clicked',
+  NFT_TRANSFER_SUCCESS_FAIL = 'NFT Transfer Success-Fail',
   NFT_VIEW_BUTTON_VIEWED = 'NFT View Button Viewed',
   NFT_VIEW_SUBMITTED_OFFER_CLICKED = 'NFT View Submitted Offer Clicked'
 }
@@ -85,6 +89,15 @@ type AmountEnteredSwitchedAction = {
   properties: {}
 }
 
+type AssetClickedAction = {
+  key: Events.NFT_ASSET_CLICKED
+  properties: {
+    collection_name: string
+    contract_address: string
+    token_id: string
+  }
+}
+
 type AttributesClickedAction = {
   key: Events.NFT_ATTRIBUTES_CLICKED
   properties: {
@@ -101,6 +114,11 @@ type BuyNowClickedAction = {
     collection: string
     collection_id: string
   }
+}
+
+type BuyOnOpenSeaClickedAction = {
+  key: Events.NFT_BUY_ON_OPENSEA_CLICKED
+  properties: {}
 }
 
 type BuySuccessFailAction = {
@@ -203,6 +221,11 @@ type FilterRemovedAction = {
   properties: {
     filter_characteristic: string
   }
+}
+
+type GetStartedClickedAction = {
+  key: Events.NFT_GET_STARTED_CLICKED
+  properties: {}
 }
 
 type GoToPortfolioClickedAction = {
@@ -336,6 +359,18 @@ type TransferClickedAction = {
   properties: {}
 }
 
+type TransferSuccessFailAction = {
+  key: Events.NFT_TRANSFER_SUCCESS_FAIL
+  properties: {
+    collection_name: string
+    contract_address: string
+    from: string
+    to: string
+    token_id: string
+    type: Type
+  }
+}
+
 type ViewButtonViewedAction = {
   key: Events.NFT_VIEW_BUTTON_VIEWED
   properties: {}
@@ -352,8 +387,10 @@ export type TrackEventAction =
   | ActivityCancelClickedAction
   | ActivityChartEngagedAction
   | AmountEnteredSwitchedAction
+  | AssetClickedAction
   | AttributesClickedAction
   | BuyNowClickedAction
+  | BuyOnOpenSeaClickedAction
   | BuySuccessFailAction
   | CancelListingSuccessFailAction
   | CancelOfferSuccessFailAction
@@ -368,6 +405,7 @@ export type TrackEventAction =
   | FilterListingTypeAction
   | FilterPriceAppliedAction
   | FilterRemovedAction
+  | GetStartedClickedAction
   | GoToPortfolioClickedAction
   | LeftMenuClosedAction
   | LeftMenuExpandedAction
@@ -388,5 +426,6 @@ export type TrackEventAction =
   | SendSuccessFailAction
   | ShareClickedAction
   | TransferClickedAction
+  | TransferSuccessFailAction
   | ViewButtonViewedAction
   | ViewSubmittedOfferClickedAction

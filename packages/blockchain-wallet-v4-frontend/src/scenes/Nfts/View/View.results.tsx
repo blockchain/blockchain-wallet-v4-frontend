@@ -8,22 +8,29 @@ import { NftAsset } from '@core/network/api/nfts/types'
 import { Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
+import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 import { EmptyState, ResultImg } from '../AssetViewOnly/AssetViewOnly'
 
 const NftViewResults: React.FC<Props> = (props) => {
-  const { asset, nftsActions } = props
-
+  const { analyticsActions, asset, nftsActions } = props
+  const clickAsset = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_ASSET_CLICKED,
+      properties: {
+        collection_name: asset.collection.name,
+        contract_address: asset.asset_contract.address,
+        token_id: asset.token_id
+      }
+    })
+    nftsActions.setViewOrder({ viewOrder: asset })
+  }
   return (
     <>
       {asset.image_url ? (
         <LinkContainer to={`/nfts/assets/${asset.asset_contract?.address}/${asset.token_id}`}>
-          <ResultImg
-            onClick={() => nftsActions.setViewOrder({ viewOrder: asset })}
-            alt='Asset Logo'
-            src={asset.image_url}
-          />
+          <ResultImg onClick={clickAsset} alt='Asset Logo' src={asset.image_url} />
         </LinkContainer>
       ) : (
         <EmptyState>
@@ -40,6 +47,7 @@ const NftViewResults: React.FC<Props> = (props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   nftsActions: bindActionCreators(actions.components.nfts, dispatch)
 })
 
