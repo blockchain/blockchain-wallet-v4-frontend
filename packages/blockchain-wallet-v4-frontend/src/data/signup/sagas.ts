@@ -1,6 +1,6 @@
 import base64url from 'base64url'
 import { startSubmit, stopSubmit } from 'redux-form'
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
@@ -16,6 +16,7 @@ import {
   ModalName,
   PlatformTypes,
   ProductAuthOptions,
+  RecoverSteps,
   SignupRedirectTypes
 } from 'data/types'
 import * as C from 'services/alerts'
@@ -331,12 +332,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const pollForResetApproval = function* () {
-    const { recoveryEmail } = yield select(selectors.form.getFormValues(RECOVER_FORM))
-    const sessionToken = yield select(selectors.session.getWalletSessionId, null, recoveryEmail)
-    yield call(api.pollForResetApprovalStatus, sessionToken)
-  }
-
   const approveAccountReset = function* () {
     try {
       yield put(actions.signup.accountRecoveryVerifyLoading())
@@ -355,6 +350,32 @@ export default ({ api, coreSagas, networks }) => {
       // TODO: handle error
       yield put(actions.signup.accountRecoveryVerifyFailure(e))
     }
+  }
+
+  const pollForResetApproval = function* (sessionToken, n = 50) {
+    if (n === 0) {
+      yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.FORGOT_PASSWORD_EMAIL))
+      yield put(actions.alerts.displayInfo(C.VERIFY_DEVICE_EXPIRY, undefined, true))
+
+      return false
+    }
+    try {
+      yield delay(2000)
+      const response = yield call(api.pollForResetApprovalStatus, sessionToken)
+
+      if (response?.token) {
+        yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
+        return true
+      }
+      if (response?.request_denied) {
+        yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.FORGOT_PASSWORD_EMAIL))
+        yield put(actions.alerts.displayError(C.VERIFY_DEVICE_FAILED, undefined, true))
+        return false
+      }
+    } catch (error) {
+      return false
+    }
+    return yield call(pollForResetApproval, sessionToken, n - 1)
   }
 
   return {
