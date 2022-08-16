@@ -46,7 +46,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchCoinData = function* (action: ReturnType<typeof A.fetchData>) {
+  const fetchCoinData = function* (action: ReturnType<typeof A.fetchCoinData>) {
     const { list, password } = action.payload
 
     try {
@@ -63,7 +63,7 @@ export default ({ api }: { api: APIType }) => {
 
             // TODO: SELF_CUSTODY
             yield put(
-              A.fetchDataSuccess(
+              A.fetchCoinDataSuccess(
                 coin,
                 results[0].balances
                   .reduce((acc, curr) => acc.plus(curr.amount), new BigNumber(0))
@@ -72,7 +72,7 @@ export default ({ api }: { api: APIType }) => {
             )
           } catch (e) {
             const error = errorHandler(e)
-            yield put(A.fetchDataFailure(error, coin))
+            yield put(A.fetchCoinDataFailure(error, coin))
           }
         })
       )

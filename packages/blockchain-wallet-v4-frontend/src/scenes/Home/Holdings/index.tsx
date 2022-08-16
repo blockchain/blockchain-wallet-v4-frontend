@@ -2,11 +2,14 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { Icon as IconV2 } from '@blockchain-com/constellation'
+import { IconRefresh } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { ExtractSuccess } from '@core/remote/types'
 import { Icon, Link, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { media } from 'services/styles'
 
@@ -83,10 +86,31 @@ const HoldingsTableContainer = (props: Props) => (
       </LinkContainer>
     </TitleWrapper>
     {props.data.cata({
-      Failure: (e) => (
-        <Text size='16px' weight={500} color='grey400' capitalize>
-          {e?.toString() || 'Failed to load balances'}
-        </Text>
+      Failure: () => (
+        <>
+          <Flex alignItems='flex-end'>
+            <Text size='14px' weight={500} color='red600' capitalize>
+              <FormattedMessage
+                id='copy.failed_to_load_balances'
+                defaultMessage='Failed to load balances.'
+              />
+            </Text>{' '}
+            <Text
+              style={{ alignItems: 'center', display: 'flex', gap: '2px' }}
+              onClick={() => props.balancesV2Actions.fetchUnifiedBalances()}
+              cursor='pointer'
+              color='blue600'
+              size='14px'
+              weight={600}
+            >
+              <FormattedMessage id='copy.try_again' defaultMessage='Try Again' />
+              <IconV2 size='sm' color='blue600' label='refresh'>
+                <IconRefresh />
+              </IconV2>
+            </Text>
+          </Flex>
+          <Loading />
+        </>
       ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
@@ -101,7 +125,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.components.refresh, dispatch)
+  actions: bindActionCreators(actions.components.refresh, dispatch),
+  balancesV2Actions: bindActionCreators(actions.balancesV2, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
