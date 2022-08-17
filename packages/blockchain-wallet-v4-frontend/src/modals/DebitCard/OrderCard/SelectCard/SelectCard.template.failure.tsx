@@ -14,17 +14,17 @@ type Props = {
   handleRetry: () => void
 }
 
-const TerminateFailureStep = ({ handleClose, handleRetry }: Props) => (
+const Failure = ({ handleClose, handleRetry }: Props) => (
   <FlyoutContainer>
-    <FlyoutHeader data-e2e='terminateFailedHeader' mode='close' onClick={handleClose} />
+    <FlyoutHeader data-e2e='creationFailedHeader' mode='close' onClick={handleClose} />
     <FlyoutContent mode='middle'>
       <ResultWrapper>
         <Image name='order-failed' />
         <Flex gap={8} flexDirection='column'>
           <ResultTitleWrapper>
             <FormattedMessage
-              id='modals.terminate_card.failure.title'
-              defaultMessage='Failed To Terminate Your Card'
+              id='modals.order_my_card.creation_failed.title'
+              defaultMessage='Failed To Successfully Create Your Card'
             />
           </ResultTitleWrapper>
           <ResultSubTitleWrapper>
@@ -36,15 +36,10 @@ const TerminateFailureStep = ({ handleClose, handleRetry }: Props) => (
         </Flex>
 
         <Flex gap={16} flexDirection='column'>
-          <Button fullwidth data-e2e='retryTerminationBtn' nature='primary' onClick={handleRetry}>
+          <Button fullwidth data-e2e='retryCreationBtn' nature='primary' onClick={handleRetry}>
             <FormattedMessage id='copy.retry' defaultMessage='Retry' />
           </Button>
-          <Button
-            fullwidth
-            data-e2e='cancelTerminationBtn'
-            nature='empty-blue'
-            onClick={handleClose}
-          >
+          <Button fullwidth data-e2e='cancelCreationBtn' nature='empty-blue' onClick={handleClose}>
             <FormattedMessage id='buttons.cancel_goback' defaultMessage='Cancel & Go Back' />
           </Button>
         </Flex>
@@ -53,4 +48,4 @@ const TerminateFailureStep = ({ handleClose, handleRetry }: Props) => (
   </FlyoutContainer>
 )
 
-export default TerminateFailureStep
+export default Failure

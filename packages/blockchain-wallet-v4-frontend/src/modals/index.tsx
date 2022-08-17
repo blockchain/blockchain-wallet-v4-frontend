@@ -4,7 +4,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { selectors } from 'data'
 import { ModalName } from 'data/types'
 
-import CustomizableConfirm from './CustomizableConfirm'
 // Do not lazy load this modal
 import NewVersionAvailable from './Settings/NewVersionAvailable'
 
@@ -28,10 +27,11 @@ const VerifyMessage = React.lazy(() => import('./Btc/VerifyMessage'))
 const SendBch = React.lazy(() => import('./Bch/SendBch'))
 
 // Debit Card
-const OrderMyCard = React.lazy(() => import('./DebitCard/OrderMyCard'))
+const OrderCard = React.lazy(() => import('./DebitCard/OrderCard'))
 const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
 const TransactionDetail = React.lazy(() => import('./DebitCard/TransactionDetail'))
 const FundsList = React.lazy(() => import('./DebitCard/FundsList'))
+const CustomizableConfirm = React.lazy(() => import('./CustomizableConfirm'))
 
 // DEX
 const DexSwapSettings = React.lazy(() => import('./Dex/SwapSettings'))
@@ -220,8 +220,8 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.NABU_USER_CONFLICT_REDIRECT) ? (
           <NabuUserConflictRedirect />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.ORDER_MY_CARD) ? (
-          <OrderMyCard />
+        {props.modals.find((modal) => modal.type === ModalName.ORDER_MY_CARD_MODAL) ? (
+          <OrderCard />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.PAIRING_CODE_MODAL) ? (
           <PairingCode />
@@ -278,13 +278,13 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.TERMINATE_CARD) ? (
           <TerminateCard />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_DETAIL) ? (
+        {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_DETAIL_MODAL) ? (
           <TransactionDetail />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS) ? (
+        {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS_MODAL) ? (
           <TermsAndConditions disableOutsideClose />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.VERIFY_NOTICE) ? (
+        {props.modals.find((modal) => modal.type === ModalName.VERIFY_NOTICE_MODAL) ? (
           <VerifyNotice disableOutsideClose />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRADE_MODAL) ? <Trade /> : null}

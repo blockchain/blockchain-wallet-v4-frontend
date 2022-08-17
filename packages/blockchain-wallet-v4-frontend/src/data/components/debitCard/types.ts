@@ -1,6 +1,8 @@
 // State
 import { RemoteDataType } from '@core/remote/types'
 
+import { OrderCardStep } from './model'
+
 export type DebitCardState = {
   cardCreationData: RemoteDataType<string, string>
   cardToken: string
@@ -9,7 +11,9 @@ export type DebitCardState = {
   currentCardSelected: DebitCardType | undefined
   eligibleAccounts: RemoteDataType<string, Array<AccountType>>
   lockHandler: RemoteDataType<string, boolean>
+  orderCardStep: OrderCardStep
   products: Array<ProductType>
+  residentialAddress: RemoteDataType<string, ResidentialAddress>
   selectAccountHandler: RemoteDataType<string, string>
   terminateHandler: RemoteDataType<string, string>
   transactions: RemoteDataType<string, Array<CardTransaction>>
@@ -83,4 +87,13 @@ export type CardTransaction = {
   state: TransactionState
   type: TransactionType
   userTransactionTime: string
+}
+
+export type ResidentialAddress = {
+  city: string
+  country: string
+  line1: string
+  line2: string
+  postCode: string
+  state: string
 }

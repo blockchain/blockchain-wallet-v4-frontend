@@ -16,5 +16,11 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.selectAccount.type, debitCardSagas.selectAccount)
     yield takeLatest(actions.getCardTransactions.type, debitCardSagas.getCardTransactions)
     yield takeLatest(actions.getCurrentCardAccount.type, debitCardSagas.getCurrentCardAccount)
+    yield takeLatest(actions.getResidentialAddress.type, debitCardSagas.getResidentialAddress)
+    yield takeLatest(actions.submitResidentialAddress.type, debitCardSagas.submitResidentialAddress)
+    yield takeLatest(
+      actions.submitSocialSecurityNumber.type,
+      debitCardSagas.submitSocialSecurityNumber
+    )
   }
 }
