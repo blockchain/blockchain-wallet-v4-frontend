@@ -86,7 +86,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         .getDefaultAccount(yield select())
         .getOrFail('No eth account')
       const { label } = ethAccount
-      const ethPublicKey = ethers.Wallet.fromMnemonic(mnemonic).publicKey
+      const { publicKey: ethPublicKey } = Bitcoin.bip32
+        .fromSeed(seed)
+        .derivePath(`m/44'/60'/0'/0/0`)
       accounts.push({
         account: {
           index: 0,
@@ -96,24 +98,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         pubKeys: [
           {
             descriptor: 0,
-            pubKey: ethPublicKey.substr(2),
+            pubKey: ethPublicKey.toString('hex'),
             style: 'SINGLE'
           }
         ]
       })
 
       // XLM
-      // const xlmKeyPair = yield call(getKeyPair, mnemonic)
-      // accounts.push({
-      //   account: {
-      //     index: 0,
-      //     name: 'Private Key Wallet'
-      //   },
-      //   currency: 'XLM',
-      //   pubKeys: [
-      //     { descriptor: 0, pubKey: xlmKeyPair.rawPublicKey().toString('hex'), style: 'SINGLE' }
-      //   ]
-      // })
+      const xlmKeyPair = yield call(getKeyPair, mnemonic)
+      accounts.push({
+        account: {
+          index: 0,
+          name: 'Private Key Wallet'
+        },
+        currency: 'XLM',
+        pubKeys: [
+          { descriptor: 0, pubKey: xlmKeyPair.rawPublicKey().toString('hex'), style: 'SINGLE' }
+        ]
+      })
 
       // STX
       const { publicKey: stxPubKey } = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/5757'/0'/0/0`)
