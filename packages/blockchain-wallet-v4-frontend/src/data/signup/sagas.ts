@@ -344,13 +344,11 @@ export default ({ api, coreSagas, networks }) => {
     try {
       // TODO: confirm session token logic
       yield put(startSubmit(RECOVER_FORM))
-      let sessionToken
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.RECOVER)
-      sessionToken = yield select(selectors.session.getSession, null, email)
-      if (!sessionToken) {
-        sessionToken = yield call(api.obtainSessionToken)
-        yield put(actions.session.saveWalletSession({ email, id: sessionToken }))
-      }
+
+      const sessionToken = yield call(api.obtainSessionToken)
+      yield put(actions.session.saveRecoverSession({ email, id: sessionToken }))
+
       yield call(api.triggerResetAccountEmail, captchaToken, email, sessionToken)
       yield put(stopSubmit(RECOVER_FORM))
       yield call(pollForResetApproval, sessionToken)
@@ -370,7 +368,7 @@ export default ({ api, coreSagas, networks }) => {
         base64url.decode(accountRecoveryDataEncoded)
       ) as AccountRecoveryMagicLinkData
       const { email, recovery_token: token, userId } = accountRecoveryData
-      const sessionToken = yield select(selectors.session.getWalletSessionId, null, email)
+      const sessionToken = yield select(selectors.session.getRecoverSessionId, email)
       yield call(api.approveAccountReset, email, sessionToken, token, userId)
       yield put(actions.signup.accountRecoveryVerifySuccess(true))
     } catch (e) {
