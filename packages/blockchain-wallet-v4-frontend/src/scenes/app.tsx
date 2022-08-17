@@ -166,13 +166,13 @@ const App = ({
                             component={ResetWallet2faToken}
                             pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
                           />
-                          {isAuthenticated && (
-                            <AuthLayout
-                              path='/setup-two-factor'
-                              component={TwoStepVerification}
-                              pageTitle={`${BLOCKCHAIN_TITLE} | Setup 2FA`}
-                            />
-                          )}
+                          {/* {isAuthenticated && ( */}
+                          <AuthLayout
+                            path='/setup-two-factor'
+                            component={TwoStepVerification}
+                            pageTitle={`${BLOCKCHAIN_TITLE} | Setup 2FA`}
+                          />
+                          {/* )} */}
                           <AuthLayout
                             path='/signup'
                             component={Signup}

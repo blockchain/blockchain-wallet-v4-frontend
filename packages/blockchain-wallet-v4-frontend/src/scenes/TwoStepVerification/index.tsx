@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
-import { InjectedFormProps } from 'redux-form'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import Form from 'components/Form/Form'
 import { actions, selectors } from 'data'
@@ -10,7 +10,7 @@ import { RootState } from 'data/rootReducer'
 import { Props as ResetProps } from '../..'
 import Authenticator from './Authenticator'
 import ChooseTwoFA from './ChoooseTwoFA'
-import { FormWrapper, TwoFactorSetupSteps } from './model'
+import { FormWrapper, SETUP_TWO_FACTOR, TwoFactorSetupSteps } from './model'
 import SMS from './SMS'
 import Yubikey from './Yubikey'
 
@@ -62,4 +62,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export default connector(TwoStepVerification)
+const enhance = compose<React.ComponentType>(
+  reduxForm({
+    destroyOnUnmount: false,
+    form: SETUP_TWO_FACTOR
+  }),
+  connector
+)
+
+export default enhance(TwoStepVerification)

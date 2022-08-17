@@ -7,7 +7,7 @@ import { Wrapper } from 'components/Public'
 import { ProductAuthOptions, RecoverSteps } from 'data/types'
 import { media } from 'services/styles'
 
-export const RECOVER_FORM = 'recover'
+export const SETUP_TWO_FACTOR = 'setupTwoFactor'
 
 export const ActionButton = styled(Button)`
   margin-top: 15px;

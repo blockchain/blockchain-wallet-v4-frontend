@@ -38,6 +38,7 @@ export type WalletFormType =
   | 'requestCrypto'
   | 'sendCrypto'
   | 'settingsNotifications'
+  | 'setupTwoFactor'
   | 'swapAmount'
   | 'swapOrderDetails'
   | 'transferEth'
