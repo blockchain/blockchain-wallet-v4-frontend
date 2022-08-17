@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
