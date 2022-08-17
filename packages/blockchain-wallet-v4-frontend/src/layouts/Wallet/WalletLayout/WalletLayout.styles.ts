@@ -17,7 +17,7 @@ const Nav = styled.div`
   flex: 0 0 60px;
   background-color: ${(props) => props.theme.white};
 `
-const Content = styled.div<{ center?: boolean }>`
+const Content = styled.div<{ center?: boolean; removeContentPadding?: boolean }>`
   box-sizing: border-box;
   position: relative;
   display: flex;
@@ -34,7 +34,7 @@ const Content = styled.div<{ center?: boolean }>`
       justify-content: center;
     `}
   background-color: ${(props) => props.theme.white};
-  padding: 32px 28px 16px 36px;
+  ${({ removeContentPadding }) => (removeContentPadding ? '' : 'padding: 32px 28px 16px 36px;')}
   ${media.tablet`
     padding: 8px 16px;
     width: 100%;

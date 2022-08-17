@@ -78,7 +78,7 @@ const Header = (props: OwnProps) => {
 
   if (props.invitations.nftBuySell) {
     primaryNavItems.push({
-      dest: '/nfts/home',
+      dest: '/nfts/view',
       e2e: 'nftsLink',
       text: <FormattedMessage id='layouts.wallet.menuleft.navigation.nfts' defaultMessage='NFTs' />
     })

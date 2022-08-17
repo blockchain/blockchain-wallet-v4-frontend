@@ -111,7 +111,7 @@ export type ModalOriginType =
   | 'CoinPageHoldings'
   | 'CompleteProfileBanner'
   | 'CompleteProfile'
-  | 'DebitCardPage'
+  | 'DebitCard'
   | 'DebitCardDashboard'
   | 'DepositWithdrawalModal'
   | 'Dex'

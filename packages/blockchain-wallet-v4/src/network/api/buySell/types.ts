@@ -8,6 +8,7 @@ import {
   RecurringBuyFailureReasons,
   RecurringBuyPeriods
 } from 'data/types'
+import { NabuErrorProps } from 'services/errors'
 
 export type IBSAccountType = {
   address: string
@@ -146,6 +147,7 @@ export type BSPaymentMethodType = {
   attributes?: {
     requiresRefresh?: true
   }
+  block?: boolean
   card?: BSCard
   cardFundSources?: CardFundSourceType[]
   currency: FiatType
@@ -161,6 +163,7 @@ export type BSPaymentMethodType = {
   state?: 'ACTIVE' | Exclude<BSCardStateType, 'ACTIVE'>
   subTypes?: [] | [CardNameType]
   type: BSPaymentTypes
+  ux?: NabuErrorProps
 }
 
 export type BSPaymentMethodsType = {

@@ -18,14 +18,29 @@ const DebitCard = ({
   cardToken,
   debitCardActions,
   domains,
+  identityVerificationActions,
   lockHandler,
   modalActions,
-  profileData
+  userData
 }: Props) => {
   const { data: cards = [], isLoading } = useRemote(selectors.components.debitCard.getCards)
 
-  const handleOpenOrderMyCard = () =>
-    modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCardPage' })
+  const handleOpenOrderMyCard = () => {
+    const currentTier = userData?.tiers?.current ?? 0
+
+    if (currentTier === 2 || currentTier === 1) {
+      // user in SDD but already completed eligibility check, continue to payment
+      modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCard' })
+    } else {
+      identityVerificationActions.verifyIdentity({
+        onCompletionCallback: () => {
+          modalActions.showModal(ModalName.ORDER_MY_CARD, { origin: 'DebitCard' })
+        },
+        origin: 'DebitCard',
+        tier: 2
+      })
+    }
+  }
 
   useEffect(() => {
     debitCardActions.getCards()
@@ -60,7 +75,7 @@ const DebitCard = ({
           debitCardActions={debitCardActions}
           lockHandler={lockHandler}
           modalActions={modalActions}
-          profileData={profileData}
+          userData={userData}
         />
       )}
     </Wrapper>

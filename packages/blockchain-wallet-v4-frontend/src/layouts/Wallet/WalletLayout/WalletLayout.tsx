@@ -24,7 +24,8 @@ const WalletLayout: Props = ({
   children,
   hideMenu = false,
   modalActions,
-  pathname
+  pathname,
+  removeContentPadding
 }) => {
   useIdleTimer({
     element: document,
@@ -65,7 +66,11 @@ const WalletLayout: Props = ({
         </Nav>
         <Container>
           {hideMenu ? null : <MenuLeft />}
-          <Content center={center} data-e2e={`page${replace(/\//g, '-', pathname)}`}>
+          <Content
+            center={center}
+            removeContentPadding={removeContentPadding}
+            data-e2e={`page${replace(/\//g, '-', pathname)}`}
+          >
             <Page center={center}>{children}</Page>
           </Content>
         </Container>
@@ -91,6 +96,7 @@ type Props = FC<
     children: ReactElement
     hideMenu?: boolean
     pathname: string
+    removeContentPadding?: boolean
   } & ConnectedProps<typeof connector>
 >
 

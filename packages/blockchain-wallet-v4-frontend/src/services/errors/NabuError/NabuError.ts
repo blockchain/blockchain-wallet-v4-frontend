@@ -13,7 +13,9 @@ class NabuError extends Error {
 
   actions?: NabuErrorAction[]
 
-  constructor({ actions, categories, icon, id, message, title }: NabuErrorProps) {
+  dataFields?: { [key: string]: unknown }
+
+  constructor({ actions, categories, dataFields, icon, id, message, title }: NabuErrorProps) {
     super(title)
 
     this.id = id
@@ -22,6 +24,7 @@ class NabuError extends Error {
     this.categories = categories
     this.icon = icon
     this.actions = actions
+    this.dataFields = dataFields
   }
 }
 

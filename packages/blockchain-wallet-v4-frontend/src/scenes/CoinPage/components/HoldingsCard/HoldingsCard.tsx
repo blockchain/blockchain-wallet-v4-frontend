@@ -33,7 +33,7 @@ export const HoldingsCard: HoldingsCardComponent = ({ actions, coinCode, coinTot
             </Text>
           </Flex>
 
-          <Flex gap={8}>{actions}</Flex>
+          {!!actions?.length && <Flex gap={8}>{actions}</Flex>}
         </Flex>
       </Padding>
     </Card>

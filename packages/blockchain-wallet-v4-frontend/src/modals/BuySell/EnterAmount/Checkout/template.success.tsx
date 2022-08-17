@@ -38,6 +38,7 @@ import { ErrorCodeMappings } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
 import BaseQuote from './BaseQuote'
+import { useBlockedPayments } from './hooks'
 import Payment from './Payment'
 import {
   checkCrossBorderLimit,
@@ -198,6 +199,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const clearFormError = useCallback(() => {
     dispatch(clearSubmitErrors(props.form))
   }, [dispatch, props.form])
+
+  const { isPaymentMethodBlocked, paymentErrorButton, paymentErrorCard } =
+    useBlockedPayments(selectedMethod)
 
   const goToCryptoSelection = useCallback(() => {
     props.buySellActions.setStep({
@@ -427,7 +431,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 props.buySellActions.setStep({
                   // Always reset back to walletCurrency
                   // Otherwise FUNDS currency and Pairs currency can mismatch
-                  fiatCurrency: props.walletCurrency || 'USD',
+                  fiatCurrency: props.fiatCurrency || 'USD',
                   step: 'CRYPTO_SELECTION'
                 })
               }
@@ -617,6 +621,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </ActionsItem>
             </ActionsRow>
           )}
+          {paymentErrorCard}
           <Payment
             {...props}
             method={method}
@@ -655,7 +660,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               )}
             </Banner>
           )}
-          {!showLimitError && !showError && (
+          {!showLimitError && !showError && isPaymentMethodBlocked === false && (
             <ActionButton
               {...props}
               isSufficientEthForErc20={isSufficientEthForErc20 || false}
@@ -663,6 +668,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               isAmountInBounds={amountInBounds}
             />
           )}
+          {paymentErrorButton}
           {props.orderType === OrderType.BUY && products?.buy?.maxOrdersLeft > 0 && (
             <TransactionsLeft remaining={products.buy.maxOrdersLeft} />
           )}

@@ -41,7 +41,7 @@ const PrimaryNavItems = [
     text: <FormattedMessage id='copy.rewards' defaultMessage='Rewards' />
   },
   {
-    dest: '/nfts/home',
+    dest: '/nfts/view',
     e2e: 'nftsLink',
     text: <FormattedMessage id='layouts.wallet.menuleft.navigation.nfts' defaultMessage='NFTs' />
   },
