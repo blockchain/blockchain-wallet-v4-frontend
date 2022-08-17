@@ -67,7 +67,7 @@ const initialState: BuySellState = {
   fiatEligible: Remote.NotAsked,
   googlePayInfo: undefined,
   limits: Remote.NotAsked,
-  method: undefined,
+  method: undefined, // TODO: Deprecate this in favor of brokerage `account` instead
   methods: Remote.NotAsked,
   mobilePaymentMethod: undefined,
   order: Remote.NotAsked,
@@ -80,6 +80,7 @@ const initialState: BuySellState = {
   payment: Remote.NotAsked,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
+  reason: undefined,
   sddEligible: Remote.NotAsked,
   sddTransactionFinished: false,
   sddVerified: Remote.NotAsked,
@@ -87,68 +88,6 @@ const initialState: BuySellState = {
   sellQuote: Remote.NotAsked,
   step: 'CRYPTO_SELECTION',
   swapAccount: undefined
-}
-
-const getPayloadObjectForStep = (payload: StepActionsPayload) => {
-  switch (payload.step) {
-    case 'LINKED_PAYMENT_ACCOUNTS':
-    case 'PAYMENT_METHODS':
-      return {
-        cryptoCurrency: payload.cryptoCurrency,
-        fiatCurrency: payload.fiatCurrency,
-        order: payload.order,
-        pair: payload.pair,
-        step: payload.step
-      }
-    case 'VERIFY_EMAIL':
-    case 'ENTER_AMOUNT':
-      return {
-        cryptoCurrency: payload.cryptoCurrency,
-        fiatCurrency: payload.fiatCurrency,
-        method: payload.method,
-        mobilePaymentMethod: payload.mobilePaymentMethod,
-        orderType: payload.orderType || 'BUY',
-        pair: payload.pair,
-        step: payload.step,
-        swapAccount: payload.swapAccount
-      }
-    case 'CRYPTO_SELECTION':
-      return {
-        cryptoCurrency: payload.cryptoCurrency,
-        fiatCurrency: payload.fiatCurrency,
-        orderType: payload.orderType,
-        originalFiatCurrency: payload.originalFiatCurrency,
-        step: payload.step
-      }
-    case 'BANK_WIRE_DETAILS':
-      return {
-        addBank: payload.addBank,
-        displayBack: payload.displayBack,
-        fiatCurrency: payload.fiatCurrency,
-        step: payload.step
-      }
-    case 'PREVIEW_SELL': {
-      return { sellOrderType: payload.sellOrderType, step: payload.step }
-    }
-    // case 'AUTHORIZE_PAYMENT':
-    // case 'CHECKOUT_CONFIRM':
-    // case 'ORDER_SUMMARY':
-    // case 'OPEN_BANKING_CONNECT':
-    // case '3DS_HANDLER_EVERYPAY':
-    // case '3DS_HANDLER_STRIPE':
-    // case '3DS_HANDLER_CHECKOUTDOTCOM':
-    //   return { order: payload.order, step: payload.step }
-    case 'SELL_ORDER_SUMMARY':
-      return { sellOrder: payload.sellOrder, step: payload.step }
-    case 'ADD_CARD_CHECKOUTDOTCOM':
-      return {
-        checkoutDotComAccountCodes: payload.checkoutDotComAccountCodes,
-        checkoutDotComApiKey: payload.checkoutDotComApiKey,
-        step: payload.step
-      }
-    default:
-      return { step: payload.step }
-  }
 }
 
 const buySellSlice = createSlice({
@@ -491,41 +430,44 @@ const buySellSlice = createSlice({
     setGooglePayInfo: (state, action: PayloadAction<GooglePayInfoType>) => {
       state.googlePayInfo = action.payload
     },
-    setMethod: (state, action: PayloadAction<BSPaymentMethodType>) => {
+    setMethod: (state, action: PayloadAction<BSPaymentMethodType | undefined>) => {
       state.method = action.payload
     },
     setSellCrypto: (state, action: PayloadAction<string>) => {},
     setStep: (state, action: PayloadAction<StepActionsPayload>) => {
-      const stepPayload = getPayloadObjectForStep(action.payload)
       switch (action.payload.step) {
+        case 'PAYMENT_ACCOUNT_ERROR':
+          state.reason = action.payload.reason
+          state.step = action.payload.step
+          break
         case 'ENTER_AMOUNT':
         case 'VERIFY_EMAIL':
           state.addBank = undefined
-          state.cryptoCurrency = stepPayload.cryptoCurrency
-          state.fiatCurrency = stepPayload.fiatCurrency
-          state.method = stepPayload.method
-          state.mobilePaymentMethod = stepPayload.mobilePaymentMethod
+          state.cryptoCurrency = action.payload.cryptoCurrency
+          state.fiatCurrency = action.payload.fiatCurrency
+          state.method = action.payload.method
+          state.mobilePaymentMethod = action.payload.mobilePaymentMethod
           // state.order = undefined
-          state.orderType = stepPayload.orderType
-          state.pair = stepPayload.pair
-          state.step = stepPayload.step
-          state.swapAccount = stepPayload.swapAccount
+          state.orderType = action.payload.orderType || 'BUY'
+          state.pair = action.payload.pair
+          state.step = action.payload.step
+          state.swapAccount = action.payload.swapAccount
           break
         case 'CRYPTO_SELECTION':
           state.addBank = undefined
-          state.cryptoCurrency = stepPayload.cryptoCurrency
-          state.fiatCurrency = stepPayload.fiatCurrency
-          state.originalFiatCurrency = stepPayload.originalFiatCurrency
-          state.orderType = stepPayload.orderType
-          state.step = stepPayload.step
+          state.cryptoCurrency = action.payload.cryptoCurrency
+          state.fiatCurrency = action.payload.fiatCurrency
+          state.originalFiatCurrency = action.payload.originalFiatCurrency
+          state.orderType = action.payload.orderType
+          state.step = action.payload.step
           state.swapAccount = undefined
           break
         case 'LINKED_PAYMENT_ACCOUNTS':
         case 'PAYMENT_METHODS':
           state.addBank = undefined
-          state.cryptoCurrency = stepPayload.cryptoCurrency
-          state.fiatCurrency = stepPayload.fiatCurrency
-          state.step = stepPayload.step
+          state.cryptoCurrency = action.payload.cryptoCurrency
+          state.fiatCurrency = action.payload.fiatCurrency
+          state.step = action.payload.step
           break
         case '3DS_HANDLER_EVERYPAY':
         case '3DS_HANDLER_STRIPE':
@@ -534,25 +476,25 @@ const buySellSlice = createSlice({
         case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':
           state.addBank = undefined
-          state.step = stepPayload.step
+          state.step = action.payload.step
           break
         case 'BANK_WIRE_DETAILS':
-          state.addBank = stepPayload.addBank
-          state.displayBack = stepPayload.displayBack || false
-          state.fiatCurrency = stepPayload.fiatCurrency
-          state.step = stepPayload.step
+          state.addBank = action.payload.addBank
+          state.displayBack = action.payload.displayBack || false
+          state.fiatCurrency = action.payload.fiatCurrency
+          state.step = action.payload.step
           break
         case 'SELL_ORDER_SUMMARY':
-          state.sellOrder = stepPayload.sellOrder
-          state.step = stepPayload.step
+          state.sellOrder = action.payload.sellOrder
+          state.step = action.payload.step
           break
         case 'ADD_CARD_CHECKOUTDOTCOM':
-          state.checkoutDotComAccountCodes = stepPayload.checkoutDotComAccountCodes
-          state.checkoutDotComApiKey = stepPayload.checkoutDotComApiKey
-          state.step = stepPayload.step
+          state.checkoutDotComAccountCodes = action.payload.checkoutDotComAccountCodes
+          state.checkoutDotComApiKey = action.payload.checkoutDotComApiKey
+          state.step = action.payload.step
           break
         default:
-          state.step = stepPayload.step
+          state.step = action.payload.step
           break
       }
     },

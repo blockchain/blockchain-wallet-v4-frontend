@@ -119,6 +119,7 @@ const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
 const RemoveBank = React.lazy(() => import('./Brokerage/Banks/RemoveBank'))
+const AddBankPlaid = React.lazy(() => import('./Brokerage/Banks/AddBankPlaid'))
 const AddBankYapily = React.lazy(() => import('./Brokerage/Banks/AddBankYapily'))
 const AddBankYodlee = React.lazy(() => import('./Brokerage/Banks/AddBankYodlee'))
 const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
@@ -131,6 +132,9 @@ const Modals = (props: Props) => {
   return (
     <Suspense fallback={null}>
       <>
+        {props.modals.find((modal) => modal.type === ModalName.ADD_BANK_PLAID_MODAL) ? (
+          <AddBankPlaid />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.ADD_BANK_YAPILY_MODAL) ? (
           <AddBankYapily />
         ) : null}

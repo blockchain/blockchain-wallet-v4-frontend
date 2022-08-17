@@ -15,6 +15,7 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
+  BuyQuoteStateType,
   CardAcquirer,
   CardSuccessRateResponse,
   ExtraKYCContext,
@@ -100,7 +101,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const { fetchBankTransferAccounts } = brokerageSagas({ api, coreSagas, networks })
+  const { fetchBankTransferAccounts, setupBankTransferProvider } = brokerageSagas({
+    api,
+    coreSagas,
+    networks
+  })
 
   const generateApplePayToken = async ({
     applePayInfo,
@@ -324,7 +329,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
-      let buyQuote
+      let buyQuote: BuyQuoteStateType | undefined
       if (orderType === OrderType.SELL) {
         yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
       } else {
@@ -397,10 +402,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!paymentType) throw new Error(BS_ERROR.NO_PAYMENT_TYPE)
 
+      if (buyQuote) {
+        const { availability, reason } = buyQuote.quote.settlementDetails
+        if (availability === 'UNAVAILABLE') {
+          yield put(actions.components.buySell.setStep({ reason, step: 'PAYMENT_ACCOUNT_ERROR' }))
+          return
+        }
+      }
       // FIXME: this temporarily enables users to purchase min amounts of crypto with the enter amount fix set to CRYPTO
       // remove this section when backend updates the flexiblePricing APIs to handle crypto amounts
       const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
-      const standardRate = convertBaseToStandard(coin, buyQuote.rate)
+      const standardRate = convertBaseToStandard(coin, buyQuote && buyQuote.rate)
       const standardInputAmount = convertBaseToStandard(coin, input.amount)
       const inputAmount = new BigNumber(standardInputAmount || '0')
         .dividedBy(standardRate)
@@ -435,7 +447,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           pair: pair.pair
         })
       )
-
       let buyOrder: BSOrderType
 
       let oldBuyOrder: BSOrderType | undefined
@@ -1429,7 +1440,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
-  const handleBSMethodChange = function* ({
+  const handleMethodChange = function* ({
     payload: { isFlow, method, mobilePaymentMethod }
   }: ReturnType<typeof A.handleMethodChange>) {
     const values: T.BSCheckoutFormValuesType = yield select(
@@ -1487,20 +1498,42 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             step: 'BANK_WIRE_DETAILS'
           })
         )
-      case BSPaymentTypes.LINK_BANK:
+      case BSPaymentTypes.LINK_BANK: // Yapily, Yodlee, Plaid, ...
+        yield put(actions.components.buySell.setStep({ step: 'LOADING' }))
+        const { bankCredentials } = yield call(setupBankTransferProvider)
+
+        let modalType: ModalName
+        switch (true) {
+          case bankCredentials && bankCredentials.payload.partner === 'YAPILY':
+            modalType = ModalName.ADD_BANK_YAPILY_MODAL
+            break
+          case bankCredentials && bankCredentials.payload.partner === 'PLAID':
+            modalType = ModalName.ADD_BANK_PLAID_MODAL
+            break
+          default:
+            // YODLEE
+            modalType = ModalName.ADD_BANK_YODLEE_MODAL
+            break
+        }
+
+        // Open the add bank (brokerage) modal on top of the buySell modal
         yield put(
           actions.components.brokerage.showModal({
             isFlow,
-            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+            modalType,
             origin: BrokerageModalOriginType.ADD_BANK_BUY
           })
         )
-        return yield put(
+        yield put(
           actions.components.brokerage.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK
           })
         )
 
+        // wait for the add bank modal to open and then change the step to payment method
+        yield take(actions.modals.showModal.type)
+        yield put(A.setStep({ cryptoCurrency, fiatCurrency, pair, step: 'PAYMENT_METHODS' }))
+        return
       case BSPaymentTypes.PAYMENT_CARD:
         if (mobilePaymentMethod) {
           return yield put(
@@ -1568,7 +1601,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const initializeCheckout = function* ({
-    payload: { account, amount, cryptoAmount, fix, orderType, period }
+    payload: {
+      account,
+      amount,
+      cryptoAmount,
+      fix,
+      orderType,
+      paymentMethodId,
+      paymentMethodType,
+      period
+    }
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(waitForUserData)
@@ -1584,7 +1626,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           A.startPollBuyQuote({
             amount: fakeQuoteAmount,
             pair: pair.pair,
-            paymentMethod: BSPaymentTypes.FUNDS
+            paymentMethod: paymentMethodType,
+            paymentMethodId
           })
         )
         yield race({
@@ -1748,6 +1791,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.confirmOrderSuccess(order))
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+      yield put(cacheActions.removeLastUsedAmount({ pair: order.pair }))
     } catch (e) {
       if (isNabuError(e)) {
         yield put(A.createOrderFailure(e))
@@ -1912,10 +1956,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { cryptoCurrency, origin }))
 
     // Use the user's trading currency setting whenever opening the buy flow
-    const { preferredFiatTradingCurrency: fiatCurrency } =
-      selectors.modules.profile.getUserCurrencies(yield select()) || {
-        preferredFiatTradingCurrency: 'USD'
-      }
+    const fiatCurrency = selectors.modules.profile
+      .getTradingCurrency(yield select())
+      .getOrElse('USD')
 
     // When user closes the QR code modal and opens it via one of the pending
     // buy buttons in the app. We need to take them to the qrcode screen and
@@ -2081,9 +2124,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchSellQuote,
     formChanged,
     handleBSDepositFiatClick,
-    handleBSMethodChange,
     handleBuyMaxAmountClick,
     handleBuyMinAmountClick,
+    handleMethodChange,
     handleSellMaxAmountClick,
     handleSellMinAmountClick,
     initializeBillingAddress,

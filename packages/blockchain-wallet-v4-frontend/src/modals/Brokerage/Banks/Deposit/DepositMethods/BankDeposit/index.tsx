@@ -55,10 +55,7 @@ const BankDeposit = ({ icon, onClick, value }: Props) => (
         <DisplayIconBank>{icon}</DisplayIconBank>
         <Content>
           <DisplayTitleBank>
-            <FormattedMessage
-              id='copy.easy_bank_transfer'
-              defaultMessage='Easy Bank Transfer'
-            />
+            <FormattedMessage id='copy.easy_bank_transfer' defaultMessage='Easy Bank Transfer' />
           </DisplayTitleBank>
           <DisplaySubTitle>{getSubTitleByCurrency(value.currency)}</DisplaySubTitle>
           <Description>
