@@ -68,19 +68,7 @@ export default ({ api, coreSagas, networks }) => {
     // we created a new temp lightweight action to fetch just the sb orders.
     // in future we need to decouple these so we can get just custodial or just non-custodial txs/orders
     yield takeLatest(actions.fetchBSOrders.type, buySellSagas.fetchBSOrders)
-
     yield takeLatest(actions.fetchOrders.type, buySellSagas.fetchBSOrders)
-    // Refresh coin tx lists
-    yield takeLatest(actions.fetchOrders.type, function* () {
-      yield call(waitForUserData)
-      yield put(coreActions.core.data.bch.fetchTransactions('', true))
-      yield put(coreActions.core.data.btc.fetchTransactions('', true))
-      yield put(coreActions.core.data.eth.fetchTransactions('', true))
-      yield put(coreActions.core.data.eth.fetchErc20Transactions('pax', true))
-      yield put(coreActions.core.data.eth.fetchErc20Transactions('usdt', true))
-      yield put(coreActions.core.data.eth.fetchErc20Transactions('wdgld', true))
-      yield put(coreActions.core.data.xlm.fetchTransactions('', true))
-    })
 
     // used for sell only now, eventually buy as well
     // TODO: use swap2 quote for buy AND sell
