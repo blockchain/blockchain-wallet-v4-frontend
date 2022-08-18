@@ -1,4 +1,5 @@
 import base64url from 'base64url'
+import { ResetFormSteps } from 'blockchain-wallet-v4-frontend/src/scenes/RecoverWallet/model'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, put, select } from 'redux-saga/effects'
 
@@ -322,10 +323,19 @@ export default ({ api, coreSagas, networks }) => {
     }
     try {
       yield delay(2000)
-      const response = yield call(api.pollForResetApprovalStatus, sessionToken)
+      // const response = yield call(api.pollForResetApprovalStatus, sessionToken)
 
-      if (response?.token) {
+      const response = {
+        email: 'leora@blockchain.com',
+        request_denied: false,
+        status: true,
+        two_fa_type: 1,
+        userId: '01ceac7d-d111-4557-8f8d-00db4509c70d'
+      }
+
+      if (response?.status) {
         yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
+        yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS))
         return true
       }
       if (response?.request_denied) {
@@ -377,6 +387,15 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const verifyTwoFaForRecovery = function* (action) {
+    try {
+      const { code, email } = action.payload
+      const response = yield call(api.validate2faResponse, email, code)
+    } catch (e) {
+      // TODO: handle error
+    }
+  }
+
   return {
     approveAccountReset,
     initializeSignUp,
@@ -385,6 +404,7 @@ export default ({ api, coreSagas, networks }) => {
     resetAccount,
     restore,
     restoreFromMetadata,
-    triggerRecoverEmail
+    triggerRecoverEmail,
+    verifyTwoFaForRecovery
   }
 }

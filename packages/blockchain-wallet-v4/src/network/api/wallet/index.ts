@@ -271,6 +271,16 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
+  const validate2faResponse = (email, code) =>
+    post({
+      data: {
+        code,
+        email
+      },
+      endpoint: '/wallet/recovery/validate-2fa-response',
+      url: rootUrl
+    })
+
   return {
     authorizeLogin,
     authorizeVerifyDevice,
@@ -295,6 +305,7 @@ export default ({ get, post, rootUrl }) => {
     triggerMnemonicViewedAlert,
     triggerNonCustodialSendAlert,
     updateMnemonicBackup,
+    validate2faResponse,
     verifyEmailToken
   }
 }

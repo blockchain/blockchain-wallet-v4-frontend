@@ -17,10 +17,10 @@ import Yubikey from './Yubikey'
 const TwoStepVerification: React.FC<InjectedFormProps<{}, ResetProps> & ResetProps> = (
   props: ResetProps
 ) => {
-  const [recoveryStep, setRecoveryStep] = useState(TwoFactorSetupSteps.CHOOSE_TWOFA)
+  const [twoFactorSetupStep, setTwoFactorStep] = useState(TwoFactorSetupSteps.CHOOSE_TWOFA)
 
   const setFormStep = (step) => {
-    setRecoveryStep(step)
+    setTwoFactorStep(step)
   }
 
   const handleSubmit = (e) => {
@@ -35,16 +35,16 @@ const TwoStepVerification: React.FC<InjectedFormProps<{}, ResetProps> & ResetPro
   return (
     <FormWrapper>
       <Form onSubmit={handleSubmit}>
-        {recoveryStep === TwoFactorSetupSteps.CHOOSE_TWOFA && (
+        {twoFactorSetupStep === TwoFactorSetupSteps.CHOOSE_TWOFA && (
           <ChooseTwoFA {...props} setFormStep={setFormStep} />
         )}
-        {recoveryStep === TwoFactorSetupSteps.AUTHENTICATOR_SETUP && (
+        {twoFactorSetupStep === TwoFactorSetupSteps.AUTHENTICATOR_SETUP && (
           <Authenticator {...props} setFormStep={setFormStep} />
         )}
-        {recoveryStep === TwoFactorSetupSteps.SMS_SETUP && (
+        {twoFactorSetupStep === TwoFactorSetupSteps.SMS_SETUP && (
           <SMS {...props} setFormStep={setFormStep} />
         )}
-        {recoveryStep === TwoFactorSetupSteps.YUBIKEY_SETUP && (
+        {twoFactorSetupStep === TwoFactorSetupSteps.YUBIKEY_SETUP && (
           <Yubikey {...props} setFormStep={setFormStep} />
         )}
       </Form>

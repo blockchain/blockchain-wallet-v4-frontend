@@ -15,5 +15,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.restore.type, signupSagas.restore)
     yield takeLatest(actions.restoreFromMetadata.type, signupSagas.restoreFromMetadata)
     yield takeLatest(actions.triggerRecoverEmail, signupSagas.triggerRecoverEmail)
+    yield takeLatest(actions.verifyTwoFaForRecovery, signupSagas.verifyTwoFaForRecovery)
   }
 }

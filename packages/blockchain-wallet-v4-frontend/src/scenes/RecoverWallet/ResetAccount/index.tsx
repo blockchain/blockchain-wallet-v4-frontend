@@ -27,11 +27,16 @@ const ResetAccount: React.FC<InjectedFormProps<{}, ResetProps> & ResetProps> = (
   const handleSubmit = (e) => {
     e.preventDefault()
     const { cachedEmail, formValues, language, signupActions } = props
-    signupActions.resetAccount({
-      email: cachedEmail,
-      language,
-      password: formValues.resetAccountPassword
-    })
+    if (recoveryStep === ResetFormSteps.CHOOSE_TWOFA) {
+      signupActions.resetAccount({
+        email: cachedEmail,
+        language,
+        password: formValues.resetAccountPassword
+      })
+    }
+    if (recoveryStep === ResetFormSteps.TWO_FA_CONFIRMATION) {
+      // Verify 2fa
+    }
   }
 
   const isRegistering = Remote.Loading.is(props.registering)

@@ -38,8 +38,7 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
     if (accountRecoveryData?.two_fa_type) {
       setFormStep(ResetFormSteps.TWO_FA_CONFIRMATION)
     } else {
-      // TODO: change after deving up
-      setFormStep(ResetFormSteps.TWO_FA_CONFIRMATION)
+      setFormStep(ResetFormSteps.NEW_PASSWORD)
     }
     analyticsActions.trackEvent({
       key: Analytics.RECOVERY_RESET_ACCOUNT_CLICKED,

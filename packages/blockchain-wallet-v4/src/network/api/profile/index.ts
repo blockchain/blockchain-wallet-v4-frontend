@@ -294,9 +294,9 @@ export default ({
     post({
       contentType: 'application/json',
       data: {
-        // captcha: captchaToken,
-        email
-        // siteKey: window.CAPTCHA_KEY
+        captcha: captchaToken,
+        email,
+        siteKey: window.CAPTCHA_KEY
       },
       endPoint: '/auth/request-account-recovery',
       sessionToken,
