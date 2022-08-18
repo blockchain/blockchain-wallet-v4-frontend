@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import BigNumber from 'bignumber.js'
-import { intervalToDuration } from 'date-fns'
+import { format, intervalToDuration } from 'date-fns'
 import { defaultTo, filter, path, prop } from 'ramda'
 import { clearSubmitErrors, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -19,6 +19,7 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
+import { Flex } from 'components/Flex'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
 import Form from 'components/Form/Form'
@@ -52,6 +53,8 @@ import {
   getPaymentMethodDetails
 } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { RecurringBuyLabel, StyledCheckboxInput } from './CheckoutConfirm.styles'
+import { useRecurringBuySection } from './hooks'
 
 const { FORM_BS_CHECKOUT_CONFIRM } = model.components.buySell
 
@@ -179,11 +182,24 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   const [isActiveFeeTooltip, setFeeToolTip] = useState(true)
   const dispatch = useDispatch()
 
+  const { setPeriod, showRecurringBuySection } = useRecurringBuySection({
+    initialPeriod: props.formValues?.period,
+    paymentType: props.order.paymentType
+  })
+
+  const recurringBuyWeekday = useMemo(() => format(new Date(), 'EEEE'), [])
+
   const [isGooglePayReady] = useDefer3rdPartyScript('https://pay.google.com/gp/p/js/pay.js', {
     attributes: {
       nonce: window.nonce
     }
   })
+
+  const handleOnCheckRecurringBuy: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (event) =>
+      setPeriod(event.target.checked ? RecurringBuyPeriods.WEEKLY : RecurringBuyPeriods.ONE_TIME),
+    [setPeriod]
+  )
 
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
@@ -211,8 +227,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
 
   const cardDetails =
     (requiresTerms && props.cards.filter((card) => card.id === paymentMethodId)[0]) || null
-
-  const isCardPayment = requiresTerms && cardDetails
 
   const totalAmount = fiatToString({
     unit: counterCurrency as FiatType,
@@ -568,6 +582,43 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           </RowTextWrapper>
         </RowText>
       </RowItem>
+
+      {showRecurringBuySection && (
+        <RecurringBuyLabel htmlFor='recurring-buy-checkbox'>
+          <RowItem>
+            <Flex justifyContent='space-between' alignItems='center' style={{ width: '100%' }}>
+              <Flex flexDirection='column'>
+                <RowText>
+                  <FormattedMessage
+                    id='modals.simplebuy.investRate.label'
+                    defaultMessage='Invest {rate}?'
+                    values={{ rate: 'weekly' }}
+                  />
+                </RowText>
+                <RowText>
+                  <AdditionalText>
+                    <FormattedMessage
+                      id='modals.simplebuy.investRate.description'
+                      defaultMessage='Buy {fiat} every {weekday}. Cancel anytime.'
+                      values={{
+                        fiat: displayFiat(props.order, props.order.inputQuantity),
+                        weekday: recurringBuyWeekday
+                      }}
+                    />
+                  </AdditionalText>
+                </RowText>
+              </Flex>
+
+              <StyledCheckboxInput
+                type='checkbox'
+                id='recurring-buy-checkbox'
+                name='recurring-buy'
+                onChange={handleOnCheckRecurringBuy}
+              />
+            </Flex>
+          </RowItem>
+        </RecurringBuyLabel>
+      )}
 
       <Bottom>
         {getLockRuleMessaging(showLock, days, props.order.paymentType)}
