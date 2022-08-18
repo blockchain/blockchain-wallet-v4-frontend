@@ -29,7 +29,7 @@ export const getDefaultAddressBalance = (state) => {
   return getAddress(state, defaultAddr).map(prop('balance'))
 }
 export const getLegacyBalance = path([dataPath, 'eth', 'legacy_balance'])
-export const getHeight = (state) => getLatestBlock(state).map(path(['height']))
+export const getHeight = (state) => getLatestBlock(state).map(path(['number']))
 export const getNonce = (state, address) => getAddresses(state).map(path([address, 'nonce']))
 
 export const getBalance = (state) => {
