@@ -105,10 +105,6 @@ export default () => {
           yield put(actions.components.buySell.fetchCards(true))
           break
         default:
-          yield put(actions.core.data.bch.fetchTransactions('', true))
-          yield put(actions.core.data.btc.fetchTransactions('', true))
-          yield put(actions.core.data.eth.fetchTransactions(null, true))
-          yield put(actions.core.data.xlm.fetchTransactions('', true))
       }
     } catch (e) {
       // eslint-disable-next-line
