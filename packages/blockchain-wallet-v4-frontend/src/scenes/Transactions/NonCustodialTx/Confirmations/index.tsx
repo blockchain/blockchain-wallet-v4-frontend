@@ -43,7 +43,7 @@ const IconWrapper = styled.div`
 
 const Confirmations = (props: Props) => {
   const { blockHeight, coin, domains, isConfirmed, txBlockHeight = 0 } = props
-  const conf = (blockHeight?.number ? blockHeight.number : blockHeight || 0) - txBlockHeight + 1
+  const conf = blockHeight - txBlockHeight + 1
   const confirmations = props.confirmations || (conf > 0 && txBlockHeight) ? conf : 0
   const { coinfig } = window.coins[coin]
   const { parentChain = coin } = coinfig.type
