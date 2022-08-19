@@ -11,7 +11,7 @@ import {
   CardOrderSubHeader
 } from './CardOrder.model'
 
-const CardOrder = ({ handleOpenOrderMyCard }: { handleOpenOrderMyCard: () => void }) => (
+const CardOrder = ({ handleOpenOrderCard }: { handleOpenOrderCard: () => void }) => (
   <IntroCardWrapper>
     <Image name='intro-card' />
 
@@ -41,7 +41,7 @@ const CardOrder = ({ handleOpenOrderMyCard }: { handleOpenOrderMyCard: () => voi
       nature='primary'
       height='48px'
       fullwidth
-      onClick={handleOpenOrderMyCard}
+      onClick={handleOpenOrderCard}
     >
       <FormattedMessage id='scenes.debit_card.intro.order_my_card' defaultMessage='Order My Card' />
     </Button>

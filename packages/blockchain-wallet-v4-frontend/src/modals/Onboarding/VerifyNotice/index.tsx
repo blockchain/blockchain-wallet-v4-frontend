@@ -140,7 +140,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  modalEnhancer(ModalName.VERIFY_NOTICE),
+  modalEnhancer(ModalName.VERIFY_NOTICE_MODAL),
   connect(undefined, mapDispatchToProps)
 )
 

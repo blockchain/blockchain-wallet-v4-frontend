@@ -919,7 +919,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.goals.addInitialModal({
           data: { origin },
           key: 'kycUpgradeRequiredNotice',
-          name: ModalName.VERIFY_NOTICE
+          name: ModalName.VERIFY_NOTICE_MODAL
         })
       )
     }
@@ -978,7 +978,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.goals.addInitialModal({
           data: { origin },
           key: 'termsAndConditions',
-          name: ModalName.TERMS_AND_CONDITIONS
+          name: ModalName.TERMS_AND_CONDITIONS_MODAL
         })
       )
     }
