@@ -39,6 +39,7 @@
         "appleAndGooglePayPromoBanner": true,
         "bindIntegrationArEnabled": true,
         "coinViewV2": true,
+        "isCreditCardOptimizationEnabled": true,
         "recurringBuysInCheckoutPage": true,
         "completeYourProfile": true,
         "createExchangeUserOnSignupOrLogin": true,
