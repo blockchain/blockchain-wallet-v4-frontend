@@ -112,6 +112,9 @@ export const getShowTermsAndConditions = (state: RootState) =>
 export const getCoinViewV2 = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'coinViewV2']))
 
+export const getIsCreditCardOptimizationEnabled = (state: RootState) =>
+  getWebOptions(state).map(path<boolean>(['featureFlags', 'isCreditCardOptimizationEnabled']))
+
 export const getRecurringBuysInCheckoutPage = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'recurringBuysInCheckoutPage']))
 

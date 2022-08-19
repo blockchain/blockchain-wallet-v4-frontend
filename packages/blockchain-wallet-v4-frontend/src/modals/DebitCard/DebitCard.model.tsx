@@ -13,7 +13,7 @@ export const ResultTitleWrapper = styled(Text)`
   font-size: 1.25rem;
   color: black;
   font-weight: 600;
-  margin-bottom: 0.5rempx;
+  margin-bottom: 0.5rem;
 `
 
 export const ResultWrapper = styled.div`
