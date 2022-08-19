@@ -1,5 +1,4 @@
 import React, { ReactNode, useMemo } from 'react'
-import { useDispatch } from 'react-redux'
 
 import { CoinType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
@@ -11,6 +10,7 @@ import {
   useCoinRates,
   useCurrency,
   useOpenViewPrivateKeyModal,
+  useOpenViewTradingAccount,
   useWalletsForCoin
 } from 'hooks'
 
@@ -19,8 +19,8 @@ import { transformToAccounts } from './utils'
 
 export const useWalletsCard = (coin: CoinType): [ReactNode] => {
   const currency = useCurrency()
-  const dispatch = useDispatch()
   const [openViewPrivateKeyModal] = useOpenViewPrivateKeyModal()
+  const [openViewTradingAccount] = useOpenViewTradingAccount()
 
   const {
     data: rates,
@@ -98,6 +98,13 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
               onClick={() => {
                 if (type === 'ACCOUNT') {
                   openViewPrivateKeyModal({
+                    coin,
+                    origin: 'CoinPageHoldings'
+                  })
+                }
+
+                if (type === 'CUSTODIAL') {
+                  openViewTradingAccount({
                     coin,
                     origin: 'CoinPageHoldings'
                   })

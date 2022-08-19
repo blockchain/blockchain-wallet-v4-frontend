@@ -116,6 +116,7 @@ const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocumen
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
 const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
 const ViewPrivateKeyWalletFlyout = React.lazy(() => import('./ViewPrivateKeyWalletFlyout'))
+const ViewTradingAccountFlyout = React.lazy(() => import('./ViewTradingAccountFlyout'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
@@ -361,6 +362,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.VIEW_PRIVATE_KEY_WALLET) ? (
           <ViewPrivateKeyWalletFlyout />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.VIEW_TRADING_ACCOUNT) ? (
+          <ViewTradingAccountFlyout />
         ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />

@@ -16,6 +16,7 @@ import {
   getCoinColor,
   useCoinRates,
   useCurrency,
+  useOpenBuyFlow,
   useOpenReceiveModal,
   useOpenSellModal,
   useOpenSendCryptoModal,
@@ -24,10 +25,10 @@ import {
 } from 'hooks'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-import { CloseIconContainer } from './ViewPrivateKeyWalletFlyout.styles'
-import { ViewPrivateKeyWalletFlyoutComponent } from './ViewPrivateKeyWalletFlyout.types'
+import { CloseIconContainer } from './ViewTradingAccountFlyout.styles'
+import { ViewTradingAccountFlyoutComponent } from './ViewTradingAccountFlyout.types'
 
-export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = ({
+export const ViewTradingAccountFlyout: ViewTradingAccountFlyoutComponent = ({
   close,
   coin,
   position,
@@ -36,23 +37,57 @@ export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = (
 }) => {
   const currency = useCurrency()
   const [isOpen, setOpen] = useState<boolean>(true)
+  const coinColor = getCoinColor(coin) || 'grey200'
+  const { data: coinAddressesData, isLoading: isLoadingAddressData } = useWalletsForCoin({ coin })
+  const { data: rates, isLoading: isLoadingCoinRates } = useCoinRates({ coin })
   const [openSendCryptoModal] = useOpenSendCryptoModal()
   const [openReceiveModal] = useOpenReceiveModal()
   const [openSwapModal] = useOpenSwapModal()
   const [openSellModal] = useOpenSellModal()
+  const [openBuyFlow] = useOpenBuyFlow()
 
-  const { data: coinAddressesData, isLoading: isLoadingAddressData } = useWalletsForCoin({ coin })
-  const { data: rates, isLoading: isLoadingCoinRates } = useCoinRates({ coin })
-
-  const privateKeyWallet = useMemo(() => {
-    return coinAddressesData?.filter((account) => account.type === 'ACCOUNT')[0]
+  const tradingAccount = useMemo(() => {
+    return coinAddressesData?.filter((account) => account.type === 'CUSTODIAL')[0]
   }, [coinAddressesData])
 
-  const hasFunds = useMemo(() => {
-    if (!privateKeyWallet || privateKeyWallet.balance === undefined) return false
+  const isLoading = useMemo(
+    () => isLoadingAddressData || isLoadingCoinRates,
+    [isLoadingAddressData, isLoadingCoinRates]
+  )
 
-    return privateKeyWallet.balance > 0
-  }, [privateKeyWallet])
+  const hasFunds = useMemo(() => {
+    if (!tradingAccount || tradingAccount.available === undefined) return false
+
+    return tradingAccount.available > 0
+  }, [tradingAccount])
+
+  const totalFiat = useMemo(() => {
+    if (!tradingAccount || !rates) return
+
+    const { available } = tradingAccount
+
+    return fiatToString({
+      unit: currency,
+      value: convertCoinToFiat({
+        coin,
+        currency,
+        isStandard: false,
+        rates,
+        value: available
+      })
+    })
+  }, [coin, currency, tradingAccount, rates])
+
+  const totalCrypto = useMemo(() => {
+    if (!tradingAccount) return
+
+    const { available } = tradingAccount
+
+    return coinToString({
+      unit: { symbol: coin },
+      value: convertBaseToStandard(coin, available)
+    })
+  }, [coin, tradingAccount])
 
   const handleClose = useCallback(async () => {
     setOpen(false)
@@ -66,49 +101,11 @@ export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = (
     })
   }, [close])
 
-  const totalFiat = useMemo(() => {
-    if (!privateKeyWallet || !rates) return
-
-    const { balance } = privateKeyWallet
-
-    return fiatToString({
-      unit: currency,
-      value: convertCoinToFiat({
-        coin,
-        currency,
-        isStandard: false,
-        rates,
-        value: balance
-      })
-    })
-  }, [coin, currency, privateKeyWallet, rates])
-
-  const totalCrypto = useMemo(() => {
-    if (!privateKeyWallet) return
-
-    const { balance } = privateKeyWallet
-
-    return coinToString({
-      unit: { symbol: coin },
-      value: convertBaseToStandard(coin, balance)
-    })
-  }, [coin, privateKeyWallet])
-
-  const isLoading = useMemo(
-    () => isLoadingAddressData || isLoadingCoinRates,
-    [isLoadingAddressData, isLoadingCoinRates]
+  const closeButton = (
+    <CloseIconContainer onClick={handleClose}>
+      <Icon data-e2e='bankDetailsCloseIcon' name='close' size='20px' color='grey600' />
+    </CloseIconContainer>
   )
-
-  const closeButton = useMemo(
-    () => (
-      <CloseIconContainer onClick={handleClose}>
-        <Icon data-e2e='bankDetailsCloseIcon' name='close' size='20px' color='grey600' />
-      </CloseIconContainer>
-    ),
-    [handleClose]
-  )
-
-  const coinColor = getCoinColor(coin) || 'grey200'
 
   if (isLoading) {
     return (
@@ -133,14 +130,38 @@ export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = (
     )
   }
 
+  const buyListTile = (
+    <FlyoutListTile
+      onClick={() => {
+        if (!tradingAccount) return
+
+        openBuyFlow({
+          coin,
+          origin: 'CoinPageHoldings'
+        })
+      }}
+      icon={<Icon name='plus' size='20px' />}
+      iconColor={coinColor}
+      title={
+        <FormattedMessage id='viewTradingAccountFlyout.sellButton.title' defaultMessage='Buy' />
+      }
+      subtitle={
+        <FormattedMessage
+          id='viewPrivateKeyWalletFlyout.sellButton.description'
+          defaultMessage='Use Your Cash or Card'
+        />
+      }
+    />
+  )
+
   const sellListTile = (
     <FlyoutListTile
       disabled={!hasFunds}
       onClick={() => {
-        if (!privateKeyWallet) return
+        if (!tradingAccount) return
 
         openSellModal({
-          coin: privateKeyWallet.coin,
+          coin,
           origin: 'CoinPageHoldings'
         })
       }}
@@ -164,7 +185,12 @@ export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = (
       onClick={() =>
         openSendCryptoModal({
           coin,
-          initialValue: { account: privateKeyWallet },
+          initialValue: {
+            account: {
+              ...tradingAccount,
+              coin
+            }
+          },
           origin: 'CoinPageHoldings'
         })
       }
@@ -186,13 +212,13 @@ export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = (
   const receiveListTile = (
     <FlyoutListTile
       onClick={() => {
-        if (!privateKeyWallet) return
+        if (!tradingAccount) return
 
         openReceiveModal({
-          baseCoin: privateKeyWallet.coin,
-          coin: privateKeyWallet.coin,
-          label: privateKeyWallet.label,
-          type: privateKeyWallet.type
+          baseCoin: coin,
+          coin,
+          label: tradingAccount.label,
+          type: tradingAccount.type
         })
       }}
       icon={<Icon name='arrow-top-right' size='16px' style={{ transform: 'rotate(180deg)' }} />}
@@ -217,13 +243,13 @@ export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = (
     <FlyoutListTile
       disabled={!hasFunds}
       onClick={() => {
-        if (!privateKeyWallet || privateKeyWallet.balance === undefined) return
+        if (!tradingAccount || tradingAccount.available === undefined) return
 
         openSwapModal({
-          balance: privateKeyWallet.balance,
-          baseCoin: privateKeyWallet.coin,
-          coin: privateKeyWallet.coin,
-          label: privateKeyWallet.label,
+          balance: tradingAccount.available,
+          baseCoin: coin,
+          coin,
+          label: tradingAccount.label,
           type: SwapBaseCounterTypes.ACCOUNT
         })
       }}
@@ -260,7 +286,7 @@ export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = (
               </IconCircularBackground>
 
               <Text weight={600} size='20px' lineHeight='30px' color='grey900'>
-                {privateKeyWallet?.label}
+                {tradingAccount?.label}
               </Text>
             </Flex>
 
@@ -283,6 +309,8 @@ export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = (
         {hasFunds ? (
           <>
             <Divider />
+            {buyListTile}
+            <Divider />
             {sendListTile}
             <Divider />
             {receiveListTile}
@@ -294,6 +322,8 @@ export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = (
           </>
         ) : (
           <>
+            <Divider />
+            {buyListTile}
             <Divider />
             {receiveListTile}
             <Divider />
@@ -310,6 +340,6 @@ export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = (
   )
 }
 
-const enhance = modalEnhancer(ModalName.VIEW_PRIVATE_KEY_WALLET, { transition: duration })
+const enhance = modalEnhancer(ModalName.VIEW_TRADING_ACCOUNT, { transition: duration })
 
-export default enhance(ViewPrivateKeyWalletFlyout)
+export default enhance(ViewTradingAccountFlyout)
