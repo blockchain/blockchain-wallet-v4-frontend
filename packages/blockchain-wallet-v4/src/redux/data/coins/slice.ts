@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { IndexMultiResponseType, TickerResponseType } from '@core/network/api/coins/types'
+import {
+  IndexMultiResponseType,
+  TickerResponseType,
+  UnifiedBalancesResponseType
+} from '@core/network/api/coins/types'
 
 import Remote from '../../../remote'
 import { CoinsState } from './types'
@@ -10,7 +14,8 @@ const initialState: CoinsState = {
   isCoinDataLoaded: false,
   rates: Remote.NotAsked,
   transactions: {},
-  transactions_at_bound: {}
+  transactions_at_bound: {},
+  unifiedBalances: Remote.NotAsked
 }
 
 export const coinsSlice = createSlice({
@@ -62,6 +67,20 @@ export const coinsSlice = createSlice({
         ]
       }
     },
+    fetchUnifiedBalances: () => {},
+    fetchUnifiedBalancesFailure: (state, action: PayloadAction<string>) => {
+      state.unifiedBalances = Remote.Failure(action.payload)
+    },
+    fetchUnifiedBalancesLoading: (state) => {
+      state.unifiedBalances = Remote.Loading
+    },
+    fetchUnifiedBalancesSuccess: (
+      state,
+      action: PayloadAction<UnifiedBalancesResponseType['currencies']>
+    ) => {
+      state.unifiedBalances = Remote.Success(action.payload)
+    },
+    initializeSubscriptions: () => {},
     pollForCoinData: () => {},
     setCoinDataLoaded: (state) => {
       state.isCoinDataLoaded = true
@@ -71,7 +90,9 @@ export const coinsSlice = createSlice({
         ...state.transactions_at_bound,
         [action.payload.coin]: action.payload.atBound
       }
-    }
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    unsubscribe: (state, action: PayloadAction<string>) => {}
   }
 })
 

@@ -324,7 +324,7 @@ export const getCoinNonCustodialBalance = (
 ): ((state: RootState) => RemoteDataType<string, number | BigNumber>) => {
   return (state: RootState) => {
     return createDeepEqualSelector(
-      [selectors.balancesV2.getUnifiedBalances],
+      [selectors.core.data.coins.getUnifiedBalances],
       (unifiedBalancesR) => {
         let balance = new BigNumber(0)
         const transform = (unifiedBalances: ExtractSuccess<typeof unifiedBalancesR>) => {

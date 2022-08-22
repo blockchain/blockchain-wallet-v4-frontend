@@ -3,7 +3,6 @@ import { coreSelectors as core } from '@core'
 import * as alerts from './alerts/selectors'
 import * as auth from './auth/selectors'
 import * as balances from './balances/selectors'
-import * as balancesV2 from './balancesV2/selectors'
 import * as cache from './cache/selectors'
 import * as coins from './coins/selectors'
 import * as components from './components/selectors'
@@ -23,7 +22,6 @@ export {
   alerts,
   auth,
   balances,
-  balancesV2,
   cache,
   coins,
   components,

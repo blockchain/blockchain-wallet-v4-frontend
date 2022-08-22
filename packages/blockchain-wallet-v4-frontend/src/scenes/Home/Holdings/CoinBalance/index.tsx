@@ -15,7 +15,7 @@ class CoinBalance extends React.PureComponent<Props> {
 
     return data.cata({
       Failure: () => (
-        <Error coin={coin} onRefresh={() => this.props.balancesV2Actions.fetchUnifiedBalances()} />
+        <Error coin={coin} onRefresh={() => this.props.coinsActions.fetchUnifiedBalances()} />
       ),
       Loading: () => <SkeletonRectangle height='35px' width='60px' />,
       NotAsked: () => <SkeletonRectangle height='35px' width='60px' />,
@@ -29,7 +29,7 @@ const mapStateToProps = (state, ownProps: OwnProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  balancesV2Actions: bindActionCreators(actions.balancesV2, dispatch)
+  coinsActions: bindActionCreators(actions.core.data.coins, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

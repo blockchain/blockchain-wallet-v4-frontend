@@ -4,7 +4,6 @@ import { coreReducers, paths } from '@core'
 
 import { alertsReducer as alerts } from './alerts/slice'
 import { authReducer as auth } from './auth/slice'
-import { balancesV2Reducer as balancesV2 } from './balancesV2/slice'
 import { cacheReducer as cache } from './cache/slice'
 import components from './components/reducers'
 import { custodialReducer as custodial } from './custodial/slice'
@@ -25,7 +24,6 @@ import { signupReducer as signup } from './signup/slice'
 const rootReducer = {
   alerts,
   auth,
-  balancesV2,
   cache,
   components,
   custodial,

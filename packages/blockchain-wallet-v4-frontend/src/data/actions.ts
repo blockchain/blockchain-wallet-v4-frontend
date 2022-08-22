@@ -5,7 +5,6 @@ import { coreActions as core } from '@core'
 import { actions as alerts } from './alerts/slice'
 import * as analytics from './analytics/slice'
 import { actions as auth } from './auth/slice'
-import { actions as balancesV2 } from './balancesV2/slice'
 import { actions as cache } from './cache/slice'
 import * as components from './components/actions'
 import { actions as custodial } from './custodial/slice'
@@ -27,7 +26,6 @@ export {
   alerts,
   analytics,
   auth,
-  balancesV2,
   cache,
   components,
   core,

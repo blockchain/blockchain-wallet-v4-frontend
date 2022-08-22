@@ -89,3 +89,5 @@ export const getTransactions = (coin: string, state: RootState) => {
 export const getTransactionsAtBound = (coin: string, state: RootState) => {
   return state.dataPath.coins.transactions_at_bound[coin] || false
 }
+
+export const getUnifiedBalances = (state: RootState) => state.dataPath.coins.unifiedBalances

@@ -6,7 +6,7 @@ import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
-  [selectors.balancesV2.getUnifiedBalances, selectors.core.settings.getCurrency],
+  [selectors.core.data.coins.getUnifiedBalances, selectors.core.settings.getCurrency],
   (unifiedBalancesR, currencyR) => {
     const transform = (unifiedBalances: ExtractSuccess<typeof unifiedBalancesR>, currency) => {
       const ethBalance = unifiedBalances.find(({ ticker }) => ticker === 'ETH')

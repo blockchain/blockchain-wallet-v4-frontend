@@ -9,6 +9,9 @@ export default ({ api }) => {
   return function* coreDataCoinsSaga() {
     yield takeLatest(actions.fetchCoinsRates.type, dataCoinsSagas.fetchCoinsRates)
     yield takeLatest(actions.pollForCoinData.type, dataCoinsSagas.pollForCoinData)
+    yield takeLatest(actions.fetchUnifiedBalances.type, dataCoinsSagas.fetchUnifiedBalances)
+    yield takeLatest(actions.initializeSubscriptions.type, dataCoinsSagas.initializeSubscriptions)
+    yield takeLatest(actions.unsubscribe.type, dataCoinsSagas.unsubscribe)
     yield fork(dataCoinsSagas.watchTransactions)
   }
 }

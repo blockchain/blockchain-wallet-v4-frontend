@@ -10,7 +10,7 @@ import { getOutputFromPair } from '../swap/model'
 // eslint-disable-next-line import/prefer-default-export
 export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
-  const unifiedBalancesR = selectors.balancesV2.getUnifiedBalances(state)
+  const unifiedBalancesR = selectors.core.data.coins.getUnifiedBalances(state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
   const custodials = selectors.core.data.coins.getCustodialCoins()
