@@ -20,6 +20,10 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.activateCard.type, buySellSagas.activateBSCard)
     yield takeLatest(actions.cancelOrder.type, buySellSagas.cancelBSOrder)
     yield takeLatest(actions.createOrder.type, buySellSagas.createBSOrder)
+    yield takeLatest(
+      actions.createRecurringOrderIfEllegble.type,
+      buySellSagas.createRecurringOrderIfEllegble
+    )
     yield takeLatest(actions.confirmFundsOrder.type, buySellSagas.confirmBSFundsOrder)
     yield takeLatest(actions.confirmOrderPoll.type, buySellSagas.confirmOrderPoll)
     yield takeLatest(actions.confirmOrder.type, buySellSagas.confirmOrder)
@@ -37,7 +41,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.fetchPaymentMethods.type, buySellSagas.fetchPaymentMethods)
     yield takeLatest(actions.fetchQuote.type, buySellSagas.fetchBSQuote)
     yield takeLatest(actions.handleDepositFiatClick.type, buySellSagas.handleBSDepositFiatClick)
-    yield takeLatest(actions.handleMethodChange.type, buySellSagas.handleBSMethodChange)
+    yield takeLatest(actions.handleMethodChange.type, buySellSagas.handleMethodChange)
     yield takeLatest(actions.handleBuyMaxAmountClick.type, buySellSagas.handleBuyMaxAmountClick)
     yield takeLatest(actions.handleBuyMinAmountClick.type, buySellSagas.handleBuyMinAmountClick)
     yield takeLatest(actions.handleSellMaxAmountClick.type, buySellSagas.handleSellMaxAmountClick)
@@ -68,19 +72,7 @@ export default ({ api, coreSagas, networks }) => {
     // we created a new temp lightweight action to fetch just the sb orders.
     // in future we need to decouple these so we can get just custodial or just non-custodial txs/orders
     yield takeLatest(actions.fetchBSOrders.type, buySellSagas.fetchBSOrders)
-
     yield takeLatest(actions.fetchOrders.type, buySellSagas.fetchBSOrders)
-    // Refresh coin tx lists
-    yield takeLatest(actions.fetchOrders.type, function* () {
-      yield call(waitForUserData)
-      yield put(coreActions.core.data.bch.fetchTransactions('', true))
-      yield put(coreActions.core.data.btc.fetchTransactions('', true))
-      yield put(coreActions.core.data.eth.fetchTransactions('', true))
-      yield put(coreActions.core.data.eth.fetchErc20Transactions('pax', true))
-      yield put(coreActions.core.data.eth.fetchErc20Transactions('usdt', true))
-      yield put(coreActions.core.data.eth.fetchErc20Transactions('wdgld', true))
-      yield put(coreActions.core.data.xlm.fetchTransactions('', true))
-    })
 
     // used for sell only now, eventually buy as well
     // TODO: use swap2 quote for buy AND sell

@@ -1,5 +1,6 @@
 import { getFormValues } from 'redux-form'
-import { call, delay, put, retry, select, take } from 'redux-saga/effects'
+import { END } from 'redux-saga'
+import { call, delay, put, race, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
@@ -8,7 +9,9 @@ import {
   BSPaymentTypes,
   BSTransactionStateEnum,
   BSTransactionType,
-  ExtraKYCContext
+  ExtraKYCContext,
+  ProductTypes,
+  WalletFiatType
 } from '@core/types'
 import { errorCodeAndMessage, errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
@@ -21,7 +24,6 @@ import {
   BrokerageModalOriginType,
   BSCheckoutFormValuesType,
   CustodialSanctionsEnum,
-  FastLinkType,
   ModalName,
   ProductEligibilityForUser,
   VerifyIdentityOriginType
@@ -32,7 +34,7 @@ import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { OBType } from './types'
+import { BankCredentialsType, PlaidAccountType, YodleeAccountType } from './types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
 
@@ -72,40 +74,53 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const conditionalRetry = function* (id: string) {
-    const { RETRY_AMOUNT, SECONDS } = POLLING
-    const data = yield retry(RETRY_AMOUNT, SECONDS * 1000, transferAccountState, id)
-    return data
+    const MAX_TRIES = Array(6)
+    let ITERATION = 1
+
+    const decay = (multiplier: number) => {
+      return multiplier * 1000
+    }
+
+    while (MAX_TRIES.length) {
+      try {
+        return yield call(transferAccountState, id)
+      } catch (error) {
+        yield delay(decay(ITERATION))
+        ITERATION += ITERATION * 2
+        MAX_TRIES.pop()
+      }
+    }
   }
 
-  const fetchBankTransferUpdate = function* ({
-    payload
-  }: ReturnType<typeof A.fetchBankTransferUpdate>) {
-    try {
-      const account = payload
-
-      let bankId
-      let attributes
-      const bankCredentials = S.getBankCredentials(yield select()).getOrElse({} as OBType)
-      const fastLink = S.getFastLink(yield select()).getOrElse({} as FastLinkType)
-
-      if (typeof account === 'string' && bankCredentials) {
+  const getBankUpdatePayload = function* (
+    bankCredentials: BankCredentialsType,
+    account: string | PlaidAccountType | YodleeAccountType
+  ) {
+    switch (true) {
+      case typeof account === 'string' && bankCredentials:
         // Yapily
         const domainsR = yield select(selectors.core.walletOptions.getDomains)
         const { comRoot } = domainsR.getOrElse({
           comRoot: 'https://www.blockchain.com'
         })
         const callback = `${comRoot}/brokerage-link-success`
-        bankId = bankCredentials.id
-        attributes = { callback, institutionId: account }
-      } else if (typeof account === 'object' && fastLink) {
+        return [bankCredentials.id, { callback, institutionId: account }]
+      case typeof account !== 'string':
+      default:
+        // Plaid
         // Yodlee
-        bankId = fastLink.id
-        attributes = {
-          accountId: account.accountId,
-          providerAccountId: account.providerAccountId
-        }
-      }
+        return [bankCredentials.id, account]
+    }
+  }
 
+  const fetchBankTransferUpdate = function* ({
+    payload
+  }: ReturnType<typeof A.fetchBankTransferUpdate>) {
+    try {
+      const bankCredentials = S.getBankCredentials(yield select()).getOrFail(
+        'Could not retrieve bank credentials'
+      )
+      const [bankId, attributes] = yield call(getBankUpdatePayload, bankCredentials, payload)
       const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
         api.updateBankAccountLink,
         bankId,
@@ -118,10 +133,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       )
 
-      // Polls the account details to check for Active state
+      // Polls the account details to check for Active or Blocked state
       const bankData = yield call(conditionalRetry, status.id)
-      // Shows bank status screen based on whether has blocked account or not
 
+      // Show bank status screen with success or failure error
       yield put(
         actions.components.brokerage.setAddBankStep({
           addBankStep: AddBankStepType.ADD_BANK_STATUS,
@@ -143,6 +158,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             account: bankData
           })
         )
+        const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(yield select())
+        const sbMethods = sbMethodsR.getOrElse(DEFAULT_METHODS)
+        if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
+          const bankTransferMethod = sbMethods.methods.filter(
+            (method) => method.type === BSPaymentTypes.BANK_TRANSFER
+          )[0]
+          yield put(
+            actions.components.buySell.handleMethodChange({
+              isFlow: true,
+              method: {
+                ...bankData,
+                limits: bankTransferMethod.limits,
+                type: BSPaymentTypes.BANK_TRANSFER
+              }
+            })
+          )
+        }
+
         if (values?.amount) {
           yield put(
             actions.components.buySell.createOrder({
@@ -150,24 +183,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               paymentType: BSPaymentTypes.BANK_TRANSFER
             })
           )
-        } else {
-          const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(yield select())
-          const sbMethods = sbMethodsR.getOrElse(DEFAULT_METHODS)
-          if (Remote.Success.is(sbMethodsR) && sbMethods.methods.length) {
-            const bankTransferMethod = sbMethods.methods.filter(
-              (method) => method.type === BSPaymentTypes.BANK_TRANSFER
-            )[0]
-            yield put(
-              actions.components.buySell.handleMethodChange({
-                isFlow: false,
-                method: {
-                  ...bankData,
-                  limits: bankTransferMethod.limits,
-                  type: BSPaymentTypes.BANK_TRANSFER
-                }
-              })
-            )
-          }
         }
       }
     } catch (e) {
@@ -180,17 +195,44 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchBankLinkCredentials = function* ({
+  const setupBankTransferProvider = function* () {
+    const fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
+    yield put(actions.components.brokerage.fetchBankLinkCredentials(fiatCurrency as WalletFiatType))
+    return yield race({
+      bankCredentials: take(actions.components.brokerage.setBankCredentials.type)
+    })
+  }
+
+  const fetchBankRefreshCredentials = function* ({
     payload
+  }: ReturnType<typeof A.fetchBankRefreshCredentials>) {
+    try {
+      yield put(actions.components.brokerage.fetchBankLinkCredentialsLoading())
+      const data: BankCredentialsType = yield call(api.refreshBankAccountLink, payload)
+      yield put(actions.components.brokerage.setBankCredentials(data))
+    } catch (error) {
+      yield put(actions.components.brokerage.fetchBankLinkCredentialsError(error))
+    }
+  }
+
+  const fetchBankLinkCredentials = function* ({
+    payload: currency
   }: ReturnType<typeof A.fetchBankLinkCredentials>) {
+    const plaidEnabled = (yield select(
+      selectors.core.walletOptions.getAddPlaidPaymentProvider
+    )).getOrElse(false)
+    const data = {
+      attributes: plaidEnabled
+        ? {
+            supportedPartners: [BankPartners.PLAID, BankPartners.YAPILY]
+          }
+        : undefined,
+      currency
+    }
     try {
       yield put(A.fetchBankLinkCredentialsLoading())
-      const credentials = yield call(api.createBankAccountLink, payload)
-      if (credentials.partner === BankPartners.YODLEE) {
-        yield put(A.setFastLink(credentials))
-      } else if (credentials.partner === BankPartners.YAPILY) {
-        yield put(A.setBankCredentials(credentials))
-      }
+      const credentials: BankCredentialsType = yield call(api.createBankAccountLink, data)
+      yield put(A.setBankCredentials(credentials))
     } catch (e) {
       yield put(A.fetchBankLinkCredentialsError(e.description))
     }
@@ -420,6 +462,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       partner === BankPartners.YAPILY ? `${comRoot}/brokerage-link-success` : undefined
     const attributes = { callback }
     try {
+      // Checks the status of the baank account before creating the order in case
+      // we need to redirect the user to the the brokerage flow
+      yield put(A.paymentAccountCheck({ amount, paymentMethodId: id }))
+      yield take(actions.components.brokerage.paymentAccountRefreshSkipped.type)
+
       const data = yield call(api.createFiatDeposit, amount, id, currency, attributes)
       const { RETRY_AMOUNT, SECONDS } = POLLING
       // If yapily we need to transition to another screen and poll for auth
@@ -491,15 +538,51 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const paymentAccountCheck = function* ({ payload }: ReturnType<typeof A.paymentAccountCheck>) {
+    const { amount, paymentMethodId } = payload
+    const plaidEnabled = (yield select(
+      selectors.core.walletOptions.getAddPlaidPaymentProvider
+    )).getOrElse(false)
+
+    // Only used for Bank Transfers for now
+    if (!paymentMethodId || !plaidEnabled) {
+      yield put(A.paymentAccountRefreshSkipped())
+      return
+    }
+
+    const status: ReturnType<typeof api.updateBankAccountLink> = yield call(
+      api.updateBankAccountLink,
+      paymentMethodId,
+      { settlementRequest: { amount, product: ProductTypes.SIMPLEBUY } }
+    )
+
+    const { reason, settlementType } = status.attributes?.settlementResponse
+    if (settlementType !== 'UNAVAILABLE') {
+      // If settlement is available, we can proceed
+      yield put(A.paymentAccountRefreshSkipped())
+      return
+    }
+
+    yield put(
+      A.setDWStep({
+        dwStep: BankDWStepType.PAYMENT_ACCOUNT_ERROR,
+        reason
+      })
+    )
+  }
+
   return {
     createFiatDeposit,
     deleteSavedBank,
     fetchBankLinkCredentials,
+    fetchBankRefreshCredentials,
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
     fetchCrossBorderLimits,
     handleDepositFiatClick,
     handleWithdrawClick,
+    paymentAccountCheck,
+    setupBankTransferProvider,
     showModal
   }
 }

@@ -1,59 +1,45 @@
 import React, { useEffect } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Loading, LoadingTextEnum } from 'blockchain-wallet-v4-frontend/src/modals/components'
-import { bindActionCreators, Dispatch } from 'redux'
 
-import { ExtractSuccess } from '@core/types'
 import { OnHold } from 'components/Flyout/Brokerage'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
-import { actions, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
-import { BrokerageTxFormValuesType } from 'data/types'
+import { actions } from 'data'
+import { useRemote } from 'hooks'
 
 import { getData } from './selectors'
 
 const DepositMethods = (props: Props) => {
-  useEffect(() => {
-    props.withdrawActions.fetchWithdrawalLock({
-      currency: props.tradingCurrencies?.defaultWalletCurrency
-    })
-  }, [props.tradingCurrencies?.defaultWalletCurrency])
+  const dispatch = useDispatch()
+  const { data, error, isLoading, isNotAsked } = useRemote(getData)
 
-  return props.data.cata({
-    Failure: () => (
-      <FlyoutOopsError action='close' data-e2e='depositTryAgain' handler={props.handleClose} />
-    ),
-    Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
-    NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />,
-    Success: (val) => (
-      <OnHold
-        fiatCurrency={val.withdrawalLocks.totalLocked.currency}
-        handleHeaderClick={props.handleClose}
-        locks={val.withdrawalLocks.locks}
-        totalLockedAmount={val.withdrawalLocks.totalLocked.amount}
-      />
-    )
-  })
+  useEffect(() => {
+    if (data) {
+      dispatch(
+        actions.components.withdraw.fetchWithdrawalLock({
+          currency: data.tradingCurrencies.defaultWalletCurrency
+        })
+      )
+    }
+  }, [dispatch])
+
+  if (error)
+    return <FlyoutOopsError action='close' data-e2e='depositTryAgain' handler={props.handleClose} />
+
+  if (isLoading || isNotAsked || !data) return <Loading text={LoadingTextEnum.LOADING} />
+
+  return (
+    <OnHold
+      fiatCurrency={data.withdrawalLocks.totalLocked.currency}
+      handleHeaderClick={props.handleClose}
+      locks={data.withdrawalLocks.locks}
+      totalLockedAmount={data.withdrawalLocks.totalLocked.amount}
+    />
+  )
 }
 
-const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
-  defaultMethod: selectors.components.brokerage.getAccount(state),
-  formValues: selectors.form.getFormValues('brokerageTx')(state) as BrokerageTxFormValuesType,
-  tradingCurrencies: selectors.modules.profile.getUserCurrencies(state)
-})
-
-export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
-})
-
-export type OwnProps = {
+export type Props = {
   handleClose: () => void
 }
-const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = OwnProps & ConnectedProps<typeof connector>
-
-export default connector(DepositMethods)
+export default DepositMethods

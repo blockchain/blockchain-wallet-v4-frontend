@@ -19,7 +19,7 @@ type OwnProps = {
 export type Props = OwnProps & ModalPropsType
 
 const enhance = compose<React.ComponentType>(
-  modalEnhancer(ModalName.TRANSACTION_DETAIL, { transition: duration })
+  modalEnhancer(ModalName.TRANSACTION_DETAIL_MODAL, { transition: duration })
 )
 
 export default enhance(TransactionDetailContainer)

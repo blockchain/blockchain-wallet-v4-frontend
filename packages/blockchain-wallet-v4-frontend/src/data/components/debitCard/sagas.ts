@@ -3,10 +3,11 @@ import { call, put, select } from 'redux-saga/effects'
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
-import { CardStateType } from 'data/components/debitCard/types'
+import { CardStateType, ResidentialAddress } from 'data/components/debitCard/types'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
 
+import { OrderCardStep, RESIDENTIAL_ADDRESS_FORM, SOCIAL_SECURITY_NUMBER_FORM } from './model'
 import { actions as A } from './slice'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -109,9 +110,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const createCard = function* (action: ReturnType<typeof A.createCard>) {
     try {
+      const { ssn } = selectors.form.getFormValues(SOCIAL_SECURITY_NUMBER_FORM)(yield select()) as {
+        ssn: string
+      }
+
       yield put(A.createCardLoading())
-      const { payload } = action
-      const data = yield call(api.createDCOrder, payload)
+      const { payload: productCode } = action
+      const data = yield call(api.createDCOrder, { productCode, ssn })
       yield put(A.createCardSuccess(data))
 
       yield call(getCards)
@@ -128,6 +133,40 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       return card
     })
+
+  const getResidentialAddress = function* () {
+    try {
+      yield put(A.getResidentialAddressLoading())
+
+      const data = yield call(api.getDCResidentialAddress)
+
+      yield put(A.getResidentialAddressSuccess(data.address))
+    } catch (e) {
+      yield put(A.getResidentialAddressFailure(e))
+    }
+  }
+
+  const submitResidentialAddress = function* () {
+    try {
+      const formValues = selectors.form.getFormValues(RESIDENTIAL_ADDRESS_FORM)(
+        yield select()
+      ) as ResidentialAddress
+
+      yield put(A.submitResidentialAddressLoading())
+
+      const data = yield call(api.setDCResidentialAddress, formValues)
+
+      yield put(A.submitResidentialAddressSuccess(data.address))
+
+      yield put(actions.components.debitCard.setOrderCardStep(OrderCardStep.SSN))
+    } catch (e) {
+      yield put(A.submitResidentialAddressFailure(e))
+    }
+  }
+
+  const submitSocialSecurityNumber = function* () {
+    yield put(actions.components.debitCard.setOrderCardStep(OrderCardStep.SELECT_CARD))
+  }
 
   const handleCardLock = function* (action: ReturnType<typeof A.handleCardLock>) {
     try {
@@ -187,8 +226,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     getCurrentCardAccount,
     getEligibleAccounts,
     getProducts,
+    getResidentialAddress,
     handleCardLock,
     selectAccount,
+    submitResidentialAddress,
+    submitSocialSecurityNumber,
     terminateCard
   }
 }

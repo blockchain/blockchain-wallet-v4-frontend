@@ -116,7 +116,7 @@ type LinkStatePropsType = {
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  ModalEnhancer(ModalName.TERMS_AND_CONDITIONS, { transition: duration }),
+  ModalEnhancer(ModalName.TERMS_AND_CONDITIONS_MODAL, { transition: duration }),
   connector
 )
 

@@ -1,22 +1,17 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Image } from 'blockchain-info-components'
+import { Button, Image } from 'blockchain-info-components'
 import FlyoutContainer from 'components/Flyout/Container'
 import FlyoutContent from 'components/Flyout/Content'
 import { FlyoutHeader } from 'components/Flyout/Layout'
 
-import {
-  ResultSubTitleWrapper,
-  ResultTitleWrapper,
-  ResultWrapper,
-  StyledButton
-} from '../../DebitCard.model'
+import { ResultSubTitleWrapper, ResultTitleWrapper, ResultWrapper } from '../../DebitCard.model'
 
 type Props = {
   handleClose: () => void
 }
-const CreationSuccessStep = ({ handleClose }: Props) => {
+const Success = ({ handleClose }: Props) => {
   return (
     <FlyoutContainer>
       <FlyoutHeader data-e2e='creationSuccessHeader' mode='close' onClick={handleClose} />
@@ -35,13 +30,13 @@ const CreationSuccessStep = ({ handleClose }: Props) => {
               defaultMessage='Welcome to the club, to view your card dashboard please press Continue below.'
             />
           </ResultSubTitleWrapper>
-          <StyledButton data-e2e='cancelCreationBtn' nature='empty-blue' onClick={handleClose}>
+          <Button fullwidth data-e2e='cancelCreationBtn' nature='empty-blue' onClick={handleClose}>
             <FormattedMessage id='buttons.dismiss' defaultMessage='Dismiss' />
-          </StyledButton>
+          </Button>
         </ResultWrapper>
       </FlyoutContent>
     </FlyoutContainer>
   )
 }
 
-export default CreationSuccessStep
+export default Success

@@ -2,7 +2,7 @@ import { createContext } from 'react'
 
 import { createUnhandledError } from 'services/deepLinkListener/utils'
 
-import { DeepLinkClickState, DeepLinkListenerContext } from './DeelLinkListenerContext.types'
+import { DeepLinkClickState, DeepLinkListenerContext } from './DeepLinkListenerContext.types'
 
 const defaultDeepLinkListenerContext: DeepLinkListenerContext = {
   onClickDeepLink: (link) => {
