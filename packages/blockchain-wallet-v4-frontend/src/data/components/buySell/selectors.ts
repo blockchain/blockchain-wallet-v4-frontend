@@ -209,6 +209,8 @@ export const getSellQuote = (state: RootState) => state.components.buySell.sellQ
 
 export const getSellOrder = (state: RootState) => state.components.buySell.sellOrder
 
+export const getReason = (state: RootState) => state.components.buySell.reason
+
 export const getStep = (state: RootState) => state.components.buySell.step
 
 export const getSwapAccount = (state: RootState) => state.components.buySell.swapAccount

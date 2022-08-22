@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 
 import {
+  BankCredentialsType,
   BankTransferAccountType,
   RecurringBuyNextPayment,
   RecurringBuyPeriods,
@@ -170,12 +171,15 @@ export default ({
       url: nabuUrl
     })
 
-  const createBankAccountLink = (currency: WalletCurrencyType) =>
+  const createBankAccountLink = (data: {
+    attributes?: {
+      supportedPartners: string[]
+    }
+    currency: WalletCurrencyType
+  }) =>
     authorizedPost({
       contentType: 'application/json',
-      data: {
-        currency
-      },
+      data,
       endPoint: `/payments/banktransfer`,
       removeDefaultPostData: true,
       url: nabuUrl
@@ -186,6 +190,15 @@ export default ({
       contentType: 'application/json',
       data: { attributes },
       endPoint: `/payments/banktransfer/${bankId}/update`,
+      removeDefaultPostData: true,
+      url: nabuUrl
+    })
+
+  const refreshBankAccountLink = (bankId: string): BankCredentialsType =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {},
+      endPoint: `/payments/banktransfer/${bankId}/refresh`,
       removeDefaultPostData: true,
       url: nabuUrl
     })
@@ -561,6 +574,7 @@ export default ({
     getRBPaymentInfo,
     getRBRegisteredList,
     getUnifiedSellTrades,
+    refreshBankAccountLink,
     updateBankAccountLink,
     validateApplePayMerchant,
     withdrawBSFunds
