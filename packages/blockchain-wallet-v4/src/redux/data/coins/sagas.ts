@@ -46,42 +46,6 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchCoinData = function* (action: ReturnType<typeof A.fetchCoinData>) {
-    const { list, password } = action.payload
-
-    try {
-      // TODO: SELF_CUSTODY
-      // this 'list' will eventually come from wallet-agent
-      const coins = list || ['STX']
-      yield all(
-        coins.map(function* (coin) {
-          const pubKey = yield call(getPubKey, password)
-          try {
-            const { results }: ReturnType<typeof api.balance> = yield call(api.balance, [
-              { descriptor: 'legacy', pubKey, style: 'SINGLE' }
-            ])
-
-            // TODO: SELF_CUSTODY
-            yield put(
-              A.fetchCoinDataSuccess(
-                coin,
-                results[0].balances
-                  .reduce((acc, curr) => acc.plus(curr.amount), new BigNumber(0))
-                  .toString()
-              )
-            )
-          } catch (e) {
-            const error = errorHandler(e)
-            yield put(A.fetchCoinDataFailure(error, coin))
-          }
-        })
-      )
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log(e)
-    }
-  }
-
   const fetchCoinsRates = function* () {
     const coins = S.getAllCoins()
     const defaultFiat = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
@@ -187,7 +151,6 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
-    fetchCoinData,
     fetchCoinsRates,
     fetchTransactions,
     pollForCoinData,

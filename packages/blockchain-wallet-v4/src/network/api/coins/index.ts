@@ -1,5 +1,4 @@
 import {
-  BalanceResponseType,
   BuildTxIntentType,
   BuildTxResponseType,
   DeriveAddressResponseType,
@@ -70,21 +69,6 @@ export default ({ apiUrl, get, post }) => {
       },
       // TODO: SELF_CUSTODY
       endPoint: `/currency/stx/pushTx`,
-      removeDefaultPostData: true,
-      url: apiUrl
-    })
-  }
-
-  const balance = (
-    pubKeys: { descriptor: 'default' | 'legacy'; pubKey: string; style: 'SINGLE' }[]
-  ): BalanceResponseType => {
-    return post({
-      contentType: 'application/json',
-      data: {
-        pubKeys
-      },
-      // TODO: SELF_CUSTODY
-      endPoint: `/currency/stx/balance`,
       removeDefaultPostData: true,
       url: apiUrl
     })
@@ -227,7 +211,6 @@ export default ({ apiUrl, get, post }) => {
 
   return {
     authWalletPubkeyService,
-    balance,
     buildTx,
     deriveAddress,
     fetchUnifiedBalances,

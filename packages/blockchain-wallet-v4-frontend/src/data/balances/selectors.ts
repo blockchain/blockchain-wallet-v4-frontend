@@ -322,16 +322,16 @@ export const getTotalWalletBalancesSorted = createDeepEqualSelector(
 export const getCoinNonCustodialBalance = (
   coin: CoinType
 ): ((state: RootState) => RemoteDataType<string, number | BigNumber>) => {
-  const balance = new BigNumber(0)
   return (state: RootState) => {
     return createDeepEqualSelector(
       [selectors.balancesV2.getUnifiedBalances],
       (unifiedBalancesR) => {
+        let balance = new BigNumber(0)
         const transform = (unifiedBalances: ExtractSuccess<typeof unifiedBalancesR>) => {
           unifiedBalances
             .filter(({ ticker }) => ticker === coin)
             .forEach(({ amount }) => {
-              balance.plus(amount.amount)
+              balance = balance.plus(amount.amount)
             })
 
           return balance

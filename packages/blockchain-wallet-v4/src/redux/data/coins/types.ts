@@ -5,7 +5,6 @@ import * as AT from './actionTypes'
 
 // state
 export type CoinsState = {
-  balances: { [key in string]: RemoteDataType<string, any> }
   btcTicker: RemoteDataType<string, TickerResponseType>
   isCoinDataLoaded: boolean
   rates: RemoteDataType<string, RatesType>
@@ -14,26 +13,6 @@ export type CoinsState = {
 }
 
 // actions
-interface FetchCoinDataFailureActionType {
-  payload: {
-    coin: string
-    error: string
-  }
-  type: typeof AT.FETCH_COIN_DATA_FAILURE
-}
-interface FetchCoinDataLoadingActionType {
-  payload: {
-    coin: string
-  }
-  type: typeof AT.FETCH_COIN_DATA_LOADING
-}
-interface FetchCoinDataSuccessActionType {
-  payload: {
-    balance: string
-    coin: string
-  }
-  type: typeof AT.FETCH_COIN_DATA_SUCCESS
-}
 interface FetchCoinsRatesFailureActionType {
   payload: {
     error: string
@@ -99,9 +78,6 @@ interface SetTransactionsAtBoundActionType {
 }
 
 export type CoinsActionTypes =
-  | FetchCoinDataFailureActionType
-  | FetchCoinDataLoadingActionType
-  | FetchCoinDataSuccessActionType
   | FetchCoinsRatesFailureActionType
   | FetchCoinsRatesLoadingActionType
   | FetchCoinsRatesSuccessActionType

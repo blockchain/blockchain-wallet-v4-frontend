@@ -2,9 +2,8 @@ import { call } from '@redux-saga/core/effects'
 import { lift } from 'ramda'
 
 import { APIType } from '@core/network/api'
-import { getBalance } from '@core/redux/data/coins/selectors'
 import { getPubKey } from '@core/redux/data/self-custody/sagas'
-import { BSBalanceType, CoinType, ExtractSuccess } from '@core/types'
+import { BSBalanceType, CoinType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 import { SwapAccountType } from 'data/types'
@@ -37,7 +36,7 @@ export class DynamicSelfCustodyAccountType implements AccountTypeClass {
 
   getAccounts = createDeepEqualSelector(
     [
-      (state, ownProps) => getBalance(ownProps.coin, state),
+      (state, ownProps) => selectors.balances.getCoinNonCustodialBalance(ownProps.coin)(state),
       (state, { coin }) => selectors.balances.getCoinTradingBalance(coin, state), // custodial accounts
       (state, ownProps) => ownProps // selector config
     ],

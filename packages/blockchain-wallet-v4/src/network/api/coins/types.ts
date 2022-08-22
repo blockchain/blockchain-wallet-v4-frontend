@@ -1,13 +1,3 @@
-export type BalanceResponseType = {
-  results: {
-    balances: {
-      amount: string
-      identifier: 'native'
-    }[]
-    pubKey: string
-  }[]
-}
-
 export type UnifiedBalancesResponseType = {
   currencies: [
     {

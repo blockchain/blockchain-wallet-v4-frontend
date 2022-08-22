@@ -61,10 +61,6 @@ export const getIsCoinDataLoaded = (state) => {
   return state.dataPath.coins.isCoinDataLoaded
 }
 
-export const getBalance = curry((coin: string, state: RootState) => {
-  return state.dataPath.coins.balances[coin] || Remote.NotAsked
-})
-
 export const getRates = (coin: string, state: RootState) => {
   const walletCurrency = selectors.settings.getCurrency(state).getOrElse('USD')
 

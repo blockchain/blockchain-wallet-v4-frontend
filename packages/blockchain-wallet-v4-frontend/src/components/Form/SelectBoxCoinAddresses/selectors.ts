@@ -2,10 +2,10 @@
 import { concat, curry, reduce, sequence } from 'ramda'
 
 import { Exchange, Remote } from '@core'
-import { getBalance } from '@core/redux/data/coins/selectors'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { InterestAccountBalanceType } from '@core/types'
 import { selectors } from 'data'
+import { getCoinNonCustodialBalance } from 'data/balances/selectors'
 
 export const getData = (
   state,
@@ -104,7 +104,9 @@ export const getData = (
           .map(toGroup('Custodial Wallet'))
       : Remote.of([]),
     includeSelfCustody
-      ? getBalance(coin, state).map(toSelfCustodyDropdown).map(toGroup('Private Key'))
+      ? getCoinNonCustodialBalance(coin)(state)
+          .map(toSelfCustodyDropdown)
+          .map(toGroup('Private Key'))
       : Remote.of([]),
     includeInterest
       ? selectors.components.interest
