@@ -1288,12 +1288,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const buyQuotePaymentMethodId =
           paymentMethod === BSPaymentTypes.BANK_TRANSFER ? paymentMethodId : undefined
 
+        const effectivePaymentMethod =
+          paymentMethod === BSPaymentTypes.USER_CARD ? BSPaymentTypes.PAYMENT_CARD : paymentMethod
+
         const quote: ReturnType<typeof api.getBuyQuote> = yield call(
           api.getBuyQuote,
           pairReversed,
           'SIMPLEBUY',
           amount,
-          paymentMethod,
+          effectivePaymentMethod,
           buyQuotePaymentMethodId
         )
 
