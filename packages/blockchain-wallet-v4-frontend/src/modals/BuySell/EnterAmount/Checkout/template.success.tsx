@@ -380,14 +380,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const limit = Number(props.sddLimit.max) / LIMIT_FACTOR
   // if user is attempting to send NC ERC20, ensure they have sufficient
   // ETH balance else warn user and disable trade
-  const isErc20 = window.coins[cryptoCurrency].coinfig.type.erc20Address
-  const isSufficientEthForErc20 =
-    props.payment &&
-    props.swapAccount?.type === SwapBaseCounterTypes.ACCOUNT &&
-    props.orderType === OrderType.SELL &&
-    isErc20 &&
-    // @ts-ignore
-    !props.payment.isSufficientEthForErc20
 
   const getValue = (value) =>
     fix === 'FIAT'
@@ -663,7 +655,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           {!showLimitError && !showError && isPaymentMethodBlocked === false && (
             <ActionButton
               {...props}
-              isSufficientEthForErc20={isSufficientEthForErc20 || false}
               isDailyLimitExceeded={isDailyLimitExceeded || false}
               isAmountInBounds={amountInBounds}
             />
@@ -918,17 +909,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <GetMoreAccess startProcess={props.showUpgradeModal} />
           </FlyoutWrapper>
         )}
-      {isSufficientEthForErc20 && (
-        <Banner type='warning'>
-          <FormattedMessage
-            id='copy.not_enough_eth1'
-            defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
-            values={{
-              coin: cryptoCurrency
-            }}
-          />
-        </Banner>
-      )}
     </CustomForm>
   )
 }

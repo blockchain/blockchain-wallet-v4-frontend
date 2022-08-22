@@ -225,7 +225,6 @@ export default ({ api }: { api: APIType }) => {
             ? path(['fees', 'gasLimitContract'], p)
             : path(['fees', 'gasLimit'], p)
         const fee = calculateFee(feeInGwei, gasLimit as string, true, extraGasForMemo)
-        const isSufficientEthForErc20 = yield call(calculateIsSufficientEthForErc20, fee)
 
         const data = p.isErc20
           ? yield call(api.getErc20AccountSummaryV2, account, contract)
@@ -240,8 +239,7 @@ export default ({ api }: { api: APIType }) => {
           mergeRight(p, {
             effectiveBalance,
             fee,
-            feeInGwei,
-            isSufficientEthForErc20
+            feeInGwei
           })
         )
       },
@@ -300,7 +298,6 @@ export default ({ api }: { api: APIType }) => {
         const gasPrice = prop('regular', fees)
         const gasLimit = isErc20 ? prop('gasLimitContract', fees) : prop('gasLimit', fees)
         const fee = calculateFee(gasPrice, gasLimit, true)
-        const isSufficientEthForErc20 = yield call(calculateIsSufficientEthForErc20, fee)
 
         return makePayment(
           mergeRight(p, {
@@ -308,8 +305,7 @@ export default ({ api }: { api: APIType }) => {
             fee,
             feeInGwei: gasPrice,
             fees,
-            isErc20,
-            isSufficientEthForErc20
+            isErc20
           })
         )
       },

@@ -54,7 +54,6 @@ type EthPaymentValue = IPaymentValue & {
     type: AddressTypesType
   }
   isRetryAttempt: boolean | undefined
-  isSufficientEthForErc20: boolean
   minFee?: string
   to?: EthAccountFromType | EthAddressFromType
   txId?: string
