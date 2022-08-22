@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
 
@@ -30,68 +30,84 @@ const Referral = ({
   handleCopyToClipboard,
   rewardSubtitle,
   rewardTitle
-}: Props) => (
-  <Wrapper>
-    <ReferralBgImage name='bg-referral' />
-    <ReferralMobileImage name='referral-icon' />
-    <TitleSection>
-      <Title color='grey900'>{rewardTitle}</Title>
-      <Subtitle>{rewardSubtitle}</Subtitle>
-    </TitleSection>
-    <CodeSection>
-      <CopyReferralCode>
-        <FormattedMessage
-          defaultMessage='Copy your referral code'
-          id='scenes.referral.copyyourcode'
-        />
-      </CopyReferralCode>
-      <CopyContainer>
-        <Code line-height='125%' weight={500}>
-          {code}
-        </Code>
-        {copiedToClipboard ? (
-          <Text color='blue600' lineHeight='17px' size='14px' weight={400}>
-            <FormattedMessage defaultMessage='Copied' id='copy.copied' />
-          </Text>
-        ) : (
-          <Text
-            color='blue600'
-            lineHeight='17px'
-            onClick={handleCopyToClipboard}
-            size='14px'
-            weight={400}
-            cursor='pointer'
-          >
-            <FormattedMessage defaultMessage='Copy' id='copy.copy' />
-          </Text>
-        )}
-      </CopyContainer>
-      <ShareLink href='mailto:?body=tisbody&subject=thisbethesubject'>
-        <ShareButton data-e2e='referral-share-button' nature='primary'>
-          <FormattedMessage defaultMessage='Share' id='copy.share' />
-        </ShareButton>
-      </ShareLink>
-    </CodeSection>
-    <InstructionSection>
-      <Text>
-        <FormattedMessage
-          defaultMessage='What my invited friends need to do?'
-          id='scenes.referral.invited.friends.do'
-        />
-      </Text>
-      <InstructionContainer>
-        {criteria.map((step, index) => (
-          <StepContainer key={step}>
-            <StepIcon>{index + 1}</StepIcon>
-            <StepText color='grey900' lineHeight='150%' weight={500}>
-              {step}
-            </StepText>
-          </StepContainer>
-        ))}
-      </InstructionContainer>
-    </InstructionSection>
-  </Wrapper>
-)
+}: Props) => {
+  const intl = useIntl()
+  const mailtoBody = intl.formatMessage({
+    defaultMessage: `Signup to Blockchain.com with my referral code ${code}. Find the app here: https://blockchainwallet.page.link/join`,
+    id: 'scenes.referral.mailto.body'
+  })
+  const mailtoSubject = intl.formatMessage({
+    defaultMessage: 'Join me on Blockchain.com',
+    id: 'scenes.referral.mailto.subject'
+  })
+
+  return (
+    <Wrapper>
+      <ReferralBgImage name='bg-referral' />
+      <ReferralMobileImage name='referral-icon' />
+      <TitleSection>
+        <Title color='grey900'>{rewardTitle}</Title>
+        <Subtitle>{rewardSubtitle}</Subtitle>
+      </TitleSection>
+      <CodeSection>
+        <CopyReferralCode>
+          <FormattedMessage
+            defaultMessage='Copy your referral code'
+            id='scenes.referral.copyyourcode'
+          />
+        </CopyReferralCode>
+        <CopyContainer>
+          <Code line-height='125%' weight={500}>
+            {code}
+          </Code>
+          {copiedToClipboard ? (
+            <Text color='blue600' lineHeight='17px' size='14px' weight={400}>
+              <FormattedMessage defaultMessage='Copied' id='copy.copied' />
+            </Text>
+          ) : (
+            <Text
+              color='blue600'
+              lineHeight='17px'
+              onClick={handleCopyToClipboard}
+              size='14px'
+              weight={400}
+              cursor='pointer'
+            >
+              <FormattedMessage defaultMessage='Copy' id='copy.copy' />
+            </Text>
+          )}
+        </CopyContainer>
+        <ShareLink
+          href={`mailto:?body=${encodeURIComponent(mailtoBody)}&subject=${encodeURIComponent(
+            mailtoSubject
+          )}`}
+        >
+          <ShareButton data-e2e='referral-share-button' nature='primary'>
+            <FormattedMessage defaultMessage='Share' id='copy.share' />
+          </ShareButton>
+        </ShareLink>
+      </CodeSection>
+      <InstructionSection>
+        <Text>
+          <FormattedMessage
+            defaultMessage='What my invited friends need to do?'
+            id='scenes.referral.invited.friends.do'
+          />
+        </Text>
+        <InstructionContainer>
+          {criteria.map((step, index) => (
+            <StepContainer key={step}>
+              <StepIcon>{index + 1}</StepIcon>
+              <StepText color='grey900' lineHeight='150%' weight={500}>
+                {step}
+              </StepText>
+            </StepContainer>
+          ))}
+        </InstructionContainer>
+      </InstructionSection>
+    </Wrapper>
+  )
+}
 
 type Props = {
   code: string
