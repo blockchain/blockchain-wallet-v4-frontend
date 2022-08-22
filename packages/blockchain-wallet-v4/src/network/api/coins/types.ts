@@ -2,7 +2,7 @@ export type UnifiedBalancesResponseType = {
   currencies: [
     {
       account: { index: number; name: string }
-      amount: { amount: string; precision: number }
+      amount: { amount: string; precision: number } | null
       price: number
       ticker: string
       unconfirmed: { amount: string; precision: number }

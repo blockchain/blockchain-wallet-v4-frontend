@@ -33,27 +33,6 @@ export const getEthBalance = function* () {
   }
 }
 
-export const getErc20Balance = function* (token) {
-  try {
-    const erc20BalanceR = yield select(selectors.core.data.eth.getErc20Balance, token)
-    if (!Remote.Success.is(erc20BalanceR)) {
-      yield put(actions.core.data.eth.fetchErc20Data(token))
-      const erc20Data = yield take([
-        (action) =>
-          action.type === actionTypes.core.data.eth.FETCH_ERC20_TOKEN_DATA_SUCCESS &&
-          action.payload.token === token,
-        (action) =>
-          action.type === actionTypes.core.data.eth.FETCH_ERC20_TOKEN_DATA_FAILURE &&
-          action.payload.token === token
-      ])
-      return pathOr(0, balancePath, erc20Data)
-    }
-    return erc20BalanceR.getOrElse(0)
-  } catch (e) {
-    yield put(actions.logs.logErrorMessage(logLocation, 'getErc20Balance', e))
-  }
-}
-
 export const getBtcBalance = function* () {
   try {
     const btcBalanceR = yield select(selectors.core.data.btc.getBalance)

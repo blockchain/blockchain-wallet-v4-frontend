@@ -23,7 +23,7 @@ export default () => {
   }
 
   const refreshCoinTransactions = function* (coin) {
-    yield put(actions.core.data.coins.fetchTransactions(coin, true))
+    yield put(actions.core.data.coins.fetchTransactions({ coin, reset: true }))
   }
 
   const refreshXlmTransactions = function* () {

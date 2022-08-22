@@ -149,7 +149,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         balances.currencies.map(function* (res) {
           const siblingAccounts = balances.currencies.filter(({ ticker }) => ticker === res.ticker)
           const someBalance = siblingAccounts.some(({ amount }) =>
-            new BigNumber(amount.amount).isGreaterThan(0)
+            new BigNumber(amount?.amount || 0).isGreaterThan(0)
           )
           if (!someBalance) {
             yield put(A.unsubscribe(res.ticker))

@@ -331,7 +331,7 @@ export const getCoinNonCustodialBalance = (
           unifiedBalances
             .filter(({ ticker }) => ticker === coin)
             .forEach(({ amount }) => {
-              balance = balance.plus(amount.amount)
+              balance = balance.plus(amount ? amount.amount : 0)
             })
 
           return balance

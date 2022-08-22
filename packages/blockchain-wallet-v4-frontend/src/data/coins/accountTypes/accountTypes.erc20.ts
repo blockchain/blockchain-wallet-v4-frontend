@@ -44,7 +44,7 @@ export class ERC20AccountType implements NonCustodialAccountTypeClass {
   getAccounts = createDeepEqualSelector(
     [
       coreSelectors.kvStore.eth.getDefaultAddress,
-      (state, { coin }) => coreSelectors.data.eth.getErc20Balance(state, coin), // non-custodial metadata
+      (state, { coin }) => selectors.balances.getCoinNonCustodialBalance(coin)(state), // non-custodial metadata
       (state, { coin }) => selectors.balances.getCoinTradingBalance(coin, state), // custodial accounts
       (state, ownProps) => ownProps // selector config
     ],

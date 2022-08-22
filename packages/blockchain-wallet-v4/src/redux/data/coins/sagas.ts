@@ -1,7 +1,6 @@
-import { BigNumber } from 'bignumber.js'
 import { getTime } from 'date-fns'
 import { flatten, last, length } from 'ramda'
-import { all, call, delay, put, select, take } from 'redux-saga/effects'
+import { call, delay, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
@@ -11,9 +10,8 @@ import Remote from '../../../remote'
 import * as selectors from '../../selectors'
 import custodialSagas from '../custodial/sagas'
 import { getPubKey } from '../self-custody/sagas'
-import * as A from './actions'
-import * as AT from './actionTypes'
 import * as S from './selectors'
+import { actions as A } from './slice'
 
 const TX_PER_PAGE = 10
 
@@ -67,7 +65,7 @@ export default ({ api }: { api: APIType }) => {
     try {
       yield put(A.fetchCoinsRatesLoading())
       const response: ReturnType<typeof api.getCoinPrices> = yield call(api.getCoinPrices, request)
-      yield put(A.fetchCoinsRatesSuccess(response))
+      yield put(A.fetchCoinsRatesSuccess({ rates: response }))
     } catch (e) {
       const error =
         typeof errorHandler(e) === 'string' ? errorHandler(e) : 'Failed to fetch prices.'
@@ -84,7 +82,7 @@ export default ({ api }: { api: APIType }) => {
       const transactionsAtBound = S.getTransactionsAtBound(payload.coin, yield select())
       if (Remote.Loading.is(last(pages))) return
       if (transactionsAtBound && !reset) return
-      yield put(A.fetchTransactionsLoading(payload.coin, reset))
+      yield put(A.fetchTransactionsLoading({ coin: payload.coin, reset }))
       const txs: Array<any> = []
       const txPage: Array<any> = txs
       const nextBSTransactionsURL = selectors.data.custodial.getNextBSTransactionsURL(
@@ -134,18 +132,18 @@ export default ({ api }: { api: APIType }) => {
         if (b.insertedAt === null) return 1
         return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
-      const atBounds = page.length < TX_PER_PAGE * newPages.length
-      yield put(A.transactionsAtBound(payload.coin, atBounds))
-      yield put(A.fetchTransactionsSuccess(payload.coin, page, reset, true))
+      const atBound = page.length < TX_PER_PAGE * newPages.length
+      yield put(A.setTransactionsAtBound({ atBound, coin: payload.coin }))
+      yield put(A.fetchTransactionsSuccess({ coin: payload.coin, transactions: page }))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchTransactionsFailure(payload.coin, error))
+      yield put(A.fetchTransactionsFailure({ coin: payload.coin, error }))
     }
   }
 
   const watchTransactions = function* () {
     while (true) {
-      const action = yield take(AT.FETCH_COINS_TRANSACTIONS)
+      const action = yield take(A.fetchTransactions.type)
       yield call(fetchTransactions, action)
     }
   }

@@ -10,7 +10,7 @@ export const getData = createDeepEqualSelector(
   (unifiedBalancesR, currencyR) => {
     const transform = (unifiedBalances: ExtractSuccess<typeof unifiedBalancesR>, currency) => {
       const ethBalance = unifiedBalances.find(({ ticker }) => ticker === 'ETH')
-      const ethBalanceAmt = ethBalance?.amount.amount || 0
+      const ethBalanceAmt = ethBalance?.amount?.amount || 0
       const ethRates: RatesType = { price: ethBalance?.price || 0, timestamp: 0, volume24h: 0 }
       let total = Number(
         convertCoinToFiat({ coin: 'ETH', currency, rates: ethRates, value: ethBalanceAmt })
@@ -22,7 +22,7 @@ export const getData = createDeepEqualSelector(
         .filter((balance) => !!window.coins[balance.ticker].coinfig.type.erc20Address)
 
       erc20Balances.forEach((erc20Balance) => {
-        const value = erc20Balance.amount.amount
+        const value = erc20Balance.amount?.amount || 0
         const rates: RatesType = { price: erc20Balance.price, timestamp: 0, volume24h: 0 }
         total += Number(convertCoinToFiat({ coin: erc20Balance.ticker, currency, rates, value }))
       })

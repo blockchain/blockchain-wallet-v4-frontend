@@ -44,25 +44,6 @@ const CONTEXT_FAILURE = 'Could not get ETH context.'
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
-  //
-  // ETH
-  //
-  const checkForLowEthBalance = function* () {
-    // TODO: ERC20 check for any erc20 balance in future
-    const erc20Balance = (yield select(S.getErc20Balance, 'PAX')).getOrElse(0)
-    const weiBalance = (yield select(S.getBalance)).getOrFail()
-    const ethRates = selectors.data.coins.getRates('ETH', yield select()).getOrFail('No rates')
-    const ethBalance = Exchange.convertCoinToFiat({
-      coin: 'ETH',
-      currency: 'USD',
-      rates: ethRates,
-      value: weiBalance
-    })
-    // less than $1 eth and has PAX, set warning flag to true
-    const showWarning = parseInt(ethBalance) < 1 && erc20Balance > 0
-    yield put(A.checkLowEthBalanceSuccess(showWarning))
-  }
-
   const fetchData = function* () {
     try {
       const context = kvStoreSelectors.getDefaultAddress(yield select()).getOrFail('No ETH address')
@@ -89,12 +70,6 @@ export default ({ api }: { api: APIType }) => {
       }
 
       yield put(A.fetchDataSuccess(ethData))
-      // eslint-disable-next-line
-      try {
-        yield call(checkForLowEthBalance)
-      } catch (e) {
-        // do nothing
-      }
     } catch (e) {
       yield put(A.fetchDataFailure(errorHandler(e)))
     }
@@ -610,7 +585,6 @@ export default ({ api }: { api: APIType }) => {
   return {
     __processErc20Txs,
     __processTxs,
-    checkForLowEthBalance,
     fetchData,
     fetchErc20Data,
     fetchErc20TransactionFee,
