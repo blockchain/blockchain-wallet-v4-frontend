@@ -6,9 +6,7 @@ export enum SignupRedirectTypes {
   EXCHANGE_HOME = 'EXCHANGE_HOME',
   WALLET_HOME = 'WALLET_HOME'
 }
-export enum SignupRedirectSourceTypes {
-  DOT_COM = 'DOT_COM'
-}
+
 export type ProductSignupMetadata = {
   platform?: PlatformTypes
   product?: ProductAuthOptions

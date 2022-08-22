@@ -13,7 +13,6 @@ import {
   ModalName,
   PlatformTypes,
   ProductAuthOptions,
-  SignupRedirectSourceTypes,
   SignupRedirectTypes
 } from 'data/types'
 import * as C from 'services/alerts'
