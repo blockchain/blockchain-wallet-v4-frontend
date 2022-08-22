@@ -273,11 +273,12 @@ export default ({ get, post, rootUrl }) => {
 
   const validate2faResponse = (email, code) =>
     post({
+      contentType: 'application/json',
       data: {
-        code,
-        email
+        email,
+        response: code
       },
-      endpoint: '/wallet/recovery/validate-2fa-response',
+      endPoint: `/wallet/recovery/validate-2fa-response`,
       url: rootUrl
     })
 

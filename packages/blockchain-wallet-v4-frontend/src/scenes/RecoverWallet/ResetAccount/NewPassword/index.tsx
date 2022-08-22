@@ -3,7 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
+import { Remote } from '@core'
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import Form from 'components/Form/Form'
 import FormGroup from 'components/Form/FormGroup'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
@@ -11,13 +13,8 @@ import Terms from 'components/Terms'
 import { RecoverSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
-import { Props as OwnProps } from '../..'
-import {
-  ActionButton,
-  BackArrowFormHeader,
-  ResetFormSteps,
-  ReverifyIdentityInfoBox
-} from '../../model'
+import { Props } from '../..'
+import { ActionButton, BackArrowFormHeader, ReverifyIdentityInfoBox } from '../../model'
 
 const Footer = styled(FormGroup)`
   display: flex;
@@ -29,12 +26,23 @@ const Footer = styled(FormGroup)`
 const validatePasswordConfirmation = validPasswordConfirmation('resetAccountPassword')
 
 const NewPassword = (props: Props) => {
-  const { emailFromMagicLink, invalid, isRegistering, setFormStep, setStep } = props
+  const { accountRecoveryData, invalid, setStep } = props
+  const isRegistering = Remote.Loading.is(props.registering)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const { formValues, language, signupActions } = props
+    signupActions.resetAccount({
+      email: formValues?.recoveryEmail,
+      language,
+      password: formValues.resetAccountPassword
+    })
+  }
+
   return (
-    <>
+    <Form onSubmit={handleSubmit}>
       <BackArrowFormHeader
-        handleBackArrowClick={() => setFormStep(ResetFormSteps.TWO_FA_CONFIRMATION)}
-        email={emailFromMagicLink}
+        handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
+        email={accountRecoveryData?.email}
         step={RecoverSteps.RESET_ACCOUNT}
       />
       <Text
@@ -104,12 +112,8 @@ const NewPassword = (props: Props) => {
           )}
         </ActionButton>
       </Footer>
-    </>
+    </Form>
   )
 }
 
-type Props = OwnProps & {
-  isRegistering: boolean
-  setFormStep: (step) => void
-}
 export default NewPassword

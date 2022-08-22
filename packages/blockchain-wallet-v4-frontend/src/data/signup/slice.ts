@@ -11,7 +11,8 @@ import {
   RegisteringSuccessType,
   RestoringType,
   SignupRedirectTypes,
-  SignupStateType
+  SignupStateType,
+  VerifyTwoFAType
 } from './types'
 
 const initialState: SignupStateType = {
@@ -114,7 +115,7 @@ const signupSlice = createSlice({
       state.resetAccount = action.payload
     },
     triggerRecoverEmail: (state, action) => {},
-    verifyTwoFaForRecovery: (state, action) => {}
+    verifyTwoFaForRecovery: (state, action: PayloadAction<VerifyTwoFAType>) => {}
   }
 })
 

@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
-import { AccountRecoveryMagicLinkData, Analytics, RecoverSteps } from 'data/types'
+import { Analytics, RecoverSteps } from 'data/types'
 import { media } from 'services/styles'
 
 import { Props as OwnProps } from '../..'
@@ -14,7 +14,7 @@ import {
   ActionButton,
   BackArrowFormHeader,
   CircleBackground,
-  ResetFormSteps,
+  FormWrapper,
   SubCard,
   TryAnotherMethodRow
 } from '../../model'
@@ -33,12 +33,12 @@ margin-bottom: 12px;
 `
 const ResetWarning: React.FC<Props> = (props: Props) => {
   const handleResetAccountClick = () => {
-    const { accountRecoveryData, analyticsActions, setFormStep } = props
+    const { accountRecoveryData, analyticsActions, setStep } = props
     // will be 0 if no 2fa
     if (accountRecoveryData?.two_fa_type) {
-      setFormStep(ResetFormSteps.TWO_FA_CONFIRMATION)
+      setStep(RecoverSteps.TWO_FA_CONFIRMATION)
     } else {
-      setFormStep(ResetFormSteps.NEW_PASSWORD)
+      setStep(RecoverSteps.NEW_PASSWORD)
     }
     analyticsActions.trackEvent({
       key: Analytics.RECOVERY_RESET_ACCOUNT_CLICKED,
@@ -48,12 +48,12 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
       }
     })
   }
-  const { emailFromMagicLink, setStep } = props
+  const { accountRecoveryData, setStep } = props
   return (
-    <>
+    <FormWrapper>
       <BackArrowFormHeader
         handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
-        email={emailFromMagicLink}
+        email={accountRecoveryData?.email}
         step={RecoverSteps.RESET_ACCOUNT}
       />
 
@@ -111,7 +111,7 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
           </MobileText>
         </TryAnotherMethodRow>
       </SubCard>
-    </>
+    </FormWrapper>
   )
 }
 
@@ -121,9 +121,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(null, mapDispatchToProps)
 
-type Props = {
-  setFormStep: (step) => void
-} & OwnProps &
-  ConnectedProps<typeof connector>
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(ResetWarning)

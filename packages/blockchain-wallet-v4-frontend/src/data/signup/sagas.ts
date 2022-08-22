@@ -1,5 +1,4 @@
 import base64url from 'base64url'
-import { ResetFormSteps } from 'blockchain-wallet-v4-frontend/src/scenes/RecoverWallet/model'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, put, select } from 'redux-saga/effects'
 
@@ -18,6 +17,7 @@ import {
   PlatformTypes,
   ProductAuthOptions,
   RecoverSteps,
+  ResetFormSteps,
   SignupRedirectTypes
 } from 'data/types'
 import * as C from 'services/alerts'
@@ -326,11 +326,11 @@ export default ({ api, coreSagas, networks }) => {
       // const response = yield call(api.pollForResetApprovalStatus, sessionToken)
 
       const response = {
-        email: 'leora@blockchain.com',
+        email: 'leora+1206+11232@blockchain.com',
         request_denied: false,
         status: true,
         two_fa_type: 1,
-        userId: '01ceac7d-d111-4557-8f8d-00db4509c70d'
+        userId: '59ef7cd7-d6be-4aae-86d7-393ddadee376'
       }
 
       if (response?.status) {
@@ -390,7 +390,10 @@ export default ({ api, coreSagas, networks }) => {
   const verifyTwoFaForRecovery = function* (action) {
     try {
       const { code, email } = action.payload
-      const response = yield call(api.validate2faResponse, email, code)
+      const { success, verified } = yield call(api.validate2faResponse, email, code)
+      if (success && verified) {
+        yield put(actions.form.change(RECOVER_FORM, 'step', ResetFormSteps.NEW_PASSWORD))
+      }
     } catch (e) {
       // TODO: handle error
     }

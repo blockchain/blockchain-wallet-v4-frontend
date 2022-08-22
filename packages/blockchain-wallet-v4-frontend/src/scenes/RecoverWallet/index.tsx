@@ -7,7 +7,13 @@ import { getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 import { RemoteDataType } from '@core/types'
 import Form from 'components/Form/Form'
 import { actions, selectors } from 'data'
-import { AlertsState, ProductAuthOptions, RecoverFormType, RecoverSteps } from 'data/types'
+import {
+  AlertsState,
+  ProductAuthOptions,
+  RecoverFormType,
+  RecoverSteps,
+  ResetFormSteps
+} from 'data/types'
 
 import CheckInbox from './CheckInbox'
 import CloudRecovery from './CloudRecovery'
@@ -15,7 +21,9 @@ import ForgotPasswordEmail from './ForgotPasswordEmail'
 import { RECOVER_FORM } from './model'
 import RecoveryOptions from './RecoveryOptions'
 import RecoveryPhrase from './RecoveryPhrase'
-import ResetAccount from './ResetAccount'
+import NewPassword from './ResetAccount/NewPassword'
+import ResetWarning from './ResetAccount/ResetWarning'
+import TwoFAConfirmation from './ResetAccount/TwoFAConfirmation'
 
 class RecoverWalletContainer extends React.PureComponent<
   InjectedFormProps<{}, Props> & Props,
@@ -41,7 +49,7 @@ class RecoverWalletContainer extends React.PureComponent<
     this.props.formActions.destroy(RECOVER_FORM)
   }
 
-  setStep = (step: RecoverSteps) => {
+  setStep = (step: RecoverSteps | ResetFormSteps) => {
     this.props.formActions.change(RECOVER_FORM, 'step', step)
   }
 
@@ -62,8 +70,12 @@ class RecoverWalletContainer extends React.PureComponent<
               return <CloudRecovery {...this.props} setStep={this.setStep} />
             case RecoverSteps.RECOVERY_PHRASE:
               return <RecoveryPhrase {...this.props} setStep={this.setStep} />
-            case RecoverSteps.RESET_ACCOUNT:
-              return <ResetAccount {...this.props} setStep={this.setStep} />
+            case RecoverSteps.RESET_WARNING:
+              return <ResetWarning {...this.props} setStep={this.setStep} />
+            case RecoverSteps.TWO_FA_CONFIRMATION:
+              return <TwoFAConfirmation {...this.props} setStep={this.setStep} />
+            case RecoverSteps.NEW_PASSWORD:
+              return <NewPassword {...this.props} setStep={this.setStep} />
             default:
               return <RecoveryOptions {...this.props} setStep={this.setStep} />
           }
@@ -103,7 +115,7 @@ type FormProps = {
   busy: boolean
   invalid: boolean
   pristine: boolean
-  setStep: (step: RecoverSteps) => void
+  setStep: (step: RecoverSteps | ResetFormSteps) => void
   submitting: boolean
 }
 

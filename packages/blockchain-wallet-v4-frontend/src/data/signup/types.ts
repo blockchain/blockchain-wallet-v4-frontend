@@ -16,13 +16,30 @@ export type ProductSignupMetadata = {
 }
 
 export enum RecoverSteps {
+  AUTHENTICATOR_SETUP = 'AUTHENTICATOR_SETUP',
   CHECK_INBOX = 'CHECK_INBOX',
+  CHOOSE_TWOFA = 'CHOOSE_TWOFA',
   CLOUD_RECOVERY = 'CLOUD_RECOVERY',
   FORGOT_PASSWORD_EMAIL = 'FORGOT_PASSWORD_EMAIL',
+  NEW_PASSWORD = 'NEW_PASSWORD',
   RECOVERY_OPTIONS = 'RECOVERY_OPTIONS',
   RECOVERY_PHRASE = 'RECOVERY_PHRASE',
   RESET_ACCOUNT = 'RESET_ACCOUNT',
-  RESET_PASSWORD = 'RESET_PASSWORD'
+  RESET_PASSWORD = 'RESET_PASSWORD',
+  RESET_WARNING = 'RESET_WARNING',
+  SMS_SETUP = 'SMS_SETUP',
+  TWO_FA_CONFIRMATION = 'TWO_FA_CONFIRMATION',
+  YUBIKEY_SETUP = 'YUBIKEY_SETUP'
+}
+
+export enum ResetFormSteps {
+  AUTHENTICATOR_SETUP = 'AUTHENTICATOR_SETUP',
+  CHOOSE_TWOFA = 'CHOOSE_TWOFA',
+  NEW_PASSWORD = 'NEW_PASSWORD',
+  RESET_WARNING = 'RESET_WARNING',
+  SMS_SETUP = 'SMS_SETUP',
+  TWO_FA_CONFIRMATION = 'TWO_FA_CONFIRMATION',
+  YUBIKEY_SETUP = 'YUBIKEY_SETUP'
 }
 
 export type RecoverFormType = {
@@ -52,6 +69,11 @@ export type RegisteringFailureType = undefined
 export type RegisteringSuccessType = undefined
 
 export type RestoringType = undefined
+
+export type VerifyTwoFAType = {
+  code?: string
+  email?: string
+}
 
 export type SignupStateType = {
   accountRecoveryMagicLinkData?: AccountRecoveryMagicLinkData

@@ -80,7 +80,7 @@ const RecoveryOptions = (props: Props) => {
   }
 
   const resetAccountClicked = () => {
-    formActions.change(RECOVER_FORM, 'step', RecoverSteps.RESET_ACCOUNT)
+    formActions.change(RECOVER_FORM, 'step', RecoverSteps.RESET_WARNING)
     analyticsActions.trackEvent({
       key: Analytics.RECOVERY_RESET_ACCOUNT_CLICKED,
       properties: {

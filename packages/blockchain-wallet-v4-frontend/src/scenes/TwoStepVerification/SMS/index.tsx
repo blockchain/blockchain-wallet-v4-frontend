@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+import { ResetFormSteps } from 'data/types'
 
 import { Props as OwnProps } from '../../..'
 import SMSSetup from './template.setup'
