@@ -179,11 +179,10 @@ const Buy: React.FC<Props> = (props) => {
   )
 }
 const mapStateToProps = (state) => ({
-  erc20BalanceR: selectors.core.data.eth.getErc20Balance(
-    state,
+  erc20BalanceR: selectors.core.data.coins.getCoinUnifiedBalance(
     // @ts-ignore
     selectors.form.getFormValues('nftBuy')(state)?.coin || 'WETH'
-  ),
+  )(state),
   ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state),
   formValues: selectors.form.getFormValues('nftBuy')(state) as {
     amount: string

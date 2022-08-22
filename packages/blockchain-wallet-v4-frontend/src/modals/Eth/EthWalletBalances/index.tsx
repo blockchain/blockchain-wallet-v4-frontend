@@ -50,9 +50,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
   }
 
   refresh = () => {
-    this.props.fetchErc20Balances()
-    this.props.ethActions.fetchDataLoading()
-    this.props.ethActions.fetchData()
+    this.props.coinsActions.fetchUnifiedBalances()
   }
 
   render() {
@@ -256,8 +254,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  ethActions: bindActionCreators(actions.core.data.eth, dispatch),
-  fetchErc20Balances: bindActionCreators(actions.core.data.eth.fetchErc20Data, dispatch)
+  coinsActions: bindActionCreators(actions.core.data.coins, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

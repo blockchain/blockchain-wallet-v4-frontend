@@ -419,8 +419,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           value: amtToWrap
         })
         yield call(executeWrapEth, signer, amount, wrapFees)
-        yield put(actions.core.data.eth.fetchData())
-        yield put(actions.core.data.eth.fetchErc20Data())
+        yield put(actions.core.data.coins.fetchUnifiedBalances())
       }
 
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))
@@ -1146,8 +1145,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           value: action.payload.amtToWrap
         })
         yield call(executeWrapEth, signer, amount, action.payload.wrapFees)
-        yield put(actions.core.data.eth.fetchData())
-        yield put(actions.core.data.eth.fetchErc20Data())
+        yield put(actions.core.data.coins.fetchUnifiedBalances())
       }
 
       yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.STATUS }))

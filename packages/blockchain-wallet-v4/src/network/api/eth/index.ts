@@ -1,6 +1,6 @@
 import * as ethers from 'ethers'
 
-import { AccountTokensBalancesResponseType, EthAccountSummaryType, EthRawTxType } from './types'
+import { EthAccountSummaryType, EthRawTxType } from './types'
 
 export default ({ apiUrl, get, openSeaApi, post }) => {
   // ONLY FOR TESTING OPENSEA!
@@ -83,12 +83,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
       url: apiUrl
     })
 
-  const getAccountTokensBalances = (ethAddr): AccountTokensBalancesResponseType =>
-    get({
-      endPoint: `/eth/v2/account/${ethAddr}/tokens`,
-      url: apiUrl
-    })
-
   const getErc20AccountSummaryV2 = (ethAddr, tokenAddr, page = 0, pageSize?: number) =>
     get({
       data: { page, size: pageSize },
@@ -112,7 +106,6 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
   return {
     checkContract,
     ethProvider,
-    getAccountTokensBalances,
     getErc20AccountSummaryV2,
     getErc20TransactionsV2,
     getEthAccountBalance,

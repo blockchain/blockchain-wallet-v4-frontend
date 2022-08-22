@@ -1,6 +1,9 @@
+import BigNumber from 'bignumber.js'
 import memoize from 'fast-memoize'
-import { curry } from 'ramda'
+import { lift } from 'ramda'
 
+import { ExtractSuccess, RemoteDataType } from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { RootState } from 'data/rootReducer'
 
 import Remote from '../../../remote'
@@ -91,3 +94,27 @@ export const getTransactionsAtBound = (coin: string, state: RootState) => {
 }
 
 export const getUnifiedBalances = (state: RootState) => state.dataPath.coins.unifiedBalances
+
+export const getCoinUnifiedBalance = (
+  coin: string
+): ((state: RootState) => RemoteDataType<string, BigNumber>) => {
+  return (state: RootState) => {
+    return createDeepEqualSelector(
+      [selectors.data.coins.getUnifiedBalances],
+      (unifiedBalancesR) => {
+        let balance = new BigNumber(0)
+        const transform = (unifiedBalances: ExtractSuccess<typeof unifiedBalancesR>) => {
+          unifiedBalances
+            .filter(({ ticker }) => ticker === coin)
+            .forEach(({ amount }) => {
+              balance = balance.plus(amount ? amount.amount : 0)
+            })
+
+          return balance
+        }
+
+        return lift(transform)(unifiedBalancesR)
+      }
+    )(state)
+  }
+}

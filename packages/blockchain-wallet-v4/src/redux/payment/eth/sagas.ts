@@ -268,7 +268,9 @@ export default ({ api }: { api: APIType }) => {
           const ethData = yield call(api.getEthBalances, account)
           const nonce = path([account, 'nonce'], ethData)
           const balance = p.isErc20
-            ? (yield select(S.data.eth.getErc20Balance, p.coin)).getOrFail('missing_erc20_balance')
+            ? S.data.coins
+                .getCoinUnifiedBalance(p.coin)(yield select())
+                .getOrFail('missing_balance')
             : path([account, 'balance'], ethData)
 
           effectiveBalance = calculateEffectiveBalance(balance, prop('fee', p), prop('isErc20', p))

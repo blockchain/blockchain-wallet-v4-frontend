@@ -51,18 +51,6 @@ export const getLowEthBalanceWarning = () => path([dataPath, 'eth', 'warn_low_et
 
 export const getTransactionHistory = path([dataPath, 'eth', 'transaction_history', 'eth'])
 
-//
-// ERC20
-//
-export const getErc20Balance = (state, token) => {
-  const tokenData = path([dataPath, 'eth', 'info', token])(state)
-  return tokenData
-    ? // @ts-ignore
-      tokenData.map(prop('balance'))
-    : // TODO: erc20 phase 2, default to Remote.NotAsked
-      // Remote.NotAsked
-      Remote.Success('0')
-}
 export const getErc20CurrentBalance = (state, token) => {
   return path([dataPath, 'eth', 'current_balance', token])(state) || Remote.NotAsked
 }
