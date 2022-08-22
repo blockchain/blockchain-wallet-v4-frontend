@@ -13,6 +13,7 @@ import {
   ModalName,
   PlatformTypes,
   ProductAuthOptions,
+  SignupRedirectSourceTypes,
   SignupRedirectTypes
 } from 'data/types'
 import * as C from 'services/alerts'
@@ -297,6 +298,7 @@ export default ({ api, coreSagas, networks }) => {
     const product = queryParams.get('product') as ProductAuthOptions
     const platform = queryParams.get('platform') as PlatformTypes
     const signupRedirect = queryParams.get('redirect') as SignupRedirectTypes
+    const source = queryParams.get('source') as SignupRedirectSourceTypes
     yield put(
       actions.signup.setProductSignupMetadata({
         platform,
@@ -306,7 +308,25 @@ export default ({ api, coreSagas, networks }) => {
         tuneTid
       })
     )
+    yield put(
+      actions.analytics.trackEvent({
+        key: Analytics.SIGNUP_VIEWED,
+        properties: {
+          redirect_source: source || undefined
+        }
+      })
+    )
   }
+
+  // yield put(
+  //   actions.analytics.trackEvent({
+  //     key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
+  //     properties: {
+  //       country,
+  //       country_state: `${country}-${state}`,
+  //       device_origin: platform
+  //     }
+  //   })
 
   return {
     initializeSignUp,
