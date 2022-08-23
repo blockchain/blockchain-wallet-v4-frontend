@@ -13,6 +13,7 @@ const initialState: CoinsState = {
   btcTicker: Remote.NotAsked,
   isCoinDataLoaded: false,
   rates: Remote.NotAsked,
+  subscriptions: Remote.NotAsked,
   transactions: {},
   transactions_at_bound: {},
   unifiedBalances: Remote.NotAsked
@@ -79,6 +80,14 @@ export const coinsSlice = createSlice({
       action: PayloadAction<UnifiedBalancesResponseType['currencies']>
     ) => {
       state.unifiedBalances = Remote.Success(action.payload)
+    },
+    getSubscriptions: () => {},
+    getSubscriptionsFailure: () => {},
+    getSubscriptionsLoading: (state) => {
+      state.subscriptions = Remote.Loading
+    },
+    getSubscriptionsSuccess: (state, action: PayloadAction<any>) => {
+      state.subscriptions = Remote.Success(action.payload)
     },
     initializeSubscriptions: () => {},
     pollForCoinData: () => {},

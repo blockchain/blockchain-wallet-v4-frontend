@@ -6,6 +6,7 @@ export type CoinsState = {
   btcTicker: RemoteDataType<string, TickerResponseType>
   isCoinDataLoaded: boolean
   rates: RemoteDataType<string, RatesType>
+  subscriptions: RemoteDataType<string, any>
   transactions: { [key in string]: Array<any> }
   transactions_at_bound: { [key in string]: boolean }
   unifiedBalances: RemoteDataType<string, UnifiedBalancesResponseType['currencies']>
