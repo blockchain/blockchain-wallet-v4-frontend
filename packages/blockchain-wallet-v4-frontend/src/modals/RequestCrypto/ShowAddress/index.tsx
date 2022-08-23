@@ -88,6 +88,9 @@ class RequestShowAddress extends React.PureComponent<Props> {
     const { formValues, handleClose, setStep, walletCurrency } = this.props
     const { selectedAccount } = formValues
     const { coinfig } = window.coins[selectedAccount.coin]
+    const coinNetwork = () => {
+      if (coinfig?.type?.parentChain) return window.coins[coinfig.type.parentChain].coinfig.name
+    }
 
     return (
       <Wrapper>
@@ -153,6 +156,17 @@ class RequestShowAddress extends React.PureComponent<Props> {
             })}
           </ClipboardWrapper>
         </AddressWrapper>
+        {coinNetwork() ? (
+          <InfoContainer>
+            <Text size='14px' weight={600} color='orange600'>
+              {coinfig.symbol} on {coinNetwork()} Network
+            </Text>
+            <Text size='12px' weight={500}>
+              Please send {coinfig.symbol} on {coinNetwork()} Network to this address only. We
+              cannot recover lost funds.
+            </Text>
+          </InfoContainer>
+        ) : null}
         {this.props.addressR.cata({
           Failure: () => null,
           Loading: () => null,
