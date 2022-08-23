@@ -326,11 +326,11 @@ export default ({ api, coreSagas, networks }) => {
       // const response = yield call(api.pollForResetApprovalStatus, sessionToken)
 
       const response = {
-        email: 'leora+1206+11232@blockchain.com',
+        email: 'leora+419+822@blockchain.com',
         request_denied: false,
         status: true,
         two_fa_type: 1,
-        userId: '59ef7cd7-d6be-4aae-86d7-393ddadee376'
+        userId: '34735c52-61e1-4e55-92a0-2cce89774add'
       }
 
       if (response?.status) {
