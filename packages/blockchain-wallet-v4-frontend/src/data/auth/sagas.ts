@@ -361,7 +361,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
-      yield call(coreSagas.data.xlm.fetchData)
 
       yield call(authNabu)
       if (product === ProductAuthOptions.EXCHANGE && (recovery || !firstLogin)) {

@@ -108,9 +108,9 @@ export default ({ api }) => {
   }
 
   const getEffectiveBalance = function* (accountId, fee, reserve) {
-    const balance = (yield select(S.data.xlm.getBalance))(accountId).getOrFail(
-      new Error(NO_ACCOUNT_ERROR)
-    )
+    const balance = S.data.coins
+      .getCoinUnifiedBalance('XLM')(yield select())
+      .getOrFail(new Error(NO_ACCOUNT_ERROR))
 
     return calculateEffectiveBalance(balance, fee, reserve)
   }

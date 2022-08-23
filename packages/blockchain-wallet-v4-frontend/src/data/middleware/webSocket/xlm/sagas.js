@@ -16,7 +16,6 @@ export default () => {
       if (tx.source_account !== accountId) {
         yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_XLM))
       }
-      yield put(actions.core.data.xlm.fetchData())
       const pathname = yield select(selectors.router.getPathname)
       if (includes(pathname, ['/coins/XLM', '/home'])) yield call(addWalletTransaction, tx)
     } catch (e) {

@@ -1,10 +1,10 @@
-import { compose, curry, find, lift, map, path, prop, propEq, propOr, sum, uniq } from 'ramda'
+import { compose, curry, find, lift, path, prop, propEq, propOr, uniq } from 'ramda'
 
-import * as Exchange from '../../../exchange'
 import Remote from '../../../remote'
 import { createDeepEqualSelector } from '../../../utils'
 import * as kvStoreSelectors from '../../kvStore/xlm/selectors'
 import { dataPath } from '../../paths'
+import * as selectors from '../../selectors'
 
 const getLedgerDetails = path([dataPath, 'xlm', 'ledgerDetails'])
 
@@ -29,33 +29,6 @@ export const getBaseFee = compose(lift(prop('base_fee_in_stroops')), getLedgerDe
 export const getHeight = compose(lift(prop('sequence')), getLedgerDetails)
 
 export const getNumberOfEntries = curry(compose(lift(prop('subentry_count')), getAccount))
-
-export const selectBalanceFromAccount = compose(
-  prop('balance'),
-  find(propEq('asset_type', 'native')),
-  propOr([], 'balances')
-)
-
-export const getAccountBalance = compose(lift(selectBalanceFromAccount), getAccount)
-
-const calculateBalance = (balance) =>
-  Exchange.convertCoinToCoin({
-    baseToStandard: false,
-    coin: 'XLM',
-    value: balance
-  })
-
-export const getBalance = curry((state, accountId) =>
-  compose(lift(compose(calculateBalance, selectBalanceFromAccount)), getAccount)(accountId, state)
-)
-
-export const getTotalBalance = (state) =>
-  compose(
-    Remote.of,
-    sum,
-    map((accountId) => getBalance(state, accountId).getOrElse(0)),
-    getContext
-  )(state)
 
 export const getTransactionsAtBound = path([dataPath, 'xlm', 'transactions_at_bound'])
 

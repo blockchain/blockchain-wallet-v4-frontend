@@ -9,7 +9,7 @@ const getData = createDeepEqualSelector(
     selectors.components.sendXlm.getPayment,
     selectors.components.sendXlm.getCheckDestination,
     selectors.components.sendXlm.getIsDestinationExchange,
-    selectors.core.data.xlm.getTotalBalance,
+    selectors.core.data.coins.getCoinUnifiedBalance('XLM'),
     selectors.core.settings.getCurrency,
     selectors.core.wallet.isMnemonicVerified,
     selectors.form.getFormValues(model.components.sendXlm.FORM),

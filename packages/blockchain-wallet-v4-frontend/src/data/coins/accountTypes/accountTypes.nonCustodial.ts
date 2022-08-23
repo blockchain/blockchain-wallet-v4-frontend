@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { add, head, lift, nth, path, prop, propEq } from 'ramda'
 import { select } from 'redux-saga/effects'
 
@@ -325,10 +326,9 @@ export class NonCustodialAccountType implements NonCustodialAccountTypeClass {
                       const noAccount = path(['error', 'message'], account) === 'Not Found'
                       const balance = convertStandardToBase(
                         coin,
-                        account
-                          // @ts-ignore
-                          .map(coreSelectors.data.xlm.selectBalanceFromAccount)
-                          .getOrElse(0)
+                        coreSelectors.data.coins
+                          .getCoinUnifiedBalance('XLM')(state)
+                          .getOrElse(new BigNumber(0))
                       )
                       return {
                         address,
