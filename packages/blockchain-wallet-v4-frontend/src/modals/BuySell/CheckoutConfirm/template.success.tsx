@@ -476,11 +476,13 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
               order: props.order
             })}
             <AdditionalText>
-              {getPaymentMethodDetails({
-                bankAccount,
-                cardDetails,
-                order: props.order
-              })}
+              {!props.mobilePaymentMethod
+                ? getPaymentMethodDetails({
+                    bankAccount,
+                    cardDetails,
+                    order: props.order
+                  })
+                : null}
             </AdditionalText>
           </RowTextWrapper>
         </RowText>
