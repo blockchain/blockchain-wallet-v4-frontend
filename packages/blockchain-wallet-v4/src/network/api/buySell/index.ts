@@ -287,7 +287,7 @@ export default ({
     })
 
   const getBSPairs = (currency?: keyof FiatCurrenciesType): { pairs: Array<BSPairType> } =>
-    get({
+    authorizedGet({
       data: {
         fiatCurrency: currency
       },
