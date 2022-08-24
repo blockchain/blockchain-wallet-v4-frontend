@@ -345,10 +345,10 @@ export default ({ api }: { api: APIType }) => {
         publicKey = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/60'/0'/0/0`).publicKey
         break
       case 'STX':
-        publicKey = Bitcoin.bip32.fromSeed(seed).derivePath(`m/5757'/60'/0'/0/0`).publicKey
+        publicKey = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/5757'/0'/0/0`).publicKey
         break
       case 'MATIC':
-        publicKey = Bitcoin.bip32.fromSeed(seed).derivePath(`m/966'/60'/0'/0/0`).publicKey
+        publicKey = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/966'/0'/0/0`).publicKey
         break
       default:
         break
