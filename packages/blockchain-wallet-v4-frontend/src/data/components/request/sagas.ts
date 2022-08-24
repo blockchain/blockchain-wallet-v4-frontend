@@ -32,10 +32,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let address
       let extras: RequestExtrasType = {}
       const { account } = action.payload
-      const subscriptions = yield select(S.getSubscriptions)
-      const isSubscribed = subscriptions.data.currencies.some((c) => c.ticker === account.coin)
+      const subscriptions = S.getSubscriptions(yield select())
+      const isSubscribed = subscriptions.data.currencies.some((c) => c.ticker === account.baseCoin)
       if (!isSubscribed) {
-        yield put(actions.core.data.coins.subscribeToCoin(account))
+        yield put(actions.core.data.coins.subscribe(account))
       }
       switch (account.type) {
         case SwapBaseCounterTypes.ACCOUNT:

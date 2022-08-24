@@ -333,42 +333,112 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const subscribe = function* (action: ReturnType<typeof A.subscribeToCoin>) {
+  const subscribe = function* (action: ReturnType<typeof A.subscribe>) {
     const { payload } = action
     const { guidHash, sharedKeyHash } = yield call(getAuth)
     const accounts = [] as SubscribeRequestType['data']
     const mnemonic = yield call(getMnemonic)
     const seed = BIP39.mnemonicToSeed(mnemonic)
-    let publicKey
     switch (payload.baseCoin) {
+      case 'BTC':
+        const btcAccounts = selectors.wallet.getHDAccounts(yield select())
+        btcAccounts.forEach((btcAccount) => {
+          if (btcAccount.archived) return
+          btcAccount.derivations.forEach((derivation) => {
+            accounts.push({
+              account: {
+                index: btcAccount.index,
+                name: btcAccount.label
+              },
+              currency: 'BTC',
+              pubKeys: [
+                {
+                  descriptor: derivation.type === 'bech32' ? 1 : 0,
+                  pubKey: derivation.xpub,
+                  style: 'EXTENDED'
+                }
+              ]
+            } as SubscribeRequestType['data'][0])
+          })
+        })
+        break
+      case 'BCH':
+        const bchAccounts = selectors.kvStore.bch.getAccounts(yield select()).getOrElse([])
+        bchAccounts.forEach((bchAccount, i) => {
+          if (bchAccount.archived) return
+          const { xpub } = btcAccounts
+            .find(({ index }) => index === i)
+            .derivations.find(({ type }) => type === 'legacy')
+          accounts.push({
+            account: {
+              index: i,
+              name: bchAccount.label
+            },
+            currency: 'BCH',
+            pubKeys: [
+              {
+                descriptor: 0,
+                pubKey: xpub,
+                style: 'EXTENDED'
+              }
+            ]
+          })
+        })
+        break
       case 'ETH':
-        publicKey = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/60'/0'/0/0`).publicKey
+        const ethAccount = selectors.kvStore.eth
+          .getDefaultAccount(yield select())
+          .getOrFail('No eth account')
+        const { label } = ethAccount
+        const { publicKey: ethPublicKey } = Bitcoin.bip32
+          .fromSeed(seed)
+          .derivePath(`m/44'/60'/0'/0/0`)
+        accounts.push({
+          account: {
+            index: 0,
+            name: label
+          },
+          currency: 'ETH',
+          pubKeys: [
+            {
+              descriptor: 0,
+              pubKey: ethPublicKey.toString('hex'),
+              style: 'SINGLE'
+            }
+          ]
+        })
         break
       case 'STX':
-        publicKey = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/5757'/0'/0/0`).publicKey
+        const { publicKey: stxPubKey } = Bitcoin.bip32
+          .fromSeed(seed)
+          .derivePath(`m/44'/5757'/0'/0/0`)
+        accounts.push({
+          account: {
+            index: 0,
+            name: 'Private Key Wallet'
+          },
+          currency: 'STX',
+          pubKeys: [{ descriptor: 0, pubKey: stxPubKey.toString('hex'), style: 'SINGLE' }]
+        })
         break
-      case 'MATIC':
-        publicKey = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/966'/0'/0/0`).publicKey
+      case 'XLM':
+        const xlmKeyPair = yield call(getKeyPair, mnemonic)
+        accounts.push({
+          account: {
+            index: 0,
+            name: 'Private Key Wallet'
+          },
+          currency: 'XLM',
+          pubKeys: [
+            { descriptor: 0, pubKey: xlmKeyPair.rawPublicKey().toString('hex'), style: 'SINGLE' }
+          ]
+        })
         break
       default:
         break
     }
-    accounts.push({
-      account: {
-        index: 0,
-        name: payload.label
-      },
-      currency: 'ETH',
-      pubKeys: [
-        {
-          descriptor: 0,
-          pubKey: publicKey.toString('hex'),
-          style: 'SINGLE'
-        }
-      ]
-    })
     try {
-      if (publicKey)
+      if (accounts.length)
         yield call(api.subscribe, { auth: { guidHash, sharedKeyHash }, data: accounts })
     } catch (e) {
       // eslint-disable-next-line no-console

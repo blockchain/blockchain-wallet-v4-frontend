@@ -273,7 +273,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         { guidHash, sharedKeyHash }
       )
       yield put(actions.core.data.coins.getSubscriptionsSuccess(subscriptions))
-      if (subscriptions.currencies.length === 0) {
+      if (subscriptions?.currencies?.length) {
         yield put(actions.core.data.coins.initializeSubscriptions())
       } else {
         yield put(actions.core.data.coins.fetchUnifiedBalances())
