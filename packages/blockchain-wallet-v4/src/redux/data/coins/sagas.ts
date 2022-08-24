@@ -333,6 +333,49 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const subscribe = function* (action: ReturnType<typeof A.subscribeToCoin>) {
+    const { payload } = action
+    const { guidHash, sharedKeyHash } = yield call(getAuth)
+    const accounts = [] as SubscribeRequestType['data']
+    const mnemonic = yield call(getMnemonic)
+    const seed = BIP39.mnemonicToSeed(mnemonic)
+    let publicKey
+    switch (payload.baseCoin) {
+      case 'ETH':
+        publicKey = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/60'/0'/0/0`).publicKey
+        break
+      case 'STX':
+        publicKey = Bitcoin.bip32.fromSeed(seed).derivePath(`m/5757'/60'/0'/0/0`).publicKey
+        break
+      case 'MATIC':
+        publicKey = Bitcoin.bip32.fromSeed(seed).derivePath(`m/966'/60'/0'/0/0`).publicKey
+        break
+      default:
+        break
+    }
+    accounts.push({
+      account: {
+        index: 0,
+        name: payload.label
+      },
+      currency: 'ETH',
+      pubKeys: [
+        {
+          descriptor: 0,
+          pubKey: publicKey.toString('hex'),
+          style: 'SINGLE'
+        }
+      ]
+    })
+    try {
+      if (publicKey)
+        yield call(api.subscribe, { auth: { guidHash, sharedKeyHash }, data: accounts })
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e)
+    }
+  }
+
   return {
     fetchCoinsRates,
     fetchTransactions,
@@ -340,6 +383,7 @@ export default ({ api }: { api: APIType }) => {
     getAuth,
     initializeSubscriptions,
     pollForCoinData,
+    subscribe,
     unsubscribe,
     watchTransactions
   }

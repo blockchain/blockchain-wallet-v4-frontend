@@ -5,6 +5,7 @@ import {
   TickerResponseType,
   UnifiedBalancesResponseType
 } from '@core/network/api/coins/types'
+import { SwapAccountType } from 'data/types'
 
 import Remote from '../../../remote'
 import { CoinsState } from './types'
@@ -100,6 +101,8 @@ export const coinsSlice = createSlice({
         [action.payload.coin]: action.payload.atBound
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    subscribeToCoin: (state, action: PayloadAction<SwapAccountType>) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     unsubscribe: (state, action: PayloadAction<string>) => {}
   }

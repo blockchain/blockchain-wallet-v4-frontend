@@ -2,6 +2,7 @@ import { call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-sa
 
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
+import { actions } from 'data'
 import { CoinAccountTypeEnum } from 'data/coins/accountTypes/accountTypes.classes'
 
 import coinSagas from '../../coins/sagas'
@@ -34,7 +35,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const subscriptions = yield select(S.getSubscriptions)
       const isSubscribed = subscriptions.data.currencies.some((c) => c.ticker === account.coin)
       if (!isSubscribed) {
-        // Subscribe
+        yield put(actions.core.data.coins.subscribeToCoin(account))
       }
       switch (account.type) {
         case SwapBaseCounterTypes.ACCOUNT:
