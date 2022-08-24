@@ -306,12 +306,11 @@ export class NonCustodialAccountType implements NonCustodialAccountTypeClass {
       case 'XLM': {
         return createDeepEqualSelector(
           [
-            coreSelectors.data.xlm.getAccounts, // non-custodial accounts
             coreSelectors.kvStore.xlm.getAccounts, // non-custodial metadata
             (state, { coin }) => selectors.balances.getCoinTradingBalance(coin, state), // custodial accounts
             (state, ownProps) => ownProps // selector config
           ],
-          (xlmData, xlmMetadataR, sbBalanceR, ownProps) => {
+          (xlmMetadataR, sbBalanceR, ownProps) => {
             const transform = (xlmMetadata, sbBalance: ExtractSuccess<typeof sbBalanceR>) => {
               const { coin } = ownProps
               let accounts: SwapAccountType[] = []
@@ -322,14 +321,9 @@ export class NonCustodialAccountType implements NonCustodialAccountTypeClass {
                   xlmMetadata
                     .map((acc) => {
                       const address = prop('publicKey', acc)
-                      const account = prop(address, xlmData)
-                      const noAccount = path(['error', 'message'], account) === 'Not Found'
-                      const balance = convertStandardToBase(
-                        coin,
-                        coreSelectors.data.coins
-                          .getCoinUnifiedBalance('XLM')(state)
-                          .getOrElse(new BigNumber(0))
-                      )
+                      const balance = coreSelectors.data.coins
+                        .getCoinUnifiedBalance('XLM')(state)
+                        .getOrElse(new BigNumber(0))
                       return {
                         address,
                         archived: prop('archived', acc) || false,
@@ -337,7 +331,6 @@ export class NonCustodialAccountType implements NonCustodialAccountTypeClass {
                         baseCoin: coin,
                         coin,
                         label: prop('label', acc) || address,
-                        noAccount,
                         type: ADDRESS_TYPES.ACCOUNT
                       }
                     })

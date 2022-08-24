@@ -16,10 +16,9 @@ import {
   prop,
   reduce,
   takeLast,
-  unnest,
-  values
+  unnest
 } from 'ramda'
-import { all, call, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { XlmTxType } from '@core/transactions/types'

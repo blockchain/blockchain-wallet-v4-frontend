@@ -144,17 +144,17 @@ export default ({ api }) => {
 
       *build() {
         const fromData = prop('from', p)
+        const address = prop('address', fromData)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
         const fee = prop('fee', p)
         const destinationAccountExists = prop('destinationAccountExists', p)
         const memo = prop('memo', p)
         const memoType = prop('memoType', p)
-        const accountId = prop('accountId', fromData)
         if (fromData.type === 'CUSTODIAL') return makePayment(p)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
-        const account = yield call(getAccountAndSequenceNumber, accountId)
+        const account = yield call(getAccountAndSequenceNumber, address)
         const timeout = (yield select(S.walletOptions.getXlmSendTimeOutSeconds)).getOrElse(300)
         const timebounds = yield call(api.getTimebounds, timeout)
         const txBuilder = new TransactionBuilder(account, {
