@@ -693,11 +693,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             total: { amount: `${amount}`, label: 'Blockchain.com' }
           }
 
-          const { address, token }: Awaited<ReturnType<typeof generateApplePayResponse>> =
-            yield call(generateApplePayResponse, {
-              applePayInfo,
-              paymentRequest
-            })
+          const {
+            address,
+            token
+          }: {
+            address: ApplePayJS.ApplePayPaymentContact | null
+            token: string
+          } = yield call(generateApplePayResponse, {
+            applePayInfo,
+            paymentRequest
+          })
 
           attributes = {
             applePayPaymentToken: token,
@@ -809,8 +814,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             }
           }
 
-          const { address, token }: Awaited<ReturnType<typeof generateGooglePayResponse>> =
-            yield call(generateGooglePayResponse, paymentDataRequest)
+          const {
+            address,
+            token
+          }: {
+            address: google.payments.api.Address | null
+            token: string
+          } = yield call(generateGooglePayResponse, paymentDataRequest)
 
           attributes = {
             everypay: {
