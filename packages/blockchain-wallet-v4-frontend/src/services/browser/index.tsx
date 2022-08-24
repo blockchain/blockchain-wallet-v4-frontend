@@ -7,10 +7,17 @@ export const getBrowserNameAndVersion = () => {
 
 export const isBrowserSupported = () => {
   const browser = Bowser.getParser(window.navigator.userAgent)
-
   // let search crawlers through for SEO purposes
   if (browser.getPlatformType() === 'bot') return true
-
+  // handle edge case where user's mobile device is motoroal edge
+  // and bowser assumes it is microsoft edge
+  if (
+    browser.getOSName() === 'Android' &&
+    (browser.getOSVersion() === '12' || browser.getOSVersion() === '11') &&
+    browser.getBrowserName() === 'Microsoft Edge'
+  ) {
+    return true
+  }
   return browser.satisfies({
     chrome: '>80', // chromium
     chromium: '>80', // chromium

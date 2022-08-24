@@ -6,6 +6,7 @@ import React, {
   useMemo
 } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -17,6 +18,7 @@ import { Flex } from 'components/Flex'
 import { Title, Value } from 'components/Flyout'
 import { Padding } from 'components/Padding'
 import { Tag } from 'components/Tag'
+import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { NabuError } from 'services/errors'
 
@@ -42,6 +44,10 @@ type Props = {
 
 const Card: React.FC<Props> = ({ icon, onClick, onClickNabuErrorInfo, text, value }) => {
   const { block, card, currency, limits, type, ux } = value
+
+  const isCreditCardOptimizationEnabled = useSelector(
+    selectors.core.walletOptions.getIsCreditCardOptimizationEnabled
+  ).data
 
   const nabuError = useMemo(() => {
     if (!ux) return
@@ -118,7 +124,7 @@ const Card: React.FC<Props> = ({ icon, onClick, onClickNabuErrorInfo, text, valu
             </StyledTitle>
           )}
         </Flex>
-        {!!nabuError && (
+        {!!nabuError && !!isCreditCardOptimizationEnabled && (
           <Padding top={8}>
             <Flex gap={8} alignItems='center'>
               <Tag variant={block ? 'error' : 'warning'}>{nabuError.title}</Tag>

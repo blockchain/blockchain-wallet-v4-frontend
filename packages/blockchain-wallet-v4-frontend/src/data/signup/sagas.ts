@@ -306,6 +306,12 @@ export default ({ api, coreSagas, networks }) => {
         tuneTid
       })
     )
+    yield put(
+      actions.analytics.trackEvent({
+        key: Analytics.SIGNUP_VIEWED,
+        properties: {}
+      })
+    )
   }
 
   return {

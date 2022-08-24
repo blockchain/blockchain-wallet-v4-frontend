@@ -108,18 +108,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     networks
   })
 
-  const generateApplePayToken = async ({
+  const generateApplePayResponse = async ({
     applePayInfo,
     paymentRequest
   }: {
     applePayInfo: ApplePayInfoType
     paymentRequest: ApplePayJS.ApplePayPaymentRequest
-  }) => {
+  }): Promise<{
+    address: ApplePayJS.ApplePayPaymentContact | null
+    token: string
+  }> => {
     if (!ApplePaySession) {
       throw new Error(BS_ERROR.APPLE_PAY_INFO_NOT_FOUND)
     }
 
-    const token = await new Promise((resolve, reject) => {
+    const token: {
+      address: ApplePayJS.ApplePayPaymentContact | null
+      token: string
+    } = await new Promise((resolve, reject) => {
       const session = new ApplePaySession(3, paymentRequest)
 
       session.onvalidatemerchant = async (event) => {
@@ -145,7 +151,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         session.completePayment(result)
 
-        resolve(JSON.stringify(event.payment.token))
+        resolve({
+          address: event.payment.billingContact || null,
+          token: JSON.stringify(event.payment.token)
+        })
       }
 
       session.oncancel = () => {
@@ -158,9 +167,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return token
   }
 
-  const generateGooglePayToken = async (
+  const generateGooglePayResponse = async (
     paymentRequest: google.payments.api.PaymentDataRequest
-  ): Promise<string> => {
+  ): Promise<{
+    address: google.payments.api.Address | null
+    token: string
+  }> => {
     const environment = window.location.host === 'login.blockchain.com' ? 'PRODUCTION' : 'TEST'
 
     if (!googlePaymentsClient) {
@@ -170,7 +182,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const paymentData = await googlePaymentsClient.loadPaymentData(paymentRequest)
 
-      return paymentData.paymentMethodData.tokenizationData.token
+      return {
+        address: paymentData.paymentMethodData.info?.billingAddress || null,
+        token: paymentData.paymentMethodData.tokenizationData.token
+      }
     } catch (e) {
       throw new Error(BS_ERROR.USER_CANCELLED_GOOGLE_PAY)
     }
@@ -689,6 +704,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             merchantCapabilities.push('supportsCredit')
           }
 
+          let requiredBillingContactFields: ApplePayJS.ApplePayPaymentRequest['requiredBillingContactFields']
+
+          if (applePayInfo.requiredBillingContactFields) {
+            requiredBillingContactFields = applePayInfo.requiredBillingContactFields
+          }
+
+          let supportedCountries
+
+          if (applePayInfo.supportedCountries) {
+            supportedCountries = applePayInfo.supportedCountries
+          }
+
+          let supportedNetworks = ['visa', 'masterCard']
+
+          if (applePayInfo.supportedNetworks) {
+            supportedNetworks = applePayInfo.supportedNetworks
+          }
+
           // inputAmount is in cents, but amount has to be in decimals
           const amount = parseInt(order.inputQuantity, 10) / 100
 
@@ -696,11 +729,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             countryCode: applePayInfo.merchantBankCountryCode,
             currencyCode: order.inputCurrency,
             merchantCapabilities,
-            supportedNetworks: ['visa', 'masterCard'],
+            requiredBillingContactFields,
+            supportedCountries,
+            supportedNetworks,
             total: { amount: `${amount}`, label: 'Blockchain.com' }
           }
 
-          const token = yield call(generateApplePayToken, {
+          const {
+            address,
+            token
+          }: {
+            address: ApplePayJS.ApplePayPaymentContact | null
+            token: string
+          } = yield call(generateApplePayResponse, {
             applePayInfo,
             paymentRequest
           })
@@ -710,6 +751,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             everypay: {
               customerUrl: paymentSuccessLink
             },
+            paymentContact: address
+              ? {
+                  city: address.locality,
+                  country: address.country,
+                  email: address.emailAddress,
+                  firstname: address.givenName,
+                  lastname: address.familyName,
+                  line1: address.addressLines ? address.addressLines[0] : undefined,
+                  line2: address.addressLines ? address.addressLines[1] : undefined,
+                  phone: address.phoneNumber,
+                  postCode: address.postalCode,
+                  state: address.administrativeArea
+                }
+              : null,
             redirectURL: paymentSuccessLink
           }
         }
@@ -719,6 +774,38 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           if (!googlePayInfo) {
             throw new Error(BS_ERROR.GOOGLE_PAY_INFO_NOT_FOUND)
+          }
+
+          const { allowCreditCards, allowPrepaidCards } = googlePayInfo
+
+          let allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
+            'PAN_ONLY',
+            'CRYPTOGRAM_3DS'
+          ]
+
+          if (googlePayInfo.allowedAuthMethods) {
+            allowedAuthMethods = googlePayInfo.allowedAuthMethods
+          }
+
+          let allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
+
+          if (googlePayInfo.allowedCardNetworks) {
+            allowedCardNetworks = googlePayInfo.allowedCardNetworks
+          }
+
+          let billingAddressRequired = false
+
+          if (googlePayInfo.billingAddressRequired) {
+            billingAddressRequired = googlePayInfo.billingAddressRequired
+          }
+
+          let billingAddressParameters: google.payments.api.BillingAddressParameters = {
+            format: 'MIN',
+            phoneNumberRequired: false
+          }
+
+          if (googlePayInfo.billingAddressParameters) {
+            billingAddressParameters = googlePayInfo.billingAddressParameters
           }
 
           // inputAmount is in cents, but amount has to be in decimals
@@ -736,15 +823,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error(BS_ERROR.GOOGLE_PAY_PARAMETERS_NOT_FOUND)
           }
 
-          const allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
-
-          const allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
-            'PAN_ONLY',
-            'CRYPTOGRAM_3DS'
-          ]
-
-          const { allowCreditCards, allowPrepaidCards } = googlePayInfo
-
           const paymentDataRequest = {
             allowedPaymentMethods: [
               {
@@ -753,10 +831,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                   allowPrepaidCards,
                   allowedAuthMethods,
                   allowedCardNetworks,
-                  billingAddressParameters: {
-                    format: 'FULL' as const
-                  },
-                  billingAddressRequired: false
+                  billingAddressParameters,
+                  billingAddressRequired
                 },
                 tokenizationSpecification: {
                   parameters,
@@ -780,13 +856,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             }
           }
 
-          const token = yield call(generateGooglePayToken, paymentDataRequest)
+          const {
+            address,
+            token
+          }: {
+            address: google.payments.api.Address | null
+            token: string
+          } = yield call(generateGooglePayResponse, paymentDataRequest)
 
           attributes = {
             everypay: {
               customerUrl: paymentSuccessLink
             },
             googlePayPayload: token,
+            paymentContact: address
+              ? {
+                  city: address.locality,
+                  country: address.countryCode,
+                  firstname: address.name,
+                  lastname: address.name,
+                  line1: address.address1,
+                  line2: address.address2,
+                  middleName: address.name,
+                  phoneNumber: address.phoneNumber,
+                  postCode: address.postalCode,
+                  state: address.administrativeArea
+                }
+              : null,
             redirectURL: paymentSuccessLink
           }
         }
@@ -800,12 +896,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.confirmOrderLoading())
 
-      const confirmedOrder: BSOrderType = yield call(
-        api.confirmBSOrder,
-        freshOrder,
+      const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
         attributes,
+        order: freshOrder,
         paymentMethodId
-      )
+      })
 
       if (confirmedOrder.paymentError) {
         throw new Error(confirmedOrder.paymentError)
@@ -1288,12 +1383,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const buyQuotePaymentMethodId =
           paymentMethod === BSPaymentTypes.BANK_TRANSFER ? paymentMethodId : undefined
 
+        const effectivePaymentMethod =
+          paymentMethod === BSPaymentTypes.USER_CARD ? BSPaymentTypes.PAYMENT_CARD : paymentMethod
+
         const quote: ReturnType<typeof api.getBuyQuote> = yield call(
           api.getBuyQuote,
           pairReversed,
           'SIMPLEBUY',
           amount,
-          paymentMethod,
+          effectivePaymentMethod,
           buyQuotePaymentMethodId
         )
 
