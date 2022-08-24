@@ -4,7 +4,6 @@ import Remote from '../../../remote'
 import { createDeepEqualSelector } from '../../../utils'
 import * as kvStoreSelectors from '../../kvStore/xlm/selectors'
 import { dataPath } from '../../paths'
-import * as selectors from '../../selectors'
 
 const getLedgerDetails = path([dataPath, 'xlm', 'ledgerDetails'])
 
@@ -36,3 +35,9 @@ export const getTransactions = path([dataPath, 'xlm', 'transactions'])
 export const getOperations = path([dataPath, 'xlm', 'operations'])
 
 export const getTransactionHistory = path([dataPath, 'xlm', 'transaction_history'])
+
+export const selectBalanceFromAccount = compose(
+  prop('balance'),
+  find(propEq('asset_type', 'native')),
+  propOr([], 'balances')
+)
