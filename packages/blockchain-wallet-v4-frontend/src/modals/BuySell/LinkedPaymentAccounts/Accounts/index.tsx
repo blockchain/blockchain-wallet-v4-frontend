@@ -18,6 +18,7 @@ import {
 } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
+import { Divider } from 'components/Divider'
 import { FlyoutWrapper } from 'components/Flyout'
 import { GenericNabuErrorCard } from 'components/GenericNabuErrorCard'
 import { Padding } from 'components/Padding'
@@ -430,7 +431,8 @@ const Accounts = (props: Props) => {
 
         {card && (
           <div style={{ flexShrink: 0 }}>
-            <Padding horizontal={40} bottom={40}>
+            <Divider />
+            <Padding horizontal={40} vertical={20}>
               {card}
             </Padding>
           </div>
