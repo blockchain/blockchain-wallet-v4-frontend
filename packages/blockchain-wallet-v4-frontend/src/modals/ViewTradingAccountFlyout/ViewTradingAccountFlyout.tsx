@@ -40,11 +40,11 @@ export const ViewTradingAccountFlyout: ViewTradingAccountFlyoutComponent = ({
   const coinColor = getCoinColor(coin) || 'grey200'
   const { data: coinAddressesData, isLoading: isLoadingAddressData } = useWalletsForCoin({ coin })
   const { data: rates, isLoading: isLoadingCoinRates } = useCoinRates({ coin })
-  const [openSendCryptoModal] = useOpenSendCryptoModal()
-  const [openReceiveModal] = useOpenReceiveModal()
-  const [openSwapModal] = useOpenSwapModal()
-  const [openSellModal] = useOpenSellModal()
-  const [openBuyFlow] = useOpenBuyFlow()
+  const openSendCryptoModal = useOpenSendCryptoModal()
+  const openReceiveModal = useOpenReceiveModal()
+  const openSwapModal = useOpenSwapModal()
+  const openSellModal = useOpenSellModal()
+  const openBuyFlow = useOpenBuyFlow()
 
   const tradingAccount = useMemo(() => {
     return coinAddressesData?.filter((account) => account.type === 'CUSTODIAL')[0]

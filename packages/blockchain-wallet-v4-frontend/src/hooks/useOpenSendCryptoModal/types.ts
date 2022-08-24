@@ -9,6 +9,6 @@ type OpenSendCryptoModalHookOpenCallback = (props: {
   origin: ModalOriginType
 }) => void
 
-type OpenSendCryptoModalHook = () => [OpenSendCryptoModalHookOpenCallback]
+type OpenSendCryptoModalHook = () => OpenSendCryptoModalHookOpenCallback
 
 export type { OpenSendCryptoModalHook, OpenSendCryptoModalHookOpenCallback }

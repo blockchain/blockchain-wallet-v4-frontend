@@ -24,5 +24,5 @@ export const useOpenViewPrivateKeyModal: OpenViewPrivateKeyModalHook = () => {
     [dispatch]
   )
 
-  return [openViewPrivateKeyModal]
+  return openViewPrivateKeyModal
 }

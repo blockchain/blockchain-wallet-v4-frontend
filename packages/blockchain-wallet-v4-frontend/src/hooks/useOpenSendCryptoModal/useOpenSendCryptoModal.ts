@@ -39,5 +39,5 @@ export const useOpenSendCryptoModal: OpenSendCryptoModalHook = () => {
     [dispatch]
   )
 
-  return [open]
+  return open
 }

@@ -5,4 +5,4 @@ export type OpenViewTradingAccountCallback = (props: {
   origin: BSShowModalOriginType
 }) => void
 
-export type OpenViewTradingAccountHook = () => [OpenViewTradingAccountCallback]
+export type OpenViewTradingAccountHook = () => OpenViewTradingAccountCallback

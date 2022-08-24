@@ -44,5 +44,5 @@ export const useOpenSellModal: OpenSellModalHook = () => {
     [dispatch, pairs]
   )
 
-  return [openSellModal]
+  return openSellModal
 }

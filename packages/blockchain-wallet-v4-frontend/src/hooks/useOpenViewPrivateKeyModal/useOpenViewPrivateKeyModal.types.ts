@@ -5,4 +5,4 @@ export type OpenViewPrivateKeyModalCallback = (props: {
   origin: BSShowModalOriginType
 }) => void
 
-export type OpenViewPrivateKeyModalHook = () => [OpenViewPrivateKeyModalCallback]
+export type OpenViewPrivateKeyModalHook = () => OpenViewPrivateKeyModalCallback

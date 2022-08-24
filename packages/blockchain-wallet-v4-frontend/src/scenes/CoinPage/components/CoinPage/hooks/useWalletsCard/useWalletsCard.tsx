@@ -19,8 +19,8 @@ import { transformToAccounts } from './utils'
 
 export const useWalletsCard = (coin: CoinType): [ReactNode] => {
   const currency = useCurrency()
-  const [openViewPrivateKeyModal] = useOpenViewPrivateKeyModal()
-  const [openViewTradingAccount] = useOpenViewTradingAccount()
+  const openViewPrivateKeyModal = useOpenViewPrivateKeyModal()
+  const openViewTradingAccount = useOpenViewTradingAccount()
 
   const {
     data: rates,

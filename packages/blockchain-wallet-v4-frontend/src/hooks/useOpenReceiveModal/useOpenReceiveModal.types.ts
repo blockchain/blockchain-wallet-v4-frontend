@@ -5,4 +5,4 @@ export type OpenReceiveModalCallback = (wallet: {
   type: string
 }) => Promise<void>
 
-export type OpenReceiveModalHook = () => [OpenReceiveModalCallback]
+export type OpenReceiveModalHook = () => OpenReceiveModalCallback

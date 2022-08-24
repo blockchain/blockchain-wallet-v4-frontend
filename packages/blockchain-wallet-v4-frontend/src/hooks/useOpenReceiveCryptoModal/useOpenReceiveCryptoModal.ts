@@ -21,5 +21,5 @@ export const useOpenReceiveCryptoModal: OpenReceiveCryptoModalHook = () => {
     [dispatch]
   )
 
-  return [open]
+  return open
 }

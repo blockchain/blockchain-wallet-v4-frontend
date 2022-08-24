@@ -26,5 +26,5 @@ export const useOpenSwapModal: OpenSwapModalHook = () => {
     [dispatch]
   )
 
-  return [openSwapModal]
+  return openSwapModal
 }

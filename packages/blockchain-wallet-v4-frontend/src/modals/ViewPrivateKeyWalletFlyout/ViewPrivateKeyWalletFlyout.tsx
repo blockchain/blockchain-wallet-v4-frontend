@@ -36,10 +36,10 @@ export const ViewPrivateKeyWalletFlyout: ViewPrivateKeyWalletFlyoutComponent = (
 }) => {
   const currency = useCurrency()
   const [isOpen, setOpen] = useState<boolean>(true)
-  const [openSendCryptoModal] = useOpenSendCryptoModal()
-  const [openReceiveModal] = useOpenReceiveModal()
-  const [openSwapModal] = useOpenSwapModal()
-  const [openSellModal] = useOpenSellModal()
+  const openSendCryptoModal = useOpenSendCryptoModal()
+  const openReceiveModal = useOpenReceiveModal()
+  const openSwapModal = useOpenSwapModal()
+  const openSellModal = useOpenSellModal()
 
   const { data: coinAddressesData, isLoading: isLoadingAddressData } = useWalletsForCoin({ coin })
   const { data: rates, isLoading: isLoadingCoinRates } = useCoinRates({ coin })

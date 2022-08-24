@@ -24,5 +24,5 @@ export const useOpenViewTradingAccount: OpenViewTradingAccountHook = () => {
     [dispatch]
   )
 
-  return [openViewTradingAccount]
+  return openViewTradingAccount
 }

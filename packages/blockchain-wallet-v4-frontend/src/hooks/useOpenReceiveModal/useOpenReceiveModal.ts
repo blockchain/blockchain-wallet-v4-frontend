@@ -29,5 +29,5 @@ export const useOpenReceiveModal: OpenReceiveModalHook = () => {
     [dispatch]
   )
 
-  return [openReceiveModal]
+  return openReceiveModal
 }
