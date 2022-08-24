@@ -203,11 +203,15 @@ export default ({
       url: nabuUrl
     })
 
-  const confirmBSOrder = (
-    order: BSOrderType,
-    attributes?: BSProviderAttributesType,
+  const confirmBSOrder = ({
+    attributes,
+    order,
+    paymentMethodId
+  }: {
+    attributes?: BSProviderAttributesType
+    order: BSOrderType
     paymentMethodId?: string
-  ): BSOrderType =>
+  }): BSOrderType =>
     authorizedPost({
       contentType: 'application/json',
       data: {
