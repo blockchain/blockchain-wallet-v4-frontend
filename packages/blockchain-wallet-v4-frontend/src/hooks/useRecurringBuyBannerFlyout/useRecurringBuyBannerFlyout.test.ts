@@ -22,7 +22,7 @@ describe('useRecurringBuyBannerFlyout()', () => {
 
       expect(dispatch).not.toHaveBeenCalled()
 
-      const [showModal] = result.current
+      const showModal = result.current
 
       showModal()
 

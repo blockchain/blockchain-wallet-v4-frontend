@@ -17,5 +17,5 @@ export const useRecurringBuyBannerFlyout: RecurringBuysBannerFlyoutHook = () => 
     )
   }, [dispatch])
 
-  return [showModal]
+  return showModal
 }

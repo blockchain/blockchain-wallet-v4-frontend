@@ -18,7 +18,7 @@ import { filterTransactionsByWalletType } from './utils'
 const useActivityFeed: ActivityFeedHook = ({ coin }) => {
   const [walletFilter, setWalletFilter] = useState<ActivityFilters | undefined>()
   const { data: transactions } = useCoinTransactionsQuery({ coin })
-  const [openDownloadModal] = useOpenTransactionReportModal()
+  const openDownloadModal = useOpenTransactionReportModal()
 
   const { data: wallets, isLoading: isLoadingAddressData } = useWalletsForCoin({ coin })
 
