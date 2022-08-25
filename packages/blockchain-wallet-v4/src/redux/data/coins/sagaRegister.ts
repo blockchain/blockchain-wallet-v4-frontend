@@ -12,6 +12,7 @@ export default ({ api }) => {
     yield takeLatest(actions.fetchUnifiedBalances.type, dataCoinsSagas.fetchUnifiedBalances)
     yield takeLatest(actions.initializeSubscriptions.type, dataCoinsSagas.initializeSubscriptions)
     yield takeLatest(actions.unsubscribe.type, dataCoinsSagas.unsubscribe)
+    yield takeLatest(actions.subscribe.type, dataCoinsSagas.subscribe)
     yield fork(dataCoinsSagas.watchTransactions)
   }
 }
