@@ -1,12 +1,17 @@
 import React, { ReactNode, useCallback, useMemo, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Button } from 'blockchain-info-components'
+import { Button, SpinningLoader } from 'blockchain-info-components'
 import { Card } from 'components/Card'
 import EmptyResults from 'components/EmptyResults'
 import { Flex } from 'components/Flex'
 import { Padding } from 'components/Padding'
-import { useCoinTransactionsQuery, useOpenTransactionReportModal, useWalletsForCoin } from 'hooks'
+import {
+  useCoinTransactionsFetcher,
+  useCoinTransactionsQuery,
+  useOpenTransactionReportModal,
+  useWalletsForCoin
+} from 'hooks'
 
 import { AccountSelectBox, AccountSelectBoxItem } from '../../../AccountSelectBox'
 import { Header } from '../../../ActivityFeedCard/components'
@@ -17,10 +22,18 @@ import { filterTransactionsByWalletType } from './utils'
 
 const useActivityFeed: ActivityFeedHook = ({ coin }) => {
   const [walletFilter, setWalletFilter] = useState<ActivityFilters | undefined>()
-  const { data: transactions } = useCoinTransactionsQuery({ coin })
-  const openDownloadModal = useOpenTransactionReportModal()
+  const { data: transactions, isLoading: isLoadingTransactions } = useCoinTransactionsQuery({
+    coin
+  })
 
+  const openDownloadModal = useOpenTransactionReportModal()
+  useCoinTransactionsFetcher(coin)
   const { data: wallets, isLoading: isLoadingAddressData } = useWalletsForCoin({ coin })
+
+  const isLoading = useMemo(
+    () => isLoadingTransactions || isLoadingAddressData,
+    [isLoadingTransactions, isLoadingAddressData]
+  )
 
   const filterOptions: AccountSelectBoxItem[] = useMemo(() => {
     return (wallets || []).map((wallet) => ({
@@ -30,6 +43,18 @@ const useActivityFeed: ActivityFeedHook = ({ coin }) => {
   }, [wallets])
 
   const transactionsList = useMemo(() => {
+    if (isLoading) {
+      return (
+        <Card borderWidth={1} borderRadius='md'>
+          <Padding all={32}>
+            <Flex alignItems='center' justifyContent='center'>
+              <SpinningLoader width='24px' height='24px' borderWidth='4px' />
+            </Flex>
+          </Padding>
+        </Card>
+      )
+    }
+
     if (!transactions) return null
 
     if (walletFilter === 'INTEREST') {
