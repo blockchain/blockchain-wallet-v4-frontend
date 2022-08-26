@@ -10,6 +10,7 @@ export type DebitCardState = {
   currentCardAccount: RemoteDataType<string, AccountType>
   currentCardSelected: DebitCardType | undefined
   eligibleAccounts: RemoteDataType<string, Array<AccountType>>
+  legal: RemoteDataType<string, Array<LegalRequirement>>
   lockHandler: RemoteDataType<string, boolean>
   orderCardStep: OrderCardStep
   products: Array<ProductType>
@@ -96,4 +97,13 @@ export type ResidentialAddress = {
   line2: string
   postCode: string
   state: string
+}
+
+export type LegalRequirement = {
+  acceptedVersion: number
+  displayName: string
+  name: string
+  required: boolean
+  url: string
+  version: number
 }

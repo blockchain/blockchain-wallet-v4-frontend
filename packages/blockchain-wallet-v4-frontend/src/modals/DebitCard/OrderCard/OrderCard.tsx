@@ -38,7 +38,7 @@ const OrderCard = (props: Props) => {
       ) : null}
       {props.step === OrderCardStep.SSN ? (
         <FlyoutChild>
-          <SocialSecurityNumber handleClose={handleClose} />
+          <SocialSecurityNumber />
         </FlyoutChild>
       ) : null}
       {props.step === OrderCardStep.SELECT_CARD ? (

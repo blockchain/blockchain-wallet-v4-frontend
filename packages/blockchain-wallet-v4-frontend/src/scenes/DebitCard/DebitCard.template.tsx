@@ -58,8 +58,7 @@ const DebitCard = ({
         </HeaderTextWrapper>
       </SceneHeader>
 
-      <CardOrder handleOpenOrderCard={handleOpenOrderCard} />
-      {/* {isLoading ? (
+      {isLoading ? (
         <Container>
           <SkeletonRectangle width='330px' height='270px' />
         </Container>
@@ -77,7 +76,7 @@ const DebitCard = ({
           modalActions={modalActions}
           userData={userData}
         />
-      )} */}
+      )}
     </Wrapper>
   )
 }
