@@ -8,3 +8,8 @@ export enum OrderCardStep {
   SELECT_CARD = 'SELECT_CARD',
   SSN = 'SSN'
 }
+
+export enum DebitCardError {
+  NO_LEGAL_REQUIREMENTS = 'NO_LEGAL_REQUIREMENTS',
+  NO_PRODUCT_CODE = 'NO_PRODUCT_CODE'
+}

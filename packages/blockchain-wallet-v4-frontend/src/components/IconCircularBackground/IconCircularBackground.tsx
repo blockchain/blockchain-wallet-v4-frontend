@@ -1,30 +1,19 @@
 import React from 'react'
-import { colors } from '@blockchain-com/constellation'
 
-import { IconCircularBackgroundComponent, IconCircularBackgroundSizes } from './types'
+import { CircularBackground, Container, ContentContainer } from './IconCircularBackground.styles'
+import { IconCircularBackgroundComponent } from './IconCircularBackground.types'
 
 export const IconCircularBackground: IconCircularBackgroundComponent = ({
+  backgroundOpacity = 1,
   children,
   color = 'default',
   size = 'default'
 }) => {
-  const sizeToPixels: Record<IconCircularBackgroundSizes, number> = {
-    default: 24
-  }
-
   return (
-    <div
-      style={{
-        alignItems: 'center',
-        backgroundColor: colors[color] ?? color,
-        borderRadius: '50%',
-        display: 'flex',
-        height: sizeToPixels[size] ?? size,
-        justifyContent: 'center',
-        width: sizeToPixels[size] ?? size
-      }}
-    >
-      {children}
-    </div>
+    <Container size={size}>
+      <CircularBackground color={color} size={size} backgroundOpacity={backgroundOpacity} />
+
+      <ContentContainer size={size}>{children}</ContentContainer>
+    </Container>
   )
 }

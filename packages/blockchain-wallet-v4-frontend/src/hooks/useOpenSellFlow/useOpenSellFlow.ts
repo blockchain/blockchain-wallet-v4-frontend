@@ -22,5 +22,5 @@ export const useOpenSellFlow: OpenSellFlowHook = () => {
     [dispatch]
   )
 
-  return [open]
+  return open
 }

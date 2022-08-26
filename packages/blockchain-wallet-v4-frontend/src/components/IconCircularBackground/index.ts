@@ -3,4 +3,4 @@ export type {
   IconCircularBackgroundComponent,
   IconCircularBackgroundProps,
   IconCircularBackgroundSizes
-} from './types'
+} from './IconCircularBackground.types'

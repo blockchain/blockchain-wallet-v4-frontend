@@ -18,6 +18,7 @@ import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
 import { Padding } from 'components/Padding'
 import { actions, model } from 'data'
+import { OrderCardStep } from 'data/components/debitCard/model'
 import { required } from 'services/forms'
 
 const { SOCIAL_SECURITY_NUMBER_FORM } = model.components.debitCard
@@ -47,15 +48,7 @@ const SpinnerWrapper = styled.div`
   flex-direction: column;
 `
 
-type Props = {
-  handleClose: () => void
-}
-
-const SocialSecurityNumber = ({
-  handleClose,
-  invalid,
-  submitting
-}: InjectedFormProps<{}, Props> & Props) => {
+const SocialSecurityNumber = ({ invalid, submitting }: InjectedFormProps<{}>) => {
   const dispatch = useDispatch()
 
   const disabled = invalid || submitting
@@ -76,7 +69,13 @@ const SocialSecurityNumber = ({
 
   return (
     <FlyoutContainer>
-      <FlyoutHeader data-e2e='socialSecurityNumberHeader' mode='close' onClick={handleClose}>
+      <FlyoutHeader
+        data-e2e='socialSecurityNumberHeaderBackHeader'
+        onClick={() =>
+          dispatch(actions.components.debitCard.setOrderCardStep(OrderCardStep.RESIDENTIAL_ADDRESS))
+        }
+        mode='back'
+      >
         <FormattedMessage
           id='modals.social_security_number.title'
           defaultMessage='Verify Your Identity'
@@ -96,7 +95,13 @@ const SocialSecurityNumber = ({
                       />
                     </Text>
                   </Label>
-                  <Field validate={required} name='ssn' errorBottom component={TextBox} />
+                  <Field
+                    validate={[required]}
+                    placeholder='123-1243-12412'
+                    name='ssn'
+                    errorBottom
+                    component={TextBox}
+                  />
                 </FormItem>
               </FormGroup>
             </Padding>
@@ -125,7 +130,7 @@ const SocialSecurityNumber = ({
   )
 }
 
-export default reduxForm<{}, Props>({
+export default reduxForm<{}>({
   destroyOnUnmount: false,
   form: SOCIAL_SECURITY_NUMBER_FORM
 })(SocialSecurityNumber)

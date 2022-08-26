@@ -101,16 +101,27 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
     })
   }
 
-  const setDCSocialSecurityNumber = (address) => {
+  const getLegalRequirements = () => {
+    return authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/card-issuing/legal',
+      url: nabuUrl
+    })
+  }
+
+  const acceptLegalRequirements = (
+    acceptedRequirements: Array<{ acceptedVersion: number; name: string }>
+  ) => {
     return authorizedPut({
       contentType: 'application/json',
-      data: { address },
-      endPoint: '/card-issuing/residential-address',
+      data: { legalPolicies: acceptedRequirements },
+      endPoint: '/card-issuing/legal',
       url: nabuUrl
     })
   }
 
   return {
+    acceptLegalRequirements,
     createDCOrder,
     getDCCreated,
     getDCCurrentAccount,
@@ -119,6 +130,7 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
     getDCResidentialAddress,
     getDCToken,
     getDCTransactions,
+    getLegalRequirements,
     handleDCLock,
     selectDCAccount,
     setDCResidentialAddress,

@@ -10,6 +10,7 @@ import {
   CardTransaction,
   DebitCardState,
   DebitCardType,
+  LegalRequirement,
   ProductType,
   ResidentialAddress
 } from './types'
@@ -21,6 +22,7 @@ const initialState: DebitCardState = {
   currentCardAccount: Remote.NotAsked,
   currentCardSelected: undefined,
   eligibleAccounts: Remote.NotAsked,
+  legal: Remote.NotAsked,
   lockHandler: Remote.NotAsked,
   orderCardStep: OrderCardStep.RESIDENTIAL_ADDRESS,
   products: [],
@@ -96,6 +98,16 @@ const debitCardSlice = createSlice({
     },
     getEligibleAccountsSuccess: (state, action: PayloadAction<Array<AccountType>>) => {
       state.eligibleAccounts = Remote.Success(action.payload)
+    },
+    getLegalRequirements: () => {},
+    getLegalRequirementsFailure: (state, action: PayloadAction<string>) => {
+      state.legal = Remote.Failure(action.payload)
+    },
+    getLegalRequirementsLoading: (state) => {
+      state.legal = Remote.Loading
+    },
+    getLegalRequirementsSuccess: (state, action: PayloadAction<Array<LegalRequirement>>) => {
+      state.legal = Remote.Success(action.payload)
     },
     getProducts: () => {},
     getProductsFailure: (state) => {

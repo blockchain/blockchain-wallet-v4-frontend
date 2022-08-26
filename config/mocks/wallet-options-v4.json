@@ -38,7 +38,7 @@
         "applePayPaymentMethod": true,
         "appleAndGooglePayPromoBanner": true,
         "bindIntegrationArEnabled": true,
-        "coinViewV2": false,
+        "coinViewV2": true,
         "isCreditCardOptimizationEnabled": true,
         "recurringBuysInCheckoutPage": true,
         "completeYourProfile": true,

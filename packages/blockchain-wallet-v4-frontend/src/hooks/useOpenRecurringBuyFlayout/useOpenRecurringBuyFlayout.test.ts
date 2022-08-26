@@ -42,7 +42,7 @@ describe('useOpenRecurringBuyFlayout()', () => {
 
     const { result } = renderHook(() => useOpenRecurringBuyFlayout())
 
-    const [open] = result.current
+    const open = result.current
 
     const dispatch = useDispatch()
 
