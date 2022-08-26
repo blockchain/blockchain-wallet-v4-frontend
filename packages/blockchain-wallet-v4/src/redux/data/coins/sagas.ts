@@ -243,6 +243,22 @@ export default ({ api }: { api: APIType }) => {
         ]
       })
 
+      // MATIC
+      accounts.push({
+        account: {
+          index: 0,
+          name: label
+        },
+        currency: 'MATIC',
+        pubKeys: [
+          {
+            descriptor: 0,
+            pubKey: ethPublicKey.toString('hex'),
+            style: 'SINGLE'
+          }
+        ]
+      })
+
       // XLM
       const xlmKeyPair = yield call(getKeyPair, mnemonic)
       accounts.push({

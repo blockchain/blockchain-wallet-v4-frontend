@@ -28,11 +28,7 @@ const _getAllCoins = (): Array<string> =>
   Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name !== 'FIAT')
 
 const _getErc20Coins = (): Array<string> =>
-  Object.keys(window.coins).filter(
-    (coin) =>
-      window.coins[coin].coinfig.type.name === 'ERC20' &&
-      window.coins[coin].coinfig.type.parentChain === 'ETH'
-  )
+  Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name === 'ERC20')
 
 const _getFiatCoins = (): Array<string> =>
   Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name === 'FIAT')

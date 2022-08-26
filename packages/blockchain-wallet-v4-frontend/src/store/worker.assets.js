@@ -15,7 +15,7 @@ addEventListener('message', ({ data }) => {
     .then(([custodialAssets, erc20Assets]) => {
       try {
         let assets = {}
-        const supportedCoins = custodialAssets.currencies.concat(erc20Assets.currencies).filter((coin) => !coin.symbol.includes('.'))
+        const supportedCoins = custodialAssets.currencies.concat(erc20Assets.currencies)
 
         supportedCoins.forEach((coin) => {
           assets[coin.symbol] = { coinfig: coin }
