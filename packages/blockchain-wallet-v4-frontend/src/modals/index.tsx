@@ -117,6 +117,7 @@ const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
 const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
 const ViewPrivateKeyWalletFlyout = React.lazy(() => import('./ViewPrivateKeyWalletFlyout'))
 const ViewTradingAccountFlyout = React.lazy(() => import('./ViewTradingAccountFlyout'))
+const ViewInterestAccountFlyout = React.lazy(() => import('./ViewInterestAccountFlyout'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
@@ -362,6 +363,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.VIEW_PRIVATE_KEY_WALLET) ? (
           <ViewPrivateKeyWalletFlyout />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.VIEW_INTEREST_ACCOUNT) ? (
+          <ViewInterestAccountFlyout />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.VIEW_TRADING_ACCOUNT) ? (
           <ViewTradingAccountFlyout />

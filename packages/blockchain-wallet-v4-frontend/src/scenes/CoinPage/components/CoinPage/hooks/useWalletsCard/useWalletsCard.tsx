@@ -9,6 +9,7 @@ import {
   useCoinBalance,
   useCoinRates,
   useCurrency,
+  useOpenViewInterestAccountModal,
   useOpenViewPrivateKeyModal,
   useOpenViewTradingAccount,
   useWalletsForCoin
@@ -20,6 +21,7 @@ import { transformToAccounts } from './utils'
 export const useWalletsCard = (coin: CoinType): [ReactNode] => {
   const currency = useCurrency()
   const openViewPrivateKeyModal = useOpenViewPrivateKeyModal()
+  const openViewInterestAccountModal = useOpenViewInterestAccountModal()
   const openViewTradingAccount = useOpenViewTradingAccount()
 
   const {
@@ -109,6 +111,13 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
                     origin: 'CoinPageHoldings'
                   })
                 }
+
+                if (type === 'INTEREST') {
+                  openViewInterestAccountModal({
+                    coin,
+                    origin: 'CoinPageHoldings'
+                  })
+                }
               }}
               topLeftText={label}
               topRightText={totalFiat}
@@ -122,7 +131,17 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
         })}
       </WalletsCard>
     )
-  }, [isLoading, isNotAsked, rates, available, accounts, coin, openViewPrivateKeyModal])
+  }, [
+    isLoading,
+    isNotAsked,
+    rates,
+    available,
+    accounts,
+    coin,
+    openViewPrivateKeyModal,
+    openViewTradingAccount,
+    openViewInterestAccountModal
+  ])
 
   return [walletsCardNode]
 }
