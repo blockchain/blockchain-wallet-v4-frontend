@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconBlockchain, IconVerified } from '@blockchain-com/icons'
+import { IconBlockchain, IconVerified, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -28,7 +27,7 @@ import TrendingCollectionsTable from './TrendingCollectionsTable'
 // Special case of hardcoding colors
 // don't let this be a bad influence on the rest of the app
 const Banner = styled.div`
-  background: linear-gradient(40deg, #121d33, ${colors.blue300}, #f00699);
+  background: linear-gradient(40deg, #121d33, ${PaletteColors['blue-300']}, #f00699);
   background-size: 600% 600%;
   -webkit-animation: AnimationName 40s ease infinite;
   -moz-animation: AnimationName 40s ease infinite;
@@ -83,7 +82,7 @@ const Banner = styled.div`
 
 const AssetFooter = styled.div`
   border-radius: 0px 0px 16px 16px;
-  border: 1px solid ${colors.grey000};
+  border: 1px solid ${PaletteColors['grey-000']};
   z-index: 2;
   height: 50px;
   background: white;
@@ -212,9 +211,7 @@ const Explore: React.FC<Props> = (props) => {
           <div style={{ lineHeight: '2em' }}>
             {!isMobile && !isTablet && (
               <div style={{ alignItems: 'center', display: 'flex', marginBottom: '16px' }}>
-                <Icon color='white900' label='logo'>
-                  <IconBlockchain />
-                </Icon>
+                <IconBlockchain color={PaletteColors['white-900']} label='logo' />
                 <Text color='white'>&nbsp;|&nbsp;</Text>
                 <Text color='white' size='20px' weight={600}>
                   NFT
@@ -335,9 +332,11 @@ const Explore: React.FC<Props> = (props) => {
                       <Flex gap={2} alignItems='center'>
                         {loadedAssets[assetId]?.collection?.safelist_request_status ===
                           'verified' && (
-                          <Icon size='sm' label='verified' color='orange400'>
-                            <IconVerified />
-                          </Icon>
+                          <IconVerified
+                            size='small'
+                            label='verified'
+                            color={PaletteColors['orange-400']}
+                          />
                         )}
                         <Text
                           weight={500}
