@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconSettings } from '@blockchain-com/icons'
+import { IconSettings, PaletteColors } from '@blockchain-com/constellation'
 import { Dispatch } from '@reduxjs/toolkit'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm } from 'redux-form'
@@ -86,9 +85,7 @@ const NftAddress: React.FC<Props> = ({
             {isOwner ? (
               <LinkContainer to={`/nfts/address/settings/${ethAddress}`}>
                 <a>
-                  <Icon label='settings' color='white900'>
-                    <IconSettings color={colors.white900} />
-                  </Icon>
+                  <IconSettings color={PaletteColors['white-900']} label='settings' />
                 </a>
               </LinkContainer>
             ) : null}

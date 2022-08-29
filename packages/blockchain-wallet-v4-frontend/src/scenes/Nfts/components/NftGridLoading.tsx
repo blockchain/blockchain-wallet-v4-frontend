@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
@@ -23,7 +23,7 @@ const NftGridLoading: React.FC<Props> = ({ fullscreen }) => {
   `
 
   const GridLoadingFooter = styled.div`
-    background-color: ${colors.grey000};
+    background-color: ${PaletteColors['grey-000']};
     border-radius: 0px 0px 4px 4px;
     margin-top: -12px;
     padding: 1em;
@@ -40,7 +40,7 @@ const NftGridLoading: React.FC<Props> = ({ fullscreen }) => {
           <GridLoadingFooter>
             <div
               style={{
-                backgroundColor: colors.grey000
+                backgroundColor: PaletteColors['grey-000']
               }}
             >
               <Flex justifyContent='space-between' flexDirection='column'>

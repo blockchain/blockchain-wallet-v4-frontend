@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Icon } from '@blockchain-com/constellation'
-import { IconCart } from '@blockchain-com/icons'
+import { IconCart, PaletteColors } from '@blockchain-com/constellation'
 
 import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
@@ -37,9 +36,7 @@ const NftNoOwnedAssets: React.FC<Props> = () => {
         <Link>
           <Button data-e2e='shopNfts' nature='primary'>
             <Flex alignItems='center' gap={4}>
-              <Icon label='cart' color='white900'>
-                <IconCart />
-              </Icon>
+              <IconCart label='cart' color={PaletteColors['white-900']} />
               <FormattedMessage id='copy.shop_nfts' defaultMessage='Shop NFTs' />
             </Flex>
           </Button>

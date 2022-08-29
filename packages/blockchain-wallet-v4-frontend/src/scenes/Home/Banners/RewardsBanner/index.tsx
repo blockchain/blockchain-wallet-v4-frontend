@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Icon } from '@blockchain-com/constellation'
-import { IconCloseCircleV2, IconPercent } from '@blockchain-com/icons'
+import { IconCloseCircleV2, IconPercent, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { Dispatch } from 'redux'
 import styled from 'styled-components'
@@ -85,9 +84,7 @@ const StartEarningRewards: React.FC<Props> = (props) => {
     <Wrapper>
       <Row>
         <PendingIconWrapper>
-          <Icon label='percentage' color='blue600' size='md'>
-            <IconPercent />
-          </Icon>
+          <IconPercent label='percentage' color={PaletteColors['blue-600']} size='medium' />
         </PendingIconWrapper>
         <Column>
           <Text size='20px' weight={600} color='grey800'>
@@ -113,9 +110,12 @@ const StartEarningRewards: React.FC<Props> = (props) => {
         data-e2e='newCoinCloseButton'
         onClick={() => props.cacheActions.announcementDismissed(completeAnnouncement)}
       >
-        <Icon label='close' color='grey600' data-e2e='sanctionsInfoCloseModalIcon' size='md'>
-          <IconCloseCircleV2 />
-        </Icon>
+        <IconCloseCircleV2
+          label='close'
+          color={PaletteColors['grey-600']}
+          data-e2e='sanctionsInfoCloseModalIcon'
+          size='medium'
+        />
       </CloseLink>
     </Wrapper>
   )
