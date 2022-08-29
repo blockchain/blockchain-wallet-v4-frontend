@@ -1,12 +1,10 @@
 import React, { useCallback, useState } from 'react'
-import { colors, Icon, useClickOutside } from '@blockchain-com/constellation'
-import { IconPhone } from '@blockchain-com/icons'
+import { IconPhone, PaletteColors, useClickOutside } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import TextInputWithClipboard from 'components/Form/TextInputWithClipboard'
 import { DropdownMenu, DropdownMenuArrow } from 'components/Navbar/Dropdown'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
-import { useMedia } from 'services/styles'
 
 import Switch from './Switch'
 
@@ -43,7 +41,7 @@ const QRContainer = styled.div`
 `
 
 const StyledSwitch = styled(Switch)`
-  background: ${colors.grey100};
+  background: ${PaletteColors['grey-100']};
   height: 15px;
 `
 
@@ -65,9 +63,7 @@ const MobileDropdown = () => {
   return (
     <NavbarButton data-e2e='mobileQrCode' ref={ref}>
       <div role='button' tabIndex={0} onClick={handleMenuToggle} onKeyDown={handleMenuToggle}>
-        <Icon color='grey400' label='open-menu' size='sm'>
-          <IconPhone />
-        </Icon>
+        <IconPhone color={PaletteColors['grey-400']} size='small' />
       </div>
       {isMenuOpen && (
         <CustomDropdownMenu>

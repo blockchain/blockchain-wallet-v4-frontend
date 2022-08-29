@@ -1,8 +1,12 @@
 import React, { useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
-import { IconCheckCircle, IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/icons'
+import {
+  IconCheckCircle,
+  IconChevronDownV2,
+  IconChevronUpV2,
+  PaletteColors
+} from '@blockchain-com/constellation'
 import { bindActionCreators, Dispatch } from '@reduxjs/toolkit'
 import { AnimatePresence, motion } from 'framer-motion'
 import styled, { css } from 'styled-components'
@@ -136,12 +140,8 @@ const AppSwitcher: React.FC<Props> = ({ isDexEnabled, routerActions }) => {
           role='button'
           className={`${currentApp.name} ${isActive ? 'active' : ''}`}
         >
-          <Icon label='up' size='sm'>
-            <IconChevronUpV2 />
-          </Icon>
-          <Icon label='down' size='sm'>
-            <IconChevronDownV2 />
-          </Icon>
+          <IconChevronUpV2 size='small' />
+          <IconChevronDownV2 size='small' />
         </IconWrapper>
       </Flex>
       <AnimatePresence>
@@ -172,13 +172,14 @@ const AppSwitcher: React.FC<Props> = ({ isDexEnabled, routerActions }) => {
                       {appConfig.subtitle()}
                     </Text>
                   </Flex>
-                  <Icon
-                    label='check'
-                    size='sm'
-                    color={currentApp.name === appConfig.name ? appConfig.color : 'grey100'}
-                  >
-                    <IconCheckCircle />
-                  </Icon>
+                  <IconCheckCircle
+                    color={
+                      currentApp.name === appConfig.name
+                        ? PaletteColors[appConfig.color]
+                        : PaletteColors['grey-100']
+                    }
+                    size='small'
+                  />
                 </PopoutItem>
               )
             })}
