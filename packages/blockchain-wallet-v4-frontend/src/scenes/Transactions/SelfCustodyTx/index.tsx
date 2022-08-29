@@ -19,9 +19,8 @@ import {
 } from '../components'
 import { TransactionType } from './SelfCustodyTxModel'
 
-const SelfCustodyTx: React.FC<Props> = ({ tx }) => {
-  // TODO: SELF_CUSTODY
-  const coin = 'STX'
+const SelfCustodyTx: React.FC<Props> = ({ coin, tx }) => {
+  const { coinfig } = window.coins[coin]
 
   return (
     // TODO: SELF_CUSTODY
@@ -33,7 +32,7 @@ const SelfCustodyTx: React.FC<Props> = ({ tx }) => {
           <IconTx type={tx.type} coin={tx.type === 'RECEIVED' ? 'green400' : 'red500'} />
           <StatusAndType data-e2e='txStatusColumn'>
             <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
-              <TransactionType txType={tx.type} /> {coin}
+              <TransactionType txType={tx.type} /> {coinfig.displaySymbol}
             </Text>
             {tx.timestamp ? (
               <Timestamp time={tx.timestamp * 1000} />
@@ -47,7 +46,7 @@ const SelfCustodyTx: React.FC<Props> = ({ tx }) => {
         <Col width='50%'>
           <Addresses
             from={tx.type === 'SENT' ? <>{coin} Private Key Wallet</> : <>{tx.from}</>}
-            to={tx.type === 'SENT' ? <>{tx.to}</> : <>{coin} Private Key Wallet</>}
+            to={tx.type === 'SENT' ? <>{tx.to}</> : <>{coinfig.displaySymbol} Private Key Wallet</>}
           />
         </Col>
         <Col width='20%' style={{ textAlign: 'right' }} data-e2e='orderAmountColumn'>
@@ -69,6 +68,6 @@ const SelfCustodyTx: React.FC<Props> = ({ tx }) => {
   )
 }
 
-type Props = { tx: IngestedSelfCustodyType }
+type Props = { coin: string; tx: IngestedSelfCustodyType }
 
 export default SelfCustodyTx

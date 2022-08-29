@@ -33,7 +33,7 @@ const TransactionListItem: TransactionListItemComponent = ({ coin, transaction }
   ) : 'pair' in transaction ? (
     <BuySellListItem key={transaction.id} order={transaction} />
   ) : 'movements' in transaction ? (
-    <SelfCustodyTx key={transaction.txId} tx={transaction} />
+    <SelfCustodyTx coin={coin} key={transaction.txId} tx={transaction} />
   ) : (
     <CustodialTxListItem
       key={transaction.id}

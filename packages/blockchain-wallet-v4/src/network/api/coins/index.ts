@@ -8,6 +8,7 @@ import {
   PubkeyServiceSubscriptions,
   SubscribeRequestType,
   TickerResponseType,
+  TxHistoryAuthInRequestType,
   TxHistoryResponseType,
   UnifiedBalancesResponseType
 } from './types'
@@ -74,16 +75,21 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  const txHistory = (
-    pubKeys: { descriptor: 'default' | 'legacy'; pubKey: string; style: 'SINGLE' }[]
-  ): TxHistoryResponseType => {
+  const txHistory = ({
+    currency,
+    guidHash,
+    sharedKeyHash
+  }: TxHistoryAuthInRequestType): TxHistoryResponseType => {
     return post({
       contentType: 'application/json',
       data: {
-        pubKeys
+        auth: {
+          guidHash,
+          sharedKeyHash
+        },
+        currency
       },
-      // TODO: SELF_CUSTODY
-      endPoint: `/currency/stx/txHistory`,
+      endPoint: `/wallet-pubkey/tx-history`,
       removeDefaultPostData: true,
       url: apiUrl
     })

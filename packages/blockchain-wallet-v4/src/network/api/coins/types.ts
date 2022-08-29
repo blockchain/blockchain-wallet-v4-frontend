@@ -113,6 +113,10 @@ export type TickerResponseType = {
   }
 }
 
+export type TxHistoryAuthInRequestType = PubkeyServiceAuthenticationInRequestType & {
+  currency: string
+}
+
 export type TxHistoryResponseType = {
   addresses: {
     [key in string]: {

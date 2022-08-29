@@ -24,6 +24,16 @@ const TX_PER_PAGE = 10
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
+  const getAuth = function* () {
+    const guid = yield select(selectors.wallet.getGuid)
+    const sharedKey = yield select(selectors.wallet.getSharedKey)
+
+    const guidHash = sha256(guid).toString('hex')
+    const sharedKeyHash = sha256(sharedKey).toString('hex')
+
+    return { guidHash, sharedKeyHash }
+  }
+
   // checks for existence of window.coins data and sets an is loaded flag on state
   const pollForCoinData = function* () {
     try {
@@ -83,6 +93,7 @@ export default ({ api }: { api: APIType }) => {
     const { payload } = action
     try {
       const { reset } = payload
+      const { guidHash, sharedKeyHash } = yield call(getAuth)
       const pages = S.getTransactions(payload.coin, yield select())
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = S.getTransactionsAtBound(payload.coin, yield select())
@@ -112,9 +123,11 @@ export default ({ api }: { api: APIType }) => {
           pubKey
         )
         const addresses = results.map(({ address }) => address)
-        const selfCustodyPage: ReturnType<typeof api.txHistory> = yield call(api.txHistory, [
-          { descriptor: 'default', pubKey, style: 'SINGLE' }
-        ])
+        const selfCustodyPage: ReturnType<typeof api.txHistory> = yield call(api.txHistory, {
+          currency: payload.coin,
+          guidHash,
+          sharedKeyHash
+        })
         const history = selfCustodyPage.history.map((val) => {
           const type = addresses.includes(
             val.movements.find(({ type }) => type === 'SENT')?.address || ''
@@ -152,16 +165,6 @@ export default ({ api }: { api: APIType }) => {
       const action = yield take(A.fetchTransactions.type)
       yield call(fetchTransactions, action)
     }
-  }
-
-  const getAuth = function* () {
-    const guid = yield select(selectors.wallet.getGuid)
-    const sharedKey = yield select(selectors.wallet.getSharedKey)
-
-    const guidHash = sha256(guid).toString('hex')
-    const sharedKeyHash = sha256(sharedKey).toString('hex')
-
-    return { guidHash, sharedKeyHash }
   }
 
   // initialize subscriptions
