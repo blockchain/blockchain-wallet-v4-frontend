@@ -94,7 +94,7 @@ const TransactionsBox = ({ modalActions }) => {
       case TransactionType.PAYMENT:
         return (
           <FormattedMessage
-            id='scenes.debit_card.dashboard.transactions.title.payment'
+            id='scenes.debit_card.dashboard.transactions.title.payment_spent'
             defaultMessage='Spent {symbol} at {place}'
             values={{ place: merchantName, symbol }}
           />
@@ -102,7 +102,7 @@ const TransactionsBox = ({ modalActions }) => {
       case TransactionType.REFUND:
         return (
           <FormattedMessage
-            id='scenes.debit_card.dashboard.transactions.title.payment'
+            id='scenes.debit_card.dashboard.transactions.title.payment_refund'
             defaultMessage='Refund {symbol} at {place}'
             values={{ place: merchantName, symbol }}
           />
@@ -110,7 +110,7 @@ const TransactionsBox = ({ modalActions }) => {
       default:
         return (
           <FormattedMessage
-            id='scenes.debit_card.dashboard.transactions.title.payment'
+            id='scenes.debit_card.dashboard.transactions.title.payment_type'
             defaultMessage='{type} {symbol} at {place}'
             values={{ place: merchantName, symbol, type }}
           />
@@ -176,7 +176,7 @@ const TransactionsBox = ({ modalActions }) => {
   )
 
   return (
-    <BoxContainer width='662px'>
+    <BoxContainer>
       <BoxRowWithBorder>
         <BoxRowItemTitle>
           <FormattedMessage

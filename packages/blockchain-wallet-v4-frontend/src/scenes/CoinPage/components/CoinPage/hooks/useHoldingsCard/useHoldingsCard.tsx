@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo } from 'react'
+import React, { ReactElement, useCallback, useMemo } from 'react'
 
 import { Exchange } from '@core'
 import { fiatToString } from '@core/exchange/utils'
@@ -14,7 +14,7 @@ import {
 } from 'hooks'
 
 import { BuyButton } from '../../../BuyButton'
-import { HoldingsCard } from '../../../HoldingsCard'
+import { CoinTotalLoadingText, HoldingsCard, TotalLoadingText } from '../../../HoldingsCard'
 import { ReceiveButton } from '../../../ReceiveButton'
 import { SellButton } from '../../../SellButton'
 import { SendButton } from '../../../SendButton'
@@ -37,8 +37,20 @@ export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
     [isCoinBalanceLoading, isRatesLoading, isLoadingCoinConfig]
   )
 
+  const formatFiat = useCallback((value) => fiatToString({ unit: currency, value }), [currency])
+
+  const formatCoin = useCallback(
+    (value) =>
+      Exchange.displayCoinToCoin({
+        coin,
+        isFiat: coinfig?.type.name === 'FIAT',
+        value
+      }),
+    [coin, coinfig?.type.name]
+  )
+
   const actions: ReactElement[] = useMemo(() => {
-    if (!coinBalance || !coinfig) return []
+    if (coinBalance === undefined || !coinfig) return []
 
     const isBroke = coinBalance <= 0
     const isCustodialWalletBalance = coinfig.products.includes('CustodialWalletBalance')
@@ -68,7 +80,7 @@ export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
 
     if (isPrivateKey && isBroke) {
       // user cannot buy/sell
-      return []
+      return [<ReceiveButton key={1} onClick={receiveButtonCallback} />]
     }
 
     return [
@@ -79,15 +91,31 @@ export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
     coinBalance,
     coinfig,
     openOpenBuyFlow,
+    coin,
     openOpenSellFlow,
-    openOpenReceiveCryptoModal,
-    openOpenSendCryptoModal
+    openOpenSendCryptoModal,
+    openOpenReceiveCryptoModal
   ])
 
   const holdingsNode = useMemo(() => {
-    if (isLoading) return <span>Loading</span>
-
-    if (!rates || !coinBalance) return
+    if (isLoading)
+      return (
+        <HoldingsCard
+          total={<TotalLoadingText />}
+          coinCode={coin}
+          coinTotal={<CoinTotalLoadingText />}
+        />
+      )
+    if (!rates || !coinBalance) {
+      return (
+        <HoldingsCard
+          total={formatFiat(0)}
+          coinCode={coin}
+          coinTotal={formatCoin(0)}
+          actions={actions}
+        />
+      )
+    }
 
     const totalFiatAmount = Exchange.convertCoinToFiat({
       coin,
@@ -97,13 +125,8 @@ export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
       value: coinBalance
     })
 
-    const coinTotalAmount = Exchange.displayCoinToCoin({
-      coin,
-      isFiat: coinfig?.type.name === 'FIAT',
-      value: coinBalance
-    })
-
-    const totalFiatFormatted = fiatToString({ unit: currency, value: totalFiatAmount })
+    const coinTotalAmount = formatCoin(coinBalance)
+    const totalFiatFormatted = formatFiat(totalFiatAmount)
 
     return (
       <HoldingsCard
@@ -113,7 +136,7 @@ export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
         actions={actions}
       />
     )
-  }, [isLoading, rates, coinBalance, actions])
+  }, [isLoading, coin, rates, coinBalance, currency, formatCoin, formatFiat, actions])
 
   return [holdingsNode]
 }

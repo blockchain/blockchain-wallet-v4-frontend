@@ -79,6 +79,7 @@ import exchangeNoBackground from './img/exchange-no-background.svg'
 import fiatIcons from './img/fiatIcons'
 import fileDelete from './img/file-delete.svg'
 import fileDownload from './img/file-download.svg'
+import gasIcon from './img/gas-icon.svg'
 import globe from './img/globe.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
@@ -104,10 +105,14 @@ import cryptoad2903 from './img/nfts/cryptoadz-2903.png'
 import cryptoad4502 from './img/nfts/cryptoadz-4502.png'
 import cryptoadlarge from './img/nfts/cryptoadz-large.png'
 import cryptoadsmall from './img/nfts/cryptoadz-small.png'
+import nftEmpty from './img/nfts/nft-empty.svg'
 import nftImgPlaceholder from './img/nfts/nft-img-placeholder.svg'
+import nftImport from './img/nfts/nft-import.svg'
 import nftNothingHere from './img/nfts/nft-nothing-here.svg'
+import nftPurchase from './img/nfts/nft-purchase.svg'
 import nftnouns from './img/nfts/nouns.png'
 import nftpainthyperlink from './img/nfts/paint-hyperlink.png'
+import opensea from './img/opensea.png'
 import percentWhiteCircle from './img/percent-white-circle.svg'
 import percentBlueCircle from './img/percentage-blue-circle.svg'
 import productRedirectExchange from './img/product-redirect-exchange.png'
@@ -122,6 +127,7 @@ import selectArrow from './img/select-arrow.png'
 import sell from './img/sell.svg'
 import send from './img/send.svg'
 import sendCrypto from './img/send-crypto.svg'
+import sendNoFundsPromo from './img/send-no-funds-promo.svg'
 import smartphone from './img/smartphone.png'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import ssBcLogo from './img/ss-bc-logo.svg'
@@ -229,6 +235,7 @@ const Images = {
   'exchange-no-background': exchangeNoBackground,
   'file-delete': fileDelete,
   'file-download': fileDownload,
+  'gas-icon': gasIcon,
   globe,
   'gold-notice': goldNotice,
   'gold-verified': goldVerified,
@@ -249,10 +256,14 @@ const Images = {
   money,
   nft,
   'nft-collections': nftcollections,
+  'nft-empty': nftEmpty,
   'nft-img-placeholder': nftImgPlaceholder,
+  'nft-import': nftImport,
   'nft-nothing-here': nftNothingHere,
   'nft-nouns': nftnouns,
   'nft-paint-hyperlink': nftpainthyperlink,
+  'nft-purchase': nftPurchase,
+  opensea,
   'order-failed': orderFailed,
   'order-my-card': orderMyCard,
   'order-success': orderSuccess,
@@ -270,6 +281,7 @@ const Images = {
   sell,
   send,
   'send-crypto': sendCrypto,
+  'send-no-funds': sendNoFundsPromo,
   'sesocio-to-blockchain-logo': ssBcLogo,
   smartphone,
   'source-of-wealth': sourceOfWealth,

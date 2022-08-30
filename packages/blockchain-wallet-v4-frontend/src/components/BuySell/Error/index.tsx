@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CARD_ERROR_CODE, ORDER_ERROR_CODE } from 'data/components/buySell/model'
 

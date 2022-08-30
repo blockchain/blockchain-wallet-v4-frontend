@@ -437,6 +437,9 @@ export type ApplePayInfoType = {
   cardAcquirerName: 'STRIPE' | 'CHECKOUTDOTCOM'
   merchantBankCountryCode: string
   publishableApiKey: string
+  requiredBillingContactFields: ApplePayJS.ApplePayPaymentRequest['requiredBillingContactFields']
+  supportedCountries: ApplePayJS.ApplePayPaymentRequest['supportedCountries']
+  supportedNetworks: ApplePayJS.ApplePayPaymentRequest['supportedNetworks']
 }
 
 export type ValidateApplePayMerchantRequest = {
@@ -452,9 +455,27 @@ export type ValidateApplePayMerchantResponse = {
 export type GooglePayInfoType = {
   allowCreditCards: boolean
   allowPrepaidCards: boolean
+  allowedAuthMethods: google.payments.api.CardAuthMethod[]
+  allowedCardNetworks: google.payments.api.CardNetwork[]
   apiKey: string
   beneficiaryID: string
+  billingAddressParameters: google.payments.api.BillingAddressParameters
+  billingAddressRequired: boolean
   cardAcquirerName: 'STRIPE' | 'CHECKOUTDOTCOM'
   googlePayParameters: string
   merchantBankCountry: string
+}
+
+export type CardSuccessRateResponse = {
+  block: boolean
+  ux?: {
+    actions: {
+      title: string
+      type: string
+      url: string
+    }[]
+    categories: string[]
+    message: string
+    title: string
+  }
 }

@@ -4,11 +4,11 @@ import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import { BSPaymentMethodType } from '@core/types'
+import { Coin } from '@core/utils'
 import { DisplayContainer, DisplayIcon, MultiRowContainer } from 'components/BuySell'
 import { Flex } from 'components/Flex'
 import { Title, Value } from 'components/Flyout'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Coin } from 'middleware/analyticsMiddleware/types'
 
 const StyledTitle = styled(Title)`
   text-transform: capitalize;

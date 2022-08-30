@@ -17,6 +17,7 @@ import {
   NabuSymbolNumberType,
   WalletCurrencyType
 } from '@core/types'
+import { Coin } from '@core/utils'
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
 import {
   Content,
@@ -36,7 +37,6 @@ import {
   BrokerageOrderType,
   RecurringBuyPeriods
 } from 'data/types'
-import { Coin } from 'middleware/analyticsMiddleware/types'
 import { formatTextAmount } from 'services/forms'
 import { getBankLogoImageName } from 'services/images'
 

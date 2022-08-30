@@ -1,6 +1,9 @@
-import React, { ReactNode, useMemo } from 'react'
+import React, { ReactNode, useCallback, useMemo } from 'react'
 import { colors } from '@blockchain-com/constellation'
 
+import { fiatToString } from '@core/exchange/utils'
+import { SpinningLoader } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import { usePriceIndexSeries } from 'hooks'
 
 import { createCoinChartTooltipBuilder } from '../../../CoinChartTooltip'
@@ -9,15 +12,30 @@ import { createDateFormatterFromSelectedTimeRange } from '../../utils/createChar
 import { findNumTicksFromTimeRange } from '../../utils/findNumTicksFromTimeRange'
 import { UseChartArgs } from './types'
 
-export const useChart = ({ timeRange }: UseChartArgs): [ReactNode] => {
+export const useChart = ({ currency, timeRange }: UseChartArgs): [ReactNode] => {
   const { data, hasError, isLoading, isNotAsked } = usePriceIndexSeries()
 
   const xFormatter = useMemo(() => {
     return createDateFormatterFromSelectedTimeRange(timeRange)
   }, [timeRange])
 
+  const yTooltipFormatter = useCallback(
+    (value) => {
+      return fiatToString({
+        unit: currency,
+        value
+      })
+    },
+    [currency]
+  )
+
   const chartNode = useMemo(() => {
-    if (isLoading || isNotAsked) return <span>Loading</span>
+    if (isLoading || isNotAsked)
+      return (
+        <Flex alignItems='center' justifyContent='center' style={{ height: '100%' }}>
+          <SpinningLoader width='24px' height='24px' borderWidth='4px' />
+        </Flex>
+      )
 
     if (hasError) return <span>Failure</span>
 
@@ -33,10 +51,10 @@ export const useChart = ({ timeRange }: UseChartArgs): [ReactNode] => {
         y='price'
         xFormatter={xFormatter}
         numTicks={findNumTicksFromTimeRange(timeRange)}
-        tooltip={createCoinChartTooltipBuilder()}
+        tooltip={createCoinChartTooltipBuilder({ yFormatter: yTooltipFormatter })}
       />
     )
-  }, [data, isLoading, isNotAsked, hasError, xFormatter])
+  }, [isLoading, isNotAsked, hasError, data, xFormatter, timeRange, yTooltipFormatter])
 
   return [chartNode]
 }

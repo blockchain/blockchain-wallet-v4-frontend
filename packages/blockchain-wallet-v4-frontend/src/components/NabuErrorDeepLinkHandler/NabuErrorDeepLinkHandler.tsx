@@ -78,6 +78,7 @@ export const NabuErrorDeepLinkHandler: NabuErrorDeepLinkHandlerComponent = ({ ch
     }),
     [
       goBackToEnterAmount,
+      goToDashboard,
       openContactCustomerSupport,
       openKYC,
       tryDifferentCard,
@@ -93,8 +94,10 @@ export const NabuErrorDeepLinkHandler: NabuErrorDeepLinkHandlerComponent = ({ ch
 
       if (handler) {
         handler(url)
-      } else if (url.hostname === 'blockchain.com') {
+      } else if (url.hostname.endsWith('blockchain.com')) {
         window.open(link, '_blank')
+      } else {
+        window.open(link, '_blank', 'noopener, noreferrer')
       }
 
       return DeepLinkClickState.handled

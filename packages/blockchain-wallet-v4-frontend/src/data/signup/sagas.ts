@@ -12,7 +12,8 @@ import {
   ExchangeAuthOriginType,
   ModalName,
   PlatformTypes,
-  ProductAuthOptions
+  ProductAuthOptions,
+  SignupRedirectTypes
 } from 'data/types'
 import * as C from 'services/alerts'
 import { askSecondPasswordEnhancer } from 'services/sagas'
@@ -295,12 +296,20 @@ export default ({ api, coreSagas, networks }) => {
     const tuneTid = queryParams.get('tuneTid') as string
     const product = queryParams.get('product') as ProductAuthOptions
     const platform = queryParams.get('platform') as PlatformTypes
+    const signupRedirect = queryParams.get('redirect') as SignupRedirectTypes
     yield put(
       actions.signup.setProductSignupMetadata({
         platform,
         product,
         referrerUsername,
+        signupRedirect,
         tuneTid
+      })
+    )
+    yield put(
+      actions.analytics.trackEvent({
+        key: Analytics.SIGNUP_VIEWED,
+        properties: {}
       })
     )
   }

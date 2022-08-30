@@ -9,7 +9,6 @@ import { Button, Image } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
 import { media, useMedia } from 'services/styles'
 
-import AppSwitcher from './AppSwitcher'
 import MobileDropdown from './MobileDropdown'
 import MobileNav from './MobileNav'
 import UserNavDropdown, { userNavItems } from './UserNavDropdown'
@@ -288,7 +287,6 @@ const Navbar = ({
             <Image width='25px' name='blockchain-icon' />
           </NavLink>
         </Logo>
-        {nftsEnabled ? <AppSwitcher /> : null}
         {!isMobile && !isTablet && (
           <PrimaryNavItems>
             {primaryNavItems.map((item: PrimaryNavItem) => (

@@ -15,6 +15,7 @@ import { UserDataType } from 'data/types'
 import { useDefer3rdPartyScript } from 'hooks'
 import AuthLayout from 'layouts/Auth'
 import AuthLoading from 'layouts/Auth/template.loading'
+import DexLayout from 'layouts/Dex'
 import NftsLayout from 'layouts/Nfts'
 import WalletLayout from 'layouts/Wallet'
 import WalletLoading from 'layouts/Wallet/template.loading'
@@ -45,11 +46,14 @@ const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Succes
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
-// NFT EXPLORER (mixed)
-const NftsHome = React.lazy(() => import('./Nfts/Home'))
+// DEX
+const Dex = React.lazy(() => import('./Dex'))
+
+// NFTs
+const NftsView = React.lazy(() => import('./Nfts/View'))
 const NftsFirehose = React.lazy(() => import('./Nfts/Firehose'))
 const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
-const NftsAsset = React.lazy(() => import('./Nfts/Asset'))
+const NftsAsset = React.lazy(() => import('./Nfts/AssetViewOnly'))
 const NftsAddress = React.lazy(() => import('./Nfts/Address/Address'))
 const NftsSettings = React.lazy(() => import('./Nfts/Settings'))
 
@@ -73,14 +77,15 @@ const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const App = ({
   apiUrl,
-  coinViewV2,
   history,
   isAuthenticated,
-  nftExplorer,
+  isCoinViewV2Enabled,
+  isDebitCardEnabled,
+  isDexEnabled,
+  isNftExplorerEnabled,
   persistor,
   store,
-  userData,
-  walletDebitCardEnabled
+  userData
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
   // parse and log UTMs
@@ -184,57 +189,36 @@ const App = ({
                             pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
                           />
 
+                          {/* DEX routes */}
+                          {isDexEnabled && (
+                            <DexLayout
+                              path='/dex'
+                              exact
+                              component={Dex}
+                              pageTitle={`${BLOCKCHAIN_TITLE} | DEX`}
+                            />
+                          )}
                           {/* NFT Explorer routes */}
-                          {nftExplorer && (
-                            <NftsLayout
-                              path='/nfts/address/:address'
-                              exact
-                              component={NftsAddress}
-                            />
-                          )}
-                          {nftExplorer && (
-                            <NftsLayout
-                              path='/nfts/address/settings/:address'
-                              exact
-                              component={NftsSettings}
-                            />
-                          )}
-                          {nftExplorer && (
+                          {isNftExplorerEnabled && (
                             <NftsLayout
                               path='/nfts/assets/:contract/:id'
                               exact
                               component={NftsAsset}
                             />
                           )}
-                          {nftExplorer && (
-                            <NftsLayout
-                              path='/nfts/collection/:slug'
-                              exact
-                              component={NftsCollection}
-                            />
-                          )}
                           <Route exact path='/nfts'>
-                            <Redirect to='/nfts/home' />
+                            <Redirect to='/nfts/view' />
                           </Route>
-                          {nftExplorer && (
+                          {isNftExplorerEnabled && (
                             <NftsLayout
-                              path='/nfts/home'
+                              path='/nfts/view'
                               exact
-                              component={NftsHome}
+                              component={NftsView}
                               pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
                             />
                           )}
-                          {nftExplorer && (
-                            <NftsLayout
-                              path='/nfts/explore'
-                              exact
-                              component={NftsFirehose}
-                              pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
-                            />
-                          )}
-
                           {/* Authenticated Wallet routes */}
-                          {walletDebitCardEnabled && (
+                          {isDebitCardEnabled && (
                             <WalletLayout path='/debit-card' component={DebitCard} />
                           )}
                           <WalletLayout path='/airdrops' component={Airdrops} />
@@ -250,9 +234,10 @@ const App = ({
                           <WalletLayout path='/tax-center' component={TaxCenter} />
                           <WalletLayout
                             path='/coins/:coin'
-                            component={coinViewV2 ? CoinPage : Transactions}
-                            hideMenu={coinViewV2}
-                            center={coinViewV2}
+                            component={isCoinViewV2Enabled ? CoinPage : Transactions}
+                            hideMenu={isCoinViewV2Enabled}
+                            center={isCoinViewV2Enabled}
+                            removeContentPadding
                           />
                           {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                         </Switch>
@@ -274,14 +259,21 @@ const mapStateToProps = (state) => ({
   apiUrl: selectors.core.walletOptions.getDomains(state).getOrElse({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
-  coinViewV2: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean,
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
-  nftExplorer: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
-  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
-  walletDebitCardEnabled: selectors.core.walletOptions
+  isCoinViewV2Enabled: selectors.core.walletOptions
+    .getCoinViewV2(state)
+    .getOrElse(false) as boolean,
+  isDebitCardEnabled: selectors.core.walletOptions
     .getWalletDebitCardEnabled(state)
-    .getOrElse(false)
+    .getOrElse(false),
+  isDexEnabled: selectors.core.walletOptions
+    .getDexProductEnabled(state)
+    .getOrElse(false) as boolean,
+  isNftExplorerEnabled: selectors.core.walletOptions
+    .getNftExplorer(state)
+    .getOrElse(false) as boolean,
+  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 
 const connector = connect(mapStateToProps)

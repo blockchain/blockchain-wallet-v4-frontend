@@ -31,6 +31,7 @@ import GetMoreEthComponent from '../../components/GetMoreEth'
 import NftNotInvited from '../../components/NftNotInvited'
 import PendingEthTxMessage from '../../components/PendingEthTxMessage'
 import { Props as OwnProps } from '..'
+import { InsufficientFundsNftBuyErrors } from './NftOrder.Buy.types'
 
 export const CheckboxWrapper = styled(Flex)<{ termsAccepted: boolean }>`
   background: ${(props) => (props.termsAccepted ? colors.white900 : Color('greyFade000'))};
@@ -112,8 +113,7 @@ const CTA: React.FC<Props> = (props) => {
         Failure: (e) => (
           <div>
             <Text weight={600} color='grey800' style={{ marginTop: '8px', textAlign: 'center' }}>
-              {e === 'INSUFFICIENT_FUNDS' ||
-              e === 'The offerer does not have the amount needed to create or fulfill.' ? (
+              {Object.values<string>(InsufficientFundsNftBuyErrors).includes(e) ? (
                 <>
                   <GetMoreEthComponent
                     amount={amount}
@@ -273,7 +273,7 @@ const CTA: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
- ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state)
+  ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state)
 })
 const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch)

@@ -2,8 +2,12 @@ import React from 'react'
 import { IntlProvider } from 'react-intl'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
+import { Button, Icon } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
+
 import { defaultHoldingsCardActions } from '../../mocks/defaultHoldingsCardActions'
 import { HoldingsCard, HoldingsCardComponent } from '.'
+import { CoinTotalLoadingText, TotalLoadingText } from './HoldingsCard.styles'
 
 const holdingsCardStoriesMeta: ComponentMeta<HoldingsCardComponent> = {
   argTypes: {
@@ -39,6 +43,28 @@ BitcoinEmpty.args = {
   coinCode: 'BTC',
   coinTotal: '0',
   total: '0'
+}
+
+export const Receive = Template.bind({})
+Receive.args = {
+  actions: [
+    <Button nature='primary' key={1} data-e2e='' fullwidth>
+      <Flex gap={10} alignItems='center'>
+        <Icon name='qr-code' size='sm' color='white900' />
+        Receive
+      </Flex>
+    </Button>
+  ],
+  coinCode: 'BTC',
+  coinTotal: '0',
+  total: '0'
+}
+
+export const Loading = Template.bind({})
+Loading.args = {
+  coinCode: 'BTC',
+  coinTotal: <CoinTotalLoadingText />,
+  total: <TotalLoadingText />
 }
 
 export default holdingsCardStoriesMeta

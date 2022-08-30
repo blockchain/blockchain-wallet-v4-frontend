@@ -31,6 +31,7 @@ import {
   BSTransactionType,
   BuyQuoteType,
   CardAcquirer,
+  CardSuccessRateResponse,
   FiatEligibleType,
   GooglePayInfoType,
   NabuAddressType,
@@ -189,11 +190,15 @@ export default ({
       url: nabuUrl
     })
 
-  const confirmBSOrder = (
-    order: BSOrderType,
-    attributes?: BSProviderAttributesType,
+  const confirmBSOrder = ({
+    attributes,
+    order,
+    paymentMethodId
+  }: {
+    attributes?: BSProviderAttributesType
+    order: BSOrderType
     paymentMethodId?: string
-  ): BSOrderType =>
+  }): BSOrderType =>
     authorizedPost({
       contentType: 'application/json',
       data: {
@@ -517,9 +522,18 @@ export default ({
       url: nabuUrl
     })
 
+  const checkCardSuccessRate = (bin: string): CardSuccessRateResponse =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/payments/cards/success-rate?bin=${bin}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
   return {
     activateBSCard,
     cancelBSOrder,
+    checkCardSuccessRate,
     confirmBSOrder,
     createBSCard,
     createBSOrder,

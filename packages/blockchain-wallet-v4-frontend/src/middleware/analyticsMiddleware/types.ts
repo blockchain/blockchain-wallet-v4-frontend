@@ -1,3 +1,4 @@
+import { Coin } from '@core'
 import { BSPaymentTypes } from '@core/types'
 import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
@@ -91,11 +92,6 @@ enum AccountType {
   SAVINGS = 'SAVINGS',
   TRADING = 'TRADING',
   USERKEY = 'USERKEY'
-}
-
-enum Coin {
-  CRYPTO = 'CRYPTO',
-  FIAT = 'FIAT'
 }
 
 enum Order {

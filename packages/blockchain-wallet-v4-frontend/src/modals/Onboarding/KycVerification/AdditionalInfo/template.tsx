@@ -8,6 +8,7 @@ import { Analytics } from 'data/types'
 
 import { IconsContainer, Title } from '../../../components'
 import { Props } from '.'
+import { DocsAllowedByCountry } from './model'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -98,6 +99,9 @@ const AdditionalInfo: React.FC<Props> = (props) => {
     })
   }
 
+  const userCountry = props.userData?.address?.country || 'default'
+  const requirementsDocs = DocsAllowedByCountry(userCountry)
+
   return (
     <Wrapper>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
@@ -134,32 +138,36 @@ const AdditionalInfo: React.FC<Props> = (props) => {
         </Text>
       </FlyoutWrapper>
       <Requirements>
-        <ContentItem>
-          <Text color='grey800' weight={600}>
-            <FormattedMessage
-              id='modals.kycverification.additionalinfo.requirement_1'
-              defaultMessage='Government Issued ID'
-            />
-          </Text>
-        </ContentItem>
-
-        <ContentItem>
-          <Text color='grey800' weight={600}>
-            <FormattedMessage
-              id='modals.kycverification.additionalinfo.requirement_2'
-              defaultMessage='Valid Driver’s License'
-            />
-          </Text>
-        </ContentItem>
-
-        <ContentItem>
-          <Text color='grey800' weight={600}>
-            <FormattedMessage
-              id='modals.kycverification.additionalinfo.requirement_3'
-              defaultMessage='National Identity Card'
-            />
-          </Text>
-        </ContentItem>
+        {requirementsDocs.includes('requirement_1') && (
+          <ContentItem>
+            <Text color='grey800' weight={600}>
+              <FormattedMessage
+                id='modals.kycverification.additionalinfo.requirement_1'
+                defaultMessage='Government Issued ID'
+              />
+            </Text>
+          </ContentItem>
+        )}
+        {requirementsDocs.includes('requirement_2') && (
+          <ContentItem>
+            <Text color='grey800' weight={600}>
+              <FormattedMessage
+                id='modals.kycverification.additionalinfo.requirement_2'
+                defaultMessage='Valid Driver’s License'
+              />
+            </Text>
+          </ContentItem>
+        )}
+        {requirementsDocs.includes('requirement_3') && (
+          <ContentItem>
+            <Text color='grey800' weight={600}>
+              <FormattedMessage
+                id='modals.kycverification.additionalinfo.requirement_3'
+                defaultMessage='National Identity Card'
+              />
+            </Text>
+          </ContentItem>
+        )}
       </Requirements>
       <MainContent style={{ paddingTop: '40px' }}>
         <ContentTop>

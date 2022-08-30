@@ -245,6 +245,21 @@ export const getTotalWalletBalance = createDeepEqualSelector(
   }
 )
 
+// returns the total balance of the wallet in terms of wallet fiat currency setting
+export const getTotalWalletBalanceNotFormatted = createDeepEqualSelector(
+  [__getFiatCurrencyBalanceInfo, __getAllCoinsTotalBalance, routerSelectors.getPathname],
+  (fiatBalanceInfoR, coinsBalanceInfo) => {
+    const transform = (fiatBalance, coinsBalanceInfo) => {
+      const balanceReducer = (acc, cur) => acc + Number(cur.getOrElse('0'))
+      const coinsBalance = coinsBalanceInfo.reduce(balanceReducer, 0)
+      const total = Number(fiatBalance) + coinsBalance
+      return { total }
+    }
+
+    return lift(transform)(fiatBalanceInfoR, coinsBalanceInfo)
+  }
+)
+
 // returns the total coin balances of the wallet sorted by coin balance
 export const getTotalWalletBalancesSorted = createDeepEqualSelector(
   [
@@ -343,7 +358,7 @@ export const getCoinNonCustodialBalance = (
 // given a coin, return its balances separated as a list [non-custodial, custodial]
 export const getCoinBalancesTypeSeparated = (coin) =>
   createDeepEqualSelector(
-    [() => getCoinNonCustodialBalance(coin), () => getCoinCustodialBalance(coin)],
+    [getCoinNonCustodialBalance(coin), getCoinCustodialBalance(coin)],
     (nonCustodialBalancesR, custodialBalanceR) => {
       return Remote.of([
         // @ts-ignore

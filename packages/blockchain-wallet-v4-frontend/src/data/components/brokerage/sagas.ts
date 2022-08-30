@@ -23,8 +23,10 @@ import {
   CustodialSanctionsEnum,
   FastLinkType,
   ModalName,
-  ProductEligibilityForUser
+  ProductEligibilityForUser,
+  VerifyIdentityOriginType
 } from 'data/types'
+import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
@@ -223,25 +225,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payload
   }: ReturnType<typeof A.handleDepositFiatClick>) {
     const isUserTier2 = yield call(isTier2)
-    // Verify identity before deposit if TIER 2
     if (!isUserTier2) {
-      yield put(
-        actions.components.identityVerification.verifyIdentity({
-          context: ExtraKYCContext.FIAT_DEPOSIT,
-          needMoreInfo: false,
-          origin: 'BuySell',
-          tier: 1
-        })
-      )
+      return
+    }
+    // Verify identity before deposit if TIER 2
+    const completedKYC = yield call(getExtraKYCCompletedStatus, {
+      api,
+      context: ExtraKYCContext.FIAT_DEPOSIT,
+      origin: 'BuySell' as VerifyIdentityOriginType
+    })
 
-      // Wait for KYC flow to end
-      const result = yield take([
-        actions.modals.closeModal.type,
-        actions.components.identityVerification.setAllContextQuestionsAnswered.type
-      ])
-
-      // If KYC was closed without answering, close
-      if (result.type === actions.modals.closeModal.type) return
+    // If KYC was closed before answering, return
+    if (!completedKYC) {
+      return
     }
 
     yield put(
@@ -303,26 +299,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
     const isUserTier2 = yield call(isTier2)
-
-    // Verify identity before deposit if TIER 2
     if (!isUserTier2) {
-      yield put(
-        actions.components.identityVerification.verifyIdentity({
-          context: ExtraKYCContext.FIAT_WITHDRAW,
-          needMoreInfo: false,
-          origin: 'Withdraw',
-          tier: 1
-        })
-      )
+      return
+    }
+    // Verify identity before deposit if TIER 2
+    const completedKYC = yield call(getExtraKYCCompletedStatus, {
+      api,
+      context: ExtraKYCContext.FIAT_WITHDRAW,
+      origin: 'Withdraw' as VerifyIdentityOriginType
+    })
 
-      // Wait for KYC flow to end
-      const result = yield take([
-        actions.modals.closeModal.type,
-        actions.components.identityVerification.setAllContextQuestionsAnswered.type
-      ])
-
-      // If KYC was closed without answering, close
-      if (result.type === actions.modals.closeModal.type) return
+    // If KYC was closed before answering, return
+    if (!completedKYC) {
+      return
     }
 
     yield put(actions.form.destroy('brokerageTx'))

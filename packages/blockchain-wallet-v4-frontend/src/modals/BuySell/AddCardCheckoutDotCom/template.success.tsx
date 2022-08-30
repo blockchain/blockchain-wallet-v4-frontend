@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { RefObject, useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
@@ -29,13 +29,18 @@ const Top = styled(Text)`
   margin-bottom: 20px;
 `
 
-const UnstyledHyperlink = styled.a`
+const RawHyperlink = styled.a`
   color: inherit;
   text-decoration: inherit;
 `
 
 export type Props = OwnProps &
-  SuccessStateType & { domain: string; handleClose?: () => void; origin?: ModalOriginType }
+  SuccessStateType & {
+    domain: string
+    handleClose?: () => void
+    iframeRef: RefObject<HTMLIFrameElement>
+    origin?: ModalOriginType
+  }
 
 const Success = ({
   buySellActions,
@@ -43,6 +48,7 @@ const Success = ({
   domain,
   fiatCurrency,
   handleClose,
+  iframeRef,
   origin,
   pair
 }: Props) => {
@@ -77,7 +83,11 @@ const Success = ({
       <Expanded>
         <Flex flexDirection='column' style={{ height: '100%' }} gap={16}>
           <Expanded>
-            <Iframe src={domain} />
+            <Iframe
+              ref={iframeRef}
+              sandbox='allow-forms allow-scripts allow-same-origin'
+              src={domain}
+            />
           </Expanded>
 
           <Card backgroundColor='grey000' borderRadius='md'>
@@ -99,17 +109,17 @@ const Success = ({
                   </Text>
                 </Flex>
 
-                <UnstyledHyperlink
+                <RawHyperlink
                   href='https://support.blockchain.com/hc/en-us/articles/5154350610716'
                   target='_blank'
                 >
-                  <Button data-e2e='creditCardInfo.learnMoreButton' nature='dark' rounded>
+                  <Button data-e2e='creditCardInfo.learnMoreButton' nature='dark'>
                     <FormattedMessage
                       id='addCardCheckoutDotCom.creditCardInfoCard.button'
                       defaultMessage='Learn More'
                     />
                   </Button>
-                </UnstyledHyperlink>
+                </RawHyperlink>
               </Flex>
             </Padding>
           </Card>

@@ -190,6 +190,12 @@ export interface OpenSeaStatus {
   }
 }
 
+export interface OwnerNftBalance {
+  assets: NftAsset[]
+  next: string
+  previous: string
+}
+
 export interface ComputedFees extends OpenSeaFees {
   // Fees that go to whoever refers the order to the taker.
   // Comes out of OpenSea fees
@@ -914,4 +920,15 @@ export type SeaportRawOrder = {
     user: number | null
   } | null
   taker_fees: []
+}
+
+export type NftTemplateParams = {
+  amount?: string | null // ETH
+  nft_activity_link: string
+  nft_bidder?: string | null
+  nft_image: string
+  nft_marketplace_link: string
+  nft_name: string
+  nft_seller?: string | null
+  value?: string | null // USD
 }

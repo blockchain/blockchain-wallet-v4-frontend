@@ -254,6 +254,9 @@ const NftAsset: React.FC<Props> = ({
   )
   // TODO: SEAPORT
   let isLowestAskEnglish = false
+  let isLowestAskReserved = lowestAsk?.taker
+    ? lowestAsk?.taker.address.toLowerCase() !== defaultEthAddr.toLowerCase()
+    : false
 
   // TODO: SEAPORT - remove wyvern 👇
   if (IS_SHARED_STOREFRONT) {
@@ -274,6 +277,9 @@ const NftAsset: React.FC<Props> = ({
     const isLowestAskDutch_LEGACY = lowestAsk_LEGACY && lowestAsk_LEGACY.sale_kind === 1
     const isLowestAskEnglish_LEGACY =
       lowestAsk_LEGACY && !lowestAsk_LEGACY.r && !lowestAsk_LEGACY.s && !lowestAsk_LEGACY.v
+    const isLowestAskReserved_LEGACY = lowestAsk?.taker
+      ? lowestAsk_LEGACY?.taker.address.toLowerCase() !== defaultEthAddr.toLowerCase()
+      : false
 
     isLowestAskDutch = isLowestAskDutch_LEGACY
     isLowestAskEnglish = isLowestAskEnglish_LEGACY
@@ -285,6 +291,7 @@ const NftAsset: React.FC<Props> = ({
     lowestAsk = lowestAsk_LEGACY
     // @ts-ignore
     highestBid = highestBid_LEGACY
+    isLowestAskReserved = isLowestAskReserved_LEGACY
   }
   // TODO: SEAPORT - remove wyvern 👆
 
@@ -1024,7 +1031,11 @@ const NftAsset: React.FC<Props> = ({
                           </Button>
                         )
                       ) : null}
-                      {lowestAsk && !isOwner && !isLowestAskEnglish && !isLowestAskDutch ? (
+                      {lowestAsk &&
+                      !isOwner &&
+                      !isLowestAskEnglish &&
+                      !isLowestAskDutch &&
+                      !isLowestAskReserved ? (
                         <>
                           <Button
                             data-e2e='openNftFlow'
