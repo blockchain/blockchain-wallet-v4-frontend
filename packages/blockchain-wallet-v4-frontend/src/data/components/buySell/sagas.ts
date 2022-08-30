@@ -665,7 +665,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           let requiredBillingContactFields: ApplePayJS.ApplePayPaymentRequest['requiredBillingContactFields']
 
           if (applePayInfo.requiredBillingContactFields) {
-            requiredBillingContactFields = applePayInfo.requiredBillingContactFields
+            // had to remap the post field to be postalCode, as it was required on the iOS side
+            requiredBillingContactFields = applePayInfo.requiredBillingContactFields.map(
+              (requiredBillingContactField) =>
+                requiredBillingContactField.replace(
+                  'post',
+                  'postalAddress'
+                ) as ApplePayJS.ApplePayContactField
+            )
           }
 
           let supportedCountries
