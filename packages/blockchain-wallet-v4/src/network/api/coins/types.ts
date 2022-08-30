@@ -196,4 +196,52 @@ export type BalanceEntryResponseType = {
   subscriptions: [{ accounts: number; pubKeyCount: string; ticker: string }]
 }
 
-export type ActivityResponseType = {}
+export type ActivityRequestAuthenticationInRequestType =
+  PubkeyServiceAuthenticationInRequestType & {
+    currencies: [{ ticker: string }]
+    fiatCurrency: string
+  }
+
+export type ActivityResponseType = {
+  activity: [
+    {
+      detail: {
+        floatingActions: [
+          {
+            action: string
+            buttonStyle: string
+            text: string
+            type: 'BUTTON'
+          }
+        ]
+        iconUrl: string
+        itemGroups: {
+          itemGroup: {
+            key: 'Total' | 'Network fee' | 'From' | 'To' | 'Status' | 'Time' | 'Transaction ID'
+            keyStyle: 'text-bold'
+            type: 'KEY_VALUE'
+            value: string
+            valueStyle: 'text'
+          }[]
+          title: null
+        }[]
+        subtitle: string
+        title: string
+      }
+      detailType: 'GROUPED_KEY_VALUE'
+      externalUrl: string
+      id: string
+      item: {
+        endSubtitle: string
+        endTitle: string
+        iconUrl: string
+        startSubtitle: string
+        startTitle: string
+        state: string
+      }
+      itemType: 'FOUR_FIELDS'
+      timestamp: number
+    }
+  ]
+  pagination: { offset: number; pageNumber: number; pageSize: number }
+}

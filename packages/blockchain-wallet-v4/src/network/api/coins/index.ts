@@ -1,4 +1,6 @@
 import {
+  ActivityRequestAuthenticationInRequestType,
+  ActivityResponseType,
   BuildTxIntentType,
   BuildTxResponseType,
   DeriveAddressResponseType,
@@ -76,10 +78,11 @@ export default ({ apiUrl, get, post }) => {
   }
 
   const txHistory = ({
-    currency,
+    currencies,
+    fiatCurrency,
     guidHash,
     sharedKeyHash
-  }: TxHistoryAuthInRequestType): TxHistoryResponseType => {
+  }: ActivityRequestAuthenticationInRequestType): ActivityResponseType => {
     return post({
       contentType: 'application/json',
       data: {
@@ -87,9 +90,10 @@ export default ({ apiUrl, get, post }) => {
           guidHash,
           sharedKeyHash
         },
-        currency
+        currencies,
+        fiatCurrency
       },
-      endPoint: `/wallet-pubkey/tx-history`,
+      endPoint: `/wallet-pubkey/activity`,
       removeDefaultPostData: true,
       url: apiUrl
     })

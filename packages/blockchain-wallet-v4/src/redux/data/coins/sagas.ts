@@ -106,6 +106,7 @@ export default ({ api }: { api: APIType }) => {
         yield select(),
         payload.coin
       )
+      const fiatCurrency = selectors.settings.getCurrency(yield select()).getOrElse('USD')
       const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
         fetchCustodialOrdersAndTransactions,
         txPage,
@@ -116,34 +117,13 @@ export default ({ api }: { api: APIType }) => {
       )
       const txList = [txPage, custodialPage.orders]
       if (window.coins[payload.coin].coinfig.products.includes('DynamicSelfCustody')) {
-        const pubKey = yield call(getPubKey, '')
-        const { results }: ReturnType<typeof api.deriveAddress> = yield call(
-          api.deriveAddress,
-          payload.coin,
-          pubKey
-        )
-        const addresses = results.map(({ address }) => address)
         const selfCustodyPage: ReturnType<typeof api.txHistory> = yield call(api.txHistory, {
-          currency: payload.coin,
+          currencies: [{ ticker: payload.coin }],
+          fiatCurrency,
           guidHash,
           sharedKeyHash
         })
-        const history = selfCustodyPage.history.map((val) => {
-          const type = addresses.includes(
-            val.movements.find(({ type }) => type === 'SENT')?.address || ''
-          )
-            ? 'SENT'
-            : 'RECEIVED'
-          return {
-            ...val,
-            amount: val.movements.find(({ type }) => type === 'SENT')?.amount,
-            from: val.movements.find(({ type }) => type === 'SENT')?.address,
-            insertedAt: val.timestamp,
-            to: val.movements.find(({ type }) => type === 'RECEIVED')?.address,
-            type
-          }
-        })
-        txList.push(history)
+        txList.push(selfCustodyPage.activity)
       }
       const newPages = flatten([txList])
       const page = newPages.sort((a, b) => {

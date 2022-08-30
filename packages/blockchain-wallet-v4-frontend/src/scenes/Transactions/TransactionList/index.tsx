@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import { IngestedSelfCustodyType } from '@core/network/api/coins/types'
+import { ActivityResponseType, IngestedSelfCustodyType } from '@core/network/api/coins/types'
 import {
   BSOrderType,
   BSTransactionType,
@@ -19,6 +19,7 @@ import CustodialTxListItem from '../CustodialTx'
 import NonCustodialTxListItem from '../NonCustodialTx'
 import SelfCustodyTx from '../SelfCustodyTx'
 import SwapOrderTx from '../SwapOrderTx'
+import UnifiedActivityTx from '../UnifiedActivityTx'
 import Loading from './template.loading'
 
 // width: 99%; to prevent scrolling weirdness
@@ -58,6 +59,8 @@ class TransactionList extends PureComponent<Props> {
               <BuySellListItem key={tx.id} order={tx} />
             ) : 'movements' in tx ? (
               <SelfCustodyTx coin={coin} key={tx.txId} tx={tx} />
+            ) : 'detail' in tx ? (
+              <UnifiedActivityTx tx={tx} />
             ) : (
               <CustodialTxListItem
                 key={tx.id}
@@ -85,7 +88,11 @@ export type Props = {
 }
 
 export type SuccessStateType = Array<
-  BSOrderType | BSTransactionType | ProcessedTxType | IngestedSelfCustodyType
+  | BSOrderType
+  | BSTransactionType
+  | ProcessedTxType
+  | IngestedSelfCustodyType
+  | ActivityResponseType['activity'][0]
 >
 
 export default TransactionList
