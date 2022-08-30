@@ -282,38 +282,8 @@ const SignupForm = (props: Props) => {
           <Field name='secretPhase' validate={[required]} component={CheckBox} hideErrors />
         </FieldWrapper>
         <FormLabel style={{ marginTop: '1px' }}>
-          <TextGroup inline>
-            <Text color='grey800' size='12px' weight={500}>
-              <FormattedMessage
-                id='scenes.register.backupphrase1'
-                defaultMessage='I understand that Blockchain.com never stores passwords and therefore cannot recover or reset my password. If I lose access to my wallet, I must use my'
-              />
-            </Text>
-            <Link
-              href='https://support.blockchain.com/hc/en-us/articles/209564506-Make-a-Wallet-Backup'
-              target='_blank'
-              size='12px'
-              weight={500}
-              data-e2e='blockchainTermsLink'
-            >
-              <FormattedMessage
-                id='scenes.securitysettings.basicsecurity.secretrecoveryphrase.title'
-                defaultMessage='Secret Private Key Recovery Phrase'
-              />
-            </Link>{' '}
-            <Text color='grey800' size='12px' weight={500}>
-              <FormattedMessage
-                id='scenes.register.backupphrase2'
-                defaultMessage='to access my funds.'
-              />
-            </Text>
-          </TextGroup>
+          <Terms />
         </FormLabel>
-      </FormGroup>
-      <FormGroup>
-        <FormItem>
-          <Terms style={{ textAlign: 'center', width: '397px' }} isCentered />
-        </FormItem>
       </FormGroup>
       <Button
         data-e2e='signupButton'
