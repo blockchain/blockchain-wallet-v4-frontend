@@ -30,6 +30,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let address
       let extras: RequestExtrasType = {}
       const { account } = action.payload
+      const { coinfig } = window.coins[account.coin]
 
       switch (account.type) {
         case SwapBaseCounterTypes.ACCOUNT:
@@ -37,7 +38,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const { accountIndex, coin } = account
           const accountType =
             account.type === SwapBaseCounterTypes.ACCOUNT
-              ? CoinAccountTypeEnum.NON_CUSTODIAL
+              ? coinfig.products.includes('DynamicSelfCustody')
+                ? CoinAccountTypeEnum.DYNAMIC_SELF_CUSTODY
+                : coinfig.type.name === 'ERC20'
+                ? CoinAccountTypeEnum.ERC20
+                : CoinAccountTypeEnum.NON_CUSTODIAL
               : CoinAccountTypeEnum.CUSTODIAL
           const response = yield call(getNextReceiveAddressForCoin, coin, accountType, accountIndex)
           address = response.address

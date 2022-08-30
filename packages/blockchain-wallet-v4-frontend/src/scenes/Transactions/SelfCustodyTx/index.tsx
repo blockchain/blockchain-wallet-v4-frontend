@@ -45,7 +45,9 @@ const SelfCustodyTx: React.FC<Props> = ({ coin, tx }) => {
         </Row>
         <Col width='50%'>
           <Addresses
-            from={tx.type === 'SENT' ? <>{coin} Private Key Wallet</> : <>{tx.from}</>}
+            from={
+              tx.type === 'SENT' ? <>{coinfig.displaySymbol} Private Key Wallet</> : <>{tx.from}</>
+            }
             to={tx.type === 'SENT' ? <>{tx.to}</> : <>{coinfig.displaySymbol} Private Key Wallet</>}
           />
         </Col>

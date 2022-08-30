@@ -26,6 +26,11 @@ export const useWalletsForCoin: WalletsForCoinHook = ({ coin }) => {
     [coin]
   )
 
+  const isDynamicSelfCustodyCoin = useMemo(
+    () => selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin),
+    [coin]
+  )
+
   const isBTC = coin === 'BTC'
   const isBCH = coin === 'BCH'
   const isETH = coin === 'ETH'
@@ -76,6 +81,15 @@ export const useWalletsForCoin: WalletsForCoinHook = ({ coin }) => {
         coin,
         includeCustodial: true,
         includeInterest: true
+      })
+    }
+
+    if (isDynamicSelfCustodyCoin) {
+      return getCoinAddressData(state, {
+        coin,
+        includeCustodial: isCustodialCoin,
+        includeInterest: true,
+        includeSelfCustody: true
       })
     }
 

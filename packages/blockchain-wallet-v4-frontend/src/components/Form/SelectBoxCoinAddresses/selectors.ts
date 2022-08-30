@@ -72,7 +72,7 @@ export const getData = (
   const toSelfCustodyDropdown = (balance) => [
     {
       label: buildSelfCustodyDisplay(balance),
-      value: { balance, label: 'Private Key', type: ADDRESS_TYPES.ACCOUNT }
+      value: { balance, coin, label: 'Private Key', type: ADDRESS_TYPES.ACCOUNT }
     }
   ]
   const toInterestDropdown = (account) =>
