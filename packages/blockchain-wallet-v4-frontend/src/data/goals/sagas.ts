@@ -32,7 +32,7 @@ export default ({ api, coreSagas, networks }) => {
   const { NONE } = KYC_STATES
   const { EXPIRED, GENERAL } = DOC_RESUBMISSION_REASONS
 
-  const { fetchUser, waitForUserData } = profileSagas({
+  const { waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
@@ -140,6 +140,19 @@ export default ({ api, coreSagas, networks }) => {
       actions.goals.saveGoal({
         data: { contract_address, order, token_id },
         name: DeepLinkGoal.BUY_NFT
+      })
+    )
+  }
+
+  const defineCowboysCampaignGoal = function* (search) {
+    // /#/open/cowboys?token_id=456
+    const params = new URLSearchParams(search)
+    const token_id = params.get('token_id')
+
+    yield put(
+      actions.goals.saveGoal({
+        data: { token_id },
+        name: DeepLinkGoal.COWBOYS_CAMPAIGN
       })
     )
   }
@@ -310,6 +323,11 @@ export default ({ api, coreSagas, networks }) => {
 
     if (startsWith(DeepLinkGoal.REFERRAL, pathname)) {
       return yield call(defineReferralGoal, search)
+    }
+
+    // /#/open/cowboys
+    if (startsWith(DeepLinkGoal.COWBOYS_CAMPAIGN, pathname)) {
+      return yield call(defineCowboysCampaignGoal, search)
     }
 
     yield call(defineActionGoal, pathname, search)
@@ -952,6 +970,21 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const runReferralLandingGoal = function* (goal: GoalType) {
+    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(waitForUserData)
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield put(
+      actions.goals.addInitialModal({
+        data: { origin },
+        key: 'referralLanding',
+        name: ModalName.REFERRAL_LANDING_MODAL
+      })
+    )
+  }
+
   const runTermsAndConditionsGoal = function* (goal: GoalType) {
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
     yield call(waitForUserData)
@@ -1057,6 +1090,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
+          break
+        case 'cowboys':
+          yield call(runReferralLandingGoal, goal)
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
