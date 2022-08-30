@@ -3,8 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconWallet } from '@blockchain-com/icons'
+import { PaletteColors, IconWallet } from '@blockchain-com/constellation'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -26,7 +25,7 @@ const StickyNav = styled(NavContainer)`
   top: 0;
   z-index: 3;
   position: fixed;
-  background-color: ${colors.white900};
+  background-color: ${PaletteColors['white-900']};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -142,9 +141,7 @@ const NftsHeader: React.FC<Props> = ({
                 modalActions.showModal(ModalName.ETH_WALLET_BALANCES, { origin: 'Unknown' })
               }
             >
-              <Icon label='wallet' size='sm' color='purple600'>
-                <IconWallet />
-              </Icon>
+              <IconWallet color={PaletteColors['purple-600']} size='small' />
               <span style={{ marginLeft: '4px' }}>
                 <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
               </span>
