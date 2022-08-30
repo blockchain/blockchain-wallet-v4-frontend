@@ -9,6 +9,7 @@ export type GoalsType =
   | 'cowboys2022'
   | 'dex'
   | 'kyc'
+  | 'cowboys'
   | 'kycDocResubmit'
   | 'kycUpgradeRequiredNotice'
   | 'interest'
@@ -61,6 +62,7 @@ export type GoalsState = {
 export enum DeepLinkGoal {
   BITCOIN = 'bitcoin',
   BUY_NFT = 'buy-nft',
+  COWBOYS_CAMPAIGN = 'cowboys',
   DEX = 'dex',
   INTEREST = 'interest',
   KYC = 'kyc',
