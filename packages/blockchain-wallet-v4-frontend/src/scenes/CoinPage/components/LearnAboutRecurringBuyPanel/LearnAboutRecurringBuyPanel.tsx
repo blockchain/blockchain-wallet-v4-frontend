@@ -15,7 +15,7 @@ export const LearnAboutRecurringBuyPanel: LearnAboutRecurringBuyPanelComponent =
     <Card elevation={1} borderRadius='md'>
       <Padding all={16}>
         <Flex flexDirection='column' gap={12}>
-          <IconCircularBackground color='blue000'>
+          <IconCircularBackground color='blue-000'>
             <IconRepeat color={PaletteColors['blue-600']} size='small' />
           </IconCircularBackground>
 

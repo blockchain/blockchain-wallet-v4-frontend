@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 
 export type IconCircularBackgroundSizes = 'default'
 
 export type IconCircularBackgroundProps = {
-  color: keyof typeof colors | string
+  color: keyof typeof PaletteColors | string
   size?: IconCircularBackgroundSizes | number
 }
 
