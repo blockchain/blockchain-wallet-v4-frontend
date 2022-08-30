@@ -266,13 +266,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     const auth = yield call(authWalletPubkeyService, { guid, sharedKey })
     if (!auth) return
-
-    const subscriptions: ReturnType<typeof api.getSubscriptions> = yield call(
-      api.getSubscriptions,
-      { guidHash, sharedKeyHash }
-    )
-    if (subscriptions.currencies.length === 0) {
-      yield put(actions.core.data.coins.initializeSubscriptions())
+    try {
+      yield put(actions.core.data.coins.getSubscriptionsLoading())
+      const subscriptions: ReturnType<typeof api.getSubscriptions> = yield call(
+        api.getSubscriptions,
+        { guidHash, sharedKeyHash }
+      )
+      yield put(actions.core.data.coins.getSubscriptionsSuccess(subscriptions))
+      if (subscriptions.currencies.length === 0) {
+        yield put(actions.core.data.coins.initializeSubscriptions())
+      } else {
+        yield put(actions.core.data.coins.fetchUnifiedBalances())
+      }
+    } catch (e) {
+      yield put(actions.core.data.coins.getSubscriptionsFailure())
     }
   }
 

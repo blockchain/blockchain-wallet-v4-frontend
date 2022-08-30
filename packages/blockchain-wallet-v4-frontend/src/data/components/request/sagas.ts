@@ -1,13 +1,15 @@
-import { call, CallEffect, put, PutEffect, SelectEffect } from 'redux-saga/effects'
+import { call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
+import { actions } from 'data'
 import { CoinAccountTypeEnum } from 'data/coins/accountTypes/accountTypes.classes'
 
 import coinSagas from '../../coins/sagas'
 import profileSagas from '../../modules/profile/sagas'
 import { SwapBaseCounterTypes } from '../swap/types'
 import * as A from './actions'
+import * as S from './selectors'
 import { RequestExtrasType } from './types'
 import { generateKey } from './utils'
 
@@ -32,6 +34,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const { account } = action.payload
       const { coinfig } = window.coins[account.coin]
 
+      const subscriptions = S.getSubscriptions(yield select())
+      const isSubscribed = subscriptions.data.currencies.some((c) => c.ticker === account.baseCoin)
+      if (!isSubscribed) {
+        yield put(actions.core.data.coins.subscribe(account))
+      }
       switch (account.type) {
         case SwapBaseCounterTypes.ACCOUNT:
         case SwapBaseCounterTypes.CUSTODIAL:

@@ -5,6 +5,7 @@ import {
   TickerResponseType,
   UnifiedBalancesResponseType
 } from '@core/network/api/coins/types'
+import { SwapAccountType } from 'data/types'
 
 import Remote from '../../../remote'
 import { CoinsState } from './types'
@@ -13,6 +14,7 @@ const initialState: CoinsState = {
   btcTicker: Remote.NotAsked,
   isCoinDataLoaded: false,
   rates: Remote.NotAsked,
+  subscriptions: Remote.NotAsked,
   transactions: {},
   transactions_at_bound: {},
   unifiedBalances: Remote.NotAsked
@@ -80,6 +82,14 @@ export const coinsSlice = createSlice({
     ) => {
       state.unifiedBalances = Remote.Success(action.payload)
     },
+    getSubscriptions: () => {},
+    getSubscriptionsFailure: () => {},
+    getSubscriptionsLoading: (state) => {
+      state.subscriptions = Remote.Loading
+    },
+    getSubscriptionsSuccess: (state, action: PayloadAction<any>) => {
+      state.subscriptions = Remote.Success(action.payload)
+    },
     initializeSubscriptions: () => {},
     pollForCoinData: () => {},
     setCoinDataLoaded: (state) => {
@@ -91,6 +101,8 @@ export const coinsSlice = createSlice({
         [action.payload.coin]: action.payload.atBound
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    subscribe: (state, action: PayloadAction<SwapAccountType>) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     unsubscribe: (state, action: PayloadAction<string>) => {}
   }
