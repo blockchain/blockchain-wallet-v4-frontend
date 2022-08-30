@@ -19,3 +19,5 @@ export const getWithdrawalMin = (state: RootState, coin: string) =>
   )
 
 export const getSendLimits = (state: RootState) => state.components.sendCrypto.sendLimits
+
+export const getPayment = (state: RootState) => state.components.sendCrypto.payment

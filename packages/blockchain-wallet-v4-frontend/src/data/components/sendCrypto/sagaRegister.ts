@@ -5,8 +5,8 @@ import { actionTypes } from 'data/form/actionTypes'
 import sagas from './sagas'
 import { actions as A } from './slice'
 
-export default ({ api }) => {
-  const sendCryptoSagas = sagas({ api })
+export default ({ api, coreSagas, networks }) => {
+  const sendCryptoSagas = sagas({ api, coreSagas, networks })
 
   return function* brokerageSaga() {
     yield takeLatest(A.buildTx.type, sendCryptoSagas.buildTx)

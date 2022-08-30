@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { map } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 
@@ -12,14 +13,17 @@ import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
+import AccountSelect from './AccountSelect'
 import CoinSelect from './CoinSelect'
 import Confirm from './Confirm'
 import EnterAmount from './EnterAmount'
+import EnterAmountNew from './EnterAmountNew'
 import EnterTo from './EnterTo'
 import { SEND_FORM } from './model'
 import NoFunds from './NoFunds'
 import { getData } from './selectors'
 import Status from './Status'
+import TransactionOverview from './TransactionOverview'
 import { SendFormType } from './types'
 
 class SendCrypto extends PureComponent<Props, State> {
@@ -59,7 +63,11 @@ class SendCrypto extends PureComponent<Props, State> {
         )}
         {this.props.step === SendCryptoStepType.COIN_SELECTION && (
           <FlyoutChild>
-            <CoinSelect {...this.props} close={this.handleClose} />
+            {this.props.showNewSendFlow ? (
+              <AccountSelect {...this.props} close={this.handleClose} />
+            ) : (
+              <CoinSelect {...this.props} close={this.handleClose} />
+            )}
           </FlyoutChild>
         )}
         {this.props.step === SendCryptoStepType.ENTER_TO && (
@@ -69,7 +77,11 @@ class SendCrypto extends PureComponent<Props, State> {
         )}
         {this.props.step === SendCryptoStepType.ENTER_AMOUNT && (
           <FlyoutChild>
-            <EnterAmount {...this.props} />
+            {this.props.showNewSendFlow ? (
+              <EnterAmountNew {...this.props} />
+            ) : (
+              <EnterAmount {...this.props} />
+            )}
           </FlyoutChild>
         )}
         {this.props.step === SendCryptoStepType.CONFIRM && (
@@ -82,12 +94,18 @@ class SendCrypto extends PureComponent<Props, State> {
             <Status {...this.props} />
           </FlyoutChild>
         )}
+        {this.props.step === SendCryptoStepType.TX_OVERVIEW && (
+          <FlyoutChild>
+            <TransactionOverview {...this.props} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
 }
 
 const mapStateToProps = (state: RootState) => ({
+  coinList: selectors.balances.getTotalWalletBalancesSorted(state).getOrElse([]),
   formErrors: selectors.form.getFormSyncErrors(SEND_FORM)(state),
   formValues: selectors.form.getFormValues(SEND_FORM)(state) as SendFormType,
   initialValues: {
@@ -100,6 +118,9 @@ const mapStateToProps = (state: RootState) => ({
     .getSendLimits(state)
     .getOrElse({} as CrossBorderLimits),
   sendableCoins: getData(),
+  showNewSendFlow: selectors.core.walletOptions
+    .getNewSendFlowEnabled(state)
+    .getOrElse(false) as boolean,
   step: selectors.components.sendCrypto.getStep(state),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })

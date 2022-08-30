@@ -1,6 +1,7 @@
 import { BuildTxResponseType } from '@core/network/api/coin/types'
 import {
   CrossBorderLimits,
+  PaymentValue,
   RemoteDataType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
@@ -12,6 +13,7 @@ import { SwapAccountType } from 'data/types'
 export type SendCryptoState = {
   initialCoin?: string
   isValidAddress: RemoteDataType<string, boolean>
+  payment?: RemoteDataType<string, PaymentValue>
   prebuildTx: RemoteDataType<string, SharedBuildTxResponseType>
   sendLimits: RemoteDataType<string, CrossBorderLimits>
   step: SendCryptoStepType
@@ -45,5 +47,6 @@ export enum SendCryptoStepType {
   'ENTER_TO',
   'ENTER_AMOUNT',
   'CONFIRM',
-  'STATUS'
+  'STATUS',
+  'TX_OVERVIEW'
 }
