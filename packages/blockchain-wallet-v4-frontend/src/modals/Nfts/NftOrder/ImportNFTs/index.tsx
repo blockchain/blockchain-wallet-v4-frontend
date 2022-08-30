@@ -1,17 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
-import { colors, Padding } from '@blockchain-com/constellation'
+import { PaletteColors, Padding } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import {
-  Button,
-  Image,
-  Link,
-  SkeletonCircle,
-  SkeletonRectangle,
-  Text
-} from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
 import { Flex } from 'components/Flex'
 import FlyoutHeader from 'components/Flyout/Header'
@@ -44,7 +37,7 @@ const ImportNFTs: React.FC<Props> = (props) => {
     width: 18px;
     height: 18px;
     padding: 4px;
-    background: ${colors.grey000};
+    background: ${PaletteColors['grey000']};
     text-align: center;
   `
 

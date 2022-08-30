@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/utils/NftUtils'
@@ -34,8 +34,9 @@ import { Props as OwnProps } from '..'
 import { InsufficientFundsNftBuyErrors } from './NftOrder.Buy.types'
 
 export const CheckboxWrapper = styled(Flex)<{ termsAccepted: boolean }>`
-  background: ${(props) => (props.termsAccepted ? colors.white900 : Color('greyFade000'))};
-  border: 1px solid ${colors.grey000};
+  background: ${(props) =>
+    props.termsAccepted ? PaletteColors['white-900'] : Color('greyFade000')};
+  border: 1px solid ${PaletteColors['grey-000']};
   border-radius: 8px;
   margin: 1em 0em;
   justify-content: center;
@@ -202,7 +203,7 @@ const CTA: React.FC<Props> = (props) => {
               </div>
               <label htmlFor='terms'>
                 <Text
-                  color={colors.grey200}
+                  color={PaletteColors['grey-200']}
                   weight={500}
                   size='16px'
                   style={{ padding: '1em 0em', textAlign: 'center' }}
