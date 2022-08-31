@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
-import { IconChevronDown } from '@blockchain-com/icons'
+import { IconChevronDown, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators, Dispatch } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -152,9 +151,11 @@ const DexSwapPair = ({
                 <Text color='textBlack' lineHeight='18px' size='12px' weight={600}>
                   {coin}
                 </Text>
-                <Icon label='select dropdown' color='grey400' size='sm'>
-                  <IconChevronDown />
-                </Icon>
+                <IconChevronDown
+                  color={PaletteColors['grey-400']}
+                  label='select dropdwon'
+                  size='small'
+                />
               </TokenSelectRow>
             </>
           )}
@@ -163,9 +164,11 @@ const DexSwapPair = ({
               <Text color='textBlack' lineHeight='18px' size='12px' weight={600}>
                 <FormattedMessage id='buttons.select' defaultMessage='Select' />
               </Text>
-              <Icon label='select dropdown' color='grey400' size='sm'>
-                <IconChevronDown />
-              </Icon>
+              <IconChevronDown
+                color={PaletteColors['grey-400']}
+                label='select dropdwon'
+                size='small'
+              />
             </TokenSelectRowEmpty>
           )}
         </TokenSelectWrapper>

@@ -1,6 +1,5 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconDeposit } from '@blockchain-com/icons'
+import { IconDeposit, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -42,9 +41,7 @@ const Wrapper = styled.div`
 
 const FlipPairButton = ({ onFlipPairClick }: OwnProps) => (
   <Wrapper onClick={onFlipPairClick}>
-    <Icon label='arrow down' color='blue600' size='sm'>
-      <IconDeposit />
-    </Icon>
+    <IconDeposit color={PaletteColors['blue-600']} label='arrow down' size='small' />
   </Wrapper>
 )
 

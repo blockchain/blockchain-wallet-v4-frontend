@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconMinusCircle, IconPlusCircle } from '@blockchain-com/icons'
+import { IconMinusCircle, IconPlusCircle, PaletteColors } from '@blockchain-com/constellation'
 import { isEmpty } from 'ramda'
 import styled from 'styled-components'
 
@@ -119,7 +118,11 @@ const TransactionsBox = ({ modalActions }) => {
   }
 
   const generateTransactionIcon = (type) => {
-    return type === TransactionType.PAYMENT ? <IconMinusCircle /> : <IconPlusCircle />
+    return type === TransactionType.PAYMENT ? (
+      <IconMinusCircle color={PaletteColors['blue-300']} label='Spent' size='small' />
+    ) : (
+      <IconPlusCircle color={PaletteColors['blue-300']} label='Spent' size='small' />
+    )
   }
 
   const getBannerType = (state: TransactionState) => {
@@ -154,9 +157,7 @@ const TransactionsBox = ({ modalActions }) => {
             const datetime = useDateTimeFormatter(userTransactionTime, FULL_DATETIME_FORMAT)
             return (
               <TransactionItem key={id} onClick={() => handleOpenDetail(detail)}>
-                <Icon color='blue300' label='Spent' size='sm'>
-                  {generateTransactionIcon(type)}
-                </Icon>
+                {generateTransactionIcon(type)}
                 <BoxRowItemTitle>
                   {generateTransactionTitle(type, originalAmount, merchantName)}
                   <BoxRowItemSubTitle>

@@ -1,6 +1,5 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconChevronDown, IconChevronUp } from '@blockchain-com/icons'
+import { IconChevronDown, IconChevronUp, PaletteColors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 
@@ -88,15 +87,20 @@ const BaseRateAndFees = ({
                   </FiatDisplay>
                 </GasFeeWrapper>
                 <ShowDetailsWrapper>
-                  {swapDetailsOpen && (
-                    <Icon label='hide swap details' color='grey400' size='md'>
-                      <IconChevronUp onClick={handleDetailsToggle} />
-                    </Icon>
-                  )}
-                  {!swapDetailsOpen && (
-                    <Icon label='show swap details' color='grey400' size='md'>
-                      <IconChevronDown onClick={handleDetailsToggle} />
-                    </Icon>
+                  {swapDetailsOpen ? (
+                    <IconChevronUp
+                      color={PaletteColors['grey-400']}
+                      label='hide swap details'
+                      onClick={handleDetailsToggle}
+                      size='medium'
+                    />
+                  ) : (
+                    <IconChevronDown
+                      color={PaletteColors['grey-400']}
+                      label='show swap details'
+                      onClick={handleDetailsToggle}
+                      size='medium'
+                    />
                   )}
                 </ShowDetailsWrapper>
               </RightColumn>

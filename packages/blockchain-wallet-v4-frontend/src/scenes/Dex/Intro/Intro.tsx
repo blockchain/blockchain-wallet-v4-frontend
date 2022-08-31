@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconArrowLeft, IconArrowRight } from '@blockchain-com/icons'
+import { IconArrowLeft, IconArrowRight, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
@@ -62,17 +61,13 @@ const DexIntro = () => {
         </Text>
       </IntroWrapper>
       <IntroStepWrapper>
-        <Icon label='step back' color='blue600' size='md'>
-          <IconArrowLeft />
-        </Icon>
+        <IconArrowLeft color={PaletteColors['blue-600']} label='step-back' size='medium' />
         <StepBubblesWrapper>
           <StepBubble active />
           <StepBubble />
           <StepBubble />
         </StepBubblesWrapper>
-        <Icon label='step forward' color='blue600' size='md'>
-          <IconArrowRight />
-        </Icon>
+        <IconArrowRight color={PaletteColors['blue-600']} label='step forward' size='medium' />
       </IntroStepWrapper>
       <Button
         data-e2e='startTrading'
