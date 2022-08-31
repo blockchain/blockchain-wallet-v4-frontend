@@ -441,6 +441,8 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runReferralGoal = function* (goal: GoalType) {
+    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(waitForUserData)
     const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -994,21 +996,6 @@ export default ({ api, coreSagas, networks }) => {
         })
       )
     }
-  }
-
-  const runReferralLandingGoal = function* (goal: GoalType) {
-    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
-    const { data, id } = goal
-
-    yield put(actions.goals.deleteGoal(id))
-
-    yield put(
-      actions.goals.addInitialModal({
-        data: { origin, token_id: data.token_id },
-        key: 'referralLanding',
-        name: ModalName.REFERRAL_LANDING_MODAL
-      })
-    )
   }
 
   const runTermsAndConditionsGoal = function* (goal: GoalType) {

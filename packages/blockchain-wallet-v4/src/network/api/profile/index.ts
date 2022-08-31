@@ -270,6 +270,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const getUserReferralInfo = () =>
+    authorizedGet({
+      endPoint: `/referral/info`,
+      url: nabuUrl
+    })
+
   const createReferral = (referralCode: string) =>
     authorizedPost({
       contentType: 'application/json',
@@ -296,6 +302,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     getPaymentsAccountExchange,
     getUser,
     getUserCampaigns,
+    getUserReferralInfo,
     getUserTermsAndConditions,
     getUserTermsAndConditionsLast,
     linkAccount,
