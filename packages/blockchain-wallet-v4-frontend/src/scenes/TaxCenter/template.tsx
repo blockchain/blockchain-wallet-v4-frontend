@@ -31,7 +31,7 @@ import {
 
 const ErrorMessage = () => (
   <AlertMessage>
-    <IconAlert size='small' color={SemanticColors.warning} />
+    <IconAlert color={SemanticColors.warning} label='reports' size='small' />
     <Text size='12px' color='orange600' weight={500}>
       <FormattedMessage
         id='scenes.tax.center.card.report.error.message'
