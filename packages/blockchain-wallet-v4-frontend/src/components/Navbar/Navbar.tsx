@@ -8,7 +8,6 @@ import {
   PaletteColors,
   Text
 } from '@blockchain-com/constellation'
-import {} from '@blockchain-com/icons'
 import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'

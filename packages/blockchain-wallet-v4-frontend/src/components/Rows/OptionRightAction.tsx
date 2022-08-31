@@ -1,6 +1,5 @@
 import React, { ReactNode, useCallback, useMemo } from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconChevronRight } from '@blockchain-com/icons'
+import { IconChevronRight, PaletteColors } from '@blockchain-com/constellation'
 import { rgba } from 'polished'
 import styled from 'styled-components'
 
@@ -80,9 +79,7 @@ const OptionRightActionRow = ({ children, disabled, icon, onClick, toolTip }: Pr
           </TooltipHost>
         </div>
       ) : (
-        <Icon label='chevron-right' color='grey400' size='md'>
-          <IconChevronRight />
-        </Icon>
+        <IconChevronRight color={PaletteColors['grey-400']} size='medium' />
       )}
     </FlexWrapper>
   )

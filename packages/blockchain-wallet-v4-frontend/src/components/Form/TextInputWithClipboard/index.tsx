@@ -1,6 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { Icon, useCopyToClipboard } from '@blockchain-com/constellation'
-import { IconCheck, IconClipboard } from '@blockchain-com/icons'
+import {
+  IconCheck,
+  IconClipboard,
+  PaletteColors,
+  useCopyToClipboard
+} from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { debounce } from 'utils/helpers'
@@ -56,9 +60,11 @@ const TextInputWithClipboard: React.FC<Props> = ({ value }) => {
     <Wrapper>
       <StyledInput disabled value={value} />
       <IconWrapper onClick={handleOnClickToCopyText}>
-        <Icon label='copy' color={showCopiedIcon ? 'green600' : 'blue600'}>
-          {showCopiedIcon ? <IconCheck /> : <IconClipboard />}
-        </Icon>
+        {showCopiedIcon ? (
+          <IconCheck color={PaletteColors['green-600']} />
+        ) : (
+          <IconClipboard color={PaletteColors['blue-600']} />
+        )}
       </IconWrapper>
     </Wrapper>
   )

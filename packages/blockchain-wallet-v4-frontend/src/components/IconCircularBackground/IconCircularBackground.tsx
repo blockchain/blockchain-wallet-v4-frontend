@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 
 import { IconCircularBackgroundComponent, IconCircularBackgroundSizes } from './types'
 
@@ -16,7 +16,7 @@ export const IconCircularBackground: IconCircularBackgroundComponent = ({
     <div
       style={{
         alignItems: 'center',
-        backgroundColor: colors[color] ?? color,
+        backgroundColor: PaletteColors[color] ?? color,
         borderRadius: '50%',
         display: 'flex',
         height: sizeToPixels[size] ?? size,

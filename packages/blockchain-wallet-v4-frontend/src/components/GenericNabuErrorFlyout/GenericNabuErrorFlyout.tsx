@@ -1,6 +1,5 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconClose } from '@blockchain-com/icons'
+import { IconClose, PaletteColors } from '@blockchain-com/constellation'
 
 import { Flex } from 'components/Flex'
 import { GenericNabuError } from 'components/GenericNabuError'
@@ -15,9 +14,7 @@ const GenericNabuErrorFlyout: GenericNabuErrorFlyoutComponent = ({ error, onDism
       <Padding top={40} horizontal={40}>
         <Flex justifyContent='flex-end'>
           <IconButton onClick={onDismiss} type='button'>
-            <Icon label='close' color='grey600' size='sm'>
-              <IconClose />
-            </Icon>
+            <IconClose color={PaletteColors['grey-600']} size='small' />
           </IconButton>
         </Flex>
       </Padding>
