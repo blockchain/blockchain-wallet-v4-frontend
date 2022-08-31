@@ -117,12 +117,15 @@ export default ({ api }: { api: APIType }) => {
       )
       const txList = [txPage, custodialPage.orders]
       if (window.coins[payload.coin].coinfig.products.includes('DynamicSelfCustody')) {
-        const selfCustodyPage: ReturnType<typeof api.txHistory> = yield call(api.txHistory, {
-          currencies: [{ ticker: payload.coin }],
-          fiatCurrency,
-          guidHash,
-          sharedKeyHash
-        })
+        const selfCustodyPage: ReturnType<typeof api.getCoinActivity> = yield call(
+          api.getCoinActivity,
+          {
+            currencies: [{ ticker: payload.coin }],
+            fiatCurrency,
+            guidHash,
+            sharedKeyHash
+          }
+        )
         txList.push(selfCustodyPage.activity)
       }
       const newPages = flatten([txList])

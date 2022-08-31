@@ -77,28 +77,6 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  const txHistory = ({
-    currencies,
-    fiatCurrency,
-    guidHash,
-    sharedKeyHash
-  }: ActivityRequestAuthenticationInRequestType): ActivityResponseType => {
-    return post({
-      contentType: 'application/json',
-      data: {
-        auth: {
-          guidHash,
-          sharedKeyHash
-        },
-        currencies,
-        fiatCurrency
-      },
-      endPoint: `/wallet-pubkey/activity`,
-      removeDefaultPostData: true,
-      url: apiUrl
-    })
-  }
-
   const authWalletPubkeyService = ({
     guid,
     sharedKeyHash
@@ -160,6 +138,28 @@ export default ({ apiUrl, get, post }) => {
       removeDefaultPostData: true,
       url: apiUrl
     })
+
+  const getCoinActivity = ({
+    currencies,
+    fiatCurrency,
+    guidHash,
+    sharedKeyHash
+  }: ActivityRequestAuthenticationInRequestType): ActivityResponseType => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        auth: {
+          guidHash,
+          sharedKeyHash
+        },
+        currencies,
+        fiatCurrency
+      },
+      endPoint: `/wallet-pubkey/activity`,
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+  }
 
   const getUnifiedActivity = ({
     fiatCurrency,
@@ -225,12 +225,12 @@ export default ({ apiUrl, get, post }) => {
     deriveAddress,
     fetchUnifiedBalances,
     getBtcTicker,
+    getCoinActivity,
     getCoinPrices,
     getSubscriptions,
     getUnifiedActivity,
     pushTx,
     subscribe,
-    txHistory,
     unsubscribe,
     validateAddress
   }

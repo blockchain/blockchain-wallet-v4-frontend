@@ -123,7 +123,7 @@ const useActivityFeed: ActivityFeedHook = ({ coin }) => {
             />
           </Button>
 
-          {!isLoadingAddressData && (
+          {!isLoadingAddressData && filterOptions.length > 1 && (
             <AccountSelectBox
               label={
                 <FormattedMessage

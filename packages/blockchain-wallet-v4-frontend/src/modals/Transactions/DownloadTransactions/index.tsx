@@ -114,6 +114,10 @@ const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
         )
       }
 
+      if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
+        return dispatch(actions.core.data.coins.fetchTransactions({ coin }))
+      }
+
       return dispatch(
         actions.core.data[coinCode].fetchTransactionHistory(address, startDate, endDate)
       )
