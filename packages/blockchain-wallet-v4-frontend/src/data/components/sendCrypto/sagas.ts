@@ -60,17 +60,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const { account, baseCryptoAmt, destination, fee, memo } = action.payload
       const { coin } = account
       const feesR = S.getWithdrawalFees(yield select(), coin)
-      if (nonMigratedCoins.includes(coin)) {
-        // console.log('coin to be processed differently - build TX', coin)
-        // TODO simulate buildTx logic for non migrated coins
-        return
-      }
 
       if (account.type === SwapBaseCounterTypes.ACCOUNT) {
         const password = yield call(promptForSecondPassword)
         const pubKey = yield call(getPubKey, password)
         const guid = yield select(selectors.core.wallet.getGuid)
         const [uuid] = yield call(api.generateUUIDs, 1)
+
+        if (nonMigratedCoins.includes(coin)) {
+          // TODO simulate buildTx logic for non migrated coins
+          // only PK accounts will go here
+          return
+        }
 
         const tx: ReturnType<typeof api.buildTx> = yield call(api.buildTx, {
           id: {
@@ -344,7 +345,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (formValues && nonMigratedCoins.includes(formValues?.selectedAccount?.coin)) {
       const { coin } = formValues.selectedAccount
       // TODO add part for checking for change based on coin
-      // console.log('coin to be processed differently', coin)
     }
   }
 
@@ -393,14 +393,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         .getRatesSelector(coin, yield select())
         .getOrFail('Failed to get rates')
 
-      // check is selected account with coin in non migrated coins list and process it
-      if (nonMigratedCoins.includes(coin)) {
-        if (coin === 'BTC') {
-          call(submitBTCTransaction)
-          return
-        }
-      }
-
       if (selectedAccount.type === SwapBaseCounterTypes.ACCOUNT) {
         const password = yield call(promptForSecondPassword)
         const guid = yield select(selectors.core.wallet.getGuid)
@@ -409,6 +401,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           'No prebuildTx'
         ) as BuildTxResponseType
         prebuildTxFee = prebuildTx.summary.absoluteFeeEstimate
+
+        // check is selected account with coin in non migrated coins list and process it
+        if (nonMigratedCoins.includes(coin)) {
+          if (coin === 'BTC') {
+            call(submitBTCTransaction)
+            return
+          }
+        }
+
         const signedTx: BuildTxResponseType = yield call(signTx, prebuildTx, password)
         const pushedTx: ReturnType<typeof api.pushTx> = yield call(
           api.pushTx,
