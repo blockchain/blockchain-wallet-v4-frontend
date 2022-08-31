@@ -19,7 +19,7 @@ import TextBox from 'components/Form/TextBox'
 import { Padding } from 'components/Padding'
 import { actions, model } from 'data'
 import { OrderCardStep } from 'data/components/debitCard/model'
-import { required } from 'services/forms'
+import { required, requiredSSN } from 'services/forms'
 
 const { SOCIAL_SECURITY_NUMBER_FORM } = model.components.debitCard
 
@@ -96,10 +96,11 @@ const SocialSecurityNumber = ({ invalid, submitting }: InjectedFormProps<{}>) =>
                     </Text>
                   </Label>
                   <Field
-                    validate={[required]}
-                    placeholder='123-1243-12412'
+                    validate={[required, requiredSSN]}
+                    placeholder='123456789'
                     name='ssn'
                     errorBottom
+                    type='number'
                     component={TextBox}
                   />
                 </FormItem>
