@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { CaptchaActionType } from './types'
 
 const initialState = {
-  manifestFile: null
+  runtimeFile: null
 }
 
 const miscSlice = createSlice({
@@ -11,9 +11,9 @@ const miscSlice = createSlice({
   name: 'misc',
   reducers: {
     generateCaptchaToken: (state, action: PayloadAction<CaptchaActionType>) => {},
-    pingManifestFile: () => {},
-    setManifestFile: (state, action) => {
-      state.manifestFile = action.payload
+    pingRuntimeFile: () => {},
+    setRuntimeFile: (state, action) => {
+      state.runtimeFile = action.payload
     }
   }
 })
