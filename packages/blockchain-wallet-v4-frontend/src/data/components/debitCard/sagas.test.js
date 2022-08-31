@@ -51,6 +51,7 @@ describe('debitCard sagas', () => {
       const expected = call(api.getDCCurrentAccount, CARD_ID)
       expect(actual).toEqual(expected)
     }
+
     const validateShouldBeDone = (generator) => {
       const actual = generator.next().done
       const expected = true

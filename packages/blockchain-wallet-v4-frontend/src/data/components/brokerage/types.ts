@@ -7,6 +7,7 @@ import {
 } from '@core/types'
 
 export enum BankPartners {
+  PLAID = 'PLAID',
   YAPILY = 'YAPILY',
   YODLEE = 'YODLEE'
 }
@@ -16,15 +17,17 @@ export enum OBEntityType {
   SAFE_CONNECT_UK = 'Safeconnect(UK)'
 }
 
-export type FastLinkType = {
-  attributes: {
-    fastlinkParams: {
-      configName: 'Verification'
-    }
-    fastlinkUrl: string
-    token: string
-    tokenExpiresAt: string
+export type YodleeAttributesType = {
+  fastlinkParams: {
+    configName: 'Verification'
   }
+  fastlinkUrl: string
+  token: string
+  tokenExpiresAt: string
+}
+
+export type FastLinkType = {
+  attributes: YodleeAttributesType
   id: string
   partner: BankPartners.YODLEE
 }
@@ -34,6 +37,19 @@ export type OBType = {
   id: string
   partner: BankPartners.YAPILY
 }
+
+export type PlaidAttributesType = {
+  link_token: string
+  tokenExpiresAt: string
+}
+
+export type BankCredentialsType = {
+  id: string
+} & (
+  | { attributes: OBAttributesType; partner: BankPartners.YAPILY }
+  | { attributes: PlaidAttributesType; partner: BankPartners.PLAID }
+  | { attributes: YodleeAttributesType; partner: BankPartners.YODLEE }
+)
 
 interface OBCountryType {
   countryCode2: string
@@ -84,6 +100,7 @@ export enum BankDWStepType {
   ENTER_AMOUNT = 'ENTER_AMOUNT',
   INELIGIBLE = 'INELIGIBLE',
   LOADING = 'LOADING',
+  PAYMENT_ACCOUNT_ERROR = 'PAYMENT_ACCOUNT_ERROR',
   WIRE_INSTRUCTIONS = 'WIRE_INSTRUCTIONS'
 }
 
@@ -101,6 +118,10 @@ export type BrokerageDWStepPayload =
         | BankDWStepType.LOADING
     }
   | {
+      dwStep: BankDWStepType.PAYMENT_ACCOUNT_ERROR
+      reason: PlaidSettlementErrorReasons
+    }
+  | {
       addNew?: boolean
       dwStep: BankDWStepType.DEPOSIT_METHODS
     }
@@ -112,6 +133,7 @@ export type BrokerageAddBankStepPayload =
         | AddBankStepType.ADD_BANK_HANDLER
         | AddBankStepType.ADD_BANK_AUTHORIZE
         | AddBankStepType.ADD_BANK_CONNECT
+        | AddBankStepType.LOADING
     }
   | {
       addBankStep: AddBankStepType.ADD_BANK_STATUS
@@ -136,6 +158,7 @@ interface BankTransferAccountAttrs {
   entity: OBEntityType
   media: OBMediaType[]
   qrcodeUrl: string
+  requiresRefresh?: true
 }
 
 export type BankTransferAccountType = {
@@ -157,6 +180,17 @@ export type YodleeAccountType = {
   requestId: string
   status: string
 }
+
+export type PlaidAccountType = {
+  account_id: string
+  public_token: string
+}
+
+export type PlaidSettlementErrorReasons =
+  | 'INSUFFICIENT_BALANCE'
+  | 'STALE_BALANCE'
+  | 'GENERIC'
+  | 'REQUIRES_UPDATE'
 
 export enum AddBankStepType {
   ADD_BANK = 'ADD_BANK',
@@ -201,13 +235,13 @@ export type BrokerageState = {
   account: BankTransferAccountType | undefined
   addBankStep: AddBankStepType
   addNew: boolean
-  bankCredentials: RemoteDataType<string, OBType>
+  bankCredentials: RemoteDataType<string, BankCredentialsType>
   bankStatus: RemoteDataType<string, BankStatusType>
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   dwStep: BankDWStepType
-  fastLink: RemoteDataType<string, FastLinkType>
   fiatCurrency: WalletFiatType | undefined
   isFlow: boolean
+  reason: PlaidSettlementErrorReasons | undefined
   redirectBackToStep: boolean
 }

@@ -75,6 +75,10 @@ export const getGooglePayAsNewPaymentMethod = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'googlePayPaymentMethod']))
 
 // send the card to new payment processors feature flag (checkout)
+export const getAddPlaidPaymentProvider = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'addPlaidPaymentProvider']))
+
+// send the card to new payment processors feature flag (checkout)
 export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'addCheckoutPaymentProvider']))
 
@@ -107,6 +111,12 @@ export const getShowTermsAndConditions = (state: RootState) =>
 
 export const getCoinViewV2 = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'coinViewV2']))
+
+export const getIsCreditCardOptimizationEnabled = (state: RootState) =>
+  getWebOptions(state).map(path<boolean>(['featureFlags', 'isCreditCardOptimizationEnabled']))
+
+export const getRecurringBuysInCheckoutPage = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'recurringBuysInCheckoutPage']))
 
 // SSO creating exchange users under the hood
 // for all wallet logins and signup

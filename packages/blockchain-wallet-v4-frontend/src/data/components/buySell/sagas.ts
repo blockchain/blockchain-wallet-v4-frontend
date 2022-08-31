@@ -15,6 +15,7 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
+  BuyQuoteStateType,
   CardAcquirer,
   CardSuccessRateResponse,
   ExtraKYCContext,
@@ -39,6 +40,7 @@ import {
   CustodialSanctionsEnum,
   ModalName,
   ProductEligibilityForUser,
+  RecurringBuyPeriods,
   UserDataType,
   VerifyIdentityOriginType
 } from 'data/types'
@@ -100,20 +102,30 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const { fetchBankTransferAccounts } = brokerageSagas({ api, coreSagas, networks })
+  const { fetchBankTransferAccounts, setupBankTransferProvider } = brokerageSagas({
+    api,
+    coreSagas,
+    networks
+  })
 
-  const generateApplePayToken = async ({
+  const generateApplePayResponse = async ({
     applePayInfo,
     paymentRequest
   }: {
     applePayInfo: ApplePayInfoType
     paymentRequest: ApplePayJS.ApplePayPaymentRequest
-  }) => {
+  }): Promise<{
+    address: ApplePayJS.ApplePayPaymentContact | null
+    token: string
+  }> => {
     if (!ApplePaySession) {
       throw new Error(BS_ERROR.APPLE_PAY_INFO_NOT_FOUND)
     }
 
-    const token = await new Promise((resolve, reject) => {
+    const token: {
+      address: ApplePayJS.ApplePayPaymentContact | null
+      token: string
+    } = await new Promise((resolve, reject) => {
       const session = new ApplePaySession(3, paymentRequest)
 
       session.onvalidatemerchant = async (event) => {
@@ -139,7 +151,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         session.completePayment(result)
 
-        resolve(JSON.stringify(event.payment.token))
+        resolve({
+          address: event.payment.billingContact || null,
+          token: JSON.stringify(event.payment.token)
+        })
       }
 
       session.oncancel = () => {
@@ -152,9 +167,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return token
   }
 
-  const generateGooglePayToken = async (
+  const generateGooglePayResponse = async (
     paymentRequest: google.payments.api.PaymentDataRequest
-  ): Promise<string> => {
+  ): Promise<{
+    address: google.payments.api.Address | null
+    token: string
+  }> => {
     const environment = window.location.host === 'login.blockchain.com' ? 'PRODUCTION' : 'TEST'
 
     if (!googlePaymentsClient) {
@@ -164,7 +182,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const paymentData = await googlePaymentsClient.loadPaymentData(paymentRequest)
 
-      return paymentData.paymentMethodData.tokenizationData.token
+      return {
+        address: paymentData.paymentMethodData.info?.billingAddress || null,
+        token: paymentData.paymentMethodData.tokenizationData.token
+      }
     } catch (e) {
       throw new Error(BS_ERROR.USER_CANCELLED_GOOGLE_PAY)
     }
@@ -320,11 +341,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!values?.amount) throw new Error(BS_ERROR.NO_AMOUNT)
       if (parseFloat(values.amount) <= 0) throw new Error(BS_ERROR.NO_AMOUNT)
 
-      const { fix, orderType, period } = values
+      const { fix, orderType } = values
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
-      let buyQuote
+      let buyQuote: BuyQuoteStateType | undefined
       if (orderType === OrderType.SELL) {
         yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
       } else {
@@ -397,10 +418,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!paymentType) throw new Error(BS_ERROR.NO_PAYMENT_TYPE)
 
+      if (buyQuote) {
+        const { availability, reason } = buyQuote.quote.settlementDetails
+        if (availability === 'UNAVAILABLE') {
+          yield put(actions.components.buySell.setStep({ reason, step: 'PAYMENT_ACCOUNT_ERROR' }))
+          return
+        }
+      }
       // FIXME: this temporarily enables users to purchase min amounts of crypto with the enter amount fix set to CRYPTO
       // remove this section when backend updates the flexiblePricing APIs to handle crypto amounts
       const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
-      const standardRate = convertBaseToStandard(coin, buyQuote.rate)
+      const standardRate = convertBaseToStandard(coin, buyQuote && buyQuote.rate)
       const standardInputAmount = convertBaseToStandard(coin, input.amount)
       const inputAmount = new BigNumber(standardInputAmount || '0')
         .dividedBy(standardRate)
@@ -435,7 +463,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           pair: pair.pair
         })
       )
-
       let buyOrder: BSOrderType
 
       let oldBuyOrder: BSOrderType | undefined
@@ -459,7 +486,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           input,
           output,
           paymentType,
-          period,
+          RecurringBuyPeriods.ONE_TIME,
           paymentMethodId,
           currentBuyQuote.quote.quoteId
         )
@@ -572,6 +599,36 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
   }
 
+  const createRecurringOrderIfEllegble = function* ({
+    payload: order
+  }: ReturnType<typeof A.createRecurringOrderIfEllegble>) {
+    const { period } = yield select(selectors.form.getFormValues(FORM_BS_CHECKOUT))
+    const availableMethods: BSPaymentTypes[] = yield select(
+      selectors.components.recurringBuy.availableMethods
+    )
+
+    const { inputCurrency, inputQuantity, outputCurrency, paymentMethodId, paymentType } = order
+
+    if (!paymentType) return
+
+    const didUserSelectPeriod = period !== RecurringBuyPeriods.ONE_TIME
+
+    const isPaymentEllegbleForRecurringOrder = availableMethods.includes(paymentType)
+
+    const canCreateRecurringOrder = didUserSelectPeriod && isPaymentEllegbleForRecurringOrder
+
+    if (!canCreateRecurringOrder) return
+
+    yield call(api.createRecurringBuy, {
+      destinationCurrency: outputCurrency,
+      inputCurrency,
+      inputValue: inputQuantity,
+      paymentMethod: paymentType,
+      paymentMethodId,
+      period
+    })
+  }
+
   const confirmOrderPoll = function* (
     { payload }: ReturnType<typeof A.confirmOrderPoll>,
     { RETRY_AMOUNT, SECONDS }: { RETRY_AMOUNT: number; SECONDS: number } = {
@@ -647,6 +704,31 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             merchantCapabilities.push('supportsCredit')
           }
 
+          let requiredBillingContactFields: ApplePayJS.ApplePayPaymentRequest['requiredBillingContactFields']
+
+          if (applePayInfo.requiredBillingContactFields) {
+            // had to remap the post field to be postalCode, as it was required on the iOS side
+            requiredBillingContactFields = applePayInfo.requiredBillingContactFields.map(
+              (requiredBillingContactField) =>
+                requiredBillingContactField.replace(
+                  'post',
+                  'postalAddress'
+                ) as ApplePayJS.ApplePayContactField
+            )
+          }
+
+          let supportedCountries
+
+          if (applePayInfo.supportedCountries) {
+            supportedCountries = applePayInfo.supportedCountries
+          }
+
+          let supportedNetworks = ['visa', 'masterCard']
+
+          if (applePayInfo.supportedNetworks) {
+            supportedNetworks = applePayInfo.supportedNetworks
+          }
+
           // inputAmount is in cents, but amount has to be in decimals
           const amount = parseInt(order.inputQuantity, 10) / 100
 
@@ -654,11 +736,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             countryCode: applePayInfo.merchantBankCountryCode,
             currencyCode: order.inputCurrency,
             merchantCapabilities,
-            supportedNetworks: ['visa', 'masterCard'],
+            requiredBillingContactFields,
+            supportedCountries,
+            supportedNetworks,
             total: { amount: `${amount}`, label: 'Blockchain.com' }
           }
 
-          const token = yield call(generateApplePayToken, {
+          const {
+            address,
+            token
+          }: {
+            address: ApplePayJS.ApplePayPaymentContact | null
+            token: string
+          } = yield call(generateApplePayResponse, {
             applePayInfo,
             paymentRequest
           })
@@ -668,6 +758,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             everypay: {
               customerUrl: paymentSuccessLink
             },
+            paymentContact: address
+              ? {
+                  city: address.locality,
+                  country: address.country,
+                  email: address.emailAddress,
+                  firstname: address.givenName,
+                  lastname: address.familyName,
+                  line1: address.addressLines ? address.addressLines[0] : undefined,
+                  line2: address.addressLines ? address.addressLines[1] : undefined,
+                  phone: address.phoneNumber,
+                  postCode: address.postalCode,
+                  state: address.administrativeArea
+                }
+              : null,
             redirectURL: paymentSuccessLink
           }
         }
@@ -677,6 +781,38 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           if (!googlePayInfo) {
             throw new Error(BS_ERROR.GOOGLE_PAY_INFO_NOT_FOUND)
+          }
+
+          const { allowCreditCards, allowPrepaidCards } = googlePayInfo
+
+          let allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
+            'PAN_ONLY',
+            'CRYPTOGRAM_3DS'
+          ]
+
+          if (googlePayInfo.allowedAuthMethods) {
+            allowedAuthMethods = googlePayInfo.allowedAuthMethods
+          }
+
+          let allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
+
+          if (googlePayInfo.allowedCardNetworks) {
+            allowedCardNetworks = googlePayInfo.allowedCardNetworks
+          }
+
+          let billingAddressRequired = false
+
+          if (googlePayInfo.billingAddressRequired) {
+            billingAddressRequired = googlePayInfo.billingAddressRequired
+          }
+
+          let billingAddressParameters: google.payments.api.BillingAddressParameters = {
+            format: 'MIN',
+            phoneNumberRequired: false
+          }
+
+          if (googlePayInfo.billingAddressParameters) {
+            billingAddressParameters = googlePayInfo.billingAddressParameters
           }
 
           // inputAmount is in cents, but amount has to be in decimals
@@ -694,15 +830,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw new Error(BS_ERROR.GOOGLE_PAY_PARAMETERS_NOT_FOUND)
           }
 
-          const allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
-
-          const allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
-            'PAN_ONLY',
-            'CRYPTOGRAM_3DS'
-          ]
-
-          const { allowCreditCards, allowPrepaidCards } = googlePayInfo
-
           const paymentDataRequest = {
             allowedPaymentMethods: [
               {
@@ -711,10 +838,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                   allowPrepaidCards,
                   allowedAuthMethods,
                   allowedCardNetworks,
-                  billingAddressParameters: {
-                    format: 'FULL' as const
-                  },
-                  billingAddressRequired: false
+                  billingAddressParameters,
+                  billingAddressRequired
                 },
                 tokenizationSpecification: {
                   parameters,
@@ -738,13 +863,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             }
           }
 
-          const token = yield call(generateGooglePayToken, paymentDataRequest)
+          const {
+            address,
+            token
+          }: {
+            address: google.payments.api.Address | null
+            token: string
+          } = yield call(generateGooglePayResponse, paymentDataRequest)
 
           attributes = {
             everypay: {
               customerUrl: paymentSuccessLink
             },
             googlePayPayload: token,
+            paymentContact: address
+              ? {
+                  city: address.locality,
+                  country: address.countryCode,
+                  firstname: address.name,
+                  lastname: address.name,
+                  line1: address.address1,
+                  line2: address.address2,
+                  middleName: address.name,
+                  phoneNumber: address.phoneNumber,
+                  postCode: address.postalCode,
+                  state: address.administrativeArea
+                }
+              : null,
             redirectURL: paymentSuccessLink
           }
         }
@@ -758,12 +903,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.confirmOrderLoading())
 
-      const confirmedOrder: BSOrderType = yield call(
-        api.confirmBSOrder,
-        freshOrder,
+      const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
         attributes,
+        order: freshOrder,
         paymentMethodId
-      )
+      })
 
       if (confirmedOrder.paymentError) {
         throw new Error(confirmedOrder.paymentError)
@@ -882,6 +1026,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       // TODO fix this type
       const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, order as any)
+      yield call(createRecurringOrderIfEllegble, A.createRecurringOrderIfEllegble(order))
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield put(A.fetchOrders())
       yield put(A.confirmOrderSuccess(confirmedOrder))
@@ -1245,12 +1390,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const buyQuotePaymentMethodId =
           paymentMethod === BSPaymentTypes.BANK_TRANSFER ? paymentMethodId : undefined
 
+        const effectivePaymentMethod =
+          paymentMethod === BSPaymentTypes.USER_CARD ? BSPaymentTypes.PAYMENT_CARD : paymentMethod
+
         const quote: ReturnType<typeof api.getBuyQuote> = yield call(
           api.getBuyQuote,
           pairReversed,
           'SIMPLEBUY',
           amount,
-          paymentMethod,
+          effectivePaymentMethod,
           buyQuotePaymentMethodId
         )
 
@@ -1429,7 +1577,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
-  const handleBSMethodChange = function* ({
+  const handleMethodChange = function* ({
     payload: { isFlow, method, mobilePaymentMethod }
   }: ReturnType<typeof A.handleMethodChange>) {
     const values: T.BSCheckoutFormValuesType = yield select(
@@ -1487,20 +1635,42 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             step: 'BANK_WIRE_DETAILS'
           })
         )
-      case BSPaymentTypes.LINK_BANK:
+      case BSPaymentTypes.LINK_BANK: // Yapily, Yodlee, Plaid, ...
+        yield put(actions.components.buySell.setStep({ step: 'LOADING' }))
+        const { bankCredentials } = yield call(setupBankTransferProvider)
+
+        let modalType: ModalName
+        switch (true) {
+          case bankCredentials && bankCredentials.payload.partner === 'YAPILY':
+            modalType = ModalName.ADD_BANK_YAPILY_MODAL
+            break
+          case bankCredentials && bankCredentials.payload.partner === 'PLAID':
+            modalType = ModalName.ADD_BANK_PLAID_MODAL
+            break
+          default:
+            // YODLEE
+            modalType = ModalName.ADD_BANK_YODLEE_MODAL
+            break
+        }
+
+        // Open the add bank (brokerage) modal on top of the buySell modal
         yield put(
           actions.components.brokerage.showModal({
             isFlow,
-            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+            modalType,
             origin: BrokerageModalOriginType.ADD_BANK_BUY
           })
         )
-        return yield put(
+        yield put(
           actions.components.brokerage.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK
           })
         )
 
+        // wait for the add bank modal to open and then change the step to payment method
+        yield take(actions.modals.showModal.type)
+        yield put(A.setStep({ cryptoCurrency, fiatCurrency, pair, step: 'PAYMENT_METHODS' }))
+        return
       case BSPaymentTypes.PAYMENT_CARD:
         if (mobilePaymentMethod) {
           return yield put(
@@ -1568,7 +1738,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const initializeCheckout = function* ({
-    payload: { account, amount, cryptoAmount, fix, orderType, period }
+    payload: {
+      account,
+      amount,
+      cryptoAmount,
+      fix,
+      orderType,
+      paymentMethodId,
+      paymentMethodType,
+      period
+    }
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(waitForUserData)
@@ -1584,7 +1763,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           A.startPollBuyQuote({
             amount: fakeQuoteAmount,
             pair: pair.pair,
-            paymentMethod: BSPaymentTypes.FUNDS
+            paymentMethod: paymentMethodType,
+            paymentMethodId
           })
         )
         yield race({
@@ -1747,7 +1927,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.confirmOrderSuccess(order))
+
+      yield call(createRecurringOrderIfEllegble, A.createRecurringOrderIfEllegble(order))
+
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+      yield put(cacheActions.removeLastUsedAmount({ pair: order.pair }))
     } catch (e) {
       if (isNabuError(e)) {
         yield put(A.createOrderFailure(e))
@@ -1912,10 +2096,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { cryptoCurrency, origin }))
 
     // Use the user's trading currency setting whenever opening the buy flow
-    const { preferredFiatTradingCurrency: fiatCurrency } =
-      selectors.modules.profile.getUserCurrencies(yield select()) || {
-        preferredFiatTradingCurrency: 'USD'
-      }
+    const fiatCurrency = selectors.modules.profile
+      .getTradingCurrency(yield select())
+      .getOrElse('USD')
 
     // When user closes the QR code modal and opens it via one of the pending
     // buy buttons in the app. We need to take them to the qrcode screen and
@@ -2063,6 +2246,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     confirmOrderPoll,
     createBSCard,
     createBSOrder,
+    createRecurringOrderIfEllegble,
     deleteBSCard,
     fetchAccumulatedTrades,
     fetchBSBalances,
@@ -2081,9 +2265,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchSellQuote,
     formChanged,
     handleBSDepositFiatClick,
-    handleBSMethodChange,
     handleBuyMaxAmountClick,
     handleBuyMinAmountClick,
+    handleMethodChange,
     handleSellMaxAmountClick,
     handleSellMinAmountClick,
     initializeBillingAddress,

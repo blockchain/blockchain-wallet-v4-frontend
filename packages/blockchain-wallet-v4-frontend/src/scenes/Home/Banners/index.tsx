@@ -28,7 +28,6 @@ const BannerWrapper = styled.div`
 
 class Banners extends React.PureComponent<Props> {
   componentDidMount() {
-    this.props.buySellActions.fetchOrders()
     this.props.buySellActions.fetchSDDEligibility()
     this.props.interestActions.fetchInterestEligible()
     if (this.props.userData.tiers?.current > 0) {

@@ -6,8 +6,11 @@ import styled from 'styled-components'
 import { DexSwapQuoteResponse } from '@core/network/api/dex/types'
 import { Image, SkeletonRectangle, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { selectors } from 'data'
+import { useRemote } from 'hooks'
 
-import type { Props } from '../../Swap'
+// TODO: better way to expose props?
+import type { Props } from '../../EnterSwapDetails/EnterSwapDetails'
 
 const Wrapper = styled.div`
   display: flex;
@@ -45,12 +48,13 @@ const ShowDetailsWrapper = styled.div`
 `
 
 const BaseRateAndFees = ({
-  currentChain,
   handleDetailsToggle,
+  quoteLocked,
   quoteR,
   swapDetailsOpen,
   walletCurrency
 }: OwnProps) => {
+  const { data: currentChain } = useRemote(selectors.components.dex.getCurrentChain)
   return (
     <Wrapper>
       {quoteR?.cata({
@@ -72,38 +76,41 @@ const BaseRateAndFees = ({
                 1 {quote?.sellAmount?.symbol} = ~{parseFloat(quote?.price || '0').toFixed(8)}{' '}
                 {quote?.buyAmount?.symbol}
               </Text>
-              <RightColumn>
-                <GasFeeWrapper>
-                  <Image name='gas-icon' width='16px' height='16px' />
-                  <FiatDisplay
-                    size='12px'
-                    weight={600}
-                    coin={currentChain?.nativeCurrency.symbol}
-                    currency={walletCurrency}
-                  >
-                    {new BigNumber(txLeg?.gasLimit || 0)
-                      .multipliedBy(txLeg?.gasPrice || 0)
-                      .toString()}
-                  </FiatDisplay>
-                </GasFeeWrapper>
-                <ShowDetailsWrapper>
-                  {swapDetailsOpen ? (
-                    <IconChevronUp
-                      color={PaletteColors['grey-400']}
-                      label='hide swap details'
-                      onClick={handleDetailsToggle}
-                      size='medium'
-                    />
-                  ) : (
-                    <IconChevronDown
-                      color={PaletteColors['grey-400']}
-                      label='show swap details'
-                      onClick={handleDetailsToggle}
-                      size='medium'
-                    />
-                  )}
-                </ShowDetailsWrapper>
-              </RightColumn>
+              {!quoteLocked && (
+                <RightColumn>
+                  <GasFeeWrapper>
+                    <Image name='gas-icon' width='16px' height='16px' />
+                    <FiatDisplay
+                      size='12px'
+                      weight={600}
+                      coin={currentChain?.nativeCurrency.symbol}
+                      currency={walletCurrency}
+                    >
+                      {new BigNumber(txLeg?.gasLimit || 0)
+                        .multipliedBy(txLeg?.gasPrice || 0)
+                        .toString()}
+                    </FiatDisplay>
+                  </GasFeeWrapper>
+
+                  <ShowDetailsWrapper>
+                    {swapDetailsOpen ? (
+                      <IconChevronUp
+                        color={PaletteColors['grey-400']}
+                        label='hide swap details'
+                        onClick={handleDetailsToggle}
+                        size='medium'
+                      />
+                    ) : (
+                      <IconChevronDown
+                        color={PaletteColors['grey-400']}
+                        label='show swap details'
+                        onClick={handleDetailsToggle}
+                        size='medium'
+                      />
+                    )}
+                  </ShowDetailsWrapper>
+                </RightColumn>
+              )}
             </>
           )
         }
@@ -113,8 +120,9 @@ const BaseRateAndFees = ({
 }
 
 type OwnProps = {
-  handleDetailsToggle: () => void
+  handleDetailsToggle?: () => void
+  quoteLocked?: boolean
   swapDetailsOpen: boolean
-} & Pick<Props, 'currentChain' | 'quoteR' | 'walletCurrency'>
+} & Pick<Props, 'quoteR' | 'walletCurrency'>
 
 export default BaseRateAndFees

@@ -3,13 +3,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Remote } from '@core'
 import { RemoteDataType } from '@core/remote/types'
 
+import { OrderCardStep } from './model'
 import {
   AccountType,
   CardActionType,
   CardTransaction,
   DebitCardState,
   DebitCardType,
-  ProductType
+  LegalRequirement,
+  ProductType,
+  ResidentialAddress
 } from './types'
 
 const initialState: DebitCardState = {
@@ -19,8 +22,11 @@ const initialState: DebitCardState = {
   currentCardAccount: Remote.NotAsked,
   currentCardSelected: undefined,
   eligibleAccounts: Remote.NotAsked,
+  legal: Remote.NotAsked,
   lockHandler: Remote.NotAsked,
+  orderCardStep: OrderCardStep.RESIDENTIAL_ADDRESS,
   products: [],
+  residentialAddress: Remote.NotAsked,
   selectAccountHandler: Remote.NotAsked,
   terminateHandler: Remote.NotAsked,
   transactions: Remote.NotAsked
@@ -37,6 +43,8 @@ const debitCardSlice = createSlice({
       state.currentCardAccount = Remote.NotAsked
       state.lockHandler = Remote.NotAsked
       state.transactions = Remote.NotAsked
+      state.residentialAddress = Remote.NotAsked
+      state.orderCardStep = OrderCardStep.RESIDENTIAL_ADDRESS
     },
     cleanTerminateHandler: (state) => {
       state.terminateHandler = Remote.NotAsked
@@ -91,12 +99,32 @@ const debitCardSlice = createSlice({
     getEligibleAccountsSuccess: (state, action: PayloadAction<Array<AccountType>>) => {
       state.eligibleAccounts = Remote.Success(action.payload)
     },
+    getLegalRequirements: () => {},
+    getLegalRequirementsFailure: (state, action: PayloadAction<string>) => {
+      state.legal = Remote.Failure(action.payload)
+    },
+    getLegalRequirementsLoading: (state) => {
+      state.legal = Remote.Loading
+    },
+    getLegalRequirementsSuccess: (state, action: PayloadAction<Array<LegalRequirement>>) => {
+      state.legal = Remote.Success(action.payload)
+    },
     getProducts: () => {},
     getProductsFailure: (state) => {
       state.products = []
     },
     getProductsSuccess: (state, action: PayloadAction<Array<ProductType>>) => {
       state.products = action.payload
+    },
+    getResidentialAddress: () => {},
+    getResidentialAddressFailure: (state, action: PayloadAction<string>) => {
+      state.residentialAddress = Remote.Failure(action.payload)
+    },
+    getResidentialAddressLoading: (state) => {
+      state.residentialAddress = Remote.Loading
+    },
+    getResidentialAddressSuccess: (state, action: PayloadAction<string>) => {
+      state.residentialAddress = Remote.Success(action.payload)
     },
     handleCardLock: (state, action: PayloadAction<CardActionType>) => {},
     handleCardLockFailure: (state, action: PayloadAction<string>) => {
@@ -110,6 +138,7 @@ const debitCardSlice = createSlice({
     },
     resetCreateCardState: (state) => {
       state.cardCreationData = Remote.NotAsked
+      state.orderCardStep = OrderCardStep.RESIDENTIAL_ADDRESS
     },
     selectAccount: (state, action: PayloadAction<string>) => {},
     selectAccountFailure: (state, action: PayloadAction<string>) => {
@@ -127,6 +156,20 @@ const debitCardSlice = createSlice({
     setCurrentCardSelected: (state, action: PayloadAction<DebitCardType>) => {
       state.currentCardSelected = action.payload
     },
+    setOrderCardStep: (state, action: PayloadAction<OrderCardStep>) => {
+      state.orderCardStep = action.payload
+    },
+    submitResidentialAddress: () => {},
+    submitResidentialAddressFailure: (state, action: PayloadAction<string>) => {
+      state.residentialAddress = Remote.Failure(action.payload)
+    },
+    submitResidentialAddressLoading: (state) => {
+      state.residentialAddress = Remote.Loading
+    },
+    submitResidentialAddressSuccess: (state, action: PayloadAction<ResidentialAddress>) => {
+      state.residentialAddress = Remote.Success(action.payload)
+    },
+    submitSocialSecurityNumber: () => {},
     terminateCard: (state, action: PayloadAction<string>) => {},
     terminateCardFailure: (state) => {
       state.terminateHandler = Remote.Failure(null)

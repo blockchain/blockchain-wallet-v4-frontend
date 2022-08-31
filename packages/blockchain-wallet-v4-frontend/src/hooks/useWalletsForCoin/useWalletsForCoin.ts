@@ -87,7 +87,7 @@ export const useWalletsForCoin: WalletsForCoinHook = ({ coin }) => {
       })
     }
 
-    throw new Error(`Coin address for coin "${coin}" not handled`)
+    return Remote.Success({ data: [] })
   })
 
   const wallets = useMemo(() => {

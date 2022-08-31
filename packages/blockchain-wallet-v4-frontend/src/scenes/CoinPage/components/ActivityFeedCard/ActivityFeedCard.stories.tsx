@@ -1,7 +1,6 @@
 import React from 'react'
 import { IntlProvider } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconPlus } from '@blockchain-com/icons'
+import { IconPlus, PaletteColors } from '@blockchain-com/constellation'
 
 import { Button, Text } from 'blockchain-info-components'
 import { ClickableArea } from 'components/ClickableArea'
@@ -44,9 +43,7 @@ export const SuccessState = () => {
             <Flex alignItems='center' gap={8}>
               <IconCircularBackground color='orange100' size={24}>
                 <Flex alignItems='center' justifyContent='center'>
-                  <Icon label='' color='orange400' size='sm'>
-                    <IconPlus />
-                  </Icon>
+                  <IconPlus color={PaletteColors['orange-400']} label='' size='small' />
                 </Flex>
               </IconCircularBackground>
 
@@ -82,9 +79,7 @@ export const SuccessState = () => {
             <Flex alignItems='center' gap={8}>
               <IconCircularBackground color='orange100' size={24}>
                 <Flex alignItems='center' justifyContent='center'>
-                  <Icon label='' color='orange400' size='sm'>
-                    <IconPlus />
-                  </Icon>
+                  <IconPlus color={PaletteColors['orange-400']} label='' size='small' />
                 </Flex>
               </IconCircularBackground>
 

@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import { BankPartners } from 'data/types'
 
 import { Props as _P, SuccessStateType } from '.'
 
@@ -47,13 +48,16 @@ const Subcontent = styled(Text)`
 `
 
 const Success: React.FC<Props> = (props) => {
-  let bankName = ''
-  if (props.yapilyBankId && props.bankCredentials?.attributes) {
-    const bank = props.bankCredentials.attributes?.institutions.find(
-      (bank) => bank.id === props.yapilyBankId
-    )
-    bankName = bank ? bank.fullName : ''
-  }
+  const bankName = useMemo((): string | null => {
+    const { partner } = props.bankCredentials
+    if (partner === BankPartners.YAPILY) {
+      const bank = props.bankCredentials.attributes.institutions.find(
+        (bank) => bank.id === props.yapilyBankId
+      )
+      return bank ? bank.fullName : null
+    }
+    return null
+  }, [props.yapilyBankId, props.bankCredentials])
 
   return (
     <Top>
@@ -72,7 +76,7 @@ const Success: React.FC<Props> = (props) => {
             <FormattedMessage id='copy.bank_linked.title' defaultMessage='Bank Linked!' />
           </Title>
           <Subcontent color='grey600' weight={500}>
-            {props.yapilyBankId ? (
+            {bankName ? (
               <FormattedMessage
                 id='copy.bank_linked.name'
                 defaultMessage='Your {bankName} account is now linked to your Blockchain.com Account'
@@ -92,7 +96,7 @@ const Success: React.FC<Props> = (props) => {
             type='submit'
             fullwidth
             height='48px'
-            onClick={() => props.handleClose()}
+            onClick={props.handleClose}
           >
             <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>

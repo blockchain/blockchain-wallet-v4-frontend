@@ -906,7 +906,6 @@ export default ({ api, coreSagas, networks }) => {
 
   const runKycUpgradeRequiredNoticeGoal = function* (goal: GoalType) {
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
-    yield call(fetchUser)
     yield call(waitForUserData)
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -920,7 +919,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.goals.addInitialModal({
           data: { origin },
           key: 'kycUpgradeRequiredNotice',
-          name: ModalName.VERIFY_NOTICE
+          name: ModalName.VERIFY_NOTICE_MODAL
         })
       )
     }
@@ -928,7 +927,6 @@ export default ({ api, coreSagas, networks }) => {
 
   const runSanctionsNoticeGoal = function* (goal: GoalType) {
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
-    yield call(fetchUser)
     yield call(waitForUserData)
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -956,7 +954,6 @@ export default ({ api, coreSagas, networks }) => {
 
   const runTermsAndConditionsGoal = function* (goal: GoalType) {
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
-    yield call(fetchUser)
     yield call(waitForUserData)
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -981,7 +978,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.goals.addInitialModal({
           data: { origin },
           key: 'termsAndConditions',
-          name: ModalName.TERMS_AND_CONDITIONS
+          name: ModalName.TERMS_AND_CONDITIONS_MODAL
         })
       )
     }

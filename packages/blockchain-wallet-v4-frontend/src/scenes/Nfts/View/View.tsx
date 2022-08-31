@@ -140,7 +140,7 @@ const View: React.FC<Props> = (props) => {
                   <StatsWrapper style={{ margin: '0' }}>
                     <CustomStat>
                       <Text size='16px' weight={500} color='grey600'>
-                        <FormattedMessage id='copy.total_vol' defaultMessage='Total Items' />
+                        <FormattedMessage id='copy.total_items' defaultMessage='Total Items' />
                       </Text>
                       <Text size='16px' color='black' weight={600}>
                         {assets.length}
@@ -148,7 +148,7 @@ const View: React.FC<Props> = (props) => {
                     </CustomStat>
                     <CustomStat>
                       <Text size='16px' weight={500} color='grey600'>
-                        <FormattedMessage id='copy.total_vol' defaultMessage='Average ETH Spent' />
+                        <FormattedMessage id='copy.avg_eth' defaultMessage='Average ETH Spent' />
                       </Text>
                       <Text size='16px' color='black' weight={600}>
                         {averageEthSpent.toString().substring(0, 4)} ETH
@@ -156,7 +156,10 @@ const View: React.FC<Props> = (props) => {
                     </CustomStat>
                     <CustomStat>
                       <Text size='16px' weight={500} color='grey600'>
-                        <FormattedMessage id='copy.total_vol' defaultMessage='Total ETH Spent' />
+                        <FormattedMessage
+                          id='copy.total_eth_spent'
+                          defaultMessage='Total ETH Spent'
+                        />
                       </Text>
                       <Text size='16px' color='black' weight={600}>
                         {totalEthSpent.toString().substring(0, 4)} ETH

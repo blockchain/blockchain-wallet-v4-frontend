@@ -8,6 +8,7 @@ import type {
   BSPairType,
   BSPaymentMethodsType,
   BSPaymentMethodType,
+  BSPaymentTypes,
   BSQuoteType,
   BuyQuoteStateType,
   CoinType,
@@ -31,6 +32,8 @@ import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
 import type { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
+
+import { PlaidSettlementErrorReasons } from '../brokerage/types'
 
 // Types
 export type BSAddCardFormValuesType = {
@@ -83,6 +86,7 @@ export enum BuySellStepType {
   'PAYMENT_METHODS',
   'PREVIEW_SELL',
   'ORDER_SUMMARY',
+  'PAYMENT_ACCOUNT_ERROR',
   'SELL_ORDER_SUMMARY',
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
@@ -172,6 +176,7 @@ export type BuySellState = {
   pendingOrder?: BSOrderType
   providerDetails: RemoteDataType<string, ProviderDetailsType>
   quote: RemoteDataType<string, BSQuoteType>
+  reason?: PlaidSettlementErrorReasons
   sddEligible: RemoteDataType<PartialClientErrorProperties, SDDEligibleType>
   sddTransactionFinished: boolean
   sddVerified: RemoteDataType<PartialClientErrorProperties, SDDVerifiedType>
@@ -189,6 +194,8 @@ export type InitializeCheckout = {
   orderType: BSOrderActionType
   pair?: BSPairType
   pairs: Array<BSPairType>
+  paymentMethodId?: BSPaymentMethodType['id']
+  paymentMethodType: BSPaymentTypes
   period: RecurringBuyPeriods
 }
 
@@ -247,6 +254,10 @@ export type StepActionsPayload =
       checkoutDotComAccountCodes: Array<string>
       checkoutDotComApiKey: string
       step: 'ADD_CARD_CHECKOUTDOTCOM'
+    }
+  | {
+      reason: PlaidSettlementErrorReasons
+      step: 'PAYMENT_ACCOUNT_ERROR'
     }
   | {
       step:

@@ -6,15 +6,15 @@ import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   const withdrawalLocksR = selectors.components.withdraw.getWithdrawalLocks(state)
-  const withdrawableBalanceR = selectors.components.brokerage.getWithdrawableBalance(state)
+  const tradingCurrenciesR = selectors.modules.profile.getUserCurrencies(state)
 
   return lift(
     (
-      withdrawalLocks: ExtractSuccess<typeof withdrawalLocksR>,
-      withdrawableBalance: ExtractSuccess<typeof withdrawableBalanceR>
+      tradingCurrencies: ExtractSuccess<typeof tradingCurrenciesR>,
+      withdrawalLocks: ExtractSuccess<typeof withdrawalLocksR>
     ) => ({
-      withdrawableBalance,
+      tradingCurrencies,
       withdrawalLocks
     })
-  )(withdrawalLocksR, withdrawableBalanceR)
+  )(tradingCurrenciesR, withdrawalLocksR)
 }

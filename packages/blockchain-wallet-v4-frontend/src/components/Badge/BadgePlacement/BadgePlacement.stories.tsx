@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconActivity } from '@blockchain-com/icons'
+import { IconActivity, PaletteColors } from '@blockchain-com/constellation'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 import { IconBadge } from '../IconBadge'
@@ -34,9 +33,7 @@ export const Squared = Template.bind({})
 Squared.args = {
   badge: (
     <IconBadge backgroundColor='orange'>
-      <Icon label='' size='sm' color='orange600'>
-        <IconActivity />
-      </Icon>
+      <IconActivity color={PaletteColors['orange-600']} label='' size='small' />
     </IconBadge>
   ),
   children: <BoxContent />
@@ -46,9 +43,7 @@ export const Circle = Template.bind({})
 Circle.args = {
   badge: (
     <IconBadge backgroundColor='orange'>
-      <Icon label='' size='sm' color='orange600'>
-        <IconActivity />
-      </Icon>
+      <IconActivity color={PaletteColors['orange-600']} label='' size='small' />
     </IconBadge>
   ),
   children: <CircleContent />,

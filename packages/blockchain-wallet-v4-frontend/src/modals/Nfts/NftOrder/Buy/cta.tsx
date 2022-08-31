@@ -216,6 +216,7 @@ const CTA: React.FC<Props> = (props) => {
                     onClick={acceptTerms}
                     href='https://www.blockchain.com/legal/terms'
                     target='_blank'
+                    size='inherit'
                   >
                     <FormattedMessage
                       id='copy.terms_of_service'

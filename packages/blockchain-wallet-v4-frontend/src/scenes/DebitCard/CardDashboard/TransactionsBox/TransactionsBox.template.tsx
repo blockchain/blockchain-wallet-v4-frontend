@@ -139,7 +139,7 @@ const TransactionsBox = ({ modalActions }) => {
   }
 
   const handleOpenDetail = (detail) => {
-    modalActions.showModal(ModalName.TRANSACTION_DETAIL, {
+    modalActions.showModal(ModalName.TRANSACTION_DETAIL_MODAL, {
       detail,
       origin: 'SettingsPage'
     })

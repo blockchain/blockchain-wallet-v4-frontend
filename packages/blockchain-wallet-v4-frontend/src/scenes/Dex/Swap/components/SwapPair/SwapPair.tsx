@@ -18,7 +18,7 @@ import { DexSwapForm, DexSwapSideEnum, ModalName } from 'data/types'
 
 import * as animations from './SwapPair.animations'
 
-const PairWrapper = styled.div<{ animate: boolean; swapSide: DexSwapSideEnum }>`
+const PairWrapper = styled.div<{ animate?: boolean; swapSide: DexSwapSideEnum }>`
   height: 48px;
   background-color: ${(props) => props.theme.grey000};
   border-radius: 16px;
@@ -50,7 +50,7 @@ const PairSelectColumn = styled.div<{ isCoinSelected: boolean }>`
   justify-content: space-evenly;
   align-items: center;
 `
-const TokenSelectWrapper = styled.div`
+const TokenSelectWrapper = styled.div<{ quoteLocked?: boolean }>`
   display: flex;
   width: 100px;
   flex-direction: row;
@@ -58,7 +58,7 @@ const TokenSelectWrapper = styled.div`
   padding: 6px 8px;
   border-radius: 10px;
   background-color: ${(props) => props.theme.white};
-  cursor: pointer;
+  cursor: ${({ quoteLocked }) => (quoteLocked ? 'not-allowed' : 'pointer')};
 `
 const TokenSelectRow = styled.div`
   display: flex;
@@ -103,6 +103,7 @@ const DexSwapPair = ({
   coin,
   formValues,
   modalActions,
+  quoteLocked,
   swapSide,
   walletCurrency
 }: Props) => {
@@ -115,6 +116,7 @@ const DexSwapPair = ({
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
+          disabled={quoteLocked}
           placeholder='0.00'
           name={amountInputField}
           validate={[]}
@@ -140,8 +142,11 @@ const DexSwapPair = ({
       <PairSelectColumn isCoinSelected={!!coin}>
         <TokenSelectWrapper
           role='button'
+          quoteLocked={quoteLocked}
           onClick={() => {
-            modalActions.showModal(ModalName.DEX_TOKEN_SELECT, { origin: 'Dex', swapSide })
+            if (!quoteLocked) {
+              modalActions.showModal(ModalName.DEX_TOKEN_SELECT, { origin: 'Dex', swapSide })
+            }
           }}
         >
           {coin && (
@@ -192,10 +197,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & {
-  animate: boolean
+  animate?: boolean
   balance?: number
   coin?: CoinType
   formValues: DexSwapForm
+  quoteLocked?: boolean
   swapSide: DexSwapSideEnum
 }
 

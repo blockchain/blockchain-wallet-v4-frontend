@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 
 import {
+  BankCredentialsType,
   BankTransferAccountType,
   RecurringBuyNextPayment,
   RecurringBuyPeriods,
@@ -170,12 +171,15 @@ export default ({
       url: nabuUrl
     })
 
-  const createBankAccountLink = (currency: WalletCurrencyType) =>
+  const createBankAccountLink = (data: {
+    attributes?: {
+      supportedPartners: string[]
+    }
+    currency: WalletCurrencyType
+  }) =>
     authorizedPost({
       contentType: 'application/json',
-      data: {
-        currency
-      },
+      data,
       endPoint: `/payments/banktransfer`,
       removeDefaultPostData: true,
       url: nabuUrl
@@ -190,11 +194,24 @@ export default ({
       url: nabuUrl
     })
 
-  const confirmBSOrder = (
-    order: BSOrderType,
-    attributes?: BSProviderAttributesType,
+  const refreshBankAccountLink = (bankId: string): BankCredentialsType =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {},
+      endPoint: `/payments/banktransfer/${bankId}/refresh`,
+      removeDefaultPostData: true,
+      url: nabuUrl
+    })
+
+  const confirmBSOrder = ({
+    attributes,
+    order,
+    paymentMethodId
+  }: {
+    attributes?: BSProviderAttributesType
+    order: BSOrderType
     paymentMethodId?: string
-  ): BSOrderType =>
+  }): BSOrderType =>
     authorizedPost({
       contentType: 'application/json',
       data: {
@@ -283,7 +300,7 @@ export default ({
     })
 
   const getBSPairs = (currency?: keyof FiatCurrenciesType): { pairs: Array<BSPairType> } =>
-    get({
+    authorizedGet({
       data: {
         fiatCurrency: currency
       },
@@ -561,6 +578,7 @@ export default ({
     getRBPaymentInfo,
     getRBRegisteredList,
     getUnifiedSellTrades,
+    refreshBankAccountLink,
     updateBankAccountLink,
     validateApplePayMerchant,
     withdrawBSFunds
