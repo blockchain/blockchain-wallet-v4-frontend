@@ -97,11 +97,13 @@ const HoldingsTableContainer = (props: Props) => (
             </Text>{' '}
             <Text
               style={{ alignItems: 'center', display: 'flex', gap: '2px' }}
-              onClick={() => props.coinsActions.fetchUnifiedBalances()}
+              onClick={() => props.actions.refreshClicked()}
               cursor='pointer'
               color='blue600'
               size='14px'
               weight={600}
+              // @ts-ignore
+              role='button'
             >
               <FormattedMessage id='copy.try_again' defaultMessage='Try Again' />
               <IconV2 size='sm' color='blue600' label='refresh'>
@@ -125,8 +127,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.components.refresh, dispatch),
-  coinsActions: bindActionCreators(actions.core.data.coins, dispatch)
+  actions: bindActionCreators(actions.components.refresh, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

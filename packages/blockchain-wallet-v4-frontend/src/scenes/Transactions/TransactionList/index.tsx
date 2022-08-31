@@ -60,7 +60,7 @@ class TransactionList extends PureComponent<Props> {
             ) : 'movements' in tx ? (
               <SelfCustodyTx coin={coin} key={tx.txId} tx={tx} />
             ) : 'detail' in tx ? (
-              <UnifiedActivityTx tx={tx} />
+              <UnifiedActivityTx tx={tx} coin={coin} />
             ) : (
               <CustodialTxListItem
                 key={tx.id}

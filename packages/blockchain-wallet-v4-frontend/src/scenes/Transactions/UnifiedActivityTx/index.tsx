@@ -1,12 +1,77 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { ActivityResponseType } from '@core/network/api/coins/types'
+import { Text } from 'blockchain-info-components'
 
-const UnifiedActivityTx: React.FC<Props> = ({ tx }) => {
-  return <>{JSON.stringify(tx)}</>
+import {
+  Addresses,
+  Col,
+  DetailsRow,
+  Row,
+  StatusAndType,
+  Timestamp,
+  TxRow,
+  TxRowContainer
+} from '../components'
+
+const UnifiedActivityTx: React.FC<Props> = ({ coin, tx }) => {
+  const { coinfig } = window.coins[coin]
+  const [isToggled, setIsToggled] = useState(false)
+
+  return (
+    <TxRowContainer
+      className={isToggled ? 'active' : ''}
+      onClick={() => window.open(`${tx.externalUrl}`, '_blank')}
+    >
+      <TxRow>
+        <Row width='30%'>
+          {/* <img alt='tx-type' src={tx.item.iconUrl} /> */}
+          <StatusAndType data-e2e='txStatusColumn'>
+            <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
+              {tx.item.startTitle}
+            </Text>
+            <Timestamp time={tx.timestamp * 1000} />
+          </StatusAndType>
+        </Row>
+        <Col width='50%'>
+          <Addresses
+            from={tx.detail.itemGroups.map(({ itemGroup }) => {
+              return itemGroup
+                .filter(({ key }) => key === 'From')
+                .map((from) => {
+                  return <>{from.value}</>
+                })
+            })}
+            to={tx.detail.itemGroups.map(({ itemGroup }) => {
+              return itemGroup
+                .filter(({ key }) => key === 'To')
+                .map((to) => {
+                  return <>{to.value}</>
+                })
+            })}
+          />
+        </Col>
+        {/* <Col /> */}
+        <Col width='20%' style={{ textAlign: 'right' }} data-e2e='orderAmountColumn'>
+          <Text
+            color='grey800'
+            style={{ display: 'flex', justifyContent: 'flex-end' }}
+            size='16px'
+            weight={600}
+          >
+            {tx.item.endTitle}
+          </Text>
+          <Text size='14px' weight={500} color='grey600' data-e2e='orderFiatAmt'>
+            {tx.item.endSubtitle}
+          </Text>
+        </Col>
+      </TxRow>
+    </TxRowContainer>
+  )
 }
 
 type Props = {
+  coin: string
   tx: ActivityResponseType['activity'][0]
 }
 

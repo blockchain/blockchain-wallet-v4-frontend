@@ -35,7 +35,7 @@ const TransactionListItem: TransactionListItemComponent = ({ coin, transaction }
   ) : 'movements' in transaction ? (
     <SelfCustodyTx coin={coin} key={transaction.txId} tx={transaction} />
   ) : 'detail' in transaction ? (
-    <UnifiedActivityTx tx={transaction} />
+    <UnifiedActivityTx tx={transaction} coin={coin} />
   ) : (
     <CustodialTxListItem
       key={transaction.id}
