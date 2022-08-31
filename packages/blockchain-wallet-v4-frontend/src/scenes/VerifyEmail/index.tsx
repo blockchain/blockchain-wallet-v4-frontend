@@ -27,8 +27,8 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
         // When the user has the COWBOYS_2022 tag set from the backend we want to skip
         // the user straight to the dashboard and launch them into the Cowboys promo flyout
         nextProps.routerActions.push('/home')
-        nextProps.saveGoal('promotionalFlyout', { promotion: 'COWBOYS_2022' })
-        nextProps.runGoals()
+        // nextProps.saveGoal('promotionalFlyout', { promotion: 'COWBOYS_2022' })
+        // nextProps.runGoals()
       } else if (createExchangeUserFlag && signupRedirect !== SignupRedirectTypes.WALLET_HOME) {
         nextProps.routerActions.push('/select-product')
       } else {

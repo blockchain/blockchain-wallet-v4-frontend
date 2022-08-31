@@ -10,6 +10,9 @@ import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import AdditionalInfo from './AdditionalInfo'
+import { RaffleEntered } from './Cowboys/RaffleEntered'
+import { Signup } from './Cowboys/Signup'
+import { VerifyId } from './Cowboys/VerifyId'
 import EmailVerification from './EmailVerification'
 import ExtraFields from './ExtraFields'
 import InfoAndResidential from './InfoAndResidential'
@@ -87,6 +90,15 @@ class IdentityVerification extends React.PureComponent<Props, State> {
       )
     }
 
+    if (step === STEPS.cowboysSignUp) {
+      return <Signup />
+    }
+    if (step === STEPS.cowboysRaffleEntered) {
+      return <RaffleEntered />
+    }
+    if (step === STEPS.cowboysVerifyId) {
+      return <VerifyId />
+    }
     if (step === STEPS.moreInfo) {
       return <MoreInfo />
     }

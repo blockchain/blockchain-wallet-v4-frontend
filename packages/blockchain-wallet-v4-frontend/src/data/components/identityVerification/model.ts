@@ -6,6 +6,9 @@ import { TIERS } from '../../modules/profile/model'
 /* eslint-disable */
 // order is important do not change it
 export const STEPS = {
+  cowboysSignUp: 'cowboysSignup',
+  cowboysRaffleEntered: 'cowboysRaffleEntered',
+  cowboysVerifyId: 'cowboysVerifyId',
   infoAndResidential: 'infoAndResidential',
   moreInfo: 'moreInfo',
   addExtraStep: 'addExtraStep',

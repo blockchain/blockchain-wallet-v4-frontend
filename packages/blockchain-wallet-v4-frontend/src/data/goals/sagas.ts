@@ -409,6 +409,23 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
+  const runCowboys2022Goal = function* (goal: GoalType) {
+    const {
+      data: { id }
+    } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield put(
+      actions.goals.addInitialModal({
+        data: {
+          origin
+        },
+        key: 'cowboys2022',
+        name: 'SIMPLE_BUY_MODAL'
+      })
+    )
+  }
+
   const runLinkAccountGoal = function* (goal: GoalType) {
     const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -811,6 +828,7 @@ export default ({ api, coreSagas, networks }) => {
     const {
       airdropClaim,
       buySellModal,
+      cowboys2022,
       interestPromo,
       kycDocResubmit,
       kycUpgradeRequiredNotice,
@@ -901,6 +919,16 @@ export default ({ api, coreSagas, networks }) => {
         return yield put(actions.components.buySell.showModal({ origin: 'WelcomeModal' }))
       }
       return yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
+    }
+    if (cowboys2022) {
+      const sddEligible = yield call(api.fetchSDDEligible)
+      const showCompleteYourProfile = selectors.core.walletOptions
+        .getCompleteYourProfile(yield select())
+        .getOrElse(null)
+      // show SDD flow for eligible cowboy
+      if (sddEligible.eligible) {
+        // return yield put(actions.components.identityVerification.setVerificationStep()
+      }
     }
   }
 
@@ -1001,6 +1029,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'buySell':
           yield call(runBuySellGoal, goal)
           break
+        case 'cowboys2022':
+          yield call(runCowboys2022Goal, goal)
+          break
         case 'dex':
           yield call(runDeeplinkDexGoal, goal)
           break
@@ -1086,6 +1117,7 @@ export default ({ api, coreSagas, networks }) => {
     if (!firstLogin) {
       yield put(actions.goals.saveGoal({ data: {}, name: 'welcomeModal' }))
     }
+    yield put(actions.goals.saveGoal({ data: {}, name: 'cowboys2022' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'swapUpgrade' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'swapGetStarted' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'kycDocResubmit' }))
