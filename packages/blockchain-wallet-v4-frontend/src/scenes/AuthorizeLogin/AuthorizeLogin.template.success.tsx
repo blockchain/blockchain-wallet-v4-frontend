@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
+  Divider,
   IconAlert,
   IconCheckCircle,
   IconLaptop,
-  PaletteColors,
-  Separator
+  PaletteColors
 } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
@@ -108,7 +108,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
               </Text>
             </div>
           </Row>
-          <Separator variant='subtle' style={{ margin: '0' }} />
+          <Divider variant='subtle' style={{ margin: '0' }} />
           <Row>
             <div>
               <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
@@ -132,7 +132,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
               {isBrowserMatched ? <SuccessIcon /> : <WarningIcon />}
             </div>
           </Row>
-          <Separator variant='subtle' style={{ margin: '0' }} />
+          <Divider variant='subtle' style={{ margin: '0' }} />
           <Row>
             <div>
               <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
@@ -156,7 +156,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
               {isIpMatched ? <SuccessIcon /> : <WarningIcon />}
             </div>
           </Row>
-          <Separator variant='subtle' style={{ margin: '0' }} />
+          <Divider variant='subtle' style={{ margin: '0' }} />
           <Row>
             <div>
               <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
@@ -180,7 +180,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
               {isCountryMatched ? <SuccessIcon /> : <WarningIcon />}
             </div>
           </Row>
-          <Separator variant='subtle' style={{ margin: '0' }} />
+          <Divider variant='subtle' style={{ margin: '0' }} />
           <ButtonsRow>
             <Button
               data-e2e='rejectLogin'
