@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconChevronDown, IconChevronUp } from '@blockchain-com/icons'
+import { IconChevronDown, IconChevronUp, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -54,13 +53,9 @@ const NftDropdown: React.FC<Props> = ({
           </Text>
           <IconWrapper>
             {!isActive ? (
-              <Icon label='chevron-right' color='grey400' size='sm'>
-                <IconChevronDown />
-              </Icon>
+              <IconChevronDown color={PaletteColors['grey-400']} size='small' />
             ) : (
-              <Icon label='chevron-down' color='grey400' size='sm'>
-                <IconChevronUp />
-              </Icon>
+              <IconChevronUp color={PaletteColors['grey-400']} size='small' />
             )}
           </IconWrapper>
         </Flex>

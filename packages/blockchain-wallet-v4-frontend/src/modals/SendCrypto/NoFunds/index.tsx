@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon, Padding } from '@blockchain-com/constellation'
-import { IconCloseCircleV2 } from '@blockchain-com/icons'
+import { IconCloseCircleV2, Padding, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -48,9 +47,7 @@ const NoFunds = (props: Props) => {
           <FormattedMessage id='buttons.send' defaultMessage='Send' />
         </Title>
         <CloseIconContainer onClick={() => close()}>
-          <Icon label='close' color='grey600' data-e2e='sendNoFundsCloseModalIcon' size='md'>
-            <IconCloseCircleV2 />
-          </Icon>
+          <IconCloseCircleV2 color={PaletteColors['grey-600']} size='medium' />
         </CloseIconContainer>
       </HeaderWrapper>
 
