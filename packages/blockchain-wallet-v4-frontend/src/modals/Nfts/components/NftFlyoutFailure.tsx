@@ -21,7 +21,7 @@ const NftFlyoutFailure: React.FC<Props> = ({ close, error }) => {
         role='button'
         style={{ left: '40px', position: 'absolute', top: '40px' }}
       />
-      <IconError color={PaletteColors['red-600']} />
+      <IconError color={PaletteColors['red-600']} label='error' />
       <Text size='12px' weight={600} style={{ maxHeight: '300px' }}>
         {error}
       </Text>

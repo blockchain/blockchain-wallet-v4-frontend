@@ -79,7 +79,7 @@ const OptionRightActionRow = ({ children, disabled, icon, onClick, toolTip }: Pr
           </TooltipHost>
         </div>
       ) : (
-        <IconChevronRight color={PaletteColors['grey-400']} size='medium' />
+        <IconChevronRight color={PaletteColors['grey-400']} label='chevron-right' size='medium' />
       )}
     </FlexWrapper>
   )

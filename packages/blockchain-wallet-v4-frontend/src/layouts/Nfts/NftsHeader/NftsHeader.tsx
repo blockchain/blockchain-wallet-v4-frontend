@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
-import { PaletteColors, IconWallet } from '@blockchain-com/constellation'
+import { IconWallet, PaletteColors } from '@blockchain-com/constellation'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -141,7 +141,7 @@ const NftsHeader: React.FC<Props> = ({
                 modalActions.showModal(ModalName.ETH_WALLET_BALANCES, { origin: 'Unknown' })
               }
             >
-              <IconWallet color={PaletteColors['purple-600']} size='small' />
+              <IconWallet color={PaletteColors['purple-600']} label='wallet' size='small' />
               <span style={{ marginLeft: '4px' }}>
                 <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
               </span>

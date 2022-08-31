@@ -50,7 +50,7 @@ const DexHeader: React.FC<Props> = ({ ethBalanceR, isAuthenticated, pathname }) 
                 NotAsked: () => <SpinningLoader width='10px' height='10px' borderWidth='3px' />,
                 Success: (ethBalance) => (
                   <>
-                    <IconWallet color={PaletteColors['grey-400']} size='small' />
+                    <IconWallet color={PaletteColors['grey-400']} label='wallet' size='small' />
                     <Text
                       color='grey900'
                       lineHeight='20px'
@@ -65,7 +65,7 @@ const DexHeader: React.FC<Props> = ({ ethBalanceR, isAuthenticated, pathname }) 
               })}
             </Button>
             <NavButton data-e2e='settingsLink'>
-              <IconUser color={PaletteColors['grey-400']} size='small' />
+              <IconUser color={PaletteColors['grey-400']} label='open-menu' size='small' />
             </NavButton>
           </Flex>
         ) : (

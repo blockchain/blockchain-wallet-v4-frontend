@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { PaletteColors, IconInstagram, IconTwitter } from '@blockchain-com/constellation'
+import { IconInstagram, IconTwitter, PaletteColors } from '@blockchain-com/constellation'
 import { compose } from 'redux'
 import styled from 'styled-components'
 
@@ -101,7 +101,7 @@ const GetFeatured = (props) => {
             nature='primary'
             data-e2e='twitter'
           >
-            <IconTwitter color={PaletteColors['white-900']} size='small' />
+            <IconTwitter color={PaletteColors['white-900']} label='' size='small' />
             <FormattedMessage id='copy.twitter' defaultMessage='Twitter' />
           </Button>
         </Link>
@@ -113,7 +113,7 @@ const GetFeatured = (props) => {
             nature='primary'
             data-e2e='instagram'
           >
-            <IconInstagram color={PaletteColors['white-900']} size='small' />
+            <IconInstagram color={PaletteColors['white-900']} label='' size='small' />
             <FormattedMessage id='copy.instagram' defaultMessage='Instagram' />
           </Button>
         </Link>

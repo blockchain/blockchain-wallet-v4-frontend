@@ -140,8 +140,8 @@ const AppSwitcher: React.FC<Props> = ({ isDexEnabled, routerActions }) => {
           role='button'
           className={`${currentApp.name} ${isActive ? 'active' : ''}`}
         >
-          <IconChevronUpV2 size='small' />
-          <IconChevronDownV2 size='small' />
+          <IconChevronUpV2 label='up' size='small' />
+          <IconChevronDownV2 label='down' size='small' />
         </IconWrapper>
       </Flex>
       <AnimatePresence>

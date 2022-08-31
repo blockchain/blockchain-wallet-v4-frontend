@@ -11,7 +11,6 @@ import {
   Icon as BlockchainIcon,
   SkeletonCircle,
   SkeletonRectangle,
-  SpinningLoader,
   Text
 } from 'blockchain-info-components'
 import DataError from 'components/DataError'
@@ -148,7 +147,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
                 })}
               </div>
               <Button small data-e2e='refresh' nature='empty-blue' onClick={this.refresh}>
-                <IconRefresh color={PaletteColors['blue-600']} size='small' />
+                <IconRefresh color={PaletteColors['blue-600']} label='refresh' size='small' />
                 <span style={{ marginLeft: '4px' }}>
                   <FormattedMessage id='copy.refresh_funds' defaultMessage='Refresh Funds' />
                 </span>

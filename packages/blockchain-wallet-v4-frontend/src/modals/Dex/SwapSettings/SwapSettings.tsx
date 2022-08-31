@@ -111,7 +111,7 @@ const DexSwapSettings = ({ formActions, formValues, modalActions, position, tota
             modalActions.closeModal()
           }}
         >
-          <IconCloseCircleV2 color={PaletteColors['grey-400']} size='medium' />
+          <IconCloseCircleV2 color={PaletteColors['grey-400']} label='close' size='medium' />
         </CloseIcon>
       </Header>
       <Form>

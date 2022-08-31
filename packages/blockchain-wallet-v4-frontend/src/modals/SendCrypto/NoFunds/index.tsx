@@ -47,7 +47,7 @@ const NoFunds = (props: Props) => {
           <FormattedMessage id='buttons.send' defaultMessage='Send' />
         </Title>
         <CloseIconContainer onClick={() => close()}>
-          <IconCloseCircleV2 color={PaletteColors['grey-600']} size='medium' />
+          <IconCloseCircleV2 color={PaletteColors['grey-600']} label='close' size='medium' />
         </CloseIconContainer>
       </HeaderWrapper>
 

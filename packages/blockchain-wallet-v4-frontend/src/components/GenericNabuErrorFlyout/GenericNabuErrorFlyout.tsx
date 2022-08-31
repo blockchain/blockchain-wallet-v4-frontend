@@ -14,7 +14,7 @@ const GenericNabuErrorFlyout: GenericNabuErrorFlyoutComponent = ({ error, onDism
       <Padding top={40} horizontal={40}>
         <Flex justifyContent='flex-end'>
           <IconButton onClick={onDismiss} type='button'>
-            <IconClose color={PaletteColors['grey-600']} size='small' />
+            <IconClose color={PaletteColors['grey-600']} label='close' size='small' />
           </IconButton>
         </Flex>
       </Padding>

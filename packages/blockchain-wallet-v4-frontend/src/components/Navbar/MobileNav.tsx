@@ -74,7 +74,11 @@ const MobileNav = ({ handleClose, location, primaryNavItems, userNavItems }: Pro
                       {item.text}
                     </Text>
                     {location?.pathname?.includes(item.dest) && (
-                      <IconCheckCircle color={PaletteColors['blue-600']} size='small' />
+                      <IconCheckCircle
+                        color={PaletteColors['blue-600']}
+                        label='icon'
+                        size='small'
+                      />
                     )}
                   </StyledNavLink>
                 </div>
@@ -94,7 +98,11 @@ const MobileNav = ({ handleClose, location, primaryNavItems, userNavItems }: Pro
                         {copy}
                       </Text>
                       {location?.pathname?.includes(to) && (
-                        <IconCheckCircle color={PaletteColors['blue-600']} size='small' />
+                        <IconCheckCircle
+                          color={PaletteColors['blue-600']}
+                          label='icon'
+                          size='small'
+                        />
                       )}
                     </StyledNavLink>
                   </div>

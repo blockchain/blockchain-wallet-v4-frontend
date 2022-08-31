@@ -83,7 +83,7 @@ const UserNavDropdown: React.FC<Props> = (props) => {
 
   return (
     <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
-      <IconUser color={PaletteColors['grey-400']} size='small' />
+      <IconUser color={PaletteColors['grey-400']} label='open-menu' size='small' />
       {isMenuOpen && (
         <DropdownMenu ref={ref}>
           <DropdownMenuArrow />

@@ -81,7 +81,7 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
       onClick={onClick}
       icon={
         <IconCircularBackground color='orange-400'>
-          <IconRepeat color={PaletteColors['white-900']} size='small' />
+          <IconRepeat color={PaletteColors['white-900']} label='icon' size='small' />
         </IconCircularBackground>
       }
       rightAction

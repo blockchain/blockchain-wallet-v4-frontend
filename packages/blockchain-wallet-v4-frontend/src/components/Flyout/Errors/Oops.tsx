@@ -70,7 +70,7 @@ const Failure = (props: Props) => {
         </Title>
         {message && (
           <ErrorTextContainer>
-            <IconAlert color={PaletteColors['red-600']} />
+            <IconAlert color={PaletteColors['red-600']} label='alert' />
             <ErrorText>{message}</ErrorText>
           </ErrorTextContainer>
         )}

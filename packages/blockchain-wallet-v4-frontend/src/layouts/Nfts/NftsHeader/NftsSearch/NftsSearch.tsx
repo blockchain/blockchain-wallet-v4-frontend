@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { InputActionMeta } from 'react-select'
-import { PaletteColors, IconCloseCircleV2, IconSearch } from '@blockchain-com/constellation'
+import { IconCloseCircleV2, IconSearch, PaletteColors } from '@blockchain-com/constellation'
 import NftCollectionImageSmall from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components/NftCollectionImageSmall'
 import Avatar from 'boring-avatars'
 import { bindActionCreators } from 'redux'
@@ -181,7 +181,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
         <MobileMenu justifyContent='space-between'>
           <Image width='25px' name='blockchain-icon' />
           <div role='button' aria-hidden='true' onClick={handleClose}>
-            <IconCloseCircleV2 />
+            <IconCloseCircleV2 label='close' />
           </div>
         </MobileMenu>
       ) : null}
@@ -211,7 +211,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
       ) : null}
       {isTablet && !isActive ? (
         <IconWrapper role='button' onClick={handleOpen}>
-          <IconSearch color={PaletteColors['purple-600']} size='small' />
+          <IconSearch color={PaletteColors['purple-600']} label='search' size='small' />
         </IconWrapper>
       ) : null}
     </Wrapper>

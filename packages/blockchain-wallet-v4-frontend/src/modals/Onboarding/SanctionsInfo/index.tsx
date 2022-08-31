@@ -80,7 +80,7 @@ const SanctionsInfo = (props: Props) => {
           <HeaderWrapper>
             <IconsContainerRight>
               <CloseIconContainer onClick={handleClose}>
-                <IconCloseCircleV2 color={PaletteColors['grey-600']} size='medium' />
+                <IconCloseCircleV2 color={PaletteColors['grey-600']} label='close' size='medium' />
               </CloseIconContainer>
             </IconsContainerRight>
           </HeaderWrapper>
@@ -89,7 +89,11 @@ const SanctionsInfo = (props: Props) => {
             <Padding all={40}>
               <Flex justifyContent='center'>
                 <Padding bottom={20}>
-                  <IconWarningTriangle color={PaletteColors['orange-400']} size='large' />
+                  <IconWarningTriangle
+                    color={PaletteColors['orange-400']}
+                    label='alert'
+                    size='large'
+                  />
                 </Padding>
               </Flex>
               <RowItemTitle>

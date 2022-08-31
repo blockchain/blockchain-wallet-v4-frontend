@@ -32,9 +32,13 @@ export const ExpansionPanel: ExpansionPanelComponent = ({ children }) => {
                 defaultMessage={isToggled ? 'Show less' : 'Show more'}
               />
               {isToggled ? (
-                <IconChevronUp color={PaletteColors['blue-600']} size='small' />
+                <IconChevronUp color={PaletteColors['blue-600']} label='chevron-up' size='small' />
               ) : (
-                <IconChevronDown color={PaletteColors['blue-600']} size='small' />
+                <IconChevronDown
+                  color={PaletteColors['blue-600']}
+                  label='chevron-down'
+                  size='small'
+                />
               )}
             </Flex>
           </Button>

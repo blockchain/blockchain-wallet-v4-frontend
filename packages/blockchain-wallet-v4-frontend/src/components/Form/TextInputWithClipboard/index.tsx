@@ -61,9 +61,9 @@ const TextInputWithClipboard: React.FC<Props> = ({ value }) => {
       <StyledInput disabled value={value} />
       <IconWrapper onClick={handleOnClickToCopyText}>
         {showCopiedIcon ? (
-          <IconCheck color={PaletteColors['green-600']} />
+          <IconCheck color={PaletteColors['green-600']} label='copy' />
         ) : (
-          <IconClipboard color={PaletteColors['blue-600']} />
+          <IconClipboard color={PaletteColors['blue-600']} label='copy' />
         )}
       </IconWrapper>
     </Wrapper>

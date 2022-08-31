@@ -63,7 +63,7 @@ const MobileDropdown = () => {
   return (
     <NavbarButton data-e2e='mobileQrCode' ref={ref}>
       <div role='button' tabIndex={0} onClick={handleMenuToggle} onKeyDown={handleMenuToggle}>
-        <IconPhone color={PaletteColors['grey-400']} size='small' />
+        <IconPhone color={PaletteColors['grey-400']} label='open-menu' size='small' />
       </div>
       {isMenuOpen && (
         <CustomDropdownMenu>

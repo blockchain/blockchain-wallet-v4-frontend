@@ -69,7 +69,11 @@ const StandardRow = memo<Props>(
 
             <Flex gap={1} flexDirection='column' alignItems='flex-end' justifyContent='center'>
               {rightAction ? (
-                <IconChevronRight color={PaletteColors['grey-400']} size='medium' />
+                <IconChevronRight
+                  color={PaletteColors['grey-400']}
+                  label='chevron-right'
+                  size='medium'
+                />
               ) : (
                 <>
                   <Text weight={600} size='16px' color='grey900'>
