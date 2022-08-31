@@ -144,19 +144,6 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const defineCowboysCampaignGoal = function* (search) {
-    // /#/open/cowboys?token_id=456
-    const params = new URLSearchParams(search)
-    const token_id = params.get('token_id')
-
-    yield put(
-      actions.goals.saveGoal({
-        data: { token_id },
-        name: DeepLinkGoal.COWBOYS_CAMPAIGN
-      })
-    )
-  }
-
   const defineDeeplinkNftsGoal = function* (pathname) {
     yield put(
       actions.goals.saveGoal({
@@ -321,13 +308,9 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineLinkAccountGoal, search)
     }
 
+    // /#/open/referral
     if (startsWith(DeepLinkGoal.REFERRAL, pathname)) {
       return yield call(defineReferralGoal, search)
-    }
-
-    // /#/open/cowboys
-    if (startsWith(DeepLinkGoal.COWBOYS_CAMPAIGN, pathname)) {
-      return yield call(defineCowboysCampaignGoal, search)
     }
 
     yield call(defineActionGoal, pathname, search)
@@ -457,10 +440,17 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runReferralGoal = function* (goal) {
-    const { id } = goal
+  const runReferralGoal = function* (goal: GoalType) {
+    const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
-    // use this for future airdrop referrals
+
+    yield put(
+      actions.goals.addInitialModal({
+        data,
+        key: 'referralLanding',
+        name: ModalName.REFERRAL_LANDING_MODAL
+      })
+    )
   }
 
   const runPaymentProtocolGoal = function* (goal) {
@@ -1002,21 +992,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runReferralLandingGoal = function* (goal: GoalType) {
-    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
-    yield call(waitForUserData)
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-
-    yield put(
-      actions.goals.addInitialModal({
-        data: { origin },
-        key: 'referralLanding',
-        name: ModalName.REFERRAL_LANDING_MODAL
-      })
-    )
-  }
-
   const runTermsAndConditionsGoal = function* (goal: GoalType) {
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
     yield call(fetchUser)
@@ -1126,9 +1101,6 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
-          break
-        case 'cowboys':
-          yield call(runReferralLandingGoal, goal)
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
