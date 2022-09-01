@@ -1786,10 +1786,10 @@
     "@radix-ui/react-tooltip" "0.1.3"
     stitches-nonce "1.2.7"
 
-"@blockchain-com/constellation@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.2.1.tgz#752c016209ad899a1de6276311114b8ab33c7145"
-  integrity sha512-HokkO+JA3U/4JR3X4EXrlEx9hHjW3ReyL9Jz4OFjy8rR0aV5HPdE8RM0jY2StZpJeRrVZYBoWfrgTu9e7Duqfw==
+"@blockchain-com/constellation@0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.2.4.tgz#e20c41710d6d6e3bb0080bc949755e45c5c596a5"
+  integrity sha512-d4hF0zkmxjYlFNhIWtBzfDMK+CamnmIWWwGWnjb4I5y6iPfd7O+3lfpPY28gvcs3UBxTxe0WhWKjWXxgap3LtQ==
   dependencies:
     "@headlessui/react" "1.6.6"
     "@radix-ui/colors" "0.1.8"

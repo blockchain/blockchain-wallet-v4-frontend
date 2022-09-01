@@ -53,7 +53,7 @@ const WarningIcon = () => (
 )
 const SuccessIcon = () => (
   <div style={{ margin: '4px 0 0 8px' }}>
-    <IconCheckCircle color={PaletteColors['blu-e600']} label='success' size='small' />
+    <IconCheckCircle color={PaletteColors['blue-600']} label='success' size='small' />
   </div>
 )
 

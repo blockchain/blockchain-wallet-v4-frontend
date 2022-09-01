@@ -17,7 +17,7 @@ const Status = (props: Props) => (
     {props.type === 'received' ? (
       props.isRBF ? (
         <Flex alignItems='center' gap={2}>
-          <IconAlert color={PaletteColors.red600} label='alert' size='small' />
+          <IconAlert color={PaletteColors['red-600']} label='alert' size='small' />
           <i>
             <FormattedMessage
               id='scenes.transactions.bitcoin.content.list.listitem.status.receiving'
