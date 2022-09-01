@@ -649,6 +649,16 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const fetchUserReferrals = function* () {
+    try {
+      yield call(api.getUserReferralInfo)
+      // yield put(actions.signup.setIsValidReferralCode(true))
+    } catch (e) {
+      // yield put(actions.signup.setIsValidReferralCode(false))
+      throw new Error('cant load referal')
+    }
+  }
+
   return {
     authAndRouteToExchangeAction,
     clearSession,
@@ -674,6 +684,7 @@ export default ({ api, coreSagas, networks }) => {
     syncUserWithWallet,
     updateUser,
     updateUserAddress,
-    waitForUserData
+    waitForUserData,
+    fetchUserReferrals
   }
 }

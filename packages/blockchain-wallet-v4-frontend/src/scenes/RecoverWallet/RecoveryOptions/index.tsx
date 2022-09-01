@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics, RecoverSteps } from 'data/types'
-import { media } from 'services/styles'
 
 import { Props as OwnProps } from '..'
 import {

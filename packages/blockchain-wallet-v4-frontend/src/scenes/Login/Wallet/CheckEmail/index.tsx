@@ -1,6 +1,5 @@
-import React, { SyntheticEvent, useCallback, useEffect, useState } from 'react'
+import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import e from 'express'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'

@@ -423,6 +423,8 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runReferralGoal = function* (goal: GoalType) {
+    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    yield call(waitForUserData)
     const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -824,6 +826,7 @@ export default ({ api, coreSagas, networks }) => {
       kycUpgradeRequiredNotice,
       linkAccount,
       payment,
+      referralLanding,
       sanctionsNotice,
       swap,
       swapGetStarted,
@@ -873,6 +876,9 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (termsAndConditions) {
       return yield put(actions.modals.showModal(termsAndConditions.name, termsAndConditions.data))
+    }
+    if (referralLanding) {
+      return yield put(actions.modals.showModal(referralLanding.name, referralLanding.data))
     }
     if (airdropClaim) {
       return yield put(

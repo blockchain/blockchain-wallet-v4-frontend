@@ -141,3 +141,21 @@ export const shareWalletAddressesWithExchangeFailure = (error): ProfileActionTyp
   payload: { error },
   type: AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_FAILURE
 })
+
+export const fetchUserReferral = (): ProfileActionTypes => ({
+  type: AT.FETCH_USER_REFERRAL
+})
+
+// export const fetchUserReferralFailure = (error): ProfileActionTypes => ({
+//   payload: { error },
+//   type: AT.FETCH_USER_REFERRAL_FAILURE
+// })
+
+// export const fetchUserReferralLoading = (): ProfileActionTypes => ({
+//   type: AT.FETCH_USER_REFERRAL_LOADING
+// })
+
+// export const fetchUserReferralSuccess = (userData): ProfileActionTypes => ({
+//   payload: { userData },
+//   type: AT.FETCH_USER_REFERRAL_SUCCESS
+// })
