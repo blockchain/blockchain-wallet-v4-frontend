@@ -32,7 +32,7 @@ export default ({ api, coreSagas, networks }) => {
   const { NONE } = KYC_STATES
   const { EXPIRED, GENERAL } = DOC_RESUBMISSION_REASONS
 
-  const { fetchUser, waitForUserData } = profileSagas({
+  const { waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
@@ -308,6 +308,7 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineLinkAccountGoal, search)
     }
 
+    // /#/open/referral
     if (startsWith(DeepLinkGoal.REFERRAL, pathname)) {
       return yield call(defineReferralGoal, search)
     }
@@ -421,10 +422,17 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runReferralGoal = function* (goal) {
-    const { id } = goal
+  const runReferralGoal = function* (goal: GoalType) {
+    const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
-    // use this for future airdrop referrals
+
+    yield put(
+      actions.goals.addInitialModal({
+        data,
+        key: 'referralLanding',
+        name: ModalName.REFERRAL_LANDING_MODAL
+      })
+    )
   }
 
   const runPaymentProtocolGoal = function* (goal) {
