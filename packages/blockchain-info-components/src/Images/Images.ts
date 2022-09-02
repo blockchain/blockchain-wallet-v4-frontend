@@ -61,10 +61,11 @@ import checkmarkCircleGreen from './img/checkmark-circle-green.svg'
 import circleEmpty from './img/circle-empty.svg'
 import closeError from './img/close-error.svg'
 import cloudCheck from './img/cloud_check.svg'
-import cowboyStar from './img/cowboy-star.svg'
+import cowboySuite from './img/cowboy-suite.png'
 import cowboysLogo from './img/cowboys.svg'
 import creditCard from './img/credit-card.svg'
 import creditCardBlue from './img/credit-card-blue.svg'
+import cowboysJersey from './img/dak-jersey.png'
 import introCard from './img/debitCard/intro-card.png'
 import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
@@ -219,8 +220,9 @@ const Images = {
   'circle-empty': circleEmpty,
   'close-error': closeError,
   'cloud-check': cloudCheck,
-  'cowboy-star': cowboyStar,
+  'cowboy-suite': cowboySuite,
   cowboys: cowboysLogo,
+  'cowboys-jersey': cowboysJersey,
   'credit-card': creditCard,
   'credit-card-blue': creditCardBlue,
   'cryptoad-2456': cryptoad2456,
