@@ -20,15 +20,23 @@ const Wrapper = styled.div<{ right: string; top: string }>`
 `
 
 const NftAssetImageType: React.FC<Props> = ({ animation_url, image_url, ...rest }) => {
+  let IconComponent
+
+  switch (true) {
+    case !!animation_url:
+      IconComponent = IconPlayCircle
+      break
+    case !!image_url:
+      IconComponent = IconPlayCircle
+      break
+
+    default:
+      IconComponent = IconQuestion
+  }
+
   return (
     <Wrapper {...rest}>
-      {animation_url ? (
-        <IconPlayCircle size='small' color={PaletteColors['white-900']} label='asset-type' />
-      ) : image_url ? (
-        <IconImage size='small' color={PaletteColors['white-900']} label='asset-type' />
-      ) : (
-        <IconQuestion size='small' color={PaletteColors['white-900']} label='asset-type' />
-      )}
+      <IconComponent color={PaletteColors['white-900']} label='asset-type' size='small' />
     </Wrapper>
   )
 }

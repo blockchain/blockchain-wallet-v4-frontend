@@ -55,11 +55,11 @@ const NftDropdown: React.FC<Props> = ({
             {!isActive ? (
               <IconChevronDown
                 color={PaletteColors['grey-400']}
-                label='chevron-right'
+                label='chevron-down'
                 size='small'
               />
             ) : (
-              <IconChevronUp label='chevron-down' color={PaletteColors['grey-400']} size='small' />
+              <IconChevronUp label='chevron-up' color={PaletteColors['grey-400']} size='small' />
             )}
           </IconWrapper>
         </Flex>

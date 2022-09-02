@@ -16,7 +16,7 @@ const CustodialTransactionListItem: CustodialTransactionListItemComponent = ({
       bottomRightText=''
       topRightText=''
       onClick={onClick}
-      icon={<IconPlus label='' />}
+      icon={<IconPlus />}
     />
   )
 }

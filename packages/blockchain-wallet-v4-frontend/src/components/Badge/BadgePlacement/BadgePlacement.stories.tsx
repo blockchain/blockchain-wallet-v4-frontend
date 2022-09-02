@@ -33,7 +33,7 @@ export const Squared = Template.bind({})
 Squared.args = {
   badge: (
     <IconBadge backgroundColor='orange'>
-      <IconActivity color={PaletteColors['orange-600']} label='' size='small' />
+      <IconActivity color={PaletteColors['orange-600']} size='small' />
     </IconBadge>
   ),
   children: <BoxContent />
@@ -43,7 +43,7 @@ export const Circle = Template.bind({})
 Circle.args = {
   badge: (
     <IconBadge backgroundColor='orange'>
-      <IconActivity color={PaletteColors['orange-600']} label='' size='small' />
+      <IconActivity color={PaletteColors['orange-600']} size='small' />
     </IconBadge>
   ),
   children: <CircleContent />,

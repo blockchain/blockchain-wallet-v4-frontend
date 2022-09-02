@@ -43,7 +43,7 @@ export const SuccessState = () => {
             <Flex alignItems='center' gap={8}>
               <IconCircularBackground color='orange100' size={24}>
                 <Flex alignItems='center' justifyContent='center'>
-                  <IconPlus color={PaletteColors['orange-400']} label='' size='small' />
+                  <IconPlus color={PaletteColors['orange-400']} size='small' />
                 </Flex>
               </IconCircularBackground>
 
@@ -79,7 +79,7 @@ export const SuccessState = () => {
             <Flex alignItems='center' gap={8}>
               <IconCircularBackground color='orange100' size={24}>
                 <Flex alignItems='center' justifyContent='center'>
-                  <IconPlus color={PaletteColors['orange-400']} label='' size='small' />
+                  <IconPlus color={PaletteColors['orange-400']} size='small' />
                 </Flex>
               </IconCircularBackground>
 

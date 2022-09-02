@@ -101,7 +101,7 @@ const GetFeatured = (props) => {
             nature='primary'
             data-e2e='twitter'
           >
-            <IconTwitter color={PaletteColors['white-900']} label='' size='small' />
+            <IconTwitter color={PaletteColors['white-900']} size='small' />
             <FormattedMessage id='copy.twitter' defaultMessage='Twitter' />
           </Button>
         </Link>
@@ -113,7 +113,7 @@ const GetFeatured = (props) => {
             nature='primary'
             data-e2e='instagram'
           >
-            <IconInstagram color={PaletteColors['white-900']} label='' size='small' />
+            <IconInstagram color={PaletteColors['white-900']} size='small' />
             <FormattedMessage id='copy.instagram' defaultMessage='Instagram' />
           </Button>
         </Link>

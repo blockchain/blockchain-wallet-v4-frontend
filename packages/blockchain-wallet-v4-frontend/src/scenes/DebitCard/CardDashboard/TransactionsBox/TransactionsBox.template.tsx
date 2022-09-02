@@ -118,11 +118,8 @@ const TransactionsBox = ({ modalActions }) => {
   }
 
   const generateTransactionIcon = (type) => {
-    return type === TransactionType.PAYMENT ? (
-      <IconMinusCircle color={PaletteColors['blue-300']} label='Spent' size='small' />
-    ) : (
-      <IconPlusCircle color={PaletteColors['blue-300']} label='Spent' size='small' />
-    )
+    const IconComponent = type === TransactionType.PAYMENT ? IconMinusCircle : IconPlusCircle
+    return <IconComponent color={PaletteColors['blue-300']} label='Spent' size='small' />
   }
 
   const getBannerType = (state: TransactionState) => {
