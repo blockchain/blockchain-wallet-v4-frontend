@@ -113,6 +113,7 @@ const BuySell = React.lazy(() => import('./BuySell'))
 const Swap = React.lazy(() => import('./Swap'))
 const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
+const ReferralLanding = React.lazy(() => import('./ReferralLanding'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
 const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
@@ -238,6 +239,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.RECURRING_BUYS_MODAL) ? (
           <RecurringBuys />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.REFERRAL_LANDING_MODAL) ? (
+          <ReferralLanding />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.INTEREST_UPLOAD_DOCUMENT_MODAL) ? (
           <InterestUploadDocuments />

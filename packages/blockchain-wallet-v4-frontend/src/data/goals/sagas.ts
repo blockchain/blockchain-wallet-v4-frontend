@@ -32,7 +32,7 @@ export default ({ api, coreSagas, networks }) => {
   const { NONE } = KYC_STATES
   const { EXPIRED, GENERAL } = DOC_RESUBMISSION_REASONS
 
-  const { waitForUserData } = profileSagas({
+  const { fetchUser, waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
@@ -843,6 +843,7 @@ export default ({ api, coreSagas, networks }) => {
       kycUpgradeRequiredNotice,
       linkAccount,
       payment,
+      referralLanding,
       sanctionsNotice,
       swap,
       swapGetStarted,
@@ -903,6 +904,9 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (termsAndConditions) {
       return yield put(actions.modals.showModal(termsAndConditions.name, termsAndConditions.data))
+    }
+    if (referralLanding) {
+      return yield put(actions.modals.showModal(referralLanding.name, referralLanding.data))
     }
     if (airdropClaim) {
       return yield put(
@@ -990,6 +994,21 @@ export default ({ api, coreSagas, networks }) => {
         })
       )
     }
+  }
+
+  const runReferralLandingGoal = function* (goal: GoalType) {
+    yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
+    const { data, id } = goal
+
+    yield put(actions.goals.deleteGoal(id))
+
+    yield put(
+      actions.goals.addInitialModal({
+        data: { origin, token_id: data.token_id },
+        key: 'referralLanding',
+        name: ModalName.REFERRAL_LANDING_MODAL
+      })
+    )
   }
 
   const runTermsAndConditionsGoal = function* (goal: GoalType) {

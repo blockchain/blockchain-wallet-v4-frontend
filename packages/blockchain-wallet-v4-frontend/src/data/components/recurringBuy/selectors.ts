@@ -1,11 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { compose, flatten, uniq } from 'ramda'
+import { flatten, uniq } from 'ramda'
 
 import { BSPaymentMethodType, BSPaymentTypes } from '@core/types'
 import { RootState } from 'data/rootReducer'
 import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyticsMiddleware/utils'
 
-import { getPayment } from '../interest/selectors'
 import { RecurringBuyPeriods } from './types'
 
 export const getActive = (state: RootState) => state.components.recurringBuy.active
