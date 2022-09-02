@@ -420,7 +420,7 @@ export default ({ api, coreSagas, networks }) => {
       actions.goals.addInitialModal({
         data: {
           origin,
-          step: 'raffleEntered'
+          step: 'signup'
         },
         key: 'cowboys2022',
         name: ModalName.COWBOYS_PROMO
