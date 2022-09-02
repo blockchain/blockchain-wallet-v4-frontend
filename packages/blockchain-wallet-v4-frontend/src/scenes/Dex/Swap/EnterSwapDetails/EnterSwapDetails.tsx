@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
-import { IconSettings } from '@blockchain-com/icons'
+import { IconSettings, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
@@ -89,9 +88,7 @@ const EnterSwapDetails = ({
           <FormattedMessage id='copy.swap' defaultMessage='Swap' />
         </Text>
         <SettingsIcon onClick={onViewSettings}>
-          <Icon label='settings' color='grey400' size='md'>
-            <IconSettings />
-          </Icon>
+          <IconSettings label='settings' color={PaletteColors['grey-400']} size='medium' />
         </SettingsIcon>
       </Header>
       <SwapWrapper>

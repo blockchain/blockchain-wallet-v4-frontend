@@ -1,6 +1,5 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconError } from '@blockchain-com/icons'
+import { IconError, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Icon as BlockchainIcon, Text } from 'blockchain-info-components'
@@ -22,9 +21,7 @@ const NftFlyoutFailure: React.FC<Props> = ({ close, error }) => {
         role='button'
         style={{ left: '40px', position: 'absolute', top: '40px' }}
       />
-      <Icon color='red600' label='error'>
-        <IconError color='red600' />
-      </Icon>
+      <IconError color={PaletteColors['red-600']} label='error' />
       <Text size='12px' weight={600} style={{ maxHeight: '300px' }}>
         {error}
       </Text>

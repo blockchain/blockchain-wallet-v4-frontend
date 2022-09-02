@@ -90,7 +90,7 @@ const Success = ({
             />
           </Expanded>
 
-          <Card backgroundColor='grey000' borderRadius='md'>
+          <Card backgroundColor='grey-000' borderRadius='md'>
             <Padding all={16}>
               <Flex flexDirection='column' gap={16} alignItems='flex-start'>
                 <Flex flexDirection='column' gap={8}>

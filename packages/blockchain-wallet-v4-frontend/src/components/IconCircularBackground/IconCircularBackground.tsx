@@ -1,4 +1,5 @@
 import React from 'react'
+import { PaletteColors } from '@blockchain-com/constellation'
 
 import { CircularBackground, Container, ContentContainer } from './IconCircularBackground.styles'
 import { IconCircularBackgroundComponent } from './IconCircularBackground.types'
@@ -11,8 +12,11 @@ export const IconCircularBackground: IconCircularBackgroundComponent = ({
 }) => {
   return (
     <Container size={size}>
-      <CircularBackground color={color} size={size} backgroundOpacity={backgroundOpacity} />
-
+      <CircularBackground
+        color={PaletteColors[color] ?? color}
+        size={size}
+        backgroundOpacity={backgroundOpacity}
+      />
       <ContentContainer size={size}>{children}</ContentContainer>
     </Container>
   )

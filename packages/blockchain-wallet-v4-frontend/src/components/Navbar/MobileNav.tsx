@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink, withRouter } from 'react-router-dom'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconCheckCircle } from '@blockchain-com/icons'
+import { PaletteColors, IconCheckCircle } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -27,10 +26,10 @@ const StyledLi = styled.li<{ selected?: boolean }>`
     margin: 10px 8px;
   }
 
-  background: ${({ selected }) => (selected ? colors.blue000 : '')};
+  background: ${({ selected }) => (selected ? PaletteColors['blue-000'] : '')};
 
   &:hover {
-    background: ${colors.blue000};
+    background: ${PaletteColors['blue-000']};
   }
 `
 
@@ -75,9 +74,11 @@ const MobileNav = ({ handleClose, location, primaryNavItems, userNavItems }: Pro
                       {item.text}
                     </Text>
                     {location?.pathname?.includes(item.dest) && (
-                      <Icon label='icon' color='blue600' size='sm'>
-                        <IconCheckCircle />
-                      </Icon>
+                      <IconCheckCircle
+                        color={PaletteColors['blue-600']}
+                        label='icon'
+                        size='small'
+                      />
                     )}
                   </StyledNavLink>
                 </div>
@@ -97,9 +98,11 @@ const MobileNav = ({ handleClose, location, primaryNavItems, userNavItems }: Pro
                         {copy}
                       </Text>
                       {location?.pathname?.includes(to) && (
-                        <Icon label='icon' color='blue600' size='sm'>
-                          <IconCheckCircle />
-                        </Icon>
+                        <IconCheckCircle
+                          color={PaletteColors['blue-600']}
+                          label='icon'
+                          size='small'
+                        />
                       )}
                     </StyledNavLink>
                   </div>

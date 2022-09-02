@@ -122,7 +122,7 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
               topLeftText={label}
               topRightText={totalFiat}
               icon={
-                <IconCircularBackground color={coinColor || 'grey200'}>
+                <IconCircularBackground color={coinColor || 'grey-200'}>
                   <Icon name='key' size='8px' color='white' />
                 </IconCircularBackground>
               }

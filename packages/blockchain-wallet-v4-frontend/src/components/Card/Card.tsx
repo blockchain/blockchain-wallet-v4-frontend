@@ -1,4 +1,4 @@
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled, { css, CSSProperties } from 'styled-components'
 
 import { CardBorderRadius, CardComponent, CardElevation, CardProps } from './types'
@@ -18,7 +18,7 @@ export const Card: CardComponent = styled.div<CardProps>`
 
     ${!!backgroundColor &&
     css`
-      background-color: ${colors[backgroundColor]};
+      background-color: ${PaletteColors[backgroundColor]};
     `}
 
     ${!!elevation &&

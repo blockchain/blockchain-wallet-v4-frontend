@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconUser } from '@blockchain-com/icons'
+import { IconUser, PaletteColors } from '@blockchain-com/constellation'
 
 import { Destination } from 'layouts/Wallet/components'
 import { useOnClickOutside } from 'services/misc'
@@ -84,9 +83,7 @@ const UserNavDropdown: React.FC<Props> = (props) => {
 
   return (
     <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
-      <Icon color='grey400' label='open-menu' size='sm'>
-        <IconUser />
-      </Icon>
+      <IconUser color={PaletteColors['grey-400']} label='open-menu' size='small' />
       {isMenuOpen && (
         <DropdownMenu ref={ref}>
           <DropdownMenuArrow />

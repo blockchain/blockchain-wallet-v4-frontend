@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconChevronDown, IconChevronUp } from '@blockchain-com/icons'
+import { IconChevronUp, IconChevronDown, PaletteColors } from '@blockchain-com/constellation'
 
 import { Button } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
@@ -32,9 +31,15 @@ export const ExpansionPanel: ExpansionPanelComponent = ({ children }) => {
                 id={`buttons.${isToggled ? 'show_less' : 'show_more'}`}
                 defaultMessage={isToggled ? 'Show less' : 'Show more'}
               />
-              <Icon label={isToggled ? 'chevron-up' : 'chevron-down'} color='blue600' size='sm'>
-                {isToggled ? <IconChevronUp /> : <IconChevronDown />}
-              </Icon>
+              {isToggled ? (
+                <IconChevronUp color={PaletteColors['blue-600']} label='chevron-up' size='small' />
+              ) : (
+                <IconChevronDown
+                  color={PaletteColors['blue-600']}
+                  label='chevron-down'
+                  size='small'
+                />
+              )}
             </Flex>
           </Button>
         </Padding>

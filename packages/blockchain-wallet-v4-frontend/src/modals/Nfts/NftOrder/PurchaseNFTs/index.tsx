@@ -1,16 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors, Padding } from '@blockchain-com/constellation'
+import { PaletteColors, Padding } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import {
-  Button,
-  Image,
-  Link,
-  SkeletonCircle,
-  SkeletonRectangle,
-  Text
-} from 'blockchain-info-components'
+import { Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import FlyoutHeader from 'components/Flyout/Header'
 import { media } from 'services/styles'
@@ -33,7 +26,7 @@ const PurchaseNFTs: React.FC<Props> = (props) => {
     width: 18px;
     height: 18px;
     padding: 4px;
-    background: ${colors.grey000};
+    background: ${PaletteColors['grey-000']};
     text-align: center;
   `
 

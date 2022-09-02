@@ -1,6 +1,5 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconRefresh } from '@blockchain-com/icons'
+import { IconRefresh, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 export const StyledIconRefresh = styled(IconRefresh)<{ isActive: boolean }>`
@@ -21,16 +20,19 @@ export const StyledIconRefresh = styled(IconRefresh)<{ isActive: boolean }>`
 
 const NftRefreshIcon = (props: Props) => {
   return (
-    <Icon label='refresh' size={props.size} color={props.color}>
-      <StyledIconRefresh isActive={props.isActive} />
-    </Icon>
+    <StyledIconRefresh
+      isActive={props.isActive}
+      label='refresh'
+      size={props.size}
+      color={PaletteColors[props.color]}
+    />
   )
 }
 
 type Props = {
-  color: 'blue600' | 'grey700'
+  color: 'blue-600' | 'grey-700'
   isActive: boolean
-  size: 'sm' | 'md' | 'lg'
+  size: 'small' | 'medium' | 'large'
 }
 
 export default NftRefreshIcon

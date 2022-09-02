@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useSortBy, useTable } from 'react-table'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import {
@@ -30,7 +30,7 @@ export const getTableColumns = () => [
 export const NftGreyTable = styled(TableWrapper)`
   .table {
     .th {
-      background: ${colors.grey000};
+      background: ${PaletteColors['grey-000']};
     }
     .th,
     .td {
@@ -42,7 +42,7 @@ export const NftGreyTable = styled(TableWrapper)`
 
 const HoverRow = styled.div`
   &:hover {
-    background: ${colors.grey000};
+    background: ${PaletteColors['grey-000']};
   }
 `
 

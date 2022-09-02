@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import {
   Asset,
   AssetCollection,
@@ -12,11 +12,9 @@ import {
   PriceCTA
 } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
 import Avatar from 'boring-avatars'
-import { F } from 'ramda'
 import styled from 'styled-components'
 
-import { Button, Image, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import { GreyBlueGradientCartridge, GreyCartridge } from 'components/Cartridge'
+import { Button, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Flex } from 'components/Flex'
 import { actions } from 'data'
@@ -48,8 +46,8 @@ const HoverBackground = styled.div<{ background: string }>`
 `
 
 const NotForSale = styled.div`
-  background-color: ${colors.smoke800};
-  border: 1px solid ${colors.smoke600};
+  background-color: ${PaletteColors['smoke-800']};
+  border: 1px solid ${PaletteColors['smoke-600']};
   border-radius: 8px;
   padding: 0.5em;
   width: fit-content;

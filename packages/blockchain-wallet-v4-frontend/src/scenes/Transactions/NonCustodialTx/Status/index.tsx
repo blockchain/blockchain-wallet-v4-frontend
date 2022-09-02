@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconAlert } from '@blockchain-com/icons'
+import { IconAlert, PaletteColors } from '@blockchain-com/constellation'
 
 import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
@@ -18,9 +17,7 @@ const Status = (props: Props) => (
     {props.type === 'received' ? (
       props.isRBF ? (
         <Flex alignItems='center' gap={2}>
-          <Icon label='alert' size='sm' color='red600'>
-            <IconAlert />
-          </Icon>
+          <IconAlert color={PaletteColors['red-600']} label='alert' size='small' />
           <i>
             <FormattedMessage
               id='scenes.transactions.bitcoin.content.list.listitem.status.receiving'

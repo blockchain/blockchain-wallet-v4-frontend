@@ -23,7 +23,7 @@ ElevationOne.args = {
 
 export const GreyBackground = Template.bind({})
 GreyBackground.args = {
-  backgroundColor: 'grey400',
+  backgroundColor: 'grey-400',
   borderRadius: 'lg',
   children: <span>elevation 1</span>
 }

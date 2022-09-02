@@ -1,19 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconChevronUpV2, IconInstagram, IconTwitter } from '@blockchain-com/icons'
+import { IconInstagram, IconTwitter, PaletteColors } from '@blockchain-com/constellation'
 import { compose } from 'redux'
 import styled from 'styled-components'
 
-import {
-  Button,
-  Image,
-  Link,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Text
-} from 'blockchain-info-components'
+import { Button, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { media, useMedia } from 'services/styles'
@@ -23,7 +14,7 @@ const NumberCircle = styled.div`
   width: 18px;
   height: 18px;
   padding: 8px;
-  background: ${colors.grey000};
+  background: ${PaletteColors['grey-000']};
   text-align: center;
 `
 
@@ -110,9 +101,7 @@ const GetFeatured = (props) => {
             nature='primary'
             data-e2e='twitter'
           >
-            <Icon label='' size='sm' color='white900'>
-              <IconTwitter />
-            </Icon>
+            <IconTwitter color={PaletteColors['white-900']} size='small' />
             <FormattedMessage id='copy.twitter' defaultMessage='Twitter' />
           </Button>
         </Link>
@@ -124,9 +113,7 @@ const GetFeatured = (props) => {
             nature='primary'
             data-e2e='instagram'
           >
-            <Icon label='' size='sm' color='white900'>
-              <IconInstagram />
-            </Icon>
+            <IconInstagram color={PaletteColors['white-900']} size='small' />
             <FormattedMessage id='copy.instagram' defaultMessage='Instagram' />
           </Button>
         </Link>

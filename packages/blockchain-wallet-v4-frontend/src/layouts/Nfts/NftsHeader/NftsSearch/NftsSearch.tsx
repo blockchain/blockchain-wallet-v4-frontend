@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { InputActionMeta } from 'react-select'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconCloseCircleV2, IconSearch } from '@blockchain-com/icons'
+import { IconCloseCircleV2, IconSearch, PaletteColors } from '@blockchain-com/constellation'
 import NftCollectionImageSmall from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components/NftCollectionImageSmall'
 import Avatar from 'boring-avatars'
 import { bindActionCreators } from 'redux'
@@ -156,11 +155,11 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
                     name={item.slug || ''}
                     variant='marble'
                     colors={[
-                      colors.blue600,
-                      colors.purple600,
-                      colors.purple300,
-                      colors.green300,
-                      colors.grey900
+                      PaletteColors['blue-600'],
+                      PaletteColors['purple-600'],
+                      PaletteColors['purple-300'],
+                      PaletteColors['green-300'],
+                      PaletteColors['grey-900']
                     ]}
                   />
                 )}
@@ -182,9 +181,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
         <MobileMenu justifyContent='space-between'>
           <Image width='25px' name='blockchain-icon' />
           <div role='button' aria-hidden='true' onClick={handleClose}>
-            <Icon label='close'>
-              <IconCloseCircleV2 />
-            </Icon>
+            <IconCloseCircleV2 label='close' />
           </div>
         </MobileMenu>
       ) : null}
@@ -214,9 +211,7 @@ const NftsSearch: React.FC<Props> = ({ nftActions, nftSearch, routerActions }) =
       ) : null}
       {isTablet && !isActive ? (
         <IconWrapper role='button' onClick={handleOpen}>
-          <Icon color='purple600' size='sm' label='search'>
-            <IconSearch />
-          </Icon>
+          <IconSearch color={PaletteColors['purple-600']} label='search' size='small' />
         </IconWrapper>
       ) : null}
     </Wrapper>
