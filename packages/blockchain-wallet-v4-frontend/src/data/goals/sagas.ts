@@ -418,10 +418,11 @@ export default ({ api, coreSagas, networks }) => {
     yield put(
       actions.goals.addInitialModal({
         data: {
-          origin
+          origin,
+          step: 'raffleEntered'
         },
         key: 'cowboys2022',
-        name: 'SIMPLE_BUY_MODAL'
+        name: ModalName.COWBOYS_PROMO
       })
     )
   }
@@ -845,6 +846,17 @@ export default ({ api, coreSagas, networks }) => {
     } = initialModals
 
     // Order matters here
+    if (cowboys2022) {
+      const sddEligible = yield call(api.fetchSDDEligible)
+      const showCompleteYourProfile = selectors.core.walletOptions
+        .getCompleteYourProfile(yield select())
+        .getOrElse(null)
+      const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
+      // show SDD flow for eligible cowboy
+      if (hasCowboysTag) {
+        return yield put(actions.modals.showModal(cowboys2022.name, cowboys2022.data))
+      }
+    }
     if (linkAccount) {
       return yield put(actions.modals.showModal(linkAccount.name, linkAccount.data))
     }
@@ -919,16 +931,6 @@ export default ({ api, coreSagas, networks }) => {
         return yield put(actions.components.buySell.showModal({ origin: 'WelcomeModal' }))
       }
       return yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
-    }
-    if (cowboys2022) {
-      const sddEligible = yield call(api.fetchSDDEligible)
-      const showCompleteYourProfile = selectors.core.walletOptions
-        .getCompleteYourProfile(yield select())
-        .getOrElse(null)
-      // show SDD flow for eligible cowboy
-      if (sddEligible.eligible) {
-        // return yield put(actions.components.identityVerification.setVerificationStep()
-      }
     }
   }
 
@@ -1117,7 +1119,6 @@ export default ({ api, coreSagas, networks }) => {
     if (!firstLogin) {
       yield put(actions.goals.saveGoal({ data: {}, name: 'welcomeModal' }))
     }
-    yield put(actions.goals.saveGoal({ data: {}, name: 'cowboys2022' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'swapUpgrade' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'swapGetStarted' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'kycDocResubmit' }))
@@ -1127,6 +1128,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.saveGoal({ data: {}, name: 'termsAndConditions' }))
     // only for existing users
     if (!firstLogin) {
+      yield put(actions.goals.saveGoal({ data: {}, name: 'cowboys2022' }))
       yield put(actions.goals.saveGoal({ data: {}, name: 'kycUpgradeRequiredNotice' }))
       yield put(actions.goals.saveGoal({ data: {}, name: 'sanctionsNotice' }))
     }

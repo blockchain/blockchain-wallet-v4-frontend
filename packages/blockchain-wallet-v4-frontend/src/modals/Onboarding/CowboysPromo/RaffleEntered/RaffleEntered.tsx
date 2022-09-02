@@ -1,7 +1,7 @@
 import React from 'react'
 
 const RaffleEntered: React.FC<{}> = () => {
-  return <></>
+  return <>Raffle Entered</>
 }
 
 export default RaffleEntered

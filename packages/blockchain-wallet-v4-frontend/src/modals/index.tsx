@@ -63,6 +63,7 @@ const Support = React.lazy(() => import('./Generic/Support'))
 // ONBOARDING
 const AirdropClaim = React.lazy(() => import('./Onboarding/AirdropClaim'))
 const AirdropSuccess = React.lazy(() => import('./Onboarding/AirdropSuccess'))
+const CowboysPromo = React.lazy(() => import('./Onboarding/CowboysPromo'))
 const LinkFromExchangeAccount = React.lazy(() => import('./Onboarding/LinkFromExchangeAccount'))
 const LinkToExchangeAccount = React.lazy(() => import('./Onboarding/LinkToExchangeAccount'))
 const IdentityVerification = React.lazy(() => import('./Onboarding/KycVerification'))
@@ -166,6 +167,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.CUSTOMIZABLE_CONFIRM_MODAL) ? (
           <CustomizableConfirm />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.COWBOYS_PROMO) ? (
+          <CowboysPromo />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DELETE_ADDRESS_LABEL_MODAL) ? (
           <DeleteAddressLabel />

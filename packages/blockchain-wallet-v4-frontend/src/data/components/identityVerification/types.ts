@@ -23,7 +23,15 @@ export type VerifyIdentityOriginType =
   | 'Withdraw'
   | 'DebitCard'
 
-export type StepsType = 'personal' | 'moreInfo' | 'mobile' | 'verify' | 'submitted'
+export type StepsType =
+  | 'personal'
+  | 'moreInfo'
+  | 'mobile'
+  | 'verify'
+  | 'submitted'
+  | 'cowboysSignup'
+  | 'cowboysRaffleEntered'
+  | 'cowboysVerifyId'
 
 export type KycStatesType =
   | 'NONE'

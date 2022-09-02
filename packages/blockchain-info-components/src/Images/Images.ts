@@ -61,6 +61,7 @@ import checkmarkCircleGreen from './img/checkmark-circle-green.svg'
 import circleEmpty from './img/circle-empty.svg'
 import closeError from './img/close-error.svg'
 import cloudCheck from './img/cloud_check.svg'
+import cowboyStar from './img/cowboy-star.svg'
 import creditCard from './img/credit-card.svg'
 import creditCardBlue from './img/credit-card-blue.svg'
 import introCard from './img/debitCard/intro-card.png'
@@ -217,6 +218,7 @@ const Images = {
   'circle-empty': circleEmpty,
   'close-error': closeError,
   'cloud-check': cloudCheck,
+  'cowboy-star': cowboyStar,
   'credit-card': creditCard,
   'credit-card-blue': creditCardBlue,
   'cryptoad-2456': cryptoad2456,
