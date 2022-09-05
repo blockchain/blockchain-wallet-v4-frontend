@@ -1,3 +1,5 @@
+import { FiatType } from '@core/types'
+
 import { TermsAndConditionType } from './types'
 
 export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
@@ -270,8 +272,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
   //     url: nabuUrl
   //   })
 
-  const getUserReferralInfo = () =>
+  const getUserReferralInfo = (currency: FiatType) =>
     authorizedGet({
+      data: {
+        currency,
+        platform: 'WEB'
+      },
       endPoint: `/referral/info`,
       url: nabuUrl
     })
