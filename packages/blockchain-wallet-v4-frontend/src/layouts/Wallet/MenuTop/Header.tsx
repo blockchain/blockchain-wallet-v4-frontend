@@ -101,7 +101,6 @@ const Header = (props: OwnProps) => {
       limitsClickHandler={limitsCallback}
       logoutClickHandler={logoutCallback}
       nftsEnabled={props.nftsEnabled}
-      primaryNavItems={PrimaryNavItems}
       receiveClickHandler={receiveCallback}
       refreshClickHandler={refreshCallback}
       sendClickHandler={sendCallback}

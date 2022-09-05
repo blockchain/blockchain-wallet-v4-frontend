@@ -84,10 +84,11 @@ const ReferralLanding: ReferralLandingFlyoutComponent = ({
     >
       <FlyoutChild>
         <HeaderWrapper>
-          <CloseIconContainer onClick={handleClose}>
+          <CloseIconContainer onClick={handleClose} data-e2e='sanctionsInfoCloseModalIcon'>
             <IconCloseCircleV2
-              color={PaletteColors['grey-600']}
               data-e2e='sendNoFundsCloseModalIcon'
+              label='close'
+              color={PaletteColors['grey-600']}
               size='medium'
             />
           </CloseIconContainer>
