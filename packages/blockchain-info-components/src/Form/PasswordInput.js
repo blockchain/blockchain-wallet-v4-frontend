@@ -1,5 +1,4 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
 import { IconVisibilityOff, IconVisibilityOn } from '@blockchain-com/icons'
 import styled from 'styled-components'
 
@@ -138,13 +137,11 @@ class PasswordInput extends React.Component {
           focusedBorderColor={selectFocusBorderColor(errorState)}
           isFocused={this.state.focused}
         >
-          <Icon
-            color='grey400'
-            label={isPasswordVisible ? 'hide password' : 'show password'}
-            size='md'
-          >
-            {isPasswordVisible ? <IconVisibilityOff /> : <IconVisibilityOn />}
-          </Icon>
+          {isPasswordVisible ? (
+            <IconVisibilityOff color='grey400' size='md' />
+          ) : (
+            <IconVisibilityOn color='grey400' size='md' />
+          )}
         </ToggleVisibilityWrapper>
       </Wrapper>
     )
