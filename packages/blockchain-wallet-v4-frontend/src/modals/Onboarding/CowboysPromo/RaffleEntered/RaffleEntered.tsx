@@ -25,7 +25,7 @@ const RaffleEntered: RaffleEnteredComponent = ({ handleClose, setStep }) => {
       actions.components.buySell.showModal({
         cryptoCurrency: 'BTC',
         orderType: OrderType.BUY,
-        origin: 'CompleteProfile'
+        origin: 'CowboysSignupModal'
       })
     )
 

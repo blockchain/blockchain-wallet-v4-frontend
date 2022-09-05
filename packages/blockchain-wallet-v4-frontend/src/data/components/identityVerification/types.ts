@@ -10,6 +10,7 @@ export type EmailSmsStepType = keyof typeof STEPS
 export type VerifyIdentityOriginType =
   | 'DashboardPromo'
   | 'CompleteProfile'
+  | 'CowboysSignupModal'
   | 'Unknown'
   | 'Swap'
   | 'Send'

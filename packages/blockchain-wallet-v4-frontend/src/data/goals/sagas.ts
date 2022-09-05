@@ -414,7 +414,10 @@ export default ({ api, coreSagas, networks }) => {
     const {
       data: { id }
     } = goal
+    const { firstLogin } = goal.data
     yield put(actions.goals.deleteGoal(id))
+
+    if (!firstLogin) return
 
     yield put(
       actions.goals.addInitialModal({
@@ -858,12 +861,7 @@ export default ({ api, coreSagas, networks }) => {
 
     // Order matters here
     if (cowboys2022) {
-      const sddEligible = yield call(api.fetchSDDEligible)
-      const showCompleteYourProfile = selectors.core.walletOptions
-        .getCompleteYourProfile(yield select())
-        .getOrElse(null)
       const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
-      // show SDD flow for eligible cowboy
       if (hasCowboysTag) {
         return yield put(actions.modals.showModal(cowboys2022.name, cowboys2022.data))
       }
@@ -1142,7 +1140,6 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.saveGoal({ data: {}, name: 'termsAndConditions' }))
     // only for existing users
     if (!firstLogin) {
-      yield put(actions.goals.saveGoal({ data: {}, name: 'cowboys2022' }))
       yield put(actions.goals.saveGoal({ data: {}, name: 'kycUpgradeRequiredNotice' }))
       yield put(actions.goals.saveGoal({ data: {}, name: 'sanctionsNotice' }))
     }

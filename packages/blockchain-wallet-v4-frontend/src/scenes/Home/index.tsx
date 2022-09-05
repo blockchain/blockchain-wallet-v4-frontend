@@ -5,7 +5,6 @@ import { SceneWrapper } from 'components/Layout'
 import { media } from 'services/styles'
 
 import Banners from './Banners'
-import { CowboysCardComponent } from './CowboysCard'
 import Holdings from './Holdings'
 import PriceChart from './PriceChart'
 
@@ -46,7 +45,6 @@ const Home = () => {
       <ColumnWrapper>
         <ColumnLeft>
           <Holdings />
-          <CowboysCardComponent />
         </ColumnLeft>
         <ColumnRight>
           <PriceChart />

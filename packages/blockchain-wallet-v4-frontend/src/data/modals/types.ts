@@ -112,6 +112,8 @@ export type ModalOriginType =
   | 'CoinPageHoldings'
   | 'CompleteProfileBanner'
   | 'CompleteProfile'
+  | 'CowboysCard'
+  | 'CowboysSignupModal'
   | 'DebitCard'
   | 'DebitCardDashboard'
   | 'DepositWithdrawalModal'

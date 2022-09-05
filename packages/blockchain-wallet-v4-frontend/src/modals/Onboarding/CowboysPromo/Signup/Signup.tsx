@@ -31,7 +31,7 @@ const Signup: SignupComponent = ({ handleClose, setStep }) => {
           setStep('raffleEntered')
           dispatch(actions.modals.closeModal(ModalName.KYC_MODAL))
         },
-        origin: 'Goals',
+        origin: 'CowboysSignupModal',
         tier: 2
       })
     )
