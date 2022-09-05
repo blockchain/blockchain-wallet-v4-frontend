@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 
+import { OrderType } from '@core/types'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import {
@@ -21,13 +22,17 @@ const RaffleEntered: RaffleEnteredComponent = ({ handleClose, setStep }) => {
 
   const continueCallback = useCallback(() => {
     dispatch(
-      actions.modals.showModal(ModalName.KYC_MODAL, { needMoreInfo: false, origin: 'AddBankModal' })
+      actions.components.buySell.showModal({
+        cryptoCurrency: 'BTC',
+        orderType: OrderType.BUY,
+        origin: 'CompleteProfile'
+      })
     )
 
     setTimeout(() => {
       setStep('verifyId')
     }, 4000)
-  }, [dispatch])
+  }, [dispatch, setStep])
 
   return (
     <FlyoutContainer>

@@ -9,7 +9,8 @@ import {
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
-  FlyoutHeader
+  FlyoutHeader,
+  StyledContainer
 } from 'components/Flyout/Layout'
 import { Padding } from 'components/Padding'
 import { actions } from 'data'
@@ -17,8 +18,11 @@ import { ModalName } from 'data/types'
 
 import { VerifyIdComponent } from '../types'
 
-const StyledFlyoutContainer = styled(FlyoutContainer)`
-  background-image: url('/img/cowboy-suite.png');
+const StyledFlyoutContainer = styled(StyledContainer)`
+  /* background-image: url('/img/cowboy-suite.png');
+  background-size: contain;
+  background-position-y: -50px;
+  background-repeat: no-repeat; */
 `
 
 const VerifyId: VerifyIdComponent = ({ handleClose }) => {
@@ -31,7 +35,8 @@ const VerifyId: VerifyIdComponent = ({ handleClose }) => {
   return (
     <StyledFlyoutContainer>
       <FlyoutHeader mode='close' data-e2e='CowboysSignupModal' onClick={handleClose} />
-      <FlyoutContent mode='middle'>
+      <FlyoutContent mode='top'>
+        <Image name='cowboy-suite' />
         <Flex flexDirection='column' alignItems='center'>
           <Padding horizontal={77}>
             <Text color='grey900' size='24px' weight={700} style={{ textAlign: 'center' }}>
@@ -57,12 +62,7 @@ const VerifyId: VerifyIdComponent = ({ handleClose }) => {
               />
             </Text>
           </Padding>
-          <Padding>
-            <Image name='cowboys-jersey' />
-          </Padding>
         </Flex>
-      </FlyoutContent>
-      <FlyoutFooter collapsed>
         <Padding bottom={16}>
           <Button
             data-e2e='CowboySignupContinueButton'
@@ -87,7 +87,7 @@ const VerifyId: VerifyIdComponent = ({ handleClose }) => {
             defaultMessage='Maybe Later'
           />
         </Button>
-      </FlyoutFooter>
+      </FlyoutContent>
     </StyledFlyoutContainer>
   )
 }

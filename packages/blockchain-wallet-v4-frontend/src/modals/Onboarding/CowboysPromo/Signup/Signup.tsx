@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 
+import { OrderType } from '@core/types'
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import {
@@ -20,13 +21,20 @@ const Signup: SignupComponent = ({ handleClose, setStep }) => {
   const dispatch = useDispatch()
 
   const continueCallback = useCallback(() => {
+    // Open up the Info & Reisdential modal
     dispatch(
-      actions.modals.showModal(ModalName.KYC_MODAL, { needMoreInfo: false, origin: 'AddBankModal' })
+      actions.components.identityVerification.verifyIdentity({
+        checkSddEligibility: true,
+        needMoreInfo: false,
+        onCompletionCallback: () => {
+          // Set the cowboys step to raffle entered and close kyc modal
+          setStep('raffleEntered')
+          dispatch(actions.modals.closeModal(ModalName.KYC_MODAL))
+        },
+        origin: 'Goals',
+        tier: 2
+      })
     )
-
-    setTimeout(() => {
-      setStep('raffleEntered')
-    }, 4000)
   }, [dispatch])
 
   return (

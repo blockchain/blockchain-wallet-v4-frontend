@@ -118,6 +118,7 @@ import nftpainthyperlink from './img/nfts/paint-hyperlink.png'
 import opensea from './img/opensea.png'
 import percentWhiteCircle from './img/percent-white-circle.svg'
 import percentBlueCircle from './img/percentage-blue-circle.svg'
+import presCottCardBg from './img/prescott-card-bg.png'
 import productRedirectExchange from './img/product-redirect-exchange.png'
 import productRedirectWallet from './img/product-redirect-wallet.png'
 import proofOfAddress from './img/proof-of-address.svg'
@@ -275,6 +276,7 @@ const Images = {
   'order-success': orderSuccess,
   'percent-blue-circle': percentBlueCircle,
   'percent-white-circle': percentWhiteCircle,
+  'prescott-card-bg': presCottCardBg,
   'product-redirect-exchange': productRedirectExchange,
   'product-redirect-wallet': productRedirectWallet,
   'proof-of-address': proofOfAddress,
