@@ -93,6 +93,13 @@ const NftsHeader: React.FC<Props> = ({
     trackEventCallback('TradingLimits')
   }, [modalActions, trackEventCallback])
 
+  const referAFriendCallback = useCallback(() => {
+    modalActions.showModal(ModalName.REFERRAL_LANDING_MODAL, {
+      origin: 'Header'
+    })
+    trackEventCallback('Referral')
+  }, [modalActions, trackEventCallback])
+
   const taxCenterCallback = useCallback(() => {
     rest.history.push('/tax-center')
 
@@ -157,6 +164,7 @@ const NftsHeader: React.FC<Props> = ({
                     trackEventCallback={trackEventCallback}
                     taxCenterClickHandler={taxCenterCallback}
                     logoutClickHandler={logoutCallback}
+                    referAFriendHandler={referAFriendCallback}
                   />
                 </Link>
               </LinkContainer>

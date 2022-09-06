@@ -439,6 +439,8 @@ export default ({ api, coreSagas, networks }) => {
 
       // Debit Card Module initialization
       yield put(actions.components.debitCard.getProducts())
+      // Referral initialization
+      yield put(actions.components.referral.getReferralInformation())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification

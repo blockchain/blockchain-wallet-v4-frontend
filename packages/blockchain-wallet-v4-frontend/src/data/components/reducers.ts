@@ -14,6 +14,7 @@ import { nftsReducer } from './nfts/slice'
 import { priceChartReducer } from './priceChart/slice'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
 import { reducer as recurringBuy } from './recurringBuy/slice'
+import { referralReducer } from './referral/slice'
 import { requestReducer } from './request/reducers'
 import resetWallet2fa from './resetWallet2fa/reducers'
 import { sendReducer } from './send/reducers'
@@ -46,6 +47,7 @@ const componentReducer = combineReducers({
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
   recurringBuy,
+  referral: referralReducer,
   request: requestReducer,
   resetWallet2fa,
   send: sendReducer,

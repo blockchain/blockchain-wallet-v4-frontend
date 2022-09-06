@@ -38,6 +38,7 @@ export const getUserKYCState = compose(lift(prop('kycState')), getUserData) as (
   state: RootState
 ) => RemoteDataType<string, UserDataType['kycState']>
 export const getTags = compose(lift(path(['tags'])), getUserData)
+export const getCowboysTag = compose(lift(path(['tags', 'COWBOYS_2022'])), getUserData)
 export const getSunRiverTag = compose(lift(path(['tags', 'SUNRIVER'])), getUserData)
 export const getPowerPaxTag = compose(lift(hasPath(['tags', 'POWER_PAX'])), getUserData)
 export const getBlockstackTag = compose(lift(path(['tags', 'BLOCKSTACK'])), getUserData)

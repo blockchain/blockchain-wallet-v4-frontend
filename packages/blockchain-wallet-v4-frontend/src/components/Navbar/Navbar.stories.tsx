@@ -58,5 +58,6 @@ Default.args = {
   limitsClickHandler: () => {},
   logoutClickHandler: () => {},
   primaryNavItems: PrimaryNavItems,
+  referAFriendHandler: () => {},
   refreshClickHandler: () => {}
 }

@@ -10,6 +10,7 @@ export type EmailSmsStepType = keyof typeof STEPS
 export type VerifyIdentityOriginType =
   | 'DashboardPromo'
   | 'CompleteProfile'
+  | 'CowboysSignupModal'
   | 'Unknown'
   | 'Swap'
   | 'Send'
@@ -23,7 +24,15 @@ export type VerifyIdentityOriginType =
   | 'Withdraw'
   | 'DebitCard'
 
-export type StepsType = 'personal' | 'moreInfo' | 'mobile' | 'verify' | 'submitted'
+export type StepsType =
+  | 'personal'
+  | 'moreInfo'
+  | 'mobile'
+  | 'verify'
+  | 'submitted'
+  | 'cowboysSignup'
+  | 'cowboysRaffleEntered'
+  | 'cowboysVerifyId'
 
 export type KycStatesType =
   | 'NONE'
@@ -46,7 +55,7 @@ export type PreIdvDataType = {
 
 export type ScopesType = Array<'KYC' | 'Mercury'>
 
-export type CampaignsType = 'BLOCKSTACK' | 'POWER_PAX' | 'SUNRIVER'
+export type CampaignsType = 'BLOCKSTACK' | 'POWER_PAX' | 'SUNRIVER' | 'COWBOYS_2022'
 
 export type StateType = {
   code: string

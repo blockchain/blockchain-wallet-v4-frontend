@@ -17,6 +17,7 @@ import nfts from './nfts/sagas'
 import onboarding from './onboarding/sagas'
 import priceChart from './priceChart/sagas'
 import recurringBuy from './recurringBuy/sagas'
+import referral from './referral/sagas'
 import refresh from './refresh/sagas'
 import request from './request/sagas'
 import resetWallet2fa from './resetWallet2fa/sagas'
@@ -56,6 +57,7 @@ export default ({ api, coreSagas, networks }) => ({
   onboarding: onboarding(),
   priceChart: priceChart(),
   recurringBuy: recurringBuy({ api }),
+  referral: referral({ api, coreSagas, networks }),
   refresh: refresh(),
   request: request({ api, coreSagas, networks }),
   resetWallet2fa: resetWallet2fa({ api }),
