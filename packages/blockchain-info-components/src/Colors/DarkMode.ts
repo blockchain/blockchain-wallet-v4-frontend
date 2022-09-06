@@ -169,7 +169,8 @@ const DarkTheme: DefaultTheme = {
   // Blues
   purple: '#4C18BA',
   // Service Announcements
-  info: '#2C5687'
+  info: '#2C5687',
+  ultraLight: '#FAFBFF'
 }
 
 export default DarkTheme

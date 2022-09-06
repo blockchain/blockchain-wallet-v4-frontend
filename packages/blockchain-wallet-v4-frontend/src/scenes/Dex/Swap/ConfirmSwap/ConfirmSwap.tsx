@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
-import { IconArrowLeft } from '@blockchain-com/icons'
+import { IconArrowLeft, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
@@ -46,9 +45,7 @@ const ConfirmSwap = ({ formActions, formValues, modalActions, quoteR, walletCurr
           <GoBackIcon
             onClick={() => formActions.change(DEX_SWAP_FORM, 'step', DexSwapSteps.ENTER_DETAILS)}
           >
-            <Icon label='go back' color='grey400' size='md'>
-              <IconArrowLeft />
-            </Icon>
+            <IconArrowLeft color={PaletteColors['grey-400']} label='go back' size='medium' />
           </GoBackIcon>
           <Text color='textBlack' lineHeight='28px' size='24px' weight={600}>
             <FormattedMessage id='copy.confirm_swap' defaultMessage='Confirm Swap' />

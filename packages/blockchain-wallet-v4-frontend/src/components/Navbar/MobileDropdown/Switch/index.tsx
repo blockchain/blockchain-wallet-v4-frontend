@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { SwitchLabelProps, SwitchLabelState, SwitchProps, SwitchWrapperProps } from './types'
@@ -12,7 +12,7 @@ const SwitchWrapper = styled.div<SwitchWrapperProps>`
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  background: ${({ background }) => background ?? colors.grey700};
+  background: ${({ background }) => background ?? PaletteColors['grey-700']};
   border-radius: 8px;
   margin: 0;
   width: ${({ isFullWidth }) => (isFullWidth ? '100%' : 'fit-content')};
@@ -20,12 +20,12 @@ const SwitchWrapper = styled.div<SwitchWrapperProps>`
 
 const getSwitchColor = (state: SwitchLabelState) => (props: SwitchLabelProps) => {
   if (props.disabled) {
-    return colors.grey400
+    return PaletteColors['grey-400']
   }
   if (props.selected || state === 'hover') {
-    return colors.white900
+    return PaletteColors['white-900']
   }
-  return colors.white900
+  return PaletteColors['white-900']
 }
 
 const getSwitchBGColor = (state: SwitchLabelState) => (props: SwitchLabelProps) => {
@@ -35,21 +35,21 @@ const getSwitchBGColor = (state: SwitchLabelState) => (props: SwitchLabelProps) 
 
   if (props.selected) {
     if (state === 'active') {
-      return colors.grey900
+      return PaletteColors['grey-900']
     }
     if (state === 'hover') {
-      return colors.grey800
+      return PaletteColors['grey-800']
     }
 
-    return colors.grey900
+    return PaletteColors['grey-900']
   }
 
   if (state === 'active') {
-    return colors.grey900
+    return PaletteColors['grey-900']
   }
 
   if (state === 'hover') {
-    return colors.grey800
+    return PaletteColors['grey-800']
   }
   return 'transparent'
 }

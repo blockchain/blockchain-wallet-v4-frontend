@@ -1,4 +1,4 @@
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled, { css } from 'styled-components'
 
 import {
@@ -25,7 +25,7 @@ export const CircularBackground = styled.div<{
   size: IconCircularBackgroundSizes | number
 }>`
   ${({ backgroundOpacity, color, size }) => css`
-    background-color: ${colors[color] ?? color};
+    background-color: ${PaletteColors[color] ?? color};
     border-radius: 50%;
     height: ${sizeToPixels[size] ?? size}px;
     opacity: ${backgroundOpacity};

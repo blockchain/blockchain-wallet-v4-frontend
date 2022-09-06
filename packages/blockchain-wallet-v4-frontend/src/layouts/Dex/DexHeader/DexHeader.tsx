@@ -3,8 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavLink } from 'react-router-dom'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconUser, IconWallet } from '@blockchain-com/icons'
+import { IconUser, IconWallet, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Image, SpinningLoader, Text } from 'blockchain-info-components'
@@ -22,7 +21,7 @@ const StickyNav = styled(NavContainer)`
   top: 0;
   z-index: 3;
   position: fixed;
-  background-color: ${colors.white900};
+  background-color: ${PaletteColors['white-900']};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -51,9 +50,7 @@ const DexHeader: React.FC<Props> = ({ ethBalanceR, isAuthenticated, pathname }) 
                 NotAsked: () => <SpinningLoader width='10px' height='10px' borderWidth='3px' />,
                 Success: (ethBalance) => (
                   <>
-                    <Icon label='wallet' size='sm' color='grey400'>
-                      <IconWallet />
-                    </Icon>
+                    <IconWallet color={PaletteColors['grey-400']} label='wallet' size='small' />
                     <Text
                       color='grey900'
                       lineHeight='20px'
@@ -68,9 +65,7 @@ const DexHeader: React.FC<Props> = ({ ethBalanceR, isAuthenticated, pathname }) 
               })}
             </Button>
             <NavButton data-e2e='settingsLink'>
-              <Icon color='grey400' label='open-menu' size='sm'>
-                <IconUser />
-              </Icon>
+              <IconUser color={PaletteColors['grey-400']} label='open-menu' size='small' />
             </NavButton>
           </Flex>
         ) : (

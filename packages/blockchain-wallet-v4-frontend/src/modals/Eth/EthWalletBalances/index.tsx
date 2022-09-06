@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
-import { IconRefresh } from '@blockchain-com/icons'
+import { IconRefresh, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
@@ -12,7 +11,6 @@ import {
   Icon as BlockchainIcon,
   SkeletonCircle,
   SkeletonRectangle,
-  SpinningLoader,
   Text
 } from 'blockchain-info-components'
 import DataError from 'components/DataError'
@@ -147,9 +145,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
                 })}
               </div>
               <Button small data-e2e='refresh' nature='empty-blue' onClick={this.refresh}>
-                <Icon label='refresh' size='sm' color='blue600'>
-                  <IconRefresh />
-                </Icon>
+                <IconRefresh color={PaletteColors['blue-600']} label='refresh' size='small' />
                 <span style={{ marginLeft: '4px' }}>
                   <FormattedMessage id='copy.refresh_funds' defaultMessage='Refresh Funds' />
                 </span>

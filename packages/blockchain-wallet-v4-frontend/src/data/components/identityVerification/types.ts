@@ -46,7 +46,7 @@ export type PreIdvDataType = {
 
 export type ScopesType = Array<'KYC' | 'Mercury'>
 
-export type CampaignsType = 'BLOCKSTACK' | 'POWER_PAX' | 'SUNRIVER'
+export type CampaignsType = 'BLOCKSTACK' | 'POWER_PAX' | 'SUNRIVER' | 'COWBOYS_2022'
 
 export type StateType = {
   code: string

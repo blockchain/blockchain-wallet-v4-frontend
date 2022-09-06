@@ -1,8 +1,13 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import { colors, Icon, Text } from '@blockchain-com/constellation'
-import { IconClose, IconMenu, IconRefresh } from '@blockchain-com/icons'
+import {
+  IconClose,
+  IconMenu,
+  IconRefresh,
+  PaletteColors,
+  Text
+} from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'
@@ -22,12 +27,12 @@ export type PrimaryNavItem = {
 export const NavContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
-  background-color: ${colors.white100};
+  background-color: ${PaletteColors['white-100']};
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 22px;
-  border-bottom: 1px solid ${colors.grey000};
+  border-bottom: 1px solid ${PaletteColors['grey-000']};
   height: 56px;
   ${media.tablet`
     padding: 0 12px;
@@ -41,7 +46,7 @@ export const Logo = styled.div`
   & > a {
     height: 25px;
     width: 25px;
-    color: ${colors.blue500};
+    color: ${PaletteColors['blue-500']};
     text-decoration: none;
   }
 `
@@ -94,15 +99,15 @@ const ListStyles = styled.ul`
 
   & a {
     text-decoration: none;
-    color: ${colors.grey600};
+    color: ${PaletteColors['grey-600']};
     border-radius: 4px;
     padding: 10px;
     transition: background-color 0.3s, color 0.3s;
 
     &:hover,
     &.active {
-      background-color: ${colors.blue000};
-      color: ${colors.blue600};
+      background-color: ${PaletteColors['blue-000']};
+      color: ${PaletteColors['blue-600']};
     }
   }
 `
@@ -168,11 +173,14 @@ export const NavButton = styled(Button)`
 
 const Navbar = ({
   fabClickHandler,
+  isReferralAvailable,
+  isReferralRetrievalEnabled,
   limitsClickHandler,
   logoutClickHandler,
   nftsEnabled,
   primaryNavItems,
   receiveClickHandler,
+  referAFriendHandler,
   refreshClickHandler,
   sendClickHandler,
   taxCenterClickHandler,
@@ -243,9 +251,7 @@ const Navbar = ({
     {
       component: () => (
         <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
-          <Icon color='grey400' label='refresh' size='sm'>
-            <IconRefresh />
-          </Icon>
+          <IconRefresh color={PaletteColors['grey-400']} size='small' />
         </NavButton>
       ),
       name: 'Refresh'
@@ -253,7 +259,10 @@ const Navbar = ({
     {
       component: () => (
         <UserNavDropdown
+          isReferralAvailable={isReferralAvailable}
+          isReferralRetrievalEnabled={isReferralRetrievalEnabled}
           limitsClickHandler={limitsClickHandler}
+          referAFriendHandler={referAFriendHandler}
           logoutClickHandler={logoutClickHandler}
           taxCenterClickHandler={taxCenterClickHandler}
           trackEventCallback={trackEventCallback}
@@ -274,8 +283,11 @@ const Navbar = ({
           primaryNavItems={primaryNavItems}
           secondaryNavItems={secondaryMobileNavItems}
           userNavItems={userNavItems({
+            isReferralAvailable,
+            isReferralRetrievalEnabled,
             limitsClickHandler,
             logoutClickHandler,
+            referAFriendHandler,
             taxCenterClickHandler,
             trackEventCallback
           })}
@@ -335,15 +347,11 @@ const Navbar = ({
                     onKeyDown={closeMobileNavCallback}
                     data-e2e='closeMobileNav'
                   >
-                    <Icon color='grey600' label='close-menu' size='md'>
-                      <IconClose />
-                    </Icon>
+                    <IconClose color={PaletteColors['grey-600']} size='medium' />
                   </div>
                 ) : (
                   <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
-                    <Icon label='open-menu' color='blue500' size='md'>
-                      <IconMenu />
-                    </Icon>
+                    <IconMenu color={PaletteColors['blue-500']} size='medium' />
                   </NavButton>
                 )}
               </li>
@@ -365,11 +373,14 @@ const Navbar = ({
 
 type Props = {
   fabClickHandler: () => void
+  isReferralAvailable: boolean
+  isReferralRetrievalEnabled: boolean
   limitsClickHandler: () => void
   logoutClickHandler: () => void
   nftsEnabled: boolean
   primaryNavItems: Array<PrimaryNavItem>
   receiveClickHandler: () => void
+  referAFriendHandler: () => void
   refreshClickHandler: () => void
   sendClickHandler: () => void
   taxCenterClickHandler: () => void

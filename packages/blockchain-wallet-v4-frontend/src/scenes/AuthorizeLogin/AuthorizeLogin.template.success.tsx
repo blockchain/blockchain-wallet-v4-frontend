@@ -1,7 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Separator } from '@blockchain-com/constellation'
-import { IconAlert, IconCheckCircle, IconLaptop } from '@blockchain-com/icons'
+import {
+  Divider,
+  IconAlert,
+  IconCheckCircle,
+  IconLaptop,
+  PaletteColors
+} from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -43,16 +48,12 @@ const ButtonsRow = styled.div`
 `
 const WarningIcon = () => (
   <div style={{ margin: '4px 0 0 8px' }}>
-    <Icon label='warning' color='red600' size='sm'>
-      <IconAlert />
-    </Icon>
+    <IconAlert color={PaletteColors['red-600']} label='warning' size='small' />
   </div>
 )
 const SuccessIcon = () => (
   <div style={{ margin: '4px 0 0 8px' }}>
-    <Icon label='success' color='blue600' size='sm'>
-      <IconCheckCircle />
-    </Icon>
+    <IconCheckCircle color={PaletteColors['blue-600']} label='success' size='small' />
   </div>
 )
 
@@ -76,9 +77,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
     <Wrapper>
       {device_change_reason && (
         <>
-          <Icon label='device' size='lg' color='blue600'>
-            <IconLaptop />
-          </Icon>
+          <IconLaptop color={PaletteColors['blue-600']} label='device' size='large' />
           <HeaderWrapper>
             <Text lineHeight='30px' size='20px' weight={600} color='black'>
               <FormattedMessage
@@ -109,7 +108,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
               </Text>
             </div>
           </Row>
-          <Separator variant='subtle' style={{ margin: '0' }} />
+          <Divider variant='subtle' style={{ margin: '0' }} />
           <Row>
             <div>
               <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
@@ -133,7 +132,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
               {isBrowserMatched ? <SuccessIcon /> : <WarningIcon />}
             </div>
           </Row>
-          <Separator variant='subtle' style={{ margin: '0' }} />
+          <Divider variant='subtle' style={{ margin: '0' }} />
           <Row>
             <div>
               <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
@@ -157,7 +156,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
               {isIpMatched ? <SuccessIcon /> : <WarningIcon />}
             </div>
           </Row>
-          <Separator variant='subtle' style={{ margin: '0' }} />
+          <Divider variant='subtle' style={{ margin: '0' }} />
           <Row>
             <div>
               <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
@@ -181,7 +180,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
               {isCountryMatched ? <SuccessIcon /> : <WarningIcon />}
             </div>
           </Row>
-          <Separator variant='subtle' style={{ margin: '0' }} />
+          <Divider variant='subtle' style={{ margin: '0' }} />
           <ButtonsRow>
             <Button
               data-e2e='rejectLogin'
@@ -209,9 +208,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
 
       {!device_change_reason && requestDenied && (
         <>
-          <Icon label='warning' color='red600' size='lg'>
-            <IconAlert />
-          </Icon>
+          <IconAlert color={PaletteColors['red-600']} label='warning' size='large' />
           <Text lineHeight='48px' size='20px' weight={600} color='black'>
             <FormattedMessage
               id='scenes.authorizelogin.rejected.title'
@@ -229,9 +226,7 @@ const AuthorizeLogin = ({ data, onAccept, onReject }) => {
 
       {!device_change_reason && !requestDenied && (
         <>
-          <Icon label='success' color='green600' size='lg'>
-            <IconCheckCircle />
-          </Icon>
+          <IconCheckCircle color={PaletteColors['green-600']} label='success' size='large' />
           <Text lineHeight='48px' size='20px' weight={600} color='black'>
             <FormattedMessage
               id='scenes.authorizelogin.approved.title'

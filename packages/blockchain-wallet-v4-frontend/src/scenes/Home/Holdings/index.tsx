@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Icon as IconV2 } from '@blockchain-com/constellation'
 import { IconRefresh } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
@@ -106,9 +105,7 @@ const HoldingsTableContainer = (props: Props) => (
               role='button'
             >
               <FormattedMessage id='copy.try_again' defaultMessage='Try Again' />
-              <IconV2 size='sm' color='blue600' label='refresh'>
-                <IconRefresh />
-              </IconV2>
+              <IconRefresh />
             </Text>
           </Flex>
           <Loading />

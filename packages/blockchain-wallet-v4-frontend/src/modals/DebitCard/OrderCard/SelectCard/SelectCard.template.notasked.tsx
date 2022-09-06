@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, CheckBoxInput, Color, Image, Text } from 'blockchain-info-components'
@@ -21,8 +21,9 @@ type Props = {
 }
 
 const CheckboxWrapper = styled(Flex)<{ termsAccepted: boolean }>`
-  background: ${(props) => (props.termsAccepted ? colors.white900 : Color('greyFade000'))};
-  border: 1px solid ${colors.grey000};
+  background: ${(props) =>
+    props.termsAccepted ? PaletteColors['white-900'] : Color('greyFade000')};
+  border: 1px solid ${PaletteColors['grey-000']};
   border-radius: 0.5rem;
   margin: 1rem 0em;
   justify-content: center;
@@ -72,7 +73,7 @@ const NotAsked = ({ handleClose, handleCreateCard }: Props) => {
             />
           </Flex>
 
-          <Text color={colors.grey200} weight={500} size='12px'>
+          <Text color={PaletteColors['grey-200']} weight={500} size='12px'>
             <FormattedMessage
               id='modals.order_my_card.terms_of_service'
               defaultMessage='I understand and accept the terms and conditions of the Blockchain.com Visa Card Program, the Pathward Bank Cardholder Agreement, the Pathward Bank E-Sign Agreement and the Pathward Bank Privacy Policy. I also understand and accept that these terms operate in addition to the Blockchain.com Terms of Service and Blockchain.com Privacy Policy.'

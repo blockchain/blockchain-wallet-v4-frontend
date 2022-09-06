@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { ClickableArea } from 'components/ClickableArea'
@@ -17,7 +17,7 @@ export const FlyoutListTile: FlyoutListTileComponent = ({
   subtitle,
   title
 }) => {
-  const color = disabled ? colors.grey700 : iconColor
+  const color = disabled ? PaletteColors['grey-700'] : iconColor
 
   const body = (
     <Padding vertical={24} horizontal={40}>

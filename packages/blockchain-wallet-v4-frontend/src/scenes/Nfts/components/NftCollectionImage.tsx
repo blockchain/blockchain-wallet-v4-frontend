@@ -1,6 +1,5 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconVerified } from '@blockchain-com/icons'
+import { IconVerified, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -36,9 +35,7 @@ const NftCollectionImage: React.FC<Props> = ({ alt, isVerified, src }) => {
     <Wrapper>
       {isVerified ? (
         <IconWrapper>
-          <Icon label='verified' color='orange400'>
-            <IconVerified />
-          </Icon>
+          <IconVerified label='verified' color={PaletteColors['orange-400']} />
         </IconWrapper>
       ) : null}
       <StyledImage src={src} alt={alt} />
