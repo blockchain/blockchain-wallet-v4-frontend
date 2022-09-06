@@ -10,9 +10,11 @@ export default ({ coreSagas }) => {
   const updateEmail = function* (action) {
     const { email } = action.payload
     try {
-      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
+      const guid = yield select(selectors.core.wallet.getGuid)
+      const prevEmail = (yield select(selectors.core.settings.getEmail)).getOrElse(undefined)
+      const sessionToken = yield select(selectors.session.getWalletSessionId, guid, prevEmail)
       yield put(actions.modules.settings.clearEmailCodeFailure())
-      yield call(coreSagas.settings.setEmail, email, nabuSessionToken)
+      yield call(coreSagas.settings.setEmail, email, sessionToken)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateEmail', e))
       yield put(actions.alerts.displayError(C.EMAIL_UPDATE_ERROR))
@@ -101,8 +103,10 @@ export default ({ coreSagas }) => {
   const sendMobileVerificationCode = function* (action) {
     try {
       const { mobile } = action.payload
-      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
-      yield call(coreSagas.settings.setMobile, mobile, nabuSessionToken)
+      const guid = yield select(selectors.core.wallet.getGuid)
+      const email = (yield select(selectors.core.settings.getEmail)).getOrElse(undefined)
+      const sessionToken = yield select(selectors.session.getWalletSessionId, guid, email)
+      yield call(coreSagas.settings.setMobile, mobile, sessionToken)
       yield put(actions.alerts.displaySuccess(C.MOBILE_CODE_SENT_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'sendMobileVerificationCode', e))

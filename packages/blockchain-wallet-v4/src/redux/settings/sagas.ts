@@ -42,7 +42,7 @@ export default ({ api }) => {
     // return response
   }
 
-  const setEmail = function* (email, nabuSessionToken) {
+  const setEmail = function* (email, sessionToken) {
     // use feature flag for latest secure enpoint
     // in case it needs to be rolled back
     const secureUpdate = (yield select(selectors.walletOptions.getSecureEmailSmsUpdate)).getOrElse(
@@ -51,12 +51,12 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = secureUpdate
-      ? yield call(api.secureUpdateEmail, guid, sharedKey, email, nabuSessionToken)
+      ? yield call(api.secureUpdateEmail, guid, sharedKey, email, sessionToken)
       : yield call(api.updateEmail, guid, sharedKey, email)
     if (!contains('updated', toLower(response))) {
       throw new Error(response)
     }
-    yield put(actions.setEmail(email, nabuSessionToken))
+    yield put(actions.setEmail(email, sessionToken))
   }
 
   const sendConfirmationCodeEmail = function* ({ email }) {
@@ -87,7 +87,7 @@ export default ({ api }) => {
     if (!prop('success', response)) throw new Error(JSON.stringify(response))
   }
 
-  const setMobile = function* (mobile, nabuSessionToken) {
+  const setMobile = function* (mobile, sessionToken) {
     // use feature flag for latest secure enpoint
     // in case it needs to be rolled back
     const secureUpdate = (yield select(selectors.walletOptions.getSecureEmailSmsUpdate)).getOrElse(
@@ -96,9 +96,9 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = secureUpdate
-      ? yield call(api.secureUpdateMobile, guid, sharedKey, mobile, nabuSessionToken)
+      ? yield call(api.secureUpdateMobile, guid, sharedKey, mobile, sessionToken)
       : yield call(api.updateMobile, guid, sharedKey, mobile)
-    yield put(actions.setMobile(mobile, nabuSessionToken))
+    yield put(actions.setMobile(mobile, sessionToken))
     return response
   }
 

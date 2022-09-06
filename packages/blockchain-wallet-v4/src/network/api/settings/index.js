@@ -13,32 +13,25 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const updateSettingsAuthorized = (
-    guid,
-    sharedKey,
-    method,
-    payload,
-    nabuSessionToken,
-    querystring = ''
-  ) =>
+  const updateSettingsAuthorized = (guid, sharedKey, method, payload, sessionToken) =>
     post({
       data: {
         guid,
         length: `${payload}`.length,
         method,
-        nabuSessionToken,
         payload,
         sharedKey
       },
-      endPoint: querystring ? `/wallet?${querystring}` : '/wallet',
+      endPoint: '/wallet',
+      sessionToken,
       url: rootUrl
     })
 
-  const secureUpdateEmail = (guid, sharedKey, email, nabuSessionToken) =>
-    updateSettingsAuthorized(guid, sharedKey, 'secure-update-email', email, nabuSessionToken)
+  const secureUpdateEmail = (guid, sharedKey, email, sessionToken) =>
+    updateSettingsAuthorized(guid, sharedKey, 'secure-update-email', email, sessionToken)
 
-  const secureUpdateMobile = (guid, sharedKey, mobile, nabuSessionToken) =>
-    updateSettingsAuthorized(guid, sharedKey, 'secure-update-sms', mobile, nabuSessionToken)
+  const secureUpdateMobile = (guid, sharedKey, mobile, sessionToken) =>
+    updateSettingsAuthorized(guid, sharedKey, 'secure-update-sms', mobile, sessionToken)
 
   // leaving old unsecured enpoints in because above is wrapped in feature flag
   // in case somethig needs to be rolled back
