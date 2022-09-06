@@ -338,6 +338,11 @@ export default ({ api }: { api: APIType }) => {
     const accounts = [] as SubscribeRequestType['data']
     const mnemonic = yield call(getMnemonic)
     const seed = BIP39.mnemonicToSeed(mnemonic)
+    const ethAccount = selectors.kvStore.eth
+      .getDefaultAccount(yield select())
+      .getOrFail('No eth account')
+    const { label } = ethAccount
+    const { publicKey: ethPublicKey } = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/60'/0'/0/0`)
     switch (payload.baseCoin) {
       case 'BTC':
         const btcAccounts = selectors.wallet.getHDAccounts(yield select())
@@ -385,19 +390,28 @@ export default ({ api }: { api: APIType }) => {
         })
         break
       case 'ETH':
-        const ethAccount = selectors.kvStore.eth
-          .getDefaultAccount(yield select())
-          .getOrFail('No eth account')
-        const { label } = ethAccount
-        const { publicKey: ethPublicKey } = Bitcoin.bip32
-          .fromSeed(seed)
-          .derivePath(`m/44'/60'/0'/0/0`)
         accounts.push({
           account: {
             index: 0,
             name: label
           },
           currency: 'ETH',
+          pubKeys: [
+            {
+              descriptor: 0,
+              pubKey: ethPublicKey.toString('hex'),
+              style: 'SINGLE'
+            }
+          ]
+        })
+        break
+      case 'MATIC':
+        accounts.push({
+          account: {
+            index: 0,
+            name: label
+          },
+          currency: 'MATIC',
           pubKeys: [
             {
               descriptor: 0,
