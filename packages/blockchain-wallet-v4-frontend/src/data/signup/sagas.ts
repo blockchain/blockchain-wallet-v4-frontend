@@ -329,15 +329,15 @@ export default ({ api, coreSagas, networks }) => {
     }
     try {
       yield delay(2000)
-      // const response = yield call(api.pollForResetApprovalStatus, sessionToken)
+      const response = yield call(api.pollForResetApprovalStatus, sessionToken)
 
-      const response = {
-        email: 'leora+419+822@blockchain.com',
-        request_denied: false,
-        status: true,
-        two_fa_type: 1,
-        userId: '34735c52-61e1-4e55-92a0-2cce89774add'
-      }
+      // const response = {
+      //   email: 'leora+419+822@blockchain.com',
+      //   request_denied: false,
+      //   status: true,
+      //   two_fa_type: 1,
+      //   userId: '34735c52-61e1-4e55-92a0-2cce89774add'
+      // }
 
       if (response?.status) {
         yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
