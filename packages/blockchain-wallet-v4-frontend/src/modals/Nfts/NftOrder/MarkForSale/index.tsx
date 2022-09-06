@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Switch } from '@blockchain-com/constellation'
+import { PaletteColors, Switch } from '@blockchain-com/constellation'
 import { IconPending, IconTag } from '@blockchain-com/icons'
 import { format } from 'date-fns'
 import { map } from 'ramda'
@@ -249,11 +249,11 @@ const MarkForSale: React.FC<Props> = (props) => {
                       style={
                         saleType === 'fixed-price'
                           ? {
-                              background: colors.blue000,
-                              border: `1px solid ${colors.blue600}`,
-                              color: colors.blue600
+                              background: PaletteColors['blue-000'],
+                              border: `1px solid ${PaletteColors['blue-600']}`,
+                              color: PaletteColors['blue-600']
                             }
-                          : { border: `1px solid ${colors.grey100}` }
+                          : { border: `1px solid ${PaletteColors['grey-100']}` }
                       }
                     >
                       <IconTag
@@ -263,7 +263,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         style={
                           saleType === 'fixed-price'
                             ? {
-                                color: colors.blue600,
+                                color: PaletteColors['blue-600'],
                                 padding: '0em 2em'
                               }
                             : {
@@ -278,7 +278,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           saleType === 'fixed-price'
                             ? {
                                 alignItems: 'center',
-                                color: colors.blue600,
+                                color: PaletteColors['blue-600'],
                                 display: 'block',
                                 textAlign: 'center'
                               }
@@ -300,10 +300,10 @@ const MarkForSale: React.FC<Props> = (props) => {
                       style={
                         saleType === 'timed-auction'
                           ? {
-                              background: colors.blue000,
-                              border: `1px solid ${colors.blue600}`
+                              background: PaletteColors['blue-000'],
+                              border: `1px solid ${PaletteColors['blue-600']}`
                             }
-                          : { border: `1px solid ${colors.grey100}` }
+                          : { border: `1px solid ${PaletteColors['grey-100']}` }
                       }
                     >
                       <IconPending
@@ -313,7 +313,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         style={
                           saleType === 'timed-auction'
                             ? {
-                                color: colors.blue600,
+                                color: PaletteColors['blue-600'],
                                 padding: '0em 2em'
                               }
                             : {
@@ -328,7 +328,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                           saleType === 'timed-auction'
                             ? {
                                 alignItems: 'center',
-                                color: colors.blue600,
+                                color: PaletteColors['blue-600'],
                                 display: 'block',
                                 textAlign: 'center'
                               }

@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import ReactMarkdown from 'react-markdown'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconComputer, IconInstagram, IconLink, IconTwitter } from '@blockchain-com/icons'
+import {
+  IconComputer,
+  IconInstagram,
+  IconLink,
+  IconTwitter,
+  PaletteColors
+} from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import NftDropdown from 'blockchain-wallet-v4-frontend/src/modals/Nfts/components/NftDropdown'
 import {
@@ -122,12 +127,12 @@ const ActivityWrapper = styled.div`
 
 const CreatorOwnerAddress = styled.div`
   font-size: 16px;
-  color: ${colors.grey700};
+  color: ${PaletteColors['grey-700']};
   display: flex;
 `
 
 const CreatorOwnerAddressLinkText = styled(CreatorOwnerAddress)`
-  color: ${colors.blue600};
+  color: ${PaletteColors['blue-600']};
   font-weight: 600;
 `
 
@@ -145,9 +150,9 @@ const DropdownPadding = styled.div`
 const Detail = styled(Text)`
   display: flex;
   justify-content: space-between;
-  color: ${colors.grey900};
+  color: ${PaletteColors['grey-900']};
   padding: 1em 1.5em;
-  border-bottom: 1px solid ${colors.grey000};
+  border-bottom: 1px solid ${PaletteColors['grey-000']};
   font-size: 16px;
   font-weight: 500;
   &:last-child {
@@ -156,7 +161,7 @@ const Detail = styled(Text)`
 `
 
 const ShadowTag = styled.div`
-  background: ${colors.white900};
+  background: ${PaletteColors['white-900']};
   box-shadow: 0px 4px 16px rgba(5, 24, 61, 0.1);
   border-radius: 16px;
   padding: 6px 6px;
@@ -352,7 +357,7 @@ const NftAsset: React.FC<Props> = ({
                         setIsRefreshRotating(true)
                       }}
                     >
-                      <NftRefreshIcon isActive={isRefreshRotating} size='sm' color='grey700' />
+                      <NftRefreshIcon isActive={isRefreshRotating} size='small' color='grey-700' />
                     </SocialLink>
                     <SocialLink>
                       <CopyClipboardButton
@@ -509,9 +514,11 @@ const NftAsset: React.FC<Props> = ({
                                     target='_blank'
                                     href={currentAsset?.collection.external_url}
                                   >
-                                    <Icon size='sm' label='globe'>
-                                      <IconLink fill={colors.blue600} />
-                                    </Icon>
+                                    <IconLink
+                                      size='small'
+                                      label='globe'
+                                      color={PaletteColors['blue-600']}
+                                    />
                                   </Link>
                                 ) : null}
                                 {currentAsset?.collection.twitter_username ? (
@@ -519,9 +526,11 @@ const NftAsset: React.FC<Props> = ({
                                     target='_blank'
                                     href={`https://twitter.com/${currentAsset?.collection.twitter_username}`}
                                   >
-                                    <Icon size='sm' label='twitter'>
-                                      <IconTwitter fill={colors.blue600} />
-                                    </Icon>
+                                    <IconTwitter
+                                      size='small'
+                                      label='twitter'
+                                      color={PaletteColors['blue-600']}
+                                    />
                                   </Link>
                                 ) : null}
                                 {currentAsset?.collection.instagram_username ? (
@@ -529,9 +538,11 @@ const NftAsset: React.FC<Props> = ({
                                     target='_blank'
                                     href={`https://instagram.com/${currentAsset?.collection.instagram_username}`}
                                   >
-                                    <Icon size='sm' label='camera'>
-                                      <IconInstagram fill={colors.blue600} />
-                                    </Icon>
+                                    <IconInstagram
+                                      size='small'
+                                      label='camera'
+                                      color={PaletteColors['blue-600']}
+                                    />
                                   </Link>
                                 ) : null}
                                 {currentAsset?.collection.discord_url ? (
@@ -539,9 +550,11 @@ const NftAsset: React.FC<Props> = ({
                                     target='_blank'
                                     href={`${currentAsset?.collection.discord_url}`}
                                   >
-                                    <Icon size='sm' label='computer'>
-                                      <IconComputer fill={colors.blue600} />
-                                    </Icon>
+                                    <IconComputer
+                                      size='small'
+                                      label='computer'
+                                      color={PaletteColors['blue-600']}
+                                    />
                                   </Link>
                                 ) : null}
                               </LinksContainer>
@@ -689,7 +702,11 @@ const NftAsset: React.FC<Props> = ({
                           setIsRefreshRotating(true)
                         }}
                       >
-                        <NftRefreshIcon isActive={isRefreshRotating} size='sm' color='grey700' />
+                        <NftRefreshIcon
+                          isActive={isRefreshRotating}
+                          size='small'
+                          color='grey-700'
+                        />
                       </SocialLink>
                       <SocialLink>
                         <CopyClipboardButton
@@ -796,7 +813,7 @@ const NftAsset: React.FC<Props> = ({
                           <CoinIcon name={paymentTokenContractSymbol} />
                           <GradientCoinDisplay
                             weight={600}
-                            color={colors.grey900}
+                            color={PaletteColors['grey-900']}
                             size='24px'
                             coin={paymentTokenContractSymbol}
                           >
@@ -839,7 +856,7 @@ const NftAsset: React.FC<Props> = ({
                           <CoinIcon name='WETH' />
                           <GradientCoinDisplay
                             weight={600}
-                            color={colors.grey900}
+                            color={PaletteColors['grey-900']}
                             size='24px'
                             coin='WETH'
                           >
@@ -1306,9 +1323,11 @@ const NftAsset: React.FC<Props> = ({
                                     target='_blank'
                                     href={currentAsset?.collection.external_url}
                                   >
-                                    <Icon size='sm' label='globe'>
-                                      <IconLink fill={colors.blue600} />
-                                    </Icon>
+                                    <IconLink
+                                      size='small'
+                                      label='globe'
+                                      color={PaletteColors['blue-600']}
+                                    />
                                   </Link>
                                 ) : null}
                                 {currentAsset?.collection.twitter_username ? (
@@ -1316,9 +1335,11 @@ const NftAsset: React.FC<Props> = ({
                                     target='_blank'
                                     href={`https://twitter.com/${currentAsset?.collection.twitter_username}`}
                                   >
-                                    <Icon size='sm' label='twitter'>
-                                      <IconTwitter fill={colors.blue600} />
-                                    </Icon>
+                                    <IconTwitter
+                                      size='small'
+                                      label='twitter'
+                                      color={PaletteColors['blue-600']}
+                                    />
                                   </Link>
                                 ) : null}
                                 {currentAsset?.collection.instagram_username ? (
@@ -1326,9 +1347,11 @@ const NftAsset: React.FC<Props> = ({
                                     target='_blank'
                                     href={`https://instagram.com/${currentAsset?.collection.instagram_username}`}
                                   >
-                                    <Icon size='sm' label='camera'>
-                                      <IconInstagram fill={colors.blue600} />
-                                    </Icon>
+                                    <IconInstagram
+                                      size='small'
+                                      label='camera'
+                                      color={PaletteColors['blue-600']}
+                                    />
                                   </Link>
                                 ) : null}
                                 {currentAsset?.collection.discord_url ? (
@@ -1336,9 +1359,11 @@ const NftAsset: React.FC<Props> = ({
                                     target='_blank'
                                     href={`${currentAsset?.collection.discord_url}`}
                                   >
-                                    <Icon size='sm' label='computer'>
-                                      <IconComputer fill={colors.blue600} />
-                                    </Icon>
+                                    <IconComputer
+                                      size='small'
+                                      label='computer'
+                                      color={PaletteColors['blue-600']}
+                                    />
                                   </Link>
                                 ) : null}
                               </LinksContainer>

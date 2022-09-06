@@ -7,7 +7,12 @@ import { CardStateType, ResidentialAddress } from 'data/components/debitCard/typ
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
 
-import { OrderCardStep, RESIDENTIAL_ADDRESS_FORM, SOCIAL_SECURITY_NUMBER_FORM } from './model'
+import {
+  DebitCardError,
+  OrderCardStep,
+  RESIDENTIAL_ADDRESS_FORM,
+  SOCIAL_SECURITY_NUMBER_FORM
+} from './model'
 import { actions as A } from './slice'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -76,14 +81,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const getCards = function* () {
     try {
       yield put(A.getCardsLoading())
+
+      yield put(A.getLegalRequirements())
+
       let cards = yield call(api.getDCCreated)
+
       cards = filterTerminatedCards(cards)
+
       yield put(A.getCardsSuccess(cards))
+
       if (cards.length > 0) {
         yield put(A.setCurrentCardSelected(cards[0]))
+
         yield call(getCardToken, cards[0].id)
+
         yield call(getEligibleAccounts)
+
         yield call(getCurrentCardAccount)
+
         yield call(getCardTransactions)
       }
     } catch (e) {
@@ -97,6 +112,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const debitCardModuleEnabled = (yield select(
       selectors.core.walletOptions.getWalletDebitCardEnabled
     )).getOrElse(false)
+
     if (debitCardModuleEnabled) {
       try {
         const products = yield call(api.getDCProducts)
@@ -114,14 +130,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         ssn: string
       }
 
-      yield put(A.createCardLoading())
+      const legalRequirementsR = selectors.components.debitCard.getLegalRequirements(yield select())
+
+      const legalRequirements = legalRequirementsR.getOrFail(DebitCardError.NO_LEGAL_REQUIREMENTS)
+
+      const acceptedRequirements = legalRequirements.map((requirement) => ({
+        acceptedVersion: requirement.version,
+        name: requirement.name
+      }))
+
+      yield call(api.acceptLegalRequirements, acceptedRequirements)
+
       const { payload: productCode } = action
+
+      yield put(A.createCardLoading())
+
       const data = yield call(api.createDCOrder, { productCode, ssn })
+
       yield put(A.createCardSuccess(data))
 
-      yield call(getCards)
+      yield put(A.getCards())
     } catch (e) {
       const error = errorHandler(e)
+
       yield put(A.createCardFailure(error))
     }
   }
@@ -219,12 +250,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const getLegalRequirements = function* () {
+    try {
+      const data = yield call(api.getLegalRequirements)
+
+      yield put(A.getLegalRequirementsSuccess(data))
+    } catch (e) {
+      yield put(A.getLegalRequirementsFailure(e))
+    }
+  }
+
   return {
     createCard,
     getCardTransactions,
     getCards,
     getCurrentCardAccount,
     getEligibleAccounts,
+    getLegalRequirements,
     getProducts,
     getResidentialAddress,
     handleCardLock,

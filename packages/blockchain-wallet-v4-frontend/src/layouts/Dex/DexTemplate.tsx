@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { colors } from '@blockchain-com/constellation'
+import React from 'react'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'

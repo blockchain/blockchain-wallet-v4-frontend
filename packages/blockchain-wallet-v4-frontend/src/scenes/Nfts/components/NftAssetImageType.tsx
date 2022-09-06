@@ -1,6 +1,10 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconImage, IconPlayCircle, IconQuestion } from '@blockchain-com/icons'
+import {
+  IconImage,
+  IconPlayCircle,
+  IconQuestion,
+  PaletteColors
+} from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 const Wrapper = styled.div<{ right: string; top: string }>`
@@ -16,11 +20,23 @@ const Wrapper = styled.div<{ right: string; top: string }>`
 `
 
 const NftAssetImageType: React.FC<Props> = ({ animation_url, image_url, ...rest }) => {
+  let IconComponent
+
+  switch (true) {
+    case !!animation_url:
+      IconComponent = IconPlayCircle
+      break
+    case !!image_url:
+      IconComponent = IconPlayCircle
+      break
+
+    default:
+      IconComponent = IconQuestion
+  }
+
   return (
     <Wrapper {...rest}>
-      <Icon size='sm' color='white900' label='asset-type'>
-        {animation_url ? <IconPlayCircle /> : image_url ? <IconImage /> : <IconQuestion />}
-      </Icon>
+      <IconComponent color={PaletteColors['white-900']} label='asset-type' size='small' />
     </Wrapper>
   )
 }

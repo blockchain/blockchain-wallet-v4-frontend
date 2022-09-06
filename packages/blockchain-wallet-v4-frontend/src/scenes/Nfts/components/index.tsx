@@ -1,4 +1,4 @@
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -238,7 +238,7 @@ export const Stat = styled.div`
   gap: 16px;
   white-space: nowrap;
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid ${colors.grey000};
+  border: 1px solid ${PaletteColors['grey-000']};
   ${media.laptop`
     > div {
       font-size: 12px;
@@ -247,11 +247,11 @@ export const Stat = styled.div`
 `
 
 export const AvatarGradientColors = [
-  colors.blue600,
-  colors.purple600,
-  colors.purple300,
-  colors.green300,
-  colors.grey900
+  PaletteColors['blue-600'],
+  PaletteColors['purple-600'],
+  PaletteColors['purple-300'],
+  PaletteColors['green-300'],
+  PaletteColors['grey-900']
 ]
 
 export const LinksContainer = styled.div`

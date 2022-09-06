@@ -1,7 +1,5 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconVerified } from '@blockchain-com/icons'
-import { string } from 'prop-types'
+import { IconVerified, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { SkeletonCircle } from 'blockchain-info-components'
@@ -37,9 +35,7 @@ const NftCollectionImageSmall: React.FC<Props> = (props) => {
     <Wrapper>
       {isVerified ? (
         <IconWrapper>
-          <Icon label='verified' color='orange400'>
-            <IconVerified />
-          </Icon>
+          <IconVerified label='verified' color={PaletteColors['orange-400']} />
         </IconWrapper>
       ) : null}
       {src !== '' ? (

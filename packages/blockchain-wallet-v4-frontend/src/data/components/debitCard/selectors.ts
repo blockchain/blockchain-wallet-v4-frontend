@@ -41,3 +41,5 @@ export const getResidentialAddress = (state: RootState) =>
   state.components.debitCard.residentialAddress
 
 export const getOrderCardStep = (state: RootState) => state.components.debitCard.orderCardStep
+
+export const getLegalRequirements = (state: RootState) => state.components.debitCard.legal

@@ -24,7 +24,7 @@ const useOpenTransactionReportModal: OpenTransactionReportModalHook = () => {
     [dispatch]
   )
 
-  return [open]
+  return open
 }
 
 export default useOpenTransactionReportModal

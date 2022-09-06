@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconWarningTriangle } from '@blockchain-com/icons'
+import { IconWarningTriangle, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Link, Text } from 'blockchain-info-components'
@@ -55,9 +54,7 @@ const Sanctions = () => (
   <Wrapper>
     <Row>
       <PendingIconWrapper>
-        <Icon label='alert' color='orange400' size='lg'>
-          <IconWarningTriangle />
-        </Icon>
+        <IconWarningTriangle color={PaletteColors['orange-400']} label='alert' size='large' />
       </PendingIconWrapper>
     </Row>
     <CentralRow>

@@ -1,18 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconClipboard, IconDownload } from '@blockchain-com/icons'
+import { IconClipboard, IconDownload, Padding, PaletteColors } from '@blockchain-com/constellation'
 
 import { Button, Link, Text } from 'blockchain-info-components'
 
-import {
-  Content,
-  Description,
-  EmptyReportList,
-  ReportItem,
-  StyledIcon,
-  StyledLoading
-} from './model'
+import { Content, Description, EmptyReportList, ReportItem, StyledLoading } from './model'
 
 const COMPLETED_STATUS = 'COMPLETED'
 const PENDING_STATUS = 'PENDING'
@@ -57,9 +49,7 @@ const List = ({ onExportClick, reports }) => (
           <Content>
             {isPending && <StyledLoading borderWidth='4px' width='16px' height='16px' />}
             {!isPending && (
-              <Icon label='copy' color='blue600' size='md'>
-                <IconClipboard />
-              </Icon>
+              <IconClipboard label='copy' color={PaletteColors['blue-600']} size='medium' />
             )}
             <Description>
               <Text size='16px' weight={600}>
@@ -71,9 +61,9 @@ const List = ({ onExportClick, reports }) => (
           {isCompleted && (
             <Link href={filePath} target='_blank' onClick={() => onExportClick(timePeriod)}>
               <Button nature='empty-blue' data-e2e='exportButton' type='button'>
-                <StyledIcon label='download' color='blue600' size='sm'>
-                  <IconDownload />
-                </StyledIcon>
+                <Padding right={0.5}>
+                  <IconDownload label='download' color={PaletteColors['blue-600']} size='small' />
+                </Padding>
                 <FormattedMessage
                   id='scenes.tax.center.list.component.export'
                   defaultMessage='Export'

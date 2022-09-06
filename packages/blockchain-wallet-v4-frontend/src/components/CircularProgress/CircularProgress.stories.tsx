@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Icon } from '@blockchain-com/constellation'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 import { Text } from 'blockchain-info-components'
@@ -12,11 +11,7 @@ export default {
   title: 'Components/CircularProgress'
 } as ComponentMeta<CircularProgressComponent>
 
-const Template: ComponentStory<CircularProgressComponent> = (args) => (
-  <Icon label='circular-progress' size='lg' color='blue600'>
-    <CircularProgress {...args} />
-  </Icon>
-)
+const Template: ComponentStory<CircularProgressComponent> = (args) => <CircularProgress {...args} />
 
 export const Default = Template.bind({})
 
@@ -39,9 +34,7 @@ export const WithTimerLoop = () => {
 
   return (
     <Flex alignItems='center' gap={6}>
-      <Icon label='circular-progress' size='md' color='blue600'>
-        <CircularProgress value={progress} />
-      </Icon>
+      <CircularProgress value={progress} />
       <Text color='grey900' weight={500}>
         {' '}
         New quote in{' '}

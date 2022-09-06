@@ -15,6 +15,7 @@ import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
 import * as recoveryPhrase from './recoveryPhrase/selectors'
 import * as recurringBuy from './recurringBuy/selectors'
+import * as referral from './referral/selectors'
 import * as request from './request/selectors'
 import * as resetWallet2fa from './resetWallet2fa/selectors'
 import * as send from './send/selectors'
@@ -51,6 +52,7 @@ export {
   priceTicker,
   recoveryPhrase,
   recurringBuy,
+  referral,
   request,
   resetWallet2fa,
   send,

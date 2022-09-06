@@ -272,20 +272,16 @@ export default ({
       url: nabuUrl
     })
 
-  const checkIsValidReferralCode = (code: string) =>
-    get({
-      contentType: 'application/json',
-      endPoint: `/referral/${code}`,
-      url: nabuUrl
-    })
+  // const checkIsValidReferralCode = (code: string) =>
+  //   get({
+  //     contentType: 'application/json',
+  //     endPoint: `/referral/${code}`,
+  //     url: nabuUrl
+  //   })
 
-  const createReferral = (referralCode: string) =>
-    authorizedPost({
-      contentType: 'application/json',
-      data: {
-        referralCode
-      },
-      endPoint: '/referral',
+  const getUserReferralInfo = () =>
+    authorizedGet({
+      endPoint: `/referral/info`,
       url: nabuUrl
     })
   // reset account endpoints
@@ -324,13 +320,22 @@ export default ({
       url: rootUrl
     })
 
+  // const createReferral = (referralCode: string) =>
+  //   authorizedPost({
+  //     contentType: 'application/json',
+  //     data: {
+  //       referralCode
+  //     },
+  //     endPoint: '/referral',
+  //     url: nabuUrl
+  //   })
+
   return {
     approveAccountReset,
-    checkIsValidReferralCode,
+    // checkIsValidReferralCode,
     createExchangeUser,
     createLinkAccountId,
     createOrGetUser,
-    createReferral,
     exchangeResetPassword,
     exchangeSignIn,
     finaliseLinking,
@@ -341,6 +346,7 @@ export default ({
     getPaymentsAccountExchange,
     getUser,
     getUserCampaigns,
+    getUserReferralInfo,
     getUserTermsAndConditions,
     getUserTermsAndConditionsLast,
     linkAccount,

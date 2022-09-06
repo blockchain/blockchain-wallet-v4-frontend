@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconChevronRightV2, IconPhone } from '@blockchain-com/icons'
+import { IconChevronRightV2, IconPhone, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'
@@ -28,7 +27,7 @@ const IconWrapper = styled.div`
   align-items: center;
 `
 
-const ButtonIcon = styled(Icon)`
+const ButtonIcon = styled.div`
   align-items: center;
   margin-right: 1rem;
 `
@@ -95,8 +94,12 @@ const ChooseTwoFA = (props: Props) => {
           </Column>
         </Row>
 
-        <ButtonIcon label='chevronRight' size='md' color='grey600'>
-          <IconChevronRightV2 />
+        <ButtonIcon>
+          <IconChevronRightV2
+            label='chevronRight'
+            size='medium'
+            color={PaletteColors['grey-600']}
+          />
         </ButtonIcon>
       </ButtonPanel>
       <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.YUBIKEY_SETUP)}>
@@ -124,15 +127,17 @@ const ChooseTwoFA = (props: Props) => {
             </StyledSuccessCartridge>
           </Column>
         </Row>
-        <ButtonIcon label='chevronRight' size='md' color='grey600'>
-          <IconChevronRightV2 />
+        <ButtonIcon>
+          <IconChevronRightV2
+            label='chevronRight'
+            size='medium'
+            color={PaletteColors['grey-600']}
+          />
         </ButtonIcon>
       </ButtonPanel>
       <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.SMS_SETUP)}>
         <Row>
-          <Icon color='blue600' size='md' label='sms-2fa'>
-            <IconPhone />
-          </Icon>
+          <IconPhone color={PaletteColors['blue-600']} size='medium' label='sms-2fa' />
 
           <Column>
             <Text
@@ -159,8 +164,12 @@ const ChooseTwoFA = (props: Props) => {
             </Text>
           </Column>
         </Row>
-        <ButtonIcon label='chevronRight' size='md' color='grey600'>
-          <IconChevronRightV2 />
+        <ButtonIcon>
+          <IconChevronRightV2
+            label='chevronRight'
+            size='medium'
+            color={PaletteColors['grey-600']}
+          />
         </ButtonIcon>
       </ButtonPanel>
     </>

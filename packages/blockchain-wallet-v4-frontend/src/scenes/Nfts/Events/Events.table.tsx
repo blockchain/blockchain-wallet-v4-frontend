@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { useSortBy, useTable } from 'react-table'
-import { Icon } from '@blockchain-com/constellation'
-import { IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/icons'
+import { IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/constellation'
 
 import { HeaderText, HeaderToggle, StickyTableHeader } from 'components/Table'
 import { EventsQuery } from 'generated/graphql.types'
@@ -64,15 +63,11 @@ const CollectionEventsTable: React.FC<Props> = ({ columns, events, noBorder }) =
                     {column.isSorted ? (
                       column.isSortedDesc ? (
                         <HeaderToggle>
-                          <Icon size='sm' label='sort-desc'>
-                            <IconChevronDownV2 />
-                          </Icon>
+                          <IconChevronDownV2 size='small' label='sort-desc' />
                         </HeaderToggle>
                       ) : (
                         <HeaderToggle>
-                          <Icon size='sm' label='sort-asc'>
-                            <IconChevronUpV2 />
-                          </Icon>
+                          <IconChevronUpV2 size='small' label='sort-asc' />
                         </HeaderToggle>
                       )
                     ) : (

@@ -1,9 +1,8 @@
 import { Task } from 'redux-saga'
-import { call, cancel, fork, put, take, takeEvery, takeLatest } from 'redux-saga/effects'
+import { cancel, fork, take, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import { actions as coreActions, actionTypes } from 'data'
+import { actionTypes } from 'data'
 
-import profileSagas from '../../modules/profile/sagas'
 import sagas from './sagas'
 import { actions } from './slice'
 
@@ -12,7 +11,6 @@ let sellPollTask: Task
 
 export default ({ api, coreSagas, networks }) => {
   const buySellSagas = sagas({ api, coreSagas, networks })
-  const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
   return function* buySellSaga() {
     yield takeEvery(actionTypes.form.CHANGE, buySellSagas.formChanged)

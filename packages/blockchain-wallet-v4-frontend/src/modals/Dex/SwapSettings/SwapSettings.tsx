@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
-import { IconCloseCircleV2 } from '@blockchain-com/icons'
+import { IconCloseCircleV2, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Field, getFormValues, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -112,9 +111,7 @@ const DexSwapSettings = ({ formActions, formValues, modalActions, position, tota
             modalActions.closeModal()
           }}
         >
-          <Icon label='close' size='md' color='grey400'>
-            <IconCloseCircleV2 />
-          </Icon>
+          <IconCloseCircleV2 color={PaletteColors['grey-400']} label='close' size='medium' />
         </CloseIcon>
       </Header>
       <Form>

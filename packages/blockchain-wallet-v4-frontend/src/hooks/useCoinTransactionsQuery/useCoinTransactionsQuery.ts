@@ -21,6 +21,10 @@ const useCoinTransactionsQuery: CoinTransactionsQueryHook = ({ coin }) => {
         return (state) => selectors.core.common.coins.getWalletTransactions(state, coin)
       }
 
+      if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
+        return (state) => selectors.core.common.coins.getWalletTransactions(state, coin)
+      }
+
       const commonCoinSelector = selectors.core.common[toLower(coin)]
 
       if (commonCoinSelector) {
@@ -34,10 +38,18 @@ const useCoinTransactionsQuery: CoinTransactionsQueryHook = ({ coin }) => {
       // default to fiat
       return (state) => selectors.core.data.fiat.getTransactions(coin, state)
     },
-    [isErc20Coin]
+    [isCustodialCoin, isErc20Coin]
   )
 
-  return useRemote<{ message: string }, TransactionItem[]>(getSelectorForCoin(coin))
+  return useRemote<{ message: string }, TransactionItem[]>((state) => {
+    const remotes = getSelectorForCoin(coin)(state)
+
+    if (remotes instanceof Array) {
+      return remotes[0]
+    }
+
+    return remotes
+  })
 }
 
 export default useCoinTransactionsQuery

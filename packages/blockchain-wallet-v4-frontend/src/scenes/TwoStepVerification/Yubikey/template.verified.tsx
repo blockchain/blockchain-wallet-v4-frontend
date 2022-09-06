@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconCheckCircle } from '@blockchain-com/icons'
+import { IconCheckCircle, PaletteColors } from '@blockchain-com/constellation'
 
 import { Button, Text } from 'blockchain-info-components'
 
@@ -13,9 +12,12 @@ const YubikeyVerified = (props: Props) => {
     <>
       <BackArrowFormHeader handleBackArrowClick={() => props.changeAuthenticatorStep(1)} />
       <CenteredColumn>
-        <Icon label='checkmark-circle-filled' color='green600' size='lg'>
-          <IconCheckCircle />
-        </Icon>
+        <IconCheckCircle
+          label='checkmark-circle-filled'
+          color={PaletteColors['green-600']}
+          size='large'
+        />
+
         <Text size='20px' weight={600} color='grey900' lineHeight='1.5' style={{ margin: '8px 0' }}>
           <FormattedMessage
             id='scenes.login.upgrade.yubikeyVerify.header'

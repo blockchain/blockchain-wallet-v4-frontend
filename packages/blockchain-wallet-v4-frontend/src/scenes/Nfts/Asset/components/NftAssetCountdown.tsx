@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -11,7 +11,7 @@ const CountdownText = styled(EthText)`
   line-height: 32px;
 `
 const GreyLetter = styled(Text)`
-  color: ${colors.grey400};
+  color: ${PaletteColors['grey-400']};
   padding-right: 8px;
 `
 const NftAssetCountdown: React.FC<Props> = ({ countDownDate }) => {

@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { PaletteColors } from '@blockchain-com/constellation'
+import styled from 'styled-components'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, CheckBoxInput, Color, Image, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import {
   FlyoutContainer,
   FlyoutContent,
@@ -17,7 +20,23 @@ type Props = {
   handleCreateCard: () => void
 }
 
+const CheckboxWrapper = styled(Flex)<{ termsAccepted: boolean }>`
+  background: ${(props) =>
+    props.termsAccepted ? PaletteColors['white-900'] : Color('greyFade000')};
+  border: 1px solid ${PaletteColors['grey-000']};
+  border-radius: 0.5rem;
+  margin: 1rem 0em;
+  justify-content: center;
+  padding: 1rem;
+`
+
 const NotAsked = ({ handleClose, handleCreateCard }: Props) => {
+  const [termsAccepted, setTermsAccepted] = useState(false)
+
+  const toggleTermsAccepted = () => {
+    setTermsAccepted((termsAccepted) => !termsAccepted)
+  }
+
   return (
     <FlyoutContainer>
       <FlyoutHeader data-e2e='orderMyCardHeader' mode='close' onClick={handleClose}>
@@ -44,6 +63,24 @@ const NotAsked = ({ handleClose, handleCreateCard }: Props) => {
         </ResultWrapper>
       </FlyoutContent>
       <FlyoutFooter collapsed>
+        <CheckboxWrapper termsAccepted={termsAccepted}>
+          <Flex alignItems='center' justifyContent='center'>
+            <CheckBoxInput
+              name='terms'
+              disabled={false}
+              onChange={toggleTermsAccepted}
+              checked={termsAccepted}
+            />
+          </Flex>
+
+          <Text color={PaletteColors['grey-200']} weight={500} size='12px'>
+            <FormattedMessage
+              id='modals.order_my_card.terms_of_service'
+              defaultMessage='I understand and accept the terms and conditions of the Blockchain.com Visa Card Program, the Pathward Bank Cardholder Agreement, the Pathward Bank E-Sign Agreement and the Pathward Bank Privacy Policy. I also understand and accept that these terms operate in addition to the Blockchain.com Terms of Service and Blockchain.com Privacy Policy.'
+            />
+          </Text>
+        </CheckboxWrapper>
+
         <Button
           data-e2e='createCardBtn'
           fullwidth
@@ -51,6 +88,7 @@ const NotAsked = ({ handleClose, handleCreateCard }: Props) => {
           height='48px'
           size='16px'
           onClick={handleCreateCard}
+          disabled={!termsAccepted}
         >
           <FormattedMessage
             id='modals.order_my_card.select_your_card.create_card'
@@ -61,4 +99,5 @@ const NotAsked = ({ handleClose, handleCreateCard }: Props) => {
     </FlyoutContainer>
   )
 }
+
 export default NotAsked

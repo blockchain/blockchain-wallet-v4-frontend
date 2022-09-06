@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Icon } from '@blockchain-com/constellation'
 import {
-  IconCamera,
   IconComputer,
   IconInstagram,
   IconLink,
-  IconTwitter
-} from '@blockchain-com/icons'
+  IconTwitter,
+  PaletteColors
+} from '@blockchain-com/constellation'
 import {
   AvatarGradientColors,
   CollectionHeader,
@@ -27,7 +26,6 @@ import { Link, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
-  AssetSortFields,
   CollectionFilterFields,
   EventFilterFields,
   useCollectionsQuery
@@ -46,7 +44,7 @@ import NftCollectionLoading from './NftCollection.template.loading'
 import Stats from './Stats'
 
 const CollectionInfo = styled.div`
-  background: ${colors.white900};
+  background: ${PaletteColors['white-900']};
   box-shadow: 0px 4px 16px rgba(5, 24, 61, 0.1);
   border-radius: 16px;
   padding: 6px 12px;
@@ -63,7 +61,7 @@ const OuterCollectionInfo = styled.div`
   display: flex;
   z-index: 21;
   background: ${(props) => props.theme.white};
-  border-bottom: 1px solid ${colors.grey000};
+  border-bottom: 1px solid ${PaletteColors['grey-000']};
   ${media.tabletL`
     padding: 12px;
     display: block;
@@ -145,9 +143,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
                 <LinksContainer>
                   {collection.external_url ? (
                     <Link target='_blank' href={collection.external_url}>
-                      <Icon size='sm' label='globe'>
-                        <IconLink fill={colors.blue600} />
-                      </Icon>
+                      <IconLink size='small' label='globe' color={PaletteColors['blue-600']} />
                     </Link>
                   ) : null}
                   {collection.twitter_username ? (
@@ -155,9 +151,7 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
                       target='_blank'
                       href={`https://twitter.com/${collection.twitter_username}`}
                     >
-                      <Icon size='sm' label='twitter'>
-                        <IconTwitter fill={colors.blue600} />
-                      </Icon>
+                      <IconTwitter size='small' label='twitter' color={PaletteColors['blue-600']} />
                     </Link>
                   ) : null}
                   {collection.instagram_username ? (
@@ -165,16 +159,20 @@ const NftsCollection: React.FC<Props> = ({ formActions, formValues, routerAction
                       target='_blank'
                       href={`https://instagram.com/${collection.instagram_username}`}
                     >
-                      <Icon size='sm' label='camera'>
-                        <IconInstagram fill={colors.blue600} />
-                      </Icon>
+                      <IconInstagram
+                        size='small'
+                        label='camera'
+                        color={PaletteColors['blue-600']}
+                      />
                     </Link>
                   ) : null}
                   {collection.discord_url ? (
                     <Link target='_blank' href={`${collection.discord_url}`}>
-                      <Icon size='sm' label='computer'>
-                        <IconComputer fill={colors.blue600} />
-                      </Icon>
+                      <IconComputer
+                        size='small'
+                        label='computer'
+                        color={PaletteColors['blue-600']}
+                      />
                     </Link>
                   ) : null}
                 </LinksContainer>

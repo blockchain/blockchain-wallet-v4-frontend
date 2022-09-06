@@ -22,5 +22,6 @@ export default ({ api, coreSagas, networks }) => {
       actions.submitSocialSecurityNumber.type,
       debitCardSagas.submitSocialSecurityNumber
     )
+    yield takeLatest(actions.getLegalRequirements.type, debitCardSagas.getLegalRequirements)
   }
 }

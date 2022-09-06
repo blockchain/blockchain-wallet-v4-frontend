@@ -5,4 +5,4 @@ export type OpenReceiveCryptoModalCallback = (props: {
   origin: ModalOriginType
 }) => void
 
-export type OpenReceiveCryptoModalHook = () => [OpenReceiveCryptoModalCallback]
+export type OpenReceiveCryptoModalHook = () => OpenReceiveCryptoModalCallback

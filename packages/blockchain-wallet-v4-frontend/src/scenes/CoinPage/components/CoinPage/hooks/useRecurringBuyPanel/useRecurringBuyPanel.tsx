@@ -16,8 +16,8 @@ import { convertInputCurrencyToNumber } from './utils'
 
 export const useRecurringBuyPanel: UseRecurringBuyPanelHook = ({ coin }) => {
   const { data, isLoading } = useListRecurringBuyForCoin({ coin })
-  const [openRecurringBuy] = useOpenRecurringBuyFlayout()
-  const [openRecurringBuyBanner] = useRecurringBuyBannerFlyout()
+  const openRecurringBuy = useOpenRecurringBuyFlayout()
+  const openRecurringBuyBanner = useRecurringBuyBannerFlyout()
   const { trackOnClickLearnMore } = useRecurringBuyTracker()
 
   const recurringBuyListItems = useMemo(() => {

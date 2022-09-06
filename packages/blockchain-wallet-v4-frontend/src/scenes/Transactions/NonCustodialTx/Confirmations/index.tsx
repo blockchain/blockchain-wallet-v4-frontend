@@ -10,7 +10,6 @@ import { selectors } from 'data'
 import { media } from 'services/styles'
 
 import { RowValue } from '../../components'
-import { getBlockHeight } from './selectors'
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,16 +41,14 @@ const IconWrapper = styled.div`
 `
 
 const Confirmations = (props: Props) => {
-  const { blockHeight, coin, domains, isConfirmed, txBlockHeight = 0 } = props
-  const conf = blockHeight - txBlockHeight + 1
-  const confirmations = props.confirmations || (conf > 0 && txBlockHeight) ? conf : 0
+  const { coin, confirmations, domains, isConfirmed } = props
   const { coinfig } = window.coins[coin]
   const { parentChain = coin } = coinfig.type
   const { minimumOnChainConfirmations = 3 } = window.coins[parentChain].coinfig.type
 
   return (
     <Wrapper>
-      {confirmations >= minimumOnChainConfirmations || isConfirmed ? (
+      {isConfirmed ? (
         <RowValue>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.confirmed'
@@ -71,7 +68,7 @@ const Confirmations = (props: Props) => {
         </ConfirmationsText>
       )}
       <IconWrapper>
-        {confirmations < minimumOnChainConfirmations && (
+        {!isConfirmed && (
           <TransactionTooltip id='confirmations' data-iscapture='true' data-offset="{'left': 0.75}">
             <Icon name='question-in-circle' />
           </TransactionTooltip>
@@ -105,8 +102,7 @@ const Confirmations = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  blockHeight: getBlockHeight(state, ownProps.coin),
+const mapStateToProps = (state) => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     comRoot: 'https://blockchain.com'
   } as WalletOptionsType['domains'])
@@ -116,10 +112,9 @@ const connector = connect(mapStateToProps)
 
 type OwnProps = {
   coin: CoinType
-  confirmations?: number
+  confirmations: number
   hash: string
-  isConfirmed?: boolean
-  txBlockHeight?: number
+  isConfirmed: boolean
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>

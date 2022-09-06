@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
-import { IconCloseCircleV2 } from '@blockchain-com/icons'
+import { IconCloseCircleV2, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { Dispatch } from 'redux'
 import styled from 'styled-components'
@@ -94,9 +93,12 @@ const ContinueToGold = ({ cacheActions, verifyIdentity }: Props) => {
         data-e2e='newCoinCloseButton'
         onClick={() => cacheActions.announcementDismissed(completeAnnouncement)}
       >
-        <Icon label='close' color='grey600' data-e2e='sanctionsInfoCloseModalIcon' size='md'>
-          <IconCloseCircleV2 />
-        </Icon>
+        <IconCloseCircleV2
+          label='close'
+          color={PaletteColors['grey-600']}
+          data-e2e='sanctionsInfoCloseModalIcon'
+          size='medium'
+        />
       </CloseLink>
     </Wrapper>
   )

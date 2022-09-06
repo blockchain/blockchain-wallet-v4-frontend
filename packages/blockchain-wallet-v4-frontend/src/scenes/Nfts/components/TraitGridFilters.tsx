@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconCloseCircle, IconFilter } from '@blockchain-com/icons'
+import { IconCloseCircle, IconFilter, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -43,8 +42,8 @@ const Wrapper = styled.div<{ hasBanner: boolean }>`
 
 const ActiveTraitFilter = styled.div`
   align-items: center;
-  background: ${colors.grey000};
-  border: 1px solid ${colors.grey000};
+  background: ${PaletteColors['grey-000']};
+  border: 1px solid ${PaletteColors['grey-000']};
   border-radius: 6px;
   box-sizing: border-box;
   display: flex;
@@ -56,7 +55,7 @@ const ActiveTraitFilter = styled.div`
 const ClearAll = styled(ActiveTraitFilter)`
   cursor: pointer;
   padding: 10px 12px;
-  background: ${colors.blue000};
+  background: ${PaletteColors['blue-000']};
   border: unset;
 `
 
@@ -212,9 +211,7 @@ const TraitGridFilters: React.FC<Props> = ({
                       width: '40px'
                     }}
                   >
-                    <Icon label='filter' size='lg'>
-                      <IconFilter />
-                    </Icon>
+                    <IconFilter label='filter' size='large' />
                   </Button>
                 ) : null}
                 <Button
@@ -248,7 +245,7 @@ const TraitGridFilters: React.FC<Props> = ({
                         </Text>
                       </Flex>
                     )}
-                    <NftRefreshIcon size='sm' isActive={isRefreshRotating} color='blue600' />
+                    <NftRefreshIcon size='small' isActive={isRefreshRotating} color='blue-600' />
                   </Flex>
                 </Button>
               </Flex>
@@ -289,21 +286,21 @@ const TraitGridFilters: React.FC<Props> = ({
                 Collection: {collectionFilter}
               </Text>
               <ClosedBackground>
-                <Icon label='close-circle' color='grey200' size='sm'>
-                  <IconCloseCircle
-                    role='button'
-                    cursor='pointer'
-                    onClick={() => {
-                      formActions.change('nftFilter', 'collection', undefined)
-                      analyticsActions.trackEvent({
-                        key: Analytics.NFT_FILTER_REMOVED,
-                        properties: {
-                          filter_characteristic: 'collection'
-                        }
-                      })
-                    }}
-                  />
-                </Icon>
+                <IconCloseCircle
+                  label='close-circle'
+                  role='button'
+                  color={PaletteColors['grey-200']}
+                  size='small'
+                  onClick={() => {
+                    formActions.change('nftFilter', 'collection', undefined)
+                    analyticsActions.trackEvent({
+                      key: Analytics.NFT_FILTER_REMOVED,
+                      properties: {
+                        filter_characteristic: 'collection'
+                      }
+                    })
+                  }}
+                />
               </ClosedBackground>
             </ActiveTraitFilter>
           </div>
@@ -316,13 +313,14 @@ const TraitGridFilters: React.FC<Props> = ({
                 <EventTypeName event_type={eventFilter as keyof typeof opensea_event_types} />
               </Text>
               <ClosedBackground>
-                <Icon label='close' color='grey200' size='sm'>
-                  <IconCloseCircle
-                    role='button'
-                    cursor='pointer'
-                    onClick={() => formActions.change('nftFilter', `event`, undefined)}
-                  />
-                </Icon>
+                <IconCloseCircle
+                  label='close'
+                  color={PaletteColors['grey-200']}
+                  size='small'
+                  role='button'
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => formActions.change('nftFilter', `event`, undefined)}
+                />
               </ClosedBackground>
             </ActiveTraitFilter>
           </div>
@@ -334,13 +332,14 @@ const TraitGridFilters: React.FC<Props> = ({
                 Buy Now
               </Text>
               <ClosedBackground>
-                <Icon label='close' color='grey200' size='sm'>
-                  <IconCloseCircle
-                    role='button'
-                    cursor='pointer'
-                    onClick={() => formActions.change('nftFilter', `forSale`, undefined)}
-                  />
-                </Icon>
+                <IconCloseCircle
+                  label='close'
+                  color={PaletteColors['grey-200']}
+                  size='small'
+                  role='button'
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => formActions.change('nftFilter', `forSale`, undefined)}
+                />
               </ClosedBackground>
             </ActiveTraitFilter>
           </div>
@@ -352,13 +351,14 @@ const TraitGridFilters: React.FC<Props> = ({
                 Verified Only
               </Text>
               <ClosedBackground>
-                <Icon label='close' color='grey200' size='sm'>
-                  <IconCloseCircle
-                    role='button'
-                    cursor='pointer'
-                    onClick={() => formActions.change('nftFilter', `verifiedOnly`, undefined)}
-                  />
-                </Icon>
+                <IconCloseCircle
+                  label='close'
+                  color={PaletteColors['grey-200']}
+                  size='small'
+                  role='button'
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => formActions.change('nftFilter', `verifiedOnly`, undefined)}
+                />
               </ClosedBackground>
             </ActiveTraitFilter>
           </div>
@@ -379,21 +379,22 @@ const TraitGridFilters: React.FC<Props> = ({
                         marginLeft: '8px'
                       }}
                     >
-                      <Icon label='close' color='grey200' size='sm'>
-                        <IconCloseCircle
-                          role='button'
-                          cursor='pointer'
-                          onClick={() => {
-                            formActions.change('nftFilter', key, undefined)
-                            analyticsActions.trackEvent({
-                              key: Analytics.NFT_FILTER_REMOVED,
-                              properties: {
-                                filter_characteristic: key
-                              }
-                            })
-                          }}
-                        />
-                      </Icon>
+                      <IconCloseCircle
+                        label='close'
+                        color={PaletteColors['grey-200']}
+                        size='small'
+                        role='button'
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          formActions.change('nftFilter', key, undefined)
+                          analyticsActions.trackEvent({
+                            key: Analytics.NFT_FILTER_REMOVED,
+                            properties: {
+                              filter_characteristic: key
+                            }
+                          })
+                        }}
+                      />
                     </div>
                   </ActiveTraitFilter>
                 </div>
@@ -419,21 +420,22 @@ const TraitGridFilters: React.FC<Props> = ({
                             marginLeft: '8px'
                           }}
                         >
-                          <Icon label='close' color='grey200' size='sm'>
-                            <IconCloseCircle
-                              role='button'
-                              cursor='pointer'
-                              onClick={() => {
-                                formActions.change('nftFilter', `${trait}.${value}`, undefined)
-                                analyticsActions.trackEvent({
-                                  key: Analytics.NFT_FILTER_REMOVED,
-                                  properties: {
-                                    filter_characteristic: `${trait}.${value}`
-                                  }
-                                })
-                              }}
-                            />
-                          </Icon>
+                          <IconCloseCircle
+                            label='close'
+                            color={PaletteColors['grey-200']}
+                            size='small'
+                            role='button'
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              formActions.change('nftFilter', `${trait}.${value}`, undefined)
+                              analyticsActions.trackEvent({
+                                key: Analytics.NFT_FILTER_REMOVED,
+                                properties: {
+                                  filter_characteristic: `${trait}.${value}`
+                                }
+                              })
+                            }}
+                          />
                         </div>
                       </ActiveTraitFilter>
                     </div>
