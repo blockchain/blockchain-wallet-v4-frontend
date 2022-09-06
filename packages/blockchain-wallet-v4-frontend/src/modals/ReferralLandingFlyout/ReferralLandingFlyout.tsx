@@ -1,8 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
-import { Icon, Padding, useCopyToClipboard } from '@blockchain-com/constellation'
-import { IconCloseCircleV2 } from '@blockchain-com/icons'
+import {
+  IconCloseCircleV2,
+  Padding,
+  PaletteColors,
+  useCopyToClipboard
+} from '@blockchain-com/constellation'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -81,9 +85,11 @@ const ReferralLanding: ReferralLandingFlyoutComponent = ({
       <FlyoutChild>
         <HeaderWrapper>
           <CloseIconContainer onClick={handleClose}>
-            <Icon label='close' color='grey600' data-e2e='sendNoFundsCloseModalIcon' size='md'>
-              <IconCloseCircleV2 />
-            </Icon>
+            <IconCloseCircleV2
+              color={PaletteColors['grey-600']}
+              data-e2e='sendNoFundsCloseModalIcon'
+              size='medium'
+            />
           </CloseIconContainer>
         </HeaderWrapper>
 

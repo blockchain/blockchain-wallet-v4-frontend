@@ -26,7 +26,7 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
 
   yield all([
     put(actions.core.data.coins.pollForCoinData()),
-    put(actions.misc.pingManifestFile()),
+    put(actions.misc.pingRuntimeFile()),
     call(logAppConsoleWarning),
     fork(analytics),
     fork(alerts),
