@@ -42,9 +42,16 @@ const Header = (props: OwnProps) => {
 
   const limitsCallback = useCallback(() => {
     props.modalActions.showModal(ModalName.TRADING_LIMITS_MODAL, {
-      origin: 'TradingLimits'
+      origin: 'Header'
     })
     trackEventCallback('TradingLimits')
+  }, [props.modalActions, trackEventCallback])
+
+  const referAFriendCallback = useCallback(() => {
+    props.modalActions.showModal(ModalName.REFERRAL_LANDING_MODAL, {
+      origin: 'Header'
+    })
+    trackEventCallback('Referral')
   }, [props.modalActions, trackEventCallback])
 
   const taxCenterCallback = useCallback(() => {
@@ -99,6 +106,7 @@ const Header = (props: OwnProps) => {
       isReferralAvailable={props.isReferralAvailable}
       isReferralRetrievalEnabled={props.featureFlags.isReferralRetrievalEnabled}
       limitsClickHandler={limitsCallback}
+      referAFriendHandler={referAFriendCallback}
       logoutClickHandler={logoutCallback}
       nftsEnabled={props.nftsEnabled}
       receiveClickHandler={receiveCallback}

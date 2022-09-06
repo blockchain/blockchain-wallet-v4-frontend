@@ -180,6 +180,7 @@ const Navbar = ({
   nftsEnabled,
   primaryNavItems,
   receiveClickHandler,
+  referAFriendHandler,
   refreshClickHandler,
   sendClickHandler,
   taxCenterClickHandler,
@@ -261,6 +262,7 @@ const Navbar = ({
           isReferralAvailable={isReferralAvailable}
           isReferralRetrievalEnabled={isReferralRetrievalEnabled}
           limitsClickHandler={limitsClickHandler}
+          referAFriendHandler={referAFriendHandler}
           logoutClickHandler={logoutClickHandler}
           taxCenterClickHandler={taxCenterClickHandler}
           trackEventCallback={trackEventCallback}
@@ -285,6 +287,7 @@ const Navbar = ({
             isReferralRetrievalEnabled,
             limitsClickHandler,
             logoutClickHandler,
+            referAFriendHandler,
             taxCenterClickHandler,
             trackEventCallback
           })}
@@ -377,6 +380,7 @@ type Props = {
   nftsEnabled: boolean
   primaryNavItems: Array<PrimaryNavItem>
   receiveClickHandler: () => void
+  referAFriendHandler: () => void
   refreshClickHandler: () => void
   sendClickHandler: () => void
   taxCenterClickHandler: () => void

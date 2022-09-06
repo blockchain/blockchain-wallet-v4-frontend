@@ -11,7 +11,6 @@ export default ({ api, coreSagas, networks }) => {
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,
-    fetchUserReferrals,
     linkFromExchangeAccount,
     linkToExchangeAccount,
     shareWalletAddressesWithExchange,
@@ -27,7 +26,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.CLEAR_SESSION, clearSession)
     yield takeLatest(AT.CREATE_USER, createUser)
     yield takeLatest(AT.FETCH_USER, fetchUser)
-    yield takeLatest(AT.FETCH_USER_REFERRAL, fetchUserReferrals)
     yield takeLatest(AT.FETCH_TIERS, fetchTiers)
     yield takeLatest(AT.FETCH_USER_CAMPAIGNS, fetchUserCampaigns)
     yield takeLatest(AT.AUTH_AND_ROUTE_TO_EXCHANGE, authAndRouteToExchangeAction)

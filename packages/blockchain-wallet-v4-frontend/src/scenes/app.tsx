@@ -67,7 +67,6 @@ const Interest = React.lazy(() => import('./Interest'))
 const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
-const Referral = React.lazy(() => import('./Referral'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TaxCenter = React.lazy(() => import('./TaxCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
@@ -84,7 +83,6 @@ const App = ({
   isDebitCardEnabled,
   isDexEnabled,
   isNftExplorerEnabled,
-  isReferralRetrievalEnabled,
   persistor,
   store,
   userData
@@ -223,9 +221,6 @@ const App = ({
                           {isDebitCardEnabled && (
                             <WalletLayout path='/debit-card' component={DebitCard} />
                           )}
-                          {isReferralRetrievalEnabled && (
-                            <WalletLayout path='/referral' component={Referral} />
-                          )}
                           <WalletLayout path='/airdrops' component={Airdrops} />
                           <WalletLayout path='/exchange' component={TheExchange} />
                           <WalletLayout path='/home' component={Home} />
@@ -277,9 +272,6 @@ const mapStateToProps = (state) => ({
     .getOrElse(false) as boolean,
   isNftExplorerEnabled: selectors.core.walletOptions
     .getNftExplorer(state)
-    .getOrElse(false) as boolean,
-  isReferralRetrievalEnabled: selectors.core.walletOptions
-    .getReferralRetrievalEnabled(state)
     .getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })

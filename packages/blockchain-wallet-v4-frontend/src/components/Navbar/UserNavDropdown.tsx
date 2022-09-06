@@ -13,6 +13,7 @@ export const userNavItems = ({
   isReferralRetrievalEnabled,
   limitsClickHandler,
   logoutClickHandler,
+  referAFriendHandler,
   taxCenterClickHandler,
   trackEventCallback
 }: Props) => [
@@ -58,15 +59,12 @@ export const userNavItems = ({
     to: '/settings/addresses'
   },
   {
-    clickHandler: () => {
-      trackEventCallback('Referral')
-    },
+    clickHandler: referAFriendHandler,
     copy: (
       <FormattedMessage id='layouts.wallet.header.referafriend' defaultMessage='Refer a Friend' />
     ),
     'data-e2e': 'settings_walletsLink',
-    isHidden: !(isReferralAvailable && isReferralRetrievalEnabled),
-    to: '/referral'
+    isHidden: !(isReferralAvailable && isReferralRetrievalEnabled)
   },
   {
     clickHandler: taxCenterClickHandler,
@@ -125,6 +123,7 @@ type Props = {
   isReferralRetrievalEnabled?: boolean
   limitsClickHandler: () => void
   logoutClickHandler: () => void
+  referAFriendHandler: () => void
   taxCenterClickHandler: () => void
   trackEventCallback: (s: string) => void
 }
