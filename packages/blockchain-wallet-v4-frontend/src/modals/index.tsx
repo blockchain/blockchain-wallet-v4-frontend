@@ -63,6 +63,7 @@ const Support = React.lazy(() => import('./Generic/Support'))
 // ONBOARDING
 const AirdropClaim = React.lazy(() => import('./Onboarding/AirdropClaim'))
 const AirdropSuccess = React.lazy(() => import('./Onboarding/AirdropSuccess'))
+const CowboysPromo = React.lazy(() => import('./Onboarding/CowboysPromo'))
 const LinkFromExchangeAccount = React.lazy(() => import('./Onboarding/LinkFromExchangeAccount'))
 const LinkToExchangeAccount = React.lazy(() => import('./Onboarding/LinkToExchangeAccount'))
 const IdentityVerification = React.lazy(() => import('./Onboarding/KycVerification'))
@@ -112,6 +113,7 @@ const BuySell = React.lazy(() => import('./BuySell'))
 const Swap = React.lazy(() => import('./Swap'))
 const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
+const ReferralLanding = React.lazy(() => import('./ReferralLandingFlyout'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
 const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
@@ -166,6 +168,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.CUSTOMIZABLE_CONFIRM_MODAL) ? (
           <CustomizableConfirm />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.COWBOYS_PROMO) ? (
+          <CowboysPromo />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DELETE_ADDRESS_LABEL_MODAL) ? (
           <DeleteAddressLabel />
@@ -234,6 +239,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.RECURRING_BUYS_MODAL) ? (
           <RecurringBuys />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.REFERRAL_LANDING_MODAL) ? (
+          <ReferralLanding />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.INTEREST_UPLOAD_DOCUMENT_MODAL) ? (
           <InterestUploadDocuments />

@@ -41,6 +41,7 @@ import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgBannerPatternLg from './img/bg-banner-pattern-lg.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bgPatternLatam from './img/bg-pattern-latam.svg'
+import bgReferral from './img/bg-referral.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
 import blockchainGold from './img/blockchain-gold.svg'
@@ -61,8 +62,11 @@ import checkmarkCircleGreen from './img/checkmark-circle-green.svg'
 import circleEmpty from './img/circle-empty.svg'
 import closeError from './img/close-error.svg'
 import cloudCheck from './img/cloud_check.svg'
+import cowboySuite from './img/cowboy-suite.png'
+import cowboysLogo from './img/cowboys.svg'
 import creditCard from './img/credit-card.svg'
 import creditCardBlue from './img/credit-card-blue.svg'
+import cowboysJersey from './img/dak-jersey.png'
 import introCard from './img/debitCard/intro-card.png'
 import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
@@ -115,11 +119,13 @@ import nftpainthyperlink from './img/nfts/paint-hyperlink.png'
 import opensea from './img/opensea.png'
 import percentWhiteCircle from './img/percent-white-circle.svg'
 import percentBlueCircle from './img/percentage-blue-circle.svg'
+import presCottCardBg from './img/prescott-card-bg.png'
 import productRedirectExchange from './img/product-redirect-exchange.png'
 import productRedirectWallet from './img/product-redirect-wallet.png'
 import proofOfAddress from './img/proof-of-address.svg'
 import qrCode from './img/qr-code.svg'
 import recurringBuyGetStarted from './img/recurring-buys-get-started.svg'
+import referralIcon from './img/referral-icon.svg'
 import refresh from './img/refresh.svg'
 import safeConnect from './img/safe-connect.svg'
 import search from './img/search.svg'
@@ -194,6 +200,7 @@ const Images = {
   'bg-banner-pattern-lg': bgBannerPatternLg,
   'bg-pattern': bgPattern,
   'bg-pattern-latam': bgPatternLatam,
+  'bg-referral': bgReferral,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-gold': blockchainGold,
@@ -217,6 +224,9 @@ const Images = {
   'circle-empty': circleEmpty,
   'close-error': closeError,
   'cloud-check': cloudCheck,
+  'cowboy-suite': cowboySuite,
+  cowboys: cowboysLogo,
+  'cowboys-jersey': cowboysJersey,
   'credit-card': creditCard,
   'credit-card-blue': creditCardBlue,
   'cryptoad-2456': cryptoad2456,
@@ -269,11 +279,13 @@ const Images = {
   'order-success': orderSuccess,
   'percent-blue-circle': percentBlueCircle,
   'percent-white-circle': percentWhiteCircle,
+  'prescott-card-bg': presCottCardBg,
   'product-redirect-exchange': productRedirectExchange,
   'product-redirect-wallet': productRedirectWallet,
   'proof-of-address': proofOfAddress,
   'qr-code': qrCode,
   'recurring-buy-get-started': recurringBuyGetStarted,
+  'referral-icon': referralIcon,
   refresh,
   'safe-connect': safeConnect,
   search,

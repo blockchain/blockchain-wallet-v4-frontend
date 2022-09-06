@@ -48,6 +48,7 @@
         "googlePayPaymentMethod": true,
         "institutionalPortal": true,
         "isReferralEnabled": true,
+        "isReferralRetrievalEnabled": true,
         "mergeAndUpgrade": false,
         "nftExplorer": true,
         "recurringBuys": true,
