@@ -145,7 +145,6 @@ export interface ProfileState {
     linkToExchangeAccountStatus: RemoteDataType<string, string>
     shareWalletAddressesWithExchange: RemoteDataType<string, string>
   }
-  referrals: RemoteDataType<string, any>
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
   userTiers: RemoteDataType<string, UserTiersType>
@@ -315,10 +314,6 @@ interface ShareWalletAddressWithExchangeSuccessAction {
   type: typeof AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_SUCCESS
 }
 
-interface FetchUserReferral {
-  type: typeof AT.FETCH_USER_REFERRAL
-}
-
 export type ProfileActionTypes =
   | AuthAndRouteToExchangeAction
   | ClearProfileStateAction
@@ -333,7 +328,6 @@ export type ProfileActionTypes =
   | FetchUserDataFailureAction
   | FetchUserDataLoadingAction
   | FetchUserDataSuccessAction
-  | FetchUserReferral
   | LinkFromExchangeAccountAction
   | LinkFromExchangeAccountFailureAction
   | LinkFromExchangeAccountLoadingAction

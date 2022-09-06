@@ -41,6 +41,7 @@ import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgBannerPatternLg from './img/bg-banner-pattern-lg.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bgPatternLatam from './img/bg-pattern-latam.svg'
+import bgReferral from './img/bg-referral.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
 import blockchainGold from './img/blockchain-gold.svg'
@@ -124,6 +125,7 @@ import productRedirectWallet from './img/product-redirect-wallet.png'
 import proofOfAddress from './img/proof-of-address.svg'
 import qrCode from './img/qr-code.svg'
 import recurringBuyGetStarted from './img/recurring-buys-get-started.svg'
+import referralIcon from './img/referral-icon.svg'
 import refresh from './img/refresh.svg'
 import safeConnect from './img/safe-connect.svg'
 import search from './img/search.svg'
@@ -198,6 +200,7 @@ const Images = {
   'bg-banner-pattern-lg': bgBannerPatternLg,
   'bg-pattern': bgPattern,
   'bg-pattern-latam': bgPatternLatam,
+  'bg-referral': bgReferral,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-gold': blockchainGold,
@@ -282,6 +285,7 @@ const Images = {
   'proof-of-address': proofOfAddress,
   'qr-code': qrCode,
   'recurring-buy-get-started': recurringBuyGetStarted,
+  'referral-icon': referralIcon,
   refresh,
   'safe-connect': safeConnect,
   search,

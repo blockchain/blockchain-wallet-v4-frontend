@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { equals } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { InvitationsType } from '@core/types'
@@ -16,6 +17,10 @@ const mapStateToProps = (state: RootState) => ({
     .getFeatureFlags(state)
     .getOrElse({} as { [key in string]: boolean }),
   invitations: selectors.core.settings.getInvitations(state).getOrElse({} as InvitationsType),
+  isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2),
+  isReferralAvailable: selectors.core.walletOptions
+    .getReferralEnabled(state)
+    .getOrElse(false) as boolean,
   nftsEnabled: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
   walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
 })
