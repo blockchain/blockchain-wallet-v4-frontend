@@ -16,6 +16,7 @@ import misc from './misc'
 import nfts from './nfts'
 import profile from './profile'
 import rates from './rates'
+import referral from './referral'
 import send from './send'
 import settings from './settings'
 import swap from './swap'
@@ -83,6 +84,12 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       rootUrl,
       ...http
     }),
+    ...referral({
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      nabuUrl,
+      ...http
+    }),
     ...send({ apiUrl, ...http }),
     ...settings({ authorizedPut: authorizedHttp.put, nabuUrl, rootUrl, ...http }),
     ...buySell({
@@ -114,6 +121,7 @@ export default api
 
 export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof btc> &
+  ReturnType<typeof buySell> &
   ReturnType<typeof coin> &
   ReturnType<typeof custodial> &
   ReturnType<typeof debitCard> &
@@ -124,7 +132,7 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof misc> &
   ReturnType<typeof nfts> &
   ReturnType<typeof profile> &
-  ReturnType<typeof buySell> &
+  ReturnType<typeof referral> &
   ReturnType<typeof send> &
   ReturnType<typeof swap> &
   ReturnType<typeof taxCenter> &

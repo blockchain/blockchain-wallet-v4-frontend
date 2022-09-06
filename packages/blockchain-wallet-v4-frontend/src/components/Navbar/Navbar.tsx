@@ -173,11 +173,14 @@ export const NavButton = styled(Button)`
 
 const Navbar = ({
   fabClickHandler,
+  isReferralAvailable,
+  isReferralRetrievalEnabled,
   limitsClickHandler,
   logoutClickHandler,
   nftsEnabled,
   primaryNavItems,
   receiveClickHandler,
+  referAFriendHandler,
   refreshClickHandler,
   sendClickHandler,
   taxCenterClickHandler,
@@ -256,7 +259,10 @@ const Navbar = ({
     {
       component: () => (
         <UserNavDropdown
+          isReferralAvailable={isReferralAvailable}
+          isReferralRetrievalEnabled={isReferralRetrievalEnabled}
           limitsClickHandler={limitsClickHandler}
+          referAFriendHandler={referAFriendHandler}
           logoutClickHandler={logoutClickHandler}
           taxCenterClickHandler={taxCenterClickHandler}
           trackEventCallback={trackEventCallback}
@@ -277,8 +283,11 @@ const Navbar = ({
           primaryNavItems={primaryNavItems}
           secondaryNavItems={secondaryMobileNavItems}
           userNavItems={userNavItems({
+            isReferralAvailable,
+            isReferralRetrievalEnabled,
             limitsClickHandler,
             logoutClickHandler,
+            referAFriendHandler,
             taxCenterClickHandler,
             trackEventCallback
           })}
@@ -364,11 +373,14 @@ const Navbar = ({
 
 type Props = {
   fabClickHandler: () => void
+  isReferralAvailable: boolean
+  isReferralRetrievalEnabled: boolean
   limitsClickHandler: () => void
   logoutClickHandler: () => void
   nftsEnabled: boolean
   primaryNavItems: Array<PrimaryNavItem>
   receiveClickHandler: () => void
+  referAFriendHandler: () => void
   refreshClickHandler: () => void
   sendClickHandler: () => void
   taxCenterClickHandler: () => void

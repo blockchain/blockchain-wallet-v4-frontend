@@ -166,7 +166,8 @@ const Default = {
   // Blues
   purple: '#4C18BA',
   // Service Announcements
-  info: '#4A90E2'
+  info: '#4A90E2',
+  ultraLight: '#FAFBFF'
 }
 
 export type IDefaultTheme = typeof Default

@@ -25,6 +25,7 @@ export const ImageWrapper = styled.div`
 export const Title = styled(Text)`
   display: flex;
   text-align: center;
+  justify-content: center;
   font-size: 24px;
   font-weight: 600;
 `
