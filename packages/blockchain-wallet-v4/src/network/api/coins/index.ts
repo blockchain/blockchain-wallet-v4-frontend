@@ -139,6 +139,26 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
+  const getCoinTxHistory = ({
+    currency,
+    guidHash,
+    sharedKeyHash
+  }: TxHistoryAuthInRequestType): TxHistoryResponseType => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        auth: {
+          guidHash,
+          sharedKeyHash
+        },
+        currency
+      },
+      endPoint: `/wallet-pubkey/tx-history`,
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+  }
+
   const getCoinActivity = ({
     currencies,
     fiatCurrency,
@@ -227,6 +247,7 @@ export default ({ apiUrl, get, post }) => {
     getBtcTicker,
     getCoinActivity,
     getCoinPrices,
+    getCoinTxHistory,
     getSubscriptions,
     getUnifiedActivity,
     pushTx,

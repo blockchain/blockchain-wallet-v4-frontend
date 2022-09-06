@@ -150,6 +150,26 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchTransactionsHistory = function* (
+    action: ReturnType<typeof A.fetchTransactionsHistory>
+  ) {
+    const { coin } = action.payload
+    try {
+      const { guidHash, sharedKeyHash } = yield call(getAuth)
+
+      yield put(A.fetchTransactionsHistoryLoading({ coin }))
+      const transactions = yield call(api.getCoinTxHistory, {
+        currency: coin,
+        guidHash,
+        sharedKeyHash
+      })
+      yield put(A.fetchTransactionsHistorySuccess({ coin, transactions }))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchTransactionsHistoryFailure({ coin, error }))
+    }
+  }
+
   // initialize subscriptions
   // derive all non custodial coin accounts, subscribe and check activity
   // if the user has activity on the coin, subscribe it
@@ -451,6 +471,7 @@ export default ({ api }: { api: APIType }) => {
   return {
     fetchCoinsRates,
     fetchTransactions,
+    fetchTransactionsHistory,
     fetchUnifiedBalances,
     getAuth,
     initializeSubscriptions,
