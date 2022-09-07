@@ -15,6 +15,7 @@ const initialState: CoinsState = {
   isCoinDataLoaded: false,
   rates: Remote.NotAsked,
   subscriptions: Remote.NotAsked,
+  transaction_history: {},
   transactions: {},
   transactions_at_bound: {},
   unifiedBalances: Remote.NotAsked
@@ -24,6 +25,12 @@ export const coinsSlice = createSlice({
   initialState,
   name: 'coins',
   reducers: {
+    clearTransactionHistory: (state, action: PayloadAction<{ coin: string }>) => {
+      state.transaction_history = {
+        ...state.transaction_history,
+        [action.payload.coin]: Remote.NotAsked
+      }
+    },
     fetchBtcTicker: () => {},
     fetchBtcTickerFailure: (state, action: PayloadAction<string>) => {
       state.btcTicker = Remote.Failure(action.payload)
@@ -59,8 +66,8 @@ export const coinsSlice = createSlice({
       state,
       action: PayloadAction<{ coin: string; error: string }>
     ) => {
-      state.transactions = {
-        ...state.transactions,
+      state.transaction_history = {
+        ...state.transaction_history,
         [action.payload.coin]: [Remote.Failure(action.payload.error)]
       }
     },
@@ -68,21 +75,21 @@ export const coinsSlice = createSlice({
       state,
       action: PayloadAction<{ coin: string; reset?: boolean }>
     ) => {
-      state.transactions = {
+      state.transaction_history = {
         [action.payload.coin]: action.payload.reset
           ? [Remote.Loading]
-          : [...state.transactions[action.payload.coin], Remote.Loading]
+          : [...state.transaction_history[action.payload.coin], Remote.Loading]
       }
     },
     fetchTransactionsHistorySuccess: (
       state,
       action: PayloadAction<{ coin: string; transactions }>
     ) => {
-      state.transactions = {
-        ...state.transactions,
+      state.transaction_history = {
+        ...state.transaction_history,
         [action.payload.coin]: [
-          ...state.transactions[action.payload.coin].filter(
-            (tx, i) => i !== state.transactions[action.payload.coin].length - 1
+          ...state.transaction_history[action.payload.coin].filter(
+            (tx, i) => i !== state.transaction_history[action.payload.coin].length - 1
           ),
           Remote.Success(action.payload.transactions)
         ]

@@ -7,6 +7,7 @@ export type CoinsState = {
   isCoinDataLoaded: boolean
   rates: RemoteDataType<string, RatesType>
   subscriptions: RemoteDataType<string, any>
+  transaction_history: { [key in string]: any }
   transactions: { [key in string]: Array<any> }
   transactions_at_bound: { [key in string]: boolean }
   unifiedBalances: RemoteDataType<string, UnifiedBalancesResponseType['currencies']>

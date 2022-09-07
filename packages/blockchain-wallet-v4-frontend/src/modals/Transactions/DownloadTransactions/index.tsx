@@ -106,7 +106,12 @@ const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
   const { erc20Address, parentChain = coin } = window.coins[coin].coinfig.type
   const coinCode = parentChain.toLowerCase()
   return {
-    clearTransactions: () => dispatch(actions.core.data[coinCode].clearTransactionHistory()),
+    clearTransactions: () => {
+      if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
+        return dispatch(actions.core.data.coins.clearTransactionHistory({ coin }))
+      }
+      return dispatch(actions.core.data[coinCode].clearTransactionHistory())
+    },
     fetchTransactions: (address, startDate, endDate) => {
       if (erc20Address) {
         return dispatch(
@@ -115,7 +120,7 @@ const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
       }
 
       if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
-        return dispatch(actions.core.data.coins.fetchTransactions({ coin }))
+        return dispatch(actions.core.data.coins.fetchTransactionsHistory({ coin }))
       }
 
       return dispatch(
