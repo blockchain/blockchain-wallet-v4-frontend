@@ -92,6 +92,7 @@ const getStateElements = (states: Array<StateType>) => [
 const SignupForm = (props: Props) => {
   const {
     formValues,
+    initialValues,
     invalid,
     isFormSubmitting,
     isReferralEnabled,
@@ -112,7 +113,7 @@ const SignupForm = (props: Props) => {
   }
 
   return (
-    <StyledForm override onSubmit={onSignupSubmit}>
+    <StyledForm override onSubmit={onSignupSubmit} initialValues={initialValues}>
       <FormGroup>
         <FormItem>
           <FormLabel htmlFor='email'>
