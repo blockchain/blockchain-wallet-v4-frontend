@@ -410,6 +410,27 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
+  const runCowboys2022Goal = function* (goal: GoalType) {
+    const {
+      data: { id }
+    } = goal
+    const { firstLogin } = goal.data
+    yield put(actions.goals.deleteGoal(id))
+
+    if (!firstLogin) return
+
+    yield put(
+      actions.goals.addInitialModal({
+        data: {
+          origin,
+          step: 'signup'
+        },
+        key: 'cowboys2022',
+        name: ModalName.COWBOYS_PROMO
+      })
+    )
+  }
+
   const runLinkAccountGoal = function* (goal: GoalType) {
     const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -821,6 +842,7 @@ export default ({ api, coreSagas, networks }) => {
     const {
       airdropClaim,
       buySellModal,
+      cowboys2022,
       interestPromo,
       kycDocResubmit,
       kycUpgradeRequiredNotice,
@@ -838,6 +860,12 @@ export default ({ api, coreSagas, networks }) => {
     } = initialModals
 
     // Order matters here
+    if (cowboys2022) {
+      const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
+      if (hasCowboysTag) {
+        return yield put(actions.modals.showModal(cowboys2022.name, cowboys2022.data))
+      }
+    }
     if (linkAccount) {
       return yield put(actions.modals.showModal(linkAccount.name, linkAccount.data))
     }
@@ -1011,6 +1039,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'buySell':
           yield call(runBuySellGoal, goal)
+          break
+        case 'cowboys2022':
+          yield call(runCowboys2022Goal, goal)
           break
         case 'dex':
           yield call(runDeeplinkDexGoal, goal)

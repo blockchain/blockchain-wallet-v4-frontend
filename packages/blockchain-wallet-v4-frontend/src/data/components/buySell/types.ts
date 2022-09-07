@@ -97,6 +97,7 @@ export type BSShowModalOriginType =
   | 'CoinPageHoldings'
   | 'CompleteProfileBanner'
   | 'CompleteProfile'
+  | 'CowboysSignupModal'
   | 'DebitCardDashboard'
   | 'EmptyFeed'
   | 'PendingOrder'
