@@ -39,6 +39,10 @@ export type BuySellWidgetGoalDataType = {
   fiatCurrency: WalletFiatType
 }
 
+export type SignUpGoalDataType = {
+  email?: string
+}
+
 export enum UnifiedAccountRedirectType {
   CHANGE_2FA = 'change2fa',
   CHANGE_EMAIL = 'changeEmail',
