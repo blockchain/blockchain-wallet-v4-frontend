@@ -20,10 +20,16 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   // We don't want to direct the user to /select-product
   // rather take them straight to home screen of the wallet
   static getDerivedStateFromProps(nextProps) {
-    const { createExchangeUserFlag, isEmailVerified, signupMetadata } = nextProps
+    const { createExchangeUserFlag, hasCowboyTag, isEmailVerified, signupMetadata } = nextProps
     const { signupRedirect } = signupMetadata
     if (isEmailVerified) {
-      if (createExchangeUserFlag && signupRedirect !== SignupRedirectTypes.WALLET_HOME) {
+      if (hasCowboyTag) {
+        // When the user has the COWBOYS_2022 tag set from the backend we want to skip
+        // the user straight to the dashboard and launch them into the Cowboys promo flyout
+        nextProps.routerActions.push('/home')
+        nextProps.saveGoal('cowboys2022', { firstLogin: true })
+        nextProps.runGoals()
+      } else if (createExchangeUserFlag && signupRedirect !== SignupRedirectTypes.WALLET_HOME) {
         nextProps.routerActions.push('/select-product')
       } else {
         nextProps.routerActions.push('/home')
@@ -70,6 +76,7 @@ const mapStateToProps = (state) => ({
     .getCreateExchangeUserOnSignupOrLogin(state)
     .getOrElse(false),
   email: selectors.signup.getRegisterEmail(state) as string,
+  hasCowboyTag: selectors.modules.profile.getCowboysTag(state).getOrElse(false),
   isEmailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(false),
   isMetadataRecoveryR: selectors.signup.getMetadataRestore(state),
   signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata

@@ -6,6 +6,7 @@ export type GoalsType =
   | 'airdropClaim'
   | 'buySell'
   | 'buy-nft'
+  | 'cowboys2022'
   | 'dex'
   | 'kyc'
   | 'kycDocResubmit'

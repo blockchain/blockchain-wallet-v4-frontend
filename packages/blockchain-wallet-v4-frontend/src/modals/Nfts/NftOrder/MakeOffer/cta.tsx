@@ -6,7 +6,6 @@ import { getIsSharedStorefront } from 'blockchain-wallet-v4-frontend/src/scenes/
 import { addMinutes, getUnixTime } from 'date-fns'
 
 import { Remote } from '@core'
-import { convertCoinToCoin } from '@core/exchange'
 import { GasDataI, NftAsset } from '@core/network/api/nfts/types'
 import {
   Button,
@@ -63,7 +62,6 @@ const CTA: React.FC<Props> = ({
     setTermsAccepted(true)
   }
 
-  const { coin } = formValues
   if (!isAuthenticated)
     return (
       <LinkContainer

@@ -983,7 +983,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       // TODO fix this type
-      const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, order as any)
+      const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
+        order
+      })
+
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield put(A.fetchOrders())
       yield put(A.confirmOrderSuccess(confirmedOrder))
