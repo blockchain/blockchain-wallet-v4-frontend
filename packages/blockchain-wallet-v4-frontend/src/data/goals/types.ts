@@ -21,6 +21,7 @@ export type GoalsType =
   | 'referral'
   | 'sanctionsNotice'
   | 'settings'
+  | 'signup'
   | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'
