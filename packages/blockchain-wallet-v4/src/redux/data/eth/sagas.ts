@@ -1,23 +1,20 @@
 import BigNumber from 'bignumber.js'
 import { format, fromUnixTime, getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
-import { Contract } from 'ethers'
 import {
   addIndex,
   equals,
   filter,
   flatten,
   isNil,
-  last,
   length,
   map,
   nth,
   path,
   pluck,
   prop,
-  toLower,
   toUpper
 } from 'ramda'
-import { all, call, put, select, take } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { EthRawTxType } from '@core/network/api/eth/types'
@@ -34,7 +31,6 @@ import custodialSagas from '../custodial/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { constructDefaultErc20Data } from './utils'
 
 const { transformErc20Tx, transformTx } = transactions.eth
 const TX_PER_PAGE = 50

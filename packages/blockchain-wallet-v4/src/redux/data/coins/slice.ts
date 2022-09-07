@@ -51,48 +51,42 @@ export const coinsSlice = createSlice({
     fetchCoinsRatesSuccess: (state, action: PayloadAction<{ rates: IndexMultiResponseType }>) => {
       state.rates = Remote.Success(action.payload.rates)
     },
-    fetchTransactions: (state, action: PayloadAction<{ coin: string; reset?: boolean }>) => {},
-    fetchTransactionsFailure: (state, action: PayloadAction<{ coin: string; error: string }>) => {
-      state.transactions = {
-        ...state.transactions,
-        [action.payload.coin]: [Remote.Failure(action.payload.error)]
-      }
-    },
-    fetchTransactionsHistory: (
+    fetchTransactionHistory: (
       state,
       action: PayloadAction<{ coin: string; reset?: boolean }>
     ) => {},
-    fetchTransactionsHistoryFailure: (
+    fetchTransactionHistoryFailure: (
       state,
       action: PayloadAction<{ coin: string; error: string }>
     ) => {
       state.transaction_history = {
         ...state.transaction_history,
-        [action.payload.coin]: [Remote.Failure(action.payload.error)]
+        [action.payload.coin]: Remote.Failure(action.payload.error)
       }
     },
-    fetchTransactionsHistoryLoading: (
+    fetchTransactionHistoryLoading: (
       state,
       action: PayloadAction<{ coin: string; reset?: boolean }>
     ) => {
       state.transaction_history = {
-        [action.payload.coin]: action.payload.reset
-          ? [Remote.Loading]
-          : [...state.transaction_history[action.payload.coin], Remote.Loading]
+        ...state.transaction_history,
+        [action.payload.coin]: Remote.Loading
       }
     },
-    fetchTransactionsHistorySuccess: (
+    fetchTransactionHistorySuccess: (
       state,
       action: PayloadAction<{ coin: string; transactions }>
     ) => {
       state.transaction_history = {
         ...state.transaction_history,
-        [action.payload.coin]: [
-          ...state.transaction_history[action.payload.coin].filter(
-            (tx, i) => i !== state.transaction_history[action.payload.coin].length - 1
-          ),
-          Remote.Success(action.payload.transactions)
-        ]
+        [action.payload.coin]: Remote.Success(action.payload.transactions)
+      }
+    },
+    fetchTransactions: (state, action: PayloadAction<{ coin: string; reset?: boolean }>) => {},
+    fetchTransactionsFailure: (state, action: PayloadAction<{ coin: string; error: string }>) => {
+      state.transactions = {
+        ...state.transactions,
+        [action.payload.coin]: [Remote.Failure(action.payload.error)]
       }
     },
     fetchTransactionsLoading: (state, action: PayloadAction<{ coin: string; reset?: boolean }>) => {

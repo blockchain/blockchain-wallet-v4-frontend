@@ -107,6 +107,18 @@ const getXlmData = createSelector([selectors.core.data.xlm.getTransactionHistory
   }
 })
 
+const getSelfCustodyData = createSelector(
+  [(state, coin) => selectors.core.data.coins.getTransactionHistory(coin, state)],
+  (dataR) => {
+    const transform = (data) => {
+      return data
+    }
+    return {
+      csvData: dataR.map(transform).getOrElse([])
+    }
+  }
+)
+
 export const getData = (state, coin) => {
   switch (coin) {
     case 'BTC':
@@ -118,6 +130,9 @@ export const getData = (state, coin) => {
     case 'XLM':
       return getXlmData(state)
     default:
+      if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
+        return getSelfCustodyData(state, coin)
+      }
       return getErc20Data(state, coin)
   }
 }

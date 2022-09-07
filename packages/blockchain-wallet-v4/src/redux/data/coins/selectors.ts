@@ -85,6 +85,10 @@ export const getTransactions = (coin: string, state: RootState) => {
   return state.dataPath.coins.transactions[coin] || []
 }
 
+export const getTransactionHistory = (coin: string, state: RootState) => {
+  return state.dataPath.coins.transaction_history[coin] || Remote.NotAsked
+}
+
 export const getTransactionsAtBound = (coin: string, state: RootState) => {
   return state.dataPath.coins.transactions_at_bound[coin] || false
 }

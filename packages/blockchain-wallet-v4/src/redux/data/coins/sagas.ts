@@ -1,13 +1,13 @@
 import BigNumber from 'bignumber.js'
 import BIP39 from 'bip39-light'
 import * as Bitcoin from 'bitcoinjs-lib'
-import { getTime } from 'date-fns'
-import { flatten, last, length } from 'ramda'
+import { format, fromUnixTime, getTime } from 'date-fns'
+import { flatten, last, length, T } from 'ramda'
 import { all, call, delay, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { SubscribeRequestType } from '@core/network/api/coins/types'
-import { getMnemonic, getPubKey } from '@core/redux/data/self-custody/sagas'
+import { getMnemonic } from '@core/redux/data/self-custody/sagas'
 import { FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getKeyPair } from '@core/utils/xlm'
@@ -150,23 +150,45 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchTransactionsHistory = function* (
-    action: ReturnType<typeof A.fetchTransactionsHistory>
-  ) {
+  const fetchTransactionHistory = function* (action: ReturnType<typeof A.fetchTransactionHistory>) {
     const { coin } = action.payload
     try {
       const { guidHash, sharedKeyHash } = yield call(getAuth)
 
-      yield put(A.fetchTransactionsHistoryLoading({ coin }))
-      const transactions = yield call(api.getCoinTxHistory, {
+      yield put(A.fetchTransactionHistoryLoading({ coin }))
+      const result: ReturnType<typeof api.getCoinTxHistory> = yield call(api.getCoinTxHistory, {
         currency: coin,
         guidHash,
         sharedKeyHash
       })
-      yield put(A.fetchTransactionsHistorySuccess({ coin, transactions }))
+      //   {
+      //     amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
+      //     // @ts-ignore
+      //     date: format(fromUnixTime(tx.time), 'yyyy-MM-dd'),
+      //     // @ts-ignore
+      //     description: prop('description', tx),
+      //     exchange_rate_then: fiatCurrencySymbol + priceAtTime.toFixed(2),
+      //     // @ts-ignore
+      //     hash: prop('hash', tx),
+      //     // @ts-ignore
+      //     time: tx.time,
+      //     type: txType,
+      //     value_now: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueNow}`,
+      //     value_then: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueThen}`
+      // }
+
+      const transactions = result.history.map((tx) => {
+        return {
+          amount: tx.movements.find(({ type }) => type === 'SENT')?.amount,
+          date: format(fromUnixTime(tx.timestamp), 'yyyy-MM-dd'),
+          hash: tx.txId,
+          time: tx.timestamp
+        }
+      })
+      yield put(A.fetchTransactionHistorySuccess({ coin, transactions }))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchTransactionsHistoryFailure({ coin, error }))
+      yield put(A.fetchTransactionHistoryFailure({ coin, error }))
     }
   }
 
@@ -484,8 +506,8 @@ export default ({ api }: { api: APIType }) => {
 
   return {
     fetchCoinsRates,
+    fetchTransactionHistory,
     fetchTransactions,
-    fetchTransactionsHistory,
     fetchUnifiedBalances,
     getAuth,
     initializeSubscriptions,
