@@ -8,7 +8,6 @@ import { Flex } from 'components/Flex'
 import { FlyoutContent, FlyoutHeader, StyledContainer } from 'components/Flyout/Layout'
 import { Padding } from 'components/Padding'
 import { actions } from 'data'
-import { ModalName } from 'data/types'
 
 import { VerifyIdComponent } from '../types'
 

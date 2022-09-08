@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 
-import { OrderType } from '@core/types'
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import {

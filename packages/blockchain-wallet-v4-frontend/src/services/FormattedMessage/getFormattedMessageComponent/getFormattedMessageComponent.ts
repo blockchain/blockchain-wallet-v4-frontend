@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 import Currencies from './FormattedMessages/Currencies'
 import ExtraFields from './FormattedMessages/ExtraFields'
 
-const getFormattedMesasageComponent = (key: string): ReactNode | string => {
+const getFormattedMessageComponent = (key: string): ReactNode | string => {
   const FormattedMessageComponents = {
     ...Currencies,
     ...ExtraFields,
@@ -15,4 +15,4 @@ const getFormattedMesasageComponent = (key: string): ReactNode | string => {
     : FormattedMessageComponents.default
 }
 
-export default getFormattedMesasageComponent
+export default getFormattedMessageComponent
