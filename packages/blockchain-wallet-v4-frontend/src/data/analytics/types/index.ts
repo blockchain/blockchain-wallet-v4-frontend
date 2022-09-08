@@ -74,6 +74,7 @@ const Analytics = {
   ...AccountRecoveryEvents,
   ...ClientErrorEvents,
   ...CoinViewEvents,
+  ...CowboysPromoEvents,
   ...DepositWithdrawalClientEvents,
   ...InterestClientEvents,
   ...LoginEvents,

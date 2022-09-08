@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
@@ -8,6 +8,7 @@ import { Flex } from 'components/Flex'
 import { FlyoutContent, FlyoutHeader, StyledContainer } from 'components/Flyout/Layout'
 import { Padding } from 'components/Padding'
 import { actions } from 'data'
+import { Analytics } from 'data/types'
 
 import { VerifyIdComponent } from '../types'
 
@@ -18,6 +19,15 @@ const StyledImage = styled(Image)`
 const VerifyId: VerifyIdComponent = ({ handleClose }) => {
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.COWBOYS_VERIFY_IDENTITY_INTERSTITIAL_VIEWED,
+        properties: {}
+      })
+    )
+  }, [])
+
   const verifyCallback = useCallback(() => {
     dispatch(
       actions.components.identityVerification.verifyIdentity({
@@ -26,13 +36,29 @@ const VerifyId: VerifyIdComponent = ({ handleClose }) => {
         tier: 2
       })
     )
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.COWBOYS_VERIFY_IDENTITY_INTERSTITIAL_VERIFY_ID_CLICKED,
+        properties: {}
+      })
+    )
   }, [dispatch])
+
+  const onClose = useCallback(() => {
+    handleClose()
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.COWBOYS_RAFFLE_INTERSTITIAL_CLOSED,
+        properties: {}
+      })
+    )
+  }, [])
 
   return (
     <StyledContainer>
       {/* position the FlyoutHeader absolutely so the content image can butt up against the top of the modal */}
       <div style={{ position: 'absolute', width: '100%' }}>
-        <FlyoutHeader mode='close' data-e2e='CowboysSignupModal' onClick={handleClose} />
+        <FlyoutHeader mode='close' data-e2e='CowboysSignupModal' onClick={onClose} />
       </div>
       <FlyoutContent mode='top'>
         <StyledImage name='cowboy-suite' />

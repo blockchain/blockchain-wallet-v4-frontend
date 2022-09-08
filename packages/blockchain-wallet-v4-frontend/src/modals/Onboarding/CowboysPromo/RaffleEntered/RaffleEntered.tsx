@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 
@@ -13,12 +13,21 @@ import {
 } from 'components/Flyout/Layout'
 import { Padding } from 'components/Padding'
 import { actions } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics } from 'data/types'
 
 import { RaffleEnteredComponent } from '../types'
 
 const RaffleEntered: RaffleEnteredComponent = ({ handleClose, setStep }) => {
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.COWBOYS_RAFFLE_INTERSTITIAL_VIEWED,
+        properties: {}
+      })
+    )
+  }, [])
 
   const continueCallback = useCallback(() => {
     dispatch(
@@ -28,15 +37,31 @@ const RaffleEntered: RaffleEnteredComponent = ({ handleClose, setStep }) => {
         origin: 'CowboysSignupModal'
       })
     )
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.COWBOYS_RAFFLE_INTERSTITIAL_BUY_CRYPTO_CLICKED,
+        properties: {}
+      })
+    )
 
     setTimeout(() => {
       setStep('verifyId')
     }, 4000)
   }, [dispatch, setStep])
 
+  const onClose = useCallback(() => {
+    handleClose()
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.COWBOYS_VERIFY_IDENTITY_INTERSTITIAL_CLOSED,
+        properties: {}
+      })
+    )
+  }, [])
+
   return (
     <FlyoutContainer>
-      <FlyoutHeader mode='close' data-e2e='CowboysSignupModal' onClick={handleClose} />
+      <FlyoutHeader mode='close' data-e2e='CowboysSignupModal' onClick={onClose} />
       <FlyoutContent mode='middle'>
         <Flex flexDirection='column' alignItems='center'>
           <Padding bottom={16}>
