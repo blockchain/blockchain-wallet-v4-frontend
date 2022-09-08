@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { find, propEq, propOr } from 'ramda'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { CountryScope } from '@core/types'
-import { Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text, TextGroup } from 'blockchain-info-components'
 import CheckBox from 'components/Form/CheckBox'
 import Form from 'components/Form/Form'
 import FormError from 'components/Form/FormError'
@@ -15,7 +16,7 @@ import PasswordBox from 'components/Form/PasswordBox'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
-import { CountryType, StateType } from 'data/types'
+import { CountryType, SignUpGoalDataType, StateType } from 'data/types'
 import { useCountryList, useUSStateList } from 'hooks'
 import {
   required,
@@ -30,6 +31,7 @@ import {
 } from 'services/forms'
 import { applyToUpperCase } from 'services/forms/normalizers'
 
+import { SIGNUP_FORM } from '../..'
 import { SubviewProps } from '../../types'
 
 const StyledForm = styled(Form)`
@@ -91,7 +93,10 @@ const getStateElements = (states: Array<StateType>) => [
 
 const SignupForm = (props: Props) => {
   const {
+    formActions,
     formValues,
+    goals,
+    initialValues,
     invalid,
     isFormSubmitting,
     isReferralEnabled,
@@ -107,12 +112,23 @@ const SignupForm = (props: Props) => {
 
   const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
   const { data: supportedUSStates } = useUSStateList()
+
+  const dataGoal = find(propEq('name', 'signup'), goals)
+  const goalData: SignUpGoalDataType = propOr({}, 'data', dataGoal)
+  const { email } = goalData
+
+  useEffect(() => {
+    if (email) {
+      formActions.change(SIGNUP_FORM, 'email', email)
+    }
+  }, [formActions, email])
+
   if (!supportedCountries?.countries || !supportedUSStates?.states) {
     return <></>
   }
 
   return (
-    <StyledForm override onSubmit={onSignupSubmit}>
+    <StyledForm override onSubmit={onSignupSubmit} initialValues={initialValues}>
       <FormGroup>
         <FormItem>
           <FormLabel htmlFor='email'>
