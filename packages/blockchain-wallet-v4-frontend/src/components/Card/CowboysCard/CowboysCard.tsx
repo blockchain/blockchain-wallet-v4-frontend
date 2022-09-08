@@ -9,7 +9,7 @@ import { Card } from 'components/Card'
 import { Flex } from 'components/Flex'
 import { Padding } from 'components/Padding'
 import { actions, selectors } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 
 const CowboysCard = styled(Card)`
@@ -70,6 +70,12 @@ const CowboysCardComponent = () => {
       // level 2
       step = 'verifyId'
     } else if (cowboysData && isUserVerified) {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.COWBOYS_VERIFY_EMAIL_ANNOUNCEMENT_CLICKED,
+          properties: {}
+        })
+      )
       // level 3
       return dispatch(
         actions.modals.showModal(ModalName.REFERRAL_LANDING_MODAL, { origin: 'CowboysCard' })
