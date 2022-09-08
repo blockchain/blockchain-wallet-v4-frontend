@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 
@@ -12,12 +12,21 @@ import {
 } from 'components/Flyout/Layout'
 import { Padding } from 'components/Padding'
 import { actions } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 
 import { SignupComponent } from '../types'
 
 const Signup: SignupComponent = ({ handleClose, setStep }) => {
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.COWBOYS_WELCOME_INTERSTITIAL_VIEWED,
+        properties: {}
+      })
+    )
+  }, [])
 
   const continueCallback = useCallback(() => {
     // Open up the Info & Reisdential modal
@@ -34,7 +43,23 @@ const Signup: SignupComponent = ({ handleClose, setStep }) => {
         tier: 2
       })
     )
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.COWBOYS_WELCOME_INTERSTITIAL_CONTINUE_CLICKED,
+        properties: {}
+      })
+    )
   }, [dispatch])
+
+  const onClose = useCallback(() => {
+    handleClose()
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.COWBOYS_WELCOME_INTERSTITIAL_CLOSED,
+        properties: {}
+      })
+    )
+  }, [])
 
   return (
     <FlyoutContainer>
@@ -77,7 +102,7 @@ const Signup: SignupComponent = ({ handleClose, setStep }) => {
           data-e2e='CowboySignupDismissButton'
           nature='empty-blue'
           fullwidth
-          onClick={handleClose}
+          onClick={onClose}
         >
           <FormattedMessage
             id='modals.recurringbuys.get_started.maybe_later'
