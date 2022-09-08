@@ -56,6 +56,7 @@ const signupSlice = createSlice({
       state.registering = Remote.Success(action.payload)
     },
     resetAccount: (state, action) => {},
+    resetAccountV2: (state, action) => {},
     restore: (state, action) => {},
     restoreFailure: () => {},
     restoreFromMetadata: (state, action) => {},

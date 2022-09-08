@@ -14,7 +14,12 @@ import { RecoverSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
 import { Props } from '../..'
-import { ActionButton, BackArrowFormHeader, ReverifyIdentityInfoBox } from '../../model'
+import {
+  ActionButton,
+  BackArrowFormHeader,
+  FormWrapper,
+  ReverifyIdentityInfoBox
+} from '../../model'
 
 const Footer = styled(FormGroup)`
   display: flex;
@@ -31,7 +36,7 @@ const NewPassword = (props: Props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const { formValues, language, signupActions } = props
-    signupActions.resetAccount({
+    signupActions.resetAccountV2({
       email: formValues?.recoveryEmail,
       language,
       password: formValues.resetAccountPassword
@@ -40,78 +45,80 @@ const NewPassword = (props: Props) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <BackArrowFormHeader
-        handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
-        email={accountRecoveryData?.email}
-        step={RecoverSteps.RESET_ACCOUNT}
-      />
-      <Text
-        size='20px'
-        weight={600}
-        color='grey900'
-        lineHeight='1.5'
-        style={{ marginBottom: '16px' }}
-      >
-        <FormattedMessage
-          id='scenes.recovry.resetpassword.title'
-          defaultMessage='Reset Your Password'
+      <FormWrapper>
+        <BackArrowFormHeader
+          handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
+          email={accountRecoveryData?.email}
+          step={RecoverSteps.RESET_ACCOUNT}
         />
-      </Text>
-      <FormGroup>
-        <FormLabel htmlFor='password'>
-          <FormattedMessage id='copy.new_password' defaultMessage='New Password' />
-        </FormLabel>
-        <Field
-          bgColor='grey000'
-          name='resetAccountPassword'
-          validate={[required, validStrongPassword]}
-          component={PasswordBox}
-        />
-        <div>
-          <Text size='12px' weight={400} style={{ marginTop: '4px' }}>
-            <FormattedMessage
-              id='scenes.register.passwordstrengthwarn'
-              defaultMessage='Password must be at least 8 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
-            />
-          </Text>
-        </div>
-      </FormGroup>
-      <FormGroup>
-        <FormLabel htmlFor='confirmationPassword'>
-          <FormattedMessage
-            id='scenes.recover.secondstep.confirmapassword'
-            defaultMessage='Confirm Password'
-          />
-        </FormLabel>
-        <Field
-          bgColor='grey000'
-          name='confirmationPassword'
-          validate={[required, validatePasswordConfirmation]}
-          component={PasswordBox}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Terms recovery />
-      </FormGroup>
-      <ReverifyIdentityInfoBox />
-      <Footer>
-        <ActionButton
-          data-e2e='recoverSubmit'
-          disabled={isRegistering || invalid}
-          nature='primary'
-          type='submit'
-          fullwidth
+        <Text
+          size='20px'
+          weight={600}
+          color='grey900'
+          lineHeight='1.5'
+          style={{ marginBottom: '16px' }}
         >
-          {isRegistering ? (
-            <HeartbeatLoader height='20px' width='20px' color='white' />
-          ) : (
+          <FormattedMessage
+            id='scenes.recovry.resetpassword.title'
+            defaultMessage='Reset Your Password'
+          />
+        </Text>
+        <FormGroup>
+          <FormLabel htmlFor='password'>
+            <FormattedMessage id='copy.new_password' defaultMessage='New Password' />
+          </FormLabel>
+          <Field
+            bgColor='grey000'
+            name='resetAccountPassword'
+            validate={[required, validStrongPassword]}
+            component={PasswordBox}
+          />
+          <div>
+            <Text size='12px' weight={400} style={{ marginTop: '4px' }}>
+              <FormattedMessage
+                id='scenes.register.passwordstrengthwarn'
+                defaultMessage='Password must be at least 8 characters in length and contain at least one uppercase letter, lowercase letter, number and symbol.'
+              />
+            </Text>
+          </div>
+        </FormGroup>
+        <FormGroup>
+          <FormLabel htmlFor='confirmationPassword'>
             <FormattedMessage
-              id='scenes.recover.secondstep.recover'
-              defaultMessage='Recover Funds'
+              id='scenes.recover.secondstep.confirmapassword'
+              defaultMessage='Confirm Password'
             />
-          )}
-        </ActionButton>
-      </Footer>
+          </FormLabel>
+          <Field
+            bgColor='grey000'
+            name='confirmationPassword'
+            validate={[required, validatePasswordConfirmation]}
+            component={PasswordBox}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Terms recovery />
+        </FormGroup>
+        <ReverifyIdentityInfoBox />
+        <Footer>
+          <ActionButton
+            data-e2e='recoverSubmit'
+            disabled={isRegistering || invalid}
+            nature='primary'
+            type='submit'
+            fullwidth
+          >
+            {isRegistering ? (
+              <HeartbeatLoader height='20px' width='20px' color='white' />
+            ) : (
+              <FormattedMessage
+                id='scenes.recover.secondstep.recover'
+                defaultMessage='Recover Funds'
+              />
+            )}
+          </ActionButton>
+        </Footer>
+      </FormWrapper>
     </Form>
   )
 }

@@ -106,6 +106,30 @@ export default ({ api, networks }) => {
       networks.btc
     )
     yield call(api.createWallet, email, captchaToken, wrapper, forceVerifyEmail)
+
+    yield put(A.wallet.refreshWrapper(wrapper))
+  }
+  const createResetWalletSaga = function* ({
+    captchaToken,
+    email,
+    language,
+    password,
+    sessionToken
+  }) {
+    const mnemonic = yield call(generateMnemonic, api)
+    const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
+    const wrapper = Wrapper.createNew(
+      guid,
+      password,
+      sharedKey,
+      mnemonic,
+      language,
+      undefined,
+      undefined,
+      networks.btc
+    )
+    yield call(api.createResetWallet, email, captchaToken, wrapper, sessionToken)
+
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
@@ -512,6 +536,7 @@ export default ({ api, networks }) => {
 
   return {
     checkAndUpdateWalletNames,
+    createResetWalletSaga,
     createWalletSaga,
     fetchWalletSaga,
     fixAccountsWithMissingDefaultDerivation,

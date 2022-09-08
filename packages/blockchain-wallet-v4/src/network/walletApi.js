@@ -78,15 +78,26 @@ const createWalletApi = (
     const create = (data) => ApiPromise.createPayload(email, captchaToken, forceVerifyEmail, data)
     return Wrapper.toEncJSON(wrapper).chain(promiseToTask(create))
   }
+
   const createWallet = (email, captchaToken, wrapper, forceVerifyEmail) =>
     compose(taskToPromise, createWalletTask(email, captchaToken, forceVerifyEmail))(wrapper)
 
   // **********
 
+  const createResetWalletTask = (email, captchaToken, sessionToken) => (wrapper) => {
+    const create = (data) =>
+      ApiPromise.createResetAccountPayload(email, captchaToken, sessionToken, data)
+    return Wrapper.toEncJSON(wrapper).chain(promiseToTask(create))
+  }
+
+  const createResetWallet = (email, captchaToken, wrapper, sessionToken) =>
+    compose(taskToPromise, createResetWalletTask(email, captchaToken, sessionToken))(wrapper)
+
   const Api = map(future, ApiPromise)
 
   return {
     ...Api,
+    createResetWallet: future(createResetWallet),
     createWallet: future(createWallet),
     fetchWallet: future(fetchWallet),
     fetchWalletWithSession: future(fetchWalletWithSession),

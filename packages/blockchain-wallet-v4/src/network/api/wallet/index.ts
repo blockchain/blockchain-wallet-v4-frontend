@@ -54,6 +54,22 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     }).then(() => data.checksum)
 
+  const createResetAccountPayload = (email, captchaToken, sessionToken, data) =>
+    post({
+      data: mergeRight(
+        {
+          captcha: captchaToken,
+          email,
+          format: 'plain',
+          siteKey: window.CAPTCHA_KEY
+        },
+        data
+      ),
+      endPoint: '/wallet/recovery/recover-account',
+      sessionToken,
+      url: rootUrl
+    }).then(() => data.checksum)
+
   // context => {
   //  addresses: [],
   //  legacy: [],
@@ -287,6 +303,7 @@ export default ({ get, post, rootUrl }) => {
     authorizeVerifyDevice,
     createPayload,
     createPinEntry,
+    createResetAccountPayload,
     deauthorizeBrowser,
     fetchBlockchainData,
     fetchPayloadWithSession,

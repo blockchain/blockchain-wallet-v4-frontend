@@ -78,7 +78,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const register = function* (action) {
-    const { country, email, language, password, referral, state } = action.payload
+    const { country, email, language, password, referral, sessionToken, state } = action.payload
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
     const isExchangeMobileSignup =
@@ -94,13 +94,24 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.loginLoading())
       yield put(actions.signup.setRegisterEmail(email))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
-      yield call(coreSagas.wallet.createWalletSaga, {
-        captchaToken,
-        email,
-        forceVerifyEmail: isAccountReset,
-        language,
-        password
-      })
+      if (isAccountReset) {
+        yield call(coreSagas.wallet.createResetWalletSaga, {
+          captchaToken,
+          email,
+          language,
+          password,
+          sessionToken
+        })
+      } else {
+        yield call(coreSagas.wallet.createWalletSaga, {
+          captchaToken,
+          email,
+          // TODO: remove,only needed for createResetWalletSaga
+          forceVerifyEmail: isAccountReset,
+          language,
+          password
+        })
+      }
       // We don't want to show the account success message if user is resetting their account
       if (!isAccountReset && !isExchangeMobileSignup) {
         yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
@@ -233,6 +244,71 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const resetAccountV2 = function* (action) {
+    // if user is resetting their custodial account
+    // create a new wallet and assign an existing custodial account to that wallet
+    try {
+      const { email, language, password } = action.payload
+      // get recovery token and nabu ID
+      const recoveryLinkData: AccountRecoveryMagicLinkData = yield select(
+        selectors.signup.getAccountRecoveryMagicLinkData
+      )
+
+      const userId = recoveryLinkData?.userId
+      const recoveryToken = recoveryLinkData?.recovery_token
+      const sessionToken = yield select(selectors.session.getRecoverSessionId, email)
+      yield put(actions.signup.setResetAccount(true))
+      // create a new wallet
+      yield call(register, actions.signup.register({ email, language, password, sessionToken }))
+      const guid = yield select(selectors.core.wallet.getGuid)
+      // generate a retail token for new wallet
+      const retailToken = yield call(generateRetailToken)
+      // call the reset nabu user endpoint, receive new lifetime token for nabu user
+      const {
+        mercuryLifetimeToken: exchangeLifetimeToken,
+        token: lifetimeToken,
+        userCredentialsId: exchangeUserId
+      } = yield call(api.resetUserAccount, userId, recoveryToken, retailToken)
+      // set new lifetime tokens for nabu and exchange for user in new unified metadata entry
+      // also write nabu credentials to legacy userCredentials for old app versions
+      // TODO: in future, consider just writing to unifiedCredentials entry
+      yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
+      yield put(
+        actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
+          exchange_lifetime_token: exchangeLifetimeToken,
+          exchange_user_id: exchangeUserId,
+          nabu_lifetime_token: lifetimeToken,
+          nabu_user_id: userId
+        })
+      )
+
+      // if user is resetting their account and
+      // want to go to the Exchange
+      // if (magicLinkData.product === ProductAuthOptions.EXCHANGE) {
+      //   yield put(
+      //     actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
+      //   )
+      //   return
+      // }
+      // fetch user in new wallet
+      yield call(setSession, userId, lifetimeToken, email, guid)
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.RECOVERY_PASSWORD_RESET,
+          properties: {
+            account_type: 'CUSTODIAL',
+            site_redirect: 'WALLET'
+          }
+        })
+      )
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
+      yield put(
+        actions.modals.showModal(ModalName.RESET_ACCOUNT_FAILED, { origin: 'ResetAccount' })
+      )
+    }
+  }
+
   const resetAccount = function* (action) {
     // if user is resetting their custodial account
     // create a new wallet and assign an existing custodial account to that wallet
@@ -339,7 +415,7 @@ export default ({ api, coreSagas, networks }) => {
       //   userId: '34735c52-61e1-4e55-92a0-2cce89774add'
       // }
 
-      if (response?.status) {
+      if (response?.status === 'true') {
         yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
         yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS))
         return true
@@ -411,6 +487,7 @@ export default ({ api, coreSagas, networks }) => {
     pollForResetApproval,
     register,
     resetAccount,
+    resetAccountV2,
     restore,
     restoreFromMetadata,
     triggerRecoverEmail,
