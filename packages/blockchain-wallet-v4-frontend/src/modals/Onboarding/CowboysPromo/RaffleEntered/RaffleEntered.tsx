@@ -48,7 +48,7 @@ const RaffleEntered: RaffleEnteredComponent = ({ handleClose, setStep }) => {
     handleClose()
     dispatch(
       actions.analytics.trackEvent({
-        key: Analytics.COWBOYS_VERIFY_IDENTITY_INTERSTITIAL_CLOSED,
+        key: Analytics.COWBOYS_RAFFLE_INTERSTITIAL_CLOSED,
         properties: {}
       })
     )

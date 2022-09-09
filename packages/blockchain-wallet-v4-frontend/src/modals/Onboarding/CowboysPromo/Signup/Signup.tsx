@@ -30,10 +30,6 @@ const Signup: SignupComponent = ({ handleClose }) => {
       actions.components.identityVerification.verifyIdentity({
         checkSddEligibility: true,
         needMoreInfo: false,
-        onCompletionCallback: () => {
-          // Set the cowboys step to raffle entered and close kyc modal
-          dispatch(actions.modals.closeModal(ModalName.KYC_MODAL))
-        },
         origin: 'CowboysSignupModal',
         tier: 2
       })
