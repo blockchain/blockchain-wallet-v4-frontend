@@ -76,7 +76,7 @@ const CowboysCardComponent = () => {
       step = 'verifyId'
       dispatch(
         actions.analytics.trackEvent({
-          key: Analytics.COWBOYS_VERIFY_EMAIL_ANNOUNCEMENT_CLICKED,
+          key: Analytics.COWBOYS_REFER_FRIENDS_ANNOUNCEMENT_CLICKED,
           properties: {}
         })
       )

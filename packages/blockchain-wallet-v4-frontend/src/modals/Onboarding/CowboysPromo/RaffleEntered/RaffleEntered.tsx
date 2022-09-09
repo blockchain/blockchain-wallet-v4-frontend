@@ -115,7 +115,7 @@ const RaffleEntered: RaffleEnteredComponent = ({ handleClose, setStep }) => {
                 data-e2e='CowboySignupDismissButton'
                 nature='empty-blue'
                 fullwidth
-                onClick={handleClose}
+                onClick={onClose}
               >
                 <FormattedMessage
                   id='modals.recurringbuys.get_started.maybe_later'
