@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
+import { duration } from 'components/Flyout'
 import {
   FlyoutContainer,
   FlyoutContent,
@@ -36,7 +37,6 @@ const Signup: SignupComponent = ({ handleClose, setStep }) => {
         needMoreInfo: false,
         onCompletionCallback: () => {
           // Set the cowboys step to raffle entered and close kyc modal
-          setStep('raffleEntered')
           dispatch(actions.modals.closeModal(ModalName.KYC_MODAL))
         },
         origin: 'CowboysSignupModal',
@@ -49,7 +49,10 @@ const Signup: SignupComponent = ({ handleClose, setStep }) => {
         properties: {}
       })
     )
-  }, [dispatch])
+    setTimeout(() => {
+      dispatch(actions.modals.closeModal(ModalName.COWBOYS_PROMO))
+    }, duration)
+  }, [dispatch, handleClose])
 
   const onClose = useCallback(() => {
     handleClose()
@@ -63,7 +66,12 @@ const Signup: SignupComponent = ({ handleClose, setStep }) => {
 
   return (
     <FlyoutContainer>
-      <FlyoutHeader mode='close' data-e2e='CowboysSignupModal' onClick={handleClose} />
+      <FlyoutHeader
+        position='absolute'
+        mode='close'
+        data-e2e='CowboysSignupModal'
+        onClick={handleClose}
+      />
       <FlyoutContent mode='middle'>
         <Flex flexDirection='column' alignItems='center'>
           <Padding bottom={61}>
@@ -85,31 +93,31 @@ const Signup: SignupComponent = ({ handleClose, setStep }) => {
               />
             </Text>
           </Padding>
+          <div style={{ boxSizing: 'border-box', padding: '0 40px 0', width: '100%' }}>
+            <Flex flexDirection='column' gap={16}>
+              <Button
+                data-e2e='CowboySignupContinueButton'
+                nature='primary'
+                fullwidth
+                onClick={continueCallback}
+              >
+                <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+              </Button>
+              <Button
+                data-e2e='CowboySignupDismissButton'
+                nature='empty-blue'
+                fullwidth
+                onClick={onClose}
+              >
+                <FormattedMessage
+                  id='modals.recurringbuys.get_started.maybe_later'
+                  defaultMessage='Maybe Later'
+                />
+              </Button>
+            </Flex>
+          </div>
         </Flex>
       </FlyoutContent>
-      <FlyoutFooter collapsed>
-        <Padding bottom={16}>
-          <Button
-            data-e2e='CowboySignupContinueButton'
-            nature='primary'
-            fullwidth
-            onClick={continueCallback}
-          >
-            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
-          </Button>
-        </Padding>
-        <Button
-          data-e2e='CowboySignupDismissButton'
-          nature='empty-blue'
-          fullwidth
-          onClick={onClose}
-        >
-          <FormattedMessage
-            id='modals.recurringbuys.get_started.maybe_later'
-            defaultMessage='Maybe Later'
-          />
-        </Button>
-      </FlyoutFooter>
     </FlyoutContainer>
   )
 }

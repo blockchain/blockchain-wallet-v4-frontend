@@ -1288,7 +1288,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(fetchSDDEligible)
       }
       const state = yield select()
-      const currentUserTier = selectors.modules.profile.getCurrentTier(state)
+      const currentUserTier = selectors.modules.profile
+        .getCurrentTier(state)
+        .getOrFail('User has no tier')
       const userSDDEligibleTier = S.getUserSddEligibleTier(state).getOrElse(1)
       // only fetch non-eligible payment methods if user is not tier 2
       const includeNonEligibleMethods = currentUserTier === 2
