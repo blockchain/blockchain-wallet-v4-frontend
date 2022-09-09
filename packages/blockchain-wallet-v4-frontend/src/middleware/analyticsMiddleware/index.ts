@@ -65,11 +65,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const pageName: PageName = action.payload.location.pathname
 
         try {
-          // @ts-ignore
           if (window && window.gtag) {
-            // @ts-ignore
             window.gtag('set', 'page_path', pageName)
-            // @ts-ignore
             window.gtag('event', 'page_view')
           }
         } catch (e) {
