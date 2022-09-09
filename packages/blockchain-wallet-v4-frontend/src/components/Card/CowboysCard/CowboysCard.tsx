@@ -74,6 +74,12 @@ const CowboysCardComponent = () => {
     if (cowboysData && !isGoldVerified && (isSDDVerified || currentTier === 1)) {
       // level 2
       step = 'verifyId'
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.COWBOYS_VERIFY_EMAIL_ANNOUNCEMENT_CLICKED,
+          properties: {}
+        })
+      )
     } else if (cowboysData && (isGoldVerified || currentTier === 1)) {
       dispatch(
         actions.analytics.trackEvent({
