@@ -15,6 +15,20 @@ import Success from './template.success'
 const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
 
 class InfoAndResidential extends PureComponent<Props> {
+  componentDidMount() {
+    // Cowboys only events
+    if (this.props.hasCowboysTag) {
+      this.props.analyticsActions.trackEvent({
+        key: Analytics.COWBOYS_PERSONAL_INFO_VIEWED,
+        properties: {}
+      })
+      this.props.analyticsActions.trackEvent({
+        key: Analytics.COWBOYS_ADDRESS_VIEWED,
+        properties: {}
+      })
+    }
+  }
+
   handleSubmit = () => {
     const {
       analyticsActions,
@@ -75,6 +89,7 @@ const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM)(state) as
     | InfoAndResidentialFormValuesType
     | undefined,
+  hasCowboysTag: selectors.modules.profile.getCowboysTag(state).getOrElse(false),
   usState: selectors.core.settings.getUsState(state).getOrElse(null)
 })
 

@@ -71,7 +71,7 @@ const CowboysCardComponent = () => {
 
   const buttonAction = useCallback(() => {
     let step: CowboysPromoStepsType = 'signup' // level 1
-    if (cowboysData && !isGoldVerified && (isSDDVerified || currentTier === 1)) {
+    if (!isGoldVerified && (isSDDVerified || currentTier === 1)) {
       // level 2
       step = 'verifyId'
       dispatch(
@@ -80,33 +80,31 @@ const CowboysCardComponent = () => {
           properties: {}
         })
       )
-    } else if (cowboysData && (isGoldVerified || currentTier === 1)) {
-      if (isGoldVerified) {
-        dispatch(
-          actions.analytics.trackEvent({
-            key: Analytics.COWBOYS_REFER_FRIENDS_ANNOUNCEMENT_CLICKED,
-            properties: {}
-          })
-        )
-      } else {
-        dispatch(
-          actions.analytics.trackEvent({
-            key: Analytics.COWBOYS_COMPLETE_SIGN_UP_ANNOUCEMENT_CLICKED,
-            properties: {
-              type: 'signed_up'
-            }
-          })
-        )
-      }
+    } else if (isGoldVerified) {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.COWBOYS_REFER_FRIENDS_ANNOUNCEMENT_CLICKED,
+          properties: {}
+        })
+      )
 
       // level 3
       return dispatch(
         actions.modals.showModal(ModalName.REFERRAL_LANDING_MODAL, { origin: 'CowboysCard' })
       )
+    } else {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.COWBOYS_COMPLETE_SIGN_UP_ANNOUCEMENT_CLICKED,
+          properties: {
+            type: 'signed_up'
+          }
+        })
+      )
     }
 
     dispatch(actions.modals.showModal(ModalName.COWBOYS_PROMO, { origin: 'CowboysCard', step }))
-  }, [cowboysData, currentTier, dispatch, isSDDVerified, isGoldVerified])
+  }, [currentTier, dispatch, isSDDVerified, isGoldVerified])
 
   if (cowboysLoading || isSDDVerifiedLoading || isGoldVerifiedLoading || isCurrentTierLoading)
     return null

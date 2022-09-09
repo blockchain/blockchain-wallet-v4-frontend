@@ -5,7 +5,7 @@ import { Types } from '@core'
 import { ExtraKYCContext, ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
-import { KycStateType } from 'data/types'
+import { Analytics, KycStateType } from 'data/types'
 import * as C from 'services/alerts'
 
 import profileSagas from '../../modules/profile/sagas'
@@ -396,6 +396,21 @@ export default ({ api, coreSagas, networks }) => {
           sddVerified = yield call(api.fetchSDDVerified)
           if (sddVerified?.taskComplete) {
             yield put(actions.components.buySell.fetchSDDVerifiedSuccess(sddVerified))
+            // Info confirmed, record cowboys events only
+            if (hasCowboysTag) {
+              yield put(
+                actions.analytics.trackEvent({
+                  key: Analytics.COWBOYS_PERSONAL_INFO_CONFIRMED,
+                  properties: {}
+                })
+              )
+              yield put(
+                actions.analytics.trackEvent({
+                  key: Analytics.COWBOYS_ADDRESS_CONFIRMED,
+                  properties: {}
+                })
+              )
+            }
             break
           }
           yield delay(POLL_SDD_DELAY)
