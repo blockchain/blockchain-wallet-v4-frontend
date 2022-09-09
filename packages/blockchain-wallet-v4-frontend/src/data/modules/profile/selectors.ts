@@ -21,7 +21,7 @@ import {
   propEq
 } from 'ramda'
 
-import { RemoteDataType } from '@core/types'
+import { ExtractSuccess, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -64,7 +64,10 @@ export const isSilverOrAbove = compose(
   getUserData
 )
 
-export const getCurrentTier = compose(path(['data', 'current']), lift(path(['tiers'])), getUserData)
+// export const getCurrentTier = compose(lift(path(['tiers', 'current'])), getUserData)
+export const getCurrentTier = createSelector(getUserData, (userDataR) => {
+  return lift((userData: ExtractSuccess<typeof userDataR>) => userData.tiers.current)(userDataR)
+})
 export const getUserCurrencies = createSelector(getUserData, (userDataR) => {
   const userData = userDataR.getOrElse({} as UserDataType)
   return userData.currencies

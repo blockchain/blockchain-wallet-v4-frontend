@@ -59,58 +59,77 @@ const RaffleEntered: RaffleEnteredComponent = ({ handleClose, setStep }) => {
     )
   }, [])
 
+  const heroImage =
+    'https://www.blockchain.com/static/img/cowboys/7_9_22_cowboys_interstitial_raffle_icon.png'
   return (
     <FlyoutContainer>
-      <FlyoutHeader mode='close' data-e2e='CowboysSignupModal' onClick={onClose} />
+      <FlyoutHeader
+        position='absolute'
+        mode='close'
+        data-e2e='CowboysSignupModal'
+        onClick={onClose}
+      />
       <FlyoutContent mode='middle'>
         <Flex flexDirection='column' alignItems='center'>
+          <Padding bottom={40}>
+            <img width='200' src={heroImage} alt='Dallas Cowboys football players' />
+          </Padding>
           <Padding bottom={16}>
             <Icon name='checkmark-circle-filled' size='48px' color='green400' />
           </Padding>
-          <Padding horizontal={77}>
-            <Text color='grey900' size='24px' weight={700} style={{ textAlign: 'center' }}>
+          <Padding horizontal={77} bottom={10}>
+            <Text
+              lineHeight='24px'
+              color='grey900'
+              size='24px'
+              weight={700}
+              style={{ textAlign: 'center' }}
+            >
               <FormattedMessage
                 id='copy.cowboys.you_reached_end_zone'
                 defaultMessage="You've reached the end zone!"
               />
             </Text>
           </Padding>
-          <Padding bottom={68} horizontal={77}>
-            <Text color='grey900' size='16px' weight={600} style={{ textAlign: 'center' }}>
+          <Padding horizontal={77} bottom={40}>
+            <Text
+              lineHeight='24px'
+              color='grey900'
+              size='16px'
+              weight={600}
+              style={{ textAlign: 'center' }}
+            >
               <FormattedMessage
                 id='copy.cowboys.enter_details_rewards'
-                defaultMessage="Raffle entry complete! You've entered the raffle to win a signed Dak jersey. Winners will be announced MM/DD/YYYY"
+                defaultMessage="Raffle entry complete! You've entered the raffle to win Fantasy Camp Tickets. Winners will be announced in January."
               />
             </Text>
           </Padding>
-          <Padding>
-            <Image name='cowboys-jersey' />
-          </Padding>
+          <div style={{ boxSizing: 'border-box', padding: '0 40px 0', width: '100%' }}>
+            <Flex flexDirection='column' gap={16}>
+              <Button
+                data-e2e='CowboySignupContinueButton'
+                nature='primary'
+                fullwidth
+                onClick={continueCallback}
+              >
+                <FormattedMessage id='buttons.buy_crypto' defaultMessage='Buy Crypto' />
+              </Button>
+              <Button
+                data-e2e='CowboySignupDismissButton'
+                nature='empty-blue'
+                fullwidth
+                onClick={handleClose}
+              >
+                <FormattedMessage
+                  id='modals.recurringbuys.get_started.maybe_later'
+                  defaultMessage='Maybe Later'
+                />
+              </Button>
+            </Flex>
+          </div>
         </Flex>
       </FlyoutContent>
-      <FlyoutFooter collapsed>
-        <Padding bottom={16}>
-          <Button
-            data-e2e='CowboySignupContinueButton'
-            nature='primary'
-            fullwidth
-            onClick={continueCallback}
-          >
-            <FormattedMessage id='buttons.buy_crypto' defaultMessage='Buy Crypto' />
-          </Button>
-        </Padding>
-        <Button
-          data-e2e='CowboySignupDismissButton'
-          nature='empty-blue'
-          fullwidth
-          onClick={handleClose}
-        >
-          <FormattedMessage
-            id='modals.recurringbuys.get_started.maybe_later'
-            defaultMessage='Maybe Later'
-          />
-        </Button>
-      </FlyoutFooter>
     </FlyoutContainer>
   )
 }

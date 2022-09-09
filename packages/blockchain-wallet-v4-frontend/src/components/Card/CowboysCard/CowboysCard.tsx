@@ -54,22 +54,27 @@ const CowboysCardComponent = () => {
     isLoading: cowboysLoading
   } = useRemote(selectors.modules.profile.getCowboysTag)
   const {
-    data: isRegistered,
-    hasError: hasRegisterError,
-    isLoading: isRegisterLoading
+    data: isSDDVerified,
+    hasError: hasSDDVerifiedError,
+    isLoading: isSDDVerifiedLoading
   } = useRemote(selectors.components.buySell.isUserSddVerified)
   const {
-    data: isUserVerified,
-    hasError: isUserVerifiedError,
-    isLoading: isUserVerifiedLoading
+    data: isGoldVerified,
+    hasError: isGoldVerifiedError,
+    isLoading: isGoldVerifiedLoading
   } = useRemote(selectors.modules.profile.isUserVerified)
+  const {
+    data: currentTier, // Checking for Silver tier users `currentTier === 1`
+    hasError: isCurrentTierError,
+    isLoading: isCurrentTierLoading
+  } = useRemote(selectors.modules.profile.getCurrentTier)
 
   const buttonAction = useCallback(() => {
     let step: CowboysPromoStepsType = 'signup' // level 1
-    if (cowboysData && isRegistered && !isUserVerified) {
+    if (cowboysData && !isGoldVerified && (isSDDVerified || currentTier === 1)) {
       // level 2
       step = 'verifyId'
-    } else if (cowboysData && isUserVerified) {
+    } else if (cowboysData && (isGoldVerified || currentTier === 1)) {
       dispatch(
         actions.analytics.trackEvent({
           key: Analytics.COWBOYS_VERIFY_EMAIL_ANNOUNCEMENT_CLICKED,
@@ -83,24 +88,26 @@ const CowboysCardComponent = () => {
     }
 
     dispatch(actions.modals.showModal(ModalName.COWBOYS_PROMO, { origin: 'CowboysCard', step }))
-  }, [cowboysData, dispatch, isRegistered, isUserVerified])
+  }, [cowboysData, currentTier, dispatch, isSDDVerified, isGoldVerified])
 
-  if (cowboysLoading || isRegisterLoading || isUserVerifiedLoading) return null
-  if (cowboysHasError || hasRegisterError || isUserVerifiedError) return null
+  if (cowboysLoading || isSDDVerifiedLoading || isGoldVerifiedLoading || isCurrentTierLoading)
+    return null
+  if (cowboysHasError || hasSDDVerifiedError || isGoldVerifiedError || isCurrentTierError)
+    return null
   if (!cowboysData || !show) return null
 
   const titleText = (
     <FormattedMessage id='copy.cowboys.cowboys_promo' defaultMessage='Cowboys Promo' />
   )
   const descText =
-    cowboysData && isRegistered && !isUserVerified ? ( // level 2
+    !isGoldVerified && (isSDDVerified || currentTier === 1) ? ( // level 2
       <Text color='white' size='16px' weight={700} lineHeight='24px'>
         <FormattedMessage
           id='copy.cowboys.verify_your_id'
           defaultMessage='Verify your ID and start referring friends to get the opportunity to WIN tickets'
         />
       </Text>
-    ) : cowboysData && isUserVerified ? ( // level 3
+    ) : isGoldVerified ? ( // level 3
       <Text color='white' size='24px' weight={600} lineHeight='24px'>
         <FormattedMessage
           id='copy.cowboys.refer_friends_win_tickets'
@@ -117,9 +124,9 @@ const CowboysCardComponent = () => {
       </Text>
     )
   const actionText =
-    cowboysData && isRegistered && !isUserVerified ? ( // level 2
+    !isGoldVerified && (isSDDVerified || currentTier === 1) ? ( // level 2
       <FormattedMessage id='buttons.verify_now' defaultMessage='Verify Now' />
-    ) : cowboysData && isUserVerified ? ( // level 3
+    ) : isGoldVerified ? ( // level 3
       <FormattedMessage id='buttons.signup_now' defaultMessage='Invite Now' />
     ) : (
       // level 1

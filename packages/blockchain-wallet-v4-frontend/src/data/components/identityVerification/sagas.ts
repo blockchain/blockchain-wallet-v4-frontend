@@ -364,6 +364,7 @@ export default ({ api, coreSagas, networks }) => {
       const { city, country, dob, firstName, lastName, line1, line2, postCode, state } =
         yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { dob, firstName, lastName }
+      const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
 
       const address = {
         city,
@@ -401,6 +402,20 @@ export default ({ api, coreSagas, networks }) => {
         }
 
         if (sddVerified.verified) {
+          if (hasCowboysTag) {
+            const questions = yield call(
+              api.fetchKYCExtraQuestions,
+              ExtraKYCContext.TIER_TWO_VERIFICATION
+            )
+            if (!questions.nodes || !questions.nodes.length) {
+              yield put(
+                actions.modals.showModal(ModalName.COWBOYS_PROMO, {
+                  origin: 'CowboysCard',
+                  step: 'raffleEntered'
+                })
+              )
+            }
+          }
           // SDD verified, refetch user profile
           yield put(actions.modules.profile.fetchUser())
           // run callback to get back to BS flow
