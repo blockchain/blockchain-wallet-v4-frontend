@@ -403,17 +403,22 @@ export default ({ api, coreSagas, networks }) => {
 
         if (sddVerified.verified) {
           if (hasCowboysTag) {
-            const questions = yield call(
-              api.fetchKYCExtraQuestions,
-              ExtraKYCContext.TIER_TWO_VERIFICATION
-            )
-            if (!questions.nodes || !questions.nodes.length) {
+            const kycExtraSteps = selectors.components.identityVerification
+              .getKYCExtraSteps(yield select())
+              .getOrElse({} as ExtraQuestionsType)
+            const showExtraKycSteps = kycExtraSteps?.nodes?.length > 0
+            if (!showExtraKycSteps) {
+              yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
               yield put(
                 actions.modals.showModal(ModalName.COWBOYS_PROMO, {
                   origin: 'CowboysCard',
                   step: 'raffleEntered'
                 })
               )
+            } else {
+              // go immediately to extra KYC step
+              yield call(goToNextStep)
+              return
             }
           }
           // SDD verified, refetch user profile
@@ -428,6 +433,7 @@ export default ({ api, coreSagas, networks }) => {
             actions.components.buySell.fetchOrdersSuccess.type,
             actions.components.buySell.fetchOrdersFailure.type
           ])
+
           // close KYC modal
           yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
         } else {
@@ -481,6 +487,17 @@ export default ({ api, coreSagas, networks }) => {
       yield call(api.updateKYCExtraQuestions, extraForm)
 
       yield put(actions.form.stopSubmit(KYC_EXTRA_QUESTIONS_FORM))
+      const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
+
+      if (hasCowboysTag) {
+        yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
+        yield put(
+          actions.modals.showModal(ModalName.COWBOYS_PROMO, {
+            origin: 'CowboysCard',
+            step: 'raffleEntered'
+          })
+        )
+      }
       // return to KYC
       yield call(goToNextStep)
     } catch (e) {

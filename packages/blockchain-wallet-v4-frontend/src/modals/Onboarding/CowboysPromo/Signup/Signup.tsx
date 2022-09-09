@@ -5,19 +5,14 @@ import { useDispatch } from 'react-redux'
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import { duration } from 'components/Flyout'
-import {
-  FlyoutContainer,
-  FlyoutContent,
-  FlyoutFooter,
-  FlyoutHeader
-} from 'components/Flyout/Layout'
+import { FlyoutContainer, FlyoutContent, FlyoutHeader } from 'components/Flyout/Layout'
 import { Padding } from 'components/Padding'
 import { actions } from 'data'
 import { Analytics, ModalName } from 'data/types'
 
 import { SignupComponent } from '../types'
 
-const Signup: SignupComponent = ({ handleClose, setStep }) => {
+const Signup: SignupComponent = ({ handleClose }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -35,10 +30,6 @@ const Signup: SignupComponent = ({ handleClose, setStep }) => {
       actions.components.identityVerification.verifyIdentity({
         checkSddEligibility: true,
         needMoreInfo: false,
-        onCompletionCallback: () => {
-          // Set the cowboys step to raffle entered and close kyc modal
-          dispatch(actions.modals.closeModal(ModalName.KYC_MODAL))
-        },
         origin: 'CowboysSignupModal',
         tier: 2
       })
@@ -52,7 +43,7 @@ const Signup: SignupComponent = ({ handleClose, setStep }) => {
     setTimeout(() => {
       dispatch(actions.modals.closeModal(ModalName.COWBOYS_PROMO))
     }, duration)
-  }, [dispatch, handleClose])
+  }, [dispatch])
 
   const onClose = useCallback(() => {
     handleClose()
@@ -70,7 +61,7 @@ const Signup: SignupComponent = ({ handleClose, setStep }) => {
         position='absolute'
         mode='close'
         data-e2e='CowboysSignupModal'
-        onClick={handleClose}
+        onClick={onClose}
       />
       <FlyoutContent mode='middle'>
         <Flex flexDirection='column' alignItems='center'>

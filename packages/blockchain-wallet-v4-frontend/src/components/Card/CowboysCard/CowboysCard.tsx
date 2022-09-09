@@ -74,13 +74,31 @@ const CowboysCardComponent = () => {
     if (cowboysData && !isGoldVerified && (isSDDVerified || currentTier === 1)) {
       // level 2
       step = 'verifyId'
-    } else if (cowboysData && (isGoldVerified || currentTier === 1)) {
       dispatch(
         actions.analytics.trackEvent({
-          key: Analytics.COWBOYS_VERIFY_EMAIL_ANNOUNCEMENT_CLICKED,
+          key: Analytics.COWBOYS_VERIFY_IDENTITY_ANNOUNCEMENT_CLICKED,
           properties: {}
         })
       )
+    } else if (cowboysData && (isGoldVerified || currentTier === 1)) {
+      if (isGoldVerified) {
+        dispatch(
+          actions.analytics.trackEvent({
+            key: Analytics.COWBOYS_REFER_FRIENDS_ANNOUNCEMENT_CLICKED,
+            properties: {}
+          })
+        )
+      } else {
+        dispatch(
+          actions.analytics.trackEvent({
+            key: Analytics.COWBOYS_COMPLETE_SIGN_UP_ANNOUCEMENT_CLICKED,
+            properties: {
+              type: 'signed_up'
+            }
+          })
+        )
+      }
+
       // level 3
       return dispatch(
         actions.modals.showModal(ModalName.REFERRAL_LANDING_MODAL, { origin: 'CowboysCard' })

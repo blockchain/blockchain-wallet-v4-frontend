@@ -3,14 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 
 import { OrderType } from '@core/types'
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import {
-  FlyoutContainer,
-  FlyoutContent,
-  FlyoutFooter,
-  FlyoutHeader
-} from 'components/Flyout/Layout'
+import { FlyoutContainer, FlyoutContent, FlyoutHeader } from 'components/Flyout/Layout'
 import { Padding } from 'components/Padding'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
@@ -53,7 +48,7 @@ const RaffleEntered: RaffleEnteredComponent = ({ handleClose, setStep }) => {
     handleClose()
     dispatch(
       actions.analytics.trackEvent({
-        key: Analytics.COWBOYS_VERIFY_IDENTITY_INTERSTITIAL_CLOSED,
+        key: Analytics.COWBOYS_RAFFLE_INTERSTITIAL_CLOSED,
         properties: {}
       })
     )
@@ -61,6 +56,7 @@ const RaffleEntered: RaffleEnteredComponent = ({ handleClose, setStep }) => {
 
   const heroImage =
     'https://www.blockchain.com/static/img/cowboys/7_9_22_cowboys_interstitial_raffle_icon.png'
+
   return (
     <FlyoutContainer>
       <FlyoutHeader
@@ -119,7 +115,7 @@ const RaffleEntered: RaffleEnteredComponent = ({ handleClose, setStep }) => {
                 data-e2e='CowboySignupDismissButton'
                 nature='empty-blue'
                 fullwidth
-                onClick={handleClose}
+                onClick={onClose}
               >
                 <FormattedMessage
                   id='modals.recurringbuys.get_started.maybe_later'

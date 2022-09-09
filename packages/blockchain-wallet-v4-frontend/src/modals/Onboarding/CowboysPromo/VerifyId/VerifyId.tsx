@@ -1,16 +1,10 @@
 import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
-import styled from 'styled-components'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import {
-  FlyoutContainer,
-  FlyoutContent,
-  FlyoutFooter,
-  FlyoutHeader
-} from 'components/Flyout/Layout'
+import { FlyoutContainer, FlyoutContent, FlyoutHeader } from 'components/Flyout/Layout'
 import { Padding } from 'components/Padding'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
@@ -114,7 +108,7 @@ const VerifyId: VerifyIdComponent = ({ handleClose }) => {
                 data-e2e='CowboySignupDismissButton'
                 nature='empty-blue'
                 fullwidth
-                onClick={handleClose}
+                onClick={onClose}
               >
                 <FormattedMessage
                   id='modals.recurringbuys.get_started.maybe_later'
