@@ -1,3 +1,4 @@
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -28,7 +29,7 @@ export const Container = styled(Row)`
   justify-content: space-between;
 
   &:first-child {
-    border-right: 1px solid ${({ theme }) => theme.grey000};
+    border-right: 1px solid ${PaletteColors['grey-000']};
     width: 199px;
   }
 
@@ -48,13 +49,13 @@ export const DetailsItemContainer = styled.div`
 `
 export const LineVectorDetails = styled.div`
   height: 1px;
-  background: ${({ theme }) => theme.grey000};
+  background: ${PaletteColors['grey-000']};
   margin: 10px 0;
 `
 export const LineVector = styled.div`
   height: 1px;
   width: 100%;
-  background: ${({ theme }) => theme.grey000};
+  background: ${PaletteColors['grey-000']};
   margin: 24px 0 8px 0;
   display: flex;
 `
@@ -86,10 +87,10 @@ export const StatusSupplyWrapper = styled.div`
   margin-top: 32px;
   border-radius: 8px;
   &.new {
-    border: 1px solid ${({ theme }) => theme.grey100};
+    border: 1px solid ${PaletteColors['grey-100']};
   }
   &.old {
-    background-color: ${({ theme }) => theme.grey000};
+    background-color: ${PaletteColors['grey-000']};
   }
 `
 export const StatusIconWrapper = styled.div<{ color: string }>`
@@ -105,4 +106,11 @@ export const StatusIconWrapper = styled.div<{ color: string }>`
 `
 export const LinkWrapper = styled.div`
   padding: 16px 0;
+`
+export const WarningContainer = styled.div`
+  background-color: ${PaletteColors['grey-000']};
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: -12px;
+  margin-top: 28px;
 `

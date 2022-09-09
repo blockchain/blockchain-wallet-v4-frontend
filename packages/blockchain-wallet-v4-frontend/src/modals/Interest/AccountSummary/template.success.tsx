@@ -27,6 +27,7 @@ import {
   StatusWrapper,
   Top,
   TopText,
+  WarningContainer,
   Wrapper
 } from './model'
 
@@ -470,6 +471,14 @@ const AccountSummary: React.FC<Props> = (props) => {
       </Top>
       {!showSupply && (
         <Bottom>
+          <WarningContainer>
+            <Text color='grey900' size='12px' weight={500}>
+              <FormattedMessage
+                defaultMessage='Rewards are paid by the end of the day on the 1st of each month.'
+                id='modals.interest.bottom.warning'
+              />
+            </Text>
+          </WarningContainer>
           <ButtonContainer>
             <Button
               disabled={!account || !availToWithdraw}
