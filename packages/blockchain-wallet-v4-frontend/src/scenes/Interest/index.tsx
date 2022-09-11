@@ -13,10 +13,9 @@ import { SceneWrapper } from 'components/Layout'
 import { actions } from 'data'
 import { Analytics, UserDataType } from 'data/types'
 
+import EarnTable from './EarnTable'
 import IneligibilityCard from './IneligibilityCard'
-import IntroCard from './IntroCard'
 import getData from './selectors'
-import SummaryCard from './SummaryCard'
 import InterestHeader from './template.header'
 
 const ContainerStyled = styled(Container)`
@@ -102,19 +101,7 @@ class Interest extends React.PureComponent<Props, StateType> {
           Success: (val) => (
             <>
               <ContainerStyled>
-                <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
-                {isGoldTier &&
-                  val.sortedInstruments.map((instrument) => {
-                    return window.coins[instrument] ? (
-                      <SummaryCard
-                        {...val}
-                        {...this.props}
-                        isGoldTier={isGoldTier}
-                        coin={instrument}
-                        key={instrument}
-                      />
-                    ) : null
-                  })}
+                {isGoldTier && <EarnTable {...val} {...this.props} isGoldTier={isGoldTier} />}
               </ContainerStyled>
               <IneligibilityCard {...val} {...this.props} />
             </>
