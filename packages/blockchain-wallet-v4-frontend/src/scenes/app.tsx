@@ -224,8 +224,8 @@ const App = ({
                           <WalletLayout path='/airdrops' component={Airdrops} />
                           <WalletLayout path='/exchange' component={TheExchange} />
                           <WalletLayout path='/home' component={Home} />
-                          <WalletLayout path='/rewards' component={Interest} exact />
-                          <WalletLayout path='/rewards/history' component={InterestHistory} />
+                          <WalletLayout path='/earn' component={Interest} exact />
+                          <WalletLayout path='/earn/history' component={InterestHistory} />
                           <WalletLayout path='/security-center' component={SecurityCenter} />
                           <WalletLayout path='/settings/addresses' component={Addresses} />
                           <WalletLayout path='/settings/general' component={General} />

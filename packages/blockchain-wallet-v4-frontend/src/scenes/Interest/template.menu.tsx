@@ -14,12 +14,12 @@ const InterestMenu = () => {
   return (
     <TabRow>
       <TabMenu>
-        <LinkContainer to='/rewards' exact>
+        <LinkContainer to='/earn' exact>
           <TabMenuItem data-e2e='interestTabMenuAccountss'>
             <FormattedMessage id='scenes.interest.tab.accounts' defaultMessage='Accounts' />
           </TabMenuItem>
         </LinkContainer>
-        <LinkContainer to='/rewards/history'>
+        <LinkContainer to='/earn/history'>
           <TabMenuItem data-e2e='interestTabMenuHistory'>
             <FormattedMessage
               id='scenes.interest.tab.history'

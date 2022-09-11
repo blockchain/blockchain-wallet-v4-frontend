@@ -310,8 +310,12 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineSwapGoal)
     }
 
-    // /#/open/rewards /#/open/interest
-    if (startsWith(DeepLinkGoal.REWARDS, pathname) || startsWith(DeepLinkGoal.INTEREST, pathname)) {
+    // /#/open/earn /#/open/rewards /#/open/interest
+    if (
+      startsWith(DeepLinkGoal.EARN, pathname) ||
+      startsWith(DeepLinkGoal.REWARDS, pathname) ||
+      startsWith(DeepLinkGoal.INTEREST, pathname)
+    ) {
       return yield call(defineInterestGoal)
     }
 
@@ -800,7 +804,7 @@ export default ({ api, coreSagas, networks }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    yield put(actions.goals.addInitialRedirect(GeneralRedirectType.REWARDS))
+    yield put(actions.goals.addInitialRedirect(GeneralRedirectType.EARN))
   }
   const runInterestPromo = function* (goal: GoalType) {
     // do not show modal immediately, wait 5 seconds
@@ -852,8 +856,8 @@ export default ({ api, coreSagas, networks }) => {
   const runInitialRedirect = function* () {
     const initialRedirect = yield select(selectors.goals.getInitialRedirect)
 
-    if (initialRedirect === GeneralRedirectType.REWARDS) {
-      return yield put(actions.router.push(`/rewards`))
+    if (initialRedirect === GeneralRedirectType.EARN) {
+      return yield put(actions.router.push(`/earn`))
     }
     if (
       initialRedirect === UnifiedAccountRedirectType.CHANGE_EMAIL ||
@@ -1107,6 +1111,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'referral':
           yield call(runReferralGoal, goal)
+          break
+        case 'rewards':
+          yield call(runInterestRedirect, goal)
           break
         case 'sanctionsNotice':
           yield call(runSanctionsNoticeGoal, goal)

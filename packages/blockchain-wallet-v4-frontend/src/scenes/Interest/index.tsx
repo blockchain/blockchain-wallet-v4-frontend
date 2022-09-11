@@ -74,12 +74,12 @@ class Interest extends React.PureComponent<Props, StateType> {
         {isGoldTier && (
           <TabRow>
             <TabMenu>
-              <LinkContainer to='/rewards' exact>
+              <LinkContainer to='/earn' exact>
                 <TabMenuItem data-e2e='interestTabMenuAccounts'>
                   <FormattedMessage id='scenes.interest.tab.accounts' defaultMessage='Accounts' />
                 </TabMenuItem>
               </LinkContainer>
-              <LinkContainer to='/rewards/history' onClick={this.handleHistoryClick}>
+              <LinkContainer to='/earn/history' onClick={this.handleHistoryClick}>
                 <TabMenuItem data-e2e='interestTabMenuHistory'>
                   <FormattedMessage
                     id='scenes.interest.tab.history'

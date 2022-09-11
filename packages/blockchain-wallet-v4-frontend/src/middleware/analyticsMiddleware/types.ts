@@ -149,7 +149,7 @@ type PageViewPayload = {
 
 type PageName =
   | '/home'
-  | '/rewards'
+  | '/earn'
   | '/login'
   | '/settings/addresses/btc'
   | '/settings/addresses/bch'

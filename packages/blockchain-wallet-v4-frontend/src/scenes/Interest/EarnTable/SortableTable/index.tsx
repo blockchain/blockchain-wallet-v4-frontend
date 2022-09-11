@@ -140,7 +140,7 @@ const SortableTable = ({
             width: 'auto'
           }
         } as ButtonCellProps,
-        apy: { subtext: '', text: `${interestRate[coin]}%` } as TextCellProps,
+        apy: { text: `${interestRate[coin]}%` } as TextCellProps,
         asset: {
           icon: <Icon name={coin} color={coin} size='32px' />,
           iconPosition: 'left',
