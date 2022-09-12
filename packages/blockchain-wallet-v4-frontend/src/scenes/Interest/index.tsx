@@ -8,7 +8,6 @@ import styled from 'styled-components'
 import { Remote } from '@core'
 import { CoinType, InterestEDDStatus, InterestRateType, RemoteDataType } from '@core/types'
 import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
-import { Container } from 'components/Box'
 import { SceneWrapper } from 'components/Layout'
 import { actions } from 'data'
 import { Analytics, UserDataType } from 'data/types'
@@ -18,12 +17,6 @@ import Loading from './Interest.loading.template'
 import getData from './selectors'
 import InterestHeader from './template.header'
 
-const ContainerStyled = styled(Container)`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  max-width: 100%;
-`
 const TabRow = styled.div`
   width: 100%;
   display: flex;
@@ -95,13 +88,8 @@ class Interest extends React.PureComponent<Props, StateType> {
           ),
           Loading: () => <Loading />,
           NotAsked: () => <Loading />,
-          Success: (val) => (
-            <>
-              <ContainerStyled>
-                {isGoldTier && <EarnTable {...val} {...this.props} isGoldTier={isGoldTier} />}
-              </ContainerStyled>
-            </>
-          )
+          Success: (val) =>
+            isGoldTier && <EarnTable {...val} {...this.props} isGoldTier={isGoldTier} />
         })}
       </SceneWrapper>
     )
