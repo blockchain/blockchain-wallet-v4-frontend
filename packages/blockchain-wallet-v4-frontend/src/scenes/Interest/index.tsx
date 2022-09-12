@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { CoinType, InterestEDDStatus, InterestRateType, RemoteDataType } from '@core/types'
-import { SkeletonRectangle, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { Container } from 'components/Box'
 import { SceneWrapper } from 'components/Layout'
 import { actions } from 'data'
@@ -15,6 +15,7 @@ import { Analytics, UserDataType } from 'data/types'
 
 import EarnTable from './EarnTable'
 import IneligibilityCard from './IneligibilityCard'
+import Loading from './Interest.loading.template'
 import getData from './selectors'
 import InterestHeader from './template.header'
 
@@ -93,8 +94,8 @@ class Interest extends React.PureComponent<Props, StateType> {
               Oops. Something went wrong. Please refresh and try again.
             </Text>
           ),
-          Loading: () => <SkeletonRectangle width='275px' height='275px' />,
-          NotAsked: () => <SkeletonRectangle width='275px' height='275px' />,
+          Loading: () => <Loading />,
+          NotAsked: () => <Loading />,
           Success: (val) => (
             <>
               <ContainerStyled>

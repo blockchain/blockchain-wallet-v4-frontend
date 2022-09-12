@@ -1,22 +1,16 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
-import styled from 'styled-components'
 
 import { InterestRateType, RemoteDataType } from '@core/types'
-import { SkeletonRectangle } from 'blockchain-info-components'
 import { actions } from 'data'
 import { useRemote, useWindowSize, WindowSize } from 'hooks'
 
 import { StateType as ParentStateType, SuccessStateType as ParentSuccessStateType } from '..'
+import Loading from '../Interest.loading.template'
 import MobileRow from './MobileRow'
 import { getData } from './selectors'
 import SortableTable from './SortableTable'
-
-const LoadingBox = styled(SkeletonRectangle)`
-  margin-bottom: 24px;
-`
-const LoadingCard = () => <LoadingBox width='330px' height='275px' />
 
 const EarnTableContainer = (props: Props) => {
   const { isGoldTier, sortedInstruments } = props
@@ -24,7 +18,7 @@ const EarnTableContainer = (props: Props) => {
   const { width }: WindowSize = useWindowSize()
 
   if (error || !width || !isGoldTier) return null
-  if (isLoading || isNotAsked || !data) return <LoadingCard />
+  if (isLoading || isNotAsked || !data) return <Loading />
 
   return width > 910 ? (
     <SortableTable {...data} {...props} />
