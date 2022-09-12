@@ -14,7 +14,6 @@ import { actions } from 'data'
 import { Analytics, UserDataType } from 'data/types'
 
 import EarnTable from './EarnTable'
-import IneligibilityCard from './IneligibilityCard'
 import Loading from './Interest.loading.template'
 import getData from './selectors'
 import InterestHeader from './template.header'
@@ -101,7 +100,6 @@ class Interest extends React.PureComponent<Props, StateType> {
               <ContainerStyled>
                 {isGoldTier && <EarnTable {...val} {...this.props} isGoldTier={isGoldTier} />}
               </ContainerStyled>
-              <IneligibilityCard {...val} {...this.props} />
             </>
           )
         })}
