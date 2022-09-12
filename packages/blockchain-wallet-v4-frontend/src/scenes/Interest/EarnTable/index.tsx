@@ -6,18 +6,18 @@ import { InterestRateType, RemoteDataType } from '@core/types'
 import { actions } from 'data'
 import { useRemote, useWindowSize, WindowSize } from 'hooks'
 
-import { StateType as ParentStateType, SuccessStateType as ParentSuccessStateType } from '..'
+import { SuccessStateType as ParentSuccessStateType } from '..'
 import Loading from '../Interest.loading.template'
 import MobileRow from './MobileRow'
 import { getData } from './selectors'
 import SortableTable from './SortableTable'
 
 const EarnTableContainer = (props: Props) => {
-  const { isGoldTier, sortedInstruments } = props
+  const { sortedInstruments } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const { width }: WindowSize = useWindowSize()
 
-  if (error || !width || !isGoldTier) return null
+  if (error || !width) return null
   if (isLoading || isNotAsked || !data) return <Loading />
 
   return width > 910 ? (
@@ -43,7 +43,6 @@ const connector = connect(null, mapDispatchToProps)
 
 export type OwnPropsType = {
   interestRate: InterestRateType
-  isGoldTier: boolean
 }
 
 export type SuccessStateType = ReturnType<typeof getData>['data']
@@ -52,9 +51,6 @@ export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
 }
 
-export type Props = OwnPropsType &
-  ParentSuccessStateType &
-  ParentStateType &
-  ConnectedProps<typeof connector>
+export type Props = OwnPropsType & ParentSuccessStateType & ConnectedProps<typeof connector>
 
 export default connector(EarnTableContainer)

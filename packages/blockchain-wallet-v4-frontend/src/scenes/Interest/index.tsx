@@ -88,8 +88,7 @@ class Interest extends React.PureComponent<Props, StateType> {
           ),
           Loading: () => <Loading />,
           NotAsked: () => <Loading />,
-          Success: (val) =>
-            isGoldTier && <EarnTable {...val} {...this.props} isGoldTier={isGoldTier} />
+          Success: (val) => isGoldTier && <EarnTable {...val} {...this.props} />
         })}
       </SceneWrapper>
     )
