@@ -6,7 +6,7 @@ import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
 import { BuySellWidgetGoalDataType } from 'data/types'
 

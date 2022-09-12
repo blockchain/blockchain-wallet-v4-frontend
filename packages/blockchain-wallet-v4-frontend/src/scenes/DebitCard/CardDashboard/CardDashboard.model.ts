@@ -7,6 +7,7 @@ export const BoxContainer = styled.div`
   border: 1px solid ${(props) => props.theme.grey000};
   box-sizing: border-box;
   border-radius: 1rem;
+  overflow: hidden;
   width: fit-content;
   display: inline-block;
   vertical-align: top;
@@ -21,7 +22,12 @@ export const BoxRow = styled.div`
 
 export const BoxRowWithBorder = styled(BoxRow)`
   border-bottom: 1px solid ${(props) => props.theme.grey000};
+
   align-items: center;
+
+  &:last-child {
+    border-bottom: none;
+  }
 `
 
 export const BoxRowItemTitle = styled(Text)`
@@ -29,18 +35,19 @@ export const BoxRowItemTitle = styled(Text)`
   font-size: 1rem;
   padding-left: 1rem;
   font-weight: 600;
-  line-height: 150%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex: 1;
+  gap: 0.5rem;
 `
 
 export const BoxRowItemSubTitle = styled(Text)`
   color: ${(props) => props.theme.grey600};
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
-  line-height: 150%;
+  display: flex;
+  align-items: center;
 `
 
 export const Iframe = styled.iframe`

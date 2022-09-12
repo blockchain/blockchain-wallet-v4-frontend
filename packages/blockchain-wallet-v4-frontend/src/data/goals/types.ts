@@ -6,6 +6,7 @@ export type GoalsType =
   | 'airdropClaim'
   | 'buySell'
   | 'buy-nft'
+  | 'cowboys2022'
   | 'dex'
   | 'kyc'
   | 'kycDocResubmit'
@@ -20,6 +21,7 @@ export type GoalsType =
   | 'referral'
   | 'sanctionsNotice'
   | 'settings'
+  | 'signup'
   | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'
@@ -35,6 +37,10 @@ export type BuySellWidgetGoalDataType = {
   crypto: CoinType
   email?: string
   fiatCurrency: WalletFiatType
+}
+
+export type SignUpGoalDataType = {
+  email?: string
 }
 
 export enum UnifiedAccountRedirectType {

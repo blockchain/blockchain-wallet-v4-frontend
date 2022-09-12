@@ -32,6 +32,16 @@ const LeftTopCol = styled.div`
   align-items: center;
 `
 
+const CloseIconBg = styled.div`
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 // TODO migrate this to use constellation
 const FlyoutHeader = memo(
   (props: Props) => {
@@ -54,15 +64,17 @@ const FlyoutHeader = memo(
             {props.children}
           </LeftTopCol>
           {props.mode === 'close' && (
-            <Icon
-              cursor
-              data-e2e='close'
-              name='close'
-              size='20px'
-              color='grey600'
-              role='button'
-              onClick={props.onClick}
-            />
+            <CloseIconBg>
+              <Icon
+                cursor
+                data-e2e='close'
+                name='close'
+                size='20px'
+                color='grey600'
+                role='button'
+                onClick={props.onClick}
+              />
+            </CloseIconBg>
           )}
         </TopText>
       </Header>

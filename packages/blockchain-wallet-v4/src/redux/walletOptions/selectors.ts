@@ -145,6 +145,7 @@ export const getAppleAndGooglePayPromoBannerEnabled = (state: RootState) =>
 // show referral signup input in sign up
 export const getReferralEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
+
 // show referral page and menutop referral
 export const getReferralRetrievalEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))

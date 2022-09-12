@@ -25,6 +25,7 @@ export enum ModalName {
   COMPLETE_USER_PROFILE = 'COMPLETE_USER_PROFILE',
   CONFIRMATION_MODAL = 'CONFIRMATION_MODAL',
   CONFIRM_DISABLE_2FA = 'CONFIRM_DISABLE_2FA',
+  COWBOYS_PROMO = 'COWBOYS_PROMO',
   CUSTODY_WITHDRAW_MODAL = 'CUSTODY_WITHDRAW_MODAL',
   CUSTOMIZABLE_CONFIRM_MODAL = 'CUSTOMIZABLE_CONFIRM_MODAL',
   DELETE_ADDRESS_LABEL_MODAL = 'DELETE_ADDRESS_LABEL_MODAL',
@@ -117,6 +118,8 @@ export type ModalOriginType =
   | 'CoinPageHoldings'
   | 'CompleteProfileBanner'
   | 'CompleteProfile'
+  | 'CowboysCard'
+  | 'CowboysSignupModal'
   | 'DebitCard'
   | 'DebitCardDashboard'
   | 'DepositWithdrawalModal'

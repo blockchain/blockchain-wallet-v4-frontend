@@ -103,7 +103,7 @@ const Header = (props: OwnProps) => {
     <Navbar
       primaryNavItems={primaryNavItems}
       fabClickHandler={fabCallback}
-      isReferralAvailable={props.isReferralAvailable}
+      isReferralAvailable={props.isReferralAvailable && props.isGoldVerified}
       isReferralRetrievalEnabled={props.featureFlags.isReferralRetrievalEnabled}
       limitsClickHandler={limitsCallback}
       referAFriendHandler={referAFriendCallback}
