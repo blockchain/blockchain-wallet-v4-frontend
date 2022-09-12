@@ -52,6 +52,7 @@
         "institutionalPortal": true,
         "isReferralEnabled": true,
         "isReferralRetrievalEnabled": true,
+        "isStakingEnabled": true,
         "mergeAndUpgrade": false,
         "nftExplorer": true,
         "recurringBuys": true,

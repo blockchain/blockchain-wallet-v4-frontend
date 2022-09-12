@@ -150,6 +150,10 @@ export const getReferralEnabled = (state: RootState) =>
 export const getReferralRetrievalEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
 
+// show staking
+export const getStakingEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isStakingEnabled']))
+
 // show login button redirect for exchange mobile
 // will take user out of webview into native signin
 export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
