@@ -15,16 +15,13 @@ const InterestMenu = () => {
     <TabRow>
       <TabMenu>
         <LinkContainer to='/earn' exact>
-          <TabMenuItem data-e2e='interestTabMenuAccountss'>
-            <FormattedMessage id='scenes.interest.tab.accounts' defaultMessage='Accounts' />
+          <TabMenuItem data-e2e='interestTabMenuAccountss' width='130px'>
+            <FormattedMessage id='copy.all' defaultMessage='All' />
           </TabMenuItem>
         </LinkContainer>
         <LinkContainer to='/earn/history'>
-          <TabMenuItem data-e2e='interestTabMenuHistory'>
-            <FormattedMessage
-              id='scenes.interest.tab.history'
-              defaultMessage='Transaction History'
-            />
+          <TabMenuItem data-e2e='interestTabMenuHistory' width='130px'>
+            <FormattedMessage id='copy.history' defaultMessage='History' />
           </TabMenuItem>
         </LinkContainer>
       </TabMenu>

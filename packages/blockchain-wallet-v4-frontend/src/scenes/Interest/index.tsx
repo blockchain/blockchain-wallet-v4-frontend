@@ -75,16 +75,13 @@ class Interest extends React.PureComponent<Props, StateType> {
           <TabRow>
             <TabMenu>
               <LinkContainer to='/earn' exact>
-                <TabMenuItem data-e2e='interestTabMenuAccounts'>
-                  <FormattedMessage id='scenes.interest.tab.accounts' defaultMessage='Accounts' />
+                <TabMenuItem data-e2e='interestTabMenuAccounts' width='130px'>
+                  <FormattedMessage id='copy.all' defaultMessage='All' />
                 </TabMenuItem>
               </LinkContainer>
               <LinkContainer to='/earn/history' onClick={this.handleHistoryClick}>
-                <TabMenuItem data-e2e='interestTabMenuHistory'>
-                  <FormattedMessage
-                    id='scenes.interest.tab.history'
-                    defaultMessage='Transaction History'
-                  />
+                <TabMenuItem data-e2e='interestTabMenuHistory' width='130px'>
+                  <FormattedMessage id='copy.history' defaultMessage='History' />
                 </TabMenuItem>
               </LinkContainer>
             </TabMenu>
