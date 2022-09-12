@@ -410,7 +410,7 @@ export default ({ api, coreSagas, networks }) => {
       // const response = {
       //   email: 'leora+419+822@blockchain.com',
       //   request_denied: false,
-      //   status: true,
+      //   status: 'true',
       //   two_fa_type: 1,
       //   userId: '34735c52-61e1-4e55-92a0-2cce89774add'
       // }

@@ -128,7 +128,9 @@ export default ({ api, networks }) => {
       undefined,
       networks.btc
     )
-    yield call(api.createResetWallet, email, captchaToken, wrapper, sessionToken)
+    const token = yield call(api.generateRetailToken, guid, sharedKey)
+
+    yield call(api.createResetWallet, email, captchaToken, wrapper, sessionToken, token)
 
     yield put(A.wallet.refreshWrapper(wrapper))
   }
