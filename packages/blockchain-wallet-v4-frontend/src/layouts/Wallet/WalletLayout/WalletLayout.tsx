@@ -6,6 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
+import { CowboysCardComponent } from 'components/Card/CowboysCard'
 import { SupportChatForGoldUserOnly } from 'components/SupportChat'
 import Tooltips from 'components/Tooltips'
 import { actions, selectors } from 'data'
@@ -59,6 +60,7 @@ const WalletLayout: Props = ({
         <Alerts />
         <Tooltips />
         <Modals />
+        <CowboysCardComponent />
         <Nav>
           <MenuTop />
           <Announcements type='service' alertArea='wallet' />

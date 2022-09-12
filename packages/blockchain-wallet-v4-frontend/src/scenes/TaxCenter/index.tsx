@@ -81,6 +81,14 @@ const TaxCenterContainer = ({
     taxCenterActions.getReports()
   }, [])
 
+  useEffect(() => {
+    const list = reportsR.getOrElse([])
+
+    if (list && list.some((item) => item.status === 'PENDING')) {
+      taxCenterActions.getReports()
+    }
+  }, [taxCenterActions, reportsR])
+
   return (
     <TaxCenter
       exchangeDomain={exchangeDomain}

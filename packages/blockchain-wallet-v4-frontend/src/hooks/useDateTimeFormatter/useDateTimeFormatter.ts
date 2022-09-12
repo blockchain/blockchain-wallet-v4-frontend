@@ -30,4 +30,4 @@ export const useDateTimeFormatter = (
 ) =>
   useMemo(() => {
     return new Date(dateTime).toLocaleString(locales, options)
-  }, [dateTime])
+  }, [dateTime, locales, options])

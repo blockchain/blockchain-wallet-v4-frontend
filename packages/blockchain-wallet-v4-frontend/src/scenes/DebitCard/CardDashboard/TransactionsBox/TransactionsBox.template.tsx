@@ -11,7 +11,7 @@ import { BalanceType, TransactionState, TransactionType } from 'data/components/
 import { ModalName } from 'data/modals/types'
 import { useRemote } from 'hooks'
 
-import { FULL_DATETIME_FORMAT, useDateTimeFormatter } from '../../../../hooks/useDateTimeFormatter'
+import { FULL_DATETIME_FORMAT } from '../../../../hooks/useDateTimeFormatter'
 import {
   BoxContainer,
   BoxRow,
@@ -26,20 +26,20 @@ const SkeletonLoader = styled.div`
   align-items: center;
   > div:last-child {
     flex: 1;
-    margin-left: 16px;
+    margin-left: 1rem;
   }
+
   width: 100%;
 `
 
 const TransactionsWrapper = styled.div`
-  max-height: 310px;
   overflow: auto;
 `
 
 const StyledBanner = styled(Banner)`
   max-width: fit-content;
   display: inline-flex;
-  margin-left: 8px;
+  margin-left: 0.5rem;
   border: unset;
 `
 
@@ -150,15 +150,19 @@ const TransactionsBox = ({ modalActions }) => {
         <TransactionsWrapper>
           {data.map((detail) => {
             const { id, merchantName, originalAmount, state, type, userTransactionTime } = detail
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const datetime = useDateTimeFormatter(userTransactionTime, FULL_DATETIME_FORMAT)
+
+            const formattedDateTime = new Date(userTransactionTime).toLocaleString(
+              'en-US',
+              FULL_DATETIME_FORMAT
+            )
+
             return (
               <TransactionItem key={id} onClick={() => handleOpenDetail(detail)}>
                 {generateTransactionIcon(type)}
                 <BoxRowItemTitle>
                   {generateTransactionTitle(type, originalAmount, merchantName)}
                   <BoxRowItemSubTitle>
-                    {datetime}
+                    {formattedDateTime}
                     <StyledBanner type={getBannerType(state)} icon={null}>
                       {state}
                     </StyledBanner>

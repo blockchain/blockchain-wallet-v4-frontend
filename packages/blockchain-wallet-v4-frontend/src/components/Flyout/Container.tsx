@@ -1,7 +1,8 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
 
-const Container = styled.div`
+// exporting this in case you need to wrap FlyoutContainer in a styled component
+export const Container = styled.div`
   display: flex;
   flex: 1;
   height: 100%;
