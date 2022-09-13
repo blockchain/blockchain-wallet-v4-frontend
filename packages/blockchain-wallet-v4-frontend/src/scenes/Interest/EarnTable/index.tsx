@@ -4,7 +4,8 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { InterestRateType, RemoteDataType } from '@core/types'
 import { actions } from 'data'
-import { useRemote, useWindowSize, WindowSize } from 'hooks'
+import { useRemote } from 'hooks'
+import { useMedia } from 'services/styles'
 
 import { SuccessStateType as ParentSuccessStateType } from '..'
 import Loading from '../Interest.loading.template'
@@ -15,14 +16,12 @@ import SortableTable from './SortableTable'
 const EarnTableContainer = (props: Props) => {
   const { sortedInstruments } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
-  const { width }: WindowSize = useWindowSize()
+  const isTabletL = useMedia('tabletL')
 
-  if (error || !width) return null
+  if (error) return null
   if (isLoading || isNotAsked || !data) return <Loading />
 
-  return width > 910 ? (
-    <SortableTable {...data} {...props} />
-  ) : (
+  return isTabletL ? (
     <>
       {sortedInstruments.map((instrument) => {
         return window.coins[instrument] ? (
@@ -30,6 +29,8 @@ const EarnTableContainer = (props: Props) => {
         ) : null
       })}
     </>
+  ) : (
+    <SortableTable {...data} {...props} />
   )
 }
 
