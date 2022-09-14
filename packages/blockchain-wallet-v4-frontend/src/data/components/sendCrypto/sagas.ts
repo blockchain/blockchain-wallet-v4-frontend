@@ -1,11 +1,13 @@
 import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
+import * as ethers from 'ethers'
 import { call, delay, put, select } from 'redux-saga/effects'
 import secp256k1 from 'secp256k1'
 
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { BuildTxIntentType, BuildTxResponseType } from '@core/network/api/coins/types'
+import { getCoinNetworksAndTypes } from '@core/redux/data/coins/selectors'
 import { getPrivKey, getPubKey } from '@core/redux/data/self-custody/sagas'
 import { FiatType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -55,7 +57,7 @@ export default ({ api }: { api: APIType }) => {
           },
           intent: {
             amount: baseCryptoAmt,
-            currency: coin,
+            currency: 'native',
             destination,
             extraData: {
               memo
@@ -69,7 +71,8 @@ export default ({ api }: { api: APIType }) => {
               }
             ],
             type: 'PAYMENT'
-          } as BuildTxIntentType
+          } as BuildTxIntentType,
+          network: 'MATIC'
         })
 
         yield put(A.buildTxSuccess(tx))
@@ -206,7 +209,10 @@ export default ({ api }: { api: APIType }) => {
     const signedPreImages = prebuildTx.preImages.map((preImage) => {
       // @ts-ignore
       const { recovery, signature } = secp256k1.sign(
-        Buffer.from(preImage.preImage, 'hex'),
+        Buffer.from(
+          preImage.preImage.startsWith('0x') ? preImage.preImage.substr(2) : preImage.preImage,
+          'hex'
+        ),
         Buffer.from(privateKey, 'hex')
       )
 
@@ -259,7 +265,8 @@ export default ({ api }: { api: APIType }) => {
           {
             guid,
             uuid
-          }
+          },
+          'MATIC'
         )
 
         const value = convertCoinToCoin({
@@ -365,6 +372,14 @@ export default ({ api }: { api: APIType }) => {
     const isDynamicSelfCustody = window.coins[coin].coinfig.products.includes('DynamicSelfCustody')
 
     try {
+      if (
+        getCoinNetworksAndTypes().networks[coin] &&
+        getCoinNetworksAndTypes().networks[coin].type === 'EVM'
+      ) {
+        yield put(A.validateAddressSuccess(ethers.utils.isAddress(address)))
+        return
+      }
+
       if (!isDynamicSelfCustody) {
         yield put(A.validateAddressSuccess(!!address.match(/[a-zA-Z0-9]{15,}/)))
         return

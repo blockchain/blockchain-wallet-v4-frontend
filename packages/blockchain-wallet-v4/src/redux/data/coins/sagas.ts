@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import BIP39 from 'bip39-light'
 import * as Bitcoin from 'bitcoinjs-lib'
 import { format, fromUnixTime, getTime } from 'date-fns'
-import { flatten, last, length, T } from 'ramda'
+import { flatten, last, length } from 'ramda'
 import { all, call, delay, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
@@ -277,7 +277,7 @@ export default ({ api }: { api: APIType }) => {
           index: 0,
           name: label
         },
-        currency: 'MATIC',
+        currency: 'MATIC.MATIC',
         pubKeys: [
           {
             descriptor: 0,

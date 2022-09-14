@@ -118,3 +118,58 @@ export const getCoinUnifiedBalance = (
     )(state)
   }
 }
+
+export const getCoinNetworksAndTypes = () => ({
+  networks: {
+    AVAX: {
+      identifiers: {
+        chainId: 43114
+      },
+      name: 'Avalanche',
+      nodeUrl: 'https://api.staging.blockchain.info/bnb/nodes/rpc',
+      type: 'EVM'
+    },
+    'MATIC.MATIC': {
+      identifiers: {
+        chainId: 137
+      },
+      name: 'Polygon',
+      nodeUrl: 'https://api.blockchain.info/matic-bor/nodes/rpc',
+      type: 'EVM'
+    }
+  },
+  types: {
+    BTC: {
+      derivations: [
+        {
+          coinType: 0,
+          purpose: 44
+        },
+        {
+          coinType: 0,
+          purpose: 49
+        },
+        {
+          coinType: 0,
+          purpose: 84
+        }
+      ]
+    },
+    EVM: {
+      derivations: [
+        {
+          coinType: 60,
+          purpose: 44
+        }
+      ]
+    },
+    SOL: {
+      derivations: [
+        {
+          coinType: 501,
+          purpose: 44
+        }
+      ]
+    }
+  }
+})

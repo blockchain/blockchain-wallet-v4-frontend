@@ -23,7 +23,7 @@ export default ({ apiUrl, get, post }) => {
         pubKey
       },
       // TODO: SELF_CUSTODY
-      endPoint: `/currency/stx/deriveAddress`,
+      endPoint: `/currency/evm/deriveAddress`,
       url: apiUrl
     })
   }
@@ -35,7 +35,7 @@ export default ({ apiUrl, get, post }) => {
         address
       },
       // TODO: SELF_CUSTODY
-      endPoint: `/currency/stx/validateAddress`,
+      endPoint: `/currency/evm/validateAddress`,
       url: apiUrl
     })
   }
@@ -43,14 +43,15 @@ export default ({ apiUrl, get, post }) => {
   const buildTx = (data: {
     id: { guid: string; uuid: string }
     intent: BuildTxIntentType
+    network: string
   }): BuildTxResponseType => {
-    data.intent.maxVerificationVersion = 2
+    data.intent.maxVerificationVersion = 1
 
     return post({
       contentType: 'application/json',
       data,
       // TODO: SELF_CUSTODY
-      endPoint: `/currency/stx/buildTx`,
+      endPoint: `/currency/evm/buildTx`,
       removeDefaultPostData: true,
       url: apiUrl
     })
@@ -60,18 +61,20 @@ export default ({ apiUrl, get, post }) => {
     currency: string,
     rawTx: BuildTxResponseType['rawTx'],
     signatures: BuildTxResponseType['preImages'],
-    id: { guid: string; uuid: string }
+    id: { guid: string; uuid: string },
+    network: string
   ): { txId: string } => {
     return post({
       contentType: 'application/json',
       data: {
         currency,
         id,
+        network,
         rawTx,
         signatures
       },
       // TODO: SELF_CUSTODY
-      endPoint: `/currency/stx/pushTx`,
+      endPoint: `/currency/evm/pushTx`,
       removeDefaultPostData: true,
       url: apiUrl
     })
