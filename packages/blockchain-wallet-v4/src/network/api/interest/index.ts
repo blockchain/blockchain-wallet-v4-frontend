@@ -15,6 +15,7 @@ import {
   InterestRateType,
   InterestTransactionResponseType,
   InterestWithdrawalResponseType,
+  StakingRatesType,
   UploadDocumentDetails,
   WithdrawalMinimumTypeResponse,
   WithdrawLimits
@@ -35,6 +36,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
   const getInterestEligible = (): InterestEligibleType =>
     authorizedGet({
       endPoint: '/savings/eligible',
+      url: nabuUrl
+    })
+
+  const getStakingEligible = (): InterestEligibleType =>
+    authorizedGet({
+      endPoint: '/earn/eligible?product=staking',
       url: nabuUrl
     })
 
@@ -75,6 +82,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getStakingRates = (): StakingRatesType =>
+    authorizedGet({
+      endPoint: '/earn/rates?product=staking',
+      url: nabuUrl
+    })
+
   const getInterestAccount = (ccy: CoinType): InterestAccountType =>
     authorizedGet({
       endPoint: `/payments/accounts/savings?ccy=${ccy}`,
@@ -103,21 +116,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       },
       endPoint: '/savings/withdrawals',
       url: nabuUrl
-    })
-
-  const transferFromCustodial = (
-    amount: string,
-    currency: CoinType
-  ): CustodialTransferResponseType =>
-    authorizedPost({
-      contentType: 'application/json',
-      data: {
-        amount,
-        currency,
-        destination: 'SAVINGS',
-        origin: 'SIMPLEBUY'
-      },
-      endpoint: '/user/balance/transfer'
     })
 
   const getInterestCtaAfterTransaction = (
@@ -201,11 +199,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getSavingsEDDDepositLimits,
     getSavingsEDDStatus,
     getSavingsEDDWithdrawLimits,
+    getStakingEligible,
+    getStakingRates,
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,
     stopInterestCtaAfterTransaction,
     storeEDDData,
-    storeEDDDocuments,
-    transferFromCustodial
+    storeEDDDocuments
   }
 }

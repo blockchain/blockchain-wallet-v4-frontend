@@ -69,6 +69,15 @@ export type InterestRateType = {
   }
 }
 
+export type StakingRatesType = {
+  rates: {
+    [key in CoinType]: {
+      commission: number
+      rate: number
+    }
+  }
+}
+
 export type InterestTransactionType = {
   amount: {
     symbol: CoinType
