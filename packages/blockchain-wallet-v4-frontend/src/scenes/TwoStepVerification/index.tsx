@@ -53,6 +53,8 @@ const TwoStepVerification: React.FC<InjectedFormProps<{}, ResetProps> & ResetPro
 }
 
 const mapStateToProps = (state: RootState) => ({
+  authType: selectors.core.settings.getAuthType(state).getOrElse(0),
+  formValues: selectors.form.getFormValues(SETUP_TWO_FACTOR)(state),
   language: selectors.preferences.getLanguage(state)
 })
 

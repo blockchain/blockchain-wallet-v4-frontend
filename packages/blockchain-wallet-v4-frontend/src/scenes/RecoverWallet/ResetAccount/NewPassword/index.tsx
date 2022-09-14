@@ -36,6 +36,7 @@ const NewPassword = (props: Props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const { formValues, language, signupActions } = props
+    // TODO: Temp remove
     signupActions.resetAccountV2({
       email: formValues?.recoveryEmail,
       language,

@@ -19,13 +19,12 @@ import { Props } from '.'
 
 const YubiKeySetup = (props: Props) => {
   const { formatMessage } = useIntl()
-
   const handleSubmit = () => {
-    props.securityCenterActions.setYubikey()
+    props.securityCenterActions.setYubikey(props.formValues.newTwoFACode)
   }
 
   return (
-    <>
+    <Form onSubmit={handleSubmit}>
       <BackArrowFormHeader
         handleBackArrowClick={() => props.setFormStep(TwoFactorSetupSteps.CHOOSE_TWOFA)}
       />
@@ -56,7 +55,6 @@ const YubiKeySetup = (props: Props) => {
             defaultMessage: 'Tap Yubikey to enter code',
             id: 'scenes.login.upgrade.googleAuthVerify.input.placeholder'
           })}
-          normalize={removeWhitespace}
           validate={[required]}
           noLastPass
           autoFocus
@@ -68,15 +66,13 @@ const YubiKeySetup = (props: Props) => {
           data-e2e='nextButton'
           fullwidth
           height='48px'
-          // TODO: Temporary step change
-          onClick={() => props.changeAuthenticatorStep(2)}
-          // onClick={handleSubmit}
+          onClick={handleSubmit}
           style={{ marginTop: '24px' }}
         >
           <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </Button>
       </CenteredColumn>
-    </>
+    </Form>
   )
 }
 

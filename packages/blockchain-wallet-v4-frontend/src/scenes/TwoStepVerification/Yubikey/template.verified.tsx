@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import { IconCheckCircle, PaletteColors } from '@blockchain-com/constellation'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -37,15 +38,17 @@ const YubikeyVerified = (props: Props) => {
           />
         </Text>
       </CenteredColumn>
-      <Button
-        nature='primary'
-        data-e2e='nextButton'
-        fullwidth
-        height='48px'
-        // onClick={handleNext}
-      >
-        <FormattedMessage id='buttons.next' defaultMessage='Next' />
-      </Button>
+      <LinkContainer to='/select-product'>
+        <Button
+          nature='primary'
+          data-e2e='nextButton'
+          fullwidth
+          height='48px'
+          // onClick={handleNext}
+        >
+          <FormattedMessage id='buttons.next' defaultMessage='Next' />
+        </Button>
+      </LinkContainer>
     </>
   )
 }

@@ -374,17 +374,20 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.core.settings.setCurrency(currency))
 
         if (isAccountReset) {
-          if (product === ProductAuthOptions.EXCHANGE) {
-            yield put(
-              actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
-            )
-            return
-          }
-          if (product === ProductAuthOptions.WALLET) {
-            yield put(actions.router.push('/setup-two-factor'))
-          } else {
-            yield put(actions.router.push('/select-product'))
-          }
+          yield put(actions.router.push('/setup-two-factor'))
+          // if (product === ProductAuthOptions.EXCHANGE) {
+          //   yield put(
+          //     actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
+          //   )
+          //   return
+          // }
+          // debugger
+          // if (product === ProductAuthOptions.WALLET) {
+          //   // TODO only do this if it hasn't been copy/pasted from previous wallet
+          //   yield put(actions.router.push('/setup-two-factor'))
+          // } else {
+          //   yield put(actions.router.push('/select-product'))
+          // }
         } else {
           yield put(actions.router.push('/verify-email-step'))
         }

@@ -17,8 +17,10 @@ const Yubikey = (props: Props) => {
   }
   return (
     <>
-      {step === 1 && <YubikeySetup {...props} changeAuthenticatorStep={changeAuthenticatorStep} />}
-      {step === 2 && (
+      {props.authType === 0 && (
+        <YubikeySetup {...props} changeAuthenticatorStep={changeAuthenticatorStep} />
+      )}
+      {props.authType === 2 && (
         <YubikeyVerified {...props} changeAuthenticatorStep={changeAuthenticatorStep} />
       )}
     </>

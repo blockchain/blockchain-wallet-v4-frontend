@@ -69,8 +69,9 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
           style={{ margin: '8px 0', textAlign: 'center' }}
         >
           <FormattedMessage
-            id='scenes.recovery.reset_warning_title'
-            defaultMessage='Resetting Account May Result in Lost Funds'
+            id='scenes.recovery.reset_warning_titletext'
+            defaultMessage='This method only restores your 
+            Trading and Rewards Accounts'
           />
         </Text>
         <Text
@@ -81,8 +82,8 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
           style={{ textAlign: 'center' }}
         >
           <FormattedMessage
-            id='scenes.recovery.reset_warning_body'
-            defaultMessage='This means that if you lose your recovery phrase, you will lose access to your Private Key Wallet funds. You can restore your Private Key Wallet funds later if you find your recovery phrase.'
+            id='scenes.recovery.reset_warning_bodytext'
+            defaultMessage='To restore your Private Key Wallets, please use your cloud backup or recovery phrase.'
           />
         </Text>
       </FormBody>
@@ -95,7 +96,10 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
         style={{ margin: '24px 0 16px 0' }}
         onClick={handleResetAccountClick}
       >
-        <FormattedMessage id='buttons.reset_account' defaultMessage='Reset Account' />
+        <FormattedMessage
+          id='buttons.reset_trading_account'
+          defaultMessage='Restore Trading and Rewards Account'
+        />
       </ActionButton>
       <SubCard>
         <TryAnotherMethodRow>

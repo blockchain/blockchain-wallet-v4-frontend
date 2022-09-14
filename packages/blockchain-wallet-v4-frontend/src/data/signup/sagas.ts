@@ -95,12 +95,21 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.signup.setRegisterEmail(email))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
       if (isAccountReset) {
-        yield call(coreSagas.wallet.createResetWalletSaga, {
+        // TODO temp for testing
+        // yield call(coreSagas.wallet.createResetWalletSaga, {
+        //   captchaToken,
+        //   email,
+        //   language,
+        //   password,
+        //   sessionToken
+        // })
+        yield call(coreSagas.wallet.createWalletSaga, {
           captchaToken,
           email,
+          // TODO: remove,only needed for createResetWalletSaga
+          forceVerifyEmail: isAccountReset,
           language,
-          password,
-          sessionToken
+          password
         })
       } else {
         yield call(coreSagas.wallet.createWalletSaga, {
@@ -262,25 +271,25 @@ export default ({ api, coreSagas, networks }) => {
       yield call(register, actions.signup.register({ email, language, password, sessionToken }))
       const guid = yield select(selectors.core.wallet.getGuid)
       // generate a retail token for new wallet
-      const retailToken = yield call(generateRetailToken)
+      // const retailToken = yield call(generateRetailToken)
       // call the reset nabu user endpoint, receive new lifetime token for nabu user
-      const {
-        mercuryLifetimeToken: exchangeLifetimeToken,
-        token: lifetimeToken,
-        userCredentialsId: exchangeUserId
-      } = yield call(api.resetUserAccount, userId, recoveryToken, retailToken)
+      // const {
+      //   mercuryLifetimeToken: exchangeLifetimeToken,
+      //   token: lifetimeToken,
+      //   userCredentialsId: exchangeUserId
+      // } = yield call(api.resetUserAccount, userId, recoveryToken, retailToken)
       // set new lifetime tokens for nabu and exchange for user in new unified metadata entry
       // also write nabu credentials to legacy userCredentials for old app versions
       // TODO: in future, consider just writing to unifiedCredentials entry
-      yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
-      yield put(
-        actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
-          exchange_lifetime_token: exchangeLifetimeToken,
-          exchange_user_id: exchangeUserId,
-          nabu_lifetime_token: lifetimeToken,
-          nabu_user_id: userId
-        })
-      )
+      // yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
+      // yield put(
+      //   actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
+      //     exchange_lifetime_token: exchangeLifetimeToken,
+      //     exchange_user_id: exchangeUserId,
+      //     nabu_lifetime_token: lifetimeToken,
+      //     nabu_user_id: userId
+      //   })
+      // )
 
       // if user is resetting their account and
       // want to go to the Exchange
@@ -291,7 +300,7 @@ export default ({ api, coreSagas, networks }) => {
       //   return
       // }
       // fetch user in new wallet
-      yield call(setSession, userId, lifetimeToken, email, guid)
+      // yield call(setSession, userId, lifetimeToken, email, guid)
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.RECOVERY_PASSWORD_RESET,
@@ -405,15 +414,15 @@ export default ({ api, coreSagas, networks }) => {
     }
     try {
       yield delay(2000)
-      const response = yield call(api.pollForResetApprovalStatus, sessionToken)
+      // const response = yield call(api.pollForResetApprovalStatus, sessionToken)
 
-      // const response = {
-      //   email: 'leora+419+822@blockchain.com',
-      //   request_denied: false,
-      //   status: 'true',
-      //   two_fa_type: 1,
-      //   userId: '34735c52-61e1-4e55-92a0-2cce89774add'
-      // }
+      const response = {
+        email: 'leora+419+0d22d@blockchain.com',
+        request_denied: false,
+        status: 'true',
+        two_fa_type: 0,
+        userId: '34735c52-61e1-4e55-92a0-2cce89774add'
+      }
 
       if (response?.status === 'true') {
         yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
