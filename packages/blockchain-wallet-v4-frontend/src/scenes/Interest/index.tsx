@@ -34,6 +34,7 @@ class Interest extends React.PureComponent<Props, StateType> {
     this.props.interestActions.fetchInterestRate()
     this.props.interestActions.fetchInterestBalance()
     this.props.interestActions.fetchEDDStatus()
+    this.props.interestActions.fetchInterestEligible()
   }
 
   componentDidUpdate(prevProps: Props) {
