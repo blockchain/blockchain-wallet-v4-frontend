@@ -25,7 +25,7 @@ export class DynamicSelfCustodyAccountType implements AccountTypeClass {
   *getNextReceiveAddress(coin: CoinType) {
     if (coin === 'STX') {
       const password = yield call(promptForSecondPassword)
-      const pubKeys = yield call(getPubKey, password)
+      const pubKeys = yield call(getPubKey, coin, password)
       const { results }: ReturnType<typeof this.api.deriveAddress> = yield call(
         this.api.deriveAddress,
         coin,

@@ -15,43 +15,52 @@ import {
   UnifiedBalancesResponseType
 } from './types'
 
+const getUrlPath = (coin) => {
+  if (coin.includes('MATIC')) {
+    return 'evm'
+  }
+  if (coin === 'STX') {
+    return 'stx'
+  }
+}
+
 export default ({ apiUrl, get, post }) => {
-  const deriveAddress = (coin: string, pubKey: string): DeriveAddressResponseType => {
+  const deriveAddress = (currency: string, pubKey: string): DeriveAddressResponseType => {
     return post({
       contentType: 'application/json',
       data: {
         pubKey
       },
-      // TODO: SELF_CUSTODY
-      endPoint: `/currency/evm/deriveAddress`,
+      endPoint: `/currency/${getUrlPath(currency)}/deriveAddress`,
       url: apiUrl
     })
   }
 
-  const validateAddress = (coin: string, address: string): { success: boolean } => {
+  const validateAddress = (currency: string, address: string): { success: boolean } => {
     return post({
       contentType: 'application/json',
       data: {
         address
       },
-      // TODO: SELF_CUSTODY
-      endPoint: `/currency/evm/validateAddress`,
+      endPoint: `/currency/${getUrlPath(currency)}/validateAddress`,
       url: apiUrl
     })
   }
 
-  const buildTx = (data: {
-    id: { guid: string; uuid: string }
-    intent: BuildTxIntentType
-    network: string
-  }): BuildTxResponseType => {
+  const buildTx = (
+    currency: string,
+    data: {
+      id: { guid: string; uuid: string }
+      intent: BuildTxIntentType
+      network: string
+    }
+  ): BuildTxResponseType => {
     data.intent.maxVerificationVersion = 1
 
     return post({
       contentType: 'application/json',
       data,
-      // TODO: SELF_CUSTODY
-      endPoint: `/currency/evm/buildTx`,
+      endPoint: `/currency/${getUrlPath(currency)}/buildTx`,
       removeDefaultPostData: true,
       url: apiUrl
     })
@@ -73,8 +82,7 @@ export default ({ apiUrl, get, post }) => {
         rawTx,
         signatures
       },
-      // TODO: SELF_CUSTODY
-      endPoint: `/currency/evm/pushTx`,
+      endPoint: `/currency/${getUrlPath(currency)}/pushTx`,
       removeDefaultPostData: true,
       url: apiUrl
     })

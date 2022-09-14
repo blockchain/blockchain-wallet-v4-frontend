@@ -22,6 +22,14 @@ import * as S from './selectors'
 import { actions as A } from './slice'
 import { SendCryptoStepType } from './types'
 
+const getNetwork = (coin: string) => {
+  if (coin.includes('.')) {
+    return coin.split('.')[1]
+  }
+
+  return coin
+}
+
 export default ({ api }: { api: APIType }) => {
   const initializeSend = function* () {
     const totalBalanceR = yield select(selectors.balances.getTotalWalletBalanceNotFormatted)
@@ -46,11 +54,11 @@ export default ({ api }: { api: APIType }) => {
 
       if (account.type === SwapBaseCounterTypes.ACCOUNT) {
         const password = yield call(promptForSecondPassword)
-        const pubKey = yield call(getPubKey, password)
+        const pubKey = yield call(getPubKey, coin, password)
         const guid = yield select(selectors.core.wallet.getGuid)
         const [uuid] = yield call(api.generateUUIDs, 1)
 
-        const tx: ReturnType<typeof api.buildTx> = yield call(api.buildTx, {
+        const tx: ReturnType<typeof api.buildTx> = yield call(api.buildTx, coin, {
           id: {
             guid,
             uuid
@@ -72,7 +80,7 @@ export default ({ api }: { api: APIType }) => {
             ],
             type: 'PAYMENT'
           } as BuildTxIntentType,
-          network: 'MATIC'
+          network: getNetwork(coin)
         })
 
         yield put(A.buildTxSuccess(tx))
@@ -200,8 +208,8 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const signTx = function* (prebuildTx: BuildTxResponseType, password: string) {
-    const privateKey = yield call(getPrivKey, password)
+  const signTx = function* (coin: string, prebuildTx: BuildTxResponseType, password: string) {
+    const privateKey = yield call(getPrivKey, coin, password)
 
     if (!privateKey) throw new Error('Could not derive private key')
 
@@ -256,7 +264,7 @@ export default ({ api }: { api: APIType }) => {
           'No prebuildTx'
         ) as BuildTxResponseType
         prebuildTxFee = prebuildTx.summary.absoluteFeeEstimate
-        const signedTx: BuildTxResponseType = yield call(signTx, prebuildTx, password)
+        const signedTx: BuildTxResponseType = yield call(signTx, coin, prebuildTx, password)
         const pushedTx: ReturnType<typeof api.pushTx> = yield call(
           api.pushTx,
           coin,
@@ -266,7 +274,7 @@ export default ({ api }: { api: APIType }) => {
             guid,
             uuid
           },
-          'MATIC'
+          getNetwork(coin)
         )
 
         const value = convertCoinToCoin({
