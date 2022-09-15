@@ -5,7 +5,15 @@ import {
   TextCellProps
 } from '@blockchain-com/constellation'
 import { Row as ReactTableRowType } from '@tanstack/react-table'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+
+const ProductContainerCss = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+`
 
 export const TableContainer = styled(Table)`
   width: 100%;
@@ -15,12 +23,20 @@ export const TableContainer = styled(Table)`
     background-color: ${PaletteColors['grey-000']} !important;
   }
 `
+export const RewardsTextContainer = styled.div`
+  ${ProductContainerCss}
+  border: 1px solid ${PaletteColors['grey-100']};
+`
+export const StakingTextContainer = styled.div`
+  ${ProductContainerCss}
+  background-color: ${PaletteColors['grey-100']};
+`
 
 export type RowType = {
   actions: ButtonCellProps | TextCellProps
-  apy: TextCellProps
   asset: TextCellProps
   balance: TextCellProps
+  rates: TextCellProps
 }
 
 const compareTextCells = (cellA: TextCellProps, cellB: TextCellProps) =>

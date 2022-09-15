@@ -3,22 +3,23 @@ import { append, assoc, compose, dropLast, lensProp, over } from 'ramda'
 
 import {
   DepositLimits,
+  EarnEligibleType,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
   InterestEDDStatus,
-  InterestEligibleType,
-  InterestInstrumentsResponseType,
   InterestLimitsType,
-  InterestRateType,
   InterestTransactionType,
+  RewardsRatesType,
+  StakingRatesType,
   WithdrawalMinimumTypeResponse,
   WithdrawLimits
-} from '@core/network/api/interest/types'
+} from '@core/network/api/earn/types'
 import Remote from '@core/remote'
 import { CoinType, FiatType, PaymentValue, WalletFiatType } from '@core/types'
 
 import {
+  EarnInstrumentsType,
   ErrorStringType,
   InterestLimits,
   InterestMinMaxType,
@@ -44,9 +45,11 @@ const initialState: InterestState = {
   interestEDDWithdrawLimits: Remote.NotAsked,
   interestEligible: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
-  interestRate: Remote.NotAsked,
+  interestRates: Remote.NotAsked,
   isAmountDisplayedInCrypto: false,
   payment: Remote.NotAsked,
+  stakingEligible: Remote.NotAsked,
+  stakingRates: Remote.NotAsked,
   step: {
     data: {},
     name: 'ACCOUNT_SUMMARY'
@@ -113,6 +116,24 @@ const interestSlice = createSlice({
       state.interestEDDDepositLimits = Remote.Success(action.payload.interestEDDDepositLimits)
     },
 
+    // INSTRUMENTS
+    fetchEarnInstruments: () => {},
+
+    fetchEarnInstrumentsFailure: (state, action: PayloadAction<string>) => {
+      state.instruments = Remote.Failure(action.payload)
+    },
+
+    fetchEarnInstrumentsLoading: (state) => {
+      state.instruments = Remote.Loading
+    },
+
+    fetchEarnInstrumentsSuccess: (
+      state,
+      action: PayloadAction<{ earnInstruments: EarnInstrumentsType }>
+    ) => {
+      state.instruments = Remote.Success(action.payload.earnInstruments)
+    },
+
     // ACCOUNT
     // eslint-disable-next-line
     fetchInterestAccount: (state, action: PayloadAction<{ coin?: CoinType }>) => {},
@@ -155,26 +176,8 @@ const interestSlice = createSlice({
       state.interestEligible = Remote.Loading
     },
 
-    fetchInterestEligibleSuccess: (state, action: PayloadAction<InterestEligibleType>) => {
+    fetchInterestEligibleSuccess: (state, action: PayloadAction<EarnEligibleType>) => {
       state.interestEligible = Remote.Success(action.payload)
-    },
-
-    // INSTRUMENTS
-    fetchInterestInstruments: () => {},
-
-    fetchInterestInstrumentsFailure: (state, action: PayloadAction<string>) => {
-      state.instruments = Remote.Failure(action.payload)
-    },
-
-    fetchInterestInstrumentsLoading: (state) => {
-      state.instruments = Remote.Loading
-    },
-
-    fetchInterestInstrumentsSuccess: (
-      state,
-      action: PayloadAction<{ interestInstruments: InterestInstrumentsResponseType }>
-    ) => {
-      state.instruments = Remote.Success(action.payload.interestInstruments.instruments)
     },
 
     // LIMITS
@@ -198,15 +201,15 @@ const interestSlice = createSlice({
     },
 
     // INTEREST RATES
-    fetchInterestRate: () => {},
-    fetchInterestRateFailure: (state, action: PayloadAction<string>) => {
-      state.interestRate = Remote.Failure(action.payload)
+    fetchInterestRates: () => {},
+    fetchInterestRatesFailure: (state, action: PayloadAction<string>) => {
+      state.interestRates = Remote.Failure(action.payload)
     },
-    fetchInterestRateLoading: (state) => {
-      state.interestRate = Remote.Loading
+    fetchInterestRatesLoading: (state) => {
+      state.interestRates = Remote.Loading
     },
-    fetchInterestRateSuccess: (state, action: PayloadAction<InterestRateType>) => {
-      state.interestRate = Remote.Success(action.payload.rates)
+    fetchInterestRatesSuccess: (state, action: PayloadAction<RewardsRatesType>) => {
+      state.interestRates = Remote.Success(action.payload.rates)
     },
 
     fetchInterestTransactions: (
@@ -290,6 +293,33 @@ const interestSlice = createSlice({
       action: PayloadAction<{ afterTransaction: InterestAfterTransactionType }>
     ) => {
       state.afterTransaction = Remote.Success(action.payload.afterTransaction)
+    },
+
+    // Staking ELIGIBLE
+    fetchStakingEligible: () => {},
+
+    fetchStakingEligibleFailure: (state, action: PayloadAction<string>) => {
+      state.stakingEligible = Remote.Failure(action.payload)
+    },
+
+    fetchStakingEligibleLoading: (state) => {
+      state.stakingEligible = Remote.Loading
+    },
+
+    fetchStakingEligibleSuccess: (state, action: PayloadAction<EarnEligibleType>) => {
+      state.stakingEligible = Remote.Success(action.payload)
+    },
+
+    // Staking RATES
+    fetchStakingRates: () => {},
+    fetchStakingRatesFailure: (state, action: PayloadAction<string>) => {
+      state.stakingRates = Remote.Failure(action.payload)
+    },
+    fetchStakingRatesLoading: (state) => {
+      state.stakingRates = Remote.Loading
+    },
+    fetchStakingRatesSuccess: (state, action: PayloadAction<StakingRatesType>) => {
+      state.stakingRates = Remote.Success(action.payload.rates)
     },
 
     handleTransferMaxAmountClick: (
@@ -412,6 +442,10 @@ export const {
   fetchEDDWithdrawLimitsFailure,
   fetchEDDWithdrawLimitsLoading,
   fetchEDDWithdrawLimitsSuccess,
+  fetchEarnInstruments,
+  fetchEarnInstrumentsFailure,
+  fetchEarnInstrumentsLoading,
+  fetchEarnInstrumentsSuccess,
   fetchInterestAccount,
   fetchInterestAccountFailure,
   fetchInterestAccountLoading,
@@ -424,18 +458,14 @@ export const {
   fetchInterestEligibleFailure,
   fetchInterestEligibleLoading,
   fetchInterestEligibleSuccess,
-  fetchInterestInstruments,
-  fetchInterestInstrumentsFailure,
-  fetchInterestInstrumentsLoading,
-  fetchInterestInstrumentsSuccess,
   fetchInterestLimits,
   fetchInterestLimitsFailure,
   fetchInterestLimitsLoading,
   fetchInterestLimitsSuccess,
-  fetchInterestRate,
-  fetchInterestRateFailure,
-  fetchInterestRateLoading,
-  fetchInterestRateSuccess,
+  fetchInterestRates,
+  fetchInterestRatesFailure,
+  fetchInterestRatesLoading,
+  fetchInterestRatesSuccess,
   fetchInterestTransactions,
   fetchInterestTransactionsFailure,
   fetchInterestTransactionsLoading,
@@ -448,6 +478,14 @@ export const {
   fetchShowInterestCardAfterTransactionFailure,
   fetchShowInterestCardAfterTransactionLoading,
   fetchShowInterestCardAfterTransactionSuccess,
+  fetchStakingEligible,
+  fetchStakingEligibleFailure,
+  fetchStakingEligibleLoading,
+  fetchStakingEligibleSuccess,
+  fetchStakingRates,
+  fetchStakingRatesFailure,
+  fetchStakingRatesLoading,
+  fetchStakingRatesSuccess,
   handleTransferMaxAmountClick,
   handleTransferMinAmountClick,
   handleWithdrawalSupplyInformation,

@@ -2,18 +2,18 @@ import {
   AccountTypes,
   CoinType,
   DepositLimits,
+  EarnEligibleType,
   FiatType,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
   InterestEDDStatus,
-  InterestEligibleType,
-  InterestInstrumentsType,
   InterestLimitsType,
-  InterestRateType,
   InterestTransactionType,
   PaymentValue,
   RemoteDataType,
+  RewardsRatesType,
+  StakingRatesType,
   WithdrawalMinimumType,
   WithdrawLimits
 } from '@core/types'
@@ -65,6 +65,8 @@ export type ErrorStringType = { error: string }
 
 export type InterestLimits = { coin: CoinType; currency: FiatType }
 
+export type EarnInstrumentsType = Array<{ coin: CoinType; product: 'Staking' | 'Rewards' }>
+
 //
 // State
 //
@@ -74,16 +76,18 @@ export interface InterestState {
   afterTransaction: RemoteDataType<string, InterestAfterTransactionType>
   coin: CoinType
   depositLimits: InterestMinMaxType
-  instruments: RemoteDataType<string, InterestInstrumentsType>
+  instruments: RemoteDataType<string, EarnInstrumentsType>
   interestEDDDepositLimits: RemoteDataType<string, DepositLimits>
   interestEDDStatus: RemoteDataType<string, InterestEDDStatus>
   interestEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>
-  interestEligible: RemoteDataType<string, InterestEligibleType>
+  interestEligible: RemoteDataType<string, EarnEligibleType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
-  interestRate: RemoteDataType<string, InterestRateType['rates']>
+  interestRates: RemoteDataType<string, RewardsRatesType['rates']>
   isAmountDisplayedInCrypto: boolean
   // make this optional here. places where ts doesnt like it, check, custodial
   payment?: RemoteDataType<string, PaymentValue | undefined>
+  stakingEligible: RemoteDataType<string, EarnEligibleType>
+  stakingRates: RemoteDataType<string, StakingRatesType['rates']>
   step: {
     data: InterestStepMetadata
     name: InterestStep

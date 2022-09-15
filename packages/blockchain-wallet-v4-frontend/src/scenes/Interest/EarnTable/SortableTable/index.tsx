@@ -15,21 +15,28 @@ import {
   useReactTable
 } from '@tanstack/react-table'
 
-import { Icon } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Analytics } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '..'
-import { sortTextCells, TableContainer } from './SortableTable.model'
+import {
+  RewardsTextContainer,
+  sortTextCells,
+  StakingTextContainer,
+  TableContainer
+} from './SortableTable.model'
 
 const SortableTable = ({
   analyticsActions,
   interestAccountBalance,
   interestActions,
   interestEligible,
-  interestRate,
+  interestRates,
   sortedInstruments,
+  stakingEligible,
+  stakingRates,
   walletCurrency
 }: OwnProps & SuccessStateType): ReactElement => {
   const [sorting, setSorting] = useState<SortingState>([])
@@ -46,7 +53,13 @@ const SortableTable = ({
           const sort = header.column.getIsSorted()
           const onClick = header.column.getToggleSortingHandler()
 
-          return <TextCell text='Asset' sort={sort} toggleSort={onClick} />
+          return (
+            <TextCell
+              sort={sort}
+              text={<FormattedMessage defaultMessage='Asset' id='copy.asset' />}
+              toggleSort={onClick}
+            />
+          )
         },
         sortingFn: sortTextCells
       },
@@ -60,7 +73,13 @@ const SortableTable = ({
           const sort = header.column.getIsSorted()
           const onClick = header.column.getToggleSortingHandler()
 
-          return <TextCell subtext='Balance' sort={sort} toggleSort={onClick} />
+          return (
+            <TextCell
+              sort={sort}
+              text={<FormattedMessage defaultMessage='Balance' id='copy.balance' />}
+              toggleSort={onClick}
+            />
+          )
         },
         sortingFn: sortTextCells
       },
@@ -74,12 +93,18 @@ const SortableTable = ({
           const sort = header.column.getIsSorted()
           const onClick = header.column.getToggleSortingHandler()
 
-          return <TextCell subtext='Type' sort={sort} toggleSort={onClick} />
+          return (
+            <TextCell
+              text={<FormattedMessage defaultMessage='Type' id='copy.type' />}
+              sort={sort}
+              toggleSort={onClick}
+            />
+          )
         },
         sortingFn: sortTextCells
       },
       {
-        accessorKey: 'apy',
+        accessorKey: 'rates',
         cell: ({ getValue }) => {
           const props = getValue() as TextCellProps
           return <TextCell {...props} />
@@ -88,7 +113,13 @@ const SortableTable = ({
           const sort = header.column.getIsSorted()
           const onClick = header.column.getToggleSortingHandler()
 
-          return <TextCell subtext='APY' sort={sort} toggleSort={onClick} />
+          return (
+            <TextCell
+              sort={sort}
+              text={<FormattedMessage defaultMessage='Rates' id='copy.rates' />}
+              toggleSort={onClick}
+            />
+          )
         },
         sortingFn: sortTextCells
       },
@@ -98,24 +129,32 @@ const SortableTable = ({
           const props = getValue() as ButtonCellProps
           return <ButtonCell {...props} />
         },
-        header: () => <TextCell subtext='Actions' width='content' />
+        header: () => (
+          <TextCell
+            text={<FormattedMessage defaultMessage='Actions' id='copy.actions' />}
+            width='content'
+          />
+        )
       }
     ],
     []
   )
 
   const data = sortedInstruments
-    .filter((instrument) => {
-      return window.coins[instrument]
+    .filter(({ coin }) => {
+      return window.coins[coin]
     })
-    .map((coin) => {
+    .map(({ coin, product }) => {
       const { coinfig } = window.coins[coin] || {}
       const { displaySymbol, name: displayName } = coinfig
       const account = interestAccountBalance && interestAccountBalance[coin]
       const accountBalanceBase = account ? account.balance : 0
+      // confirm with BE why this is showing as keying into a coin
       const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
+      const stakingEligibleCoin = stakingEligible[coin] && stakingEligible[coin]?.eligible
+      const isStaking = product === 'Staking'
 
-      const handleClick = () => {
+      const rewardsHandleClick = () => {
         analyticsActions.trackEvent({
           key: Analytics.WALLET_REWARDS_DETAIL_CLICKED,
           properties: {
@@ -125,11 +164,28 @@ const SortableTable = ({
         interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
       }
 
-      return {
-        actions: {
-          primaryButton: {
+      const stakingHandleClick = () => {
+        analyticsActions.trackEvent({
+          key: Analytics.WALLET_STAKING_DETAIL_CLICKED,
+          properties: {
+            currency: coin
+          }
+        })
+        // todo change to staking modal
+        interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
+      }
+
+      const primaryButton = isStaking
+        ? {
+            disabled: !stakingEligibleCoin,
+            onClick: stakingHandleClick,
+            text: <FormattedMessage id='copy.stake' defaultMessage='Stake' />,
+            variant: 'primary',
+            width: 'auto'
+          }
+        : {
             disabled: !interestEligibleCoin,
-            onClick: handleClick,
+            onClick: rewardsHandleClick,
             text:
               accountBalanceBase > 0 ? (
                 <FormattedMessage id='copy.manage' defaultMessage='Manage' />
@@ -139,8 +195,11 @@ const SortableTable = ({
             variant: accountBalanceBase > 0 ? 'minimal' : 'primary',
             width: 'auto'
           }
+
+      return {
+        actions: {
+          primaryButton
         } as ButtonCellProps,
-        apy: { text: `${interestRate[coin]}%` } as TextCellProps,
         asset: {
           icon: <Icon name={coin} color={coin} size='32px' />,
           iconPosition: 'left',
@@ -174,8 +233,23 @@ const SortableTable = ({
             </FiatDisplay>
           )
         } as TextCellProps,
+        rates: {
+          text: `${isStaking ? stakingRates[coin].rate : interestRates[coin]}%`
+        } as TextCellProps,
         type: {
-          text: 'Rewards'
+          text: isStaking ? (
+            <StakingTextContainer>
+              <Text color='grey900' size='12px' weight={600}>
+                {product}
+              </Text>
+            </StakingTextContainer>
+          ) : (
+            <RewardsTextContainer>
+              <Text color='grey600' size='12px' weight={600}>
+                {product}
+              </Text>
+            </RewardsTextContainer>
+          )
         }
       }
     })

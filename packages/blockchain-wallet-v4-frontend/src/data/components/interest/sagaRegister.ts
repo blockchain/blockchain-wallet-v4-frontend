@@ -13,10 +13,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   return function* interestSaga() {
     yield takeLatest(actions.fetchInterestBalance.type, interestSagas.fetchInterestBalance)
     yield takeLatest(actions.fetchInterestEligible.type, interestSagas.fetchInterestEligible)
-    yield takeLatest(actions.fetchInterestInstruments.type, interestSagas.fetchInterestInstruments)
+    yield takeLatest(actions.fetchEarnInstruments.type, interestSagas.fetchEarnInstruments)
     yield takeLatest(fetchInterestLimits.type, interestSagas.fetchInterestLimits)
     yield takeLatest(actions.fetchInterestAccount.type, interestSagas.fetchInterestAccount)
-    yield takeLatest(actions.fetchInterestRate.type, interestSagas.fetchInterestRate)
+    yield takeLatest(actions.fetchInterestRates.type, interestSagas.fetchInterestRates)
+    yield takeLatest(actions.fetchStakingRates.type, interestSagas.fetchStakingRates)
+    yield takeLatest(actions.fetchStakingEligible.type, interestSagas.fetchStakingEligible)
     yield takeLeading(
       actions.fetchInterestTransactions.type,
       interestSagas.fetchInterestTransactions

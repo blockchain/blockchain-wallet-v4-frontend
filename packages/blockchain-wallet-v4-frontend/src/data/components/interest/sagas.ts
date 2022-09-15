@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { concat, isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
-import { call, delay, put, select, take } from 'redux-saga/effects'
+import { all, call, delay, put, select, take } from 'redux-saga/effects'
 
 import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
@@ -26,7 +26,7 @@ import { convertStandardToBase } from '../exchange/services'
 import utils from './sagas.utils'
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
+import { EarnInstrumentsType, InterestDepositFormType, InterestWithdrawalFormType } from './types'
 
 const DEPOSIT_FORM = 'interestDepositForm'
 const WITHDRAWAL_FORM = 'interestWithdrawalForm'
@@ -85,17 +85,49 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchInterestInstruments = function* () {
+  const fetchStakingEligible = function* () {
     try {
-      yield put(A.fetchInterestInstrumentsLoading())
-      const interestInstruments: ReturnType<typeof api.getInterestInstruments> = yield call(
-        api.getInterestInstruments
-      )
-
-      yield put(A.fetchInterestInstrumentsSuccess({ interestInstruments }))
+      yield put(A.fetchStakingEligibleLoading())
+      const response: ReturnType<typeof api.getStakingEligible> = yield call(api.getStakingEligible)
+      yield put(A.fetchStakingEligibleSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchInterestInstrumentsFailure(error))
+      yield put(A.fetchStakingEligibleFailure(error))
+    }
+  }
+
+  const fetchEarnInstruments = function* () {
+    try {
+      yield put(A.fetchEarnInstrumentsLoading())
+
+      const [stakingRates, rewardsRates] = yield all([
+        call(api.getStakingRates),
+        call(api.getRewardsRates)
+      ])
+
+      yield put(A.fetchStakingRatesSuccess(stakingRates))
+      yield put(A.fetchInterestRatesSuccess(rewardsRates))
+
+      const stakingCoins: Array<string> = Object.keys(stakingRates.rates)
+      const rewardsCoins: Array<string> = Object.keys(rewardsRates.rates)
+
+      const stakingInstruments: EarnInstrumentsType = stakingCoins.map((coin) => ({
+        coin,
+        product: 'Staking'
+      }))
+      const rewardsInstruments: EarnInstrumentsType = rewardsCoins.map((coin) => ({
+        coin,
+        product: 'Rewards'
+      }))
+
+      yield put(
+        A.fetchEarnInstrumentsSuccess({
+          earnInstruments: stakingInstruments.concat(rewardsInstruments)
+        })
+      )
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchEarnInstrumentsFailure(error))
     }
   }
 
@@ -135,16 +167,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchInterestRate = function* () {
+  const fetchInterestRates = function* () {
     try {
-      yield put(A.fetchInterestRateLoading())
-      const response: ReturnType<typeof api.getInterestSavingsRate> = yield call(
-        api.getInterestSavingsRate
-      )
-      yield put(A.fetchInterestRateSuccess(response))
+      yield put(A.fetchInterestRatesLoading())
+      const response: ReturnType<typeof api.getRewardsRates> = yield call(api.getRewardsRates)
+      yield put(A.fetchInterestRatesSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchInterestRateFailure(error))
+      yield put(A.fetchInterestRatesFailure(error))
+    }
+  }
+  const fetchStakingRates = function* () {
+    try {
+      yield put(A.fetchStakingRatesLoading())
+      const response: ReturnType<typeof api.getStakingRates> = yield call(api.getStakingRates)
+      yield put(A.fetchStakingRatesSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchStakingRatesFailure(error))
     }
   }
   const fetchInterestTransactionsReport = function* () {
@@ -634,15 +674,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchEDDDepositLimits,
     fetchEDDStatus,
     fetchEDDWithdrawLimits,
+    fetchEarnInstruments,
     fetchInterestAccount,
     fetchInterestBalance,
     fetchInterestEligible,
-    fetchInterestInstruments,
     fetchInterestLimits,
-    fetchInterestRate,
+    fetchInterestRates,
     fetchInterestTransactions,
     fetchInterestTransactionsReport,
     fetchShowInterestCardAfterTransaction,
+    fetchStakingEligible,
+    fetchStakingRates,
     formChanged,
     handleTransferMaxAmountClick,
     handleTransferMinAmountClick,

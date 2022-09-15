@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { InterestRateType, RemoteDataType } from '@core/types'
+import { RemoteDataType, RewardsRatesType } from '@core/types'
 import { actions } from 'data'
 import { useRemote } from 'hooks'
 import { useMedia } from 'services/styles'
@@ -23,10 +23,8 @@ const EarnTableContainer = (props: Props) => {
 
   return isTabletL ? (
     <>
-      {sortedInstruments.map((instrument) => {
-        return window.coins[instrument] ? (
-          <MobileRow {...data} {...props} coin={instrument} key={instrument} />
-        ) : null
+      {sortedInstruments.map(({ coin }) => {
+        return window.coins[coin] ? <MobileRow {...data} {...props} coin={coin} key={coin} /> : null
       })}
     </>
   ) : (
@@ -43,7 +41,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(null, mapDispatchToProps)
 
 export type OwnPropsType = {
-  interestRate: InterestRateType
+  interestRates: RewardsRatesType
 }
 
 export type SuccessStateType = ReturnType<typeof getData>['data']

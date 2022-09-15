@@ -6,11 +6,11 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
-import { CoinType, InterestEDDStatus, InterestRateType, RemoteDataType } from '@core/types'
+import { InterestEDDStatus, RemoteDataType, RewardsRatesType, StakingRatesType } from '@core/types'
 import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { SceneWrapper } from 'components/Layout'
 import { actions } from 'data'
-import { Analytics, UserDataType } from 'data/types'
+import { Analytics, EarnInstrumentsType, UserDataType } from 'data/types'
 
 import EarnTable from './EarnTable'
 import Loading from './Interest.loading.template'
@@ -30,11 +30,12 @@ class Interest extends React.PureComponent<Props, StateType> {
   }
 
   componentDidMount() {
-    this.props.interestActions.fetchInterestInstruments()
-    this.props.interestActions.fetchInterestRate()
+    this.props.interestActions.fetchEarnInstruments()
+    this.props.interestActions.fetchInterestRates()
     this.props.interestActions.fetchInterestBalance()
     this.props.interestActions.fetchEDDStatus()
     this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchStakingEligible()
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -113,9 +114,10 @@ export type StateType = {
 }
 export type SuccessStateType = {
   interestEDDStatus: InterestEDDStatus
-  interestRate: InterestRateType
-  interestRateArray: Array<number>
-  sortedInstruments: Array<CoinType>
+  interestRates: RewardsRatesType
+  interestRatesArray: Array<number>
+  sortedInstruments: EarnInstrumentsType
+  stakingRates: StakingRatesType
   userData: UserDataType
 }
 type LinkStatePropsType = {

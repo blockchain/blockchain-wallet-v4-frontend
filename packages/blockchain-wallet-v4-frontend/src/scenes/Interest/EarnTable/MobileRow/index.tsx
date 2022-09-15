@@ -15,7 +15,7 @@ const MobileRow = ({
   coin,
   interestAccountBalance,
   interestActions,
-  interestRate,
+  interestRates,
   walletCurrency
 }: Props): ReactElement => {
   const { coinfig } = window.coins[coin] || {}
@@ -46,7 +46,7 @@ const MobileRow = ({
               defaultMessage='Earn {interestRate}% APR'
               id='scenes.interest.earntable.mobilerow.earn'
               values={{
-                interestRate: interestRate[coin]
+                interestRate: interestRates[coin]
               }}
             />
           </Text>
