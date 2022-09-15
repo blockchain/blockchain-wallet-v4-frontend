@@ -13,6 +13,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import {
   AddBankStepType,
   BrokerageModalOriginType,
+  ModalName,
   UserDataType,
   WithdrawStepEnum
 } from 'data/types'
@@ -147,7 +148,7 @@ const Success = ({
             icon={getIcon(bankTransfer)}
             onClick={() => {
               brokerageActions.showModal({
-                modalType: 'ADD_BANK_YODLEE_MODAL',
+                modalType: ModalName.ADD_BANK_YODLEE_MODAL,
                 origin: BrokerageModalOriginType.ADD_BANK_WITHDRAW
               })
               brokerageActions.setAddBankStep({

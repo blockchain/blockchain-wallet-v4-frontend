@@ -25,8 +25,9 @@ class LinkedBanks extends PureComponent<Props> {
 
   handleBankClick = () => {
     const { walletCurrency } = this.props
+    this.props.brokerageActions.setupBankTransferProvider()
     this.props.brokerageActions.showModal({
-      modalType: walletCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+      modalType: walletCurrency === 'USD' ? 'ADD_BANK_PLAID_MODAL' : 'ADD_BANK_YAPILY_MODAL',
       origin: BrokerageModalOriginType.ADD_BANK_SETTINGS
     })
 
