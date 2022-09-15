@@ -12,7 +12,7 @@ export const getData = (state: RootState) => {
   const accountBalancesR = selectors.components.interest.getInterestAccountBalance(state)
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
   const interestEligibleR = selectors.components.interest.getInterestEligible(state)
-  const interestRateR = selectors.components.interest.getInterestRate(state)
+  const interestRatesR = selectors.components.interest.getInterestRates(state)
   const flagEDDInterestFileUpload = selectors.core.walletOptions
     .getEDDInterestFileUpload(state)
     .getOrElse(false)
@@ -21,14 +21,14 @@ export const getData = (state: RootState) => {
     (
       accountBalances: ExtractSuccess<typeof accountBalancesR>,
       interestLimits: ExtractSuccess<typeof interestLimitsR>,
-      interestRate: ExtractSuccess<typeof interestRateR>,
+      interestRates: ExtractSuccess<typeof interestRatesR>,
       interestEligible: ExtractSuccess<typeof interestEligibleR>
     ) => ({
       accountBalances,
       flagEDDInterestFileUpload,
       interestEligible,
       interestLimits,
-      interestRate
+      interestRates
     })
-  )(accountBalancesR, interestLimitsR, interestRateR, interestEligibleR)
+  )(accountBalancesR, interestLimitsR, interestRatesR, interestEligibleR)
 }

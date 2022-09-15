@@ -14,10 +14,10 @@ export type InterestAccountBalanceType = {
   [key in CoinType]?: InterestBalanceType
 }
 
-export type InterestEligibleType = {
+export type EarnEligibleType = {
   [key in CoinType]?: {
     eligible: boolean
-    ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION' | null
+    ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION' | 'UNSUPPORTED_COUNTRY_OR_STATE' | null
   }
 }
 
@@ -43,9 +43,6 @@ export type WithdrawLimits = {
   withdrawLimits: LimitDetails
 }
 
-export type InterestInstrumentsResponseType = { instruments: CoinType[] }
-export type InterestInstrumentsType = Array<CoinType>
-
 export type InterestFormErrorsType = {
   depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean
 }
@@ -63,7 +60,7 @@ export type InterestAccountType = {
   accountRef: string // actually the btc deposit address
 }
 
-export type InterestRateType = {
+export type RewardsRatesType = {
   rates: {
     [key in CoinType]: number
   }

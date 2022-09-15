@@ -1,20 +1,18 @@
 import { CoinType, FiatType, WalletFiatType } from '@core/types'
 
 import {
-  CustodialTransferResponseType,
   DepositLimits,
+  EarnEligibleType,
   FileUploadItem,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
   InterestEDDDocumentsResponse,
   InterestEDDStatus,
-  InterestEligibleType,
-  InterestInstrumentsResponseType,
   InterestLimitsType,
-  InterestRateType,
   InterestTransactionResponseType,
   InterestWithdrawalResponseType,
+  RewardsRatesType,
   StakingRatesType,
   UploadDocumentDetails,
   WithdrawalMinimumTypeResponse,
@@ -33,21 +31,15 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getInterestEligible = (): InterestEligibleType =>
+  const getInterestEligible = (): EarnEligibleType =>
     authorizedGet({
       endPoint: '/savings/eligible',
       url: nabuUrl
     })
 
-  const getStakingEligible = (): InterestEligibleType =>
+  const getStakingEligible = (): EarnEligibleType =>
     authorizedGet({
-      endPoint: '/earn/eligible?product=staking',
-      url: nabuUrl
-    })
-
-  const getInterestInstruments = (): InterestInstrumentsResponseType =>
-    authorizedGet({
-      endPoint: '/savings/instruments',
+      endPoint: '/earn/eligible?product=staking&',
       url: nabuUrl
     })
 
@@ -76,7 +68,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
           url: nabuUrl
         })
 
-  const getInterestSavingsRate = (): InterestRateType =>
+  const getRewardsRates = (): RewardsRatesType =>
     authorizedGet({
       endPoint: '/savings/rates',
       url: nabuUrl
@@ -84,7 +76,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
 
   const getStakingRates = (): StakingRatesType =>
     authorizedGet({
-      endPoint: '/earn/rates?product=staking',
+      endPoint: '/earn/rates?product=staking&',
       url: nabuUrl
     })
 
@@ -192,10 +184,9 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getInterestAccountBalance,
     getInterestCtaAfterTransaction,
     getInterestEligible,
-    getInterestInstruments,
     getInterestLimits,
-    getInterestSavingsRate,
     getInterestTransactions,
+    getRewardsRates,
     getSavingsEDDDepositLimits,
     getSavingsEDDStatus,
     getSavingsEDDWithdrawLimits,

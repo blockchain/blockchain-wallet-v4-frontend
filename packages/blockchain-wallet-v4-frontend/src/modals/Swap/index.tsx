@@ -34,7 +34,7 @@ class Swap extends PureComponent<Props, State> {
     this.props.swapActions.fetchCustodialEligibility()
     this.props.custodialActions.fetchProductEligibilityForUser()
     this.props.interestActions.fetchInterestEligible()
-    this.props.interestActions.fetchInterestRate()
+    this.props.interestActions.fetchInterestRates()
   }
 
   componentWillUnmount() {

@@ -11,7 +11,7 @@ export enum Events {
   WALLET_REWARDS_DEPOSIT_VIEWED = 'Interest Deposit Viewed',
   // DETAIL: User clicks in the buy button in the interest detail view.
   WALLET_REWARDS_DETAIL_BUY_CLICKED = 'Wallet Rewards Detail Buy Clicked',
-  // REWARDS HOMEPAGE: User clicks in an interest token in the rewards page.
+  // REWARDS HOMEPAGE: User clicks in an interest token in the earn page.
   WALLET_REWARDS_DETAIL_CLICKED = 'Wallet Rewards Detail Clicked',
   // DETAIL: User clicks in the deposit button in the interest detail view.
   WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED = 'Wallet Rewards Detail Deposit Clicked',
@@ -28,12 +28,21 @@ export enum Events {
   // WITHDRAW: User clicks in Max amount button in the withdrawal page.
   WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED = 'Wallet Rewards Withdraw Max Amount Clicked',
   // WITHDRAW: User clicks on transfer on the withdrawal page.
-  WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED = 'Wallet Rewards Withdraw Transfer Clicked'
+  WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED = 'Wallet Rewards Withdraw Transfer Clicked',
+  // REWARDS HOMEPAGE: User clicks in a staking token in the earn page.
+  WALLET_STAKING_DETAIL_CLICKED = 'Wallet staking Detail Clicked'
 }
 
 // REWARDS HOMEPAGE
 type WalletRewardsDetailClicked = {
   key: Events.WALLET_REWARDS_DETAIL_CLICKED
+  properties: {
+    currency: string
+  }
+}
+
+type WalletStakingDetailClicked = {
+  key: Events.WALLET_STAKING_DETAIL_CLICKED
   properties: {
     currency: string
   }
@@ -163,3 +172,4 @@ export type TrackEventAction =
   | WalletRewardsWithdrawTransferClicked
   | WalletBuyEarnRewardsClicked
   | WalletBuyEarnRewardsViewed
+  | WalletStakingDetailClicked

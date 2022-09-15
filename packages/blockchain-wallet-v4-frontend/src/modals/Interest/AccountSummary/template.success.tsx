@@ -43,7 +43,7 @@ const AccountSummary: React.FC<Props> = (props) => {
     interestActions,
     interestEligible,
     interestLimits,
-    interestRate,
+    interestRates,
     interestUploadDocumentActions,
     showSupply,
     stepMetadata,
@@ -464,7 +464,7 @@ const AccountSummary: React.FC<Props> = (props) => {
               </TooltipHost>
             </Text>
             <Text data-e2e='interestRate' color='grey600' size='14px' weight={500}>
-              {interestRate[coin]}%
+              {interestRates[coin]}%
             </Text>
           </DetailsItemContainer>
         </DetailsWrapper>

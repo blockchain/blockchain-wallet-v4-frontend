@@ -93,7 +93,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     interestEDDDepositLimits,
     interestEDDStatus,
     interestLimits,
-    interestRate,
+    interestRates,
     invalid,
     payment,
     rates,
@@ -166,7 +166,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
         currency: walletCurrency,
         from_account_type: fromAccountType,
         input_amount: Number(values.depositAmount),
-        interest_rate: Number(interestRate[coin]),
+        interest_rate: Number(interestRates[coin]),
         output_amount: Number
       }
     })
@@ -223,7 +223,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
               defaultMessage='Transfer {displayName} to your Rewards Account and earn up to {rate}% in rewards annually on your crypto.'
               values={{
                 displayName: coinfig.name,
-                rate: interestRate[coin]
+                rate: interestRates[coin]
               }}
             />{' '}
             {!insufficientEth && (
@@ -468,7 +468,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 1 / 365)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 1 / 365)}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -480,7 +480,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 1 / 52)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 1 / 52)}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -492,7 +492,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 1 / 12)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 1 / 12)}
                     </Text>
                   </InterestTermContainer>
                 </>
@@ -504,7 +504,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 1)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 1)}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -516,7 +516,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 3)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 3)}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -528,7 +528,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 5)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 5)}
                     </Text>
                   </InterestTermContainer>
                 </>

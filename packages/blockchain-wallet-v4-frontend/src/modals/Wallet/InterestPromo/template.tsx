@@ -37,14 +37,14 @@ const Success: React.FC<Props> = ({
   afterTransaction,
   closeAll,
   interestActions,
-  interestRate,
+  interestRates,
   position,
   total,
   walletCurrency
 }) => {
   const { currency, fiatAmount, fiatCurrency } = afterTransaction
   const purchaseAmount = fiatAmount || 0
-  const interestAmount = calcBasicInterest(purchaseAmount, interestRate[currency || 'BTC'])
+  const interestAmount = calcBasicInterest(purchaseAmount, interestRates[currency || 'BTC'])
   const worthCurrency = fiatCurrency || (walletCurrency as WalletFiatType)
   return (
     <Modal size='medium' position={position} total={total}>
@@ -63,7 +63,7 @@ const Success: React.FC<Props> = ({
             defaultMessage='Earn {interestRate}% Rewards on your {coin}'
             values={{
               coin: currency,
-              interestRate: interestRate[currency]
+              interestRate: interestRates[currency]
             }}
           />
         </Text>
