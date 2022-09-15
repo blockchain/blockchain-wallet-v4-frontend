@@ -1,55 +1,74 @@
-import React, { ReactElement, useCallback } from 'react'
+import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { CoinType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Analytics } from 'data/types'
 
 import { Props as ParentProps, SuccessStateType } from '..'
-import { AmountContainer, CoinContainer, RightContainer, Wrapper } from './MobileRow.model'
+import { RewardsTextContainer, StakingTextContainer } from '../EarnTable.model'
+import {
+  AmountContainer,
+  CoinContainer,
+  RateContainer,
+  RightContainer,
+  Wrapper
+} from './MobileRow.model'
 
 const MobileRow = ({
-  analyticsActions,
   coin,
+  handleClick,
   interestAccountBalance,
-  interestActions,
+  interestEligible,
   interestRates,
+  product,
+  stakingEligible,
   walletCurrency
 }: Props): ReactElement => {
   const { coinfig } = window.coins[coin] || {}
   const { displaySymbol, name: displayName } = coinfig
   const account = interestAccountBalance && interestAccountBalance[coin]
   const accountBalanceBase = account ? account.balance : 0
-
-  const handleClick = useCallback(() => {
-    analyticsActions.trackEvent({
-      key: Analytics.WALLET_REWARDS_DETAIL_CLICKED,
-      properties: {
-        currency: coin
-      }
-    })
-    interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
-  }, [analyticsActions, coin, interestActions])
+  const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
+  const stakingEligibleCoin = stakingEligible[coin] && stakingEligible[coin]?.eligible
+  const isStaking = product === 'Staking'
 
   return (
-    <Wrapper onClick={handleClick}>
+    <Wrapper
+      onClick={() => handleClick(coin, isStaking)}
+      disabled={isStaking ? !stakingEligibleCoin : !interestEligibleCoin}
+    >
       <Icon name={coin} color={coin} size='32px' />
       <RightContainer>
         <CoinContainer>
           <Text color='grey900' size='16px' weight={600}>
             {displayName}
           </Text>
-          <Text color='grey700' size='14px' weight={500}>
-            <FormattedMessage
-              defaultMessage='Earn {interestRate}% APR'
-              id='scenes.interest.earntable.mobilerow.earn'
-              values={{
-                interestRate: interestRates[coin]
-              }}
-            />
-          </Text>
+          <RateContainer>
+            <Text color='grey700' size='14px' weight={500}>
+              <FormattedMessage
+                defaultMessage='Earn {interestRate}% APR'
+                id='scenes.interest.earntable.mobilerow.earn'
+                values={{
+                  interestRate: interestRates[coin]
+                }}
+              />
+            </Text>
+            {isStaking ? (
+              <StakingTextContainer>
+                <Text color='grey900' size='12px' weight={600}>
+                  {product}
+                </Text>
+              </StakingTextContainer>
+            ) : (
+              <RewardsTextContainer>
+                <Text color='grey600' size='12px' weight={600}>
+                  {product}
+                </Text>
+              </RewardsTextContainer>
+            )}
+          </RateContainer>
         </CoinContainer>
         <AmountContainer>
           <FiatDisplay
@@ -81,6 +100,8 @@ const MobileRow = ({
 
 type OwnPropsType = {
   coin: CoinType
+  handleClick: (coin: CoinType, isStaking: boolean) => void
+  product: 'Staking' | 'Rewards'
 }
 
 type Props = ParentProps & SuccessStateType & OwnPropsType

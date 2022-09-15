@@ -4,6 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { RemoteDataType, RewardsRatesType } from '@core/types'
 import { actions } from 'data'
+import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 import { useMedia } from 'services/styles'
 
@@ -14,21 +15,46 @@ import { getData } from './selectors'
 import SortableTable from './SortableTable'
 
 const EarnTableContainer = (props: Props) => {
-  const { sortedInstruments } = props
+  const { analyticsActions, interestActions, sortedInstruments } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const isTabletL = useMedia('tabletL')
 
   if (error) return null
   if (isLoading || isNotAsked || !data) return <Loading />
 
+  const handleClick = (coin, isStaking) => {
+    const { WALLET_REWARDS_DETAIL_CLICKED, WALLET_STAKING_DETAIL_CLICKED } = Analytics
+    analyticsActions.trackEvent({
+      key: isStaking ? WALLET_STAKING_DETAIL_CLICKED : WALLET_REWARDS_DETAIL_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
+
+    if (isStaking) {
+      interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
+    } else {
+      interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
+    }
+  }
+
   return isTabletL ? (
     <>
-      {sortedInstruments.map(({ coin }) => {
-        return window.coins[coin] ? <MobileRow {...data} {...props} coin={coin} key={coin} /> : null
+      {sortedInstruments.map(({ coin, product }) => {
+        return window.coins[coin] ? (
+          <MobileRow
+            {...data}
+            {...props}
+            coin={coin}
+            handleClick={handleClick}
+            product={product}
+            key={coin}
+          />
+        ) : null
       })}
     </>
   ) : (
-    <SortableTable {...data} {...props} />
+    <SortableTable {...data} {...props} handleClick={handleClick} />
   )
 }
 

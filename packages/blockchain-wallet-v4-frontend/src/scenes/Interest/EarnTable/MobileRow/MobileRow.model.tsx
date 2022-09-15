@@ -5,16 +5,20 @@ const FlexColumn = css`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 4px;
 `
-export const Wrapper = styled.div`
+export const Wrapper = styled.button<WrapperProps>`
   display: flex;
   padding: 16px 0;
-  border-bottom: 1px solid ${PaletteColors['grey-100']};
+  border: none;
+  background-color: transparent;
   gap: 16px;
   width: 100%;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 
   &:hover {
-    cursor: pointer;
+    background-color: ${({ disabled }) => (disabled ? 'transparent' : PaletteColors['grey-100'])};
   }
 `
 export const RightContainer = styled.div`
@@ -25,8 +29,18 @@ export const RightContainer = styled.div`
 `
 export const CoinContainer = styled.div`
   ${FlexColumn}
+  align-items: flex-start;
+`
+export const RateContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
 `
 export const AmountContainer = styled.div`
   ${FlexColumn}
   align-items: flex-end;
 `
+interface WrapperProps {
+  disabled?: boolean
+}

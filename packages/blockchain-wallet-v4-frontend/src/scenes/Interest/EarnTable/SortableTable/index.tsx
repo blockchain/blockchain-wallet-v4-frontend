@@ -15,30 +15,25 @@ import {
   useReactTable
 } from '@tanstack/react-table'
 
+import { CoinType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { Analytics } from 'data/types'
 
-import { Props as OwnProps, SuccessStateType } from '..'
-import {
-  RewardsTextContainer,
-  sortTextCells,
-  StakingTextContainer,
-  TableContainer
-} from './SortableTable.model'
+import { Props as ParentProps, SuccessStateType } from '..'
+import { RewardsTextContainer, StakingTextContainer } from '../EarnTable.model'
+import { sortTextCells, TableContainer } from './SortableTable.model'
 
 const SortableTable = ({
-  analyticsActions,
+  handleClick,
   interestAccountBalance,
-  interestActions,
   interestEligible,
   interestRates,
   sortedInstruments,
   stakingEligible,
   stakingRates,
   walletCurrency
-}: OwnProps & SuccessStateType): ReactElement => {
+}: ParentProps & OwnPropsType & SuccessStateType): ReactElement => {
   const [sorting, setSorting] = useState<SortingState>([])
 
   const columns = useMemo(
@@ -154,38 +149,17 @@ const SortableTable = ({
       const stakingEligibleCoin = stakingEligible[coin] && stakingEligible[coin]?.eligible
       const isStaking = product === 'Staking'
 
-      const rewardsHandleClick = () => {
-        analyticsActions.trackEvent({
-          key: Analytics.WALLET_REWARDS_DETAIL_CLICKED,
-          properties: {
-            currency: coin
-          }
-        })
-        interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
-      }
-
-      const stakingHandleClick = () => {
-        analyticsActions.trackEvent({
-          key: Analytics.WALLET_STAKING_DETAIL_CLICKED,
-          properties: {
-            currency: coin
-          }
-        })
-        // todo change to staking modal
-        interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
-      }
-
       const primaryButton = isStaking
         ? {
             disabled: !stakingEligibleCoin,
-            onClick: stakingHandleClick,
+            onClick: () => handleClick(coin, isStaking),
             text: <FormattedMessage id='copy.stake' defaultMessage='Stake' />,
             variant: 'primary',
             width: 'auto'
           }
         : {
             disabled: !interestEligibleCoin,
-            onClick: rewardsHandleClick,
+            onClick: () => handleClick(coin, isStaking),
             text:
               accountBalanceBase > 0 ? (
                 <FormattedMessage id='copy.manage' defaultMessage='Manage' />
@@ -294,6 +268,10 @@ const SortableTable = ({
       </tbody>
     </TableContainer>
   )
+}
+
+type OwnPropsType = {
+  handleClick: (coin: CoinType, isStaking: boolean) => void
 }
 
 export default SortableTable
