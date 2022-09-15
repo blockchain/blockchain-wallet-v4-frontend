@@ -19,7 +19,7 @@ const AuthenticatorVerify = (props) => {
   const [isInputValid, setIsInputValid] = useState(false)
 
   const handleSubmit = () => {
-    props.securityCenterActions.verifyGoogleAuthenticator(inputValue)
+    props.securityCenterActions.verifyGoogleAuthenticator(props.formValues.newTwoFACode)
   }
   return (
     <>
