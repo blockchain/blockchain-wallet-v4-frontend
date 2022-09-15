@@ -36,7 +36,7 @@ const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Prop
       default:
         break
     }
-  }, [reason, dispatch])
+  }, [reason, dispatch, paymentMethodId])
 
   const handlePostMessage = (event: MessageEvent) => {
     if (event.data.from !== 'plaid') return
