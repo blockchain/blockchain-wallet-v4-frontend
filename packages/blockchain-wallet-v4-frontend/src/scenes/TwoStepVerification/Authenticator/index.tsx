@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 import { Props as OwnProps } from '../../..'
 import { TwoFactorSetupSteps } from '../model'
@@ -10,6 +11,10 @@ import AuthenticatorCode from './template.qrcode'
 import AuthenticatorVerify from './template.verify'
 
 const Authenticator = (props: Props) => {
+  useEffect(() => {
+    props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
+  }, [])
+
   const [step, setStep] = useState(1)
 
   const changeAuthenticatorStep = (authStep: number) => {
@@ -27,12 +32,16 @@ const Authenticator = (props: Props) => {
   )
 }
 
+const mapStateToProps = (state: RootState) => ({
+  googleAuthSecretUrl: selectors.core.settings.getGoogleAuthSecretUrl(state).getOrElse('')
+})
+
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector> &
   OwnProps & {

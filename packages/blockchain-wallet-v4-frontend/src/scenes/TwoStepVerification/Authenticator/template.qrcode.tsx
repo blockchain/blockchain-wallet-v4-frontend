@@ -21,10 +21,6 @@ const AppButtons = styled.footer`
 `
 
 const AuthenticatorCode = (props: Props) => {
-  useEffect(() => {
-    props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
-  }, [])
-
   return (
     <>
       <BackArrowFormHeader
@@ -46,11 +42,11 @@ const AuthenticatorCode = (props: Props) => {
             defaultMessage='With your Google Authenticator app, scan the QR code below to make a secure connection.'
           />
         </Text>
-        {/* temporary placeholder image until user is authenticated into wallet */}
-        <StyledQrCode name='qr-code' color='grey500' height='200px' />
-        {/* <QRCodeWrapper size={150} value={props.data.googleAuthSecretUrl || ''} /> */}
-
-        {/* <CopyClipboard address={props.data.secret || ''} /> */}
+        {props.googleAuthSecretUrl && (
+          <QRCodeWrapper size={150} value={props.googleAuthSecretUrl} />
+        )}
+        {/*
+        <CopyClipboard address={props.data.secret || ''} /> */}
         <AppButtons>
           <Badge type='applestore_2fa' />
           <Badge type='googleplay_2fa' />
