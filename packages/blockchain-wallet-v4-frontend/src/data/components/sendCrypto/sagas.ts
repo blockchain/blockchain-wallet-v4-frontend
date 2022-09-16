@@ -380,14 +380,6 @@ export default ({ api }: { api: APIType }) => {
     const isDynamicSelfCustody = window.coins[coin].coinfig.products.includes('DynamicSelfCustody')
 
     try {
-      if (
-        getCoinNetworksAndTypes().networks[coin] &&
-        getCoinNetworksAndTypes().networks[coin].type === 'EVM'
-      ) {
-        yield put(A.validateAddressSuccess(ethers.utils.isAddress(address)))
-        return
-      }
-
       if (!isDynamicSelfCustody) {
         yield put(A.validateAddressSuccess(!!address.match(/[a-zA-Z0-9]{15,}/)))
         return
