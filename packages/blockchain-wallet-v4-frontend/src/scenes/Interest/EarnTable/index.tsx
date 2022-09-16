@@ -23,16 +23,16 @@ const EarnTableContainer = (props: Props) => {
   if (isLoading || isNotAsked || !data) return <Loading />
 
   const handleClick = (coin, isStaking) => {
-    const { WALLET_REWARDS_DETAIL_CLICKED, WALLET_STAKING_DETAIL_CLICKED } = Analytics
+    const { WALLET_REWARDS_DETAIL_CLICKED, WALLET_STAKING_WARNING_CONTINUE_CLICKED } = Analytics
     analyticsActions.trackEvent({
-      key: isStaking ? WALLET_STAKING_DETAIL_CLICKED : WALLET_REWARDS_DETAIL_CLICKED,
+      key: isStaking ? WALLET_STAKING_WARNING_CONTINUE_CLICKED : WALLET_REWARDS_DETAIL_CLICKED,
       properties: {
         currency: coin
       }
     })
 
     if (isStaking) {
-      interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
+      interestActions.showStakingModal({ coin, step: 'WARNING' })
     } else {
       interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
     }

@@ -6,15 +6,14 @@ import { CoinType, FiatType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { InterestStep, InterestStepMetadata, ModalName } from 'data/types'
+import { InterestStepMetadata, ModalName, StakingStep } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
-import AccountSummary from './AccountSummary'
+import Warning from './Warning'
 import DepositForm from './DepositForm'
-import WithdrawalForm from './WithdrawalForm'
 
-class Interest extends PureComponent<Props, State> {
+class Staking extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = { show: false, showSupplyInformation: false }
@@ -30,20 +29,8 @@ class Interest extends PureComponent<Props, State> {
   handleClose = () => {
     this.setState({ show: false })
     setTimeout(() => {
-      this.props.close(ModalName.INTEREST_MODAL)
+      this.props.close(ModalName.STAKING_MODAL)
     }, duration)
-  }
-
-  handleBSClick = (coin: CoinType) => {
-    this.setState({ show: false })
-    this.props.close(ModalName.INTEREST_MODAL)
-    setTimeout(() => {
-      this.props.buySellActions.showModal({
-        cryptoCurrency: coin,
-        orderType: 'BUY',
-        origin: 'InterestPage'
-      })
-    }, duration / 2)
   }
 
   showSupply = (show: boolean) => {
@@ -63,30 +50,14 @@ class Interest extends PureComponent<Props, State> {
         data-e2e='interestModal'
         total={total}
       >
-        {step.name === 'ACCOUNT_SUMMARY' && (
+        {step.name === 'WARNING' && (
           <FlyoutChild>
-            <AccountSummary
-              handleClose={this.handleClose}
-              handleBSClick={() => this.handleBSClick(coin)}
-              stepMetadata={step.data}
-              coin={coin}
-              walletCurrency={walletCurrency}
-              showSupply={this.state.showSupplyInformation}
-            />
+            <Warning handleClose={this.handleClose} coin={coin} walletCurrency={walletCurrency} />
           </FlyoutChild>
         )}
         {step.name === 'DEPOSIT' && (
           <FlyoutChild>
             <DepositForm
-              coin={coin}
-              walletCurrency={walletCurrency}
-              setShowSupply={this.showSupply}
-            />
-          </FlyoutChild>
-        )}
-        {step.name === 'WITHDRAWAL' && (
-          <FlyoutChild>
-            <WithdrawalForm
               coin={coin}
               walletCurrency={walletCurrency}
               setShowSupply={this.showSupply}
@@ -100,7 +71,7 @@ class Interest extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   coin: selectors.components.interest.getCoinType(state),
-  step: selectors.components.interest.getRewardsStep(state),
+  step: selectors.components.interest.getStakingStep(state),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
@@ -117,7 +88,7 @@ type LinkStatePropsType = {
   coin: CoinType
   step: {
     data: InterestStepMetadata
-    name: InterestStep
+    name: StakingStep
   }
   walletCurrency: FiatType
 }
@@ -125,9 +96,6 @@ type LinkStatePropsType = {
 type State = { show: boolean; showSupplyInformation: boolean }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-const enhance = compose(
-  modalEnhancer(ModalName.INTEREST_MODAL, { transition: duration }),
-  connector
-)
+const enhance = compose(modalEnhancer(ModalName.STAKING_MODAL, { transition: duration }), connector)
 
-export default enhance(Interest)
+export default enhance(Staking)

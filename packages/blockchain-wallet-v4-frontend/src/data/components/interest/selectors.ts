@@ -105,7 +105,9 @@ export const getRates = (state: RootState): RemoteDataType<string, RatesType> =>
   return selectors.core.data.misc.getRatesSelector(coinType, state)
 }
 
-export const getStep = (state: RootState) => state.components.interest.step
+export const getRewardsStep = (state: RootState) => state.components.interest.rewardsStep
+
+export const getStakingStep = (state: RootState) => state.components.interest.stakingStep
 
 export const getTransactionsNextPage = (state: RootState) =>
   state.components.interest.transactionsNextPage

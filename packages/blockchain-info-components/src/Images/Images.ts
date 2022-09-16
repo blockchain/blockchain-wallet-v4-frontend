@@ -77,6 +77,7 @@ import emailSuccess from './img/email-success.svg'
 import emailVerified from './img/email-verified.svg'
 import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
+import ethLocked from './img/earn/eth-locked.svg'
 import exchange from './img/exchange.svg'
 import exchangeGrayscale from './img/exchange-grayscale.svg'
 import exchangeNoBackground from './img/exchange-no-background.svg'
@@ -240,6 +241,7 @@ const Images = {
   'email-verified': emailVerified,
   'empty-search': emptySearch,
   'empty-tx': emptyTx,
+  'eth-locked': ethLocked,
   exchange,
   'exchange-grayscale': exchangeGrayscale,
   'exchange-no-background': exchangeNoBackground,

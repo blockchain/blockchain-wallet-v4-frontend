@@ -597,6 +597,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     )
   }
 
+  const showStakingModal = function* ({ payload }: ReturnType<typeof A.showStakingModal>) {
+    const { coin, step } = payload
+    yield put(A.setStakingModal({ name: step }))
+    yield put(
+      actions.modals.showModal(ModalName.STAKING_MODAL, {
+        coin,
+        origin: 'InterestPage'
+      })
+    )
+  }
+
   const fetchShowInterestCardAfterTransaction = function* ({
     payload
   }: ReturnType<typeof A.fetchShowInterestCardAfterTransaction>) {
@@ -694,6 +705,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     routeToTxHash,
     sendDeposit,
     showInterestModal,
+    showStakingModal,
     stopShowingInterestModal
   }
 }

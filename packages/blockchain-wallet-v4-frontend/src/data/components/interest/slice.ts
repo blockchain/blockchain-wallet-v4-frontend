@@ -25,7 +25,8 @@ import {
   InterestMinMaxType,
   InterestState,
   InterestStep,
-  InterestStepMetadata
+  InterestStepMetadata,
+  StakingStep
 } from './types'
 
 const initialState: InterestState = {
@@ -48,11 +49,15 @@ const initialState: InterestState = {
   interestRates: Remote.NotAsked,
   isAmountDisplayedInCrypto: false,
   payment: Remote.NotAsked,
-  stakingEligible: Remote.NotAsked,
-  stakingRates: Remote.NotAsked,
-  step: {
+  rewardsStep: {
     data: {},
     name: 'ACCOUNT_SUMMARY'
+  },
+  stakingEligible: Remote.NotAsked,
+  stakingRates: Remote.NotAsked,
+  stakingStep: {
+    data: {},
+    name: 'WARNING'
   },
   transactions: [],
   transactionsNextPage: null,
@@ -382,7 +387,7 @@ const interestSlice = createSlice({
       action: PayloadAction<{ data?: InterestStepMetadata; name: InterestStep }>
     ) => {
       const { data, name } = action.payload
-      state.step = {
+      state.rewardsStep = {
         data: data || {},
         name
       }
@@ -395,8 +400,20 @@ const interestSlice = createSlice({
     setPaymentLoading: (state) => {
       state.payment = Remote.Loading
     },
+
     setPaymentSuccess: (state, action: PayloadAction<{ payment?: PaymentValue }>) => {
       state.payment = Remote.Success(action.payload.payment)
+    },
+
+    setStakingModal: (
+      state,
+      action: PayloadAction<{ data?: InterestStepMetadata; name: StakingStep }>
+    ) => {
+      const { data, name } = action.payload
+      state.stakingStep = {
+        data: data || {},
+        name
+      }
     },
 
     setTransactionsNextPage: (state, action: PayloadAction<{ nextPage: string | null }>) => {
@@ -423,6 +440,10 @@ const interestSlice = createSlice({
     },
 
     showInterestModal: (state, action: PayloadAction<{ coin: CoinType; step: InterestStep }>) => {
+      state.coin = action.payload.coin
+    },
+
+    showStakingModal: (state, action: PayloadAction<{ coin: CoinType; step: StakingStep }>) => {
       state.coin = action.payload.coin
     },
 
@@ -501,11 +522,13 @@ export const {
   setPaymentFailure,
   setPaymentLoading,
   setPaymentSuccess,
+  setStakingModal,
   setTransactionsNextPage,
   setWithdrawalMinimumsFailure,
   setWithdrawalMinimumsLoading,
   setWithdrawalMinimumsSuccess,
   showInterestModal,
+  showStakingModal,
   stopShowingInterestModal,
   submitDepositForm
 } = interestSlice.actions

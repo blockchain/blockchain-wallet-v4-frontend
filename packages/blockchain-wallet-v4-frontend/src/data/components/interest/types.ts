@@ -48,6 +48,12 @@ export enum InterestSteps {
   'WITHDRAWAL'
 }
 
+export enum StakingSteps {
+  'WARNING',
+  'DEPOSIT',
+  'DEPOSIT_SUCCESS'
+}
+
 export type InterestStepMetadata = {
   depositSuccess?: boolean
   error?: string
@@ -56,6 +62,8 @@ export type InterestStepMetadata = {
 }
 
 export type InterestStep = keyof typeof InterestSteps
+
+export type StakingStep = keyof typeof StakingSteps
 
 export type InterestTransactionsReportType = Array<Array<string>>
 
@@ -86,11 +94,15 @@ export interface InterestState {
   isAmountDisplayedInCrypto: boolean
   // make this optional here. places where ts doesnt like it, check, custodial
   payment?: RemoteDataType<string, PaymentValue | undefined>
-  stakingEligible: RemoteDataType<string, EarnEligibleType>
-  stakingRates: RemoteDataType<string, StakingRatesType['rates']>
-  step: {
+  rewardsStep: {
     data: InterestStepMetadata
     name: InterestStep
+  }
+  stakingEligible: RemoteDataType<string, EarnEligibleType>
+  stakingRates: RemoteDataType<string, StakingRatesType['rates']>
+  stakingStep: {
+    data: InterestStepMetadata
+    name: StakingStep
   }
   transactions: Array<InterestTransactionType>
   transactionsNextPage: string | null
