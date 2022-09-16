@@ -6,6 +6,11 @@ import * as selectors from '../../selectors'
 
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
+// this should ideally come from a backend service
+// if we want to expand the functionality of
+// the pubkey service for building transactions
+// we need to know the correct derivation paths
+// for each coin that the service supports.
 const getPath = (coin) => {
   if (coin.includes('MATIC')) {
     return `m/44'/60'/0'/0/0`
