@@ -1,4 +1,4 @@
-import { BSBalanceType, CoinType, InterestBalanceType } from '@core/types'
+import { BSBalanceType, CoinfigType, CoinType, InterestBalanceType } from '@core/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
@@ -56,4 +56,12 @@ export const generateProvisionalPaymentAmount = (
   }
 
   return convertStandardToBase(coin, amount)
+}
+
+export const getSymbolWithParentChain = (coinfig: CoinfigType) => {
+  if (coinfig.symbol.includes('.') && coinfig.type.parentChain) {
+    return `${coinfig.displaySymbol} - ${coinfig.type.parentChain}`
+  }
+
+  return coinfig.displaySymbol
 }

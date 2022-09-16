@@ -42,7 +42,7 @@ export const ChartBalancePanel: ChartBalancePanelComponent = ({
           id='chart-view.chart-balance-panel.price'
           defaultMessage='{coinCode} Price'
           values={{
-            coinCode
+            coinCode: window.coins[coinCode].coinfig.displaySymbol
           }}
         />
       </Text>

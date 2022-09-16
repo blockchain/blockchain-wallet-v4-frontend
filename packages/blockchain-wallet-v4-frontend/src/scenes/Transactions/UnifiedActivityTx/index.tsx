@@ -3,19 +3,9 @@ import React, { useState } from 'react'
 import { ActivityResponseType } from '@core/network/api/coins/types'
 import { Text } from 'blockchain-info-components'
 
-import {
-  Addresses,
-  Col,
-  DetailsRow,
-  Row,
-  StatusAndType,
-  Timestamp,
-  TxRow,
-  TxRowContainer
-} from '../components'
+import { Addresses, Col, Row, StatusAndType, Timestamp, TxRow, TxRowContainer } from '../components'
 
 const UnifiedActivityTx: React.FC<Props> = ({ coin, tx }) => {
-  const { coinfig } = window.coins[coin]
   const [isToggled, setIsToggled] = useState(false)
 
   return (

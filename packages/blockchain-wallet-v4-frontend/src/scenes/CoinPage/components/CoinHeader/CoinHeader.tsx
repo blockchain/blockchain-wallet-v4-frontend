@@ -5,7 +5,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { Flex } from '../../../../components/Flex'
 import { CoinHeaderComponent } from './types'
 
-export const CoinHeader: CoinHeaderComponent = ({ coinCode, coinDescription, coinName }) => {
+export const CoinHeader: CoinHeaderComponent = ({ coinCode, coinDescription, coinfig }) => {
   return (
     <Flex gap={16}>
       <Icon name={coinCode} size='48' />
@@ -13,11 +13,11 @@ export const CoinHeader: CoinHeaderComponent = ({ coinCode, coinDescription, coi
       <Flex flexDirection='column' gap={4} justifyContent='center'>
         <Flex gap={4}>
           <Text color='grey900' weight={600} size='20px'>
-            {coinName}
+            {coinfig?.name}
           </Text>
 
           <Text color='grey600' weight={600} size='20px'>
-            {coinCode}
+            {coinfig?.displaySymbol}
           </Text>
         </Flex>
 

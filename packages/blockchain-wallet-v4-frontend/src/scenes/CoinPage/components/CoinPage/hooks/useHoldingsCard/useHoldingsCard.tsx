@@ -101,6 +101,7 @@ export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
     if (isLoading)
       return (
         <HoldingsCard
+          coinfig={coinfig}
           total={<TotalLoadingText />}
           coinCode={coin}
           coinTotal={<CoinTotalLoadingText />}
@@ -109,6 +110,7 @@ export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
     if (!rates || !coinBalance) {
       return (
         <HoldingsCard
+          coinfig={coinfig}
           total={formatFiat(0)}
           coinCode={coin}
           coinTotal={formatCoin(0)}
@@ -130,6 +132,7 @@ export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
 
     return (
       <HoldingsCard
+        coinfig={coinfig}
         total={totalFiatFormatted ?? ''}
         coinCode={coin}
         coinTotal={coinTotalAmount}

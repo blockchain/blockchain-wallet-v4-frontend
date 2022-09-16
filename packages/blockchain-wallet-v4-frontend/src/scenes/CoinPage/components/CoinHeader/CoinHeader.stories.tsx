@@ -13,15 +13,13 @@ const Template: ComponentStory<CoinHeaderComponent> = (args) => <CoinHeader {...
 export const Bitcoin = Template.bind({})
 Bitcoin.args = {
   coinCode: 'BTC',
-  coinDescription: 'The internet’s first and largest crypto currency.',
-  coinName: 'Bitcoin'
+  coinDescription: 'The internet’s first and largest crypto currency.'
 }
 
 export const Ethereum = Template.bind({})
 Ethereum.args = {
   coinCode: 'ETH',
-  coinDescription: 'The internet’s first and largest crypto currency.',
-  coinName: 'Ethereum'
+  coinDescription: 'The internet’s first and largest crypto currency.'
 }
 
 export default coinHeaderStory

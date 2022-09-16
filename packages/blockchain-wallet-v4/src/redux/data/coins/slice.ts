@@ -140,7 +140,7 @@ export const coinsSlice = createSlice({
       }
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    subscribe: (state, action: PayloadAction<SwapAccountType>) => {},
+    subscribe: (state, action: PayloadAction<string>) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     unsubscribe: (state, action: PayloadAction<string>) => {}
   }

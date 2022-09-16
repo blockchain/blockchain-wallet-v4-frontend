@@ -326,6 +326,8 @@ export default ({ api }: { api: APIType }) => {
           sharedKeyHash
         }
       )
+      // Maybe also check for transaction history
+      // Have to make an api call for each coin
       const filteredBalances = balances
       // If no balance unsubscribe coin
       yield all(
@@ -388,7 +390,7 @@ export default ({ api }: { api: APIType }) => {
       .getOrFail('No eth account')
     const { label } = ethAccount
     const { publicKey: ethPublicKey } = Bitcoin.bip32.fromSeed(seed).derivePath(`m/44'/60'/0'/0/0`)
-    switch (payload.baseCoin) {
+    switch (payload) {
       case 'BTC':
         const btcAccounts = selectors.wallet.getHDAccounts(yield select())
         btcAccounts.forEach((btcAccount) => {
