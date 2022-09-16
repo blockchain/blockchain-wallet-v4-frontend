@@ -12,6 +12,7 @@ const getData = (state) => {
     openBanking: false
   } as InvitationsType)
 
+  const plaidEnabledR = selectors.core.walletOptions.getAddPlaidPaymentProvider(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
@@ -20,6 +21,7 @@ const getData = (state) => {
       balances: ExtractSuccess<typeof balancesR>,
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
+      plaidEnabled: ExtractSuccess<typeof plaidEnabledR>,
       userData: ExtractSuccess<typeof userDataR>,
       walletCurrency: FiatType
     ) => ({
@@ -33,10 +35,11 @@ const getData = (state) => {
           })
         }) ||
         paymentMethods,
+      plaidEnabled,
       userData,
       walletCurrency
     })
-  )(balancesR, bankTransferAccountsR, paymentMethodsR, userDataR, walletCurrencyR)
+  )(balancesR, bankTransferAccountsR, paymentMethodsR, plaidEnabledR, userDataR, walletCurrencyR)
 }
 
 export default getData
