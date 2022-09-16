@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon, Padding } from '@blockchain-com/constellation'
-import { IconCloseCircleV2 } from '@blockchain-com/icons'
+import { IconCloseCircleV2, Padding, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators, compose } from 'redux'
 import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
 import styled from 'styled-components'
@@ -50,15 +49,18 @@ class SendAccountSelect extends React.PureComponent<InjectedFormProps<{}, Props>
     return (
       <FlyoutContainer>
         <HeaderWrapper>
-          <Padding top={40} left={40} right={40} bottom={16}>
+          <Padding top={3} left={3} right={3} bottom={1}>
             <HeaderRow>
               <Title color='textBlack'>
                 <FormattedMessage id='buttons.send' defaultMessage='Send' />
               </Title>
               <CloseIconContainer onClick={() => close()}>
-                <Icon label='close' color='grey600' data-e2e='sendNoFundsCloseModalIcon' size='md'>
-                  <IconCloseCircleV2 />
-                </Icon>
+                <IconCloseCircleV2
+                  color={PaletteColors['grey-600']}
+                  label='close'
+                  data-e2e='sendNoFundsCloseModalIcon'
+                  size='medium'
+                />
               </CloseIconContainer>
             </HeaderRow>
             <Text size='16px' color='grey600' weight={500} style={{ marginTop: '10px' }}>
@@ -71,7 +73,7 @@ class SendAccountSelect extends React.PureComponent<InjectedFormProps<{}, Props>
         </HeaderWrapper>
 
         <InfoRow>
-          <Padding left={40} top={8} bottom={8}>
+          <Padding left={3} top={0.5} bottom={0.5}>
             <Text size='12px' color='grey900' weight={500}>
               <FormattedMessage
                 id='modals.sendCrypto.accountSelect.availableFunds'
