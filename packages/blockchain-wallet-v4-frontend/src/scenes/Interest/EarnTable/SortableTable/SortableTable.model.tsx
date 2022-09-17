@@ -1,11 +1,8 @@
-import {
-  ButtonCellProps,
-  PaletteColors,
-  TableContainer as Table,
-  TextCellProps
-} from '@blockchain-com/constellation'
+import { PaletteColors, TableContainer as Table } from '@blockchain-com/constellation'
 import { Row as ReactTableRowType } from '@tanstack/react-table'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
+
+import { CellProps, RowType } from './SortableTable.types'
 
 export const TableContainer = styled(Table)`
   width: 100%;
@@ -15,17 +12,6 @@ export const TableContainer = styled(Table)`
     background-color: ${PaletteColors['grey-000']} !important;
   }
 `
-
-export type RowType = {
-  actions: ButtonCellProps | TextCellProps
-  asset: TextCellProps
-  balance: TextCellProps
-  rates: TextCellProps
-}
-
-export type CellProps = {
-  value?: number | string
-} & TextCellProps
 
 const compareCells = ({ value: valueA }: CellProps, { value: valueB }: CellProps) => {
   if (typeof valueA === 'string' && typeof valueB === 'string') {
@@ -42,8 +28,8 @@ export const sortTextCells = (
   rowB: ReactTableRowType<RowType>,
   id: keyof RowType
 ) => {
-  const cellAData = rowA.original[id as keyof RowType] as TextCellProps
-  const cellBData = rowB.original[id as keyof RowType] as TextCellProps
+  const cellAData = rowA.original[id as keyof RowType] as CellProps
+  const cellBData = rowB.original[id as keyof RowType] as CellProps
 
   return compareCells(cellAData, cellBData)
 }

@@ -16,7 +16,8 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as ParentProps, SuccessStateType } from '..'
 import { RewardsTextContainer, StakingTextContainer } from '../EarnTable.model'
-import { CellProps, sortTextCells, TableContainer } from './SortableTable.model'
+import { sortTextCells, TableContainer } from './SortableTable.model'
+import { CellProps } from './SortableTable.types'
 
 const SortableTable = ({
   handleClick,
