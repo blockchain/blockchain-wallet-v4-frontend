@@ -41,7 +41,6 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
       isStakingEnabled: ExtractSuccess<typeof isStakingEnabledR>
     ) => {
       if (isEmpty(instruments)) return []
-      const stakingPreferredCoins: EarnInstrumentsType = [{ coin: 'ETH', product: 'Staking' }]
       let preferredCoins: EarnInstrumentsType = [
         { coin: 'BTC', product: 'Rewards' },
         { coin: 'ETH', product: 'Rewards' },
@@ -56,6 +55,9 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
         preferredCoins = union(mappedBalances, preferredCoins)
       }
 
+      // pin staking to first row
+      preferredCoins = [{ coin: 'ETH', product: 'Staking' }, ...preferredCoins]
+
       preferredCoins.forEach(({ coin, product }) => {
         const coinIndex: number = instruments.findIndex(
           (instrument) => instrument.coin === coin && instrument.product === product
@@ -66,12 +68,11 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
       })
 
       if (!isStakingEnabled) {
+        preferredCoins = preferredCoins.filter(({ product }) => product !== 'Staking')
         instruments = instruments.filter(({ product }) => product !== 'Staking')
       }
 
-      return isStakingEnabled
-        ? [...stakingPreferredCoins, ...preferredCoins, ...instruments]
-        : [...preferredCoins, ...instruments]
+      return [...preferredCoins, ...instruments]
     }
 
     return lift(transform)(instrumentsR, balancesR, isStakingEnabledR)
