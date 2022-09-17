@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import Form from 'components/Form/Form'
 import FormError from 'components/Form/FormError'
 import FormGroup from 'components/Form/FormGroup'
@@ -13,13 +12,14 @@ import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
+import { ModalName } from 'data/modals/types'
 import { RecoverSteps } from 'data/types'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { isMobile, media } from 'services/styles'
 
 import { Props } from '../..'
-import { ActionButton, BackArrowFormHeader, FormWrapper, Row } from '../../model'
+import { ActionButton, BackArrowFormHeader, CenteredColumn, FormWrapper, Row } from '../../model'
 
 const ResponsiveRow = styled(Row)`
   justify-content: center;
@@ -67,7 +67,6 @@ const TwoFAConfirmation = (props: Props) => {
 
         <FormGroup>
           <FormItem>
-            Placeholder 2FA title
             <FormLabel htmlFor='code'>
               {authType === 1 && (
                 <FormattedMessage
@@ -83,8 +82,8 @@ const TwoFAConfirmation = (props: Props) => {
                   />
                 ) : (
                   <FormattedMessage
-                    id='scenes.logins.twofa.enter_code'
-                    defaultMessage='Enter your Two Factor Authentication Code'
+                    id='scenes.logins.twofa.enter_code_field'
+                    defaultMessage='2 Factor Authentication Code'
                   />
                 ))}
             </FormLabel>
@@ -93,6 +92,7 @@ const TwoFAConfirmation = (props: Props) => {
               normalize={removeWhitespace}
               validate={[required]}
               component={authType === 1 ? PasswordBox : TextBox}
+              placeholder='_ _ _  _ _ _'
               noLastPass
               autoFocus
               data-e2e='loginTwoFactorCode'
@@ -134,12 +134,13 @@ const TwoFAConfirmation = (props: Props) => {
             weight={500}
             lineHeight='1.5'
             style={{ cursor: 'pointer' }}
-            onClick={() => setStep(RecoverSteps.NEW_PASSWORD)}
+            onClick={() =>
+              props.modalActions.showModal(ModalName.SKIP_TWOFA_CONFIRMATION_WARNING, {
+                origin: 'ResetAccount'
+              })
+            }
           >
-            <FormattedMessage
-              id='scenes.reset.skip_2fa'
-              defaultMessage='placeholder text for skipping'
-            />
+            <FormattedMessage id='scenes.reset.without_2fa' defaultMessage='Continue without 2FA' />
           </Text>
         </ResponsiveRow>
       </FormWrapper>

@@ -107,6 +107,7 @@ const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
   signupActions: bindActionCreators(actions.signup, dispatch)
 })

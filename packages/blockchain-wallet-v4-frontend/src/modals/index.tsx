@@ -108,6 +108,9 @@ const ResetAccountFailed = React.lazy(() => import('./Wallet/ResetAccountFailed'
 const FundRecovery = React.lazy(() => import('./FundRecovery'))
 const Interest = React.lazy(() => import('./Interest'))
 const QRCode = React.lazy(() => import('./QRCode'))
+const SkipTwoFAVerificationRecovery = React.lazy(
+  () => import('./Wallet/SkipTwoFAVerificationRecovery')
+)
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const BuySell = React.lazy(() => import('./BuySell'))
 const Swap = React.lazy(() => import('./Swap'))
@@ -258,6 +261,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SEND_CRYPTO_MODAL) ? (
           <SendCrypto />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SKIP_TWOFA_CONFIRMATION_WARNING) ? (
+          <SkipTwoFAVerificationRecovery />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.RESET_ACCOUNT_FAILED) ? (
           <ResetAccountFailed />

@@ -175,7 +175,7 @@ const CloudRecovery = (props: Props) => {
       <SubCard>
         <TryAnotherMethodRow>
           <Text
-            size='16px'
+            size='14px'
             weight={600}
             color='blue600'
             data-e2e='loginGetHelp'

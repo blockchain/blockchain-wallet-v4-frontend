@@ -413,14 +413,14 @@ export default ({ api, coreSagas, networks }) => {
       return false
     }
     try {
-      yield delay(2000)
+      // yield delay(2000)
       // const response = yield call(api.pollForResetApprovalStatus, sessionToken)
 
       const response = {
-        email: 'leora+419+0d22d@blockchain.com',
+        email: 'leora@blockchain.com',
         request_denied: false,
         status: 'true',
-        two_fa_type: 0,
+        two_fa_type: 4,
         userId: '34735c52-61e1-4e55-92a0-2cce89774add'
       }
 
