@@ -1,12 +1,6 @@
 import React, { ReactElement, useMemo, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import {
-  ButtonCell,
-  ButtonCellProps,
-  Row,
-  TextCell,
-  TextCellProps
-} from '@blockchain-com/constellation'
+import { ButtonCell, ButtonCellProps, Row, TextCell } from '@blockchain-com/constellation'
 import {
   flexRender,
   getCoreRowModel,
@@ -22,7 +16,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as ParentProps, SuccessStateType } from '..'
 import { RewardsTextContainer, StakingTextContainer } from '../EarnTable.model'
-import { sortTextCells, TableContainer } from './SortableTable.model'
+import { CellProps, sortTextCells, TableContainer } from './SortableTable.model'
 
 const SortableTable = ({
   handleClick,
@@ -41,7 +35,7 @@ const SortableTable = ({
       {
         accessorKey: 'asset',
         cell: ({ getValue }) => {
-          const props = getValue() as TextCellProps
+          const props = getValue() as CellProps
           return <TextCell {...props} />
         },
         header: ({ header }) => {
@@ -61,7 +55,7 @@ const SortableTable = ({
       {
         accessorKey: 'balance',
         cell: ({ getValue }) => {
-          const props = getValue() as TextCellProps
+          const props = getValue() as CellProps
           return <TextCell {...props} />
         },
         header: ({ header }) => {
@@ -81,7 +75,7 @@ const SortableTable = ({
       {
         accessorKey: 'type',
         cell: ({ getValue }) => {
-          const props = getValue() as TextCellProps
+          const props = getValue() as CellProps
           return <TextCell {...props} />
         },
         header: ({ header }) => {
@@ -101,7 +95,7 @@ const SortableTable = ({
       {
         accessorKey: 'rates',
         cell: ({ getValue }) => {
-          const props = getValue() as TextCellProps
+          const props = getValue() as CellProps
           return <TextCell {...props} />
         },
         header: ({ header }) => {
@@ -144,10 +138,10 @@ const SortableTable = ({
       const { displaySymbol, name: displayName } = coinfig
       const account = interestAccountBalance && interestAccountBalance[coin]
       const accountBalanceBase = account ? account.balance : 0
-      // confirm with BE why this is showing as keying into a coin
       const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
       const stakingEligibleCoin = stakingEligible[coin] && stakingEligible[coin]?.eligible
       const isStaking = product === 'Staking'
+      const rate = isStaking ? stakingRates[coin].rate : interestRates[coin]
 
       const primaryButton = isStaking
         ? {
@@ -178,8 +172,9 @@ const SortableTable = ({
           icon: <Icon name={coin} color={coin} size='32px' />,
           iconPosition: 'left',
           subtext: displaySymbol,
-          text: displayName
-        } as TextCellProps,
+          text: displayName,
+          value: displayName
+        } as CellProps,
         balance: {
           subtext: (
             <CoinDisplay
@@ -206,10 +201,11 @@ const SortableTable = ({
               {accountBalanceBase}
             </FiatDisplay>
           )
-        } as TextCellProps,
+        } as CellProps,
         rates: {
-          text: `${isStaking ? stakingRates[coin].rate : interestRates[coin]}%`
-        } as TextCellProps,
+          text: `${rate}%`,
+          value: rate
+        } as CellProps,
         type: {
           text: isStaking ? (
             <StakingTextContainer>
@@ -223,8 +219,9 @@ const SortableTable = ({
                 {product}
               </Text>
             </RewardsTextContainer>
-          )
-        }
+          ),
+          value: product
+        } as CellProps
       }
     })
 

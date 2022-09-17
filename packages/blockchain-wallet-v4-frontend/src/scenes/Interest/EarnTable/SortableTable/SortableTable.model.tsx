@@ -23,34 +23,18 @@ export type RowType = {
   rates: TextCellProps
 }
 
-const compareTextCells = (cellA: TextCellProps, cellB: TextCellProps) =>
-  `${cellA.text}${cellA.subtext}`.localeCompare(`${cellB.text}${cellB.subtext}`)
+export type CellProps = {
+  value?: number | string
+} & TextCellProps
 
-const compareApyCells = (cellA: TextCellProps, cellB: TextCellProps) => {
-  if (typeof cellA.text === 'string' && typeof cellB.text === 'string') {
-    return Number(cellA.text.split('%')[0]) - Number(cellB?.text.split('%')[0])
+const compareCells = ({ value: valueA }: CellProps, { value: valueB }: CellProps) => {
+  if (typeof valueA === 'string' && typeof valueB === 'string') {
+    return valueA.localeCompare(valueB)
   }
-}
-const getNodeText = (node) => node.props.children
-const compareBalanceCells = (cellA: TextCellProps, cellB: TextCellProps) => {
-  if (typeof cellA.text === 'object' && typeof cellB.text === 'object') {
-    const textA = getNodeText(cellA.text)
-    const textB = getNodeText(cellB.text)
-
-    return Number(textA) - Number(textB)
+  if (typeof valueA === 'number' && typeof valueB === 'number') {
+    return valueA - valueB
   }
-}
-
-const compareCells = (cellA: TextCellProps, cellB: TextCellProps, id: string) => {
-  switch (id) {
-    case 'balance':
-      return compareBalanceCells(cellA, cellB)
-    case 'apy':
-      return compareApyCells(cellA, cellB)
-
-    default:
-      return compareTextCells(cellA, cellB)
-  }
+  return `${valueA}`.localeCompare(`${valueB}`)
 }
 
 export const sortTextCells = (
@@ -61,5 +45,5 @@ export const sortTextCells = (
   const cellAData = rowA.original[id as keyof RowType] as TextCellProps
   const cellBData = rowB.original[id as keyof RowType] as TextCellProps
 
-  return compareCells(cellAData, cellBData, id)
+  return compareCells(cellAData, cellBData)
 }
