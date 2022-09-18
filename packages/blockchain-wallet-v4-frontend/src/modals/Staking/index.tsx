@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
@@ -10,63 +10,55 @@ import { InterestStepMetadata, ModalName, StakingStep } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
-import Warning from './Warning'
 import DepositForm from './DepositForm'
+import Warning from './Warning'
 
-class Staking extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = { show: false, showSupplyInformation: false }
-  }
+const Staking = ({
+  close,
+  coin,
+  fetchInterestEDDStatus,
+  position,
+  step,
+  total,
+  userClickedOutside,
+  walletCurrency
+}: Props) => {
+  const [show, setShow] = useState<boolean>(false)
+  // const [showSupplyInformation, setShowSupplyInformation] = useState<boolean>(false)
 
-  componentDidMount() {
-    /* eslint-disable */
-    this.setState({ show: true })
-    /* eslint-enable */
-    this.props.fetchInterestEDDStatus()
-  }
+  useEffect(() => {
+    setShow(true)
+    fetchInterestEDDStatus()
+  })
 
-  handleClose = () => {
-    this.setState({ show: false })
+  const handleClose = () => {
+    setShow(false)
     setTimeout(() => {
-      this.props.close(ModalName.STAKING_MODAL)
+      close(ModalName.STAKING_MODAL)
     }, duration)
   }
 
-  showSupply = (show: boolean) => {
-    this.setState({
-      showSupplyInformation: show
-    })
-  }
-
-  render() {
-    const { coin, position, step, total, walletCurrency } = this.props
-    return (
-      <Flyout
-        position={position}
-        isOpen={this.state.show}
-        userClickedOutside={this.props.userClickedOutside}
-        onClose={this.handleClose}
-        data-e2e='interestModal'
-        total={total}
-      >
-        {step.name === 'WARNING' && (
-          <FlyoutChild>
-            <Warning handleClose={this.handleClose} coin={coin} walletCurrency={walletCurrency} />
-          </FlyoutChild>
-        )}
-        {step.name === 'DEPOSIT' && (
-          <FlyoutChild>
-            <DepositForm
-              coin={coin}
-              walletCurrency={walletCurrency}
-              setShowSupply={this.showSupply}
-            />
-          </FlyoutChild>
-        )}
-      </Flyout>
-    )
-  }
+  return (
+    <Flyout
+      position={position}
+      isOpen={show}
+      userClickedOutside={userClickedOutside}
+      onClose={handleClose}
+      data-e2e='interestModal'
+      total={total}
+    >
+      {step.name === 'WARNING' && (
+        <FlyoutChild>
+          <Warning handleClose={handleClose} coin={coin} walletCurrency={walletCurrency} />
+        </FlyoutChild>
+      )}
+      {step.name === 'DEPOSIT' && (
+        <FlyoutChild>
+          <DepositForm coin={coin} walletCurrency={walletCurrency} />
+        </FlyoutChild>
+      )}
+    </Flyout>
+  )
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
@@ -93,7 +85,6 @@ type LinkStatePropsType = {
   walletCurrency: FiatType
 }
 
-type State = { show: boolean; showSupplyInformation: boolean }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
 const enhance = compose(modalEnhancer(ModalName.STAKING_MODAL, { transition: duration }), connector)
