@@ -149,6 +149,7 @@ export type OwnProps = {
   coin: string
   fiatCurrency?: string
   includeCustodial: boolean
+  includeInterest?: boolean
   name: 'interestDepositAccount' | 'interestWithdrawalAccount'
   rates: RatesType
 }
