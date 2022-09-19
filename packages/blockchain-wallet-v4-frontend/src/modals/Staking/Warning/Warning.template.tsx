@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-
 import { Button } from '@blockchain-com/constellation'
+
 import { CoinType } from '@core/types'
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -13,9 +13,8 @@ const Warning = ({ coin, handleClick, handleClose }: OwnProps) => (
     <FlyoutWrapper>
       <TopText color='grey800' size='20px' weight={600}>
         <Row>
-          <Icon name={coin} color={coin} size='24px' style={{ marginRight: '16px' }} />
           <FormattedMessage
-            id='modals.staking.warning.title'
+            id='modals.staking.title'
             defaultMessage='Stake {coin}'
             values={{ coin }}
           />
@@ -43,7 +42,7 @@ const Warning = ({ coin, handleClick, handleClose }: OwnProps) => (
           <FormattedMessage
             defaultMessage='Once staked, {coin} funds can’t be unstaked or transferred for an unknown period of time. {br}{br} Your {coin} will also be subject to a bonding period of {bondingDays} days before it generates rewards.'
             id='modals.staking.warning.content.subtitle'
-            values={{ br: <br />, coin, bondingDays: 1 }}
+            values={{ bondingDays: 1, br: <br />, coin }}
           />
         </Text>
       </Container>

@@ -6,7 +6,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { CustomCartridge, OrangeCartridge } from 'components/Cartridge'
 import Form from 'components/Form/Form'
 
-export const FORM_NAME = 'interestDepositForm'
+export const FORM_NAME = 'stakingDepositForm'
 
 export const SendingWrapper = styled.div`
   width: 100%;
@@ -65,30 +65,6 @@ export const FiatMaxContainer = styled.div`
   border-radius: 10px;
   background-color: ${(props) => props.theme.grey000};
 `
-export const CalculatorWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 28px;
-`
-export const CalculatorHeaderContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`
-export const CalculatorDesc = styled(Text)`
-  margin: 6px 0 8px;
-`
-export const CalculatorContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 16px;
-  background-color: ${(props) => props.theme.greyFade000};
-  border: 1px solid ${({ theme }) => theme.grey000};
-  box-sizing: border-box;
-  border-radius: 8px;
-`
-
 export const AmountError = styled.div`
   margin: 2px 5px 0 0;
   display: flex;
@@ -102,23 +78,6 @@ export const GreyBlueCartridge = styled(CustomCartridge)`
   color: ${(props) => props.theme.blue600};
   cursor: pointer;
   margin-left: 10px;
-`
-export const InterestTermWrapper = styled.div`
-  display: flex;
-`
-export const InterestTermContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  border-right: 1px solid ${({ theme }) => theme.grey000};
-  margin-right: 16px;
-  width: 114px;
-  height: 48px;
-
-  &:last-child {
-    border-right: 1px solid transparent;
-    margin-right: 0;
-  }
 `
 export const TermsContainer = styled.div`
   margin: -3px 0 24px 0;

@@ -197,9 +197,9 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             color='grey600'
           />
           <FormattedMessage
-            id='modals.interest.deposit.title_add'
-            defaultMessage='Add {displayName}'
-            values={{ displayName: coinfig.name }}
+            id='modals.staking.title'
+            defaultMessage='Stake {coin}'
+            values={{ coin }}
           />
         </TopText>
         <InfoText>
@@ -263,9 +263,10 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
         )}
         <CoinBalanceDropdown
           {...props}
-          includeCustodial
           fiatCurrency={walletCurrency}
-          name='interestDepositAccount'
+          includeCustodial
+          includeInterest
+          name='stakingDepositAccount'
         />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
