@@ -1,6 +1,12 @@
 import { CoinType, FiatType, NabuMoneyFloatType, WalletFiatType } from '@core/types'
 
-export type InterestBalanceType = {
+export type EarnAccountBalanceType = {
+  ccy?: CoinType
+  din?: FiatType
+  product: 'staking' | 'savings'
+}
+
+export type EarnBalanceType = {
   balance: string
   fiatAmount: string | null
   locked: string
@@ -10,8 +16,8 @@ export type InterestBalanceType = {
   totalInterest: string
 }
 
-export type InterestAccountBalanceType = {
-  [key in CoinType]?: InterestBalanceType
+export type EarnAccountBalanceResponseType = {
+  [key in CoinType]?: EarnBalanceType
 }
 
 export type EarnEligibleType = {

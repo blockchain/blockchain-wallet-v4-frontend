@@ -1,9 +1,10 @@
 import { CoinType, FiatType, WalletFiatType } from '@core/types'
 
 import {
+  EarnAccountBalanceResponseType,
+  EarnAccountBalanceType,
   EarnEligibleType,
   FileUploadItem,
-  InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
   InterestDepositLimits,
@@ -23,13 +24,17 @@ import {
 
 export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
   // TODO - consider removing parameters since we never pass anything here
-  const getInterestAccountBalance = (ccy?: CoinType, din?: FiatType): InterestAccountBalanceType =>
+  const getEarnAccountBalance = ({
+    ccy,
+    din,
+    product
+  }: EarnAccountBalanceType): EarnAccountBalanceResponseType =>
     authorizedGet({
       data: {
         ccy,
         din
       },
-      endPoint: '/accounts/savings',
+      endPoint: `/accounts/${product}`,
       url: nabuUrl
     })
 
@@ -89,9 +94,10 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getStakingAccount = (): StakingAccountType =>
+  const getStakingAccount = (ccy: CoinType): StakingAccountType =>
     authorizedGet({
-      endPoint: `/accounts/staking`,
+      endPoint: `/payments/accounts/staking?ccy=${ccy}`,
+      ignoreQueryParams: true,
       url: nabuUrl
     })
 
@@ -194,8 +200,8 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
 
   return {
     getEDDDocumentsLimits,
+    getEarnAccountBalance,
     getInterestAccount,
-    getInterestAccountBalance,
     getInterestCtaAfterTransaction,
     getInterestEligible,
     getInterestLimits,

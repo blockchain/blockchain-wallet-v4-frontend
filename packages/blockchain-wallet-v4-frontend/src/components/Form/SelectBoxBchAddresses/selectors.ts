@@ -26,7 +26,7 @@ import {
 
 import { Exchange, Remote } from '@core'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
-import { InterestAccountBalanceType } from '@core/types'
+import { EarnAccountBalanceResponseType } from '@core/types'
 import { selectors } from 'data'
 import { collapse } from 'utils/helpers'
 
@@ -98,7 +98,7 @@ export const getData = (
     )
   }
 
-  const buildInterestDisplay = (x: InterestAccountBalanceType['BCH']) => {
+  const buildInterestDisplay = (x: EarnAccountBalanceResponseType['BCH']) => {
     return (
       `Rewards Account` +
       ` (${Exchange.displayCoinToCoin({

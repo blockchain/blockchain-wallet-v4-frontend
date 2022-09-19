@@ -9,6 +9,7 @@ import {
   AccountTypes,
   BSBalancesType,
   CoinType,
+  EarnAccountBalanceType,
   InterestAfterTransactionType,
   PaymentValue,
   Product,
@@ -66,8 +67,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield put(A.fetchInterestBalanceLoading())
       if (!(yield call(isTier2))) return yield put(A.fetchInterestBalanceSuccess({}))
-      const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
-        api.getInterestAccountBalance
+      const response: ReturnType<typeof api.getEarnAccountBalance> = yield call(
+        api.getEarnAccountBalance,
+        { product: 'savings' } as EarnAccountBalanceType
       )
       yield put(A.fetchInterestBalanceSuccess(response || {}))
     } catch (e) {

@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { append, assoc, compose, dropLast, lensProp, over } from 'ramda'
 
 import {
+  EarnAccountBalanceResponseType,
   EarnEligibleType,
-  InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
   InterestDepositLimits,
@@ -174,7 +174,7 @@ const interestSlice = createSlice({
       state.accountBalance = Remote.Loading
     },
 
-    fetchInterestBalanceSuccess: (state, action: PayloadAction<InterestAccountBalanceType>) => {
+    fetchInterestBalanceSuccess: (state, action: PayloadAction<EarnAccountBalanceResponseType>) => {
       state.accountBalance = Remote.Success(action.payload)
     },
 

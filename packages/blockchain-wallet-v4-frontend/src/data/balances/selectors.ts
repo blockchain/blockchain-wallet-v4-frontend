@@ -26,9 +26,9 @@ import {
   BSBalanceType,
   CoinfigType,
   CoinType,
+  EarnAccountBalanceResponseType,
   ExtractSuccess,
   FiatType,
-  InterestAccountBalanceType,
   RatesType,
   RemoteDataType,
   SwapOrderType,
@@ -176,13 +176,13 @@ export const getCoinCustodialBalance = (
     [buySellSelectors.getBSBalances, interestSelectors.getInterestAccountBalance],
     (
       sbBalancesR: RemoteDataType<PartialClientErrorProperties, BSBalancesType>,
-      interestAccountBalanceR: RemoteDataType<string, InterestAccountBalanceType>
+      interestAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>
     ) => {
       const sbCoinBalance = sbBalancesR.getOrElse({
         [coin]: DEFAULT_BS_BALANCE
       })[coin]
       const interestCoinBalance = interestAccountBalanceR.getOrElse({
-        [coin]: { balance: '0' } as InterestAccountBalanceType[typeof coin]
+        [coin]: { balance: '0' } as EarnAccountBalanceResponseType[typeof coin]
       })[coin]
       const sbBalance = sbCoinBalance ? sbCoinBalance.available : '0'
       const interestBalance = interestCoinBalance ? interestCoinBalance.balance : '0'

@@ -1,9 +1,9 @@
 import {
   AccountTypes,
   CoinType,
+  EarnAccountBalanceResponseType,
   EarnEligibleType,
   FiatType,
-  InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
   InterestDepositLimits,
@@ -80,7 +80,7 @@ export type EarnInstrumentsType = Array<{ coin: CoinType; product: 'Staking' | '
 //
 export interface InterestState {
   account: RemoteDataType<string, InterestAccountType>
-  accountBalance: RemoteDataType<string, InterestAccountBalanceType>
+  accountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   afterTransaction: RemoteDataType<string, InterestAfterTransactionType>
   coin: CoinType
   instruments: RemoteDataType<string, EarnInstrumentsType>
