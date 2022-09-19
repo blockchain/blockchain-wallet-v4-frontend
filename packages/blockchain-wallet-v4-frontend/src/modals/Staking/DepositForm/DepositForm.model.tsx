@@ -31,9 +31,9 @@ export const CustomFormLabel = styled.div`
   display: flex;
   justify-content: space-between;
 `
-export const CustomField = styled(Field)<BaseFieldProps & { coin: CoinType; displayCoin: boolean }>`
+export const CustomField = styled(Field)<BaseFieldProps & { coin: CoinType }>`
   > input {
-    padding-left: ${(props) => `${props.coin.length * 14}px`};
+    padding-left: ${({ coin }) => `${coin.length * 14}px`};
   }
   > div:last-child {
     display: none;
@@ -104,28 +104,6 @@ export const ButtonContainer = styled.div`
     padding: 15px !important;
   }
 `
-
-export const ToggleCoinFiat = styled.div`
-  display: inline;
-`
-export const ToggleFiatText = styled(Text)<{ displayCoin: boolean }>`
-  font-size: 14px;
-  font-weight: 500;
-  padding-right: 5px;
-  cursor: pointer;
-  display: inline;
-  color: ${(props) => (props.displayCoin ? props.theme.grey800 : props.theme.blue600)};
-`
-
-export const ToggleCoinText = styled(Text)<{ displayCoin: boolean }>`
-  font-size: 14px;
-  font-weight: 500;
-  padding-left: 5px;
-  cursor: pointer;
-  display: inline;
-  color: ${(props) => (props.displayCoin ? props.theme.blue600 : props.theme.grey800)};
-`
-
 export const InfoText = styled.div`
   display: inline;
 `

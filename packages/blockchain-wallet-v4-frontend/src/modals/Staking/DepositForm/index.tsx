@@ -9,6 +9,7 @@ import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 
 import Loading from '../Staking.template.loading'
+import { FORM_NAME } from './DepositForm.model'
 import { getCurrency, getData, getUnderSanctionsMessage } from './DepositForm.selectors'
 import Success from './DepositForm.template.success'
 
@@ -25,19 +26,6 @@ class DepositForm extends PureComponent<Props> {
     this.props.earnActions.fetchEDDDepositLimits({ currency: walletCurrency })
   }
 
-  handleDisplayToggle = (isCoin: boolean) => {
-    const { data, earnActions, formActions } = this.props
-    const { displayCoin } = data.getOrElse({
-      displayCoin: false
-    } as DataSuccessStateType)
-
-    if (isCoin === displayCoin) return
-
-    formActions.clearFields('interestDepositForm', false, false, 'depositAmount')
-
-    earnActions.setCoinDisplay({ isAmountDisplayedInCrypto: isCoin })
-  }
-
   handleRefresh = () => {
     this.handleInitializeDepositForm()
   }
@@ -46,7 +34,7 @@ class DepositForm extends PureComponent<Props> {
     const { coin, currency, earnActions } = this.props
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
 
-    earnActions.initializeDepositForm({ coin, currency: walletCurrency })
+    earnActions.initializeInterestDepositForm({ coin, currency: walletCurrency })
   }
 
   render() {
@@ -62,14 +50,7 @@ class DepositForm extends PureComponent<Props> {
         ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Success: (val) => (
-        <Success
-          {...this.props}
-          {...val}
-          walletCurrency={walletCurrency}
-          handleDisplayToggle={this.handleDisplayToggle}
-        />
-      )
+      Success: (val) => <Success {...this.props} {...val} walletCurrency={walletCurrency} />
     })
   }
 }
