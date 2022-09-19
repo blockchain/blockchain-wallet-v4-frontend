@@ -185,6 +185,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const fetchStakingAccount = function* ({ payload }: ReturnType<typeof A.fetchStakingAccount>) {
+    const { coin } = payload
+    try {
+      yield put(A.fetchInterestAccountLoading())
+      const paymentAccount: ReturnType<typeof api.getEarnAccount> = yield call(api.getEarnAccount, {
+        coin,
+        product: 'staking'
+      } as EarnAccountType)
+      yield put(A.fetchInterestAccountSuccess({ ...paymentAccount }))
+      yield put(A.setUnderSanctions({ message: null }))
+    } catch (e) {
+      const error = errorHandler(e)
+      const errorCode: number | string = errorHandlerCode(e)
+      if (errorCode === CustodialSanctionsErrorCodeEnum.EU_5_SANCTION_ERROR) {
+        yield put(A.setUnderSanctions({ message: e?.ux?.message }))
+      }
+      yield put(A.fetchInterestAccountFailure(error))
+    }
+  }
+
   const fetchInterestRates = function* () {
     try {
       yield put(A.fetchInterestRatesLoading())
@@ -744,6 +764,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchInterestTransactions,
     fetchInterestTransactionsReport,
     fetchShowInterestCardAfterTransaction,
+    fetchStakingAccount,
     fetchStakingEligible,
     fetchStakingLimits,
     fetchStakingRates,

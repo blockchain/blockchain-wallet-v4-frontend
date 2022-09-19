@@ -308,6 +308,22 @@ const interestSlice = createSlice({
       state.afterTransaction = Remote.Success(action.payload.afterTransaction)
     },
 
+    // ACCOUNT
+    // eslint-disable-next-line
+    fetchStakingAccount: (state, action: PayloadAction<{ coin: CoinType }>) => {},
+
+    fetchStakingAccountFailure: (state, action: PayloadAction<string>) => {
+      state.account = Remote.Failure(action.payload)
+    },
+
+    fetchStakingAccountLoading: (state) => {
+      state.account = Remote.Loading
+    },
+
+    fetchStakingAccountSuccess: (state, action: PayloadAction<EarnAccountResponseType>) => {
+      state.account = Remote.Success(action.payload)
+    },
+
     // Staking ELIGIBLE
     fetchStakingEligible: () => {},
     fetchStakingEligibleFailure: (state, action: PayloadAction<string>) => {
@@ -525,6 +541,10 @@ export const {
   fetchShowInterestCardAfterTransactionFailure,
   fetchShowInterestCardAfterTransactionLoading,
   fetchShowInterestCardAfterTransactionSuccess,
+  fetchStakingAccount,
+  fetchStakingAccountFailure,
+  fetchStakingAccountLoading,
+  fetchStakingAccountSuccess,
   fetchStakingEligible,
   fetchStakingEligibleFailure,
   fetchStakingEligibleLoading,
