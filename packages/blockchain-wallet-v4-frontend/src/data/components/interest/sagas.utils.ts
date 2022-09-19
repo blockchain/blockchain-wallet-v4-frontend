@@ -69,6 +69,43 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return updatedPayment.value()
   }
 
+  const getMinMaxLimits = function* ({ baseUnitBalance, coin, minDepositAmount }) {
+    const walletCurrencyR = S.getWalletCurrency(yield select())
+    const ratesR = S.getRates(yield select())
+    const rates = ratesR.getOrElse({} as RatesType)
+    const walletCurrency = walletCurrencyR.getOrElse({} as FiatType)
+    const userCurrency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
+      'Failed to get user currency'
+    )
+    const minFiat = minDepositAmount
+    const maxFiat = Exchange.convertCoinToFiat({
+      coin,
+      currency: userCurrency,
+      rates,
+      value: baseUnitBalance
+    })
+    const maxCoin = Exchange.convertCoinToCoin({
+      coin,
+      value: baseUnitBalance
+    })
+    const minCoin = Exchange.convertFiatToCoin({
+      coin,
+      currency: walletCurrency,
+      rates,
+      value: Number(convertBaseToStandard('FIAT', minFiat))
+    })
+
+    return {
+      limits: {
+        // default unit is cents, convert to standard
+        maxCoin: Number(maxCoin),
+        maxFiat: Number(maxFiat),
+        minCoin: Number(minCoin),
+        minFiat: Number(minFiat)
+      }
+    }
+  }
+
   const createStakingLimits = function* (
     payment?: PaymentValue,
     custodialBalances?: BSBalancesType
@@ -77,38 +114,18 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const coin = S.getCoinType(yield select())
       const limitsR = S.getStakingLimits(yield select())
       const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
-      const ratesR = S.getRates(yield select())
-      const rates = ratesR.getOrElse({} as RatesType)
-      const walletCurrencyR = S.getWalletCurrency(yield select())
-      const walletCurrency = walletCurrencyR.getOrElse({} as FiatType)
 
       const nonCustodialBalance = payment && payment.effectiveBalance
       const custodialBalance = custodialBalances && custodialBalances[coin]?.available
       const baseUnitBalance = nonCustodialBalance || custodialBalance || 0
-
-      const minFiat = limits[coin]?.minDepositValue || 100
-      const maxCoin = Exchange.convertCoinToCoin({
+      const minDepositAmount = limits[coin]?.minDepositValue || 1
+      const minMaxLimits = yield call(getMinMaxLimits, {
+        baseUnitBalance,
         coin,
-        value: baseUnitBalance
+        minDepositAmount
       })
 
-      const minCoin = Exchange.convertFiatToCoin({
-        coin,
-        currency: walletCurrency,
-        rates,
-        value: Number(convertBaseToStandard('FIAT', minFiat))
-      })
-
-      yield put(
-        A.setStakingDepositLimits({
-          limits: {
-            // default unit is cents, convert to standard
-            maxCoin: Number(maxCoin),
-            minCoin: Number(minCoin),
-            minFiat: Number(minFiat)
-          }
-        })
-      )
+      yield put(A.setStakingDepositLimits(minMaxLimits))
     } catch (e) {
       yield put(A.setPaymentFailure(e))
     }
@@ -122,48 +139,19 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const coin = S.getCoinType(yield select())
       const limitsR = S.getInterestLimits(yield select())
       const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
-      const ratesR = S.getRates(yield select())
-      const rates = ratesR.getOrElse({} as RatesType)
-      const userCurrency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
-        'Failed to get user currency'
-      )
-      const walletCurrencyR = S.getWalletCurrency(yield select())
-      const walletCurrency = walletCurrencyR.getOrElse({} as FiatType)
+
+      const minDepositAmount = limits[coin]?.minDepositAmount || 100
 
       // determine balance to use based on args passed in
       const nonCustodialBalance = payment && payment.effectiveBalance
       const custodialBalance = custodialBalances && custodialBalances[coin]?.available
       const baseUnitBalance = nonCustodialBalance || custodialBalance || 0
-
-      const minFiat = limits[coin]?.minDepositAmount || 100
-      const maxFiat = Exchange.convertCoinToFiat({
+      const minMaxLimits = yield call(getMinMaxLimits, {
+        baseUnitBalance,
         coin,
-        currency: userCurrency,
-        rates,
-        value: baseUnitBalance
+        minDepositAmount
       })
-      const maxCoin = Exchange.convertCoinToCoin({
-        coin,
-        value: baseUnitBalance
-      })
-      const minCoin = Exchange.convertFiatToCoin({
-        coin,
-        currency: walletCurrency,
-        rates,
-        value: Number(convertBaseToStandard('FIAT', minFiat))
-      })
-
-      yield put(
-        A.setInterestDepositLimits({
-          limits: {
-            // default unit is cents, convert to standard
-            maxCoin: Number(maxCoin),
-            maxFiat: Number(maxFiat),
-            minCoin: Number(minCoin),
-            minFiat: Number(convertBaseToStandard('FIAT', minFiat))
-          }
-        })
-      )
+      yield put(A.setInterestDepositLimits(minMaxLimits))
     } catch (e) {
       yield put(A.setPaymentFailure(e))
     }
