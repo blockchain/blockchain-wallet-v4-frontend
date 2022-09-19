@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { append, assoc, compose, dropLast, lensProp, over } from 'ramda'
 
 import {
-  DepositLimits,
   EarnEligibleType,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
+  InterestDepositLimits,
   InterestEDDStatus,
   InterestLimitsType,
   InterestTransactionType,
@@ -27,6 +27,7 @@ import {
   InterestState,
   InterestStep,
   InterestStepMetadata,
+  StakingMinMaxType,
   StakingStep
 } from './types'
 
@@ -35,13 +36,13 @@ const initialState: InterestState = {
   accountBalance: Remote.NotAsked,
   afterTransaction: Remote.NotAsked,
   coin: 'BTC',
-  depositLimits: {
+  instruments: Remote.NotAsked,
+  interestDepositLimits: {
     maxCoin: 0,
     maxFiat: 0,
     minCoin: 0,
     minFiat: 0
   },
-  instruments: Remote.NotAsked,
   interestEDDDepositLimits: Remote.NotAsked,
   interestEDDStatus: Remote.NotAsked,
   interestEDDWithdrawLimits: Remote.NotAsked,
@@ -53,6 +54,11 @@ const initialState: InterestState = {
   rewardsStep: {
     data: {},
     name: 'ACCOUNT_SUMMARY'
+  },
+  stakingDepositLimits: {
+    maxCoin: 0,
+    minCoin: 0,
+    minFiat: 0
   },
   stakingEligible: Remote.NotAsked,
   stakingLimits: Remote.NotAsked,
@@ -118,7 +124,7 @@ const interestSlice = createSlice({
 
     fetchEDDDepositLimitsSuccess: (
       state,
-      action: PayloadAction<{ interestEDDDepositLimits: DepositLimits }>
+      action: PayloadAction<{ interestEDDDepositLimits: InterestDepositLimits }>
     ) => {
       state.interestEDDDepositLimits = Remote.Success(action.payload.interestEDDDepositLimits)
     },
@@ -389,8 +395,8 @@ const interestSlice = createSlice({
       state.isAmountDisplayedInCrypto = action.payload.isAmountDisplayedInCrypto
     },
 
-    setDepositLimits: (state, action: PayloadAction<{ limits: InterestMinMaxType }>) => {
-      state.depositLimits = action.payload.limits
+    setInterestDepositLimits: (state, action: PayloadAction<{ limits: InterestMinMaxType }>) => {
+      state.interestDepositLimits = action.payload.limits
     },
 
     setInterestStep: (
@@ -414,6 +420,10 @@ const interestSlice = createSlice({
 
     setPaymentSuccess: (state, action: PayloadAction<{ payment?: PaymentValue }>) => {
       state.payment = Remote.Success(action.payload.payment)
+    },
+
+    setStakingDepositLimits: (state, action: PayloadAction<{ limits: StakingMinMaxType }>) => {
+      state.stakingDepositLimits = action.payload.limits
     },
 
     setStakingModal: (
@@ -528,11 +538,12 @@ export const {
   resetShowInterestCardAfterTransaction,
   routeToTxHash,
   setCoinDisplay,
-  setDepositLimits,
+  setInterestDepositLimits,
   setInterestStep,
   setPaymentFailure,
   setPaymentLoading,
   setPaymentSuccess,
+  setStakingDepositLimits,
   setStakingModal,
   setTransactionsNextPage,
   setWithdrawalMinimumsFailure,

@@ -1,12 +1,12 @@
 import { CoinType, FiatType, WalletFiatType } from '@core/types'
 
 import {
-  DepositLimits,
   EarnEligibleType,
   FileUploadItem,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
+  InterestDepositLimits,
   InterestEDDDocumentsResponse,
   InterestEDDStatus,
   InterestLimitsType,
@@ -137,7 +137,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getSavingsEDDDepositLimits = (currency?: FiatType): DepositLimits =>
+  const getSavingsEDDDepositLimits = (currency?: FiatType): InterestDepositLimits =>
     authorizedGet({
       data: {
         currency

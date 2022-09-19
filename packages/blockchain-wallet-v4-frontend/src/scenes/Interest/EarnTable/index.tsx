@@ -34,7 +34,7 @@ const EarnTableContainer = (props: Props) => {
     if (isStaking) {
       interestActions.showStakingModal({ coin, step: 'WARNING' })
     } else {
-      interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
+      interestActions.showInterestModal({ coin, step: 'DEPOSIT' })
     }
   }
 

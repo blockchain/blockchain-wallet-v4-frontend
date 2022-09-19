@@ -34,12 +34,16 @@ export const logLocation = 'components/interest/sagas'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { isTier2 } = profileSagas({ api, coreSagas, networks })
-  const { buildAndPublishPayment, createLimits, createPayment, getCustodialAccountForCoin } = utils(
-    {
-      coreSagas,
-      networks
-    }
-  )
+  const {
+    buildAndPublishPayment,
+    createInterestLimits,
+    createPayment,
+    createStakingLimits,
+    getCustodialAccountForCoin
+  } = utils({
+    coreSagas,
+    networks
+  })
 
   const {
     getDefaultAccountForCoin,
@@ -148,7 +152,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const fetchStakingLimits = function* () {
-    console.log('test')
     try {
       yield put(A.fetchStakingLimitsLoading())
       const response: ReturnType<typeof api.getStakingLimits> = yield call(api.getStakingLimits)
@@ -296,7 +299,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               selectors.components.buySell.getBSBalances
             )).getOrFail('Failed to get balance')
 
-            yield call(createLimits, undefined, custodialBalances)
+            yield call(createInterestLimits, undefined, custodialBalances)
             yield put(A.setPaymentSuccess({ payment: undefined }))
           } else {
             // noncustodial account selected
@@ -304,7 +307,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               ...formValues.interestDepositAccount,
               address: getAccountIndexOrAccount(coin, formValues.interestDepositAccount)
             })
-            yield call(createLimits, depositPayment)
+            yield call(createInterestLimits, depositPayment)
             yield put(A.setPaymentSuccess({ payment: depositPayment }))
           }
           break
@@ -342,7 +345,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const custodialAccount = (yield call(getCustodialAccountForCoin, coin)).getOrFail(
       'Failed to fetch account'
     )
-    yield call(createLimits, undefined, custodialBalances)
+    yield call(createInterestLimits, undefined, custodialBalances)
     yield put(A.setPaymentSuccess({ payment: undefined }))
 
     return custodialAccount
@@ -366,7 +369,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let newPayment = yield getOrUpdateProvisionalPaymentForCoin(coin, Remote.of(payment))
     newPayment = yield newPayment.to(depositAddress, 'ADDRESS')
     newPayment = yield newPayment.value()
-    yield call(createLimits, newPayment)
+    yield call(createInterestLimits, newPayment)
     yield put(A.setPaymentSuccess({ payment: newPayment }))
 
     return noncustodialAccount

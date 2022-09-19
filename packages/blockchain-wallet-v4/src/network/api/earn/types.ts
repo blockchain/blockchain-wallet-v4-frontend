@@ -35,8 +35,8 @@ type LimitDetails = {
   savingsCurrency: CoinType
 }
 
-export type DepositLimits = {
-  depositLimits: LimitDetails[] | []
+export type InterestDepositLimits = {
+  interestDepositLimits: LimitDetails[] | []
 }
 
 export type WithdrawLimits = {
@@ -152,10 +152,10 @@ export type UploadDocumentDetails = {
 }
 
 export type StakingLimitType = {
-  minDepositValue: number
   bondingDays: number
-  unbondingDays?: number
   disabledWithdrawals: boolean
+  minDepositValue: number
+  unbondingDays?: number
 }
 
 export type StakingLimitsType = {

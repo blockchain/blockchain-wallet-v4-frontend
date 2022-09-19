@@ -69,7 +69,55 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return updatedPayment.value()
   }
 
-  const createLimits = function* (payment?: PaymentValue, custodialBalances?: BSBalancesType) {
+  const createStakingLimits = function* (
+    payment?: PaymentValue,
+    custodialBalances?: BSBalancesType
+  ) {
+    try {
+      const coin = S.getCoinType(yield select())
+      const limitsR = S.getStakingLimits(yield select())
+      const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
+      const ratesR = S.getRates(yield select())
+      const rates = ratesR.getOrElse({} as RatesType)
+      const walletCurrencyR = S.getWalletCurrency(yield select())
+      const walletCurrency = walletCurrencyR.getOrElse({} as FiatType)
+
+      const nonCustodialBalance = payment && payment.effectiveBalance
+      const custodialBalance = custodialBalances && custodialBalances[coin]?.available
+      const baseUnitBalance = nonCustodialBalance || custodialBalance || 0
+
+      const minFiat = limits[coin]?.minDepositValue || 100
+      const maxCoin = Exchange.convertCoinToCoin({
+        coin,
+        value: baseUnitBalance
+      })
+
+      const minCoin = Exchange.convertFiatToCoin({
+        coin,
+        currency: walletCurrency,
+        rates,
+        value: Number(convertBaseToStandard('FIAT', minFiat))
+      })
+
+      yield put(
+        A.setStakingDepositLimits({
+          limits: {
+            // default unit is cents, convert to standard
+            maxCoin: Number(maxCoin),
+            minCoin: Number(minCoin),
+            minFiat: Number(minFiat)
+          }
+        })
+      )
+    } catch (e) {
+      yield put(A.setPaymentFailure(e))
+    }
+  }
+
+  const createInterestLimits = function* (
+    payment?: PaymentValue,
+    custodialBalances?: BSBalancesType
+  ) {
     try {
       const coin = S.getCoinType(yield select())
       const limitsR = S.getInterestLimits(yield select())
@@ -106,7 +154,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       })
 
       yield put(
-        A.setDepositLimits({
+        A.setInterestDepositLimits({
           limits: {
             // default unit is cents, convert to standard
             maxCoin: Number(maxCoin),
@@ -167,8 +215,9 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
   return {
     buildAndPublishPayment,
-    createLimits,
+    createInterestLimits,
     createPayment,
+    createStakingLimits,
     getCustodialAccountForCoin
   }
 }

@@ -6,7 +6,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
 import { fiatToString } from '@core/exchange/utils'
-import { CoinType, DepositLimits } from '@core/types'
+import { CoinType, InterestDepositLimits } from '@core/types'
 import {
   Button,
   Icon,
@@ -55,17 +55,17 @@ import {
 import { maxDepositAmount, minDepositAmount } from './validation'
 
 const checkIsAmountUnderDepositLimit = (
-  interestDepositLimits: DepositLimits,
+  depositLimits: InterestDepositLimits,
   coin: CoinType,
   depositAmount: string
 ): boolean => {
-  const { depositLimits } = interestDepositLimits
+  const { interestDepositLimits } = depositLimits
 
-  if (!depositLimits || depositLimits.length === 0) {
+  if (!interestDepositLimits || interestDepositLimits.length === 0) {
     return false
   }
 
-  const coinLimit = depositLimits.find((dep) => dep.savingsCurrency === coin)?.amount || 0
+  const coinLimit = interestDepositLimits.find((dep) => dep.savingsCurrency === coin)?.amount || 0
   // compare entered amount with deposit limit for current coin
   return Number(depositAmount) > coinLimit
 }
@@ -74,13 +74,13 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const {
     analyticsActions,
     coin,
-    depositLimits,
     displayCoin,
     formActions,
     formErrors,
     handleDisplayToggle,
     interestAccount,
     interestActions,
+    interestDepositLimits,
     interestEDDDepositLimits,
     interestEDDStatus,
     interestLimits,
@@ -111,7 +111,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const loanTimeFrame = values && values.loanTimeFrame
   const lockUpDuration = interestLimits[coin]?.lockUpDuration || 7200
   const lockupPeriod = lockUpDuration / 86400
-  const maxDepositFiat = maxFiat(depositLimits.maxFiat, walletCurrency)
+  const maxDepositFiat = maxFiat(interestDepositLimits.maxFiat, walletCurrency)
 
   const fromAccountType =
     interestAccount?.type === SwapBaseCounterTypes.CUSTODIAL ? 'TRADING' : 'USERKEY'
@@ -223,13 +223,13 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     formActions.change(
                       FORM_NAME,
                       'depositAmount',
-                      displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat
+                      displayCoin ? interestDepositLimits.maxCoin : interestDepositLimits.maxFiat
                     )
                   }
                 >
                   {displayCoin ? (
                     <Text color='blue600' size='14px' weight={500}>
-                      {depositLimits.maxCoin}{' '}
+                      {interestDepositLimits.maxCoin}{' '}
                     </Text>
                   ) : (
                     <Text color='blue600' size='14px' weight={500}>
@@ -334,10 +334,10 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     defaultMessage='Maximum transfer: {maxFiat}'
                     values={{
                       maxFiat: displayCoin
-                        ? depositLimits.maxCoin
+                        ? interestDepositLimits.maxCoin
                         : fiatToString({
                             unit: walletCurrency,
-                            value: depositLimits.maxFiat
+                            value: interestDepositLimits.maxFiat
                           })
                     }}
                   />
@@ -347,7 +347,9 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   role='button'
                   onClick={() => {
                     interestActions.handleTransferMaxAmountClick({
-                      amount: displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat,
+                      amount: displayCoin
+                        ? interestDepositLimits.maxCoin
+                        : interestDepositLimits.maxFiat,
                       coin: displayCoin || walletCurrency
                     })
 
@@ -375,10 +377,10 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     defaultMessage='Minimum transfer: {minFiat}'
                     values={{
                       minFiat: displayCoin
-                        ? depositLimits.minCoin
+                        ? interestDepositLimits.minCoin
                         : fiatToString({
                             unit: walletCurrency,
-                            value: depositLimits.minFiat
+                            value: interestDepositLimits.minFiat
                           })
                     }}
                   />
@@ -388,7 +390,9 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   role='button'
                   onClick={() =>
                     interestActions.handleTransferMinAmountClick({
-                      amount: displayCoin ? depositLimits.minCoin : depositLimits.minFiat,
+                      amount: displayCoin
+                        ? interestDepositLimits.minCoin
+                        : interestDepositLimits.minFiat,
                       coin: displayCoin || walletCurrency
                     })
                   }

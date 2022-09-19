@@ -29,7 +29,7 @@ export const getData = (state: RootState) => {
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
   const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
   const interestRatesR = selectors.components.interest.getInterestRates(state)
-  const depositLimits = selectors.components.interest.getDepositLimits(state)
+  const interestDepositLimits = selectors.components.interest.getInterestDepositLimits(state)
   const displayCoin = selectors.components.interest.getIsAmountDisplayedInCrypto(state)
   const ethRatesR = selectors.core.data.misc.getRatesSelector('ETH', state)
   const paymentR = selectors.components.interest.getPayment(state)
@@ -78,14 +78,13 @@ export const getData = (state: RootState) => {
       })
 
       return {
-        coin,
-        depositLimits,
         displayCoin,
         ethRates,
         feeCrypto,
         feeFiat,
         formErrors,
         interestAccount,
+        interestDepositLimits,
         interestEDDDepositLimits,
         interestEDDStatus,
         interestLimits,

@@ -98,7 +98,8 @@ export const getInterestTransactionsReport = (state: RootState) =>
 
 export const getInterestTransactions = (state: RootState) => state.components.interest.transactions
 
-export const getDepositLimits = (state: RootState) => state.components.interest.depositLimits
+export const getInterestDepositLimits = (state: RootState) =>
+  state.components.interest.interestDepositLimits
 
 export const getPayment = (state: RootState) => state.components.interest.payment
 
