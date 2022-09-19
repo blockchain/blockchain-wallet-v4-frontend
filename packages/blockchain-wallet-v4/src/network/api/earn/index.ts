@@ -13,6 +13,7 @@ import {
   InterestTransactionResponseType,
   InterestWithdrawalResponseType,
   RewardsRatesType,
+  StakingAccountType,
   StakingLimitsResponse,
   StakingRatesType,
   UploadDocumentDetails,
@@ -85,6 +86,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     authorizedGet({
       endPoint: `/payments/accounts/savings?ccy=${ccy}`,
       ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
+  const getStakingAccount = (): StakingAccountType =>
+    authorizedGet({
+      endPoint: `/accounts/staking`,
       url: nabuUrl
     })
 
@@ -197,6 +204,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getSavingsEDDDepositLimits,
     getSavingsEDDStatus,
     getSavingsEDDWithdrawLimits,
+    getStakingAccount,
     getStakingEligible,
     getStakingLimits,
     getStakingRates,

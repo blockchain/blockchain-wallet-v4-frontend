@@ -75,6 +75,23 @@ export type StakingRatesType = {
   }
 }
 
+export type StakingAccountCoinType = {
+  balance: string
+  depositsBonding: string
+  locked: string
+  pendingDeposit: string
+  pendingRewards: string
+  pendingWithdrawal: string
+  totalRewards: string
+  withdrawalsUnbonding: string
+}
+
+export type StakingAccountType =
+  | {
+      [key in CoinType]: StakingAccountCoinType
+    }
+  | undefined
+
 export type InterestTransactionType = {
   amount: {
     symbol: CoinType
