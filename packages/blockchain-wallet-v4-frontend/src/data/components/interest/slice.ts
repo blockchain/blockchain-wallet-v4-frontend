@@ -11,6 +11,7 @@ import {
   InterestLimitsType,
   InterestTransactionType,
   RewardsRatesType,
+  StakingLimitsType,
   StakingRatesType,
   WithdrawalMinimumTypeResponse,
   WithdrawLimits
@@ -54,6 +55,7 @@ const initialState: InterestState = {
     name: 'ACCOUNT_SUMMARY'
   },
   stakingEligible: Remote.NotAsked,
+  stakingLimits: Remote.NotAsked,
   stakingRates: Remote.NotAsked,
   stakingStep: {
     data: {},
@@ -302,17 +304,26 @@ const interestSlice = createSlice({
 
     // Staking ELIGIBLE
     fetchStakingEligible: () => {},
-
     fetchStakingEligibleFailure: (state, action: PayloadAction<string>) => {
       state.stakingEligible = Remote.Failure(action.payload)
     },
-
     fetchStakingEligibleLoading: (state) => {
       state.stakingEligible = Remote.Loading
     },
-
     fetchStakingEligibleSuccess: (state, action: PayloadAction<EarnEligibleType>) => {
       state.stakingEligible = Remote.Success(action.payload)
+    },
+
+    // STAKING LIMITS
+    fetchStakingLimits: () => {},
+    fetchStakingLimitsFailure: (state, action: PayloadAction<string>) => {
+      state.stakingLimits = Remote.Failure(action.payload)
+    },
+    fetchStakingLimitsLoading: (state) => {
+      state.stakingLimits = Remote.Loading
+    },
+    fetchStakingLimitsSuccess: (state, action: PayloadAction<StakingLimitsType>) => {
+      state.stakingLimits = Remote.Success(action.payload)
     },
 
     // Staking RATES

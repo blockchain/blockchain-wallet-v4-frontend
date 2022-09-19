@@ -5,7 +5,7 @@ import { APIType } from '@core/network/api'
 import { actionTypes } from 'data'
 
 import sagas from './sagas'
-import { actions, fetchInterestLimits } from './slice'
+import { actions } from './slice'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const interestSagas = sagas({ api, coreSagas, networks })
@@ -14,7 +14,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield takeLatest(actions.fetchInterestBalance.type, interestSagas.fetchInterestBalance)
     yield takeLatest(actions.fetchInterestEligible.type, interestSagas.fetchInterestEligible)
     yield takeLatest(actions.fetchEarnInstruments.type, interestSagas.fetchEarnInstruments)
-    yield takeLatest(fetchInterestLimits.type, interestSagas.fetchInterestLimits)
+    yield takeLatest(actions.fetchInterestLimits.type, interestSagas.fetchInterestLimits)
+    yield takeLatest(actions.fetchStakingLimits.type, interestSagas.fetchStakingLimits)
     yield takeLatest(actions.fetchInterestAccount.type, interestSagas.fetchInterestAccount)
     yield takeLatest(actions.fetchInterestRates.type, interestSagas.fetchInterestRates)
     yield takeLatest(actions.fetchStakingRates.type, interestSagas.fetchStakingRates)

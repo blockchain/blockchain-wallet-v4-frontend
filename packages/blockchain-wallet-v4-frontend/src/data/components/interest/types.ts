@@ -13,6 +13,7 @@ import {
   PaymentValue,
   RemoteDataType,
   RewardsRatesType,
+  StakingLimitsType,
   StakingRatesType,
   WithdrawalMinimumType,
   WithdrawLimits
@@ -99,6 +100,7 @@ export interface InterestState {
     name: InterestStep
   }
   stakingEligible: RemoteDataType<string, EarnEligibleType>
+  stakingLimits: RemoteDataType<string, StakingLimitsType>
   stakingRates: RemoteDataType<string, StakingRatesType['rates']>
   stakingStep: {
     data: InterestStepMetadata

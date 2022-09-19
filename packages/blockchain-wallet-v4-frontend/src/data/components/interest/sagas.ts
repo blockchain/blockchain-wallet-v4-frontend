@@ -147,6 +147,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const fetchStakingLimits = function* () {
+    console.log('test')
+    try {
+      yield put(A.fetchStakingLimitsLoading())
+      const response: ReturnType<typeof api.getStakingLimits> = yield call(api.getStakingLimits)
+      yield put(A.fetchStakingLimitsSuccess(response.limits))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchStakingLimitsFailure(error))
+    }
+  }
+
   const fetchInterestAccount = function* ({ payload }: ReturnType<typeof A.fetchInterestAccount>) {
     const { coin } = payload
     try {
@@ -695,6 +707,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchInterestTransactionsReport,
     fetchShowInterestCardAfterTransaction,
     fetchStakingEligible,
+    fetchStakingLimits,
     fetchStakingRates,
     formChanged,
     handleTransferMaxAmountClick,

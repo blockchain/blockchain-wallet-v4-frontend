@@ -81,6 +81,8 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
 
 export const getInterestLimits = (state: RootState) => state.components.interest.interestLimits
 
+export const getStakingLimits = (state: RootState) => state.components.interest.stakingLimits
+
 export const getInterestAccount = (state: RootState) => state.components.interest.account
 
 export const getDepositAddress = (state: RootState) => {
