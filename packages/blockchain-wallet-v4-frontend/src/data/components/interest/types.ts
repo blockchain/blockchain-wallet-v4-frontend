@@ -25,7 +25,7 @@ import {
 export type InterestDepositFormType = {
   agreement: boolean
   depositAmount: number
-  interestDepositAccount: AccountTypes
+  earnDepositAccount: AccountTypes
   loanTimeFrame: 'long' | 'short'
   terms: boolean
 }

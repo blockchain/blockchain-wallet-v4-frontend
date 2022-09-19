@@ -266,8 +266,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const coin = S.getCoinType(yield select())
       const rates = S.getRates(yield select()).getOrElse({} as RatesType)
       const rate = rates.price
-      const isCustodialAccountSelected =
-        prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
+      const isCustodialAccountSelected = prop('type', formValues.earnDepositAccount) === 'CUSTODIAL'
 
       switch (action.meta.field) {
         case 'depositAmount':
@@ -284,7 +283,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
             const paymentAmount = generateProvisionalPaymentAmount(coin, value)
             payment = yield payment.amount(paymentAmount || 0)
-            if (formValues.interestDepositAccount.balance > 0) {
+            if (formValues.earnDepositAccount.balance > 0) {
               payment = yield payment.build()
               yield put(A.setPaymentSuccess({ payment: payment.value() }))
             } else {
@@ -292,7 +291,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             }
           }
           break
-        case 'interestDepositAccount':
+        case 'earnDepositAccount':
           // focus amount to ensure deposit amount validation will be triggered
           yield put(actions.form.focus(DEPOSIT_FORM, 'depositAmount'))
 
@@ -307,8 +306,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           } else {
             // noncustodial account selected
             const depositPayment: PaymentValue = yield call(createPayment, {
-              ...formValues.interestDepositAccount,
-              address: getAccountIndexOrAccount(coin, formValues.interestDepositAccount)
+              ...formValues.earnDepositAccount,
+              address: getAccountIndexOrAccount(coin, formValues.earnDepositAccount)
             })
             yield call(createInterestLimits, depositPayment)
             yield put(A.setPaymentSuccess({ payment: depositPayment }))
@@ -404,7 +403,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         initialize(DEPOSIT_FORM, {
           coin,
           currency,
-          interestDepositAccount: initialAccount
+          earnDepositAccount: initialAccount
         })
       )
     } catch (e) {
@@ -438,7 +437,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   //       initialize(DEPOSIT_FORM, {
   //         coin,
   //         currency,
-  //         interestDepositAccount: initialAccount
+  //         earnDepositAccount: initialAccount
   //       })
   //     )
   //   } catch (e) {
@@ -491,7 +490,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const formValues: InterestDepositFormType = yield select(
         selectors.form.getFormValues(DEPOSIT_FORM)
       )
-      const isCustodialDeposit = formValues.interestDepositAccount.type === 'CUSTODIAL'
+      const isCustodialDeposit = formValues.earnDepositAccount.type === 'CUSTODIAL'
       const coin = S.getCoinType(yield select())
 
       // custodial account deposit

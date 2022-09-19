@@ -9,7 +9,6 @@ import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 
 import Loading from '../Staking.template.loading'
-import { FORM_NAME } from './DepositForm.model'
 import { getCurrency, getData, getUnderSanctionsMessage } from './DepositForm.selectors'
 import Success from './DepositForm.template.success'
 
@@ -34,7 +33,7 @@ class DepositForm extends PureComponent<Props> {
     const { coin, currency, earnActions } = this.props
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
 
-    earnActions.initializeInterestDepositForm({ coin, currency: walletCurrency })
+    earnActions.initializeStakingDepositForm({ coin, currency: walletCurrency })
   }
 
   render() {

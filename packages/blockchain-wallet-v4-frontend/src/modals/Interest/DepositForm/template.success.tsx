@@ -106,7 +106,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const depositAmount = (values && values.depositAmount) || '0'
   const isCustodial =
-    values && values?.interestDepositAccount && values.interestDepositAccount.type === 'CUSTODIAL'
+    values && values?.earnDepositAccount && values.earnDepositAccount.type === 'CUSTODIAL'
 
   const depositAmountFiat = amountToFiat(displayCoin, depositAmount, coin, walletCurrency, rates)
   const depositAmountCrypto = amountToCrypto(
@@ -282,7 +282,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
           {...props}
           includeCustodial
           fiatCurrency={walletCurrency}
-          name='interestDepositAccount'
+          name='earnDepositAccount'
         />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
