@@ -3,9 +3,10 @@ import { CoinType, FiatType, WalletFiatType } from '@core/types'
 import {
   EarnAccountBalanceResponseType,
   EarnAccountBalanceType,
+  EarnAccountResponseType,
+  EarnAccountType,
   EarnEligibleType,
   FileUploadItem,
-  InterestAccountType,
   InterestAfterTransactionType,
   InterestDepositLimits,
   InterestEDDDocumentsResponse,
@@ -87,9 +88,9 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getInterestAccount = (ccy: CoinType): InterestAccountType =>
+  const getEarnAccount = ({ coin, product }: EarnAccountType): EarnAccountResponseType =>
     authorizedGet({
-      endPoint: `/payments/accounts/savings?ccy=${ccy}`,
+      endPoint: `/payments/accounts/${product}?ccy=${coin}`,
       ignoreQueryParams: true,
       url: nabuUrl
     })
@@ -200,8 +201,8 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
 
   return {
     getEDDDocumentsLimits,
+    getEarnAccount,
     getEarnAccountBalance,
-    getInterestAccount,
     getInterestCtaAfterTransaction,
     getInterestEligible,
     getInterestLimits,

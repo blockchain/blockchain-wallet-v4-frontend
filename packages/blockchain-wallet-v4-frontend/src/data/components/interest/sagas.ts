@@ -10,6 +10,7 @@ import {
   BSBalancesType,
   CoinType,
   EarnAccountBalanceType,
+  EarnAccountType,
   InterestAfterTransactionType,
   PaymentValue,
   Product,
@@ -168,10 +169,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { coin } = payload
     try {
       yield put(A.fetchInterestAccountLoading())
-      const paymentAccount: ReturnType<typeof api.getInterestAccount> = yield call(
-        api.getInterestAccount,
-        coin as CoinType
-      )
+      const paymentAccount: ReturnType<typeof api.getEarnAccount> = yield call(api.getEarnAccount, {
+        coin,
+        product: 'savings'
+      } as EarnAccountType)
       yield put(A.fetchInterestAccountSuccess({ ...paymentAccount }))
       yield put(A.setUnderSanctions({ message: null }))
     } catch (e) {

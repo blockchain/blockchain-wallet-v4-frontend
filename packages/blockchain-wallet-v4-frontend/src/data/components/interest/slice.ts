@@ -3,8 +3,8 @@ import { append, assoc, compose, dropLast, lensProp, over } from 'ramda'
 
 import {
   EarnAccountBalanceResponseType,
+  EarnAccountResponseType,
   EarnEligibleType,
-  InterestAccountType,
   InterestAfterTransactionType,
   InterestDepositLimits,
   InterestEDDStatus,
@@ -159,7 +159,7 @@ const interestSlice = createSlice({
       state.account = Remote.Loading
     },
 
-    fetchInterestAccountSuccess: (state, action: PayloadAction<InterestAccountType>) => {
+    fetchInterestAccountSuccess: (state, action: PayloadAction<EarnAccountResponseType>) => {
       state.account = Remote.Success(action.payload)
     },
 

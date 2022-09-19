@@ -1,9 +1,11 @@
 import { CoinType, FiatType, NabuMoneyFloatType, WalletFiatType } from '@core/types'
 
+type ProductType = 'staking' | 'savings'
+
 export type EarnAccountBalanceType = {
   ccy?: CoinType
   din?: FiatType
-  product: 'staking' | 'savings'
+  product: ProductType
 }
 
 export type EarnBalanceType = {
@@ -62,7 +64,12 @@ export type InterestLimitsType = {
   }
 }
 
-export type InterestAccountType = {
+export type EarnAccountType = {
+  coin: CoinType
+  product: ProductType
+}
+
+export type EarnAccountResponseType = {
   accountRef: string // actually the btc deposit address
 }
 
