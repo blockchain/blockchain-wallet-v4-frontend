@@ -78,6 +78,7 @@ export const GreyBlueCartridge = styled(CustomCartridge)`
   color: ${(props) => props.theme.blue600};
   cursor: pointer;
   margin-left: 10px;
+  min-width: 86px;
 `
 export const TermsContainer = styled.div`
   margin: -3px 0 24px 0;

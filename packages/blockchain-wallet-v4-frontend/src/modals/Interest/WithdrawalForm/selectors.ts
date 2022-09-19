@@ -6,7 +6,7 @@ import { selectors } from 'data'
 const getData = (state) => {
   const coin = selectors.components.interest.getCoinType(state)
   const displayCoin = selectors.components.interest.getIsAmountDisplayedInCrypto(state)
-  const accountBalancesR = selectors.components.interest.getInterestAccountBalance(state)
+  const accountBalancesR = selectors.components.interest.getRewardsAccountBalance(state)
   const ratesR = selectors.components.interest.getRates(state)
   const withdrawalMinimumsR = selectors.components.interest.getWithdrawalMinimums(state)
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)

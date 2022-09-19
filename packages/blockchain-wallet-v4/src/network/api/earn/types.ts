@@ -43,15 +43,15 @@ type LimitDetails = {
   savingsCurrency: CoinType
 }
 
-export type InterestDepositLimits = {
-  interestDepositLimits: LimitDetails[] | []
+export type EarnDepositLimits = {
+  earnDepositLimits: LimitDetails[] | []
 }
 
 export type WithdrawLimits = {
   withdrawLimits: LimitDetails
 }
 
-export type InterestFormErrorsType = {
+export type EarnDepositErrorsType = {
   depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean
 }
 

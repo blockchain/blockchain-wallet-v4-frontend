@@ -2,15 +2,17 @@ import { lift, pathOr, propOr } from 'ramda'
 
 import { Exchange } from '@core'
 import {
+  EarnDepositErrorsType,
   ExtractSuccess,
   FiatType,
   InterestAfterTransactionType,
-  InterestFormErrorsType,
   RemoteDataType
 } from '@core/types'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
+
+import { FORM_NAME } from './DepositForm.model'
 
 export const getCurrency = (state) => {
   return selectors.core.settings.getCurrency(state)
@@ -23,12 +25,10 @@ export const getUnderSanctionsMessage = (state) => {
 export const getData = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.components.interest.getRates(state)
-  const formErrors = selectors.form.getFormSyncErrors('interestDepositForm')(
-    state
-  ) as InterestFormErrorsType
+  const formErrors = selectors.form.getFormSyncErrors(FORM_NAME)(state) as EarnDepositErrorsType
   const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
   const interestRatesR = selectors.components.interest.getInterestRates(state)
-  const stakingDepositLimits = selectors.components.interest.getStakingDepositLimits(state)
+  const earnDepositLimits = selectors.components.interest.getEarnDepositLimits(state)
   const ethRatesR = selectors.core.data.misc.getRatesSelector('ETH', state)
   const paymentR = selectors.components.interest.getPayment(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state) as RemoteDataType<
@@ -37,7 +37,7 @@ export const getData = (state: RootState) => {
   >
   const interestEDDDepositLimitsR = selectors.components.interest.getInterestEDDDepositLimits(state)
   const interestAccount = selectors.components.interest
-    .getInterestAccount(state)
+    .getStakingAccount(state)
     .getOrElse({ accountRef: '' })
 
   const afterTransaction = selectors.components.interest
@@ -75,6 +75,7 @@ export const getData = (state: RootState) => {
       })
 
       return {
+        earnDepositLimits,
         ethRates,
         feeCrypto,
         feeFiat,
@@ -85,8 +86,7 @@ export const getData = (state: RootState) => {
         interestRates,
         payment,
         prefillAmount,
-        rates,
-        stakingDepositLimits
+        rates
       }
     }
   )(

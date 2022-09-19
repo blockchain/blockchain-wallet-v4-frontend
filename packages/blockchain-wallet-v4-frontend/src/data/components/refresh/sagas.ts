@@ -44,7 +44,7 @@ export default () => {
       yield put(actions.core.data.eth.fetchData())
       yield put(actions.core.data.xlm.fetchData())
       yield put(actions.core.data.eth.fetchErc20Data())
-      yield put(actions.components.interest.fetchInterestBalance())
+      yield put(actions.components.interest.fetchRewardsBalance())
       yield put(actions.components.buySell.fetchBalance({}))
       yield put(actions.components.buySell.fetchOrders())
       // TODO: SELF_CUSTODY, remove

@@ -4,7 +4,7 @@ import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 
 export const getData = (state) => {
-  const interestAccountBalanceR = selectors.components.interest.getInterestAccountBalance(state)
+  const interestAccountBalanceR = selectors.components.interest.getRewardsAccountBalance(state)
   const interestEligibleR = selectors.components.interest.getInterestEligible(state)
   const stakingEligibleR = selectors.components.interest.getStakingEligible(state)
   const showInterestInfoBox = selectors.preferences.getShowInterestInfoBox(state) as boolean

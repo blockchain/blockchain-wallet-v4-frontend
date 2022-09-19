@@ -28,9 +28,15 @@ import { convertStandardToBase } from '../exchange/services'
 import utils from './sagas.utils'
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { EarnInstrumentsType, InterestDepositFormType, InterestWithdrawalFormType } from './types'
+import {
+  EarnInstrumentsType,
+  InterestWithdrawalFormType,
+  RewardsDepositFormType,
+  StakingDepositFormType
+} from './types'
 
-const DEPOSIT_FORM = 'interestDepositForm'
+const REWARDS_DEPOSIT_FORM = 'rewardsDepositForm'
+const STAKING_DEPOSIT_FORM = 'stakingDepositForm'
 const WITHDRAWAL_FORM = 'interestWithdrawalForm'
 export const logLocation = 'components/interest/sagas'
 
@@ -38,8 +44,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const { isTier2 } = profileSagas({ api, coreSagas, networks })
   const {
     buildAndPublishPayment,
-    createInterestLimits,
     createPayment,
+    createRewardsLimits,
     createStakingLimits,
     getCustodialAccountForCoin
   } = utils({
@@ -64,18 +70,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return account.address
   }
 
-  const fetchInterestBalance = function* () {
+  const fetchRewardsBalance = function* () {
     try {
-      yield put(A.fetchInterestBalanceLoading())
-      if (!(yield call(isTier2))) return yield put(A.fetchInterestBalanceSuccess({}))
+      yield put(A.fetchRewardsBalanceLoading())
+      if (!(yield call(isTier2))) return yield put(A.fetchRewardsBalanceSuccess({}))
       const response: ReturnType<typeof api.getEarnAccountBalance> = yield call(
         api.getEarnAccountBalance,
         { product: 'savings' } as EarnAccountBalanceType
       )
-      yield put(A.fetchInterestBalanceSuccess(response || {}))
+      yield put(A.fetchRewardsBalanceSuccess(response || {}))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchInterestBalanceFailure(error))
+      yield put(A.fetchRewardsBalanceFailure(error))
+    }
+  }
+
+  const fetchStakingBalance = function* () {
+    try {
+      yield put(A.fetchStakingBalanceLoading())
+      if (!(yield call(isTier2))) return yield put(A.fetchStakingBalanceSuccess({}))
+      const response: ReturnType<typeof api.getEarnAccountBalance> = yield call(
+        api.getEarnAccountBalance,
+        { product: 'staking' } as EarnAccountBalanceType
+      )
+      yield put(A.fetchStakingBalanceSuccess(response || {}))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchStakingBalanceFailure(error))
     }
   }
 
@@ -165,15 +186,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchInterestAccount = function* ({ payload }: ReturnType<typeof A.fetchInterestAccount>) {
+  const fetchRewardsAccount = function* ({ payload }: ReturnType<typeof A.fetchRewardsAccount>) {
     const { coin } = payload
     try {
-      yield put(A.fetchInterestAccountLoading())
+      yield put(A.fetchRewardsAccountLoading())
       const paymentAccount: ReturnType<typeof api.getEarnAccount> = yield call(api.getEarnAccount, {
         coin,
         product: 'savings'
       } as EarnAccountType)
-      yield put(A.fetchInterestAccountSuccess({ ...paymentAccount }))
+      yield put(A.fetchRewardsAccountSuccess({ ...paymentAccount }))
       yield put(A.setUnderSanctions({ message: null }))
     } catch (e) {
       const error = errorHandler(e)
@@ -181,19 +202,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (errorCode === CustodialSanctionsErrorCodeEnum.EU_5_SANCTION_ERROR) {
         yield put(A.setUnderSanctions({ message: e?.ux?.message }))
       }
-      yield put(A.fetchInterestAccountFailure(error))
+      yield put(A.fetchRewardsAccountFailure(error))
     }
   }
 
   const fetchStakingAccount = function* ({ payload }: ReturnType<typeof A.fetchStakingAccount>) {
     const { coin } = payload
     try {
-      yield put(A.fetchInterestAccountLoading())
+      yield put(A.fetchStakingAccountLoading())
       const paymentAccount: ReturnType<typeof api.getEarnAccount> = yield call(api.getEarnAccount, {
         coin,
         product: 'staking'
       } as EarnAccountType)
-      yield put(A.fetchInterestAccountSuccess({ ...paymentAccount }))
+      yield put(A.fetchStakingAccountSuccess({ ...paymentAccount }))
       yield put(A.setUnderSanctions({ message: null }))
     } catch (e) {
       const error = errorHandler(e)
@@ -201,7 +222,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (errorCode === CustodialSanctionsErrorCodeEnum.EU_5_SANCTION_ERROR) {
         yield put(A.setUnderSanctions({ message: e?.ux?.message }))
       }
-      yield put(A.fetchInterestAccountFailure(error))
+      yield put(A.fetchStakingAccountFailure(error))
     }
   }
 
@@ -277,20 +298,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const formChanged = function* (action: FormAction) {
     const { form } = action.meta
-    if (form !== DEPOSIT_FORM) return
+    const isStaking = form === STAKING_DEPOSIT_FORM
+    if (!(form === REWARDS_DEPOSIT_FORM || isStaking)) return
 
     try {
-      const formValues: InterestDepositFormType = yield select(
-        selectors.form.getFormValues(DEPOSIT_FORM)
+      const formValues: RewardsDepositFormType | StakingDepositFormType = yield select(
+        selectors.form.getFormValues(form)
       )
       const coin = S.getCoinType(yield select())
       const rates = S.getRates(yield select()).getOrElse({} as RatesType)
       const rate = rates.price
-      const isCustodialAccountSelected = prop('type', formValues.earnDepositAccount) === 'CUSTODIAL'
+      const isNonCustodialAccountSelected =
+        prop('type', formValues.earnDepositAccount) === 'ACCOUNT'
 
       switch (action.meta.field) {
         case 'depositAmount':
-          if (isCustodialAccountSelected) {
+          if (!isNonCustodialAccountSelected) {
             return yield put(A.setPaymentSuccess({ payment: undefined }))
           }
           const isAmountDisplayedInCrypto = S.getIsAmountDisplayedInCrypto(yield select())
@@ -313,15 +336,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           break
         case 'earnDepositAccount':
           // focus amount to ensure deposit amount validation will be triggered
-          yield put(actions.form.focus(DEPOSIT_FORM, 'depositAmount'))
-
+          yield put(actions.form.focus(form, 'depositAmount'))
+          const createLimits = isStaking ? createStakingLimits : createRewardsLimits
           // custodial account selected
-          if (isCustodialAccountSelected) {
+          if (!isNonCustodialAccountSelected) {
             const custodialBalances: BSBalancesType = (yield select(
               selectors.components.buySell.getBSBalances
             )).getOrFail('Failed to get balance')
 
-            yield call(createInterestLimits, undefined, custodialBalances)
+            yield call(createLimits, undefined, custodialBalances)
             yield put(A.setPaymentSuccess({ payment: undefined }))
           } else {
             // noncustodial account selected
@@ -329,7 +352,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               ...formValues.earnDepositAccount,
               address: getAccountIndexOrAccount(coin, formValues.earnDepositAccount)
             })
-            yield call(createInterestLimits, depositPayment)
+            yield call(createLimits, depositPayment)
             yield put(A.setPaymentSuccess({ payment: depositPayment }))
           }
           break
@@ -342,18 +365,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const handleTransferMaxAmountClick = function* ({
-    payload: { amount }
+    payload: { amount, formName }
   }: ReturnType<typeof A.handleTransferMaxAmountClick>) {
-    yield put(actions.form.change('interestDepositForm', 'depositAmount', amount))
+    yield put(actions.form.change(formName, 'depositAmount', amount))
   }
 
   const handleTransferMinAmountClick = function* ({
-    payload: { amount }
+    payload: { amount, formName }
   }: ReturnType<typeof A.handleTransferMinAmountClick>) {
-    yield put(actions.form.change('interestDepositForm', 'depositAmount', amount))
+    yield put(actions.form.change(formName, 'depositAmount', amount))
   }
 
-  const initializeCustodialAccountForm = function* (coin) {
+  const initializeCustodialAccountForm = function* (coin, createLimits) {
     // re-fetch the custodial balances to ensure we have the latest for proper form initialization
     yield put(actions.components.buySell.fetchBalance({ skipLoading: true }))
     // wait until balances are loaded we must have deep equal objects to initialize form correctly
@@ -367,15 +390,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const custodialAccount = (yield call(getCustodialAccountForCoin, coin)).getOrFail(
       'Failed to fetch account'
     )
-    yield call(createInterestLimits, undefined, custodialBalances)
+    yield call(createLimits, undefined, custodialBalances)
     yield put(A.setPaymentSuccess({ payment: undefined }))
 
     return custodialAccount
   }
 
-  const initializeNonCustodialAccountForm = function* (coin) {
+  const initializeNonCustodialAccountForm = function* (coin, createLimits, isStaking) {
     // fetch deposit address to build provisional payment
-    const depositAddr = yield select(S.getDepositAddress)
+    const depositAddr = isStaking
+      ? yield select(S.getStakingDepositAddress)
+      : yield select(S.getRewardsDepositAddress)
     // abort if deposit address missing
     if (isEmpty(depositAddr) || isNil(depositAddr)) {
       throw new Error('Missing deposit address')
@@ -391,12 +416,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let newPayment = yield getOrUpdateProvisionalPaymentForCoin(coin, Remote.of(payment))
     newPayment = yield newPayment.to(depositAddress, 'ADDRESS')
     newPayment = yield newPayment.value()
-    yield call(createInterestLimits, newPayment)
+    yield call(createLimits, newPayment)
     yield put(A.setPaymentSuccess({ payment: newPayment }))
 
     return noncustodialAccount
   }
-
   const initializeInterestDepositForm = function* ({
     payload
   }: ReturnType<typeof A.initializeInterestDepositForm>) {
@@ -405,22 +429,27 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let initialAccount
 
     try {
-      yield put(A.fetchInterestAccount({ coin }))
-      yield take([A.fetchInterestAccountSuccess.type, A.fetchInterestAccountFailure.type])
+      yield put(A.fetchRewardsAccount({ coin }))
+      yield take([A.fetchRewardsAccountSuccess.type, A.fetchRewardsAccountFailure.type])
       yield put(A.setPaymentLoading())
       yield put(A.fetchInterestLimits({ coin, currency }))
       yield take([A.fetchInterestLimitsSuccess.type, A.fetchInterestLimitsFailure.type])
 
       // initialize the form depending upon account types for coin
       if (coinfig.products.includes('PrivateKey')) {
-        initialAccount = yield call(initializeNonCustodialAccountForm, coin)
+        initialAccount = yield call(
+          initializeNonCustodialAccountForm,
+          coin,
+          createRewardsLimits,
+          false
+        )
       } else {
-        initialAccount = yield call(initializeCustodialAccountForm, coin)
+        initialAccount = yield call(initializeCustodialAccountForm, coin, createRewardsLimits)
       }
 
       // finally, initialize the form
       yield put(
-        initialize(DEPOSIT_FORM, {
+        initialize(REWARDS_DEPOSIT_FORM, {
           coin,
           currency,
           earnDepositAccount: initialAccount
@@ -431,39 +460,44 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  // const initializeStakingDepositForm = function* ({
-  //   payload
-  // }: ReturnType<typeof A.initializeStakingDepositForm>) {
-  //   const { coin, currency } = payload
-  //   const { coinfig } = window.coins[coin]
-  //   let initialAccount
+  const initializeStakingDepositForm = function* ({
+    payload
+  }: ReturnType<typeof A.initializeStakingDepositForm>) {
+    const { coin, currency } = payload
+    const { coinfig } = window.coins[coin]
+    let initialAccount
 
-  //   try {
-  //     yield put(A.fetchStakingAccount({ coin }))
-  //     yield take([A.fetchStakingAccountSuccess.type, A.fetchStakingAccountFailure.type])
-  //     yield put(A.setPaymentLoading())
-  //     yield put(A.fetchStakingLimits({ coin, currency }))
-  //     yield take([A.fetchStakingLimitsSuccess.type, A.fetchStakingLimitsFailure.type])
+    try {
+      yield put(A.fetchStakingAccount({ coin }))
+      yield take([A.fetchStakingAccountSuccess.type, A.fetchStakingAccountFailure.type])
+      yield put(A.setPaymentLoading())
+      yield put(A.fetchStakingLimits())
+      yield take([A.fetchStakingLimitsSuccess.type, A.fetchStakingLimitsFailure.type])
 
-  //     // initialize the form depending upon account types for coin
-  //     if (coinfig.products.includes('PrivateKey')) {
-  //       initialAccount = yield call(initializeNonCustodialAccountForm, coin)
-  //     } else {
-  //       initialAccount = yield call(initializeCustodialAccountForm, coin)
-  //     }
+      // initialize the form depending upon account types for coin
+      if (coinfig.products.includes('PrivateKey')) {
+        initialAccount = yield call(
+          initializeNonCustodialAccountForm,
+          coin,
+          createStakingLimits,
+          true
+        )
+      } else {
+        initialAccount = yield call(initializeCustodialAccountForm, coin, createStakingLimits)
+      }
 
-  //     // finally, initialize the form
-  //     yield put(
-  //       initialize(DEPOSIT_FORM, {
-  //         coin,
-  //         currency,
-  //         earnDepositAccount: initialAccount
-  //       })
-  //     )
-  //   } catch (e) {
-  //     yield put(A.setPaymentFailure(e))
-  //   }
-  // }
+      // finally, initialize the form
+      yield put(
+        initialize(STAKING_DEPOSIT_FORM, {
+          coin,
+          currency,
+          earnDepositAccount: initialAccount
+        })
+      )
+    } catch (e) {
+      yield put(A.setPaymentFailure(e))
+    }
+  }
 
   const initializeWithdrawalForm = function* ({
     payload
@@ -504,11 +538,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.form.change('walletTxSearch', 'search', txHash))
   }
 
-  const sendDeposit = function* () {
+  const sendDeposit = function* ({ payload }: ReturnType<typeof A.submitDepositForm>) {
+    const { formName } = payload
+    const isStaking = formName === STAKING_DEPOSIT_FORM
     try {
-      yield put(actions.form.startSubmit(DEPOSIT_FORM))
-      const formValues: InterestDepositFormType = yield select(
-        selectors.form.getFormValues(DEPOSIT_FORM)
+      yield put(actions.form.startSubmit(formName))
+      const formValues: RewardsDepositFormType | StakingDepositFormType = yield select(
+        selectors.form.getFormValues(formName)
       )
       const isCustodialDeposit = formValues.earnDepositAccount.type === 'CUSTODIAL'
       const coin = S.getCoinType(yield select())
@@ -532,7 +568,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(api.initiateCustodialTransfer, {
           amount,
           currency: coin,
-          destination: 'SAVINGS',
+          destination: isStaking ? 'STAKING' : 'SAVINGS',
           origin: 'SIMPLEBUY'
         })
       } else {
@@ -544,9 +580,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           paymentR as RemoteDataType<string, any>
         )
         // fetch deposit address
-        yield put(A.fetchInterestAccount({ coin }))
-        yield take([A.fetchInterestAccountSuccess.type, A.fetchInterestAccountFailure.type])
-        const depositAddress = yield select(S.getDepositAddress)
+        let depositAddress
+        if (isStaking) {
+          yield put(A.fetchStakingAccount({ coin }))
+          yield take([A.fetchStakingAccountSuccess.type, A.fetchStakingAccountFailure.type])
+          yield select(S.getStakingDepositAddress)
+        } else {
+          yield put(A.fetchRewardsAccount({ coin }))
+          yield take([A.fetchRewardsAccountSuccess.type, A.fetchRewardsAccountFailure.type])
+          yield select(S.getRewardsDepositAddress)
+        }
 
         // abort if deposit address missing
         if (isEmpty(depositAddress) || isNil(depositAddress)) {
@@ -575,14 +618,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(
           actions.components.send.notifyNonCustodialToCustodialTransfer(
             { ...transaction, fromType: 'ADDRESS' },
-            'SAVINGS'
+            isStaking ? 'STAKING' : 'SAVINGS'
           )
         )
       }
 
       // notify UI of success
-      yield put(actions.form.stopSubmit(DEPOSIT_FORM))
-      yield put(A.setInterestStep({ data: { depositSuccess: true }, name: 'ACCOUNT_SUMMARY' }))
+      yield put(actions.form.stopSubmit(formName))
+
+      // JJ TODO changing WARNING to ACCOUNT_SUMMARY
+      if (isStaking) {
+        yield put(A.setStakingStep({ data: { depositSuccess: true }, name: 'ACCOUNT_SUMMARY' }))
+      } else {
+        yield put(A.setRewardsStep({ data: { depositSuccess: true }, name: 'ACCOUNT_SUMMARY' }))
+      }
 
       const afterTransactionR = yield select(selectors.components.interest.getAfterTransaction)
       const afterTransaction = afterTransactionR.getOrElse({
@@ -593,20 +642,32 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield delay(3000)
-      yield put(A.fetchInterestBalance())
+      yield put(A.fetchRewardsBalance())
       yield put(A.fetchEDDStatus())
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit(DEPOSIT_FORM, { _error: error }))
-      yield put(
-        A.setInterestStep({
-          data: {
-            depositSuccess: false,
-            error
-          },
-          name: 'ACCOUNT_SUMMARY'
-        })
-      )
+      yield put(actions.form.stopSubmit(REWARDS_DEPOSIT_FORM, { _error: error }))
+      if (isStaking) {
+        yield put(
+          A.setStakingStep({
+            data: {
+              depositSuccess: false,
+              error
+            },
+            name: 'ACCOUNT_SUMMARY'
+          })
+        )
+      } else {
+        yield put(
+          A.setRewardsStep({
+            data: {
+              depositSuccess: false,
+              error
+            },
+            name: 'ACCOUNT_SUMMARY'
+          })
+        )
+      }
     }
   }
 
@@ -636,7 +697,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // notify success
       yield put(actions.form.stopSubmit(WITHDRAWAL_FORM))
       yield put(
-        A.setInterestStep({
+        A.setRewardsStep({
           data: {
             withdrawSuccess: true,
             withdrawalAmount: withdrawalAmountFiat
@@ -645,20 +706,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       )
       yield delay(3000)
-      yield put(A.fetchInterestBalance())
+      yield put(A.fetchRewardsBalance())
       yield put(A.fetchEDDStatus())
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(WITHDRAWAL_FORM, { _error: error }))
       yield put(
-        A.setInterestStep({ data: { error, withdrawSuccess: false }, name: 'ACCOUNT_SUMMARY' })
+        A.setRewardsStep({ data: { error, withdrawSuccess: false }, name: 'ACCOUNT_SUMMARY' })
       )
     }
   }
 
   const showInterestModal = function* ({ payload }: ReturnType<typeof A.showInterestModal>) {
     const { coin, step } = payload
-    yield put(A.setInterestStep({ name: step }))
+    yield put(A.setRewardsStep({ name: step }))
     yield put(
       actions.modals.showModal(ModalName.INTEREST_MODAL, {
         coin,
@@ -756,15 +817,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchEDDStatus,
     fetchEDDWithdrawLimits,
     fetchEarnInstruments,
-    fetchInterestAccount,
-    fetchInterestBalance,
     fetchInterestEligible,
     fetchInterestLimits,
     fetchInterestRates,
     fetchInterestTransactions,
     fetchInterestTransactionsReport,
+    fetchRewardsAccount,
+    fetchRewardsBalance,
     fetchShowInterestCardAfterTransaction,
     fetchStakingAccount,
+    fetchStakingBalance,
     fetchStakingEligible,
     fetchStakingLimits,
     fetchStakingRates,
@@ -772,6 +834,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     handleTransferMaxAmountClick,
     handleTransferMinAmountClick,
     initializeInterestDepositForm,
+    initializeStakingDepositForm,
     initializeWithdrawalForm,
     requestWithdrawal,
     routeToTxHash,

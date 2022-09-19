@@ -117,7 +117,7 @@ export const getEthData = (
         : Remote.of([]),
       includeInterest
         ? selectors.components.interest
-            .getInterestAccountBalance(state)
+            .getRewardsAccountBalance(state)
             .map((x) => x.ETH)
             .map(toInterestDropdown)
             .map(toGroup('Rewards Account'))
@@ -252,7 +252,7 @@ export const getErc20Data = (
         : Remote.of([]),
       includeInterest
         ? selectors.components.interest
-            .getInterestAccountBalance(state)
+            .getRewardsAccountBalance(state)
             .map((x) => x[coin])
             .map(toInterestDropdown)
             .map(toGroup('Rewards Account'))

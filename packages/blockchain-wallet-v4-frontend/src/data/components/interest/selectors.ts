@@ -7,8 +7,10 @@ import { RootState } from 'data/rootReducer'
 
 import { EarnInstrumentsType } from './types'
 
-export const getInterestAccountBalance = (state: RootState) =>
-  state.components.interest.accountBalance
+export const getRewardsAccountBalance = (state: RootState) =>
+  state.components.interest.rewardsAccountBalance
+export const getStakingAccountBalance = (state: RootState) =>
+  state.components.interest.stakingAccountBalance
 
 export const getCoinType = (state: RootState) => state.components.interest.coin
 
@@ -28,11 +30,11 @@ export const getIsStakingEnabled = (state: RootState) =>
 // If the user has a rewards balance, move those instruments to the top of the list and merge with the preferredCoins list
 export const getInstrumentsSortedByBalance = createDeepEqualSelector(
   getEarnInstruments,
-  getInterestAccountBalance,
+  getRewardsAccountBalance,
   getIsStakingEnabled,
   (
     instrumentsR: ReturnType<typeof getEarnInstruments>,
-    balancesR: ReturnType<typeof getInterestAccountBalance>,
+    balancesR: ReturnType<typeof getRewardsAccountBalance>,
     isStakingEnabledR: ReturnType<typeof getIsStakingEnabled>
   ) => {
     const transform = (
@@ -83,10 +85,17 @@ export const getInterestLimits = (state: RootState) => state.components.interest
 
 export const getStakingLimits = (state: RootState) => state.components.interest.stakingLimits
 
-export const getInterestAccount = (state: RootState) => state.components.interest.account
+export const getRewardsAccount = (state: RootState) => state.components.interest.rewardsAccount
 
-export const getDepositAddress = (state: RootState) => {
-  const account = getInterestAccount(state).getOrElse({ accountRef: '' })
+export const getStakingAccount = (state: RootState) => state.components.interest.stakingAccount
+
+export const getRewardsDepositAddress = (state: RootState) => {
+  const account = getRewardsAccount(state).getOrElse({ accountRef: '' })
+  return account.accountRef
+}
+
+export const getStakingDepositAddress = (state: RootState) => {
+  const account = getStakingAccount(state).getOrElse({ accountRef: '' })
   return account.accountRef
 }
 export const getInterestRates = (state: RootState) => state.components.interest.interestRates
@@ -98,11 +107,8 @@ export const getInterestTransactionsReport = (state: RootState) =>
 
 export const getInterestTransactions = (state: RootState) => state.components.interest.transactions
 
-export const getInterestDepositLimits = (state: RootState) =>
-  state.components.interest.interestDepositLimits
-
-export const getStakingDepositLimits = (state: RootState) =>
-  state.components.interest.stakingDepositLimits
+export const getEarnDepositLimits = (state: RootState) =>
+  state.components.interest.earnDepositLimits
 
 export const getPayment = (state: RootState) => state.components.interest.payment
 

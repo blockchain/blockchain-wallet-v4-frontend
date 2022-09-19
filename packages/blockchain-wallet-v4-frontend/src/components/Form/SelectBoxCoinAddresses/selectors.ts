@@ -108,7 +108,7 @@ export const getData = (
       : Remote.of([]),
     includeInterest
       ? selectors.components.interest
-          .getInterestAccountBalance(state)
+          .getRewardsAccountBalance(state)
           .map((x) => x[coin])
           .map(toInterestDropdown)
           .map(toGroup('Rewards Account'))

@@ -22,6 +22,7 @@ class DepositForm extends PureComponent<Props> {
         currency: coin
       }
     })
+    this.props.earnActions.setCoinDisplay({ isAmountDisplayedInCrypto: true })
     this.props.earnActions.fetchEDDDepositLimits({ currency: walletCurrency })
   }
 

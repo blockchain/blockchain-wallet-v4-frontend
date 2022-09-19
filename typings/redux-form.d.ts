@@ -21,7 +21,7 @@ export type WalletFormType =
   | 'dexSwapSettings'
   | 'dexSelectToken'
   | 'initSwap'
-  | 'interestDepositForm'
+  | 'rewardsDepositForm'
   | 'interestHistoryCoin'
   | 'interestWithdrawalForm'
   | 'linkBankForm'

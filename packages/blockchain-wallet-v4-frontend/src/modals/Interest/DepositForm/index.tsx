@@ -33,7 +33,7 @@ class DepositForm extends PureComponent<Props> {
 
     if (isCoin === displayCoin) return
 
-    formActions.clearFields('interestDepositForm', false, false, 'depositAmount')
+    formActions.clearFields('rewardsDepositForm', false, false, 'depositAmount')
 
     interestActions.setCoinDisplay({ isAmountDisplayedInCrypto: isCoin })
   }

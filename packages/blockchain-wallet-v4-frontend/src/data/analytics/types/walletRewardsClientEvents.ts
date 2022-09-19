@@ -17,8 +17,6 @@ export enum Events {
   WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED = 'Wallet Rewards Detail Deposit Clicked',
   // DETAIL: User visualises the detail of a specific token’s rewards account. Balance, accruals, and CTA are shown here.
   WALLET_REWARDS_DETAIL_VIEWED = 'Wallet Rewards Detail Viewed',
-  // Staking Modal: User clicks continue button
-  WALLET_STAKING_WARNING_CONTINUE_CLICKED = 'Wallet Staking Warning Continue Clicked',
   // ADD: Should be triggered whenever a user clicks on both boxes, not when the transfer is triggered.
   WALLET_REWARDS_SUBMIT_INFORMATION_CLICKED = 'Wallet Rewards Submit Information Clicked',
   // REWARDS HOMEPAGE: User clicks in the button to visualise his Interest transaction history.
@@ -30,7 +28,11 @@ export enum Events {
   // WITHDRAW: User clicks in Max amount button in the withdrawal page.
   WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED = 'Wallet Rewards Withdraw Max Amount Clicked',
   // WITHDRAW: User clicks on transfer on the withdrawal page.
-  WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED = 'Wallet Rewards Withdraw Transfer Clicked'
+  WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED = 'Wallet Rewards Withdraw Transfer Clicked',
+  // ADD: User clicks on transfer on the deposit page.\
+  WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED = 'Wallet Staking Deposit Transfer Clicked',
+  // Staking Modal: User clicks continue button
+  WALLET_STAKING_WARNING_CONTINUE_CLICKED = 'Wallet Staking Warning Continue Clicked'
 }
 
 // REWARDS HOMEPAGE

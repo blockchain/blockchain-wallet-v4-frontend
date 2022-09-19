@@ -119,19 +119,20 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const custodialBalance = custodialBalances && custodialBalances[coin]?.available
       const baseUnitBalance = nonCustodialBalance || custodialBalance || 0
       const minDepositAmount = limits[coin]?.minDepositValue || 1
+
       const minMaxLimits = yield call(getMinMaxLimits, {
         baseUnitBalance,
         coin,
         minDepositAmount
       })
 
-      yield put(A.setStakingDepositLimits(minMaxLimits))
+      yield put(A.setEarnDepositLimits(minMaxLimits))
     } catch (e) {
       yield put(A.setPaymentFailure(e))
     }
   }
 
-  const createInterestLimits = function* (
+  const createRewardsLimits = function* (
     payment?: PaymentValue,
     custodialBalances?: BSBalancesType
   ) {
@@ -141,7 +142,6 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
 
       const minDepositAmount = limits[coin]?.minDepositAmount || 100
-
       // determine balance to use based on args passed in
       const nonCustodialBalance = payment && payment.effectiveBalance
       const custodialBalance = custodialBalances && custodialBalances[coin]?.available
@@ -151,7 +151,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         coin,
         minDepositAmount
       })
-      yield put(A.setInterestDepositLimits(minMaxLimits))
+      yield put(A.setEarnDepositLimits(minMaxLimits))
     } catch (e) {
       yield put(A.setPaymentFailure(e))
     }
@@ -203,8 +203,8 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
   return {
     buildAndPublishPayment,
-    createInterestLimits,
     createPayment,
+    createRewardsLimits,
     createStakingLimits,
     getCustodialAccountForCoin
   }

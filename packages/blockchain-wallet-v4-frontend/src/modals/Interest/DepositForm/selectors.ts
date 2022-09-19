@@ -2,10 +2,10 @@ import { lift, pathOr, propOr } from 'ramda'
 
 import { Exchange } from '@core'
 import {
+  EarnDepositErrorsType,
   ExtractSuccess,
   FiatType,
   InterestAfterTransactionType,
-  InterestFormErrorsType,
   RemoteDataType
 } from '@core/types'
 import { selectors } from 'data'
@@ -23,13 +23,13 @@ export const getUnderSanctionsMessage = (state) => {
 export const getData = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.components.interest.getRates(state)
-  const formErrors = selectors.form.getFormSyncErrors('interestDepositForm')(
+  const formErrors = selectors.form.getFormSyncErrors('rewardsDepositForm')(
     state
-  ) as InterestFormErrorsType
+  ) as EarnDepositErrorsType
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
   const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
   const interestRatesR = selectors.components.interest.getInterestRates(state)
-  const interestDepositLimits = selectors.components.interest.getInterestDepositLimits(state)
+  const earnDepositLimits = selectors.components.interest.getEarnDepositLimits(state)
   const displayCoin = selectors.components.interest.getIsAmountDisplayedInCrypto(state)
   const ethRatesR = selectors.core.data.misc.getRatesSelector('ETH', state)
   const paymentR = selectors.components.interest.getPayment(state)
@@ -39,7 +39,7 @@ export const getData = (state: RootState) => {
   >
   const interestEDDDepositLimitsR = selectors.components.interest.getInterestEDDDepositLimits(state)
   const interestAccount = selectors.components.interest
-    .getInterestAccount(state)
+    .getRewardsAccount(state)
     .getOrElse({ accountRef: '' })
 
   const afterTransaction = selectors.components.interest
@@ -80,12 +80,12 @@ export const getData = (state: RootState) => {
       return {
         coin,
         displayCoin,
+        earnDepositLimits,
         ethRates,
         feeCrypto,
         feeFiat,
         formErrors,
         interestAccount,
-        interestDepositLimits,
         interestEDDDepositLimits,
         interestEDDStatus,
         interestLimits,

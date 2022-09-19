@@ -32,7 +32,7 @@ class Interest extends React.PureComponent<Props, StateType> {
   componentDidMount() {
     this.props.interestActions.fetchEarnInstruments()
     this.props.interestActions.fetchInterestRates()
-    this.props.interestActions.fetchInterestBalance()
+    this.props.interestActions.fetchRewardsBalance()
     this.props.interestActions.fetchEDDStatus()
     this.props.interestActions.fetchInterestEligible()
     this.props.interestActions.fetchStakingEligible()

@@ -6,7 +6,7 @@ import { CoinType, FiatType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { InterestStep, InterestStepMetadata, ModalName } from 'data/types'
+import { EarnStepMetaData, InterestStep, ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -116,7 +116,7 @@ type OwnProps = ModalPropsType
 type LinkStatePropsType = {
   coin: CoinType
   step: {
-    data: InterestStepMetadata
+    data: EarnStepMetaData
     name: InterestStep
   }
   walletCurrency: FiatType

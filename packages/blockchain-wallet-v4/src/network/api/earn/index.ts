@@ -5,10 +5,10 @@ import {
   EarnAccountBalanceType,
   EarnAccountResponseType,
   EarnAccountType,
+  EarnDepositLimits,
   EarnEligibleType,
   FileUploadItem,
   InterestAfterTransactionType,
-  InterestDepositLimits,
   InterestEDDDocumentsResponse,
   InterestEDDStatus,
   InterestLimitsType,
@@ -151,7 +151,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getSavingsEDDDepositLimits = (currency?: FiatType): InterestDepositLimits =>
+  const getSavingsEDDDepositLimits = (currency?: FiatType): EarnDepositLimits =>
     authorizedGet({
       data: {
         currency

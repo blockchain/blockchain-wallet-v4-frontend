@@ -165,7 +165,7 @@ export const getCoinTradingBalance = (coin: CoinType, state) => {
 
 // given a coin, returns its interest account balance
 export const getCoinInterestBalance = (coin: CoinType, state) => {
-  return interestSelectors.getInterestAccountBalance(state).map((x) => x[coin])
+  return interestSelectors.getRewardsAccountBalance(state).map((x) => x[coin])
 }
 
 // given a coin, returns its custodial balance
@@ -173,7 +173,7 @@ export const getCoinCustodialBalance = (
   coin: string
 ): ((state: RootState) => RemoteDataType<string, number>) =>
   createDeepEqualSelector(
-    [buySellSelectors.getBSBalances, interestSelectors.getInterestAccountBalance],
+    [buySellSelectors.getBSBalances, interestSelectors.getRewardsAccountBalance],
     (
       sbBalancesR: RemoteDataType<PartialClientErrorProperties, BSBalancesType>,
       interestAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>

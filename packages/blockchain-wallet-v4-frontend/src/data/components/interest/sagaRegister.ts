@@ -11,12 +11,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const interestSagas = sagas({ api, coreSagas, networks })
 
   return function* interestSaga() {
-    yield takeLatest(actions.fetchInterestBalance.type, interestSagas.fetchInterestBalance)
+    yield takeLatest(actions.fetchRewardsBalance.type, interestSagas.fetchRewardsBalance)
+    yield takeLatest(actions.fetchStakingBalance.type, interestSagas.fetchStakingBalance)
     yield takeLatest(actions.fetchInterestEligible.type, interestSagas.fetchInterestEligible)
     yield takeLatest(actions.fetchEarnInstruments.type, interestSagas.fetchEarnInstruments)
     yield takeLatest(actions.fetchInterestLimits.type, interestSagas.fetchInterestLimits)
     yield takeLatest(actions.fetchStakingLimits.type, interestSagas.fetchStakingLimits)
-    yield takeLatest(actions.fetchInterestAccount.type, interestSagas.fetchInterestAccount)
+    yield takeLatest(actions.fetchRewardsAccount.type, interestSagas.fetchRewardsAccount)
     yield takeLatest(actions.fetchStakingAccount.type, interestSagas.fetchStakingAccount)
     yield takeLatest(actions.fetchInterestRates.type, interestSagas.fetchInterestRates)
     yield takeLatest(actions.fetchStakingRates.type, interestSagas.fetchStakingRates)
@@ -36,6 +37,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield takeLatest(
       actions.initializeInterestDepositForm.type,
       interestSagas.initializeInterestDepositForm
+    )
+    yield takeLatest(
+      actions.initializeStakingDepositForm.type,
+      interestSagas.initializeStakingDepositForm
     )
     yield takeLatest(actions.initializeWithdrawalForm.type, interestSagas.initializeWithdrawalForm)
     yield takeLatest(actions.routeToTxHash.type, interestSagas.routeToTxHash)
@@ -59,7 +64,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         actionTypes.modules.profile.FETCH_USER_DATA_FAILURE,
         actionTypes.modules.profile.SET_API_TOKEN_FAILURE
       ],
-      interestSagas.fetchInterestBalance
+      interestSagas.fetchRewardsBalance
     )
     yield takeLatest(
       actions.fetchShowInterestCardAfterTransaction.type,
