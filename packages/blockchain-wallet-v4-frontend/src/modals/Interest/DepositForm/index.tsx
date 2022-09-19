@@ -46,7 +46,7 @@ class DepositForm extends PureComponent<Props> {
     const { coin, currency, interestActions } = this.props
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
 
-    interestActions.initializeDepositForm({ coin, currency: walletCurrency })
+    interestActions.initializeInterestDepositForm({ coin, currency: walletCurrency })
   }
 
   render() {

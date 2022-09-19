@@ -32,7 +32,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       actions.fetchInterestTransactions.type,
       interestSagas.fetchInterestTransactions
     )
-    yield takeLatest(actions.initializeDepositForm.type, interestSagas.initializeDepositForm)
+    yield takeLatest(
+      actions.initializeInterestDepositForm.type,
+      interestSagas.initializeInterestDepositForm
+    )
     yield takeLatest(actions.initializeWithdrawalForm.type, interestSagas.initializeWithdrawalForm)
     yield takeLatest(actions.routeToTxHash.type, interestSagas.routeToTxHash)
     yield takeLatest(actions.submitDepositForm.type, interestSagas.sendDeposit)

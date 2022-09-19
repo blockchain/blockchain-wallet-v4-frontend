@@ -101,6 +101,9 @@ export const getInterestTransactions = (state: RootState) => state.components.in
 export const getInterestDepositLimits = (state: RootState) =>
   state.components.interest.interestDepositLimits
 
+export const getStakingDepositLimits = (state: RootState) =>
+  state.components.interest.stakingDepositLimits
+
 export const getPayment = (state: RootState) => state.components.interest.payment
 
 export const getRates = (state: RootState): RemoteDataType<string, RatesType> => {

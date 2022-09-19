@@ -375,9 +375,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return noncustodialAccount
   }
 
-  const initializeDepositForm = function* ({
+  const initializeInterestDepositForm = function* ({
     payload
-  }: ReturnType<typeof A.initializeDepositForm>) {
+  }: ReturnType<typeof A.initializeInterestDepositForm>) {
     const { coin, currency } = payload
     const { coinfig } = window.coins[coin]
     let initialAccount
@@ -408,6 +408,40 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.setPaymentFailure(e))
     }
   }
+
+  // const initializeStakingDepositForm = function* ({
+  //   payload
+  // }: ReturnType<typeof A.initializeStakingDepositForm>) {
+  //   const { coin, currency } = payload
+  //   const { coinfig } = window.coins[coin]
+  //   let initialAccount
+
+  //   try {
+  //     yield put(A.fetchStakingAccount({ coin }))
+  //     yield take([A.fetchStakingAccountSuccess.type, A.fetchStakingAccountFailure.type])
+  //     yield put(A.setPaymentLoading())
+  //     yield put(A.fetchStakingLimits({ coin, currency }))
+  //     yield take([A.fetchStakingLimitsSuccess.type, A.fetchStakingLimitsFailure.type])
+
+  //     // initialize the form depending upon account types for coin
+  //     if (coinfig.products.includes('PrivateKey')) {
+  //       initialAccount = yield call(initializeNonCustodialAccountForm, coin)
+  //     } else {
+  //       initialAccount = yield call(initializeCustodialAccountForm, coin)
+  //     }
+
+  //     // finally, initialize the form
+  //     yield put(
+  //       initialize(DEPOSIT_FORM, {
+  //         coin,
+  //         currency,
+  //         interestDepositAccount: initialAccount
+  //       })
+  //     )
+  //   } catch (e) {
+  //     yield put(A.setPaymentFailure(e))
+  //   }
+  // }
 
   const initializeWithdrawalForm = function* ({
     payload
@@ -715,7 +749,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     formChanged,
     handleTransferMaxAmountClick,
     handleTransferMinAmountClick,
-    initializeDepositForm,
+    initializeInterestDepositForm,
     initializeWithdrawalForm,
     requestWithdrawal,
     routeToTxHash,

@@ -30,19 +30,12 @@ export type InterestDepositFormType = {
   terms: boolean
 }
 
-export type InterestMinMaxType = {
+export type EarnMinMaxType = {
   maxCoin: number
   maxFiat: number
   minCoin: number
   minFiat: number
 }
-
-export type StakingMinMaxType = {
-  maxCoin: number
-  minCoin: number
-  minFiat: number
-}
-
 export type InterestWithdrawalFormType = {
   interestWithdrawalAccount: AccountTypes
   withdrawalAmount: number
@@ -91,7 +84,7 @@ export interface InterestState {
   afterTransaction: RemoteDataType<string, InterestAfterTransactionType>
   coin: CoinType
   instruments: RemoteDataType<string, EarnInstrumentsType>
-  interestDepositLimits: InterestMinMaxType
+  interestDepositLimits: EarnMinMaxType
   interestEDDDepositLimits: RemoteDataType<string, InterestDepositLimits>
   interestEDDStatus: RemoteDataType<string, InterestEDDStatus>
   interestEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>
@@ -105,7 +98,7 @@ export interface InterestState {
     data: InterestStepMetadata
     name: InterestStep
   }
-  stakingDepositLimits: StakingMinMaxType
+  stakingDepositLimits: EarnMinMaxType
   stakingEligible: RemoteDataType<string, EarnEligibleType>
   stakingLimits: RemoteDataType<string, StakingLimitsType>
   stakingRates: RemoteDataType<string, StakingRatesType['rates']>

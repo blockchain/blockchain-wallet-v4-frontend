@@ -21,13 +21,12 @@ import { CoinType, FiatType, PaymentValue, WalletFiatType } from '@core/types'
 
 import {
   EarnInstrumentsType,
+  EarnMinMaxType,
   ErrorStringType,
   InterestLimits,
-  InterestMinMaxType,
   InterestState,
   InterestStep,
   InterestStepMetadata,
-  StakingMinMaxType,
   StakingStep
 } from './types'
 
@@ -57,6 +56,7 @@ const initialState: InterestState = {
   },
   stakingDepositLimits: {
     maxCoin: 0,
+    maxFiat: 0,
     minCoin: 0,
     minFiat: 0
   },
@@ -359,14 +359,19 @@ const interestSlice = createSlice({
     // eslint-disable-next-line
     handleWithdrawalSupplyInformation: (state, action: PayloadAction<{ origin: string }>) => {},
 
-    initializeDepositForm: (
+    initializeInterestDepositForm: (
       state,
       action: PayloadAction<{ coin: CoinType; currency: FiatType }>
     ) => {
       state.coin = action.payload.coin
     },
 
-    initializeDepositModal: () => {},
+    initializeStakingDepositForm: (
+      state,
+      action: PayloadAction<{ coin: CoinType; currency: FiatType }>
+    ) => {
+      state.coin = action.payload.coin
+    },
 
     initializeWithdrawalForm: (
       // eslint-disable-next-line
@@ -395,7 +400,7 @@ const interestSlice = createSlice({
       state.isAmountDisplayedInCrypto = action.payload.isAmountDisplayedInCrypto
     },
 
-    setInterestDepositLimits: (state, action: PayloadAction<{ limits: InterestMinMaxType }>) => {
+    setInterestDepositLimits: (state, action: PayloadAction<{ limits: EarnMinMaxType }>) => {
       state.interestDepositLimits = action.payload.limits
     },
 
@@ -422,7 +427,7 @@ const interestSlice = createSlice({
       state.payment = Remote.Success(action.payload.payment)
     },
 
-    setStakingDepositLimits: (state, action: PayloadAction<{ limits: StakingMinMaxType }>) => {
+    setStakingDepositLimits: (state, action: PayloadAction<{ limits: EarnMinMaxType }>) => {
       state.stakingDepositLimits = action.payload.limits
     },
 
@@ -531,8 +536,8 @@ export const {
   handleTransferMaxAmountClick,
   handleTransferMinAmountClick,
   handleWithdrawalSupplyInformation,
-  initializeDepositForm,
-  initializeDepositModal,
+  initializeInterestDepositForm,
+  initializeStakingDepositForm,
   initializeWithdrawalForm,
   requestWithdrawal,
   resetShowInterestCardAfterTransaction,
