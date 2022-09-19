@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 
-import { Props } from './template.success'
+import { Props } from './DepositForm.template.success'
 
 export const minDepositAmount = (value, allValues, props: Props) => {
   if (!value) return true

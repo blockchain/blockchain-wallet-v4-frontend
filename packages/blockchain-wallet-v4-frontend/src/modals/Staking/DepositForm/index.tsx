@@ -9,8 +9,8 @@ import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 
 import Loading from '../Staking.template.loading'
-import { getCurrency, getData, getUnderSanctionsMessage } from './selectors'
-import Success from './template.success'
+import { getCurrency, getData, getUnderSanctionsMessage } from './DepositForm.selectors'
+import Success from './DepositForm.template.success'
 
 class DepositForm extends PureComponent<Props> {
   componentDidMount() {
@@ -22,11 +22,11 @@ class DepositForm extends PureComponent<Props> {
         currency: coin
       }
     })
-    this.props.interestActions.fetchEDDDepositLimits({ currency: walletCurrency })
+    this.props.earnActions.fetchEDDDepositLimits({ currency: walletCurrency })
   }
 
   handleDisplayToggle = (isCoin: boolean) => {
-    const { data, formActions, interestActions } = this.props
+    const { data, earnActions, formActions } = this.props
     const { displayCoin } = data.getOrElse({
       displayCoin: false
     } as DataSuccessStateType)
@@ -35,7 +35,7 @@ class DepositForm extends PureComponent<Props> {
 
     formActions.clearFields('interestDepositForm', false, false, 'depositAmount')
 
-    interestActions.setCoinDisplay({ isAmountDisplayedInCrypto: isCoin })
+    earnActions.setCoinDisplay({ isAmountDisplayedInCrypto: isCoin })
   }
 
   handleRefresh = () => {
@@ -43,10 +43,10 @@ class DepositForm extends PureComponent<Props> {
   }
 
   handleInitializeDepositForm = () => {
-    const { coin, currency, interestActions } = this.props
+    const { coin, currency, earnActions } = this.props
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
 
-    interestActions.initializeDepositForm({ coin, currency: walletCurrency })
+    earnActions.initializeDepositForm({ coin, currency: walletCurrency })
   }
 
   render() {
@@ -82,16 +82,16 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  earnActions: bindActionCreators(actions.components.interest, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type LinkDispatchPropsType = {
   analyticsActions: typeof actions.analytics
+  earnActions: typeof actions.components.interest
   formActions: typeof actions.form
-  interestActions: typeof actions.components.interest
 }
 
 export type DataSuccessStateType = ReturnType<typeof getData>['data']

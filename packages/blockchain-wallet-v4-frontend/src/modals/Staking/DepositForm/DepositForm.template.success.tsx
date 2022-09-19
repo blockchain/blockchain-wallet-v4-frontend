@@ -51,8 +51,8 @@ import {
   ToggleCoinText,
   ToggleFiatText,
   TopText
-} from './model'
-import { maxDepositAmount, minDepositAmount } from './validation'
+} from './DepositForm.model'
+import { maxDepositAmount, minDepositAmount } from './DepositForm.validation'
 
 const checkIsAmountUnderDepositLimit = (
   depositLimits: InterestDepositLimits,
@@ -75,11 +75,11 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     analyticsActions,
     coin,
     displayCoin,
+    earnActions,
     formActions,
     formErrors,
     handleDisplayToggle,
     interestAccount,
-    interestActions,
     interestDepositLimits,
     interestEDDDepositLimits,
     interestEDDStatus,
@@ -134,7 +134,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     !interestEDDStatus?.eddPassed
 
   const handleFormSubmit = () => {
-    interestActions.submitDepositForm(coin)
+    earnActions.submitDepositForm(coin)
     props.setShowSupply(showEDDDepositLimit)
 
     analyticsActions.trackEvent({
@@ -189,7 +189,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
       <FlyoutWrapper style={{ paddingBottom: '0' }}>
         <TopText color='grey800' size='20px' weight={600}>
           <ArrowIcon
-            onClick={() => interestActions.setInterestStep({ name: 'ACCOUNT_SUMMARY' })}
+            onClick={() => earnActions.setInterestStep({ name: 'ACCOUNT_SUMMARY' })}
             cursor
             role='button'
             name='arrow-left'
@@ -346,7 +346,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   data-e2e='interestMax'
                   role='button'
                   onClick={() => {
-                    interestActions.handleTransferMaxAmountClick({
+                    earnActions.handleTransferMaxAmountClick({
                       amount: displayCoin
                         ? interestDepositLimits.maxCoin
                         : interestDepositLimits.maxFiat,
@@ -389,7 +389,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   data-e2e='interestMin'
                   role='button'
                   onClick={() =>
-                    interestActions.handleTransferMinAmountClick({
+                    earnActions.handleTransferMinAmountClick({
                       amount: displayCoin
                         ? interestDepositLimits.minCoin
                         : interestDepositLimits.minFiat,
@@ -490,8 +490,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  earnActions: bindActionCreators(actions.components.interest, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
