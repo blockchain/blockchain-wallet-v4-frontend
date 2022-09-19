@@ -253,6 +253,17 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const defineSignupGoal = function* (email) {
+    // // ?showWallet&email=someone@blockchain.com
+
+    yield put(
+      actions.goals.saveGoal({
+        data: { email },
+        name: 'signup'
+      })
+    )
+  }
+
   const defineDeepLinkGoals = function* (pathname, search) {
     if (startsWith(DeepLinkGoal.MAKE_OFFER_NFT, pathname)) {
       return yield call(defineMakeOfferNftGoal, search)
@@ -316,11 +327,22 @@ export default ({ api, coreSagas, networks }) => {
     yield call(defineActionGoal, pathname, search)
   }
 
+  const defineSignUpLinkGoals = function* (search) {
+    const params = new URLSearchParams(search)
+
+    const email = params.get('email')
+    if (email && email !== '') {
+      yield call(defineSignupGoal, email)
+    }
+  }
+
   const defineGoals = function* () {
     const search = yield select(selectors.router.getSearch)
     const pathname = yield select(selectors.router.getPathname)
     const deepLink = prop(1, pathname.match('/open/(.*)'))
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
+    const signUpLink = prop(0, pathname.match('/signup'))
+    if (signUpLink) yield call(defineSignUpLinkGoals, search)
   }
 
   const runAirdropClaimGoal = function* (goal: GoalType) {
@@ -406,6 +428,27 @@ export default ({ api, coreSagas, networks }) => {
         },
         key: 'buySellModal',
         name: 'SIMPLE_BUY_MODAL'
+      })
+    )
+  }
+
+  const runCowboys2022Goal = function* (goal: GoalType) {
+    const {
+      data: { id }
+    } = goal
+    const { firstLogin } = goal.data
+    yield put(actions.goals.deleteGoal(id))
+
+    if (!firstLogin) return
+
+    yield put(
+      actions.goals.addInitialModal({
+        data: {
+          origin,
+          step: 'signup'
+        },
+        key: 'cowboys2022',
+        name: ModalName.COWBOYS_PROMO
       })
     )
   }
@@ -799,6 +842,13 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const runSignupGoal = function* (goal: GoalType) {
+    const {
+      data: { id }
+    } = goal
+    yield put(actions.goals.deleteGoal(id))
+  }
+
   const runInitialRedirect = function* () {
     const initialRedirect = yield select(selectors.goals.getInitialRedirect)
 
@@ -821,6 +871,7 @@ export default ({ api, coreSagas, networks }) => {
     const {
       airdropClaim,
       buySellModal,
+      cowboys2022,
       interestPromo,
       kycDocResubmit,
       kycUpgradeRequiredNotice,
@@ -838,6 +889,12 @@ export default ({ api, coreSagas, networks }) => {
     } = initialModals
 
     // Order matters here
+    if (cowboys2022) {
+      const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
+      if (hasCowboysTag) {
+        return yield put(actions.modals.showModal(cowboys2022.name, cowboys2022.data))
+      }
+    }
     if (linkAccount) {
       return yield put(actions.modals.showModal(linkAccount.name, linkAccount.data))
     }
@@ -1012,6 +1069,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'buySell':
           yield call(runBuySellGoal, goal)
           break
+        case 'cowboys2022':
+          yield call(runCowboys2022Goal, goal)
+          break
         case 'dex':
           yield call(runDeeplinkDexGoal, goal)
           break
@@ -1074,6 +1134,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
+          break
+        case 'signup':
+          yield call(runSignupGoal, goal)
           break
         default:
           break

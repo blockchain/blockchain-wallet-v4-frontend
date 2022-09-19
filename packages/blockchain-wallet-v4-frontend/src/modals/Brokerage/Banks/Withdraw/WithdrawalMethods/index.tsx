@@ -1,53 +1,101 @@
 import React, { useCallback, useEffect } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
+import { WalletFiatType } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions } from 'data'
-import { RootState } from 'data/rootReducer'
+import { AddBankStepType, BrokerageModalOriginType, ModalName, WithdrawStepEnum } from 'data/types'
+import { useRemote } from 'hooks'
 
 import getData from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
-const WithdrawalMethods = (props) => {
+const WithdrawalMethods: Props = ({ fiatCurrency, handleClose }) => {
+  const dispatch = useDispatch()
+  const { data, hasError, isLoading, isNotAsked } = useRemote(getData)
+
   useEffect(() => {
-    if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
-      props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
-      props.brokerageActions.fetchBankTransferAccounts()
+    if (fiatCurrency && !Remote.Success.is(data)) {
+      dispatch(actions.components.buySell.fetchFiatEligible(fiatCurrency))
+      dispatch(actions.components.buySell.fetchPaymentMethods(fiatCurrency))
+      dispatch(actions.components.brokerage.fetchBankTransferAccounts())
     }
-  }, [])
+  }, [dispatch, fiatCurrency])
 
   const errorCallback = useCallback(() => {
-    props.brokerageActions.fetchBankTransferAccounts()
-  }, [])
+    dispatch(actions.components.brokerage.fetchBankTransferAccounts())
+  }, [dispatch])
 
-  return props.data.cata({
-    Failure: () => (
-      <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
-    ),
-    Loading: () => <Loading />,
-    NotAsked: () => <Loading />,
-    Success: (val) => <Success {...val} {...props} />
-  })
+  const bankTransferCallback = useCallback(() => {
+    dispatch(actions.components.brokerage.setupBankTransferProvider())
+    dispatch(
+      actions.components.brokerage.showModal({
+        modalType: data?.plaidEnabled
+          ? ModalName.ADD_BANK_PLAID_MODAL
+          : ModalName.ADD_BANK_YODLEE_MODAL,
+        origin: BrokerageModalOriginType.ADD_BANK_WITHDRAW
+      })
+    )
+    dispatch(
+      actions.components.brokerage.setAddBankStep({
+        addBankStep: AddBankStepType.ADD_BANK
+      })
+    )
+    dispatch(
+      actions.components.withdraw.setStep({
+        fiatCurrency,
+        step: WithdrawStepEnum.ENTER_AMOUNT
+      })
+    )
+  }, [data?.plaidEnabled, dispatch, fiatCurrency])
+
+  const bankWireCallback = useCallback(() => {
+    dispatch(actions.components.buySell.showModal({ origin: 'WithdrawModal' }))
+
+    if (data?.userData.tiers.current === 2) {
+      dispatch(
+        actions.components.buySell.setStep({
+          addBank: true,
+          displayBack: false,
+          fiatCurrency,
+          step: 'BANK_WIRE_DETAILS'
+        })
+      )
+    } else {
+      dispatch(
+        actions.components.buySell.setStep({
+          step: 'KYC_REQUIRED'
+        })
+      )
+    }
+
+    dispatch(
+      actions.components.withdraw.setStep({
+        fiatCurrency,
+        step: WithdrawStepEnum.ENTER_AMOUNT
+      })
+    )
+  }, [data?.userData.tiers, dispatch, fiatCurrency])
+
+  if (hasError)
+    return <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
+  if (!data || isLoading || isNotAsked) return <Loading />
+
+  return (
+    <Success
+      bankTransferCallback={bankTransferCallback}
+      bankWireCallback={bankWireCallback}
+      handleClose={handleClose}
+      paymentMethods={data.paymentMethods}
+    />
+  )
 }
 
-const mapStateToProps = (state: RootState) => ({
-  addNew: state.components.brokerage.addNew,
-  data: getData(state)
-})
+type Props = React.FC<{
+  fiatCurrency: WalletFiatType
+  handleClose: () => void
+}>
 
-export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type Props = ConnectedProps<typeof connector>
-
-export default connector(WithdrawalMethods)
+export default WithdrawalMethods

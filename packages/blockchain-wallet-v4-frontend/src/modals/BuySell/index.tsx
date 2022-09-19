@@ -102,12 +102,14 @@ class BuySell extends PureComponent<Props, State> {
         this.props.brokerageActions.setAddBankStep({
           addBankStep: AddBankStepType.ADD_BANK
         })
+        this.props.brokerageActions.setReason(undefined)
         this.backToEnterAmount()
         break
       case 'INSUFFICIENT_BALANCE':
       case 'GENERIC':
       case 'STALE_BALANCE':
       default:
+        this.props.brokerageActions.setReason(undefined)
         this.backToEnterAmount()
         break
     }

@@ -17,6 +17,7 @@ import {
   BrokerageModalOriginType,
   BrokerageState,
   PlaidAccountType,
+  PlaidSettlementErrorReasons,
   YodleeAccountType
 } from './types'
 
@@ -115,6 +116,9 @@ const brokerageSlice = createSlice({
         default:
           break
       }
+    },
+    setReason: (state, action: PayloadAction<PlaidSettlementErrorReasons | undefined>) => {
+      state.reason = action.payload
     },
     setupBankTransferProvider: () => {},
     showModal: (

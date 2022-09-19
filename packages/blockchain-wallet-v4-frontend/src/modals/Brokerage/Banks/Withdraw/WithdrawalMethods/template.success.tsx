@@ -2,24 +2,12 @@ import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import {
-  BSPaymentMethodsType,
-  BSPaymentMethodType,
-  BSPaymentTypes,
-  WalletFiatType
-} from '@core/types'
+import { BSPaymentMethodsType, BSPaymentMethodType, BSPaymentTypes } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import {
-  AddBankStepType,
-  BrokerageModalOriginType,
-  UserDataType,
-  WithdrawStepEnum
-} from 'data/types'
 
 // TODO: move to somewhere more generic
 import BankWire from '../../../../BuySell/PaymentMethods/Methods/BankWire'
-import { mapDispatchToProps, Props as _P } from '.'
 import BankTransfer from './BankTransfer'
 
 const Wrapper = styled.section`
@@ -103,13 +91,10 @@ const getType = (value: BSPaymentMethodType) => {
 }
 
 const Success = ({
-  brokerageActions,
-  buySellActions,
-  close,
-  fiatCurrency,
-  paymentMethods,
-  userData,
-  withdrawActions
+  bankTransferCallback,
+  bankWireCallback,
+  handleClose,
+  paymentMethods
 }: Props) => {
   const bankTransfer = paymentMethods.methods.find(
     (method) => method.type === BSPaymentTypes.BANK_TRANSFER
@@ -135,9 +120,7 @@ const Success = ({
             size='20px'
             color='grey600'
             role='button'
-            onClick={() => {
-              close()
-            }}
+            onClick={handleClose}
           />
         </TopText>
       </WrapperHeader>
@@ -145,19 +128,7 @@ const Success = ({
         {bankTransfer && (
           <BankTransfer
             icon={getIcon(bankTransfer)}
-            onClick={() => {
-              brokerageActions.showModal({
-                modalType: 'ADD_BANK_YODLEE_MODAL',
-                origin: BrokerageModalOriginType.ADD_BANK_WITHDRAW
-              })
-              brokerageActions.setAddBankStep({
-                addBankStep: AddBankStepType.ADD_BANK
-              })
-              withdrawActions.setStep({
-                fiatCurrency,
-                step: WithdrawStepEnum.ENTER_AMOUNT
-              })
-            }}
+            onClick={bankTransferCallback}
             value={bankTransfer}
           />
         )}
@@ -165,26 +136,7 @@ const Success = ({
         {bankWire && (
           <BankWire
             icon={getIcon(bankWire)}
-            onClick={() => {
-              buySellActions.showModal({ origin: 'WithdrawModal' })
-              if (userData.tiers.current === 2) {
-                buySellActions.setStep({
-                  addBank: true,
-                  displayBack: false,
-                  fiatCurrency,
-                  step: 'BANK_WIRE_DETAILS'
-                })
-              } else {
-                buySellActions.setStep({
-                  step: 'KYC_REQUIRED'
-                })
-              }
-
-              withdrawActions.setStep({
-                fiatCurrency,
-                step: WithdrawStepEnum.ENTER_AMOUNT
-              })
-            }}
+            onClick={bankWireCallback}
             text={getType(bankWire)}
             value={bankWire}
           />
@@ -195,11 +147,10 @@ const Success = ({
 }
 
 type Props = {
-  close: () => void
-  fiatCurrency: WalletFiatType
+  bankTransferCallback: () => void
+  bankWireCallback: () => void
+  handleClose: () => void
   paymentMethods: BSPaymentMethodsType
-  userData: UserDataType
-} & ReturnType<typeof mapDispatchToProps> &
-  _P
+}
 
 export default Success

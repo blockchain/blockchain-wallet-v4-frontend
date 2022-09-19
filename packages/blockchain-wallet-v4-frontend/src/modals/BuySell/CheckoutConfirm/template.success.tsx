@@ -40,6 +40,7 @@ import {
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
+  ModalName,
   RecurringBuyPeriods,
   UserDataType
 } from 'data/types'
@@ -351,7 +352,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           })
         }
         props.brokerageActions.showModal({
-          modalType: 'ADD_BANK_YODLEE_MODAL',
+          modalType: ModalName.ADD_BANK_YODLEE_MODAL,
           origin: BrokerageModalOriginType.ADD_BANK_BUY
         })
         return props.brokerageActions.setAddBankStep({

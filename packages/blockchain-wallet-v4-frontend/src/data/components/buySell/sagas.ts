@@ -34,6 +34,7 @@ import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import {
   AddBankStepType,
+  BankDWStepType,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
@@ -420,8 +421,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (buyQuote) {
         const { availability, reason } = buyQuote.quote.settlementDetails
-        if (availability === 'UNAVAILABLE') {
-          yield put(actions.components.buySell.setStep({ reason, step: 'PAYMENT_ACCOUNT_ERROR' }))
+        if (availability === 'UNAVAILABLE' || reason === 'REQUIRES_UPDATE') {
+          yield put(
+            actions.components.buySell.setStep({
+              reason,
+              step: BankDWStepType.PAYMENT_ACCOUNT_ERROR
+            })
+          )
           return
         }
       }
@@ -1025,7 +1031,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       // TODO fix this type
-      const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, order as any)
+      const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
+        order
+      })
       yield call(createRecurringOrderIfEllegble, A.createRecurringOrderIfEllegble(order))
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield put(A.fetchOrders())

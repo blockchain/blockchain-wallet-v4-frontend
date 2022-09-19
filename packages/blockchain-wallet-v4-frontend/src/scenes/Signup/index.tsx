@@ -108,8 +108,11 @@ class SignupContainer extends React.PureComponent<
     const { goals, isLoadingR } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
 
-    // pull email from simple buy goal if it exists
-    const email = pathOr('', ['data', 'email'], find(propEq('name', 'buySell'), goals))
+    // pull email from simple buy goal if it exists or signup goal
+    const email =
+      pathOr('', ['data', 'email'], find(propEq('name', 'buySell'), goals)) ||
+      pathOr('', ['data', 'email'], find(propEq('name', 'signup'), goals))
+
     const signupInitialValues = (email ? { email } : {}) as SignupFormInitValuesType
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
     const isBuyGoal = !!find(propEq('name', 'buySell'), goals)
