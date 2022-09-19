@@ -13,6 +13,7 @@ import {
   InterestTransactionResponseType,
   InterestWithdrawalResponseType,
   RewardsRatesType,
+  StakingLimitsResponse,
   StakingRatesType,
   UploadDocumentDetails,
   WithdrawalMinimumTypeResponse,
@@ -178,6 +179,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getStakingLimits = (): StakingLimitsResponse =>
+    authorizedGet({
+      endPoint: '/earn/limits?product=staking&',
+      url: nabuUrl
+    })
+
   return {
     getEDDDocumentsLimits,
     getInterestAccount,
@@ -191,6 +198,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getSavingsEDDStatus,
     getSavingsEDDWithdrawLimits,
     getStakingEligible,
+    getStakingLimits,
     getStakingRates,
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,

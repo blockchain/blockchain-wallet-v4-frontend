@@ -150,3 +150,18 @@ export type UploadDocumentDetails = {
   occupation: string
   ssn?: string
 }
+
+export type StakingLimitType = {
+  minDepositValue: number
+  bondingDays: number
+  unbondingDays?: number
+  disabledWithdrawals: boolean
+}
+
+export type StakingLimitsType = {
+  [key in CoinType]: StakingLimitType
+}
+
+export type StakingLimitsResponse = {
+  limits: StakingLimitsType
+}
