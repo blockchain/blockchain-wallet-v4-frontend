@@ -8,7 +8,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 
 import { Bottom, Container, Row, Top, TopText, WarningContainer, Wrapper } from './Warning.model'
 
-const Warning = ({ coin, handleClick, handleClose }: OwnProps) => (
+const Warning = ({ bondingDays, coin, handleClick, handleClose }: OwnProps) => (
   <Wrapper>
     <FlyoutWrapper>
       <TopText color='grey800' size='20px' weight={600}>
@@ -42,7 +42,7 @@ const Warning = ({ coin, handleClick, handleClose }: OwnProps) => (
           <FormattedMessage
             defaultMessage='Once staked, {coin} funds can’t be unstaked or transferred for an unknown period of time. {br}{br} Your {coin} will also be subject to a bonding period of {bondingDays} days before it generates rewards.'
             id='modals.staking.warning.content.subtitle'
-            values={{ bondingDays: 1, br: <br />, coin }}
+            values={{ bondingDays, br: <br />, coin }}
           />
         </Text>
       </Container>
@@ -77,6 +77,7 @@ const Warning = ({ coin, handleClick, handleClose }: OwnProps) => (
 )
 
 type OwnProps = {
+  bondingDays?: number
   coin: CoinType
   handleClick: () => void
   handleClose: () => void

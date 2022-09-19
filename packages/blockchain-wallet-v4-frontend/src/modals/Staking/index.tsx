@@ -29,7 +29,7 @@ const Staking = ({
   useEffect(() => {
     setShow(true)
     fetchInterestEDDStatus()
-  })
+  }, [])
 
   const handleClose = () => {
     setShow(false)
@@ -49,7 +49,7 @@ const Staking = ({
     >
       {step.name === 'WARNING' && (
         <FlyoutChild>
-          <Warning handleClose={handleClose} coin={coin} walletCurrency={walletCurrency} />
+          <Warning handleClose={handleClose} coin={coin} />
         </FlyoutChild>
       )}
       {step.name === 'DEPOSIT' && (

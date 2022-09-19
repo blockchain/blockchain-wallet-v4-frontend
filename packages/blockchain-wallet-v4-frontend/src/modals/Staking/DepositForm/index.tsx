@@ -8,8 +8,8 @@ import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 
+import Loading from '../Staking.template.loading'
 import { getCurrency, getData, getUnderSanctionsMessage } from './selectors'
-import Loading from './template.loading'
 import Success from './template.success'
 
 class DepositForm extends PureComponent<Props> {
