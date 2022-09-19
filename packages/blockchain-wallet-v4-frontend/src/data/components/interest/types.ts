@@ -37,7 +37,7 @@ export type EarnMinMaxType = {
   minFiat: number
 }
 export type InterestWithdrawalFormType = {
-  interestWithdrawalAccount: AccountTypes
+  earnWithdrawalAccount: AccountTypes
   withdrawalAmount: number
 }
 
