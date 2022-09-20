@@ -1766,10 +1766,10 @@
     react-popper "1.3.2"
     react-transition-group "2.5.3"
 
-"@blockchain-com/constellation@0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.2.4.tgz#e20c41710d6d6e3bb0080bc949755e45c5c596a5"
-  integrity sha512-d4hF0zkmxjYlFNhIWtBzfDMK+CamnmIWWwGWnjb4I5y6iPfd7O+3lfpPY28gvcs3UBxTxe0WhWKjWXxgap3LtQ==
+"@blockchain-com/constellation@0.2.7":
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.2.7.tgz#d64e3411dd8b2d8c8488ac77541d96287ecb584d"
+  integrity sha512-JGieSwiH6nzuNN5k7Bxr10N5kFbqAf6eBPKfQo6lbjaho+0pFcA2iFhKT5y13535AHJLKDWGRuG1+zj9owimJA==
   dependencies:
     "@headlessui/react" "1.6.6"
     "@radix-ui/colors" "0.1.8"
@@ -1795,7 +1795,19 @@
     "@tailwindcss/line-clamp" "0.4.0"
     "@tanstack/react-table" "8.5.11"
     "@types/randomcolor" "0.5.6"
+    "@visx/axis" "2.12.2"
+    "@visx/curve" "2.1.0"
+    "@visx/event" "2.6.0"
+    "@visx/glyph" "2.10.0"
+    "@visx/mock-data" "2.1.2"
+    "@visx/responsive" "2.10.0"
+    "@visx/scale" "2.2.2"
+    "@visx/shape" "2.12.2"
+    "@visx/tooltip" "2.10.0"
+    d3-array "3.2.0"
+    d3-time-format "4.1.0"
     randomcolor "0.6.2"
+    tailwindcss-animation-delay "1.0.7"
     tailwindcss-radix "2.3.1"
 
 "@blockchain-com/constellation@0.2.7":
