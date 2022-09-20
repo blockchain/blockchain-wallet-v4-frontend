@@ -64,7 +64,9 @@ export const isSilverOrAbove = compose(
   getUserData
 )
 
-export const getCurrentTier = compose(path(['data', 'current']), lift(path(['tiers'])), getUserData)
+export const getCurrentTier = createSelector(getUserData, (userDataR) => {
+  return lift((userData: ExtractSuccess<typeof userDataR>) => userData.tiers.current)(userDataR)
+})
 export const getUserCurrencies = createSelector([getUserData], (userDataR) => {
   return lift((userData: ExtractSuccess<typeof userDataR>) => ({
     ...userData.currencies

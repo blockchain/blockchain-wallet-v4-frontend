@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { Padding, useCopyToClipboard } from '@blockchain-com/constellation'
 import { compose } from 'redux'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import {
   FlyoutContainer,
@@ -33,6 +34,7 @@ import { ReferralLandingFlyoutComponent } from './ReferralLandingFlyout.types'
 
 const ReferralLanding: ReferralLandingFlyoutComponent = ({
   close,
+  hasCowboysTag,
   position,
   referralInformation,
   total,
@@ -86,7 +88,14 @@ const ReferralLanding: ReferralLandingFlyoutComponent = ({
         <FlyoutContainer>
           <FlyoutHeader mode='close' data-e2e='ReferralFlyoutCloseModal' onClick={handleClose} />
           <FlyoutContent mode='top'>
-            {referralInformation?.promotion?.icon?.url && (
+            {hasCowboysTag && (
+              <Flex justifyContent='center'>
+                <Padding bottom={45}>
+                  <Image name='cowboys' />
+                </Padding>
+              </Flex>
+            )}
+            {!hasCowboysTag && referralInformation?.promotion?.icon?.url && (
               <ImageWrapper>
                 <img
                   src={referralInformation.promotion.icon.url}
@@ -94,16 +103,16 @@ const ReferralLanding: ReferralLandingFlyoutComponent = ({
                 />
               </ImageWrapper>
             )}
-            <Padding top={3} left={3} right={3} bottom={0.5}>
+            <Padding horizontal={45} bottom={8}>
               <Title color='textBlack'>{referralInformation.rewardTitle}</Title>
             </Padding>
             <DescriptionWrapper>
-              <Padding top={0} left={3} right={3} bottom={0.5}>
+              <Padding top={0} left={3} right={3} bottom={40}>
                 <Description>{referralInformation.rewardSubtitle}</Description>
               </Padding>
             </DescriptionWrapper>
 
-            <Padding top={2} left={3} right={3} bottom={0.5}>
+            <Padding bottom={4}>
               <Text color='grey400' style={{ textAlign: 'center' }} size='14px'>
                 <FormattedMessage
                   id='modals.referralLanding.referralCode'
@@ -111,7 +120,7 @@ const ReferralLanding: ReferralLandingFlyoutComponent = ({
                 />
               </Text>
             </Padding>
-            <Padding top={0} left={3} right={3} bottom={0.5}>
+            <Padding horizontal={83}>
               <ReferralId>
                 <Text
                   color='grey900'
@@ -124,6 +133,7 @@ const ReferralLanding: ReferralLandingFlyoutComponent = ({
                 <Button
                   data-e2e='copyReferralNumber'
                   nature='white-blue'
+                  style={{ background: 'transparent' }}
                   onClick={handleOnClickToCopyText}
                 >
                   {textCopied ? (
@@ -184,6 +194,7 @@ const ReferralLanding: ReferralLandingFlyoutComponent = ({
 }
 
 const mapStateToProps = (state: RootState) => ({
+  hasCowboysTag: selectors.modules.profile.getCowboysTag(state).getOrElse(false),
   referralInformation: selectors.components.referral.getReferralInformation(state)
 })
 
