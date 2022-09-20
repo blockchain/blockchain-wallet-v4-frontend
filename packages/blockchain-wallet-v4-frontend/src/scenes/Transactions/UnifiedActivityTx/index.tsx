@@ -24,22 +24,26 @@ const UnifiedActivityTx: React.FC<Props> = ({ coin, tx }) => {
           </StatusAndType>
         </Row>
         <Col width='50%'>
-          <Addresses
-            from={tx.detail.itemGroups.map(({ itemGroup }) => {
-              return itemGroup
-                .filter(({ key }) => key === 'From')
-                .map((from) => {
-                  return <>{from.value}</>
-                })
-            })}
-            to={tx.detail.itemGroups.map(({ itemGroup }) => {
-              return itemGroup
-                .filter(({ key }) => key === 'To')
-                .map((to) => {
-                  return <>{to.value}</>
-                })
-            })}
-          />
+          {tx.detail.itemGroups.find(({ itemGroup }) =>
+            itemGroup.find(({ key }) => key === 'From')
+          ) ? (
+            <Addresses
+              from={tx.detail.itemGroups.map(({ itemGroup }) => {
+                return itemGroup
+                  .filter(({ key }) => key === 'From')
+                  .map((from) => {
+                    return <>{from.value}</>
+                  })
+              })}
+              to={tx.detail.itemGroups.map(({ itemGroup }) => {
+                return itemGroup
+                  .filter(({ key }) => key === 'To')
+                  .map((to) => {
+                    return <>{to.value}</>
+                  })
+              })}
+            />
+          ) : null}
         </Col>
         {/* <Col /> */}
         <Col width='20%' style={{ textAlign: 'right' }} data-e2e='orderAmountColumn'>
@@ -49,10 +53,16 @@ const UnifiedActivityTx: React.FC<Props> = ({ coin, tx }) => {
             size='16px'
             weight={600}
           >
-            {tx.item.endTitle}
+            {tx.item.endTitle ||
+              tx.detail.itemGroups.find(
+                ({ itemGroup }) => itemGroup.find(({ key }) => key === 'Network fee')?.key
+              )}
           </Text>
           <Text size='14px' weight={500} color='grey600' data-e2e='orderFiatAmt'>
-            {tx.item.endSubtitle}
+            {tx.item.endSubtitle ||
+              tx.detail.itemGroups.find(
+                ({ itemGroup }) => itemGroup.find(({ key }) => key === 'Network fee')?.value
+              )}
           </Text>
         </Col>
       </TxRow>
