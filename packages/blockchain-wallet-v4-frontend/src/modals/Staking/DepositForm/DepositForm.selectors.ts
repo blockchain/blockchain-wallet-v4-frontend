@@ -29,6 +29,7 @@ export const getData = (state: RootState) => {
   const interestRatesR = selectors.components.interest.getInterestRates(state)
   const earnDepositLimits = selectors.components.interest.getEarnDepositLimits(state)
   const ethRatesR = selectors.core.data.misc.getRatesSelector('ETH', state)
+  const displayCoin = selectors.components.interest.getIsAmountDisplayedInCrypto(state)
   const paymentR = selectors.components.interest.getPayment(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state) as RemoteDataType<
     string,
@@ -62,6 +63,7 @@ export const getData = (state: RootState) => {
 
       return {
         depositFee,
+        displayCoin,
         earnDepositLimits,
         ethRates,
         formErrors,

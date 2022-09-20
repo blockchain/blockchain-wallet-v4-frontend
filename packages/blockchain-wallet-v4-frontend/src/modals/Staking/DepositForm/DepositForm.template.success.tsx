@@ -4,6 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
+import { Exchange } from '@core'
+import { fiatToString } from '@core/exchange/utils'
 import { CoinType, EarnDepositLimits } from '@core/types'
 import {
   Button,
@@ -27,7 +29,7 @@ import { Analytics, SwapBaseCounterTypes } from 'data/types'
 import { required } from 'services/forms'
 import { debounce } from 'utils/helpers'
 
-import { amountToFiat } from '../conversions'
+import { amountToFiat, maxFiat } from '../conversions'
 import { CurrencySuccessStateType, DataSuccessStateType, OwnProps as ParentOwnProps } from '.'
 import {
   AgreementContainer,
@@ -48,6 +50,9 @@ import {
   PrincipalCcyAbsolute,
   SendingWrapper,
   TermsContainer,
+  ToggleCoinFiat,
+  ToggleCoinText,
+  ToggleFiatText,
   TopText
 } from './DepositForm.model'
 import { maxDepositAmount, minDepositAmount } from './DepositForm.validation'
@@ -73,10 +78,12 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     analyticsActions,
     coin,
     depositFee,
+    displayCoin,
     earnActions,
     earnDepositLimits,
     formActions,
     formErrors,
+    handleDisplayToggle,
     interestAccount,
     interestEDDDepositLimits,
     interestEDDStatus,
@@ -90,11 +97,13 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     walletCurrency
   } = props
   const { coinfig } = window.coins[coin]
+  const currencySymbol = Exchange.getSymbol(walletCurrency) as string
 
   const depositAmount = (values && values.depositAmount) || '0'
   const isCustodial =
     values && values?.earnDepositAccount && values.earnDepositAccount.type === 'CUSTODIAL'
   const depositAmountFiat = amountToFiat(true, depositAmount, coin, walletCurrency, rates)
+  const maxDepositFiat = maxFiat(earnDepositLimits.maxFiat, walletCurrency)
 
   const fromAccountType =
     interestAccount?.type === SwapBaseCounterTypes.CUSTODIAL ? 'TRADING' : 'USERKEY'
@@ -195,12 +204,22 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                 />{' '}
                 <FiatMaxContainer
                   onClick={() =>
-                    formActions.change(FORM_NAME, 'depositAmount', earnDepositLimits.maxCoin)
+                    formActions.change(
+                      FORM_NAME,
+                      'depositAmount',
+                      displayCoin ? earnDepositLimits.maxCoin : earnDepositLimits.maxFiat
+                    )
                   }
                 >
-                  <Text color='blue600' size='14px' weight={500}>
-                    {earnDepositLimits.maxCoin}{' '}
-                  </Text>
+                  {displayCoin ? (
+                    <Text color='blue600' size='14px' weight={500}>
+                      {earnDepositLimits.maxCoin}{' '}
+                    </Text>
+                  ) : (
+                    <Text color='blue600' size='14px' weight={500}>
+                      {maxDepositFiat}{' '}
+                    </Text>
+                  )}
                 </FiatMaxContainer>{' '}
                 <FormattedMessage
                   id='modals.interest.deposit.uptoamount2'
@@ -240,6 +259,23 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
               defaultMessage='Enter transfer amount'
             />{' '}
           </Text>
+          <ToggleCoinFiat>
+            <ToggleFiatText
+              displayCoin={displayCoin}
+              onClick={() => handleDisplayToggle(false)}
+              data-e2e='toggleFiat'
+            >
+              {walletCurrency}
+            </ToggleFiatText>
+            |{' '}
+            <ToggleCoinText
+              displayCoin={displayCoin}
+              onClick={() => handleDisplayToggle(true)}
+              data-e2e='toggleCoin'
+            >
+              {coinfig.displaySymbol}
+            </ToggleCoinText>
+          </ToggleCoinFiat>
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
@@ -248,6 +284,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             data-e2e='depositAmount'
             // @ts-ignore
             disabled={insufficientEth}
+            displayCoin={displayCoin}
             name='depositAmount'
             validate={[required, minDepositAmount, maxDepositAmount]}
             {...{
@@ -259,9 +296,15 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             }, 500)}
           />
           <PrincipalCcyAbsolute>
-            <Text color='grey800' size='14px' weight={600}>
-              {coinfig.displaySymbol}
-            </Text>
+            {displayCoin ? (
+              <Text color='grey800' size='14px' weight={600}>
+                {coinfig.displaySymbol}
+              </Text>
+            ) : (
+              <Text color='grey800' size='14px' weight={600}>
+                {currencySymbol}
+              </Text>
+            )}
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
         {depositAmountError && (
@@ -273,7 +316,12 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     id='modals.interest.deposit.maxtransfer'
                     defaultMessage='Maximum transfer: {maxFiat}'
                     values={{
-                      maxFiat: earnDepositLimits.maxCoin
+                      maxFiat: displayCoin
+                        ? earnDepositLimits.maxCoin
+                        : fiatToString({
+                            unit: walletCurrency,
+                            value: earnDepositLimits.maxFiat
+                          })
                     }}
                   />
                 </Text>
@@ -282,7 +330,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   role='button'
                   onClick={() => {
                     earnActions.handleTransferMaxAmountClick({
-                      amount: earnDepositLimits.maxCoin,
+                      amount: displayCoin ? earnDepositLimits.maxCoin : earnDepositLimits.maxFiat,
                       formName: FORM_NAME
                     })
 
@@ -321,7 +369,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   role='button'
                   onClick={() =>
                     earnActions.handleTransferMinAmountClick({
-                      amount: earnDepositLimits.minCoin,
+                      amount: displayCoin ? earnDepositLimits.minCoin : earnDepositLimits.minFiat,
                       formName: FORM_NAME
                     })
                   }
@@ -468,6 +516,7 @@ export type Props = DataSuccessStateType &
   FormProps
 
 type FormProps = {
+  handleDisplayToggle: (boolean) => void
   onSubmit: () => void
 }
 

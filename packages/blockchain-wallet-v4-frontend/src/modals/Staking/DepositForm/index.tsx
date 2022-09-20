@@ -9,6 +9,7 @@ import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 
 import Loading from '../Staking.template.loading'
+import { FORM_NAME } from './DepositForm.model'
 import { getCurrency, getData, getUnderSanctionsMessage } from './DepositForm.selectors'
 import Success from './DepositForm.template.success'
 
@@ -28,6 +29,19 @@ class DepositForm extends PureComponent<Props> {
 
   handleRefresh = () => {
     this.handleInitializeDepositForm()
+  }
+
+  handleDisplayToggle = (isCoin: boolean) => {
+    const { data, earnActions, formActions } = this.props
+    const { displayCoin } = data.getOrElse({
+      displayCoin: false
+    } as DataSuccessStateType)
+
+    if (isCoin === displayCoin) return
+
+    formActions.clearFields(FORM_NAME, false, false, 'depositAmount')
+
+    earnActions.setCoinDisplay({ isAmountDisplayedInCrypto: isCoin })
   }
 
   handleInitializeDepositForm = () => {
@@ -50,7 +64,14 @@ class DepositForm extends PureComponent<Props> {
         ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Success: (val) => <Success {...this.props} {...val} walletCurrency={walletCurrency} />
+      Success: (val) => (
+        <Success
+          {...this.props}
+          {...val}
+          handleDisplayToggle={this.handleDisplayToggle}
+          walletCurrency={walletCurrency}
+        />
+      )
     })
   }
 }
