@@ -9,7 +9,7 @@ import { Card } from 'components/Card'
 import { Flex } from 'components/Flex'
 import { Padding } from 'components/Padding'
 import { actions, selectors } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 
 const CowboysCard = styled(Card)`
@@ -29,12 +29,10 @@ const CowboysCard = styled(Card)`
 `
 
 const CowboyIcon = styled.div`
-  height: 38px;
-  width: 38px;
-  border-radius: 50%;
+  height: 42px;
+  width: 42px;
   background: url('/img/cowboys.svg') no-repeat center center;
-  background-color: white;
-  background-size: 22px;
+  background-size: 42px;
 `
 
 const CardDismissButton = styled.div`
@@ -50,42 +48,104 @@ const CardDismissButton = styled.div`
 const CowboysCardComponent = () => {
   const dispatch = useDispatch()
   const [show, setShow] = useState(true)
-  const { data: cowboysData, hasError: cowboysHasError } = useRemote(
-    selectors.modules.profile.getCowboysTag
-  )
-  const { data: isRegistered, hasError: hasRegisterError } = useRemote(
-    selectors.components.buySell.isUserSddVerified
-  )
+  const {
+    data: cowboysData,
+    hasError: cowboysHasError,
+    isLoading: cowboysLoading
+  } = useRemote(selectors.modules.profile.getCowboysTag)
+  const {
+    data: isSDDVerified,
+    hasError: hasSDDVerifiedError,
+    isLoading: isSDDVerifiedLoading
+  } = useRemote(selectors.components.buySell.isUserSddVerified)
+  const {
+    data: isGoldVerified,
+    hasError: isGoldVerifiedError,
+    isLoading: isGoldVerifiedLoading
+  } = useRemote(selectors.modules.profile.isUserVerified)
+  const {
+    data: currentTier, // Checking for Silver tier users `currentTier === 1`
+    hasError: isCurrentTierError,
+    isLoading: isCurrentTierLoading
+  } = useRemote(selectors.modules.profile.getCurrentTier)
 
   const buttonAction = useCallback(() => {
-    let step: CowboysPromoStepsType = 'signup'
-    if (cowboysData && isRegistered) {
+    let step: CowboysPromoStepsType = 'signup' // level 1
+    if (!isGoldVerified && (isSDDVerified || currentTier === 1)) {
+      // level 2
       step = 'verifyId'
-    }
-    dispatch(actions.modals.showModal(ModalName.COWBOYS_PROMO, { origin: 'CowboysCard', step }))
-  }, [cowboysData, dispatch, isRegistered])
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.COWBOYS_VERIFY_IDENTITY_ANNOUNCEMENT_CLICKED,
+          properties: {}
+        })
+      )
+    } else if (isGoldVerified) {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.COWBOYS_REFER_FRIENDS_ANNOUNCEMENT_CLICKED,
+          properties: {}
+        })
+      )
 
-  if (cowboysHasError || !cowboysData || !show) return null
+      // level 3
+      return dispatch(
+        actions.modals.showModal(ModalName.REFERRAL_LANDING_MODAL, { origin: 'CowboysCard' })
+      )
+    } else {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.COWBOYS_COMPLETE_SIGN_UP_ANNOUCEMENT_CLICKED,
+          properties: {
+            type: 'signed_up'
+          }
+        })
+      )
+    }
+
+    dispatch(actions.modals.showModal(ModalName.COWBOYS_PROMO, { origin: 'CowboysCard', step }))
+  }, [currentTier, dispatch, isSDDVerified, isGoldVerified])
+
+  if (cowboysLoading || isSDDVerifiedLoading || isGoldVerifiedLoading || isCurrentTierLoading)
+    return null
+  if (cowboysHasError || hasSDDVerifiedError || isGoldVerifiedError || isCurrentTierError)
+    return null
+  if (!cowboysData || !show) return null
 
   const titleText = (
     <FormattedMessage id='copy.cowboys.cowboys_promo' defaultMessage='Cowboys Promo' />
   )
   const descText =
-    cowboysData && isRegistered ? (
-      <FormattedMessage
-        id='copy.cowboys.verify_your_id'
-        defaultMessage='Verify your ID and start referring friends to get the opportunity to WIN tickets'
-      />
+    !isGoldVerified && (isSDDVerified || currentTier === 1) ? ( // level 2
+      <Text color='white' size='16px' weight={700} lineHeight='24px'>
+        <FormattedMessage
+          id='copy.cowboys.verify_your_id'
+          defaultMessage='Verify your ID and start referring friends to get the opportunity to WIN tickets'
+        />
+      </Text>
+    ) : isGoldVerified ? ( // level 3
+      <Text color='white' size='24px' weight={600} lineHeight='24px'>
+        <FormattedMessage
+          id='copy.cowboys.refer_friends_win_tickets'
+          defaultMessage='Refer friends and win suite tickets!'
+        />
+      </Text>
     ) : (
-      <FormattedMessage
-        id='copy.cowboys.complete_the_sign_up'
-        defaultMessage='Complete the sign up to be entered into the Merch raffle!'
-      />
+      // level 1
+      <Text color='white' size='16px' weight={600} lineHeight='24px'>
+        <FormattedMessage
+          id='copy.cowboys.complete_the_sign_up'
+          defaultMessage='Complete the sign up to be entered into the Merch raffle!'
+        />
+      </Text>
     )
   const actionText =
-    cowboysData && isRegistered ? (
+    !isGoldVerified && (isSDDVerified || currentTier === 1) ? ( // level 2
       <FormattedMessage id='buttons.verify_now' defaultMessage='Verify Now' />
+    ) : isGoldVerified ? ( // level 3
+      <FormattedMessage id='buttons.signup_now' defaultMessage='Invite Now' />
     ) : (
+      // level 1
       <FormattedMessage id='buttons.signup_now' defaultMessage='Sign Up Now' />
     )
 
@@ -114,9 +174,7 @@ const CowboysCardComponent = () => {
               <Text color='white' size='16px' weight={500} lineHeight='24px'>
                 {titleText}
               </Text>
-              <Text color='white' size='16px' weight={700} lineHeight='24px'>
-                {descText}
-              </Text>
+              {descText}
               <Padding top={8}>
                 <Button data-e2e='VerifyNowButton' nature='white-blue' onClick={buttonAction}>
                   <Text color='black' size='14px' weight={600}>

@@ -253,6 +253,17 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const defineSignupGoal = function* (email) {
+    // // ?showWallet&email=someone@blockchain.com
+
+    yield put(
+      actions.goals.saveGoal({
+        data: { email },
+        name: 'signup'
+      })
+    )
+  }
+
   const defineDeepLinkGoals = function* (pathname, search) {
     if (startsWith(DeepLinkGoal.MAKE_OFFER_NFT, pathname)) {
       return yield call(defineMakeOfferNftGoal, search)
@@ -316,11 +327,22 @@ export default ({ api, coreSagas, networks }) => {
     yield call(defineActionGoal, pathname, search)
   }
 
+  const defineSignUpLinkGoals = function* (search) {
+    const params = new URLSearchParams(search)
+
+    const email = params.get('email')
+    if (email && email !== '') {
+      yield call(defineSignupGoal, email)
+    }
+  }
+
   const defineGoals = function* () {
     const search = yield select(selectors.router.getSearch)
     const pathname = yield select(selectors.router.getPathname)
     const deepLink = prop(1, pathname.match('/open/(.*)'))
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
+    const signUpLink = prop(0, pathname.match('/signup'))
+    if (signUpLink) yield call(defineSignUpLinkGoals, search)
   }
 
   const runAirdropClaimGoal = function* (goal: GoalType) {
@@ -448,7 +470,6 @@ export default ({ api, coreSagas, networks }) => {
     yield call(waitForUserData)
     const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
-
     yield put(
       actions.goals.addInitialModal({
         data,
@@ -820,6 +841,13 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const runSignupGoal = function* (goal: GoalType) {
+    const {
+      data: { id }
+    } = goal
+    yield put(actions.goals.deleteGoal(id))
+  }
+
   const runInitialRedirect = function* () {
     const initialRedirect = yield select(selectors.goals.getInitialRedirect)
 
@@ -956,8 +984,10 @@ export default ({ api, coreSagas, networks }) => {
     const { current } = (yield select(selectors.modules.profile.getUserTiers)).getOrElse({
       current: 0
     }) || { current: 0 }
+    // If the user is tagged with the COWBOYS_2022 promo tag don't show them the typical verify notic modal
+    const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
 
-    if (current < 2) {
+    if (current < 2 && !hasCowboysTag) {
       yield put(
         actions.goals.addInitialModal({
           data: { origin },
@@ -1108,6 +1138,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
+          break
+        case 'signup':
+          yield call(runSignupGoal, goal)
           break
         default:
           break

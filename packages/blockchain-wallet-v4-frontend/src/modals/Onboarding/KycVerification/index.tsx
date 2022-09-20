@@ -91,7 +91,12 @@ class IdentityVerification extends React.PureComponent<Props, State> {
       return <MoreInfo />
     }
     if (step === STEPS.addExtraStep) {
-      return <ExtraFields onClose={this.handleClose} />
+      return (
+        <ExtraFields
+          onClose={this.handleClose}
+          onCompletionCallback={this.props.onCompletionCallback}
+        />
+      )
     }
     if (step === STEPS.additionalInfo) {
       return <AdditionalInfo onClose={this.handleClose} />

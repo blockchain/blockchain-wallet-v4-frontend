@@ -235,6 +235,7 @@ const buildDevServerConfig = (
           envConfig.OPENSEA_API,
           'http://localhost:8081',
           'https://play.google.com/',
+          'https://www.google-analytics.com',
           'https://api-rinkeby.etherscan.io',
           'https://friendbot.stellar.org',
           'https://bitpay.com',

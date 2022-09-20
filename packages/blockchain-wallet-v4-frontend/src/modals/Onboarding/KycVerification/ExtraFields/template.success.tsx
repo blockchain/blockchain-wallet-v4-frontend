@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -13,7 +13,7 @@ import FormItem from 'components/Form/FormItem'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import { model } from 'data'
-import { getFormattedMesasageComponent } from 'services/FormattedMessage/getFormattedMesasageComponent'
+import { getFormattedMessageComponent } from 'services/FormattedMessage/getFormattedMessageComponent'
 import { required, validFormat } from 'services/forms'
 
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -239,8 +239,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const renderCheckBoxBasedQuestion = (node: NodeType, updateItem) => {
     const nodeTranslation = {
-      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
-      title: getFormattedMesasageComponent(node.id)
+      instructions: getFormattedMessageComponent(`${node.id}_instructions`),
+      title: getFormattedMessageComponent(node.id)
     }
     return (
       <FormGroup>
@@ -254,7 +254,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               <FormItem key={`checkbox-${child.id}`}>
                 <CheckBoxContainer>
                   <CenterField>
-                    <CheckBoxText>{getFormattedMesasageComponent(child.id)}</CheckBoxText>
+                    <CheckBoxText>{getFormattedMessageComponent(child.id)}</CheckBoxText>
                   </CenterField>
                   <CenterField>
                     <Field
@@ -284,8 +284,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const formValue = props?.formValues ? props?.formValues[node.id] : null
 
     const nodeTranslation = {
-      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
-      title: getFormattedMesasageComponent(node.id)
+      instructions: getFormattedMessageComponent(`${node.id}_instructions`),
+      title: getFormattedMessageComponent(node.id)
     }
 
     return (
@@ -332,8 +332,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const RenderSingleSelectionQuestion = (node: NodeType, updateItem) => {
     const formValue = props?.formValues ? props?.formValues[node.id] : null
     const nodeTranslation = {
-      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
-      title: getFormattedMesasageComponent(node.id)
+      instructions: getFormattedMessageComponent(`${node.id}_instructions`),
+      title: getFormattedMessageComponent(node.id)
     }
     return (
       <>
@@ -348,7 +348,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 return (
                   <CheckBoxContainer key={child.id}>
                     <CenterField>
-                      <CheckBoxText>{getFormattedMesasageComponent(child.id)}</CheckBoxText>
+                      <CheckBoxText>{getFormattedMessageComponent(child.id)}</CheckBoxText>
                     </CenterField>
                     <CenterField>
                       <Field
@@ -380,7 +380,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       >
                         <Label htmlFor={item.id}>
                           <Text weight={500} size='14px' color='grey900'>
-                            {getFormattedMesasageComponent(item.id)}
+                            {getFormattedMessageComponent(item.id)}
                           </Text>
                         </Label>
 
@@ -403,14 +403,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   }
 
   const RenderTextBoxQuestion = (node: NodeTextType) => {
-    const validFormatCb = useCallback(validFormat(node.regex), [node.regex])
+    const validFormatCb = useCallback(() => validFormat(node.regex), [node.regex])
     const validations = [required, validFormatCb]
     const displayInstructions = node.instructions && !!node.instructions.length
 
     const nodeTranslation = {
-      field: getFormattedMesasageComponent(`${node.id}hint`),
-      instructions: getFormattedMesasageComponent(`${node.id}_instructions`),
-      title: getFormattedMesasageComponent(node.id)
+      field: getFormattedMessageComponent(`${node.id}hint`),
+      instructions: getFormattedMessageComponent(`${node.id}_instructions`),
+      title: getFormattedMessageComponent(node.id)
     }
 
     return (
@@ -437,9 +437,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   }
 
   const RenderHeader = (header) => {
-    const headerTrandlation = {
-      description: getFormattedMesasageComponent('header.description'),
-      title: getFormattedMesasageComponent('header.title')
+    const headerTranslation = {
+      description: getFormattedMessageComponent('header.description'),
+      title: getFormattedMessageComponent('header.title')
     }
 
     return (
@@ -450,9 +450,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           color='blue600'
           style={{ marginBottom: '10px', marginRight: '4px' }}
         />
-        <TopHeaderTitle>{headerTrandlation.title}</TopHeaderTitle>
+        <TopHeaderTitle>{headerTranslation.title}</TopHeaderTitle>
         {header.description && (
-          <TopHeaderDescription>{headerTrandlation.description}</TopHeaderDescription>
+          <TopHeaderDescription>{headerTranslation.description}</TopHeaderDescription>
         )}
       </TopHeader>
     )
