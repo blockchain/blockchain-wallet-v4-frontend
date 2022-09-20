@@ -14,6 +14,8 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import { FlyoutWrapper } from 'components/Flyout'
 import CheckBox from 'components/Form/CheckBox'
 import CoinBalanceDropdown from 'components/Form/CoinBalanceDropdown'
@@ -41,6 +43,8 @@ import {
   FORM_NAME,
   GreyBlueCartridge,
   InfoText,
+  NetworkAmountContainer,
+  NetworkFeeContainer,
   PrincipalCcyAbsolute,
   SendingWrapper,
   TermsContainer,
@@ -68,6 +72,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const {
     analyticsActions,
     coin,
+    depositFee,
     earnActions,
     earnDepositLimits,
     formActions,
@@ -87,7 +92,8 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const { coinfig } = window.coins[coin]
 
   const depositAmount = (values && values.depositAmount) || '0'
-
+  const isCustodial =
+    values && values?.earnDepositAccount && values.earnDepositAccount.type === 'CUSTODIAL'
   const depositAmountFiat = amountToFiat(true, depositAmount, coin, walletCurrency, rates)
 
   const fromAccountType =
@@ -337,6 +343,38 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
               defaultMessage="Transferring this amount requires further verification. We'll ask you for those details in the next step."
             />
           </CustomOrangeCartridge>
+        )}
+        {!isCustodial && (
+          <NetworkFeeContainer>
+            <Text color='grey900' size='14px' weight={500}>
+              <FormattedMessage
+                defaultMessage='Est network fee'
+                id='modals.staking.deposit.networkfee'
+              />
+            </Text>
+            <NetworkAmountContainer>
+              <CoinDisplay
+                coin={coin}
+                color='grey900'
+                cursor='inherit'
+                data-e2e={`${coin}-network-fee`}
+                size='14px'
+                weight={600}
+              >
+                {depositFee}
+              </CoinDisplay>
+              <FiatDisplay
+                coin={coin}
+                color='grey700'
+                currency={walletCurrency}
+                data-e2e={`${walletCurrency}-network-fee`}
+                size='14px'
+                weight={500}
+              >
+                {depositFee}
+              </FiatDisplay>
+            </NetworkAmountContainer>
+          </NetworkFeeContainer>
         )}
       </FlyoutWrapper>
       <FlyoutWrapper

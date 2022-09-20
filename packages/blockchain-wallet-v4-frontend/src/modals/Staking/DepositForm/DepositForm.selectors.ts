@@ -9,7 +9,6 @@ import {
   RemoteDataType
 } from '@core/types'
 import { selectors } from 'data'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
 
 import { FORM_NAME } from './DepositForm.model'
@@ -56,29 +55,15 @@ export const getData = (state: RootState) => {
       interestEDDDepositLimits,
       interestEDDStatus
     ) => {
-      const { coinfig } = window.coins[coin]
       const depositFee =
         coin === 'BCH' || coin === 'BTC'
           ? Number(pathOr('0', ['selection', 'fee'], payment))
           : Number(propOr('0', 'fee', payment))
 
-      const feeCrypto = coinfig.type.erc20Address
-        ? convertBaseToStandard('ETH', depositFee)
-        : convertBaseToStandard(coin, depositFee)
-
-      const feeFiat = Exchange.convertCoinToFiat({
-        coin,
-        currency: walletCurrency,
-        isStandard: true,
-        rates: coinfig.type.erc20Address ? ethRates : rates,
-        value: feeCrypto
-      })
-
       return {
+        depositFee,
         earnDepositLimits,
         ethRates,
-        feeCrypto,
-        feeFiat,
         formErrors,
         interestAccount,
         interestEDDDepositLimits,
@@ -86,7 +71,8 @@ export const getData = (state: RootState) => {
         interestRates,
         payment,
         prefillAmount,
-        rates
+        rates,
+        walletCurrency
       }
     }
   )(

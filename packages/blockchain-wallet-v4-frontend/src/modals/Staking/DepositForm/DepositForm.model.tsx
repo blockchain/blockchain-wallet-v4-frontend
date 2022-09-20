@@ -1,3 +1,4 @@
+import { PaletteColors } from '@blockchain-com/constellation'
 import { BaseFieldProps, Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -54,8 +55,8 @@ export const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 32px;
-  background-color: ${(props) => props.theme.red000};
-  color: ${(props) => props.theme.red800};
+  background-color: ${PaletteColors['red-000']};
+  color: ${PaletteColors['red-800']};
   margin-bottom: 16px;
 `
 export const FiatMaxContainer = styled.div`
@@ -63,7 +64,7 @@ export const FiatMaxContainer = styled.div`
   display: inline-block;
   padding: 0px 6px;
   border-radius: 10px;
-  background-color: ${(props) => props.theme.grey000};
+  background-color: ${PaletteColors['grey-000']};
 `
 export const AmountError = styled.div`
   margin: 2px 5px 0 0;
@@ -74,8 +75,8 @@ export const AmountError = styled.div`
 
 export const GreyBlueCartridge = styled(CustomCartridge)`
   background-color: ${(props) => props.theme.white};
-  border: 1px solid ${(props) => props.theme.grey100};
-  color: ${(props) => props.theme.blue600};
+  border: 1px solid ${PaletteColors['grey-100']};
+  color: ${PaletteColors['blue-600']};
   cursor: pointer;
   margin-left: 10px;
   min-width: 86px;
@@ -113,4 +114,19 @@ export const CustomOrangeCartridge = styled(OrangeCartridge)`
   align-items: center;
   font-size: 14px;
   margin-top: 24px;
+`
+export const NetworkFeeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid ${PaletteColors['grey-100']};
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 24px;
+`
+export const NetworkAmountContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
 `
