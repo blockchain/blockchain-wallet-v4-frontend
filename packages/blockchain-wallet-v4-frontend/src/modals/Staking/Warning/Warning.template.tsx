@@ -40,9 +40,25 @@ const Warning = ({ bondingDays, coin, handleClick, handleClose }: OwnProps) => (
         </Text>
         <Text color='grey600' size='16px' weight={500}>
           <FormattedMessage
-            defaultMessage='Once staked, {coin} funds can’t be unstaked or transferred for an unknown period of time. {br}{br} Your {coin} will also be subject to a bonding period of {bondingDays} days before it generates rewards.'
+            defaultMessage='Once staked, {coin} funds can’t be unstaked or transferred for an unknown period of time. {br}{br} Your {coin} will also be subject to a bonding period of {bondingDays} {days} before it generates rewards.'
             id='modals.staking.warning.content.subtitle'
-            values={{ bondingDays, br: <br />, coin }}
+            values={{
+              bondingDays,
+              br: <br />,
+              coin,
+              days:
+                bondingDays > 1 ? (
+                  <FormattedMessage
+                    defaultMessage='days'
+                    id='modals.staking.warning.content.subtitle.days'
+                  />
+                ) : (
+                  <FormattedMessage
+                    defaultMessage='day'
+                    id='modals.staking.warning.content.subtitle.day'
+                  />
+                )
+            }}
           />
         </Text>
       </Container>
@@ -77,7 +93,7 @@ const Warning = ({ bondingDays, coin, handleClick, handleClose }: OwnProps) => (
 )
 
 type OwnProps = {
-  bondingDays?: number
+  bondingDays: number
   coin: CoinType
   handleClick: () => void
   handleClose: () => void
