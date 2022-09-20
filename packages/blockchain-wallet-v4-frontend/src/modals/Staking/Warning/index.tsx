@@ -19,7 +19,7 @@ const WarningContainer = ({ coin, handleClose }: OwnProps) => {
     dispatch(actions.components.interest.fetchStakingLimits())
   }, [])
 
-  const bondingDays = data?.stakingLimits[coin].bondingDays || 120
+  const bondingDays = data?.stakingLimits[coin].bondingDays || 10
 
   const handleClick = () => {
     dispatch(
