@@ -24,10 +24,11 @@ class LinkedBanks extends PureComponent<Props> {
   }
 
   handleBankClick = () => {
-    const { walletCurrency } = this.props
+    const { plaidEnabled, walletCurrency } = this.props
+    const ACHProvider = plaidEnabled ? 'ADD_BANK_PLAID_MODAL' : 'ADD_BANK_YODLEE_MODAL'
     this.props.brokerageActions.setupBankTransferProvider()
     this.props.brokerageActions.showModal({
-      modalType: walletCurrency === 'USD' ? 'ADD_BANK_PLAID_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+      modalType: walletCurrency === 'USD' ? ACHProvider : 'ADD_BANK_YAPILY_MODAL',
       origin: BrokerageModalOriginType.ADD_BANK_SETTINGS
     })
 
@@ -76,6 +77,7 @@ class LinkedBanks extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
+  plaidEnabled: selectors.core.walletOptions.getAddPlaidPaymentProvider(state).getOrElse(false),
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
@@ -91,6 +93,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
+  plaidEnabled: unknown | boolean
   userData: UserDataType
   walletCurrency: WalletFiatType
 }
