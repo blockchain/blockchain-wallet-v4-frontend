@@ -25,6 +25,7 @@ const SortableTable = ({
   interestEligible,
   interestRates,
   sortedInstruments,
+  stakingAccountBalance,
   stakingEligible,
   stakingRates,
   walletCurrency
@@ -137,19 +138,26 @@ const SortableTable = ({
     .map(({ coin, product }) => {
       const { coinfig } = window.coins[coin] || {}
       const { displaySymbol, name: displayName } = coinfig
-      const account = interestAccountBalance && interestAccountBalance[coin]
+      const isStaking = product === 'Staking'
+      const account = isStaking
+        ? stakingAccountBalance && stakingAccountBalance[coin]
+        : interestAccountBalance && interestAccountBalance[coin]
       const accountBalanceBase = account ? account.balance : 0
       const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
       const stakingEligibleCoin = stakingEligible[coin] && stakingEligible[coin]?.eligible
-      const isStaking = product === 'Staking'
       const rate = isStaking ? stakingRates[coin].rate : interestRates[coin]
 
       const primaryButton = isStaking
         ? {
             disabled: !stakingEligibleCoin,
             onClick: () => handleClick(coin, isStaking),
-            text: <FormattedMessage id='copy.stake' defaultMessage='Stake' />,
-            variant: 'primary',
+            text:
+              accountBalanceBase > 0 ? (
+                <FormattedMessage id='copy.manage' defaultMessage='Manage' />
+              ) : (
+                <FormattedMessage id='copy.stake' defaultMessage='Stake' />
+              ),
+            variant: accountBalanceBase > 0 ? 'minimal' : 'primary',
             width: 'auto'
           }
         : {

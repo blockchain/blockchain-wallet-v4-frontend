@@ -15,7 +15,7 @@ import { getData } from './selectors'
 import SortableTable from './SortableTable'
 
 const EarnTableContainer = (props: Props) => {
-  const { analyticsActions, interestActions, sortedInstruments } = props
+  const { analyticsActions, earnActions, sortedInstruments } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const isTabletL = useMedia('tabletL')
 
@@ -32,9 +32,14 @@ const EarnTableContainer = (props: Props) => {
     })
 
     if (isStaking) {
-      interestActions.showStakingModal({ coin, step: 'WARNING' })
+      const balance = data?.stakingAccountBalance[coin]?.balance
+      if (balance && Number(balance) > 0) {
+        earnActions.showStakingModal({ coin, step: 'ACCOUNT_SUMMARY' })
+      } else {
+        earnActions.showStakingModal({ coin, step: 'WARNING' })
+      }
     } else {
-      interestActions.showInterestModal({ coin, step: 'DEPOSIT' })
+      earnActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
     }
   }
 
@@ -60,7 +65,7 @@ const EarnTableContainer = (props: Props) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  earnActions: bindActionCreators(actions.components.interest, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
