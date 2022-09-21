@@ -53,7 +53,7 @@ class Success extends PureComponent<ModalPropsType & LinkStatePropsType> {
                 paymentMethodId={this.props.brokerageMethod.id}
               />
             ) : (
-              <DataError />
+              <Handler handleClose={this.handleClose} />
             )}
           </FlyoutChild>
         )}
