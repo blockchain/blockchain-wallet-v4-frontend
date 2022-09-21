@@ -23,16 +23,19 @@ const MobileRow = ({
   interestEligible,
   interestRates,
   product,
+  stakingAccountBalance,
   stakingEligible,
   walletCurrency
 }: Props): ReactElement => {
   const { coinfig } = window.coins[coin] || {}
   const { displaySymbol, name: displayName } = coinfig
-  const account = interestAccountBalance && interestAccountBalance[coin]
+  const isStaking = product === 'Staking'
+  const account = isStaking
+    ? stakingAccountBalance && stakingAccountBalance[coin]
+    : interestAccountBalance && interestAccountBalance[coin]
   const accountBalanceBase = account ? account.balance : 0
   const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
   const stakingEligibleCoin = stakingEligible[coin] && stakingEligible[coin]?.eligible
-  const isStaking = product === 'Staking'
 
   return (
     <Wrapper
@@ -76,9 +79,9 @@ const MobileRow = ({
             coin={coin}
             currency={walletCurrency}
             loadingHeight='24px'
-            size='14px'
+            size='16px'
             style={{ lineHeight: '21px' }}
-            weight={500}
+            weight={600}
           >
             {accountBalanceBase}
           </FiatDisplay>

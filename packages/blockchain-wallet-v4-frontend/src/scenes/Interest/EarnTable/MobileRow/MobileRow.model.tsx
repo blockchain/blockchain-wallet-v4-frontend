@@ -9,7 +9,8 @@ const FlexColumn = css`
 `
 export const Wrapper = styled.button<WrapperProps>`
   display: flex;
-  padding: 16px 0;
+  align-items: center;
+  padding: 16px;
   border: none;
   background-color: transparent;
   gap: 16px;
