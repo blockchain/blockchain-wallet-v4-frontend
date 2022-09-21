@@ -1,6 +1,5 @@
 import React, { memo, MouseEventHandler } from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconChevronRight } from '@blockchain-com/icons'
+import { IconChevronRight, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -70,9 +69,11 @@ const StandardRow = memo<Props>(
 
             <Flex gap={1} flexDirection='column' alignItems='flex-end' justifyContent='center'>
               {rightAction ? (
-                <Icon label='chevron-right' color='grey400' size='md'>
-                  <IconChevronRight />
-                </Icon>
+                <IconChevronRight
+                  color={PaletteColors['grey-400']}
+                  label='chevron-right'
+                  size='medium'
+                />
               ) : (
                 <>
                   <Text weight={600} size='16px' color='grey900'>

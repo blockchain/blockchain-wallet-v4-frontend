@@ -6,6 +6,6 @@ type OpenTransactionReportModalCallback = (props: {
   origin: ModalOriginType
 }) => void
 
-type OpenTransactionReportModalHook = () => [OpenTransactionReportModalCallback]
+type OpenTransactionReportModalHook = () => OpenTransactionReportModalCallback
 
 export type { OpenTransactionReportModalCallback, OpenTransactionReportModalHook }

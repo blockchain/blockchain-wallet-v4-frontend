@@ -20,7 +20,7 @@ const MoreEth = styled(Text)`
 `
 
 const GetMoreEthComponent: React.FC<Props> = (props) => {
-  const [openOpenSendCryptoModal] = useOpenSendCryptoModal()
+  const openOpenSendCryptoModal = useOpenSendCryptoModal()
   const { amtToBuy, custodialBalance } = props
   const sendButtonCallback = () => openOpenSendCryptoModal({ coin: 'ETH', origin: 'NftsMakeOffer' })
 

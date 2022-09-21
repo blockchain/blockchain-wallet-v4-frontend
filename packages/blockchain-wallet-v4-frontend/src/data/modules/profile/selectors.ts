@@ -26,7 +26,7 @@ import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
-import { UserDataType } from './types'
+import { UserDataType, UserTradingCurrencies } from './types'
 
 export const getUserData = (state: RootState) => state.profile.userData
 export const getUserCampaigns = (state: RootState) => state.profile.userCampaigns
@@ -64,13 +64,19 @@ export const isSilverOrAbove = compose(
   getUserData
 )
 
-// export const getCurrentTier = compose(lift(path(['tiers', 'current'])), getUserData)
 export const getCurrentTier = createSelector(getUserData, (userDataR) => {
   return lift((userData: ExtractSuccess<typeof userDataR>) => userData.tiers.current)(userDataR)
 })
-export const getUserCurrencies = createSelector(getUserData, (userDataR) => {
-  const userData = userDataR.getOrElse({} as UserDataType)
-  return userData.currencies
+export const getUserCurrencies = createSelector([getUserData], (userDataR) => {
+  return lift((userData: ExtractSuccess<typeof userDataR>) => ({
+    ...userData.currencies
+  }))(userDataR)
+})
+export const getTradingCurrency = createSelector([getUserCurrencies], (userCurrenciesR) => {
+  return lift(
+    (userCurrencies: ExtractSuccess<typeof userCurrenciesR>) =>
+      userCurrencies.preferredFiatTradingCurrency
+  )(userCurrenciesR)
 })
 export const getUserCountryCode = compose(lift(path(['address', 'country'])), getUserData)
 export const getUserStateCode = compose(lift(path(['address', 'state'])), getUserData)

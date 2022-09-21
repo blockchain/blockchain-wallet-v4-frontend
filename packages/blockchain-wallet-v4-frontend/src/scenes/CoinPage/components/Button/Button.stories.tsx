@@ -1,6 +1,5 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconSend } from '@blockchain-com/icons'
+import { IconSend, PaletteColors } from '@blockchain-com/constellation'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 import { Button } from './Button'
@@ -25,9 +24,5 @@ export const Default = Template.bind({})
 Default.args = {
   children: 'Click me',
   'data-e2e': 'test',
-  icon: (
-    <Icon label='send' color='white900' size='sm'>
-      <IconSend />
-    </Icon>
-  )
+  icon: <IconSend label='send' color={PaletteColors['white-900']} size='small' />
 }

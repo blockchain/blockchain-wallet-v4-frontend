@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconMinusCircle, IconPlusCircle } from '@blockchain-com/icons'
+import { IconMinusCircle, IconPlusCircle, PaletteColors } from '@blockchain-com/constellation'
 import { isEmpty } from 'ramda'
 import styled from 'styled-components'
 
@@ -12,7 +11,7 @@ import { BalanceType, TransactionState, TransactionType } from 'data/components/
 import { ModalName } from 'data/modals/types'
 import { useRemote } from 'hooks'
 
-import { FULL_DATETIME_FORMAT, useDateTimeFormatter } from '../../../../hooks/useDateTimeFormatter'
+import { FULL_DATETIME_FORMAT } from '../../../../hooks/useDateTimeFormatter'
 import {
   BoxContainer,
   BoxRow,
@@ -27,20 +26,20 @@ const SkeletonLoader = styled.div`
   align-items: center;
   > div:last-child {
     flex: 1;
-    margin-left: 16px;
+    margin-left: 1rem;
   }
+
   width: 100%;
 `
 
 const TransactionsWrapper = styled.div`
-  max-height: 310px;
   overflow: auto;
 `
 
 const StyledBanner = styled(Banner)`
   max-width: fit-content;
   display: inline-flex;
-  margin-left: 8px;
+  margin-left: 0.5rem;
   border: unset;
 `
 
@@ -119,7 +118,8 @@ const TransactionsBox = ({ modalActions }) => {
   }
 
   const generateTransactionIcon = (type) => {
-    return type === TransactionType.PAYMENT ? <IconMinusCircle /> : <IconPlusCircle />
+    const IconComponent = type === TransactionType.PAYMENT ? IconMinusCircle : IconPlusCircle
+    return <IconComponent color={PaletteColors['blue-300']} label='Spent' size='small' />
   }
 
   const getBannerType = (state: TransactionState) => {
@@ -136,7 +136,7 @@ const TransactionsBox = ({ modalActions }) => {
   }
 
   const handleOpenDetail = (detail) => {
-    modalActions.showModal(ModalName.TRANSACTION_DETAIL, {
+    modalActions.showModal(ModalName.TRANSACTION_DETAIL_MODAL, {
       detail,
       origin: 'SettingsPage'
     })
@@ -150,17 +150,19 @@ const TransactionsBox = ({ modalActions }) => {
         <TransactionsWrapper>
           {data.map((detail) => {
             const { id, merchantName, originalAmount, state, type, userTransactionTime } = detail
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const datetime = useDateTimeFormatter(userTransactionTime, FULL_DATETIME_FORMAT)
+
+            const formattedDateTime = new Date(userTransactionTime).toLocaleString(
+              'en-US',
+              FULL_DATETIME_FORMAT
+            )
+
             return (
               <TransactionItem key={id} onClick={() => handleOpenDetail(detail)}>
-                <Icon color='blue300' label='Spent' size='sm'>
-                  {generateTransactionIcon(type)}
-                </Icon>
+                {generateTransactionIcon(type)}
                 <BoxRowItemTitle>
                   {generateTransactionTitle(type, originalAmount, merchantName)}
                   <BoxRowItemSubTitle>
-                    {datetime}
+                    {formattedDateTime}
                     <StyledBanner type={getBannerType(state)} icon={null}>
                       {state}
                     </StyledBanner>

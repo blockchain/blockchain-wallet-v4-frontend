@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Flex } from 'components/Flex'
@@ -29,9 +28,7 @@ export const getEventTypeColumn = () => ({
     return (
       <NameCell>
         <FlexIconWrapper justifyContent='center' alignItems='center'>
-          <Icon label='event' size='sm'>
-            <EventTypeIcon event_type={values.event_type} />
-          </Icon>
+          <EventTypeIcon event_type={values.event_type} label='event' size='small' />
         </FlexIconWrapper>
         <EventTypeName event_type={values.event_type} />
       </NameCell>

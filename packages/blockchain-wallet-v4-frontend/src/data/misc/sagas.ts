@@ -8,9 +8,9 @@ import { tryParseLanguageFromUrl } from 'services/locales'
 import * as S from './selectors'
 
 export default () => {
-  const pingManifestFile = function* () {
+  const pingRuntimeFile = function* () {
     try {
-      // only ping manifest if in production and window is active
+      // only ping runtime if in production and window is active
       if (
         window.location.host === 'login.blockchain.com' &&
         (!window.document.hidden || window.document.visibilityState === 'visible')
@@ -20,18 +20,18 @@ export default () => {
         })
         const response = yield fetch(domains.comWalletApp)
         const raw = yield response.text()
-        const nextManifest = raw.match(/manifest\.\d*.js/)[0]
+        const nextRuntime = raw.match(/runtime\.\d*.js/)[0]
 
-        const currentManifest = yield select(S.getManifest)
+        const currentRuntime = yield select(S.getRuntime)
 
-        if (currentManifest && nextManifest !== currentManifest) {
+        if (currentRuntime && nextRuntime !== currentRuntime) {
           yield put(
             actions.modals.showModal(ModalName.NEW_VERSION_AVAILABLE, { origin: 'Unknown' })
           )
         }
 
-        if (!currentManifest) {
-          yield put(actions.misc.setManifestFile(nextManifest))
+        if (!currentRuntime) {
+          yield put(actions.misc.setRuntimeFile(nextRuntime))
         }
       }
     } catch (e) {
@@ -39,7 +39,7 @@ export default () => {
     }
 
     yield delay(15_000) // 15 second ping intervals
-    yield put(actions.misc.pingManifestFile())
+    yield put(actions.misc.pingRuntimeFile())
   }
 
   const startCoinWebsockets = function* () {
@@ -116,7 +116,7 @@ export default () => {
     generateCaptchaToken,
     initAppLanguage,
     logAppConsoleWarning,
-    pingManifestFile,
+    pingRuntimeFile,
     startCoinWebsockets
   }
 }

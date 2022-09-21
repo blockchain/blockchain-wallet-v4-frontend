@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -61,7 +61,7 @@ const NftOrderNotVerified: React.FC<Props> = (props) => {
           ) : null}
           <Text
             size='20px'
-            color={colors.black}
+            color={PaletteColors['grey-900']}
             weight={600}
             style={{ marginTop: '1em', textAlign: 'center' }}
           >
@@ -69,7 +69,7 @@ const NftOrderNotVerified: React.FC<Props> = (props) => {
           </Text>
           <Text
             size='14px'
-            color={colors.grey600}
+            color={PaletteColors['grey-600']}
             weight={500}
             style={{ padding: '1em', textAlign: 'center' }}
           >

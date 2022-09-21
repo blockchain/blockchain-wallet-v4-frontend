@@ -5,4 +5,4 @@ export type useOpenRecurringBuyFlayoutHookOpenCallback = (args: {
   recurringBuy: RecurringBuyRegisteredList
 }) => void
 
-export type useOpenRecurringBuyFlayoutHook = () => [useOpenRecurringBuyFlayoutHookOpenCallback]
+export type useOpenRecurringBuyFlayoutHook = () => useOpenRecurringBuyFlayoutHookOpenCallback

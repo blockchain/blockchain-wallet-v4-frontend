@@ -23,10 +23,10 @@ import { HoldingsCardHook } from './types'
 export const useHoldingsCard: HoldingsCardHook = ({ coin }) => {
   const currency = useCurrency()
   const { data: coinfig, isLoading: isLoadingCoinConfig } = useCoinConfig({ coin })
-  const [openOpenBuyFlow] = useOpenBuyFlow()
-  const [openOpenSellFlow] = useOpenSellFlow()
-  const [openOpenReceiveCryptoModal] = useOpenReceiveCryptoModal()
-  const [openOpenSendCryptoModal] = useOpenSendCryptoModal()
+  const openOpenBuyFlow = useOpenBuyFlow()
+  const openOpenSellFlow = useOpenSellFlow()
+  const openOpenReceiveCryptoModal = useOpenReceiveCryptoModal()
+  const openOpenSendCryptoModal = useOpenSendCryptoModal()
 
   const { data: coinBalance, isLoading: isCoinBalanceLoading } = useCoinBalance({ coin })
 

@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
-import { IconCloseCircleV2, IconWarningTriangle } from '@blockchain-com/icons'
+import {
+  IconCloseCircleV2,
+  IconWarningTriangle,
+  PaletteColors
+} from '@blockchain-com/constellation'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import styled from 'styled-components'
 
@@ -77,14 +80,7 @@ const SanctionsInfo = (props: Props) => {
           <HeaderWrapper>
             <IconsContainerRight>
               <CloseIconContainer onClick={handleClose}>
-                <Icon
-                  label='close'
-                  color='grey600'
-                  data-e2e='sanctionsInfoCloseModalIcon'
-                  size='md'
-                >
-                  <IconCloseCircleV2 />
-                </Icon>
+                <IconCloseCircleV2 color={PaletteColors['grey-600']} label='close' size='medium' />
               </CloseIconContainer>
             </IconsContainerRight>
           </HeaderWrapper>
@@ -93,9 +89,11 @@ const SanctionsInfo = (props: Props) => {
             <Padding all={40}>
               <Flex justifyContent='center'>
                 <Padding bottom={20}>
-                  <Icon label='alert' color='orange400' size='lg'>
-                    <IconWarningTriangle />
-                  </Icon>
+                  <IconWarningTriangle
+                    color={PaletteColors['orange-400']}
+                    label='alert'
+                    size='large'
+                  />
                 </Padding>
               </Flex>
               <RowItemTitle>

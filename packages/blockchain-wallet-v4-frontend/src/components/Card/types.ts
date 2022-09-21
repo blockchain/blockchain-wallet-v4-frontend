@@ -1,11 +1,11 @@
 import { FC } from 'react'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 
 export type CardBorderRadius = 'lg' | 'md'
 export type CardElevation = 1
 
 export type CardProps = {
-  backgroundColor?: keyof typeof colors
+  backgroundColor?: keyof typeof PaletteColors
   borderRadius?: CardBorderRadius
   borderWidth?: number
   elevation?: CardElevation

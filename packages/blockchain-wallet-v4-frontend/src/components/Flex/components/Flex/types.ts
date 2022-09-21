@@ -24,6 +24,7 @@ export type FlexWrap = 'wrap' | 'nowrap' | 'wrap-reverse'
 export type FlexProps = {
   alignItems?: FlexAlignItems
   flexDirection?: FlexDirection
+  flexGrow?: number
   flexWrap?: FlexWrap
   gap?: number
   justifyContent?: FlexJustifyContent

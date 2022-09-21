@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Flyout from 'components/Flyout'
 
 import { Loading, LoadingTextEnum } from '../../components'
-import { LoadingWrapper } from '../OrderMyCard/OrderMyCard.model'
+import { LoadingWrapper } from '../OrderCard/OrderCard.model'
 import { Props } from './TerminateCard'
 import TerminateFailureStep from './TerminateFailureStep'
 import TerminateStep from './TerminateStep'

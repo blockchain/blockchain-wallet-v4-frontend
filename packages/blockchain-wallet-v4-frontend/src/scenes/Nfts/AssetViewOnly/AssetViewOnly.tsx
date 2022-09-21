@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import ReactMarkdown from 'react-markdown'
 import { connect, ConnectedProps } from 'react-redux'
-import { colors, Icon } from '@blockchain-com/constellation'
-import { IconComputer, IconInstagram, IconLink, IconTwitter } from '@blockchain-com/icons'
+import { PaletteColors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import NftDropdown from 'blockchain-wallet-v4-frontend/src/modals/Nfts/components/NftDropdown'
 import {
@@ -24,6 +23,7 @@ import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
+import { Analytics } from 'data/types'
 import { isMobile, media, useMedia } from 'services/styles'
 
 import {
@@ -105,12 +105,12 @@ const Description = styled.div`
 
 const CreatorOwnerAddress = styled.div`
   font-size: 16px;
-  color: ${colors.grey700};
+  color: ${PaletteColors['grey-700']};
   display: flex;
 `
 
 const CreatorOwnerAddressLinkText = styled(CreatorOwnerAddress)`
-  color: ${colors.blue600};
+  color: ${PaletteColors['blue-600']};
   font-weight: 600;
 `
 
@@ -128,9 +128,9 @@ const DropdownPadding = styled.div`
 const Detail = styled(Text)`
   display: flex;
   justify-content: space-between;
-  color: ${colors.grey900};
+  color: ${PaletteColors['grey-900']};
   padding: 1em 1.5em;
-  border-bottom: 1px solid ${colors.grey000};
+  border-bottom: 1px solid ${PaletteColors['grey-000']};
   font-size: 16px;
   font-weight: 500;
   &:last-child {
@@ -139,7 +139,7 @@ const Detail = styled(Text)`
 `
 
 const ShadowTag = styled.div`
-  background: ${colors.white900};
+  background: ${PaletteColors['white-900']};
   box-shadow: 0px 4px 16px rgba(5, 24, 61, 0.1);
   border-radius: 16px;
   padding: 6px 6px;
@@ -174,6 +174,7 @@ const MarginButton = styled(Button)`
 const DetailsAndOffers = styled.div``
 
 const NftAssetViewOnly: React.FC<Props> = ({
+  analyticsActions,
   nftOwnerAssets,
   nftsActions,
   routerActions,
@@ -184,7 +185,17 @@ const NftAssetViewOnly: React.FC<Props> = ({
   }
   const { contract, id } = rest.computedMatch.params
   const [moreAssetToggle, setMoreAssetToggle] = useState(true)
-
+  const transferClicked = () => {
+    nftsActions.nftOrderFlowOpen({
+      asset_contract_address: contract,
+      step: NftOrderStepEnum.TRANSFER,
+      token_id: id
+    })
+    analyticsActions.trackEvent({
+      key: Analytics.NFT_TRANSFER_CLICKED,
+      properties: {}
+    })
+  }
   return (
     <>
       {nftOwnerAssets.cata({
@@ -344,13 +355,7 @@ const NftAssetViewOnly: React.FC<Props> = ({
                         </Description>
                       ) : null}
                       <MarginButton
-                        onClick={() =>
-                          nftsActions.nftOrderFlowOpen({
-                            asset_contract_address: contract,
-                            step: NftOrderStepEnum.TRANSFER,
-                            token_id: id
-                          })
-                        }
+                        onClick={transferClicked}
                         fullwidth
                         data-e2e='transfer-nft'
                         nature='primary'

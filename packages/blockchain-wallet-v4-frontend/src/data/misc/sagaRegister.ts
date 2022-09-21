@@ -8,6 +8,6 @@ export default () => {
 
   return function* authSaga() {
     yield takeLatest(actions.generateCaptchaToken.type, miscSagas.generateCaptchaToken)
-    yield takeLatest(actions.pingManifestFile.type, miscSagas.pingManifestFile)
+    yield takeLatest(actions.pingRuntimeFile.type, miscSagas.pingRuntimeFile)
   }
 }

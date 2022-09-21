@@ -3,10 +3,16 @@ import { call, put, select } from 'redux-saga/effects'
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
-import { CardStateType } from 'data/components/debitCard/types'
+import { CardStateType, ResidentialAddress } from 'data/components/debitCard/types'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
 
+import {
+  DebitCardError,
+  OrderCardStep,
+  RESIDENTIAL_ADDRESS_FORM,
+  SOCIAL_SECURITY_NUMBER_FORM
+} from './model'
 import { actions as A } from './slice'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -75,14 +81,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const getCards = function* () {
     try {
       yield put(A.getCardsLoading())
+
+      yield put(A.getLegalRequirements())
+
       let cards = yield call(api.getDCCreated)
+
       cards = filterTerminatedCards(cards)
+
       yield put(A.getCardsSuccess(cards))
+
       if (cards.length > 0) {
         yield put(A.setCurrentCardSelected(cards[0]))
+
         yield call(getCardToken, cards[0].id)
+
         yield call(getEligibleAccounts)
+
         yield call(getCurrentCardAccount)
+
         yield call(getCardTransactions)
       }
     } catch (e) {
@@ -96,6 +112,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const debitCardModuleEnabled = (yield select(
       selectors.core.walletOptions.getWalletDebitCardEnabled
     )).getOrElse(false)
+
     if (debitCardModuleEnabled) {
       try {
         const products = yield call(api.getDCProducts)
@@ -109,14 +126,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const createCard = function* (action: ReturnType<typeof A.createCard>) {
     try {
+      const { ssn } = selectors.form.getFormValues(SOCIAL_SECURITY_NUMBER_FORM)(yield select()) as {
+        ssn: string
+      }
+
+      const legalRequirementsR = selectors.components.debitCard.getLegalRequirements(yield select())
+
+      const legalRequirements = legalRequirementsR.getOrFail(DebitCardError.NO_LEGAL_REQUIREMENTS)
+
+      const acceptedRequirements = legalRequirements.map((requirement) => ({
+        acceptedVersion: requirement.version,
+        name: requirement.name
+      }))
+
+      yield call(api.acceptLegalRequirements, acceptedRequirements)
+
+      const { payload: productCode } = action
+
       yield put(A.createCardLoading())
-      const { payload } = action
-      const data = yield call(api.createDCOrder, payload)
+
+      const data = yield call(api.createDCOrder, { productCode, ssn })
+
       yield put(A.createCardSuccess(data))
 
-      yield call(getCards)
+      yield put(A.getCards())
     } catch (e) {
       const error = errorHandler(e)
+
       yield put(A.createCardFailure(error))
     }
   }
@@ -128,6 +164,40 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       return card
     })
+
+  const getResidentialAddress = function* () {
+    try {
+      yield put(A.getResidentialAddressLoading())
+
+      const data = yield call(api.getDCResidentialAddress)
+
+      yield put(A.getResidentialAddressSuccess(data.address))
+    } catch (e) {
+      yield put(A.getResidentialAddressFailure(e))
+    }
+  }
+
+  const submitResidentialAddress = function* () {
+    try {
+      const formValues = selectors.form.getFormValues(RESIDENTIAL_ADDRESS_FORM)(
+        yield select()
+      ) as ResidentialAddress
+
+      yield put(A.submitResidentialAddressLoading())
+
+      const data = yield call(api.setDCResidentialAddress, formValues)
+
+      yield put(A.submitResidentialAddressSuccess(data.address))
+
+      yield put(actions.components.debitCard.setOrderCardStep(OrderCardStep.SSN))
+    } catch (e) {
+      yield put(A.submitResidentialAddressFailure(e))
+    }
+  }
+
+  const submitSocialSecurityNumber = function* () {
+    yield put(actions.components.debitCard.setOrderCardStep(OrderCardStep.SELECT_CARD))
+  }
 
   const handleCardLock = function* (action: ReturnType<typeof A.handleCardLock>) {
     try {
@@ -180,15 +250,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const getLegalRequirements = function* () {
+    try {
+      const data = yield call(api.getLegalRequirements)
+
+      yield put(A.getLegalRequirementsSuccess(data))
+    } catch (e) {
+      yield put(A.getLegalRequirementsFailure(e))
+    }
+  }
+
   return {
     createCard,
     getCardTransactions,
     getCards,
     getCurrentCardAccount,
     getEligibleAccounts,
+    getLegalRequirements,
     getProducts,
+    getResidentialAddress,
     handleCardLock,
     selectAccount,
+    submitResidentialAddress,
+    submitSocialSecurityNumber,
     terminateCard
   }
 }

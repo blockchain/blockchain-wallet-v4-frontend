@@ -1,5 +1,5 @@
 import React from 'react'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 
@@ -54,7 +54,7 @@ const NftAssetHeaderRow: React.FC<Props> = ({ asset }) => {
             {lowest_order?.current_price ? (
               <FiatDisplay
                 size='14px'
-                color={colors.grey600}
+                color={PaletteColors['grey-600']}
                 weight={600}
                 currency='USD'
                 coin='ETH'

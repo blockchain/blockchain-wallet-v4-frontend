@@ -13,7 +13,7 @@ import getData from './selectors'
 export const FundsOnHoldContainer = (props: Props) => {
   useEffect(() => {
     props.withdrawActions.fetchWithdrawalLock({ currency: props.walletCurrency })
-  }, [props.walletCurrency])
+  }, [props.walletCurrency, props.withdrawActions])
 
   const handleClick = useCallback(() => {
     props.modalActions.showModal(ModalName.CUSTODY_WITHDRAW_MODAL, {
@@ -40,7 +40,6 @@ export const FundsOnHoldContainer = (props: Props) => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  tradingCurrencies: selectors.modules.profile.getUserCurrencies(state),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD') as FiatType
 })
 

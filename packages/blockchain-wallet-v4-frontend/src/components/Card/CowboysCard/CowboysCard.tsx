@@ -14,6 +14,7 @@ import { useRemote } from 'hooks'
 
 const CowboysCard = styled(Card)`
   background: url('/img/prescott-card-bg.png') no-repeat top right;
+  background-color: black;
   position: absolute;
   bottom: 40px;
   left: 40px;
@@ -150,7 +151,7 @@ const CowboysCardComponent = () => {
     )
 
   return (
-    <CowboysCard backgroundColor='black' elevation={1}>
+    <CowboysCard elevation={1}>
       <Padding all={20}>
         <Flex>
           <Flex flexDirection='column' justifyContent='space-between'>

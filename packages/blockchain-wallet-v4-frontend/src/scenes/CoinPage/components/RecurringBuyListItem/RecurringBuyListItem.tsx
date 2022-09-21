@@ -1,7 +1,6 @@
 import React, { ReactNode, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconRepeat } from '@blockchain-com/icons'
+import { IconRepeat, PaletteColors } from '@blockchain-com/constellation'
 
 import { IconCircularBackground } from 'components/IconCircularBackground'
 import { StandardRow } from 'components/Rows'
@@ -81,10 +80,8 @@ export const RecurringBuyListItem: RecurringBuyListItemComponent = ({
     <StandardRow
       onClick={onClick}
       icon={
-        <IconCircularBackground color='orange400'>
-          <Icon size='sm' color='white900' label='icon'>
-            <IconRepeat />
-          </Icon>
+        <IconCircularBackground color='orange-400'>
+          <IconRepeat color={PaletteColors['white-900']} label='icon' size='small' />
         </IconCircularBackground>
       }
       rightAction

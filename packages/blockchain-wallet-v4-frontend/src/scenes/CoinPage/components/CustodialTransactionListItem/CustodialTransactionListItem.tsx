@@ -1,6 +1,5 @@
 import React from 'react'
-import { Icon } from '@blockchain-com/constellation'
-import { IconPlus } from '@blockchain-com/icons'
+import { IconPlus } from '@blockchain-com/constellation'
 
 import { StandardRow } from 'components/Rows'
 
@@ -17,11 +16,7 @@ const CustodialTransactionListItem: CustodialTransactionListItemComponent = ({
       bottomRightText=''
       topRightText=''
       onClick={onClick}
-      icon={
-        <Icon label=''>
-          <IconPlus />
-        </Icon>
-      }
+      icon={<IconPlus />}
     />
   )
 }

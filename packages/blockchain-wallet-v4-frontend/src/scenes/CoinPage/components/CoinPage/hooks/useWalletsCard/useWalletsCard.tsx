@@ -4,13 +4,25 @@ import { CoinType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
 import { IconCircularBackground } from 'components/IconCircularBackground'
 import { StandardRow } from 'components/Rows'
-import { getCoinColor, useCoinBalance, useCoinRates, useCurrency, useWalletsForCoin } from 'hooks'
+import {
+  getCoinColor,
+  useCoinBalance,
+  useCoinRates,
+  useCurrency,
+  useOpenViewInterestAccountModal,
+  useOpenViewPrivateKeyModal,
+  useOpenViewTradingAccount,
+  useWalletsForCoin
+} from 'hooks'
 
 import { WalletsCard } from '../../../WalletsCard'
 import { transformToAccounts } from './utils'
 
 export const useWalletsCard = (coin: CoinType): [ReactNode] => {
   const currency = useCurrency()
+  const openViewPrivateKeyModal = useOpenViewPrivateKeyModal()
+  const openViewInterestAccountModal = useOpenViewInterestAccountModal()
+  const openViewTradingAccount = useOpenViewTradingAccount()
 
   const {
     data: rates,
@@ -33,12 +45,12 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
   } = useWalletsForCoin({ coin })
 
   const isNotAsked = useMemo(
-    () => isCoinRatesNotAsked && isCoinBalanceNotAsked && isAddressDataNotAsked,
+    () => isCoinRatesNotAsked || isCoinBalanceNotAsked || isAddressDataNotAsked,
     [isCoinRatesNotAsked, isCoinBalanceNotAsked, isAddressDataNotAsked]
   )
 
   const isLoading = useMemo(
-    () => isLoadingCoinRates && isLoadingCoinBalance && isLoadingAddressData,
+    () => isLoadingCoinRates || isLoadingCoinBalance || isLoadingAddressData,
     [isLoadingCoinRates, isLoadingCoinBalance, isLoadingAddressData]
   )
 
@@ -46,7 +58,7 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
     if (rates === undefined) return []
 
     return (
-      coinAddressesData?.map(({ address, balance, label }) => ({
+      coinAddressesData?.map(({ address, balance, label, type }) => ({
         ...transformToAccounts({
           coin,
           currency,
@@ -54,7 +66,8 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
           value: balance ?? available ?? 0
         }),
         key: address,
-        label
+        label,
+        type
       })) ?? []
     )
   }, [rates, coinAddressesData, coin, currency, available])
@@ -76,7 +89,7 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
 
     return (
       <WalletsCard>
-        {accounts?.map(({ key, label, totalCrypto, totalFiat }) => {
+        {accounts?.map(({ key, label, totalCrypto, totalFiat, type }) => {
           const coinColor = getCoinColor(coin)
 
           return (
@@ -84,11 +97,32 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
               key={key}
               bottomLeftText={label}
               bottomRightText={totalCrypto}
-              onClick={() => {}}
+              onClick={() => {
+                if (type === 'ACCOUNT') {
+                  openViewPrivateKeyModal({
+                    coin,
+                    origin: 'CoinPageHoldings'
+                  })
+                }
+
+                if (type === 'CUSTODIAL') {
+                  openViewTradingAccount({
+                    coin,
+                    origin: 'CoinPageHoldings'
+                  })
+                }
+
+                if (type === 'INTEREST') {
+                  openViewInterestAccountModal({
+                    coin,
+                    origin: 'CoinPageHoldings'
+                  })
+                }
+              }}
               topLeftText={label}
               topRightText={totalFiat}
               icon={
-                <IconCircularBackground color={coinColor || 'grey200'}>
+                <IconCircularBackground color={coinColor || 'grey-200'}>
                   <Icon name='key' size='8px' color='white' />
                 </IconCircularBackground>
               }
@@ -97,7 +131,17 @@ export const useWalletsCard = (coin: CoinType): [ReactNode] => {
         })}
       </WalletsCard>
     )
-  }, [isLoading, isNotAsked, rates, available, accounts, coin])
+  }, [
+    isLoading,
+    isNotAsked,
+    rates,
+    available,
+    accounts,
+    coin,
+    openViewPrivateKeyModal,
+    openViewTradingAccount,
+    openViewInterestAccountModal
+  ])
 
   return [walletsCardNode]
 }

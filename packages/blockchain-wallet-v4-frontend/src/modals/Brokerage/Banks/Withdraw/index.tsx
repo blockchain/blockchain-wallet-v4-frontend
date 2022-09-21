@@ -85,30 +85,46 @@ class Withdraw extends PureComponent<Props, State> {
             isOpen={this.state.show}
             data-e2e='custodyWithdrawModal'
           >
-            <FlyoutChild>
-              {this.props.step === WithdrawStepEnum.LOADING && <Loading {...this.props} />}
-              {this.props.step === WithdrawStepEnum.ENTER_AMOUNT && (
+            {this.props.step === WithdrawStepEnum.LOADING && (
+              <FlyoutChild>
+                <Loading {...this.props} />
+              </FlyoutChild>
+            )}
+            {this.props.step === WithdrawStepEnum.ENTER_AMOUNT && (
+              <FlyoutChild>
                 <EnterAmount {...this.props} handleClose={this.handleClose} />
-              )}
-              {this.props.step === WithdrawStepEnum.WITHDRAWAL_METHODS && (
+              </FlyoutChild>
+            )}
+            {this.props.step === WithdrawStepEnum.WITHDRAWAL_METHODS && (
+              <FlyoutChild>
                 <WithdrawalMethods {...this.props} handleClose={this.handleClose} />
-              )}
-              {this.props.step === WithdrawStepEnum.BANK_PICKER && (
+              </FlyoutChild>
+            )}
+            {this.props.step === WithdrawStepEnum.BANK_PICKER && (
+              <FlyoutChild>
                 <BankPicker {...this.props} handleClose={this.handleClose} />
-              )}
-              {this.props.step === WithdrawStepEnum.CONFIRM_WITHDRAW && (
+              </FlyoutChild>
+            )}
+            {this.props.step === WithdrawStepEnum.CONFIRM_WITHDRAW && (
+              <FlyoutChild>
                 <ConfirmWithdraw {...this.props} handleClose={this.handleClose} />
-              )}
-              {this.props.step === WithdrawStepEnum.WITHDRAWAL_DETAILS && (
+              </FlyoutChild>
+            )}
+            {this.props.step === WithdrawStepEnum.WITHDRAWAL_DETAILS && (
+              <FlyoutChild>
                 <WithdrawalDetails {...this.props} handleClose={this.handleClose} />
-              )}
-              {this.props.step === WithdrawStepEnum.INELIGIBLE && (
+              </FlyoutChild>
+            )}
+            {this.props.step === WithdrawStepEnum.INELIGIBLE && (
+              <FlyoutChild>
                 <DataError message={{ message: BROKERAGE_INELIGIBLE }} />
-              )}
-              {this.props.step === WithdrawStepEnum.ON_HOLD && (
+              </FlyoutChild>
+            )}
+            {this.props.step === WithdrawStepEnum.ON_HOLD && (
+              <FlyoutChild>
                 <OnHold handleClose={this.handleClose} />
-              )}
-            </FlyoutChild>
+              </FlyoutChild>
+            )}
           </Flyout>
         )
       }

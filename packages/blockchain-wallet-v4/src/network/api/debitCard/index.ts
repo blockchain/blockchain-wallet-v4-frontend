@@ -1,12 +1,18 @@
 import { DebitCardType, ProductType } from 'data/components/debitCard/types'
 
 export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
-  const createDCOrder = (productCode: string): DebitCardType =>
+  const createDCOrder = ({
+    productCode,
+    ssn
+  }: {
+    productCode: string
+    ssn: string
+  }): DebitCardType =>
     authorizedPost({
       contentType: 'application/json',
       data: {
         productCode,
-        ssn: 111111110 // TODO: Hardcoded for testing purpose. Waiting for designs to get this value from a form
+        ssn
       },
       endPoint: '/card-issuing/cards',
       url: nabuUrl
@@ -78,16 +84,56 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
       url: nabuUrl
     })
 
+  const getDCResidentialAddress = () => {
+    return authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/card-issuing/residential-address',
+      url: nabuUrl
+    })
+  }
+
+  const setDCResidentialAddress = (address) => {
+    return authorizedPut({
+      contentType: 'application/json',
+      data: { address },
+      endPoint: '/card-issuing/residential-address',
+      url: nabuUrl
+    })
+  }
+
+  const getLegalRequirements = () => {
+    return authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/card-issuing/legal',
+      url: nabuUrl
+    })
+  }
+
+  const acceptLegalRequirements = (
+    acceptedRequirements: Array<{ acceptedVersion: number; name: string }>
+  ) => {
+    return authorizedPut({
+      contentType: 'application/json',
+      data: { legalPolicies: acceptedRequirements },
+      endPoint: '/card-issuing/legal',
+      url: nabuUrl
+    })
+  }
+
   return {
+    acceptLegalRequirements,
     createDCOrder,
     getDCCreated,
     getDCCurrentAccount,
     getDCEligibleAccounts,
     getDCProducts,
+    getDCResidentialAddress,
     getDCToken,
     getDCTransactions,
+    getLegalRequirements,
     handleDCLock,
     selectDCAccount,
+    setDCResidentialAddress,
     terminateDC
   }
 }

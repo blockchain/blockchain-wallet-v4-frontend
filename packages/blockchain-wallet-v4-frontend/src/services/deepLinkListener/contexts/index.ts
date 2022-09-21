@@ -1,1 +1,1 @@
-export * from './DeelLinkListenerContext'
+export * from './DeepLinkListenerContext'

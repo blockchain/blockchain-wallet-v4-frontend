@@ -14,11 +14,19 @@ import {
   MobilePaymentType
 } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import PaymentAccountError from 'components/Flyout/PaymentAccountError'
 import { actions, model, selectors } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import { BankStatusType, FastLinkType, ModalName } from 'data/types'
+import {
+  AddBankStepType,
+  BankStatusType,
+  BrokerageModalOriginType,
+  FastLinkType,
+  ModalName,
+  PlaidSettlementErrorReasons
+} from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
@@ -81,6 +89,29 @@ class BuySell extends PureComponent<Props, State> {
         pair: this.props.pair,
         step: 'ENTER_AMOUNT'
       })
+    }
+  }
+
+  paymentErrorHandler = () => {
+    switch (this.props.reason) {
+      case 'REQUIRES_UPDATE':
+        this.props.brokerageActions.showModal({
+          modalType: ModalName.ADD_BANK_PLAID_MODAL,
+          origin: BrokerageModalOriginType.ADD_BANK_BUY
+        })
+        this.props.brokerageActions.setAddBankStep({
+          addBankStep: AddBankStepType.ADD_BANK
+        })
+        this.props.brokerageActions.setReason(undefined)
+        this.backToEnterAmount()
+        break
+      case 'INSUFFICIENT_BALANCE':
+      case 'GENERIC':
+      case 'STALE_BALANCE':
+      default:
+        this.props.brokerageActions.setReason(undefined)
+        this.backToEnterAmount()
+        break
     }
   }
 
@@ -274,6 +305,15 @@ class BuySell extends PureComponent<Props, State> {
                 <StdLoading text={LoadingTextEnum.GETTING_READY} />
               </FlyoutChild>
             )}
+            {/** Only Plaid errors for now */}
+            {this.props.step === 'PAYMENT_ACCOUNT_ERROR' && (
+              <FlyoutChild>
+                <PaymentAccountError
+                  reason={this.props.reason}
+                  buttonHandler={this.paymentErrorHandler}
+                />
+              </FlyoutChild>
+            )}
           </Flyout>
         )
       }
@@ -294,11 +334,13 @@ const mapStateToProps = (state: RootState) => ({
   mobilePaymentMethod: selectors.components.buySell.getBSMobilePaymentMethod(state),
   orderType: selectors.components.buySell.getOrderType(state),
   pair: selectors.components.buySell.getBSPair(state),
+  reason: selectors.components.buySell.getReason(state),
   step: selectors.components.buySell.getStep(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
@@ -384,6 +426,10 @@ type LinkStatePropsType =
       orderType: BSOrderActionType
       pair: BSPairType
       step: 'PAYMENT_METHODS'
+    }
+  | {
+      reason: PlaidSettlementErrorReasons
+      step: 'PAYMENT_ACCOUNT_ERROR'
     }
   | {
       orderType: BSOrderActionType

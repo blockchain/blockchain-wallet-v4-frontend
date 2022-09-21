@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import { Icon, Padding, useCopyToClipboard } from '@blockchain-com/constellation'
-import { IconCloseCircleV2 } from '@blockchain-com/icons'
+import { Padding, useCopyToClipboard } from '@blockchain-com/constellation'
 import { compose } from 'redux'
 
 import { Button, Image, Text } from 'blockchain-info-components'
@@ -21,10 +20,8 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import {
   CircleBackground,
-  CloseIconContainer,
   Description,
   DescriptionWrapper,
-  HeaderWrapper,
   ImageWrapper,
   ReferralId,
   ReferralItem,
@@ -89,91 +86,98 @@ const ReferralLanding: ReferralLandingFlyoutComponent = ({
     >
       <FlyoutChild>
         <FlyoutContainer>
-          <FlyoutHeader mode='close' data-e2e='ReferralFlyoutCloseModal' onClick={handleClose} />
-          <FlyoutContent mode='top'>
-            {hasCowboysTag && (
-              <Flex justifyContent='center'>
-                <Padding bottom={45}>
-                  <Image name='cowboys' />
-                </Padding>
-              </Flex>
-            )}
-            {!hasCowboysTag && referralInformation?.promotion?.icon?.url && (
-              <ImageWrapper>
-                <img
-                  src={referralInformation.promotion.icon.url}
-                  alt={referralInformation.promotion.title}
-                />
-              </ImageWrapper>
-            )}
-            <Padding horizontal={45} bottom={8}>
-              <Title color='textBlack'>{referralInformation.rewardTitle}</Title>
-            </Padding>
-            <DescriptionWrapper>
-              <Padding top={0} left={3} right={3} bottom={40}>
-                <Description>{referralInformation.rewardSubtitle}</Description>
+          <FlyoutHeader
+            position='absolute'
+            mode='close'
+            data-e2e='ReferralFlyoutCloseModal'
+            onClick={handleClose}
+          />
+          <FlyoutContent mode='middle'>
+            <div>
+              {hasCowboysTag && (
+                <Flex justifyContent='center'>
+                  <Padding bottom={1}>
+                    <Image name='cowboys' />
+                  </Padding>
+                </Flex>
+              )}
+              {!hasCowboysTag && referralInformation?.promotion?.icon?.url && (
+                <ImageWrapper>
+                  <img
+                    src={referralInformation.promotion.icon.url}
+                    alt={referralInformation.promotion.title}
+                  />
+                </ImageWrapper>
+              )}
+              <Padding horizontal={3} bottom={0.5}>
+                <Title color='textBlack'>{referralInformation.rewardTitle}</Title>
               </Padding>
-            </DescriptionWrapper>
+              <DescriptionWrapper>
+                <Padding top={0} horizontal={3} bottom={0.5}>
+                  <Description>{referralInformation.rewardSubtitle}</Description>
+                </Padding>
+              </DescriptionWrapper>
 
-            <Padding bottom={4}>
-              <Text color='grey400' style={{ textAlign: 'center' }} size='14px'>
-                <FormattedMessage
-                  id='modals.referralLanding.referralCode'
-                  defaultMessage='Your referral code'
-                />
-              </Text>
-            </Padding>
-            <Padding horizontal={83}>
-              <ReferralId>
-                <Text
-                  color='grey900'
-                  style={{ fontFamily: 'Inter', letterSpacing: '0.4em', textAlign: 'center' }}
-                  size='24px'
-                  weight={500}
-                >
-                  {referralInformation.code}
-                </Text>
-                <Button
-                  data-e2e='copyReferralNumber'
-                  nature='white-blue'
-                  style={{ background: 'transparent' }}
-                  onClick={handleOnClickToCopyText}
-                >
-                  {textCopied ? (
-                    <FormattedMessage id='buttons.copied' defaultMessage='Copied' />
-                  ) : (
-                    <FormattedMessage id='buttons.copy' defaultMessage='Copy' />
-                  )}
-                </Button>
-              </ReferralId>
-              <Padding top={2} left={3} right={3} bottom={0.5}>
+              <Padding top={2} horizontal={3} bottom={0.5}>
                 <Text color='grey400' style={{ textAlign: 'center' }} size='14px'>
                   <FormattedMessage
-                    id='modals.referralLanding.toQualify'
-                    defaultMessage='To qualify, your friends must:'
+                    id='modals.referralLanding.referralCode'
+                    defaultMessage='Your referral code'
                   />
                 </Text>
               </Padding>
+              <Padding top={0} horizontal={3} bottom={0.5}>
+                <ReferralId>
+                  <Text
+                    color='grey900'
+                    style={{ fontFamily: 'Inter', letterSpacing: '0.4em', textAlign: 'center' }}
+                    size='24px'
+                    weight={500}
+                  >
+                    {referralInformation.code}
+                  </Text>
+                  <Button
+                    data-e2e='copyReferralNumber'
+                    nature='white-blue'
+                    style={{ background: 'transparent' }}
+                    onClick={handleOnClickToCopyText}
+                  >
+                    {textCopied ? (
+                      <FormattedMessage id='buttons.copied' defaultMessage='Copied' />
+                    ) : (
+                      <FormattedMessage id='buttons.copy' defaultMessage='Copy' />
+                    )}
+                  </Button>
+                </ReferralId>
+                <Padding top={2} left={3} right={3} bottom={0.5}>
+                  <Text color='grey400' style={{ textAlign: 'center' }} size='14px'>
+                    <FormattedMessage
+                      id='modals.referralLanding.toQualify'
+                      defaultMessage='To qualify, your friends must:'
+                    />
+                  </Text>
+                </Padding>
 
-              <ReferralItemWrapper>
-                <ReferralItems>
-                  {referralInformation.criteria.map((criteria, index) => (
-                    <ReferralItem key={criteria}>
-                      <CircleBackground size='24px' color='blue000'>
-                        <Text color='blue600' size='16px'>
-                          {index + 1}
-                        </Text>
-                      </CircleBackground>
-                      <ReferralItemDescription>
-                        <Text color='grey800' size='14px'>
-                          {criteria}
-                        </Text>
-                      </ReferralItemDescription>
-                    </ReferralItem>
-                  ))}
-                </ReferralItems>
-              </ReferralItemWrapper>
-            </Padding>
+                <ReferralItemWrapper>
+                  <ReferralItems>
+                    {referralInformation.criteria.map((criteria, index) => (
+                      <ReferralItem key={criteria}>
+                        <CircleBackground size='24px' color='blue000'>
+                          <Text color='blue600' size='16px'>
+                            {index + 1}
+                          </Text>
+                        </CircleBackground>
+                        <ReferralItemDescription>
+                          <Text color='grey800' size='14px'>
+                            {criteria}
+                          </Text>
+                        </ReferralItemDescription>
+                      </ReferralItem>
+                    ))}
+                  </ReferralItems>
+                </ReferralItemWrapper>
+              </Padding>
+            </div>
           </FlyoutContent>
 
           <FlyoutFooter collapsed>

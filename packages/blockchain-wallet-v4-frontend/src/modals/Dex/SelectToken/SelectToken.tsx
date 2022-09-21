@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { Icon } from '@blockchain-com/constellation'
-import { IconCloseCircleV2, IconSearch } from '@blockchain-com/icons'
+import { IconCloseCircleV2, IconSearch, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Field, formValueSelector, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -116,9 +115,7 @@ const DexSelectToken = ({
             modalActions.closeModal()
           }}
         >
-          <Icon label='close' size='md' color='grey400'>
-            <IconCloseCircleV2 />
-          </Icon>
+          <IconCloseCircleV2 label='close' size='medium' color={PaletteColors['grey-400']} />
         </CloseIcon>
       </Header>
       <TextFilterWrapper>
@@ -130,9 +127,7 @@ const DexSelectToken = ({
           placeholder='Search Symbol or Address'
         />
         <SearchIconWrapper>
-          <Icon label='close' size='md' color='grey400'>
-            <IconSearch />
-          </Icon>
+          <IconSearch label='close' size='medium' color={PaletteColors['grey-400']} />
         </SearchIconWrapper>
       </TextFilterWrapper>
       {tokenListR.cata({

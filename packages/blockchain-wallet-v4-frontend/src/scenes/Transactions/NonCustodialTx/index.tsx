@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { CoinType, FiatType, ProcessedTxType } from '@core/types'
 import { actions } from 'data'
 
+import { getBlockHeight } from './selectors'
 import NonCustodialTx from './template'
 
 class NonCustodialTxListItem extends React.PureComponent<Props, { isToggled: boolean }> {
@@ -70,6 +71,10 @@ class NonCustodialTxListItem extends React.PureComponent<Props, { isToggled: boo
   }
 }
 
+const mapStateToProps = (state, ownProps: OwnProps) => ({
+  blockHeight: getBlockHeight(state, ownProps.coin)
+})
+
 const mapDispatchToProps = (dispatch) => ({
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   ethActions: bindActionCreators(actions.core.kvStore.eth, dispatch),
@@ -81,7 +86,7 @@ const mapDispatchToProps = (dispatch) => ({
   xlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch)
 })
 
-const connector = connect(undefined, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   coin: CoinType

@@ -5,4 +5,4 @@ export type OpenBuyFlowHookOpenCallback = (props: {
   origin: BSShowModalOriginType
 }) => void
 
-export type OpenBuyFlowHook = () => [OpenBuyFlowHookOpenCallback]
+export type OpenBuyFlowHook = () => OpenBuyFlowHookOpenCallback

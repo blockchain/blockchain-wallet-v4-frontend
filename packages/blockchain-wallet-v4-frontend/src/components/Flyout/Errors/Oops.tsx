@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from '@blockchain-com/constellation'
-import { IconAlert } from '@blockchain-com/icons'
+import { IconAlert, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
@@ -71,9 +70,7 @@ const Failure = (props: Props) => {
         </Title>
         {message && (
           <ErrorTextContainer>
-            <Icon label='alert' color='red600'>
-              <IconAlert />
-            </Icon>
+            <IconAlert color={PaletteColors['red-600']} label='alert' />
             <ErrorText>{message}</ErrorText>
           </ErrorTextContainer>
         )}

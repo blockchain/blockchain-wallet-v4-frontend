@@ -128,9 +128,12 @@ const getStateElements = (states: Array<StateType>) => [
 ]
 
 const addTrailingZero = (string) => (string.length >= 2 ? string : `0${string}`)
+
 const removeTrailingZero = replace(/^0/, '')
+
 const objectToDOB = ({ date = '', month = '', year = '' }) =>
   `${year}-${month}-${addTrailingZero(date)}`
+
 const DOBToObject = (value) => {
   const [year = '', month = '', date = ''] = defaultTo('', value).split('-')
   return {
@@ -139,6 +142,7 @@ const DOBToObject = (value) => {
     year
   }
 }
+
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
   const { data: supportedUSStates } = useUSStateList()

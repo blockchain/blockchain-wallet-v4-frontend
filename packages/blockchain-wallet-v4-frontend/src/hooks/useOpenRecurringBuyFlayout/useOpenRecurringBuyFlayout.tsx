@@ -29,5 +29,5 @@ export const useOpenRecurringBuyFlayout: useOpenRecurringBuyFlayoutHook = () => 
     [dispatch]
   )
 
-  return [open]
+  return open
 }

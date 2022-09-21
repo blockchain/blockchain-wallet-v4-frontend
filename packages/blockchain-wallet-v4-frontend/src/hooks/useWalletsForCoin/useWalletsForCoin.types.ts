@@ -19,7 +19,8 @@ export type AddressData = {
 
 export type WalletsForCoinHookData = {
   address: string
-  balance: number
+  available?: number
+  balance?: number
   coin: string
   label: string
   type: string

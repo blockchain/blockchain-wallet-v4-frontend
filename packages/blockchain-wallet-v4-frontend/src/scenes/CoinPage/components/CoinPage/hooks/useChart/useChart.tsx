@@ -1,5 +1,5 @@
 import React, { ReactNode, useCallback, useMemo } from 'react'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 
 import { fiatToString } from '@core/exchange/utils'
 import { SpinningLoader } from 'blockchain-info-components'
@@ -44,9 +44,9 @@ export const useChart = ({ currency, timeRange }: UseChartArgs): [ReactNode] => 
     return (
       <ResponsiveCoinChart
         data={data}
-        backgroundColor={colors.white060}
-        primaryColor={colors.blue600}
-        textColor={colors.grey400}
+        backgroundColor={PaletteColors['white-060']}
+        primaryColor={PaletteColors['blue-600']}
+        textColor={PaletteColors['grey-400']}
         x='timestamp'
         y='price'
         xFormatter={xFormatter}

@@ -1,5 +1,5 @@
 import { LinkContainer } from 'react-router-bootstrap'
-import { colors } from '@blockchain-com/constellation'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -80,11 +80,11 @@ export const AssetName = styled(Text)`
   font-size: 40px;
   display: flex;
   margin-top: 30px;
-  color: ${colors.grey900};
+  color: ${PaletteColors['grey-900']};
 `
 
 export const CurrentPriceBox = styled.div`
-  border: 1px solid ${colors.grey000};
+  border: 1px solid ${PaletteColors['grey-000']};
   box-sizing: border-box;
   border-radius: 8px;
   margin-top: 20px;
@@ -96,7 +96,7 @@ export const Divider = styled.div`
   width: 100%;
   height: 1px;
   margin-top: 8px;
-  background: ${colors.grey000};
+  background: ${PaletteColors['grey-000']};
 `
 
 export const MoreAssets = styled.div`
@@ -132,7 +132,7 @@ export const Highest = styled(Text)`
   margin-bottom: 12px;
   font-weight: 600;
   line-height: 32px;
-  color: ${colors.grey900};
+  color: ${PaletteColors['grey-900']};
 `
 
 export const EthText = styled(Highest)`
@@ -140,7 +140,7 @@ export const EthText = styled(Highest)`
   display: flex;
   margin-bottom: 20px;
   align-items: center;
-  color: ${colors.grey900};
+  color: ${PaletteColors['grey-900']};
 `
 
 export const CollectionName = styled(Text)`
@@ -148,7 +148,7 @@ export const CollectionName = styled(Text)`
   font-size: 16px;
   display: flex;
   align-items: center;
-  color: ${colors.grey900};
+  color: ${PaletteColors['grey-900']};
 `
 
 export const CustomLink = styled(LinkContainer)`
@@ -172,7 +172,7 @@ export const NftTableWrapper = styled(TableWrapper)`
       padding: 6px 8px;
     }
     .th {
-      background: ${colors.grey000};
+      background: ${PaletteColors['grey-000']};
     }
     .td {
       height: 42px;

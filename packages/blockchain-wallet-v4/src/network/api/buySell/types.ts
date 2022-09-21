@@ -2,7 +2,13 @@ import { CardNameType } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/P
 
 import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/types'
 import { ORDER_ERROR_CODE } from 'data/components/buySell/model'
-import { BankDetails, RecurringBuyFailureReasons, RecurringBuyPeriods } from 'data/types'
+import {
+  BankDetails,
+  PlaidSettlementErrorReasons,
+  RecurringBuyFailureReasons,
+  RecurringBuyPeriods
+} from 'data/types'
+import { NabuErrorProps } from 'services/errors'
 
 export type IBSAccountType = {
   address: string
@@ -138,7 +144,10 @@ export enum CardFundSourceType {
 export type BSPaymentMethodType = {
   addedAt?: string
   address?: null | NabuAddressType
-  attributes?: {}
+  attributes?: {
+    requiresRefresh?: true
+  }
+  block?: boolean
   card?: BSCard
   cardFundSources?: CardFundSourceType[]
   currency: FiatType
@@ -154,6 +163,7 @@ export type BSPaymentMethodType = {
   state?: 'ACTIVE' | Exclude<BSCardStateType, 'ACTIVE'>
   subTypes?: [] | [CardNameType]
   type: BSPaymentTypes
+  ux?: NabuErrorProps
 }
 
 export type BSPaymentMethodsType = {
@@ -403,6 +413,7 @@ export type BuyQuoteType = {
   sampleDepositAddress: null
   settlementDetails: {
     availability: string
+    reason: PlaidSettlementErrorReasons
   }
   staticFee: null
 }
