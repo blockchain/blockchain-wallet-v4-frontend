@@ -541,6 +541,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const sendDeposit = function* ({ payload }: ReturnType<typeof A.submitDepositForm>) {
     const { formName } = payload
     const isStaking = formName === STAKING_DEPOSIT_FORM
+
     try {
       yield put(actions.form.startSubmit(formName))
       const formValues: RewardsDepositFormType | StakingDepositFormType = yield select(
@@ -584,11 +585,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (isStaking) {
           yield put(A.fetchStakingAccount({ coin }))
           yield take([A.fetchStakingAccountSuccess.type, A.fetchStakingAccountFailure.type])
-          yield select(S.getStakingDepositAddress)
+          depositAddress = yield select(S.getStakingDepositAddress)
         } else {
           yield put(A.fetchRewardsAccount({ coin }))
           yield take([A.fetchRewardsAccountSuccess.type, A.fetchRewardsAccountFailure.type])
-          yield select(S.getRewardsDepositAddress)
+          depositAddress = yield select(S.getRewardsDepositAddress)
         }
 
         // abort if deposit address missing
