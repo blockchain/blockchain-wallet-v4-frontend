@@ -102,6 +102,7 @@ export type CurrencySuccessStateType = ReturnType<typeof getCurrency>['data']
 
 export type OwnProps = {
   coin: CoinType
+  setShowSupply: (boolean) => void
   walletCurrency: FiatType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>

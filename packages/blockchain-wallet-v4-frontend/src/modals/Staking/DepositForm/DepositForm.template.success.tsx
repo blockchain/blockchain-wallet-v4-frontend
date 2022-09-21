@@ -127,7 +127,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
 
   const handleFormSubmit = () => {
     earnActions.submitDepositForm({ formName: FORM_NAME })
-    // setShowSupply(showEDDDepositLimit)
+    setShowSupply(showEDDDepositLimit)
 
     analyticsActions.trackEvent({
       key: Analytics.WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED,

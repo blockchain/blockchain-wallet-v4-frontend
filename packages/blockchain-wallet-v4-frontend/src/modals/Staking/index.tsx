@@ -10,10 +10,12 @@ import { EarnStepMetaData, ModalName, StakingStep } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
+import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
 import Warning from './Warning'
 
 const Staking = ({
+  buySellActions,
   close,
   coin,
   fetchInterestEDDStatus,
@@ -24,7 +26,7 @@ const Staking = ({
   walletCurrency
 }: Props) => {
   const [show, setShow] = useState<boolean>(false)
-  // const [showSupplyInformation, setShowSupplyInformation] = useState<boolean>(false)
+  const [showSupply, setShowSupply] = useState<boolean>(false)
 
   useEffect(() => {
     setShow(true)
@@ -36,6 +38,18 @@ const Staking = ({
     setTimeout(() => {
       close(ModalName.STAKING_MODAL)
     }, duration)
+  }
+
+  const handleBSClick = (coin: CoinType) => {
+    setShow(true)
+    close(ModalName.STAKING_MODAL)
+    setTimeout(() => {
+      buySellActions.showModal({
+        cryptoCurrency: coin,
+        orderType: 'BUY',
+        origin: 'InterestPage'
+      })
+    }, duration / 2)
   }
 
   return (
@@ -54,7 +68,19 @@ const Staking = ({
       )}
       {step.name === 'DEPOSIT' && (
         <FlyoutChild>
-          <DepositForm coin={coin} walletCurrency={walletCurrency} />
+          <DepositForm coin={coin} setShowSupply={setShowSupply} walletCurrency={walletCurrency} />
+        </FlyoutChild>
+      )}
+      {step.name === 'ACCOUNT_SUMMARY' && (
+        <FlyoutChild>
+          <AccountSummary
+            handleClose={handleClose}
+            handleBSClick={() => handleBSClick(coin)}
+            stepMetadata={step.data}
+            coin={coin}
+            walletCurrency={walletCurrency}
+            showSupply={showSupply}
+          />
         </FlyoutChild>
       )}
     </Flyout>
