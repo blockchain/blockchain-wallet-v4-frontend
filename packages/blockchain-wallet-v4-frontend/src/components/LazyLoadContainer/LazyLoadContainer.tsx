@@ -5,6 +5,7 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
   height: 100%;
   overflow: auto;
+  margin: 20px;
 `
 // Container resizes with children and scrolls inside wrapper
 const Container = styled.div`
