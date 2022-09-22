@@ -598,7 +598,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
 
         const hotWalletAddress = selectors.core.walletOptions
-          .getHotWalletAddresses(yield select(), Product.REWARDS)
+          .getHotWalletAddresses(yield select(), isStaking ? Product.STAKING : Product.REWARDS)
           .getOrElse(null)
         let transaction
         if (typeof hotWalletAddress !== 'string') {

@@ -15,7 +15,6 @@ import DepositForm from './DepositForm'
 import Warning from './Warning'
 
 const Staking = ({
-  buySellActions,
   close,
   coin,
   fetchInterestEDDStatus,
@@ -38,18 +37,6 @@ const Staking = ({
     setTimeout(() => {
       close(ModalName.STAKING_MODAL)
     }, duration)
-  }
-
-  const handleBSClick = (coin: CoinType) => {
-    setShow(true)
-    close(ModalName.STAKING_MODAL)
-    setTimeout(() => {
-      buySellActions.showModal({
-        cryptoCurrency: coin,
-        orderType: 'BUY',
-        origin: 'InterestPage'
-      })
-    }, duration / 2)
   }
 
   return (
@@ -75,7 +62,6 @@ const Staking = ({
         <FlyoutChild>
           <AccountSummary
             handleClose={handleClose}
-            handleBSClick={() => handleBSClick(coin)}
             stepMetadata={step.data}
             coin={coin}
             walletCurrency={walletCurrency}
@@ -94,7 +80,6 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })

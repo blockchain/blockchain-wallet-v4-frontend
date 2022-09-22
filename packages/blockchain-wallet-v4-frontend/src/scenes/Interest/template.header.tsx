@@ -33,8 +33,8 @@ const InterestHeader = () => {
         <SubheaderSeparator />
         <DisclaimerText>
           <TooltipHost id='scenes.interest.legaldisclaimer'>
-            <Icon name='info' size='12px' color='blue600' />
-            <Text size='12px' color='blue600' weight={500} style={{ margin: '-2px 0 0 5px' }}>
+            <Icon name='info' size='12px' color='grey400' />
+            <Text size='12px' color='grey400' weight={500} style={{ margin: '-2px 0 0 5px' }}>
               <FormattedMessage
                 id='scenes.interest.legaldiscalimer'
                 defaultMessage='Legal disclaimer'

@@ -16,6 +16,7 @@ export type EarnBalanceType = {
   pendingInterest: string
   pendingWithdrawal: string
   totalInterest: string
+  totalRewards: string
 }
 
 export type EarnAccountBalanceResponseType = {

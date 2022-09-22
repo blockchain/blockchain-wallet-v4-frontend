@@ -1,109 +1,117 @@
-import React, { PureComponent } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { includes } from 'ramda'
-import { bindActionCreators, Dispatch } from 'redux'
 
 import Currencies from '@core/exchange/currencies'
-import { getCurrency } from '@core/redux/settings/selectors'
-import { CoinType, FiatType, RemoteDataType } from '@core/types'
+import { CoinType, FiatType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { Analytics, EarnStepMetaData } from 'data/types'
+import { useRemote } from 'hooks'
 
-import { getData } from './selectors'
-import Loading from './template.loading'
-import AccountSummary from './template.success'
-import Unsupported from './template.unsupported'
+import Loading from '../Staking.template.loading'
+import { getData } from './AccountSummary.selectors'
+import AccountSummary from './AccountSummary.template.success'
+import Unsupported from './AccountSummary.template.unsupported'
 
-class AccountSummaryContainer extends PureComponent<Props> {
-  componentDidMount() {
-    this.handleFetchInterestLimits()
+const AccountSummaryContainer = (props: OwnProps) => {
+  const { coin, handleClose, showSupply, stepMetadata, walletCurrency } = props
+  const { data, error, isLoading, isNotAsked } = useRemote(getData)
+  const dispatch = useDispatch()
+  const unsupportedCurrencies = [Currencies.TWD.code, Currencies.CLP.code]
+  const isFiatCurrencySupported = !includes(walletCurrency, unsupportedCurrencies)
+
+  useEffect(() => {
+    dispatch(actions.components.interest.fetchStakingLimits())
+  }, [])
+
+  useEffect(() => {
+    if (isFiatCurrencySupported) {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.WALLET_STAKING_DETAIL_VIEWED,
+          properties: {
+            currency: coin
+          }
+        })
+      )
+    }
+  }, [coin])
+
+  const handleDepositClick = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.WALLET_STAKING_DETAIL_DEPOSIT_CLICKED,
+        properties: {
+          currency: coin
+        }
+      })
+    )
+    dispatch(actions.components.interest.showStakingModal({ coin, step: 'DEPOSIT' }))
   }
 
-  handleDepositClick = () => {
-    const { analyticsActions, coin, interestActions } = this.props
-    analyticsActions.trackEvent({
-      key: Analytics.WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED,
-      properties: {
-        currency: coin
-      }
-    })
-    interestActions.showInterestModal({ coin, step: 'DEPOSIT' })
+  const handleRefresh = () => {
+    dispatch(actions.components.interest.showStakingModal({ coin, step: 'ACCOUNT_SUMMARY' }))
   }
 
-  handleFetchInterestLimits = () => {
-    const { coin, interestActions, walletCurrency } = this.props
-    interestActions.fetchInterestLimits({ coin, currency: walletCurrency })
+  const handleUpLoadDocumentation = () => {
+    // confirm if this is the same for staking
+    dispatch(
+      actions.components.interestUploadDocument.showModal({
+        origin: 'InterestUploadDocument'
+      })
+    )
   }
 
-  handleRefresh = () => {
-    const { coin, interestActions } = this.props
-    interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
+  const handleWithdrawalSupplyInformation = () => {
+    dispatch(
+      actions.components.interest.handleWithdrawalSupplyInformation({
+        origin: 'SavingsConfirmation'
+      })
+    )
   }
 
-  render() {
-    const { data, walletCurrency } = this.props
+  if (error) return <DataError onClick={handleRefresh} />
+  if (!data || isLoading || isNotAsked) return <Loading />
 
-    const unsupportedCurrencies = [Currencies.TWD.code, Currencies.CLP.code]
-    return data.cata({
-      Failure: () => <DataError onClick={this.handleRefresh} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) =>
-        includes(walletCurrency, unsupportedCurrencies) ? (
-          <Unsupported {...val} {...this.props} walletCurrency={walletCurrency} />
-        ) : (
-          <AccountSummary
-            {...val}
-            {...this.props}
-            handleDepositClick={this.handleDepositClick}
-            walletCurrency={walletCurrency}
-          />
-        )
-    })
-  }
+  return isFiatCurrencySupported ? (
+    <AccountSummary
+      accountBalances={data.accountBalances}
+      coin={coin}
+      // @ts-ignore
+      flagEDDInterestFileUpload={data.flagEDDInterestFileUpload}
+      handleClose={handleClose}
+      handleDepositClick={handleDepositClick}
+      handleUpLoadDocumentation={handleUpLoadDocumentation}
+      handleWithdrawalSupplyInformation={handleWithdrawalSupplyInformation}
+      stakingEligible={data.stakingEligible}
+      stakingLimits={data.stakingLimits}
+      stakingRates={data.stakingRates}
+      showSupply={showSupply}
+      stepMetadata={stepMetadata}
+      walletCurrency={walletCurrency}
+    />
+  ) : (
+    <Unsupported handleClose={handleClose} walletCurrency={walletCurrency} />
+  )
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
-  data: getData(state)
-})
-
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
-  interestUploadDocumentActions: bindActionCreators(
-    actions.components.interestUploadDocument,
-    dispatch
-  )
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
+// const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+//   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+//   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+//   earnActions: bindActionCreators(actions.components.interest, dispatch),
+//   interestUploadDocumentActions: bindActionCreators(
+//     actions.components.interestUploadDocument,
+//     dispatch
+//   )
+// })
 
 export type OwnProps = {
   coin: CoinType
-  handleBSClick: (string) => void
   handleClose: () => void
   showSupply: boolean
   stepMetadata: EarnStepMetaData
   walletCurrency: FiatType
 }
 
-export type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
-  buySellActions: typeof actions.components.buySell
-  interestActions: typeof actions.components.interest
-  interestUploadDocumentActions: typeof actions.components.interestUploadDocument
-}
-
-export type DataSuccessStateType = ReturnType<typeof getData>['data']
-
-export type CurrencySuccessStateType = ReturnType<typeof getCurrency>['data']
-
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, DataSuccessStateType>
-}
-
-type Props = OwnProps & ConnectedProps<typeof connector>
-
-export default connector(AccountSummaryContainer)
+export default AccountSummaryContainer

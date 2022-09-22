@@ -1,24 +1,28 @@
-import React, { useCallback, useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { addMonths, format, startOfMonth } from 'date-fns'
-import { pathOr } from 'ramda'
 
 import { Exchange } from '@core'
 import { formatFiat } from '@core/exchange/utils'
-import { CoinType, FiatType } from '@core/types'
-import { Button, Icon, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import {
+  CoinType,
+  EarnAccountBalanceResponseType,
+  EarnEligibleType,
+  FiatType,
+  StakingLimitsType,
+  StakingRatesType
+} from '@core/types'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Analytics, EarnStepMetaData } from 'data/types'
+import { EarnStepMetaData } from 'data/types'
 
-import { DataSuccessStateType, LinkDispatchPropsType, OwnProps } from '.'
+import { OwnProps } from '.'
+import Detail from './AccountSummary.detail.template'
 import {
   Bottom,
-  ButtonContainer,
   Container,
   DetailsItemContainer,
   DetailsWrapper,
-  LineVector,
   LineVectorDetails,
   LinkWrapper,
   Row,
@@ -29,23 +33,20 @@ import {
   TopText,
   WarningContainer,
   Wrapper
-} from './model'
+} from './AccountSummary.model'
 
 const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
-    analyticsActions,
     coin,
     flagEDDInterestFileUpload,
-    handleBSClick,
     handleClose,
     handleDepositClick,
-    interestActions,
-    interestEligible,
-    interestLimits,
-    interestRates,
-    interestUploadDocumentActions,
+    handleUpLoadDocumentation,
+    handleWithdrawalSupplyInformation,
     showSupply,
+    stakingEligible,
+    stakingRates,
     stepMetadata,
     walletCurrency
   } = props
@@ -54,36 +55,11 @@ const AccountSummary: React.FC<Props> = (props) => {
   const account = accountBalances && accountBalances[coin]
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
 
-  const lockupPeriod = pathOr(1, [coin, 'lockUpDuration'], interestLimits) / 86400
   const accountBalanceBase = account && account.balance
-  const interestBalanceBase = account && account.totalInterest
-  const pendingInterestBase = account && account.pendingInterest
+  const stakingBalanceBase = account && account.totalRewards
 
-  const availToWithdraw = account && parseInt(account.balance, 10) - parseInt(account.locked, 10)
-
-  const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
-  const interestBalanceStandard = convertBaseToStandard(coin, interestBalanceBase)
-  const pendingInterestStandard = convertBaseToStandard(coin, pendingInterestBase)
-  const isDepositEnabled = interestEligible[coin] ? interestEligible[coin]?.eligible : false
-
-  const handleBuyCoin = useCallback(() => {
-    analyticsActions.trackEvent({
-      key: Analytics.WALLET_REWARDS_DETAIL_BUY_CLICKED,
-      properties: {
-        currency: coin
-      }
-    })
-    handleBSClick(coin)
-  }, [coin])
-
-  useEffect(() => {
-    analyticsActions.trackEvent({
-      key: Analytics.WALLET_REWARDS_DETAIL_VIEWED,
-      properties: {
-        currency: coin
-      }
-    })
-  }, [coin])
+  const isDepositEnabled = stakingEligible[coin] ? stakingEligible[coin]?.eligible : false
+  const { commission, rate } = stakingRates[coin]
 
   return (
     <Wrapper>
@@ -92,8 +68,8 @@ const AccountSummary: React.FC<Props> = (props) => {
           <Row>
             <Icon name={coin} color={coin} size='24px' style={{ marginRight: '16px' }} />
             <FormattedMessage
-              id='modals.interest.detailstitle'
-              defaultMessage='{displayName} Rewards Account'
+              id='modals.staking.detailstitle'
+              defaultMessage='{displayName} Staking'
               values={{ displayName: coinfig.name }}
             />
           </Row>
@@ -112,15 +88,16 @@ const AccountSummary: React.FC<Props> = (props) => {
               <Container>
                 <Text color='grey600' size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
-                    id='modals.interest.balance2'
-                    defaultMessage='Your Rewards Balance'
+                    id='modals.staking.balance2'
+                    defaultMessage='Staked {coin}'
+                    values={{ coin }}
                   />
                 </Text>
                 {account ? (
                   <>
-                    <Text color='grey800' size='18px' weight={600}>
-                      {accountBalanceStandard} {coinfig.displaySymbol}
-                    </Text>
+                    <CoinDisplay coin={coin} color='grey800' size='18px' weight={600}>
+                      {accountBalanceBase}
+                    </CoinDisplay>
                     <FiatDisplay
                       color='grey600'
                       size='14px'
@@ -139,16 +116,13 @@ const AccountSummary: React.FC<Props> = (props) => {
               </Container>
               <Container>
                 <Text color='grey600' size='14px' weight={500} style={{ marginBottom: '5px' }}>
-                  <FormattedMessage
-                    id='modals.interest.totalearned'
-                    defaultMessage='Total Rewards Earned'
-                  />
+                  <FormattedMessage id='modals.staking.totalearned' defaultMessage='Total Earned' />
                 </Text>
                 {account ? (
                   <>
-                    <Text color='grey800' size='18px' weight={600}>
-                      {interestBalanceStandard} {coinfig.displaySymbol}
-                    </Text>
+                    <CoinDisplay coin={coin} color='grey800' size='18px' weight={600}>
+                      {stakingBalanceBase}
+                    </CoinDisplay>
                     <FiatDisplay
                       color='grey600'
                       size='14px'
@@ -156,7 +130,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                       coin={coin}
                       style={{ marginTop: '5px' }}
                     >
-                      {account.totalInterest}
+                      {stakingBalanceBase}
                     </FiatDisplay>
                   </>
                 ) : (
@@ -166,7 +140,6 @@ const AccountSummary: React.FC<Props> = (props) => {
                 )}
               </Container>
             </Row>
-            <LineVector />
           </>
         )}
         {stepMetadata && stepMetadata.depositSuccess && (
@@ -196,19 +169,6 @@ const AccountSummary: React.FC<Props> = (props) => {
               </StatusWrapper>
             )}
           </>
-        )}
-        {stepMetadata && stepMetadata.withdrawSuccess && (
-          <StatusWrapper>
-            <StatusIconWrapper color={showSupply ? 'white' : coin}>
-              <Icon color={showSupply ? 'orange600' : 'white'} name='timer' size='24px' />
-            </StatusIconWrapper>
-            <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage
-                id='modals.interest.withdrawal.success'
-                defaultMessage='We are waiting on your withdrawal to be confirmed by the network and our team.'
-              />
-            </Text>
-          </StatusWrapper>
         )}
         {showSupply &&
           stepMetadata &&
@@ -270,11 +230,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                     data-e2e='earnInterestSupplyMoreInformation'
                     fullwidth
                     nature='primary'
-                    onClick={() => {
-                      interestUploadDocumentActions.showModal({
-                        origin: 'InterestUploadDocument'
-                      })
-                    }}
+                    onClick={handleUpLoadDocumentation}
                   >
                     <FormattedMessage
                       id='scenes.interest.submit_information'
@@ -288,14 +244,10 @@ const AccountSummary: React.FC<Props> = (props) => {
                     target='_blank'
                   >
                     <Button
-                      data-e2e='earnInterestSupplyMoreInformation'
+                      data-e2e='earnStakingSupplyMoreInformation'
                       fullwidth
                       nature='primary'
-                      onClick={() => {
-                        interestActions.handleWithdrawalSupplyInformation({
-                          origin: 'SavingsConfirmation'
-                        })
-                      }}
+                      onClick={handleWithdrawalSupplyInformation}
                     >
                       <FormattedMessage
                         id='scenes.interest.submit_information'
@@ -329,46 +281,10 @@ const AccountSummary: React.FC<Props> = (props) => {
             </div>
           </StatusWrapper>
         )}
-        {!showSupply && (
-          <ButtonContainer>
-            <Button
-              data-e2e='interestDeposit'
-              height='48px'
-              nature='primary'
-              disabled={!isDepositEnabled}
-              onClick={handleDepositClick}
-              width='192px'
-            >
-              <Text weight={600} color='white'>
-                <FormattedMessage
-                  id='buttons.add_coin'
-                  defaultMessage='Add {displayName}'
-                  values={{ displayName: coinfig.displaySymbol }}
-                />
-              </Text>
-            </Button>
-            <Button
-              data-e2e='interestDepositBuyButton'
-              height='48px'
-              nature='empty'
-              onClick={handleBuyCoin}
-              width='192px'
-            >
-              <Text size='16px' weight={600} color='blue600'>
-                <FormattedMessage
-                  id='buttons.buy_coin'
-                  defaultMessage='Buy {displayName}'
-                  values={{ displayName: coinfig.displaySymbol }}
-                />
-              </Text>
-            </Button>
-          </ButtonContainer>
-        )}
         <DetailsWrapper>
           <Text color='grey800' weight={600} style={{ marginBottom: '6px' }}>
             <FormattedMessage id='modals.interest.summary' defaultMessage='Summary' />
           </Text>
-          <LineVectorDetails />
           {stepMetadata && (stepMetadata.depositSuccess || stepMetadata.withdrawSuccess) && (
             <>
               <DetailsItemContainer>
@@ -388,85 +304,32 @@ const AccountSummary: React.FC<Props> = (props) => {
               <LineVectorDetails />
             </>
           )}
-          <DetailsItemContainer>
-            <Text data-e2e='nextPayment' color='grey600' size='14px' weight={500}>
+          <Detail
+            text={
               <FormattedMessage
-                id='modals.interest.summary.next'
-                defaultMessage='Next rewards payment'
+                defaultMessage='Current rate'
+                id='staking.modals.accountsummary.currentrate'
               />
-            </Text>
-            {account ? (
-              <Text color='grey600' size='14px' weight={500}>
-                {parseInt(account.balance, 10) > 0 || (stepMetadata && stepMetadata.depositSuccess)
-                  ? format(startOfMonth(addMonths(new Date(), 1)), 'MMMM d, yyyy')
-                  : '---'}
-              </Text>
-            ) : (
-              <Text color='grey600' size='14px' weight={500}>
-                --
-              </Text>
-            )}
-          </DetailsItemContainer>
-          <LineVectorDetails />
-          <DetailsItemContainer>
-            <Text color='grey600' size='14px' weight={500}>
+            }
+            subText={
               <FormattedMessage
-                id='modals.interest.summary.accrued'
-                defaultMessage='Accrued rewards this month'
+                defaultMessage='Blockchain.com fee'
+                id='staking.modals.accountsummary.fee'
               />
-              <TooltipHost id='modals.interest.summary.accrued.tooltip'>
-                <TooltipIcon name='info' size='12px' />
-              </TooltipHost>
-            </Text>
-            {account ? (
-              <Text color='grey600' size='14px' weight={500}>
-                {pendingInterestStandard} {coinfig.displaySymbol}
-              </Text>
-            ) : (
-              <Text color='grey600' size='14px' weight={500}>
-                --
-              </Text>
-            )}
-          </DetailsItemContainer>
-          <LineVectorDetails />
-          <DetailsItemContainer>
-            <Text color='grey600' size='14px' weight={500}>
+            }
+            tooltipId='modals.staking.summary.fee.tooltip'
+            value={`${rate}%`}
+            subValue={`${commission}%`}
+          />
+          <Detail
+            text={
               <FormattedMessage
-                id='modals.interest.summary.hold'
-                defaultMessage='Initial hold period'
+                defaultMessage='Payment frequency'
+                id='staking.modals.accountsummary.paymentfrequency'
               />
-              <TooltipHost id='modals.interest.summary.lock.tooltip'>
-                <TooltipIcon name='info' size='12px' />
-              </TooltipHost>
-            </Text>
-            <Text data-e2e='holdPeriod' color='grey600' size='14px' weight={500}>
-              {lockupPeriod === 1 ? (
-                <FormattedMessage
-                  id='modals.interest.summary.lockup.one'
-                  defaultMessage='1 Day'
-                  values={{ lockupPeriod }}
-                />
-              ) : (
-                <FormattedMessage
-                  id='modals.interest.summary.lockup'
-                  defaultMessage='{lockupPeriod} Days'
-                  values={{ lockupPeriod }}
-                />
-              )}
-            </Text>
-          </DetailsItemContainer>
-          <LineVectorDetails />
-          <DetailsItemContainer>
-            <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage id='modals.interest.summary.rate' defaultMessage='Rewards rate' />
-              <TooltipHost id='modals.interest.summary.moreinterestdetails.tooltip'>
-                <TooltipIcon name='info' size='12px' />
-              </TooltipHost>
-            </Text>
-            <Text data-e2e='interestRate' color='grey600' size='14px' weight={500}>
-              {interestRates[coin]}%
-            </Text>
-          </DetailsItemContainer>
+            }
+            value={<FormattedMessage defaultMessage='Daily' id='copy.daily' />}
+          />
         </DetailsWrapper>
       </Top>
       {!showSupply && (
@@ -474,29 +337,28 @@ const AccountSummary: React.FC<Props> = (props) => {
           <WarningContainer>
             <Text color='grey900' size='12px' weight={500}>
               <FormattedMessage
-                defaultMessage='Rewards are paid by the end of the day on the 1st of each month.'
-                id='modals.interest.bottom.warning'
+                defaultMessage='Once staked, ETH assets can’t be unstaked or transferred for an unknown period of time.'
+                id='modals.staking.bottom.warning'
               />
             </Text>
           </WarningContainer>
-          <ButtonContainer>
-            <Button
-              disabled={!account || !availToWithdraw}
-              data-e2e='interestWithdraw'
-              fullwidth
-              height='48px'
-              nature='grey800'
-              onClick={() => interestActions.showInterestModal({ coin, step: 'WITHDRAWAL' })}
-            >
-              <Text color='white' size='16px' weight={600}>
-                <FormattedMessage
-                  id='buttons.withdraw_coin'
-                  defaultMessage='Withdraw {displayName}'
-                  values={{ displayName: coinfig.displaySymbol }}
-                />
-              </Text>
-            </Button>
-          </ButtonContainer>
+          <Button
+            disabled={!isDepositEnabled}
+            data-e2e='stakingDeposit'
+            fullwidth
+            height='48px'
+            nature='primary'
+            onClick={handleDepositClick}
+          >
+            <Text color='white' size='16px' weight={600}>
+              <FormattedMessage id='buttons.stake' defaultMessage='Stake' />
+            </Text>
+          </Button>
+          <Button disabled data-e2e='stakingWithdrawal' fullwidth height='48px' nature='grey800'>
+            <Text color='white' size='16px' weight={600}>
+              <FormattedMessage id='buttons.unstake' defaultMessage='Unstake' />
+            </Text>
+          </Button>
         </Bottom>
       )}
     </Wrapper>
@@ -504,12 +366,18 @@ const AccountSummary: React.FC<Props> = (props) => {
 }
 
 type ParentProps = {
+  accountBalances: EarnAccountBalanceResponseType
   coin: CoinType
+  flagEDDInterestFileUpload: boolean
   handleBSClick: (string) => void
   handleDepositClick: () => void
+  handleUpLoadDocumentation: () => void
+  handleWithdrawalSupplyInformation: () => void
+  stakingEligible: EarnEligibleType
+  stakingRates: StakingRatesType['rates']
   stepMetadata: EarnStepMetaData
   walletCurrency: FiatType
 }
 
-export type Props = OwnProps & LinkDispatchPropsType & DataSuccessStateType & ParentProps
+export type Props = OwnProps & ParentProps
 export default AccountSummary
