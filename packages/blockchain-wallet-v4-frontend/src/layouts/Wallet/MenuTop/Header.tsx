@@ -1,8 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Navbar } from 'components/Navbar'
+import { selectors } from 'data'
 import { Analytics, ModalName } from 'data/types'
+import { useRemote } from 'hooks'
 
 import { Props } from '.'
 
@@ -11,6 +13,8 @@ type OwnProps = Props & {
 }
 
 const Header = (props: OwnProps) => {
+  const { data } = useRemote(selectors.modules.profile.getCurrentTier)
+  const isGoldVerified = useMemo(() => data === 2, [data])
   const refreshCallback = useCallback(() => {
     props.refreshActions.refreshClicked()
   }, [props.refreshActions])
@@ -103,7 +107,7 @@ const Header = (props: OwnProps) => {
     <Navbar
       primaryNavItems={primaryNavItems}
       fabClickHandler={fabCallback}
-      isReferralAvailable={props.isReferralAvailable && props.isGoldVerified}
+      isReferralAvailable={props.isReferralAvailable && isGoldVerified}
       isReferralRetrievalEnabled={props.featureFlags.isReferralRetrievalEnabled}
       limitsClickHandler={limitsCallback}
       referAFriendHandler={referAFriendCallback}

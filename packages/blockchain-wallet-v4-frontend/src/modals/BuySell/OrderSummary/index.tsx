@@ -198,7 +198,6 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
     state
   ),
   hasQuote: selectors.components.buySell.hasQuote(state),
-  isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2),
   isRecurringBuy: selectors.core.walletOptions
     .getFeatureFlagRecurringBuys(state)
     .getOrElse(false) as boolean,
@@ -209,6 +208,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch),
   recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
   sendActions: bindActionCreators(actions.components.send, dispatch)
 })

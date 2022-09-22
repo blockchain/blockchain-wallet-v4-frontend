@@ -34,6 +34,7 @@ import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import {
   AddBankStepType,
+  BankDWStepType,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
@@ -420,8 +421,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (buyQuote) {
         const { availability, reason } = buyQuote.quote.settlementDetails
-        if (availability === 'UNAVAILABLE') {
-          yield put(actions.components.buySell.setStep({ reason, step: 'PAYMENT_ACCOUNT_ERROR' }))
+        if (availability === 'UNAVAILABLE' || reason === 'REQUIRES_UPDATE') {
+          yield put(
+            actions.components.buySell.setStep({
+              reason,
+              step: BankDWStepType.PAYMENT_ACCOUNT_ERROR
+            })
+          )
           return
         }
       }
@@ -1330,7 +1336,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(fetchSDDEligible)
       }
       const state = yield select()
-      const currentUserTier = selectors.modules.profile.getCurrentTier(state)
+      const currentUserTier = selectors.modules.profile
+        .getCurrentTier(state)
+        .getOrFail('User has no tier')
       const userSDDEligibleTier = S.getUserSddEligibleTier(state).getOrElse(1)
       // only fetch non-eligible payment methods if user is not tier 2
       const includeNonEligibleMethods = currentUserTier === 2

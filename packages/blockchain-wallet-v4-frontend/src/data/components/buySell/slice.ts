@@ -34,6 +34,7 @@ import {
 } from '@core/types'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import {
+  BankDWStepType,
   BankTransferAccountType,
   BSCardStateEnum,
   BSFixType,
@@ -437,7 +438,7 @@ const buySellSlice = createSlice({
     setSellCrypto: (state, action: PayloadAction<string>) => {},
     setStep: (state, action: PayloadAction<StepActionsPayload>) => {
       switch (action.payload.step) {
-        case 'PAYMENT_ACCOUNT_ERROR':
+        case BankDWStepType.PAYMENT_ACCOUNT_ERROR:
           state.reason = action.payload.reason
           state.step = action.payload.step
           break

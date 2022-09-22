@@ -178,7 +178,7 @@ const Modals = (props: Props) => {
           <CustomizableConfirm />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.COWBOYS_PROMO) ? (
-          <CowboysPromo />
+          <CowboysPromo disableOutsideClose />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DELETE_ADDRESS_LABEL_MODAL) ? (
           <DeleteAddressLabel />
