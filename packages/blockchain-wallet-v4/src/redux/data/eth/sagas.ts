@@ -217,8 +217,12 @@ export default ({ api }: { api: APIType }) => {
 
         exchange_rate_then_raw: Number(priceAtTime.toFixed(2)),
 
-        // @ts-ignore
-        fee: Number(Exchange.convertCoinToCoin({ coin, value: tx.fee.data })),
+        fee:
+          txType === 'gas_fee'
+            ? // @ts-ignore
+              Number(Exchange.convertCoinToCoin({ coin, value: tx.fee.data })) * -1
+            : // @ts-ignore
+              Number(Exchange.convertCoinToCoin({ coin, value: tx.fee.data })),
 
         // @ts-ignore
         hash: prop('hash', tx),
@@ -228,7 +232,7 @@ export default ({ api }: { api: APIType }) => {
         value_now: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueNow}`,
         value_now_raw: valueNow,
         value_then: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueThen}`,
-        value_then_raw: valueThen
+        value_then_raw: txType === 'gas_fee' ? Number(valueThen) * -1 : valueThen
       }
     }, prunedTxList)
   }
