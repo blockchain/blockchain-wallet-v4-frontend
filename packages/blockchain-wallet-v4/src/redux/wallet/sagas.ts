@@ -207,6 +207,7 @@ export default ({ api, networks }) => {
       const wrapperT = set(Wrapper.password, newPassword, wallet)
       // eslint-disable-next-line no-useless-catch
       try {
+        // TODO add session token here?
         yield call(api.saveWallet, wrapperT)
         return true
       } catch (e) {

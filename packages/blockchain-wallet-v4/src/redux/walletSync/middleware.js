@@ -19,6 +19,7 @@ import { HDAccount, Wallet, Wrapper } from '../../types'
 import * as A from '../actions'
 import * as T from '../actionTypes'
 import * as selectors from '../selectors'
+import * as sessionSelectors from './selectors'
 
 /**
  * Number of addresses for each HD Account to sync with platform
@@ -95,7 +96,6 @@ const walletSync =
     const prevWallet = selectors.wallet.getWrapper(prevState)
     const wasAuth = isAuthenticated(prevState)
     const result = next(action)
-
     const state = store.getState()
     const nextWallet = selectors.wallet.getWrapper(state)
     const syncPubKeys = selectors.wallet.shouldSyncPubKeys(state)
@@ -110,9 +110,11 @@ const walletSync =
       compose(store.dispatch, A.wallet.setPayloadChecksum)(checksum)
       return encrypted
     }
-
     const sync = async () => {
       let encryptedWallet = Wrapper.toEncJSON(nextWallet)
+      const guid = selectors.wallet.getGuid(state)
+      const email = selectors.settings.getEmail(state).getOrElse('')
+      const sessionToken = sessionSelectors.getWalletSessionId(state, guid, email)
       if (syncPubKeys) {
         /**
          * To get notifications working you have to add list of lookahead addresses
@@ -125,6 +127,7 @@ const walletSync =
           return store.dispatch(A.walletSync.syncError(error))
         }
       }
+      // TODO: Figure out how to pass sessionToken to savePayload api
       return encryptedWallet
         .map(handleChecksum)
         .chain(promiseToTask(api.savePayload))
