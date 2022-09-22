@@ -18,7 +18,7 @@ class DepositForm extends PureComponent<Props> {
     const { analyticsActions, coin, walletCurrency } = this.props
     this.handleInitializeDepositForm()
     analyticsActions.trackEvent({
-      key: Analytics.WALLET_REWARDS_DEPOSIT_VIEWED,
+      key: Analytics.WALLET_STAKING_DEPOSIT_VIEWED,
       properties: {
         currency: coin
       }
