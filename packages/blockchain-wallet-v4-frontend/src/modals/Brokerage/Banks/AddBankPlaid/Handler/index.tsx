@@ -29,15 +29,16 @@ const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Prop
   const dispatch = useDispatch()
 
   useEffect(() => {
-    switch (reason) {
-      case 'REQUIRES_UPDATE':
-        dispatch(actions.components.brokerage.fetchBankRefreshCredentials(paymentMethodId))
-        break
-      default:
-        break
+    if (reason && paymentMethodId) {
+      switch (reason) {
+        case 'REQUIRES_UPDATE':
+          dispatch(actions.components.brokerage.fetchBankRefreshCredentials(paymentMethodId))
+          break
+        default:
+          break
+      }
     }
-  }, [reason, dispatch])
-
+  }, [reason, dispatch, paymentMethodId])
   const handlePostMessage = (event: MessageEvent) => {
     if (event.data.from !== 'plaid') return
     if (event.data.to !== 'sb') return
@@ -83,7 +84,7 @@ const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Prop
 
 type Props = { handleClose: () => void } & (
   | { paymentMethodId: string; reason?: PlaidSettlementErrorReasons }
-  | { paymentMethodId: never; reason: never }
+  | { paymentMethodId?: never; reason?: never }
 )
 
 export default Success

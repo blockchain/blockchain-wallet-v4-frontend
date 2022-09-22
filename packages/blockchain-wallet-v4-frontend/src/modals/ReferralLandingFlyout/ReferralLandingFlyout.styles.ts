@@ -54,6 +54,7 @@ export const ReferralId = styled.div`
   align-items: center;
   justify-content: center;
   background: #fafbff;
+  margin-bottom: 24px;
 `
 
 export const CircleBackground = styled.div<{ color?: string; size?: string }>`

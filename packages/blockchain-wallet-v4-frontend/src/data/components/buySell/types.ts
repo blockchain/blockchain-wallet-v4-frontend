@@ -33,7 +33,7 @@ import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
 import type { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
-import { PlaidSettlementErrorReasons } from '../brokerage/types'
+import { BankDWStepType, PlaidSettlementErrorReasons } from '../brokerage/types'
 
 // Types
 export type BSAddCardFormValuesType = {
@@ -258,7 +258,7 @@ export type StepActionsPayload =
     }
   | {
       reason: PlaidSettlementErrorReasons
-      step: 'PAYMENT_ACCOUNT_ERROR'
+      step: BankDWStepType.PAYMENT_ACCOUNT_ERROR
     }
   | {
       step:

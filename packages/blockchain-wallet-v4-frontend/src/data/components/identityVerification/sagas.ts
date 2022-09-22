@@ -5,7 +5,7 @@ import { Types } from '@core'
 import { ExtraKYCContext, ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
-import { KycStateType } from 'data/types'
+import { Analytics, KycStateType } from 'data/types'
 import * as C from 'services/alerts'
 
 import profileSagas from '../../modules/profile/sagas'
@@ -365,6 +365,7 @@ export default ({ api, coreSagas, networks }) => {
       const { city, country, dob, firstName, lastName, line1, line2, postCode, state } =
         yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { dob, firstName, lastName }
+      const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
 
       const address = {
         city,
@@ -396,12 +397,46 @@ export default ({ api, coreSagas, networks }) => {
           sddVerified = yield call(api.fetchSDDVerified)
           if (sddVerified?.taskComplete) {
             yield put(actions.components.buySell.fetchSDDVerifiedSuccess(sddVerified))
+            // Info confirmed, record cowboys events only
+            if (hasCowboysTag) {
+              yield put(
+                actions.analytics.trackEvent({
+                  key: Analytics.COWBOYS_PERSONAL_INFO_CONFIRMED,
+                  properties: {}
+                })
+              )
+              yield put(
+                actions.analytics.trackEvent({
+                  key: Analytics.COWBOYS_ADDRESS_CONFIRMED,
+                  properties: {}
+                })
+              )
+            }
             break
           }
           yield delay(POLL_SDD_DELAY)
         }
 
         if (sddVerified.verified) {
+          if (hasCowboysTag) {
+            const kycExtraSteps = selectors.components.identityVerification
+              .getKYCExtraSteps(yield select())
+              .getOrElse({} as ExtraQuestionsType)
+            const showExtraKycSteps = kycExtraSteps?.nodes?.length > 0
+            if (!showExtraKycSteps) {
+              yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
+              yield put(
+                actions.modals.showModal(ModalName.COWBOYS_PROMO, {
+                  origin: 'CowboysCard',
+                  step: 'raffleEntered'
+                })
+              )
+            } else {
+              // go immediately to extra KYC step
+              yield call(goToNextStep)
+              return
+            }
+          }
           // SDD verified, refetch user profile
           yield put(actions.modules.profile.fetchUser())
           // run callback to get back to BS flow
@@ -414,6 +449,7 @@ export default ({ api, coreSagas, networks }) => {
             actions.components.buySell.fetchOrdersSuccess.type,
             actions.components.buySell.fetchOrdersFailure.type
           ])
+
           // close KYC modal
           yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
         } else {
@@ -467,6 +503,17 @@ export default ({ api, coreSagas, networks }) => {
       yield call(api.updateKYCExtraQuestions, extraForm)
 
       yield put(actions.form.stopSubmit(KYC_EXTRA_QUESTIONS_FORM))
+      const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
+
+      if (hasCowboysTag) {
+        yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
+        yield put(
+          actions.modals.showModal(ModalName.COWBOYS_PROMO, {
+            origin: 'CowboysCard',
+            step: 'raffleEntered'
+          })
+        )
+      }
       // return to KYC
       yield call(goToNextStep)
     } catch (e) {

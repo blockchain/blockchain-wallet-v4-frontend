@@ -12,10 +12,12 @@ export const getData = (state: RootState) => {
   const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
   const recurringBuyListR = selectors.components.recurringBuy.getRegisteredList(state)
   const orderR = selectors.components.buySell.getBSOrder(state)
+  const hasCowboysTagR = selectors.modules.profile.getCowboysTag(state)
 
   return lift(
     (
       cards: ExtractSuccess<typeof cardsR>,
+      hasCowboysTag: ExtractSuccess<typeof hasCowboysTagR>,
       userData: ExtractSuccess<typeof userDataR>,
       withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>,
       recurringBuyList: ExtractSuccess<typeof recurringBuyListR>,
@@ -25,6 +27,7 @@ export const getData = (state: RootState) => {
     ) => {
       return {
         cards,
+        hasCowboysTag,
         interestEligible,
         interestRate,
         lockTime: withdrawLockCheck?.lockTime || 0,
@@ -35,6 +38,7 @@ export const getData = (state: RootState) => {
     }
   )(
     cardsR,
+    hasCowboysTagR,
     userDataR,
     withdrawLockCheckR,
     recurringBuyListR,
