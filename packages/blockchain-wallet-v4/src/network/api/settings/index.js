@@ -47,7 +47,7 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
     updateSettings(guid, sharedKey, 'update-email', email)
 
   const updateMobile = (guid, sharedKey, email) =>
-    updateSettings(guid, sharedKey, 'update-mobile', email)
+    updateSettings(guid, sharedKey, 'update-sms', email)
 
   const sendConfirmationCodeEmail = (guid, sharedKey, email) =>
     updateSettings(guid, sharedKey, 'send-verify-email-mail', email)

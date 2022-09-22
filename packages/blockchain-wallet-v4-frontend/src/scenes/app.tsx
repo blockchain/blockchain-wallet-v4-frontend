@@ -100,7 +100,7 @@ const App = ({
   }, [apiUrl])
 
   // lazy load google tag manager
-  useDefer3rdPartyScript('https://www.googletagmanager.com/gtm.js?id=GTM-KK99TPJ', {
+  useDefer3rdPartyScript('https://www.googletagmanager.com/gtag/js?id=UA-52108117-5', {
     attributes: {
       nonce: window.nonce
     }

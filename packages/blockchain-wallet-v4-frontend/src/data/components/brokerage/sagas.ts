@@ -164,16 +164,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const bankTransferMethod = sbMethods.methods.filter(
             (method) => method.type === BSPaymentTypes.BANK_TRANSFER
           )[0]
-          yield put(
-            actions.components.buySell.handleMethodChange({
-              isFlow: true,
-              method: {
-                ...bankData,
-                limits: bankTransferMethod.limits,
-                type: BSPaymentTypes.BANK_TRANSFER
-              }
-            })
-          )
+
+          // if there is no selected pair (BTC-USD) in redux when the we run handleMethodChange
+          // it will throw so if the user adds a bank from general/settings let's skip setting the bank
+          const pair = selectors.components.buySell.getBSPair(yield select())
+          if (pair) {
+            yield put(
+              actions.components.buySell.handleMethodChange({
+                isFlow: true,
+                method: {
+                  ...bankData,
+                  limits: bankTransferMethod.limits,
+                  type: BSPaymentTypes.BANK_TRANSFER
+                }
+              })
+            )
+          }
         }
 
         if (values?.amount) {
