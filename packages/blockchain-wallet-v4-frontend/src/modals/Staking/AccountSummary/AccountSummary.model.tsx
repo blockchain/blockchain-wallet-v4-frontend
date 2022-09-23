@@ -1,14 +1,9 @@
 import { PaletteColors } from '@blockchain-com/constellation'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
-const LeftRightContainerCss = css`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
 export const Wrapper = styled.div`
   height: 100%;
   display: flex;
@@ -47,22 +42,12 @@ export const DetailsWrapper = styled.div`
   flex-direction: column;
   margin-top: 48px;
 `
-export const DetailsItemContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`
-export const LineVectorDetails = styled.div`
-  height: 1px;
-  background: ${PaletteColors['grey-000']};
-  margin: 10px 0;
-`
 export const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   height: 100%;
-  gap: 10px;
+  gap: 16px;
 `
 export const StatusWrapper = styled.div`
   display: flex;
@@ -95,9 +80,6 @@ export const StatusIconWrapper = styled.div<{ color: string }>`
   min-width: 38px;
   max-height: 38px;
 `
-export const LinkWrapper = styled.div`
-  padding: 16px 0;
-`
 export const WarningContainer = styled.div`
   background-color: ${PaletteColors['grey-000']};
   border-radius: 8px;
@@ -110,16 +92,4 @@ export const DetailsContainer = styled.div`
   justify-content: space-between;
   padding: 24px 24px 24px 0;
   border-bottom: 1px solid ${PaletteColors['grey-000']};
-`
-export const LeftContainer = styled.div`
-  ${LeftRightContainerCss}
-`
-export const RightContainer = styled.div`
-  ${LeftRightContainerCss}
-  align-items: flex-end;
-`
-export const SubTextContainer = styled.div`
-  display: flex;
-  gap: 4px;
-  align-items: center;
 `

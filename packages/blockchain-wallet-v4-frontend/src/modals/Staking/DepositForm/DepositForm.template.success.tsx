@@ -317,7 +317,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     defaultMessage='Maximum transfer: {maxFiat}'
                     values={{
                       maxFiat: displayCoin
-                        ? earnDepositLimits.maxCoin
+                        ? `${earnDepositLimits.maxCoin} ${coinfig.displaySymbol}`
                         : fiatToString({
                             unit: walletCurrency,
                             value: earnDepositLimits.maxFiat

@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Padding } from '@blockchain-com/constellation'
 
 import { Exchange } from '@core'
 import { formatFiat } from '@core/exchange/utils'
@@ -20,10 +21,7 @@ import Detail from './AccountSummary.detail.template'
 import {
   Bottom,
   Container,
-  DetailsItemContainer,
   DetailsWrapper,
-  LineVectorDetails,
-  LinkWrapper,
   Row,
   StatusIconWrapper,
   StatusSupplyWrapper,
@@ -195,7 +193,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                 )}
               </Text>
 
-              <LinkWrapper>
+              <Padding vertical={1}>
                 {flagEDDInterestFileUpload ? (
                   <Button
                     data-e2e='earnInterestSupplyMoreInformation'
@@ -227,7 +225,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                     </Button>
                   </Link>
                 )}
-              </LinkWrapper>
+              </Padding>
             </StatusSupplyWrapper>
           )}
         {stepMetadata && stepMetadata.error && (
@@ -256,25 +254,6 @@ const AccountSummary: React.FC<Props> = (props) => {
           <Text color='grey800' weight={600} style={{ marginBottom: '6px' }}>
             <FormattedMessage id='modals.interest.summary' defaultMessage='Summary' />
           </Text>
-          {stepMetadata && (stepMetadata.depositSuccess || stepMetadata.withdrawSuccess) && (
-            <>
-              <DetailsItemContainer>
-                <Text color='grey600' size='14px' weight={500}>
-                  <FormattedMessage id='modals.interest.status' defaultMessage='Status' />
-                </Text>
-                <Text data-e2e='statusText' color='orange600' size='14px' weight={500}>
-                  <FormattedMessage
-                    id='modals.interest.statuspending'
-                    defaultMessage='Pending {action}'
-                    values={{
-                      action: stepMetadata.withdrawSuccess ? 'Withdrawal' : 'Transfer'
-                    }}
-                  />
-                </Text>
-              </DetailsItemContainer>
-              <LineVectorDetails />
-            </>
-          )}
           <Detail
             text={
               <FormattedMessage

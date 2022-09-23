@@ -51,7 +51,7 @@ const MobileRow = ({
           <RateContainer>
             <Text color='grey700' size='14px' weight={500}>
               <FormattedMessage
-                defaultMessage='Earn {interestRate}% APR'
+                defaultMessage='Earn {interestRate}%'
                 id='scenes.interest.earntable.mobilerow.earn'
                 values={{
                   interestRate: interestRates[coin]

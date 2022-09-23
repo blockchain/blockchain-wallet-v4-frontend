@@ -36,7 +36,7 @@ const AccountSummaryContainer = (props: OwnProps) => {
         })
       )
     }
-  }, [coin])
+  }, [coin, isFiatCurrencySupported])
 
   const handleDepositClick = () => {
     dispatch(
@@ -95,16 +95,6 @@ const AccountSummaryContainer = (props: OwnProps) => {
     <Unsupported handleClose={handleClose} walletCurrency={walletCurrency} />
   )
 }
-
-// const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-//   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-//   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-//   earnActions: bindActionCreators(actions.components.interest, dispatch),
-//   interestUploadDocumentActions: bindActionCreators(
-//     actions.components.interestUploadDocument,
-//     dispatch
-//   )
-// })
 
 export type OwnProps = {
   coin: CoinType

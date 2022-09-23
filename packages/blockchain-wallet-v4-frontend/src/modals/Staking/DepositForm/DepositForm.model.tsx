@@ -34,7 +34,7 @@ export const CustomFormLabel = styled.div`
 `
 export const CustomField = styled(Field)<BaseFieldProps & { coin: CoinType }>`
   > input {
-    padding-left: ${({ coin }) => `${coin.length * 14}px`};
+    padding-left: ${({ coin }) => (coin.length > 3 ? '50px' : '46px')};
   }
   > div:last-child {
     display: none;
@@ -47,7 +47,7 @@ export const AmountFieldContainer = styled.div`
 export const PrincipalCcyAbsolute = styled.div`
   position: absolute;
   top: 16px;
-  left: 12px;
+  left: 16px;
 `
 export const ErrorText = styled(Text)`
   display: inline-flex;
@@ -70,7 +70,7 @@ export const AmountError = styled.div`
   margin: 2px 5px 0 0;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
 `
 
 export const GreyBlueCartridge = styled(CustomCartridge)`
@@ -79,7 +79,7 @@ export const GreyBlueCartridge = styled(CustomCartridge)`
   color: ${PaletteColors['blue-600']};
   cursor: pointer;
   margin-left: 10px;
-  min-width: 86px;
+  min-width: 100px;
 `
 export const TermsContainer = styled.div`
   margin: -3px 0 24px 0;
