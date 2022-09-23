@@ -8,7 +8,6 @@ import {
   EarnAccountBalanceResponseType,
   EarnEligibleType,
   FiatType,
-  StakingLimitsType,
   StakingRatesType
 } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
@@ -140,34 +139,6 @@ const AccountSummary: React.FC<Props> = (props) => {
                 )}
               </Container>
             </Row>
-          </>
-        )}
-        {stepMetadata && stepMetadata.depositSuccess && (
-          <>
-            <StatusWrapper>
-              <StatusIconWrapper color={showSupply ? 'orange000' : coin}>
-                <Icon color={showSupply ? 'orange600' : 'white'} name='timer' size='24px' />
-              </StatusIconWrapper>
-              <Text data-e2e='waitingConfirmation' color='grey600' size='14px' weight={500}>
-                <FormattedMessage
-                  id='modals.interest.deposit.success.confirmtransfer'
-                  defaultMessage='Waiting on your transfer to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Rewards Account history. No action is required at this time.'
-                />
-              </Text>
-            </StatusWrapper>
-            {!showSupply && (
-              <StatusWrapper>
-                <StatusIconWrapper color='grey000'>
-                  <Icon color='grey600' name='check' size='14px' />
-                </StatusIconWrapper>
-                <Text color='grey600' size='14px' weight={500}>
-                  <FormattedMessage
-                    id='modals.interest.deposit.transferclears'
-                    defaultMessage='Once the transfer clears, your balance will update and you’ll start earning rewards.'
-                  />
-                </Text>
-              </StatusWrapper>
-            )}
           </>
         )}
         {showSupply &&
