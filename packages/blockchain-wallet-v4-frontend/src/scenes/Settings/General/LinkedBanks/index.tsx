@@ -61,7 +61,7 @@ class LinkedBanks extends PureComponent<Props> {
     return this.props.data.cata({
       Failure: () => null,
       Loading: () => <Loading />,
-      NotAsked: () => null,
+      NotAsked: () => <Loading />,
       Success: (val) => (
         <Success
           {...this.props}

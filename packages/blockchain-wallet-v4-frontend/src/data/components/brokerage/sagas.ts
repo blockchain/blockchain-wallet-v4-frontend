@@ -492,6 +492,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
         }
       }
+
+      // The order has successfully been submitted, go to loading step while we poll order status
+      yield put(
+        actions.components.brokerage.setDWStep({
+          dwStep: BankDWStepType.LOADING
+        })
+      )
+
       // Poll for order status in order to show success, timed out or failed
       try {
         const updatedOrder: BSTransactionType = yield retry(
