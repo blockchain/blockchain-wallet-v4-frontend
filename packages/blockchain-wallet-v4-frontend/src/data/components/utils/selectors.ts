@@ -22,9 +22,7 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
     paymentMethods: ExtractSuccess<typeof sbMethodsR>,
     sbBalances: ExtractSuccess<typeof sbBalancesR>
   ) => {
-    const custodialErc20s = Object.keys(sbBalances).filter(
-      (coin) => window.coins[coin] && window.coins[coin].coinfig.type.erc20Address
-    )
+    const custodialErc20s = Object.keys(sbBalances)
     const coinsInRecentSwaps = recentSwapTxs.map((tx) => getOutputFromPair(tx.pair))
     const coinsInUnifiedBalances = uniq(unifiedBalances.map(({ ticker }) => ticker))
 
