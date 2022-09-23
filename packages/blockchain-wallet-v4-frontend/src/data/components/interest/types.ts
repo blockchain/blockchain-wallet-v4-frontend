@@ -3,13 +3,13 @@ import {
   CoinType,
   EarnAccountBalanceResponseType,
   EarnAccountResponseType,
+  EarnAfterTransactionType,
   EarnDepositLimits,
   EarnEligibleType,
+  EarnTransactionType,
   FiatType,
-  InterestAfterTransactionType,
   InterestEDDStatus,
   InterestLimitsType,
-  InterestTransactionType,
   PaymentValue,
   RemoteDataType,
   RewardsRatesType,
@@ -94,7 +94,7 @@ export type TransferMinMaxAmountType = {
 // State
 //
 export interface InterestState {
-  afterTransaction: RemoteDataType<string, InterestAfterTransactionType>
+  afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
   coin: CoinType
   earnDepositLimits: EarnMinMaxType
   instruments: RemoteDataType<string, EarnInstrumentsType>
@@ -122,9 +122,9 @@ export interface InterestState {
     data: EarnStepMetaData
     name: StakingStep
   }
-  transactions: Array<InterestTransactionType>
+  transactions: Array<EarnTransactionType>
   transactionsNextPage: string | null
-  transactionsReport: RemoteDataType<string, Array<InterestTransactionType>>
+  transactionsReport: RemoteDataType<string, Array<EarnTransactionType>>
   underSanctionsMessage: string | null
   withdrawalMinimums: RemoteDataType<string, WithdrawalMinimumType>
 }

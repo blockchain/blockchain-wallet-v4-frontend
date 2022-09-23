@@ -2,6 +2,8 @@ import { CoinType, FiatType, NabuMoneyFloatType, WalletFiatType } from '@core/ty
 
 type ProductType = 'staking' | 'savings'
 
+type CapProductType = 'STAKING' | 'SAVINGS'
+
 export type EarnAccountBalanceType = {
   ccy?: CoinType
   din?: FiatType
@@ -30,7 +32,13 @@ export type EarnEligibleType = {
   }
 }
 
-export type InterestAfterTransactionType = {
+export type EarnTransactionParamType = {
+  currency?: CoinType
+  nextPageUrl?: string
+  product: CapProductType
+}
+
+export type EarnAfterTransactionType = {
   amount: number
   currency: CoinType
   fiatAmount: number | null
@@ -106,7 +114,7 @@ export type StakingAccountType =
     }
   | undefined
 
-export type InterestTransactionType = {
+export type EarnTransactionType = {
   amount: {
     symbol: CoinType
     value: string
@@ -133,8 +141,8 @@ export type InterestTransactionType = {
   type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
 }
 
-export type InterestTransactionResponseType = {
-  items: Array<InterestTransactionType>
+export type EarnTransactionResponseType = {
+  items: Array<EarnTransactionType>
   next: string | null
 }
 

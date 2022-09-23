@@ -2,10 +2,10 @@ import { lift, pathOr, propOr } from 'ramda'
 
 import { Exchange } from '@core'
 import {
+  EarnAfterTransactionType,
   EarnDepositErrorsType,
   ExtractSuccess,
   FiatType,
-  InterestAfterTransactionType,
   RemoteDataType
 } from '@core/types'
 import { selectors } from 'data'
@@ -44,7 +44,7 @@ export const getData = (state: RootState) => {
 
   const afterTransaction = selectors.components.interest
     .getAfterTransaction(state)
-    .getOrElse({} as InterestAfterTransactionType)
+    .getOrElse({} as EarnAfterTransactionType)
 
   const prefillAmount = afterTransaction?.show ? afterTransaction.amount : undefined
 

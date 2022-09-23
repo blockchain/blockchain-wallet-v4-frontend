@@ -11,7 +11,7 @@ import {
   CoinType,
   EarnAccountBalanceType,
   EarnAccountType,
-  InterestAfterTransactionType,
+  EarnAfterTransactionType,
   PaymentValue,
   Product,
   RatesType,
@@ -256,11 +256,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(A.fetchInterestTransactionsReportLoading())
     try {
       while (hasNext) {
-        const { items, next } = yield call(
-          api.getInterestTransactions,
-          coin === 'ALL' ? undefined : coin,
-          nextPageUrl
-        )
+        const { items, next } = yield call(api.getEarnTransactions, {
+          currency: coin === 'ALL' ? undefined : coin,
+          nextPageUrl,
+          product: 'SAVINGS'
+        })
         txList = concat(txList, items.map(formatTxData))
         hasNext = next
         nextPageUrl = next
@@ -273,21 +273,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchInterestTransactionsReportFailure(error))
     }
   }
+
   const fetchInterestTransactions = function* ({
     payload
   }: ReturnType<typeof A.fetchInterestTransactions>) {
     const { coin, reset } = payload
 
     try {
-      const nextPage = !reset ? yield select(S.getTransactionsNextPage) : undefined
+      const nextPageUrl = !reset ? yield select(S.getTransactionsNextPage) : undefined
       // check if invoked from continuous scroll
       if (!reset) {
         const txList = yield select(S.getInterestTransactions)
         // return if next page is already being fetched or there is no next page
-        if (Remote.Loading.is(last(txList)) || !nextPage) return
+        if (Remote.Loading.is(last(txList)) || !nextPageUrl) return
       }
       yield put(A.fetchInterestTransactionsLoading({ reset }))
-      const response = yield call(api.getInterestTransactions, coin, nextPage)
+      const response = yield call(api.getEarnTransactions, {
+        currency: coin,
+        nextPageUrl,
+        product: 'SAVINGS'
+      })
       yield put(A.fetchInterestTransactionsSuccess({ reset, transactions: response.items }))
       yield put(A.setTransactionsNextPage({ nextPage: response.next }))
     } catch (e) {
@@ -637,7 +642,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const afterTransactionR = yield select(selectors.components.interest.getAfterTransaction)
       const afterTransaction = afterTransactionR.getOrElse({
         show: false
-      } as InterestAfterTransactionType)
+      } as EarnAfterTransactionType)
       if (afterTransaction?.show) {
         yield put(actions.components.interest.resetShowInterestCardAfterTransaction())
       }
@@ -745,7 +750,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.fetchShowInterestCardAfterTransaction>) {
     try {
       yield put(A.fetchShowInterestCardAfterTransactionLoading())
-      const afterTransaction: InterestAfterTransactionType = yield call(
+      const afterTransaction: EarnAfterTransactionType = yield call(
         api.getInterestCtaAfterTransaction,
         payload.currency
       )

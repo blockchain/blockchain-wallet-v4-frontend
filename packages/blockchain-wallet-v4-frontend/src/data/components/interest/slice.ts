@@ -4,12 +4,12 @@ import { append, assoc, compose, dropLast, lensProp, over } from 'ramda'
 import {
   EarnAccountBalanceResponseType,
   EarnAccountResponseType,
+  EarnAfterTransactionType,
   EarnDepositLimits,
   EarnEligibleType,
-  InterestAfterTransactionType,
+  EarnTransactionType,
   InterestEDDStatus,
   InterestLimitsType,
-  InterestTransactionType,
   RewardsRatesType,
   StakingLimitsType,
   StakingRatesType,
@@ -223,14 +223,14 @@ const interestSlice = createSlice({
     },
     fetchInterestTransactionsReportSuccess: (
       state,
-      action: PayloadAction<InterestTransactionType[]>
+      action: PayloadAction<EarnTransactionType[]>
     ) => {
       state.transactionsReport = Remote.Success(action.payload)
     },
 
     fetchInterestTransactionsSuccess: (
       state,
-      action: PayloadAction<{ reset: boolean; transactions: Array<InterestTransactionType> }>
+      action: PayloadAction<{ reset: boolean; transactions: Array<EarnTransactionType> }>
     ) => {
       const { reset, transactions } = action.payload
       if (reset) {
@@ -301,7 +301,7 @@ const interestSlice = createSlice({
 
     fetchShowInterestCardAfterTransactionSuccess: (
       state,
-      action: PayloadAction<{ afterTransaction: InterestAfterTransactionType }>
+      action: PayloadAction<{ afterTransaction: EarnAfterTransactionType }>
     ) => {
       state.afterTransaction = Remote.Success(action.payload.afterTransaction)
     },

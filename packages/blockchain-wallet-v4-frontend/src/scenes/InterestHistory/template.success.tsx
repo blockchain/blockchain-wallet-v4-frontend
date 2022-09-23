@@ -5,7 +5,7 @@ import { flatten, head, last, map } from 'ramda'
 import styled from 'styled-components'
 
 import { Exchange, Remote } from '@core'
-import { InterestTransactionType } from '@core/types'
+import { EarnTransactionType } from '@core/types'
 import {
   HeartbeatLoader,
   Icon,
@@ -87,7 +87,7 @@ function TransactionList(props: Props): ReactElement | null {
             </Text>
           </AmountTableCell>
         </TableHeader>
-        {txList.map((tx: InterestTransactionType) => {
+        {txList.map((tx: EarnTransactionType) => {
           const { amount, extraAttributes, id, insertedAt, state, type } = tx
           const displayName = window.coins[amount.symbol].coinfig.name
           const isCustodial = extraAttributes && extraAttributes.transferType === 'INTERNAL'

@@ -7,7 +7,7 @@ import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/eff
 
 import { Exchange, utils } from '@core'
 import {
-  InterestAfterTransactionType,
+  EarnAfterTransactionType,
   RatesType,
   TermsAndConditionType,
   WalletFiatType
@@ -829,7 +829,7 @@ export default ({ api, coreSagas, networks }) => {
       const afterTransactionR = yield select(selectors.components.interest.getAfterTransaction)
       const afterTransaction = afterTransactionR.getOrElse({
         show: false
-      } as InterestAfterTransactionType)
+      } as EarnAfterTransactionType)
       if (afterTransaction?.show) {
         yield put(
           actions.components.buySell.fetchPairs({ coin: afterTransaction.currency, currency })

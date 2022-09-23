@@ -5,14 +5,15 @@ import {
   EarnAccountBalanceType,
   EarnAccountResponseType,
   EarnAccountType,
+  EarnAfterTransactionType,
   EarnDepositLimits,
   EarnEligibleType,
+  EarnTransactionParamType,
+  EarnTransactionResponseType,
   FileUploadItem,
-  InterestAfterTransactionType,
   InterestEDDDocumentsResponse,
   InterestEDDStatus,
   InterestLimitsType,
-  InterestTransactionResponseType,
   InterestWithdrawalResponseType,
   RewardsRatesType,
   StakingAccountType,
@@ -57,10 +58,11 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getInterestTransactions = (
-    currency?: CoinType,
-    nextPageUrl?: string
-  ): InterestTransactionResponseType =>
+  const getEarnTransactions = ({
+    currency,
+    nextPageUrl,
+    product
+  }: EarnTransactionParamType): EarnTransactionResponseType =>
     nextPageUrl
       ? authorizedGet({
           endPoint: `${nextPageUrl}&pending=true&`,
@@ -70,7 +72,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
           data: {
             currency,
             pending: true,
-            product: 'SAVINGS'
+            product
           },
           endPoint: '/payments/transactions',
           url: nabuUrl
@@ -125,9 +127,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getInterestCtaAfterTransaction = (
-    currency?: WalletFiatType
-  ): InterestAfterTransactionType =>
+  const getInterestCtaAfterTransaction = (currency?: WalletFiatType): EarnAfterTransactionType =>
     authorizedGet({
       data: {
         currency
@@ -136,7 +136,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const stopInterestCtaAfterTransaction = (enabled: boolean): InterestAfterTransactionType =>
+  const stopInterestCtaAfterTransaction = (enabled: boolean): EarnAfterTransactionType =>
     authorizedPut({
       data: {
         enabled
@@ -203,10 +203,10 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getEDDDocumentsLimits,
     getEarnAccount,
     getEarnAccountBalance,
+    getEarnTransactions,
     getInterestCtaAfterTransaction,
     getInterestEligible,
     getInterestLimits,
-    getInterestTransactions,
     getRewardsRates,
     getSavingsEDDDepositLimits,
     getSavingsEDDStatus,
