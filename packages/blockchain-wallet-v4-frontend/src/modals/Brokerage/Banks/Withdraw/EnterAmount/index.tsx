@@ -33,8 +33,10 @@ const EnterAmountContainer = (props: Props) => {
     let paymentMethod: BSPaymentTypes | 'ALL' = 'ALL'
     if (props.defaultMethod) {
       paymentMethod = BSPaymentTypes.BANK_TRANSFER
+      // TODO: this logic is too specific, needs to be abstracted
       if (
         props.defaultMethod.partner !== BankPartners.YODLEE &&
+        props.defaultMethod.partner !== BankPartners.PLAID &&
         props.defaultMethod.currency === 'USD'
       ) {
         paymentMethod = BSPaymentTypes.BANK_ACCOUNT
