@@ -67,6 +67,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       interestSagas.fetchRewardsBalance
     )
     yield takeLatest(
+      [
+        actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
+        actionTypes.modules.profile.FETCH_USER_DATA_FAILURE,
+        actionTypes.modules.profile.SET_API_TOKEN_FAILURE
+      ],
+      interestSagas.fetchStakingBalance
+    )
+    yield takeLatest(
       actions.fetchShowInterestCardAfterTransaction.type,
       interestSagas.fetchShowInterestCardAfterTransaction
     )

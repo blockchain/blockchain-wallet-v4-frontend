@@ -3,8 +3,35 @@ import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
 
 import { Exchange, Remote } from '@core'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
-import { EarnAccountBalanceResponseType } from '@core/types'
 import { selectors } from 'data'
+
+const { CUSTODIAL, INTEREST, STAKING } = ADDRESS_TYPES
+
+const buildAccountDisplay = ({ account, coin, type }) => {
+  let accountType
+  switch (type) {
+    case CUSTODIAL:
+      accountType = 'Trading Account'
+      break
+    case INTEREST:
+      accountType = 'Rewards Account'
+      break
+    case STAKING:
+      accountType = 'Staking Account'
+      break
+
+    default:
+      return
+  }
+
+  return (
+    `${accountType}` +
+    ` (${Exchange.displayCoinToCoin({
+      coin,
+      value: account ? account.available : 0
+    })})`
+  )
+}
 
 export const getEthData = (
   state,
@@ -14,6 +41,7 @@ export const getEthData = (
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
     includeInterest?: boolean
+    includeStaking?: boolean
   }
 ) => {
   const {
@@ -21,6 +49,7 @@ export const getEthData = (
     includeExchangeAddress,
     includeCustodial,
     includeInterest,
+    includeStaking,
     forceCustodialFirst
   } = ownProps
 
@@ -38,24 +67,7 @@ export const getEthData = (
     }
     return wallet.label
   }
-  const buildCustodialDisplay = (account) => {
-    return (
-      `Trading Account` +
-      ` (${Exchange.displayCoinToCoin({
-        coin: 'ETH',
-        value: account ? account.available : 0
-      })})`
-    )
-  }
-  const buildInterestDisplay = (account: EarnAccountBalanceResponseType['ETH']) => {
-    return (
-      `Rewards Account` +
-      ` (${Exchange.displayCoinToCoin({
-        coin: 'ETH',
-        value: account ? account.balance : 0
-      })})`
-    )
-  }
+
   // @ts-ignore
   const excluded = filter((x) => !exclude.includes(x.label))
   const toDropdown = map((x) => ({ label: buildDisplay(x), value: x }))
@@ -63,11 +75,11 @@ export const getEthData = (
   const toExchange = (x) => [{ label: `ETH Exchange Account`, value: x }]
   const toCustodialDropdown = (currencyDetails) => [
     {
-      label: buildCustodialDisplay(currencyDetails),
+      label: buildAccountDisplay({ account: currencyDetails, coin: 'ETH', type: CUSTODIAL }),
       value: {
         ...currencyDetails,
         label: 'Trading Account',
-        type: ADDRESS_TYPES.CUSTODIAL
+        type: CUSTODIAL
       }
     }
   ]
@@ -76,11 +88,25 @@ export const getEthData = (
     account
       ? [
           {
-            label: buildInterestDisplay(account),
+            label: buildAccountDisplay({ account, coin: 'ETH', type: INTEREST }),
             value: {
               ...account,
               label: 'Rewards Account',
-              type: ADDRESS_TYPES.INTEREST
+              type: INTEREST
+            }
+          }
+        ]
+      : []
+
+  const toStakingDropdown = (account) =>
+    account
+      ? [
+          {
+            label: buildAccountDisplay({ account, coin: 'ETH', type: STAKING }),
+            value: {
+              ...account,
+              label: `Staking Account`,
+              type: STAKING
             }
           }
         ]
@@ -121,9 +147,16 @@ export const getEthData = (
             .map((x) => x.ETH)
             .map(toInterestDropdown)
             .map(toGroup('Rewards Account'))
+        : Remote.of([]),
+      includeStaking
+        ? selectors.components.interest
+            .getStakingAccountBalance(state)
+            .map((x) => x.ETH)
+            .map(toStakingDropdown)
+            .map(toGroup('Staking Account'))
         : Remote.of([])
-    ]).map(([b1, b2, b3, b4]) => {
-      const orderArray = forceCustodialFirst ? [b3, b1, b2, b4] : [b1, b2, b3, b4]
+    ]).map(([b1, b2, b3, b4, b5]) => {
+      const orderArray = forceCustodialFirst ? [b3, b1, b2, b4, b5] : [b1, b2, b3, b4, b5]
       // @ts-ignore
       const data = reduce(concat, [], orderArray)
       return { data }
@@ -142,6 +175,7 @@ export const getErc20Data = (
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
     includeInterest?: boolean
+    includeStaking?: boolean
   }
 ) => {
   const {
@@ -157,24 +191,6 @@ export const getErc20Data = (
       coin,
       value
     })
-  }
-  const buildCustodialDisplay = (coin: string, account) => {
-    return (
-      `Trading Account` +
-      ` (${displayErc20Fixed({
-        value: account ? account.available : 0
-      })})`
-    )
-  }
-
-  const buildInterestDisplay = (coin: string, account) => {
-    return (
-      `Rewards Account` +
-      ` (${Exchange.displayCoinToCoin({
-        coin,
-        value: account ? account.balance : 0
-      })})`
-    )
   }
 
   // @ts-ignore
@@ -198,11 +214,11 @@ export const getErc20Data = (
   ]
   const toCustodialDropdown = (account) => [
     {
-      label: buildCustodialDisplay(coin, account),
+      label: buildAccountDisplay({ account, coin, type: CUSTODIAL }),
       value: {
         ...account,
         label: `Trading Account`,
-        type: ADDRESS_TYPES.CUSTODIAL
+        type: CUSTODIAL
       }
     }
   ]
@@ -211,11 +227,11 @@ export const getErc20Data = (
     account
       ? [
           {
-            label: buildInterestDisplay(coin, account),
+            label: buildAccountDisplay({ account, coin, type: INTEREST }),
             value: {
               ...account,
               label: `Rewards Account`,
-              type: ADDRESS_TYPES.INTEREST
+              type: INTEREST
             }
           }
         ]
@@ -257,8 +273,8 @@ export const getErc20Data = (
             .map(toInterestDropdown)
             .map(toGroup('Rewards Account'))
         : Remote.of([])
-    ]).map(([b1, b2, b3, b4, b5]) => {
-      const orderArray = forceCustodialFirst ? [b2, b1, b3, b4, b5] : [b1, b2, b3, b4, b5]
+    ]).map(([b1, b2, b3, b4]) => {
+      const orderArray = forceCustodialFirst ? [b2, b1, b3, b4] : [b1, b2, b3, b4]
       // @ts-ignore
       const data = reduce(concat, [], orderArray)
       return { data }

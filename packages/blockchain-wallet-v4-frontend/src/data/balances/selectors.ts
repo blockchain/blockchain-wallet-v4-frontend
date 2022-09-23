@@ -173,10 +173,15 @@ export const getCoinCustodialBalance = (
   coin: string
 ): ((state: RootState) => RemoteDataType<string, number>) =>
   createDeepEqualSelector(
-    [buySellSelectors.getBSBalances, interestSelectors.getRewardsAccountBalance],
+    [
+      buySellSelectors.getBSBalances,
+      interestSelectors.getRewardsAccountBalance,
+      interestSelectors.getStakingAccountBalance
+    ],
     (
       sbBalancesR: RemoteDataType<PartialClientErrorProperties, BSBalancesType>,
-      interestAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>
+      interestAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>,
+      stakingAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>
     ) => {
       const sbCoinBalance = sbBalancesR.getOrElse({
         [coin]: DEFAULT_BS_BALANCE
@@ -184,10 +189,18 @@ export const getCoinCustodialBalance = (
       const interestCoinBalance = interestAccountBalanceR.getOrElse({
         [coin]: { balance: '0' } as EarnAccountBalanceResponseType[typeof coin]
       })[coin]
+      const stakingCoinBalance = stakingAccountBalanceR.getOrElse({
+        [coin]: { balance: '0' } as EarnAccountBalanceResponseType[typeof coin]
+      })[coin]
       const sbBalance = sbCoinBalance ? sbCoinBalance.available : '0'
       const interestBalance = interestCoinBalance ? interestCoinBalance.balance : '0'
-
-      return Remote.of(new BigNumber(sbBalance).plus(new BigNumber(interestBalance)).toNumber())
+      const stakingBalance = stakingCoinBalance ? stakingCoinBalance.balance : '0'
+      return Remote.of(
+        new BigNumber(sbBalance)
+          .plus(new BigNumber(interestBalance))
+          .plus(new BigNumber(stakingBalance))
+          .toNumber()
+      )
     }
   )
 
