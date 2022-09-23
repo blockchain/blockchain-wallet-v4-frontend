@@ -273,6 +273,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Rewards earned month to date. Total rewards earned during any month will be transferred on the 1st of the following month.'
           />
         </Tooltip>
+        <Tooltip id='modals.staking.summary.fee.tooltip'>
+          <FormattedMessage
+            id='modals.staking.summary.fee.description.tooltip'
+            defaultMessage='Rewards rates are determined by each protocol minus a fee. Users receive the displayed rate.'
+          />
+        </Tooltip>
         <Tooltip id='modals.interest.summary.lock.tooltip'>
           <FormattedMessage
             id='modals.interest.summary.transferlock.tooltip.description'

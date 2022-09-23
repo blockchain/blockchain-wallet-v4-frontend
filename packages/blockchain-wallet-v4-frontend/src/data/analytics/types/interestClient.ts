@@ -3,13 +3,17 @@ export enum Events {
   INTEREST_CLIENT_DEPOSIT_AMOUNT_ENTERED = 'Interest Deposit Amount Entered',
   INTEREST_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED = 'Interest Deposit Max Amount Clicked',
   INTEREST_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED = 'Interest Deposit Min Amount Clicked',
-  INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED = 'Interest Submit Information Clicked'
+  INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED = 'Interest Submit Information Clicked',
+  STAKING_CLIENT_DEPOSIT_AMOUNT_ENTERED = 'Staking Deposit Amount Entered',
+  STAKING_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED = 'Staking Deposit Max Amount Clicked',
+  STAKING_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED = 'Staking Deposit Min Amount Clicked',
+  STAKING_CLIENT_SUBMIT_INFORMATION_CLICKED = 'Staking Submit Information Clicked'
 }
 
 type AccountType = 'TRADING' | 'USERKEY'
 
 type DepositAmountEnteredAction = {
-  key: Events.INTEREST_CLIENT_DEPOSIT_AMOUNT_ENTERED
+  key: Events.INTEREST_CLIENT_DEPOSIT_AMOUNT_ENTERED | Events.STAKING_CLIENT_DEPOSIT_AMOUNT_ENTERED
   properties: {
     amount: Number
     amount_currency: String
@@ -21,7 +25,9 @@ type DepositAmountEnteredAction = {
   }
 }
 type DepositMaxAmountClickedAction = {
-  key: Events.INTEREST_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
+  key:
+    | Events.INTEREST_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
+    | Events.STAKING_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
   properties: {
     amount_currency: String
     currency: String
@@ -29,7 +35,9 @@ type DepositMaxAmountClickedAction = {
   }
 }
 type DepositMinAmountClickedAction = {
-  key: Events.INTEREST_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
+  key:
+    | Events.INTEREST_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
+    | Events.STAKING_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
   properties: {
     amount_currency: String
     currency: String
@@ -37,7 +45,9 @@ type DepositMinAmountClickedAction = {
   }
 }
 type ClientSubmitInformationClickedAction = {
-  key: Events.INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED
+  key:
+    | Events.INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED
+    | Events.STAKING_CLIENT_SUBMIT_INFORMATION_CLICKED
   properties: {}
 }
 

@@ -1,7 +1,6 @@
 import { lift } from 'ramda'
 
 import { Exchange, Remote } from '@core'
-import { getBalance } from '@core/redux/data/coins/selectors'
 import { ExtractSuccess, FiatType } from '@core/types'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
@@ -40,7 +39,8 @@ export const getData = (state, ownProps: OwnProps) => {
     case 'ETH':
       addressDataR = getEthAddressData(state, {
         includeCustodial: true,
-        includeInterest: true
+        includeInterest: true,
+        includeStaking: true
       })
       balanceDataR = selectors.balances.getCoinTotalBalance(coin)(state)
       break

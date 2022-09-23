@@ -5,8 +5,12 @@ import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-export const getInterestAccountBalance = (state: RootState) =>
-  state.components.interest.accountBalance
+import { EarnInstrumentsType } from './types'
+
+export const getRewardsAccountBalance = (state: RootState) =>
+  state.components.interest.rewardsAccountBalance
+export const getStakingAccountBalance = (state: RootState) =>
+  state.components.interest.stakingAccountBalance
 
 export const getCoinType = (state: RootState) => state.components.interest.coin
 
@@ -15,57 +19,96 @@ export const getIsAmountDisplayedInCrypto = (state: RootState) =>
 
 export const getInterestEligible = (state: RootState) => state.components.interest.interestEligible
 
-export const getInterestInstruments = (state: RootState) => state.components.interest.instruments
+export const getStakingEligible = (state: RootState) => state.components.interest.stakingEligible
+
+export const getEarnInstruments = (state: RootState) => state.components.interest.instruments
+
+export const getIsStakingEnabled = (state: RootState) =>
+  selectors.core.walletOptions.getIsStakingEnabled(state) || false
 
 // If the user does not have a rewards balance, move the preferredCoins list to the top of the list (even better if this is done by backend)
 // If the user has a rewards balance, move those instruments to the top of the list and merge with the preferredCoins list
 export const getInstrumentsSortedByBalance = createDeepEqualSelector(
-  getInterestInstruments,
-  getInterestAccountBalance,
+  getEarnInstruments,
+  getRewardsAccountBalance,
+  getIsStakingEnabled,
   (
-    instrumentsR: ReturnType<typeof getInterestInstruments>,
-    balancesR: ReturnType<typeof getInterestAccountBalance>
+    instrumentsR: ReturnType<typeof getEarnInstruments>,
+    balancesR: ReturnType<typeof getRewardsAccountBalance>,
+    isStakingEnabledR: ReturnType<typeof getIsStakingEnabled>
   ) => {
     const transform = (
       instruments: ExtractSuccess<typeof instrumentsR>,
-      balances: ExtractSuccess<typeof balancesR>
+      balances: ExtractSuccess<typeof balancesR>,
+      isStakingEnabled: ExtractSuccess<typeof isStakingEnabledR>
     ) => {
       if (isEmpty(instruments)) return []
-      let preferredCoins = ['BTC', 'ETH', 'USDT', 'USDC']
+      let preferredCoins: EarnInstrumentsType = [
+        { coin: 'BTC', product: 'Rewards' },
+        { coin: 'ETH', product: 'Rewards' },
+        { coin: 'USDT', product: 'Rewards' },
+        { coin: 'USDC', product: 'Rewards' }
+      ]
       if (!isEmpty(balances)) {
-        preferredCoins = union(Object.keys(balances), preferredCoins)
+        const mappedBalances: EarnInstrumentsType = Object.keys(balances).map((coin) => ({
+          coin,
+          product: 'Rewards'
+        }))
+        preferredCoins = union(mappedBalances, preferredCoins)
       }
 
-      preferredCoins.forEach((coin) => {
-        const coinIndex = instruments.indexOf(coin)
+      // pin staking to first row
+      preferredCoins = [{ coin: 'ETH', product: 'Staking' }, ...preferredCoins]
+
+      preferredCoins.forEach(({ coin, product }) => {
+        const coinIndex: number = instruments.findIndex(
+          (instrument) => instrument.coin === coin && instrument.product === product
+        )
         if (coinIndex !== -1) {
           instruments.splice(coinIndex, 1)
         }
       })
 
+      if (!isStakingEnabled) {
+        preferredCoins = preferredCoins.filter(({ product }) => product !== 'Staking')
+        instruments = instruments.filter(({ product }) => product !== 'Staking')
+      }
+
       return [...preferredCoins, ...instruments]
     }
 
-    return lift(transform)(instrumentsR, balancesR)
+    return lift(transform)(instrumentsR, balancesR, isStakingEnabledR)
   }
 )
 
 export const getInterestLimits = (state: RootState) => state.components.interest.interestLimits
 
-export const getInterestAccount = (state: RootState) => state.components.interest.account
+export const getStakingLimits = (state: RootState) => state.components.interest.stakingLimits
 
-export const getDepositAddress = (state: RootState) => {
-  const account = getInterestAccount(state).getOrElse({ accountRef: '' })
+export const getRewardsAccount = (state: RootState) => state.components.interest.rewardsAccount
+
+export const getStakingAccount = (state: RootState) => state.components.interest.stakingAccount
+
+export const getRewardsDepositAddress = (state: RootState) => {
+  const account = getRewardsAccount(state).getOrElse({ accountRef: '' })
   return account.accountRef
 }
-export const getInterestRate = (state: RootState) => state.components.interest.interestRate
+
+export const getStakingDepositAddress = (state: RootState) => {
+  const account = getStakingAccount(state).getOrElse({ accountRef: '' })
+  return account.accountRef
+}
+export const getInterestRates = (state: RootState) => state.components.interest.interestRates
+
+export const getStakingRates = (state: RootState) => state.components.interest.stakingRates
 
 export const getInterestTransactionsReport = (state: RootState) =>
   state.components.interest.transactionsReport
 
 export const getInterestTransactions = (state: RootState) => state.components.interest.transactions
 
-export const getDepositLimits = (state: RootState) => state.components.interest.depositLimits
+export const getEarnDepositLimits = (state: RootState) =>
+  state.components.interest.earnDepositLimits
 
 export const getPayment = (state: RootState) => state.components.interest.payment
 
@@ -75,7 +118,9 @@ export const getRates = (state: RootState): RemoteDataType<string, RatesType> =>
   return selectors.core.data.misc.getRatesSelector(coinType, state)
 }
 
-export const getStep = (state: RootState) => state.components.interest.step
+export const getRewardsStep = (state: RootState) => state.components.interest.rewardsStep
+
+export const getStakingStep = (state: RootState) => state.components.interest.stakingStep
 
 export const getTransactionsNextPage = (state: RootState) =>
   state.components.interest.transactionsNextPage

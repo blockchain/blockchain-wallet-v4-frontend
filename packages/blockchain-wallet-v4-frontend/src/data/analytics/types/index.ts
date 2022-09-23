@@ -47,9 +47,9 @@ import {
   TrackEventAction as ViewAndClickTrackEventAction
 } from './viewAndClick'
 import {
-  Events as WalletRewardsEvents,
-  TrackEventAction as WalletRewardsTrackEventAction
-} from './walletRewardsClientEvents'
+  Events as WalletEarnEvents,
+  TrackEventAction as WalletEarnTrackEventAction
+} from './walletEarnClientEvents'
 
 const TRACK_EVENT = 'trackEvent'
 
@@ -68,7 +68,7 @@ type AnalyticsKey =
   | CowboysPromoEvents
   | ViewAndClickEvents
   | SwapEvents
-  | WalletRewardsEvents
+  | WalletEarnEvents
 
 const Analytics = {
   ...AccountRecoveryEvents,
@@ -85,7 +85,7 @@ const Analytics = {
   ...SwapEvents,
   ...TaxCenterEvents,
   ...ViewAndClickEvents,
-  ...WalletRewardsEvents
+  ...WalletEarnEvents
 }
 
 // event properties
@@ -110,7 +110,7 @@ type TrackEventAction =
   | TaxCenterTrackEventAction
   | TransactionsTrackEventAction
   | ViewAndClickTrackEventAction
-  | WalletRewardsTrackEventAction
+  | WalletEarnTrackEventAction
   | CowboysPromoTrackEventAction
 
 type AnalyticsTraits = {

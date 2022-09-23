@@ -6,7 +6,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
-import { CoinType, DepositLimits } from '@core/types'
+import { CoinType, EarnDepositLimits } from '@core/types'
 import {
   Button,
   Icon,
@@ -21,7 +21,7 @@ import CheckBox from 'components/Form/CheckBox'
 import CoinBalanceDropdown from 'components/Form/CoinBalanceDropdown'
 import NumberBox from 'components/Form/NumberBox'
 import { actions, selectors } from 'data'
-import { InterestDepositFormType } from 'data/components/interest/types'
+import { RewardsDepositFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
 import { Analytics, SwapBaseCounterTypes } from 'data/types'
 import { required } from 'services/forms'
@@ -62,17 +62,17 @@ import TabMenuTimeFrame from './TabMenuTimeFrame'
 import { maxDepositAmount, minDepositAmount } from './validation'
 
 const checkIsAmountUnderDepositLimit = (
-  interestDepositLimits: DepositLimits,
+  depositLimits: EarnDepositLimits,
   coin: CoinType,
   depositAmount: string
 ): boolean => {
-  const { depositLimits } = interestDepositLimits
+  const { earnDepositLimits } = depositLimits
 
-  if (!depositLimits || depositLimits.length === 0) {
+  if (!earnDepositLimits || earnDepositLimits.length === 0) {
     return false
   }
 
-  const coinLimit = depositLimits.find((dep) => dep.savingsCurrency === coin)?.amount || 0
+  const coinLimit = earnDepositLimits.find((dep) => dep.savingsCurrency === coin)?.amount || 0
   // compare entered amount with deposit limit for current coin
   return Number(depositAmount) > coinLimit
 }
@@ -81,8 +81,8 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const {
     analyticsActions,
     coin,
-    depositLimits,
     displayCoin,
+    earnDepositLimits,
     feeCrypto,
     feeFiat,
     formActions,
@@ -93,7 +93,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     interestEDDDepositLimits,
     interestEDDStatus,
     interestLimits,
-    interestRate,
+    interestRates,
     invalid,
     payment,
     rates,
@@ -106,7 +106,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const depositAmount = (values && values.depositAmount) || '0'
   const isCustodial =
-    values && values?.interestDepositAccount && values.interestDepositAccount.type === 'CUSTODIAL'
+    values && values?.earnDepositAccount && values.earnDepositAccount.type === 'CUSTODIAL'
 
   const depositAmountFiat = amountToFiat(displayCoin, depositAmount, coin, walletCurrency, rates)
   const depositAmountCrypto = amountToCrypto(
@@ -120,7 +120,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const loanTimeFrame = values && values.loanTimeFrame
   const lockUpDuration = interestLimits[coin]?.lockUpDuration || 7200
   const lockupPeriod = lockUpDuration / 86400
-  const maxDepositFiat = maxFiat(depositLimits.maxFiat, walletCurrency)
+  const maxDepositFiat = maxFiat(earnDepositLimits.maxFiat, walletCurrency)
 
   const fromAccountType =
     interestAccount?.type === SwapBaseCounterTypes.CUSTODIAL ? 'TRADING' : 'USERKEY'
@@ -143,7 +143,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     !interestEDDStatus?.eddPassed
 
   const handleFormSubmit = () => {
-    interestActions.submitDepositForm(coin)
+    interestActions.submitDepositForm({ formName: 'rewardsDepositForm' })
     props.setShowSupply(showEDDDepositLimit)
 
     analyticsActions.trackEvent({
@@ -166,7 +166,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
         currency: walletCurrency,
         from_account_type: fromAccountType,
         input_amount: Number(values.depositAmount),
-        interest_rate: Number(interestRate[coin]),
+        interest_rate: Number(interestRates[coin]),
         output_amount: Number
       }
     })
@@ -198,7 +198,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
       <FlyoutWrapper style={{ paddingBottom: '0' }}>
         <TopText color='grey800' size='20px' weight={600}>
           <ArrowIcon
-            onClick={() => interestActions.setInterestStep({ name: 'ACCOUNT_SUMMARY' })}
+            onClick={() => interestActions.setRewardsStep({ name: 'ACCOUNT_SUMMARY' })}
             cursor
             role='button'
             name='arrow-left'
@@ -223,7 +223,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
               defaultMessage='Transfer {displayName} to your Rewards Account and earn up to {rate}% in rewards annually on your crypto.'
               values={{
                 displayName: coinfig.name,
-                rate: interestRate[coin]
+                rate: interestRates[coin]
               }}
             />{' '}
             {!insufficientEth && (
@@ -240,13 +240,13 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     formActions.change(
                       FORM_NAME,
                       'depositAmount',
-                      displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat
+                      displayCoin ? earnDepositLimits.maxCoin : earnDepositLimits.maxFiat
                     )
                   }
                 >
                   {displayCoin ? (
                     <Text color='blue600' size='14px' weight={500}>
-                      {depositLimits.maxCoin}{' '}
+                      {earnDepositLimits.maxCoin}{' '}
                     </Text>
                   ) : (
                     <Text color='blue600' size='14px' weight={500}>
@@ -282,7 +282,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
           {...props}
           includeCustodial
           fiatCurrency={walletCurrency}
-          name='interestDepositAccount'
+          name='earnDepositAccount'
         />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
@@ -350,10 +350,10 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     defaultMessage='Maximum transfer: {maxFiat}'
                     values={{
                       maxFiat: displayCoin
-                        ? depositLimits.maxCoin
+                        ? earnDepositLimits.maxCoin
                         : fiatToString({
                             unit: walletCurrency,
-                            value: depositLimits.maxFiat
+                            value: earnDepositLimits.maxFiat
                           })
                     }}
                   />
@@ -363,8 +363,8 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   role='button'
                   onClick={() => {
                     interestActions.handleTransferMaxAmountClick({
-                      amount: displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat,
-                      coin: displayCoin || walletCurrency
+                      amount: displayCoin ? earnDepositLimits.maxCoin : earnDepositLimits.maxFiat,
+                      formName: 'rewardsDepositForm'
                     })
 
                     analyticsActions.trackEvent({
@@ -391,10 +391,10 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     defaultMessage='Minimum transfer: {minFiat}'
                     values={{
                       minFiat: displayCoin
-                        ? depositLimits.minCoin
+                        ? earnDepositLimits.minCoin
                         : fiatToString({
                             unit: walletCurrency,
-                            value: depositLimits.minFiat
+                            value: earnDepositLimits.minFiat
                           })
                     }}
                   />
@@ -404,8 +404,8 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   role='button'
                   onClick={() =>
                     interestActions.handleTransferMinAmountClick({
-                      amount: displayCoin ? depositLimits.minCoin : depositLimits.minFiat,
-                      coin: displayCoin || walletCurrency
+                      amount: displayCoin ? earnDepositLimits.minCoin : earnDepositLimits.minFiat,
+                      formName: 'rewardsDepositForm'
                     })
                   }
                 >
@@ -468,7 +468,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 1 / 365)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 1 / 365)}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -480,7 +480,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 1 / 52)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 1 / 52)}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -492,7 +492,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 1 / 12)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 1 / 12)}
                     </Text>
                   </InterestTermContainer>
                 </>
@@ -504,7 +504,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 1)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 1)}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -516,7 +516,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 3)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 3)}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -528,7 +528,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                     </Text>
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
-                      {calcCompoundInterest(depositAmountFiat, interestRate[coin], 5)}
+                      {calcCompoundInterest(depositAmountFiat, interestRates[coin], 5)}
                     </Text>
                   </InterestTermContainer>
                 </>
@@ -636,7 +636,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  values: selectors.form.getFormValues(FORM_NAME)(state) as InterestDepositFormType
+  values: selectors.form.getFormValues(FORM_NAME)(state) as RewardsDepositFormType
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -648,7 +648,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
-  values?: InterestDepositFormType
+  values?: RewardsDepositFormType
 }
 
 export type Props = DataSuccessStateType &

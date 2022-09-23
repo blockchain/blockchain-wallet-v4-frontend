@@ -24,6 +24,7 @@ export type BeneficiariesType = Array<BeneficiaryType>
 export enum ProductTypes {
   SAVINGS = 'SAVINGS',
   SIMPLEBUY = 'SIMPLEBUY',
+  STAKING = 'STAKING',
   SWAP = 'SWAP'
 }
 

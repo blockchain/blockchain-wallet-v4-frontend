@@ -14,7 +14,7 @@ import { selectors } from 'data'
 import { OwnProps } from '.'
 
 const getData = (state, ownProps: OwnProps) => {
-  const { coin, includeCustodial } = ownProps
+  const { coin, includeCustodial, includeInterest = false } = ownProps
   let addressDataR
 
   // TODO: dynamic coins phase 3, remove hardcoded list
@@ -24,7 +24,7 @@ const getData = (state, ownProps: OwnProps) => {
         excludeImported: true,
         includeAll: false,
         includeCustodial,
-        includeInterest: false
+        includeInterest
       })
       break
     case 'BTC':
@@ -32,19 +32,19 @@ const getData = (state, ownProps: OwnProps) => {
         excludeImported: true,
         includeAll: false,
         includeCustodial,
-        includeInterest: false
+        includeInterest
       })
       break
     case 'ETH':
       addressDataR = getEthAddressData(state, {
         includeCustodial,
-        includeInterest: false
+        includeInterest
       })
       break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
         includeCustodial,
-        includeInterest: false
+        includeInterest
       })
       break
     default:
@@ -53,7 +53,7 @@ const getData = (state, ownProps: OwnProps) => {
           addressDataR = getErc20AddressData(state, {
             coin,
             includeCustodial,
-            includeInterest: false
+            includeInterest
           })
           break
         case selectors.core.data.coins.getCustodialCoins().includes(coin):

@@ -1,6 +1,16 @@
 import { CoinType, FiatType, NabuMoneyFloatType, WalletFiatType } from '@core/types'
 
-export type InterestBalanceType = {
+type ProductType = 'staking' | 'savings'
+
+type CapProductType = 'STAKING' | 'SAVINGS'
+
+export type EarnAccountBalanceType = {
+  ccy?: CoinType
+  din?: FiatType
+  product: ProductType
+}
+
+export type EarnBalanceType = {
   balance: string
   fiatAmount: string | null
   locked: string
@@ -8,20 +18,27 @@ export type InterestBalanceType = {
   pendingInterest: string
   pendingWithdrawal: string
   totalInterest: string
+  totalRewards: string
 }
 
-export type InterestAccountBalanceType = {
-  [key in CoinType]?: InterestBalanceType
+export type EarnAccountBalanceResponseType = {
+  [key in CoinType]?: EarnBalanceType
 }
 
-export type InterestEligibleType = {
+export type EarnEligibleType = {
   [key in CoinType]?: {
     eligible: boolean
-    ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION' | null
+    ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION' | 'UNSUPPORTED_COUNTRY_OR_STATE' | null
   }
 }
 
-export type InterestAfterTransactionType = {
+export type EarnTransactionParamType = {
+  currency?: CoinType
+  nextPageUrl?: string
+  product: CapProductType
+}
+
+export type EarnAfterTransactionType = {
   amount: number
   currency: CoinType
   fiatAmount: number | null
@@ -35,18 +52,15 @@ type LimitDetails = {
   savingsCurrency: CoinType
 }
 
-export type DepositLimits = {
-  depositLimits: LimitDetails[] | []
+export type EarnDepositLimits = {
+  earnDepositLimits: LimitDetails[] | []
 }
 
 export type WithdrawLimits = {
   withdrawLimits: LimitDetails
 }
 
-export type InterestInstrumentsResponseType = { instruments: CoinType[] }
-export type InterestInstrumentsType = Array<CoinType>
-
-export type InterestFormErrorsType = {
+export type EarnDepositErrorsType = {
   depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean
 }
 
@@ -59,17 +73,48 @@ export type InterestLimitsType = {
   }
 }
 
-export type InterestAccountType = {
+export type EarnAccountType = {
+  coin: CoinType
+  product: ProductType
+}
+
+export type EarnAccountResponseType = {
   accountRef: string // actually the btc deposit address
 }
 
-export type InterestRateType = {
+export type RewardsRatesType = {
   rates: {
     [key in CoinType]: number
   }
 }
 
-export type InterestTransactionType = {
+export type StakingRatesType = {
+  rates: {
+    [key in CoinType]: {
+      commission: number
+      rate: number
+    }
+  }
+}
+
+export type StakingAccountCoinType = {
+  balance: string
+  depositsBonding: string
+  locked: string
+  pendingDeposit: string
+  pendingRewards: string
+  pendingWithdrawal: string
+  totalRewards: string
+  withdrawalsUnbonding: string
+}
+
+export type StakingAccountType =
+  | {
+      [key in CoinType]: StakingAccountCoinType
+    }
+  | undefined
+
+export type EarnTransactionType = {
   amount: {
     symbol: CoinType
     value: string
@@ -96,8 +141,8 @@ export type InterestTransactionType = {
   type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
 }
 
-export type InterestTransactionResponseType = {
-  items: Array<InterestTransactionType>
+export type EarnTransactionResponseType = {
+  items: Array<EarnTransactionType>
   next: string | null
 }
 
@@ -143,4 +188,19 @@ export type UploadDocumentDetails = {
   expectedDeposits: string
   occupation: string
   ssn?: string
+}
+
+export type StakingLimitType = {
+  bondingDays: number
+  disabledWithdrawals: boolean
+  minDepositValue: number
+  unbondingDays?: number
+}
+
+export type StakingLimitsType = {
+  [key in CoinType]: StakingLimitType
+}
+
+export type StakingLimitsResponse = {
+  limits: StakingLimitsType
 }

@@ -8,7 +8,7 @@ import { Props as OwnProps, SuccessStateType } from './index'
 
 type Props = OwnProps & SuccessStateType
 
-const InterestBanner: React.FC<Props> = ({ afterTransaction, interestActions, interestRate }) => {
+const InterestBanner: React.FC<Props> = ({ afterTransaction, interestActions, interestRates }) => {
   const { amount, currency } = afterTransaction
   const displayName = window.coins[currency].coinfig.name
   return (
@@ -20,7 +20,7 @@ const InterestBanner: React.FC<Props> = ({ afterTransaction, interestActions, in
             defaultMessage='Earn {interestRate}% on this {displayName} Purchase'
             values={{
               displayName,
-              interestRate: interestRate[currency]
+              interestRate: interestRates[currency]
             }}
           />
         </Text>
