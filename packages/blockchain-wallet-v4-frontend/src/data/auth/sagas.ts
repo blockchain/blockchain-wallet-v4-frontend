@@ -61,7 +61,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const LOGIN_FORM = 'login'
 
-  const authNabu = function* () {
+  const authNabu = function* (firstLogin?: boolean) {
     yield put(
       actions.components.identityVerification.fetchSupportedCountries({ scope: CountryScope.KYC })
     )
@@ -69,7 +69,7 @@ export default ({ api, coreSagas, networks }) => {
       identityVerificationActions.setSupportedCountriesSuccess.type,
       identityVerificationActions.setSupportedCountriesFailure.type
     ])
-    yield put(actions.modules.profile.signIn())
+    yield put(actions.modules.profile.signIn(firstLogin))
   }
 
   const exchangeResetPassword = function* (action) {
@@ -324,13 +324,12 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
-      yield call(authNabu)
+      yield call(authNabu, firstLogin)
       if (product === ProductAuthOptions.EXCHANGE && (recovery || !firstLogin)) {
         return yield put(
           actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
         )
       }
-
       const guid = yield select(selectors.core.wallet.getGuid)
       if (firstLogin && !isAccountReset && !recovery) {
         // create nabu user

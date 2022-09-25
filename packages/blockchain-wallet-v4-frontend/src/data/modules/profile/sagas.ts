@@ -220,54 +220,6 @@ export default ({ api, coreSagas, networks }) => {
     yield call(setSession, nabuUserId, nabuLifetimeToken, email, guid)
   }
 
-  const signIn = function* () {
-    try {
-      const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
-      const guid = yield select(selectors.core.wallet.getGuid)
-      // TODO: in future only fetch unified credentials
-      const unifiedNabuCredentialsR = yield select(
-        selectors.core.kvStore.unifiedCredentials.getNabuCredentials
-      )
-      const userCredentialsR = yield select(
-        selectors.core.kvStore.userCredentials.getLegacyNabuCredentials
-      )
-      if (!Remote.Success.is(unifiedNabuCredentialsR)) {
-        yield call(coreSagas.kvStore.unifiedCredentials.fetchMetadataUnifiedCredentials)
-      }
-      if (!Remote.Success.is(userCredentialsR)) {
-        yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
-      }
-      const { nabuLifetimeToken, nabuUserId } = (yield select(
-        selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
-      )).getOrElse({})
-      // sync legacy nabu credentials with unified kv entry
-      const unifiedNabuCredentials = (yield select(
-        selectors.core.kvStore.unifiedCredentials.getNabuCredentials
-      )).getOrElse({})
-      if (!unifiedNabuCredentials.nabuUserId || !unifiedNabuCredentials.nabuLifetimeToken) {
-        yield put(
-          actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
-            nabu_lifetime_token: nabuLifetimeToken,
-            nabu_user_id: nabuUserId
-          })
-        )
-      }
-      if (!nabuUserId || !nabuLifetimeToken) {
-        return yield put(
-          A.fetchUserDataSuccess({
-            kycState: KYC_STATES.NONE,
-            state: USER_ACTIVATION_STATES.NONE
-          })
-        )
-      }
-      yield put(A.setApiTokenLoading())
-
-      renewSessionTask = yield fork(renewSession, nabuUserId, nabuLifetimeToken, email, guid, 0)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'signIn', e))
-    }
-  }
-
   const fetchUserCampaigns = function* () {
     try {
       yield put(A.fetchUserCampaignsLoading())
@@ -586,6 +538,58 @@ export default ({ api, coreSagas, networks }) => {
       }
     } catch (e) {
       yield put(A.linkToExchangeAccountFailure('Unable to check current account status.'))
+    }
+  }
+
+  const signIn = function* ({ payload }) {
+    try {
+      const { firstLogin } = payload
+      const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
+      const guid = yield select(selectors.core.wallet.getGuid)
+      // TODO: in future only fetch unified credentials
+      const unifiedNabuCredentialsR = yield select(
+        selectors.core.kvStore.unifiedCredentials.getNabuCredentials
+      )
+      const userCredentialsR = yield select(
+        selectors.core.kvStore.userCredentials.getLegacyNabuCredentials
+      )
+      if (!Remote.Success.is(unifiedNabuCredentialsR)) {
+        yield call(coreSagas.kvStore.unifiedCredentials.fetchMetadataUnifiedCredentials)
+      }
+      if (!Remote.Success.is(userCredentialsR)) {
+        yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      }
+      const { nabuLifetimeToken, nabuUserId } = (yield select(
+        selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
+      )).getOrElse({})
+      // sync legacy nabu credentials with unified kv entry
+      const unifiedNabuCredentials = (yield select(
+        selectors.core.kvStore.unifiedCredentials.getNabuCredentials
+      )).getOrElse({})
+      if (!unifiedNabuCredentials.nabuUserId || !unifiedNabuCredentials.nabuLifetimeToken) {
+        yield put(
+          actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
+            nabu_lifetime_token: nabuLifetimeToken,
+            nabu_user_id: nabuUserId
+          })
+        )
+      }
+      if (!firstLogin && (!nabuUserId || !nabuLifetimeToken)) {
+        yield call(createUser)
+      }
+      if (!nabuUserId || !nabuLifetimeToken) {
+        return yield put(
+          A.fetchUserDataSuccess({
+            kycState: KYC_STATES.NONE,
+            state: USER_ACTIVATION_STATES.NONE
+          })
+        )
+      }
+      yield put(A.setApiTokenLoading())
+
+      renewSessionTask = yield fork(renewSession, nabuUserId, nabuLifetimeToken, email, guid, 0)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'signIn', e))
     }
   }
 
