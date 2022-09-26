@@ -166,6 +166,11 @@ export const getSecureEmailSmsUpdate = (state: RootState) =>
 // dex feature flag
 export const getDexProductEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'dex']))
+
 // staking feature flag
 export const getIsStakingEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isStakingEnabled']))
+
+// crates nabu user at login if credentials aren't in metadata
+export const createNabuUserAtLogin = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'createNabuUserAtLogin']))

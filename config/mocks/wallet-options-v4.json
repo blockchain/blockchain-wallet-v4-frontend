@@ -41,6 +41,7 @@
         "applePayPaymentMethod": true,
         "appleAndGooglePayPromoBanner": true,
         "bindIntegrationArEnabled": true,
+        "createNabuUserAtLogin": true,
         "coinViewV2": false,
         "isCreditCardOptimizationEnabled": true,
         "recurringBuysInCheckoutPage": true,
