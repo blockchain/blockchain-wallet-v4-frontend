@@ -65,7 +65,7 @@ export const isSilverOrAbove = compose(
 )
 
 export const getCurrentTier = createSelector(getUserData, (userDataR) => {
-  return lift((userData: ExtractSuccess<typeof userDataR>) => userData.tiers.current)(userDataR)
+  return lift((userData: ExtractSuccess<typeof userDataR>) => userData.tiers?.current)(userDataR)
 })
 export const getUserCurrencies = createSelector([getUserData], (userDataR) => {
   return lift((userData: ExtractSuccess<typeof userDataR>) => ({
