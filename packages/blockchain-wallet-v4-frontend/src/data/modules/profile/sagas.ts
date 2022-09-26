@@ -546,6 +546,9 @@ export default ({ api, coreSagas, networks }) => {
       const { firstLogin } = payload
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
       const guid = yield select(selectors.core.wallet.getGuid)
+      const createNewUser = (yield select(
+        selectors.core.walletOptions.createNabuUserAtLogin
+      )).getOrElse(false)
       // TODO: in future only fetch unified credentials
       const unifiedNabuCredentialsR = yield select(
         selectors.core.kvStore.unifiedCredentials.getNabuCredentials
@@ -574,7 +577,7 @@ export default ({ api, coreSagas, networks }) => {
           })
         )
       }
-      if (!firstLogin && (!nabuUserId || !nabuLifetimeToken)) {
+      if (!firstLogin && createNewUser && (!nabuUserId || !nabuLifetimeToken)) {
         yield call(createUser)
       }
       if (!nabuUserId || !nabuLifetimeToken) {
