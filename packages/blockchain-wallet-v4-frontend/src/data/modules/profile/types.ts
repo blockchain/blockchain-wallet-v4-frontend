@@ -314,6 +314,13 @@ interface ShareWalletAddressWithExchangeSuccessAction {
   type: typeof AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_SUCCESS
 }
 
+interface SigninActionType {
+  payload?: {
+    firstLogin?: boolean
+  }
+  type: typeof AT.SIGN_IN
+}
+
 export type ProfileActionTypes =
   | AuthAndRouteToExchangeAction
   | ClearProfileStateAction
@@ -347,3 +354,4 @@ export type ProfileActionTypes =
   | ShareWalletAddressWithExchangeFailureAction
   | ShareWalletAddressWithExchangeLoadingAction
   | ShareWalletAddressWithExchangeSuccessAction
+  | SigninActionType

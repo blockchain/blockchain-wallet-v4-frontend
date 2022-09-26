@@ -541,7 +541,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const signIn = function* ({ payload }) {
+  const signIn = function* ({ payload }: ReturnType<typeof A.signIn>) {
     try {
       const { firstLogin } = payload
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
