@@ -100,6 +100,9 @@ export const getStakingDepositAddress = (state: RootState) => {
 }
 export const getInterestRates = (state: RootState) => state.components.interest.interestRates
 
+export const getEarnBondingDeposits = (state: RootState) =>
+  state.components.interest.bondingDeposits
+
 export const getStakingRates = (state: RootState) => state.components.interest.stakingRates
 
 export const getInterestTransactionsReport = (state: RootState) =>

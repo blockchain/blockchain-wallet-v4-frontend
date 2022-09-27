@@ -5,6 +5,8 @@ import {
   EarnAccountBalanceResponseType,
   EarnAccountResponseType,
   EarnAfterTransactionType,
+  EarnBondingDepositsParamType,
+  EarnBondingDepositsResponseType,
   EarnDepositLimits,
   EarnEligibleType,
   InterestEDDStatus,
@@ -34,6 +36,7 @@ import {
 
 const initialState: InterestState = {
   afterTransaction: Remote.NotAsked,
+  bondingDeposits: Remote.NotAsked,
   coin: 'BTC',
   earnDepositLimits: {
     maxCoin: 0,
@@ -126,6 +129,22 @@ const interestSlice = createSlice({
       action: PayloadAction<{ interestEDDDepositLimits: EarnDepositLimits }>
     ) => {
       state.interestEDDDepositLimits = Remote.Success(action.payload.interestEDDDepositLimits)
+    },
+
+    fetchEarnBondingDeposits: (state, action: PayloadAction<EarnBondingDepositsParamType>) => {},
+    fetchEarnBondingDepositsFailure: (state, action: PayloadAction<string>) => {
+      state.bondingDeposits = Remote.Failure(action.payload)
+    },
+
+    fetchEarnBondingDepositsLoading: (state) => {
+      state.bondingDeposits = Remote.Loading
+    },
+
+    fetchEarnBondingDepositsSuccess: (
+      state,
+      action: PayloadAction<EarnBondingDepositsResponseType>
+    ) => {
+      state.bondingDeposits = Remote.Success(action.payload)
     },
 
     // INSTRUMENTS

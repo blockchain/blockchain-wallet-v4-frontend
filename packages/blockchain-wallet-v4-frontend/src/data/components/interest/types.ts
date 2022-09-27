@@ -4,6 +4,7 @@ import {
   EarnAccountBalanceResponseType,
   EarnAccountResponseType,
   EarnAfterTransactionType,
+  EarnBondingDepositsResponseType,
   EarnDepositLimits,
   EarnEligibleType,
   FiatType,
@@ -99,6 +100,7 @@ export type EarnTransactionType = TransactionType & {
 //
 export interface InterestState {
   afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
+  bondingDeposits: RemoteDataType<string, EarnBondingDepositsResponseType>
   coin: CoinType
   earnDepositLimits: EarnMinMaxType
   instruments: RemoteDataType<string, EarnInstrumentsType>
