@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { IconBank, PaletteColors } from '@blockchain-com/constellation'
 import { any } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -9,6 +10,7 @@ import { BSPaymentMethodType, BSPaymentTypes, WalletFiatEnum } from '@core/types
 import { Coin } from '@core/utils'
 import { Box, Button, Image, Text } from 'blockchain-info-components'
 import { Expanded, Flex } from 'components/Flex'
+import { StandardRow } from 'components/Rows'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -59,12 +61,23 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         </CustomSettingHeader>
         <div>
           {!walletBeneficiaries.length && (
-            <Text size='14px' color='grey600' weight={500}>
-              <FormattedMessage
-                id='scenes.settings.no_linked_banks'
-                defaultMessage='No Linked Banks'
-              />
-            </Text>
+            <StandardRow
+              topLeftText={
+                <FormattedMessage
+                  id='scenes.settings.no_linked_banks'
+                  defaultMessage='No Linked Banks'
+                />
+              }
+              bottomLeftText={
+                <FormattedMessage
+                  id='scenes.settings.linked_banks_will_show'
+                  defaultMessage='Your linked banks will show here'
+                />
+              }
+              icon={<IconBank size='medium' color={PaletteColors['blue-600']} />}
+              bottomRightText=''
+              topRightText=''
+            />
           )}
           {walletBeneficiaries.map((account) => {
             return (

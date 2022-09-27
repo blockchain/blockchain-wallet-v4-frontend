@@ -113,6 +113,7 @@ const SkipTwoFAVerificationRecovery = React.lazy(
 )
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const BuySell = React.lazy(() => import('./BuySell'))
+const Staking = React.lazy(() => import('./Staking'))
 const Swap = React.lazy(() => import('./Swap'))
 const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
@@ -265,6 +266,7 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SKIP_TWOFA_CONFIRMATION_WARNING) ? (
           <SkipTwoFAVerificationRecovery />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.STAKING_MODAL) ? <Staking /> : null}
         {props.modals.find((modal) => modal.type === ModalName.RESET_ACCOUNT_FAILED) ? (
           <ResetAccountFailed />
         ) : null}

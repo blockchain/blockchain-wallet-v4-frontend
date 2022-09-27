@@ -6,7 +6,7 @@ import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   const interestEligibleR = selectors.components.interest.getInterestEligible(state)
-  const interestRateR = selectors.components.interest.getInterestRate(state)
+  const interestRatesR = selectors.components.interest.getInterestRates(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const fix = selectors.components.swap.getFix(state)
@@ -22,19 +22,19 @@ export const getData = (state: RootState) => {
       walletCurrency: FiatType,
       custodialEligibility: ExtractSuccess<typeof custodialEligibilityR>,
       products: ExtractSuccess<typeof productsR>,
-      interestRate: ExtractSuccess<typeof interestRateR>,
+      interestRates: ExtractSuccess<typeof interestRatesR>,
       interestEligible: ExtractSuccess<typeof interestEligibleR>
     ) => ({
       custodialEligibility,
       fix,
       interestEligible,
-      interestRate,
+      interestRates,
       isRewardsFlowAfterSwapEnabled,
       products,
       userData,
       walletCurrency
     })
-  )(userDataR, walletCurrencyR, custodialEligibilityR, productsR, interestRateR, interestEligibleR)
+  )(userDataR, walletCurrencyR, custodialEligibilityR, productsR, interestRatesR, interestEligibleR)
 }
 
 export default getData

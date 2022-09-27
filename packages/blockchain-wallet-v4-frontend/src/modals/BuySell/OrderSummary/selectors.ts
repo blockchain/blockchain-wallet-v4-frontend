@@ -6,7 +6,7 @@ import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   const interestEligibleR = selectors.components.interest.getInterestEligible(state)
-  const interestRateR = selectors.components.interest.getInterestRate(state)
+  const interestRatesR = selectors.components.interest.getInterestRates(state)
   const cardsR = selectors.components.buySell.getBSCards(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
@@ -22,14 +22,14 @@ export const getData = (state: RootState) => {
       withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>,
       recurringBuyList: ExtractSuccess<typeof recurringBuyListR>,
       order: ExtractSuccess<typeof orderR>,
-      interestRate: ExtractSuccess<typeof interestRateR>,
+      interestRates: ExtractSuccess<typeof interestRatesR>,
       interestEligible: ExtractSuccess<typeof interestEligibleR>
     ) => {
       return {
         cards,
         hasCowboysTag,
         interestEligible,
-        interestRate,
+        interestRates,
         lockTime: withdrawLockCheck?.lockTime || 0,
         order,
         recurringBuyList,
@@ -43,7 +43,7 @@ export const getData = (state: RootState) => {
     withdrawLockCheckR,
     recurringBuyListR,
     orderR,
-    interestRateR,
+    interestRatesR,
     interestEligibleR
   )
 }

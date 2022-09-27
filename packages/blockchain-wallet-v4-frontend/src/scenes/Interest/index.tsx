@@ -6,25 +6,17 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
-import { CoinType, InterestEDDStatus, InterestRateType, RemoteDataType } from '@core/types'
-import { SkeletonRectangle, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
-import { Container } from 'components/Box'
+import { InterestEDDStatus, RemoteDataType, RewardsRatesType, StakingRatesType } from '@core/types'
+import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { SceneWrapper } from 'components/Layout'
 import { actions } from 'data'
-import { Analytics, UserDataType } from 'data/types'
+import { Analytics, EarnInstrumentsType, UserDataType } from 'data/types'
 
-import IneligibilityCard from './IneligibilityCard'
-import IntroCard from './IntroCard'
+import EarnTable from './EarnTable'
+import Loading from './Interest.loading.template'
 import getData from './selectors'
-import SummaryCard from './SummaryCard'
 import InterestHeader from './template.header'
 
-const ContainerStyled = styled(Container)`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  max-width: 100%;
-`
 const TabRow = styled.div`
   width: 100%;
   display: flex;
@@ -38,10 +30,13 @@ class Interest extends React.PureComponent<Props, StateType> {
   }
 
   componentDidMount() {
-    this.props.interestActions.fetchInterestInstruments()
-    this.props.interestActions.fetchInterestRate()
-    this.props.interestActions.fetchInterestBalance()
+    this.props.interestActions.fetchEarnInstruments()
+    this.props.interestActions.fetchInterestRates()
+    this.props.interestActions.fetchRewardsBalance()
+    this.props.interestActions.fetchStakingBalance()
     this.props.interestActions.fetchEDDStatus()
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchStakingEligible()
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -75,17 +70,14 @@ class Interest extends React.PureComponent<Props, StateType> {
         {isGoldTier && (
           <TabRow>
             <TabMenu>
-              <LinkContainer to='/rewards' exact>
-                <TabMenuItem data-e2e='interestTabMenuAccounts'>
-                  <FormattedMessage id='scenes.interest.tab.accounts' defaultMessage='Accounts' />
+              <LinkContainer to='/earn' exact>
+                <TabMenuItem data-e2e='interestTabMenuAccounts' width='130px'>
+                  <FormattedMessage id='copy.all' defaultMessage='All' />
                 </TabMenuItem>
               </LinkContainer>
-              <LinkContainer to='/rewards/history' onClick={this.handleHistoryClick}>
-                <TabMenuItem data-e2e='interestTabMenuHistory'>
-                  <FormattedMessage
-                    id='scenes.interest.tab.history'
-                    defaultMessage='Transaction History'
-                  />
+              <LinkContainer to='/earn/history' onClick={this.handleHistoryClick}>
+                <TabMenuItem data-e2e='interestTabMenuHistory' width='130px'>
+                  <FormattedMessage id='copy.history' defaultMessage='History' />
                 </TabMenuItem>
               </LinkContainer>
             </TabMenu>
@@ -97,28 +89,9 @@ class Interest extends React.PureComponent<Props, StateType> {
               Oops. Something went wrong. Please refresh and try again.
             </Text>
           ),
-          Loading: () => <SkeletonRectangle width='275px' height='275px' />,
-          NotAsked: () => <SkeletonRectangle width='275px' height='275px' />,
-          Success: (val) => (
-            <>
-              <ContainerStyled>
-                <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
-                {isGoldTier &&
-                  val.sortedInstruments.map((instrument) => {
-                    return window.coins[instrument] ? (
-                      <SummaryCard
-                        {...val}
-                        {...this.props}
-                        isGoldTier={isGoldTier}
-                        coin={instrument}
-                        key={instrument}
-                      />
-                    ) : null
-                  })}
-              </ContainerStyled>
-              <IneligibilityCard {...val} {...this.props} />
-            </>
-          )
+          Loading: () => <Loading />,
+          NotAsked: () => <Loading />,
+          Success: (val) => isGoldTier && <EarnTable {...val} {...this.props} />
         })}
       </SceneWrapper>
     )
@@ -142,9 +115,10 @@ export type StateType = {
 }
 export type SuccessStateType = {
   interestEDDStatus: InterestEDDStatus
-  interestRate: InterestRateType
-  interestRateArray: Array<number>
-  sortedInstruments: Array<CoinType>
+  interestRates: RewardsRatesType
+  interestRatesArray: Array<number>
+  sortedInstruments: EarnInstrumentsType
+  stakingRates: StakingRatesType
   userData: UserDataType
 }
 type LinkStatePropsType = {

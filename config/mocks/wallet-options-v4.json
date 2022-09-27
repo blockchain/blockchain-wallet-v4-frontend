@@ -15,20 +15,23 @@
         "apiKey": "0ecd212038"
       },
       "hotWalletAddresses": {
-        "swap": {
-          "eth": "0xC05f893248D843192A989AEE6dC26d21426E78AF"
-        },
         "exchange": {
           "eth": "0x95eFeFA0A4564BfABfBB1Ee08A359C062EB0A94b"
-        },
-        "simplebuy": {
-          "eth": "0xFF202CBC6C794516164E45621143acDe4a3FEa24"
         },
         "lending": {
           "eth": "0xBA0145434A0a53E58D10680254756F679c359463"
         },
         "rewards": {
           "eth": "0x7d9d70c1A99FcC952d48b781947FAa0a3795083E"
+        },
+        "simplebuy": {
+          "eth": "0xFF202CBC6C794516164E45621143acDe4a3FEa24"
+        },
+        "staking": {
+          "eth": "0xC108cfAAaE961e6983cAA1955e514092aD06b93f"
+        },
+        "swap": {
+          "eth": "0xC05f893248D843192A989AEE6dC26d21426E78AF"
         }
       },
       "featureFlags": {
@@ -38,6 +41,7 @@
         "applePayPaymentMethod": true,
         "appleAndGooglePayPromoBanner": true,
         "bindIntegrationArEnabled": true,
+        "createNabuUserAtLogin": true,
         "coinViewV2": false,
         "isCreditCardOptimizationEnabled": true,
         "recurringBuysInCheckoutPage": true,
@@ -52,6 +56,7 @@
         "institutionalPortal": true,
         "isReferralEnabled": true,
         "isReferralRetrievalEnabled": true,
+        "isStakingEnabled": true,
         "mergeAndUpgrade": false,
         "nftExplorer": true,
         "recurringBuys": true,

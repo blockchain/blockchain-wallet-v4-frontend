@@ -7,9 +7,9 @@ import coin from './coin'
 import custodial from './custodial'
 import debitCard from './debitCard'
 import dex from './dex'
+import earn from './earn'
 import eth from './eth'
 import httpService from './http'
-import interest from './interest'
 import kvStore from './kvStore'
 import kyc from './kyc'
 import misc from './misc'
@@ -59,6 +59,12 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       apiUrl,
       ...http
     }),
+    ...earn({
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
+      nabuUrl
+    }),
     ...eth({ apiUrl, openSeaApi, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
@@ -67,12 +73,6 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       authorizedPut: authorizedHttp.put,
       nabuUrl,
       ...http
-    }),
-    ...interest({
-      authorizedGet: authorizedHttp.get,
-      authorizedPost: authorizedHttp.post,
-      authorizedPut: authorizedHttp.put,
-      nabuUrl
     }),
     ...misc({ apiUrl, ...http }),
     ...nfts({ apiUrl, openSeaApi, ...http }),
@@ -127,8 +127,8 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof custodial> &
   ReturnType<typeof debitCard> &
   ReturnType<typeof dex> &
+  ReturnType<typeof earn> &
   ReturnType<typeof eth> &
-  ReturnType<typeof interest> &
   ReturnType<typeof kyc> &
   ReturnType<typeof misc> &
   ReturnType<typeof nfts> &

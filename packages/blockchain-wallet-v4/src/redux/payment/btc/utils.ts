@@ -27,6 +27,7 @@ export const ADDRESS_TYPES = {
   INTEREST: 'INTEREST',
   LEGACY: 'LEGACY', // Imported Addresses
   SCRIPT: 'SCRIPT',
+  STAKING: 'STAKING',
   WATCH_ONLY: 'WATCH_ONLY'
 }
 

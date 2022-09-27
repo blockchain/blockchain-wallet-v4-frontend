@@ -1,20 +1,26 @@
 import { CoinType, FiatType, WalletFiatType } from '@core/types'
 
 import {
-  CustodialTransferResponseType,
-  DepositLimits,
+  EarnAccountBalanceResponseType,
+  EarnAccountBalanceType,
+  EarnAccountResponseType,
+  EarnAccountType,
+  EarnAfterTransactionType,
+  EarnBondingDepositsParamType,
+  EarnBondingDepositsResponseType,
+  EarnDepositLimits,
+  EarnEligibleType,
+  EarnTransactionParamType,
+  EarnTransactionResponseType,
   FileUploadItem,
-  InterestAccountBalanceType,
-  InterestAccountType,
-  InterestAfterTransactionType,
   InterestEDDDocumentsResponse,
   InterestEDDStatus,
-  InterestEligibleType,
-  InterestInstrumentsResponseType,
   InterestLimitsType,
-  InterestRateType,
-  InterestTransactionResponseType,
   InterestWithdrawalResponseType,
+  RewardsRatesType,
+  StakingAccountType,
+  StakingLimitsResponse,
+  StakingRatesType,
   UploadDocumentDetails,
   WithdrawalMinimumTypeResponse,
   WithdrawLimits
@@ -22,25 +28,29 @@ import {
 
 export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
   // TODO - consider removing parameters since we never pass anything here
-  const getInterestAccountBalance = (ccy?: CoinType, din?: FiatType): InterestAccountBalanceType =>
+  const getEarnAccountBalance = ({
+    ccy,
+    din,
+    product
+  }: EarnAccountBalanceType): EarnAccountBalanceResponseType =>
     authorizedGet({
       data: {
         ccy,
         din
       },
-      endPoint: '/accounts/savings',
+      endPoint: `/accounts/${product}`,
       url: nabuUrl
     })
 
-  const getInterestEligible = (): InterestEligibleType =>
+  const getInterestEligible = (): EarnEligibleType =>
     authorizedGet({
       endPoint: '/savings/eligible',
       url: nabuUrl
     })
 
-  const getInterestInstruments = (): InterestInstrumentsResponseType =>
+  const getStakingEligible = (): EarnEligibleType =>
     authorizedGet({
-      endPoint: '/savings/instruments',
+      endPoint: '/earn/eligible?product=staking&',
       url: nabuUrl
     })
 
@@ -50,10 +60,20 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getInterestTransactions = (
-    currency?: CoinType,
-    nextPageUrl?: string
-  ): InterestTransactionResponseType =>
+  const getEarnBondingDeposits = ({
+    ccy,
+    product
+  }: EarnBondingDepositsParamType): EarnBondingDepositsResponseType =>
+    authorizedGet({
+      endPoint: `/earn/bonding-deposits?product=${product}&ccy=${ccy}&`,
+      url: nabuUrl
+    })
+
+  const getEarnTransactions = ({
+    currency,
+    nextPageUrl,
+    product
+  }: EarnTransactionParamType): EarnTransactionResponseType =>
     nextPageUrl
       ? authorizedGet({
           endPoint: `${nextPageUrl}&pending=true&`,
@@ -63,21 +83,34 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
           data: {
             currency,
             pending: true,
-            product: 'SAVINGS'
+            product
           },
           endPoint: '/payments/transactions',
           url: nabuUrl
         })
 
-  const getInterestSavingsRate = (): InterestRateType =>
+  const getRewardsRates = (): RewardsRatesType =>
     authorizedGet({
       endPoint: '/savings/rates',
       url: nabuUrl
     })
 
-  const getInterestAccount = (ccy: CoinType): InterestAccountType =>
+  const getStakingRates = (): StakingRatesType =>
     authorizedGet({
-      endPoint: `/payments/accounts/savings?ccy=${ccy}`,
+      endPoint: '/earn/rates?product=staking&',
+      url: nabuUrl
+    })
+
+  const getEarnAccount = ({ coin, product }: EarnAccountType): EarnAccountResponseType =>
+    authorizedGet({
+      endPoint: `/payments/accounts/${product}?ccy=${coin}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
+  const getStakingAccount = (ccy: CoinType): StakingAccountType =>
+    authorizedGet({
+      endPoint: `/payments/accounts/staking?ccy=${ccy}`,
       ignoreQueryParams: true,
       url: nabuUrl
     })
@@ -105,24 +138,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const transferFromCustodial = (
-    amount: string,
-    currency: CoinType
-  ): CustodialTransferResponseType =>
-    authorizedPost({
-      contentType: 'application/json',
-      data: {
-        amount,
-        currency,
-        destination: 'SAVINGS',
-        origin: 'SIMPLEBUY'
-      },
-      endpoint: '/user/balance/transfer'
-    })
-
-  const getInterestCtaAfterTransaction = (
-    currency?: WalletFiatType
-  ): InterestAfterTransactionType =>
+  const getInterestCtaAfterTransaction = (currency?: WalletFiatType): EarnAfterTransactionType =>
     authorizedGet({
       data: {
         currency
@@ -131,7 +147,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const stopInterestCtaAfterTransaction = (enabled: boolean): InterestAfterTransactionType =>
+  const stopInterestCtaAfterTransaction = (enabled: boolean): EarnAfterTransactionType =>
     authorizedPut({
       data: {
         enabled
@@ -146,7 +162,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getSavingsEDDDepositLimits = (currency?: FiatType): DepositLimits =>
+  const getSavingsEDDDepositLimits = (currency?: FiatType): EarnDepositLimits =>
     authorizedGet({
       data: {
         currency
@@ -188,24 +204,33 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getStakingLimits = (): StakingLimitsResponse =>
+    authorizedGet({
+      endPoint: '/earn/limits?product=staking&',
+      url: nabuUrl
+    })
+
   return {
     getEDDDocumentsLimits,
-    getInterestAccount,
-    getInterestAccountBalance,
+    getEarnAccount,
+    getEarnAccountBalance,
+    getEarnBondingDeposits,
+    getEarnTransactions,
     getInterestCtaAfterTransaction,
     getInterestEligible,
-    getInterestInstruments,
     getInterestLimits,
-    getInterestSavingsRate,
-    getInterestTransactions,
+    getRewardsRates,
     getSavingsEDDDepositLimits,
     getSavingsEDDStatus,
     getSavingsEDDWithdrawLimits,
+    getStakingAccount,
+    getStakingEligible,
+    getStakingLimits,
+    getStakingRates,
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,
     stopInterestCtaAfterTransaction,
     storeEDDData,
-    storeEDDDocuments,
-    transferFromCustodial
+    storeEDDDocuments
   }
 }

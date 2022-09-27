@@ -21,7 +21,7 @@ import {
 
 import { Exchange, Remote } from '@core'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
-import { InterestAccountBalanceType } from '@core/types'
+import { EarnAccountBalanceResponseType } from '@core/types'
 import { selectors } from 'data'
 import { collapse } from 'utils/helpers'
 
@@ -89,7 +89,7 @@ export const getData = (
       })})`
     )
   }
-  const buildInterestDisplay = (x: InterestAccountBalanceType['BTC']) => {
+  const buildInterestDisplay = (x: EarnAccountBalanceResponseType['BTC']) => {
     return (
       `Rewards Account` +
       ` (${Exchange.displayCoinToCoin({
@@ -158,7 +158,7 @@ export const getData = (
         : Remote.of([]),
       includeInterest
         ? selectors.components.interest
-            .getInterestAccountBalance(state)
+            .getRewardsAccountBalance(state)
             .map((x) => x.BTC)
             .map(toInterestDropdown)
             .map(toGroup('Rewards Account'))

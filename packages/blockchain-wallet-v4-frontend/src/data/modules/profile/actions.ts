@@ -124,7 +124,8 @@ export const setLinkToExchangeAccountDeepLink = (deeplink): ProfileActionTypes =
   type: AT.SET_LINK_TO_EXCHANGE_ACCOUNT_DEEPLINK
 })
 // event, not used by reducer, not yet typed
-export const signIn = () => ({
+export const signIn = (firstLogin) => ({
+  payload: { firstLogin },
   type: AT.SIGN_IN
 })
 export const shareWalletAddressesWithExchange = (): ProfileActionTypes => ({

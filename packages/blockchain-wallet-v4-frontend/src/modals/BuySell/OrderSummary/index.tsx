@@ -45,7 +45,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
     this.props.buySellActions.fetchOrders()
 
     this.props.interestActions.fetchInterestEligible()
-    this.props.interestActions.fetchInterestRate()
+    this.props.interestActions.fetchInterestRates()
   }
 
   handleOkButton = () => {
@@ -93,7 +93,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => {
-        const { interestEligible, interestRate, order } = val
+        const { interestEligible, interestRates, order } = val
         const { state } = order
         const currencySymbol = getSymbol(getCounterCurrency(order))
         const [recurringBuy] = val.recurringBuyList.filter((rb) => {
@@ -177,7 +177,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
             handleOkButton={this.handleOkButton}
             interestActions={this.props.interestActions}
             interestEligible={interestEligible}
-            interestRate={interestRate}
+            interestRates={interestRates}
             lockTime={val.lockTime}
             orderState={state}
             orderType={getOrderType(order) as OrderType}

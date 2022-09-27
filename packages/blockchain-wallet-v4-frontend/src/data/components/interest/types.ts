@@ -1,19 +1,21 @@
 import {
   AccountTypes,
   CoinType,
-  DepositLimits,
+  EarnAccountBalanceResponseType,
+  EarnAccountResponseType,
+  EarnAfterTransactionType,
+  EarnBondingDepositsResponseType,
+  EarnDepositLimits,
+  EarnEligibleType,
   FiatType,
-  InterestAccountBalanceType,
-  InterestAccountType,
-  InterestAfterTransactionType,
   InterestEDDStatus,
-  InterestEligibleType,
-  InterestInstrumentsType,
   InterestLimitsType,
-  InterestRateType,
-  InterestTransactionType,
   PaymentValue,
   RemoteDataType,
+  RewardsRatesType,
+  StakingLimitsType,
+  StakingRatesType,
+  TransactionType,
   WithdrawalMinimumType,
   WithdrawLimits
 } from '@core/types'
@@ -21,23 +23,29 @@ import {
 //
 // Types
 //
-export type InterestDepositFormType = {
+export type RewardsDepositFormType = {
   agreement: boolean
   depositAmount: number
-  interestDepositAccount: AccountTypes
+  earnDepositAccount: AccountTypes
   loanTimeFrame: 'long' | 'short'
   terms: boolean
 }
 
-export type InterestMinMaxType = {
+export type StakingDepositFormType = {
+  agreement: boolean
+  depositAmount: number
+  earnDepositAccount: AccountTypes
+  terms: boolean
+}
+
+export type EarnMinMaxType = {
   maxCoin: number
   maxFiat: number
   minCoin: number
   minFiat: number
 }
-
 export type InterestWithdrawalFormType = {
-  interestWithdrawalAccount: AccountTypes
+  earnWithdrawalAccount: AccountTypes
   withdrawalAmount: number
 }
 
@@ -48,14 +56,25 @@ export enum InterestSteps {
   'WITHDRAWAL'
 }
 
-export type InterestStepMetadata = {
+export enum StakingSteps {
+  'ACCOUNT_SUMMARY',
+  'DEPOSIT',
+  'DEPOSIT_SUCCESS',
+  'WARNING'
+}
+
+export type EarnStepMetaData = {
   depositSuccess?: boolean
   error?: string
   withdrawSuccess?: boolean
   withdrawalAmount?: number
 }
 
+export type EarnDepositFormType = 'rewardsDepositForm' | 'stakingDepositForm'
+
 export type InterestStep = keyof typeof InterestSteps
+
+export type StakingStep = keyof typeof StakingSteps
 
 export type InterestTransactionsReportType = Array<Array<string>>
 
@@ -65,32 +84,54 @@ export type ErrorStringType = { error: string }
 
 export type InterestLimits = { coin: CoinType; currency: FiatType }
 
+export type EarnInstrumentsType = Array<{ coin: CoinType; product: 'Staking' | 'Rewards' }>
+
+export type TransferMinMaxAmountType = {
+  amount: number
+  formName: EarnDepositFormType
+}
+
+export type EarnTransactionType = TransactionType & {
+  product: 'Staking' | 'Rewards'
+}
+
 //
 // State
 //
 export interface InterestState {
-  account: RemoteDataType<string, InterestAccountType>
-  accountBalance: RemoteDataType<string, InterestAccountBalanceType>
-  afterTransaction: RemoteDataType<string, InterestAfterTransactionType>
+  afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
+  bondingDeposits: RemoteDataType<string, EarnBondingDepositsResponseType>
   coin: CoinType
-  depositLimits: InterestMinMaxType
-  instruments: RemoteDataType<string, InterestInstrumentsType>
-  interestEDDDepositLimits: RemoteDataType<string, DepositLimits>
+  earnDepositLimits: EarnMinMaxType
+  instruments: RemoteDataType<string, EarnInstrumentsType>
+  interestEDDDepositLimits: RemoteDataType<string, EarnDepositLimits>
   interestEDDStatus: RemoteDataType<string, InterestEDDStatus>
   interestEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>
-  interestEligible: RemoteDataType<string, InterestEligibleType>
+  interestEligible: RemoteDataType<string, EarnEligibleType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
-  interestRate: RemoteDataType<string, InterestRateType['rates']>
+  interestRates: RemoteDataType<string, RewardsRatesType['rates']>
   isAmountDisplayedInCrypto: boolean
   // make this optional here. places where ts doesnt like it, check, custodial
   payment?: RemoteDataType<string, PaymentValue | undefined>
-  step: {
-    data: InterestStepMetadata
+  rewardsAccount: RemoteDataType<string, EarnAccountResponseType>
+  rewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
+  rewardsStep: {
+    data: EarnStepMetaData
     name: InterestStep
   }
-  transactions: Array<InterestTransactionType>
-  transactionsNextPage: string | null
-  transactionsReport: RemoteDataType<string, Array<InterestTransactionType>>
+  rewardsTransactionsNextPage?: string | null
+  stakingAccount: RemoteDataType<string, EarnAccountResponseType>
+  stakingAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
+  stakingEligible: RemoteDataType<string, EarnEligibleType>
+  stakingLimits: RemoteDataType<string, StakingLimitsType>
+  stakingRates: RemoteDataType<string, StakingRatesType['rates']>
+  stakingStep: {
+    data: EarnStepMetaData
+    name: StakingStep
+  }
+  stakingTransactionsNextPage?: string | null
+  transactions: Array<EarnTransactionType>
+  transactionsReport: RemoteDataType<string, Array<EarnTransactionType>>
   underSanctionsMessage: string | null
   withdrawalMinimums: RemoteDataType<string, WithdrawalMinimumType>
 }
