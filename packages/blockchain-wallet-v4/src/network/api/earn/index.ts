@@ -6,6 +6,8 @@ import {
   EarnAccountResponseType,
   EarnAccountType,
   EarnAfterTransactionType,
+  EarnBondingDepositsParamType,
+  EarnBondingDepositsResponseType,
   EarnDepositLimits,
   EarnEligibleType,
   EarnTransactionParamType,
@@ -55,6 +57,15 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
   const getInterestLimits = (ccy: CoinType, currency: FiatType): { limits: InterestLimitsType } =>
     authorizedGet({
       endPoint: `/savings/limits?ccy=${ccy}&currency=${currency}&`,
+      url: nabuUrl
+    })
+
+  const getEarnBondingDeposits = ({
+    ccy,
+    product
+  }: EarnBondingDepositsParamType): EarnBondingDepositsResponseType =>
+    authorizedGet({
+      endPoint: `/earn/bonding-deposits?product=${product}&ccy=${ccy}&`,
       url: nabuUrl
     })
 
@@ -203,6 +214,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getEDDDocumentsLimits,
     getEarnAccount,
     getEarnAccountBalance,
+    getEarnBondingDeposits,
     getEarnTransactions,
     getInterestCtaAfterTransaction,
     getInterestEligible,
