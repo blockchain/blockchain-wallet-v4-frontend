@@ -73,7 +73,7 @@ class DownloadTransactions extends React.PureComponent<Props> {
         currency: coin
       }
     })
-    interestActions.fetchInterestTransactionsReport()
+    interestActions.fetchEarnTransactionsReport()
   }
 
   handleSaveReport = () => {

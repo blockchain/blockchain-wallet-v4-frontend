@@ -249,31 +249,68 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchStakingRatesFailure(error))
     }
   }
-  const fetchInterestTransactionsReport = function* () {
-    const reportHeaders = [['Date', 'Type', 'Asset', 'Amount', 'Tx Hash']]
-    const formatTxData = (d) => [d.insertedAt, d.type, d.amount?.symbol, d.amount?.value, d.txHash]
+
+  const fetchEarnTransactionsReport = function* () {
+    const reportHeaders = [['Date', 'Type', 'Asset', 'Amount', 'Tx Hash', 'Product']]
+    const formatRewardsTxData = (d) => [
+      d.insertedAt,
+      d.type,
+      d.amount?.symbol,
+      d.amount?.value,
+      d.txHash,
+      'Rewards'
+    ]
+    const formatStakingTxData = (d) => [
+      d.insertedAt,
+      d.type,
+      d.amount?.symbol,
+      d.amount?.value,
+      d.txHash,
+      'Staking'
+    ]
     let txList = []
-    let hasNext = true
-    let nextPageUrl
+    let hasRewardsNext = true
+    let nextRewardsPageUrl
+    let hasStakingNext = true
+    let nextStakingPageUrl
     const { coin } = yield select(selectors.form.getFormValues('interestHistoryCoin'))
-    yield put(A.fetchInterestTransactionsReportLoading())
+    yield put(A.fetchEarnTransactionsReportLoading())
     try {
-      while (hasNext) {
+      while (hasRewardsNext) {
         const { items, next } = yield call(api.getEarnTransactions, {
           currency: coin === 'ALL' ? undefined : coin,
-          nextPageUrl,
+          nextPageUrl: nextRewardsPageUrl,
           product: 'SAVINGS'
         })
-        txList = concat(txList, items.map(formatTxData))
-        hasNext = next
-        nextPageUrl = next
+        txList = concat(txList, items.map(formatRewardsTxData))
+        hasRewardsNext = next
+        nextRewardsPageUrl = next
       }
+      while (hasStakingNext) {
+        const { items, next } = yield call(api.getEarnTransactions, {
+          currency: coin === 'ALL' ? undefined : coin,
+          nextPageUrl: nextStakingPageUrl,
+          product: 'STAKING'
+        })
+        txList = concat(txList, items.map(formatStakingTxData))
+        hasStakingNext = next
+        nextStakingPageUrl = next
+      }
+      // sort txList by descending date
+      txList.sort((a, b) => {
+        const dateA = a[0]
+        const dateB = b[0]
+        if (!dateA || !dateB) return 0
+
+        return getUnixTime(new Date(dateB)) - getUnixTime(new Date(dateA))
+      })
+
       // TODO figure out any replacement type
       const report = concat(reportHeaders, txList) as any
-      yield put(A.fetchInterestTransactionsReportSuccess(report))
+      yield put(A.fetchEarnTransactionsReportSuccess(report))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchInterestTransactionsReportFailure(error))
+      yield put(A.fetchEarnTransactionsReportFailure(error))
     }
   }
 
@@ -863,10 +900,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchEDDWithdrawLimits,
     fetchEarnInstruments,
     fetchEarnTransactions,
+    fetchEarnTransactionsReport,
     fetchInterestEligible,
     fetchInterestLimits,
     fetchInterestRates,
-    fetchInterestTransactionsReport,
     fetchRewardsAccount,
     fetchRewardsBalance,
     fetchShowInterestCardAfterTransaction,

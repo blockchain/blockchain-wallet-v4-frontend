@@ -166,6 +166,19 @@ const interestSlice = createSlice({
         state.transactions = newState.transactions
       }
     },
+    // eslint-disable-next-line
+    fetchEarnTransactionsReport: () => {},
+
+    fetchEarnTransactionsReportFailure: (state, action: PayloadAction<string>) => {
+      state.transactionsReport = Remote.Failure(action.payload)
+    },
+    fetchEarnTransactionsReportLoading: (state) => {
+      state.transactionsReport = Remote.Loading
+    },
+    fetchEarnTransactionsReportSuccess: (state, action: PayloadAction<EarnTransactionType[]>) => {
+      state.transactionsReport = Remote.Success(action.payload)
+    },
+
     fetchEarnTransactionsSuccess: (
       state,
       action: PayloadAction<{ reset: boolean; transactions: Array<EarnTransactionType> }>
@@ -233,21 +246,6 @@ const interestSlice = createSlice({
     },
     fetchInterestRatesSuccess: (state, action: PayloadAction<RewardsRatesType>) => {
       state.interestRates = Remote.Success(action.payload.rates)
-    },
-    // eslint-disable-next-line
-    fetchInterestTransactionsReport: () => {},
-
-    fetchInterestTransactionsReportFailure: (state, action: PayloadAction<string>) => {
-      state.transactionsReport = Remote.Failure(action.payload)
-    },
-    fetchInterestTransactionsReportLoading: (state) => {
-      state.transactionsReport = Remote.Loading
-    },
-    fetchInterestTransactionsReportSuccess: (
-      state,
-      action: PayloadAction<EarnTransactionType[]>
-    ) => {
-      state.transactionsReport = Remote.Success(action.payload)
     },
 
     // ACCOUNT
@@ -542,6 +540,10 @@ export const {
   fetchEarnTransactions,
   fetchEarnTransactionsFailure,
   fetchEarnTransactionsLoading,
+  fetchEarnTransactionsReport,
+  fetchEarnTransactionsReportFailure,
+  fetchEarnTransactionsReportLoading,
+  fetchEarnTransactionsReportSuccess,
   fetchEarnTransactionsSuccess,
   fetchInterestEligible,
   fetchInterestEligibleFailure,
@@ -555,10 +557,6 @@ export const {
   fetchInterestRatesFailure,
   fetchInterestRatesLoading,
   fetchInterestRatesSuccess,
-  fetchInterestTransactionsReport,
-  fetchInterestTransactionsReportFailure,
-  fetchInterestTransactionsReportLoading,
-  fetchInterestTransactionsReportSuccess,
   fetchRewardsAccount,
   fetchRewardsAccountFailure,
   fetchRewardsAccountLoading,
