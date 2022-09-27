@@ -127,16 +127,14 @@ const walletSync =
           return store.dispatch(A.walletSync.syncError(error))
         }
       }
-      // TODO: Figure out how to pass sessionToken to savePayload api
       return encryptedWallet
         .map(handleChecksum)
-        .chain(promiseToTask(api.savePayload))
+        .chain(promiseToTask((data) => api.savePayload(data, sessionToken)))
         .fork(
           compose(store.dispatch, A.walletSync.syncError),
           compose(store.dispatch, A.walletSync.syncSuccess)
         )
     }
-
     switch (true) {
       case action.type === T.walletSync.FORCE_SYNC:
       case wasAuth &&

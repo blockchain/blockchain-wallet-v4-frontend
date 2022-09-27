@@ -30,10 +30,11 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const savePayload = (data) =>
+  const savePayload = (data, sessionToken) =>
     post({
       data: mergeRight({ format: 'plain', method: 'update' }, data),
       endPoint: '/wallet',
+      sessionToken,
       url: rootUrl
     }).then(() => data.checksum)
 
