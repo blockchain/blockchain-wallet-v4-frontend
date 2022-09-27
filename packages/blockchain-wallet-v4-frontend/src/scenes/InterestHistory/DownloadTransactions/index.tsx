@@ -172,7 +172,7 @@ const mapStateToProps = (state: RootState) => ({
     state
   ) as InterestHistoryCoinFormType,
   transactionsReportR: selectors.components.interest.getInterestTransactionsReport(state),
-  txPages: selectors.components.interest.getInterestTransactions(state)
+  txPages: selectors.components.interest.getEarnTransactions(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

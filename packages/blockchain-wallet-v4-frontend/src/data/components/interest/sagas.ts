@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { getUnixTime } from 'date-fns'
 import { concat, isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { all, call, delay, put, select, take } from 'redux-saga/effects'
@@ -12,6 +13,7 @@ import {
   EarnAccountBalanceType,
   EarnAccountType,
   EarnAfterTransactionType,
+  EarnTransactionResponseType,
   PaymentValue,
   Product,
   RatesType,
@@ -30,6 +32,7 @@ import * as S from './selectors'
 import { actions as A } from './slice'
 import {
   EarnInstrumentsType,
+  EarnTransactionType,
   InterestWithdrawalFormType,
   RewardsDepositFormType,
   StakingDepositFormType
@@ -274,30 +277,66 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchInterestTransactions = function* ({
+  const fetchEarnTransactions = function* ({
     payload
-  }: ReturnType<typeof A.fetchInterestTransactions>) {
+  }: ReturnType<typeof A.fetchEarnTransactions>) {
     const { coin, reset } = payload
 
     try {
-      const nextPageUrl = !reset ? yield select(S.getTransactionsNextPage) : undefined
+      const isStakingEnabled = selectors.core.walletOptions
+        .getIsStakingEnabled(yield select())
+        .getOrElse(false) as boolean
+      const rewardsNextPageUrl = !reset ? yield select(S.getRewardsTransactionsNextPage) : undefined
+      const stakingNextPageUrl = !reset ? yield select(S.getStakingTransactionsNextPage) : undefined
+
       // check if invoked from continuous scroll
       if (!reset) {
-        const txList = yield select(S.getInterestTransactions)
+        const txList = yield select(S.getEarnTransactions)
         // return if next page is already being fetched or there is no next page
-        if (Remote.Loading.is(last(txList)) || !nextPageUrl) return
+        if (Remote.Loading.is(last(txList)) || (!rewardsNextPageUrl && !stakingNextPageUrl)) return
       }
-      yield put(A.fetchInterestTransactionsLoading({ reset }))
-      const response = yield call(api.getEarnTransactions, {
-        currency: coin,
-        nextPageUrl,
-        product: 'SAVINGS'
-      })
-      yield put(A.fetchInterestTransactionsSuccess({ reset, transactions: response.items }))
-      yield put(A.setTransactionsNextPage({ nextPage: response.next }))
+      yield put(A.fetchEarnTransactionsLoading({ reset }))
+      let rewardsResponse: EarnTransactionResponseType = { items: [], next: null }
+      let stakingResponse: EarnTransactionResponseType = { items: [], next: null }
+
+      if (rewardsNextPageUrl !== '') {
+        rewardsResponse = yield call(api.getEarnTransactions, {
+          currency: coin,
+          nextPageUrl: rewardsNextPageUrl,
+          product: 'SAVINGS'
+        })
+      }
+
+      if (stakingNextPageUrl !== '' && isStakingEnabled) {
+        stakingResponse = yield call(api.getEarnTransactions, {
+          currency: coin,
+          nextPageUrl: stakingNextPageUrl,
+          product: 'STAKING'
+        })
+      }
+
+      const mapProductToItems = (items, product) => {
+        return items.map((item) => ({ ...item, product }))
+      }
+
+      const transactions: Array<EarnTransactionType> = [
+        ...mapProductToItems(rewardsResponse.items, 'Rewards'),
+        ...mapProductToItems(stakingResponse.items, 'Staking')
+      ]
+
+      if (rewardsResponse.items.length > 0 && stakingResponse.items.length > 0) {
+        transactions.sort((a, b) => {
+          if (!a.insertedAt || !b.insertedAt) return 0
+
+          return getUnixTime(new Date(b.insertedAt)) - getUnixTime(new Date(a.insertedAt))
+        })
+      }
+      yield put(A.fetchEarnTransactionsSuccess({ reset, transactions }))
+      yield put(A.setRewardsTransactionsNextPage({ nextPage: rewardsResponse.next || '' }))
+      yield put(A.setStakingTransactionsNextPage({ nextPage: stakingResponse.next || '' }))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchInterestTransactionsFailure(error))
+      yield put(A.fetchEarnTransactionsFailure(error))
     }
   }
 
@@ -823,10 +862,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchEDDStatus,
     fetchEDDWithdrawLimits,
     fetchEarnInstruments,
+    fetchEarnTransactions,
     fetchInterestEligible,
     fetchInterestLimits,
     fetchInterestRates,
-    fetchInterestTransactions,
     fetchInterestTransactionsReport,
     fetchRewardsAccount,
     fetchRewardsBalance,

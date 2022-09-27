@@ -114,7 +114,7 @@ export type StakingAccountType =
     }
   | undefined
 
-export type EarnTransactionType = {
+export type TransactionType = {
   amount: {
     symbol: CoinType
     value: string
@@ -142,7 +142,7 @@ export type EarnTransactionType = {
 }
 
 export type EarnTransactionResponseType = {
-  items: Array<EarnTransactionType>
+  items: Array<TransactionType>
   next: string | null
 }
 

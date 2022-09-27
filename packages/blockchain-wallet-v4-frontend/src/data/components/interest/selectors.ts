@@ -105,7 +105,7 @@ export const getStakingRates = (state: RootState) => state.components.interest.s
 export const getInterestTransactionsReport = (state: RootState) =>
   state.components.interest.transactionsReport
 
-export const getInterestTransactions = (state: RootState) => state.components.interest.transactions
+export const getEarnTransactions = (state: RootState) => state.components.interest.transactions
 
 export const getEarnDepositLimits = (state: RootState) =>
   state.components.interest.earnDepositLimits
@@ -122,8 +122,11 @@ export const getRewardsStep = (state: RootState) => state.components.interest.re
 
 export const getStakingStep = (state: RootState) => state.components.interest.stakingStep
 
-export const getTransactionsNextPage = (state: RootState) =>
-  state.components.interest.transactionsNextPage
+export const getRewardsTransactionsNextPage = (state: RootState) =>
+  state.components.interest.rewardsTransactionsNextPage
+
+export const getStakingTransactionsNextPage = (state: RootState) =>
+  state.components.interest.stakingTransactionsNextPage
 
 export const getWalletCurrency = (state: RootState): RemoteDataType<string, FiatType> => {
   return selectors.core.settings.getCurrency(state)
