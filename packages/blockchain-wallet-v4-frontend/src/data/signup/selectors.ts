@@ -59,3 +59,9 @@ export function getKycResetStatus(state: RootState): SignupStateType['kycReset']
 export function getIsValidReferralCode(state: RootState): SignupStateType['isValidReferralCode'] {
   return state.signup.isValidReferralCode
 }
+
+export function getRecoveryTwoFAVerification(
+  state: RootState
+): SignupStateType['recoveryTwoFAVerification'] {
+  return state.signup.recoveryTwoFAVerification
+}

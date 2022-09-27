@@ -95,22 +95,22 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.signup.setRegisterEmail(email))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
       if (isAccountReset) {
-        // TODO temp for testing
-        // yield call(coreSagas.wallet.createResetWalletSaga, {
-        //   captchaToken,
-        //   email,
-        //   language,
-        //   password,
-        //   sessionToken
-        // })
-        yield call(coreSagas.wallet.createWalletSaga, {
+        yield call(coreSagas.wallet.createResetWalletSaga, {
           captchaToken,
           email,
-          // TODO: remove,only needed for createResetWalletSaga
-          forceVerifyEmail: isAccountReset,
           language,
-          password
+          password,
+          sessionToken
         })
+        // TODO temp for testing
+        // yield call(coreSagas.wallet.createWalletSaga, {
+        //   captchaToken,
+        //   email,
+        //   // TODO: remove,only needed for createResetWalletSaga
+        //   forceVerifyEmail: isAccountReset,
+        //   language,
+        //   password
+        // })
       } else {
         yield call(coreSagas.wallet.createWalletSaga, {
           captchaToken,
@@ -404,7 +404,6 @@ export default ({ api, coreSagas, networks }) => {
       })
     )
   }
-
   const pollForResetApproval = function* (sessionToken, n = 50) {
     if (n === 0) {
       yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.FORGOT_PASSWORD_EMAIL))
@@ -415,14 +414,23 @@ export default ({ api, coreSagas, networks }) => {
     try {
       // yield delay(2000)
       // const response = yield call(api.pollForResetApprovalStatus, sessionToken)
+      const { recoveryEmail } = yield select(selectors.form.getFormValues(RECOVER_FORM))
 
       const response = {
-        email: 'leora@blockchain.com',
+        email: recoveryEmail,
         request_denied: false,
         status: 'true',
-        two_fa_type: 4,
+        two_fa_type: 1,
         userId: '34735c52-61e1-4e55-92a0-2cce89774add'
       }
+
+      // placeholder response until email approval gets fix
+      // if (response?.userId) {
+
+      //   yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
+      //   yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS))
+      //   return true
+      // }
 
       if (response?.status === 'true') {
         yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
@@ -486,7 +494,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change(RECOVER_FORM, 'step', ResetFormSteps.NEW_PASSWORD))
       }
     } catch (e) {
-      // TODO: handle error
+      yield put(actions.signup.verifyTwoFaForRecoveryFailure(e))
     }
   }
 

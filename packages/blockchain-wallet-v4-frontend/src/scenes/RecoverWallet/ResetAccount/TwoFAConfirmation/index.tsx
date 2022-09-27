@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import Form from 'components/Form/Form'
 import FormError from 'components/Form/FormError'
 import FormGroup from 'components/Form/FormGroup'
@@ -11,9 +11,10 @@ import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import TextBox from 'components/Form/TextBox'
-import { Wrapper } from 'components/Public'
+import { selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { RecoverSteps } from 'data/types'
+import { useRemote } from 'hooks'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { isMobile, media } from 'services/styles'
@@ -32,9 +33,11 @@ const ResponsiveRow = styled(Row)`
 `
 
 const TwoFAConfirmation = (props: Props) => {
+  const { hasError } = useRemote(selectors.signup.getRecoveryTwoFAVerification)
   const { accountRecoveryData, busy, formValues, invalid, setStep, signupActions, submitting } =
     props
   const authType = accountRecoveryData && accountRecoveryData?.two_fa_type
+  const placeholder = authType === 5 ? '_ _ _  _ _ _' : authType === 4 ? '_ _ _ _ _' : null
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -92,11 +95,20 @@ const TwoFAConfirmation = (props: Props) => {
               normalize={removeWhitespace}
               validate={[required]}
               component={authType === 1 ? PasswordBox : TextBox}
-              placeholder='_ _ _  _ _ _'
+              placeholder={placeholder}
               noLastPass
               autoFocus
               data-e2e='loginTwoFactorCode'
             />
+            {hasError && (
+              <FormError data-e2e='twoFAConfirmationError' style={{ paddingTop: '4px' }}>
+                <FormattedMessage
+                  id='scenes.recovery.invalid_twofa'
+                  defaultMessage='Incorrect code'
+                />
+              </FormError>
+            )}
+
             {/* figure out what errors will be for these codes
           {authType === 5 && (
               <Link size='12px' weight={400} onClick={handleSmsResend}>

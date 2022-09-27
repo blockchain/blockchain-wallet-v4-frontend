@@ -22,6 +22,7 @@ const initialState: SignupStateType = {
   kycReset: undefined,
   metadataRestore: Remote.NotAsked,
   productSignupMetadata: {},
+  recoveryTwoFAVerification: Remote.NotAsked,
   registerEmail: undefined,
   registering: Remote.NotAsked,
   resetAccount: false,
@@ -116,7 +117,10 @@ const signupSlice = createSlice({
       state.resetAccount = action.payload
     },
     triggerRecoverEmail: (state, action) => {},
-    verifyTwoFaForRecovery: (state, action: PayloadAction<VerifyTwoFAType>) => {}
+    verifyTwoFaForRecovery: (state, action: PayloadAction<VerifyTwoFAType>) => {},
+    verifyTwoFaForRecoveryFailure: (state, action) => {
+      state.recoveryTwoFAVerification = Remote.Failure(action.payload)
+    }
   }
 })
 

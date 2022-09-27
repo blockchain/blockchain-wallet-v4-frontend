@@ -84,6 +84,7 @@ export type SignupStateType = {
   kycReset?: boolean
   metadataRestore: RemoteDataType<string, MetadataRestoreType>
   productSignupMetadata?: ProductSignupMetadata
+  recoveryTwoFAVerification: RemoteDataType<string, any>
   registerEmail?: string
   registering: RemoteDataType<RegisteringFailureType, RegisteringSuccessType>
   resetAccount: boolean

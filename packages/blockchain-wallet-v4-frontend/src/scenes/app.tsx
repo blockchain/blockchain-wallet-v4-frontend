@@ -125,6 +125,11 @@ const App = ({
                           <Switch>
                             {/* Unauthenticated Wallet routes */}
                             <Route path='/app-error' component={AppError} />
+                            <AuthLayout
+                              path='/account-recovery'
+                              component={VerifyAccountRecovery}
+                              pageTitle={`${BLOCKCHAIN_TITLE} | Recovery`}
+                            />
                             <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                             <AuthLayout
                               path='/help'
