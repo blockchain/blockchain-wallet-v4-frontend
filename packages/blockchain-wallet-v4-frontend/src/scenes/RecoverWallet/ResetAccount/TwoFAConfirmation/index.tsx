@@ -37,7 +37,7 @@ const TwoFAConfirmation = (props: Props) => {
   const { accountRecoveryData, busy, formValues, invalid, setStep, signupActions, submitting } =
     props
   const authType = accountRecoveryData && accountRecoveryData?.two_fa_type
-  const placeholder = authType === 5 ? '_ _ _  _ _ _' : authType === 4 ? '_ _ _ _ _' : null
+  const placeholder = authType === 4 ? '_ _ _  _ _ _' : authType === 5 ? '_ _ _ _ _' : null
 
   const handleSubmit = (e) => {
     e.preventDefault()

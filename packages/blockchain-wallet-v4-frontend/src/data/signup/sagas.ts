@@ -95,22 +95,22 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.signup.setRegisterEmail(email))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
       if (isAccountReset) {
-        yield call(coreSagas.wallet.createResetWalletSaga, {
-          captchaToken,
-          email,
-          language,
-          password,
-          sessionToken
-        })
-        // TODO temp for testing
-        // yield call(coreSagas.wallet.createWalletSaga, {
+        // yield call(coreSagas.wallet.createResetWalletSaga, {
         //   captchaToken,
         //   email,
-        //   // TODO: remove,only needed for createResetWalletSaga
-        //   forceVerifyEmail: isAccountReset,
         //   language,
-        //   password
+        //   password,
+        //   sessionToken
         // })
+        // TODO temp for testing
+        yield call(coreSagas.wallet.createWalletSaga, {
+          captchaToken,
+          email,
+          // TODO: remove,only needed for createResetWalletSaga
+          forceVerifyEmail: isAccountReset,
+          language,
+          password
+        })
       } else {
         yield call(coreSagas.wallet.createWalletSaga, {
           captchaToken,
@@ -420,7 +420,7 @@ export default ({ api, coreSagas, networks }) => {
         email: recoveryEmail,
         request_denied: false,
         status: 'true',
-        two_fa_type: 1,
+        two_fa_type: 4,
         userId: '34735c52-61e1-4e55-92a0-2cce89774add'
       }
 
@@ -492,6 +492,8 @@ export default ({ api, coreSagas, networks }) => {
       const { success, verified } = yield call(api.validate2faResponse, email, code)
       if (success && verified) {
         yield put(actions.form.change(RECOVER_FORM, 'step', ResetFormSteps.NEW_PASSWORD))
+        yield put(actions.alerts.displaySuccess(C.TWOFA_VERIFIED))
+        yield put(actions.signup.verifyTwoFaForRecoverySuccess(true))
       }
     } catch (e) {
       yield put(actions.signup.verifyTwoFaForRecoveryFailure(e))

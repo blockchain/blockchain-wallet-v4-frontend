@@ -120,6 +120,9 @@ const signupSlice = createSlice({
     verifyTwoFaForRecovery: (state, action: PayloadAction<VerifyTwoFAType>) => {},
     verifyTwoFaForRecoveryFailure: (state, action) => {
       state.recoveryTwoFAVerification = Remote.Failure(action.payload)
+    },
+    verifyTwoFaForRecoverySuccess: (state, action) => {
+      state.recoveryTwoFAVerification = Remote.Success(action.payload)
     }
   }
 })

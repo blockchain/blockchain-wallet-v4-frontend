@@ -374,7 +374,12 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.core.settings.setCurrency(currency))
 
         if (isAccountReset) {
-          yield put(actions.router.push('/setup-two-factor'))
+          const verifiedTwoFa = (yield select(
+            selectors.signup.getRecoveryTwoFAVerification
+          )).getOrElse(false)
+          if (!verifiedTwoFa) {
+            yield put(actions.router.push('/setup-two-factor'))
+          }
           // if (product === ProductAuthOptions.EXCHANGE) {
           //   yield put(
           //     actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)

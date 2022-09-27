@@ -957,6 +957,13 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='2FA has been successfully updated'
         />
       )
+    case C.TWOFA_VERIFIED:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.twofa_verified'
+          defaultMessage='2FA successfully verified'
+        />
+      )
     case C.TWOFA_YUBIKEY_ENABLE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
