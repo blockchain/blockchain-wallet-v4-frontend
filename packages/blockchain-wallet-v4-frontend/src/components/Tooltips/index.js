@@ -279,6 +279,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Rewards rates are determined by each protocol minus a fee. Users receive the displayed rate.'
           />
         </Tooltip>
+        <Tooltip id='modals.staking.bonding.pending.tooltip'>
+          <FormattedMessage
+            id='modals.staking.bonding.pending.description.tooltip'
+            defaultMessage='Staked funds are subject to a bonding period of time before they start generating staking rewards.'
+          />
+        </Tooltip>
         <Tooltip id='modals.interest.summary.lock.tooltip'>
           <FormattedMessage
             id='modals.interest.summary.transferlock.tooltip.description'

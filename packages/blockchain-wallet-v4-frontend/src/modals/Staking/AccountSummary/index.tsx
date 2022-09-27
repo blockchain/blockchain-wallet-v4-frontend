@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { includes } from 'ramda'
 
@@ -15,6 +15,7 @@ import AccountSummary from './AccountSummary.template.success'
 import Unsupported from './AccountSummary.template.unsupported'
 
 const AccountSummaryContainer = (props: OwnProps) => {
+  const [isTransactionsToggled, setIsTransactionsToggled] = useState<boolean>(false)
   const { coin, handleClose, showSupply, stepMetadata, walletCurrency } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const dispatch = useDispatch()
@@ -23,6 +24,9 @@ const AccountSummaryContainer = (props: OwnProps) => {
 
   useEffect(() => {
     dispatch(actions.components.interest.fetchStakingLimits())
+    dispatch(
+      actions.components.interest.fetchEarnBondingDeposits({ ccy: coin, product: 'staking' })
+    )
   }, [])
 
   useEffect(() => {
@@ -54,6 +58,10 @@ const AccountSummaryContainer = (props: OwnProps) => {
     dispatch(actions.components.interest.showStakingModal({ coin, step: 'ACCOUNT_SUMMARY' }))
   }
 
+  const handleTransactionsToggled = () => {
+    setIsTransactionsToggled(!isTransactionsToggled)
+  }
+
   const handleUpLoadDocumentation = () => {
     // confirm if this is the same for staking
     dispatch(
@@ -77,13 +85,16 @@ const AccountSummaryContainer = (props: OwnProps) => {
   return isFiatCurrencySupported ? (
     <AccountSummary
       accountBalances={data.accountBalances}
+      bondingDeposits={data.bondingDeposits}
       coin={coin}
       // @ts-ignore
       flagEDDInterestFileUpload={data.flagEDDInterestFileUpload}
       handleClose={handleClose}
       handleDepositClick={handleDepositClick}
+      handleTransactionsToggled={handleTransactionsToggled}
       handleUpLoadDocumentation={handleUpLoadDocumentation}
       handleWithdrawalSupplyInformation={handleWithdrawalSupplyInformation}
+      isTransactionsToggled={isTransactionsToggled}
       stakingEligible={data.stakingEligible}
       stakingLimits={data.stakingLimits}
       stakingRates={data.stakingRates}

@@ -10,6 +10,7 @@ export const getCurrency = (state: RootState) => {
 
 export const getData = (state: RootState) => {
   const accountBalancesR = selectors.components.interest.getStakingAccountBalance(state)
+  const bondingDepositsR = selectors.components.interest.getEarnBondingDeposits(state)
   const stakingLimitsR = selectors.components.interest.getStakingLimits(state)
   const stakingEligibleR = selectors.components.interest.getStakingEligible(state)
   const stakingRatesR = selectors.components.interest.getStakingRates(state)
@@ -20,15 +21,17 @@ export const getData = (state: RootState) => {
   return lift(
     (
       accountBalances: ExtractSuccess<typeof accountBalancesR>,
+      bondingDeposits: ExtractSuccess<typeof bondingDepositsR>,
       stakingLimits: ExtractSuccess<typeof stakingLimitsR>,
       stakingRates: ExtractSuccess<typeof stakingRatesR>,
       stakingEligible: ExtractSuccess<typeof stakingEligibleR>
     ) => ({
       accountBalances,
+      bondingDeposits,
       flagEDDInterestFileUpload,
       stakingEligible,
       stakingLimits,
       stakingRates
     })
-  )(accountBalancesR, stakingLimitsR, stakingRatesR, stakingEligibleR)
+  )(accountBalancesR, bondingDepositsR, stakingLimitsR, stakingRatesR, stakingEligibleR)
 }

@@ -5,8 +5,8 @@ import { Text, TooltipHost } from 'blockchain-info-components'
 
 import { DetailsContainer } from './AccountSummary.model'
 
-const Details = ({ subText, subValue, text, tooltipId, value }: DetailsType) => (
-  <DetailsContainer>
+const Details = ({ handleClick, subText, subValue, text, tooltipId, value }: DetailsType) => (
+  <DetailsContainer $hasHandleClick={!!handleClick} onClick={handleClick}>
     <Flex flexDirection='column' gap={4} justifyContent='center'>
       <Text color='grey900' size='14px' weight={600}>
         {text}
@@ -37,6 +37,7 @@ const Details = ({ subText, subValue, text, tooltipId, value }: DetailsType) => 
   </DetailsContainer>
 )
 type DetailsType = {
+  handleClick?: () => void
   subText?: ReactNode
   subValue?: ReactNode | number | string
   text: ReactNode
