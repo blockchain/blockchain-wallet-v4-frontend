@@ -24,7 +24,26 @@ export type EarnBalanceType = {
 export type EarnAccountBalanceResponseType = {
   [key in CoinType]?: EarnBalanceType
 }
-
+export type EarnBondingDepositsParamType = {
+  ccy?: CoinType
+  product: string
+}
+export type EarnBondingDepositType = {
+  amount: {
+    symbol: CoinType
+    value: string
+  }
+  bondingDays: number
+  bondingExpiryDate: string
+  bondingStartDate: string
+  currency: CoinType
+  insertedAt: string
+  isCustodialTransfer: boolean
+  paymentRef: string
+  product: string
+  userId: string
+}
+export type EarnBondingDepositsResponseType = Array<EarnBondingDepositType> | null
 export type EarnEligibleType = {
   [key in CoinType]?: {
     eligible: boolean
@@ -114,7 +133,7 @@ export type StakingAccountType =
     }
   | undefined
 
-export type EarnTransactionType = {
+export type TransactionType = {
   amount: {
     symbol: CoinType
     value: string
@@ -142,7 +161,7 @@ export type EarnTransactionType = {
 }
 
 export type EarnTransactionResponseType = {
-  items: Array<EarnTransactionType>
+  items: Array<TransactionType>
   next: string | null
 }
 

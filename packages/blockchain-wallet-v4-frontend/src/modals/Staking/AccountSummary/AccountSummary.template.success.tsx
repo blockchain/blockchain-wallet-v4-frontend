@@ -1,12 +1,19 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Padding } from '@blockchain-com/constellation'
+import {
+  IconChevronDownV2,
+  IconChevronUpV2,
+  Padding,
+  SemanticColors
+} from '@blockchain-com/constellation'
+import { format } from 'date-fns'
 
 import { Exchange } from '@core'
 import { formatFiat } from '@core/exchange/utils'
 import {
   CoinType,
   EarnAccountBalanceResponseType,
+  EarnBondingDepositsResponseType,
   EarnEligibleType,
   FiatType,
   StakingRatesType
@@ -16,7 +23,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { EarnStepMetaData } from 'data/types'
 
-import { OwnProps } from '.'
+import { OwnProps as ParentProps } from '.'
 import Detail from './AccountSummary.detail.template'
 import {
   Bottom,
@@ -35,12 +42,15 @@ import {
 const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
+    bondingDeposits,
     coin,
     flagEDDInterestFileUpload,
     handleClose,
     handleDepositClick,
+    handleTransactionsToggled,
     handleUpLoadDocumentation,
     handleWithdrawalSupplyInformation,
+    isTransactionsToggled,
     showSupply,
     stakingEligible,
     stakingRates,
@@ -258,13 +268,13 @@ const AccountSummary: React.FC<Props> = (props) => {
             text={
               <FormattedMessage
                 defaultMessage='Current rate'
-                id='staking.modals.accountsummary.currentrate'
+                id='modals.staking.accountsummary.currentrate'
               />
             }
             subText={
               <FormattedMessage
                 defaultMessage='Blockchain.com fee'
-                id='staking.modals.accountsummary.fee'
+                id='modals.staking.accountsummary.fee'
               />
             }
             tooltipId='modals.staking.summary.fee.tooltip'
@@ -275,11 +285,73 @@ const AccountSummary: React.FC<Props> = (props) => {
             text={
               <FormattedMessage
                 defaultMessage='Payment frequency'
-                id='staking.modals.accountsummary.paymentfrequency'
+                id='modals.staking.accountsummary.paymentfrequency'
               />
             }
             value={<FormattedMessage defaultMessage='Daily' id='copy.daily' />}
           />
+          {bondingDeposits && (
+            <>
+              <Detail
+                handleClick={handleTransactionsToggled}
+                text={
+                  <FormattedMessage
+                    defaultMessage='Transactions in progress'
+                    id='modals.staking.accountsummary.transactionsprogress'
+                  />
+                }
+                value={
+                  isTransactionsToggled ? (
+                    <IconChevronUpV2 color={SemanticColors.muted} size='medium' />
+                  ) : (
+                    <IconChevronDownV2 color={SemanticColors.muted} size='medium' />
+                  )
+                }
+              />
+              {isTransactionsToggled &&
+                bondingDeposits.map(
+                  ({ amount: { symbol, value }, bondingDays, bondingStartDate, paymentRef }) => (
+                    <Detail
+                      key={paymentRef}
+                      subText={<FormattedMessage defaultMessage='Pending' id='copy.pending' />}
+                      subValue={
+                        <FormattedMessage
+                          defaultMessage='Bonding Period: {bondingDays} {days}'
+                          id='modals.staking.accountsummary.bondingperiod'
+                          values={{
+                            bondingDays,
+                            days:
+                              bondingDays > 1 ? (
+                                <FormattedMessage
+                                  defaultMessage='days'
+                                  id='modals.staking.warning.content.subtitle.days'
+                                />
+                              ) : (
+                                <FormattedMessage
+                                  defaultMessage='day'
+                                  id='modals.staking.warning.content.subtitle.day'
+                                />
+                              )
+                          }}
+                        />
+                      }
+                      text={
+                        <FormattedMessage
+                          defaultMessage='Stake {value} {symbol}'
+                          id='modals.staking.accountsummary.transactionsprogress.stake'
+                          values={{
+                            symbol,
+                            value
+                          }}
+                        />
+                      }
+                      tooltipId='modals.staking.bonding.pending.tooltip'
+                      value={format(new Date(bondingStartDate), 'MMMM d yyyy @ h:mm a')}
+                    />
+                  )
+                )}
+            </>
+          )}
         </DetailsWrapper>
       </Top>
       {!showSupply && (
@@ -315,14 +387,17 @@ const AccountSummary: React.FC<Props> = (props) => {
   )
 }
 
-type ParentProps = {
+type OwnProps = {
   accountBalances: EarnAccountBalanceResponseType
+  bondingDeposits: EarnBondingDepositsResponseType
   coin: CoinType
   flagEDDInterestFileUpload: boolean
   handleBSClick: (string) => void
   handleDepositClick: () => void
+  handleTransactionsToggled: () => void
   handleUpLoadDocumentation: () => void
   handleWithdrawalSupplyInformation: () => void
+  isTransactionsToggled: boolean
   stakingEligible: EarnEligibleType
   stakingRates: StakingRatesType['rates']
   stepMetadata: EarnStepMetaData

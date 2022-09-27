@@ -4,9 +4,9 @@ import {
   EarnAccountBalanceResponseType,
   EarnAccountResponseType,
   EarnAfterTransactionType,
+  EarnBondingDepositsResponseType,
   EarnDepositLimits,
   EarnEligibleType,
-  EarnTransactionType,
   FiatType,
   InterestEDDStatus,
   InterestLimitsType,
@@ -15,6 +15,7 @@ import {
   RewardsRatesType,
   StakingLimitsType,
   StakingRatesType,
+  TransactionType,
   WithdrawalMinimumType,
   WithdrawLimits
 } from '@core/types'
@@ -90,11 +91,16 @@ export type TransferMinMaxAmountType = {
   formName: EarnDepositFormType
 }
 
+export type EarnTransactionType = TransactionType & {
+  product: 'Staking' | 'Rewards'
+}
+
 //
 // State
 //
 export interface InterestState {
   afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
+  bondingDeposits: RemoteDataType<string, EarnBondingDepositsResponseType>
   coin: CoinType
   earnDepositLimits: EarnMinMaxType
   instruments: RemoteDataType<string, EarnInstrumentsType>
@@ -113,6 +119,7 @@ export interface InterestState {
     data: EarnStepMetaData
     name: InterestStep
   }
+  rewardsTransactionsNextPage?: string | null
   stakingAccount: RemoteDataType<string, EarnAccountResponseType>
   stakingAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   stakingEligible: RemoteDataType<string, EarnEligibleType>
@@ -122,8 +129,8 @@ export interface InterestState {
     data: EarnStepMetaData
     name: StakingStep
   }
+  stakingTransactionsNextPage?: string | null
   transactions: Array<EarnTransactionType>
-  transactionsNextPage: string | null
   transactionsReport: RemoteDataType<string, Array<EarnTransactionType>>
   underSanctionsMessage: string | null
   withdrawalMinimums: RemoteDataType<string, WithdrawalMinimumType>

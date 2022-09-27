@@ -33,17 +33,17 @@ const MenuRow = styled.div`
 
 class InterestHistoryContainer extends Component<Props> {
   componentDidMount() {
-    this.props.interestActions.fetchInterestTransactions({ reset: true })
+    this.props.interestActions.fetchEarnTransactions({ reset: true })
   }
 
   componentWillUnmount() {
     // clear transactions related data on exit
-    this.props.interestActions.fetchInterestTransactionsSuccess({ reset: true, transactions: [] })
-    this.props.interestActions.setTransactionsNextPage({ nextPage: null })
+    this.props.interestActions.fetchEarnTransactionsSuccess({ reset: true, transactions: [] })
+    this.props.interestActions.setRewardsTransactionsNextPage({ nextPage: null })
   }
 
   onFetchMoreTransactions = () => {
-    this.props.interestActions.fetchInterestTransactions({ reset: false })
+    this.props.interestActions.fetchEarnTransactions({ reset: false })
   }
 
   render() {

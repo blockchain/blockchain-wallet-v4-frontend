@@ -87,9 +87,15 @@ export const WarningContainer = styled.div`
   margin-bottom: -2px;
   margin-top: 28px;
 `
-export const DetailsContainer = styled.div`
+export const DetailsContainer = styled.div<{ $hasHandleClick: boolean }>`
   display: flex;
   justify-content: space-between;
   padding: 24px 24px 24px 0;
   border-bottom: 1px solid ${PaletteColors['grey-000']};
+
+  & div:last-child {
+    text-align: right;
+  }
+
+  ${({ $hasHandleClick }) => $hasHandleClick && `&:hover { cursor: pointer}`}
 `

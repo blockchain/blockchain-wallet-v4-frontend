@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { getUnixTime } from 'date-fns'
 import { concat, isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { all, call, delay, put, select, take } from 'redux-saga/effects'
@@ -12,6 +13,7 @@ import {
   EarnAccountBalanceType,
   EarnAccountType,
   EarnAfterTransactionType,
+  EarnTransactionResponseType,
   PaymentValue,
   Product,
   RatesType,
@@ -30,6 +32,7 @@ import * as S from './selectors'
 import { actions as A } from './slice'
 import {
   EarnInstrumentsType,
+  EarnTransactionType,
   InterestWithdrawalFormType,
   RewardsDepositFormType,
   StakingDepositFormType
@@ -68,6 +71,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       return account.index
     }
     return account.address
+  }
+
+  const fetchEarnBondingDeposits = function* ({
+    payload
+  }: ReturnType<typeof A.fetchEarnBondingDeposits>) {
+    try {
+      yield put(A.fetchEarnBondingDepositsLoading())
+      const response = yield call(api.getEarnBondingDeposits, payload)
+      yield put(A.fetchEarnBondingDepositsSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchEarnBondingDepositsFailure(error))
+    }
   }
 
   const fetchRewardsBalance = function* () {
@@ -246,58 +262,131 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchStakingRatesFailure(error))
     }
   }
-  const fetchInterestTransactionsReport = function* () {
-    const reportHeaders = [['Date', 'Type', 'Asset', 'Amount', 'Tx Hash']]
-    const formatTxData = (d) => [d.insertedAt, d.type, d.amount?.symbol, d.amount?.value, d.txHash]
+
+  const fetchEarnTransactionsReport = function* () {
+    const reportHeaders = [['Date', 'Type', 'Asset', 'Amount', 'Tx Hash', 'Product']]
+    const formatRewardsTxData = (d) => [
+      d.insertedAt,
+      d.type,
+      d.amount?.symbol,
+      d.amount?.value,
+      d.txHash,
+      'Rewards'
+    ]
+    const formatStakingTxData = (d) => [
+      d.insertedAt,
+      d.type,
+      d.amount?.symbol,
+      d.amount?.value,
+      d.txHash,
+      'Staking'
+    ]
     let txList = []
-    let hasNext = true
-    let nextPageUrl
+    let hasRewardsNext = true
+    let nextRewardsPageUrl
+    let hasStakingNext = true
+    let nextStakingPageUrl
     const { coin } = yield select(selectors.form.getFormValues('interestHistoryCoin'))
-    yield put(A.fetchInterestTransactionsReportLoading())
+    yield put(A.fetchEarnTransactionsReportLoading())
     try {
-      while (hasNext) {
+      while (hasRewardsNext) {
         const { items, next } = yield call(api.getEarnTransactions, {
           currency: coin === 'ALL' ? undefined : coin,
-          nextPageUrl,
+          nextPageUrl: nextRewardsPageUrl,
           product: 'SAVINGS'
         })
-        txList = concat(txList, items.map(formatTxData))
-        hasNext = next
-        nextPageUrl = next
+        txList = concat(txList, items.map(formatRewardsTxData))
+        hasRewardsNext = next
+        nextRewardsPageUrl = next
       }
+      while (hasStakingNext) {
+        const { items, next } = yield call(api.getEarnTransactions, {
+          currency: coin === 'ALL' ? undefined : coin,
+          nextPageUrl: nextStakingPageUrl,
+          product: 'STAKING'
+        })
+        txList = concat(txList, items.map(formatStakingTxData))
+        hasStakingNext = next
+        nextStakingPageUrl = next
+      }
+      // sort txList by descending date
+      txList.sort((a, b) => {
+        const dateA = a[0]
+        const dateB = b[0]
+        if (!dateA || !dateB) return 0
+
+        return getUnixTime(new Date(dateB)) - getUnixTime(new Date(dateA))
+      })
+
       // TODO figure out any replacement type
       const report = concat(reportHeaders, txList) as any
-      yield put(A.fetchInterestTransactionsReportSuccess(report))
+      yield put(A.fetchEarnTransactionsReportSuccess(report))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchInterestTransactionsReportFailure(error))
+      yield put(A.fetchEarnTransactionsReportFailure(error))
     }
   }
 
-  const fetchInterestTransactions = function* ({
+  const fetchEarnTransactions = function* ({
     payload
-  }: ReturnType<typeof A.fetchInterestTransactions>) {
+  }: ReturnType<typeof A.fetchEarnTransactions>) {
     const { coin, reset } = payload
 
     try {
-      const nextPageUrl = !reset ? yield select(S.getTransactionsNextPage) : undefined
+      const isStakingEnabled = selectors.core.walletOptions
+        .getIsStakingEnabled(yield select())
+        .getOrElse(false) as boolean
+      const rewardsNextPageUrl = !reset ? yield select(S.getRewardsTransactionsNextPage) : undefined
+      const stakingNextPageUrl = !reset ? yield select(S.getStakingTransactionsNextPage) : undefined
+
       // check if invoked from continuous scroll
       if (!reset) {
-        const txList = yield select(S.getInterestTransactions)
+        const txList = yield select(S.getEarnTransactions)
         // return if next page is already being fetched or there is no next page
-        if (Remote.Loading.is(last(txList)) || !nextPageUrl) return
+        if (Remote.Loading.is(last(txList)) || (!rewardsNextPageUrl && !stakingNextPageUrl)) return
       }
-      yield put(A.fetchInterestTransactionsLoading({ reset }))
-      const response = yield call(api.getEarnTransactions, {
-        currency: coin,
-        nextPageUrl,
-        product: 'SAVINGS'
-      })
-      yield put(A.fetchInterestTransactionsSuccess({ reset, transactions: response.items }))
-      yield put(A.setTransactionsNextPage({ nextPage: response.next }))
+      yield put(A.fetchEarnTransactionsLoading({ reset }))
+      let rewardsResponse: EarnTransactionResponseType = { items: [], next: null }
+      let stakingResponse: EarnTransactionResponseType = { items: [], next: null }
+
+      if (rewardsNextPageUrl !== '') {
+        rewardsResponse = yield call(api.getEarnTransactions, {
+          currency: coin,
+          nextPageUrl: rewardsNextPageUrl,
+          product: 'SAVINGS'
+        })
+      }
+
+      if (stakingNextPageUrl !== '' && isStakingEnabled) {
+        stakingResponse = yield call(api.getEarnTransactions, {
+          currency: coin,
+          nextPageUrl: stakingNextPageUrl,
+          product: 'STAKING'
+        })
+      }
+
+      const mapProductToItems = (items, product) => {
+        return items.map((item) => ({ ...item, product }))
+      }
+
+      const transactions: Array<EarnTransactionType> = [
+        ...mapProductToItems(rewardsResponse.items, 'Rewards'),
+        ...mapProductToItems(stakingResponse.items, 'Staking')
+      ]
+
+      if (rewardsResponse.items.length > 0 && stakingResponse.items.length > 0) {
+        transactions.sort((a, b) => {
+          if (!a.insertedAt || !b.insertedAt) return 0
+
+          return getUnixTime(new Date(b.insertedAt)) - getUnixTime(new Date(a.insertedAt))
+        })
+      }
+      yield put(A.fetchEarnTransactionsSuccess({ reset, transactions }))
+      yield put(A.setRewardsTransactionsNextPage({ nextPage: rewardsResponse.next || '' }))
+      yield put(A.setStakingTransactionsNextPage({ nextPage: stakingResponse.next || '' }))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchInterestTransactionsFailure(error))
+      yield put(A.fetchEarnTransactionsFailure(error))
     }
   }
 
@@ -822,12 +911,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchEDDDepositLimits,
     fetchEDDStatus,
     fetchEDDWithdrawLimits,
+    fetchEarnBondingDeposits,
     fetchEarnInstruments,
+    fetchEarnTransactions,
+    fetchEarnTransactionsReport,
     fetchInterestEligible,
     fetchInterestLimits,
     fetchInterestRates,
-    fetchInterestTransactions,
-    fetchInterestTransactionsReport,
     fetchRewardsAccount,
     fetchRewardsBalance,
     fetchShowInterestCardAfterTransaction,
