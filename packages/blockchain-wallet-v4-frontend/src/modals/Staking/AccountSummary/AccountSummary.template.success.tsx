@@ -342,7 +342,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                           value: (
                             <CoinDisplay
                               coin={coin}
-                              color='gery900'
+                              color='grey900'
                               cursor='inherit'
                               size='14px'
                               weight={600}

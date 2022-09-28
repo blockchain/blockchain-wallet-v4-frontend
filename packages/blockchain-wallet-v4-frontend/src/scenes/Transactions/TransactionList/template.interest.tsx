@@ -50,11 +50,7 @@ const InterestTransactions: React.FC<Props> = () => {
         </div>
       </Column>
       <Column>
-        <NavLink
-          style={{ textDecoration: 'none' }}
-          to='/earn/history'
-          data-e2e='visitEarnInterestPage'
-        >
+        <NavLink style={{ textDecoration: 'none' }} to='/earn/history' data-e2e='visitEarnEarnPage'>
           <Button data-e2e='viewInterestTransaction' nature='primary' height='48px' size='16px'>
             <FormattedMessage id='copy.viewTransactions' defaultMessage='View Transactions' />
           </Button>
