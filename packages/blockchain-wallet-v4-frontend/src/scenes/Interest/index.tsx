@@ -22,6 +22,18 @@ const TabRow = styled.div`
   display: flex;
   margin-bottom: 26px;
 `
+const EarnContainer = styled.div`
+  display: relative;
+`
+const Overlay = styled.div`
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  opacity: 0.6;
+  background-color: white;
+  z-index: 9;
+  cursor: not-allowed;
+`
 
 class Interest extends React.PureComponent<Props, StateType> {
   constructor(props) {
@@ -67,7 +79,8 @@ class Interest extends React.PureComponent<Props, StateType> {
     return (
       <SceneWrapper>
         <InterestHeader />
-        {isGoldTier && (
+        <EarnContainer>
+          {!isGoldTier && <Overlay />}
           <TabRow>
             <TabMenu>
               <LinkContainer to='/earn' exact>
@@ -82,17 +95,17 @@ class Interest extends React.PureComponent<Props, StateType> {
               </LinkContainer>
             </TabMenu>
           </TabRow>
-        )}
-        {data.cata({
-          Failure: () => (
-            <Text size='16px' weight={500}>
-              Oops. Something went wrong. Please refresh and try again.
-            </Text>
-          ),
-          Loading: () => <Loading />,
-          NotAsked: () => <Loading />,
-          Success: (val) => isGoldTier && <EarnTable {...val} {...this.props} />
-        })}
+          {data.cata({
+            Failure: () => (
+              <Text size='16px' weight={500}>
+                Oops. Something went wrong. Please refresh and try again.
+              </Text>
+            ),
+            Loading: () => <Loading />,
+            NotAsked: () => <Loading />,
+            Success: (val) => <EarnTable isGoldTier={isGoldTier} {...val} {...this.props} />
+          })}
+        </EarnContainer>
       </SceneWrapper>
     )
   }

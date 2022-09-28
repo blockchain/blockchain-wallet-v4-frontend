@@ -22,6 +22,7 @@ const MobileRow = ({
   interestAccountBalance,
   interestEligible,
   interestRates,
+  isGoldTier,
   product,
   stakingAccountBalance,
   stakingEligible,
@@ -41,7 +42,8 @@ const MobileRow = ({
     <Wrapper
       onClick={() => handleClick(coin, isStaking)}
       disabled={
-        accountBalanceBase === 0 && (isStaking ? !stakingEligibleCoin : !interestEligibleCoin)
+        !isGoldTier ||
+        (accountBalanceBase === 0 && (isStaking ? !stakingEligibleCoin : !interestEligibleCoin))
       }
     >
       <Icon name={coin} color={coin} size='32px' />

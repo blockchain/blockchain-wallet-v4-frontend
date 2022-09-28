@@ -73,6 +73,7 @@ const connector = connect(null, mapDispatchToProps)
 
 export type OwnPropsType = {
   interestRates: RewardsRatesType
+  isGoldTier: boolean
 }
 
 export type SuccessStateType = ReturnType<typeof getData>['data']
