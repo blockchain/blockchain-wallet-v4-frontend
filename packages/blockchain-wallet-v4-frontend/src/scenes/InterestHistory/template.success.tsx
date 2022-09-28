@@ -145,7 +145,7 @@ function TransactionList(props: Props): ReactElement | null {
                     <Value data-e2e='interestEarnedTx'>
                       <FormattedMessage
                         id='modals.interest.symbolearned'
-                        defaultMessage='{symbol} Rewards Earned'
+                        defaultMessage='{symbol} Earned'
                         values={{ symbol: amount.symbol }}
                       />
                     </Value>
