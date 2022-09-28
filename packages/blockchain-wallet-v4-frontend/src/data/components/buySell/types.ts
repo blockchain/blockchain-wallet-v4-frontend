@@ -103,7 +103,7 @@ export type BSShowModalOriginType =
   | 'PendingOrder'
   | 'PriceChart'
   | 'Prices'
-  | 'InterestPage'
+  | 'EarnPage'
   | 'Nfts'
   | 'NftsMakeOffer'
   | 'RecurringBuyPromo'

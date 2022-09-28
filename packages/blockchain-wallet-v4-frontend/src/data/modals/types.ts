@@ -130,7 +130,7 @@ export type ModalOriginType =
   | 'FeaturesTopNav'
   | 'Goals'
   | 'Header'
-  | 'InterestPage'
+  | 'EarnPage'
   | 'InterestUploadDocument'
   | 'KycDocResubmitGoal'
   | 'KycRequiredStep'

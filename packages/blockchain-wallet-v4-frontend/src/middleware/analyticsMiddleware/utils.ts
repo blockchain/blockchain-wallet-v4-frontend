@@ -23,7 +23,7 @@ import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
 const buySellClickedOriginDictionary = (rawOrigin: BSShowModalOriginType): BuySellClickedOrigin => {
   switch (rawOrigin) {
-    case 'InterestPage':
+    case 'EarnPage':
       return 'SAVINGS'
     case 'PendingOrder':
       return 'PENDING_ORDER'
@@ -88,7 +88,7 @@ const interestDepositClickedOriginDictionary = (
   rawOrigin: string
 ): InterestDepositClickedOrigin => {
   switch (rawOrigin) {
-    case 'InterestPage':
+    case 'EarnPage':
       return 'SAVINGS_PAGE'
     default: {
       throw new Error('Origin not found')

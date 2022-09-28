@@ -818,7 +818,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(
       actions.modals.showModal(ModalName.INTEREST_MODAL, {
         coin,
-        origin: 'InterestPage'
+        origin: 'EarnPage'
       })
     )
   }
@@ -829,7 +829,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(
       actions.modals.showModal(ModalName.STAKING_MODAL, {
         coin,
-        origin: 'InterestPage'
+        origin: 'EarnPage'
       })
     )
   }
