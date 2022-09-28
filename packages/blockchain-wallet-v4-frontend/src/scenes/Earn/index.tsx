@@ -12,31 +12,27 @@ import { SceneWrapper } from 'components/Layout'
 import { actions } from 'data'
 import { Analytics, EarnInstrumentsType, UserDataType } from 'data/types'
 
+import Loading from './Earn.loading.template'
+import { EarnContainer, Overlay, TabRow } from './Earn.model'
+import getData from './Earn.selectors'
+import InterestHeader from './Earn.template.header'
 import EarnTable from './EarnTable'
-import Loading from './Interest.loading.template'
-import getData from './selectors'
-import InterestHeader from './template.header'
+import NotGoldTierMessage from './NotGoldTierMessage'
 
-const TabRow = styled.div`
-  width: 100%;
-  display: flex;
-  margin-bottom: 26px;
-`
-
-class Interest extends React.PureComponent<Props, StateType> {
+class Earn extends React.PureComponent<Props, StateType> {
   constructor(props) {
     super(props)
     this.state = { isGoldTier: true }
   }
 
   componentDidMount() {
-    this.props.interestActions.fetchEarnInstruments()
-    this.props.interestActions.fetchInterestRates()
-    this.props.interestActions.fetchRewardsBalance()
-    this.props.interestActions.fetchStakingBalance()
-    this.props.interestActions.fetchEDDStatus()
-    this.props.interestActions.fetchInterestEligible()
-    this.props.interestActions.fetchStakingEligible()
+    this.props.earnActions.fetchEarnInstruments()
+    this.props.earnActions.fetchInterestRates()
+    this.props.earnActions.fetchRewardsBalance()
+    this.props.earnActions.fetchStakingBalance()
+    this.props.earnActions.fetchEDDStatus()
+    this.props.earnActions.fetchInterestEligible()
+    this.props.earnActions.fetchStakingEligible()
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -67,7 +63,9 @@ class Interest extends React.PureComponent<Props, StateType> {
     return (
       <SceneWrapper>
         <InterestHeader />
-        {isGoldTier && (
+        <NotGoldTierMessage />
+        <EarnContainer>
+          {!isGoldTier && <Overlay />}
           <TabRow>
             <TabMenu>
               <LinkContainer to='/earn' exact>
@@ -82,17 +80,17 @@ class Interest extends React.PureComponent<Props, StateType> {
               </LinkContainer>
             </TabMenu>
           </TabRow>
-        )}
-        {data.cata({
-          Failure: () => (
-            <Text size='16px' weight={500}>
-              Oops. Something went wrong. Please refresh and try again.
-            </Text>
-          ),
-          Loading: () => <Loading />,
-          NotAsked: () => <Loading />,
-          Success: (val) => isGoldTier && <EarnTable {...val} {...this.props} />
-        })}
+          {data.cata({
+            Failure: () => (
+              <Text size='16px' weight={500}>
+                Oops. Something went wrong. Please refresh and try again.
+              </Text>
+            ),
+            Loading: () => <Loading />,
+            NotAsked: () => <Loading />,
+            Success: (val) => <EarnTable isGoldTier={isGoldTier} {...val} {...this.props} />
+          })}
+        </EarnContainer>
       </SceneWrapper>
     )
   }
@@ -104,8 +102,8 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  idvActions: bindActionCreators(actions.components.identityVerification, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  earnActions: bindActionCreators(actions.components.interest, dispatch),
+  idvActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -126,10 +124,10 @@ type LinkStatePropsType = {
 }
 export type LinkDispatchPropsType = {
   analyticsActions: typeof actions.analytics
+  earnActions: typeof actions.components.interest
   idvActions: typeof actions.components.identityVerification
-  interestActions: typeof actions.components.interest
 }
 
 export type Props = ConnectedProps<typeof connector>
 
-export default connector(Interest)
+export default connector(Earn)

@@ -17,7 +17,7 @@ const SubheaderSeparator = styled.div`
 const SceneSubHeaderTextCustom = styled(SceneSubHeaderText)`
   display: contents;
 `
-const InterestHeader = () => {
+const EarnHeader = () => {
   return (
     <>
       <SceneHeader>
@@ -47,4 +47,4 @@ const InterestHeader = () => {
   )
 }
 
-export default InterestHeader
+export default EarnHeader

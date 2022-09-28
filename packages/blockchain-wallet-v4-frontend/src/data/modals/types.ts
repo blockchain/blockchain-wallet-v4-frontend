@@ -125,6 +125,7 @@ export type ModalOriginType =
   | 'DebitCardDashboard'
   | 'DepositWithdrawalModal'
   | 'Dex'
+  | 'EarnPage'
   | 'EmptyFeed'
   | 'ExchangeForm'
   | 'FeaturesTopNav'

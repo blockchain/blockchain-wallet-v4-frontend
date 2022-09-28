@@ -24,6 +24,7 @@ const SortableTable = ({
   interestAccountBalance,
   interestEligible,
   interestRates,
+  isGoldTier,
   sortedInstruments,
   stakingAccountBalance,
   stakingEligible,
@@ -149,7 +150,7 @@ const SortableTable = ({
 
       const primaryButton = isStaking
         ? {
-            disabled: !stakingEligibleCoin,
+            disabled: !isGoldTier || (accountBalanceBase === 0 && !stakingEligibleCoin),
             onClick: () => handleClick(coin, isStaking),
             text:
               accountBalanceBase > 0 ? (
@@ -161,7 +162,7 @@ const SortableTable = ({
             width: 'auto'
           }
         : {
-            disabled: !interestEligibleCoin,
+            disabled: !isGoldTier || (accountBalanceBase === 0 && !interestEligibleCoin),
             onClick: () => handleClick(coin, isStaking),
             text:
               accountBalanceBase > 0 ? (
@@ -180,8 +181,16 @@ const SortableTable = ({
         asset: {
           icon: <Icon name={coin} color={coin} size='32px' />,
           iconPosition: 'left',
-          subtext: displaySymbol,
-          text: displayName,
+          subtext: (
+            <Text color='grey700' size='14px' weight={500}>
+              {displaySymbol}
+            </Text>
+          ),
+          text: (
+            <Text color='grey900' size='14px' weight={500}>
+              {displayName}
+            </Text>
+          ),
           value: displayName
         } as CellProps,
         balance: {

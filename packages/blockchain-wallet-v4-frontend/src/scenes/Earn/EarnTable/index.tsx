@@ -9,7 +9,7 @@ import { useRemote } from 'hooks'
 import { useMedia } from 'services/styles'
 
 import { SuccessStateType as ParentSuccessStateType } from '..'
-import Loading from '../Interest.loading.template'
+import Loading from '../Earn.loading.template'
 import MobileRow from './MobileRow'
 import { getData } from './selectors'
 import SortableTable from './SortableTable'
@@ -73,6 +73,7 @@ const connector = connect(null, mapDispatchToProps)
 
 export type OwnPropsType = {
   interestRates: RewardsRatesType
+  isGoldTier: boolean
 }
 
 export type SuccessStateType = ReturnType<typeof getData>['data']

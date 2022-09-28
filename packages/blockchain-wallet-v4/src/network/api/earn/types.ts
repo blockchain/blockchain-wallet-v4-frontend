@@ -29,10 +29,7 @@ export type EarnBondingDepositsParamType = {
   product: string
 }
 export type EarnBondingDepositType = {
-  amount: {
-    symbol: CoinType
-    value: string
-  }
+  amount: string
   bondingDays: number
   bondingExpiryDate: string
   bondingStartDate: string

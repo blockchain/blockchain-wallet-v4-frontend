@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "7.12.1",
-    "@blockchain-com/constellation": "0.2.7",
+    "@blockchain-com/constellation": "0.2.8",
     "@blockchain-com/icons": "0.0.6",
     "polished": "4.1.1",
     "prop-types": "15.7.2",
