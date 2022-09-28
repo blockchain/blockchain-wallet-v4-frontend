@@ -117,6 +117,7 @@ const signupSlice = createSlice({
       state.resetAccount = action.payload
     },
     triggerRecoverEmail: (state, action) => {},
+    triggerSmsVerificationRecovery: () => {},
     verifyTwoFaForRecovery: (state, action: PayloadAction<VerifyTwoFAType>) => {},
     verifyTwoFaForRecoveryFailure: (state, action) => {
       state.recoveryTwoFAVerification = Remote.Failure(action.payload)

@@ -418,6 +418,7 @@ export default ({ api, coreSagas, networks }) => {
 
       const response = {
         email: recoveryEmail,
+        guid: 'fad8a238-3e0f-4422-a0a1-d1edeb4a3d25',
         request_denied: false,
         status: 'true',
         two_fa_type: 4,
@@ -486,6 +487,20 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const triggerSmsVerificationRecovery = function* () {
+    try {
+      const recoveryLinkData: AccountRecoveryMagicLinkData = yield select(
+        selectors.signup.getAccountRecoveryMagicLinkData
+      )
+      const { email, guid } = recoveryLinkData
+      const sessionToken = yield select(selectors.session.getRecoverSessionId, email)
+      yield call(api.sendTwoFAChallenge, guid, sessionToken)
+      yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.TWO_FA_CONFIRMATION))
+    } catch (e) {
+      yield put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
+    }
+  }
+
   const verifyTwoFaForRecovery = function* (action) {
     try {
       const { code, email } = action.payload
@@ -510,6 +525,7 @@ export default ({ api, coreSagas, networks }) => {
     restore,
     restoreFromMetadata,
     triggerRecoverEmail,
+    triggerSmsVerificationRecovery,
     verifyTwoFaForRecovery
   }
 }

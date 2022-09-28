@@ -36,7 +36,12 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
     const { accountRecoveryData, analyticsActions, setStep } = props
     // will be 0 if no 2fa
     if (accountRecoveryData?.two_fa_type) {
-      setStep(RecoverSteps.TWO_FA_CONFIRMATION)
+      if (accountRecoveryData?.two_fa_type === 5) {
+        props.signupActions.triggerSmsVerificationRecovery()
+        // trigger sms challenge
+      } else {
+        setStep(RecoverSteps.TWO_FA_CONFIRMATION)
+      }
     } else {
       setStep(RecoverSteps.NEW_PASSWORD)
     }

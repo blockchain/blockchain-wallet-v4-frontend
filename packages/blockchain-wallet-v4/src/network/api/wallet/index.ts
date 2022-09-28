@@ -299,6 +299,17 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
+  const sendTwoFAChallenge = (guid, sessionToken) =>
+    post({
+      contentType: 'application/json',
+      data: {
+        walletGuid: guid
+      },
+      endPoint: `/wallet/recovery/send-2fa-challenge`,
+      sessionToken,
+      url: rootUrl
+    })
+
   return {
     authorizeLogin,
     authorizeVerifyDevice,
@@ -321,6 +332,7 @@ export default ({ get, post, rootUrl }) => {
     reset2fa,
     savePayload,
     sendSecureChannel,
+    sendTwoFAChallenge,
     triggerMnemonicViewedAlert,
     triggerNonCustodialSendAlert,
     updateMnemonicBackup,
