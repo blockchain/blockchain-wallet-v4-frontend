@@ -9,7 +9,9 @@ const Details = ({ handleClick, subText, subValue, text, tooltipId, value }: Det
   <DetailsContainer $hasHandleClick={!!handleClick} onClick={handleClick}>
     <Flex flexDirection='column' gap={4} justifyContent='center'>
       <Text color='grey900' size='14px' weight={600}>
-        {text}
+        <Flex flexDirection='row' gap={4}>
+          {text}
+        </Flex>
       </Text>
       {subText && (
         <Flex alignItems='center' gap={4}>

@@ -64,7 +64,7 @@ const Airdrops = React.lazy(() => import('./Airdrops'))
 const CoinPage = React.lazy(() => import('./CoinPage/components/CoinPage'))
 const General = React.lazy(() => import('./Settings/General'))
 const Home = React.lazy(() => import('./Home'))
-const Interest = React.lazy(() => import('./Interest'))
+const Earn = React.lazy(() => import('./Earn'))
 const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
@@ -229,7 +229,7 @@ const App = ({
                             <WalletLayout path='/airdrops' component={Airdrops} />
                             <WalletLayout path='/exchange' component={TheExchange} />
                             <WalletLayout path='/home' component={Home} />
-                            <WalletLayout path='/earn' component={Interest} exact />
+                            <WalletLayout path='/earn' component={Earn} exact />
                             <WalletLayout path='/earn/history' component={InterestHistory} />
                             <WalletLayout path='/security-center' component={SecurityCenter} />
                             <WalletLayout path='/settings/addresses' component={Addresses} />

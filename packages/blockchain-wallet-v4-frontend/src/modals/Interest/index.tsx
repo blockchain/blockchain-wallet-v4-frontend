@@ -41,7 +41,7 @@ class Interest extends PureComponent<Props, State> {
       this.props.buySellActions.showModal({
         cryptoCurrency: coin,
         orderType: 'BUY',
-        origin: 'InterestPage'
+        origin: 'EarnPage'
       })
     }, duration / 2)
   }

@@ -309,47 +309,55 @@ const AccountSummary: React.FC<Props> = (props) => {
                 }
               />
               {isTransactionsToggled &&
-                bondingDeposits.map(
-                  ({ amount: { symbol, value }, bondingDays, bondingStartDate, paymentRef }) => (
-                    <Detail
-                      key={paymentRef}
-                      subText={<FormattedMessage defaultMessage='Pending' id='copy.pending' />}
-                      subValue={
-                        <FormattedMessage
-                          defaultMessage='Bonding Period: {bondingDays} {days}'
-                          id='modals.staking.accountsummary.bondingperiod'
-                          values={{
-                            bondingDays,
-                            days:
-                              bondingDays > 1 ? (
-                                <FormattedMessage
-                                  defaultMessage='days'
-                                  id='modals.staking.warning.content.subtitle.days'
-                                />
-                              ) : (
-                                <FormattedMessage
-                                  defaultMessage='day'
-                                  id='modals.staking.warning.content.subtitle.day'
-                                />
-                              )
-                          }}
-                        />
-                      }
-                      text={
-                        <FormattedMessage
-                          defaultMessage='Stake {value} {symbol}'
-                          id='modals.staking.accountsummary.transactionsprogress.stake'
-                          values={{
-                            symbol,
-                            value
-                          }}
-                        />
-                      }
-                      tooltipId='modals.staking.bonding.pending.tooltip'
-                      value={format(new Date(bondingStartDate), 'MMMM d yyyy @ h:mm a')}
-                    />
-                  )
-                )}
+                bondingDeposits.map(({ amount, bondingDays, bondingStartDate, paymentRef }) => (
+                  <Detail
+                    key={paymentRef}
+                    subText={<FormattedMessage defaultMessage='Pending' id='copy.pending' />}
+                    subValue={
+                      <FormattedMessage
+                        defaultMessage='Bonding Period: {bondingDays} {days}'
+                        id='modals.staking.accountsummary.bondingperiod'
+                        values={{
+                          bondingDays,
+                          days:
+                            bondingDays > 1 ? (
+                              <FormattedMessage
+                                defaultMessage='days'
+                                id='modals.staking.warning.content.subtitle.days'
+                              />
+                            ) : (
+                              <FormattedMessage
+                                defaultMessage='day'
+                                id='modals.staking.warning.content.subtitle.day'
+                              />
+                            )
+                        }}
+                      />
+                    }
+                    text={
+                      <FormattedMessage
+                        defaultMessage='Stake {value}'
+                        id='modals.staking.accountsummary.transactionsprogress.stake'
+                        values={{
+                          value: (
+                            <CoinDisplay
+                              coin={coin}
+                              color='grey900'
+                              cursor='inherit'
+                              size='14px'
+                              weight={600}
+                              data-e2e={`${coin}BondingDepositAmount`}
+                            >
+                              {amount}
+                            </CoinDisplay>
+                          )
+                        }}
+                      />
+                    }
+                    tooltipId='modals.staking.bonding.pending.tooltip'
+                    value={format(new Date(bondingStartDate), "h:mm a 'on' MMM d yyyy")}
+                  />
+                ))}
             </>
           )}
         </DetailsWrapper>

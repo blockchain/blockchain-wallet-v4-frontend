@@ -7,8 +7,8 @@ import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions } from 'data'
 
-import InterestHeader from '../Interest/template.header'
-import InterestMenu from '../Interest/template.menu'
+import EarnHeader from '../Earn/Earn.template.header'
+import EarnMenu from '../Earn/Earn.template.menu'
 import CoinFilter from './CoinFilter'
 import DownloadTransactions from './DownloadTransactions'
 import { getData } from './selectors'
@@ -50,7 +50,7 @@ class InterestHistoryContainer extends Component<Props> {
     const { data } = this.props
     return (
       <SceneWrapper>
-        <InterestHeader />
+        <EarnHeader />
         {data.cata({
           Failure: () => null,
           Loading: () => <Loading />,
@@ -59,7 +59,7 @@ class InterestHistoryContainer extends Component<Props> {
             return (
               <>
                 <MenuRow>
-                  <InterestMenu />
+                  <EarnMenu />
                   <DownloadTransactions />
                   <CoinFilter {...val} />
                 </MenuRow>
