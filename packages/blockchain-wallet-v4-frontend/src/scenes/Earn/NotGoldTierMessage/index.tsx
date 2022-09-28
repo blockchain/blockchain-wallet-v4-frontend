@@ -28,7 +28,7 @@ const NotGoldTierMessageContainer = () => {
   Object.values(stakingRates).forEach(({ rate }) => rates.push(rate))
 
   const handleClick = () => {
-    dispatch(actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: 'InterestPage' }))
+    dispatch(actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: 'EarnPage' }))
   }
 
   return <NotGoldTierMessage handleClick={handleClick} maxRate={Math.max(...rates)} />
