@@ -721,9 +721,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // notify UI of success
       yield put(actions.form.stopSubmit(formName))
 
-      // JJ TODO changing WARNING to ACCOUNT_SUMMARY
       if (isStaking) {
-        yield put(A.setStakingStep({ data: { depositSuccess: true }, name: 'ACCOUNT_SUMMARY' }))
+        yield put(A.setStakingStep({ name: 'DEPOSIT_SUCCESS' }))
       } else {
         yield put(A.setRewardsStep({ data: { depositSuccess: true }, name: 'ACCOUNT_SUMMARY' }))
       }
@@ -741,8 +740,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchEDDStatus())
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit(REWARDS_DEPOSIT_FORM, { _error: error }))
       if (isStaking) {
+        yield put(actions.form.stopSubmit(STAKING_DEPOSIT_FORM, { _error: error }))
         yield put(
           A.setStakingStep({
             data: {
@@ -753,6 +752,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           })
         )
       } else {
+        yield put(actions.form.stopSubmit(REWARDS_DEPOSIT_FORM, { _error: error }))
         yield put(
           A.setRewardsStep({
             data: {
