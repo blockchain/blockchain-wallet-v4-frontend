@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { WalletFiatType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -13,18 +12,18 @@ import getData from './selectors'
 import Success from './template.success'
 
 const Connect = (props: Props) => {
-  const fetchBank = () => {
-    if (props.walletCurrency && !Remote.Success.is(props.data)) {
-      props.brokerageActions.fetchBankLinkCredentials(props.walletCurrency as WalletFiatType)
+  const fetchBank = useCallback(() => {
+    if (props.tradingCurrency && !Remote.Success.is(props.data)) {
+      props.brokerageActions.fetchBankLinkCredentials(props.tradingCurrency)
     }
     props.brokerageActions.fetchBankTransferUpdate(props.yapilyBankId)
-  }
+  }, [props.brokerageActions, props.data, props.tradingCurrency, props.yapilyBankId])
 
   useEffect(() => {
     // Clears any previous accounts so there is no cached qrcode on the UI
     props.brokerageActions.setBankDetails({ account: undefined })
     fetchBank()
-  }, [props.walletCurrency])
+  }, [fetchBank, props.brokerageActions, props.tradingCurrency])
 
   return props.data.cata({
     Failure: () => <DataError onClick={fetchBank} />,
@@ -37,7 +36,7 @@ const Connect = (props: Props) => {
 const mapStateToProps = (state: RootState) => ({
   account: selectors.components.brokerage.getAccount(state),
   data: getData(state),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+  tradingCurrency: selectors.modules.profile.getTradingCurrency(state).getOrElse('USD')
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
