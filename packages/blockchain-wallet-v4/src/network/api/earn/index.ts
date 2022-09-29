@@ -65,7 +65,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     product
   }: EarnBondingDepositsParamType): EarnBondingDepositsResponseType =>
     authorizedGet({
-      endPoint: `/earn/bonding-deposits?product=${product}&ccy=${ccy}&`,
+      endPoint: `/earn/bonding-txs?product=${product}&ccy=${ccy}&`,
       url: nabuUrl
     })
 
@@ -97,7 +97,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
 
   const getStakingRates = (): StakingRatesType =>
     authorizedGet({
-      endPoint: '/earn/rates?product=staking&',
+      endPoint: '/earn/rates-user?product=staking&',
       url: nabuUrl
     })
 

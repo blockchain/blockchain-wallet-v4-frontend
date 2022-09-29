@@ -63,7 +63,7 @@ class Earn extends React.PureComponent<Props, StateType> {
     return (
       <SceneWrapper>
         <InterestHeader />
-        <NotGoldTierMessage />
+        {!isGoldTier && <NotGoldTierMessage />}
         <EarnContainer>
           {!isGoldTier && <Overlay />}
           <TabRow>

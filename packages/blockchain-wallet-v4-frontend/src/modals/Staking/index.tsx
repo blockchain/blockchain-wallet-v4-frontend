@@ -12,6 +12,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { ModalPropsType } from '../types'
 import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
+import DepositSuccess from './DepositSuccess'
 import Warning from './Warning'
 
 const Staking = ({
@@ -56,6 +57,11 @@ const Staking = ({
       {step.name === 'DEPOSIT' && (
         <FlyoutChild>
           <DepositForm coin={coin} setShowSupply={setShowSupply} walletCurrency={walletCurrency} />
+        </FlyoutChild>
+      )}
+      {step.name === 'DEPOSIT_SUCCESS' && (
+        <FlyoutChild>
+          <DepositSuccess coin={coin} handleClose={handleClose} />
         </FlyoutChild>
       )}
       {step.name === 'ACCOUNT_SUMMARY' && (

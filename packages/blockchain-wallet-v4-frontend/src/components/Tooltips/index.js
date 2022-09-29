@@ -255,6 +255,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='The rate is subject to change. Rewards will be paid in crypto.'
           />
         </Tooltip>
+        <Tooltip id='earntable.staking.tooltip'>
+          <FormattedMessage
+            id='scenes.earn.earntable.staking.tooltip'
+            defaultMessage='Staking is the process used by Proof-of-Stake (PoS) blockchains to verify and secure transactions on their networks.'
+          />
+        </Tooltip>
         <Tooltip id='modals.interest.depositmax.tooltip'>
           <FormattedMessage
             id='modals.interest.deposit.maxtransfer.tooltip'
