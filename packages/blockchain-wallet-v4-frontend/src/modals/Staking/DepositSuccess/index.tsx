@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Button, IconCloseCircle, SemanticColors } from '@blockchain-com/constellation'
 
 import { CoinType } from '@core/types'
-import { Text } from 'blockchain-info-components'
+import { Image, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 
 import { Bottom, Middle, TextContainer, Top, Wrapper } from './DepositSuccess.model'
@@ -22,8 +22,7 @@ const DepositSuccess = ({ coin, handleClose }: OwnProps) => {
         <IconCloseCircle color={SemanticColors.muted} onClick={handleClose} size='medium' />
       </Top>
       <Middle>
-        {/* TODO replace this with image */}
-        <IconCloseCircle color={SemanticColors.muted} onClick={handleClose} size='large' />
+        <Image name='eth-pending' size='87px' />
         <TextContainer>
           <Text color='grey900' size='20px' weight={600}>
             <FormattedMessage
