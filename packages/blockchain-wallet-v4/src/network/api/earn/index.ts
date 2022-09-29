@@ -97,7 +97,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
 
   const getStakingRates = (): StakingRatesType =>
     authorizedGet({
-      endPoint: '/earn/rates?product=staking&',
+      endPoint: '/earn/rates-user?product=staking&',
       url: nabuUrl
     })
 
