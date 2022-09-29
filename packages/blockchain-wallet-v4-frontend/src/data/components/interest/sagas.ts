@@ -79,7 +79,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield put(A.fetchEarnBondingDepositsLoading())
       const response = yield call(api.getEarnBondingDeposits, payload)
-      yield put(A.fetchEarnBondingDepositsSuccess(response))
+      yield put(A.fetchEarnBondingDepositsSuccess(response.bondingDeposits))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchEarnBondingDepositsFailure(error))

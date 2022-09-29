@@ -13,7 +13,7 @@ import { formatFiat } from '@core/exchange/utils'
 import {
   CoinType,
   EarnAccountBalanceResponseType,
-  EarnBondingDepositsResponseType,
+  EarnBondingDepositsType,
   EarnEligibleType,
   FiatType,
   StakingRatesType
@@ -397,7 +397,7 @@ const AccountSummary: React.FC<Props> = (props) => {
 
 type OwnProps = {
   accountBalances: EarnAccountBalanceResponseType
-  bondingDeposits: EarnBondingDepositsResponseType
+  bondingDeposits: Array<EarnBondingDepositsType>
   coin: CoinType
   flagEDDInterestFileUpload: boolean
   handleBSClick: (string) => void

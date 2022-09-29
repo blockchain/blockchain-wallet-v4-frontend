@@ -6,7 +6,7 @@ import {
   EarnAccountResponseType,
   EarnAfterTransactionType,
   EarnBondingDepositsParamType,
-  EarnBondingDepositsResponseType,
+  EarnBondingDepositsType,
   EarnDepositLimits,
   EarnEligibleType,
   InterestEDDStatus,
@@ -142,7 +142,7 @@ const interestSlice = createSlice({
 
     fetchEarnBondingDepositsSuccess: (
       state,
-      action: PayloadAction<EarnBondingDepositsResponseType>
+      action: PayloadAction<Array<EarnBondingDepositsType>>
     ) => {
       state.bondingDeposits = Remote.Success(action.payload)
     },

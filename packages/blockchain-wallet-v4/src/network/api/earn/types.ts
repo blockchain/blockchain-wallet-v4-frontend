@@ -28,7 +28,7 @@ export type EarnBondingDepositsParamType = {
   ccy?: CoinType
   product: string
 }
-export type EarnBondingDepositType = {
+export type EarnBondingDepositsType = {
   amount: string
   bondingDays: number
   bondingExpiryDate: string
@@ -40,7 +40,10 @@ export type EarnBondingDepositType = {
   product: string
   userId: string
 }
-export type EarnBondingDepositsResponseType = Array<EarnBondingDepositType> | null
+export type EarnBondingDepositsResponseType = {
+  bondingDeposits: Array<EarnBondingDepositsType>
+  unbondingWithdrawals: Array<null>
+} | null
 export type EarnEligibleType = {
   [key in CoinType]?: {
     eligible: boolean
