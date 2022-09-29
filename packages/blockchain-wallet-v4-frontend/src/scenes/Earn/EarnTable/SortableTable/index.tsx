@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-table'
 
 import { CoinType } from '@core/types'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Text, TooltipHost } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
@@ -226,11 +226,13 @@ const SortableTable = ({
         } as CellProps,
         type: {
           text: isStaking ? (
-            <StakingTextContainer>
-              <Text color='grey900' size='12px' weight={600}>
-                {product}
-              </Text>
-            </StakingTextContainer>
+            <TooltipHost id='earntable.staking.tooltip'>
+              <StakingTextContainer>
+                <Text color='grey900' size='12px' weight={600}>
+                  {product}
+                </Text>
+              </StakingTextContainer>
+            </TooltipHost>
           ) : (
             <RewardsTextContainer>
               <Text color='grey600' size='12px' weight={600}>
