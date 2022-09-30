@@ -20,15 +20,15 @@ import Success from './template.success'
 class LinkedBanks extends PureComponent<Props> {
   componentDidMount() {
     this.props.brokerageActions.fetchBankTransferAccounts()
-    this.props.buySellActions.fetchPaymentMethods(this.props.walletCurrency)
+    this.props.buySellActions.fetchPaymentMethods(this.props.tradingCurrency)
   }
 
   handleBankClick = () => {
-    const { plaidEnabled, walletCurrency } = this.props
+    const { plaidEnabled, tradingCurrency } = this.props
     const ACHProvider = plaidEnabled ? 'ADD_BANK_PLAID_MODAL' : 'ADD_BANK_YODLEE_MODAL'
     this.props.brokerageActions.setupBankTransferProvider()
     this.props.brokerageActions.showModal({
-      modalType: walletCurrency === 'USD' ? ACHProvider : 'ADD_BANK_YAPILY_MODAL',
+      modalType: tradingCurrency === 'USD' ? ACHProvider : 'ADD_BANK_YAPILY_MODAL',
       origin: BrokerageModalOriginType.ADD_BANK_SETTINGS
     })
 
@@ -78,8 +78,8 @@ class LinkedBanks extends PureComponent<Props> {
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
   plaidEnabled: selectors.core.walletOptions.getAddPlaidPaymentProvider(state).getOrElse(false),
-  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+  tradingCurrency: selectors.modules.profile.getTradingCurrency(state).getOrElse('USD'),
+  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -94,8 +94,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   plaidEnabled: unknown | boolean
+  tradingCurrency: WalletFiatType
   userData: UserDataType
-  walletCurrency: WalletFiatType
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = ConnectedProps<typeof connector>

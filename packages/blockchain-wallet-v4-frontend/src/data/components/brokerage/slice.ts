@@ -43,7 +43,7 @@ const brokerageSlice = createSlice({
     createFiatDeposit: () => {},
     deleteSavedBank: (state, action: PayloadAction<BankTransferAccountType['id']>) => {},
     fetchBankLinkCredentials: (state, action: PayloadAction<WalletFiatType>) => {},
-    fetchBankLinkCredentialsError: (state, action: PayloadAction<string>) => {
+    fetchBankLinkCredentialsError: (state, action: PayloadAction<string | Error>) => {
       state.bankCredentials = Remote.Failure(action.payload)
     },
     fetchBankLinkCredentialsLoading: (state) => {
