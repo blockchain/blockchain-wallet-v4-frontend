@@ -31,8 +31,6 @@ const FooterButton = styled(Button)`
   margin-top: 24px;
 `
 const NewVersionAvailable = (props) => {
-  const { position, total, ...rest } = props
-
   return (
     <Modal size='small' style={{ zIndex: 999 }}>
       <Body>
@@ -45,7 +43,7 @@ const NewVersionAvailable = (props) => {
         <Copy>
           <FormattedMessage
             id='modals.new_version_available.prevent_errors_login'
-            defaultMessage='In order to use the new version of the wallet we ask that you please refresh the page and log in again.'
+            defaultMessage='In order to use the newest version we ask that you please refresh the page and log in again.'
           />
         </Copy>
         <FooterButton
