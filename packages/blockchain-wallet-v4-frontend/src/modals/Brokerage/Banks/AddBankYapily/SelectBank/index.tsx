@@ -4,8 +4,10 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { WalletFiatType } from '@core/types'
 import DataError from 'components/DataError'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { isNabuError } from 'services/errors'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
 import { getData } from './selectors'
@@ -13,7 +15,7 @@ import Success from './template.success'
 
 const SelectBank = (props: Props) => {
   const fetchBank = () => {
-    props.brokerageActions.fetchBankLinkCredentials(props.walletCurrency as WalletFiatType)
+    props.brokerageActions.fetchBankLinkCredentials(props.tradingCurrency as WalletFiatType)
   }
   useEffect(() => {
     fetchBank()
@@ -22,7 +24,12 @@ const SelectBank = (props: Props) => {
   const { data } = props
 
   return data.cata({
-    Failure: () => <DataError onClick={fetchBank} />,
+    Failure: (error) => {
+      if (isNabuError(error)) {
+        return <GenericNabuErrorFlyout error={error} onDismiss={props.handleClose} />
+      }
+      return <DataError onClick={fetchBank} />
+    },
     Loading: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
     NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
     Success: (val) => <Success {...val} {...props} />
@@ -31,7 +38,9 @@ const SelectBank = (props: Props) => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+  tradingCurrency: selectors.modules.profile
+    .getTradingCurrency(state)
+    .getOrFail('could not get trading currency')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
