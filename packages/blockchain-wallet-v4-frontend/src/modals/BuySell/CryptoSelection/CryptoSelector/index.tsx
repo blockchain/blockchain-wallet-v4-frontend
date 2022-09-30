@@ -131,7 +131,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     if (!pair) return
     this.props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
-      fiatCurrency: this.props.fiatCurrency,
+      fiatCurrency: this.props.walletCurrency,
       orderType: this.state.orderType,
       pair,
       step: 'ENTER_AMOUNT',

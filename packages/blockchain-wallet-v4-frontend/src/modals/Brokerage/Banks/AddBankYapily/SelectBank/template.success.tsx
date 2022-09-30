@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import FlyoutContainer from 'components/Flyout/Container'
+import FlyoutContent from 'components/Flyout/Content'
+import FlyoutHeader from 'components/Flyout/Header'
 import { AddBankStepType, BankPartners, OBInstitution } from 'data/types'
 
 import {
   BankSearchIcon,
   BankSearchInput,
   BankSearchWrapper,
-  BankWrapper,
-  ModalNavWithBackArrow,
   SimpleBankRow
 } from '../../../../components'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
@@ -30,16 +31,20 @@ const Success = (props: Props) => {
   }
 
   return (
-    <BankWrapper>
-      <ModalNavWithBackArrow {...props}>
+    <FlyoutContainer>
+      <FlyoutHeader
+        mode='back'
+        data-e2e='OpenBankingSelectBankBackButton'
+        onClick={props.handleClose}
+      >
         <FormattedMessage id='copy.find_your_bank' defaultMessage='Find Your Bank' />
-      </ModalNavWithBackArrow>
-      <BankSearchWrapper>
-        <BankSearchInput onChange={simpleSearch} placeholder='Search' type='text' />
-        <BankSearchIcon />
-      </BankSearchWrapper>
-      {banks.map((bank) => {
-        return (
+      </FlyoutHeader>
+      <FlyoutContent mode='top'>
+        <BankSearchWrapper>
+          <BankSearchInput onChange={simpleSearch} placeholder='Search' type='text' />
+          <BankSearchIcon />
+        </BankSearchWrapper>
+        {banks.map((bank) => (
           <SimpleBankRow
             key={bank.id}
             institution={bank}
@@ -50,9 +55,9 @@ const Success = (props: Props) => {
               })
             }}
           />
-        )
-      })}
-    </BankWrapper>
+        ))}
+      </FlyoutContent>
+    </FlyoutContainer>
   )
 }
 
