@@ -234,11 +234,13 @@ const SortableTable = ({
               </StakingTextContainer>
             </TooltipHost>
           ) : (
-            <RewardsTextContainer>
-              <Text color='grey600' size='12px' weight={600}>
-                {product}
-              </Text>
-            </RewardsTextContainer>
+            <TooltipHost id='earntable.rewards.tooltip'>
+              <RewardsTextContainer>
+                <Text color='grey600' size='12px' weight={600}>
+                  {product}
+                </Text>
+              </RewardsTextContainer>
+            </TooltipHost>
           ),
           value: product
         } as CellProps
