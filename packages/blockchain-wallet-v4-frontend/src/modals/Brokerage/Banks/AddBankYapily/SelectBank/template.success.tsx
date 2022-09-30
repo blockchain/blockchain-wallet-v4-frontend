@@ -44,20 +44,18 @@ const Success = (props: Props) => {
           <BankSearchInput onChange={simpleSearch} placeholder='Search' type='text' />
           <BankSearchIcon />
         </BankSearchWrapper>
-        {banks.map((bank) => {
-          return (
-            <SimpleBankRow
-              key={bank.id}
-              institution={bank}
-              onClick={() => {
-                props.setYapilyBankId(bank.id)
-                props.brokerageActions.setAddBankStep({
-                  addBankStep: AddBankStepType.ADD_BANK_AUTHORIZE
-                })
-              }}
-            />
-          )
-        })}
+        {banks.map((bank) => (
+          <SimpleBankRow
+            key={bank.id}
+            institution={bank}
+            onClick={() => {
+              props.setYapilyBankId(bank.id)
+              props.brokerageActions.setAddBankStep({
+                addBankStep: AddBankStepType.ADD_BANK_AUTHORIZE
+              })
+            }}
+          />
+        ))}
       </FlyoutContent>
     </FlyoutContainer>
   )
