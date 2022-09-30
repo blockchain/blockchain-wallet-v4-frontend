@@ -33,9 +33,6 @@ class ErrorBoundary extends React.Component<Props, { error: null | TypeError }> 
     }
   }
 
-  // Case to handle loading chunk error
-  // when old version is cached after release
-
   render() {
     if (this.state.error) {
       // Case to handle loading chunk error
