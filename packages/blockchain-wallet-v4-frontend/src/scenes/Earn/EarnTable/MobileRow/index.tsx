@@ -35,16 +35,14 @@ const MobileRow = ({
     ? stakingAccountBalance && stakingAccountBalance[coin]
     : interestAccountBalance && interestAccountBalance[coin]
   const accountBalanceBase = account ? account.balance : 0
-  const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
-  const stakingEligibleCoin = stakingEligible[coin] && stakingEligible[coin]?.eligible
-
+  const hasAccountBalance = accountBalanceBase > 0
+  const isInterestCoinEligible = interestEligible[coin] && interestEligible[coin]?.eligible
+  const isStakingCoinEligible = stakingEligible[coin] && stakingEligible[coin]?.eligible
+  const isCoinEligible = isStaking ? !isStakingCoinEligible : !isInterestCoinEligible
   return (
     <Wrapper
       onClick={() => handleClick(coin, isStaking)}
-      disabled={
-        !isGoldTier ||
-        (accountBalanceBase === 0 && (isStaking ? !stakingEligibleCoin : !interestEligibleCoin))
-      }
+      disabled={!isGoldTier || (!hasAccountBalance && isCoinEligible)}
     >
       <Icon name={coin} color={coin} size='32px' />
       <RightContainer>

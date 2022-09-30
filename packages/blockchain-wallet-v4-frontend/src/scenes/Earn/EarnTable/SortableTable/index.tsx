@@ -144,33 +144,32 @@ const SortableTable = ({
         ? stakingAccountBalance && stakingAccountBalance[coin]
         : interestAccountBalance && interestAccountBalance[coin]
       const accountBalanceBase = account ? account.balance : 0
-      const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
-      const stakingEligibleCoin = stakingEligible[coin] && stakingEligible[coin]?.eligible
+      const hasAccountBalance = accountBalanceBase > 0
+      const isInterestCoinEligible = interestEligible[coin] && interestEligible[coin]?.eligible
+      const isStakingCoinEligible = stakingEligible[coin] && stakingEligible[coin]?.eligible
       const rate = isStaking ? stakingRates[coin].rate : interestRates[coin]
 
       const primaryButton = isStaking
         ? {
-            disabled: !isGoldTier || (accountBalanceBase === 0 && !stakingEligibleCoin),
+            disabled: !isGoldTier || (!hasAccountBalance && !isStakingCoinEligible),
             onClick: () => handleClick(coin, isStaking),
-            text:
-              accountBalanceBase > 0 ? (
-                <FormattedMessage id='copy.manage' defaultMessage='Manage' />
-              ) : (
-                <FormattedMessage id='copy.stake' defaultMessage='Stake' />
-              ),
-            variant: accountBalanceBase > 0 ? 'minimal' : 'primary',
+            text: hasAccountBalance ? (
+              <FormattedMessage id='copy.manage' defaultMessage='Manage' />
+            ) : (
+              <FormattedMessage id='copy.stake' defaultMessage='Stake' />
+            ),
+            variant: hasAccountBalance ? 'minimal' : 'primary',
             width: 'auto'
           }
         : {
-            disabled: !isGoldTier || (accountBalanceBase === 0 && !interestEligibleCoin),
+            disabled: !isGoldTier || (!hasAccountBalance && !isInterestCoinEligible),
             onClick: () => handleClick(coin, isStaking),
-            text:
-              accountBalanceBase > 0 ? (
-                <FormattedMessage id='copy.manage' defaultMessage='Manage' />
-              ) : (
-                <FormattedMessage id='copy.add' defaultMessage='Add' />
-              ),
-            variant: accountBalanceBase > 0 ? 'minimal' : 'primary',
+            text: hasAccountBalance ? (
+              <FormattedMessage id='copy.manage' defaultMessage='Manage' />
+            ) : (
+              <FormattedMessage id='copy.add' defaultMessage='Add' />
+            ),
+            variant: hasAccountBalance ? 'minimal' : 'primary',
             width: 'auto'
           }
 
