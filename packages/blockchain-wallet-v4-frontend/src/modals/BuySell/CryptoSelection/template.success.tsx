@@ -11,7 +11,7 @@ class Success extends React.Component<Props> {
 
   render() {
     const isUserEligible =
-      this.props.pairs.length && this.props.eligibility.eligible && this.props.fiatCurrency
+      this.props.pairs.length && this.props.eligibility.eligible && this.props.walletCurrency
     const userHitMaxPendingDeposits =
       this.props.eligibility.maxPendingDepositSimpleBuyTrades ===
       this.props.eligibility.pendingDepositSimpleBuyTrades

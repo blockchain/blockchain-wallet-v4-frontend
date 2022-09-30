@@ -8,12 +8,14 @@ import { OwnProps } from '.'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const ratesR = selectors.core.data.misc.getRatesSelector(ownProps.coin, state)
-  const fiatCurrency = selectors.components.buySell.getFiatCurrency(state)
+  const fiatCurrencyR = selectors.core.settings.getCurrency(state)
 
-  return lift((rates: ExtractSuccess<typeof ratesR>) => ({
-    fiatCurrency,
-    rates
-  }))(ratesR)
+  return lift(
+    (fiatCurrency: ExtractSuccess<typeof fiatCurrencyR>, rates: ExtractSuccess<typeof ratesR>) => ({
+      fiatCurrency,
+      rates
+    })
+  )(fiatCurrencyR, ratesR)
 }
 
 export default getData
