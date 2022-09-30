@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 
+import NewVersionAvailable from './newversion.template'
 import ErrorModal from './template'
 
 class ErrorBoundary extends React.Component<Props, { error: null | TypeError }> {
@@ -32,8 +33,16 @@ class ErrorBoundary extends React.Component<Props, { error: null | TypeError }> 
     }
   }
 
+  // Case to handle loading chunk error
+  // when old version is cached after release
+
   render() {
     if (this.state.error) {
+      // Case to handle loading chunk error
+      // when old version is cached after release
+      if (this.state.error.toString().includes('ChunkLoadError:')) {
+        return <NewVersionAvailable />
+      }
       return <ErrorModal error={this.state.error} onSubmit={this.onSubmit} />
     }
     return this.props.children
