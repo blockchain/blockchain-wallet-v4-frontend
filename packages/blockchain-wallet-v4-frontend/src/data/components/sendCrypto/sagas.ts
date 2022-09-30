@@ -1,10 +1,12 @@
 import BigNumber from 'bignumber.js'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
+import { nth } from 'ramda'
 import { call, delay, put, select } from 'redux-saga/effects'
 import secp256k1 from 'secp256k1'
 
-import { Exchange } from '@core'
+import { Exchange, utils } from '@core'
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { BuildTxIntentType, BuildTxResponseType } from '@core/network/api/coin/types'
@@ -19,6 +21,7 @@ import { Analytics } from 'data/types'
 import { AccountType } from 'middleware/analyticsMiddleware/types'
 import { promptForSecondPassword } from 'services/sagas'
 
+import coinSagas from '../../coins/sagas'
 import sendSagas from '../send/sagas'
 import * as S from './selectors'
 import { actions as A } from './slice'
@@ -34,6 +37,12 @@ export const logLocation = 'components/sendCrypto/sagas'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { showWithdrawalLockAlert } = sendSagas({
+    api,
+    coreSagas,
+    networks
+  })
+
+  const { getNextReceiveAddressForCoin } = coinSagas({
     api,
     coreSagas,
     networks
@@ -70,9 +79,70 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (nonMigratedCoins.includes(coin)) {
           // TODO simulate buildTx logic for non migrated coins
           // only PK accounts will go here
+          // return
+
+          // console.log('all details', { account, baseCryptoAmt, destination, fee, memo })
+          const accountsR = yield select(selectors.core.common.btc.getAccountsBalances)
+          // const txS = yield select(selectors.core.common.btc.getWalletTransactions)
+          // console.log('txS', txS)
+          if (account.accountIndex !== undefined) {
+            // const defaultAccount = accountsR.map(nth(account?.accountIndex)).getOrElse({})
+            // console.log('defaultAccountR', defaultAccount)
+            // const pubb = Bitcoin.payments.p2pkh({
+            //   pubkey: Bitcoin.bip32.fromBase58(defaultAccount.xpub).derive(0).derive(1).publicKey
+            // })
+            // const addressDefault = yield call(getNextReceiveAddressForCoin, coin)
+            // console.log('addresst', pubb.address)
+            // console.log('address6', addressDefault)
+            // const addresst = utils.btc.keyPairToAddress(defaultAccount.xpub)
+            // console.log('addresst', addresst)
+            // const defaultAccount = allAccount[account.accountIndex]
+            // console.log('defaultAccount', defaultAccount)
+          }
+
+          // console.log('defaultAccount', defaultAccount)
+
+          const tx = {} as BuildTxResponseType
+
+          if (coin === 'BTC') {
+            // const txBTC = new Bitcoin.TransactionBuilder()
+
+            let payment = coreSagas.payment.btc.create({
+              network: networks.btc
+            })
+            payment = yield payment.init()
+
+            payment = yield payment.from(account.accountIndex, ADDRESS_TYPES.ACCOUNT)
+
+            // console.log('payment', payment)
+
+            // from
+            payment = yield payment.from(account.index, account.type)
+            // to
+            payment = yield payment.to(destination, account.type)
+            // amount
+            const satAmount = Exchange.convertCoinToCoin({
+              baseToStandard: false,
+              coin,
+              value: baseCryptoAmt
+            })
+            payment = yield payment.amount(parseInt(satAmount))
+
+            // build transaction
+            try {
+              payment = yield payment.build()
+
+              // console.log('payment ready', payment.value())
+            } catch (e) {
+              yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
+            }
+            // console.log('pubKey', pubKey)
+            // console.log('txBTC', txBTC)
+          }
+
+          yield put(A.buildTxSuccess(tx))
           return
         }
-
         const tx: ReturnType<typeof api.buildTx> = yield call(api.buildTx, {
           id: {
             guid,
