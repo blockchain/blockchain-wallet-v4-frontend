@@ -107,7 +107,6 @@ export type PendingTransactionType = {
 //
 export interface InterestState {
   afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
-  bondingDeposits: RemoteDataType<string, Array<EarnBondingDepositsType>>
   coin: CoinType
   earnDepositLimits: EarnMinMaxType
   instruments: RemoteDataType<string, EarnInstrumentsType>

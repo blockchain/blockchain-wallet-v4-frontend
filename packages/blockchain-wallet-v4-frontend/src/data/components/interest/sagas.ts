@@ -76,19 +76,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return account.address
   }
 
-  const fetchEarnBondingDeposits = function* ({
-    payload
-  }: ReturnType<typeof A.fetchEarnBondingDeposits>) {
-    try {
-      yield put(A.fetchEarnBondingDepositsLoading())
-      const response = yield call(api.getEarnBondingDeposits, payload)
-      yield put(A.fetchEarnBondingDepositsSuccess(response.bondingDeposits))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchEarnBondingDepositsFailure(error))
-    }
-  }
-
   const fetchRewardsBalance = function* () {
     try {
       yield put(A.fetchRewardsBalanceLoading())
@@ -962,7 +949,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchEDDDepositLimits,
     fetchEDDStatus,
     fetchEDDWithdrawLimits,
-    fetchEarnBondingDeposits,
     fetchEarnInstruments,
     fetchEarnTransactions,
     fetchEarnTransactionsReport,
