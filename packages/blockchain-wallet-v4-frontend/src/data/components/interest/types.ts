@@ -4,7 +4,6 @@ import {
   EarnAccountBalanceResponseType,
   EarnAccountResponseType,
   EarnAfterTransactionType,
-  EarnBondingDepositsType,
   EarnDepositLimits,
   EarnEligibleType,
   FiatType,

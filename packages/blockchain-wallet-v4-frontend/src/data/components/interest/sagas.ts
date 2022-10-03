@@ -13,6 +13,7 @@ import {
   EarnAccountBalanceType,
   EarnAccountType,
   EarnAfterTransactionType,
+  EarnBondingDepositsResponseType,
   EarnBondingDepositsType,
   EarnTransactionResponseType,
   PaymentValue,
@@ -391,13 +392,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         currency: coin,
         product: 'STAKING'
       })
-      const bondingDeposits: EarnBondingDepositsType[] = yield call(api.getEarnBondingDeposits, {
-        ccy: coin,
-        product: 'STAKING'
-      })
+      // can successfully return ''
+      const earnBondingResponse: EarnBondingDepositsResponseType = yield call(
+        api.getEarnBondingDeposits,
+        {
+          ccy: coin,
+          product: 'STAKING'
+        }
+      )
+
+      const bondingDeposits: EarnBondingDepositsType[] = earnBondingResponse?.bondingDeposits || []
 
       const filteredTransactions: TransactionType[] =
-        transactionResponse?.items.filter(({ state }) => state === 'PENDING') || []
+        transactionResponse?.items.filter(({ state }) => state.includes('PENDING')) || []
+
       const pendingTransactions: PendingTransactionType[] = []
 
       filteredTransactions.forEach(({ amount, insertedAt }) => {

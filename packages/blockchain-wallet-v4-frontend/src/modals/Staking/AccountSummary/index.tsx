@@ -24,9 +24,6 @@ const AccountSummaryContainer = (props: OwnProps) => {
 
   useEffect(() => {
     dispatch(actions.components.interest.fetchStakingLimits())
-    dispatch(
-      actions.components.interest.fetchEarnBondingDeposits({ ccy: coin, product: 'staking' })
-    )
     dispatch(actions.components.interest.fetchPendingStakingTransactions({ coin }))
   }, [])
 
@@ -42,6 +39,14 @@ const AccountSummaryContainer = (props: OwnProps) => {
       )
     }
   }, [coin, isFiatCurrencySupported])
+
+  useEffect(() => {
+    if (data && data.pendingTransactions.length < 4 && data.pendingTransactions.length > 0) {
+      setIsTransactionsToggled(true)
+    } else {
+      setIsTransactionsToggled(false)
+    }
+  }, [data?.pendingTransactions])
 
   const handleDepositClick = () => {
     dispatch(
@@ -83,22 +88,31 @@ const AccountSummaryContainer = (props: OwnProps) => {
   if (error) return <DataError onClick={handleRefresh} />
   if (!data || isLoading || isNotAsked) return <Loading />
 
+  const {
+    accountBalances,
+    flagEDDInterestFileUpload,
+    pendingTransactions,
+    stakingEligible,
+    stakingLimits,
+    stakingRates
+  } = data
+
   return isFiatCurrencySupported ? (
     <AccountSummary
-      accountBalances={data.accountBalances}
-      bondingDeposits={data.bondingDeposits}
+      accountBalances={accountBalances}
       coin={coin}
       // @ts-ignore
-      flagEDDInterestFileUpload={data.flagEDDInterestFileUpload}
+      flagEDDInterestFileUpload={flagEDDInterestFileUpload}
       handleClose={handleClose}
       handleDepositClick={handleDepositClick}
       handleTransactionsToggled={handleTransactionsToggled}
       handleUpLoadDocumentation={handleUpLoadDocumentation}
       handleWithdrawalSupplyInformation={handleWithdrawalSupplyInformation}
       isTransactionsToggled={isTransactionsToggled}
-      stakingEligible={data.stakingEligible}
-      stakingLimits={data.stakingLimits}
-      stakingRates={data.stakingRates}
+      pendingTransactions={pendingTransactions}
+      stakingEligible={stakingEligible}
+      stakingLimits={stakingLimits}
+      stakingRates={stakingRates}
       showSupply={showSupply}
       stepMetadata={stepMetadata}
       walletCurrency={walletCurrency}

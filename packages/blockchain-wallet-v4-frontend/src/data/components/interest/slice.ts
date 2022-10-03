@@ -5,8 +5,6 @@ import {
   EarnAccountBalanceResponseType,
   EarnAccountResponseType,
   EarnAfterTransactionType,
-  EarnBondingDepositsParamType,
-  EarnBondingDepositsType,
   EarnDepositLimits,
   EarnEligibleType,
   InterestEDDStatus,

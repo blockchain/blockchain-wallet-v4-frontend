@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
+  Flex,
   IconChevronDownV2,
   IconChevronUpV2,
   Padding,
@@ -13,7 +14,6 @@ import { formatFiat } from '@core/exchange/utils'
 import {
   CoinType,
   EarnAccountBalanceResponseType,
-  EarnBondingDepositsType,
   EarnEligibleType,
   FiatType,
   StakingRatesType
@@ -21,7 +21,7 @@ import {
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { EarnStepMetaData } from 'data/types'
+import { EarnStepMetaData, PendingTransactionType } from 'data/types'
 
 import { OwnProps as ParentProps } from '.'
 import Detail from './AccountSummary.detail.template'
@@ -42,7 +42,6 @@ import {
 const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
-    bondingDeposits,
     coin,
     flagEDDInterestFileUpload,
     handleClose,
@@ -51,6 +50,7 @@ const AccountSummary: React.FC<Props> = (props) => {
     handleUpLoadDocumentation,
     handleWithdrawalSupplyInformation,
     isTransactionsToggled,
+    pendingTransactions,
     showSupply,
     stakingEligible,
     stakingRates,
@@ -290,14 +290,15 @@ const AccountSummary: React.FC<Props> = (props) => {
             }
             value={<FormattedMessage defaultMessage='Daily' id='copy.daily' />}
           />
-          {bondingDeposits && (
+          {pendingTransactions.length > 0 && (
             <>
               <Detail
                 handleClick={handleTransactionsToggled}
                 text={
                   <FormattedMessage
-                    defaultMessage='Transactions in progress'
+                    defaultMessage='Transactions in progress ({totalPendingTransactions})'
                     id='modals.staking.accountsummary.transactionsprogress'
+                    values={{ totalPendingTransactions: pendingTransactions.length }}
                   />
                 }
                 value={
@@ -309,55 +310,66 @@ const AccountSummary: React.FC<Props> = (props) => {
                 }
               />
               {isTransactionsToggled &&
-                bondingDeposits.map(({ amount, bondingDays, bondingStartDate, paymentRef }) => (
-                  <Detail
-                    key={paymentRef}
-                    subText={<FormattedMessage defaultMessage='Pending' id='copy.pending' />}
-                    subValue={
-                      <FormattedMessage
-                        defaultMessage='Bonding Period: {bondingDays} {days}'
-                        id='modals.staking.accountsummary.bondingperiod'
-                        values={{
-                          bondingDays,
-                          days:
-                            bondingDays > 1 ? (
-                              <FormattedMessage
-                                defaultMessage='days'
-                                id='modals.staking.warning.content.subtitle.days'
-                              />
-                            ) : (
-                              <FormattedMessage
-                                defaultMessage='day'
-                                id='modals.staking.warning.content.subtitle.day'
-                              />
-                            )
-                        }}
-                      />
-                    }
-                    text={
-                      <FormattedMessage
-                        defaultMessage='Stake {value}'
-                        id='modals.staking.accountsummary.transactionsprogress.stake'
-                        values={{
-                          value: (
-                            <CoinDisplay
-                              coin={coin}
-                              color='grey900'
-                              cursor='inherit'
-                              size='14px'
-                              weight={600}
-                              data-e2e={`${coin}BondingDepositAmount`}
-                            >
-                              {amount}
-                            </CoinDisplay>
-                          )
-                        }}
-                      />
-                    }
-                    tooltipId='modals.staking.bonding.pending.tooltip'
-                    value={format(new Date(bondingStartDate), "h:mm a 'on' MMM d yyyy")}
-                  />
-                ))}
+                pendingTransactions.map(({ amount, bondingDays, date, type }) => {
+                  const isBonding = type === 'BONDING'
+
+                  return (
+                    <Detail
+                      key={date}
+                      subText={
+                        isBonding ? (
+                          <FormattedMessage defaultMessage='Bonding' id='copy.bonding' />
+                        ) : (
+                          <FormattedMessage defaultMessage='Pending' id='copy.pending' />
+                        )
+                      }
+                      subValue={
+                        bondingDays ? (
+                          <FormattedMessage
+                            defaultMessage='Bonding Period: {bondingDays} {days}'
+                            id='modals.staking.accountsummary.bondingperiod'
+                            values={{
+                              bondingDays,
+                              days:
+                                bondingDays > 1 ? (
+                                  <FormattedMessage
+                                    defaultMessage='days'
+                                    id='modals.staking.warning.content.subtitle.days'
+                                  />
+                                ) : (
+                                  <FormattedMessage
+                                    defaultMessage='day'
+                                    id='modals.staking.warning.content.subtitle.day'
+                                  />
+                                )
+                            }}
+                          />
+                        ) : null
+                      }
+                      text={
+                        <Flex gap={4}>
+                          {isBonding ? (
+                            <FormattedMessage defaultMessage='Stake' id='copy.stake' />
+                          ) : (
+                            <FormattedMessage defaultMessage='Transfer' id='copy.transfer' />
+                          )}
+                          <CoinDisplay
+                            coin={coin}
+                            color='grey900'
+                            cursor='inherit'
+                            size='14px'
+                            weight={600}
+                            data-e2e={`${coin}BondingDepositAmount`}
+                          >
+                            {amount}
+                          </CoinDisplay>
+                        </Flex>
+                      }
+                      tooltipId={isBonding ? 'modals.staking.bonding.pending.tooltip' : undefined}
+                      value={format(new Date(date), "h:mm a 'on' MMM d yyyy")}
+                    />
+                  )
+                })}
             </>
           )}
         </DetailsWrapper>
@@ -397,7 +409,6 @@ const AccountSummary: React.FC<Props> = (props) => {
 
 type OwnProps = {
   accountBalances: EarnAccountBalanceResponseType
-  bondingDeposits: Array<EarnBondingDepositsType>
   coin: CoinType
   flagEDDInterestFileUpload: boolean
   handleBSClick: (string) => void
@@ -406,6 +417,7 @@ type OwnProps = {
   handleUpLoadDocumentation: () => void
   handleWithdrawalSupplyInformation: () => void
   isTransactionsToggled: boolean
+  pendingTransactions: Array<PendingTransactionType>
   stakingEligible: EarnEligibleType
   stakingRates: StakingRatesType['rates']
   stepMetadata: EarnStepMetaData
