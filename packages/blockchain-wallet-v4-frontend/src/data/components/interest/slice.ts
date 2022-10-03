@@ -30,13 +30,13 @@ import {
   InterestLimits,
   InterestState,
   InterestStep,
+  PendingTransactionType,
   StakingStep,
   TransferMinMaxAmountType
 } from './types'
 
 const initialState: InterestState = {
   afterTransaction: Remote.NotAsked,
-  bondingDeposits: Remote.NotAsked,
   coin: 'BTC',
   earnDepositLimits: {
     maxCoin: 0,
@@ -53,6 +53,7 @@ const initialState: InterestState = {
   interestRates: Remote.NotAsked,
   isAmountDisplayedInCrypto: false,
   payment: Remote.NotAsked,
+  pendingStakingTransactions: Remote.NotAsked,
   rewardsAccount: Remote.NotAsked,
   rewardsAccountBalance: Remote.NotAsked,
   rewardsStep: {
@@ -129,22 +130,6 @@ const interestSlice = createSlice({
       action: PayloadAction<{ interestEDDDepositLimits: EarnDepositLimits }>
     ) => {
       state.interestEDDDepositLimits = Remote.Success(action.payload.interestEDDDepositLimits)
-    },
-
-    fetchEarnBondingDeposits: (state, action: PayloadAction<EarnBondingDepositsParamType>) => {},
-    fetchEarnBondingDepositsFailure: (state, action: PayloadAction<string>) => {
-      state.bondingDeposits = Remote.Failure(action.payload)
-    },
-
-    fetchEarnBondingDepositsLoading: (state) => {
-      state.bondingDeposits = Remote.Loading
-    },
-
-    fetchEarnBondingDepositsSuccess: (
-      state,
-      action: PayloadAction<Array<EarnBondingDepositsType>>
-    ) => {
-      state.bondingDeposits = Remote.Success(action.payload)
     },
 
     // INSTRUMENTS
@@ -265,6 +250,20 @@ const interestSlice = createSlice({
     },
     fetchInterestRatesSuccess: (state, action: PayloadAction<RewardsRatesType>) => {
       state.interestRates = Remote.Success(action.payload.rates)
+    },
+
+    fetchPendingStakingTransactions: (state, action: PayloadAction<{ coin: CoinType }>) => {},
+    fetchPendingStakingTransactionsFailure: (state, action: PayloadAction<string>) => {
+      state.pendingStakingTransactions = Remote.Failure(action.payload)
+    },
+    fetchPendingStakingTransactionsLoading: (state) => {
+      state.pendingStakingTransactions = Remote.Loading
+    },
+    fetchPendingStakingTransactionsSuccess: (
+      state,
+      action: PayloadAction<Array<PendingTransactionType>>
+    ) => {
+      state.pendingStakingTransactions = Remote.Success(action.payload)
     },
 
     // ACCOUNT
@@ -576,6 +575,10 @@ export const {
   fetchInterestRatesFailure,
   fetchInterestRatesLoading,
   fetchInterestRatesSuccess,
+  fetchPendingStakingTransactions,
+  fetchPendingStakingTransactionsFailure,
+  fetchPendingStakingTransactionsLoading,
+  fetchPendingStakingTransactionsSuccess,
   fetchRewardsAccount,
   fetchRewardsAccountFailure,
   fetchRewardsAccountLoading,

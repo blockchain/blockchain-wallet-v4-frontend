@@ -27,6 +27,7 @@ const AccountSummaryContainer = (props: OwnProps) => {
     dispatch(
       actions.components.interest.fetchEarnBondingDeposits({ ccy: coin, product: 'staking' })
     )
+    dispatch(actions.components.interest.fetchPendingStakingTransactions({ coin }))
   }, [])
 
   useEffect(() => {

@@ -110,6 +110,9 @@ export const getInterestTransactionsReport = (state: RootState) =>
 
 export const getEarnTransactions = (state: RootState) => state.components.interest.transactions
 
+export const getPendingStakingTransactions = (state: RootState) =>
+  state.components.interest.pendingStakingTransactions
+
 export const getEarnDepositLimits = (state: RootState) =>
   state.components.interest.earnDepositLimits
 

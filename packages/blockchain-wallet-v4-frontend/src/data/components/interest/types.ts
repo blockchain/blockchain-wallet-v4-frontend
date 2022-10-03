@@ -95,6 +95,13 @@ export type EarnTransactionType = TransactionType & {
   product: 'Staking' | 'Rewards'
 }
 
+export type PendingTransactionType = {
+  amount: string
+  bondingDays?: number
+  date: string
+  type: 'BONDING' | 'TRANSACTIONS'
+}
+
 //
 // State
 //
@@ -113,6 +120,7 @@ export interface InterestState {
   isAmountDisplayedInCrypto: boolean
   // make this optional here. places where ts doesnt like it, check, custodial
   payment?: RemoteDataType<string, PaymentValue | undefined>
+  pendingStakingTransactions: RemoteDataType<string, Array<PendingTransactionType>>
   rewardsAccount: RemoteDataType<string, EarnAccountResponseType>
   rewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   rewardsStep: {

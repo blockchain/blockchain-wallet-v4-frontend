@@ -13,11 +13,13 @@ import {
   EarnAccountBalanceType,
   EarnAccountType,
   EarnAfterTransactionType,
+  EarnBondingDepositsType,
   EarnTransactionResponseType,
   PaymentValue,
   Product,
   RatesType,
-  RemoteDataType
+  RemoteDataType,
+  TransactionType
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
@@ -34,6 +36,7 @@ import {
   EarnInstrumentsType,
   EarnTransactionType,
   InterestWithdrawalFormType,
+  PendingTransactionType,
   RewardsDepositFormType,
   StakingDepositFormType
 } from './types'
@@ -390,6 +393,48 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const fetchPendingStakingTransactions = function* ({
+    payload
+  }: ReturnType<typeof A.fetchEarnTransactions>) {
+    const { coin } = payload
+
+    try {
+      yield put(A.fetchPendingStakingTransactionsLoading())
+      const transactionResponse: EarnTransactionResponseType = yield call(api.getEarnTransactions, {
+        currency: coin,
+        product: 'STAKING'
+      })
+      const bondingDeposits: EarnBondingDepositsType[] = yield call(api.getEarnBondingDeposits, {
+        ccy: coin,
+        product: 'STAKING'
+      })
+
+      const filteredTransactions: TransactionType[] =
+        transactionResponse?.items.filter(({ state }) => state === 'PENDING') || []
+      const pendingTransactions: PendingTransactionType[] = []
+
+      filteredTransactions.forEach(({ amount, insertedAt }) => {
+        pendingTransactions.push({ amount: amount.value, date: insertedAt, type: 'TRANSACTIONS' })
+      })
+
+      bondingDeposits.forEach(({ amount, bondingDays, bondingStartDate }) => {
+        pendingTransactions.push({ amount, bondingDays, date: bondingStartDate, type: 'BONDING' })
+      })
+
+      if (pendingTransactions.length > 0) {
+        pendingTransactions.sort((a, b) => {
+          if (!a.date || !b.date) return 0
+
+          return getUnixTime(new Date(b.date)) - getUnixTime(new Date(a.date))
+        })
+      }
+      yield put(A.fetchPendingStakingTransactionsSuccess(pendingTransactions))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchPendingStakingTransactionsFailure(error))
+    }
+  }
+
   const formChanged = function* (action: FormAction) {
     const { form } = action.meta
     const isStaking = form === STAKING_DEPOSIT_FORM
@@ -736,7 +781,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield delay(3000)
-      yield put(A.fetchRewardsBalance())
+
+      if (isStaking) {
+        yield put(A.fetchStakingBalance())
+      } else {
+        yield put(A.fetchRewardsBalance())
+      }
+
       yield put(A.fetchEDDStatus())
     } catch (e) {
       const error = errorHandler(e)
@@ -918,6 +969,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchInterestEligible,
     fetchInterestLimits,
     fetchInterestRates,
+    fetchPendingStakingTransactions,
     fetchRewardsAccount,
     fetchRewardsBalance,
     fetchShowInterestCardAfterTransaction,
