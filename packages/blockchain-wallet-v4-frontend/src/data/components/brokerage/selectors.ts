@@ -17,6 +17,10 @@ export const getAddBankStep = (state: RootState) => state.components.brokerage.a
 export const getDWStep = (state: RootState) => state.components.brokerage.dwStep
 
 export const getAccount = (state: RootState) => state.components.brokerage.account
+export const getActiveAccount = createSelector(getAccount, (account) => {
+  if (!account || account.state !== 'ACTIVE') return undefined
+  return account
+})
 
 export const getRedirectBackToStep = (state: RootState) =>
   state.components.brokerage.redirectBackToStep
