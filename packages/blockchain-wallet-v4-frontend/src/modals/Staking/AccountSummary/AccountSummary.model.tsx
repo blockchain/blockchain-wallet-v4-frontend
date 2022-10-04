@@ -89,8 +89,9 @@ export const WarningContainer = styled.div`
 `
 export const DetailsContainer = styled.div<{ $hasHandleClick: boolean }>`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  gap: 16px;
+  gap: 4px;
   padding: 24px 24px 24px 0;
   border-bottom: 1px solid ${PaletteColors['grey-000']};
 
