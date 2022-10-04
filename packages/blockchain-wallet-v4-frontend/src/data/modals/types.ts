@@ -79,6 +79,7 @@ export enum ModalName {
   SHOW_XPUB_MODAL = 'SHOW_XPUB_MODAL',
   SIGN_MESSAGE_MODAL = 'SIGN_MESSAGE_MODAL',
   SIMPLE_BUY_MODAL = 'SIMPLE_BUY_MODAL',
+  STAKING_MODAL = 'STAKING_MODAL',
   SUPPORT_MODAL = 'SUPPORT_MODAL',
   SWAP_MODAL = 'SWAP_MODAL',
   TERMINATE_CARD = 'TERMINATE_CARD',
@@ -124,12 +125,12 @@ export type ModalOriginType =
   | 'DebitCardDashboard'
   | 'DepositWithdrawalModal'
   | 'Dex'
+  | 'EarnPage'
   | 'EmptyFeed'
   | 'ExchangeForm'
   | 'FeaturesTopNav'
   | 'Goals'
   | 'Header'
-  | 'InterestPage'
   | 'InterestUploadDocument'
   | 'KycDocResubmitGoal'
   | 'KycRequiredStep'

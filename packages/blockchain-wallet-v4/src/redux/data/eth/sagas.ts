@@ -7,7 +7,6 @@ import {
   filter,
   flatten,
   isNil,
-  last,
   length,
   map,
   nth,
@@ -210,16 +209,30 @@ export default ({ api }: { api: APIType }) => {
         amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
         // @ts-ignore
         date: format(fromUnixTime(tx.time), 'yyyy-MM-dd'),
+
         // @ts-ignore
         description: prop('description', tx),
+
         exchange_rate_then: fiatCurrencySymbol + priceAtTime.toFixed(2),
+
+        exchange_rate_then_raw: Number(priceAtTime.toFixed(2)),
+
+        fee:
+          txType === 'gas_fee'
+            ? // @ts-ignore
+              Number(Exchange.convertCoinToCoin({ coin, value: tx.fee.data })) * -1
+            : // @ts-ignore
+              Number(Exchange.convertCoinToCoin({ coin, value: tx.fee.data })),
+
         // @ts-ignore
         hash: prop('hash', tx),
         // @ts-ignore
         time: tx.time,
         type: txType,
         value_now: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueNow}`,
-        value_then: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueThen}`
+        value_now_raw: valueNow,
+        value_then: `${fiatCurrencySymbol}${negativeSignOrEmpty}${valueThen}`,
+        value_then_raw: txType === 'gas_fee' ? Number(valueThen) * -1 : valueThen
       }
     }, prunedTxList)
   }

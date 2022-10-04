@@ -66,7 +66,7 @@ export const fetchUnstoppableDomainResultsSuccess = (data: UnstoppableDomainResu
 
 export const notifyNonCustodialToCustodialTransfer = (
   payment: PaymentValue,
-  product: 'SAVINGS' | 'SIMPLEBUY'
+  product: 'SAVINGS' | 'SIMPLEBUY' | 'STAKING'
 ) => ({
   payload: {
     payment,

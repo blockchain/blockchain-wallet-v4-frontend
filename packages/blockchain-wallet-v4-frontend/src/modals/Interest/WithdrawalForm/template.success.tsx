@@ -70,7 +70,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     walletCurrency
   } = props
 
-  const accountType = values?.interestWithdrawalAccount.type
+  const accountType = values?.earnWithdrawalAccount.type
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const { coinfig } = window.coins[coin]
   const coinTicker = coinfig.displaySymbol
@@ -263,7 +263,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           {...props}
           includeCustodial
           fiatCurrency={walletCurrency}
-          name='interestWithdrawalAccount'
+          name='earnWithdrawalAccount'
         />
 
         <CustomFormLabel>

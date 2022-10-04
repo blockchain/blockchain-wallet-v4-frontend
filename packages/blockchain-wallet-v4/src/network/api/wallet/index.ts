@@ -74,23 +74,21 @@ export default ({ get, post, rootUrl }) => {
     // @ts-ignore
     const activeBech32 = propOr([], 'bech32', context).join('|')
     const data = {
-      active,
-      activeBech32,
+      active:
+        'xpub6C4WtAisoDGyYGi1njF2behq9FPiqzgRdoFguwwKsGNXoqAhy6fJ9G8zpAJ7fZdkeYMsFyTfxRfuRGuBkj92JwQsDP9jysWuhZU8s5Qjgw3',
+      activeBech32:
+        'xpub6C4WtAisoDGyYGi1njF2behq9FPiqzgRdoFguwwKsGNXoqAhy6fJ9G8zpAJ7fZdkeYMsFyTfxRfuRGuBkj92JwQsDP9jysWuhZU8s5Qjgw3',
       ct: new Date().getTime(),
       filter,
       format: 'json',
       language: 'en',
-      n,
+      n: 100,
       no_buttons: true,
       no_compact: true,
       offset
     }
     return post({
-      data: onlyShow
-        ? mergeRight(data, {
-            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join('|')
-          })
-        : data,
+      data,
       endPoint: '/multiaddr',
       url: rootUrl
     })

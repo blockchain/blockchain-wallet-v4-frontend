@@ -8,7 +8,7 @@ import { getCurrency } from '@core/redux/settings/selectors'
 import { CoinType, FiatType, RemoteDataType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
-import { Analytics, InterestStepMetadata } from 'data/types'
+import { Analytics, EarnStepMetaData } from 'data/types'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
@@ -85,7 +85,7 @@ export type OwnProps = {
   handleBSClick: (string) => void
   handleClose: () => void
   showSupply: boolean
-  stepMetadata: InterestStepMetadata
+  stepMetadata: EarnStepMetaData
   walletCurrency: FiatType
 }
 

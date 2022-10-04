@@ -9,7 +9,7 @@ import { CoinType, FiatType } from '@core/types'
 import { Button, Icon, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Analytics, InterestStepMetadata } from 'data/types'
+import { Analytics, EarnStepMetaData } from 'data/types'
 
 import { DataSuccessStateType, LinkDispatchPropsType, OwnProps } from '.'
 import {
@@ -43,7 +43,7 @@ const AccountSummary: React.FC<Props> = (props) => {
     interestActions,
     interestEligible,
     interestLimits,
-    interestRate,
+    interestRates,
     interestUploadDocumentActions,
     showSupply,
     stepMetadata,
@@ -464,7 +464,7 @@ const AccountSummary: React.FC<Props> = (props) => {
               </TooltipHost>
             </Text>
             <Text data-e2e='interestRate' color='grey600' size='14px' weight={500}>
-              {interestRate[coin]}%
+              {interestRates[coin]}%
             </Text>
           </DetailsItemContainer>
         </DetailsWrapper>
@@ -507,7 +507,7 @@ type ParentProps = {
   coin: CoinType
   handleBSClick: (string) => void
   handleDepositClick: () => void
-  stepMetadata: InterestStepMetadata
+  stepMetadata: EarnStepMetaData
   walletCurrency: FiatType
 }
 

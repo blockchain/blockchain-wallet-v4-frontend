@@ -28,6 +28,7 @@ import {
   ProductEligibilityForUser,
   VerifyIdentityOriginType
 } from 'data/types'
+import { isNabuError } from 'services/errors'
 import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import profileSagas from '../../modules/profile/sagas'
@@ -202,11 +203,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const setupBankTransferProvider = function* () {
-    const fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
-    yield put(actions.components.brokerage.fetchBankLinkCredentials(fiatCurrency as WalletFiatType))
-    return yield race({
-      bankCredentials: take(actions.components.brokerage.setBankCredentials.type)
-    })
+    try {
+      const fiatCurrency = selectors.modules.profile
+        .getTradingCurrency(yield select())
+        .getOrFail('Could not retrieve trading currency.')
+      yield put(
+        actions.components.brokerage.fetchBankLinkCredentials(fiatCurrency as WalletFiatType)
+      )
+      return yield race({
+        bankCredentials: take(actions.components.brokerage.setBankCredentials.type)
+      })
+    } catch (error) {
+      yield put(actions.components.brokerage.fetchBankLinkCredentialsError(error))
+    }
   }
 
   const fetchBankRefreshCredentials = function* ({
@@ -240,7 +249,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const credentials: BankCredentialsType = yield call(api.createBankAccountLink, data)
       yield put(A.setBankCredentials(credentials))
     } catch (e) {
-      yield put(A.fetchBankLinkCredentialsError(e.description))
+      yield put(A.fetchBankLinkCredentialsError(e))
     }
   }
 
@@ -492,6 +501,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
         }
       }
+
+      // The order has successfully been submitted, go to loading step while we poll order status
+      yield put(
+        actions.components.brokerage.setDWStep({
+          dwStep: BankDWStepType.LOADING
+        })
+      )
+
       // Poll for order status in order to show success, timed out or failed
       try {
         const updatedOrder: BSTransactionType = yield retry(

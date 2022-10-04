@@ -1,5 +1,6 @@
 import React, { SyntheticEvent } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { IconCreditCard, PaletteColors } from '@blockchain-com/constellation'
 import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
@@ -12,6 +13,7 @@ import { BSPaymentTypes, FiatType } from '@core/types'
 import { Coin } from '@core/utils'
 import { Box, Button, Text } from 'blockchain-info-components'
 import { Expanded, Flex } from 'components/Flex'
+import { StandardRow } from 'components/Rows'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -57,12 +59,23 @@ const Success: React.FC<
         </CustomSettingHeader>
 
         {!activeCards.length && (
-          <Text size='14px' color='grey600' weight={500}>
-            <FormattedMessage
-              id='scenes.settings.no_credit_cards'
-              defaultMessage='No Credit Cards'
-            />
-          </Text>
+          <StandardRow
+            topLeftText={
+              <FormattedMessage
+                id='scenes.settings.no_credit_cards'
+                defaultMessage='No Credit Cards'
+              />
+            }
+            bottomLeftText={
+              <FormattedMessage
+                id='scenes.settings.linked_cards_will_show'
+                defaultMessage='Your linked cards will show here'
+              />
+            }
+            icon={<IconCreditCard size='medium' color={PaletteColors['blue-600']} />}
+            bottomRightText=''
+            topRightText=''
+          />
         )}
         {activeCards.map((card) => {
           const cardType = CARD_TYPES.find(

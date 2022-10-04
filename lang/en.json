@@ -2043,6 +2043,8 @@
   "scenes.settings.menu.title": "Wallets & Addresses",
   "scenes.settings.no_credit_cards": "No Credit Cards",
   "scenes.settings.no_linked_banks": "No Linked Banks",
+  "scenes.settings.linked_banks_will_show": "Your linked banks will show here",
+  "scenes.settings.linked_cards_will_show": "Your linked cards will show here",
   "scenes.settings.preferences.autologout.updateform.minutes": "Minutes",
   "scenes.settings.preferences.cryptolinkhandling.desc": "Enable this to allow your Blockchain Wallet to handle crypto payment links in the web browser from 3rd parties such as BitPay. Enabling this will make your experience more convenient when transacting crypto online.",
   "scenes.settings.preferences.cryptolinkhandling.enable": "Enable",

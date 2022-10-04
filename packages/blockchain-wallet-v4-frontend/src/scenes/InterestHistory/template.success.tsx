@@ -5,7 +5,6 @@ import { flatten, head, last, map } from 'ramda'
 import styled from 'styled-components'
 
 import { Exchange, Remote } from '@core'
-import { InterestTransactionType } from '@core/types'
 import {
   HeartbeatLoader,
   Icon,
@@ -15,6 +14,7 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
+import { EarnTransactionType } from 'data/components/interest/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import Empty from './Empty'
@@ -87,8 +87,8 @@ function TransactionList(props: Props): ReactElement | null {
             </Text>
           </AmountTableCell>
         </TableHeader>
-        {txList.map((tx: InterestTransactionType) => {
-          const { amount, extraAttributes, id, insertedAt, state, type } = tx
+        {txList.map((tx: EarnTransactionType) => {
+          const { amount, extraAttributes, id, insertedAt, product, state, type } = tx
           const displayName = window.coins[amount.symbol].coinfig.name
           const isCustodial = extraAttributes && extraAttributes.transferType === 'INTERNAL'
           return (
@@ -145,7 +145,7 @@ function TransactionList(props: Props): ReactElement | null {
                     <Value data-e2e='interestEarnedTx'>
                       <FormattedMessage
                         id='modals.interest.symbolearned'
-                        defaultMessage='{symbol} Rewards Earned'
+                        defaultMessage='{symbol} Earned'
                         values={{ symbol: amount.symbol }}
                       />
                     </Value>
@@ -171,9 +171,9 @@ function TransactionList(props: Props): ReactElement | null {
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionTo'>
                       <FormattedMessage
-                        id='modals.interest.detailstitle'
-                        defaultMessage='{displayName} Rewards Account'
-                        values={{ displayName }}
+                        id='modals.earn.detailstitle'
+                        defaultMessage='{displayName} {product} Account'
+                        values={{ displayName, product }}
                       />
                     </Value>
                   </TableCell>
@@ -183,9 +183,9 @@ function TransactionList(props: Props): ReactElement | null {
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
                       <FormattedMessage
-                        id='modals.interest.detailstitle'
-                        defaultMessage='{displayName} Rewards Account'
-                        values={{ displayName }}
+                        id='modals.earn.detailstitle'
+                        defaultMessage='{displayName} {product} Account'
+                        values={{ displayName, product }}
                       />
                     </Value>
                   </TableCell>
@@ -207,9 +207,9 @@ function TransactionList(props: Props): ReactElement | null {
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionTo'>
                       <FormattedMessage
-                        id='modals.interest.detailstitle'
-                        defaultMessage='{displayName} Rewards Account'
-                        values={{ displayName }}
+                        id='modals.earn.detailstitle'
+                        defaultMessage='{displayName} {product} Account'
+                        values={{ displayName, product }}
                       />
                     </Value>
                   </TableCell>
