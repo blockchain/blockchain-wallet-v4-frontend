@@ -96,6 +96,7 @@ export enum ModalName {
   UPGRADE_FOR_AIRDROP_MODAL = 'UPGRADE_FOR_AIRDROP_MODAL',
   UPGRADE_NOW_MODAL = 'UPGRADE_NOW_MODAL',
   UPGRADE_NOW_SILVER_MODAL = 'UPGRADE_NOW_SILVER_MODAL',
+  US_PATRIOTIC_ACT = 'US_PATRIOTIC_ACT',
   VERIFY_MESSAGE_MODAL = 'VERIFY_MESSAGE_MODAL',
   VERIFY_NOTICE = 'VERIFY_NOTICE',
   VERIFY_NOTICE_MODAL = 'VERIFY_NOTICE_MODAL',
@@ -179,6 +180,7 @@ export type ModalOriginType =
   | 'WithdrawModal'
   | 'CurrencyList'
   | 'ResidentialAddress'
+  | 'VerifyAddress'
   | RecurringBuyOrigins
 
 export type ModalParamPropsType = {

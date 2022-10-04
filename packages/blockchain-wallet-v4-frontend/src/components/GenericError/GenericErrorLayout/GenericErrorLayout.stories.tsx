@@ -1,7 +1,5 @@
 import React from 'react'
-import { Provider } from 'react-redux'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { combineReducers, createStore } from 'redux'
 
 import { Button, Icon } from 'blockchain-info-components'
 
