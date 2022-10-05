@@ -8,7 +8,7 @@ import { BankTransferAccountType } from 'data/types'
 const getData = (state: RootState) => {
   const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
   const bankTransferAccounts = bankTransferAccountsR.getOrElse([] as BankTransferAccountType[])
-  const defaultMethodR = selectors.components.brokerage.getAccount(state)
+  const defaultMethodR = selectors.components.brokerage.getActiveAccount(state)
   const eligibilityR = selectors.components.buySell.getBSFiatEligible(state)
   const paymentMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
   const depositLimitsR = selectors.components.buySell.getUserLimit(
