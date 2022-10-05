@@ -1,6 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { IconMinusCircle, IconPlusCircle, PaletteColors } from '@blockchain-com/constellation'
+import {
+  Button,
+  IconMinusCircle,
+  IconPlusCircle,
+  PaletteColors
+} from '@blockchain-com/constellation'
 import { isEmpty } from 'ramda'
 import styled from 'styled-components'
 
@@ -15,6 +20,7 @@ import { FULL_DATETIME_FORMAT } from '../../../../hooks/useDateTimeFormatter'
 import {
   BoxContainer,
   BoxRow,
+  BoxRowHeader,
   BoxRowItemSubTitle,
   BoxRowItemTitle,
   BoxRowWithBorder
@@ -49,6 +55,8 @@ const TransactionItem = styled(BoxRowWithBorder)`
     background-color: ${(props) => props.theme.grey000};
   }
 `
+
+const MAX_TRANSACTIONS = 4
 
 const LoadingDetail = () => (
   <BoxRow>
@@ -179,14 +187,27 @@ const TransactionsBox = ({ modalActions }) => {
 
   return (
     <BoxContainer>
-      <BoxRowWithBorder>
+      <BoxRowHeader>
         <BoxRowItemTitle>
           <FormattedMessage
             id='scenes.debit_card.dashboard.transactions.title'
             defaultMessage='Recent Transactions'
           />
         </BoxRowItemTitle>
-      </BoxRowWithBorder>
+
+        <Button
+          size='small'
+          variant='minimal'
+          text={
+            <FormattedMessage
+              id='scenes.debit_card.dashboard.see_all_transactions'
+              defaultMessage='See All'
+            />
+          }
+        >
+          See all
+        </Button>
+      </BoxRowHeader>
       {displayData ? <ListComponent /> : displayInitialLoading ? <LoadingDetail /> : <ErrorState />}
     </BoxContainer>
   )

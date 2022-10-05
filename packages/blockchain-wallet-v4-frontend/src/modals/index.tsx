@@ -294,6 +294,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_DETAIL_MODAL) ? (
           <TransactionDetail />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_LIST_MODAL) ? (
+          <TransactionDetail />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS_MODAL) ? (
           <TermsAndConditions disableOutsideClose />
         ) : null}
