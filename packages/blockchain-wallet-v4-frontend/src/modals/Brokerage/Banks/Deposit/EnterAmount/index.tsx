@@ -155,7 +155,7 @@ const EnterAmountContainer = ({
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  defaultMethod: selectors.components.brokerage.getAccount(state),
+  defaultMethod: selectors.components.brokerage.getActiveAccount(state),
   fiatCurrency: selectors.components.brokerage.getFiatCurrency(state),
   plaidEnabled: selectors.core.walletOptions.getAddPlaidPaymentProvider(state).getOrElse(false)
 })
