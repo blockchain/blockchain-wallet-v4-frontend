@@ -6,8 +6,8 @@ import {
   EarnAccountResponseType,
   EarnAfterTransactionType,
   EarnDepositLimits,
+  EarnEDDStatus,
   EarnEligibleType,
-  InterestEDDStatus,
   InterestLimitsType,
   RewardsRatesType,
   StakingLimitsType,
@@ -42,10 +42,10 @@ const initialState: InterestState = {
     minCoin: 0,
     minFiat: 0
   },
+  earnEDDDepositLimits: Remote.NotAsked,
+  earnEDDStatus: Remote.NotAsked,
+  earnEDDWithdrawLimits: Remote.NotAsked,
   instruments: Remote.NotAsked,
-  interestEDDDepositLimits: Remote.NotAsked,
-  interestEDDStatus: Remote.NotAsked,
-  interestEDDWithdrawLimits: Remote.NotAsked,
   interestEligible: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
   interestRates: Remote.NotAsked,
@@ -84,50 +84,50 @@ const interestSlice = createSlice({
     fetchEDDStatus: () => {},
 
     fetchEDDStatusFailure: (state, action: PayloadAction<ErrorStringType>) => {
-      state.interestEDDStatus = Remote.Failure(action.payload.error)
+      state.earnEDDStatus = Remote.Failure(action.payload.error)
     },
 
     fetchEDDStatusLoading: (state) => {
-      state.interestEDDStatus = Remote.Loading
+      state.earnEDDStatus = Remote.Loading
     },
 
-    fetchEDDStatusSuccess: (state, action: PayloadAction<{ eddStatus: InterestEDDStatus }>) => {
-      state.interestEDDStatus = Remote.Success(action.payload.eddStatus)
+    fetchEDDStatusSuccess: (state, action: PayloadAction<{ eddStatus: EarnEDDStatus }>) => {
+      state.earnEDDStatus = Remote.Success(action.payload.eddStatus)
     },
 
     // eslint-disable-next-line
     fetchEDDWithdrawLimits: (state, action: PayloadAction<{ currency: FiatType }>) => {},
 
     fetchEDDWithdrawLimitsFailure: (state, action: PayloadAction<ErrorStringType>) => {
-      state.interestEDDWithdrawLimits = Remote.Failure(action.payload.error)
+      state.earnEDDWithdrawLimits = Remote.Failure(action.payload.error)
     },
 
     fetchEDDWithdrawLimitsLoading: (state) => {
-      state.interestEDDWithdrawLimits = Remote.Loading
+      state.earnEDDWithdrawLimits = Remote.Loading
     },
 
     fetchEDDWithdrawLimitsSuccess: (
       state,
-      action: PayloadAction<{ interestEDDWithdrawLimits: WithdrawLimits }>
+      action: PayloadAction<{ earnEDDWithdrawLimits: WithdrawLimits }>
     ) => {
-      state.interestEDDWithdrawLimits = Remote.Success(action.payload.interestEDDWithdrawLimits)
+      state.earnEDDWithdrawLimits = Remote.Success(action.payload.earnEDDWithdrawLimits)
     },
     // eslint-disable-next-line
     fetchEDDDepositLimits: (state, action: PayloadAction<{ currency: FiatType }>) => {},
 
     fetchEDDDepositLimitsFailure: (state, action: PayloadAction<ErrorStringType>) => {
-      state.interestEDDDepositLimits = Remote.Failure(action.payload.error)
+      state.earnEDDDepositLimits = Remote.Failure(action.payload.error)
     },
 
     fetchEDDDepositLimitsLoading: (state) => {
-      state.interestEDDWithdrawLimits = Remote.Loading
+      state.earnEDDWithdrawLimits = Remote.Loading
     },
 
     fetchEDDDepositLimitsSuccess: (
       state,
-      action: PayloadAction<{ interestEDDDepositLimits: EarnDepositLimits }>
+      action: PayloadAction<{ earnEDDDepositLimits: EarnDepositLimits }>
     ) => {
-      state.interestEDDDepositLimits = Remote.Success(action.payload.interestEDDDepositLimits)
+      state.earnEDDDepositLimits = Remote.Success(action.payload.earnEDDDepositLimits)
     },
 
     // INSTRUMENTS

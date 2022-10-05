@@ -931,9 +931,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.fetchEDDWithdrawLimits>) {
     try {
       yield put(A.fetchEDDWithdrawLimitsLoading())
-      const interestEDDWithdrawLimits: ReturnType<typeof api.getSavingsEDDWithdrawLimits> =
-        yield call(api.getSavingsEDDWithdrawLimits, payload.currency)
-      yield put(A.fetchEDDWithdrawLimitsSuccess({ interestEDDWithdrawLimits }))
+      const earnEDDWithdrawLimits: ReturnType<typeof api.getSavingsEDDWithdrawLimits> = yield call(
+        api.getSavingsEDDWithdrawLimits,
+        payload.currency
+      )
+      yield put(A.fetchEDDWithdrawLimitsSuccess({ earnEDDWithdrawLimits }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchEDDWithdrawLimitsFailure({ error }))
@@ -944,9 +946,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.fetchEDDDepositLimits>) {
     try {
       yield put(A.fetchEDDDepositLimitsLoading())
-      const interestEDDDepositLimits: ReturnType<typeof api.getSavingsEDDDepositLimits> =
-        yield call(api.getSavingsEDDDepositLimits, payload.currency)
-      yield put(A.fetchEDDDepositLimitsSuccess({ interestEDDDepositLimits }))
+      const earnEDDDepositLimits: ReturnType<typeof api.getSavingsEDDDepositLimits> = yield call(
+        api.getSavingsEDDDepositLimits,
+        payload.currency
+      )
+      yield put(A.fetchEDDDepositLimitsSuccess({ earnEDDDepositLimits }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchEDDWithdrawLimitsFailure({ error }))

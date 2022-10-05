@@ -140,14 +140,13 @@ export const getWithdrawalMinimums = (state: RootState) =>
 
 export const getAfterTransaction = (state: RootState) => state.components.interest.afterTransaction
 
-export const getInterestEDDStatus = (state: RootState) =>
-  state.components.interest.interestEDDStatus
+export const getEarnEDDStatus = (state: RootState) => state.components.interest.earnEDDStatus
 
-export const getInterestEDDWithdrawLimits = (state: RootState) =>
-  state.components.interest.interestEDDWithdrawLimits
+export const getEarnEDDWithdrawLimits = (state: RootState) =>
+  state.components.interest.earnEDDWithdrawLimits
 
-export const getInterestEDDDepositLimits = (state: RootState) =>
-  state.components.interest.interestEDDDepositLimits
+export const getEarnEDDDepositLimits = (state: RootState) =>
+  state.components.interest.earnEDDDepositLimits
 
 export const getUnderSanctionsMessage = (state: RootState) =>
   state.components.interest.underSanctionsMessage

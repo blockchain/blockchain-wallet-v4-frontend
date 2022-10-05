@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, FiatType, InterestEDDStatus, SDDEligibleType } from '@core/types'
+import { EarnEDDStatus, ExtractSuccess, FiatType, SDDEligibleType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType, UserTierType } from 'data/types'
@@ -26,9 +26,9 @@ const getData = (state: RootState) => {
     tier: 0
   } as SDDEligibleType)
 
-  const interestEDDStatus = selectors.components.interest
-    .getInterestEDDStatus(state)
-    .getOrElse({} as InterestEDDStatus)
+  const earnEDDStatus = selectors.components.interest
+    .getEarnEDDStatus(state)
+    .getOrElse({} as EarnEDDStatus)
 
   const productsR = selectors.custodial.getProductEligibilityForUser(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
@@ -39,7 +39,7 @@ const getData = (state: RootState) => {
       products: ExtractSuccess<typeof productsR>,
       walletCurrency: FiatType
     ) => ({
-      interestEDDStatus,
+      earnEDDStatus,
       limitsAndDetails,
       products,
       sddEligible,

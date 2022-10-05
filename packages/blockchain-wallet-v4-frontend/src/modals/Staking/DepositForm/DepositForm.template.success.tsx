@@ -81,12 +81,12 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     displayCoin,
     earnActions,
     earnDepositLimits,
+    earnEDDDepositLimits,
+    earnEDDStatus,
     formActions,
     formErrors,
     handleDisplayToggle,
     interestAccount,
-    interestEDDDepositLimits,
-    interestEDDStatus,
     interestRates,
     invalid,
     payment,
@@ -121,9 +121,9 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     !payment.isSufficientEthForErc20
 
   const showEDDDepositLimit =
-    checkIsAmountUnderDepositLimit(interestEDDDepositLimits, coin, depositAmountFiat) &&
-    !interestEDDStatus?.eddSubmitted &&
-    !interestEDDStatus?.eddPassed
+    checkIsAmountUnderDepositLimit(earnEDDDepositLimits, coin, depositAmountFiat) &&
+    !earnEDDStatus?.eddSubmitted &&
+    !earnEDDStatus?.eddPassed
 
   const handleFormSubmit = () => {
     earnActions.submitDepositForm({ formName: FORM_NAME })

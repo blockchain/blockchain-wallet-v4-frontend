@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { InterestEDDStatus, RemoteDataType, RewardsRatesType, StakingRatesType } from '@core/types'
+import { EarnEDDStatus, RemoteDataType, RewardsRatesType, StakingRatesType } from '@core/types'
 import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics, EarnInstrumentsType, UserDataType } from 'data/types'
@@ -15,7 +15,7 @@ import { CustomSceneWrapper, EarnContainer, Overlay, TabRow } from './Earn.model
 import getData from './Earn.selectors'
 import InterestHeader from './Earn.template.header'
 import EarnTable from './EarnTable'
-import NotGoldTierMessage from './NotGoldTierMessage'
+import Message from './Message'
 
 class Earn extends React.PureComponent<Props, StateType> {
   constructor(props) {
@@ -61,7 +61,7 @@ class Earn extends React.PureComponent<Props, StateType> {
     return (
       <CustomSceneWrapper $isGoldTier={isGoldTier}>
         <InterestHeader />
-        {!isGoldTier && <NotGoldTierMessage />}
+        <Message isGoldTier={isGoldTier} />
         <EarnContainer>
           {!isGoldTier && <Overlay />}
           <TabRow>
@@ -110,7 +110,7 @@ export type StateType = {
   isGoldTier: boolean
 }
 export type SuccessStateType = {
-  interestEDDStatus: InterestEDDStatus
+  earnEDDStatus: EarnEDDStatus
   interestRates: RewardsRatesType
   interestRatesArray: Array<number>
   sortedInstruments: EarnInstrumentsType

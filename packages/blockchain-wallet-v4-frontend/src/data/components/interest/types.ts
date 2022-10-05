@@ -5,9 +5,9 @@ import {
   EarnAccountResponseType,
   EarnAfterTransactionType,
   EarnDepositLimits,
+  EarnEDDStatus,
   EarnEligibleType,
   FiatType,
-  InterestEDDStatus,
   InterestLimitsType,
   PaymentValue,
   RemoteDataType,
@@ -108,10 +108,10 @@ export interface InterestState {
   afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
   coin: CoinType
   earnDepositLimits: EarnMinMaxType
+  earnEDDDepositLimits: RemoteDataType<string, EarnDepositLimits>
+  earnEDDStatus: RemoteDataType<string, EarnEDDStatus>
+  earnEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>
   instruments: RemoteDataType<string, EarnInstrumentsType>
-  interestEDDDepositLimits: RemoteDataType<string, EarnDepositLimits>
-  interestEDDStatus: RemoteDataType<string, InterestEDDStatus>
-  interestEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>
   interestEligible: RemoteDataType<string, EarnEligibleType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRates: RemoteDataType<string, RewardsRatesType['rates']>

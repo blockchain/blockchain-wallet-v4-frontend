@@ -1,4 +1,4 @@
-import { InterestEDDDocumentsResponse, RemoteDataType } from '@core/types'
+import { EarnEDDDocumentsResponse, RemoteDataType } from '@core/types'
 
 export enum InterestUploadDocumentsStepType {
   'INIT_PAGE',
@@ -12,7 +12,7 @@ export type InterestUploadDocumentsPayload = {
 }
 
 export type InterestUploadDocumentsState = {
-  interestEDDDocumentLimits: RemoteDataType<string, InterestEDDDocumentsResponse>
+  earnEDDDocumentLimits: RemoteDataType<string, EarnEDDDocumentsResponse>
 } & InterestUploadDocumentsPayload
 
 export type InterestUploadDocumentFormValueTypes = {

@@ -25,7 +25,7 @@ export const getData = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.components.interest.getRates(state)
   const formErrors = selectors.form.getFormSyncErrors(FORM_NAME)(state) as EarnDepositErrorsType
-  const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
+  const earnEDDStatusR = selectors.components.interest.getEarnEDDStatus(state)
   const interestRatesR = selectors.components.interest.getInterestRates(state)
   const earnDepositLimits = selectors.components.interest.getEarnDepositLimits(state)
   const ethRatesR = selectors.core.data.misc.getRatesSelector('ETH', state)
@@ -35,7 +35,7 @@ export const getData = (state: RootState) => {
     string,
     FiatType
   >
-  const interestEDDDepositLimitsR = selectors.components.interest.getInterestEDDDepositLimits(state)
+  const earnEDDDepositLimitsR = selectors.components.interest.getEarnEDDDepositLimits(state)
   const interestAccount = selectors.components.interest
     .getStakingAccount(state)
     .getOrElse({ accountRef: '' })
@@ -53,8 +53,8 @@ export const getData = (state: RootState) => {
       ethRates: ExtractSuccess<typeof ethRatesR>,
       payment: ExtractSuccess<typeof paymentR>,
       walletCurrency: ExtractSuccess<typeof walletCurrencyR>,
-      interestEDDDepositLimits,
-      interestEDDStatus
+      earnEDDDepositLimits,
+      earnEDDStatus
     ) => {
       const depositFee =
         coin === 'BCH' || coin === 'BTC'
@@ -65,11 +65,11 @@ export const getData = (state: RootState) => {
         depositFee,
         displayCoin,
         earnDepositLimits,
+        earnEDDDepositLimits,
+        earnEDDStatus,
         ethRates,
         formErrors,
         interestAccount,
-        interestEDDDepositLimits,
-        interestEDDStatus,
         interestRates,
         payment,
         prefillAmount,
@@ -83,7 +83,7 @@ export const getData = (state: RootState) => {
     ethRatesR,
     paymentR,
     walletCurrencyR,
-    interestEDDDepositLimitsR,
-    interestEDDStatusR
+    earnEDDDepositLimitsR,
+    earnEDDStatusR
   )
 }
