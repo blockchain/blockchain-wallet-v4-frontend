@@ -20,16 +20,8 @@ type Props = {
 const DepositMethods = ({ fiatCurrency, handleClose }: Props) => {
   const dispatch = useDispatch()
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
-  const addNew = useSelector((state: RootState) => state.components.brokerage.addNew)
 
   useEffect(() => {
-    if (fiatCurrency) {
-      dispatch(actions.components.buySell.fetchFiatEligible(fiatCurrency))
-      dispatch(actions.components.brokerage.fetchBankTransferAccounts())
-    }
-
-    dispatch(actions.components.brokerage.setupBankTransferProvider())
-
     if (fiatCurrency) {
       dispatch(actions.components.buySell.fetchPaymentMethods(fiatCurrency))
     }
@@ -40,38 +32,27 @@ const DepositMethods = ({ fiatCurrency, handleClose }: Props) => {
   }, [dispatch])
 
   const addBankCallback = useCallback(() => {
-    /* If I'm on the deposit method screen and I came from the user
-        clicking the "add new" button I want to show the add bank 
-        modal else I want to go to the enter amount screen
-    */
-    if (addNew && data) {
-      dispatch(
-        actions.components.brokerage.showModal({
-          modalType: `ADD_BANK_${data.bankCredentials.partner}_MODAL`,
-          origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT
-        })
-      )
-      dispatch(
-        actions.components.brokerage.setAddBankStep({
-          addBankStep: AddBankStepType.ADD_BANK
-        })
-      )
-      dispatch(
-        actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.ENTER_AMOUNT
-        })
-      )
-    } else {
-      dispatch(
-        actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.ENTER_AMOUNT
-        })
-      )
-    }
-  }, [addNew, data, dispatch])
+    dispatch(
+      actions.components.brokerage.showModal({
+        modalType: fiatCurrency === 'USD' ? `ADD_BANK_PLAID_MODAL` : 'ADD_BANK_YAPILY_MODAL',
+        origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT
+      })
+    )
+    dispatch(
+      actions.components.brokerage.setAddBankStep({
+        addBankStep: AddBankStepType.ADD_BANK
+      })
+    )
+    dispatch(
+      actions.components.brokerage.setDWStep({
+        dwStep: BankDWStepType.ENTER_AMOUNT
+      })
+    )
+  }, [dispatch, fiatCurrency])
 
-  if (error)
+  if (error) {
     return <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
+  }
 
   if (isLoading || isNotAsked || !data) return <Loading text={LoadingTextEnum.LOADING} />
 

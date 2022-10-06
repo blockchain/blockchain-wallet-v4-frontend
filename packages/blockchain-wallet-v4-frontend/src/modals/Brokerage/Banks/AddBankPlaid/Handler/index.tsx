@@ -29,6 +29,8 @@ const Iframe = styled.iframe`
 
 const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Props) => {
   const dispatch = useDispatch()
+  const iFrameUrl = useSelector(selectors.components.brokerage.getPlaidWalletHelperLink)
+  const { data, error, hasError } = useRemote(selectors.components.brokerage.getBankCredentials)
 
   useEffect(() => {
     if (reason && paymentMethodId) {
@@ -39,6 +41,8 @@ const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Prop
         default:
           break
       }
+    } else {
+      dispatch(actions.components.brokerage.setupBankTransferProvider())
     }
   }, [reason, dispatch, paymentMethodId])
   const handlePostMessage = (event: MessageEvent) => {
@@ -68,9 +72,6 @@ const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Prop
       window.removeEventListener('message', handlePostMessage, false)
     }
   }, [])
-
-  const iFrameUrl = useSelector(selectors.components.brokerage.getPlaidWalletHelperLink)
-  const { data, error, hasError } = useRemote(selectors.components.brokerage.getBankCredentials)
 
   if (isNabuError(error)) {
     return <GenericNabuErrorFlyout error={error} onDismiss={handleClose} />
