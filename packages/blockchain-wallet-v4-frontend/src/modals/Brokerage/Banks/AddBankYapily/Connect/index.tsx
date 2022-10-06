@@ -19,7 +19,7 @@ const Connect = (props: Props) => {
       props.brokerageActions.fetchBankLinkCredentials(props.tradingCurrency)
     }
     props.brokerageActions.fetchBankTransferUpdate(props.yapilyBankId)
-  }, [props.brokerageActions, props.data, props.tradingCurrency, props.yapilyBankId])
+  }, [props.yapilyBankId])
 
   useEffect(() => {
     // Clears any previous accounts so there is no cached qrcode on the UI
