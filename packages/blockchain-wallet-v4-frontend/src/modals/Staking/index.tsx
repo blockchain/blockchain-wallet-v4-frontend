@@ -18,7 +18,7 @@ import Warning from './Warning'
 const Staking = ({
   close,
   coin,
-  fetchInterestEDDStatus,
+  fetchEarnEDDStatus,
   position,
   step,
   total,
@@ -30,7 +30,7 @@ const Staking = ({
 
   useEffect(() => {
     setShow(true)
-    fetchInterestEDDStatus()
+    fetchEarnEDDStatus()
   }, [])
 
   const handleClose = () => {
@@ -86,7 +86,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
+  fetchEarnEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 

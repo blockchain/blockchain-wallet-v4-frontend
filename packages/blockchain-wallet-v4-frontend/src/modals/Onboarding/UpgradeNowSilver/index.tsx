@@ -21,7 +21,7 @@ const UpgradeNowSilver = (props: Props) => {
   const [show, setShow] = useState(true)
 
   useEffect(() => {
-    props.fetchInterestEDDStatus()
+    props.fetchEarnEDDStatus()
   }, [])
 
   const handleClose = () => {
@@ -51,7 +51,7 @@ const UpgradeNowSilver = (props: Props) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
+  fetchEarnEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch

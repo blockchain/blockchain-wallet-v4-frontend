@@ -27,7 +27,7 @@ export const getData = (state: RootState) => {
     state
   ) as EarnDepositErrorsType
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
-  const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
+  const earnEDDStatusR = selectors.components.interest.getEarnEDDStatus(state)
   const interestRatesR = selectors.components.interest.getInterestRates(state)
   const earnDepositLimits = selectors.components.interest.getEarnDepositLimits(state)
   const displayCoin = selectors.components.interest.getIsAmountDisplayedInCrypto(state)
@@ -37,7 +37,7 @@ export const getData = (state: RootState) => {
     string,
     FiatType
   >
-  const interestEDDDepositLimitsR = selectors.components.interest.getInterestEDDDepositLimits(state)
+  const rewardsEDDDepositLimitsR = selectors.components.interest.getEarnEDDDepositLimits(state)
   const interestAccount = selectors.components.interest
     .getRewardsAccount(state)
     .getOrElse({ accountRef: '' })
@@ -56,8 +56,8 @@ export const getData = (state: RootState) => {
       ethRates: ExtractSuccess<typeof ethRatesR>,
       payment: ExtractSuccess<typeof paymentR>,
       walletCurrency: ExtractSuccess<typeof walletCurrencyR>,
-      interestEDDDepositLimits,
-      interestEDDStatus
+      rewardsEDDDepositLimits,
+      earnEDDStatus
     ) => {
       const { coinfig } = window.coins[coin]
       const depositFee =
@@ -81,18 +81,18 @@ export const getData = (state: RootState) => {
         coin,
         displayCoin,
         earnDepositLimits,
+        earnEDDStatus,
         ethRates,
         feeCrypto,
         feeFiat,
         formErrors,
         interestAccount,
-        interestEDDDepositLimits,
-        interestEDDStatus,
         interestLimits,
         interestRates,
         payment,
         prefillAmount,
-        rates
+        rates,
+        rewardsEDDDepositLimits
       }
     }
   )(
@@ -102,7 +102,7 @@ export const getData = (state: RootState) => {
     ethRatesR,
     paymentR,
     walletCurrencyR,
-    interestEDDDepositLimitsR,
-    interestEDDStatusR
+    rewardsEDDDepositLimitsR,
+    earnEDDStatusR
   )
 }

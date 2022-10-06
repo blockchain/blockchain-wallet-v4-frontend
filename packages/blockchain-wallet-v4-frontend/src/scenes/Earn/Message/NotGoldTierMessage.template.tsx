@@ -4,11 +4,11 @@ import { Flex, IconRewardsCircle, PaletteColors } from '@blockchain-com/constell
 
 import { Button, Text } from 'blockchain-info-components'
 
-import { MessageContainer } from '../Earn.model'
+import { MessageContainer } from './Message.model'
 
 const NotGoldTierMessage = ({ handleClick, maxRate }: OwnPropsType) => {
   return (
-    <MessageContainer $borderColor='blue600'>
+    <MessageContainer $borderColor='primary'>
       <Flex alignItems='center' gap={16}>
         <IconRewardsCircle color={PaletteColors['blue-600']} size='large' />
         <Flex flexDirection='column' justifyContent='space-between' gap={4}>

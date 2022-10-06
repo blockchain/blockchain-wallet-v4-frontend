@@ -13,11 +13,14 @@ import {
   EarnAccountBalanceType,
   EarnAccountType,
   EarnAfterTransactionType,
+  EarnBondingDepositsResponseType,
+  EarnBondingDepositsType,
   EarnTransactionResponseType,
   PaymentValue,
   Product,
   RatesType,
-  RemoteDataType
+  RemoteDataType,
+  TransactionType
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
@@ -34,6 +37,7 @@ import {
   EarnInstrumentsType,
   EarnTransactionType,
   InterestWithdrawalFormType,
+  PendingTransactionType,
   RewardsDepositFormType,
   StakingDepositFormType
 } from './types'
@@ -71,19 +75,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       return account.index
     }
     return account.address
-  }
-
-  const fetchEarnBondingDeposits = function* ({
-    payload
-  }: ReturnType<typeof A.fetchEarnBondingDeposits>) {
-    try {
-      yield put(A.fetchEarnBondingDepositsLoading())
-      const response = yield call(api.getEarnBondingDeposits, payload)
-      yield put(A.fetchEarnBondingDepositsSuccess(response.bondingDeposits))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchEarnBondingDepositsFailure(error))
-    }
   }
 
   const fetchRewardsBalance = function* () {
@@ -387,6 +378,55 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchEarnTransactionsFailure(error))
+    }
+  }
+
+  const fetchPendingStakingTransactions = function* ({
+    payload
+  }: ReturnType<typeof A.fetchEarnTransactions>) {
+    const { coin } = payload
+
+    try {
+      yield put(A.fetchPendingStakingTransactionsLoading())
+      const transactionResponse: EarnTransactionResponseType = yield call(api.getEarnTransactions, {
+        currency: coin,
+        product: 'STAKING'
+      })
+      // can successfully return ''
+      const earnBondingResponse: EarnBondingDepositsResponseType = yield call(
+        api.getEarnBondingDeposits,
+        {
+          ccy: coin,
+          product: 'STAKING'
+        }
+      )
+
+      const bondingDeposits: EarnBondingDepositsType[] = earnBondingResponse?.bondingDeposits || []
+
+      const filteredTransactions: TransactionType[] =
+        transactionResponse?.items.filter(({ state }) => state.includes('PENDING')) || []
+
+      const pendingTransactions: PendingTransactionType[] = []
+
+      filteredTransactions.forEach(({ amount, insertedAt }) => {
+        pendingTransactions.push({ amount: amount.value, date: insertedAt, type: 'TRANSACTIONS' })
+      })
+
+      bondingDeposits.forEach(({ amount, bondingDays, bondingStartDate }) => {
+        pendingTransactions.push({ amount, bondingDays, date: bondingStartDate, type: 'BONDING' })
+      })
+
+      if (pendingTransactions.length > 0) {
+        pendingTransactions.sort((a, b) => {
+          if (!a.date || !b.date) return 0
+
+          return getUnixTime(new Date(b.date)) - getUnixTime(new Date(a.date))
+        })
+      }
+      yield put(A.fetchPendingStakingTransactionsSuccess(pendingTransactions))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchPendingStakingTransactionsFailure(error))
     }
   }
 
@@ -736,7 +776,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield delay(3000)
-      yield put(A.fetchRewardsBalance())
+
+      if (isStaking) {
+        yield put(A.fetchStakingBalance())
+      } else {
+        yield put(A.fetchRewardsBalance())
+      }
+
       yield put(A.fetchEDDStatus())
     } catch (e) {
       const error = errorHandler(e)
@@ -885,9 +931,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.fetchEDDWithdrawLimits>) {
     try {
       yield put(A.fetchEDDWithdrawLimitsLoading())
-      const interestEDDWithdrawLimits: ReturnType<typeof api.getSavingsEDDWithdrawLimits> =
-        yield call(api.getSavingsEDDWithdrawLimits, payload.currency)
-      yield put(A.fetchEDDWithdrawLimitsSuccess({ interestEDDWithdrawLimits }))
+      const earnEDDWithdrawLimits: ReturnType<typeof api.getSavingsEDDWithdrawLimits> = yield call(
+        api.getSavingsEDDWithdrawLimits,
+        payload.currency
+      )
+      yield put(A.fetchEDDWithdrawLimitsSuccess({ earnEDDWithdrawLimits }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchEDDWithdrawLimitsFailure({ error }))
@@ -898,9 +946,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.fetchEDDDepositLimits>) {
     try {
       yield put(A.fetchEDDDepositLimitsLoading())
-      const interestEDDDepositLimits: ReturnType<typeof api.getSavingsEDDDepositLimits> =
-        yield call(api.getSavingsEDDDepositLimits, payload.currency)
-      yield put(A.fetchEDDDepositLimitsSuccess({ interestEDDDepositLimits }))
+      const rewardsEDDDepositLimits: ReturnType<typeof api.getSavingsEDDDepositLimits> = yield call(
+        api.getSavingsEDDDepositLimits,
+        payload.currency
+      )
+      yield put(A.fetchEDDDepositLimitsSuccess({ rewardsEDDDepositLimits }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchEDDWithdrawLimitsFailure({ error }))
@@ -911,13 +961,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchEDDDepositLimits,
     fetchEDDStatus,
     fetchEDDWithdrawLimits,
-    fetchEarnBondingDeposits,
     fetchEarnInstruments,
     fetchEarnTransactions,
     fetchEarnTransactionsReport,
     fetchInterestEligible,
     fetchInterestLimits,
     fetchInterestRates,
+    fetchPendingStakingTransactions,
     fetchRewardsAccount,
     fetchRewardsBalance,
     fetchShowInterestCardAfterTransaction,
