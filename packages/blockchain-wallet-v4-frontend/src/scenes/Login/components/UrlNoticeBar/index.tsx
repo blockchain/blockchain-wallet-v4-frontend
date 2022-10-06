@@ -45,7 +45,7 @@ const UrlNoticeBar = () => (
     <StyledText color='white' weight={500}>
       <FormattedMessage
         id='scenes.login.url_notice_bar.text'
-        defaultMessage='Check that the URL is correct.'
+        defaultMessage='For your security, make sure the URL is '
       />
     </StyledText>
     <StyledLink color='white' weight={700} href={BC_URL}>

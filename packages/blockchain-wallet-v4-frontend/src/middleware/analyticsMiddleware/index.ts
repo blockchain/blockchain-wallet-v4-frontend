@@ -64,6 +64,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         const pageName: PageName = action.payload.location.pathname
 
+        try {
+          if (window && window.gtag) {
+            window.gtag('set', 'page_path', pageName)
+            window.gtag('event', 'page_view')
+          }
+        } catch (e) {
+          // do nothing
+        }
         // We should find a way to add origins to page changes
 
         switch (pageName) {
@@ -102,7 +110,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case '/rewards': {
+          case '/earn': {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
             const origin = 'NAVIGATION'

@@ -3,7 +3,7 @@ import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
 
 import { Exchange, Remote } from '@core'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
-import { InterestAccountBalanceType } from '@core/types'
+import { EarnAccountBalanceResponseType } from '@core/types'
 import { selectors } from 'data'
 
 export const getData = (
@@ -43,7 +43,7 @@ export const getData = (
       })})`
     )
   }
-  const buildInterestDisplay = (account: InterestAccountBalanceType['XLM']) => {
+  const buildInterestDisplay = (account: EarnAccountBalanceResponseType['XLM']) => {
     return (
       `Rewards Account` +
       ` (${Exchange.displayCoinToCoin({
@@ -110,7 +110,7 @@ export const getData = (
       : Remote.of([]),
     includeInterest
       ? selectors.components.interest
-          .getInterestAccountBalance(state)
+          .getRewardsAccountBalance(state)
           .map((x) => x.XLM)
           .map(toInterestDropdown)
           .map(toGroup('Rewards Account'))

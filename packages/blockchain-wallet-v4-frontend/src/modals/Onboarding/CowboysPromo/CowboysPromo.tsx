@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { RemoteDataType } from '@core/types'
-import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 

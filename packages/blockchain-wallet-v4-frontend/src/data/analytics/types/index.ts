@@ -7,6 +7,10 @@ import {
   TrackEventAction as TransactionsTrackEventAction
 } from './coinView'
 import {
+  Events as CowboysPromoEvents,
+  TrackEventAction as CowboysPromoTrackEventAction
+} from './cowboysPromo'
+import {
   AnalyticsProperties as DepositWithdrawalClientProperties,
   Events as DepositWithdrawalClientEvents,
   TrackEventAction as DepositWithdrawalClientEventAction
@@ -43,9 +47,9 @@ import {
   TrackEventAction as ViewAndClickTrackEventAction
 } from './viewAndClick'
 import {
-  Events as WalletRewardsEvents,
-  TrackEventAction as WalletRewardsTrackEventAction
-} from './walletRewardsClientEvents'
+  Events as WalletEarnEvents,
+  TrackEventAction as WalletEarnTrackEventAction
+} from './walletEarnClientEvents'
 
 const TRACK_EVENT = 'trackEvent'
 
@@ -61,14 +65,16 @@ type AnalyticsKey =
   | SendCryptoEvents
   | TaxCenterEvents
   | CoinViewEvents
+  | CowboysPromoEvents
   | ViewAndClickEvents
   | SwapEvents
-  | WalletRewardsEvents
+  | WalletEarnEvents
 
 const Analytics = {
   ...AccountRecoveryEvents,
   ...ClientErrorEvents,
   ...CoinViewEvents,
+  ...CowboysPromoEvents,
   ...DepositWithdrawalClientEvents,
   ...InterestClientEvents,
   ...LoginEvents,
@@ -79,7 +85,7 @@ const Analytics = {
   ...SwapEvents,
   ...TaxCenterEvents,
   ...ViewAndClickEvents,
-  ...WalletRewardsEvents
+  ...WalletEarnEvents
 }
 
 // event properties
@@ -104,7 +110,8 @@ type TrackEventAction =
   | TaxCenterTrackEventAction
   | TransactionsTrackEventAction
   | ViewAndClickTrackEventAction
-  | WalletRewardsTrackEventAction
+  | WalletEarnTrackEventAction
+  | CowboysPromoTrackEventAction
 
 type AnalyticsTraits = {
   email?: string

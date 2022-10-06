@@ -25,14 +25,13 @@ export type VerifyIdentityOriginType =
   | 'DebitCard'
 
 export type StepsType =
+  | 'addExtraStep'
+  | 'infoAndResidential'
   | 'personal'
   | 'moreInfo'
   | 'mobile'
   | 'verify'
   | 'submitted'
-  | 'cowboysSignup'
-  | 'cowboysRaffleEntered'
-  | 'cowboysVerifyId'
 
 export type KycStatesType =
   | 'NONE'

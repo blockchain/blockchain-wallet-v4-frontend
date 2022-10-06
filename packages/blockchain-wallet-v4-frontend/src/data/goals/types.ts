@@ -19,6 +19,7 @@ export type GoalsType =
   | 'make-offer-nft'
   | 'nfts'
   | 'referral'
+  | 'rewards'
   | 'sanctionsNotice'
   | 'settings'
   | 'signup'
@@ -49,7 +50,7 @@ export enum UnifiedAccountRedirectType {
   CHANGE_PASSWORD = 'changePassword'
 }
 export enum GeneralRedirectType {
-  REWARDS = 'rewards'
+  EARN = 'earn'
 }
 
 export type GoalsState = {
@@ -67,6 +68,7 @@ export enum DeepLinkGoal {
   BITCOIN = 'bitcoin',
   BUY_NFT = 'buy-nft',
   DEX = 'dex',
+  EARN = 'earn',
   INTEREST = 'interest',
   KYC = 'kyc',
   LINK_ACCOUNT = 'link-account',
@@ -74,7 +76,7 @@ export enum DeepLinkGoal {
   MAKE_OFFER_NFT = 'make-offer-nft',
   NFTS = 'nfts',
   REFERRAL = 'referral',
-  REWARDS = 'rewards',
+  REWARDS = 'REWARDS',
   SETTINGS = 'settings',
   SIMPLE_BUY = 'simple-buy',
   SWAP = 'swap'

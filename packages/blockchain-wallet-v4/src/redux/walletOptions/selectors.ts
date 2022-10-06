@@ -150,6 +150,10 @@ export const getReferralEnabled = (state: RootState) =>
 export const getReferralRetrievalEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
 
+// show staking
+export const getStakingEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isStakingEnabled']))
+
 // show login button redirect for exchange mobile
 // will take user out of webview into native signin
 export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
@@ -162,3 +166,11 @@ export const getSecureEmailSmsUpdate = (state: RootState) =>
 // dex feature flag
 export const getDexProductEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'dex']))
+
+// staking feature flag
+export const getIsStakingEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isStakingEnabled']))
+
+// crates nabu user at login if credentials aren't in metadata
+export const createNabuUserAtLogin = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'createNabuUserAtLogin']))

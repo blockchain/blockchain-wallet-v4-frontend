@@ -25,9 +25,9 @@ import {
   BSBalanceType,
   CoinfigType,
   CoinType,
+  EarnAccountBalanceResponseType,
   ExtractSuccess,
   FiatType,
-  InterestAccountBalanceType,
   RatesType,
   RemoteDataType,
   SwapOrderType,
@@ -157,7 +157,7 @@ export const getCoinTradingBalance = (coin: CoinType, state) => {
 
 // given a coin, returns its interest account balance
 export const getCoinInterestBalance = (coin: CoinType, state) => {
-  return interestSelectors.getInterestAccountBalance(state).map((x) => x[coin])
+  return interestSelectors.getRewardsAccountBalance(state).map((x) => x[coin])
 }
 
 // given a coin, returns its custodial balance
@@ -165,21 +165,34 @@ export const getCoinCustodialBalance = (
   coin: string
 ): ((state: RootState) => RemoteDataType<string, number>) =>
   createDeepEqualSelector(
-    [buySellSelectors.getBSBalances, interestSelectors.getInterestAccountBalance],
+    [
+      buySellSelectors.getBSBalances,
+      interestSelectors.getRewardsAccountBalance,
+      interestSelectors.getStakingAccountBalance
+    ],
     (
       sbBalancesR: RemoteDataType<PartialClientErrorProperties, BSBalancesType>,
-      interestAccountBalanceR: RemoteDataType<string, InterestAccountBalanceType>
+      interestAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>,
+      stakingAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>
     ) => {
       const sbCoinBalance = sbBalancesR.getOrElse({
         [coin]: DEFAULT_BS_BALANCE
       })[coin]
       const interestCoinBalance = interestAccountBalanceR.getOrElse({
-        [coin]: { balance: '0' } as InterestAccountBalanceType[typeof coin]
+        [coin]: { balance: '0' } as EarnAccountBalanceResponseType[typeof coin]
+      })[coin]
+      const stakingCoinBalance = stakingAccountBalanceR.getOrElse({
+        [coin]: { balance: '0' } as EarnAccountBalanceResponseType[typeof coin]
       })[coin]
       const sbBalance = sbCoinBalance ? sbCoinBalance.available : '0'
       const interestBalance = interestCoinBalance ? interestCoinBalance.balance : '0'
-
-      return Remote.of(new BigNumber(sbBalance).plus(new BigNumber(interestBalance)).toNumber())
+      const stakingBalance = stakingCoinBalance ? stakingCoinBalance.balance : '0'
+      return Remote.of(
+        new BigNumber(sbBalance)
+          .plus(new BigNumber(interestBalance))
+          .plus(new BigNumber(stakingBalance))
+          .toNumber()
+      )
     }
   )
 

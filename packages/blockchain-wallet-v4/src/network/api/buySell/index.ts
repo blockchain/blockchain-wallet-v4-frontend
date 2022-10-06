@@ -185,14 +185,15 @@ export default ({
       url: nabuUrl
     })
 
-  const updateBankAccountLink = (bankId: string, attributes) =>
-    authorizedPost({
+  const updateBankAccountLink = (bankId: string, attributes) => {
+    return authorizedPost({
       contentType: 'application/json',
       data: { attributes },
       endPoint: `/payments/banktransfer/${bankId}/update`,
       removeDefaultPostData: true,
       url: nabuUrl
     })
+  }
 
   const refreshBankAccountLink = (bankId: string): BankCredentialsType =>
     authorizedPost({

@@ -36,9 +36,9 @@ const PrimaryNavItems = [
     text: <FormattedMessage id='copy.prices' defaultMessage='Prices' />
   },
   {
-    dest: '/rewards',
-    e2e: 'rewardsLink',
-    text: <FormattedMessage id='copy.rewards' defaultMessage='Rewards' />
+    dest: '/earn',
+    e2e: 'earnLink',
+    text: <FormattedMessage id='copy.earn' defaultMessage='Earn' />
   },
   {
     dest: '/nfts/view',

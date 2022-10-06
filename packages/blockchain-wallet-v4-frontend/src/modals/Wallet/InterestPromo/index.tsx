@@ -13,7 +13,7 @@ import Success from './template'
 
 const InterestPromo: React.FC<Props> = (props: Props) => {
   useEffect(() => {
-    props.interestActions.fetchInterestRate()
+    props.interestActions.fetchInterestRates()
   }, [props.interestActions])
 
   return (

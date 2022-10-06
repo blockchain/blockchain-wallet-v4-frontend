@@ -7,8 +7,8 @@ import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions } from 'data'
 
-import InterestHeader from '../Interest/template.header'
-import InterestMenu from '../Interest/template.menu'
+import EarnHeader from '../Earn/Earn.template.header'
+import EarnMenu from '../Earn/Earn.template.menu'
 import CoinFilter from './CoinFilter'
 import DownloadTransactions from './DownloadTransactions'
 import { getData } from './selectors'
@@ -33,24 +33,24 @@ const MenuRow = styled.div`
 
 class InterestHistoryContainer extends Component<Props> {
   componentDidMount() {
-    this.props.interestActions.fetchInterestTransactions({ reset: true })
+    this.props.interestActions.fetchEarnTransactions({ reset: true })
   }
 
   componentWillUnmount() {
     // clear transactions related data on exit
-    this.props.interestActions.fetchInterestTransactionsSuccess({ reset: true, transactions: [] })
-    this.props.interestActions.setTransactionsNextPage({ nextPage: null })
+    this.props.interestActions.fetchEarnTransactionsSuccess({ reset: true, transactions: [] })
+    this.props.interestActions.setRewardsTransactionsNextPage({ nextPage: null })
   }
 
   onFetchMoreTransactions = () => {
-    this.props.interestActions.fetchInterestTransactions({ reset: false })
+    this.props.interestActions.fetchEarnTransactions({ reset: false })
   }
 
   render() {
     const { data } = this.props
     return (
       <SceneWrapper>
-        <InterestHeader />
+        <EarnHeader />
         {data.cata({
           Failure: () => null,
           Loading: () => <Loading />,
@@ -59,7 +59,7 @@ class InterestHistoryContainer extends Component<Props> {
             return (
               <>
                 <MenuRow>
-                  <InterestMenu />
+                  <EarnMenu />
                   <DownloadTransactions />
                   <CoinFilter {...val} />
                 </MenuRow>

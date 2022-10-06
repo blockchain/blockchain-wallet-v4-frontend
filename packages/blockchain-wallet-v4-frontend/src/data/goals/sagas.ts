@@ -7,7 +7,7 @@ import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/eff
 
 import { Exchange, utils } from '@core'
 import {
-  InterestAfterTransactionType,
+  EarnAfterTransactionType,
   RatesType,
   TermsAndConditionType,
   WalletFiatType
@@ -310,8 +310,12 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineSwapGoal)
     }
 
-    // /#/open/rewards /#/open/interest
-    if (startsWith(DeepLinkGoal.REWARDS, pathname) || startsWith(DeepLinkGoal.INTEREST, pathname)) {
+    // /#/open/earn /#/open/rewards /#/open/interest
+    if (
+      startsWith(DeepLinkGoal.EARN, pathname) ||
+      startsWith(DeepLinkGoal.REWARDS, pathname) ||
+      startsWith(DeepLinkGoal.INTEREST, pathname)
+    ) {
       return yield call(defineInterestGoal)
     }
 
@@ -470,7 +474,6 @@ export default ({ api, coreSagas, networks }) => {
     yield call(waitForUserData)
     const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
-
     yield put(
       actions.goals.addInitialModal({
         data,
@@ -800,7 +803,7 @@ export default ({ api, coreSagas, networks }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    yield put(actions.goals.addInitialRedirect(GeneralRedirectType.REWARDS))
+    yield put(actions.goals.addInitialRedirect(GeneralRedirectType.EARN))
   }
   const runInterestPromo = function* (goal: GoalType) {
     // do not show modal immediately, wait 5 seconds
@@ -826,7 +829,7 @@ export default ({ api, coreSagas, networks }) => {
       const afterTransactionR = yield select(selectors.components.interest.getAfterTransaction)
       const afterTransaction = afterTransactionR.getOrElse({
         show: false
-      } as InterestAfterTransactionType)
+      } as EarnAfterTransactionType)
       if (afterTransaction?.show) {
         yield put(
           actions.components.buySell.fetchPairs({ coin: afterTransaction.currency, currency })
@@ -852,8 +855,8 @@ export default ({ api, coreSagas, networks }) => {
   const runInitialRedirect = function* () {
     const initialRedirect = yield select(selectors.goals.getInitialRedirect)
 
-    if (initialRedirect === GeneralRedirectType.REWARDS) {
-      return yield put(actions.router.push(`/rewards`))
+    if (initialRedirect === GeneralRedirectType.EARN) {
+      return yield put(actions.router.push(`/earn`))
     }
     if (
       initialRedirect === UnifiedAccountRedirectType.CHANGE_EMAIL ||
@@ -984,8 +987,10 @@ export default ({ api, coreSagas, networks }) => {
     const { current } = (yield select(selectors.modules.profile.getUserTiers)).getOrElse({
       current: 0
     }) || { current: 0 }
+    // If the user is tagged with the COWBOYS_2022 promo tag don't show them the typical verify notic modal
+    const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
 
-    if (current < 2) {
+    if (current < 2 && !hasCowboysTag) {
       yield put(
         actions.goals.addInitialModal({
           data: { origin },
@@ -1107,6 +1112,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'referral':
           yield call(runReferralGoal, goal)
+          break
+        case 'rewards':
+          yield call(runInterestRedirect, goal)
           break
         case 'sanctionsNotice':
           yield call(runSanctionsNoticeGoal, goal)

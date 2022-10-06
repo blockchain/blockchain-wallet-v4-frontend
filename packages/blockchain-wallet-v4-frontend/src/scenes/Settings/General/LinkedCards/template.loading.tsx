@@ -2,7 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { SpinningLoader } from 'blockchain-info-components'
+import { Card } from 'components/Card'
+import { StandardRow } from 'components/Rows'
 import { SettingContainer, SettingHeader, SettingSummary } from 'components/Setting'
 import { media } from 'services/styles'
 
@@ -24,7 +25,7 @@ const Loading: React.FC = () => {
         <CustomSettingHeader>
           <FormattedMessage id='scenes.settings.linked_cards' defaultMessage='Linked Cards' />
         </CustomSettingHeader>
-        <SpinningLoader height='30px' width='30px' />
+        <StandardRow loading />
       </SettingSummary>
     </CustomSettingContainer>
   )

@@ -3,7 +3,7 @@ import { equals } from 'ramda'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { OrderType } from '@core/types'
+import { FiatType, OrderType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
 import { DisplayContainer } from 'components/BuySell'
 import { Title, Value } from 'components/Flyout'
@@ -66,7 +66,7 @@ const PlusMinusIconWrapper = styled.div`
 type Props = OwnProps & ParentOwnProps & SuccessStateType
 
 const Success = memo(
-  ({ coin, fiat, onClick, orderType, rates }: Props) => {
+  ({ coin, fiat, fiatCurrency, onClick, orderType, rates }: Props) => {
     const { coinfig } = window.coins[coin]
     const displayName = coinfig.name
     return (
@@ -82,10 +82,10 @@ const Success = memo(
             {orderType === OrderType.BUY && (
               <>
                 {fiatToString({
-                  unit: fiat,
+                  unit: fiatCurrency as FiatType,
                   value: rates.price
                 })}
-                <PriceMovement coin={coin} fiat={fiat} />
+                <PriceMovement coin={coin} fiat={fiatCurrency as FiatType} />
               </>
             )}
           </DisplayTitle>

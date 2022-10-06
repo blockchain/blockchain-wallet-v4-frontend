@@ -17,17 +17,17 @@ import Success from './template.success'
 
 const CryptoSelection: React.FC<Props> = memo((props) => {
   useEffect(() => {
-    if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.priceActions.fetchCoinPrices()
+    if (props.walletCurrency && !Remote.Success.is(props.data)) {
+      props.priceActions.fetchCoinPrices({ fiatCurrency: props.walletCurrency })
       props.priceActions.fetchCoinPricesPreviousDay()
-      const currentCurrencyIsInSupportedFiat = props.fiatCurrency in WalletFiatEnum
+      const currentCurrencyIsInSupportedFiat = props.walletCurrency in WalletFiatEnum
       // for other currencies use as pre fill USD
       const { preferredFiatTradingCurrency } = props.userData?.currencies
       const currency =
         preferredFiatTradingCurrency ||
-        (currentCurrencyIsInSupportedFiat ? props.fiatCurrency : 'USD')
+        (currentCurrencyIsInSupportedFiat ? props.walletCurrency : 'USD')
       props.buySellActions.fetchPairs({ currency })
-      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchFiatEligible(props.walletCurrency)
       props.buySellActions.fetchSDDEligibility()
       props.buySellActions.fetchBSOrders()
     }
@@ -35,10 +35,10 @@ const CryptoSelection: React.FC<Props> = memo((props) => {
 
   const errorCallback = useCallback(() => {
     props.buySellActions.setStep({
-      fiatCurrency: props.fiatCurrency,
+      fiatCurrency: props.walletCurrency,
       step: 'CRYPTO_SELECTION'
     })
-  }, [props.fiatCurrency, props.buySellActions])
+  }, [props.walletCurrency, props.buySellActions])
 
   const trackError = useCallback((error: PartialClientErrorProperties) => {
     props.analyticsActions.trackEvent({
@@ -71,11 +71,11 @@ const CryptoSelection: React.FC<Props> = memo((props) => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD',
   isFirstLogin: selectors.signup.getFirstLogin(state),
   originalFiatCurrency: selectors.components.buySell.getOriginalFiatCurrency(state),
   sddTransactionFinished: selectors.components.buySell.getSddTransactionFinished(state),
-  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
+  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
