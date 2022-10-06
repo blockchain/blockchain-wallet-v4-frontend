@@ -14,6 +14,8 @@ import { getData } from './AccountSummary.selectors'
 import AccountSummary from './AccountSummary.template.success'
 import Unsupported from './AccountSummary.template.unsupported'
 
+const PENDING_TRANSACTIONS_MAX = 4
+
 const AccountSummaryContainer = (props: OwnProps) => {
   const [isTransactionsToggled, setIsTransactionsToggled] = useState<boolean>(false)
   const { coin, handleClose, showSupply, stepMetadata, walletCurrency } = props
@@ -41,7 +43,12 @@ const AccountSummaryContainer = (props: OwnProps) => {
   }, [coin, isFiatCurrencySupported])
 
   useEffect(() => {
-    if (data && data.pendingTransactions.length < 4 && data.pendingTransactions.length > 0) {
+    const isTransactionsToggledAutomatically: boolean | undefined =
+      data &&
+      data.pendingTransactions.length < PENDING_TRANSACTIONS_MAX &&
+      data.pendingTransactions.length > 0
+
+    if (isTransactionsToggledAutomatically) {
       setIsTransactionsToggled(true)
     } else {
       setIsTransactionsToggled(false)
