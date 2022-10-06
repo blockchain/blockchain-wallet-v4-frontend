@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
@@ -42,6 +42,10 @@ const getLinkedBankIcon = (bankName: string): ReactElement => (
 )
 
 const BankList = (props: Props) => {
+  const bankTransferAccounts = useMemo(
+    () => props.bankTransferAccounts.filter((account) => account.currency === props.fiatCurrency),
+    [props.bankTransferAccounts, props.fiatCurrency]
+  )
   return (
     <Wrapper>
       <Header>
@@ -66,7 +70,7 @@ const BankList = (props: Props) => {
       </Header>
 
       <AccountsListWrapper>
-        {props.bankTransferAccounts.map((account) => (
+        {bankTransferAccounts.map((account) => (
           <Bank
             key={account.id}
             bankDetails={account.details}
