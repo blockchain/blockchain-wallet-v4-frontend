@@ -8,6 +8,8 @@ import { ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 
 import Loading from '../Earn.MessageLoading.template'
+import EDDAdditionalInfoMessage from './EDDAdditionalInfoMessage.template'
+import EDDInformationSubmitted from './EDDInformationSubmitted.template'
 import getData from './Message.selectors'
 import NotGoldTierMessage from './NotGoldTierMessage.template'
 
@@ -23,20 +25,33 @@ const MessageContainer = ({ isGoldTier }: PropTypes) => {
     )
 
   if (!data || isLoading || isNotAsked) return <Loading />
-  const { earnEDDStatus, rewardsRates, stakingRates }: DataType = data
+  const {
+    earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
+    rewardsRates,
+    stakingRates
+  }: DataType = data
   const rates: Array<number> = Object.values(rewardsRates)
+  const isEDDRequired: boolean = eddNeeded && !eddPassed && !eddSubmitted
+  const isEDDSubmitted: boolean = eddNeeded && eddSubmitted && !eddPassed
   Object.values(stakingRates).forEach(({ rate }) => rates.push(rate))
 
-  const handleClick = () => {
+  const handleUpgradeNow = () => {
     dispatch(actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: 'EarnPage' }))
+  }
+  const handleEDDSubmitInfo = () => {
+    dispatch(actions.components.interestUploadDocument.showModal({ origin: 'EarnPage' }))
   }
 
   if (!isGoldTier) {
-    return <NotGoldTierMessage handleClick={handleClick} maxRate={Math.max(...rates)} />
+    return <NotGoldTierMessage handleClick={handleUpgradeNow} maxRate={Math.max(...rates)} />
   }
 
-  if (earnEDDStatus.eddNeeded) {
-    return <div>hi</div>
+  if (isEDDRequired) {
+    return <EDDAdditionalInfoMessage handleClick={handleEDDSubmitInfo} />
+  }
+
+  if (isEDDSubmitted) {
+    return <EDDInformationSubmitted handleClick={handleEDDSubmitInfo} />
   }
 
   return null

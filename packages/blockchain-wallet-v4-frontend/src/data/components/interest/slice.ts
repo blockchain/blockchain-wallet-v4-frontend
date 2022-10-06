@@ -42,7 +42,6 @@ const initialState: InterestState = {
     minCoin: 0,
     minFiat: 0
   },
-  earnEDDDepositLimits: Remote.NotAsked,
   earnEDDStatus: Remote.NotAsked,
   earnEDDWithdrawLimits: Remote.NotAsked,
   instruments: Remote.NotAsked,
@@ -54,6 +53,7 @@ const initialState: InterestState = {
   pendingStakingTransactions: Remote.NotAsked,
   rewardsAccount: Remote.NotAsked,
   rewardsAccountBalance: Remote.NotAsked,
+  rewardsEDDDepositLimits: Remote.NotAsked,
   rewardsStep: {
     data: {},
     name: 'ACCOUNT_SUMMARY'
@@ -116,7 +116,7 @@ const interestSlice = createSlice({
     fetchEDDDepositLimits: (state, action: PayloadAction<{ currency: FiatType }>) => {},
 
     fetchEDDDepositLimitsFailure: (state, action: PayloadAction<ErrorStringType>) => {
-      state.earnEDDDepositLimits = Remote.Failure(action.payload.error)
+      state.rewardsEDDDepositLimits = Remote.Failure(action.payload.error)
     },
 
     fetchEDDDepositLimitsLoading: (state) => {
@@ -125,9 +125,9 @@ const interestSlice = createSlice({
 
     fetchEDDDepositLimitsSuccess: (
       state,
-      action: PayloadAction<{ earnEDDDepositLimits: EarnDepositLimits }>
+      action: PayloadAction<{ rewardsEDDDepositLimits: EarnDepositLimits }>
     ) => {
-      state.earnEDDDepositLimits = Remote.Success(action.payload.earnEDDDepositLimits)
+      state.rewardsEDDDepositLimits = Remote.Success(action.payload.rewardsEDDDepositLimits)
     },
 
     // INSTRUMENTS

@@ -946,11 +946,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.fetchEDDDepositLimits>) {
     try {
       yield put(A.fetchEDDDepositLimitsLoading())
-      const earnEDDDepositLimits: ReturnType<typeof api.getSavingsEDDDepositLimits> = yield call(
+      const rewardsEDDDepositLimits: ReturnType<typeof api.getSavingsEDDDepositLimits> = yield call(
         api.getSavingsEDDDepositLimits,
         payload.currency
       )
-      yield put(A.fetchEDDDepositLimitsSuccess({ earnEDDDepositLimits }))
+      yield put(A.fetchEDDDepositLimitsSuccess({ rewardsEDDDepositLimits }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchEDDWithdrawLimitsFailure({ error }))

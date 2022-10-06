@@ -72,7 +72,7 @@ type LimitDetails = {
 }
 
 export type EarnDepositLimits = {
-  earnDepositLimits: LimitDetails[] | []
+  depositLimits: LimitDetails[] | []
 }
 
 export type WithdrawLimits = {

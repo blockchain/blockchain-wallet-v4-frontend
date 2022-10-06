@@ -30,6 +30,7 @@ import { required } from 'services/forms'
 import { debounce } from 'utils/helpers'
 
 import { amountToFiat, maxFiat } from '../conversions'
+import { EDDMessageContainer } from '../Staking.model'
 import { CurrencySuccessStateType, DataSuccessStateType, OwnProps as ParentOwnProps } from '.'
 import {
   AgreementContainer,
@@ -39,7 +40,6 @@ import {
   CustomField,
   CustomForm,
   CustomFormLabel,
-  CustomOrangeCartridge,
   ErrorText,
   FiatMaxContainer,
   FORM_NAME,
@@ -57,22 +57,6 @@ import {
 } from './DepositForm.model'
 import { maxDepositAmount, minDepositAmount } from './DepositForm.validation'
 
-const checkIsAmountUnderDepositLimit = (
-  depositLimits: EarnDepositLimits,
-  coin: CoinType,
-  depositAmount: string
-): boolean => {
-  const { earnDepositLimits } = depositLimits
-
-  if (!earnDepositLimits || earnDepositLimits.length === 0) {
-    return false
-  }
-
-  const coinLimit = earnDepositLimits.find((dep) => dep.savingsCurrency === coin)?.amount || 0
-  // compare entered amount with deposit limit for current coin
-  return Number(depositAmount) > coinLimit
-}
-
 const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const {
     analyticsActions,
@@ -81,8 +65,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     displayCoin,
     earnActions,
     earnDepositLimits,
-    earnEDDDepositLimits,
-    earnEDDStatus,
+    earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
     formActions,
     formErrors,
     handleDisplayToggle,
@@ -91,7 +74,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     invalid,
     payment,
     rates,
-    setShowSupply,
     submitting,
     values,
     walletCurrency
@@ -120,14 +102,10 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     // @ts-ignore
     !payment.isSufficientEthForErc20
 
-  const showEDDDepositLimit =
-    checkIsAmountUnderDepositLimit(earnEDDDepositLimits, coin, depositAmountFiat) &&
-    !earnEDDStatus?.eddSubmitted &&
-    !earnEDDStatus?.eddPassed
+  const isEDDRequired = eddNeeded && !eddPassed && !eddSubmitted
 
   const handleFormSubmit = () => {
     earnActions.submitDepositForm({ formName: FORM_NAME })
-    setShowSupply(showEDDDepositLimit)
 
     analyticsActions.trackEvent({
       key: Analytics.WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED,
@@ -383,14 +361,21 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             )}
           </AmountError>
         )}
-        {showEDDDepositLimit && (
-          <CustomOrangeCartridge>
-            <Icon name='info' color='orange600' size='18px' style={{ marginRight: '12px' }} />
-            <FormattedMessage
-              id='modals.interest.deposit.edd_need'
-              defaultMessage="Transferring this amount requires further verification. We'll ask you for those details in the next step."
-            />
-          </CustomOrangeCartridge>
+        {isEDDRequired && (
+          <EDDMessageContainer>
+            <Text color='orange700' size='14px' weight={600}>
+              <FormattedMessage
+                id='modals.staking.deposit.edd_need.title'
+                defaultMessage='More information needed'
+              />
+            </Text>
+            <Text color='grey900' size='12px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.deposit.edd_need'
+                defaultMessage="Transferring this amount requires further verification. We'll ask you for those details in the next step."
+              />
+            </Text>
+          </EDDMessageContainer>
         )}
         {!isCustodial && (
           <NetworkFeeContainer>

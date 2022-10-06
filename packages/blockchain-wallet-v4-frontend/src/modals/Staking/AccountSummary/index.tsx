@@ -60,6 +60,10 @@ const AccountSummaryContainer = (props: OwnProps) => {
     dispatch(actions.components.interest.showStakingModal({ coin, step: 'DEPOSIT' }))
   }
 
+  const handleEDDSubmitInfo = () => {
+    dispatch(actions.components.interestUploadDocument.showModal({ origin: 'EarnPage' }))
+  }
+
   const handleRefresh = () => {
     dispatch(actions.components.interest.showStakingModal({ coin, step: 'ACCOUNT_SUMMARY' }))
   }
@@ -90,12 +94,15 @@ const AccountSummaryContainer = (props: OwnProps) => {
 
   const {
     accountBalances,
+    earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
     flagEDDInterestFileUpload,
     pendingTransactions,
     stakingEligible,
     stakingLimits,
     stakingRates
   } = data
+
+  const isEDDRequired = eddNeeded && !eddSubmitted && !eddPassed
 
   return isFiatCurrencySupported ? (
     <AccountSummary
@@ -105,9 +112,11 @@ const AccountSummaryContainer = (props: OwnProps) => {
       flagEDDInterestFileUpload={flagEDDInterestFileUpload}
       handleClose={handleClose}
       handleDepositClick={handleDepositClick}
+      handleEDDSubmitInfo={handleEDDSubmitInfo}
       handleTransactionsToggled={handleTransactionsToggled}
       handleUpLoadDocumentation={handleUpLoadDocumentation}
       handleWithdrawalSupplyInformation={handleWithdrawalSupplyInformation}
+      isEDDRequired={isEDDRequired}
       isTransactionsToggled={isTransactionsToggled}
       pendingTransactions={pendingTransactions}
       stakingEligible={stakingEligible}

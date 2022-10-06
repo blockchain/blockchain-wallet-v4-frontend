@@ -1,7 +1,7 @@
-import { PaletteColors } from '@blockchain-com/constellation'
+import { PaletteColors, SemanticColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
 export const Wrapper = styled.div`
@@ -100,4 +100,12 @@ export const DetailsContainer = styled.div<{ $hasHandleClick: boolean }>`
   }
 
   ${({ $hasHandleClick }) => $hasHandleClick && `&:hover { cursor: pointer}`}
+`
+export const SubmitButton = styled(Button)`
+  border-color: ${SemanticColors.medium};
+
+  &:hover {
+    background-color: ${PaletteColors['blue-000']};
+    border-color: ${SemanticColors.primary};
+  }
 `

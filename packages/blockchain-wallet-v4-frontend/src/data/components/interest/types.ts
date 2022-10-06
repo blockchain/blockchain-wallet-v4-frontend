@@ -108,7 +108,6 @@ export interface InterestState {
   afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
   coin: CoinType
   earnDepositLimits: EarnMinMaxType
-  earnEDDDepositLimits: RemoteDataType<string, EarnDepositLimits>
   earnEDDStatus: RemoteDataType<string, EarnEDDStatus>
   earnEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>
   instruments: RemoteDataType<string, EarnInstrumentsType>
@@ -121,6 +120,7 @@ export interface InterestState {
   pendingStakingTransactions: RemoteDataType<string, Array<PendingTransactionType>>
   rewardsAccount: RemoteDataType<string, EarnAccountResponseType>
   rewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
+  rewardsEDDDepositLimits: RemoteDataType<string, EarnDepositLimits>
   rewardsStep: {
     data: EarnStepMetaData
     name: InterestStep

@@ -146,7 +146,7 @@ export const getEarnEDDWithdrawLimits = (state: RootState) =>
   state.components.interest.earnEDDWithdrawLimits
 
 export const getEarnEDDDepositLimits = (state: RootState) =>
-  state.components.interest.earnEDDDepositLimits
+  state.components.interest.rewardsEDDDepositLimits
 
 export const getUnderSanctionsMessage = (state: RootState) =>
   state.components.interest.underSanctionsMessage

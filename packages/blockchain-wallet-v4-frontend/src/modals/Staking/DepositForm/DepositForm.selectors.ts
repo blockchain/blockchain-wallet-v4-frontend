@@ -1,6 +1,5 @@
 import { lift, pathOr, propOr } from 'ramda'
 
-import { Exchange } from '@core'
 import {
   EarnAfterTransactionType,
   EarnDepositErrorsType,
@@ -35,7 +34,6 @@ export const getData = (state: RootState) => {
     string,
     FiatType
   >
-  const earnEDDDepositLimitsR = selectors.components.interest.getEarnEDDDepositLimits(state)
   const interestAccount = selectors.components.interest
     .getStakingAccount(state)
     .getOrElse({ accountRef: '' })
@@ -53,7 +51,6 @@ export const getData = (state: RootState) => {
       ethRates: ExtractSuccess<typeof ethRatesR>,
       payment: ExtractSuccess<typeof paymentR>,
       walletCurrency: ExtractSuccess<typeof walletCurrencyR>,
-      earnEDDDepositLimits,
       earnEDDStatus
     ) => {
       const depositFee =
@@ -65,7 +62,6 @@ export const getData = (state: RootState) => {
         depositFee,
         displayCoin,
         earnDepositLimits,
-        earnEDDDepositLimits,
         earnEDDStatus,
         ethRates,
         formErrors,
@@ -77,13 +73,5 @@ export const getData = (state: RootState) => {
         walletCurrency
       }
     }
-  )(
-    ratesR,
-    interestRatesR,
-    ethRatesR,
-    paymentR,
-    walletCurrencyR,
-    earnEDDDepositLimitsR,
-    earnEDDStatusR
-  )
+  )(ratesR, interestRatesR, ethRatesR, paymentR, walletCurrencyR, earnEDDStatusR)
 }

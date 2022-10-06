@@ -37,7 +37,7 @@ export const getData = (state: RootState) => {
     string,
     FiatType
   >
-  const earnEDDDepositLimitsR = selectors.components.interest.getEarnEDDDepositLimits(state)
+  const rewardsEDDDepositLimitsR = selectors.components.interest.getEarnEDDDepositLimits(state)
   const interestAccount = selectors.components.interest
     .getRewardsAccount(state)
     .getOrElse({ accountRef: '' })
@@ -56,7 +56,7 @@ export const getData = (state: RootState) => {
       ethRates: ExtractSuccess<typeof ethRatesR>,
       payment: ExtractSuccess<typeof paymentR>,
       walletCurrency: ExtractSuccess<typeof walletCurrencyR>,
-      earnEDDDepositLimits,
+      rewardsEDDDepositLimits,
       earnEDDStatus
     ) => {
       const { coinfig } = window.coins[coin]
@@ -81,7 +81,6 @@ export const getData = (state: RootState) => {
         coin,
         displayCoin,
         earnDepositLimits,
-        earnEDDDepositLimits,
         earnEDDStatus,
         ethRates,
         feeCrypto,
@@ -92,7 +91,8 @@ export const getData = (state: RootState) => {
         interestRates,
         payment,
         prefillAmount,
-        rates
+        rates,
+        rewardsEDDDepositLimits
       }
     }
   )(
@@ -102,7 +102,7 @@ export const getData = (state: RootState) => {
     ethRatesR,
     paymentR,
     walletCurrencyR,
-    earnEDDDepositLimitsR,
+    rewardsEDDDepositLimitsR,
     earnEDDStatusR
   )
 }

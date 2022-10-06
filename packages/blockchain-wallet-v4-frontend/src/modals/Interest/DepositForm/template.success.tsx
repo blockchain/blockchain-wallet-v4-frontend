@@ -62,17 +62,17 @@ import TabMenuTimeFrame from './TabMenuTimeFrame'
 import { maxDepositAmount, minDepositAmount } from './validation'
 
 const checkIsAmountUnderDepositLimit = (
-  depositLimits: EarnDepositLimits,
+  earnDepositLimits: EarnDepositLimits,
   coin: CoinType,
   depositAmount: string
 ): boolean => {
-  const { earnDepositLimits } = depositLimits
+  const { depositLimits } = earnDepositLimits
 
-  if (!earnDepositLimits || earnDepositLimits.length === 0) {
+  if (!depositLimits || depositLimits.length === 0) {
     return false
   }
 
-  const coinLimit = earnDepositLimits.find((dep) => dep.savingsCurrency === coin)?.amount || 0
+  const coinLimit = depositLimits.find((dep) => dep.savingsCurrency === coin)?.amount || 0
   // compare entered amount with deposit limit for current coin
   return Number(depositAmount) > coinLimit
 }
@@ -83,7 +83,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     coin,
     displayCoin,
     earnDepositLimits,
-    earnEDDDepositLimits,
     earnEDDStatus,
     feeCrypto,
     feeFiat,
@@ -97,6 +96,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     invalid,
     payment,
     rates,
+    rewardsEDDDepositLimits,
     submitting,
     values,
     walletCurrency
@@ -138,7 +138,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     !payment.isSufficientEthForErc20
 
   const showEDDDepositLimit =
-    checkIsAmountUnderDepositLimit(earnEDDDepositLimits, coin, depositAmountFiat) &&
+    checkIsAmountUnderDepositLimit(rewardsEDDDepositLimits, coin, depositAmountFiat) &&
     !earnEDDStatus?.eddSubmitted &&
     !earnEDDStatus?.eddPassed
 

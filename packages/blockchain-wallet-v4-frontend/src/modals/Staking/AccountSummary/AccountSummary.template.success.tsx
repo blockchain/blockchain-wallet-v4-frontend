@@ -23,6 +23,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { EarnStepMetaData, PendingTransactionType } from 'data/types'
 
+import { EDDMessageContainer } from '../Staking.model'
 import { OwnProps as ParentProps } from '.'
 import Detail from './AccountSummary.detail.template'
 import {
@@ -46,9 +47,11 @@ const AccountSummary: React.FC<Props> = (props) => {
     flagEDDInterestFileUpload,
     handleClose,
     handleDepositClick,
+    handleEDDSubmitInfo,
     handleTransactionsToggled,
     handleUpLoadDocumentation,
     handleWithdrawalSupplyInformation,
+    isEDDRequired,
     isTransactionsToggled,
     pendingTransactions,
     showSupply,
@@ -149,95 +152,6 @@ const AccountSummary: React.FC<Props> = (props) => {
             </Row>
           </>
         )}
-        {showSupply &&
-          stepMetadata &&
-          (stepMetadata.withdrawSuccess || stepMetadata.depositSuccess) && (
-            <StatusSupplyWrapper className={flagEDDInterestFileUpload ? 'new' : 'old'}>
-              <Text color='grey900' size='16px' weight={600}>
-                <FormattedMessage
-                  id='modals.interest.withdrawal.supply_information_title'
-                  defaultMessage='More Info Needed'
-                />
-              </Text>
-              <Text color='grey600' size='12px' weight={500} style={{ marginTop: '16px' }}>
-                {stepMetadata.withdrawSuccess ? (
-                  flagEDDInterestFileUpload ? (
-                    <FormattedMessage
-                      id='modals.interest.withdrawal.supply_information_description_1_new'
-                      defaultMessage='Your recent withdrawal of {amount} requires further verification for legal and compliance reasons.'
-                      values={{
-                        amount: `${currencySymbol}${formatFiat(stepMetadata.withdrawalAmount)}`
-                      }}
-                    />
-                  ) : (
-                    <FormattedMessage
-                      id='modals.interest.withdrawal.supply_information_description_1'
-                      defaultMessage="You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
-                    />
-                  )
-                ) : (
-                  <FormattedMessage
-                    id='modals.interest.deposit.supply_information_description_1'
-                    defaultMessage="You've transferred an amount that requires further verification for legal and compliance reasons."
-                  />
-                )}
-              </Text>
-              <Text color='grey600' size='12px' weight={500} style={{ marginTop: '16px' }}>
-                {stepMetadata.withdrawSuccess ? (
-                  flagEDDInterestFileUpload ? (
-                    <FormattedMessage
-                      id='modals.interest.withdrawal.supply_information_description_2_new'
-                      defaultMessage='Please submit the additional information so we can start processing your withdrawal.'
-                    />
-                  ) : (
-                    <FormattedMessage
-                      id='modals.interest.withdrawal.supply_information_description_2'
-                      defaultMessage="You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
-                    />
-                  )
-                ) : (
-                  <FormattedMessage
-                    id='modals.interest.deposit.supply_information_description_2'
-                    defaultMessage='Your funds are safe with us and have started accruing rewards already. To avoid delays when you decide to withdraw your funds, submit your information now.'
-                  />
-                )}
-              </Text>
-
-              <Padding vertical={1}>
-                {flagEDDInterestFileUpload ? (
-                  <Button
-                    data-e2e='earnInterestSupplyMoreInformation'
-                    fullwidth
-                    nature='primary'
-                    onClick={handleUpLoadDocumentation}
-                  >
-                    <FormattedMessage
-                      id='scenes.interest.submit_information'
-                      defaultMessage='Submit Information'
-                    />
-                  </Button>
-                ) : (
-                  <Link
-                    href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
-                    style={{ width: '100%' }}
-                    target='_blank'
-                  >
-                    <Button
-                      data-e2e='earnStakingSupplyMoreInformation'
-                      fullwidth
-                      nature='primary'
-                      onClick={handleWithdrawalSupplyInformation}
-                    >
-                      <FormattedMessage
-                        id='scenes.interest.submit_information'
-                        defaultMessage='Submit Information'
-                      />
-                    </Button>
-                  </Link>
-                )}
-              </Padding>
-            </StatusSupplyWrapper>
-          )}
         {stepMetadata && stepMetadata.error && (
           <StatusWrapper>
             <StatusIconWrapper color='red000'>
@@ -372,6 +286,35 @@ const AccountSummary: React.FC<Props> = (props) => {
                 })}
             </>
           )}
+          {isEDDRequired && (
+            <EDDMessageContainer>
+              <Text color='orange700' size='14px' weight={600}>
+                <FormattedMessage
+                  id='modals.staking.account-summary.edd_need.title'
+                  defaultMessage='Additional Information Required'
+                />
+              </Text>
+              <Text color='grey900' size='12px' weight={500}>
+                <FormattedMessage
+                  id='modals.staking.account-summary.edd_need.description'
+                  defaultMessage='You’ve transferred an amount that requires further verification for legal and compliance reasons. {br}{br} Your funds are safe with us and have started accruing interest already. To avoid delays when you decide to withdraw your funds, submit your information now. '
+                  values={{ br: <br /> }}
+                />
+              </Text>
+              <Button
+                data-e2e='eddInformationSubmitted'
+                nature='dark-grey'
+                onClick={handleEDDSubmitInfo}
+                size='14px'
+                width='154px'
+              >
+                <FormattedMessage
+                  defaultMessage='Submit Information'
+                  id='scenes.interest.submit_information'
+                />
+              </Button>
+            </EDDMessageContainer>
+          )}
         </DetailsWrapper>
       </Top>
       {!showSupply && (
@@ -413,9 +356,11 @@ type OwnProps = {
   flagEDDInterestFileUpload: boolean
   handleBSClick: (string) => void
   handleDepositClick: () => void
+  handleEDDSubmitInfo: () => void
   handleTransactionsToggled: () => void
   handleUpLoadDocumentation: () => void
   handleWithdrawalSupplyInformation: () => void
+  isEDDRequired: boolean
   isTransactionsToggled: boolean
   pendingTransactions: Array<PendingTransactionType>
   stakingEligible: EarnEligibleType
