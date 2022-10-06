@@ -1,16 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
+  Button as ConstellationButton,
   Flex,
   IconChevronDownV2,
   IconChevronUpV2,
-  Padding,
   SemanticColors
 } from '@blockchain-com/constellation'
 import { format } from 'date-fns'
 
 import { Exchange } from '@core'
-import { formatFiat } from '@core/exchange/utils'
 import {
   CoinType,
   EarnAccountBalanceResponseType,
@@ -32,7 +31,6 @@ import {
   DetailsWrapper,
   Row,
   StatusIconWrapper,
-  StatusSupplyWrapper,
   StatusWrapper,
   Top,
   TopText,
@@ -44,13 +42,11 @@ const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
     coin,
-    flagEDDInterestFileUpload,
     handleClose,
     handleDepositClick,
     handleEDDSubmitInfo,
     handleTransactionsToggled,
     handleUpLoadDocumentation,
-    handleWithdrawalSupplyInformation,
     isEDDRequired,
     isTransactionsToggled,
     pendingTransactions,
@@ -301,18 +297,18 @@ const AccountSummary: React.FC<Props> = (props) => {
                   values={{ br: <br /> }}
                 />
               </Text>
-              <Button
-                data-e2e='eddInformationSubmitted'
-                nature='dark-grey'
+              <ConstellationButton
                 onClick={handleEDDSubmitInfo}
-                size='14px'
-                width='154px'
-              >
-                <FormattedMessage
-                  defaultMessage='Submit Information'
-                  id='scenes.interest.submit_information'
-                />
-              </Button>
+                size='small'
+                text={
+                  <FormattedMessage
+                    defaultMessage='Submit Information'
+                    id='scenes.interest.submit_information'
+                  />
+                }
+                type='button'
+                variant='secondary'
+              />
             </EDDMessageContainer>
           )}
         </DetailsWrapper>
@@ -326,6 +322,14 @@ const AccountSummary: React.FC<Props> = (props) => {
                 id='modals.staking.bottom.warning'
               />
             </Text>
+            <Link href='https://ethereum.org/en/staking/' target='_blank'>
+              <ConstellationButton
+                size='small'
+                text={<FormattedMessage defaultMessage='Learn More' id='buttons.learn_more' />}
+                type='button'
+                variant='secondary'
+              />
+            </Link>
           </WarningContainer>
           <Button
             disabled={!isDepositEnabled}
@@ -353,13 +357,11 @@ const AccountSummary: React.FC<Props> = (props) => {
 type OwnProps = {
   accountBalances: EarnAccountBalanceResponseType
   coin: CoinType
-  flagEDDInterestFileUpload: boolean
   handleBSClick: (string) => void
   handleDepositClick: () => void
   handleEDDSubmitInfo: () => void
   handleTransactionsToggled: () => void
   handleUpLoadDocumentation: () => void
-  handleWithdrawalSupplyInformation: () => void
   isEDDRequired: boolean
   isTransactionsToggled: boolean
   pendingTransactions: Array<PendingTransactionType>
