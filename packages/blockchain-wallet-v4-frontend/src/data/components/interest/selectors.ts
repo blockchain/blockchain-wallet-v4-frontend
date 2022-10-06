@@ -100,15 +100,15 @@ export const getStakingDepositAddress = (state: RootState) => {
 }
 export const getInterestRates = (state: RootState) => state.components.interest.interestRates
 
-export const getEarnBondingDeposits = (state: RootState) =>
-  state.components.interest.bondingDeposits
-
 export const getStakingRates = (state: RootState) => state.components.interest.stakingRates
 
 export const getInterestTransactionsReport = (state: RootState) =>
   state.components.interest.transactionsReport
 
 export const getEarnTransactions = (state: RootState) => state.components.interest.transactions
+
+export const getPendingStakingTransactions = (state: RootState) =>
+  state.components.interest.pendingStakingTransactions
 
 export const getEarnDepositLimits = (state: RootState) =>
   state.components.interest.earnDepositLimits
@@ -140,14 +140,13 @@ export const getWithdrawalMinimums = (state: RootState) =>
 
 export const getAfterTransaction = (state: RootState) => state.components.interest.afterTransaction
 
-export const getInterestEDDStatus = (state: RootState) =>
-  state.components.interest.interestEDDStatus
+export const getEarnEDDStatus = (state: RootState) => state.components.interest.earnEDDStatus
 
-export const getInterestEDDWithdrawLimits = (state: RootState) =>
-  state.components.interest.interestEDDWithdrawLimits
+export const getEarnEDDWithdrawLimits = (state: RootState) =>
+  state.components.interest.earnEDDWithdrawLimits
 
-export const getInterestEDDDepositLimits = (state: RootState) =>
-  state.components.interest.interestEDDDepositLimits
+export const getEarnEDDDepositLimits = (state: RootState) =>
+  state.components.interest.rewardsEDDDepositLimits
 
 export const getUnderSanctionsMessage = (state: RootState) =>
   state.components.interest.underSanctionsMessage

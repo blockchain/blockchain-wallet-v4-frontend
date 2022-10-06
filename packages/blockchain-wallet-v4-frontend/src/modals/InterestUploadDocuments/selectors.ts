@@ -6,7 +6,7 @@ import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   const documentLimitsR =
-    selectors.components.interestUploadDocument.getInterestEDDDocumentLimits(state)
+    selectors.components.interestUploadDocument.getEarnEDDDocumentLimits(state)
   const countryCode = selectors.core.settings.getCountryCode(state).getOrElse(null)
   const userDataR = selectors.modules.profile.getUserData(state)
   const step = selectors.components.interestUploadDocument.getStep(state)

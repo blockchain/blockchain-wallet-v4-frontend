@@ -29,6 +29,8 @@ export enum Events {
   WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED = 'Wallet Rewards Withdraw Max Amount Clicked',
   // WITHDRAW: User clicks on transfer on the withdrawal page.
   WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED = 'Wallet Rewards Withdraw Transfer Clicked',
+  // DETAIL: User visualises the successful transfer of a deposit.
+  WALLET_STAKING_DEPOSIT_SUCCESS_VIEWED = 'Wallet Staking Deposit Success Viewed',
   // ADD: User clicks on transfer on the deposit page.\
   WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED = 'Wallet Staking Deposit Transfer Clicked',
   // ADD: User visualises the page where he add balance to the rewards account.
@@ -107,6 +109,13 @@ type WalletRewardsDetailViewed = {
 
 type WalletStakingDetailViewed = {
   key: Events.WALLET_STAKING_DETAIL_VIEWED
+  properties: {
+    currency: string
+  }
+}
+
+type WalletStakingDepositSuccessViewed = {
+  key: Events.WALLET_STAKING_DEPOSIT_SUCCESS_VIEWED
   properties: {
     currency: string
   }
@@ -214,6 +223,7 @@ export type TrackEventAction =
   | WalletRewardsWithdrawChangeWalletClicked
   | WalletRewardsWithdrawMaxAmountClicked
   | WalletRewardsWithdrawTransferClicked
+  | WalletStakingDepositSuccessViewed
   | WalletStakingDepositViewed
   | WalletStakingDetailClicked
   | WalletStakingDetailDepositClicked

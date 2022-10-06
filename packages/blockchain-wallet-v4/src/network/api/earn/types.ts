@@ -72,7 +72,7 @@ type LimitDetails = {
 }
 
 export type EarnDepositLimits = {
-  earnDepositLimits: LimitDetails[] | []
+  depositLimits: LimitDetails[] | []
 }
 
 export type WithdrawLimits = {
@@ -185,13 +185,13 @@ export type CustodialTransferResponseType = {
   coin: CoinType
 }
 
-export type InterestEDDStatus = {
+export type EarnEDDStatus = {
   eddNeeded: boolean
   eddPassed: boolean
   eddSubmitted: boolean
 }
 
-export type InterestEDDDocumentsResponse = {
+export type EarnEDDDocumentsResponse = {
   categories: Array<string>
   maxAllowedFileSizeMBs: number
   maxNumAllowedFiles: number

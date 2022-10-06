@@ -77,8 +77,8 @@ type Props = OwnProps & SuccessStateType
 
 const Template: React.FC<Props> = (props) => {
   const {
+    earnEDDStatus,
     identityVerificationActions,
-    interestEDDStatus,
     modalActions,
     sddEligible,
     userData,
@@ -168,7 +168,7 @@ const Template: React.FC<Props> = (props) => {
                 />
               </span>
             </UpgradeDescription>
-            {interestEDDStatus?.eddSubmitted || isGoldInReview ? (
+            {earnEDDStatus?.eddSubmitted || isGoldInReview ? (
               <StatusCartridge>
                 <BlueCartridge fontSize='12px'>
                   <FormattedMessage

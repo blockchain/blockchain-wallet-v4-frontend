@@ -14,6 +14,8 @@ import { getData } from './AccountSummary.selectors'
 import AccountSummary from './AccountSummary.template.success'
 import Unsupported from './AccountSummary.template.unsupported'
 
+const PENDING_TRANSACTIONS_MAX = 4
+
 const AccountSummaryContainer = (props: OwnProps) => {
   const [isTransactionsToggled, setIsTransactionsToggled] = useState<boolean>(false)
   const { coin, handleClose, showSupply, stepMetadata, walletCurrency } = props
@@ -24,9 +26,7 @@ const AccountSummaryContainer = (props: OwnProps) => {
 
   useEffect(() => {
     dispatch(actions.components.interest.fetchStakingLimits())
-    dispatch(
-      actions.components.interest.fetchEarnBondingDeposits({ ccy: coin, product: 'staking' })
-    )
+    dispatch(actions.components.interest.fetchPendingStakingTransactions({ coin }))
   }, [])
 
   useEffect(() => {
@@ -42,6 +42,19 @@ const AccountSummaryContainer = (props: OwnProps) => {
     }
   }, [coin, isFiatCurrencySupported])
 
+  useEffect(() => {
+    const isTransactionsToggledAutomatically: boolean | undefined =
+      data &&
+      data.pendingTransactions.length < PENDING_TRANSACTIONS_MAX &&
+      data.pendingTransactions.length > 0
+
+    if (isTransactionsToggledAutomatically) {
+      setIsTransactionsToggled(true)
+    } else {
+      setIsTransactionsToggled(false)
+    }
+  }, [data?.pendingTransactions])
+
   const handleDepositClick = () => {
     dispatch(
       actions.analytics.trackEvent({
@@ -52,6 +65,10 @@ const AccountSummaryContainer = (props: OwnProps) => {
       })
     )
     dispatch(actions.components.interest.showStakingModal({ coin, step: 'DEPOSIT' }))
+  }
+
+  const handleEDDSubmitInfo = () => {
+    dispatch(actions.components.interestUploadDocument.showModal({ origin: 'EarnPage' }))
   }
 
   const handleRefresh = () => {
@@ -82,22 +99,36 @@ const AccountSummaryContainer = (props: OwnProps) => {
   if (error) return <DataError onClick={handleRefresh} />
   if (!data || isLoading || isNotAsked) return <Loading />
 
+  const {
+    accountBalances,
+    earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
+    flagEDDInterestFileUpload,
+    pendingTransactions,
+    stakingEligible,
+    stakingLimits,
+    stakingRates
+  } = data
+
+  const isEDDRequired = eddNeeded && !eddSubmitted && !eddPassed
+
   return isFiatCurrencySupported ? (
     <AccountSummary
-      accountBalances={data.accountBalances}
-      bondingDeposits={data.bondingDeposits}
+      accountBalances={accountBalances}
       coin={coin}
       // @ts-ignore
-      flagEDDInterestFileUpload={data.flagEDDInterestFileUpload}
+      flagEDDInterestFileUpload={flagEDDInterestFileUpload}
       handleClose={handleClose}
       handleDepositClick={handleDepositClick}
+      handleEDDSubmitInfo={handleEDDSubmitInfo}
       handleTransactionsToggled={handleTransactionsToggled}
       handleUpLoadDocumentation={handleUpLoadDocumentation}
       handleWithdrawalSupplyInformation={handleWithdrawalSupplyInformation}
+      isEDDRequired={isEDDRequired}
       isTransactionsToggled={isTransactionsToggled}
-      stakingEligible={data.stakingEligible}
-      stakingLimits={data.stakingLimits}
-      stakingRates={data.stakingRates}
+      pendingTransactions={pendingTransactions}
+      stakingEligible={stakingEligible}
+      stakingLimits={stakingLimits}
+      stakingRates={stakingRates}
       showSupply={showSupply}
       stepMetadata={stepMetadata}
       walletCurrency={walletCurrency}

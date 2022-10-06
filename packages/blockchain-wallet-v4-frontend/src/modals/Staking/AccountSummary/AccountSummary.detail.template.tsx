@@ -7,12 +7,17 @@ import { DetailsContainer } from './AccountSummary.model'
 
 const Details = ({ handleClick, subText, subValue, text, tooltipId, value }: DetailsType) => (
   <DetailsContainer $hasHandleClick={!!handleClick} onClick={handleClick}>
-    <Flex flexDirection='column' gap={4} justifyContent='center'>
+    <Flex alignItems='center' gap={4} justifyContent='space-between'>
       <Text color='grey900' size='14px' weight={600}>
         <Flex flexDirection='row' gap={4}>
           {text}
         </Flex>
       </Text>
+      <Text color='grey900' size='14px' weight={600}>
+        {value}
+      </Text>
+    </Flex>
+    <Flex alignItems='center' gap={4} justifyContent='space-between'>
       {subText && (
         <Flex alignItems='center' gap={4}>
           <Text color='grey700' size='14px' weight={500}>
@@ -25,11 +30,6 @@ const Details = ({ handleClick, subText, subValue, text, tooltipId, value }: Det
           )}
         </Flex>
       )}
-    </Flex>
-    <Flex alignItems='flex-end' gap={4} flexDirection='column' justifyContent='center'>
-      <Text color='grey900' size='14px' weight={600}>
-        {value}
-      </Text>
       {subValue && (
         <Text color='grey700' size='14px' weight={500}>
           {subValue}

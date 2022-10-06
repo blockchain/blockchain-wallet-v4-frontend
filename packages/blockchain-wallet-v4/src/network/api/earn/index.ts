@@ -9,12 +9,12 @@ import {
   EarnBondingDepositsParamType,
   EarnBondingDepositsResponseType,
   EarnDepositLimits,
+  EarnEDDDocumentsResponse,
+  EarnEDDStatus,
   EarnEligibleType,
   EarnTransactionParamType,
   EarnTransactionResponseType,
   FileUploadItem,
-  InterestEDDDocumentsResponse,
-  InterestEDDStatus,
   InterestLimitsType,
   InterestWithdrawalResponseType,
   RewardsRatesType,
@@ -156,7 +156,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getSavingsEDDStatus = (): InterestEDDStatus =>
+  const getSavingsEDDStatus = (): EarnEDDStatus =>
     authorizedGet({
       endPoint: '/savings/edd/status',
       url: nabuUrl
@@ -198,7 +198,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getEDDDocumentsLimits = (): InterestEDDDocumentsResponse =>
+  const getEDDDocumentsLimits = (): EarnEDDDocumentsResponse =>
     authorizedGet({
       endPoint: '/savings/edd/documents/limits',
       url: nabuUrl

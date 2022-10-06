@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -7,11 +7,24 @@ import { Button, IconCloseCircle, SemanticColors } from '@blockchain-com/constel
 import { CoinType } from '@core/types'
 import { Image, Text } from 'blockchain-info-components'
 import { actions } from 'data'
+import { Analytics } from 'data/types'
 
 import { Bottom, Middle, TextContainer, Top, Wrapper } from './DepositSuccess.model'
 
 const DepositSuccess = ({ coin, handleClose }: OwnProps) => {
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.WALLET_STAKING_DEPOSIT_SUCCESS_VIEWED,
+        properties: {
+          currency: coin
+        }
+      })
+    )
+  }, [])
+
   const handleClick = () => {
     dispatch(actions.components.interest.setStakingStep({ name: 'ACCOUNT_SUMMARY' }))
   }

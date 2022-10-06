@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { FileUploadItem, InterestEDDDocumentsResponse } from '@core/types'
+import { EarnEDDDocumentsResponse, FileUploadItem } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
 import { toBase64 } from 'utils/helpers'
 
 import DragAndDrop from '../../DragAndDrop'
+// eslint-disable-next-line import/no-named-as-default
 import Container from '../Container'
 import Content from '../Content'
 import Footer from '../Footer'
@@ -325,7 +326,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
 }
 
 export type Props = {
-  documentLimits: InterestEDDDocumentsResponse
+  documentLimits: EarnEDDDocumentsResponse
   nextStep: () => void
   previousStep: () => void
   submitData: (files) => void
