@@ -352,18 +352,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
       // Resets any previous form errors
       yield put(actions.form.destroy('brokerageTx'))
-      yield put(
-        actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.ENTER_AMOUNT
-        })
-      )
-    } else {
-      yield put(
-        actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.DEPOSIT_METHODS
-        })
-      )
     }
+    yield put(
+      actions.components.brokerage.setDWStep({
+        dwStep: BankDWStepType.ENTER_AMOUNT
+      })
+    )
   }
 
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
