@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import { FileUploadItem, InterestEDDDocumentsResponse } from '@core/types'
+import { EarnEDDDocumentsResponse, FileUploadItem } from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
 
 import {
@@ -11,7 +11,7 @@ import {
 } from './types'
 
 const initialState: InterestUploadDocumentsState = {
-  interestEDDDocumentLimits: Remote.NotAsked,
+  earnEDDDocumentLimits: Remote.NotAsked,
   step: InterestUploadDocumentsStepType.INIT_PAGE
 }
 
@@ -22,16 +22,13 @@ const interestUploadDocumentSlice = createSlice({
     // EDD Documents Limits
     fetchEDDDocumentsLimits: () => {},
     fetchEDDDocumentsLimitsFailure: (state, action: PayloadAction<string>) => {
-      state.interestEDDDocumentLimits = Remote.Failure(action.payload)
+      state.earnEDDDocumentLimits = Remote.Failure(action.payload)
     },
     fetchEDDDocumentsLimitsLoading: (state) => {
-      state.interestEDDDocumentLimits = Remote.Loading
+      state.earnEDDDocumentLimits = Remote.Loading
     },
-    fetchEDDDocumentsLimitsSuccess: (
-      state,
-      action: PayloadAction<InterestEDDDocumentsResponse>
-    ) => {
-      state.interestEDDDocumentLimits = Remote.Success(action.payload)
+    fetchEDDDocumentsLimitsSuccess: (state, action: PayloadAction<EarnEDDDocumentsResponse>) => {
+      state.earnEDDDocumentLimits = Remote.Success(action.payload)
     },
 
     saveAdditionalData: () => {},

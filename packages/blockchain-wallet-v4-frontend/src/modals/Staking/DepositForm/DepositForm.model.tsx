@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { CoinType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
-import { CustomCartridge, OrangeCartridge } from 'components/Cartridge'
+import { CustomCartridge } from 'components/Cartridge'
 import Form from 'components/Form/Form'
 
 export const FORM_NAME = 'stakingDepositForm'
@@ -128,12 +128,6 @@ export const ToggleCoinText = styled(Text)<{ displayCoin: boolean }>`
 `
 export const InfoText = styled.div`
   display: inline;
-`
-export const CustomOrangeCartridge = styled(OrangeCartridge)`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  margin-top: 24px;
 `
 export const NetworkFeeContainer = styled.div`
   display: flex;
