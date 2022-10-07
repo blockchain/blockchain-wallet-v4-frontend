@@ -52,15 +52,15 @@ export const BoxRowItemSubTitle = styled(Text)`
 
 export const Iframe = styled.iframe`
   border: 0;
-  height: 355px;
-  width: 246px;
+  height: 320px;
+  width: 100%;
 `
 
 export const CardWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: start;
-  margin-top: 40px;
+  padding: 1rem 1.5rem;
   font-family: 'Inter';
 `
 
