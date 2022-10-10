@@ -28,11 +28,8 @@ export type EarnBondingDepositsParamType = {
   ccy?: CoinType
   product: string
 }
-export type EarnBondingDepositType = {
-  amount: {
-    symbol: CoinType
-    value: string
-  }
+export type EarnBondingDepositsType = {
+  amount: string
   bondingDays: number
   bondingExpiryDate: string
   bondingStartDate: string
@@ -43,7 +40,10 @@ export type EarnBondingDepositType = {
   product: string
   userId: string
 }
-export type EarnBondingDepositsResponseType = Array<EarnBondingDepositType> | null
+export type EarnBondingDepositsResponseType = {
+  bondingDeposits: Array<EarnBondingDepositsType>
+  unbondingWithdrawals: Array<null>
+} | null
 export type EarnEligibleType = {
   [key in CoinType]?: {
     eligible: boolean
@@ -72,7 +72,7 @@ type LimitDetails = {
 }
 
 export type EarnDepositLimits = {
-  earnDepositLimits: LimitDetails[] | []
+  depositLimits: LimitDetails[] | []
 }
 
 export type WithdrawLimits = {
@@ -185,13 +185,13 @@ export type CustodialTransferResponseType = {
   coin: CoinType
 }
 
-export type InterestEDDStatus = {
+export type EarnEDDStatus = {
   eddNeeded: boolean
   eddPassed: boolean
   eddSubmitted: boolean
 }
 
-export type InterestEDDDocumentsResponse = {
+export type EarnEDDDocumentsResponse = {
   categories: Array<string>
   maxAllowedFileSizeMBs: number
   maxNumAllowedFiles: number

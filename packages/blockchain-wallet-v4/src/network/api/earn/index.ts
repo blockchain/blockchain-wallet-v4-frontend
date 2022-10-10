@@ -9,12 +9,12 @@ import {
   EarnBondingDepositsParamType,
   EarnBondingDepositsResponseType,
   EarnDepositLimits,
+  EarnEDDDocumentsResponse,
+  EarnEDDStatus,
   EarnEligibleType,
   EarnTransactionParamType,
   EarnTransactionResponseType,
   FileUploadItem,
-  InterestEDDDocumentsResponse,
-  InterestEDDStatus,
   InterestLimitsType,
   InterestWithdrawalResponseType,
   RewardsRatesType,
@@ -65,7 +65,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     product
   }: EarnBondingDepositsParamType): EarnBondingDepositsResponseType =>
     authorizedGet({
-      endPoint: `/earn/bonding-deposits?product=${product}&ccy=${ccy}&`,
+      endPoint: `/earn/bonding-txs?product=${product}&ccy=${ccy}&`,
       url: nabuUrl
     })
 
@@ -97,7 +97,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
 
   const getStakingRates = (): StakingRatesType =>
     authorizedGet({
-      endPoint: '/earn/rates?product=staking&',
+      endPoint: '/earn/rates-user?product=staking&',
       url: nabuUrl
     })
 
@@ -156,7 +156,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getSavingsEDDStatus = (): InterestEDDStatus =>
+  const getSavingsEDDStatus = (): EarnEDDStatus =>
     authorizedGet({
       endPoint: '/savings/edd/status',
       url: nabuUrl
@@ -198,7 +198,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getEDDDocumentsLimits = (): InterestEDDDocumentsResponse =>
+  const getEDDDocumentsLimits = (): EarnEDDDocumentsResponse =>
     authorizedGet({
       endPoint: '/savings/edd/documents/limits',
       url: nabuUrl

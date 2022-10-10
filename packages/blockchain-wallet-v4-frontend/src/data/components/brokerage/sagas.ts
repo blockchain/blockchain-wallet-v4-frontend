@@ -28,6 +28,7 @@ import {
   ProductEligibilityForUser,
   VerifyIdentityOriginType
 } from 'data/types'
+import { isNabuError } from 'services/errors'
 import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import profileSagas from '../../modules/profile/sagas'
@@ -96,21 +97,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     bankCredentials: BankCredentialsType,
     account: string | PlaidAccountType | YodleeAccountType
   ) {
-    switch (true) {
-      case typeof account === 'string' && bankCredentials:
-        // Yapily
-        const domainsR = yield select(selectors.core.walletOptions.getDomains)
-        const { comRoot } = domainsR.getOrElse({
-          comRoot: 'https://www.blockchain.com'
-        })
-        const callback = `${comRoot}/brokerage-link-success`
-        return [bankCredentials.id, { callback, institutionId: account }]
-      case typeof account !== 'string':
-      default:
-        // Plaid
-        // Yodlee
-        return [bankCredentials.id, account]
+    if (typeof account === 'string' && bankCredentials) {
+      // Yapily
+      const domainsR = yield select(selectors.core.walletOptions.getDomains)
+      const { comRoot } = domainsR.getOrElse({
+        comRoot: 'https://www.blockchain.com'
+      })
+      const callback = `${comRoot}/brokerage-link-success`
+      return [bankCredentials.id, { callback, institutionId: account }]
     }
+    // Plaid
+    // Yodlee
+    return [bankCredentials.id, account]
+    // switch (true) {
+    //   case typeof account === 'string' && bankCredentials:
+    //     // Yapily
+    //     const domainsR = yield select(selectors.core.walletOptions.getDomains)
+    //     const { comRoot } = domainsR.getOrElse({
+    //       comRoot: 'https://www.blockchain.com'
+    //     })
+    //     const callback = `${comRoot}/brokerage-link-success`
+    //     return [bankCredentials.id, { callback, institutionId: account }]
+    //   case typeof account !== 'string':
+    //   default:
+    //     // Plaid
+    //     // Yodlee
+    //     return [bankCredentials.id, account]
+    // }
   }
 
   const fetchBankTransferUpdate = function* ({
@@ -202,11 +215,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const setupBankTransferProvider = function* () {
-    const fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
-    yield put(actions.components.brokerage.fetchBankLinkCredentials(fiatCurrency as WalletFiatType))
-    return yield race({
-      bankCredentials: take(actions.components.brokerage.setBankCredentials.type)
-    })
+    try {
+      const fiatCurrency = selectors.modules.profile
+        .getTradingCurrency(yield select())
+        .getOrFail('Could not retrieve trading currency.')
+      yield put(
+        actions.components.brokerage.fetchBankLinkCredentials(fiatCurrency as WalletFiatType)
+      )
+      return yield race({
+        bankCredentials: take(actions.components.brokerage.setBankCredentials.type)
+      })
+    } catch (error) {
+      yield put(actions.components.brokerage.fetchBankLinkCredentialsError(error))
+    }
   }
 
   const fetchBankRefreshCredentials = function* ({
@@ -240,7 +261,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const credentials: BankCredentialsType = yield call(api.createBankAccountLink, data)
       yield put(A.setBankCredentials(credentials))
     } catch (e) {
-      yield put(A.fetchBankLinkCredentialsError(e.description))
+      yield put(A.fetchBankLinkCredentialsError(e))
     }
   }
 
@@ -331,18 +352,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
       // Resets any previous form errors
       yield put(actions.form.destroy('brokerageTx'))
-      yield put(
-        actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.ENTER_AMOUNT
-        })
-      )
-    } else {
-      yield put(
-        actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.DEPOSIT_METHODS
-        })
-      )
     }
+    yield put(
+      actions.components.brokerage.setDWStep({
+        dwStep: BankDWStepType.ENTER_AMOUNT
+      })
+    )
   }
 
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
@@ -468,10 +483,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       partner === BankPartners.YAPILY ? `${comRoot}/brokerage-link-success` : undefined
     const attributes = { callback }
     try {
-      // Checks the status of the baank account before creating the order in case
-      // we need to redirect the user to the the brokerage flow
-      yield put(A.paymentAccountCheck({ amount, paymentMethodId: id }))
-      yield take(actions.components.brokerage.paymentAccountRefreshSkipped.type)
+      if (partner !== BankPartners.YAPILY) {
+        // Checks the status of the baank account before creating the order in case
+        // we need to redirect the user to the the brokerage flow
+        yield put(A.paymentAccountCheck({ amount, paymentMethodId: id }))
+        yield take(actions.components.brokerage.paymentAccountRefreshSkipped.type)
+      }
 
       const data = yield call(api.createFiatDeposit, amount, id, currency, attributes)
       const { RETRY_AMOUNT, SECONDS } = POLLING
@@ -491,14 +508,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             })
           )
         }
+      } else {
+        // The order has successfully been submitted, go to loading step while we poll order status
+        yield put(
+          actions.components.brokerage.setDWStep({
+            dwStep: BankDWStepType.LOADING
+          })
+        )
       }
-
-      // The order has successfully been submitted, go to loading step while we poll order status
-      yield put(
-        actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.LOADING
-        })
-      )
 
       // Poll for order status in order to show success, timed out or failed
       try {

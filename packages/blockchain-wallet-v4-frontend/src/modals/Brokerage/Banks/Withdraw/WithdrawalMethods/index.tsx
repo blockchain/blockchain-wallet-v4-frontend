@@ -5,7 +5,13 @@ import { Remote } from '@core'
 import { WalletFiatType } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions } from 'data'
-import { AddBankStepType, BrokerageModalOriginType, ModalName, WithdrawStepEnum } from 'data/types'
+import {
+  AddBankStepType,
+  BankDWStepType,
+  BrokerageModalOriginType,
+  ModalName,
+  WithdrawStepEnum
+} from 'data/types'
 import { useRemote } from 'hooks'
 
 import getData from './selectors'
@@ -29,12 +35,13 @@ const WithdrawalMethods: Props = ({ fiatCurrency, handleClose }) => {
   }, [dispatch])
 
   const bankTransferCallback = useCallback(() => {
+    const ACHProvider = data?.plaidEnabled
+      ? ModalName.ADD_BANK_PLAID_MODAL
+      : ModalName.ADD_BANK_YODLEE_MODAL
     dispatch(actions.components.brokerage.setupBankTransferProvider())
     dispatch(
       actions.components.brokerage.showModal({
-        modalType: data?.plaidEnabled
-          ? ModalName.ADD_BANK_PLAID_MODAL
-          : ModalName.ADD_BANK_YODLEE_MODAL,
+        modalType: fiatCurrency === 'USD' ? ACHProvider : ModalName.ADD_BANK_YAPILY_MODAL,
         origin: BrokerageModalOriginType.ADD_BANK_WITHDRAW
       })
     )
@@ -52,15 +59,21 @@ const WithdrawalMethods: Props = ({ fiatCurrency, handleClose }) => {
   }, [data?.plaidEnabled, dispatch, fiatCurrency])
 
   const bankWireCallback = useCallback(() => {
-    dispatch(actions.components.buySell.showModal({ origin: 'WithdrawModal' }))
-
     if (data?.userData.tiers.current === 2) {
       dispatch(
-        actions.components.buySell.setStep({
-          addBank: true,
-          displayBack: false,
-          fiatCurrency,
-          step: 'BANK_WIRE_DETAILS'
+        actions.components.brokerage.showModal({
+          modalType: 'BANK_DEPOSIT_MODAL',
+          origin: BrokerageModalOriginType.WITHDRAWAL
+        })
+      )
+      dispatch(actions.components.buySell.setFiatCurrency(fiatCurrency))
+      // dispatch(actions.components.brokerage.setFiatCurrency(fiatCurrency))
+      // TODO: implement Withdrawal version of wire instructions so we
+      // have more control over look/feel/interactions instead of piggy packing
+      // off of the deposit wire instructions
+      dispatch(
+        actions.components.brokerage.setDWStep({
+          dwStep: BankDWStepType.WIRE_INSTRUCTIONS
         })
       )
     } else {

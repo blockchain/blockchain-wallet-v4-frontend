@@ -24,7 +24,7 @@ class Interest extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-    this.props.fetchInterestEDDStatus()
+    this.props.fetchEarnEDDStatus()
   }
 
   handleClose = () => {
@@ -41,7 +41,7 @@ class Interest extends PureComponent<Props, State> {
       this.props.buySellActions.showModal({
         cryptoCurrency: coin,
         orderType: 'BUY',
-        origin: 'InterestPage'
+        origin: 'EarnPage'
       })
     }, duration / 2)
   }
@@ -106,7 +106,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
+  fetchEarnEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 

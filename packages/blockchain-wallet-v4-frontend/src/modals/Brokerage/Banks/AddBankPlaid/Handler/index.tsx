@@ -4,9 +4,11 @@ import styled from 'styled-components'
 
 import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
 import { AddBankStepType, BankPartners, PlaidSettlementErrorReasons } from 'data/types'
 import { useRemote } from 'hooks'
+import { isNabuError } from 'services/errors'
 
 const FullScreenModal = styled(FlyoutWrapper)`
   background-color: rgb(18 29 51 / 5%);
@@ -27,6 +29,8 @@ const Iframe = styled.iframe`
 
 const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Props) => {
   const dispatch = useDispatch()
+  const iFrameUrl = useSelector(selectors.components.brokerage.getPlaidWalletHelperLink)
+  const { data, error, hasError } = useRemote(selectors.components.brokerage.getBankCredentials)
 
   useEffect(() => {
     if (reason && paymentMethodId) {
@@ -37,6 +41,8 @@ const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Prop
         default:
           break
       }
+    } else {
+      dispatch(actions.components.brokerage.setupBankTransferProvider())
     }
   }, [reason, dispatch, paymentMethodId])
   const handlePostMessage = (event: MessageEvent) => {
@@ -67,9 +73,9 @@ const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Prop
     }
   }, [])
 
-  const iFrameUrl = useSelector(selectors.components.brokerage.getPlaidWalletHelperLink)
-  const { data, error, hasError } = useRemote(selectors.components.brokerage.getBankCredentials)
-
+  if (isNabuError(error)) {
+    return <GenericNabuErrorFlyout error={error} onDismiss={handleClose} />
+  }
   if (hasError) {
     return <DataError />
   }

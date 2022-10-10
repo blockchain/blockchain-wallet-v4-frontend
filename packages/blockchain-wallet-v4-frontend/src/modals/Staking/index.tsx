@@ -12,12 +12,13 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { ModalPropsType } from '../types'
 import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
+import DepositSuccess from './DepositSuccess'
 import Warning from './Warning'
 
 const Staking = ({
   close,
   coin,
-  fetchInterestEDDStatus,
+  fetchEarnEDDStatus,
   position,
   step,
   total,
@@ -29,7 +30,7 @@ const Staking = ({
 
   useEffect(() => {
     setShow(true)
-    fetchInterestEDDStatus()
+    fetchEarnEDDStatus()
   }, [])
 
   const handleClose = () => {
@@ -58,6 +59,11 @@ const Staking = ({
           <DepositForm coin={coin} setShowSupply={setShowSupply} walletCurrency={walletCurrency} />
         </FlyoutChild>
       )}
+      {step.name === 'DEPOSIT_SUCCESS' && (
+        <FlyoutChild>
+          <DepositSuccess coin={coin} handleClose={handleClose} />
+        </FlyoutChild>
+      )}
       {step.name === 'ACCOUNT_SUMMARY' && (
         <FlyoutChild>
           <AccountSummary
@@ -80,7 +86,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
+  fetchEarnEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 

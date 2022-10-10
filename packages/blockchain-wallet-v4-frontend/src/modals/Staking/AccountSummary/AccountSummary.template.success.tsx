@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
+  Flex,
   IconChevronDownV2,
   IconChevronUpV2,
   Padding,
@@ -13,7 +14,6 @@ import { formatFiat } from '@core/exchange/utils'
 import {
   CoinType,
   EarnAccountBalanceResponseType,
-  EarnBondingDepositsResponseType,
   EarnEligibleType,
   FiatType,
   StakingRatesType
@@ -21,8 +21,9 @@ import {
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { EarnStepMetaData } from 'data/types'
+import { EarnStepMetaData, PendingTransactionType } from 'data/types'
 
+import { EDDMessageContainer } from '../Staking.model'
 import { OwnProps as ParentProps } from '.'
 import Detail from './AccountSummary.detail.template'
 import {
@@ -42,15 +43,17 @@ import {
 const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
-    bondingDeposits,
     coin,
     flagEDDInterestFileUpload,
     handleClose,
     handleDepositClick,
+    handleEDDSubmitInfo,
     handleTransactionsToggled,
     handleUpLoadDocumentation,
     handleWithdrawalSupplyInformation,
+    isEDDRequired,
     isTransactionsToggled,
+    pendingTransactions,
     showSupply,
     stakingEligible,
     stakingRates,
@@ -149,95 +152,6 @@ const AccountSummary: React.FC<Props> = (props) => {
             </Row>
           </>
         )}
-        {showSupply &&
-          stepMetadata &&
-          (stepMetadata.withdrawSuccess || stepMetadata.depositSuccess) && (
-            <StatusSupplyWrapper className={flagEDDInterestFileUpload ? 'new' : 'old'}>
-              <Text color='grey900' size='16px' weight={600}>
-                <FormattedMessage
-                  id='modals.interest.withdrawal.supply_information_title'
-                  defaultMessage='More Info Needed'
-                />
-              </Text>
-              <Text color='grey600' size='12px' weight={500} style={{ marginTop: '16px' }}>
-                {stepMetadata.withdrawSuccess ? (
-                  flagEDDInterestFileUpload ? (
-                    <FormattedMessage
-                      id='modals.interest.withdrawal.supply_information_description_1_new'
-                      defaultMessage='Your recent withdrawal of {amount} requires further verification for legal and compliance reasons.'
-                      values={{
-                        amount: `${currencySymbol}${formatFiat(stepMetadata.withdrawalAmount)}`
-                      }}
-                    />
-                  ) : (
-                    <FormattedMessage
-                      id='modals.interest.withdrawal.supply_information_description_1'
-                      defaultMessage="You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
-                    />
-                  )
-                ) : (
-                  <FormattedMessage
-                    id='modals.interest.deposit.supply_information_description_1'
-                    defaultMessage="You've transferred an amount that requires further verification for legal and compliance reasons."
-                  />
-                )}
-              </Text>
-              <Text color='grey600' size='12px' weight={500} style={{ marginTop: '16px' }}>
-                {stepMetadata.withdrawSuccess ? (
-                  flagEDDInterestFileUpload ? (
-                    <FormattedMessage
-                      id='modals.interest.withdrawal.supply_information_description_2_new'
-                      defaultMessage='Please submit the additional information so we can start processing your withdrawal.'
-                    />
-                  ) : (
-                    <FormattedMessage
-                      id='modals.interest.withdrawal.supply_information_description_2'
-                      defaultMessage="You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
-                    />
-                  )
-                ) : (
-                  <FormattedMessage
-                    id='modals.interest.deposit.supply_information_description_2'
-                    defaultMessage='Your funds are safe with us and have started accruing rewards already. To avoid delays when you decide to withdraw your funds, submit your information now.'
-                  />
-                )}
-              </Text>
-
-              <Padding vertical={1}>
-                {flagEDDInterestFileUpload ? (
-                  <Button
-                    data-e2e='earnInterestSupplyMoreInformation'
-                    fullwidth
-                    nature='primary'
-                    onClick={handleUpLoadDocumentation}
-                  >
-                    <FormattedMessage
-                      id='scenes.interest.submit_information'
-                      defaultMessage='Submit Information'
-                    />
-                  </Button>
-                ) : (
-                  <Link
-                    href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
-                    style={{ width: '100%' }}
-                    target='_blank'
-                  >
-                    <Button
-                      data-e2e='earnStakingSupplyMoreInformation'
-                      fullwidth
-                      nature='primary'
-                      onClick={handleWithdrawalSupplyInformation}
-                    >
-                      <FormattedMessage
-                        id='scenes.interest.submit_information'
-                        defaultMessage='Submit Information'
-                      />
-                    </Button>
-                  </Link>
-                )}
-              </Padding>
-            </StatusSupplyWrapper>
-          )}
         {stepMetadata && stepMetadata.error && (
           <StatusWrapper>
             <StatusIconWrapper color='red000'>
@@ -290,14 +204,15 @@ const AccountSummary: React.FC<Props> = (props) => {
             }
             value={<FormattedMessage defaultMessage='Daily' id='copy.daily' />}
           />
-          {bondingDeposits && (
+          {pendingTransactions.length > 0 && (
             <>
               <Detail
                 handleClick={handleTransactionsToggled}
                 text={
                   <FormattedMessage
-                    defaultMessage='Transactions in progress'
+                    defaultMessage='Transactions in progress ({totalPendingTransactions})'
                     id='modals.staking.accountsummary.transactionsprogress'
+                    values={{ totalPendingTransactions: pendingTransactions.length }}
                   />
                 }
                 value={
@@ -309,48 +224,96 @@ const AccountSummary: React.FC<Props> = (props) => {
                 }
               />
               {isTransactionsToggled &&
-                bondingDeposits.map(
-                  ({ amount: { symbol, value }, bondingDays, bondingStartDate, paymentRef }) => (
+                pendingTransactions.map(({ amount, bondingDays, date, type }) => {
+                  const isBonding = type === 'BONDING'
+
+                  return (
                     <Detail
-                      key={paymentRef}
-                      subText={<FormattedMessage defaultMessage='Pending' id='copy.pending' />}
+                      key={date}
+                      subText={
+                        isBonding ? (
+                          <FormattedMessage defaultMessage='Bonding' id='copy.bonding' />
+                        ) : (
+                          <FormattedMessage defaultMessage='Pending' id='copy.pending' />
+                        )
+                      }
                       subValue={
-                        <FormattedMessage
-                          defaultMessage='Bonding Period: {bondingDays} {days}'
-                          id='modals.staking.accountsummary.bondingperiod'
-                          values={{
-                            bondingDays,
-                            days:
-                              bondingDays > 1 ? (
-                                <FormattedMessage
-                                  defaultMessage='days'
-                                  id='modals.staking.warning.content.subtitle.days'
-                                />
-                              ) : (
-                                <FormattedMessage
-                                  defaultMessage='day'
-                                  id='modals.staking.warning.content.subtitle.day'
-                                />
-                              )
-                          }}
-                        />
+                        bondingDays ? (
+                          <FormattedMessage
+                            defaultMessage='Bonding Period: {bondingDays} {days}'
+                            id='modals.staking.accountsummary.bondingperiod'
+                            values={{
+                              bondingDays,
+                              days:
+                                bondingDays > 1 ? (
+                                  <FormattedMessage
+                                    defaultMessage='days'
+                                    id='modals.staking.warning.content.subtitle.days'
+                                  />
+                                ) : (
+                                  <FormattedMessage
+                                    defaultMessage='day'
+                                    id='modals.staking.warning.content.subtitle.day'
+                                  />
+                                )
+                            }}
+                          />
+                        ) : null
                       }
                       text={
-                        <FormattedMessage
-                          defaultMessage='Stake {value} {symbol}'
-                          id='modals.staking.accountsummary.transactionsprogress.stake'
-                          values={{
-                            symbol,
-                            value
-                          }}
-                        />
+                        <Flex gap={4}>
+                          {isBonding ? (
+                            <FormattedMessage defaultMessage='Stake' id='copy.stake' />
+                          ) : (
+                            <FormattedMessage defaultMessage='Transfer' id='copy.transfer' />
+                          )}
+                          <CoinDisplay
+                            coin={coin}
+                            color='grey900'
+                            cursor='inherit'
+                            size='14px'
+                            weight={600}
+                            data-e2e={`${coin}BondingDepositAmount`}
+                          >
+                            {amount}
+                          </CoinDisplay>
+                        </Flex>
                       }
-                      tooltipId='modals.staking.bonding.pending.tooltip'
-                      value={format(new Date(bondingStartDate), 'MMMM d yyyy @ h:mm a')}
+                      tooltipId={isBonding ? 'modals.staking.bonding.pending.tooltip' : undefined}
+                      value={format(new Date(date), "h:mm a 'on' MMM d yyyy")}
                     />
                   )
-                )}
+                })}
             </>
+          )}
+          {isEDDRequired && (
+            <EDDMessageContainer>
+              <Text color='orange700' size='14px' weight={600}>
+                <FormattedMessage
+                  id='modals.staking.account-summary.edd_need.title'
+                  defaultMessage='Additional Information Required'
+                />
+              </Text>
+              <Text color='grey900' size='12px' weight={500}>
+                <FormattedMessage
+                  id='modals.staking.account-summary.edd_need.description'
+                  defaultMessage='You’ve transferred an amount that requires further verification for legal and compliance reasons. {br}{br} Your funds are safe with us and have started accruing interest already. To avoid delays when you decide to withdraw your funds, submit your information now. '
+                  values={{ br: <br /> }}
+                />
+              </Text>
+              <Button
+                data-e2e='eddInformationSubmitted'
+                nature='dark-grey'
+                onClick={handleEDDSubmitInfo}
+                size='14px'
+                width='154px'
+              >
+                <FormattedMessage
+                  defaultMessage='Submit Information'
+                  id='scenes.interest.submit_information'
+                />
+              </Button>
+            </EDDMessageContainer>
           )}
         </DetailsWrapper>
       </Top>
@@ -389,15 +352,17 @@ const AccountSummary: React.FC<Props> = (props) => {
 
 type OwnProps = {
   accountBalances: EarnAccountBalanceResponseType
-  bondingDeposits: EarnBondingDepositsResponseType
   coin: CoinType
   flagEDDInterestFileUpload: boolean
   handleBSClick: (string) => void
   handleDepositClick: () => void
+  handleEDDSubmitInfo: () => void
   handleTransactionsToggled: () => void
   handleUpLoadDocumentation: () => void
   handleWithdrawalSupplyInformation: () => void
+  isEDDRequired: boolean
   isTransactionsToggled: boolean
+  pendingTransactions: Array<PendingTransactionType>
   stakingEligible: EarnEligibleType
   stakingRates: StakingRatesType['rates']
   stepMetadata: EarnStepMetaData

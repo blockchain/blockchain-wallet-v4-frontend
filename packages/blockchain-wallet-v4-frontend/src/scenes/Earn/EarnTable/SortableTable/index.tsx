@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-table'
 
 import { CoinType } from '@core/types'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Text, TooltipHost } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
@@ -24,6 +24,7 @@ const SortableTable = ({
   interestAccountBalance,
   interestEligible,
   interestRates,
+  isGoldTier,
   sortedInstruments,
   stakingAccountBalance,
   stakingEligible,
@@ -143,33 +144,32 @@ const SortableTable = ({
         ? stakingAccountBalance && stakingAccountBalance[coin]
         : interestAccountBalance && interestAccountBalance[coin]
       const accountBalanceBase = account ? account.balance : 0
-      const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
-      const stakingEligibleCoin = stakingEligible[coin] && stakingEligible[coin]?.eligible
+      const hasAccountBalance = accountBalanceBase > 0
+      const isInterestCoinEligible = interestEligible[coin] && interestEligible[coin]?.eligible
+      const isStakingCoinEligible = stakingEligible[coin] && stakingEligible[coin]?.eligible
       const rate = isStaking ? stakingRates[coin].rate : interestRates[coin]
 
       const primaryButton = isStaking
         ? {
-            disabled: !stakingEligibleCoin,
+            disabled: !isGoldTier || (!hasAccountBalance && !isStakingCoinEligible),
             onClick: () => handleClick(coin, isStaking),
-            text:
-              accountBalanceBase > 0 ? (
-                <FormattedMessage id='copy.manage' defaultMessage='Manage' />
-              ) : (
-                <FormattedMessage id='copy.stake' defaultMessage='Stake' />
-              ),
-            variant: accountBalanceBase > 0 ? 'minimal' : 'primary',
+            text: hasAccountBalance ? (
+              <FormattedMessage id='copy.manage' defaultMessage='Manage' />
+            ) : (
+              <FormattedMessage id='copy.stake' defaultMessage='Stake' />
+            ),
+            variant: hasAccountBalance ? 'minimal' : 'primary',
             width: 'auto'
           }
         : {
-            disabled: !interestEligibleCoin,
+            disabled: !isGoldTier || (!hasAccountBalance && !isInterestCoinEligible),
             onClick: () => handleClick(coin, isStaking),
-            text:
-              accountBalanceBase > 0 ? (
-                <FormattedMessage id='copy.manage' defaultMessage='Manage' />
-              ) : (
-                <FormattedMessage id='copy.add' defaultMessage='Add' />
-              ),
-            variant: accountBalanceBase > 0 ? 'minimal' : 'primary',
+            text: hasAccountBalance ? (
+              <FormattedMessage id='copy.manage' defaultMessage='Manage' />
+            ) : (
+              <FormattedMessage id='copy.add' defaultMessage='Add' />
+            ),
+            variant: hasAccountBalance ? 'minimal' : 'primary',
             width: 'auto'
           }
 
@@ -180,8 +180,16 @@ const SortableTable = ({
         asset: {
           icon: <Icon name={coin} color={coin} size='32px' />,
           iconPosition: 'left',
-          subtext: displaySymbol,
-          text: displayName,
+          subtext: (
+            <Text color='grey700' size='14px' weight={500}>
+              {displaySymbol}
+            </Text>
+          ),
+          text: (
+            <Text color='grey900' size='14px' weight={500}>
+              {displayName}
+            </Text>
+          ),
           value: displayName
         } as CellProps,
         balance: {
@@ -217,17 +225,21 @@ const SortableTable = ({
         } as CellProps,
         type: {
           text: isStaking ? (
-            <StakingTextContainer>
-              <Text color='grey900' size='12px' weight={600}>
-                {product}
-              </Text>
-            </StakingTextContainer>
+            <TooltipHost id='earntable.staking.tooltip'>
+              <StakingTextContainer>
+                <Text color='grey900' size='12px' weight={600}>
+                  {product}
+                </Text>
+              </StakingTextContainer>
+            </TooltipHost>
           ) : (
-            <RewardsTextContainer>
-              <Text color='grey600' size='12px' weight={600}>
-                {product}
-              </Text>
-            </RewardsTextContainer>
+            <TooltipHost id='earntable.rewards.tooltip'>
+              <RewardsTextContainer>
+                <Text color='grey600' size='12px' weight={600}>
+                  {product}
+                </Text>
+              </RewardsTextContainer>
+            </TooltipHost>
           ),
           value: product
         } as CellProps

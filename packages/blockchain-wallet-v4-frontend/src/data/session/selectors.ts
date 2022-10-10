@@ -13,7 +13,7 @@ export const getExchangeSessions = (state: RootState) => {
 }
 
 export const getExchangeSessionId = (state: RootState, email) => {
-  if (getExchangeSessions(state)?.email === email) {
+  if (getExchangeSessions(state)?.email?.toLowerCase() === email.toLowerCase()) {
     return getExchangeSessions(state)?.id
   }
 }
@@ -24,7 +24,8 @@ export const getWalletSessions = (state: RootState) => {
 
 export const getWalletSessionId = (state: RootState, guid, email) => {
   const guidMatches = guid && getWalletSessions(state)?.guid === guid
-  const emailMatches = email && getWalletSessions(state)?.email === email
+  const emailMatches =
+    email && getWalletSessions(state)?.email?.toLowerCase() === email.toLowerCase()
   if (guidMatches || emailMatches) {
     return getWalletSessions(state)?.id
   }

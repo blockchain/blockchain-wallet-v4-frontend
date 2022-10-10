@@ -10,9 +10,8 @@ const getData = (state) => {
   const ratesR = selectors.components.interest.getRates(state)
   const withdrawalMinimumsR = selectors.components.interest.getWithdrawalMinimums(state)
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
-  const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
-  const interestEDDWithdrawLimitsR =
-    selectors.components.interest.getInterestEDDWithdrawLimits(state)
+  const earnEDDStatusR = selectors.components.interest.getEarnEDDStatus(state)
+  const earnEDDWithdrawLimitsR = selectors.components.interest.getEarnEDDWithdrawLimits(state)
 
   const flagEDDInterestFileUpload = selectors.core.walletOptions
     .getEDDInterestFileUpload(state)
@@ -24,8 +23,8 @@ const getData = (state) => {
       interestLimits,
       rates,
       withdrawalMinimums,
-      interestEDDStatus,
-      interestEDDWithdrawLimits
+      earnEDDStatus,
+      earnEDDWithdrawLimits
     ) => ({
       accountBalances,
       availToWithdraw: new BigNumber(Number(accountBalances[coin].balance)).minus(
@@ -33,9 +32,9 @@ const getData = (state) => {
       ),
       coin,
       displayCoin,
+      earnEDDStatus,
+      earnEDDWithdrawLimits,
       flagEDDInterestFileUpload,
-      interestEDDStatus,
-      interestEDDWithdrawLimits,
       interestLimits,
       rates,
       withdrawalMinimums
@@ -45,8 +44,8 @@ const getData = (state) => {
     interestLimitsR,
     ratesR,
     withdrawalMinimumsR,
-    interestEDDStatusR,
-    interestEDDWithdrawLimitsR
+    earnEDDStatusR,
+    earnEDDWithdrawLimitsR
   )
 }
 

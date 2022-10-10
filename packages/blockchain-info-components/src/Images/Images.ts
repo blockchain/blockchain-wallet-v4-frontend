@@ -73,6 +73,7 @@ import orderMyCard from './img/debitCard/order-my-card.png'
 import orderSuccess from './img/debitCard/order-success.png'
 import terminateCard from './img/debitCard/terminate-card.png'
 import ethLocked from './img/earn/eth-locked.svg'
+import ethPending from './img/earn/eth-pending.svg'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emailVerified from './img/email-verified.svg'
@@ -243,6 +244,7 @@ const Images = {
   'empty-search': emptySearch,
   'empty-tx': emptyTx,
   'eth-locked': ethLocked,
+  'eth-pending': ethPending,
   exchange,
   'exchange-grayscale': exchangeGrayscale,
   'exchange-no-background': exchangeNoBackground,
