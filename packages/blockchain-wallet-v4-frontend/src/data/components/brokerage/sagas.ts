@@ -338,6 +338,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
     }
 
+    // User is only allowed to do Wire/Sepa/Faster Payments so just take them to wire details screen
+    if (eligibleMethods.length === 1 && eligibleMethods[0].type === BSPaymentTypes.BANK_ACCOUNT) {
+      return yield put(
+        actions.components.brokerage.setDWStep({
+          dwStep: BankDWStepType.WIRE_INSTRUCTIONS
+        })
+      )
+    }
+
     const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
       yield select()
     )
