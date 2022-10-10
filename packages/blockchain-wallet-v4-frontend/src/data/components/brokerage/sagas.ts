@@ -597,18 +597,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     )
 
     const { reason, settlementType } = status.attributes?.settlementResponse
-    if (settlementType !== 'UNAVAILABLE') {
-      // If settlement is available, we can proceed
-      yield put(A.paymentAccountRefreshSkipped())
-      return
+
+    if (settlementType === 'UNAVAILABLE' || reason === 'REQUIRES_UPDATE') {
+      yield put(
+        A.setDWStep({
+          dwStep: BankDWStepType.PAYMENT_ACCOUNT_ERROR,
+          reason
+        })
+      )
     }
 
-    yield put(
-      A.setDWStep({
-        dwStep: BankDWStepType.PAYMENT_ACCOUNT_ERROR,
-        reason
-      })
-    )
+    // If settlement is available, we can proceed
+    yield put(A.paymentAccountRefreshSkipped())
   }
 
   return {
