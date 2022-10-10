@@ -42,10 +42,19 @@ const FirstStep = (props: Props) => {
       }
     })
   }
+
+  const backArrowClicked = () => {
+    if (props.accountRecoveryData) {
+      setStep(RecoverSteps.RECOVERY_OPTIONS)
+    } else {
+      props.routerActions.push('/login')
+    }
+  }
+
   return (
     <OuterWrapper>
       <WrapperWithPadding>
-        <GoBackArrow handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)} />
+        <GoBackArrow handleBackArrowClick={backArrowClicked} />
         <FormBody>
           <Text
             color='grey900'
