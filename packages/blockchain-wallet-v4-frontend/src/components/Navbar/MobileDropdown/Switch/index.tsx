@@ -25,7 +25,7 @@ const getSwitchColor = (state: SwitchLabelState) => (props: SwitchLabelProps) =>
   if (props.selected || state === 'hover') {
     return PaletteColors['white-800']
   }
-  return PaletteColors.white
+  return PaletteColors['white-800']
 }
 
 const getSwitchBGColor = (state: SwitchLabelState) => (props: SwitchLabelProps) => {
