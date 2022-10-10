@@ -12,7 +12,7 @@ const SwitchWrapper = styled.div<SwitchWrapperProps>`
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  background: ${({ background }) => background ?? PaletteColors['grey-700']};
+  background: ${({ background }) => background ?? PaletteColors['grey-500']};
   border-radius: 8px;
   margin: 0;
   width: ${({ isFullWidth }) => (isFullWidth ? '100%' : 'fit-content')};
@@ -23,9 +23,9 @@ const getSwitchColor = (state: SwitchLabelState) => (props: SwitchLabelProps) =>
     return PaletteColors['grey-400']
   }
   if (props.selected || state === 'hover') {
-    return PaletteColors['white-900']
+    return PaletteColors['white-800']
   }
-  return PaletteColors['white-900']
+  return PaletteColors.white
 }
 
 const getSwitchBGColor = (state: SwitchLabelState) => (props: SwitchLabelProps) => {
