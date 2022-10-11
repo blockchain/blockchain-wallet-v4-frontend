@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { RemoteDataType } from '@core/types'
-import { Text } from 'blockchain-info-components'
+import { Image, Link, Text } from 'blockchain-info-components'
+import TextInputWithClipboard from 'components/Form/TextInputWithClipboard'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
 import { RecoverSteps } from 'data/types'
@@ -14,6 +15,7 @@ import { RecoverSteps } from 'data/types'
 import { Props as OwnProps } from '..'
 import {
   BackArrowFormHeader,
+  CenteredColumn,
   Column,
   ContactSupportText,
   GoBackArrow,
@@ -23,6 +25,9 @@ import {
   TryAnotherMethodRow,
   WrapperWithPadding
 } from '../model'
+
+const ANDROID_URL = 'https://play.google.com/store/apps/details?id=piuk.blockchain.android'
+const IOS_URL = 'https://apps.apple.com/us/app/blockchain-wallet-buy-bitcoin/id493253309'
 
 const Body = styled.div`
   display: flex;
@@ -39,14 +44,42 @@ const CenteredRow = styled(Row)`
   justify-content: center;
 `
 const BadgeRow = styled(CenteredRow)`
-  margin: 24px 0;
+  margin: 16px 0;
   & > :first-child {
     margin-right: 16px;
   }
 `
+const AppStoreBadge = styled(Image)<{ showAppStoreQrCode?: boolean }>`
+  cursor: pointer;
+  height: ${(props) => (props.showAppStoreQrCode ? '52px' : '48px')};
+`
+const PlayStoreBadge = styled(Image)<{ showPlayStoreQrCode?: boolean }>`
+  cursor: pointer;
+  height: ${(props) => (props.showPlayStoreQrCode ? '52px' : '48px')};
+`
+
+const InstructionText = styled(Text)`
+  a {
+    text-decoration: none;
+  }
+`
 
 const CloudRecovery = (props: Props) => {
+  const [showAppStoreQrCode, toggleAppStoreQrCode] = useState(false)
+  const [showPlayStoreQrCode, togglePlayStoreQrCode] = useState(false)
   const { cachedGuid, emailFromMagicLink, lastGuid, qrData, setStep } = props
+
+  const link = showAppStoreQrCode ? IOS_URL : ANDROID_URL
+
+  const appleStoreBadgeClicked = () => {
+    togglePlayStoreQrCode(false)
+    toggleAppStoreQrCode(true)
+  }
+
+  const playStoreBadgeClicked = () => {
+    toggleAppStoreQrCode(false)
+    togglePlayStoreQrCode(true)
+  }
 
   return (
     <OuterWrapper>
@@ -88,89 +121,55 @@ const CloudRecovery = (props: Props) => {
         <Text
           size='14px'
           color='grey600'
-          weight={600}
+          weight={500}
           lineHeight='1.5'
-          style={{ marginTop: '8px', textAlign: 'center' }}
+          style={{ marginTop: '16px', textAlign: 'center' }}
         >
           <FormattedMessage
-            id='scenes.cloud_recovery.body_part_two'
-            defaultMessage='If you don’t have the app installed, scan the QR code with your phone’s camera to install before continuing.'
+            id='scenes.cloud_recovery.install_app'
+            defaultMessage='Or install the app first'
           />
         </Text>
-        {/* <Body>
-          {!props.phonePubKey && (
-            <TextColumn>
-              <Icon
-                name='padlock'
-                color='blue600'
-                size='20px'
-                style={{ padding: '0 0 16px 4px' }}
-              />
-              <Text
-                color='grey900'
-                size='16px'
-                weight={600}
-                lineHeight='1.5'
-                style={{ marginBottom: '8px' }}
-              >
-                <FormattedMessage id='scenes.login.qrcodelogin' defaultMessage='QR Code Log In' />
-              </Text>
-              <Text
-                color='grey900'
-                size='12px'
-                weight={500}
-                lineHeight='1.5'
-                style={{ marginBottom: '16px' }}
-              >
-                <FormattedMessage
-                  id='scenes.recovery.cloud_backup.subtitle'
-                  defaultMessage='If your wallet has been backed up to the cloud, scan this QR code with your Blockchain.com mobile app.'
-                />
-              </Text>
-              <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.login.wallet.mobile_login.description'
-                  defaultMessage='Tap the QR code icon at the top right corner of the app.'
-                />
-              </Text>
-            </TextColumn>
-          )}
-          {props.secureChannelLoginStateR.cata({
-            Failure: (e) => (
-              <Text>
-                {typeof e === 'string' ? (
-                  e
-                ) : (
-                  <FormattedMessage
-                    id='scenes.login.qrcodelogin_failed'
-                    defaultMessage='Login failed. Please refresh browser and try again.'
-                  />
-                )}
-              </Text>
-            ),
-            Loading: () => {
-              return (
-                <Text size='14px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.login.qrcodelogin_success_confirm'
-                    defaultMessage='Please confirm the login on your mobile device.'
-                  />
-                </Text>
-              )
-            },
-            NotAsked: () => <QRCodeWrapper value={qrData} size={175} showImage />,
-            Success: () => {
-              return (
-                <Text size='14px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.login.qrcodelogin_success'
-                    defaultMessage='Success! Logging in...'
-                  />
-                </Text>
-              )
-            }
-          })}
-        </Body> */}
+
+        <BadgeRow>
+          <Link onClick={appleStoreBadgeClicked}>
+            <AppStoreBadge name='apple-app-store-badge' showAppStoreQrCode={showAppStoreQrCode} />
+          </Link>
+          <Link onClick={playStoreBadgeClicked}>
+            <PlayStoreBadge name='google-play-badge' showPlayStoreQrCode={showPlayStoreQrCode} />
+          </Link>
+        </BadgeRow>
+        {(showAppStoreQrCode || showPlayStoreQrCode) && (
+          <InstructionText
+            size='14px'
+            color='grey600'
+            weight={600}
+            lineHeight='1.5'
+            style={{ marginTop: '8px', textAlign: 'center' }}
+          >
+            <FormattedMessage
+              id='scenes.cloud_recovery.body_part_two'
+              defaultMessage='If you don’t have the app installed, scan the QR code with your phone’s camera or <a>click here</a> to install.'
+              values={{
+                a: (msg) => (
+                  <a href={link} rel='noopener noreferrer' target='_blank'>
+                    {msg}
+                  </a>
+                )
+              }}
+            />
+          </InstructionText>
+        )}
+        {showAppStoreQrCode && (
+          <CenteredColumn>
+            <QRCodeWrapper value={IOS_URL} size={220} />
+          </CenteredColumn>
+        )}
+        {showPlayStoreQrCode && (
+          <CenteredColumn>
+            <QRCodeWrapper value={ANDROID_URL} size={220} />
+          </CenteredColumn>
+        )}
       </WrapperWithPadding>
       <SubCard>
         <TryAnotherMethodRow>
