@@ -1,8 +1,8 @@
 import { useIntl } from 'react-intl'
 
-import { NodeType } from '@core/types'
+import { NodeItem } from '@core/types'
 
-export const GetNodeQuestionElements = (node: NodeType) => {
+export const GetNodeQuestionElements = (node: NodeItem) => {
   const intl = useIntl()
   const questionItems = node.children
     ? node.children.map((child) => ({
