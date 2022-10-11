@@ -44,7 +44,6 @@
         "createNabuUserAtLogin": false,
         "coinViewV2": false,
         "isCreditCardOptimizationEnabled": true,
-        "recurringBuysInCheckoutPage": true,
         "completeYourProfile": true,
         "createExchangeUserOnSignupOrLogin": true,
         "developerMobilePairing": true,
