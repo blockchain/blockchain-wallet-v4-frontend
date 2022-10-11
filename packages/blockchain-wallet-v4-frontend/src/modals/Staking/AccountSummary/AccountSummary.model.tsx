@@ -24,6 +24,7 @@ export const Row = styled.div`
   display: flex;
 `
 export const Container = styled(Row)`
+  position: relative;
   flex-direction: column;
   min-height: 48px;
   justify-content: space-between;
@@ -35,6 +36,10 @@ export const Container = styled(Row)`
 
   &:last-child {
     margin-left: 32px;
+  }
+
+  svg:hover {
+    cursor: pointer;
   }
 `
 export const DetailsWrapper = styled.div`
@@ -107,5 +112,38 @@ export const SubmitButton = styled(Button)`
   &:hover {
     background-color: ${PaletteColors['blue-000']};
     border-color: ${SemanticColors.primary};
+  }
+`
+export const BalanceDropdownContainer = styled.div`
+  position: absolute;
+  top: 84px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 8px;
+  box-shadow: 0px 4px 32px rgba(5, 24, 61, 0.4);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+  min-width: 260px;
+
+  & > div {
+    padding: 6px 16px;
+  }
+`
+export const CoinToggleButton = styled.button`
+  border: none;
+  border-top: 1px solid ${SemanticColors['background-light']};
+  padding: 12px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: ${SemanticColors.primary};
+  font-size: 16px;
+  font-weight: 600;
+
+  &:hover {
+    background-color: ${SemanticColors['background-light']};
+    cursor: pointer;
   }
 `

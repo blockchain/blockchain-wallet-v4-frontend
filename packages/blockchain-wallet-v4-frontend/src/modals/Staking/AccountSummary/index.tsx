@@ -18,6 +18,8 @@ const PENDING_TRANSACTIONS_MAX = 4
 
 const AccountSummaryContainer = (props: OwnProps) => {
   const [isTransactionsToggled, setIsTransactionsToggled] = useState<boolean>(false)
+  const [isCoinDisplayed, setIsCoinDisplayed] = useState<boolean>(true)
+  const [isBalanceDropdownToggled, setIsBalanceDropdownToggled] = useState<boolean>(false)
   const { coin, handleClose, showSupply, stepMetadata, walletCurrency } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const dispatch = useDispatch()
@@ -79,12 +81,12 @@ const AccountSummaryContainer = (props: OwnProps) => {
     setIsTransactionsToggled(!isTransactionsToggled)
   }
 
-  const handleWithdrawalSupplyInformation = () => {
-    dispatch(
-      actions.components.interest.handleWithdrawalSupplyInformation({
-        origin: 'SavingsConfirmation'
-      })
-    )
+  const handleCoinToggled = () => {
+    setIsCoinDisplayed(!isCoinDisplayed)
+  }
+
+  const handleBalanceDropdown = () => {
+    setIsBalanceDropdownToggled(!isBalanceDropdownToggled)
   }
 
   if (error) return <DataError onClick={handleRefresh} />
@@ -93,11 +95,10 @@ const AccountSummaryContainer = (props: OwnProps) => {
   const {
     accountBalances,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
-    flagEDDInterestFileUpload,
     pendingTransactions,
     stakingEligible,
-    stakingLimits,
-    stakingRates
+    stakingRates,
+    totalBondingDeposits
   } = data
 
   const isEDDRequired = eddNeeded && !eddSubmitted && !eddPassed
@@ -106,21 +107,23 @@ const AccountSummaryContainer = (props: OwnProps) => {
     <AccountSummary
       accountBalances={accountBalances}
       coin={coin}
-      // @ts-ignore
-      flagEDDInterestFileUpload={flagEDDInterestFileUpload}
+      handleBalanceDropdown={handleBalanceDropdown}
       handleClose={handleClose}
+      handleCoinToggled={handleCoinToggled}
       handleDepositClick={handleDepositClick}
       handleEDDSubmitInfo={handleEDDSubmitInfo}
       handleTransactionsToggled={handleTransactionsToggled}
-      handleWithdrawalSupplyInformation={handleWithdrawalSupplyInformation}
+      isBalanceDropdownToggled={isBalanceDropdownToggled}
+      isCoinDisplayed={isCoinDisplayed}
       isEDDRequired={isEDDRequired}
       isTransactionsToggled={isTransactionsToggled}
       pendingTransactions={pendingTransactions}
       stakingEligible={stakingEligible}
-      stakingLimits={stakingLimits}
       stakingRates={stakingRates}
       showSupply={showSupply}
       stepMetadata={stepMetadata}
+      totalBondingDeposits={totalBondingDeposits}
+      walletCurrency={walletCurrency}
     />
   ) : (
     <Unsupported handleClose={handleClose} walletCurrency={walletCurrency} />

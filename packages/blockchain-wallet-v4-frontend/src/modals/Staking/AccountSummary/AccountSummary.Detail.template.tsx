@@ -7,7 +7,6 @@ import { DetailsContainer } from './AccountSummary.model'
 
 const Details = ({
   handleClick,
-  rate,
   subText,
   subValue,
   text,
@@ -21,7 +20,7 @@ const Details = ({
         <Flex flexDirection='row' gap={4}>
           {text}{' '}
           {textTooltipId && (
-            <TooltipHost id={textTooltipId} values={{ rate }}>
+            <TooltipHost id={textTooltipId}>
               <IconInformation name='info' size='small' color={SemanticColors.muted} />
             </TooltipHost>
           )}
@@ -54,7 +53,6 @@ const Details = ({
 )
 type DetailsType = {
   handleClick?: () => void
-  rate?: number
   subText?: ReactNode
   subValue?: ReactNode | number | string
   text: ReactNode
