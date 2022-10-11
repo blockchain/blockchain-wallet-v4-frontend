@@ -288,7 +288,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='modals.staking.summary.fee.tooltip'>
           <FormattedMessage
             id='modals.staking.summary.fee.description.tooltip'
-            defaultMessage='Rewards rates are determined by each protocol minus a Blockchain.com fee. Users receive the displayed rate.'
+            defaultMessage='Rates are determined by each protocol minus a Blockchain.com fee. Users receive the displayed rate.'
           />
         </Tooltip>
         <Tooltip id='modals.staking.bonding.pending.tooltip'>

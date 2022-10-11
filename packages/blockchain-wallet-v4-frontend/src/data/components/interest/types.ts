@@ -75,6 +75,13 @@ export type InterestStep = keyof typeof InterestSteps
 
 export type StakingStep = keyof typeof StakingSteps
 
+export enum StakingStepsType {
+  'WARNING',
+  'DEPOSIT',
+  'DEPOSIT_SUCCESS',
+  'ACCOUNT_SUMMARY'
+}
+
 export type InterestTransactionsReportType = Array<Array<string>>
 
 export type InterestHistoryCoinFormType = { coin: CoinType | 'ALL' }

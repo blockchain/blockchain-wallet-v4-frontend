@@ -17,7 +17,7 @@ import {
   EarnEligibleType,
   StakingRatesType
 } from '@core/types'
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { EarnStepMetaData, PendingTransactionType } from 'data/types'
@@ -67,7 +67,7 @@ const AccountSummary: React.FC<Props> = (props) => {
   const accountBalanceBase = account && account.balance
   const stakingBalanceBase = account && account.totalRewards
   const isDepositEnabled = stakingEligible[coin] ? stakingEligible[coin]?.eligible : false
-  const { commission, rate } = stakingRates[coin]
+  const { rate } = stakingRates[coin]
 
   return (
     <Wrapper>
@@ -203,7 +203,6 @@ const AccountSummary: React.FC<Props> = (props) => {
             <FormattedMessage id='modals.interest.summary' defaultMessage='Summary' />
           </Text>
           <Detail
-            subValue={`${commission}%`}
             text={
               <FormattedMessage
                 defaultMessage='Current rate'
