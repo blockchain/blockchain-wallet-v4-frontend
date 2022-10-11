@@ -79,15 +79,6 @@ const AccountSummaryContainer = (props: OwnProps) => {
     setIsTransactionsToggled(!isTransactionsToggled)
   }
 
-  const handleUpLoadDocumentation = () => {
-    // confirm if this is the same for staking
-    dispatch(
-      actions.components.interestUploadDocument.showModal({
-        origin: 'InterestUploadDocument'
-      })
-    )
-  }
-
   const handleWithdrawalSupplyInformation = () => {
     dispatch(
       actions.components.interest.handleWithdrawalSupplyInformation({
@@ -121,7 +112,6 @@ const AccountSummaryContainer = (props: OwnProps) => {
       handleDepositClick={handleDepositClick}
       handleEDDSubmitInfo={handleEDDSubmitInfo}
       handleTransactionsToggled={handleTransactionsToggled}
-      handleUpLoadDocumentation={handleUpLoadDocumentation}
       handleWithdrawalSupplyInformation={handleWithdrawalSupplyInformation}
       isEDDRequired={isEDDRequired}
       isTransactionsToggled={isTransactionsToggled}
@@ -131,7 +121,6 @@ const AccountSummaryContainer = (props: OwnProps) => {
       stakingRates={stakingRates}
       showSupply={showSupply}
       stepMetadata={stepMetadata}
-      walletCurrency={walletCurrency}
     />
   ) : (
     <Unsupported handleClose={handleClose} walletCurrency={walletCurrency} />

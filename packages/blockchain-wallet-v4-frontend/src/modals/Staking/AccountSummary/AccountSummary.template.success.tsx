@@ -4,18 +4,14 @@ import {
   Flex,
   IconChevronDownV2,
   IconChevronUpV2,
-  Padding,
   SemanticColors
 } from '@blockchain-com/constellation'
 import { format } from 'date-fns'
 
-import { Exchange } from '@core'
-import { formatFiat } from '@core/exchange/utils'
 import {
   CoinType,
   EarnAccountBalanceResponseType,
   EarnEligibleType,
-  FiatType,
   StakingRatesType
 } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
@@ -25,14 +21,13 @@ import { EarnStepMetaData, PendingTransactionType } from 'data/types'
 
 import { EDDMessageContainer } from '../Staking.model'
 import { OwnProps as ParentProps } from '.'
-import Detail from './AccountSummary.detail.template'
+import Detail from './AccountSummary.Detail.template'
 import {
   Bottom,
   Container,
   DetailsWrapper,
   Row,
   StatusIconWrapper,
-  StatusSupplyWrapper,
   StatusWrapper,
   Top,
   TopText,
@@ -44,30 +39,23 @@ const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
     coin,
-    flagEDDInterestFileUpload,
     handleClose,
     handleDepositClick,
     handleEDDSubmitInfo,
     handleTransactionsToggled,
-    handleUpLoadDocumentation,
-    handleWithdrawalSupplyInformation,
     isEDDRequired,
     isTransactionsToggled,
     pendingTransactions,
     showSupply,
     stakingEligible,
     stakingRates,
-    stepMetadata,
-    walletCurrency
+    stepMetadata
   } = props
 
   const { coinfig } = window.coins[coin]
   const account = accountBalances && accountBalances[coin]
-  const currencySymbol = Exchange.getSymbol(walletCurrency) as string
-
   const accountBalanceBase = account && account.balance
   const stakingBalanceBase = account && account.totalRewards
-
   const isDepositEnabled = stakingEligible[coin] ? stakingEligible[coin]?.eligible : false
   const { commission, rate } = stakingRates[coin]
 
@@ -98,8 +86,8 @@ const AccountSummary: React.FC<Props> = (props) => {
               <Container>
                 <Text color='grey600' size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
-                    id='modals.staking.balance2'
-                    defaultMessage='Staked {coin}'
+                    id='modals.staking.balance'
+                    defaultMessage='{coin} Balance'
                     values={{ coin }}
                   />
                 </Text>
@@ -179,21 +167,15 @@ const AccountSummary: React.FC<Props> = (props) => {
             <FormattedMessage id='modals.interest.summary' defaultMessage='Summary' />
           </Text>
           <Detail
+            subValue={`${commission}%`}
             text={
               <FormattedMessage
                 defaultMessage='Current rate'
                 id='modals.staking.accountsummary.currentrate'
               />
             }
-            subText={
-              <FormattedMessage
-                defaultMessage='Blockchain.com fee'
-                id='modals.staking.accountsummary.fee'
-              />
-            }
-            tooltipId='modals.staking.summary.fee.tooltip'
+            textTooltipId='modals.staking.summary.fee.tooltip'
             value={`${rate}%`}
-            subValue={`${commission}%`}
           />
           <Detail
             text={
@@ -353,20 +335,16 @@ const AccountSummary: React.FC<Props> = (props) => {
 type OwnProps = {
   accountBalances: EarnAccountBalanceResponseType
   coin: CoinType
-  flagEDDInterestFileUpload: boolean
   handleBSClick: (string) => void
   handleDepositClick: () => void
   handleEDDSubmitInfo: () => void
   handleTransactionsToggled: () => void
-  handleUpLoadDocumentation: () => void
-  handleWithdrawalSupplyInformation: () => void
   isEDDRequired: boolean
   isTransactionsToggled: boolean
   pendingTransactions: Array<PendingTransactionType>
   stakingEligible: EarnEligibleType
   stakingRates: StakingRatesType['rates']
   stepMetadata: EarnStepMetaData
-  walletCurrency: FiatType
 }
 
 export type Props = OwnProps & ParentProps
