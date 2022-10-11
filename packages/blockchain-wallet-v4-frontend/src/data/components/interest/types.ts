@@ -136,6 +136,7 @@ export interface InterestState {
     name: StakingStep
   }
   stakingTransactionsNextPage?: string | null
+  totalBondingDeposits: number
   transactions: Array<EarnTransactionType>
   transactionsReport: RemoteDataType<string, Array<EarnTransactionType>>
   underSanctionsMessage: string | null

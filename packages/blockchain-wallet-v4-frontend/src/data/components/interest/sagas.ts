@@ -412,9 +412,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         pendingTransactions.push({ amount: amount.value, date: insertedAt, type: 'TRANSACTIONS' })
       })
 
+      let totalBondingAmount = 0
+
       bondingDeposits.forEach(({ amount, bondingDays, bondingStartDate }) => {
+        totalBondingAmount += Number(amount)
         pendingTransactions.push({ amount, bondingDays, date: bondingStartDate, type: 'BONDING' })
       })
+
+      if (totalBondingAmount > 0) yield put(A.setTotalBondingDeposits(totalBondingAmount))
 
       if (pendingTransactions.length > 0) {
         pendingTransactions.sort((a, b) => {

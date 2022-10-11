@@ -69,6 +69,7 @@ const initialState: InterestState = {
     name: 'WARNING'
   },
   stakingTransactionsNextPage: null,
+  totalBondingDeposits: 0,
   transactions: [],
   transactionsReport: Remote.NotAsked,
   underSanctionsMessage: null,
@@ -505,6 +506,9 @@ const interestSlice = createSlice({
     ) => {
       state.stakingTransactionsNextPage = action.payload.nextPage
     },
+    setTotalBondingDeposits: (state, action: PayloadAction<number>) => {
+      state.totalBondingDeposits = action.payload
+    },
 
     setUnderSanctions: (state, action: PayloadAction<{ message: string | null }>) => {
       state.underSanctionsMessage = action.payload.message
@@ -623,6 +627,7 @@ export const {
   setRewardsTransactionsNextPage,
   setStakingModal,
   setStakingTransactionsNextPage,
+  setTotalBondingDeposits,
   setWithdrawalMinimumsFailure,
   setWithdrawalMinimumsLoading,
   setWithdrawalMinimumsSuccess,
