@@ -17,8 +17,8 @@ const Details = ({
   <DetailsContainer $hasHandleClick={!!handleClick} onClick={handleClick}>
     <Flex alignItems='center' gap={4} justifyContent='space-between'>
       <Text color='grey900' size='14px' weight={600}>
-        <Flex flexDirection='row' gap={4}>
-          {text}{' '}
+        <Flex flexDirection='row' gap={8}>
+          {text}
           {textTooltipId && (
             <TooltipHost id={textTooltipId}>
               <IconInformation name='info' size='small' color={SemanticColors.muted} />
