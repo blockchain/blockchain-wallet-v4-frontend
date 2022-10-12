@@ -605,6 +605,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           reason
         })
       )
+      return
     }
 
     // If settlement is available, we can proceed
