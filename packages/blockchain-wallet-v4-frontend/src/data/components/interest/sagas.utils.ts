@@ -77,7 +77,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     const userCurrency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
       'Failed to get user currency'
     )
-    const minFiat = minDepositAmount
+    const minFiat = Number(convertBaseToStandard('FIAT', minDepositAmount))
     const maxFiat = Exchange.convertCoinToFiat({
       coin,
       currency: userCurrency,
@@ -92,7 +92,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       coin,
       currency: walletCurrency,
       rates,
-      value: Number(convertBaseToStandard('FIAT', minFiat))
+      value: minFiat
     })
 
     return {
