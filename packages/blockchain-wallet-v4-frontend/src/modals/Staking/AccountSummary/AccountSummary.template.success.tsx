@@ -5,16 +5,17 @@ import {
   Flex,
   IconChevronDownV2,
   IconChevronUpV2,
+  IconTriangleDown,
+  IconTriangleUp,
+  PaletteColors,
   SemanticColors
 } from '@blockchain-com/constellation'
 import { format } from 'date-fns'
 
-import { Exchange } from '@core'
 import {
   CoinType,
   EarnAccountBalanceResponseType,
   EarnEligibleType,
-  FiatType,
   StakingRatesType
 } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
@@ -24,7 +25,8 @@ import { EarnStepMetaData, PendingTransactionType } from 'data/types'
 
 import { EDDMessageContainer } from '../Staking.model'
 import { OwnProps as ParentProps } from '.'
-import Detail from './AccountSummary.detail.template'
+import BalanceDropdown from './AccountSummary.BalanceDropdown.template'
+import Detail from './AccountSummary.Detail.template'
 import {
   Bottom,
   Container,
@@ -42,11 +44,14 @@ const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
     coin,
+    handleBalanceDropdown,
     handleClose,
+    handleCoinToggled,
     handleDepositClick,
     handleEDDSubmitInfo,
     handleTransactionsToggled,
-    handleUpLoadDocumentation,
+    isBalanceDropdownToggled,
+    isCoinDisplayed,
     isEDDRequired,
     isTransactionsToggled,
     pendingTransactions,
@@ -54,18 +59,16 @@ const AccountSummary: React.FC<Props> = (props) => {
     stakingEligible,
     stakingRates,
     stepMetadata,
+    totalBondingDeposits,
     walletCurrency
   } = props
 
   const { coinfig } = window.coins[coin]
   const account = accountBalances && accountBalances[coin]
-  const currencySymbol = Exchange.getSymbol(walletCurrency) as string
-
   const accountBalanceBase = account && account.balance
   const stakingBalanceBase = account && account.totalRewards
-
   const isDepositEnabled = stakingEligible[coin] ? stakingEligible[coin]?.eligible : false
-  const { commission, rate } = stakingRates[coin]
+  const { rate } = stakingRates[coin]
 
   return (
     <Wrapper>
@@ -92,18 +95,44 @@ const AccountSummary: React.FC<Props> = (props) => {
           <>
             <Row>
               <Container>
+                {isBalanceDropdownToggled && (
+                  <BalanceDropdown
+                    coin={coin}
+                    handleBalanceDropdown={handleBalanceDropdown}
+                    handleCoinToggled={handleCoinToggled}
+                    isCoinDisplayed={isCoinDisplayed}
+                    stakingBalance={account?.balance || '0'}
+                    totalBondingDeposits={totalBondingDeposits}
+                    walletCurrency={walletCurrency}
+                  />
+                )}
                 <Text color='grey600' size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
-                    id='modals.staking.balance2'
-                    defaultMessage='Staked {coin}'
+                    id='modals.staking.balance'
+                    defaultMessage='{coin} Balance'
                     values={{ coin }}
                   />
                 </Text>
                 {account ? (
                   <>
-                    <CoinDisplay coin={coin} color='grey800' size='18px' weight={600}>
-                      {accountBalanceBase}
-                    </CoinDisplay>
+                    <Flex justifyContent='space-between'>
+                      <CoinDisplay coin={coin} color='grey800' size='18px' weight={600}>
+                        {accountBalanceBase}
+                      </CoinDisplay>
+                      {isBalanceDropdownToggled ? (
+                        <IconTriangleUp
+                          color={PaletteColors['grey-400']}
+                          onClick={handleBalanceDropdown}
+                          size='large'
+                        />
+                      ) : (
+                        <IconTriangleDown
+                          color={PaletteColors['grey-400']}
+                          onClick={handleBalanceDropdown}
+                          size='large'
+                        />
+                      )}
+                    </Flex>
                     <FiatDisplay
                       color='grey600'
                       size='14px'
@@ -181,15 +210,8 @@ const AccountSummary: React.FC<Props> = (props) => {
                 id='modals.staking.accountsummary.currentrate'
               />
             }
-            subText={
-              <FormattedMessage
-                defaultMessage='Blockchain.com fee'
-                id='modals.staking.accountsummary.fee'
-              />
-            }
-            tooltipId='modals.staking.summary.fee.tooltip'
+            textTooltipId='modals.staking.summary.fee.tooltip'
             value={`${rate}%`}
-            subValue={`${commission}%`}
           />
           <Detail
             text={
@@ -357,18 +379,20 @@ const AccountSummary: React.FC<Props> = (props) => {
 type OwnProps = {
   accountBalances: EarnAccountBalanceResponseType
   coin: CoinType
-  handleBSClick: (string) => void
+  handleBalanceDropdown: () => void
+  handleCoinToggled: () => void
   handleDepositClick: () => void
   handleEDDSubmitInfo: () => void
   handleTransactionsToggled: () => void
-  handleUpLoadDocumentation: () => void
+  isBalanceDropdownToggled: boolean
+  isCoinDisplayed: boolean
   isEDDRequired: boolean
   isTransactionsToggled: boolean
   pendingTransactions: Array<PendingTransactionType>
   stakingEligible: EarnEligibleType
   stakingRates: StakingRatesType['rates']
   stepMetadata: EarnStepMetaData
-  walletCurrency: FiatType
+  totalBondingDeposits: number
 }
 
 export type Props = OwnProps & ParentProps
