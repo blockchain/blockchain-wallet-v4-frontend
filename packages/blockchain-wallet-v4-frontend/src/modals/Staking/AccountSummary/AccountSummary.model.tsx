@@ -86,6 +86,9 @@ export const StatusIconWrapper = styled.div<{ color: string }>`
   max-height: 38px;
 `
 export const WarningContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   background-color: ${PaletteColors['grey-000']};
   border-radius: 8px;
   padding: 16px;

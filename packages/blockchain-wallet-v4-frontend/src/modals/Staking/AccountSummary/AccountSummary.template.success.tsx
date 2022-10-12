@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
+  Button as ConstellationButton,
   Flex,
   IconChevronDownV2,
   IconChevronUpV2,
@@ -17,7 +18,7 @@ import {
   EarnEligibleType,
   StakingRatesType
 } from '@core/types'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { EarnStepMetaData, PendingTransactionType } from 'data/types'
@@ -318,18 +319,18 @@ const AccountSummary: React.FC<Props> = (props) => {
                   values={{ br: <br /> }}
                 />
               </Text>
-              <Button
-                data-e2e='eddInformationSubmitted'
-                nature='dark-grey'
+              <ConstellationButton
                 onClick={handleEDDSubmitInfo}
-                size='14px'
-                width='154px'
-              >
-                <FormattedMessage
-                  defaultMessage='Submit Information'
-                  id='scenes.interest.submit_information'
-                />
-              </Button>
+                size='small'
+                text={
+                  <FormattedMessage
+                    defaultMessage='Submit Information'
+                    id='scenes.interest.submit_information'
+                  />
+                }
+                type='button'
+                variant='secondary'
+              />
             </EDDMessageContainer>
           )}
         </DetailsWrapper>
@@ -343,6 +344,14 @@ const AccountSummary: React.FC<Props> = (props) => {
                 id='modals.staking.bottom.warning'
               />
             </Text>
+            <Link href='https://ethereum.org/en/staking/' target='_blank'>
+              <ConstellationButton
+                size='small'
+                text={<FormattedMessage defaultMessage='Learn More' id='buttons.learn_more' />}
+                type='button'
+                variant='secondary'
+              />
+            </Link>
           </WarningContainer>
           <Button
             disabled={!isDepositEnabled}

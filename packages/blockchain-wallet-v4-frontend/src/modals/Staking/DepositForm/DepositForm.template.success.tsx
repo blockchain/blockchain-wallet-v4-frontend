@@ -74,6 +74,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     invalid,
     payment,
     rates,
+    stakingLimits,
     submitting,
     values,
     walletCurrency
@@ -81,6 +82,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const { coinfig } = window.coins[coin]
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
 
+  const { bondingDays } = stakingLimits[coin]
   const depositAmount = (values && values.depositAmount) || '0'
   const isCustodial =
     values && values?.earnDepositAccount && values.earnDepositAccount.type === 'CUSTODIAL'
@@ -450,8 +452,28 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
           <AgreementContainer>
             <Text lineHeight='1.4' size='14px' weight={500}>
               <FormattedMessage
-                id='modals.staking.deposit.agreement2'
-                defaultMessage='I agree to transfer ETH to my Staking Account. I understand that I can’t unstake until withdrawals are enabled on Ethereum and funds are subject to a bonding period before generating rewards.'
+                id='modals.staking.deposit.agreement2_1'
+                defaultMessage='I agree to transfer {coin} to my Staking Account{privateKeyMessage}. I understand that I can’t unstake until withdrawals are enabled on Ethereum{bondingMessage}.'
+                values={{
+                  bondingMessage:
+                    bondingDays > 0 ? (
+                      <FormattedMessage
+                        defaultMessage=' and funds are subject to a bonding period before generating rewards'
+                        id='modals.staking.deposit.agreement2.bondingday'
+                      />
+                    ) : (
+                      ''
+                    ),
+                  coin,
+                  privateKeyMessage: !isCustodial ? (
+                    <FormattedMessage
+                      defaultMessage=' and pay a network fee'
+                      id='modals.staking.deposit.agreement2.privatekey'
+                    />
+                  ) : (
+                    ''
+                  )
+                }}
               />
             </Text>
           </AgreementContainer>
