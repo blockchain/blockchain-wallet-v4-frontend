@@ -2008,7 +2008,6 @@
   "scenes.debit_card.intro.content.note": "*This optional offer is not a Pathward product or service nor does Pathward endorse this offer.",
   "scenes.debit_card.intro.content.subheader": "Spend your crypto or cash without fees. Earn 1% back in crypto.",
   "scenes.debit_card.intro.order_my_card": "Order My Card",
-  "scenes.earn.earntable.rewards.tooltip": "A Rewards Account is a crypto storage facility that earns rewards on the crypto you hold in it.",
   "scenes.earn.earntable.staking.tooltip": "Staking is the process used by Proof-of-Stake (PoS) blockchains to verify and secure transactions on their networks.",
   "scenes.earn.edd-additional-info-needed.subtitle": "Blockchain.com needs more information to verify your identity. This will speed up your future deposits and withdrawals as well as protect your account.",
   "scenes.earn.edd-additional-info-needed.title": "More information needed",
