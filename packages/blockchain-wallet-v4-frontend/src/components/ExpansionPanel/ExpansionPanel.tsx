@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { IconChevronUp, IconChevronDown, PaletteColors } from '@blockchain-com/constellation'
+import { IconChevronDown, IconChevronUp, PaletteColors } from '@blockchain-com/constellation'
 
 import { Button } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'

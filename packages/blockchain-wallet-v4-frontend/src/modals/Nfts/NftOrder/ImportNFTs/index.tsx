@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
-import { PaletteColors, Padding } from '@blockchain-com/constellation'
+import { Padding, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
@@ -37,7 +37,7 @@ const ImportNFTs: React.FC<Props> = (props) => {
     width: 18px;
     height: 18px;
     padding: 4px;
-    background: ${PaletteColors['grey000']};
+    background: ${PaletteColors.grey000};
     text-align: center;
   `
 
