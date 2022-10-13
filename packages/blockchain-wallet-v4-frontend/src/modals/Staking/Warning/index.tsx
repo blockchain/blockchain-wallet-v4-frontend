@@ -19,8 +19,6 @@ const WarningContainer = ({ coin, handleClose }: OwnProps) => {
     dispatch(actions.components.interest.fetchStakingLimits())
   }, [])
 
-  const bondingDays = data?.stakingLimits[coin].bondingDays || 10
-
   const handleClick = () => {
     dispatch(
       actions.analytics.trackEvent({
@@ -34,7 +32,8 @@ const WarningContainer = ({ coin, handleClose }: OwnProps) => {
   }
 
   if (error) return <DataError />
-  if (isLoading || isNotAsked) return <Loading />
+  if (!data || isLoading || isNotAsked) return <Loading />
+  const { bondingDays } = data.stakingLimits[coin]
 
   return (
     <Warning

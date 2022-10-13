@@ -159,6 +159,11 @@ const EnterAmountContainer = (props: Props) => {
         selectedPaymentMethod = bankAccountMethod
       }
 
+      let paymentAccount = val.defaultMethod || props.beneficiary || val.defaultBeneficiary
+      if (!paymentAccount || paymentAccount.currency !== props.fiatCurrency) {
+        paymentAccount = undefined
+      }
+
       return (
         <EnterAmount
           onSubmit={handleSubmit}
@@ -168,7 +173,7 @@ const EnterAmountContainer = (props: Props) => {
           handleBack={props.handleClose}
           handleMethodClick={handleBankSelection}
           orderType={BrokerageOrderType.WITHDRAW}
-          paymentAccount={val.defaultMethod || props.beneficiary || val.defaultBeneficiary}
+          paymentAccount={paymentAccount}
           paymentMethod={selectedPaymentMethod}
           withdrawableBalance={val.withdrawableBalance}
           minWithdrawAmount={val.minAmount.minorValue}

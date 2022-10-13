@@ -338,6 +338,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
     }
 
+    // User is only allowed to do Wire/Sepa/Faster Payments so just take them to wire details screen
+    if (eligibleMethods.length === 1 && eligibleMethods[0].type === BSPaymentTypes.BANK_ACCOUNT) {
+      return yield put(
+        actions.components.brokerage.setDWStep({
+          dwStep: BankDWStepType.WIRE_INSTRUCTIONS
+        })
+      )
+    }
+
     const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
       yield select()
     )
@@ -588,18 +597,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     )
 
     const { reason, settlementType } = status.attributes?.settlementResponse
-    if (settlementType !== 'UNAVAILABLE') {
-      // If settlement is available, we can proceed
-      yield put(A.paymentAccountRefreshSkipped())
+
+    if (settlementType === 'UNAVAILABLE' || reason === 'REQUIRES_UPDATE') {
+      yield put(
+        A.setDWStep({
+          dwStep: BankDWStepType.PAYMENT_ACCOUNT_ERROR,
+          reason
+        })
+      )
       return
     }
 
-    yield put(
-      A.setDWStep({
-        dwStep: BankDWStepType.PAYMENT_ACCOUNT_ERROR,
-        reason
-      })
-    )
+    // If settlement is available, we can proceed
+    yield put(A.paymentAccountRefreshSkipped())
   }
 
   return {
