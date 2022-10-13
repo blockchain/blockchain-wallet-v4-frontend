@@ -22,6 +22,7 @@ export enum ExtraKYCContext {
 export enum NodeItemTypes {
   MULTIPLE_SELECTION = 'MULTIPLE_SELECTION',
   OPEN_ENDED = 'OPEN_ENDED',
+  SELECTION = 'SELECTION',
   SINGLE_SELECTION = 'SINGLE_SELECTION'
 }
 
@@ -30,19 +31,14 @@ export type SDDVerifiedType = {
   verified: boolean
 }
 
-type QuestionItem = {
+export type NodeItem = {
   checked?: boolean
+  children?: Array<NodeItem>
   hint?: string
   id: string
   input?: string
-  text: string
-  type: string
-}
-
-type NodeItem = {
-  checked?: boolean
-  children?: Array<QuestionItem>
-  id: string
+  instructions?: string
+  isDropdown?: boolean
   text: string
   type: string
 }
@@ -78,5 +74,5 @@ export type ExtraQuestionsType = {
   blocking: boolean
   context: keyof typeof ExtraKYCContext
   header?: Array<HeaderType>
-  nodes: Array<NodeType>
+  nodes: Array<NodeItem>
 }

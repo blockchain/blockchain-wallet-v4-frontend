@@ -134,5 +134,6 @@ export * from './btc/types'
 
 export enum Product {
   REWARDS = 'rewards',
+  STAKING = 'staking',
   SWAP = 'swap'
 }

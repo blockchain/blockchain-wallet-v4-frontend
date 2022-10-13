@@ -101,7 +101,7 @@ const StartEarningRewards: React.FC<Props> = (props) => {
           </Copy>
         </Column>
       </Row>
-      <LinkContainer to='/rewards'>
+      <LinkContainer to='/earn'>
         <BannerButton jumbo data-e2e='goToRewards' nature='primary' onClick={handleClick}>
           <FormattedMessage id='modals.tradinglimits.earn_interest' defaultMessage='Earn Rewards' />
         </BannerButton>

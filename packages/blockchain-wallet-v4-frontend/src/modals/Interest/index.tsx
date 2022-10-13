@@ -6,7 +6,7 @@ import { CoinType, FiatType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { InterestStep, InterestStepMetadata, ModalName } from 'data/types'
+import { EarnStepMetaData, InterestStep, ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -24,7 +24,7 @@ class Interest extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-    this.props.fetchInterestEDDStatus()
+    this.props.fetchEarnEDDStatus()
   }
 
   handleClose = () => {
@@ -41,7 +41,7 @@ class Interest extends PureComponent<Props, State> {
       this.props.buySellActions.showModal({
         cryptoCurrency: coin,
         orderType: 'BUY',
-        origin: 'InterestPage'
+        origin: 'EarnPage'
       })
     }, duration / 2)
   }
@@ -100,13 +100,13 @@ class Interest extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   coin: selectors.components.interest.getCoinType(state),
-  step: selectors.components.interest.getStep(state),
+  step: selectors.components.interest.getRewardsStep(state),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
+  fetchEarnEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
@@ -116,7 +116,7 @@ type OwnProps = ModalPropsType
 type LinkStatePropsType = {
   coin: CoinType
   step: {
-    data: InterestStepMetadata
+    data: EarnStepMetaData
     name: InterestStep
   }
   walletCurrency: FiatType

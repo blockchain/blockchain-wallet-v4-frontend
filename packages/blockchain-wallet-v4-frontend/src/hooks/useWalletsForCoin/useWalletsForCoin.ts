@@ -56,7 +56,8 @@ export const useWalletsForCoin: WalletsForCoinHook = ({ coin }) => {
     if (isETH) {
       return getEthAddressData(state, {
         includeCustodial: true,
-        includeInterest: true
+        includeInterest: true,
+        includeStaking: true
       })
     }
 

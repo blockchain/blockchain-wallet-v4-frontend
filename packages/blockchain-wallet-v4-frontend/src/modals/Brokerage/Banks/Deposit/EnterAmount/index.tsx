@@ -94,7 +94,9 @@ const EnterAmountContainer = ({
       const paymentAccount = getDefaultMethod(defaultMethod, val.bankTransferAccounts)
       const paymentMethod = val.paymentMethods.methods.find((method) => {
         // if a payment account is selected, make sure the payment method matches up so limits are displayed correctly
-        if (paymentAccount) {
+        // Also make sure that the payment account currency aligns with the deposit currency in cases where user has
+        // a GBP bank account but is trying to deposit EUR
+        if (paymentAccount && paymentAccount.currency === fiatCurrency) {
           return paymentAccount.type === method.type
         }
         return (

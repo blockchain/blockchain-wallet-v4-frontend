@@ -163,7 +163,6 @@ const buySellSlice = createSlice({
       state.order = Remote.Success(action.payload)
       state.pendingOrder = action.payload
     },
-    createRecurringOrderIfEllegble: (state, action: PayloadAction<BSOrderType>) => {},
     defaultMethodEvent: (state, action: PayloadAction<BSPaymentMethodType>) => {},
     deleteCard: (state, action: PayloadAction<BSCardType['id']>) => {},
     destroyCheckout: (state) => {

@@ -49,7 +49,7 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
     close,
     handleClose,
     interestEligible,
-    interestRate,
+    interestRates,
     isRewardsFlowAfterSwapEnabled,
     order
   } = props
@@ -57,8 +57,8 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
 
   const swappedCurrency = useMemo(() => getOutput(order), [order])
   const swappedCurrencyHasRate = useMemo(
-    () => interestRate[swappedCurrency],
-    [swappedCurrency, interestRate]
+    () => interestRates[swappedCurrency],
+    [swappedCurrency, interestRates]
   )
 
   const interestEligibleCoin = useMemo(

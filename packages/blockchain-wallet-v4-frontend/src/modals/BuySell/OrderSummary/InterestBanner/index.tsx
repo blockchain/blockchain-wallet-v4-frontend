@@ -10,7 +10,7 @@ import Template from './template.success'
 
 const InterestBanner: React.FC<Props> = (props) => {
   useEffect(() => {
-    props.interestActions.fetchInterestRate()
+    props.interestActions.fetchInterestRates()
   }, [])
 
   return (

@@ -32,8 +32,8 @@ const RewardsTransactionsCard: RewardsTransactionsCardComponent = () => {
 
           <NavLink
             style={{ textDecoration: 'none' }}
-            to='/rewards/history'
-            data-e2e='visitEarnInterestPage'
+            to='/earn/history'
+            data-e2e='visitEarnEarnPage'
           >
             <Button data-e2e='viewInterestTransaction' nature='primary' height='48px' size='16px'>
               <FormattedMessage id='copy.viewTransactions' defaultMessage='View Transactions' />

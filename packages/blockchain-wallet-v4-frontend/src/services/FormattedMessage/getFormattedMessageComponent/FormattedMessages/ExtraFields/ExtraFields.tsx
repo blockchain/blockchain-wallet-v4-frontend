@@ -188,6 +188,30 @@ const FormattedMessages = {
       defaultMessage='(Select only one)'
     />
   ),
+  'CITIZENSHIP_SET-q1': (
+    <FormattedMessage
+      id='modals.onboarding.kyc_verification.extra_fields.CITIZENSHIP_SET-q1'
+      defaultMessage='What’s your citizenship?'
+    />
+  ),
+  'CITIZENSHIP_SET-q1-a1-q1': (
+    <FormattedMessage
+      id='modals.onboarding.kyc_verification.extra_fields.CITIZENSHIP_SET-q1-a1-q1'
+      defaultMessage='Select a country'
+    />
+  ),
+  'CITIZENSHIP_SET-q1-a1-q2': (
+    <FormattedMessage
+      id='modals.onboarding.kyc_verification.extra_fields.CITIZENSHIP_SET-q1-a1-q2'
+      defaultMessage='Do you hold a second citizenship?'
+    />
+  ),
+  'CITIZENSHIP_SET-q1_instructions': (
+    <FormattedMessage
+      id='modals.onboarding.kyc_verification.extra_fields.CITIZENSHIP_SET-q1_instructions'
+      defaultMessage='(Select only one)'
+    />
+  ),
   'INITIAL_SET-q1': (
     <FormattedMessage
       id='modals.onboarding.kyc_verification.extra_fields.INITIAL_SET-q1'
