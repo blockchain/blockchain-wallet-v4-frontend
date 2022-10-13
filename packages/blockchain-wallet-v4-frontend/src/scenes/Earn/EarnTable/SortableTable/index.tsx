@@ -1,6 +1,12 @@
 import React, { ReactElement, useMemo, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { ButtonCell, ButtonCellProps, Row, TextCell } from '@blockchain-com/constellation'
+import {
+  ButtonCell,
+  ButtonCellProps,
+  Row,
+  TextCell,
+  TextCellProps
+} from '@blockchain-com/constellation'
 import {
   flexRender,
   getCoreRowModel,
@@ -9,6 +15,7 @@ import {
   useReactTable
 } from '@tanstack/react-table'
 
+import { Exchange } from '@core'
 import { CoinType } from '@core/types'
 import { Icon, Text, TooltipHost } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -17,7 +24,6 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { Props as ParentProps, SuccessStateType } from '..'
 import { RewardsTextContainer, StakingTextContainer } from '../EarnTable.model'
 import { sortTextCells, TableContainer } from './SortableTable.model'
-import { CellProps } from './SortableTable.types'
 
 const SortableTable = ({
   handleClick,
@@ -38,7 +44,7 @@ const SortableTable = ({
       {
         accessorKey: 'asset',
         cell: ({ getValue }) => {
-          const props = getValue() as CellProps
+          const props = getValue() as TextCellProps
           return <TextCell {...props} />
         },
         header: ({ header }) => {
@@ -58,7 +64,7 @@ const SortableTable = ({
       {
         accessorKey: 'balance',
         cell: ({ getValue }) => {
-          const props = getValue() as CellProps
+          const props = getValue() as TextCellProps
           return <TextCell {...props} />
         },
         header: ({ header }) => {
@@ -78,7 +84,7 @@ const SortableTable = ({
       {
         accessorKey: 'type',
         cell: ({ getValue }) => {
-          const props = getValue() as CellProps
+          const props = getValue() as TextCellProps
           return <TextCell {...props} />
         },
         header: ({ header }) => {
@@ -98,7 +104,7 @@ const SortableTable = ({
       {
         accessorKey: 'rates',
         cell: ({ getValue }) => {
-          const props = getValue() as CellProps
+          const props = getValue() as TextCellProps
           return <TextCell {...props} />
         },
         header: ({ header }) => {
@@ -136,7 +142,7 @@ const SortableTable = ({
     .filter(({ coin }) => {
       return window.coins[coin]
     })
-    .map(({ coin, product }) => {
+    .map(({ coin, product, rate }) => {
       const { coinfig } = window.coins[coin] || {}
       const { displaySymbol, name: displayName } = coinfig
       const isStaking = product === 'Staking'
@@ -147,7 +153,7 @@ const SortableTable = ({
       const hasAccountBalance = accountBalanceBase > 0
       const isInterestCoinEligible = interestEligible[coin] && interestEligible[coin]?.eligible
       const isStakingCoinEligible = stakingEligible[coin] && stakingEligible[coin]?.eligible
-      const rate = isStaking ? stakingRates[coin].rate : interestRates[coin]
+      const earnRate = isStaking ? stakingRates[coin].rate : interestRates[coin]
 
       const primaryButton = isStaking
         ? {
@@ -191,7 +197,7 @@ const SortableTable = ({
             </Text>
           ),
           value: displayName
-        } as CellProps,
+        } as TextCellProps,
         balance: {
           subtext: (
             <CoinDisplay
@@ -217,12 +223,20 @@ const SortableTable = ({
             >
               {accountBalanceBase}
             </FiatDisplay>
+          ),
+          value: Number(
+            Exchange.convertCoinToFiat({
+              coin,
+              currency: walletCurrency,
+              rates: rate,
+              value: accountBalanceBase
+            })
           )
-        } as CellProps,
+        } as TextCellProps,
         rates: {
-          text: `${rate}%`,
-          value: rate
-        } as CellProps,
+          text: `${earnRate}%`,
+          value: earnRate
+        } as TextCellProps,
         type: {
           text: isStaking ? (
             <TooltipHost id='earntable.staking.tooltip'>
@@ -242,7 +256,7 @@ const SortableTable = ({
             </TooltipHost>
           ),
           value: product
-        } as CellProps
+        } as TextCellProps
       }
     })
 
