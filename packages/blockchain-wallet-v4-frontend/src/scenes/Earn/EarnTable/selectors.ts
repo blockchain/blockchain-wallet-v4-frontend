@@ -10,10 +10,12 @@ export const getData = (state) => {
   const stakingEligibleR = selectors.components.interest.getStakingEligible(state)
   const showInterestInfoBox = selectors.preferences.getShowInterestInfoBox(state) as boolean
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
+  const sortedInstrumentsR = selectors.components.interest.getInstrumentsSortedByBalance(state)
 
   return lift(
     (
       interestAccountBalance: ExtractSuccess<typeof interestAccountBalanceR>,
+      sortedInstruments: ExtractSuccess<typeof sortedInstrumentsR>,
       stakingAccountBalance: ExtractSuccess<typeof stakingAccountBalanceR>,
       interestEligible: ExtractSuccess<typeof interestEligibleR>,
       stakingEligible: ExtractSuccess<typeof stakingEligibleR>,
@@ -22,12 +24,14 @@ export const getData = (state) => {
       interestAccountBalance,
       interestEligible,
       showInterestInfoBox,
+      sortedInstruments,
       stakingAccountBalance,
       stakingEligible,
       walletCurrency
     })
   )(
     interestAccountBalanceR,
+    sortedInstrumentsR,
     stakingAccountBalanceR,
     interestEligibleR,
     stakingEligibleR,

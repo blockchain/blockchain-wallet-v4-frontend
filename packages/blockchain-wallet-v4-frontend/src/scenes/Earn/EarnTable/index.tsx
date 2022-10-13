@@ -15,12 +15,14 @@ import { getData } from './selectors'
 import SortableTable from './SortableTable'
 
 const EarnTableContainer = (props: Props) => {
-  const { analyticsActions, earnActions, sortedInstruments } = props
+  const { analyticsActions, earnActions } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const isTabletL = useMedia('tabletL')
 
   if (error) return null
   if (isLoading || isNotAsked || !data) return <Loading />
+
+  const { sortedInstruments, stakingAccountBalance } = data
 
   const handleClick = (coin, isStaking) => {
     const {
@@ -28,7 +30,7 @@ const EarnTableContainer = (props: Props) => {
       WALLET_STAKING_DETAIL_CLICKED,
       WALLET_STAKING_WARNING_CONTINUE_CLICKED
     } = Analytics
-    const balance = data?.stakingAccountBalance[coin]?.balance
+    const balance = stakingAccountBalance[coin]?.balance
     const hasBalance = balance && Number(balance) > 0
     analyticsActions.trackEvent({
       key: isStaking

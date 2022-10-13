@@ -113,7 +113,6 @@ export type SuccessStateType = {
   earnEDDStatus: EarnEDDStatus
   interestRates: RewardsRatesType
   interestRatesArray: Array<number>
-  sortedInstruments: EarnInstrumentsType
   stakingRates: StakingRatesType
   userData: UserDataType
 }
