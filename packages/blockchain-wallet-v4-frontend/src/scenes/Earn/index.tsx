@@ -13,7 +13,7 @@ import { Analytics, EarnInstrumentsType, UserDataType } from 'data/types'
 import Loading from './Earn.loading.template'
 import { CustomSceneWrapper, EarnContainer, Overlay, TabRow } from './Earn.model'
 import getData from './Earn.selectors'
-import InterestHeader from './Earn.template.header'
+import EarnHeader from './Earn.template.header'
 import EarnTable from './EarnTable'
 import Message from './Message'
 
@@ -60,7 +60,7 @@ class Earn extends React.PureComponent<Props, StateType> {
     const { data } = this.props
     return (
       <CustomSceneWrapper $isGoldTier={isGoldTier}>
-        <InterestHeader />
+        <EarnHeader />
         <Message isGoldTier={isGoldTier} />
         <EarnContainer>
           {!isGoldTier && <Overlay />}
