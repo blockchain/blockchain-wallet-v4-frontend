@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { SemanticColors } from '@blockchain-com/constellation'
 import styled, { css } from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
@@ -58,7 +59,7 @@ const StatusCartridge = styled(GreyCartridge)`
 const StatusCartridgeSuccess = styled(SuccessCartridge)`
   display: flex;
   flex-direction: row;
-  background: #00b083;
+  background: ${SemanticColors.success};
   > span {
     padding: 3px 8px;
   }
