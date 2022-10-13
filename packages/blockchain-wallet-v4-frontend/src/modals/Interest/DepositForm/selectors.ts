@@ -38,9 +38,6 @@ export const getData = (state: RootState) => {
     FiatType
   >
   const rewardsEDDDepositLimitsR = selectors.components.interest.getEarnEDDDepositLimits(state)
-  const interestAccount = selectors.components.interest
-    .getRewardsAccount(state)
-    .getOrElse({ accountRef: '' })
 
   const afterTransaction = selectors.components.interest
     .getAfterTransaction(state)
@@ -86,7 +83,6 @@ export const getData = (state: RootState) => {
         feeCrypto,
         feeFiat,
         formErrors,
-        interestAccount,
         interestLimits,
         interestRates,
         payment,

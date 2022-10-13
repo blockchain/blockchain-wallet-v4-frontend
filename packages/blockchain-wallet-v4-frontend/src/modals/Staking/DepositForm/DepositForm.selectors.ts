@@ -34,9 +34,6 @@ export const getData = (state: RootState) => {
     string,
     FiatType
   >
-  const interestAccount = selectors.components.interest
-    .getStakingAccount(state)
-    .getOrElse({ accountRef: '' })
   const stakingLimitsR = selectors.components.interest.getStakingLimits(state)
 
   const afterTransaction = selectors.components.interest
@@ -67,7 +64,6 @@ export const getData = (state: RootState) => {
         earnEDDStatus,
         ethRates,
         formErrors,
-        interestAccount,
         interestRates,
         payment,
         prefillAmount,

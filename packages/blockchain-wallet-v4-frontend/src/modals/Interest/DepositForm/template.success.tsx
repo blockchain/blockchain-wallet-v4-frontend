@@ -89,7 +89,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     formActions,
     formErrors,
     handleDisplayToggle,
-    interestAccount,
     interestActions,
     interestLimits,
     interestRates,
@@ -122,8 +121,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const lockupPeriod = lockUpDuration / 86400
   const maxDepositFiat = maxFiat(earnDepositLimits.maxFiat, walletCurrency)
 
-  const fromAccountType =
-    interestAccount?.type === SwapBaseCounterTypes.CUSTODIAL ? 'TRADING' : 'USERKEY'
+  const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
 
   const depositAmountError =
     formErrors.depositAmount &&

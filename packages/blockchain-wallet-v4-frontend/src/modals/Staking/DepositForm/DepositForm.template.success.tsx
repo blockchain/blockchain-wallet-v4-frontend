@@ -69,7 +69,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     formActions,
     formErrors,
     handleDisplayToggle,
-    interestAccount,
     interestRates,
     invalid,
     payment,
@@ -89,9 +88,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const depositAmountFiat = amountToFiat(true, depositAmount, coin, walletCurrency, rates)
   const maxDepositFiat = maxFiat(earnDepositLimits.maxFiat, walletCurrency)
 
-  const fromAccountType =
-    interestAccount?.type === SwapBaseCounterTypes.CUSTODIAL ? 'TRADING' : 'USERKEY'
-
+  const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
   const depositAmountError =
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
