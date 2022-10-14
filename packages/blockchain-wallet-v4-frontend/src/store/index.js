@@ -13,17 +13,16 @@ import Worker from 'web-worker'
 import { coreMiddleware } from '@core'
 import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network'
 import { serializer } from '@core/types'
-import { actions, rootReducer, rootSaga, selectors } from 'data'
+import { actions, rootReducer, rootSaga, selectors, model } from 'data'
 import { isBrowserSupported } from 'services/browser'
-import { createNabuErrorFulfilledInterceptor, createNabuErrorRejectedInterceptor, createNabuErrorAnalyticsInterceptor } from "services/errors/NabuError"
-import axios from "axios"
-
 import {
-  analyticsMiddleware,
-  streamingXlm,
-  webSocketCoins,
-  webSocketRates
-} from '../middleware'
+  createNabuErrorFulfilledInterceptor,
+  createNabuErrorRejectedInterceptor,
+  createNabuErrorAnalyticsInterceptor
+} from 'services/errors/NabuError'
+import axios from 'axios'
+
+import { analyticsMiddleware, streamingXlm, webSocketCoins, webSocketRates } from '../middleware'
 
 const manuallyRouteToErrorPage = (error) => {
   if (window.history.replaceState) {
@@ -37,10 +36,21 @@ const configuredStore = async function () {
   // immediately load app configuration
   let options
   try {
-    let res = await fetch('/wallet-options-v4.json')
+    const res = await fetch('/wallet-options-v4.json')
     options = await res.json()
   } catch (e) {
     throw new Error('errorWalletOptionsApi')
+  }
+
+  // generate xSessionId and store in local storage
+  try {
+    const res = await axios.put(`${options.domains.api}/nabu-gateway/generate-session`)
+    const { xSessionId } = res.data
+    if (xSessionId) {
+      localStorage.setItem(model.profile.X_SESSION_ID, xSessionId)
+    }
+  } catch (e) {
+    throw new Error('errorXSessionId')
   }
 
   // ensure browser is supported
@@ -55,7 +65,7 @@ const configuredStore = async function () {
     const worker = new Worker(url)
 
     // set event listener upon worker completion
-    worker.addEventListener('message', e => {
+    worker.addEventListener('message', (e) => {
       try {
         // message response is json string, parse and set coins on window
         window.coins = JSON.parse(e.data)
@@ -66,10 +76,12 @@ const configuredStore = async function () {
     })
 
     // start worker with stringified args since some browsers only support passing strings as args
-    worker.postMessage(JSON.stringify({
-      assetApi: options.domains.api,
-      openSeaApi: options.domains.opensea
-    }))
+    worker.postMessage(
+      JSON.stringify({
+        assetApi: options.domains.api,
+        openSeaApi: options.domains.opensea
+      })
+    )
   } else {
     manuallyRouteToErrorPage('unsupportedBrowser')
   }
@@ -104,15 +116,15 @@ const configuredStore = async function () {
     createNabuErrorFulfilledInterceptor(),
     createNabuErrorRejectedInterceptor()
   )
-  
+
   const api = createWalletApi({
     apiKey: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8',
     getAuthCredentials,
     networks,
     options,
-    reauthenticate,
+    reauthenticate
   })
-  
+
   const persistWhitelist = ['session', 'preferences', 'cache']
   const store = configureStore({
     devTools: {
