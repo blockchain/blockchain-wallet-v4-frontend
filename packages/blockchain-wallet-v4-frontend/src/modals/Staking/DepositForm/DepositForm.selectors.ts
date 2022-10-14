@@ -34,9 +34,7 @@ export const getData = (state: RootState) => {
     string,
     FiatType
   >
-  const interestAccount = selectors.components.interest
-    .getStakingAccount(state)
-    .getOrElse({ accountRef: '' })
+  const stakingLimitsR = selectors.components.interest.getStakingLimits(state)
 
   const afterTransaction = selectors.components.interest
     .getAfterTransaction(state)
@@ -50,6 +48,7 @@ export const getData = (state: RootState) => {
       interestRates: ExtractSuccess<typeof interestRatesR>,
       ethRates: ExtractSuccess<typeof ethRatesR>,
       payment: ExtractSuccess<typeof paymentR>,
+      stakingLimits: ExtractSuccess<typeof stakingLimitsR>,
       walletCurrency: ExtractSuccess<typeof walletCurrencyR>,
       earnEDDStatus
     ) => {
@@ -65,13 +64,13 @@ export const getData = (state: RootState) => {
         earnEDDStatus,
         ethRates,
         formErrors,
-        interestAccount,
         interestRates,
         payment,
         prefillAmount,
         rates,
+        stakingLimits,
         walletCurrency
       }
     }
-  )(ratesR, interestRatesR, ethRatesR, paymentR, walletCurrencyR, earnEDDStatusR)
+  )(ratesR, interestRatesR, ethRatesR, paymentR, stakingLimitsR, walletCurrencyR, earnEDDStatusR)
 }

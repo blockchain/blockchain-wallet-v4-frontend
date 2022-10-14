@@ -383,7 +383,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const fetchPendingStakingTransactions = function* ({
     payload
-  }: ReturnType<typeof A.fetchEarnTransactions>) {
+  }: ReturnType<typeof A.fetchPendingStakingTransactions>) {
     const { coin } = payload
 
     try {
@@ -409,12 +409,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const pendingTransactions: PendingTransactionType[] = []
 
       filteredTransactions.forEach(({ amount, insertedAt }) => {
-        pendingTransactions.push({ amount: amount.value, date: insertedAt, type: 'TRANSACTIONS' })
+        const baseAmount = Exchange.convertCoinToCoin({
+          baseToStandard: false,
+          coin,
+          value: new BigNumber(amount.value).toNumber()
+        })
+        pendingTransactions.push({ amount: baseAmount, date: insertedAt, type: 'TRANSACTIONS' })
       })
 
+      let totalBondingAmount = 0
+
       bondingDeposits.forEach(({ amount, bondingDays, bondingStartDate }) => {
+        totalBondingAmount += Number(amount)
         pendingTransactions.push({ amount, bondingDays, date: bondingStartDate, type: 'BONDING' })
       })
+
+      if (totalBondingAmount > 0) yield put(A.setTotalBondingDeposits(totalBondingAmount))
 
       if (pendingTransactions.length > 0) {
         pendingTransactions.sort((a, b) => {
