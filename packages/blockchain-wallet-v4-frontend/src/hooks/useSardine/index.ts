@@ -1,0 +1,1 @@
+export { useDeviceIntelligence } from './useSardine'
