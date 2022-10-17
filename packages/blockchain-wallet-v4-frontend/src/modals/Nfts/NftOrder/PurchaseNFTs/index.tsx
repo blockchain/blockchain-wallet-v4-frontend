@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { PaletteColors, Padding } from '@blockchain-com/constellation'
+import { Padding, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'

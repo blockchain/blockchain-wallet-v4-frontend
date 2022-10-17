@@ -235,7 +235,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.fetchBankRefreshCredentials>) {
     try {
       yield put(actions.components.brokerage.fetchBankLinkCredentialsLoading())
-      const data: BankCredentialsType = yield call(api.refreshBankAccountLink, payload)
+      const data: BankCredentialsType = yield call(api.refreshBankAccountLink, payload, {})
       yield put(actions.components.brokerage.setBankCredentials(data))
     } catch (error) {
       yield put(actions.components.brokerage.fetchBankLinkCredentialsError(error))

@@ -304,7 +304,7 @@ const Navbar = ({
             {primaryNavItems.map((item: PrimaryNavItem) => (
               <li key={item.e2e}>
                 <NavLink to={item.dest} data-e2e={item.e2e}>
-                  <Text variant='paragraph-1'>{item.text}</Text>
+                  <Text variant='paragraph1'>{item.text}</Text>
                 </NavLink>
               </li>
             ))}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink, withRouter } from 'react-router-dom'
-import { PaletteColors, IconCheckCircle } from '@blockchain-com/constellation'
+import { IconCheckCircle, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
