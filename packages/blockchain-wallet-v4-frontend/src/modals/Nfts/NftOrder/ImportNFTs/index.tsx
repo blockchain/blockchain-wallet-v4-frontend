@@ -37,7 +37,7 @@ const ImportNFTs: React.FC<Props> = (props) => {
     width: 18px;
     height: 18px;
     padding: 4px;
-    background: ${PaletteColors.grey000};
+    background: ${PaletteColors['grey-000']};
     text-align: center;
   `
 
