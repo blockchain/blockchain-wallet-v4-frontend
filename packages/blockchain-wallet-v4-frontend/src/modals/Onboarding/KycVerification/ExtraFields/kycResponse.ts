@@ -3706,7 +3706,7 @@ export default {
         }
       ],
       id: 'CITIZENSHIP_SET-q1',
-      instructions: '(Select only one)',
+      instructions: '(Select all that apply one)',
       isDropdown: true,
       text: 'What’s your citizenship?',
       type: 'SINGLE_SELECTION'
