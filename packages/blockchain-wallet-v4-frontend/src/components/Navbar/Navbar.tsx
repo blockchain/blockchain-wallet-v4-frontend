@@ -173,6 +173,16 @@ export const NavButton = styled(Button)`
     background-color: transparent;
   }
 `
+// change #F00699 to pink-600 from constellation when upgrade to 0.2.9
+const NewTag = styled.div`
+  height: 16px;
+  width: 32px;
+  background-color: #f00699;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+`
 
 const Navbar = ({
   fabClickHandler,
