@@ -18,6 +18,7 @@ const mapCoinIconColor: Record<string, string> = {
   NEAR: '#000000',
   OGN: '#1A82FF',
   PAX: '#00522C',
+  SOL: '#00000',
   STX: '#211F6D',
   THETA: '#2AB8E6',
   UNI: '#FF007A',

@@ -44,7 +44,7 @@ const Wrapper = styled.div`
 
 const Chart = ({ coin, currency, data }: { coin: CoinType; currency: FiatType; data: Data[] }) => {
   const [ref, bounds] = useMeasure({ polyfill: ResizeObserver })
-  const color = Color(coin as keyof DefaultTheme) || '#000'
+  const color = Color(coin as keyof DefaultTheme) ?? '#000000'
 
   const width = bounds.width || 100
   const height = bounds.height || 100
