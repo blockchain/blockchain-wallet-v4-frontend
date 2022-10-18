@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import {
+  Flex,
   IconClose,
   IconMenu,
   IconRefresh,
@@ -21,6 +22,7 @@ import UserNavDropdown, { userNavItems } from './UserNavDropdown'
 export type PrimaryNavItem = {
   dest: string
   e2e: string
+  isNew?: boolean
   text: string | React.ReactNode
 }
 
@@ -170,6 +172,16 @@ export const NavButton = styled(Button)`
     background-color: transparent;
   }
 `
+// change #F00699 to pink-600 from constellation when upgrade to 0.2.9
+const NewTag = styled.div`
+  height: 16px;
+  width: 32px;
+  background-color: #f00699;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  font-size: 12px;
+`
 
 const Navbar = ({
   fabClickHandler,
@@ -301,10 +313,17 @@ const Navbar = ({
         </Logo>
         {!isMobile && !isTablet && (
           <PrimaryNavItems>
-            {primaryNavItems.map((item: PrimaryNavItem) => (
-              <li key={item.e2e}>
-                <NavLink to={item.dest} data-e2e={item.e2e}>
-                  <Text variant='paragraph-1'>{item.text}</Text>
+            {primaryNavItems.map(({ dest, e2e, isNew, text }: PrimaryNavItem) => (
+              <li key={e2e}>
+                <NavLink to={dest} data-e2e={e2e}>
+                  <Flex alignItems='center' gap={6}>
+                    <Text variant='paragraph-1'>{text}</Text>
+                    {isNew && (
+                      <NewTag>
+                        <FormattedMessage defaultMessage='New' id='copy.new' />
+                      </NewTag>
+                    )}
+                  </Flex>
                 </NavLink>
               </li>
             ))}
