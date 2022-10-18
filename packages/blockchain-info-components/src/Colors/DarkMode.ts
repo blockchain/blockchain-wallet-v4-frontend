@@ -112,6 +112,7 @@ const DarkTheme: DefaultTheme = {
   NEAR: '#000000',
   OGN: '#1A82FF',
   PAX: '#00522C',
+  SOL: '#000000',
   SNX: '#00D1FF',
   STX: '#211F6D',
   SUSHI: '#FA52A0',
