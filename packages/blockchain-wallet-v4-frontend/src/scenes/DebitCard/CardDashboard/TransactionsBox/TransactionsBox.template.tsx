@@ -85,7 +85,7 @@ const EmptyList = () => (
   </BoxRow>
 )
 
-const TransactionsBox = ({ modalActions }) => {
+const TransactionsBox = ({ debitCardActions, modalActions }) => {
   const { data, isLoading, isNotAsked } = useRemote(
     selectors.components.debitCard.getCardTransactions
   )
@@ -150,13 +150,21 @@ const TransactionsBox = ({ modalActions }) => {
     })
   }
 
+  const handleOpenListTransactions = () => {
+    debitCardActions.getCardTransactions({ limit: 20 })
+
+    modalActions.showModal(ModalName.TRANSACTION_LIST_MODAL, {
+      origin: 'SettingsPage'
+    })
+  }
+
   const ListComponent = () => (
     <>
       {!data || isEmpty(data) ? (
         <EmptyList />
       ) : (
         <TransactionsWrapper>
-          {data.map((detail) => {
+          {data.slice(0, MAX_TRANSACTIONS).map((detail) => {
             const { id, merchantName, originalAmount, state, type, userTransactionTime } = detail
 
             const formattedDateTime = new Date(userTransactionTime).toLocaleString(
@@ -204,6 +212,7 @@ const TransactionsBox = ({ modalActions }) => {
               defaultMessage='See All'
             />
           }
+          onClick={handleOpenListTransactions}
         >
           See all
         </Button>

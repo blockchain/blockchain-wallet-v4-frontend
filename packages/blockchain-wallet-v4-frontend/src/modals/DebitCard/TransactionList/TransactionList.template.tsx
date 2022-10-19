@@ -1,32 +1,20 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import Flyout from 'components/Flyout'
 import FlyoutContainer from 'components/Flyout/Container'
 import FlyoutHeader from 'components/Flyout/Header'
 import { FlyoutContent } from 'components/Flyout/Layout'
+import { selectors } from 'data'
+import { useRemote } from 'hooks'
 
-import { DAY_MONTH, TIME_HS12, useDateTimeFormatter } from '../../../hooks/useDateTimeFormatter'
-import {
-  BoxRowItemSubTitle,
-  BoxRowItemTitle,
-  BoxRowWithBorder
-} from '../../../scenes/DebitCard/CardDashboard/CardDashboard.model'
 import { Props } from './TransactionList'
 
-const BoxRowItemTitleRight = styled(BoxRowItemTitle)`
-  flex: none;
-  align-items: end;
-`
-
 const TransactionList = (props: Props) => {
-  const { close, detail } = props
-  const { fee, merchantName, originalAmount, userTransactionTime } = detail
-  const date = useDateTimeFormatter(userTransactionTime, DAY_MONTH)
-  const time = useDateTimeFormatter(userTransactionTime, TIME_HS12)
+  const { close } = props
+  const { data, isLoading, isNotAsked } = useRemote(
+    selectors.components.debitCard.getCardTransactions
+  )
 
   const [show, setShow] = useState(true)
 
@@ -40,11 +28,15 @@ const TransactionList = (props: Props) => {
   return (
     <Flyout {...props} isOpen={show} onClose={handleClose}>
       <FlyoutContainer>
-        <FlyoutHeader data-e2e='transactionDetailFlyout' mode='back' onClick={handleClose}>
+        <FlyoutHeader data-e2e='transactionDetailFlyout' mode='close' onClick={handleClose}>
           <FormattedMessage id='modals.transaction_list.title' defaultMessage='All Activity' />
         </FlyoutHeader>
         <FlyoutContent mode='top'>
-          <>Activity here</>
+          <>
+            {data?.map((d) => (
+              <div key={d.id}>{d.id}</div>
+            ))}
+          </>
         </FlyoutContent>
       </FlyoutContainer>
     </Flyout>

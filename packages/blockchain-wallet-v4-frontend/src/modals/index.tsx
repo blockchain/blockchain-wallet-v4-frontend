@@ -32,6 +32,7 @@ const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
 const TransactionDetail = React.lazy(() => import('./DebitCard/TransactionDetail'))
 const FundsList = React.lazy(() => import('./DebitCard/FundsList'))
 const CustomizableConfirm = React.lazy(() => import('./CustomizableConfirm'))
+const TransactionList = React.lazy(() => import('./DebitCard/TransactionList'))
 
 // DEX
 const DexSwapSettings = React.lazy(() => import('./Dex/SwapSettings'))
@@ -295,7 +296,7 @@ const Modals = (props: Props) => {
           <TransactionDetail />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_LIST_MODAL) ? (
-          <TransactionDetail />
+          <TransactionList />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS_MODAL) ? (
           <TermsAndConditions disableOutsideClose />
