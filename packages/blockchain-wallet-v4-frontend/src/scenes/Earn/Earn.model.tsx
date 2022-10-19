@@ -1,6 +1,8 @@
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { SceneWrapper } from 'components/Layout'
+import { Link } from 'blockchain-info-components'
+import { SceneSubHeaderText, SceneWrapper } from 'components/Layout'
 
 export const TabRow = styled.div`
   width: 100%;
@@ -21,4 +23,17 @@ export const Overlay = styled.div`
 `
 export const CustomSceneWrapper = styled(SceneWrapper)<{ $isGoldTier?: boolean }>`
   ${({ $isGoldTier }) => !$isGoldTier && `overflow: hidden;`}
+`
+
+export const SubheaderSeparator = styled.div`
+  display: flex;
+  flex-grow: 2;
+`
+export const SceneSubHeaderTextCustom = styled(SceneSubHeaderText)`
+  display: contents;
+`
+export const CustomLink = styled(Link)`
+  &:hover {
+    color: ${PaletteColors['blue-400']};
+  }
 `

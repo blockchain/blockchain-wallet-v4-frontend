@@ -10,6 +10,7 @@ import {
   FiatType,
   InterestLimitsType,
   PaymentValue,
+  RatesType,
   RemoteDataType,
   RewardsRatesType,
   StakingLimitsType,
@@ -90,7 +91,11 @@ export type ErrorStringType = { error: string }
 
 export type InterestLimits = { coin: CoinType; currency: FiatType }
 
-export type EarnInstrumentsType = Array<{ coin: CoinType; product: 'Staking' | 'Rewards' }>
+export type EarnInstrumentsType = Array<{
+  coin: CoinType
+  product: 'Staking' | 'Rewards'
+  rate: RatesType
+}>
 
 export type TransferMinMaxAmountType = {
   amount: number

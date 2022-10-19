@@ -142,17 +142,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.fetchStakingRatesSuccess(stakingRates))
       yield put(A.fetchInterestRatesSuccess(rewardsRates))
+      const allRatesR = yield select(S.getAllRates)
+      const walletCurrencyR = yield select(S.getWalletCurrency)
+      const allRates = allRatesR.getOrElse({})
+      const walletCurrency = walletCurrencyR.getOrElse('USD')
 
       const stakingCoins: Array<string> = Object.keys(stakingRates.rates)
       const rewardsCoins: Array<string> = Object.keys(rewardsRates.rates)
 
       const stakingInstruments: EarnInstrumentsType = stakingCoins.map((coin) => ({
         coin,
-        product: 'Staking'
+        product: 'Staking',
+        rate: allRates[`${coin}-${walletCurrency}`]
       }))
       const rewardsInstruments: EarnInstrumentsType = rewardsCoins.map((coin) => ({
         coin,
-        product: 'Rewards'
+        product: 'Rewards',
+        rate: allRates[`${coin}-${walletCurrency}`]
       }))
 
       yield put(

@@ -14,18 +14,15 @@ const getData = (state: RootState): RemoteDataType<string, SuccessStateType> => 
     eddNeeded: false
   } as EarnEDDStatus)
 
-  const sortedInstrumentsR = selectors.components.interest.getInstrumentsSortedByBalance(state)
-
-  const transform = (interestRates, stakingRates, userData, sortedInstruments) => ({
+  const transform = (interestRates, stakingRates, userData) => ({
     earnEDDStatus,
     interestRates,
     interestRatesArray: values(interestRates),
-    sortedInstruments,
     stakingRates,
     userData
   })
 
-  return lift(transform)(interestRatesR, stakingRatesR, userDataR, sortedInstrumentsR)
+  return lift(transform)(interestRatesR, stakingRatesR, userDataR)
 }
 
 export default getData

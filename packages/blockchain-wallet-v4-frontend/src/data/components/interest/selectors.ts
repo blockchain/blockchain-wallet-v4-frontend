@@ -26,39 +26,54 @@ export const getEarnInstruments = (state: RootState) => state.components.interes
 export const getIsStakingEnabled = (state: RootState) =>
   selectors.core.walletOptions.getIsStakingEnabled(state) || false
 
+export const getWalletCurrency = (state: RootState): RemoteDataType<string, FiatType> => {
+  return selectors.core.settings.getCurrency(state)
+}
+
+export const getAllRates = (state: RootState) => state.dataPath.coins.rates
 // If the user does not have a rewards balance, move the preferredCoins list to the top of the list (even better if this is done by backend)
 // If the user has a rewards balance, move those instruments to the top of the list and merge with the preferredCoins list
 export const getInstrumentsSortedByBalance = createDeepEqualSelector(
   getEarnInstruments,
   getRewardsAccountBalance,
   getIsStakingEnabled,
+  getAllRates,
+  getWalletCurrency,
   (
     instrumentsR: ReturnType<typeof getEarnInstruments>,
     balancesR: ReturnType<typeof getRewardsAccountBalance>,
-    isStakingEnabledR: ReturnType<typeof getIsStakingEnabled>
+    isStakingEnabledR: ReturnType<typeof getIsStakingEnabled>,
+    allRatesR: ReturnType<typeof getAllRates>,
+    walletCurrencyR: ReturnType<typeof getWalletCurrency>
   ) => {
     const transform = (
       instruments: ExtractSuccess<typeof instrumentsR>,
       balances: ExtractSuccess<typeof balancesR>,
-      isStakingEnabled: ExtractSuccess<typeof isStakingEnabledR>
+      isStakingEnabled: ExtractSuccess<typeof isStakingEnabledR>,
+      allRates: ExtractSuccess<typeof allRatesR>,
+      walletCurrency: ExtractSuccess<typeof walletCurrencyR>
     ) => {
       if (isEmpty(instruments)) return []
       let preferredCoins: EarnInstrumentsType = [
-        { coin: 'BTC', product: 'Rewards' },
-        { coin: 'ETH', product: 'Rewards' },
-        { coin: 'USDT', product: 'Rewards' },
-        { coin: 'USDC', product: 'Rewards' }
+        { coin: 'BTC', product: 'Rewards', rate: allRates[`BTC-${walletCurrency}`] },
+        { coin: 'ETH', product: 'Rewards', rate: allRates[`ETH-${walletCurrency}`] },
+        { coin: 'USDT', product: 'Rewards', rate: allRates[`USDT-${walletCurrency}`] },
+        { coin: 'USDC', product: 'Rewards', rate: allRates[`USDC-${walletCurrency}`] }
+      ]
+      const preferredStakingCoins: EarnInstrumentsType = [
+        { coin: 'ETH', product: 'Staking', rate: allRates[`ETH-${walletCurrency}`] }
       ]
       if (!isEmpty(balances)) {
         const mappedBalances: EarnInstrumentsType = Object.keys(balances).map((coin) => ({
           coin,
-          product: 'Rewards'
+          product: 'Rewards',
+          rate: allRates[`${coin}-${walletCurrency}`]
         }))
         preferredCoins = union(mappedBalances, preferredCoins)
       }
 
       // pin staking to first row
-      preferredCoins = [{ coin: 'ETH', product: 'Staking' }, ...preferredCoins]
+      preferredCoins = [...preferredStakingCoins, ...preferredCoins]
 
       preferredCoins.forEach(({ coin, product }) => {
         const coinIndex: number = instruments.findIndex(
@@ -77,7 +92,7 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
       return [...preferredCoins, ...instruments]
     }
 
-    return lift(transform)(instrumentsR, balancesR, isStakingEnabledR)
+    return lift(transform)(instrumentsR, balancesR, isStakingEnabledR, allRatesR, walletCurrencyR)
   }
 )
 
@@ -133,10 +148,6 @@ export const getRewardsTransactionsNextPage = (state: RootState) =>
 
 export const getStakingTransactionsNextPage = (state: RootState) =>
   state.components.interest.stakingTransactionsNextPage
-
-export const getWalletCurrency = (state: RootState): RemoteDataType<string, FiatType> => {
-  return selectors.core.settings.getCurrency(state)
-}
 
 export const getWithdrawalMinimums = (state: RootState) =>
   state.components.interest.withdrawalMinimums
