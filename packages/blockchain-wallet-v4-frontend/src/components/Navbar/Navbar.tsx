@@ -317,7 +317,7 @@ const Navbar = ({
               <li key={e2e}>
                 <NavLink to={dest} data-e2e={e2e}>
                   <Flex alignItems='center' gap={6}>
-                    <Text variant='paragraph-1'>{text}</Text>
+                    <Text variant='paragraph1'>{text}</Text>
                     {isNew && (
                       <NewTag>
                         <FormattedMessage defaultMessage='New' id='copy.new' />
