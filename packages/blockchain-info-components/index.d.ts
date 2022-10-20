@@ -86,6 +86,7 @@ export const ComponentDropdown: ComponentClass<{
   width?: string
 }>
 export function Color(color: keyof DefaultTheme): DefaultTheme[keyof DefaultTheme]
+export function isKnownColor(color: keyof DefaultTheme): boolean
 export const DateInput: FunctionComponent<{}>
 export const FontGlobalStyles: FunctionComponent<{}>
 export const FlatLoader: FunctionComponent<{
