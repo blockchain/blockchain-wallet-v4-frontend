@@ -84,9 +84,9 @@ const createWalletApi = (
 
   // **********
 
-  const createResetWalletTask = (email, captchaToken, sessionToken, token) => (wrapper) => {
+  const createResetWalletTask = (email, captchaToken, sessionToken) => (wrapper) => {
     const create = (data) =>
-      ApiPromise.createResetAccountPayload(email, captchaToken, sessionToken, token, data)
+      ApiPromise.createResetAccountPayload(email, captchaToken, sessionToken, data)
     return Wrapper.toEncJSON(wrapper).chain(promiseToTask(create))
   }
 

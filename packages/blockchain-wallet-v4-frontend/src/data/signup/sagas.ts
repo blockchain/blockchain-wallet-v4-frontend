@@ -95,22 +95,22 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.signup.setRegisterEmail(email))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
       if (isAccountReset) {
-        // yield call(coreSagas.wallet.createResetWalletSaga, {
-        //   captchaToken,
-        //   email,
-        //   language,
-        //   password,
-        //   sessionToken
-        // })
-        // TODO temp for testing
-        yield call(coreSagas.wallet.createWalletSaga, {
+        yield call(coreSagas.wallet.createResetWalletSaga, {
           captchaToken,
           email,
-          // TODO: remove,only needed for createResetWalletSaga
-          forceVerifyEmail: isAccountReset,
           language,
-          password
+          password,
+          sessionToken
         })
+        // TODO temp for testing
+        // yield call(coreSagas.wallet.createWalletSaga, {
+        //   captchaToken,
+        //   email,
+        //   // TODO: remove,only needed for createResetWalletSaga
+        //   forceVerifyEmail: isAccountReset,
+        //   language,
+        //   password
+        // })
       } else {
         yield call(coreSagas.wallet.createWalletSaga, {
           captchaToken,
@@ -412,18 +412,18 @@ export default ({ api, coreSagas, networks }) => {
       return false
     }
     try {
-      // yield delay(2000)
-      // const response = yield call(api.pollForResetApprovalStatus, sessionToken)
-      const { recoveryEmail } = yield select(selectors.form.getFormValues(RECOVER_FORM))
+      yield delay(2000)
+      const response = yield call(api.pollForResetApprovalStatus, sessionToken)
+      // const { recoveryEmail } = yield select(selectors.form.getFormValues(RECOVER_FORM))
 
-      const response = {
-        email: recoveryEmail,
-        guid: 'fad8a238-3e0f-4422-a0a1-d1edeb4a3d25',
-        request_denied: false,
-        status: 'true',
-        two_fa_type: 4,
-        userId: '34735c52-61e1-4e55-92a0-2cce89774add'
-      }
+      // const response = {
+      //   email: recoveryEmail,
+      //   guid: 'fad8a238-3e0f-4422-a0a1-d1edeb4a3d25',
+      //   request_denied: false,
+      //   status: 'true',
+      //   two_fa_type: 4,
+      //   userId: '34735c52-61e1-4e55-92a0-2cce89774add'
+      // }
 
       // placeholder response until email approval gets fix
       // if (response?.userId) {

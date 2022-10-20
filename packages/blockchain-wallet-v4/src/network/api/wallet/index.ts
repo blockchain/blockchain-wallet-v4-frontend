@@ -54,14 +54,13 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     }).then(() => data.checksum)
 
-  const createResetAccountPayload = (email, captchaToken, sessionToken, token, data) =>
+  const createResetAccountPayload = (email, captchaToken, sessionToken, data) =>
     post({
       contentType: 'application/json',
       data: mergeRight(
         {
           captcha: captchaToken,
           email,
-          jwt: token,
           siteKey: window.CAPTCHA_KEY
         },
         data
