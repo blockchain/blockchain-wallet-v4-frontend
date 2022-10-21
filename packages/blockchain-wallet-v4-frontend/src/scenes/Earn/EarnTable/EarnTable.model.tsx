@@ -17,3 +17,9 @@ export const StakingTextContainer = styled.div`
   ${ProductContainerCss}
   background-color: ${PaletteColors['grey-100']};
 `
+export const Tag = styled.div`
+  padding: 4px 8px;
+  background-color: ${PaletteColors['green-000']};
+  color: ${PaletteColors['green-600']};
+  border-radius: 4px;
+`
