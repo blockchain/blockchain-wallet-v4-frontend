@@ -50,7 +50,9 @@ const configuredStore = async function () {
       localStorage.setItem(model.profile.X_SESSION_ID, xSessionId)
     }
   } catch (e) {
-    throw new Error('errorXSessionId')
+    // we do not need to stop app here it's not a vital if BE api fails
+    // eslint-disable-next-line no-console
+    console.log(e)
   }
 
   // ensure browser is supported
