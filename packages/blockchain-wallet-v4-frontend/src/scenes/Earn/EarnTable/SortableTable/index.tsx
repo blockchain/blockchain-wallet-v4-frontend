@@ -54,6 +54,7 @@ const SortableTable = ({
 
           return (
             <TextCell
+              isHeader
               sort={sort}
               text={<FormattedMessage defaultMessage='Asset' id='copy.asset' />}
               toggleSort={onClick}
@@ -74,6 +75,7 @@ const SortableTable = ({
 
           return (
             <TextCell
+              isHeader
               sort={sort}
               text={<FormattedMessage defaultMessage='Balance' id='copy.balance' />}
               toggleSort={onClick}
@@ -94,6 +96,7 @@ const SortableTable = ({
 
           return (
             <TextCell
+              isHeader
               text={<FormattedMessage defaultMessage='Type' id='copy.type' />}
               sort={sort}
               toggleSort={onClick}

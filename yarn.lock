@@ -1766,10 +1766,10 @@
     react-popper "1.3.2"
     react-transition-group "2.5.3"
 
-"@blockchain-com/constellation@0.2.11":
-  version "0.2.11"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.2.11.tgz#71996d12656162430a32700d04543e6f1dbd6148"
-  integrity sha512-FWYlzGY2UQO0uYYyCOXDA9WaKVYjMkCnYbIYbEK4QzWLx20o+C1Ee4jBtaJr5NcSJ1H5GHd81YvyTJ0ItEiecA==
+"@blockchain-com/constellation@0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.2.12.tgz#caee6b24f2bf9f49600049d980abbb962562a555"
+  integrity sha512-4liL5l6JX8aU2d9UeJVmuhj9lyFgqmDqkklLo46d1vV/jfFjqyPzkn259VBiAICJjB9ZfoaALS/EWEoY9eMdrQ==
   dependencies:
     "@headlessui/react" "1.6.6"
     "@radix-ui/colors" "0.1.8"
