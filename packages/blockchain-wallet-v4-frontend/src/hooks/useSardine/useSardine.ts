@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 // type
 type SardineEnvironment = 'sandbox' | 'production'
 
-export const useDeviceIntelligence = () => {
+export const useSardine = () => {
   const [sardineContext, setSardineContext] = useState(null)
   const [sardineDeviceInfo, setSardineDeviceInfo] = useState(null)
 
@@ -18,12 +18,11 @@ export const useDeviceIntelligence = () => {
     }
   }
 
-  const sessionKey = 'REPLACE_SESSION_KEY_HERE'
-  const userIdHash = 'REPLACE_USER_ID_HERE'
+  const xSessionId = localStorage.getItem('xSessionId')
   const environment: SardineEnvironment = 'sandbox'
 
   useEffect(() => {
-    if (!sessionKey) {
+    if (!xSessionId) {
       return () => {}
     }
     const sardineHost = resolveSardineHost(environment)
@@ -39,7 +38,7 @@ export const useDeviceIntelligence = () => {
        * https://docs.sardine.ai/web
        */
       const context = window?._Sardine?.createContext({
-        clientId: process.env.REACT_APP_SARDINE_CLIENT_ID,
+        clientId: window?.SARDINE_CLIENT_ID,
         environment,
         flow: window.location.pathname,
         onDeviceResponse(data: any) {
@@ -47,8 +46,7 @@ export const useDeviceIntelligence = () => {
           setSardineDeviceInfo(data)
         },
         parentElement: document.body,
-        sessionKey,
-        userIdHash
+        sessionKey: xSessionId
       })
       setSardineContext(context)
     }
@@ -59,9 +57,9 @@ export const useDeviceIntelligence = () => {
       //   console.log('Sardine: Cleaning up non-production DI SDK')
       script.remove()
     }
-  }, [sessionKey])
+  }, [xSessionId])
 
   return [sardineContext, sardineDeviceInfo]
 }
 
-export default useDeviceIntelligence
+export default useSardine

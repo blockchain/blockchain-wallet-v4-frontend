@@ -7,6 +7,7 @@ module.exports = {
   HORIZON_URL: 'https://api.blockchain.info/stellar',
   OPENSEA_API: 'https://api.opensea.io',
   RECAPTCHA_KEY: '6LcxysYaAAAAAOf5QgMWz-GXzoXjpvSrSXETmtlU',
+  SARDINE_CLIENT_ID: '31d83c7d-c869-4ebb-a667-b89ec31aeb4e',
   ROOT_URL: 'https://blockchain.info',
   VERIFF_URL: 'https://magic.veriff.me',
   WALLET_HELPER_DOMAIN: 'https://wallet-helper.blockchain.com',

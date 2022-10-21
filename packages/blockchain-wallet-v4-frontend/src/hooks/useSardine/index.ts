@@ -1,1 +1,1 @@
-export { useDeviceIntelligence } from './useSardine'
+export { useSardine } from './useSardine'
