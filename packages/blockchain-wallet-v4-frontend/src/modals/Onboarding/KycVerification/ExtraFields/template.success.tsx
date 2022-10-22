@@ -423,8 +423,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       <FormGroup>
         <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
-        <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
-
+        {/* TODO add multiselect ability and then remove this one */}
+        {!(node.isDropdown && node.type === NodeItemTypes.SINGLE_SELECTION) && (
+          <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
+        )}
         <FormItem>
           <Field
             data-e2e={`sourceOfFundsDropDown_${node.id}`}
@@ -438,7 +440,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             // multiple={node.type === NodeItemTypes.MULTIPLE_SELECTION}
           />
         </FormItem>
-
         {formValue &&
           node.children &&
           node.children.map(

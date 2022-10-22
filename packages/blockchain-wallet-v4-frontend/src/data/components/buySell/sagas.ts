@@ -1735,7 +1735,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
       // Fetch rates
       if (orderType === OrderType.BUY) {
-        const fakeQuoteAmount = '500'
+        const fakeQuoteAmount = '1000'
 
         yield put(
           A.startPollBuyQuote({

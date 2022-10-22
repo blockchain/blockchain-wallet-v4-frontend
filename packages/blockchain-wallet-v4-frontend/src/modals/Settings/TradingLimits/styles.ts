@@ -1,7 +1,8 @@
+import { SemanticColors } from '@blockchain-com/constellation'
 import styled, { css } from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { BlueCartridge, GreyCartridge } from 'components/Cartridge'
+import { GreyCartridge, SuccessCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 
 export const HeaderWrapper = styled(FlyoutWrapper)`
@@ -56,10 +57,10 @@ export const StatusCartridge = styled(GreyCartridge)`
     padding: 3px 8px;
   }
 `
-export const StatusCartridgeBlue = styled(BlueCartridge)`
+export const StatusCartridgeSuccess = styled(SuccessCartridge)`
   display: flex;
   flex-direction: row;
-  background: rgba(255, 255, 255, 0.24);
+  background: ${SemanticColors.success};
   > span {
     padding: 3px 8px;
   }
