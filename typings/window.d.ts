@@ -8,6 +8,7 @@ declare global {
     CAPTCHA_KEY: string // build injected recaptcha key
     SARDINE_CLIENT_ID: string // build injected sardine access key
     _Sardine: any // Sardine integration
+    _SardineContext: any // Sardine integration
     coins: {
       [key in string]: {
         coinfig: CoinfigType // all coin configs for app

@@ -48,6 +48,7 @@ export const useSardine = () => {
         parentElement: document.body,
         sessionKey: xSessionId
       })
+      window._SardineContext = context
       setSardineContext(context)
     }
 
