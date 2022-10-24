@@ -1,5 +1,6 @@
 const mapCoinIconColor: Record<string, string> = {
   AAVE: '#2EBAC6',
+  ADA: '#000000',
   ALGO: '#000000',
   BAT: '#FF4724',
   BTC: '#FF9B22',
