@@ -19,10 +19,9 @@ import {
   RowItemTitleWhite,
   RowItemWrapper,
   StatusCartridge,
-  StatusCartridgeBlue,
+  StatusCartridgeSuccess,
   UpgradeContainer,
   UpgradeRow,
-  UpgradeRowWithBlueBorder,
   UpgradeRowWithBorder
 } from './styles'
 
@@ -161,6 +160,98 @@ const Template: React.FC<Props> = (props) => {
       <FlyoutContent mode='top'>
         <div>
           <UpgradeContainer>
+            <UpgradeRow>
+              <Image name='grey-verified' size='20px' />
+              <RowItemTitle>
+                <FormattedMessage
+                  id='modals.onboarding.upgrade_now.full_access'
+                  defaultMessage='Full Access'
+                />
+              </RowItemTitle>
+              <StatusCartridgeSuccess>
+                <Text color='white' size='12px' weight={500}>
+                  <FormattedMessage
+                    id='modals.onboarding.upgrade_now.apply_now'
+                    defaultMessage='Apply Now'
+                  />
+                </Text>
+              </StatusCartridgeSuccess>
+            </UpgradeRow>
+            <UpgradeRowWithBorder style={{ padding: '25px' }}>
+              <Button
+                fullwidth
+                size='16px'
+                height='48px'
+                nature='primary'
+                data-e2e='upgradeNowUnlockSilverLimits'
+                type='button'
+                onClick={startVerification}
+              >
+                <FormattedMessage
+                  id='modals.onboarding.upgrade_now.get_full_access'
+                  defaultMessage='Get Full Access'
+                />
+              </Button>
+            </UpgradeRowWithBorder>
+
+            <UpgradeRowWithBorder>
+              <Image name='swap-white' size='20px' />
+              <RowItemWrapper>
+                <RowItemTitle>
+                  <FormattedMessage
+                    id='modals.tradinglimits.swap_crypto'
+                    defaultMessage='Swap Crypto'
+                  />
+                </RowItemTitle>
+                <RowItemSubTitle>
+                  <FormattedMessage
+                    id='modals.onboarding.upgrade_now.between_all_wallets_and_accounts'
+                    defaultMessage='Between All Wallets & Accounts'
+                  />
+                </RowItemSubTitle>
+              </RowItemWrapper>
+              <Image name='check-empty-blue' size='20px' />
+            </UpgradeRowWithBorder>
+
+            <UpgradeRowWithBorder>
+              <Image name='buy-white-circle' size='20px' />
+              <RowItemWrapper>
+                <RowItemTitle>
+                  <FormattedMessage
+                    id='modals.onboarding.upgrade_now.buying_and_selling'
+                    defaultMessage='Buying & Selling'
+                  />
+                </RowItemTitle>
+                <RowItemSubTitle>
+                  <FormattedMessage
+                    id='modals.onboarding.upgrade_now.card_or_banking_methods'
+                    defaultMessage='Card or Banking Methods'
+                  />
+                </RowItemSubTitle>
+              </RowItemWrapper>
+              <Image name='check-empty-blue' size='20px' />
+            </UpgradeRowWithBorder>
+
+            <UpgradeRow>
+              <Image name='percent-white-circle' size='20px' />
+              <RowItemWrapper>
+                <RowItemTitle>
+                  <FormattedMessage
+                    id='modals.tradinglimits.earn_interest'
+                    defaultMessage='Earn Rewards'
+                  />
+                </RowItemTitle>
+                <RowItemSubTitle>
+                  <FormattedMessage
+                    id='modals.onboarding.upgrade_now.earn_rewards_on_your_crypto'
+                    defaultMessage='Earn Rewards On Your Crypto'
+                  />
+                </RowItemSubTitle>
+              </RowItemWrapper>
+              <Image name='check-empty-white' size='20px' />
+            </UpgradeRow>
+          </UpgradeContainer>
+          <UpgradeContainer>
             <UpgradeRowWithBorder>
               <Image name='grey-verified' size='20px' />
               <RowItemTitle>
@@ -249,100 +340,6 @@ const Template: React.FC<Props> = (props) => {
                 </Button>
               </div>
             )}
-          </UpgradeContainer>
-
-          <UpgradeContainer second>
-            <UpgradeRowWithBlueBorder>
-              <Image name='white-verified' size='20px' />
-              <RowItemTitleWhite>
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.full_access'
-                  defaultMessage='Full Access'
-                />
-              </RowItemTitleWhite>
-              <StatusCartridgeBlue>
-                <Text color='white' size='12px' weight={500}>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.apply_now'
-                    defaultMessage='Apply Now'
-                  />
-                </Text>
-              </StatusCartridgeBlue>
-            </UpgradeRowWithBlueBorder>
-
-            <UpgradeRowWithBlueBorder>
-              <Image name='swap-white' size='20px' />
-              <RowItemWrapper>
-                <RowItemTitleWhite>
-                  <FormattedMessage
-                    id='modals.tradinglimits.swap_crypto'
-                    defaultMessage='Swap Crypto'
-                  />
-                </RowItemTitleWhite>
-                <RowItemSubTitleWhite>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.between_all_wallets_and_accounts'
-                    defaultMessage='Between All Wallets & Accounts'
-                  />
-                </RowItemSubTitleWhite>
-              </RowItemWrapper>
-              <Image name='check-empty-white' size='20px' />
-            </UpgradeRowWithBlueBorder>
-
-            <UpgradeRowWithBlueBorder>
-              <Image name='buy-white-circle' size='20px' />
-              <RowItemWrapper>
-                <RowItemTitleWhite>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.buying_and_selling'
-                    defaultMessage='Buying & Selling'
-                  />
-                </RowItemTitleWhite>
-                <RowItemSubTitleWhite>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.card_or_banking_methods'
-                    defaultMessage='Card or Banking Methods'
-                  />
-                </RowItemSubTitleWhite>
-              </RowItemWrapper>
-              <Image name='check-empty-white' size='20px' />
-            </UpgradeRowWithBlueBorder>
-
-            <UpgradeRowWithBlueBorder>
-              <Image name='percent-white-circle' size='20px' />
-              <RowItemWrapper>
-                <RowItemTitleWhite>
-                  <FormattedMessage
-                    id='modals.tradinglimits.earn_interest'
-                    defaultMessage='Earn Rewards'
-                  />
-                </RowItemTitleWhite>
-                <RowItemSubTitleWhite>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.earn_rewards_on_your_crypto'
-                    defaultMessage='Earn Rewards On Your Crypto'
-                  />
-                </RowItemSubTitleWhite>
-              </RowItemWrapper>
-              <Image name='check-empty-white' size='20px' />
-            </UpgradeRowWithBlueBorder>
-
-            <div style={{ padding: '25px' }}>
-              <Button
-                fullwidth
-                size='16px'
-                height='48px'
-                nature='empty-secondary'
-                data-e2e='upgradeNowUnlockSilverLimits'
-                type='button'
-                onClick={startVerification}
-              >
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.get_full_access'
-                  defaultMessage='Get Full Access'
-                />
-              </Button>
-            </div>
           </UpgradeContainer>
 
           <Disclaimer>
