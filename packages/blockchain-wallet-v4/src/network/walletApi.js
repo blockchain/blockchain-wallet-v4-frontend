@@ -90,8 +90,8 @@ const createWalletApi = (
     return Wrapper.toEncJSON(wrapper).chain(promiseToTask(create))
   }
 
-  const createResetWallet = (email, captchaToken, wrapper, sessionToken, token) =>
-    compose(taskToPromise, createResetWalletTask(email, captchaToken, sessionToken, token))(wrapper)
+  const createResetWallet = (email, captchaToken, wrapper, sessionToken) =>
+    compose(taskToPromise, createResetWalletTask(email, captchaToken, sessionToken))(wrapper)
 
   const Api = map(future, ApiPromise)
 
