@@ -15,59 +15,73 @@ type OwnProps = Props & {
 const Header = (props: OwnProps) => {
   const { data } = useRemote(selectors.modules.profile.getCurrentTier)
   const isGoldVerified = useMemo(() => data === 2, [data])
+  const {
+    analyticsActions,
+    featureFlags,
+    history,
+    invitations,
+    isReferralAvailable,
+    isReferralEnabled,
+    modalActions,
+    nftsEnabled,
+    refreshActions,
+    sessionActions,
+    settingsActions,
+    walletDebitCardEnabled
+  } = props
   const refreshCallback = useCallback(() => {
-    props.refreshActions.refreshClicked()
-  }, [props.refreshActions])
+    refreshActions.refreshClicked()
+  }, [refreshActions])
 
   const logoutCallback = useCallback(() => {
-    props.sessionActions.logout()
-  }, [props.sessionActions])
+    sessionActions.logout()
+  }, [sessionActions])
 
   const sendCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Header' })
-  }, [props.modalActions])
+    modalActions.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Header' })
+  }, [modalActions])
 
   const receiveCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'FeaturesTopNav' })
-  }, [props.modalActions])
+    modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'FeaturesTopNav' })
+  }, [modalActions])
 
   const fabCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.TRADE_MODAL, {
+    modalActions.showModal(ModalName.TRADE_MODAL, {
       origin: 'Header'
     })
-  }, [props.modalActions])
+  }, [modalActions])
 
   const trackEventCallback = useCallback(
     (eventName) => {
-      props.settingsActions.generalSettingsInternalRedirect(eventName)
+      settingsActions.generalSettingsInternalRedirect(eventName)
     },
-    [props.settingsActions]
+    [settingsActions]
   )
 
   const limitsCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.TRADING_LIMITS_MODAL, {
+    modalActions.showModal(ModalName.TRADING_LIMITS_MODAL, {
       origin: 'Header'
     })
     trackEventCallback('TradingLimits')
-  }, [props.modalActions, trackEventCallback])
+  }, [modalActions, trackEventCallback])
 
   const referAFriendCallback = useCallback(() => {
-    props.modalActions.showModal(ModalName.REFERRAL_LANDING_MODAL, {
+    modalActions.showModal(ModalName.REFERRAL_LANDING_MODAL, {
       origin: 'Header'
     })
     trackEventCallback('Referral')
-  }, [props.modalActions, trackEventCallback])
+  }, [modalActions, trackEventCallback])
 
   const taxCenterCallback = useCallback(() => {
-    props.history.push('/tax-center')
+    history.push('/tax-center')
 
-    props.analyticsActions.trackEvent({
+    analyticsActions.trackEvent({
       key: Analytics.TAX_CENTER_CLICKED,
       properties: {
         origin: 'SETTINGS'
       }
     })
-  }, [props.analyticsActions, props.history])
+  }, [analyticsActions, history])
 
   const primaryNavItems = [
     {
@@ -88,7 +102,7 @@ const Header = (props: OwnProps) => {
     }
   ]
 
-  if (props.invitations.nftBuySell) {
+  if (invitations.nftBuySell) {
     primaryNavItems.push({
       dest: '/nfts/view',
       e2e: 'nftsLink',
@@ -96,7 +110,7 @@ const Header = (props: OwnProps) => {
     })
   }
 
-  if (props.walletDebitCardEnabled) {
+  if (walletDebitCardEnabled) {
     primaryNavItems.push({
       dest: '/debit-card',
       e2e: 'debitCardLink',
@@ -108,12 +122,12 @@ const Header = (props: OwnProps) => {
     <Navbar
       primaryNavItems={primaryNavItems}
       fabClickHandler={fabCallback}
-      isReferralAvailable={props.isReferralAvailable && isGoldVerified}
-      isReferralRetrievalEnabled={props.featureFlags.isReferralRetrievalEnabled}
+      isReferralAvailable={!!isReferralAvailable && isGoldVerified && isReferralEnabled}
+      isReferralRetrievalEnabled={featureFlags.isReferralRetrievalEnabled}
       limitsClickHandler={limitsCallback}
       referAFriendHandler={referAFriendCallback}
       logoutClickHandler={logoutCallback}
-      nftsEnabled={props.nftsEnabled}
+      nftsEnabled={nftsEnabled}
       receiveClickHandler={receiveCallback}
       refreshClickHandler={refreshCallback}
       sendClickHandler={sendCallback}
