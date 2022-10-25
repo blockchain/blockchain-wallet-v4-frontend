@@ -18,11 +18,12 @@ import {
 import { Exchange } from '@core'
 import { CoinType } from '@core/types'
 import { Icon, Text, TooltipHost } from 'blockchain-info-components'
+import { RoundedBadge } from 'components/Badge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as ParentProps, SuccessStateType } from '..'
-import { RewardsTextContainer, StakingTextContainer } from '../EarnTable.model'
+import { RewardsTextContainer, StakingTextContainer, Tag } from '../EarnTable.model'
 import { sortTextCells, TableContainer } from './SortableTable.model'
 
 const SortableTable = ({
@@ -53,6 +54,7 @@ const SortableTable = ({
 
           return (
             <TextCell
+              isHeader
               sort={sort}
               text={<FormattedMessage defaultMessage='Asset' id='copy.asset' />}
               toggleSort={onClick}
@@ -73,6 +75,7 @@ const SortableTable = ({
 
           return (
             <TextCell
+              isHeader
               sort={sort}
               text={<FormattedMessage defaultMessage='Balance' id='copy.balance' />}
               toggleSort={onClick}
@@ -93,6 +96,7 @@ const SortableTable = ({
 
           return (
             <TextCell
+              isHeader
               text={<FormattedMessage defaultMessage='Type' id='copy.type' />}
               sort={sort}
               toggleSort={onClick}
@@ -191,6 +195,12 @@ const SortableTable = ({
               {displaySymbol}
             </Text>
           ),
+          tag: isStaking ? (
+            <RoundedBadge>
+              <FormattedMessage defaultMessage='New' id='copy.new' />
+            </RoundedBadge>
+          ) : undefined,
+          tagPosition: isStaking ? 'right' : undefined,
           text: (
             <Text color='grey900' size='14px' weight={500}>
               {displayName}
@@ -234,7 +244,17 @@ const SortableTable = ({
           )
         } as TextCellProps,
         rates: {
-          text: `${earnRate}%`,
+          text: hasAccountBalance ? (
+            <Tag>
+              <FormattedMessage
+                defaultMessage='Earning {earnRate}%'
+                id='scene.earn.earnrate'
+                values={{ earnRate }}
+              />
+            </Tag>
+          ) : (
+            `${earnRate}%`
+          ),
           value: earnRate
         } as TextCellProps,
         type: {

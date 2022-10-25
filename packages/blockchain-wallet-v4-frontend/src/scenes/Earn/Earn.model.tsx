@@ -33,6 +33,8 @@ export const SceneSubHeaderTextCustom = styled(SceneSubHeaderText)`
   display: contents;
 `
 export const CustomLink = styled(Link)`
+  color: ${PaletteColors['blue-400']} !important;
+
   &:hover {
     color: ${PaletteColors['blue-400']};
   }

@@ -97,6 +97,7 @@ const Header = (props: OwnProps) => {
     {
       dest: '/earn',
       e2e: 'earnLink',
+      isNew: true,
       text: <FormattedMessage id='copy.earn' defaultMessage='Earn' />
     }
   ]
