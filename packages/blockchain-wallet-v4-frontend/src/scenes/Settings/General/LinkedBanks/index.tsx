@@ -20,14 +20,14 @@ import Success from './template.success'
 class LinkedBanks extends PureComponent<Props> {
   componentDidMount() {
     this.props.brokerageActions.fetchBankTransferAccounts()
-    this.props.buySellActions.fetchPaymentMethods(this.props.walletCurrency)
+    this.props.buySellActions.fetchPaymentMethods(this.props.tradingCurrency)
   }
 
   handleBankClick = () => {
-    const { walletCurrency } = this.props
-    this.props.brokerageActions.setupBankTransferProvider()
+    const { plaidEnabled, tradingCurrency } = this.props
+    const ACHProvider = plaidEnabled ? 'ADD_BANK_PLAID_MODAL' : 'ADD_BANK_YODLEE_MODAL'
     this.props.brokerageActions.showModal({
-      modalType: walletCurrency === 'USD' ? 'ADD_BANK_PLAID_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+      modalType: tradingCurrency === 'USD' ? ACHProvider : 'ADD_BANK_YAPILY_MODAL',
       origin: BrokerageModalOriginType.ADD_BANK_SETTINGS
     })
 
@@ -60,7 +60,7 @@ class LinkedBanks extends PureComponent<Props> {
     return this.props.data.cata({
       Failure: () => null,
       Loading: () => <Loading />,
-      NotAsked: () => null,
+      NotAsked: () => <Loading />,
       Success: (val) => (
         <Success
           {...this.props}
@@ -76,8 +76,9 @@ class LinkedBanks extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+  plaidEnabled: selectors.core.walletOptions.getAddPlaidPaymentProvider(state).getOrElse(false),
+  tradingCurrency: selectors.modules.profile.getTradingCurrency(state).getOrElse('USD'),
+  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -91,8 +92,9 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
+  plaidEnabled: unknown | boolean
+  tradingCurrency: WalletFiatType
   userData: UserDataType
-  walletCurrency: WalletFiatType
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = ConnectedProps<typeof connector>

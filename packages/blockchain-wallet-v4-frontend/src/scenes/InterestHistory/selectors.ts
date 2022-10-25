@@ -5,7 +5,7 @@ import { selectors } from 'data'
 
 export const getData = (state) => {
   const ratesR = selectors.components.interest.getRates(state)
-  const txPages = selectors.components.interest.getInterestTransactions(state)
+  const txPages = selectors.components.interest.getEarnTransactions(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   const transform = (rates: ExtractSuccess<typeof ratesR>, walletCurrency: FiatType) => ({

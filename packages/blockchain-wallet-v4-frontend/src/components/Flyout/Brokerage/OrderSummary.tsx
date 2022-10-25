@@ -7,16 +7,16 @@ import styled from 'styled-components'
 import {
   BSOrderStateType,
   BSPaymentTypes,
-  InterestEligibleType,
-  InterestRateType,
-  OrderType
+  EarnEligibleType,
+  OrderType,
+  RewardsRatesType
 } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { duration } from 'components/Flyout'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 
-import Container from '../Container'
+import FlyoutContainer from '../Container'
 import Content from '../Content'
 import Footer from '../Footer'
 import Header from '../Header'
@@ -86,7 +86,7 @@ const OrderSummary: React.FC<Props> = ({
   handleOkButton,
   interestActions,
   interestEligible,
-  interestRate,
+  interestRates,
   lockTime,
   orderState,
   orderType,
@@ -101,7 +101,7 @@ const OrderSummary: React.FC<Props> = ({
   const { days } = intervalToDuration({ end: lockTime, start: 0 })
 
   // Getting the interest rate for the coin that was bought
-  const coinInterestRate = !!interestRate[outputCurrency] && interestRate[outputCurrency]
+  const coinInterestRate = !!interestRates[outputCurrency] && interestRates[outputCurrency]
 
   const isInterestEligibleCoin = useMemo(
     () =>
@@ -136,7 +136,7 @@ const OrderSummary: React.FC<Props> = ({
   }, [outputCurrency])
 
   return (
-    <Container>
+    <FlyoutContainer>
       <Header data-e2e='sbCloseModalIcon' mode='close' onClick={handleClose} />
       <Content mode='middle'>
         <div style={{ padding: '0 77px', textAlign: 'center' }}>
@@ -386,7 +386,7 @@ const OrderSummary: React.FC<Props> = ({
           </>
         )}
       </Footer>
-    </Container>
+    </FlyoutContainer>
   )
 }
 
@@ -402,8 +402,8 @@ export type Props = {
   handleCompleteButton?: () => void
   handleOkButton: () => void
   interestActions: typeof actions.components.interest
-  interestEligible: InterestEligibleType
-  interestRate: InterestRateType['rates']
+  interestEligible: EarnEligibleType
+  interestRates: RewardsRatesType['rates']
   lockTime: number
   orderState: BSOrderStateType
   orderType: OrderType

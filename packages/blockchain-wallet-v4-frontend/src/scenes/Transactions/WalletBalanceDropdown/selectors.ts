@@ -39,7 +39,8 @@ export const getData = (state, ownProps: OwnProps) => {
     case 'ETH':
       addressDataR = getEthAddressData(state, {
         includeCustodial: true,
-        includeInterest: true
+        includeInterest: true,
+        includeStaking: true
       })
       balanceDataR = selectors.balances.getCoinTotalBalance(coin)(state)
       break

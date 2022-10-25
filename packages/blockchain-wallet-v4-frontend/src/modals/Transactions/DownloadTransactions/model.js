@@ -1,4 +1,4 @@
-import { fiatToString } from '@core/exchange/utils'
+import { fiatToString, formatCoin, formatFiat } from '@core/exchange/utils'
 
 const reportHeaders = [
   'date',
@@ -10,7 +10,14 @@ const reportHeaders = [
   'value_now',
   'exchange_rate_then',
   'tx',
-  'note'
+  'note',
+  'fee_value',
+  'fee_value_then',
+  'recipient_received',
+  'recipient_value_then',
+  'value_then_raw',
+  'value_now_raw',
+  'exchange_rate_then_raw'
 ]
 
 const formatTxData = (d, coin) => [
@@ -23,7 +30,22 @@ const formatTxData = (d, coin) => [
   d.value_now,
   d.exchange_rate_then,
   d.hash || d.tx,
-  d.description || d.note
+  d.description || d.note,
+  d.fee,
+  formatFiat(d.exchange_rate_then_raw * d.fee, 2),
+  d.type === 'received'
+    ? d.amount
+    : formatCoin(Math.abs(d.amount || d.amount_btc || d.amount_bch) - Math.abs(d.fee)),
+  d.type === 'received'
+    ? formatFiat(d.amount * d.exchange_rate_then_raw, 2)
+    : formatFiat(
+        (Math.abs(d.amount || d.amount_btc || d.amount_bch) - Math.abs(d.fee)) *
+          d.exchange_rate_then_raw,
+        2
+      ),
+  formatFiat(Math.abs(d.value_then_raw), 2),
+  formatFiat(Math.abs(d.value_now_raw), 2),
+  d.exchange_rate_then_raw
 ]
 
 // haskoin returns data differently fiat values in
@@ -48,7 +70,17 @@ const formatHaskoinData = (d, coin, currency) => [
     value: d.exchange_rate_then
   }),
   d.hash || d.tx,
-  d.description || d.note
+  d.description || d.note,
+  d.fee,
+  formatFiat(d.exchange_rate_then * d.fee, 2),
+  formatCoin(Math.abs(d.amount || d.amount_btc || d.amount_bch) - Math.abs(d.fee)),
+  formatFiat(
+    (Math.abs(d.amount || d.amount_btc || d.amount_bch) - Math.abs(d.fee)) * d.exchange_rate_then,
+    2
+  ),
+  formatFiat(Math.abs(d.value_then), 2),
+  formatFiat(Math.abs(d.value_now), 2),
+  d.exchange_rate_then
 ]
 
 export { formatHaskoinData, formatTxData, reportHeaders }

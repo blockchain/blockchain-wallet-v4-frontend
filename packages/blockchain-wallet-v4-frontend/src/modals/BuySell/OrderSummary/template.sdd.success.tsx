@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getBaseAmount, getBaseCurrency } from 'data/components/buySell/model'
+import { ModalName } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { CloseContainer } from './styles'
@@ -73,7 +74,14 @@ const Bottom = styled.div`
   }
 `
 
-const Success: React.FC<Props> = ({ buySellActions, handleClose, lockTime, order }) => {
+const Success: React.FC<Props> = ({
+  buySellActions,
+  handleClose,
+  hasCowboysTag,
+  lockTime,
+  modalActions,
+  order
+}) => {
   const baseAmount = getBaseAmount(order)
   const baseCurrency = getBaseCurrency(order)
   const { days } = intervalToDuration({ end: lockTime, start: 0 })
@@ -230,9 +238,16 @@ const Success: React.FC<Props> = ({ buySellActions, handleClose, lockTime, order
                 height='48px'
                 nature='primary'
                 onClick={() => {
-                  buySellActions.setStep({
-                    step: 'UPGRADE_TO_GOLD'
-                  })
+                  if (hasCowboysTag) {
+                    modalActions.showModal(ModalName.COWBOYS_PROMO, {
+                      origin: 'BuySellOrderSummary',
+                      step: 'verifyId'
+                    })
+                  } else {
+                    buySellActions.setStep({
+                      step: 'UPGRADE_TO_GOLD'
+                    })
+                  }
                   buySellActions.updateSddTransactionFinished()
                 }}
                 style={{ marginBottom: '32px' }}

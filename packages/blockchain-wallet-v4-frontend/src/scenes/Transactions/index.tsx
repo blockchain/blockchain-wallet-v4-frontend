@@ -129,7 +129,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.brokerageActions.fetchBankTransferAccounts()
     this.props.recurringBuyActions.fetchRegisteredList()
     this.props.interestActions.fetchInterestEligible()
-    this.props.interestActions.fetchInterestRate()
+    this.props.interestActions.fetchStakingEligible()
+    this.props.interestActions.fetchInterestRates()
+    this.props.interestActions.fetchStakingRates()
   }
 
   componentDidUpdate(prevProps) {

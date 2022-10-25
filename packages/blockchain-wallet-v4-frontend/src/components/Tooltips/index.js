@@ -255,6 +255,18 @@ class Tooltips extends React.PureComponent {
             defaultMessage='The rate is subject to change. Rewards will be paid in crypto.'
           />
         </Tooltip>
+        <Tooltip id='earntable.rewards.tooltip'>
+          <FormattedMessage
+            id='scenes.earn.earntable.rewards.tooltip'
+            defaultMessage='A Rewards Account is a crypto storage facility that earns rewards on the crypto you hold in it.'
+          />
+        </Tooltip>
+        <Tooltip id='earntable.staking.tooltip'>
+          <FormattedMessage
+            id='scenes.earn.earntable.staking.tooltip'
+            defaultMessage='Staking is the process used by Proof-of-Stake (PoS) blockchains to verify and secure transactions on their networks.'
+          />
+        </Tooltip>
         <Tooltip id='modals.interest.depositmax.tooltip'>
           <FormattedMessage
             id='modals.interest.deposit.maxtransfer.tooltip'
@@ -271,6 +283,18 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='modals.interest.summary.accrued.description.tooltip'
             defaultMessage='Rewards earned month to date. Total rewards earned during any month will be transferred on the 1st of the following month.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.staking.summary.fee.tooltip'>
+          <FormattedMessage
+            id='modals.staking.summary.fee.description.tooltip'
+            defaultMessage='Rates are determined by each protocol minus a Blockchain.com fee. Users receive the displayed rate.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.staking.bonding.pending.tooltip'>
+          <FormattedMessage
+            id='modals.staking.bonding.pending.description.tooltip'
+            defaultMessage='Staked funds are subject to a bonding period of time before they start generating staking rewards.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.summary.lock.tooltip'>

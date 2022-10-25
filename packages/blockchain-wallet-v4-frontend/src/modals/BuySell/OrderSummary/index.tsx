@@ -45,7 +45,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
     this.props.buySellActions.fetchOrders()
 
     this.props.interestActions.fetchInterestEligible()
-    this.props.interestActions.fetchInterestRate()
+    this.props.interestActions.fetchInterestRates()
   }
 
   handleOkButton = () => {
@@ -93,7 +93,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => {
-        const { interestEligible, interestRate, order } = val
+        const { interestEligible, interestRates, order } = val
         const { state } = order
         const currencySymbol = getSymbol(getCounterCurrency(order))
         const [recurringBuy] = val.recurringBuyList.filter((rb) => {
@@ -177,7 +177,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
             handleOkButton={this.handleOkButton}
             interestActions={this.props.interestActions}
             interestEligible={interestEligible}
-            interestRate={interestRate}
+            interestRates={interestRates}
             lockTime={val.lockTime}
             orderState={state}
             orderType={getOrderType(order) as OrderType}
@@ -198,7 +198,6 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
     state
   ),
   hasQuote: selectors.components.buySell.hasQuote(state),
-  isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2),
   isRecurringBuy: selectors.core.walletOptions
     .getFeatureFlagRecurringBuys(state)
     .getOrElse(false) as boolean,
@@ -209,6 +208,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch),
   recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
   sendActions: bindActionCreators(actions.components.send, dispatch)
 })

@@ -2,10 +2,10 @@ import { lift, pathOr, propOr } from 'ramda'
 
 import { Exchange } from '@core'
 import {
+  EarnAfterTransactionType,
+  EarnDepositErrorsType,
   ExtractSuccess,
   FiatType,
-  InterestAfterTransactionType,
-  InterestFormErrorsType,
   RemoteDataType
 } from '@core/types'
 import { selectors } from 'data'
@@ -23,13 +23,13 @@ export const getUnderSanctionsMessage = (state) => {
 export const getData = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.components.interest.getRates(state)
-  const formErrors = selectors.form.getFormSyncErrors('interestDepositForm')(
+  const formErrors = selectors.form.getFormSyncErrors('rewardsDepositForm')(
     state
-  ) as InterestFormErrorsType
+  ) as EarnDepositErrorsType
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
-  const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
-  const interestRateR = selectors.components.interest.getInterestRate(state)
-  const depositLimits = selectors.components.interest.getDepositLimits(state)
+  const earnEDDStatusR = selectors.components.interest.getEarnEDDStatus(state)
+  const interestRatesR = selectors.components.interest.getInterestRates(state)
+  const earnDepositLimits = selectors.components.interest.getEarnDepositLimits(state)
   const displayCoin = selectors.components.interest.getIsAmountDisplayedInCrypto(state)
   const ethRatesR = selectors.core.data.misc.getRatesSelector('ETH', state)
   const paymentR = selectors.components.interest.getPayment(state)
@@ -37,14 +37,11 @@ export const getData = (state: RootState) => {
     string,
     FiatType
   >
-  const interestEDDDepositLimitsR = selectors.components.interest.getInterestEDDDepositLimits(state)
-  const interestAccount = selectors.components.interest
-    .getInterestAccount(state)
-    .getOrElse({ accountRef: '' })
+  const rewardsEDDDepositLimitsR = selectors.components.interest.getEarnEDDDepositLimits(state)
 
   const afterTransaction = selectors.components.interest
     .getAfterTransaction(state)
-    .getOrElse({} as InterestAfterTransactionType)
+    .getOrElse({} as EarnAfterTransactionType)
 
   const prefillAmount = afterTransaction?.show ? afterTransaction.amount : undefined
 
@@ -52,12 +49,12 @@ export const getData = (state: RootState) => {
     (
       rates: ExtractSuccess<typeof ratesR>,
       interestLimits: ExtractSuccess<typeof interestLimitsR>,
-      interestRate: ExtractSuccess<typeof interestRateR>,
+      interestRates: ExtractSuccess<typeof interestRatesR>,
       ethRates: ExtractSuccess<typeof ethRatesR>,
       payment: ExtractSuccess<typeof paymentR>,
       walletCurrency: ExtractSuccess<typeof walletCurrencyR>,
-      interestEDDDepositLimits,
-      interestEDDStatus
+      rewardsEDDDepositLimits,
+      earnEDDStatus
     ) => {
       const { coinfig } = window.coins[coin]
       const depositFee =
@@ -79,30 +76,29 @@ export const getData = (state: RootState) => {
 
       return {
         coin,
-        depositLimits,
         displayCoin,
+        earnDepositLimits,
+        earnEDDStatus,
         ethRates,
         feeCrypto,
         feeFiat,
         formErrors,
-        interestAccount,
-        interestEDDDepositLimits,
-        interestEDDStatus,
         interestLimits,
-        interestRate,
+        interestRates,
         payment,
         prefillAmount,
-        rates
+        rates,
+        rewardsEDDDepositLimits
       }
     }
   )(
     ratesR,
     interestLimitsR,
-    interestRateR,
+    interestRatesR,
     ethRatesR,
     paymentR,
     walletCurrencyR,
-    interestEDDDepositLimitsR,
-    interestEDDStatusR
+    rewardsEDDDepositLimitsR,
+    earnEDDStatusR
   )
 }

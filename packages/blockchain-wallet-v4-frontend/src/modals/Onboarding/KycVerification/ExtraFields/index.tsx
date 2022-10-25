@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { ExtraKYCContext } from '@core/types'
 import { Text } from 'blockchain-info-components'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'

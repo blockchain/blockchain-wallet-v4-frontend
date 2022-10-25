@@ -2,57 +2,75 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { append, assoc, compose, dropLast, lensProp, over } from 'ramda'
 
 import {
-  DepositLimits,
-  InterestAccountBalanceType,
-  InterestAccountType,
-  InterestAfterTransactionType,
-  InterestEDDStatus,
-  InterestEligibleType,
-  InterestInstrumentsResponseType,
+  EarnAccountBalanceResponseType,
+  EarnAccountResponseType,
+  EarnAfterTransactionType,
+  EarnDepositLimits,
+  EarnEDDStatus,
+  EarnEligibleType,
   InterestLimitsType,
-  InterestRateType,
-  InterestTransactionType,
+  RewardsRatesType,
+  StakingLimitsType,
+  StakingRatesType,
   WithdrawalMinimumTypeResponse,
   WithdrawLimits
-} from '@core/network/api/interest/types'
+} from '@core/network/api/earn/types'
 import Remote from '@core/remote'
 import { CoinType, FiatType, PaymentValue, WalletFiatType } from '@core/types'
 
 import {
+  EarnDepositFormType,
+  EarnInstrumentsType,
+  EarnMinMaxType,
+  EarnStepMetaData,
+  EarnTransactionType,
   ErrorStringType,
   InterestLimits,
-  InterestMinMaxType,
   InterestState,
   InterestStep,
-  InterestStepMetadata
+  PendingTransactionType,
+  StakingStep,
+  TransferMinMaxAmountType
 } from './types'
 
 const initialState: InterestState = {
-  account: Remote.NotAsked,
-  accountBalance: Remote.NotAsked,
   afterTransaction: Remote.NotAsked,
   coin: 'BTC',
-  depositLimits: {
+  earnDepositLimits: {
     maxCoin: 0,
     maxFiat: 0,
     minCoin: 0,
     minFiat: 0
   },
+  earnEDDStatus: Remote.NotAsked,
+  earnEDDWithdrawLimits: Remote.NotAsked,
   instruments: Remote.NotAsked,
-  interestEDDDepositLimits: Remote.NotAsked,
-  interestEDDStatus: Remote.NotAsked,
-  interestEDDWithdrawLimits: Remote.NotAsked,
   interestEligible: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
-  interestRate: Remote.NotAsked,
+  interestRates: Remote.NotAsked,
   isAmountDisplayedInCrypto: false,
   payment: Remote.NotAsked,
-  step: {
+  pendingStakingTransactions: Remote.NotAsked,
+  rewardsAccount: Remote.NotAsked,
+  rewardsAccountBalance: Remote.NotAsked,
+  rewardsEDDDepositLimits: Remote.NotAsked,
+  rewardsStep: {
     data: {},
     name: 'ACCOUNT_SUMMARY'
   },
+  rewardsTransactionsNextPage: null,
+  stakingAccount: Remote.NotAsked,
+  stakingAccountBalance: Remote.NotAsked,
+  stakingEligible: Remote.NotAsked,
+  stakingLimits: Remote.NotAsked,
+  stakingRates: Remote.NotAsked,
+  stakingStep: {
+    data: {},
+    name: 'WARNING'
+  },
+  stakingTransactionsNextPage: null,
+  totalBondingDeposits: 0,
   transactions: [],
-  transactionsNextPage: null,
   transactionsReport: Remote.NotAsked,
   underSanctionsMessage: null,
   withdrawalMinimums: Remote.NotAsked
@@ -67,81 +85,123 @@ const interestSlice = createSlice({
     fetchEDDStatus: () => {},
 
     fetchEDDStatusFailure: (state, action: PayloadAction<ErrorStringType>) => {
-      state.interestEDDStatus = Remote.Failure(action.payload.error)
+      state.earnEDDStatus = Remote.Failure(action.payload.error)
     },
 
     fetchEDDStatusLoading: (state) => {
-      state.interestEDDStatus = Remote.Loading
+      state.earnEDDStatus = Remote.Loading
     },
 
-    fetchEDDStatusSuccess: (state, action: PayloadAction<{ eddStatus: InterestEDDStatus }>) => {
-      state.interestEDDStatus = Remote.Success(action.payload.eddStatus)
+    fetchEDDStatusSuccess: (state, action: PayloadAction<{ eddStatus: EarnEDDStatus }>) => {
+      state.earnEDDStatus = Remote.Success(action.payload.eddStatus)
     },
 
     // eslint-disable-next-line
     fetchEDDWithdrawLimits: (state, action: PayloadAction<{ currency: FiatType }>) => {},
 
     fetchEDDWithdrawLimitsFailure: (state, action: PayloadAction<ErrorStringType>) => {
-      state.interestEDDWithdrawLimits = Remote.Failure(action.payload.error)
+      state.earnEDDWithdrawLimits = Remote.Failure(action.payload.error)
     },
 
     fetchEDDWithdrawLimitsLoading: (state) => {
-      state.interestEDDWithdrawLimits = Remote.Loading
+      state.earnEDDWithdrawLimits = Remote.Loading
     },
 
     fetchEDDWithdrawLimitsSuccess: (
       state,
-      action: PayloadAction<{ interestEDDWithdrawLimits: WithdrawLimits }>
+      action: PayloadAction<{ earnEDDWithdrawLimits: WithdrawLimits }>
     ) => {
-      state.interestEDDWithdrawLimits = Remote.Success(action.payload.interestEDDWithdrawLimits)
+      state.earnEDDWithdrawLimits = Remote.Success(action.payload.earnEDDWithdrawLimits)
     },
     // eslint-disable-next-line
     fetchEDDDepositLimits: (state, action: PayloadAction<{ currency: FiatType }>) => {},
 
     fetchEDDDepositLimitsFailure: (state, action: PayloadAction<ErrorStringType>) => {
-      state.interestEDDDepositLimits = Remote.Failure(action.payload.error)
+      state.rewardsEDDDepositLimits = Remote.Failure(action.payload.error)
     },
 
     fetchEDDDepositLimitsLoading: (state) => {
-      state.interestEDDWithdrawLimits = Remote.Loading
+      state.earnEDDWithdrawLimits = Remote.Loading
     },
 
     fetchEDDDepositLimitsSuccess: (
       state,
-      action: PayloadAction<{ interestEDDDepositLimits: DepositLimits }>
+      action: PayloadAction<{ rewardsEDDDepositLimits: EarnDepositLimits }>
     ) => {
-      state.interestEDDDepositLimits = Remote.Success(action.payload.interestEDDDepositLimits)
+      state.rewardsEDDDepositLimits = Remote.Success(action.payload.rewardsEDDDepositLimits)
     },
 
-    // ACCOUNT
+    // INSTRUMENTS
+    fetchEarnInstruments: () => {},
+
+    fetchEarnInstrumentsFailure: (state, action: PayloadAction<string>) => {
+      state.instruments = Remote.Failure(action.payload)
+    },
+
+    fetchEarnInstrumentsLoading: (state) => {
+      state.instruments = Remote.Loading
+    },
+
+    fetchEarnInstrumentsSuccess: (
+      state,
+      action: PayloadAction<{ earnInstruments: EarnInstrumentsType }>
+    ) => {
+      state.instruments = Remote.Success(action.payload.earnInstruments)
+    },
+
+    fetchEarnTransactions: (
+      // eslint-disable-next-line
+      state,
+      // eslint-disable-next-line
+      action: PayloadAction<{ coin?: CoinType; reset: boolean }>
+    ) => {},
+    fetchEarnTransactionsFailure: (state, action: PayloadAction<string>) => {
+      const newState = assoc('transactions', [Remote.Failure(action.payload)], state)
+      state.transactions = newState.transactions
+    },
+    fetchEarnTransactionsLoading: (state, action: PayloadAction<{ reset: boolean }>) => {
+      const { reset } = action.payload
+      if (reset) {
+        const newState = assoc('transactions', [Remote.Loading], state)
+        state.transactions = newState.transactions
+      } else {
+        const newState = over(lensProp('transactions'), append(Remote.Loading), state)
+        state.transactions = newState.transactions
+      }
+    },
     // eslint-disable-next-line
-    fetchInterestAccount: (state, action: PayloadAction<{ coin?: CoinType }>) => {},
+    fetchEarnTransactionsReport: () => {},
 
-    fetchInterestAccountFailure: (state, action: PayloadAction<string>) => {
-      state.account = Remote.Failure(action.payload)
+    fetchEarnTransactionsReportFailure: (state, action: PayloadAction<string>) => {
+      state.transactionsReport = Remote.Failure(action.payload)
+    },
+    fetchEarnTransactionsReportLoading: (state) => {
+      state.transactionsReport = Remote.Loading
+    },
+    fetchEarnTransactionsReportSuccess: (state, action: PayloadAction<EarnTransactionType[]>) => {
+      state.transactionsReport = Remote.Success(action.payload)
     },
 
-    fetchInterestAccountLoading: (state) => {
-      state.account = Remote.Loading
-    },
-
-    fetchInterestAccountSuccess: (state, action: PayloadAction<InterestAccountType>) => {
-      state.account = Remote.Success(action.payload)
-    },
-
-    // BALANCES
-    fetchInterestBalance: () => {},
-
-    fetchInterestBalanceFailure: (state, action: PayloadAction<string>) => {
-      state.accountBalance = Remote.Failure(action.payload)
-    },
-
-    fetchInterestBalanceLoading: (state) => {
-      state.accountBalance = Remote.Loading
-    },
-
-    fetchInterestBalanceSuccess: (state, action: PayloadAction<InterestAccountBalanceType>) => {
-      state.accountBalance = Remote.Success(action.payload)
+    fetchEarnTransactionsSuccess: (
+      state,
+      action: PayloadAction<{ reset: boolean; transactions: Array<EarnTransactionType> }>
+    ) => {
+      const { reset, transactions } = action.payload
+      if (reset) {
+        const newState = assoc('transactions', [Remote.Success(transactions)], state)
+        state.transactions = newState.transactions
+      } else {
+        const newState = over(
+          lensProp('transactions'),
+          compose(
+            // @ts-ignore
+            append(Remote.Success(transactions)),
+            dropLast(1)
+          ),
+          state
+        )
+        state.transactions = newState.transactions
+      }
     },
 
     // ELIGIBLE
@@ -155,26 +215,8 @@ const interestSlice = createSlice({
       state.interestEligible = Remote.Loading
     },
 
-    fetchInterestEligibleSuccess: (state, action: PayloadAction<InterestEligibleType>) => {
+    fetchInterestEligibleSuccess: (state, action: PayloadAction<EarnEligibleType>) => {
       state.interestEligible = Remote.Success(action.payload)
-    },
-
-    // INSTRUMENTS
-    fetchInterestInstruments: () => {},
-
-    fetchInterestInstrumentsFailure: (state, action: PayloadAction<string>) => {
-      state.instruments = Remote.Failure(action.payload)
-    },
-
-    fetchInterestInstrumentsLoading: (state) => {
-      state.instruments = Remote.Loading
-    },
-
-    fetchInterestInstrumentsSuccess: (
-      state,
-      action: PayloadAction<{ interestInstruments: InterestInstrumentsResponseType }>
-    ) => {
-      state.instruments = Remote.Success(action.payload.interestInstruments.instruments)
     },
 
     // LIMITS
@@ -198,73 +240,60 @@ const interestSlice = createSlice({
     },
 
     // INTEREST RATES
-    fetchInterestRate: () => {},
-    fetchInterestRateFailure: (state, action: PayloadAction<string>) => {
-      state.interestRate = Remote.Failure(action.payload)
+    fetchInterestRates: () => {},
+    fetchInterestRatesFailure: (state, action: PayloadAction<string>) => {
+      state.interestRates = Remote.Failure(action.payload)
     },
-    fetchInterestRateLoading: (state) => {
-      state.interestRate = Remote.Loading
+    fetchInterestRatesLoading: (state) => {
+      state.interestRates = Remote.Loading
     },
-    fetchInterestRateSuccess: (state, action: PayloadAction<InterestRateType>) => {
-      state.interestRate = Remote.Success(action.payload.rates)
+    fetchInterestRatesSuccess: (state, action: PayloadAction<RewardsRatesType>) => {
+      state.interestRates = Remote.Success(action.payload.rates)
     },
 
-    fetchInterestTransactions: (
-      // eslint-disable-next-line
+    fetchPendingStakingTransactions: (state, action: PayloadAction<{ coin: CoinType }>) => {},
+    fetchPendingStakingTransactionsFailure: (state, action: PayloadAction<string>) => {
+      state.pendingStakingTransactions = Remote.Failure(action.payload)
+    },
+    fetchPendingStakingTransactionsLoading: (state) => {
+      state.pendingStakingTransactions = Remote.Loading
+    },
+    fetchPendingStakingTransactionsSuccess: (
       state,
-      // eslint-disable-next-line
-      action: PayloadAction<{ coin?: CoinType; reset: boolean }>
-    ) => {},
-    fetchInterestTransactionsFailure: (state, action: PayloadAction<string>) => {
-      const newState = assoc('transactions', [Remote.Failure(action.payload)], state)
-      state.transactions = newState.transactions
+      action: PayloadAction<Array<PendingTransactionType>>
+    ) => {
+      state.pendingStakingTransactions = Remote.Success(action.payload)
     },
-    fetchInterestTransactionsLoading: (state, action: PayloadAction<{ reset: boolean }>) => {
-      const { reset } = action.payload
-      if (reset) {
-        const newState = assoc('transactions', [Remote.Loading], state)
-        state.transactions = newState.transactions
-      } else {
-        const newState = over(lensProp('transactions'), append(Remote.Loading), state)
-        state.transactions = newState.transactions
-      }
-    },
+
+    // ACCOUNT
     // eslint-disable-next-line
-    fetchInterestTransactionsReport: () => {},
+    fetchRewardsAccount: (state, action: PayloadAction<{ coin?: CoinType }>) => {},
 
-    fetchInterestTransactionsReportFailure: (state, action: PayloadAction<string>) => {
-      state.transactionsReport = Remote.Failure(action.payload)
-    },
-    fetchInterestTransactionsReportLoading: (state) => {
-      state.transactionsReport = Remote.Loading
-    },
-    fetchInterestTransactionsReportSuccess: (
-      state,
-      action: PayloadAction<InterestTransactionType[]>
-    ) => {
-      state.transactionsReport = Remote.Success(action.payload)
+    fetchRewardsAccountFailure: (state, action: PayloadAction<string>) => {
+      state.rewardsAccount = Remote.Failure(action.payload)
     },
 
-    fetchInterestTransactionsSuccess: (
-      state,
-      action: PayloadAction<{ reset: boolean; transactions: Array<InterestTransactionType> }>
-    ) => {
-      const { reset, transactions } = action.payload
-      if (reset) {
-        const newState = assoc('transactions', [Remote.Success(transactions)], state)
-        state.transactions = newState.transactions
-      } else {
-        const newState = over(
-          lensProp('transactions'),
-          compose(
-            // @ts-ignore
-            append(Remote.Success(transactions)),
-            dropLast(1)
-          ),
-          state
-        )
-        state.transactions = newState.transactions
-      }
+    fetchRewardsAccountLoading: (state) => {
+      state.rewardsAccount = Remote.Loading
+    },
+
+    fetchRewardsAccountSuccess: (state, action: PayloadAction<EarnAccountResponseType>) => {
+      state.rewardsAccount = Remote.Success(action.payload)
+    },
+
+    // BALANCES
+    fetchRewardsBalance: () => {},
+
+    fetchRewardsBalanceFailure: (state, action: PayloadAction<string>) => {
+      state.rewardsAccountBalance = Remote.Failure(action.payload)
+    },
+
+    fetchRewardsBalanceLoading: (state) => {
+      state.rewardsAccountBalance = Remote.Loading
+    },
+
+    fetchRewardsBalanceSuccess: (state, action: PayloadAction<EarnAccountBalanceResponseType>) => {
+      state.rewardsAccountBalance = Remote.Success(action.payload)
     },
 
     fetchShowInterestCardAfterTransaction: (
@@ -287,34 +316,106 @@ const interestSlice = createSlice({
 
     fetchShowInterestCardAfterTransactionSuccess: (
       state,
-      action: PayloadAction<{ afterTransaction: InterestAfterTransactionType }>
+      action: PayloadAction<{ afterTransaction: EarnAfterTransactionType }>
     ) => {
       state.afterTransaction = Remote.Success(action.payload.afterTransaction)
+    },
+
+    // ACCOUNT
+    // eslint-disable-next-line
+    fetchStakingAccount: (state, action: PayloadAction<{ coin: CoinType }>) => {},
+
+    fetchStakingAccountFailure: (state, action: PayloadAction<string>) => {
+      state.stakingAccount = Remote.Failure(action.payload)
+    },
+
+    fetchStakingAccountLoading: (state) => {
+      state.stakingAccount = Remote.Loading
+    },
+
+    fetchStakingAccountSuccess: (state, action: PayloadAction<EarnAccountResponseType>) => {
+      state.stakingAccount = Remote.Success(action.payload)
+    },
+
+    // BALANCES
+    fetchStakingBalance: () => {},
+
+    fetchStakingBalanceFailure: (state, action: PayloadAction<string>) => {
+      state.stakingAccountBalance = Remote.Failure(action.payload)
+    },
+
+    fetchStakingBalanceLoading: (state) => {
+      state.stakingAccountBalance = Remote.Loading
+    },
+
+    fetchStakingBalanceSuccess: (state, action: PayloadAction<EarnAccountBalanceResponseType>) => {
+      state.stakingAccountBalance = Remote.Success(action.payload)
+    },
+
+    // Staking ELIGIBLE
+    fetchStakingEligible: () => {},
+    fetchStakingEligibleFailure: (state, action: PayloadAction<string>) => {
+      state.stakingEligible = Remote.Failure(action.payload)
+    },
+    fetchStakingEligibleLoading: (state) => {
+      state.stakingEligible = Remote.Loading
+    },
+    fetchStakingEligibleSuccess: (state, action: PayloadAction<EarnEligibleType>) => {
+      state.stakingEligible = Remote.Success(action.payload)
+    },
+
+    // STAKING LIMITS
+    fetchStakingLimits: () => {},
+    fetchStakingLimitsFailure: (state, action: PayloadAction<string>) => {
+      state.stakingLimits = Remote.Failure(action.payload)
+    },
+    fetchStakingLimitsLoading: (state) => {
+      state.stakingLimits = Remote.Loading
+    },
+    fetchStakingLimitsSuccess: (state, action: PayloadAction<StakingLimitsType>) => {
+      state.stakingLimits = Remote.Success(action.payload)
+    },
+
+    // Staking RATES
+    fetchStakingRates: () => {},
+    fetchStakingRatesFailure: (state, action: PayloadAction<string>) => {
+      state.stakingRates = Remote.Failure(action.payload)
+    },
+    fetchStakingRatesLoading: (state) => {
+      state.stakingRates = Remote.Loading
+    },
+    fetchStakingRatesSuccess: (state, action: PayloadAction<StakingRatesType>) => {
+      state.stakingRates = Remote.Success(action.payload.rates)
     },
 
     handleTransferMaxAmountClick: (
       // eslint-disable-next-line
       state,
       // eslint-disable-next-line
-      action: PayloadAction<{ amount: number; coin: 'FIAT' | CoinType }>
+      action: PayloadAction<TransferMinMaxAmountType>
     ) => {},
     handleTransferMinAmountClick: (
       // eslint-disable-next-line
       state,
       // eslint-disable-next-line
-      action: PayloadAction<{ amount: number; coin: 'FIAT' | CoinType }>
+      action: PayloadAction<TransferMinMaxAmountType>
     ) => {},
     // eslint-disable-next-line
     handleWithdrawalSupplyInformation: (state, action: PayloadAction<{ origin: string }>) => {},
 
-    initializeDepositForm: (
+    initializeInterestDepositForm: (
       state,
       action: PayloadAction<{ coin: CoinType; currency: FiatType }>
     ) => {
       state.coin = action.payload.coin
     },
 
-    initializeDepositModal: () => {},
+    initializeStakingDepositForm: (
+      state,
+      action: PayloadAction<{ coin: CoinType; currency: FiatType }>
+    ) => {
+      state.coin = action.payload.coin
+    },
 
     initializeWithdrawalForm: (
       // eslint-disable-next-line
@@ -343,19 +444,8 @@ const interestSlice = createSlice({
       state.isAmountDisplayedInCrypto = action.payload.isAmountDisplayedInCrypto
     },
 
-    setDepositLimits: (state, action: PayloadAction<{ limits: InterestMinMaxType }>) => {
-      state.depositLimits = action.payload.limits
-    },
-
-    setInterestStep: (
-      state,
-      action: PayloadAction<{ data?: InterestStepMetadata; name: InterestStep }>
-    ) => {
-      const { data, name } = action.payload
-      state.step = {
-        data: data || {},
-        name
-      }
+    setEarnDepositLimits: (state, action: PayloadAction<{ limits: EarnMinMaxType }>) => {
+      state.earnDepositLimits = action.payload.limits
     },
 
     setPaymentFailure: (state, action: PayloadAction<{ error: string }>) => {
@@ -365,12 +455,59 @@ const interestSlice = createSlice({
     setPaymentLoading: (state) => {
       state.payment = Remote.Loading
     },
+
     setPaymentSuccess: (state, action: PayloadAction<{ payment?: PaymentValue }>) => {
       state.payment = Remote.Success(action.payload.payment)
     },
 
-    setTransactionsNextPage: (state, action: PayloadAction<{ nextPage: string | null }>) => {
-      state.transactionsNextPage = action.payload.nextPage
+    setRewardsStep: (
+      state,
+      action: PayloadAction<{ data?: EarnStepMetaData; name: InterestStep }>
+    ) => {
+      const { data, name } = action.payload
+      state.rewardsStep = {
+        data: data || {},
+        name
+      }
+    },
+
+    setRewardsTransactionsNextPage: (
+      state,
+      action: PayloadAction<{ nextPage?: string | null }>
+    ) => {
+      state.rewardsTransactionsNextPage = action.payload.nextPage
+    },
+
+    setStakingModal: (
+      state,
+      action: PayloadAction<{ data?: EarnStepMetaData; name: StakingStep }>
+    ) => {
+      const { data, name } = action.payload
+      state.stakingStep = {
+        data: data || {},
+        name
+      }
+    },
+
+    setStakingStep: (
+      state,
+      action: PayloadAction<{ data?: EarnStepMetaData; name: StakingStep }>
+    ) => {
+      const { data, name } = action.payload
+      state.stakingStep = {
+        data: data || {},
+        name
+      }
+    },
+
+    setStakingTransactionsNextPage: (
+      state,
+      action: PayloadAction<{ nextPage?: string | null }>
+    ) => {
+      state.stakingTransactionsNextPage = action.payload.nextPage
+    },
+    setTotalBondingDeposits: (state, action: PayloadAction<number>) => {
+      state.totalBondingDeposits = action.payload
     },
 
     setUnderSanctions: (state, action: PayloadAction<{ message: string | null }>) => {
@@ -396,9 +533,13 @@ const interestSlice = createSlice({
       state.coin = action.payload.coin
     },
 
+    showStakingModal: (state, action: PayloadAction<{ coin: CoinType; step: StakingStep }>) => {
+      state.coin = action.payload.coin
+    },
+
     stopShowingInterestModal: () => {},
     // eslint-disable-next-line
-    submitDepositForm: (state, action: PayloadAction<{ coin: CoinType }>) => {}
+    submitDepositForm: (state, action: PayloadAction<{ formName: EarnDepositFormType }>) => {}
   }
 })
 
@@ -412,62 +553,86 @@ export const {
   fetchEDDWithdrawLimitsFailure,
   fetchEDDWithdrawLimitsLoading,
   fetchEDDWithdrawLimitsSuccess,
-  fetchInterestAccount,
-  fetchInterestAccountFailure,
-  fetchInterestAccountLoading,
-  fetchInterestAccountSuccess,
-  fetchInterestBalance,
-  fetchInterestBalanceFailure,
-  fetchInterestBalanceLoading,
-  fetchInterestBalanceSuccess,
+  fetchEarnInstruments,
+  fetchEarnInstrumentsFailure,
+  fetchEarnInstrumentsLoading,
+  fetchEarnInstrumentsSuccess,
+  fetchEarnTransactions,
+  fetchEarnTransactionsFailure,
+  fetchEarnTransactionsLoading,
+  fetchEarnTransactionsReport,
+  fetchEarnTransactionsReportFailure,
+  fetchEarnTransactionsReportLoading,
+  fetchEarnTransactionsReportSuccess,
+  fetchEarnTransactionsSuccess,
   fetchInterestEligible,
   fetchInterestEligibleFailure,
   fetchInterestEligibleLoading,
   fetchInterestEligibleSuccess,
-  fetchInterestInstruments,
-  fetchInterestInstrumentsFailure,
-  fetchInterestInstrumentsLoading,
-  fetchInterestInstrumentsSuccess,
   fetchInterestLimits,
   fetchInterestLimitsFailure,
   fetchInterestLimitsLoading,
   fetchInterestLimitsSuccess,
-  fetchInterestRate,
-  fetchInterestRateFailure,
-  fetchInterestRateLoading,
-  fetchInterestRateSuccess,
-  fetchInterestTransactions,
-  fetchInterestTransactionsFailure,
-  fetchInterestTransactionsLoading,
-  fetchInterestTransactionsReport,
-  fetchInterestTransactionsReportFailure,
-  fetchInterestTransactionsReportLoading,
-  fetchInterestTransactionsReportSuccess,
-  fetchInterestTransactionsSuccess,
+  fetchInterestRates,
+  fetchInterestRatesFailure,
+  fetchInterestRatesLoading,
+  fetchInterestRatesSuccess,
+  fetchPendingStakingTransactions,
+  fetchPendingStakingTransactionsFailure,
+  fetchPendingStakingTransactionsLoading,
+  fetchPendingStakingTransactionsSuccess,
+  fetchRewardsAccount,
+  fetchRewardsAccountFailure,
+  fetchRewardsAccountLoading,
+  fetchRewardsAccountSuccess,
+  fetchRewardsBalance,
+  fetchRewardsBalanceFailure,
+  fetchRewardsBalanceLoading,
+  fetchRewardsBalanceSuccess,
   fetchShowInterestCardAfterTransaction,
   fetchShowInterestCardAfterTransactionFailure,
   fetchShowInterestCardAfterTransactionLoading,
   fetchShowInterestCardAfterTransactionSuccess,
+  fetchStakingAccount,
+  fetchStakingAccountFailure,
+  fetchStakingAccountLoading,
+  fetchStakingAccountSuccess,
+  fetchStakingBalance,
+  fetchStakingBalanceFailure,
+  fetchStakingBalanceLoading,
+  fetchStakingBalanceSuccess,
+  fetchStakingEligible,
+  fetchStakingEligibleFailure,
+  fetchStakingEligibleLoading,
+  fetchStakingEligibleSuccess,
+  fetchStakingRates,
+  fetchStakingRatesFailure,
+  fetchStakingRatesLoading,
+  fetchStakingRatesSuccess,
   handleTransferMaxAmountClick,
   handleTransferMinAmountClick,
   handleWithdrawalSupplyInformation,
-  initializeDepositForm,
-  initializeDepositModal,
+  initializeInterestDepositForm,
+  initializeStakingDepositForm,
   initializeWithdrawalForm,
   requestWithdrawal,
   resetShowInterestCardAfterTransaction,
   routeToTxHash,
   setCoinDisplay,
-  setDepositLimits,
-  setInterestStep,
+  setEarnDepositLimits,
   setPaymentFailure,
   setPaymentLoading,
   setPaymentSuccess,
-  setTransactionsNextPage,
+  setRewardsStep,
+  setRewardsTransactionsNextPage,
+  setStakingModal,
+  setStakingTransactionsNextPage,
+  setTotalBondingDeposits,
   setWithdrawalMinimumsFailure,
   setWithdrawalMinimumsLoading,
   setWithdrawalMinimumsSuccess,
   showInterestModal,
+  showStakingModal,
   stopShowingInterestModal,
   submitDepositForm
 } = interestSlice.actions

@@ -110,6 +110,7 @@ const Interest = React.lazy(() => import('./Interest'))
 const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const BuySell = React.lazy(() => import('./BuySell'))
+const Staking = React.lazy(() => import('./Staking'))
 const Swap = React.lazy(() => import('./Swap'))
 const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
@@ -177,7 +178,7 @@ const Modals = (props: Props) => {
           <CustomizableConfirm />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.COWBOYS_PROMO) ? (
-          <CowboysPromo />
+          <CowboysPromo disableOutsideClose />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DELETE_ADDRESS_LABEL_MODAL) ? (
           <DeleteAddressLabel />
@@ -259,6 +260,7 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SEND_CRYPTO_MODAL) ? (
           <SendCrypto />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.STAKING_MODAL) ? <Staking /> : null}
         {props.modals.find((modal) => modal.type === ModalName.RESET_ACCOUNT_FAILED) ? (
           <ResetAccountFailed />
         ) : null}
