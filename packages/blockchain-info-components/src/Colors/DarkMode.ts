@@ -91,6 +91,7 @@ const DarkTheme: DefaultTheme = {
   teal900: '#052F33',
   // COINS
   AAVE: '#2EBAC6',
+  ADA: '#000000',
   ALGO: '#000000',
   BAT: '#FF4724',
   BCH: '#8DC351',
@@ -112,6 +113,7 @@ const DarkTheme: DefaultTheme = {
   NEAR: '#000000',
   OGN: '#1A82FF',
   PAX: '#00522C',
+  SOL: '#000000',
   SNX: '#00D1FF',
   STX: '#211F6D',
   SUSHI: '#FA52A0',

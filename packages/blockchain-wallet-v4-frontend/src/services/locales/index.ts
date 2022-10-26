@@ -8,10 +8,8 @@ type Language = { language: string; name: string }
 export const languages: Array<Language> = [
   { language: 'en', name: 'English' },
   { language: 'es', name: 'Español' },
-  { language: 'es-la', name: 'Español (Latinoamérica)' },
   { language: 'fr', name: 'Français' },
   { language: 'pt', name: 'Português' },
-  { language: 'pt-br', name: 'Português (Brasil)' },
   { language: 'ru', name: 'Русский' },
   { language: 'tr', name: 'Türkçe' }
 ]
@@ -54,20 +52,6 @@ export const loadLocaleData = (locale, callback) => {
         'i18n-es'
       )
       break
-    case 'es-la':
-      require.ensure(
-        [
-          'date-fns/locale/es',
-          '@formatjs/intl-relativetimeformat/locale-data/es-419.js',
-          '../../assets/locales/es-la.json'
-        ],
-        (require) => {
-          require('date-fns/locale/es')
-          setLocaleData(require('../../assets/locales/es-la.json'))
-        },
-        'i18n-es-la'
-      )
-      break
     case 'fr':
       require.ensure(
         [
@@ -94,20 +78,6 @@ export const loadLocaleData = (locale, callback) => {
           setLocaleData(require('../../assets/locales/pt.json'))
         },
         'i18n-pt'
-      )
-      break
-    case 'pt-br':
-      require.ensure(
-        [
-          'date-fns/locale/pt-BR',
-          '@formatjs/intl-relativetimeformat/locale-data/pt.js',
-          '../../assets/locales/pt-br.json'
-        ],
-        (require) => {
-          require('date-fns/locale/pt-BR')
-          setLocaleData(require('../../assets/locales/pt-br.json'))
-        },
-        'i18n-pt-BR'
       )
       break
     case 'ru':

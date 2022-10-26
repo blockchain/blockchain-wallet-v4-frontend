@@ -1,5 +1,6 @@
 const mapCoinIconColor: Record<string, string> = {
   AAVE: '#2EBAC6',
+  ADA: '#000000',
   ALGO: '#000000',
   BAT: '#FF4724',
   BTC: '#FF9B22',
@@ -18,6 +19,7 @@ const mapCoinIconColor: Record<string, string> = {
   NEAR: '#000000',
   OGN: '#1A82FF',
   PAX: '#00522C',
+  SOL: '#00000',
   STX: '#211F6D',
   THETA: '#2AB8E6',
   UNI: '#FF007A',

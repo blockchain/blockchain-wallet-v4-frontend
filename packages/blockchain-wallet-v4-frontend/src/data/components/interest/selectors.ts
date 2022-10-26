@@ -1,6 +1,12 @@
 import { isEmpty, lift, union } from 'ramda'
 
-import { ExtractSuccess, FiatType, RatesType, RemoteDataType } from '@core/types'
+import {
+  EarnAccountBalanceResponseType,
+  ExtractSuccess,
+  FiatType,
+  RatesType,
+  RemoteDataType
+} from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -36,63 +42,108 @@ export const getAllRates = (state: RootState) => state.dataPath.coins.rates
 export const getInstrumentsSortedByBalance = createDeepEqualSelector(
   getEarnInstruments,
   getRewardsAccountBalance,
+  getStakingAccountBalance,
   getIsStakingEnabled,
   getAllRates,
   getWalletCurrency,
   (
     instrumentsR: ReturnType<typeof getEarnInstruments>,
-    balancesR: ReturnType<typeof getRewardsAccountBalance>,
+    rewardsBalancesR: ReturnType<typeof getRewardsAccountBalance>,
+    stakingBalancesR: ReturnType<typeof getStakingAccountBalance>,
     isStakingEnabledR: ReturnType<typeof getIsStakingEnabled>,
     allRatesR: ReturnType<typeof getAllRates>,
     walletCurrencyR: ReturnType<typeof getWalletCurrency>
   ) => {
     const transform = (
       instruments: ExtractSuccess<typeof instrumentsR>,
-      balances: ExtractSuccess<typeof balancesR>,
+      rewardsBalances: ExtractSuccess<typeof rewardsBalancesR>,
+      stakingBalances: ExtractSuccess<typeof stakingBalancesR>,
       isStakingEnabled: ExtractSuccess<typeof isStakingEnabledR>,
       allRates: ExtractSuccess<typeof allRatesR>,
       walletCurrency: ExtractSuccess<typeof walletCurrencyR>
     ) => {
       if (isEmpty(instruments)) return []
-      let preferredCoins: EarnInstrumentsType = [
+
+      const mapBalancesToPreferredCoins = (
+        balances: EarnAccountBalanceResponseType,
+        preferredCoins: EarnInstrumentsType,
+        product: 'Staking' | 'Rewards'
+      ) => {
+        if (!isEmpty(balances)) {
+          const mappedBalances: EarnInstrumentsType = Object.keys(balances).map((coin) => ({
+            coin,
+            product,
+            rate: allRates[`${coin}-${walletCurrency}`]
+          }))
+          return union(mappedBalances, preferredCoins)
+        }
+
+        return preferredCoins
+      }
+
+      let preferredRewardsCoins: EarnInstrumentsType = [
         { coin: 'BTC', product: 'Rewards', rate: allRates[`BTC-${walletCurrency}`] },
         { coin: 'ETH', product: 'Rewards', rate: allRates[`ETH-${walletCurrency}`] },
         { coin: 'USDT', product: 'Rewards', rate: allRates[`USDT-${walletCurrency}`] },
         { coin: 'USDC', product: 'Rewards', rate: allRates[`USDC-${walletCurrency}`] }
       ]
-      const preferredStakingCoins: EarnInstrumentsType = [
+      let preferredStakingCoins: EarnInstrumentsType = [
         { coin: 'ETH', product: 'Staking', rate: allRates[`ETH-${walletCurrency}`] }
       ]
-      if (!isEmpty(balances)) {
-        const mappedBalances: EarnInstrumentsType = Object.keys(balances).map((coin) => ({
-          coin,
-          product: 'Rewards',
-          rate: allRates[`${coin}-${walletCurrency}`]
-        }))
-        preferredCoins = union(mappedBalances, preferredCoins)
-      }
 
-      // pin staking to first row
-      preferredCoins = [...preferredStakingCoins, ...preferredCoins]
+      const stakingInstruments = instruments.filter(({ product }) => product === 'Staking')
 
-      preferredCoins.forEach(({ coin, product }) => {
-        const coinIndex: number = instruments.findIndex(
-          (instrument) => instrument.coin === coin && instrument.product === product
+      const rewardsInstruments = instruments.filter(({ product }) => product === 'Rewards')
+
+      preferredStakingCoins = mapBalancesToPreferredCoins(
+        stakingBalances,
+        preferredStakingCoins,
+        'Staking'
+      )
+
+      preferredRewardsCoins = mapBalancesToPreferredCoins(
+        rewardsBalances,
+        preferredRewardsCoins,
+        'Rewards'
+      )
+
+      preferredStakingCoins.forEach(({ coin }) => {
+        const coinIndex: number = stakingInstruments.findIndex(
+          (instrument) => instrument.coin === coin
         )
         if (coinIndex !== -1) {
-          instruments.splice(coinIndex, 1)
+          stakingInstruments.splice(coinIndex, 1)
+        }
+      })
+      preferredRewardsCoins.forEach(({ coin }) => {
+        const coinIndex: number = rewardsInstruments.findIndex(
+          (instrument) => instrument.coin === coin
+        )
+        if (coinIndex !== -1) {
+          rewardsInstruments.splice(coinIndex, 1)
         }
       })
 
       if (!isStakingEnabled) {
-        preferredCoins = preferredCoins.filter(({ product }) => product !== 'Staking')
-        instruments = instruments.filter(({ product }) => product !== 'Staking')
+        return [...preferredRewardsCoins, ...rewardsInstruments]
       }
 
-      return [...preferredCoins, ...instruments]
+      return [
+        ...preferredStakingCoins,
+        ...stakingInstruments,
+        ...preferredRewardsCoins,
+        ...rewardsInstruments
+      ]
     }
 
-    return lift(transform)(instrumentsR, balancesR, isStakingEnabledR, allRatesR, walletCurrencyR)
+    return lift(transform)(
+      instrumentsR,
+      rewardsBalancesR,
+      stakingBalancesR,
+      isStakingEnabledR,
+      allRatesR,
+      walletCurrencyR
+    )
   }
 )
 

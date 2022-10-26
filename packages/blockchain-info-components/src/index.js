@@ -2,7 +2,7 @@ export { Badge } from './Badges'
 export { Banner, BannerType } from './Banners'
 export { default as Box } from './Box'
 export { Button, ButtonGroup, IconButton } from './Buttons'
-export { Color, Palette } from './Colors/index.ts'
+export { Color, isKnownColor, Palette } from './Colors/index.ts'
 export { ComponentDropdown, SimpleDropdown } from './Dropdowns'
 export { FontGlobalStyles, IconGlobalStyles } from './Fonts'
 export {
