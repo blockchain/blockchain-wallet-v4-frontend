@@ -32,7 +32,7 @@ export const CoinContainer = styled.div`
   ${FlexColumn}
   align-items: flex-start;
 `
-export const RateContainer = styled.div`
+export const Row = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
