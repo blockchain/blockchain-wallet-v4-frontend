@@ -59,6 +59,7 @@ const IconsContainerRight = styled(IconsContainer)`
 export type OwnProps = {
   handleClose: () => void
   message?: string
+  sanctionsType?: string
 } & ModalPropsType
 
 const SanctionsInfo = (props: Props) => {
@@ -115,23 +116,25 @@ const SanctionsInfo = (props: Props) => {
                 </Padding>
               </Flex>
 
-              <Flex justifyContent='center'>
-                <Link
-                  href='https://ec.europa.eu/commission/presscorner/detail/en/ip_22_2332'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  <Button
-                    nature='empty-secondary'
-                    data-e2e='learnMoreSanctions'
-                    height='48px'
-                    size='16px'
-                    disabled={false}
+              {props.sanctionsType === 'SANCTIONS' && (
+                <Flex justifyContent='center'>
+                  <Link
+                    href='https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L:2022:259I:FULL&from=EN'
+                    target='_blank'
+                    rel='noopener noreferrer'
                   >
-                    <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
-                  </Button>
-                </Link>
-              </Flex>
+                    <Button
+                      nature='empty-secondary'
+                      data-e2e='learnMoreSanctions'
+                      height='48px'
+                      size='16px'
+                      disabled={false}
+                    >
+                      <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
+                    </Button>
+                  </Link>
+                </Flex>
+              )}
             </Padding>
           </FlyoutContent>
           <FlyoutFooter collapsed>

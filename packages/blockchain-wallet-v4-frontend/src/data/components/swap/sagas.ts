@@ -515,10 +515,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         products.swap.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.swap.reasonNotEligible.message
           : undefined
+      const sanctionsType = products.swap.reasonNotEligible.type
       yield put(
         actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
           message,
-          origin: 'Swap'
+          origin: 'Swap',
+          sanctionsType
         })
       )
       yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))

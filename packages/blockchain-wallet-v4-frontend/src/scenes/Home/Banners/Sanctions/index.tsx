@@ -1,9 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { IconWarningTriangle, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Link, Text } from 'blockchain-info-components'
+import { selectors } from 'data'
 import { media } from 'services/styles'
 
 import { BannerButton } from '../styles'
@@ -50,46 +52,53 @@ const PendingIconWrapper = styled.div`
   margin-right: 20px;
 `
 
-const Sanctions = () => (
-  <Wrapper>
-    <Row>
-      <PendingIconWrapper>
-        <IconWarningTriangle color={PaletteColors['orange-400']} label='alert' size='large' />
-      </PendingIconWrapper>
-    </Row>
-    <CentralRow>
-      <Column>
-        <Text size='20px' weight={600} color='grey800'>
-          <FormattedMessage
-            id='scenes.home.banner.sanctions_notifications.title'
-            defaultMessage='Your Account has Restrictions Due to European Sanctions'
-          />
-        </Text>
-        <Text size='16px' weight={500} color='grey800'>
-          <FormattedMessage
-            id='modals.sanctions_notifications.description'
-            defaultMessage='Currently, trading is not allowed for balances over €10.000 due to regulatory sanctions. However, you can still hold or withdraw.'
-          />
-        </Text>
-      </Column>
-    </CentralRow>
+const Sanctions = () => {
+  const products = useSelector(selectors.custodial.getProductEligibilityForUser).data
+  const message = products?.notifications[0].message ?? null
 
-    <Link
-      href='https://ec.europa.eu/commission/presscorner/detail/en/ip_22_2332'
-      target='_blank'
-      rel='noopener noreferrer'
-    >
-      <BannerButton
-        nature='primary'
-        data-e2e='learnMoreSanctionsBanner'
-        height='48px'
-        size='16px'
-        disabled={false}
+  return (
+    <Wrapper>
+      <Row>
+        <PendingIconWrapper>
+          <IconWarningTriangle color={PaletteColors['orange-400']} label='alert' size='large' />
+        </PendingIconWrapper>
+      </Row>
+      <CentralRow>
+        <Column>
+          <Text size='20px' weight={600} color='grey800'>
+            <FormattedMessage
+              id='scenes.home.banner.sanctions_notifications.title'
+              defaultMessage='Your Account has Restrictions Due to European Sanctions'
+            />
+          </Text>
+          <Text size='16px' weight={500} color='grey800'>
+            {message || (
+              <FormattedMessage
+                id='modals.sanctions_notifications.description'
+                defaultMessage='Currently, trading is not allowed for balances over €10.000 due to regulatory sanctions. However, you can still hold or withdraw.'
+              />
+            )}
+          </Text>
+        </Column>
+      </CentralRow>
+
+      <Link
+        href='https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L:2022:259I:FULL&from=EN'
+        target='_blank'
+        rel='noopener noreferrer'
       >
-        <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
-      </BannerButton>
-    </Link>
-  </Wrapper>
-)
+        <BannerButton
+          nature='primary'
+          data-e2e='learnMoreSanctionsBanner'
+          height='48px'
+          size='16px'
+          disabled={false}
+        >
+          <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
+        </BannerButton>
+      </Link>
+    </Wrapper>
+  )
+}
 
 export default Sanctions

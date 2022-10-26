@@ -425,10 +425,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         products.depositFiat.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.depositFiat.reasonNotEligible.message
           : undefined
+      const sanctionsType = products.depositFiat.reasonNotEligible.type
       yield put(
         actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
           message,
-          origin: 'DepositWithdrawalModal'
+          origin: 'DepositWithdrawalModal',
+          sanctionsType
         })
       )
       return
