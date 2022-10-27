@@ -590,6 +590,13 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield put(A.setApiTokenLoading())
 
+      if (window?._SardineContext) {
+        window._SardineContext.updateConfig({
+          flow: 'ONBOARDING',
+          userIdHash: unifiedNabuCredentials.nabuUserId
+        })
+      }
+
       renewSessionTask = yield fork(renewSession, nabuUserId, nabuLifetimeToken, email, guid, 0)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'signIn', e))

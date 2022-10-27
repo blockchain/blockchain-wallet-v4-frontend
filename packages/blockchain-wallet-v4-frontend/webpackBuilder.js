@@ -137,6 +137,12 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         {
           pattern: '**RECAPTCHA_KEY**',
           replacement: process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY
+        },
+        {
+          pattern: '**SARDINE_CLIENT_ID**',
+          replacement: process.env.SARDINE_CLIENT_ID
+            ? process.env.SARDINE_CLIENT_ID
+            : envConfig.SARDINE_CLIENT_ID
         }
       ]),
       new NodePolyfillPlugin(),
@@ -220,7 +226,7 @@ const buildDevServerConfig = (
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
         `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://pay.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
         `child-src https://localhost:8080 http://localhost:8080 ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
-        `script-src-elem 'self' 'nonce-${CSP_NONCE}' https://www.googletagmanager.com`,
+        `script-src-elem 'self' 'nonce-${CSP_NONCE}' https://www.googletagmanager.com https://api.sandbox.sardine.ai https://api.sardine.ai`,
         `worker-src 'self' blob:`,
         [
           'connect-src',
@@ -240,6 +246,7 @@ const buildDevServerConfig = (
           'https://friendbot.stellar.org',
           'https://bitpay.com',
           'https://static.zdassets.com',
+          'https://api.sandbox.sardine.ai',
           'https://ekr.zdassets.com',
           'ws://localhost:8080',
           'wss://localhost:8080'
