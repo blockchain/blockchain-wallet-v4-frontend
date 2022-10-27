@@ -21,6 +21,7 @@ import RewardsBanner from './RewardsBanner'
 import Sanctions from './Sanctions'
 import { getData } from './selectors'
 import ServicePriceUnavailable from './ServicePriceUnavailable'
+import StakingBanner from './StakingBanner'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -30,6 +31,7 @@ class Banners extends React.PureComponent<Props> {
   componentDidMount() {
     this.props.buySellActions.fetchSDDEligibility()
     this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchStakingEligible()
     if (this.props.userData.tiers?.current > 0) {
       // we need such to distinguish is profile completed
       this.props.buySellActions.fetchCards(false)
@@ -48,6 +50,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <KycResubmit />
+          </BannerWrapper>
+        )
+      case 'staking':
+        return (
+          <BannerWrapper>
+            <StakingBanner />
           </BannerWrapper>
         )
       case 'appleAndGooglePay':
