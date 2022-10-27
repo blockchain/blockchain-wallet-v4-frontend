@@ -171,3 +171,7 @@ export const getIsStakingEnabled = (state: RootState) =>
 // crates nabu user at login if credentials aren't in metadata
 export const createNabuUserAtLogin = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'createNabuUserAtLogin']))
+
+// Staking Promo banner
+export const getStakingPromoBannerEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'stakingPromoBanner']))

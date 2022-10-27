@@ -64,6 +64,7 @@
         "secureEmailSmsUpdate": true,
         "showSilverRevamp": true,
         "showTermsAndConditions": false,
+        "stakingPromoBanner": true,
         "stxSelfCustodyEnableAirdrop": true,
         "stxSelfCustodyEnableAll": true,
         "unifiedAccountLogin": true,
