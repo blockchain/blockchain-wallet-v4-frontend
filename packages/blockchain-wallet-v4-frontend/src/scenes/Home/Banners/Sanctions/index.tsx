@@ -54,7 +54,7 @@ const PendingIconWrapper = styled.div`
 
 const Sanctions = () => {
   const products = useSelector(selectors.custodial.getProductEligibilityForUser).data
-  const message = products?.notifications[0].message ?? null
+  const message = products?.notifications?.length ? products?.notifications[0].message : null
 
   return (
     <Wrapper>
