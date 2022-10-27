@@ -157,6 +157,9 @@ const ResidentialAddress = ({
   const nabuToken = useSelector((state: RootState) =>
     selectors.modules.profile.getUserApiToken(state)
   )
+  const useLoqateServiceEnabled = useSelector((state: RootState) =>
+    selectors.core.walletOptions.useLoqateServiceEnabled(state).getOrElse(false)
+  )
 
   const openViewUsPatrioticAct = useOpenViewUsPatrioticAct()
 
@@ -334,37 +337,43 @@ const ResidentialAddress = ({
           <FormWrapper flexDirection='column' justifyContent='space-between'>
             {editAddress ? (
               <Padding horizontal={40}>
-                <FormGroup>
-                  <FormItem>
-                    <Label htmlFor='homeAddress'>
-                      <Text weight={500} size='14px' color='grey900'>
-                        <FormattedMessage
-                          id='debitcard.residential_address.search_your_address'
-                          defaultMessage='Search your address'
-                        />
-                      </Text>
-                    </Label>
-                    <Field
-                      name='homeAddress'
-                      placeholder='Start typing to find your home address'
-                      component={TextBox}
-                      onChange={debounce(findUserAddress, 200)}
-                    />
-                  </FormItem>
-                </FormGroup>
-
-                {editAddress && !enterAddressManually && userStartedSearch && (
-                  <LinkButton onClick={() => setEnterAddressManually(true)}>
-                    <Text weight={600} size='16px' color='blue600'>
-                      <FormattedMessage
-                        id='debitcard.residential_address.add_my_address'
-                        defaultMessage='Add address manually'
+                {useLoqateServiceEnabled && (
+                  <FormGroup>
+                    <FormItem>
+                      <Label htmlFor='homeAddress'>
+                        <Text weight={500} size='14px' color='grey900'>
+                          <FormattedMessage
+                            id='debitcard.residential_address.search_your_address'
+                            defaultMessage='Search your address'
+                          />
+                        </Text>
+                      </Label>
+                      <Field
+                        name='homeAddress'
+                        placeholder='Start typing to find your home address'
+                        component={TextBox}
+                        onChange={debounce(findUserAddress, 200)}
                       />
-                    </Text>
-                  </LinkButton>
+                    </FormItem>
+                  </FormGroup>
                 )}
 
-                {!isAddressSelected &&
+                {useLoqateServiceEnabled &&
+                  editAddress &&
+                  !enterAddressManually &&
+                  userStartedSearch && (
+                    <LinkButton onClick={() => setEnterAddressManually(true)}>
+                      <Text weight={600} size='16px' color='blue600'>
+                        <FormattedMessage
+                          id='debitcard.residential_address.add_my_address'
+                          defaultMessage='Add address manually'
+                        />
+                      </Text>
+                    </LinkButton>
+                  )}
+
+                {useLoqateServiceEnabled &&
+                  !isAddressSelected &&
                   !enterAddressManually &&
                   suggestedAddresses &&
                   suggestedAddresses.length > 0 &&

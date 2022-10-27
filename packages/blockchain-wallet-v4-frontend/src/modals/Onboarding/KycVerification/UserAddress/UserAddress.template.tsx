@@ -22,6 +22,7 @@ import FormLabel from 'components/Form/FormLabel'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import { actions, model, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import { CountryType, StateType } from 'data/types'
 import { useCountryList, useUSStateList } from 'hooks'
 import { countryUsesZipcode, required } from 'services/forms'
@@ -85,6 +86,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const userAddresses = useSelector(selectors.components.identityVerification.getUserAddresses)
   const userRetrievedAddress = useSelector(
     selectors.components.identityVerification.getUserRetrieveAddress
+  )
+  const useLoqateServiceEnabled = useSelector((state: RootState) =>
+    selectors.core.walletOptions.useLoqateServiceEnabled(state).getOrElse(false)
   )
   const [isCountryStateSet, setCountyStateSet] = useState(false)
   const [isAddressSelected, setIsAddressSelected] = useState(false)
@@ -196,35 +200,40 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </Flex>
             )}
 
-            <FormGroup>
-              <FormItem>
-                <Label htmlFor='homeAddress'>
-                  <Text weight={500} size='14px' color='grey900'>
-                    <FormattedMessage
-                      id='identityverification.user_address.home_address'
-                      defaultMessage='Home Address'
-                    />
-                  </Text>
-                </Label>
-                <Field
-                  name='homeAddress'
-                  placeholder='Start typing to find your home address'
-                  component={TextBox}
-                  onChange={debounce(findUserAddress, 200)}
-                />
-              </FormItem>
-            </FormGroup>
+            {useLoqateServiceEnabled && (
+              <FormGroup>
+                <FormItem>
+                  <Label htmlFor='homeAddress'>
+                    <Text weight={500} size='14px' color='grey900'>
+                      <FormattedMessage
+                        id='identityverification.user_address.home_address'
+                        defaultMessage='Home Address'
+                      />
+                    </Text>
+                  </Label>
+                  <Field
+                    name='homeAddress'
+                    placeholder='Start typing to find your home address'
+                    component={TextBox}
+                    onChange={debounce(findUserAddress, 200)}
+                  />
+                </FormItem>
+              </FormGroup>
+            )}
 
-            <LinkButton onClick={() => setEnterAddressManually(true)}>
-              <Text weight={600} size='16px' color='blue600'>
-                <FormattedMessage
-                  id='identityverification.add_my_address'
-                  defaultMessage='Add My Address'
-                />
-              </Text>
-            </LinkButton>
+            {useLoqateServiceEnabled && (
+              <LinkButton onClick={() => setEnterAddressManually(true)}>
+                <Text weight={600} size='16px' color='blue600'>
+                  <FormattedMessage
+                    id='identityverification.add_my_address'
+                    defaultMessage='Add My Address'
+                  />
+                </Text>
+              </LinkButton>
+            )}
 
-            {!isAddressSelected &&
+            {useLoqateServiceEnabled &&
+              !isAddressSelected &&
               !enterAddressManually &&
               userAddresses.data?.addresses?.length > 0 &&
               userAddresses.data?.addresses.map((address) => (
@@ -236,7 +245,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 />
               ))}
 
-            {(isAddressSelected || enterAddressManually) && (
+            {(!useLoqateServiceEnabled || isAddressSelected || enterAddressManually) && (
               <>
                 <FormGroup>
                   <FormItem>

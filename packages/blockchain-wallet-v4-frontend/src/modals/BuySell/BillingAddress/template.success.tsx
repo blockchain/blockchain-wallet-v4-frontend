@@ -197,26 +197,28 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             </Padding>
             <Divider />
             <CentralContent>
-              <FormGroup>
-                <FormItem>
-                  <FormLabel htmlFor='homeAddress'>
-                    <Text weight={500} size='14px' color='grey900'>
-                      <FormattedMessage
-                        id='debitcard.residential_address.search_your_address'
-                        defaultMessage='Search your address'
-                      />
-                    </Text>
-                  </FormLabel>
-                  <Field
-                    name='homeAddress'
-                    placeholder='Start typing to find your home address'
-                    component={TextBox}
-                    onChange={debounce(findUserAddress, 200)}
-                  />
-                </FormItem>
-              </FormGroup>
+              {props.useLoqateServiceEnabled && (
+                <FormGroup>
+                  <FormItem>
+                    <FormLabel htmlFor='homeAddress'>
+                      <Text weight={500} size='14px' color='grey900'>
+                        <FormattedMessage
+                          id='debitcard.residential_address.search_your_address'
+                          defaultMessage='Search your address'
+                        />
+                      </Text>
+                    </FormLabel>
+                    <Field
+                      name='homeAddress'
+                      placeholder='Start typing to find your home address'
+                      component={TextBox}
+                      onChange={debounce(findUserAddress, 200)}
+                    />
+                  </FormItem>
+                </FormGroup>
+              )}
 
-              {!enterAddressManually && userStartedSearch && (
+              {props.useLoqateServiceEnabled && !enterAddressManually && userStartedSearch && (
                 <LinkButton onClick={onEnterAddressManually}>
                   <Text weight={600} size='16px' color='blue600'>
                     <FormattedMessage
@@ -227,7 +229,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 </LinkButton>
               )}
 
-              {!isAddressSelected &&
+              {props.useLoqateServiceEnabled &&
+                !isAddressSelected &&
                 !enterAddressManually &&
                 suggestedAddresses &&
                 suggestedAddresses.length > 0 &&

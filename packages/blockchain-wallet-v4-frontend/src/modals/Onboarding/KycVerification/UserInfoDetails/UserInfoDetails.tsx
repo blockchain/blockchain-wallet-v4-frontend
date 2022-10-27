@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { connect, ConnectedProps, useDispatch } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import DataError from 'components/DataError'
