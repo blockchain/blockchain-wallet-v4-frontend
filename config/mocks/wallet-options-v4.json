@@ -67,6 +67,7 @@
         "stakingPromoBanner": true,
         "stxSelfCustodyEnableAirdrop": true,
         "stxSelfCustodyEnableAll": true,
+        "themeEnabled": true,
         "unifiedAccountLogin": true,
         "useNewPaymentProviders": true,
         "walletConnect": true,

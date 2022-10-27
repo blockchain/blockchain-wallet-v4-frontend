@@ -175,3 +175,7 @@ export const createNabuUserAtLogin = (state: RootState) =>
 // Staking Promo banner
 export const getStakingPromoBannerEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'stakingPromoBanner']))
+
+// Settings theme
+export const getThemeEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'themeEnabled']))
