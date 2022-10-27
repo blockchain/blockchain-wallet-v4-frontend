@@ -1,8 +1,7 @@
-import styled, { css } from 'styled-components'
+import { PaletteColors } from '@blockchain-com/constellation'
+import styled from 'styled-components'
 
 export const CardWrapper = styled.div`
-  ${({ theme }) => css`
-    border: 1px solid ${theme.grey000};
-    border-radius: 16px;
-  `}
+  border: 1px solid ${PaletteColors['grey-000']};
+  border-radius: 16px;
 `
