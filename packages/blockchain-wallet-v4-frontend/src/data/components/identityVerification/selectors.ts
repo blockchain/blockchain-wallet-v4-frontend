@@ -23,3 +23,6 @@ export const getPreIdvData = (state: RootState) => state.components.identityVeri
 export const getSteps = (state: RootState) => state.components.identityVerification.steps
 export const getKYCExtraSteps = (state: RootState) =>
   state.components.identityVerification.kycExtraQuestions
+
+export const getStopFlowAfterLimitedAccessAchieved = (state: RootState) =>
+  state.components.identityVerification.stopFlowAfterLimitedAccessAchieved

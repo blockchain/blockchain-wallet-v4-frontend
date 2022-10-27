@@ -380,6 +380,17 @@ export default ({ api, coreSagas, networks }) => {
         payload: { address }
       })
 
+      // if user clicked on Get Limited Access we stop the flow at this point
+      const stopAfterLimitedAccess =
+        selectors.components.identityVerification.getStopFlowAfterLimitedAccessAchieved(
+          yield select()
+        )
+      if (stopAfterLimitedAccess) {
+        yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
+        yield put(actions.modules.profile.fetchUser())
+        yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
+      }
+
       if (payload.checkSddEligibility) {
         const POLL_SDD_DELAY = 3000
         let sddVerified: SDDVerifiedType

@@ -73,7 +73,6 @@ export type CountryType = {
 
 // State
 export interface IdentityVerificationState {
-  addressRefetchVisible: boolean
   emailStep: EmailSmsStepType
   flowConfig: RemoteDataType<string, any>
   kycExtraQuestions: RemoteDataType<string, ExtraQuestionsType>
@@ -81,6 +80,7 @@ export interface IdentityVerificationState {
   smsStep: RemoteDataType<string, EmailSmsStepType>
   states: RemoteDataType<string, Array<StateType>>
   steps: RemoteDataType<string, Array<StepsType>>
+  stopFlowAfterLimitedAccessAchieved: boolean
   supportedCountries: RemoteDataType<string, Array<CountryType>>
   supportedDocuments: RemoteDataType<string, Array<DocumentType>>
   verificationStep: StepsType | null

@@ -18,7 +18,6 @@ import {
 } from './types'
 
 const initialState: IdentityVerificationState = {
-  addressRefetchVisible: false,
   emailStep: EMAIL_STEPS.edit as EmailSmsStepType,
   flowConfig: Remote.NotAsked,
   kycExtraQuestions: Remote.NotAsked,
@@ -26,6 +25,7 @@ const initialState: IdentityVerificationState = {
   smsStep: Remote.Loading,
   states: Remote.NotAsked,
   steps: Remote.NotAsked,
+  stopFlowAfterLimitedAccessAchieved: false,
   supportedCountries: Remote.NotAsked,
   supportedDocuments: Remote.NotAsked,
   verificationStep: null
@@ -123,10 +123,13 @@ const identityVerificationSlice = createSlice({
     setStepsSuccess: (state, action: PayloadAction<Array<string>>) => {
       state.steps = Remote.Success(action.payload)
     },
+    setStopFlowAfterLimitedAccessAchieved: (state, action: PayloadAction<boolean>) => {
+      state.stopFlowAfterLimitedAccessAchieved = action.payload
+    },
+
     setSupportedCountriesFailure: (state, action: PayloadAction<string>) => {
       state.supportedCountries = Remote.Failure(action.payload)
     },
-
     setSupportedCountriesLoading: (state) => {
       state.supportedCountries = Remote.Loading
     },

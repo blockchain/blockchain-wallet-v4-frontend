@@ -371,7 +371,11 @@ const Template = (props: Props) => {
                   nature='empty-secondary'
                   data-e2e='getBasicUpdate'
                   type='button'
-                  onClick={startVerification}
+                  onClick={() => {
+                    // set user clicked on get limited access
+                    identityVerificationActions.setStopFlowAfterLimitedAccessAchieved(true)
+                    startVerification()
+                  }}
                 >
                   <FormattedMessage
                     id='modals.onboarding.upgrade_now.get_limited_access'
