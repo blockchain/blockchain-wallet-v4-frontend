@@ -43,7 +43,6 @@ export const EMAIL_FORM = '@KYC.emailForm' as WalletFormType
 export const SMS_NUMBER_FORM = '@KYC.smsNumberForm' as WalletFormType
 export const ADDRESS_FORM = '@KYC.addresForm' as WalletFormType
 export const ID_VERIFICATION_SUBMITTED_FORM = '@KYC.idVerificationSubmittedForm' as WalletFormType
-export const INFO_AND_RESIDENTIAL_FORM = '@KYC.infoAndResidentialForm' as WalletFormType
 export const USER_INFO_DETAILS = '@KYC.userInfoDetails' as WalletFormType
 export const RESIDENTIAL_FORM = '@KYC.ResidentialForm' as WalletFormType
 export const KYC_EXTRA_QUESTIONS_FORM = '@KYC.kycExtraQuestionsForm' as WalletFormType

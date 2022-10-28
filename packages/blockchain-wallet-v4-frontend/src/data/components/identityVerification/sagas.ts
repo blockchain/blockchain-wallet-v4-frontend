@@ -423,7 +423,7 @@ export default ({ api, coreSagas, networks }) => {
           yield select()
         )
       if (stopAfterLimitedAccess) {
-        yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
+        yield put(actions.form.stopSubmit(RESIDENTIAL_FORM))
         yield put(actions.modules.profile.fetchUser())
         yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
       }

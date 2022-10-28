@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 // @ts-ignore
-import { defaultTo, replace } from 'ramda'
+import { defaultTo } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { CountryScope } from '@core/types'
@@ -36,7 +36,7 @@ const { USER_INFO_DETAILS } = model.components.identityVerification
 
 const addTrailingZero = (text: string) => (text.length >= 2 ? text : `0${text}`)
 
-const removeTrailingZero = replace(/^0/, '')
+const removeTrailingZero = (text: string) => text.replace(/^0/, '')
 
 const objectToDOB = ({ date = '', month = '', year = '' }) =>
   `${year}-${month}-${addTrailingZero(date)}`
@@ -64,9 +64,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
-  let countryCode =
-    (props.formValues && props.formValues.country && props.formValues.country.code) ||
-    props.countryCode
+  let countryCode = props?.formValues?.country?.code ?? props.countryCode
 
   let stateCode = (props.formValues && props.formValues.state) || props.usState
 
