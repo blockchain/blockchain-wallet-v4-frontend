@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { SardineContext } from '@sardine-ai/react-js-wrapper'
 import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
@@ -56,6 +57,12 @@ const SignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
     signupMetadata,
     toggleSignupFormVisibility
   } = props
+  const { updateSardineConfig } = useContext(SardineContext as any)
+
+  updateSardineConfig({
+    flow: 'SIGNUP'
+  })
+
   const buttonSubmit = showForm ? onSignupSubmit : toggleSignupFormVisibility
   const showOnlySignup = showForm || isLinkAccountGoal
   const { platform } = signupMetadata

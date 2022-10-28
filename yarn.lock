@@ -5403,6 +5403,12 @@
   version "0.24.51"
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.24.51.tgz#645f33fe4e02defe26f2f5c0410e1c094eac7f5f"
   integrity sha512-1P1OROm/rdubP5aFDSZQILU0vrLCJ4fvHt6EoqHEM+2D/G5MK3bIaymUKLit8Js9gbns5UyJnkP/TZROLw4tUA==
+"@sardine-ai/react-js-wrapper@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@sardine-ai/react-js-wrapper/-/react-js-wrapper-1.0.4.tgz#f6e3bd20446ea3e91792f5f0bd012ca8e8ec9a07"
+  integrity sha512-fnkSNgLu7h3hqnkPwS8oeRNrZZSMCQKuT1ojo1K7g+1g3i94S/sx0Sn7sEg0sL5Ilo7FW7CGXr5+IN6d2QXsMg==
+  dependencies:
+    "@types/react" "^18.0.21"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -7345,11 +7351,9 @@
 
 "@types/react@^17":
   version "17.0.52"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.52.tgz#10d8b907b5c563ac014a541f289ae8eaa9bf2e9b"
-  integrity sha512-vwk8QqVODi0VaZZpDXQCmEmiOuyjEFPY7Ttaw5vjM112LOq37yz1CDJGrRJwA1fYEq4Iitd5rnjd1yWAc/bT+A==
+  integrity sha512-wRJWT6ouziGUy+9uX0aW4YOJxAY0bG6/AOk5AW5QSvZqI7dk6VBIbXvcVgIw/W5Jrl24f77df98GEKTJGOLx7Q==
   dependencies:
     "@types/prop-types" "*"
-    "@types/scheduler" "*"
     csstype "^3.0.2"
 
 "@types/redux-form@8.2.3":

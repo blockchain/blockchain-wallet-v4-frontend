@@ -5,7 +5,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
-import WithDeviceIntelligence from './services/sardine'
+import { SardineProvider } from '@sardine-ai/react-js-wrapper'
 
 import App from './scenes/app.tsx'
 import configureStore from './store'
@@ -15,11 +15,14 @@ configureStore()
   .then((root) => {
     ReactDOM.render(
       <>
-        <WithDeviceIntelligence>
+        <SardineProvider
+          clientId={window?.SARDINE_CLIENT_ID}
+          environment={window?.SARDINE_ENVIRONMENT ?? 'sandbox'}
+        >
           <BrowserRouter>
             <App store={root.store} history={root.history} persistor={root.persistor} />
           </BrowserRouter>
-        </WithDeviceIntelligence>
+        </SardineProvider>
         <FontGlobalStyles />
         <IconGlobalStyles />
       </>,
