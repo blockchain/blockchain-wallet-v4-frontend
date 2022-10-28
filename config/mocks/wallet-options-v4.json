@@ -40,7 +40,6 @@
         "addStripePaymentProvider": false,
         "applePayPaymentMethod": true,
         "appleAndGooglePayPromoBanner": true,
-        "bindIntegrationArEnabled": true,
         "createNabuUserAtLogin": false,
         "coinViewV2": false,
         "isCreditCardOptimizationEnabled": true,
@@ -67,6 +66,7 @@
         "stxSelfCustodyEnableAirdrop": true,
         "stxSelfCustodyEnableAll": true,
         "unifiedAccountLogin": true,
+        "useLoqateService": true,
         "useNewPaymentProviders": true,
         "walletConnect": true,
         "walletDebitCardEnabled": true

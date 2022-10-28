@@ -26,3 +26,9 @@ export const getKYCExtraSteps = (state: RootState) =>
 
 export const getStopFlowAfterLimitedAccessAchieved = (state: RootState) =>
   state.components.identityVerification.stopFlowAfterLimitedAccessAchieved
+
+export const getUserAddresses = (state: RootState) =>
+  state.components.identityVerification.userAddresses
+
+export const getUserRetrieveAddress = (state: RootState) =>
+  state.components.identityVerification.userRetrieveAddress

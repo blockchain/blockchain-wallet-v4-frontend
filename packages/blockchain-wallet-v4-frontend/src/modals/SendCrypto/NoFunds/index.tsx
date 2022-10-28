@@ -80,7 +80,7 @@ const NoFunds = (props: Props) => {
       </FlyoutContent>
 
       <FlyoutFooter collapsed>
-        <Padding bottom={10}>
+        <Padding bottom={0.5}>
           <Button
             data-e2e='sendNoFundsBuyCrypto'
             nature='primary'
