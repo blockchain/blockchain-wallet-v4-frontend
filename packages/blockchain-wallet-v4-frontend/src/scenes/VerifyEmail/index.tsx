@@ -20,7 +20,8 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   // We don't want to direct the user to /select-product
   // rather take them straight to home screen of the wallet
   static getDerivedStateFromProps(nextProps) {
-    const { createExchangeUserFlag, hasCowboyTag, isEmailVerified, signupMetadata } = nextProps
+    const { createExchangeUserFlag, hasCowboyTag, isEmailVerified, signupCountry, signupMetadata } =
+      nextProps
     const { signupRedirect } = signupMetadata
     if (isEmailVerified) {
       if (hasCowboyTag) {
@@ -29,7 +30,11 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
         nextProps.routerActions.push('/home')
         nextProps.saveGoal('cowboys2022', { firstLogin: true })
         nextProps.runGoals()
-      } else if (createExchangeUserFlag && signupRedirect !== SignupRedirectTypes.WALLET_HOME) {
+      } else if (
+        createExchangeUserFlag &&
+        signupRedirect !== SignupRedirectTypes.WALLET_HOME &&
+        signupCountry !== 'RU'
+      ) {
         nextProps.routerActions.push('/select-product')
       } else {
         nextProps.routerActions.push('/home')
@@ -79,6 +84,7 @@ const mapStateToProps = (state) => ({
   hasCowboyTag: selectors.modules.profile.getCowboysTag(state).getOrElse(false),
   isEmailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(false),
   isMetadataRecoveryR: selectors.signup.getMetadataRestore(state),
+  signupCountry: selectors.signup.getSignupCountry(state),
   signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata
 })
 
