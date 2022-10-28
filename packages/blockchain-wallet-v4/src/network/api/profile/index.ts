@@ -1,4 +1,4 @@
-import { TermsAndConditionType } from './types'
+import { FindAddressResponse, RetrieveAddress, TermsAndConditionType } from './types'
 
 export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
   const exchangeSignIn = (captchaToken, code, password, username) =>
@@ -183,6 +183,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       },
       url: nabuUrl
     })
+
   const generateSession = (userId, lifetimeToken, email, walletGuid) =>
     post({
       contentType: 'application/json',
@@ -286,6 +287,20 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
   //     url: nabuUrl
   //   })
 
+  const findUserAddress = (text: string, id?: string, countryCode?: string): FindAddressResponse =>
+    authorizedGet({
+      data: { country_code: countryCode, id, text },
+      endPoint: '/address-capture/find',
+      url: nabuUrl
+    })
+
+  const userAddressRetrieve = (id: string): RetrieveAddress =>
+    authorizedGet({
+      data: { id },
+      endPoint: '/address-capture/retrieve',
+      url: nabuUrl
+    })
+
   return {
     createExchangeUser,
     createLinkAccountId,
@@ -293,6 +308,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     exchangeResetPassword,
     exchangeSignIn,
     finaliseLinking,
+    findUserAddress,
     generateRetailToken,
     generateSession,
     getExchangeAuthToken,
@@ -314,6 +330,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     signUserTermsAndConditionsLast,
     syncUserWithWallet,
     updateUser,
-    updateUserAddress
+    updateUserAddress,
+    userAddressRetrieve
   }
 }

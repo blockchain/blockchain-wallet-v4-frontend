@@ -42,14 +42,21 @@ export default ({ api, coreSagas }) => {
       actions.sendEmailVerification.type,
       identityVerificationSagas.sendEmailVerification
     )
-    yield takeLatest(
-      actions.saveInfoAndResidentialData.type,
-      identityVerificationSagas.saveInfoAndResidentialData
-    )
+
     yield takeLatest(actions.fetchExtraKYC.type, identityVerificationSagas.fetchExtraKYC)
     yield takeLatest(
       actions.saveKYCExtraQuestions.type,
       identityVerificationSagas.saveKYCExtraQuestions
+    )
+    yield takeLatest(actions.saveUserInfoData.type, identityVerificationSagas.saveUserInfoData)
+    yield takeLatest(actions.fetchUserAddress.type, identityVerificationSagas.fetchUserAddress)
+    yield takeLatest(
+      actions.retrieveUserAddress.type,
+      identityVerificationSagas.retrieveUserAddress
+    )
+    yield takeLatest(
+      actions.saveUserResidentialData.type,
+      identityVerificationSagas.saveUserResidentialData
     )
   }
 }

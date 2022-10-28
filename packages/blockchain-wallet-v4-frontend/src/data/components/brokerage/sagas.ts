@@ -28,7 +28,6 @@ import {
   ProductEligibilityForUser,
   VerifyIdentityOriginType
 } from 'data/types'
-import { isNabuError } from 'services/errors'
 import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import profileSagas from '../../modules/profile/sagas'

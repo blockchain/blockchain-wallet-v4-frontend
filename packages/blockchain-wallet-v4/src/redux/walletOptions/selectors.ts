@@ -123,10 +123,6 @@ export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
 export const getNftExplorer = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'nftExplorer']))
 
-// enable/disable BIND integration (AR)
-export const getBindIntegrationArEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'bindIntegrationArEnabled']))
-
 // check for rewards flow under swap Feature Flag
 export const getRewardsFlowUnderSwapEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'rewardsFlowUnderSwapEnabled']))
@@ -142,14 +138,6 @@ export const getAppleAndGooglePayPromoBannerEnabled = (state: RootState) =>
 // show referral signup input in sign up
 export const getReferralEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
-
-// show referral page and menutop referral
-export const getReferralRetrievalEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
-
-// show staking
-export const getStakingEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'isStakingEnabled']))
 
 // show login button redirect for exchange mobile
 // will take user out of webview into native signin
@@ -172,6 +160,7 @@ export const getIsStakingEnabled = (state: RootState) =>
 export const createNabuUserAtLogin = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'createNabuUserAtLogin']))
 
+
 // Staking Promo banner
 export const getStakingPromoBannerEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'stakingPromoBanner']))
@@ -179,3 +168,7 @@ export const getStakingPromoBannerEnabled = (state: RootState) =>
 // Settings theme
 export const getThemeEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'themeEnabled']))
+
+// use Loqate service for address search
+export const useLoqateServiceEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useLoqateService']))

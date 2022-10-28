@@ -331,7 +331,11 @@ const Template: React.FC<Props> = (props) => {
                   nature='empty-secondary'
                   data-e2e='getBasicUpdate'
                   type='button'
-                  onClick={startVerification}
+                  onClick={() => {
+                    // set user clicked on get limited access
+                    props.identityVerificationActions.setStopFlowAfterLimitedAccessAchieved(true)
+                    startVerification()
+                  }}
                 >
                   <FormattedMessage
                     id='modals.onboarding.upgrade_now.get_limited_access'

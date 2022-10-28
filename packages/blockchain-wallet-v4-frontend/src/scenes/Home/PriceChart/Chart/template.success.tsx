@@ -15,6 +15,8 @@ import { fiatToString } from '@core/exchange/utils'
 import { CoinType, FiatType } from '@core/types'
 import { Color } from 'blockchain-info-components'
 
+import { padLinearDomain } from './utils'
+
 type Data = [number, number]
 
 const formatDate = timeFormat("%b %d, '%y")
@@ -80,17 +82,14 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
     [width, data]
   )
 
-  const yScale = useMemo(
-    () =>
-      scaleLinear({
-        domain: [
-          (min(data, getXValue) || 0) - height / 5,
-          (max(data, getXValue) || 0) + height / 5
-        ],
-        range: [height, 0]
-      }),
-    [height, data]
-  )
+  const yScale = useMemo(() => {
+    const domain: [number, number] = [min(data, getXValue) || 0, max(data, getXValue) || 0]
+
+    return scaleLinear({
+      domain: padLinearDomain(domain, 0.1),
+      range: [height, 0]
+    })
+  }, [height, data])
 
   const handleTooltip = useCallback(
     (event: EventType) => {
