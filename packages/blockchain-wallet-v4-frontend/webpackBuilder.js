@@ -246,7 +246,6 @@ const buildDevServerConfig = (
           'https://friendbot.stellar.org',
           'https://bitpay.com',
           'https://static.zdassets.com',
-          'https://api.sandbox.sardine.ai',
           'https://ekr.zdassets.com',
           'ws://localhost:8080',
           'wss://localhost:8080'

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { useDefer3rdPartyScript } from 'hooks'
+
 // type
 type SardineEnvironment = 'sandbox' | 'production'
 
@@ -30,6 +32,7 @@ export const useSardine = () => {
     script.src = `https://${sardineHost}/assets/loader.min.js`
     script.async = true
     script.type = 'text/javascript'
+    script.setAttribute('nonce', window.nonce)
 
     script.onload = function () {
       //   console.log('Sardine: initializing non-production DI SDK.')
