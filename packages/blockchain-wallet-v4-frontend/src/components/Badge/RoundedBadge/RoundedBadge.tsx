@@ -14,6 +14,7 @@ const Badge = styled.div<RoundedBadgeComponent>`
   border-radius: 10px;
   color: white;
   font-size: 8px;
+  text-transform: uppercase;
 `
 
 export const RoundedBadge = ({

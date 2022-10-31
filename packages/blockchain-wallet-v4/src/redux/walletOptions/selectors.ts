@@ -160,6 +160,14 @@ export const getIsStakingEnabled = (state: RootState) =>
 export const createNabuUserAtLogin = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'createNabuUserAtLogin']))
 
+// Staking Promo banner
+export const getStakingPromoBannerEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'stakingPromoBanner']))
+
+// Settings theme
+export const getThemeEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'themeEnabled']))
+
 // use Loqate service for address search
 export const useLoqateServiceEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useLoqateService']))
