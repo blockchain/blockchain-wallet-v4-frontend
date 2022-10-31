@@ -1,10 +1,12 @@
 import { TIER_TYPES } from 'blockchain-wallet-v4-frontend/src/modals/Settings/TradingLimits/model'
-import { anyPass, equals, isEmpty } from 'ramda'
+import { anyPass, equals, isEmpty, lift } from 'ramda'
 
 import {
   BSBalancesType,
   BSPaymentMethodsType,
   BSPaymentTypes,
+  ExtractSuccess,
+  FiatType,
   SwapUserLimitsType
 } from '@core/types'
 import { model, selectors } from 'data'
@@ -55,7 +57,7 @@ const showBanner = (flag: boolean, banner: string, announcementState) => {
   )
 }
 
-export const getData = (state: RootState): { bannerToShow: BannerType } => {
+export const getData = (state: RootState) => {
   const announcementState = selectors.cache.getLastAnnouncementState(state)
   let isVerifiedId = false
   let isBankOrCardLinked = false
@@ -254,6 +256,9 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const showFinishKYC = isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD
   const showKYCFinishBanner = showBanner(showFinishKYC, kycFinishAnnouncement, announcementState)
 
+  const stakingEligibleR = selectors.components.interest.getStakingEligible(state)
+  const fiatCurrencyR = selectors.core.settings.getCurrency(state)
+
   let bannerToShow: BannerType = null
 
   if (showSanctionsBanner) {
@@ -291,7 +296,16 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = null
   }
 
-  return {
-    bannerToShow
-  }
+  return lift(
+    (
+      fiatCurrency: FiatType,
+      stakingEligible: ExtractSuccess<typeof stakingEligibleR>,
+      userData: ExtractSuccess<typeof userDataR>
+    ) => ({
+      bannerToShow,
+      fiatCurrency,
+      stakingEligible,
+      userData
+    })
+  )(fiatCurrencyR, stakingEligibleR, userDataR)
 }
