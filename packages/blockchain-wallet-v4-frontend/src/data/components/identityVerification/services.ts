@@ -7,11 +7,13 @@ import { STEP_TIERS, STEPS } from './model'
 
 const computeSteps = ({
   addExtraStep,
+  isDobEntered,
   kycState,
   needMoreInfo,
   tiers
 }: {
   addExtraStep: boolean
+  isDobEntered: boolean
   kycState: KycStateType
   needMoreInfo: boolean
   tiers: Tiers
@@ -30,6 +32,10 @@ const computeSteps = ({
   selectedTier = next === 2 && selected === 1 ? 2 : selectedTier
 
   const isStepRequired = (step) => {
+    if (isDobEntered && step === STEPS.userDetails) {
+      return false
+    }
+
     if ((!needMoreInfo || next < TIERS[2]) && step === STEPS.moreInfo) {
       return false
     }

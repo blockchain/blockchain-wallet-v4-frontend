@@ -1,0 +1,1 @@
+export { useOpenViewUsPatrioticAct } from './useOpenViewUsPatrioticAct'

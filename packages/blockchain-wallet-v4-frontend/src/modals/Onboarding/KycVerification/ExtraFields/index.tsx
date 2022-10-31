@@ -19,6 +19,11 @@ const KYCExtraQuestionnaire = (props: Props) => {
       key: Analytics.ONBOARDING_ACCOUNT_INFO_SCREEN_VIEWED,
       properties: {}
     })
+    if (window?._SardineContext) {
+      window._SardineContext.updateConfig({
+        flow: 'KYC'
+      })
+    }
   }, [])
 
   const handleSubmit = () => {
