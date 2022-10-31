@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
+import { useRemote } from 'hooks'
 
 import { AppleAndGooglePayBanner } from './AppleAndGooglePayBanner'
 import BSOrderBanner from './BSOrderBanner'
@@ -27,129 +28,124 @@ const BannerWrapper = styled.div`
   margin-bottom: 25px;
 `
 
-class Banners extends React.PureComponent<Props> {
-  componentDidMount() {
-    this.props.buySellActions.fetchSDDEligibility()
-    this.props.interestActions.fetchInterestEligible()
-    this.props.interestActions.fetchStakingEligible()
-    if (this.props.userData.tiers?.current > 0) {
+const Banners = (props: Props) => {
+  const { buySellActions, interestActions } = props
+  const { data, error, isLoading, isNotAsked } = useRemote(getData)
+
+  useEffect(() => {
+    buySellActions.fetchSDDEligibility()
+    interestActions.fetchInterestEligible()
+    interestActions.fetchStakingEligible()
+    if (data && data.userData.tiers?.current > 0) {
       // we need such to distinguish is profile completed
-      this.props.buySellActions.fetchCards(false)
-      this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
-      this.props.buySellActions.fetchBalance({ skipLoading: true })
+      buySellActions.fetchCards(false)
+      buySellActions.fetchPaymentMethods(data.fiatCurrency)
+      buySellActions.fetchBalance({ skipLoading: true })
       // TODO move this away from BS
-      this.props.buySellActions.fetchLimits(this.props.fiatCurrency)
+      buySellActions.fetchLimits({ currency: data.fiatCurrency })
     }
-  }
+  }, [])
 
-  render() {
-    const { bannerToShow } = this.props.data
+  if (!data || error || isNotAsked || isLoading) return null
 
-    switch (bannerToShow) {
-      case 'resubmit':
-        return (
-          <BannerWrapper>
-            <KycResubmit />
-          </BannerWrapper>
-        )
-      case 'staking':
-        return (
-          <BannerWrapper>
-            <StakingBanner />
-          </BannerWrapper>
-        )
-      case 'appleAndGooglePay':
-        return (
-          <BannerWrapper>
-            <AppleAndGooglePayBanner />
-          </BannerWrapper>
-        )
-      case 'finishKyc':
-        return (
-          <BannerWrapper>
-            <FinishKyc />
-          </BannerWrapper>
-        )
-      case 'servicePriceUnavailable':
-        return (
-          <BannerWrapper>
-            <ServicePriceUnavailable />
-          </BannerWrapper>
-        )
-      case 'sbOrder':
-        return (
-          <BannerWrapper>
-            <BSOrderBanner />
-          </BannerWrapper>
-        )
-      case 'coinRename':
-        return (
-          <BannerWrapper>
-            <CoinRename />
-          </BannerWrapper>
-        )
-      case 'newCurrency':
-        return (
-          <BannerWrapper>
-            <NewCurrency />
-          </BannerWrapper>
-        )
-      case 'buyCrypto':
-        return (
-          <BannerWrapper>
-            <BuyCrypto />
-          </BannerWrapper>
-        )
-      case 'continueToGold':
-        return (
-          <BannerWrapper>
-            <ContinueToGold />
-          </BannerWrapper>
-        )
-      case 'completeYourProfile':
-        return (
-          <BannerWrapper>
-            <CompleteYourProfile />
-          </BannerWrapper>
-        )
-      case 'recurringBuys':
-        return (
-          <BannerWrapper>
-            <RecurringBuys />
-          </BannerWrapper>
-        )
-      case 'sanctions':
-        return (
-          <BannerWrapper>
-            <Sanctions />
-          </BannerWrapper>
-        )
-      case 'earnRewards':
-        return (
-          <BannerWrapper>
-            <RewardsBanner />
-          </BannerWrapper>
-        )
-      default:
-        return null
-    }
+  const { bannerToShow } = data
+
+  switch (bannerToShow) {
+    case 'resubmit':
+      return (
+        <BannerWrapper>
+          <KycResubmit />
+        </BannerWrapper>
+      )
+    case 'staking':
+      return (
+        <BannerWrapper>
+          <StakingBanner />
+        </BannerWrapper>
+      )
+    case 'appleAndGooglePay':
+      return (
+        <BannerWrapper>
+          <AppleAndGooglePayBanner />
+        </BannerWrapper>
+      )
+    case 'finishKyc':
+      return (
+        <BannerWrapper>
+          <FinishKyc />
+        </BannerWrapper>
+      )
+    case 'servicePriceUnavailable':
+      return (
+        <BannerWrapper>
+          <ServicePriceUnavailable />
+        </BannerWrapper>
+      )
+    case 'sbOrder':
+      return (
+        <BannerWrapper>
+          <BSOrderBanner />
+        </BannerWrapper>
+      )
+    case 'coinRename':
+      return (
+        <BannerWrapper>
+          <CoinRename />
+        </BannerWrapper>
+      )
+    case 'newCurrency':
+      return (
+        <BannerWrapper>
+          <NewCurrency />
+        </BannerWrapper>
+      )
+    case 'buyCrypto':
+      return (
+        <BannerWrapper>
+          <BuyCrypto />
+        </BannerWrapper>
+      )
+    case 'continueToGold':
+      return (
+        <BannerWrapper>
+          <ContinueToGold />
+        </BannerWrapper>
+      )
+    case 'completeYourProfile':
+      return (
+        <BannerWrapper>
+          <CompleteYourProfile />
+        </BannerWrapper>
+      )
+    case 'recurringBuys':
+      return (
+        <BannerWrapper>
+          <RecurringBuys />
+        </BannerWrapper>
+      )
+    case 'sanctions':
+      return (
+        <BannerWrapper>
+          <Sanctions />
+        </BannerWrapper>
+      )
+    case 'earnRewards':
+      return (
+        <BannerWrapper>
+          <RewardsBanner />
+        </BannerWrapper>
+      )
+    default:
+      return null
   }
 }
-
-const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
-  fiatCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
-  userData: selectors.modules.profile.getUserData(state).getOrElse({
-    tiers: { current: 0 }
-  } as UserDataType)
-})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(null, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 
