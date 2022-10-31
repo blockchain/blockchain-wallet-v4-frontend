@@ -63,7 +63,7 @@ export const userNavItems = ({
     copy: (
       <FormattedMessage id='layouts.wallet.header.referafriend' defaultMessage='Refer a Friend' />
     ),
-    'data-e2e': 'settings_walletsLink',
+    'data-e2e': 'settings_referAFriend',
     isHidden: !(isReferralAvailable && isReferralRetrievalEnabled)
   },
   {

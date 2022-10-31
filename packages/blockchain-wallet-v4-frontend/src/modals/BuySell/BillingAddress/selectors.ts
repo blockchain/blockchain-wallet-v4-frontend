@@ -12,9 +12,16 @@ export const getData = (state: RootState) => {
     state
   ) as BSBillingAddressFormValuesType
   const userDataR = selectors.modules.profile.getUserData(state)
+  const useLoqateServiceEnabledR = selectors.core.walletOptions.useLoqateServiceEnabled(state)
 
-  return lift((userData: ExtractSuccess<typeof userDataR>) => ({
-    formValues,
-    userData
-  }))(userDataR)
+  return lift(
+    (
+      userData: ExtractSuccess<typeof userDataR>,
+      useLoqateServiceEnabled: ExtractSuccess<typeof useLoqateServiceEnabledR>
+    ) => ({
+      formValues,
+      useLoqateServiceEnabled,
+      userData
+    })
+  )(userDataR, useLoqateServiceEnabledR)
 }

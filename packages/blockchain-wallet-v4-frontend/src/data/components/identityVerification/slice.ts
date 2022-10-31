@@ -2,7 +2,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import { ExtraKYCContext, ExtraQuestionsType } from '@core/types'
+import {
+  ExtraKYCContext,
+  ExtraQuestionsType,
+  FindAddressResponse,
+  RetrieveAddress
+} from '@core/types'
 
 import { EMAIL_STEPS } from './model'
 import {
@@ -18,7 +23,6 @@ import {
 } from './types'
 
 const initialState: IdentityVerificationState = {
-  addressRefetchVisible: false,
   emailStep: EMAIL_STEPS.edit as EmailSmsStepType,
   flowConfig: Remote.NotAsked,
   kycExtraQuestions: Remote.NotAsked,
@@ -26,8 +30,11 @@ const initialState: IdentityVerificationState = {
   smsStep: Remote.Loading,
   states: Remote.NotAsked,
   steps: Remote.NotAsked,
+  stopFlowAfterLimitedAccessAchieved: false,
   supportedCountries: Remote.NotAsked,
   supportedDocuments: Remote.NotAsked,
+  userAddresses: Remote.NotAsked,
+  userRetrieveAddress: Remote.NotAsked,
   verificationStep: null
 }
 
@@ -48,14 +55,29 @@ const identityVerificationSlice = createSlice({
     fetchExtraKYCSuccess: (state, action: PayloadAction<ExtraQuestionsType>) => {
       state.kycExtraQuestions = Remote.Success(action.payload)
     },
+
     fetchStates: () => {},
     fetchSupportedCountries: (state, action: PayloadAction<{ scope?: string }>) => {},
     fetchSupportedDocuments: (state, action: PayloadAction<{ countryCode?: string }>) => {},
+    fetchUserAddress: (
+      state,
+      action: PayloadAction<{ countryCode?: string; id?: string; text: string }>
+    ) => {},
+
+    fetchUserAddressFailure: (state, action: PayloadAction<string>) => {
+      state.userAddresses = Remote.Failure(action.payload)
+    },
+    fetchUserAddressLoading: (state) => {
+      state.userAddresses = Remote.Loading
+    },
+    fetchUserAddressSuccess: (state, action: PayloadAction<FindAddressResponse>) => {
+      state.userAddresses = Remote.Success(action.payload)
+    },
 
     getPreIdvData: () => {},
+
     goToNextStep: () => {},
     goToPrevStep: () => {},
-
     initializeVerification: (
       state,
       action: PayloadAction<{
@@ -65,19 +87,30 @@ const identityVerificationSlice = createSlice({
         tier: number
       }>
     ) => {},
+
     kycModalClosed: () => {},
     preIdvCheckFinished: () => {},
     registerUserCampaign: (state, action: PayloadAction<{ newUser: boolean }>) => {},
+
     resetVerificationStep: (state, action) => {
       state.verificationStep = null
     },
-
-    saveInfoAndResidentialData: (
+    retrieveUserAddress: (state, action: PayloadAction<{ id?: string }>) => {},
+    retrieveUserAddressFailure: (state, action: PayloadAction<string>) => {
+      state.userRetrieveAddress = Remote.Failure(action.payload)
+    },
+    retrieveUserAddressLoading: (state) => {
+      state.userRetrieveAddress = Remote.Loading
+    },
+    retrieveUserAddressSuccess: (state, action: PayloadAction<RetrieveAddress>) => {
+      state.userRetrieveAddress = Remote.Success(action.payload)
+    },
+    saveKYCExtraQuestions: () => {},
+    saveUserInfoData: (state) => {},
+    saveUserResidentialData: (
       state,
       action: PayloadAction<{ checkSddEligibility?: boolean; onCompletionCallback?: () => void }>
     ) => {},
-
-    saveKYCExtraQuestions: () => {},
     sendDeepLink: () => {},
     sendEmailVerification: (state, action: PayloadAction<{ email: string }>) => {},
     setAllContextQuestionsAnswered: () => {},
@@ -123,10 +156,13 @@ const identityVerificationSlice = createSlice({
     setStepsSuccess: (state, action: PayloadAction<Array<string>>) => {
       state.steps = Remote.Success(action.payload)
     },
+    setStopFlowAfterLimitedAccessAchieved: (state, action: PayloadAction<boolean>) => {
+      state.stopFlowAfterLimitedAccessAchieved = action.payload
+    },
+
     setSupportedCountriesFailure: (state, action: PayloadAction<string>) => {
       state.supportedCountries = Remote.Failure(action.payload)
     },
-
     setSupportedCountriesLoading: (state) => {
       state.supportedCountries = Remote.Loading
     },

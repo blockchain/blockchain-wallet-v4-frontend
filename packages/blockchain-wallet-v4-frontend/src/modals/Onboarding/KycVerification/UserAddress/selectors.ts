@@ -4,7 +4,7 @@ import { Remote } from '@core'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
+const { RESIDENTIAL_FORM } = model.components.identityVerification
 
 // remove unused stuff from userDetails
 /* eslint-disable */
@@ -16,7 +16,7 @@ const formatUserData = ({ state, kycState, id, address, mobile, ...userData }) =
 /* eslint-disable */
 
 export const getData = (state: RootState) => {
-  const formErrors = selectors.form.getFormSyncErrors(INFO_AND_RESIDENTIAL_FORM)(state)
+  const formErrors = selectors.form.getFormSyncErrors(RESIDENTIAL_FORM)(state)
 
   const userData = compose(
     lift(formatUserData),
