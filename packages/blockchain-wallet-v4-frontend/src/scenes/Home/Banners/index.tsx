@@ -3,9 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
-import { actions, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
+import { actions } from 'data'
 import { useRemote } from 'hooks'
 
 import { AppleAndGooglePayBanner } from './AppleAndGooglePayBanner'
