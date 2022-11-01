@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { RouteComponentProps } from 'react-router'
 import { NavLink } from 'react-router-dom'
 import { isEmpty, path, toLower } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
@@ -391,7 +390,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = RouteComponentProps
+export type OwnProps = React.ReactNode
 
 export type SuccessStateType = {
   currency: FiatType

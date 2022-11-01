@@ -60,6 +60,7 @@ class LazyLoadContainer extends React.PureComponent<Props> {
 }
 
 type Props = {
+  children: ReactNode
   className?: string
   onLazyLoad: () => void
   triggerDistance: number

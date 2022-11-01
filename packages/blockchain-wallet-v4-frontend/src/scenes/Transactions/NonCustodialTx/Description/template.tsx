@@ -25,11 +25,11 @@ const PencilIcon = styled(Icon)`
   padding-left: 10px;
 `
 
-const EditDescription = (props) => {
+const EditDescription = (props: OwnProps) => {
   const { handleChange, value } = props
 
   return (
-    <Wrapper onClick={handleChange}>
+    <Wrapper onClick={() => handleChange(value)}>
       {value ? (
         <DisplayContainer>
           <RowValue data-e2e='transactionListItemDescription'>{value}</RowValue>

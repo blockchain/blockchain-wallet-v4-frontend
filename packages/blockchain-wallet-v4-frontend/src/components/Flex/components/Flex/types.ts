@@ -1,4 +1,4 @@
-import { CSSProperties, FC } from 'react'
+import { CSSProperties, FC, ReactNode } from 'react'
 
 export type FlexAlignItems =
   | 'stretch'
@@ -23,6 +23,7 @@ export type FlexWrap = 'wrap' | 'nowrap' | 'wrap-reverse'
 
 export type FlexProps = {
   alignItems?: FlexAlignItems
+  children?: ReactNode
   flexDirection?: FlexDirection
   flexGrow?: number
   flexWrap?: FlexWrap

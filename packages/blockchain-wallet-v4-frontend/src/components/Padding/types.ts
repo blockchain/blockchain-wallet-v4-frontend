@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 
 export type PaddingVertical =
   | {
@@ -40,6 +40,6 @@ export type PaddingHorizontal =
       right?: never
     }
 
-export type PaddingProps = PaddingHorizontal & PaddingVertical
+export type PaddingProps = PaddingHorizontal & PaddingVertical & { children?: ReactNode }
 
 export type PaddingComponent = FC<PaddingProps>

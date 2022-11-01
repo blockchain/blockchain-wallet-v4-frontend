@@ -166,6 +166,7 @@ export const Image: FunctionComponent<{
   color?: string
   size?: string
   style?: CSSProperties
+  children?: ReactNode
 }>
 export const Link: FunctionComponent<{
   altFont?: boolean
@@ -180,6 +181,7 @@ export const Link: FunctionComponent<{
   rel?: string
   style?: CSSProperties
   onClick?: (e?: KeyboardEvent) => void
+  children?: ReactNode
 }>
 export const Modal: FunctionComponent<{
   children: ReactNode
@@ -195,14 +197,17 @@ export const Modal: FunctionComponent<{
 }>
 export const ModalBody: FunctionComponent<{
   loading?: boolean
+  children?: ReactNode
 }>
 export const ModalHeader: FunctionComponent<{
   closeButton?: boolean
   onClose?: () => void
   icon?: keyof IcoMoonType | AllCoinsType
+  children?: ReactNode
 }>
 export const ModalFooter: FunctionComponent<{
   align: 'left' | 'right' | 'center' | 'spaced'
+  children?: ReactNode
 }>
 export function Palette(theme: string): DefaultTheme
 export const Separator: FunctionComponent<{}>
@@ -210,11 +215,13 @@ export const SkeletonCircle: FunctionComponent<{
   width?: string
   height?: string
   bgColor?: keyof DefaultTheme
+  children?: ReactNode
 }>
 export const SkeletonRectangle: FunctionComponent<{
   width?: string
   height?: string
   bgColor?: keyof DefaultTheme
+  children?: ReactNode
 }>
 export const SpinningLoader: FunctionComponent<{
   width?: string
@@ -223,6 +230,7 @@ export const SpinningLoader: FunctionComponent<{
 }>
 export const TabMenu: FunctionComponent<{
   style?: CSSProperties
+  children?: ReactNode
 }>
 export const TabMenuItem: FunctionComponent<{
   activeClassName?: string
@@ -231,18 +239,25 @@ export const TabMenuItem: FunctionComponent<{
   onClick?: () => void
   selected?: boolean
   width?: string
+  children?: ReactNode
 }>
 export const Table: FunctionComponent<{
   style?: CSSProperties
+  children?: ReactNode
 }>
 export const TableCell: FunctionComponent<{
   onClick?: () => void
   width?: string
   hideMobile?: boolean
   style?: CSSProperties
+  children?: ReactNode
 }>
-export const TableHeader: FunctionComponent<{}>
-export const TableRow: FunctionComponent<{}>
+export const TableHeader: FunctionComponent<{
+  children?: ReactNode
+}>
+export const TableRow: FunctionComponent<{
+  children?: ReactNode
+}>
 export const Text: FunctionComponent<{
   color?: keyof DefaultTheme | string
   size?: string
@@ -256,11 +271,13 @@ export const Text: FunctionComponent<{
   cursor?: string
   opacity?: string
   onClick?: () => void
+  children?: ReactNode
 }>
 export const TextGroup: FunctionComponent<{
   nowrap?: boolean
   inline?: boolean
   style?: CSSProperties
+  children?: ReactNode
 }>
 export const Toast: FunctionComponent<{
   nature?: 'success' | 'error' | 'warn'
@@ -268,18 +285,21 @@ export const Toast: FunctionComponent<{
   onClose?: () => void
   persist?: boolean
   timeout?: number
+  children?: ReactNode
 }>
 export const Tooltip: FunctionComponent<{
   id: string
   offset?: any
   maxWidth?: string
   place?: 'top' | 'right' | 'bottom' | 'left'
+  children?: ReactNode
 }>
-export const TooltipHost: FunctionComponent<{ id: string }>
+export const TooltipHost: FunctionComponent<{ id: string; children?: ReactNode }>
 export const TooltipIcon: FunctionComponent<{
   color?: keyof DefaultTheme
   name: keyof IcoMoonType | AllCoinsType
   size?: string
+  children?: ReactNode
 }>
 export const CheckBoxInput: FunctionComponent<{
   name: string
@@ -287,6 +307,7 @@ export const CheckBoxInput: FunctionComponent<{
   disabled?: boolean
   onClick?: () => void
   onChange?: () => void
+  children?: ReactNode
 }>
 export const SelectInput: FunctionComponent<{
   disabled?: boolean
@@ -299,4 +320,5 @@ export const SelectInput: FunctionComponent<{
   opened?: boolean
   searchEnabled?: boolean
   value: string | boolean | number
+  children?: ReactNode
 }>

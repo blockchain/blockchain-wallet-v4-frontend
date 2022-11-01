@@ -1,5 +1,7 @@
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 
-export type NabuErrorDeepLinkHandlerProps = {}
+export type NabuErrorDeepLinkHandlerProps = {
+  children: ReactNode
+}
 
 export type NabuErrorDeepLinkHandlerComponent = FC<NabuErrorDeepLinkHandlerProps>
