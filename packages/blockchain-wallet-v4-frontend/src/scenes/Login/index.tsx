@@ -33,6 +33,11 @@ import TwoFAWallet from './Wallet/TwoFA'
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   componentDidMount() {
     this.props.authActions.initializeLogin()
+    if (window?._SardineContext) {
+      window._SardineContext.updateConfig({
+        flow: 'LOGIN'
+      })
+    }
   }
 
   setStep = (step: LoginSteps) => {

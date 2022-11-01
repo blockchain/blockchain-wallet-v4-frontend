@@ -5,7 +5,7 @@ import { Types } from '@core'
 import { ExtraKYCContext, ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
-import { Analytics, KycStateType } from 'data/types'
+import { Analytics, KycStateType, UserDataType } from 'data/types'
 import * as C from 'services/alerts'
 
 import profileSagas from '../../modules/profile/sagas'
@@ -13,9 +13,10 @@ import {
   EMAIL_STEPS,
   FLOW_TYPES,
   ID_VERIFICATION_SUBMITTED_FORM,
-  INFO_AND_RESIDENTIAL_FORM,
   KYC_EXTRA_QUESTIONS_FORM,
-  PERSONAL_FORM
+  PERSONAL_FORM,
+  RESIDENTIAL_FORM,
+  USER_INFO_DETAILS
 } from './model'
 import * as S from './selectors'
 import computeSteps from './services'
@@ -178,8 +179,15 @@ export default ({ api, coreSagas, networks }) => {
       addExtraStep = true
     }
 
+    const userData = selectors.modules.profile.getUserData(yield select()).getOrElse({
+      dob: ''
+    } as UserDataType)
+    // check is user already entered DOB
+    const isDobEntered = !!userData?.dob && userData.dob !== ''
+
     const steps = computeSteps({
       addExtraStep,
+      isDobEntered,
       kycState,
       needMoreInfo,
       tiers
@@ -357,13 +365,43 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const saveInfoAndResidentialData = function* ({ payload }) {
+  const saveUserInfoData = function* () {
     try {
-      yield put(actions.form.startSubmit(INFO_AND_RESIDENTIAL_FORM))
+      yield put(actions.form.startSubmit(USER_INFO_DETAILS))
       yield call(syncUserWithWallet)
-      const { city, country, dob, firstName, lastName, line1, line2, postCode, state } =
-        yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
+      const { dob, firstName, lastName } = yield select(
+        selectors.form.getFormValues(USER_INFO_DETAILS)
+      )
       const personalData = { dob, firstName, lastName }
+
+      yield call(updateUser, { payload: { data: personalData } })
+
+      yield call(goToNextStep)
+
+      yield put(actions.form.destroy(USER_INFO_DETAILS))
+    } catch (e) {
+      yield put(
+        actions.form.stopSubmit(USER_INFO_DETAILS, {
+          _error: typeof e === 'string' ? e : e.description
+        })
+      )
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'saveUserInfoData',
+          `Error saving user info data: ${e}`
+        )
+      )
+    }
+  }
+
+  const saveUserResidentialData = function* ({ payload }) {
+    try {
+      yield put(actions.form.startSubmit(RESIDENTIAL_FORM))
+      yield call(syncUserWithWallet)
+      const { city, country, line1, line2, postCode, state } = yield select(
+        selectors.form.getFormValues(RESIDENTIAL_FORM)
+      )
       const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
 
       const address = {
@@ -375,10 +413,20 @@ export default ({ api, coreSagas, networks }) => {
         state: state?.code ?? null
       }
 
-      yield call(updateUser, { payload: { data: personalData } })
       yield call(updateUserAddress, {
         payload: { address }
       })
+
+      // if user clicked on Get Limited Access we stop the flow at this point
+      const stopAfterLimitedAccess =
+        selectors.components.identityVerification.getStopFlowAfterLimitedAccessAchieved(
+          yield select()
+        )
+      if (stopAfterLimitedAccess) {
+        yield put(actions.form.stopSubmit(RESIDENTIAL_FORM))
+        yield put(actions.modules.profile.fetchUser())
+        yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
+      }
 
       if (payload.checkSddEligibility) {
         const POLL_SDD_DELAY = 3000
@@ -463,19 +511,22 @@ export default ({ api, coreSagas, networks }) => {
         yield call(goToNextStep)
       }
 
-      yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
+      yield put(actions.form.stopSubmit(RESIDENTIAL_FORM))
       yield put(actions.modules.profile.fetchUser())
+
+      // destroy
+      yield put(actions.form.destroy(RESIDENTIAL_FORM))
     } catch (e) {
       yield put(
-        actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM, {
+        actions.form.stopSubmit(RESIDENTIAL_FORM, {
           _error: typeof e === 'string' ? e : e.description
         })
       )
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          'saveInfoAndResidentialData',
-          `Error saving info and residential data: ${e}`
+          'saveUserResidentialData',
+          `Error user residential data: ${e}`
         )
       )
     }
@@ -524,10 +575,32 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          'saveInfoAndResidentialData',
+          'saveKYCExtraQuestions',
           `Error saving info and residential data: ${e}`
         )
       )
+    }
+  }
+
+  const fetchUserAddress = function* ({ payload }) {
+    try {
+      yield put(A.fetchUserAddressLoading())
+      const { countryCode, id, text } = payload
+      const userAddressSuggestions = yield call(api.findUserAddress, text, id, countryCode)
+      yield put(A.fetchUserAddressSuccess(userAddressSuggestions))
+    } catch (e) {
+      yield put(A.fetchUserAddressFailure(e))
+    }
+  }
+
+  const retrieveUserAddress = function* ({ payload }) {
+    try {
+      yield put(A.retrieveUserAddressLoading())
+      const { id } = payload
+      const userAddress = yield call(api.userAddressRetrieve, id)
+      yield put(A.retrieveUserAddressSuccess(userAddress))
+    } catch (e) {
+      yield put(A.retrieveUserAddressFailure(e))
     }
   }
 
@@ -541,13 +614,16 @@ export default ({ api, coreSagas, networks }) => {
     fetchStates,
     fetchSupportedCountries,
     fetchSupportedDocuments,
+    fetchUserAddress,
     goToNextStep,
     goToPrevStep,
     initializeStep,
     initializeVerification,
     registerUserCampaign,
-    saveInfoAndResidentialData,
+    retrieveUserAddress,
     saveKYCExtraQuestions,
+    saveUserInfoData,
+    saveUserResidentialData,
     selectTier,
     sendDeepLink,
     sendEmailVerification,

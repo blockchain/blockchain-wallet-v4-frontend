@@ -6,7 +6,6 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
 import { fiatToString } from '@core/exchange/utils'
-import { CoinType, EarnDepositLimits } from '@core/types'
 import {
   Button,
   Icon,
@@ -25,7 +24,7 @@ import NumberBox from 'components/Form/NumberBox'
 import { actions, selectors } from 'data'
 import { RewardsDepositFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
-import { Analytics, SwapBaseCounterTypes } from 'data/types'
+import { Analytics } from 'data/types'
 import { required } from 'services/forms'
 import { debounce } from 'utils/helpers'
 
@@ -344,12 +343,21 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                 <GreyBlueCartridge
                   data-e2e='interestMin'
                   role='button'
-                  onClick={() =>
+                  onClick={() => {
                     earnActions.handleTransferMinAmountClick({
                       amount: displayCoin ? earnDepositLimits.minCoin : earnDepositLimits.minFiat,
                       formName: FORM_NAME
                     })
-                  }
+
+                    analyticsActions.trackEvent({
+                      key: Analytics.STAKING_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED,
+                      properties: {
+                        amount_currency: coin,
+                        currency: walletCurrency,
+                        from_account_type: fromAccountType
+                      }
+                    })
+                  }}
                 >
                   <FormattedMessage
                     id='modals.interest.deposit.mintransfer.button'
@@ -455,8 +463,23 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   bondingMessage:
                     bondingDays > 0 ? (
                       <FormattedMessage
-                        defaultMessage=' and funds are subject to a bonding period before generating rewards'
+                        defaultMessage=' and funds are subject to a bonding period of {bondingDays} {days} before generating rewards'
                         id='modals.staking.deposit.agreement2.bondingday'
+                        values={{
+                          bondingDays,
+                          days:
+                            bondingDays > 1 ? (
+                              <FormattedMessage
+                                defaultMessage='days'
+                                id='modals.staking.warning.content.subtitle.days'
+                              />
+                            ) : (
+                              <FormattedMessage
+                                defaultMessage='day'
+                                id='modals.staking.warning.content.subtitle.day'
+                              />
+                            )
+                        }}
                       />
                     ) : (
                       ''
