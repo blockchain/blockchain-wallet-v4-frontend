@@ -232,7 +232,7 @@ const buildDevServerConfig = (
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
         `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://pay.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081 https://api.sandbox.sardine.ai https://api.sardine.ai`,
         `child-src https://localhost:8080 http://localhost:8080 ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
-        `script-src-elem 'self' 'nonce-${CSP_NONCE}' https://www.googletagmanager.com`,
+        `script-src-elem 'self' 'nonce-${CSP_NONCE}' https://www.googletagmanager.com https://api.sandbox.sardine.ai https://api.sardine.ai`,
         `worker-src 'self' blob:`,
         [
           'connect-src',
