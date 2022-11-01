@@ -61,3 +61,6 @@ config/ssl/*
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Ignore npm stuff
+.npmrc
