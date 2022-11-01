@@ -343,12 +343,21 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                 <GreyBlueCartridge
                   data-e2e='interestMin'
                   role='button'
-                  onClick={() =>
+                  onClick={() => {
                     earnActions.handleTransferMinAmountClick({
                       amount: displayCoin ? earnDepositLimits.minCoin : earnDepositLimits.minFiat,
                       formName: FORM_NAME
                     })
-                  }
+
+                    analyticsActions.trackEvent({
+                      key: Analytics.STAKING_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED,
+                      properties: {
+                        amount_currency: coin,
+                        currency: walletCurrency,
+                        from_account_type: fromAccountType
+                      }
+                    })
+                  }}
                 >
                   <FormattedMessage
                     id='modals.interest.deposit.mintransfer.button'
