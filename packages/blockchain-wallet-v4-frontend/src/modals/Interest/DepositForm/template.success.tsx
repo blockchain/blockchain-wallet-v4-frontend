@@ -23,7 +23,7 @@ import NumberBox from 'components/Form/NumberBox'
 import { actions, selectors } from 'data'
 import { RewardsDepositFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
-import { Analytics, SwapBaseCounterTypes } from 'data/types'
+import { Analytics } from 'data/types'
 import { required } from 'services/forms'
 import { debounce } from 'utils/helpers'
 
@@ -153,6 +153,12 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
         type: fromAccountType
       }
     })
+
+    if (window?._SardineContext) {
+      window._SardineContext.updateConfig({
+        flow: isCustodial ? 'ACH_DEPOSIT' : 'OB_DEPOSIT'
+      })
+    }
   }
 
   const amountChanged = (e) => {
