@@ -52,6 +52,11 @@ const Success = ({
   origin,
   pair
 }: Props) => {
+  if (window?._SardineContext) {
+    window._SardineContext.updateConfig({
+      flow: 'CARD_LINK'
+    })
+  }
   const handleOnClickBack = useCallback(() => {
     if (origin === 'SettingsGeneral') {
       handleClose?.()

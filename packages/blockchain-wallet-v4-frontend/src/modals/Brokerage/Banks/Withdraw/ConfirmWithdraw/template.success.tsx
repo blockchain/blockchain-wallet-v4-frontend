@@ -57,6 +57,11 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
           beneficiary: props.beneficiary || props.defaultMethod || null,
           fiatCurrency: props.fiatCurrency
         })
+        if (window?._SardineContext) {
+          window._SardineContext.updateConfig({
+            flow: 'WITHDRAWAL'
+          })
+        }
       }}
     >
       <FlyoutWrapper>
