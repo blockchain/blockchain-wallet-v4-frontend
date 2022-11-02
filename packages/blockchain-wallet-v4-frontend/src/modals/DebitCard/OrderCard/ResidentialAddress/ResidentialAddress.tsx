@@ -181,7 +181,8 @@ const ResidentialAddress = ({
     data: { api }
   } = useSelector(selectors.core.walletOptions.getDomains)
 
-  const disabled = invalid || submitting || (!canSubmitAddress && editAddress)
+  const disabled =
+    invalid || submitting || (!!useLoqateServiceEnabled && !canSubmitAddress && editAddress)
 
   useEffect(() => {
     dispatch(actions.components.debitCard.getResidentialAddress())
