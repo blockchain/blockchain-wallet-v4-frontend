@@ -100,7 +100,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     (!isAddressSelected && enterAddressManually) || (isAddressSelected && !enterAddressManually)
 
   const disabled =
-    props.invalid || props.submitting || (useLoqateServiceEnabled && !canSubmitAddress)
+    props.invalid || props.submitting || (!!useLoqateServiceEnabled && !canSubmitAddress)
 
   useEffect(() => {
     if (userRetrievedAddress && userRetrievedAddress.data?.city) {
