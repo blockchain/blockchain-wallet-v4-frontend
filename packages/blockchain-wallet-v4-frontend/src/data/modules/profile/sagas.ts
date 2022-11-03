@@ -382,6 +382,7 @@ export default ({ api, coreSagas, networks }) => {
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))
+      yield put(actions.auth.exchangeLoginFailure(e?.code))
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_PASSWORD_DENIED,
@@ -391,7 +392,6 @@ export default ({ api, coreSagas, networks }) => {
           }
         })
       )
-
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
