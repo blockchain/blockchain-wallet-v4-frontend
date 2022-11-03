@@ -44,7 +44,11 @@ const SyncIconWrapper = styled.div<{ coin: string }>`
   min-width: 40px;
   border-radius: 20px;
   margin-right: 20px;
-  background-color: ${(props) => lighten(0.35, props.theme[props.coin])};
+  background-color: ${(props) => {
+    const coinColor = props.theme[props.coin]
+
+    return coinColor ? lighten(0.35, coinColor) : props.theme.grey100
+  }};
 `
 
 const SavedRecurringBuy = ({ action, amount, coin, nextPayment, onClick, period }: Props) => {
