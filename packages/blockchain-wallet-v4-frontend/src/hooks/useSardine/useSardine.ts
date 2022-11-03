@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import sha256 from 'crypto-js/sha256'
 
 import { useDefer3rdPartyScript } from 'hooks'
 
@@ -37,7 +38,7 @@ export const useSardine = () => {
           setSardineDeviceInfo(data)
         },
         parentElement: document.body,
-        sessionKey: xSessionId
+        sessionKey: sha256(xSessionId).toString()
       })
       window._SardineContext = context
       setSardineContext(context)
