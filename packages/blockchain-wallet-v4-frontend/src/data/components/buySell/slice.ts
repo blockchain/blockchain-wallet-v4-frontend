@@ -58,6 +58,7 @@ const initialState: BuySellState = {
   card: Remote.NotAsked,
   cardId: undefined,
   cardSuccessRate: undefined,
+  cardTokenId: undefined,
   cards: Remote.NotAsked,
   checkoutDotComAccountCodes: [],
   checkoutDotComApiKey: undefined,
@@ -88,7 +89,8 @@ const initialState: BuySellState = {
   sellOrder: undefined,
   sellQuote: Remote.NotAsked,
   step: 'CRYPTO_SELECTION',
-  swapAccount: undefined
+  swapAccount: undefined,
+  vgsVaultId: undefined
 }
 
 const buySellSlice = createSlice({
@@ -493,6 +495,11 @@ const buySellSlice = createSlice({
           state.checkoutDotComAccountCodes = action.payload.checkoutDotComAccountCodes
           state.checkoutDotComApiKey = action.payload.checkoutDotComApiKey
           state.step = action.payload.step
+          break
+        case 'ADD_CARD_VGS':
+          state.step = action.payload.step
+          state.vgsVaultId = action.payload.vgsVaultId
+          state.cardTokenId = action.payload.cardTokenId
           break
         default:
           state.step = action.payload.step

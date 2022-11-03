@@ -102,11 +102,12 @@ export default ({
       url: nabuUrl
     })
 
-  const getAddCardToken = (): {
+  const createAddCardToken = (): {
     card_token_id: string
+    vgs_public_key: string
     vgs_vault_id: string
   } =>
-    authorizedGet({
+    authorizedPost({
       contentType: 'application/json',
       endPoint: '/payments/cassy/tokenize',
       ignoreQueryParams: true,
@@ -560,6 +561,7 @@ export default ({
     cancelBSOrder,
     checkCardSuccessRate,
     confirmBSOrder,
+    createAddCardToken,
     createBSCard,
     createBSOrder,
     createBankAccountLink,
@@ -568,7 +570,6 @@ export default ({
     deleteRecurringBuy,
     deleteSavedAccount,
     getAccumulatedTrades,
-    getAddCardToken,
     getApplePayInfo,
     getBSBalances,
     getBSCard,

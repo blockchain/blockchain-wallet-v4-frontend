@@ -53,6 +53,10 @@ export const getBSCards = (state: RootState) => state.components.buySell.cards
 
 export const getCrossBorderLimits = (state: RootState) => state.components.buySell.crossBorderLimits
 
+export const getCardTokenId = (state: RootState) => state.components.buySell.cardTokenId
+
+export const getVgsVaultId = (state: RootState) => state.components.buySell.vgsVaultId
+
 export const getDefaultPaymentMethod = (state: RootState) => {
   const fiatCurrency = getFiatCurrency(state)
   const orders = getBSOrders(state).getOrElse([])
@@ -202,6 +206,12 @@ export const getCancelableOrder = createSelector(getBSOrders, (ordersR) => {
   const orders = ordersR.getOrElse([])
   return orders.find((order) => order.state === 'PENDING_CONFIRMATION')
 })
+
+export const getVgsAddCardInfo = createSelector(
+  getCardTokenId,
+  getVgsVaultId,
+  (cardTokenId, vgsVaultId) => ({ cardTokenId, vgsVaultId })
+)
 
 export const getBuyQuote = (state: RootState) => state.components.buySell.buyQuote
 

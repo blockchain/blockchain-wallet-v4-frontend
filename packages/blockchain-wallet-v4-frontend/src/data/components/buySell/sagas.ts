@@ -1922,8 +1922,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(pollBSBalances)
       }
     }
+    const useVgsProvider = selectors.core.walletOptions
+      .getFeatureFlagUseVgsProvider(yield select())
+      .getOrElse(false) as boolean
 
-    if (action.payload.step === 'DETERMINE_CARD_PROVIDER') {
+    // If VGS feature flag is on we should go the VGS flow, otherwise go down our
+    // normal checkout.com card add flow
+    if (action.payload.step === 'DETERMINE_CARD_PROVIDER' && !useVgsProvider) {
       const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers)
 
       const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
@@ -1945,6 +1950,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           checkoutDotComAccountCodes,
           checkoutDotComApiKey,
           step: 'ADD_CARD_CHECKOUTDOTCOM'
+        })
+      )
+    } else if (action.payload.step === 'DETERMINE_CARD_PROVIDER' && useVgsProvider) {
+      const vgsDetails: ReturnType<typeof api.createAddCardToken> = yield call(
+        api.createAddCardToken
+      )
+      yield put(
+        A.setStep({
+          cardTokenId: vgsDetails.card_token_id,
+          step: 'ADD_CARD_VGS',
+          vgsVaultId: vgsDetails.vgs_vault_id
         })
       )
     }

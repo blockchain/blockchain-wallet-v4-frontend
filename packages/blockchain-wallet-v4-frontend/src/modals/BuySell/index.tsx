@@ -33,6 +33,7 @@ import { Loading as StdLoading, LoadingTextEnum } from '../components'
 import Rejected from '../components/Rejected'
 import { ModalPropsType } from '../types'
 import AddCardCheckoutDotCom from './AddCardCheckoutDotCom'
+import AddCardVgs from './AddCardVgs'
 import Authorize from './Authorize'
 import BankWireDetails from './BankWireDetails'
 import BillingAddress from './BillingAddress'
@@ -210,6 +211,11 @@ class BuySell extends PureComponent<Props, State> {
             {this.props.step === 'DETERMINE_CARD_PROVIDER' && (
               <FlyoutChild>
                 <Loading />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'ADD_CARD_VGS' && (
+              <FlyoutChild>
+                <AddCardVgs handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'ADD_CARD_CHECKOUTDOTCOM' && (
@@ -406,6 +412,11 @@ type LinkStatePropsType =
     }
   | {
       step: 'DETERMINE_CARD_PROVIDER'
+    }
+  | {
+      cardTokenId: string
+      step: 'ADD_CARD_VGS'
+      vgsVaultId: string
     }
   | {
       cardId?: string

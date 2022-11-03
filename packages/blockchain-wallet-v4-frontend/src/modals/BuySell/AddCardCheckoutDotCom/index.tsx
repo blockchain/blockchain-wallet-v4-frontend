@@ -193,7 +193,7 @@ const AddCardCheckoutDotCom = (props: Props) => {
         <Success
           {...props}
           {...val}
-          domain={`${props.domains.walletHelper}/wallet-helper/vgs/#/add-card/${props.checkoutDotComApiKey}/staging`}
+          domain={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/add-card/${props.checkoutDotComApiKey}`}
           iframeRef={ref}
         />
       ) : (

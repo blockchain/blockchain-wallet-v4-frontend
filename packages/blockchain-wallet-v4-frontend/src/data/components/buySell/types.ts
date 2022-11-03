@@ -73,6 +73,7 @@ export enum BuySellStepType {
   '3DS_HANDLER_CHECKOUTDOTCOM',
   'DETERMINE_CARD_PROVIDER',
   'ADD_CARD_CHECKOUTDOTCOM',
+  'ADD_CARD_VGS',
   'AUTHORIZE_PAYMENT',
   'BANK_WIRE_DETAILS',
   'BILLING_ADDRESS',
@@ -154,6 +155,7 @@ export type BuySellState = {
   card: RemoteDataType<string, BSCardType>
   cardId?: string
   cardSuccessRate?: BSCardSuccessRateType
+  cardTokenId?: string
   cards: RemoteDataType<PartialClientErrorProperties, Array<BSCardType>>
   checkoutDotComAccountCodes?: Array<string>
   checkoutDotComApiKey?: string
@@ -186,6 +188,7 @@ export type BuySellState = {
   sellQuote: RemoteDataType<string, SwapQuoteStateType>
   step: keyof typeof BuySellStepType
   swapAccount?: SwapAccountType
+  vgsVaultId?: string
 }
 
 export type InitializeCheckout = {
@@ -256,6 +259,11 @@ export type StepActionsPayload =
       checkoutDotComAccountCodes: Array<string>
       checkoutDotComApiKey: string
       step: 'ADD_CARD_CHECKOUTDOTCOM'
+    }
+  | {
+      cardTokenId: string
+      step: 'ADD_CARD_VGS'
+      vgsVaultId: string
     }
   | {
       reason: PlaidSettlementErrorReasons

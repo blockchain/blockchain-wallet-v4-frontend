@@ -70,6 +70,7 @@
         "unifiedAccountLogin": true,
         "useLoqateService": true,
         "useNewPaymentProviders": true,
+        "useVgsProvider": true,
         "walletConnect": true,
         "walletDebitCardEnabled": true
       }
