@@ -141,6 +141,10 @@ export const CheckBoxText = styled(Text)`
   max-width: 312px;
   color: ${(props) => props.theme.grey600};
 `
+export const DropdownStyled = styled.div`
+  z-index: 9;
+  background-color: ${(props) => props.theme.white};
+`
 export const CenterField = styled.div`
   display: flex;
   flex-direction: column;
@@ -194,7 +198,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           if (
             child.id !== childId &&
             child.checked &&
-            node.type !== NodeItemTypes.MULTIPLE_SELECTION
+            (node.type !== NodeItemTypes.MULTIPLE_SELECTION ||
+              // remove all for dropdown items
+              (node.type !== NodeItemTypes.MULTIPLE_SELECTION && node.isDropdown))
           ) {
             child.checked = false
             isChanged = true
@@ -412,6 +418,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       updateItem(node.id, value)
     }
 
+    const onChangeMultiItem = (e, value) => {
+      value.map((item) => updateItem(node.id, item.value))
+    }
+
     const formValue = props?.formValues ? props?.formValues[node.id] : null
 
     const nodeTranslation = {
@@ -422,23 +432,30 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     return (
       <FormGroup>
         <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
-
-        {/* TODO add multiselect ability and then remove this one */}
-        {!(node.isDropdown && node.type === NodeItemTypes.SINGLE_SELECTION) && (
-          <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
-        )}
+        <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
         <FormItem>
-          <Field
-            data-e2e={`sourceOfFundsDropDown_${node.id}`}
-            name={node.id}
-            validate={required}
-            elements={questionElements}
-            component={SelectBox}
-            menuPlacement='auto'
-            onChange={onChangeItem}
-            // TODO we need to build ability to have multi select
-            // multiple={node.type === NodeItemTypes.MULTIPLE_SELECTION}
-          />
+          {node.type === NodeItemTypes.MULTIPLE_SELECTION ? (
+            <Field
+              data-e2e={`sourceOfFundsDropDown_${node.id}`}
+              name={node.id}
+              validate={required}
+              elements={questionElements}
+              component={SelectBox}
+              menuPlacement='auto'
+              isMulti
+              onChange={onChangeMultiItem}
+            />
+          ) : (
+            <Field
+              data-e2e={`sourceOfFundsDropDown_${node.id}`}
+              name={node.id}
+              validate={required}
+              elements={questionElements}
+              component={SelectBox}
+              menuPlacement='auto'
+              onChange={onChangeItem}
+            />
+          )}
         </FormItem>
         {formValue &&
           node.children &&
