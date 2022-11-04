@@ -43,10 +43,8 @@ const configuredStore = async function () {
     throw new Error('errorWalletOptionsApi')
   }
 
-  const xSessionId = uuidv4()
-  if (xSessionId) {
-    sessionStorage.setItem(model.profile.X_SESSION_ID, xSessionId)
-  }
+  // set session id for sardine integration
+  sessionStorage.setItem(model.profile.X_SESSION_ID, uuidv4())
 
   // ensure browser is supported
   const browserSupported = isBrowserSupported()
