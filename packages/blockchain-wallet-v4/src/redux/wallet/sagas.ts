@@ -128,7 +128,12 @@ export default ({ api, networks }) => {
       undefined,
       networks.btc
     )
-    yield call(api.createResetWallet, email, captchaToken, wrapper, sessionToken)
+    const {
+      mercuryLifetimeToken: exchangeLifetimeToken,
+      token: lifetimeToken,
+      userCredentialsId: exchangeUserId,
+      userId
+    } = yield call(api.createResetWallet, email, captchaToken, wrapper, sessionToken)
 
     yield put(A.wallet.refreshWrapper(wrapper))
   }

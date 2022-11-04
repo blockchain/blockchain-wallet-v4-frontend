@@ -378,22 +378,9 @@ export default ({ api, coreSagas, networks }) => {
           )).getOrElse(false)
           if (!verifiedTwoFa) {
             yield put(actions.router.push('/setup-two-factor'))
+          } else {
+            yield put(actions.router.push('/home'))
           }
-          // if (product === ProductAuthOptions.EXCHANGE) {
-          //   yield put(
-          //     actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
-          //   )
-          //   return
-          // }
-          // debugger
-          // if (product === ProductAuthOptions.WALLET) {
-          //   // TODO only do this if it hasn't been copy/pasted from previous wallet
-          //   yield put(actions.router.push('/setup-two-factor'))
-          // } else {
-          //   yield put(actions.router.push('/select-product'))
-          // }
-        } else {
-          yield put(actions.router.push('/verify-email-step'))
         }
       } else {
         yield put(actions.router.push('/home'))

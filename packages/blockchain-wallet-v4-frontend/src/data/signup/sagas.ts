@@ -102,15 +102,30 @@ export default ({ api, coreSagas, networks }) => {
           password,
           sessionToken
         })
-        // TODO temp for testing
-        // yield call(coreSagas.wallet.createWalletSaga, {
-        //   captchaToken,
-        //   email,
-        //   // TODO: remove,only needed for createResetWalletSaga
-        //   forceVerifyEmail: isAccountReset,
-        //   language,
-        //   password
-        // })
+
+        // set new lifetime tokens for nabu and exchange for user in new unified metadata entry
+        // also write nabu credentials to legacy userCredentials for old app versions
+        // TODO: in future, consider just writing to unifiedCredentials entry
+        // yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
+        // yield put(
+        //   actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
+        //     exchange_lifetime_token: exchangeLifetimeToken,
+        //     exchange_user_id: exchangeUserId,
+        //     nabu_lifetime_token: lifetimeToken,
+        //     nabu_user_id: userId
+        //   })
+        // )
+
+        // if user is resetting their account and
+        // want to go to the Exchange
+        // if (magicLinkData.product === ProductAuthOptions.EXCHANGE) {
+        //   yield put(
+        //     actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
+        //   )
+        //   return
+        // }
+        // fetch user in new wallet
+        // yield call(setSession, userId, lifetimeToken, email, guid)
       } else {
         yield call(coreSagas.wallet.createWalletSaga, {
           captchaToken,
