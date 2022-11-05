@@ -12,11 +12,12 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import AdditionalInfo from './AdditionalInfo'
 import EmailVerification from './EmailVerification'
 import ExtraFields from './ExtraFields'
-import InfoAndResidential from './InfoAndResidential'
 import MoreInfo from './MoreInfo'
 import { getData } from './selectors'
 import Submitted from './Submitted'
 import Loading from './template.loading'
+import UserAddress from './UserAddress'
+import UserInfoDetails from './UserInfoDetails'
 import Verify from './Verify'
 
 const { STEPS } = model.components.identityVerification
@@ -74,12 +75,17 @@ class IdentityVerification extends React.PureComponent<Props, State> {
   }
 
   getStepComponent = (emailVerified: boolean, step: string) => {
-    if (step === STEPS.infoAndResidential) {
+    if (step === STEPS.userDetails) {
       if (!emailVerified) {
         return <EmailVerification handleClose={this.handleClose} />
       }
+
+      return <UserInfoDetails onClose={this.handleClose} />
+    }
+
+    if (step === STEPS.userAddress) {
       return (
-        <InfoAndResidential
+        <UserAddress
           checkSddEligibility={this.props.checkSddEligibility}
           onClose={this.handleClose}
           onCompletionCallback={this.props.onCompletionCallback}
@@ -163,7 +169,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
 
 // @ts-ignore
 IdentityVerification.defaultProps = {
-  step: STEPS.infoAndResidential
+  step: STEPS.userDetails
 }
 
 const mapDispatchToProps = (dispatch) => ({

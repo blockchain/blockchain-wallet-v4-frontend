@@ -1,3 +1,4 @@
+import sha256 from 'crypto-js/sha256'
 import { differenceInMilliseconds, subSeconds } from 'date-fns'
 import { compose, equals, prop, sortBy, tail } from 'ramda'
 import { stopSubmit } from 'redux-form'
@@ -589,6 +590,13 @@ export default ({ api, coreSagas, networks }) => {
         )
       }
       yield put(A.setApiTokenLoading())
+
+      if (window?._SardineContext) {
+        window._SardineContext.updateConfig({
+          flow: 'ONBOARDING',
+          userIdHash: sha256(unifiedNabuCredentials.nabuUserId).toString()
+        })
+      }
 
       renewSessionTask = yield fork(renewSession, nabuUserId, nabuLifetimeToken, email, guid, 0)
     } catch (e) {

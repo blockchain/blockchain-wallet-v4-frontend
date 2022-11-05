@@ -65,3 +65,7 @@ export function getRecoveryTwoFAVerification(
 ): SignupStateType['recoveryTwoFAVerification'] {
   return state.signup.recoveryTwoFAVerification
 }
+
+export function getSignupCountry(state: RootState): SignupStateType['signupCountry'] {
+  return state.signup.signupCountry
+}

@@ -1,7 +1,8 @@
-import React, { PureComponent } from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { RetrieveAddress } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
@@ -10,36 +11,37 @@ import { Analytics, InfoAndResidentialFormValuesType } from 'data/types'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
-import Success from './template.success'
+import Success from './UserAddress.template'
 
-const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
+const { RESIDENTIAL_FORM } = model.components.identityVerification
 
-class InfoAndResidential extends PureComponent<Props> {
-  componentDidMount() {
-    // Cowboys only events
-    if (this.props.hasCowboysTag) {
-      this.props.analyticsActions.trackEvent({
+const UserAddress = (props: Props) => {
+  useEffect(() => {
+    if (props.hasCowboysTag) {
+      props.analyticsActions.trackEvent({
         key: Analytics.COWBOYS_PERSONAL_INFO_VIEWED,
         properties: {}
       })
-      this.props.analyticsActions.trackEvent({
+      props.analyticsActions.trackEvent({
         key: Analytics.COWBOYS_ADDRESS_VIEWED,
         properties: {}
       })
     }
-  }
+  }, [])
 
-  handleSubmit = () => {
+  const handleSubmit = () => {
     const {
       analyticsActions,
       checkSddEligibility,
       identityVerificationActions,
       onCompletionCallback
-    } = this.props
-    identityVerificationActions.saveInfoAndResidentialData({
+    } = props
+
+    identityVerificationActions.saveUserResidentialData({
       checkSddEligibility,
       onCompletionCallback
     })
+
     analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_PERSONAL_INFORMATION_ENTERED,
       properties: {
@@ -48,45 +50,51 @@ class InfoAndResidential extends PureComponent<Props> {
     })
   }
 
-  onCountryChange = (e, value) => {
-    this.setDefaultCountry(value)
+  const setDefaultCountry = (country: CountryType) => {
+    props.formActions.change(RESIDENTIAL_FORM, 'country', country)
+    props.formActions.clearFields(RESIDENTIAL_FORM, false, false, 'state')
   }
 
-  setDefaultCountry = (country: CountryType) => {
-    this.props.formActions.change(INFO_AND_RESIDENTIAL_FORM, 'country', country)
-    this.props.formActions.clearFields(INFO_AND_RESIDENTIAL_FORM, false, false, 'state')
+  const setDefaultState = (state: string) => {
+    props.formActions.change(RESIDENTIAL_FORM, 'state', state)
   }
 
-  setDefaultState = (state: string) => {
-    this.props.formActions.change(INFO_AND_RESIDENTIAL_FORM, 'state', state)
+  const onCountryChange = (e, value) => {
+    setDefaultCountry(value)
   }
 
-  render() {
-    return this.props.data.cata({
-      Failure: () => <DataError />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) => (
-        <Success
-          {...this.props}
-          {...val}
-          onSubmit={this.handleSubmit}
-          onCountrySelect={this.onCountryChange}
-          updateDefaultCountry={this.setDefaultCountry}
-          updateDefaultState={this.setDefaultState}
-          initialValues={{
-            ...val.userData
-          }}
-        />
-      )
-    })
+  const updateSelectedAddressDetails = (addressDetails: RetrieveAddress) => {
+    props.formActions.change(RESIDENTIAL_FORM, 'line1', addressDetails.street)
+    props.formActions.change(RESIDENTIAL_FORM, 'line2', addressDetails.secondaryStreet)
+    props.formActions.change(RESIDENTIAL_FORM, 'city', addressDetails.city)
+    props.formActions.change(RESIDENTIAL_FORM, 'postCode', addressDetails.postalCode)
   }
+
+  return props.data.cata({
+    Failure: () => <DataError />,
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />,
+    Success: (val) => (
+      <Success
+        {...props}
+        {...val}
+        onSubmit={handleSubmit}
+        onCountrySelect={onCountryChange}
+        updateDefaultCountry={setDefaultCountry}
+        updateDefaultState={setDefaultState}
+        updateSelectedAddressDetails={updateSelectedAddressDetails}
+        initialValues={{
+          ...val.userData
+        }}
+      />
+    )
+  })
 }
 
 const mapStateToProps = (state: RootState) => ({
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),
   data: getData(state),
-  formValues: selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM)(state) as
+  formValues: selectors.form.getFormValues(RESIDENTIAL_FORM)(state) as
     | InfoAndResidentialFormValuesType
     | undefined,
   hasCowboysTag: selectors.modules.profile.getCowboysTag(state).getOrElse(false),
@@ -111,4 +119,4 @@ export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(InfoAndResidential)
+export default connector(UserAddress)

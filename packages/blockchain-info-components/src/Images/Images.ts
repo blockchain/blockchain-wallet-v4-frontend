@@ -119,6 +119,7 @@ import nftPurchase from './img/nfts/nft-purchase.svg'
 import nftnouns from './img/nfts/nouns.png'
 import nftpainthyperlink from './img/nfts/paint-hyperlink.png'
 import opensea from './img/opensea.png'
+import percentLightBlueCircle from './img/percent-light-blue-circle.svg'
 import percentWhiteCircle from './img/percent-white-circle.svg'
 import percentBlueCircle from './img/percentage-blue-circle.svg'
 import presCottCardBg from './img/prescott-card-bg.png'
@@ -283,6 +284,7 @@ const Images = {
   'order-my-card': orderMyCard,
   'order-success': orderSuccess,
   'percent-blue-circle': percentBlueCircle,
+  'percent-light-blue-circle': percentLightBlueCircle,
   'percent-white-circle': percentWhiteCircle,
   'prescott-card-bg': presCottCardBg,
   'product-redirect-exchange': productRedirectExchange,

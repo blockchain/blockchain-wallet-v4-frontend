@@ -23,10 +23,6 @@ export const TableBodyWrapper = styled.div`
   overflow: hidden;
 `
 
-const initialState = {
-  sortBy: [{ desc: true, id: 'marketCap' }]
-}
-
 const PricesTable = (props: Props) => {
   const {
     buySellActions,
@@ -64,11 +60,7 @@ const PricesTable = (props: Props) => {
     {
       columns,
       data,
-      initialState,
-      ...{
-        disableMultiSort: true,
-        disableSortRemove: true
-      }
+      disableMultiSort: true
     },
     useGlobalFilter,
     useSortBy

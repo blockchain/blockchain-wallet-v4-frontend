@@ -13,7 +13,7 @@ import styled, { DefaultTheme } from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import { CoinType, FiatType } from '@core/types'
-import { Color } from 'blockchain-info-components'
+import { Color, isKnownColor } from 'blockchain-info-components'
 
 type Data = [number, number]
 
@@ -44,7 +44,9 @@ const Wrapper = styled.div`
 
 const Chart = ({ coin, currency, data }: { coin: CoinType; currency: FiatType; data: Data[] }) => {
   const [ref, bounds] = useMeasure({ polyfill: ResizeObserver })
-  const color = Color(coin as keyof DefaultTheme) || '#000'
+  const color = isKnownColor(coin as keyof DefaultTheme)
+    ? Color(coin as keyof DefaultTheme)
+    : '#000000'
 
   const width = bounds.width || 100
   const height = bounds.height || 100

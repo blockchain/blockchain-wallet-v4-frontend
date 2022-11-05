@@ -1,4 +1,4 @@
-import { TermsAndConditionType } from './types'
+import { FindAddressResponse, RetrieveAddress, TermsAndConditionType } from './types'
 
 export default ({
   apiUrl,
@@ -192,6 +192,7 @@ export default ({
       },
       url: nabuUrl
     })
+
   const generateSession = (userId, lifetimeToken, email, walletGuid) =>
     post({
       contentType: 'application/json',
@@ -330,6 +331,20 @@ export default ({
   //     url: nabuUrl
   //   })
 
+  const findUserAddress = (text: string, id?: string, countryCode?: string): FindAddressResponse =>
+    authorizedGet({
+      data: { country_code: countryCode, id, text },
+      endPoint: '/address-capture/find',
+      url: nabuUrl
+    })
+
+  const userAddressRetrieve = (id: string): RetrieveAddress =>
+    authorizedGet({
+      data: { id },
+      endPoint: '/address-capture/retrieve',
+      url: nabuUrl
+    })
+
   return {
     approveAccountReset,
     // checkIsValidReferralCode,
@@ -339,6 +354,7 @@ export default ({
     exchangeResetPassword,
     exchangeSignIn,
     finaliseLinking,
+    findUserAddress,
     generateRetailToken,
     generateSession,
     getExchangeAuthToken,
@@ -362,6 +378,7 @@ export default ({
     syncUserWithWallet,
     triggerResetAccountEmail,
     updateUser,
-    updateUserAddress
+    updateUserAddress,
+    userAddressRetrieve
   }
 }

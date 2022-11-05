@@ -1,4 +1,10 @@
-import { ExtraQuestionsType, NabuAddressType, RemoteDataType } from '@core/types'
+import {
+  ExtraQuestionsType,
+  FindAddressResponse,
+  NabuAddressType,
+  RemoteDataType,
+  RetrieveAddress
+} from '@core/types'
 
 export const STEPS = {
   edit: 'edit',
@@ -26,7 +32,8 @@ export type VerifyIdentityOriginType =
 
 export type StepsType =
   | 'addExtraStep'
-  | 'infoAndResidential'
+  | 'userDetails'
+  | 'userAddress'
   | 'personal'
   | 'moreInfo'
   | 'mobile'
@@ -73,7 +80,6 @@ export type CountryType = {
 
 // State
 export interface IdentityVerificationState {
-  addressRefetchVisible: boolean
   emailStep: EmailSmsStepType
   flowConfig: RemoteDataType<string, any>
   kycExtraQuestions: RemoteDataType<string, ExtraQuestionsType>
@@ -81,8 +87,11 @@ export interface IdentityVerificationState {
   smsStep: RemoteDataType<string, EmailSmsStepType>
   states: RemoteDataType<string, Array<StateType>>
   steps: RemoteDataType<string, Array<StepsType>>
+  stopFlowAfterLimitedAccessAchieved: boolean
   supportedCountries: RemoteDataType<string, Array<CountryType>>
   supportedDocuments: RemoteDataType<string, Array<DocumentType>>
+  userAddresses: RemoteDataType<string, FindAddressResponse>
+  userRetrieveAddress: RemoteDataType<string, RetrieveAddress>
   verificationStep: StepsType | null
 }
 

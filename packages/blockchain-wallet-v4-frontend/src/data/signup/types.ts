@@ -89,4 +89,5 @@ export type SignupStateType = {
   registering: RemoteDataType<RegisteringFailureType, RegisteringSuccessType>
   resetAccount: boolean
   restoring: RemoteDataType<string, RestoringType>
+  signupCountry?: string
 }

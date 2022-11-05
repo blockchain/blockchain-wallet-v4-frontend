@@ -68,6 +68,7 @@ const IcoMoon = {
   'lightning-bolt': '\\e921',
   'line-graph-up': '\\e933',
   lock: '\\e949',
+  'lock-circle': '\\e94b',
   magnifier: '\\e943',
   'market-up': '\\e94f',
   minus: '\\e94e',
