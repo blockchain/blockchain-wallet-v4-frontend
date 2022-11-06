@@ -2136,6 +2136,7 @@
   "scenes.login.exchange.help.passwordresetsuccess": "If you're registered on the Exchange, you will receive an email with instructions on how to reset your password shortly.",
   "scenes.login.exchange.help.requestpasswordreset": "Request password reset",
   "scenes.login.exchange.incorrect_code": "Incorrect code",
+  "scenes.login.exchange.sactions_error": "We are unable to offer services in your region at this time.",
   "scenes.login.exchange.wrong_password": "Login failed - wrong password.",
   "scenes.login.guid_error": "Unknown Wallet ID. Please check that it was entered correctly or try signing in with your email.",
   "scenes.login.import_your_account": "Import Your Account",
