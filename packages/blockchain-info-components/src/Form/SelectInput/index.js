@@ -24,10 +24,7 @@ class SelectInputContainer extends React.PureComponent {
     const value = Array.isArray(item) ? item : prop('value', item)
 
     if (Array.isArray(value)) {
-      const values = []
-      item.map((it) => values.push(it))
-
-      this.setState({ value: values })
+      this.setState({ value: [...item] })
     } else {
       this.setState({ value })
     }

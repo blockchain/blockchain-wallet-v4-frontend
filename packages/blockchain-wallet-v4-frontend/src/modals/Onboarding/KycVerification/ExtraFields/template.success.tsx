@@ -419,7 +419,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     }
 
     const onChangeMultiItem = (e, value) => {
-      value.map((item) => updateItem(node.id, item.value))
+      if (value?.length) {
+        value.map((item) => updateItem(node.id, item.value))
+      }
     }
 
     const formValue = props?.formValues ? props?.formValues[node.id] : null
