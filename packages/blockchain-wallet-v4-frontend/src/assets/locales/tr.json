@@ -1673,7 +1673,7 @@
   "modals.simplebuy.paymentmethods": "Ödeme Yöntemleri",
   "modals.simplebuy.payusing": "Kullanarak Öde",
   "modals.simplebuy.processing": "İşlem gerçekleştiriliyor...",
-  "modals.simplebuy.recurringbuy.success": "O andaki piyasa fiyatından {amount} Bitcoin {frequency} satın alacağız. Bu yinelenen satın alma işlemini istediğiniz zaman iptal edin.",
+  "modals.simplebuy.recurringbuy.success": "O andaki piyasa fiyatından {amount} {coin} {frequency} satın alacağız. Bu yinelenen satın alma işlemini istediğiniz zaman iptal edin.",
   "modals.simplebuy.refresh": "Yenile",
   "modals.simplebuy.rejected.bank_failed": "Satın alma işleminizi tekrar yapmayı deneyin. Sorun devam ederse lütfen",
   "modals.simplebuy.rejected.blocked_by_laws": "Yerel Yasalar Tarafından Engellendi",
