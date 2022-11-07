@@ -28,8 +28,6 @@ const APP_ENV = process.env.APP_ENV_LOCAL
 // csp nonce for local development
 const CSP_NONCE = '2726c7f26c'
 
-console.log('APP_ENV', APP_ENV)
-
 // gets and logs build config
 const getAndLogEnvConfig = () => {
   let envConfig = {}
