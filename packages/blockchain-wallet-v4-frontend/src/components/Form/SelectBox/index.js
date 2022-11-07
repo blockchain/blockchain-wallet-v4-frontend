@@ -44,7 +44,7 @@ class SelectBox extends React.PureComponent {
   }
 
   render() {
-    const { className, errorBottom, hideErrors, input, meta, zIndex, ...rest } = this.props
+    const { className, errorBottom, hideErrors, input, isMulti, meta, zIndex, ...rest } = this.props
     const { error, invalid, pristine, touched } = meta
     const errorState = touched && invalid ? 'invalid' : 'initial'
 
@@ -57,6 +57,7 @@ class SelectBox extends React.PureComponent {
           onKeyDown={this.onKeyPressed}
           getRef={this.getSelectRef}
           errorState={errorState}
+          isMulti={isMulti}
         />
         {(touched || !pristine) && error && !hideErrors && (
           <Error errorBottom={errorBottom}>{error}</Error>
@@ -92,6 +93,7 @@ SelectBox.propTypes = {
     onFocus: PropTypes.func.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
   }).isRequired,
+  isMulti: PropTypes.bool,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   opened: PropTypes.bool,
   searchEnabled: PropTypes.bool

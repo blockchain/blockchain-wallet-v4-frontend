@@ -398,7 +398,6 @@ export default ({ api, coreSagas, networks }) => {
   const saveUserResidentialData = function* ({ payload }) {
     try {
       yield put(actions.form.startSubmit(RESIDENTIAL_FORM))
-      yield call(syncUserWithWallet)
       const { city, country, line1, line2, postCode, state } = yield select(
         selectors.form.getFormValues(RESIDENTIAL_FORM)
       )
@@ -422,6 +421,7 @@ export default ({ api, coreSagas, networks }) => {
         selectors.components.identityVerification.getStopFlowAfterLimitedAccessAchieved(
           yield select()
         )
+
       if (stopAfterLimitedAccess) {
         yield put(actions.form.stopSubmit(RESIDENTIAL_FORM))
         yield put(actions.modules.profile.fetchUser())
@@ -480,6 +480,7 @@ export default ({ api, coreSagas, networks }) => {
               )
             } else {
               // go immediately to extra KYC step
+              yield put(actions.form.stopSubmit(RESIDENTIAL_FORM))
               yield call(goToNextStep)
               return
             }

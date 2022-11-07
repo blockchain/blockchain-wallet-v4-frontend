@@ -29,7 +29,7 @@ const SkeletonRectangle = (props) => {
 }
 
 SkeletonRectangle.propTypes = {
-  bgColor: PropTypes.string.isRequired,
+  bgColor: PropTypes.string,
   height: PropTypes.string.isRequired,
   width: PropTypes.string.isRequired
 }
