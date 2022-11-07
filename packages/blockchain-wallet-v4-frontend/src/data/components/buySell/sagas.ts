@@ -2039,10 +2039,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         products.buy.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.buy.reasonNotEligible.message
           : undefined
+      const sanctionsType = products.buy.reasonNotEligible.type
       yield put(
         actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
           message,
-          origin: 'BuySellInit'
+          origin: 'BuySellInit',
+          sanctionsType
         })
       )
       return
@@ -2053,10 +2055,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         products.sell.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.sell.reasonNotEligible.message
           : undefined
+      const sanctionsType = products.sell.reasonNotEligible.type
       yield put(
         actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
           message,
-          origin: 'BuySellInit'
+          origin: 'BuySellInit',
+          sanctionsType
         })
       )
       return
