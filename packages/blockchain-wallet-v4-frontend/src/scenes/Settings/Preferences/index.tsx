@@ -1,9 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import MenuHeader from 'components/MenuHeader'
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
 
 import AutoLogout from './AutoLogout'
@@ -29,6 +32,11 @@ const Title = styled(Text)`
 `
 
 const Preferences = () => {
+  const themeEnabled: boolean = useSelector(
+    (state: RootState) =>
+      selectors.core.walletOptions.getThemeEnabled(state).getOrElse(false) as boolean
+  )
+
   return (
     <Wrapper>
       <MenuHeader>
@@ -52,7 +60,7 @@ const Preferences = () => {
       <Notifications />
       <CryptoLinkHandling />
       <AutoLogout />
-      <Themes />
+      {themeEnabled && <Themes />}
     </Wrapper>
   )
 }

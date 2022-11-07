@@ -87,6 +87,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.signup.registerLoading())
       yield put(actions.auth.loginLoading())
       yield put(actions.signup.setRegisterEmail(email))
+      yield put(actions.signup.setSignupCountry(country))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
       yield call(coreSagas.wallet.createWalletSaga, {
         captchaToken,

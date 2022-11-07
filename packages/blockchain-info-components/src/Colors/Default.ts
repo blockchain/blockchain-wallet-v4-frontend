@@ -89,6 +89,7 @@ const Default = {
   teal900: '#052F33',
   // OLD - AVOID USE \\
   AAVE: '#2EBAC6',
+  ADA: '#000000',
   ALGO: '#000000',
   BAT: '#FF4724',
   BCH: '#8DC351',

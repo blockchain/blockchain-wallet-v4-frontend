@@ -325,8 +325,18 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           defaultTo([])(bankAccounts)
         )
         const paymentPartner = prop('partner', bankAccount)
+        if (window?._SardineContext) {
+          window._SardineContext.updateConfig({
+            flow: 'ACH_LINK'
+          })
+        }
         // if yapily we need the auth screen before creating the order
         if (paymentPartner === BankPartners.YAPILY) {
+          if (window?._SardineContext) {
+            window._SardineContext.updateConfig({
+              flow: 'OB_LINK'
+            })
+          }
           return props.buySellActions.setStep({
             step: 'AUTHORIZE_PAYMENT'
           })

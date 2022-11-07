@@ -27,9 +27,9 @@ import { actions, selectors } from 'data'
 import { CoinAccountTypeEnum } from 'data/coins/accountTypes/accountTypes.classes'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import profileSagas from 'data/modules/profile/sagas'
 import { CustodialSanctionsErrorCodeEnum, ModalName } from 'data/types'
 
-import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
 import utils from './sagas.utils'
 import * as S from './selectors'
@@ -49,7 +49,7 @@ const WITHDRAWAL_FORM = 'interestWithdrawalForm'
 export const logLocation = 'components/interest/sagas'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
-  const { isTier2 } = profileSagas({ api, coreSagas, networks })
+  const { isTier2, waitForUserData } = profileSagas({ api, coreSagas, networks })
   const {
     buildAndPublishPayment,
     createPayment,
@@ -123,6 +123,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const fetchStakingEligible = function* () {
     try {
+      yield call(waitForUserData)
       yield put(A.fetchStakingEligibleLoading())
       const response: ReturnType<typeof api.getStakingEligible> = yield call(api.getStakingEligible)
       yield put(A.fetchStakingEligibleSuccess(response))

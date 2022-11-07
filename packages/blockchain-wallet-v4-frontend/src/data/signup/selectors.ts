@@ -40,3 +40,7 @@ export function getKycResetStatus(state: RootState): SignupStateType['kycReset']
 export function getIsValidReferralCode(state: RootState): SignupStateType['isValidReferralCode'] {
   return state.signup.isValidReferralCode
 }
+
+export function getSignupCountry(state: RootState): SignupStateType['signupCountry'] {
+  return state.signup.signupCountry
+}

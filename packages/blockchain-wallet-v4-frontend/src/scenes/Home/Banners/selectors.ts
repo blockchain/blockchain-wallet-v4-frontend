@@ -1,10 +1,12 @@
 import { TIER_TYPES } from 'blockchain-wallet-v4-frontend/src/modals/Settings/TradingLimits/model'
-import { anyPass, equals, isEmpty } from 'ramda'
+import { anyPass, equals, isEmpty, lift } from 'ramda'
 
 import {
   BSBalancesType,
   BSPaymentMethodsType,
   BSPaymentTypes,
+  ExtractSuccess,
+  FiatType,
   SwapUserLimitsType
 } from '@core/types'
 import { model, selectors } from 'data'
@@ -29,6 +31,7 @@ export type BannerType =
   | 'taxCenter'
   | 'earnRewards'
   | 'appleAndGooglePay'
+  | 'staking'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
@@ -40,6 +43,7 @@ export const getSanctionsAnnouncement = () => `sanctions-homepage`
 export const getBuyCryptoAnnouncement = () => `buy-crypto-homepage`
 export const getRecurringBuyAnnouncement = () => `recurring-buys-homepage`
 export const getEarnRewardsAnnouncement = () => `earn-rewards-homepage`
+export const getStakingAnnouncement = () => `staking-homepage`
 export const getServicePriceUnavailableAnnouncement = () => `service-price-unavailable-homepage`
 export const getKYCFinishAnnouncement = () => `kyc-finish-homepage`
 export const getContinueToGoldAnnouncement = () => `continue-to-gold-homepage`
@@ -53,7 +57,7 @@ const showBanner = (flag: boolean, banner: string, announcementState) => {
   )
 }
 
-export const getData = (state: RootState): { bannerToShow: BannerType } => {
+export const getData = (state: RootState) => {
   const announcementState = selectors.cache.getLastAnnouncementState(state)
   let isVerifiedId = false
   let isBankOrCardLinked = false
@@ -219,6 +223,21 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     announcementState
   )
 
+  // Staking
+  const stakingAnnouncement = getStakingAnnouncement()
+  const stakingEligible = selectors.components.interest.getStakingEligible(state).getOrElse({})
+  const isUserStakingEligible =
+    !isEmpty(stakingEligible) && Object.values(stakingEligible).some((obj) => !!obj?.eligible)
+  const isStakingPromoBannerFeatureFlagEnabled = selectors.core.walletOptions
+    .getStakingPromoBannerEnabled(state)
+    .getOrElse(false) as boolean
+
+  const showStakingBanner = showBanner(
+    isStakingPromoBannerFeatureFlagEnabled && isUserStakingEligible,
+    stakingAnnouncement,
+    announcementState
+  )
+
   // Continue to Gold
   const continueToGold =
     (userData?.tiers?.current === TIER_TYPES.SILVER ||
@@ -237,6 +256,9 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const showFinishKYC = isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD
   const showKYCFinishBanner = showBanner(showFinishKYC, kycFinishAnnouncement, announcementState)
 
+  const stakingEligibleR = selectors.components.interest.getStakingEligible(state)
+  const fiatCurrencyR = selectors.core.settings.getCurrency(state)
+
   let bannerToShow: BannerType = null
 
   if (showSanctionsBanner) {
@@ -250,6 +272,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
+  } else if (showStakingBanner) {
+    bannerToShow = 'staking'
   } else if (showAppleAndGooglePayBanner) {
     bannerToShow = 'appleAndGooglePay'
   } else if (showServicePriceUnavailableBanner) {
@@ -272,7 +296,16 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = null
   }
 
-  return {
-    bannerToShow
-  }
+  return lift(
+    (
+      fiatCurrency: FiatType,
+      stakingEligible: ExtractSuccess<typeof stakingEligibleR>,
+      userData: ExtractSuccess<typeof userDataR>
+    ) => ({
+      bannerToShow,
+      fiatCurrency,
+      stakingEligible,
+      userData
+    })
+  )(fiatCurrencyR, stakingEligibleR, userDataR)
 }

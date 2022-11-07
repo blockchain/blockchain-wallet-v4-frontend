@@ -121,6 +121,7 @@ export type BSShowModalOriginType =
   | 'SwapNoHoldings'
   | 'CurrencyList'
   | 'Goals'
+  | 'VerifyAddress'
 
 export enum BSCardStateEnum {
   ACTIVE = 'ACTIVE',
