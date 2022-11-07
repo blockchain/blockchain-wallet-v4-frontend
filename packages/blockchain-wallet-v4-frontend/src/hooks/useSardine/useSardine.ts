@@ -18,7 +18,7 @@ export const useSardine = () => {
     }
   }
 
-  const xSessionId = localStorage.getItem('xSessionId')
+  const xSessionId = sessionStorage.getItem('xSessionId')
   const sardineHost = resolveSardineHost(window?.SARDINE_ENVIRONMENT ?? 'sandbox')
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
