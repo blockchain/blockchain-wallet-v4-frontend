@@ -111,7 +111,7 @@ export const Icon: FunctionComponent<{
   role?: 'button'
 }>
 export const CoinAccountIcon: FunctionComponent<{
-  accountType: SwapBaseCounterTypes | 'EXCHANGE' | 'INTEREST'
+  accountType: 'CUSTODIAL' | 'EXCHANGE' | 'INTEREST' | 'STAKING' | 'ACCOUNT'
   coin: AllCoinsType
   style?: CSSProperties
 }>
