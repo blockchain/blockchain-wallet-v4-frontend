@@ -151,6 +151,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
       withdrawalAmountFiat
     })
     props.setShowSupply(showEDDWithdrawLimit)
+    if (window?._SardineContext) {
+      window._SardineContext.updateConfig({
+        flow: 'WITHDRAWAL'
+      })
+    }
   }
 
   return submitting ? (

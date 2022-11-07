@@ -254,9 +254,10 @@ const OrderSummary: React.FC<Props> = ({
               <Text size='14px' weight={500} color='grey600' style={{ marginTop: '8px' }}>
                 <FormattedMessage
                   id='modals.simplebuy.recurringbuy.success'
-                  defaultMessage='We will buy {amount} of Bitcoin {frequency} at that moment’s market price. Cancel this recurring buy at anytime.'
+                  defaultMessage='We will buy {amount} of {coin} {frequency} at that moment’s market price. Cancel this recurring buy at anytime.'
                   values={{
                     amount: `${currencySymbol}${counterAmount}`,
+                    coin: outputCurrency,
                     frequency: frequencyText
                   }}
                 />

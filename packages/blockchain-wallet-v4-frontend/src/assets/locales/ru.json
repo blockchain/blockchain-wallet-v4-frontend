@@ -1673,7 +1673,7 @@
   "modals.simplebuy.paymentmethods": "Способы оплаты",
   "modals.simplebuy.payusing": "Оплатить с помощью",
   "modals.simplebuy.processing": "Обработка...",
-  "modals.simplebuy.recurringbuy.success": "Мы купим {amount} биткойнов {frequency} по рыночной цене на тот момент. Отмените эту повторяющуюся покупку в любое время.",
+  "modals.simplebuy.recurringbuy.success": "Мы купим {amount} {coin} {frequency} по рыночной цене на тот момент. Отмените эту повторяющуюся покупку в любое время.",
   "modals.simplebuy.refresh": "Обновить",
   "modals.simplebuy.rejected.bank_failed": "Попробуйте повторить покупку. Если это будет продолжаться,",
   "modals.simplebuy.rejected.blocked_by_laws": "Заблокировано местными законами",

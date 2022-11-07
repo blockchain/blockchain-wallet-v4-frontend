@@ -126,7 +126,8 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       selectors.core.settings.getCurrency,
       selectors.components.recurringBuy.getRegisteredListByCoin(coin),
       selectors.core.walletOptions.getFeatureFlagRecurringBuys,
-      () => selectors.components.interest.getInterestEligible(state)
+      selectors.components.interest.getInterestEligible,
+      selectors.components.interest.getStakingEligible
     ],
     (
       invitationsR,
@@ -135,7 +136,8 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       currencyR,
       recurringBuys,
       isRecurringBuyR,
-      interestEligibleR
+      interestEligibleR,
+      stakingEligibleR
     ) => {
       const empty = (page) => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
@@ -162,7 +164,8 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
         recurringBuys,
-        sourceType
+        sourceType,
+        stakingEligible: stakingEligibleR.getOrElse({})
       }
     }
   )(state)

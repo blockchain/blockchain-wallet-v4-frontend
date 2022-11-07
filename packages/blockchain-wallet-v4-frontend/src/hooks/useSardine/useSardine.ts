@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
+import sha256 from 'crypto-js/sha256'
 
-// type
-type SardineEnvironment = 'sandbox' | 'production'
+import { useDefer3rdPartyScript } from 'hooks'
 
 export const useSardine = () => {
   const [sardineContext, setSardineContext] = useState(null)
   const [sardineDeviceInfo, setSardineDeviceInfo] = useState(null)
 
-  const resolveSardineHost = (_environment: SardineEnvironment): string => {
-    switch (_environment) {
+  const resolveSardineHost = (environment: string): string => {
+    switch (environment) {
       case 'production':
         return 'api.sardine.ai'
       case 'sandbox':
@@ -18,47 +18,32 @@ export const useSardine = () => {
     }
   }
 
-  const xSessionId = localStorage.getItem('xSessionId')
-  const environment: SardineEnvironment = 'sandbox'
+  const xSessionId = sessionStorage.getItem('xSessionId')
+  const sardineHost = resolveSardineHost(window?.SARDINE_ENVIRONMENT ?? 'sandbox')
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isReady, _] = useDefer3rdPartyScript(`https://${sardineHost}/assets/loader.min.js`, {
+    attributes: {
+      nonce: window.nonce
+    }
+  })
 
   useEffect(() => {
-    if (!xSessionId) {
-      return () => {}
-    }
-    const sardineHost = resolveSardineHost(environment)
-    const script = document.createElement('script')
-    script.src = `https://${sardineHost}/assets/loader.min.js`
-    script.async = true
-    script.type = 'text/javascript'
-
-    script.onload = function () {
-      //   console.log('Sardine: initializing non-production DI SDK.')
-      /*
-       * Creating context as per the docs and will expose it in future
-       * https://docs.sardine.ai/web
-       */
+    if (isReady && !sardineContext) {
       const context = window?._Sardine?.createContext({
         clientId: window?.SARDINE_CLIENT_ID,
-        environment,
+        environment: window?.SARDINE_ENVIRONMENT,
         flow: window.location.pathname,
         onDeviceResponse(data: any) {
-          //   console.log('Got DI SDK data:', data)
           setSardineDeviceInfo(data)
         },
         parentElement: document.body,
-        sessionKey: xSessionId
+        sessionKey: sha256(xSessionId).toString()
       })
       window._SardineContext = context
       setSardineContext(context)
     }
-
-    const s = document.getElementsByTagName('script')[0]
-    s?.parentNode?.insertBefore(script, s)
-    return () => {
-      //   console.log('Sardine: Cleaning up non-production DI SDK')
-      script.remove()
-    }
-  }, [xSessionId])
+  }, [isReady, sardineContext, xSessionId])
 
   return [sardineContext, sardineDeviceInfo]
 }

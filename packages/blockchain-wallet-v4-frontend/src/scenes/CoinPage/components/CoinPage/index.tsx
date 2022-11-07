@@ -2,7 +2,6 @@ import React, { FC } from 'react'
 import { RouteComponentProps } from 'react-router'
 
 import { FiatType } from '@core/types'
-import { Flex } from 'components/Flex'
 import { selectors } from 'data'
 import { useCoinConfig, useRemote } from 'hooks'
 

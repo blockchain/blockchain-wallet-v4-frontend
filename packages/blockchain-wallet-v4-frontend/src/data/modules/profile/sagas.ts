@@ -1,3 +1,4 @@
+import sha256 from 'crypto-js/sha256'
 import { differenceInMilliseconds, subSeconds } from 'date-fns'
 import { compose, equals, prop, sortBy, tail } from 'ramda'
 import { stopSubmit } from 'redux-form'
@@ -382,6 +383,7 @@ export default ({ api, coreSagas, networks }) => {
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))
+      yield put(actions.auth.exchangeLoginFailure(e?.code))
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_PASSWORD_DENIED,
@@ -391,7 +393,6 @@ export default ({ api, coreSagas, networks }) => {
           }
         })
       )
-
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
@@ -593,7 +594,7 @@ export default ({ api, coreSagas, networks }) => {
       if (window?._SardineContext) {
         window._SardineContext.updateConfig({
           flow: 'ONBOARDING',
-          userIdHash: unifiedNabuCredentials.nabuUserId
+          userIdHash: sha256(unifiedNabuCredentials.nabuUserId).toString()
         })
       }
 
