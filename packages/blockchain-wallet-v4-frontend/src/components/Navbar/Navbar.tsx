@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import {
+  Flex,
   IconClose,
   IconMenu,
   IconRefresh,
@@ -11,6 +12,7 @@ import {
 import styled from 'styled-components'
 
 import { Button, Image } from 'blockchain-info-components'
+import { RoundedBadge } from 'components/Badge'
 import FabButton from 'components/FabButton'
 import { media, useMedia } from 'services/styles'
 
@@ -21,6 +23,7 @@ import UserNavDropdown, { userNavItems } from './UserNavDropdown'
 export type PrimaryNavItem = {
   dest: string
   e2e: string
+  isNew?: boolean
   text: string | React.ReactNode
 }
 
@@ -301,10 +304,17 @@ const Navbar = ({
         </Logo>
         {!isMobile && !isTablet && (
           <PrimaryNavItems>
-            {primaryNavItems.map((item: PrimaryNavItem) => (
-              <li key={item.e2e}>
-                <NavLink to={item.dest} data-e2e={item.e2e}>
-                  <Text variant='paragraph-1'>{item.text}</Text>
+            {primaryNavItems.map(({ dest, e2e, isNew, text }: PrimaryNavItem) => (
+              <li key={e2e}>
+                <NavLink to={dest} data-e2e={e2e}>
+                  <Flex alignItems='center' gap={6}>
+                    <Text variant='paragraph1'>{text}</Text>
+                    {isNew && (
+                      <RoundedBadge>
+                        <FormattedMessage defaultMessage='New' id='copy.new' />
+                      </RoundedBadge>
+                    )}
+                  </Flex>
                 </NavLink>
               </li>
             ))}

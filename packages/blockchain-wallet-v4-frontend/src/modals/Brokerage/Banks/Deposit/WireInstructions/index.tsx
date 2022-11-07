@@ -16,8 +16,8 @@ const WireInstructions = (props) => {
   useEffect(() => {
     if (props.fiatCurrency) {
       props.buySellActions.setFiatCurrency(props.fiatCurrency)
-      props.buySellActions.fetchPaymentAccount()
     }
+    props.buySellActions.fetchPaymentAccount()
   }, [props.buySellActions, props.fiatCurrency])
 
   return props.data.cata({

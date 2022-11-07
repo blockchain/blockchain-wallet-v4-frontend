@@ -28,7 +28,6 @@ import {
   ProductEligibilityForUser,
   VerifyIdentityOriginType
 } from 'data/types'
-import { isNabuError } from 'services/errors'
 import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import profileSagas from '../../modules/profile/sagas'
@@ -97,21 +96,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     bankCredentials: BankCredentialsType,
     account: string | PlaidAccountType | YodleeAccountType
   ) {
-    switch (true) {
-      case typeof account === 'string' && bankCredentials:
-        // Yapily
-        const domainsR = yield select(selectors.core.walletOptions.getDomains)
-        const { comRoot } = domainsR.getOrElse({
-          comRoot: 'https://www.blockchain.com'
-        })
-        const callback = `${comRoot}/brokerage-link-success`
-        return [bankCredentials.id, { callback, institutionId: account }]
-      case typeof account !== 'string':
-      default:
-        // Plaid
-        // Yodlee
-        return [bankCredentials.id, account]
+    if (typeof account === 'string' && bankCredentials) {
+      // Yapily
+      const domainsR = yield select(selectors.core.walletOptions.getDomains)
+      const { comRoot } = domainsR.getOrElse({
+        comRoot: 'https://www.blockchain.com'
+      })
+      const callback = `${comRoot}/brokerage-link-success`
+      return [bankCredentials.id, { callback, institutionId: account }]
     }
+    // Plaid
+    // Yodlee
+    return [bankCredentials.id, account]
+    // switch (true) {
+    //   case typeof account === 'string' && bankCredentials:
+    //     // Yapily
+    //     const domainsR = yield select(selectors.core.walletOptions.getDomains)
+    //     const { comRoot } = domainsR.getOrElse({
+    //       comRoot: 'https://www.blockchain.com'
+    //     })
+    //     const callback = `${comRoot}/brokerage-link-success`
+    //     return [bankCredentials.id, { callback, institutionId: account }]
+    //   case typeof account !== 'string':
+    //   default:
+    //     // Plaid
+    //     // Yodlee
+    //     return [bankCredentials.id, account]
+    // }
   }
 
   const fetchBankTransferUpdate = function* ({
@@ -223,7 +234,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.fetchBankRefreshCredentials>) {
     try {
       yield put(actions.components.brokerage.fetchBankLinkCredentialsLoading())
-      const data: BankCredentialsType = yield call(api.refreshBankAccountLink, payload)
+      const data: BankCredentialsType = yield call(api.refreshBankAccountLink, payload, {})
       yield put(actions.components.brokerage.setBankCredentials(data))
     } catch (error) {
       yield put(actions.components.brokerage.fetchBankLinkCredentialsError(error))
@@ -326,6 +337,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
     }
 
+    // User is only allowed to do Wire/Sepa/Faster Payments so just take them to wire details screen
+    if (eligibleMethods.length === 1 && eligibleMethods[0].type === BSPaymentTypes.BANK_ACCOUNT) {
+      return yield put(
+        actions.components.brokerage.setDWStep({
+          dwStep: BankDWStepType.WIRE_INSTRUCTIONS
+        })
+      )
+    }
+
     const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
       yield select()
     )
@@ -340,18 +360,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
       // Resets any previous form errors
       yield put(actions.form.destroy('brokerageTx'))
-      yield put(
-        actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.ENTER_AMOUNT
-        })
-      )
-    } else {
-      yield put(
-        actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.DEPOSIT_METHODS
-        })
-      )
     }
+    yield put(
+      actions.components.brokerage.setDWStep({
+        dwStep: BankDWStepType.ENTER_AMOUNT
+      })
+    )
   }
 
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
@@ -477,10 +491,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       partner === BankPartners.YAPILY ? `${comRoot}/brokerage-link-success` : undefined
     const attributes = { callback }
     try {
-      // Checks the status of the baank account before creating the order in case
-      // we need to redirect the user to the the brokerage flow
-      yield put(A.paymentAccountCheck({ amount, paymentMethodId: id }))
-      yield take(actions.components.brokerage.paymentAccountRefreshSkipped.type)
+      if (partner !== BankPartners.YAPILY) {
+        // Checks the status of the baank account before creating the order in case
+        // we need to redirect the user to the the brokerage flow
+        yield put(A.paymentAccountCheck({ amount, paymentMethodId: id }))
+        yield take(actions.components.brokerage.paymentAccountRefreshSkipped.type)
+      }
 
       const data = yield call(api.createFiatDeposit, amount, id, currency, attributes)
       const { RETRY_AMOUNT, SECONDS } = POLLING
@@ -500,14 +516,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             })
           )
         }
+      } else {
+        // The order has successfully been submitted, go to loading step while we poll order status
+        yield put(
+          actions.components.brokerage.setDWStep({
+            dwStep: BankDWStepType.LOADING
+          })
+        )
       }
-
-      // The order has successfully been submitted, go to loading step while we poll order status
-      yield put(
-        actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.LOADING
-        })
-      )
 
       // Poll for order status in order to show success, timed out or failed
       try {
@@ -580,18 +596,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     )
 
     const { reason, settlementType } = status.attributes?.settlementResponse
-    if (settlementType !== 'UNAVAILABLE') {
-      // If settlement is available, we can proceed
-      yield put(A.paymentAccountRefreshSkipped())
+
+    if (settlementType === 'UNAVAILABLE' || reason === 'REQUIRES_UPDATE') {
+      yield put(
+        A.setDWStep({
+          dwStep: BankDWStepType.PAYMENT_ACCOUNT_ERROR,
+          reason
+        })
+      )
       return
     }
 
-    yield put(
-      A.setDWStep({
-        dwStep: BankDWStepType.PAYMENT_ACCOUNT_ERROR,
-        reason
-      })
-    )
+    // If settlement is available, we can proceed
+    yield put(A.paymentAccountRefreshSkipped())
   }
 
   return {

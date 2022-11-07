@@ -67,37 +67,39 @@ const EnterAmountContainer = (props: Props) => {
     props.custodialActions.fetchCustodialBeneficiaries({ currency: props.fiatCurrency })
   }, [props.fiatCurrency])
 
-  const handleSubmit = () => {
-    const { defaultBeneficiary } = props.data.getOrElse({} as SuccessStateType)
-    const { analyticsActions, defaultMethod, fiatCurrency, formValues } = props
-    const { amount } = formValues
-    const beneficiary = defaultBeneficiary || props.beneficiary
+  const handleSubmit =
+    (paymentAccount: BankTransferAccountType | BeneficiaryType | undefined) => () => {
+      if (!paymentAccount) return
+      const { analyticsActions, fiatCurrency, formValues } = props
+      const { amount } = formValues
 
-    analyticsActions.trackEvent({
-      key: Analytics.DEPOSIT_WITHDRAWAL_CLIENTS_WITHDRAWAL_AMOUNT_ENTERED,
-      properties: {
-        amount: Number(amount),
-        currency: fiatCurrency,
-        withdrawal_method: defaultMethod ? 'BANK_ACCOUNT' : 'BANK_TRANSFER'
+      analyticsActions.trackEvent({
+        key: Analytics.DEPOSIT_WITHDRAWAL_CLIENTS_WITHDRAWAL_AMOUNT_ENTERED,
+        properties: {
+          amount: Number(amount),
+          currency: fiatCurrency,
+          withdrawal_method: 'agent' in paymentAccount ? 'BANK_ACCOUNT' : 'BANK_TRANSFER'
+        }
+      })
+
+      // BANK_ACCOUNT type
+      if ('agent' in paymentAccount) {
+        props.withdrawActions.setStep({
+          amount,
+          beneficiary: paymentAccount,
+          step: WithdrawStepEnum.CONFIRM_WITHDRAW
+        })
       }
-    })
 
-    if (!beneficiary && !defaultMethod) return
-
-    if (defaultMethod) {
-      props.withdrawActions.setStep({
-        amount,
-        defaultMethod: defaultMethod as BankTransferAccountType,
-        step: WithdrawStepEnum.CONFIRM_WITHDRAW
-      })
-    } else if (defaultBeneficiary || props.beneficiary) {
-      props.withdrawActions.setStep({
-        amount,
-        beneficiary,
-        step: WithdrawStepEnum.CONFIRM_WITHDRAW
-      })
+      // BANK_TRANSFER type
+      if ('partner' in paymentAccount) {
+        props.withdrawActions.setStep({
+          amount,
+          defaultMethod: paymentAccount,
+          step: WithdrawStepEnum.CONFIRM_WITHDRAW
+        })
+      }
     }
-  }
 
   const handleBankSelection = () => {
     if (props.userData.tiers.current === 2) {
@@ -159,16 +161,24 @@ const EnterAmountContainer = (props: Props) => {
         selectedPaymentMethod = bankAccountMethod
       }
 
+      let paymentAccount = val.defaultMethod || props.beneficiary || val.defaultBeneficiary
+      if (!paymentAccount || paymentAccount.currency !== props.fiatCurrency) {
+        paymentAccount = undefined
+      }
+
+      // Connecting the paymentAccount to the submit handler here because there's some nasty logic
+      // above here to determine the account being used to withdraw to. This should all ideally be refactored
+      const submitter = handleSubmit(paymentAccount)
       return (
         <EnterAmount
-          onSubmit={handleSubmit}
+          onSubmit={submitter}
           initialValues={{ currency: props.fiatCurrency }}
           fee={val.fees.minorValue}
           fiatCurrency={props.fiatCurrency}
           handleBack={props.handleClose}
           handleMethodClick={handleBankSelection}
           orderType={BrokerageOrderType.WITHDRAW}
-          paymentAccount={val.defaultMethod || props.beneficiary || val.defaultBeneficiary}
+          paymentAccount={paymentAccount}
           paymentMethod={selectedPaymentMethod}
           withdrawableBalance={val.withdrawableBalance}
           minWithdrawAmount={val.minAmount.minorValue}

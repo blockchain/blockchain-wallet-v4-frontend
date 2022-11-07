@@ -21,7 +21,8 @@ const mapStateToProps = (state: RootState) => ({
     .getFeatureFlags(state)
     .getOrElse({} as { [key in string]: boolean }),
   invitations: selectors.core.settings.getInvitations(state).getOrElse({} as InvitationsType),
-  isReferralAvailable: selectors.core.walletOptions
+  isReferralAvailable: selectors.components.referral.getReferralInformation(state),
+  isReferralEnabled: selectors.core.walletOptions
     .getReferralEnabled(state)
     .getOrElse(false) as boolean,
   nftsEnabled: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,

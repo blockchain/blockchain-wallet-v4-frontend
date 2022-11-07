@@ -10,13 +10,7 @@ import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { getDefaultMethod } from 'components/Flyout/model'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import {
-  AddBankStepType,
-  BankDWStepType,
-  BankPartners,
-  BrokerageModalOriginType,
-  BrokerageOrderType
-} from 'data/types'
+import { BankDWStepType, BankPartners, BrokerageOrderType } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
 import getData from './selectors'
@@ -27,16 +21,16 @@ const EnterAmountContainer = ({
   data,
   defaultMethod,
   fiatCurrency,
-  formActions,
-  plaidEnabled
+  formActions
 }: Props) => {
   useEffect(() => {
     if (fiatCurrency && !Remote.Success.is(data)) {
-      buySellActions.fetchPaymentMethods(fiatCurrency)
       buySellActions.fetchFiatEligible(fiatCurrency)
       brokerageActions.fetchBankTransferAccounts()
       buySellActions.fetchSDDEligibility()
     }
+
+    buySellActions.fetchPaymentMethods(fiatCurrency)
 
     // fetch crossborder limits
     brokerageActions.fetchCrossBorderLimits({
@@ -83,17 +77,6 @@ const EnterAmountContainer = ({
     })
   }, [])
 
-  const handleAddMethod = useCallback(() => {
-    const ACHProvider = plaidEnabled ? 'ADD_BANK_PLAID_MODAL' : 'ADD_BANK_YODLEE_MODAL'
-    brokerageActions.showModal({
-      modalType: fiatCurrency === 'USD' ? ACHProvider : 'ADD_BANK_YAPILY_MODAL',
-      origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT
-    })
-    brokerageActions.setAddBankStep({
-      addBankStep: AddBankStepType.ADD_BANK
-    })
-  }, [fiatCurrency, plaidEnabled])
-
   return data.cata({
     Failure: () => (
       <FlyoutOopsError
@@ -111,7 +94,9 @@ const EnterAmountContainer = ({
       const paymentAccount = getDefaultMethod(defaultMethod, val.bankTransferAccounts)
       const paymentMethod = val.paymentMethods.methods.find((method) => {
         // if a payment account is selected, make sure the payment method matches up so limits are displayed correctly
-        if (paymentAccount) {
+        // Also make sure that the payment account currency aligns with the deposit currency in cases where user has
+        // a GBP bank account but is trying to deposit EUR
+        if (paymentAccount && paymentAccount.currency === fiatCurrency) {
           return paymentAccount.type === method.type
         }
         return (
@@ -119,14 +104,7 @@ const EnterAmountContainer = ({
           method.type === BSPaymentTypes.BANK_ACCOUNT
         )
       })
-      let handleMethodClick: () => void
       const { crossBorderLimits, formErrors } = val
-
-      if (val.bankTransferAccounts.length > 0) {
-        handleMethodClick = handleChangeMethod
-      } else {
-        handleMethodClick = handleAddMethod
-      }
 
       return isUserEligible && paymentMethod ? (
         <EnterAmount
@@ -134,7 +112,7 @@ const EnterAmountContainer = ({
           initialValues={{ currency: fiatCurrency }}
           fiatCurrency={fiatCurrency as FiatType}
           handleBack={handleBack}
-          handleMethodClick={handleMethodClick}
+          handleMethodClick={handleChangeMethod}
           orderType={BrokerageOrderType.DEPOSIT}
           paymentAccount={paymentAccount}
           paymentMethod={paymentMethod}
@@ -155,9 +133,8 @@ const EnterAmountContainer = ({
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  defaultMethod: selectors.components.brokerage.getAccount(state),
-  fiatCurrency: selectors.components.brokerage.getFiatCurrency(state),
-  plaidEnabled: selectors.core.walletOptions.getAddPlaidPaymentProvider(state).getOrElse(false)
+  defaultMethod: selectors.components.brokerage.getActiveAccount(state),
+  fiatCurrency: selectors.components.brokerage.getFiatCurrency(state)
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({

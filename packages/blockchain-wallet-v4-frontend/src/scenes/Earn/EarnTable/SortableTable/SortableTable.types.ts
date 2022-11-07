@@ -6,7 +6,3 @@ export type RowType = {
   balance: TextCellProps
   rates: TextCellProps
 }
-
-export type CellProps = {
-  value?: number | string
-} & TextCellProps

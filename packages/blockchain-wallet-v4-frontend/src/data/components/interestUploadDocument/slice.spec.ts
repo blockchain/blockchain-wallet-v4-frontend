@@ -1,4 +1,4 @@
-import { InterestEDDDocumentsResponse } from '@core/types'
+import { EarnEDDDocumentsResponse } from '@core/types'
 import { InterestUploadDocumentsStepType } from 'data/types'
 
 import { actions, initialState, reducer } from './slice'
@@ -20,8 +20,8 @@ test('should update fetch document limits on success', () => {
     actions.fetchEDDDocumentsLimitsSuccess({ ...documentLimits })
   )
 
-  const documentLimitsFromState = updateSuccess.interestEDDDocumentLimits.getOrElse(
-    {} as InterestEDDDocumentsResponse
+  const documentLimitsFromState = updateSuccess.earnEDDDocumentLimits.getOrElse(
+    {} as EarnEDDDocumentsResponse
   )
 
   expect(documentLimitsFromState).toEqual(documentLimits)

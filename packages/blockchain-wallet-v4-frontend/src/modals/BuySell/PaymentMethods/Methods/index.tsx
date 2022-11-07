@@ -36,7 +36,7 @@ const Methods: React.FC<Props> = (props: Props) => {
       case BSPaymentTypes.LINK_BANK:
         return (
           <FormattedMessage
-            id='modals.simplebuy.easybanktrasnfer'
+            id='modals.simplebuy.easybanktransfer'
             defaultMessage='Easy Bank Transfer'
           />
         )
@@ -132,7 +132,7 @@ const Methods: React.FC<Props> = (props: Props) => {
     [props.buySellActions]
   )
 
-  const { fiatCurrency, orderType } = props
+  const { orderType } = props
 
   const availableCards = props.cards.filter(
     (card) => card.state === 'ACTIVE' && orderType === OrderType.BUY
@@ -260,6 +260,11 @@ const Methods: React.FC<Props> = (props: Props) => {
                   method: applePay.value,
                   mobilePaymentMethod: MobilePaymentType.APPLE_PAY
                 })
+                if (window?._SardineContext) {
+                  window._SardineContext.updateConfig({
+                    flow: 'MOBILE_WALLET_DEPOSIT'
+                  })
+                }
               }}
             />
           ) : null}
@@ -270,6 +275,11 @@ const Methods: React.FC<Props> = (props: Props) => {
                   method: googlePay.value,
                   mobilePaymentMethod: MobilePaymentType.GOOGLE_PAY
                 })
+                if (window?._SardineContext) {
+                  window._SardineContext.updateConfig({
+                    flow: 'MOBILE_WALLET_DEPOSIT'
+                  })
+                }
               }}
             />
           ) : null}

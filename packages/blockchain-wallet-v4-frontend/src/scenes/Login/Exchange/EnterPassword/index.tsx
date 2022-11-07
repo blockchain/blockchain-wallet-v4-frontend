@@ -41,6 +41,8 @@ const EnterPasswordExchange = (props: Props) => {
     walletTabClicked
   } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
+  const sanctionedRegionError = exchangeError && exchangeError === ExchangeErrorCodes.NOT_ACCEPTABLE
+
   return (
     <LoginWrapper>
       <ProductTabMenu
@@ -78,6 +80,14 @@ const EnterPasswordExchange = (props: Props) => {
                   defaultMessage='Login failed - wrong password.'
                 />
                 {/* some sort of prompts to reset password?  */}
+              </FormError>
+            )}
+            {sanctionedRegionError && (
+              <FormError data-e2e='sanctionsError' style={{ paddingTop: '4px' }}>
+                <FormattedMessage
+                  id='scenes.login.exchange.sactions_error'
+                  defaultMessage='We are unable to offer services in your region at this time.'
+                />
               </FormError>
             )}
           </FormItem>

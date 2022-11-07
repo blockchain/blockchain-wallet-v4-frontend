@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { IconSell, PaletteColors } from '@blockchain-com/constellation'
-import { Button } from '../Button'
 
+import { Button } from '../Button'
 import { SellButtonComponent } from './SellButton.types'
 
 export const SellButton: SellButtonComponent = ({ disabled, onClick }) => (

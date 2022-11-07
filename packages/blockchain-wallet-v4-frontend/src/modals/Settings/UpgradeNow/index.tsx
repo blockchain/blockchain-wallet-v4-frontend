@@ -26,7 +26,7 @@ class UpgradeNow extends PureComponent<Props, State> {
 
   componentDidMount() {
     this.setState({ show: true })
-    this.props.fetchInterestEDDStatus()
+    this.props.fetchEarnEDDStatus()
   }
 
   handleClose = () => {
@@ -62,7 +62,7 @@ class UpgradeNow extends PureComponent<Props, State> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
+  fetchEarnEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch

@@ -41,7 +41,6 @@ import {
   CustodialSanctionsEnum,
   ModalName,
   ProductEligibilityForUser,
-  RecurringBuyPeriods,
   UserDataType,
   VerifyIdentityOriginType
 } from 'data/types'
@@ -342,7 +341,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!values?.amount) throw new Error(BS_ERROR.NO_AMOUNT)
       if (parseFloat(values.amount) <= 0) throw new Error(BS_ERROR.NO_AMOUNT)
 
-      const { fix, orderType } = values
+      const { fix, orderType, period } = values
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
@@ -492,7 +491,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           input,
           output,
           paymentType,
-          RecurringBuyPeriods.ONE_TIME,
+          period,
           paymentMethodId,
           currentBuyQuote.quote.quoteId
         )
@@ -603,36 +602,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
-  }
-
-  const createRecurringOrderIfEllegble = function* ({
-    payload: order
-  }: ReturnType<typeof A.createRecurringOrderIfEllegble>) {
-    const { period } = yield select(selectors.form.getFormValues(FORM_BS_CHECKOUT))
-    const availableMethods: BSPaymentTypes[] = yield select(
-      selectors.components.recurringBuy.availableMethods
-    )
-
-    const { inputCurrency, inputQuantity, outputCurrency, paymentMethodId, paymentType } = order
-
-    if (!paymentType) return
-
-    const didUserSelectPeriod = period !== RecurringBuyPeriods.ONE_TIME
-
-    const isPaymentEllegbleForRecurringOrder = availableMethods.includes(paymentType)
-
-    const canCreateRecurringOrder = didUserSelectPeriod && isPaymentEllegbleForRecurringOrder
-
-    if (!canCreateRecurringOrder) return
-
-    yield call(api.createRecurringBuy, {
-      destinationCurrency: outputCurrency,
-      inputCurrency,
-      inputValue: inputQuantity,
-      paymentMethod: paymentType,
-      paymentMethodId,
-      period
-    })
   }
 
   const confirmOrderPoll = function* (
@@ -1034,7 +1003,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
         order
       })
-      yield call(createRecurringOrderIfEllegble, A.createRecurringOrderIfEllegble(order))
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield put(A.fetchOrders())
       yield put(A.confirmOrderSuccess(confirmedOrder))
@@ -1767,7 +1735,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
       // Fetch rates
       if (orderType === OrderType.BUY) {
-        const fakeQuoteAmount = '500'
+        const fakeQuoteAmount = '1000'
 
         yield put(
           A.startPollBuyQuote({
@@ -1937,9 +1905,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.confirmOrderSuccess(order))
-
-      yield call(createRecurringOrderIfEllegble, A.createRecurringOrderIfEllegble(order))
-
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       yield put(cacheActions.removeLastUsedAmount({ pair: order.pair }))
     } catch (e) {
@@ -2256,7 +2221,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     confirmOrderPoll,
     createBSCard,
     createBSOrder,
-    createRecurringOrderIfEllegble,
     deleteBSCard,
     fetchAccumulatedTrades,
     fetchBSBalances,

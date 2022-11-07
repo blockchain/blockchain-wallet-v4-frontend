@@ -102,6 +102,9 @@ export const isCountrySupported = (countryCode, supportedCountries) =>
 export const getApiToken = path(['profile', 'apiToken'])
 
 // @ts-ignore
+export const getUserApiToken = (state) => getApiToken(state).getOrElse('')
+
+// @ts-ignore
 export const isAuthenticated = (state) => getApiToken(state).map(prop('isActive'))
 
 export const getAuthCredentials = (state) => ({

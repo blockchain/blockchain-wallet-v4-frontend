@@ -15,25 +15,36 @@ import { getData } from './selectors'
 import SortableTable from './SortableTable'
 
 const EarnTableContainer = (props: Props) => {
-  const { analyticsActions, earnActions, sortedInstruments } = props
+  const { analyticsActions, earnActions } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const isTabletL = useMedia('tabletL')
 
   if (error) return null
   if (isLoading || isNotAsked || !data) return <Loading />
 
+  const { sortedInstruments, stakingAccountBalance } = data
+
   const handleClick = (coin, isStaking) => {
-    const { WALLET_REWARDS_DETAIL_CLICKED, WALLET_STAKING_WARNING_CONTINUE_CLICKED } = Analytics
+    const {
+      WALLET_REWARDS_DETAIL_CLICKED,
+      WALLET_STAKING_DETAIL_CLICKED,
+      WALLET_STAKING_WARNING_CONTINUE_CLICKED
+    } = Analytics
+    const balance = stakingAccountBalance[coin]?.balance
+    const hasBalance = balance && Number(balance) > 0
     analyticsActions.trackEvent({
-      key: isStaking ? WALLET_STAKING_WARNING_CONTINUE_CLICKED : WALLET_REWARDS_DETAIL_CLICKED,
+      key: isStaking
+        ? hasBalance
+          ? WALLET_STAKING_DETAIL_CLICKED
+          : WALLET_STAKING_WARNING_CONTINUE_CLICKED
+        : WALLET_REWARDS_DETAIL_CLICKED,
       properties: {
         currency: coin
       }
     })
 
     if (isStaking) {
-      const balance = data?.stakingAccountBalance[coin]?.balance
-      if (balance && Number(balance) > 0) {
+      if (hasBalance) {
         earnActions.showStakingModal({ coin, step: 'ACCOUNT_SUMMARY' })
       } else {
         earnActions.showStakingModal({ coin, step: 'WARNING' })

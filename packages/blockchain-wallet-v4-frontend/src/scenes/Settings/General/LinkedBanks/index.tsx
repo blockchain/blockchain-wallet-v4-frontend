@@ -26,7 +26,6 @@ class LinkedBanks extends PureComponent<Props> {
   handleBankClick = () => {
     const { plaidEnabled, tradingCurrency } = this.props
     const ACHProvider = plaidEnabled ? 'ADD_BANK_PLAID_MODAL' : 'ADD_BANK_YODLEE_MODAL'
-    this.props.brokerageActions.setupBankTransferProvider()
     this.props.brokerageActions.showModal({
       modalType: tradingCurrency === 'USD' ? ACHProvider : 'ADD_BANK_YAPILY_MODAL',
       origin: BrokerageModalOriginType.ADD_BANK_SETTINGS

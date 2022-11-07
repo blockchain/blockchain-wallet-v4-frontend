@@ -108,6 +108,7 @@ const brokerageSlice = createSlice({
       state.dwStep = action.payload.dwStep
       switch (action.payload.dwStep) {
         case BankDWStepType.DEPOSIT_METHODS:
+          // Keeping for now (10/5/22) but I think we can deprecate addNew functionality
           state.addNew = action.payload.addNew || false
           break
         case BankDWStepType.PAYMENT_ACCOUNT_ERROR:

@@ -5,7 +5,13 @@ declare global {
     APP_VERSION: string // build injected app version
     ApplePaySession?: ApplePaySession
     BCAndroidSSI: any // android <-> web messaging
-    CAPTCHA_KEY: string // build injected recaptcha key
+    CAPTCHA_KEY: string
+    // build injected recaptcha key
+    SARDINE_CLIENT_ID: string
+    // build injected sardine access key
+    SARDINE_ENVIRONMENT: string // sardine environment sandbox or production
+    _Sardine: any // Sardine integration
+    _SardineContext: any // Sardine integration
     coins: {
       [key in string]: {
         coinfig: CoinfigType // all coin configs for app

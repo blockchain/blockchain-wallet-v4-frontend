@@ -4,6 +4,8 @@ import { ExtractSuccess } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
+import { sortCoins } from './utils'
+
 export const getData = createDeepEqualSelector(
   [
     selectors.prices.getAllCoinPrices,
@@ -44,9 +46,11 @@ export const getData = createDeepEqualSelector(
       })
 
       // filter out undefined coins, zero value coins and coins with inflated marketcaps
-      return coinPricesList?.filter((coin) => {
+      const filteredCoinPricesList = coinPricesList.filter((coin) => {
         return coin.price && coin.price !== 0 && coin.coin !== 'HOKK'
       })
+
+      return sortCoins(filteredCoinPricesList)
     }
 
     return lift(transform)(coinPricesR, coinPricesPreviousR)

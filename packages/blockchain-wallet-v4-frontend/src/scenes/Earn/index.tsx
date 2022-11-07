@@ -3,21 +3,19 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators, Dispatch } from 'redux'
-import styled from 'styled-components'
 
 import { Remote } from '@core'
-import { InterestEDDStatus, RemoteDataType, RewardsRatesType, StakingRatesType } from '@core/types'
+import { EarnEDDStatus, RemoteDataType, RewardsRatesType, StakingRatesType } from '@core/types'
 import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
-import { SceneWrapper } from 'components/Layout'
 import { actions } from 'data'
 import { Analytics, EarnInstrumentsType, UserDataType } from 'data/types'
 
 import Loading from './Earn.loading.template'
-import { EarnContainer, Overlay, TabRow } from './Earn.model'
+import { CustomSceneWrapper, EarnContainer, Overlay, TabRow } from './Earn.model'
 import getData from './Earn.selectors'
-import InterestHeader from './Earn.template.header'
+import EarnHeader from './Earn.template.header'
 import EarnTable from './EarnTable'
-import NotGoldTierMessage from './NotGoldTierMessage'
+import Message from './Message'
 
 class Earn extends React.PureComponent<Props, StateType> {
   constructor(props) {
@@ -61,9 +59,9 @@ class Earn extends React.PureComponent<Props, StateType> {
     const { isGoldTier } = this.state
     const { data } = this.props
     return (
-      <SceneWrapper>
-        <InterestHeader />
-        {!isGoldTier && <NotGoldTierMessage />}
+      <CustomSceneWrapper $isGoldTier={isGoldTier}>
+        <EarnHeader />
+        <Message isGoldTier={isGoldTier} />
         <EarnContainer>
           {!isGoldTier && <Overlay />}
           <TabRow>
@@ -91,7 +89,7 @@ class Earn extends React.PureComponent<Props, StateType> {
             Success: (val) => <EarnTable isGoldTier={isGoldTier} {...val} {...this.props} />
           })}
         </EarnContainer>
-      </SceneWrapper>
+      </CustomSceneWrapper>
     )
   }
 }
@@ -112,10 +110,9 @@ export type StateType = {
   isGoldTier: boolean
 }
 export type SuccessStateType = {
-  interestEDDStatus: InterestEDDStatus
+  earnEDDStatus: EarnEDDStatus
   interestRates: RewardsRatesType
   interestRatesArray: Array<number>
-  sortedInstruments: EarnInstrumentsType
   stakingRates: StakingRatesType
   userData: UserDataType
 }

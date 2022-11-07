@@ -6,7 +6,8 @@ export enum ExchangeErrorCodes {
   MISSING_2FA = 11, // 2FA is undefined/missing from params
   NOT_LINKED = 12,
   UNRECOGNIZED_DEVICE = 99,
-  INVALID_CREDENTIALS = 8
+  INVALID_CREDENTIALS = 8,
+  NOT_ACCEPTABLE = 165 // Sanctions
 }
 export enum ProductAuthOptions {
   EXCHANGE = 'EXCHANGE',

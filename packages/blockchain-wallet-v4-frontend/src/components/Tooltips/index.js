@@ -255,6 +255,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='The rate is subject to change. Rewards will be paid in crypto.'
           />
         </Tooltip>
+        <Tooltip id='earntable.rewards.tooltip'>
+          <FormattedMessage
+            id='scenes.earn.earntable.rewards.tooltip'
+            defaultMessage='A Rewards Account is a crypto storage facility that earns rewards on the crypto you hold in it.'
+          />
+        </Tooltip>
         <Tooltip id='earntable.staking.tooltip'>
           <FormattedMessage
             id='scenes.earn.earntable.staking.tooltip'
@@ -282,7 +288,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='modals.staking.summary.fee.tooltip'>
           <FormattedMessage
             id='modals.staking.summary.fee.description.tooltip'
-            defaultMessage='Rewards rates are determined by each protocol minus a fee. Users receive the displayed rate.'
+            defaultMessage='Rates are determined by each protocol minus a Blockchain.com fee. Users receive the displayed rate.'
           />
         </Tooltip>
         <Tooltip id='modals.staking.bonding.pending.tooltip'>

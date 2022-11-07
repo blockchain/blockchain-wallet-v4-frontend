@@ -41,11 +41,16 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
     return allData
   }
 
-  const getHeaders = (contentType: string, sessionToken?: string) => {
+  const getHeaders = (contentType: string, sessionToken?: string, url?: string) => {
     const headers: Header = {
       'Content-Type': contentType
     }
     if (sessionToken) headers.Authorization = `Bearer ${sessionToken}`
+
+    const xSessionId = sessionStorage.getItem('xSessionId')
+    if (xSessionId && url?.includes('nabu-gateway')) {
+      headers['X-Session-ID'] = xSessionId
+    }
 
     return headers
   }
@@ -66,7 +71,7 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
       .request<T>({
         cancelToken,
         data: encodeData(data, contentType, removeDefaultPostData),
-        headers: mergeRight(getHeaders(contentType, sessionToken), headers),
+        headers: mergeRight(getHeaders(contentType, sessionToken, url), headers),
         method,
         url: `${url}${endPoint}`,
         ...options

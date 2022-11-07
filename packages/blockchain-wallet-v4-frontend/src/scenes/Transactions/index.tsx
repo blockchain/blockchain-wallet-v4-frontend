@@ -2,13 +2,21 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
+import { NavLink } from 'react-router-dom'
 import { isEmpty, path, toLower } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
-import { CoinType, FiatType, OrderType, TimeRange, WalletFiatType } from '@core/types'
+import {
+  CoinType,
+  EarnEligibleType,
+  FiatType,
+  OrderType,
+  TimeRange,
+  WalletFiatType
+} from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { SavedRecurringBuy } from 'components/Box'
 import EmptyResults from 'components/EmptyResults'
@@ -163,13 +171,16 @@ class TransactionsContainer extends React.PureComponent<Props> {
       loadMoreTxs,
       pages,
       recurringBuys,
-      sourceType
+      sourceType,
+      stakingEligible
     } = this.props
     const { coin } = computedMatch.params
     const { coinfig } = window.coins[coin]
     const interestEligibleCoin =
       !isEmpty(interestEligible) && interestEligible[coin] && interestEligible[coin]?.eligible
-    const isEarnButtonEnabled = isGoldTier && interestEligibleCoin
+    const stakingEligibleCoin =
+      !isEmpty(stakingEligible) && stakingEligible[coin] && stakingEligible[coin]?.eligible
+    const isEarnButtonEnabled = isGoldTier && (interestEligibleCoin || stakingEligibleCoin)
 
     return (
       <SceneWrapper>
@@ -204,30 +215,28 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
                     </StyledButton>
                     {isEarnButtonEnabled && (
-                      <StyledButton
-                        width='100px'
-                        nature='primary'
-                        data-e2e='earnInterest'
-                        onClick={() => {
-                          analyticsActions.trackEvent({
-                            key: Analytics.COINVIEW_EARN_REWARDS_BUTTON_CLICKED,
-                            properties: {
-                              currency: coin,
-                              device: 'WEB',
-                              platform: 'WALLET'
-                            }
-                          })
-                          this.props.interestActions.showInterestModal({
-                            coin,
-                            step: 'ACCOUNT_SUMMARY'
-                          })
-                        }}
-                      >
-                        <FormattedMessage
-                          id='scenes.interest.summarycard.earnOnly'
-                          defaultMessage='Earn'
-                        />
-                      </StyledButton>
+                      <NavLink to='/earn' data-e2e='vistEarnPage'>
+                        <StyledButton
+                          width='100px'
+                          nature='primary'
+                          data-e2e='earnInterest'
+                          onClick={() => {
+                            analyticsActions.trackEvent({
+                              key: Analytics.COINVIEW_EARN_REWARDS_BUTTON_CLICKED,
+                              properties: {
+                                currency: coin,
+                                device: 'WEB',
+                                platform: 'WALLET'
+                              }
+                            })
+                          }}
+                        >
+                          <FormattedMessage
+                            id='scenes.interest.summarycard.earnOnly'
+                            defaultMessage='Earn'
+                          />
+                        </StyledButton>
+                      </NavLink>
                     )}
                     <StyledButton
                       nature='light'
@@ -417,12 +426,14 @@ export type OwnProps = RouteComponentProps
 export type SuccessStateType = {
   currency: FiatType
   hasTxResults: boolean
+  interestEligible: EarnEligibleType
   isInvited: boolean
   isRecurringBuy: boolean
   isSearchEntered: boolean
   pages: Array<any>
   recurringBuys: RecurringBuyRegisteredList[]
   sourceType: string
+  stakingEligible: EarnEligibleType
 }
 
 // data is not remote

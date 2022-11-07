@@ -57,12 +57,12 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     availToWithdraw,
     coin,
     displayCoin,
+    earnEDDStatus,
+    earnEDDWithdrawLimits,
     flagEDDInterestFileUpload,
     formActions,
     handleDisplayToggle,
     interestActions,
-    interestEDDStatus,
-    interestEDDWithdrawLimits,
     invalid,
     rates,
     submitting,
@@ -128,11 +128,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   if (!account) return null
 
   const showEDDWithdrawLimit =
-    (interestEDDWithdrawLimits?.withdrawLimits
-      ? Number(withdrawalAmountFiat) > Number(interestEDDWithdrawLimits?.withdrawLimits.amount)
+    (earnEDDWithdrawLimits?.withdrawLimits
+      ? Number(withdrawalAmountFiat) > Number(earnEDDWithdrawLimits?.withdrawLimits.amount)
       : false) &&
-    !interestEDDStatus?.eddSubmitted &&
-    !interestEDDStatus?.eddPassed
+    !earnEDDStatus?.eddSubmitted &&
+    !earnEDDStatus?.eddPassed
 
   const handleFormSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -151,6 +151,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
       withdrawalAmountFiat
     })
     props.setShowSupply(showEDDWithdrawLimit)
+    if (window?._SardineContext) {
+      window._SardineContext.updateConfig({
+        flow: 'WITHDRAWAL'
+      })
+    }
   }
 
   return submitting ? (

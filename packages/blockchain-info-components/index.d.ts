@@ -86,6 +86,7 @@ export const ComponentDropdown: ComponentClass<{
   width?: string
 }>
 export function Color(color: keyof DefaultTheme): DefaultTheme[keyof DefaultTheme]
+export function isKnownColor(color: keyof DefaultTheme): boolean
 export const DateInput: FunctionComponent<{}>
 export const FontGlobalStyles: FunctionComponent<{}>
 export const FlatLoader: FunctionComponent<{
@@ -110,7 +111,7 @@ export const Icon: FunctionComponent<{
   role?: 'button'
 }>
 export const CoinAccountIcon: FunctionComponent<{
-  accountType: SwapBaseCounterTypes | 'EXCHANGE' | 'INTEREST'
+  accountType: 'CUSTODIAL' | 'EXCHANGE' | 'INTEREST' | 'STAKING' | 'ACCOUNT'
   coin: AllCoinsType
   style?: CSSProperties
 }>

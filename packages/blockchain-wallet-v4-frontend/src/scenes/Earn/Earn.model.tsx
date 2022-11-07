@@ -1,5 +1,8 @@
-import React from 'react'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
+
+import { Link } from 'blockchain-info-components'
+import { SceneSubHeaderText, SceneWrapper } from 'components/Layout'
 
 export const TabRow = styled.div`
   width: 100%;
@@ -15,17 +18,24 @@ export const Overlay = styled.div`
   width: 100vw;
   opacity: 0.6;
   background-color: white;
-  z-index: 9;
+  z-index: 1;
   cursor: not-allowed;
 `
+export const CustomSceneWrapper = styled(SceneWrapper)<{ $isGoldTier?: boolean }>`
+  ${({ $isGoldTier }) => !$isGoldTier && `overflow: hidden;`}
+`
 
-export const MessageContainer = styled.div<{ $borderColor: string }>`
+export const SubheaderSeparator = styled.div`
   display: flex;
-  padding: 16px;
-  border: 1px solid ${({ $borderColor, theme }) => theme[$borderColor]};
-  border-radius: 16px;
-  gap: 16px;
-  justify-content: space-between;
-  align-items: center;
-  margin: 24px 0;
+  flex-grow: 2;
+`
+export const SceneSubHeaderTextCustom = styled(SceneSubHeaderText)`
+  display: contents;
+`
+export const CustomLink = styled(Link)`
+  color: ${PaletteColors['blue-400']} !important;
+
+  &:hover {
+    color: ${PaletteColors['blue-400']};
+  }
 `

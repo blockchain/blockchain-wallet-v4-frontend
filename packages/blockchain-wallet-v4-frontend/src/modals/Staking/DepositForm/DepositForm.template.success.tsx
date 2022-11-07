@@ -6,7 +6,6 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
 import { fiatToString } from '@core/exchange/utils'
-import { CoinType, EarnDepositLimits } from '@core/types'
 import {
   Button,
   Icon,
@@ -25,11 +24,12 @@ import NumberBox from 'components/Form/NumberBox'
 import { actions, selectors } from 'data'
 import { RewardsDepositFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
-import { Analytics, SwapBaseCounterTypes } from 'data/types'
+import { Analytics } from 'data/types'
 import { required } from 'services/forms'
 import { debounce } from 'utils/helpers'
 
 import { amountToFiat, maxFiat } from '../conversions'
+import { EDDMessageContainer } from '../Staking.model'
 import { CurrencySuccessStateType, DataSuccessStateType, OwnProps as ParentOwnProps } from '.'
 import {
   AgreementContainer,
@@ -39,7 +39,6 @@ import {
   CustomField,
   CustomForm,
   CustomFormLabel,
-  CustomOrangeCartridge,
   ErrorText,
   FiatMaxContainer,
   FORM_NAME,
@@ -57,22 +56,6 @@ import {
 } from './DepositForm.model'
 import { maxDepositAmount, minDepositAmount } from './DepositForm.validation'
 
-const checkIsAmountUnderDepositLimit = (
-  depositLimits: EarnDepositLimits,
-  coin: CoinType,
-  depositAmount: string
-): boolean => {
-  const { earnDepositLimits } = depositLimits
-
-  if (!earnDepositLimits || earnDepositLimits.length === 0) {
-    return false
-  }
-
-  const coinLimit = earnDepositLimits.find((dep) => dep.savingsCurrency === coin)?.amount || 0
-  // compare entered amount with deposit limit for current coin
-  return Number(depositAmount) > coinLimit
-}
-
 const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const {
     analyticsActions,
@@ -81,17 +64,15 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     displayCoin,
     earnActions,
     earnDepositLimits,
+    earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
     formActions,
     formErrors,
     handleDisplayToggle,
-    interestAccount,
-    interestEDDDepositLimits,
-    interestEDDStatus,
     interestRates,
     invalid,
     payment,
     rates,
-    setShowSupply,
+    stakingLimits,
     submitting,
     values,
     walletCurrency
@@ -99,15 +80,14 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const { coinfig } = window.coins[coin]
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
 
+  const { bondingDays } = stakingLimits[coin]
   const depositAmount = (values && values.depositAmount) || '0'
   const isCustodial =
     values && values?.earnDepositAccount && values.earnDepositAccount.type === 'CUSTODIAL'
   const depositAmountFiat = amountToFiat(true, depositAmount, coin, walletCurrency, rates)
   const maxDepositFiat = maxFiat(earnDepositLimits.maxFiat, walletCurrency)
 
-  const fromAccountType =
-    interestAccount?.type === SwapBaseCounterTypes.CUSTODIAL ? 'TRADING' : 'USERKEY'
-
+  const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
   const depositAmountError =
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
@@ -120,14 +100,10 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     // @ts-ignore
     !payment.isSufficientEthForErc20
 
-  const showEDDDepositLimit =
-    checkIsAmountUnderDepositLimit(interestEDDDepositLimits, coin, depositAmountFiat) &&
-    !interestEDDStatus?.eddSubmitted &&
-    !interestEDDStatus?.eddPassed
+  const isEDDRequired = eddNeeded && !eddPassed && !eddSubmitted
 
   const handleFormSubmit = () => {
     earnActions.submitDepositForm({ formName: FORM_NAME })
-    setShowSupply(showEDDDepositLimit)
 
     analyticsActions.trackEvent({
       key: Analytics.WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED,
@@ -367,12 +343,21 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                 <GreyBlueCartridge
                   data-e2e='interestMin'
                   role='button'
-                  onClick={() =>
+                  onClick={() => {
                     earnActions.handleTransferMinAmountClick({
                       amount: displayCoin ? earnDepositLimits.minCoin : earnDepositLimits.minFiat,
                       formName: FORM_NAME
                     })
-                  }
+
+                    analyticsActions.trackEvent({
+                      key: Analytics.STAKING_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED,
+                      properties: {
+                        amount_currency: coin,
+                        currency: walletCurrency,
+                        from_account_type: fromAccountType
+                      }
+                    })
+                  }}
                 >
                   <FormattedMessage
                     id='modals.interest.deposit.mintransfer.button'
@@ -383,14 +368,21 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             )}
           </AmountError>
         )}
-        {showEDDDepositLimit && (
-          <CustomOrangeCartridge>
-            <Icon name='info' color='orange600' size='18px' style={{ marginRight: '12px' }} />
-            <FormattedMessage
-              id='modals.interest.deposit.edd_need'
-              defaultMessage="Transferring this amount requires further verification. We'll ask you for those details in the next step."
-            />
-          </CustomOrangeCartridge>
+        {isEDDRequired && (
+          <EDDMessageContainer>
+            <Text color='orange700' size='14px' weight={600}>
+              <FormattedMessage
+                id='modals.staking.deposit.edd_need.title'
+                defaultMessage='More information needed'
+              />
+            </Text>
+            <Text color='grey900' size='12px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.deposit.edd_need'
+                defaultMessage="Transferring this amount requires further verification. We'll ask you for those details in the next step."
+              />
+            </Text>
+          </EDDMessageContainer>
         )}
         {!isCustodial && (
           <NetworkFeeContainer>
@@ -465,8 +457,43 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
           <AgreementContainer>
             <Text lineHeight='1.4' size='14px' weight={500}>
               <FormattedMessage
-                id='modals.staking.deposit.agreement2'
-                defaultMessage='I agree to transfer ETH to my Staking Account. I understand that I can’t unstake until withdrawals are enabled on Ethereum and funds are subject to a bonding period before generating rewards.'
+                id='modals.staking.deposit.agreement2_1'
+                defaultMessage='I agree to transfer {coin} to my Staking Account{privateKeyMessage}. I understand that I can’t unstake until withdrawals are enabled on Ethereum{bondingMessage}.'
+                values={{
+                  bondingMessage:
+                    bondingDays > 0 ? (
+                      <FormattedMessage
+                        defaultMessage=' and funds are subject to a bonding period of {bondingDays} {days} before generating rewards'
+                        id='modals.staking.deposit.agreement2.bondingday'
+                        values={{
+                          bondingDays,
+                          days:
+                            bondingDays > 1 ? (
+                              <FormattedMessage
+                                defaultMessage='days'
+                                id='modals.staking.warning.content.subtitle.days'
+                              />
+                            ) : (
+                              <FormattedMessage
+                                defaultMessage='day'
+                                id='modals.staking.warning.content.subtitle.day'
+                              />
+                            )
+                        }}
+                      />
+                    ) : (
+                      ''
+                    ),
+                  coin,
+                  privateKeyMessage: !isCustodial ? (
+                    <FormattedMessage
+                      defaultMessage=' and pay a network fee'
+                      id='modals.staking.deposit.agreement2.privatekey'
+                    />
+                  ) : (
+                    ''
+                  )
+                }}
               />
             </Text>
           </AgreementContainer>

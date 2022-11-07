@@ -69,6 +69,11 @@ class SignupContainer extends React.PureComponent<
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()
     signupActions.initializeSignup()
+    if (window?._SardineContext) {
+      window._SardineContext.updateConfig({
+        flow: 'SIGNUP'
+      })
+    }
   }
 
   onCountryChange = (e: React.ChangeEvent<HTMLInputElement> | undefined, value: string) => {

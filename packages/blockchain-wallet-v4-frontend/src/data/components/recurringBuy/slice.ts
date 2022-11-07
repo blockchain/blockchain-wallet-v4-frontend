@@ -2,7 +2,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from '@core/remote'
-import { ModalOriginType, RecurringBuyOrigins, SetPeriodPayload } from 'data/types'
+import {
+  ModalOriginType,
+  RecurringBuyItemState,
+  RecurringBuyOrigins,
+  SetPeriodPayload
+} from 'data/types'
 
 import {
   RecurringBuyNextPayment,
@@ -46,7 +51,9 @@ const recurringBuySlice = createSlice({
       state.registeredList = Remote.Loading
     },
     registeredListSuccess: (state, action: PayloadAction<RecurringBuyRegisteredList[]>) => {
-      state.registeredList = Remote.Success(action.payload)
+      state.registeredList = Remote.Success(
+        action.payload.filter(({ state }) => state === RecurringBuyItemState.ACTIVE)
+      )
     },
     removeRecurringBuy: (state, action: PayloadAction<RecurringBuyRegisteredList['id']>) => {},
     setActive: (state, action: PayloadAction<RecurringBuyRegisteredList>) => {

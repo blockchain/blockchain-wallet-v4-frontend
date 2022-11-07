@@ -13,6 +13,7 @@ import PasswordBox from 'components/Form/PasswordBox'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/auth/types'
+import { ExchangeErrorCodes } from 'data/types'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { isMobile, media } from 'services/styles'
@@ -43,6 +44,7 @@ const TwoFAWallet = (props: Props) => {
     authActions,
     authType,
     busy,
+    exchangeError,
     formValues,
     handleBackArrowClickWallet,
     invalid,
@@ -57,7 +59,7 @@ const TwoFAWallet = (props: Props) => {
     (walletError.toLowerCase().includes('this account has been locked') ||
       walletError.toLowerCase().includes('account is locked') ||
       walletError.toLowerCase().includes('account deactivated'))
-
+  const sanctionedRegionError = exchangeError && exchangeError === ExchangeErrorCodes.NOT_ACCEPTABLE
   const twoFactorError = walletError && walletError.toLowerCase().includes('authentication code')
   const { product } = productAuthMetadata
   const handleSmsResend = () => {
@@ -114,6 +116,14 @@ const TwoFAWallet = (props: Props) => {
                 </Link>
               )}
               {twoFactorError && <FormError position='absolute'>{walletError}</FormError>}
+              {sanctionedRegionError && (
+                <FormError data-e2e='sanctionsError' position='absolute'>
+                  <FormattedMessage
+                    id='scenes.login.exchange.sactions_error'
+                    defaultMessage='We are unable to offer services in your region at this time.'
+                  />
+                </FormError>
+              )}
               {accountLocked && (
                 <FormError position='absolute'>{walletError?.split('.')[0]}.</FormError>
               )}

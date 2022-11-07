@@ -1,6 +1,12 @@
 import { isEmpty, lift, union } from 'ramda'
 
-import { ExtractSuccess, FiatType, RatesType, RemoteDataType } from '@core/types'
+import {
+  EarnAccountBalanceResponseType,
+  ExtractSuccess,
+  FiatType,
+  RatesType,
+  RemoteDataType
+} from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -26,58 +32,118 @@ export const getEarnInstruments = (state: RootState) => state.components.interes
 export const getIsStakingEnabled = (state: RootState) =>
   selectors.core.walletOptions.getIsStakingEnabled(state) || false
 
+export const getWalletCurrency = (state: RootState): RemoteDataType<string, FiatType> => {
+  return selectors.core.settings.getCurrency(state)
+}
+
+export const getAllRates = (state: RootState) => state.dataPath.coins.rates
 // If the user does not have a rewards balance, move the preferredCoins list to the top of the list (even better if this is done by backend)
 // If the user has a rewards balance, move those instruments to the top of the list and merge with the preferredCoins list
 export const getInstrumentsSortedByBalance = createDeepEqualSelector(
   getEarnInstruments,
   getRewardsAccountBalance,
+  getStakingAccountBalance,
   getIsStakingEnabled,
+  getAllRates,
+  getWalletCurrency,
   (
     instrumentsR: ReturnType<typeof getEarnInstruments>,
-    balancesR: ReturnType<typeof getRewardsAccountBalance>,
-    isStakingEnabledR: ReturnType<typeof getIsStakingEnabled>
+    rewardsBalancesR: ReturnType<typeof getRewardsAccountBalance>,
+    stakingBalancesR: ReturnType<typeof getStakingAccountBalance>,
+    isStakingEnabledR: ReturnType<typeof getIsStakingEnabled>,
+    allRatesR: ReturnType<typeof getAllRates>,
+    walletCurrencyR: ReturnType<typeof getWalletCurrency>
   ) => {
     const transform = (
       instruments: ExtractSuccess<typeof instrumentsR>,
-      balances: ExtractSuccess<typeof balancesR>,
-      isStakingEnabled: ExtractSuccess<typeof isStakingEnabledR>
+      rewardsBalances: ExtractSuccess<typeof rewardsBalancesR>,
+      stakingBalances: ExtractSuccess<typeof stakingBalancesR>,
+      isStakingEnabled: ExtractSuccess<typeof isStakingEnabledR>,
+      allRates: ExtractSuccess<typeof allRatesR>,
+      walletCurrency: ExtractSuccess<typeof walletCurrencyR>
     ) => {
       if (isEmpty(instruments)) return []
-      let preferredCoins: EarnInstrumentsType = [
-        { coin: 'BTC', product: 'Rewards' },
-        { coin: 'ETH', product: 'Rewards' },
-        { coin: 'USDT', product: 'Rewards' },
-        { coin: 'USDC', product: 'Rewards' }
-      ]
-      if (!isEmpty(balances)) {
-        const mappedBalances: EarnInstrumentsType = Object.keys(balances).map((coin) => ({
-          coin,
-          product: 'Rewards'
-        }))
-        preferredCoins = union(mappedBalances, preferredCoins)
+
+      const mapBalancesToPreferredCoins = (
+        balances: EarnAccountBalanceResponseType,
+        preferredCoins: EarnInstrumentsType,
+        product: 'Staking' | 'Rewards'
+      ) => {
+        if (!isEmpty(balances)) {
+          const mappedBalances: EarnInstrumentsType = Object.keys(balances).map((coin) => ({
+            coin,
+            product,
+            rate: allRates[`${coin}-${walletCurrency}`]
+          }))
+          return union(mappedBalances, preferredCoins)
+        }
+
+        return preferredCoins
       }
 
-      // pin staking to first row
-      preferredCoins = [{ coin: 'ETH', product: 'Staking' }, ...preferredCoins]
+      let preferredRewardsCoins: EarnInstrumentsType = [
+        { coin: 'BTC', product: 'Rewards', rate: allRates[`BTC-${walletCurrency}`] },
+        { coin: 'ETH', product: 'Rewards', rate: allRates[`ETH-${walletCurrency}`] },
+        { coin: 'USDT', product: 'Rewards', rate: allRates[`USDT-${walletCurrency}`] },
+        { coin: 'USDC', product: 'Rewards', rate: allRates[`USDC-${walletCurrency}`] }
+      ]
+      let preferredStakingCoins: EarnInstrumentsType = [
+        { coin: 'ETH', product: 'Staking', rate: allRates[`ETH-${walletCurrency}`] }
+      ]
 
-      preferredCoins.forEach(({ coin, product }) => {
-        const coinIndex: number = instruments.findIndex(
-          (instrument) => instrument.coin === coin && instrument.product === product
+      const stakingInstruments = instruments.filter(({ product }) => product === 'Staking')
+
+      const rewardsInstruments = instruments.filter(({ product }) => product === 'Rewards')
+
+      preferredStakingCoins = mapBalancesToPreferredCoins(
+        stakingBalances,
+        preferredStakingCoins,
+        'Staking'
+      )
+
+      preferredRewardsCoins = mapBalancesToPreferredCoins(
+        rewardsBalances,
+        preferredRewardsCoins,
+        'Rewards'
+      )
+
+      preferredStakingCoins.forEach(({ coin }) => {
+        const coinIndex: number = stakingInstruments.findIndex(
+          (instrument) => instrument.coin === coin
         )
         if (coinIndex !== -1) {
-          instruments.splice(coinIndex, 1)
+          stakingInstruments.splice(coinIndex, 1)
+        }
+      })
+      preferredRewardsCoins.forEach(({ coin }) => {
+        const coinIndex: number = rewardsInstruments.findIndex(
+          (instrument) => instrument.coin === coin
+        )
+        if (coinIndex !== -1) {
+          rewardsInstruments.splice(coinIndex, 1)
         }
       })
 
       if (!isStakingEnabled) {
-        preferredCoins = preferredCoins.filter(({ product }) => product !== 'Staking')
-        instruments = instruments.filter(({ product }) => product !== 'Staking')
+        return [...preferredRewardsCoins, ...rewardsInstruments]
       }
 
-      return [...preferredCoins, ...instruments]
+      return [
+        ...preferredStakingCoins,
+        ...stakingInstruments,
+        ...preferredRewardsCoins,
+        ...rewardsInstruments
+      ]
     }
 
-    return lift(transform)(instrumentsR, balancesR, isStakingEnabledR)
+    return lift(transform)(
+      instrumentsR,
+      rewardsBalancesR,
+      stakingBalancesR,
+      isStakingEnabledR,
+      allRatesR,
+      walletCurrencyR
+    )
   }
 )
 
@@ -100,15 +166,18 @@ export const getStakingDepositAddress = (state: RootState) => {
 }
 export const getInterestRates = (state: RootState) => state.components.interest.interestRates
 
-export const getEarnBondingDeposits = (state: RootState) =>
-  state.components.interest.bondingDeposits
-
 export const getStakingRates = (state: RootState) => state.components.interest.stakingRates
 
 export const getInterestTransactionsReport = (state: RootState) =>
   state.components.interest.transactionsReport
 
 export const getEarnTransactions = (state: RootState) => state.components.interest.transactions
+
+export const getPendingStakingTransactions = (state: RootState) =>
+  state.components.interest.pendingStakingTransactions
+
+export const getTotalBondingDeposits = (state: RootState) =>
+  state.components.interest.totalBondingDeposits
 
 export const getEarnDepositLimits = (state: RootState) =>
   state.components.interest.earnDepositLimits
@@ -131,23 +200,18 @@ export const getRewardsTransactionsNextPage = (state: RootState) =>
 export const getStakingTransactionsNextPage = (state: RootState) =>
   state.components.interest.stakingTransactionsNextPage
 
-export const getWalletCurrency = (state: RootState): RemoteDataType<string, FiatType> => {
-  return selectors.core.settings.getCurrency(state)
-}
-
 export const getWithdrawalMinimums = (state: RootState) =>
   state.components.interest.withdrawalMinimums
 
 export const getAfterTransaction = (state: RootState) => state.components.interest.afterTransaction
 
-export const getInterestEDDStatus = (state: RootState) =>
-  state.components.interest.interestEDDStatus
+export const getEarnEDDStatus = (state: RootState) => state.components.interest.earnEDDStatus
 
-export const getInterestEDDWithdrawLimits = (state: RootState) =>
-  state.components.interest.interestEDDWithdrawLimits
+export const getEarnEDDWithdrawLimits = (state: RootState) =>
+  state.components.interest.earnEDDWithdrawLimits
 
-export const getInterestEDDDepositLimits = (state: RootState) =>
-  state.components.interest.interestEDDDepositLimits
+export const getEarnEDDDepositLimits = (state: RootState) =>
+  state.components.interest.rewardsEDDDepositLimits
 
 export const getUnderSanctionsMessage = (state: RootState) =>
   state.components.interest.underSanctionsMessage

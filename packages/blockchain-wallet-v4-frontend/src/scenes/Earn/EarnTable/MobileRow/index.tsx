@@ -3,18 +3,13 @@ import { FormattedMessage } from 'react-intl'
 
 import { CoinType } from '@core/types'
 import { Icon, Text, TooltipHost } from 'blockchain-info-components'
+import { RoundedBadge } from 'components/Badge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as ParentProps, SuccessStateType } from '..'
-import { RewardsTextContainer, StakingTextContainer } from '../EarnTable.model'
-import {
-  AmountContainer,
-  CoinContainer,
-  RateContainer,
-  RightContainer,
-  Wrapper
-} from './MobileRow.model'
+import { RewardsTextContainer, StakingTextContainer, Tag } from '../EarnTable.model'
+import { AmountContainer, CoinContainer, RightContainer, Row, Wrapper } from './MobileRow.model'
 
 const MobileRow = ({
   coin,
@@ -35,33 +30,48 @@ const MobileRow = ({
     ? stakingAccountBalance && stakingAccountBalance[coin]
     : interestAccountBalance && interestAccountBalance[coin]
   const accountBalanceBase = account ? account.balance : 0
-  const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
-  const stakingEligibleCoin = stakingEligible[coin] && stakingEligible[coin]?.eligible
-
+  const hasAccountBalance = accountBalanceBase > 0
+  const isInterestCoinEligible = interestEligible[coin] && interestEligible[coin]?.eligible
+  const isStakingCoinEligible = stakingEligible[coin] && stakingEligible[coin]?.eligible
+  const isCoinEligible = isStaking ? !isStakingCoinEligible : !isInterestCoinEligible
   return (
     <Wrapper
       onClick={() => handleClick(coin, isStaking)}
-      disabled={
-        !isGoldTier ||
-        (accountBalanceBase === 0 && (isStaking ? !stakingEligibleCoin : !interestEligibleCoin))
-      }
+      disabled={!isGoldTier || (!hasAccountBalance && isCoinEligible)}
     >
       <Icon name={coin} color={coin} size='32px' />
       <RightContainer>
         <CoinContainer>
-          <Text color='grey900' size='16px' weight={600}>
-            {displayName}
-          </Text>
-          <RateContainer>
-            <Text color='grey700' size='14px' weight={500}>
-              <FormattedMessage
-                defaultMessage='Earn {interestRate}%'
-                id='scenes.interest.earntable.mobilerow.earn'
-                values={{
-                  interestRate: interestRates[coin]
-                }}
-              />
+          <Row>
+            <Text color='grey900' size='16px' weight={600}>
+              {displayName}
             </Text>
+            {isStaking && (
+              <RoundedBadge>
+                <FormattedMessage defaultMessage='New' id='copy.new' />
+              </RoundedBadge>
+            )}
+          </Row>
+          <Row>
+            {hasAccountBalance ? (
+              <Tag>
+                <FormattedMessage
+                  defaultMessage='Earning {earnRate}%'
+                  id='scene.earn.earnrate'
+                  values={{ earnRate: interestRates[coin] }}
+                />
+              </Tag>
+            ) : (
+              <Text color='grey700' size='14px' weight={500}>
+                <FormattedMessage
+                  defaultMessage='Earn {interestRate}%'
+                  id='scenes.interest.earntable.mobilerow.earn'
+                  values={{
+                    interestRate: interestRates[coin]
+                  }}
+                />
+              </Text>
+            )}
             {isStaking ? (
               <TooltipHost id='earntable.staking.tooltip'>
                 <StakingTextContainer>
@@ -71,13 +81,15 @@ const MobileRow = ({
                 </StakingTextContainer>
               </TooltipHost>
             ) : (
-              <RewardsTextContainer>
-                <Text color='grey600' size='12px' weight={600}>
-                  {product}
-                </Text>
-              </RewardsTextContainer>
+              <TooltipHost id='earntable.rewards.tooltip'>
+                <RewardsTextContainer>
+                  <Text color='grey600' size='12px' weight={600}>
+                    {product}
+                  </Text>
+                </RewardsTextContainer>
+              </TooltipHost>
             )}
-          </RateContainer>
+          </Row>
         </CoinContainer>
         <AmountContainer>
           <FiatDisplay
