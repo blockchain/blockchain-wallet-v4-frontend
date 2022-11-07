@@ -191,7 +191,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
+  const registerCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
     try {
       const { cvv, paymentMethodTokens } = payload
       const userDataR = selectors.modules.profile.getUserData(yield select())
@@ -1048,7 +1048,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const createBSCard = function* ({ payload }: ReturnType<typeof A.createCard>) {
+  const createCard = function* ({ payload }: ReturnType<typeof A.createCard>) {
     try {
       yield put(A.createCardLoading())
       const currency = S.getFiatCurrency(yield select())
@@ -1064,7 +1064,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!address) throw new Error(BS_ERROR.NO_ADDRESS)
 
-      const card = yield call(api.createBSCard, {
+      const card = yield call(api.createCard, {
         address,
         currency,
         email: userData.email,
@@ -2011,6 +2011,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
+    // FIXME: This call is causing the modal to be very slow, abstract this to somewhere other than here
     yield put(actions.custodial.fetchProductEligibilityForUser())
     yield take([
       custodialActions.fetchProductEligibilityForUserSuccess.type,
@@ -2038,6 +2039,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
+    // FIXME: This call is causing the modal to be very slow, abstract this to somewhere other than here
     const completedKYC = yield call(getExtraKYCCompletedStatus, {
       api,
       context: ExtraKYCContext.TRADING,
@@ -2235,8 +2237,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     confirmBSFundsOrder,
     confirmOrder,
     confirmOrderPoll,
-    createBSCard,
     createBSOrder,
+    createCard,
     deleteBSCard,
     fetchAccumulatedTrades,
     fetchBSBalances,
@@ -2265,7 +2267,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     pollBSBalances,
     pollBSCard,
     pollBSOrder,
-    registerBSCard,
+    registerCard,
     setStepChange,
     showModal,
     switchFix

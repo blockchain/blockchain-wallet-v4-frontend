@@ -1,5 +1,6 @@
-import React, { RefObject, useCallback } from 'react'
+import React, { RefObject, useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -7,7 +8,9 @@ import { Card } from 'components/Card'
 import { Expanded, Flex } from 'components/Flex'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Padding } from 'components/Padding'
-import { ModalOriginType } from 'data/types'
+import { selectors } from 'data'
+import { FORMS_BS_BILLING_ADDRESS } from 'data/components/buySell/model'
+import { BSBillingAddressFormValuesType, ModalOriginType } from 'data/types'
 
 import { Props as OwnProps } from '.'
 

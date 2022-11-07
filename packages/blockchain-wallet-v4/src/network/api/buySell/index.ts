@@ -78,7 +78,7 @@ export default ({
       url: nabuUrl
     })
 
-  const createBSCard = ({
+  const createCard = ({
     address,
     currency,
     email,
@@ -562,9 +562,9 @@ export default ({
     checkCardSuccessRate,
     confirmBSOrder,
     createAddCardToken,
-    createBSCard,
     createBSOrder,
     createBankAccountLink,
+    createCard,
     createFiatDeposit,
     createRecurringBuy,
     deleteRecurringBuy,
