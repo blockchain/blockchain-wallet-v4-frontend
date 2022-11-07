@@ -28,6 +28,8 @@ const APP_ENV = process.env.APP_ENV_LOCAL
 // csp nonce for local development
 const CSP_NONCE = '2726c7f26c'
 
+console.log('APP_ENV', APP_ENV)
+
 // gets and logs build config
 const getAndLogEnvConfig = () => {
   let envConfig = {}
@@ -54,6 +56,7 @@ const getAndLogEnvConfig = () => {
       chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
     )
     console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL))
+    console.log(`${chalk.cyan('App Environment')}: ${chalk.blue(APP_ENV)}`)
   }
 
   return { envConfig, isSslEnabled }
@@ -254,7 +257,8 @@ const buildDevServerConfig = (
           'https://static.zdassets.com',
           'https://ekr.zdassets.com',
           'ws://localhost:8080',
-          'wss://localhost:8080'
+          'wss://localhost:8080',
+          APP_ENV !== 'production' ? 'https://api.blockchain.info' : null
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
