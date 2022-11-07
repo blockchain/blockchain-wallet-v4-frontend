@@ -9,13 +9,6 @@ import { actions, selectors } from 'data'
 import UploadDocuments from './template'
 
 class UploadDocumentsContainer extends Component {
-  static propTypes = {
-    data: PropTypes.object,
-    displayError: PropTypes.func.isRequired,
-    uploadDocuments: PropTypes.func.isRequired,
-    uploaded: PropTypes.object
-  }
-
   constructor(props) {
     super(props)
     this.dropzone = null
@@ -29,7 +22,7 @@ class UploadDocumentsContainer extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchUploadData(this.state.token)
+    this.props.fetchUploadData({ token: this.state.token })
   }
 
   onSubmit = () => {
@@ -45,7 +38,7 @@ class UploadDocumentsContainer extends Component {
         )
         filesLoaded.push(Base64.encode(fileArray))
         if (filesLoaded.length >= this.state.files.length) {
-          this.props.uploadDocuments(token, filesLoaded, redirectUrl)
+          this.props.uploadDocuments({ files: filesLoaded, redirectUrl, token })
         }
       }
       fileReader.readAsArrayBuffer(file)
@@ -91,7 +84,6 @@ class UploadDocumentsContainer extends Component {
       NotAsked: (val) => ({ loading: false }),
       Success: (val) => ({ loading: false })
     })
-
     return (
       <UploadDocuments
         data={this.props.data}
@@ -118,5 +110,14 @@ const mapDispatchToProps = (dispatch) => ({
   fetchUploadData: bindActionCreators(actions.components.uploadDocuments.fetchData, dispatch),
   uploadDocuments: bindActionCreators(actions.components.uploadDocuments.upload, dispatch)
 })
+
+UploadDocumentsContainer.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.object,
+  displayError: PropTypes.func.isRequired,
+  uploadDocuments: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  uploaded: PropTypes.object
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(UploadDocumentsContainer)

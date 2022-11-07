@@ -43,6 +43,7 @@ const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
+const UploadDocumentsForDebitCards = React.lazy(() => import('./UploadDocumentsForDebitCards'))
 const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Success'))
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
@@ -182,6 +183,10 @@ const App = ({
                             <AuthLayout
                               path='/upload-document/:token'
                               component={UploadDocuments}
+                            />
+                            <AuthLayout
+                              path='/upload-document-card/:token'
+                              component={UploadDocumentsForDebitCards}
                             />
                             <AuthLayout
                               path='/wallet'
