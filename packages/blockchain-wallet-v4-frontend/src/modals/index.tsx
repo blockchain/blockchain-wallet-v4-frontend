@@ -139,6 +139,9 @@ const Modals = (props: Props) => {
   return (
     <Suspense fallback={null}>
       <>
+        {props.modals.find((modal) => modal.type === ModalName.SIMPLE_BUY_MODAL) ? (
+          <BuySell />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.ADD_BANK_PLAID_MODAL) ? (
           <AddBankPlaid />
         ) : null}
@@ -283,9 +286,6 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SIGN_MESSAGE_MODAL) ? (
           <SignMessage />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.SIMPLE_BUY_MODAL) ? (
-          <BuySell />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
