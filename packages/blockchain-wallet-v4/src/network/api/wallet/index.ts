@@ -74,10 +74,8 @@ export default ({ get, post, rootUrl }) => {
     // @ts-ignore
     const activeBech32 = propOr([], 'bech32', context).join('|')
     const data = {
-      active:
-        'xpub6C4WtAisoDGyYGi1njF2behq9FPiqzgRdoFguwwKsGNXoqAhy6fJ9G8zpAJ7fZdkeYMsFyTfxRfuRGuBkj92JwQsDP9jysWuhZU8s5Qjgw3',
-      activeBech32:
-        'xpub6C4WtAisoDGyYGi1njF2behq9FPiqzgRdoFguwwKsGNXoqAhy6fJ9G8zpAJ7fZdkeYMsFyTfxRfuRGuBkj92JwQsDP9jysWuhZU8s5Qjgw3',
+      active,
+      activeBech32,
       ct: new Date().getTime(),
       filter,
       format: 'json',
