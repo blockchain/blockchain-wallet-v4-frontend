@@ -13,6 +13,7 @@ import httpService from './http'
 import kvStore from './kvStore'
 import kyc from './kyc'
 import misc from './misc'
+import networkConfig from './networkConfig'
 import nfts from './nfts'
 import profile from './profile'
 import rates from './rates'
@@ -75,6 +76,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       ...http
     }),
     ...misc({ apiUrl, ...http }),
+    ...networkConfig({ apiUrl, authorizedGet: authorizedHttp.get }),
     ...nfts({ apiUrl, openSeaApi, ...http }),
     ...profile({
       authorizedGet: authorizedHttp.get,
@@ -130,6 +132,7 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof eth> &
   ReturnType<typeof kyc> &
   ReturnType<typeof misc> &
+  ReturnType<typeof networkConfig> &
   ReturnType<typeof nfts> &
   ReturnType<typeof profile> &
   ReturnType<typeof referral> &
