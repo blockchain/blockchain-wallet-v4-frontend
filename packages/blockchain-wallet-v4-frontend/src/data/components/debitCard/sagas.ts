@@ -67,11 +67,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const getCardTransactions = function* () {
+  const getCardTransactions = function* (action: ReturnType<typeof A.getCardTransactions>) {
     const selectedCard = yield select(selectors.components.debitCard.getCurrentCardSelected)
+
     yield put(A.getCardTransactionsLoading())
+
     try {
-      const data = yield call(api.getDCTransactions, selectedCard.id)
+      const data = yield call(api.getDCTransactions, {
+        cardId: selectedCard.id,
+        limit: action.payload.limit
+      })
       yield put(A.getCardTransactionsSuccess(data))
     } catch (e) {
       yield put(A.getCardTransactionsFailure(e))
@@ -99,7 +104,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         yield call(getCurrentCardAccount)
 
-        yield call(getCardTransactions)
+        yield put(A.getCardTransactions({ limit: 4 }))
       }
     } catch (e) {
       console.error('Failed to get account cards', errorHandler(e))

@@ -94,7 +94,7 @@ export default () => {
           break
         case contains('/debit-card', pathname):
           yield put(actions.components.debitCard.getCurrentCardAccount())
-          yield put(actions.components.debitCard.getCardTransactions())
+          yield put(actions.components.debitCard.getCardTransactions({ limit: 4 }))
           break
         case contains('/settings/general', pathname):
           yield put(actions.components.buySell.fetchCards(true))

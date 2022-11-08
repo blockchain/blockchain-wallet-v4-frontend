@@ -59,7 +59,7 @@ const debitCardSlice = createSlice({
     createCardSuccess: (state, action: PayloadAction<DebitCardType>) => {
       state.cardCreationData = Remote.Success(action.payload)
     },
-    getCardTransactions: (state) => {},
+    getCardTransactions: (state, action: PayloadAction<{ limit: number }>) => {},
     getCardTransactionsFailure: (state, action: PayloadAction<string>) => {
       state.transactions = Remote.Failure(action.payload)
     },

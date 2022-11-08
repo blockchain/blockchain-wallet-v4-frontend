@@ -28,7 +28,7 @@ import signMessage from './signMessage/reducers'
 import { swapSliceReducer as swap } from './swap/slice'
 import { taxCenterReducer } from './taxCenter/slice'
 import { reducer as termsAndConditions } from './termsAndConditions/slice'
-import uploadDocuments from './uploadDocuments/reducers'
+import { reducer as uploadDocuments } from './uploadDocuments/slice'
 import veriff from './veriff/reducers'
 import { withdrawReducer as withdraw } from './withdraw/slice'
 

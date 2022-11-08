@@ -1673,7 +1673,7 @@
   "modals.simplebuy.paymentmethods": "Métodos de pago",
   "modals.simplebuy.payusing": "Pagar con",
   "modals.simplebuy.processing": "Procesando...",
-  "modals.simplebuy.recurringbuy.success": "Compraremos {amount} de Bitcoin {frequency} al precio de mercado de ese momento. Puede cancelar esta compra recurrente siempre que lo desee.",
+  "modals.simplebuy.recurringbuy.success": "Compraremos {amount} de {coin} {frequency} al precio de mercado de ese momento. Puede cancelar esta compra recurrente siempre que lo desee.",
   "modals.simplebuy.refresh": "Actualizar",
   "modals.simplebuy.rejected.bank_failed": "Intente realizar de nuevo la compra. Si este problema continúa,",
   "modals.simplebuy.rejected.blocked_by_laws": "Bloqueado por leyes locales",

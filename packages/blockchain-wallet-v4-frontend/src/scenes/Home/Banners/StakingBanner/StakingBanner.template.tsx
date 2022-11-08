@@ -5,9 +5,7 @@ import {
   Button,
   Flex,
   IconCloseCircle,
-  IconRewardsCircle,
   Padding,
-  PaletteColors,
   SemanticColors
 } from '@blockchain-com/constellation'
 

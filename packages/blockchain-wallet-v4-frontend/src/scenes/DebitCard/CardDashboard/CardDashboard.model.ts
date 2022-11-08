@@ -30,6 +30,13 @@ export const BoxRowWithBorder = styled(BoxRow)`
   }
 `
 
+export const BoxRowHeader = styled(BoxRow)`
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
+
+  align-items: center;
+  justify-content: space-between;
+`
+
 export const BoxRowItemTitle = styled(Text)`
   color: ${(props) => props.theme.grey900};
   font-size: 1rem;
