@@ -32,7 +32,7 @@ const RecurringBuys = ({ coin }: { coin: CoinType }) => {
       {recurringBuysByCoin.map((recurringBuy) => (
         <SavedRecurringBuy
           key={recurringBuy.id}
-          action={'BUY' as ActionEnum}
+          action={ActionEnum.BUY}
           amount={`${Exchange.getSymbol(recurringBuy.inputCurrency)}${convertBaseToStandard(
             recurringBuy.inputCurrency,
             recurringBuy.inputValue
