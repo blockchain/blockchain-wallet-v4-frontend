@@ -114,6 +114,7 @@ const walletSync =
       let encryptedWallet = Wrapper.toEncJSON(nextWallet)
       const guid = selectors.wallet.getGuid(state)
       const email = selectors.settings.getEmail(state).getOrElse('')
+      const secureUpdate = selectors.walletOptions.getSecurePayloadUpdate(state).getOrElse(false)
       const sessionToken = sessionSelectors.getWalletSessionId(state, guid, email)
       if (syncPubKeys) {
         /**
@@ -129,7 +130,11 @@ const walletSync =
       }
       return encryptedWallet
         .map(handleChecksum)
-        .chain(promiseToTask((data) => api.savePayload(data, sessionToken)))
+        .chain(
+          promiseToTask((data) =>
+            secureUpdate ? api.secureSavePayload(data, sessionToken) : api.savePayload(data)
+          )
+        )
         .fork(
           compose(store.dispatch, A.walletSync.syncError),
           compose(store.dispatch, A.walletSync.syncSuccess)

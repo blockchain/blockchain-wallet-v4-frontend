@@ -91,7 +91,8 @@ export default ({ api, networks }) => {
     email,
     forceVerifyEmail = false,
     language,
-    password
+    password,
+    sessionToken
   }) {
     const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
@@ -105,7 +106,7 @@ export default ({ api, networks }) => {
       undefined,
       networks.btc
     )
-    yield call(api.createWallet, email, captchaToken, wrapper, forceVerifyEmail)
+    yield call(api.createWallet, email, captchaToken, wrapper, forceVerifyEmail, sessionToken)
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 

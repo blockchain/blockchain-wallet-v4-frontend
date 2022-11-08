@@ -61,6 +61,7 @@
         "rewardsFlowUnderSwapEnabled": true,
         "rewardsPromoBanner": true,
         "secureEmailSmsUpdate": true,
+        "securePayloadUpdate": true,
         "showSilverRevamp": true,
         "showTermsAndConditions": false,
         "stakingPromoBanner": true,

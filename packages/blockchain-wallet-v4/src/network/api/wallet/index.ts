@@ -30,15 +30,23 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const savePayload = (data, sessionToken) =>
+  const savePayload = (data) =>
     post({
       data: mergeRight({ format: 'plain', method: 'update' }, data),
+      endPoint: '/wallet',
+
+      url: rootUrl
+    }).then(() => data.checksum)
+
+  const secureSavePayload = (data, sessionToken) =>
+    post({
+      data: mergeRight({ format: 'plain', method: 'secure-update' }, data),
       endPoint: '/wallet',
       sessionToken,
       url: rootUrl
     }).then(() => data.checksum)
 
-  const createPayload = (email, captchaToken, forceVerifyEmail, data) =>
+  const createPayload = (email, captchaToken, forceVerifyEmail, sessionToken, data) =>
     post({
       data: mergeRight(
         {
@@ -52,6 +60,7 @@ export default ({ get, post, rootUrl }) => {
         data
       ),
       endPoint: '/wallet',
+      sessionToken,
       url: rootUrl
     }).then(() => data.checksum)
 
@@ -288,6 +297,7 @@ export default ({ get, post, rootUrl }) => {
     resendSmsLoginCode,
     reset2fa,
     savePayload,
+    secureSavePayload,
     sendSecureChannel,
     triggerMnemonicViewedAlert,
     triggerNonCustodialSendAlert,
