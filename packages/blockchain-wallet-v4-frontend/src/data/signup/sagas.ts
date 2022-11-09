@@ -211,14 +211,22 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.signup.restoreLoading())
       yield put(actions.signup.setRegisterEmail(email))
       yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
+      const secureUpdate = (yield select(
+        selectors.core.walletOptions.getSecurePayloadUpdate
+      )).getOrElse(false)
+      const sessionToken = yield call(api.obtainSessionToken)
       yield call(coreSagas.wallet.restoreWalletSaga, {
         captchaToken,
         email,
         kvCredentials,
         language,
         mnemonic,
-        password
+        password,
+        secureUpdate,
+        sessionToken
       })
+      const guid = yield select(selectors.core.wallet.getGuid)
+      yield put(actions.session.saveWalletSession({ email, guid, id: sessionToken }))
       yield call(loginRoutineSaga, {
         email,
         firstLogin: true,

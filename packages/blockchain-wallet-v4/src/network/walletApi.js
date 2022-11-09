@@ -72,6 +72,11 @@ const createWalletApi = (
     Wrapper.toEncJSON(wrapper).chain(promiseToTask(ApiPromise.savePayload))
   const saveWallet = compose(taskToPromise, saveWalletTask)
 
+  // Save payload call with session token
+  // const secureSaveWalletTask = (sessionToken) => (wrapper) =>
+  //   Wrapper.toEncJSON(wrapper).chain(promiseToTask(ApiPromise.savePayload))
+  // const securesaveWallet = compose(taskToPromise, secureSaveWalletTask(sesssionToken))
+
   // **********
 
   const createWalletTask = (email, captchaToken, forceVerifyEmail, sessionToken) => (wrapper) => {
@@ -97,6 +102,7 @@ const createWalletApi = (
     fetchWalletWithSharedKey: future(fetchWalletWithSharedKey),
     fetchWalletWithTwoFactor: future(fetchWalletWithTwoFactorTask),
     saveWallet: future(saveWallet)
+    // secureSaveWallet: future(secureSaveWallet)
   }
 }
 
