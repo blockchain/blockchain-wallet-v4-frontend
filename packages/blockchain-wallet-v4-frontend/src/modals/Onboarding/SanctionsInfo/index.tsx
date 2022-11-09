@@ -72,7 +72,9 @@ const SanctionsInfo = (props: Props) => {
     }, duration)
   }
 
-  const messageToShow = props?.message ?? null
+  const messageToShow = props.products?.notifications?.length
+    ? props.products?.notifications[0].message
+    : props?.message ?? null
 
   return (
     <Flyout {...props} onClose={handleClose} isOpen={show} data-e2e='sanctionsInfoModal'>
@@ -109,7 +111,7 @@ const SanctionsInfo = (props: Props) => {
                     {messageToShow || (
                       <FormattedMessage
                         id='modals.sanctions_notifications.description'
-                        defaultMessage='Currently, trading is not allowed for balances over €10.000 due to regulatory sanctions. However, you can still hold or withdraw.'
+                        defaultMessage='Currently, trading is not allowed due to regulatory sanctions. 6666'
                       />
                     )}
                   </RowItemDescription>
