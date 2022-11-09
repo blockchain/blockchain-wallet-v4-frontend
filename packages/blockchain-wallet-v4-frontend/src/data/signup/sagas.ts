@@ -8,6 +8,7 @@ import authSagas from 'data/auth/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 import {
+  AccountRecoveryApprovalStatusType,
   AccountRecoveryMagicLinkData,
   Analytics,
   AuthMagicLink,
@@ -449,12 +450,12 @@ export default ({ api, coreSagas, networks }) => {
       //   return true
       // }
 
-      if (response?.status === 'true') {
+      if (response?.status === AccountRecoveryApprovalStatusType.APPROVED) {
         yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
         yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS))
         return true
       }
-      if (response?.request_denied) {
+      if (response?.status === AccountRecoveryApprovalStatusType.INVALID) {
         yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.FORGOT_PASSWORD_EMAIL))
         yield put(actions.alerts.displayError(C.VERIFY_DEVICE_FAILED, undefined, true))
         return false

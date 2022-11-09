@@ -62,6 +62,12 @@ export type AccountRecoveryMagicLinkData = {
   userId?: string
 }
 
+export enum AccountRecoveryApprovalStatusType {
+  APPROVED = 'APPROVED',
+  INVALID = 'INVALID',
+  NOT_APPROVED = 'NOT_APPROVED'
+}
+
 export type MetadataRestoreType = any
 
 export type RegisteringFailureType = undefined
