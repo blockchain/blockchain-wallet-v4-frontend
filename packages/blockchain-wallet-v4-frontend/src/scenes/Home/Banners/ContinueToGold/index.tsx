@@ -96,7 +96,7 @@ const ContinueToGold = ({ cacheActions, verifyIdentity }: Props) => {
         <IconCloseCircleV2
           label='close'
           color={PaletteColors['grey-600']}
-          data-e2e='sanctionsInfoCloseModalIcon'
+          data-e2e='continueToGoldCloseModalIcon'
           size='medium'
         />
       </CloseLink>
