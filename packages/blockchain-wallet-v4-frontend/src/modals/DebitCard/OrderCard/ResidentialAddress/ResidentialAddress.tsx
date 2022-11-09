@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { PaletteColors } from '@blockchain-com/constellation'
+import { PaletteColors, SpinningLoader } from '@blockchain-com/constellation'
 import axios from 'axios'
 import { validate } from 'postal-codes-js'
 // @ts-ignore
@@ -45,6 +45,8 @@ import { debounce } from 'utils/helpers'
 import AddressItem from '../../../Onboarding/KycVerification/UserAddress/AddressItem'
 
 const { RESIDENTIAL_ADDRESS_FORM } = model.components.debitCard
+
+const MIN_SEARCH_CHARACTERS = 3
 
 const countryUsesPostalCode = (countryCode) => {
   return path([countryCode, 'postalCodeFormat'], postalCodes)
@@ -138,6 +140,10 @@ const EditIconWrapper = styled(Flex)`
   height: 42px;
 `
 
+const SmallSpinnerWrapper = styled.div`
+  margin-top: 10px;
+`
+
 type Props = {
   handleClose: () => void
 }
@@ -169,6 +175,7 @@ const ResidentialAddress = ({
   const [userStartedSearch, setUserStartedSearch] = useState<boolean>(false)
   const [suggestedAddresses, setSuggestedAddresses] = useState<Array<LocationAddress>>([])
   const [searchText, setSearchText] = useState('')
+  const [isAddressLoading, setIsAddressLoading] = useState(false)
 
   const canSubmitAddress =
     (!isAddressSelected && enterAddressManually) || (isAddressSelected && !enterAddressManually)
@@ -253,6 +260,17 @@ const ResidentialAddress = ({
 
   const findUserAddresses = async (text: string, id?: string) => {
     if (residentialAddress) {
+      if (text.length === 0) {
+        setSuggestedAddresses([])
+        return
+      }
+      if (text.length < MIN_SEARCH_CHARACTERS) {
+        return
+      }
+      if (suggestedAddresses.length) {
+        setSuggestedAddresses([])
+      }
+      setIsAddressLoading(true)
       let addresses = []
       const searchQuery = queryString.stringify({
         country_code: residentialAddress.country,
@@ -268,6 +286,7 @@ const ResidentialAddress = ({
       }
 
       setSuggestedAddresses(addresses)
+      setIsAddressLoading(false)
     }
   }
 
@@ -353,7 +372,7 @@ const ResidentialAddress = ({
                         name='homeAddress'
                         placeholder='Start typing to find your home address'
                         component={TextBox}
-                        onChange={debounce(findUserAddress, 200)}
+                        onChange={debounce(findUserAddress, 400)}
                       />
                     </FormItem>
                   </FormGroup>
@@ -373,6 +392,11 @@ const ResidentialAddress = ({
                     </LinkButton>
                   )}
 
+                {useLoqateServiceEnabled && isAddressLoading && (
+                  <SmallSpinnerWrapper>
+                    <SpinningLoader variant='color' size='small' />
+                  </SmallSpinnerWrapper>
+                )}
                 {useLoqateServiceEnabled &&
                   !isAddressSelected &&
                   !enterAddressManually &&

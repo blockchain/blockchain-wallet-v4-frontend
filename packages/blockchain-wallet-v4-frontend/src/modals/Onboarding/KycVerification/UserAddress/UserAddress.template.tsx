@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { Flex } from '@blockchain-com/constellation'
+import { Flex, SpinningLoader } from '@blockchain-com/constellation'
 import { validate } from 'postal-codes-js'
 // @ts-ignore
 import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
@@ -24,7 +24,7 @@ import TextBox from 'components/Form/TextBox'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { CountryType, StateType } from 'data/types'
-import { useCountryList, useUSStateList } from 'hooks'
+import { useCountryList, useRemote, useUSStateList } from 'hooks'
 import { countryUsesZipcode, required } from 'services/forms'
 import { debounce } from 'utils/helpers'
 
@@ -83,7 +83,10 @@ const getStateElements = (states: Array<StateType>) => [
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
   const { data: supportedUSStates } = useUSStateList()
-  const userAddresses = useSelector(selectors.components.identityVerification.getUserAddresses)
+  // const userAddresses = useSelector(selectors.components.identityVerification.getUserAddresses)
+  const { data: userAddresses, isLoading } = useRemote(
+    selectors.components.identityVerification.getUserAddresses
+  )
   const userRetrievedAddress = useSelector(
     selectors.components.identityVerification.getUserRetrieveAddress
   )
@@ -147,6 +150,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   )
 
   const findUserAddresses = (text: string, id?: string) => {
+    if (text.length < 3) {
+      return
+    }
     dispatch(actions.components.identityVerification.fetchUserAddress({ countryCode, id, text }))
   }
 
@@ -217,7 +223,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     name='homeAddress'
                     placeholder='Start typing to find your home address'
                     component={TextBox}
-                    onChange={debounce(findUserAddress, 200)}
+                    onChange={debounce(findUserAddress, 400)}
                   />
                 </FormItem>
               </FormGroup>
@@ -234,11 +240,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </LinkButton>
             )}
 
+            {useLoqateServiceEnabled && isLoading && (
+              <SpinningLoader variant='color' size='small' />
+            )}
+
             {useLoqateServiceEnabled &&
               !isAddressSelected &&
               !enterAddressManually &&
-              userAddresses.data?.addresses?.length > 0 &&
-              userAddresses.data?.addresses.map((address) => (
+              userAddresses &&
+              userAddresses?.addresses?.length > 0 &&
+              userAddresses?.addresses.map((address) => (
                 <AddressItem
                   address={address}
                   key={address.id}

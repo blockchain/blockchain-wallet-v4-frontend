@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
+import { SpinningLoader } from '@blockchain-com/constellation'
 import axios from 'axios'
 import { validate } from 'postal-codes-js'
 // @ts-ignore
@@ -37,6 +38,8 @@ import { debounce } from 'utils/helpers'
 import AddressItem from '../../Onboarding/KycVerification/UserAddress/AddressItem'
 import { Props as OwnProps, SuccessStateType } from '.'
 import CountrySelect from './CountrySelect'
+
+const MIN_SEARCH_CHARACTERS = 3
 
 const { FORMS_BS_BILLING_ADDRESS } = model.components.buySell
 
@@ -77,6 +80,10 @@ export const LinkButton = styled(Text)`
   cursor: pointer;
 `
 
+const SmallSpinnerWrapper = styled.div`
+  margin-top: 10px;
+`
+
 export type Props = OwnProps & SuccessStateType
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
@@ -87,6 +94,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [userStartedSearch, setUserStartedSearch] = useState<boolean>(false)
   const [suggestedAddresses, setSuggestedAddresses] = useState<Array<LocationAddress>>([])
   const [searchText, setSearchText] = useState('')
+  const [isAddressLoading, setIsAddressLoading] = useState(false)
   const {
     data: { api }
   } = useSelector(selectors.core.walletOptions.getDomains)
@@ -113,6 +121,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)
 
   const findUserAddresses = async (text: string, id?: string) => {
+    if (text.length === 0) {
+      setSuggestedAddresses([])
+      return
+    }
+
+    if (text.length < MIN_SEARCH_CHARACTERS) {
+      return
+    }
+
+    setIsAddressLoading(true)
+
     let addresses = []
     const searchQuery = queryString.stringify({
       country_code: countryCode,
@@ -128,6 +147,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     }
 
     setSuggestedAddresses(addresses)
+    setIsAddressLoading(false)
   }
 
   const findUserAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -212,7 +232,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       name='homeAddress'
                       placeholder='Start typing to find your home address'
                       component={TextBox}
-                      onChange={debounce(findUserAddress, 200)}
+                      onChange={debounce(findUserAddress, 400)}
                     />
                   </FormItem>
                 </FormGroup>
@@ -227,6 +247,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     />
                   </Text>
                 </LinkButton>
+              )}
+
+              {props.useLoqateServiceEnabled && isAddressLoading && (
+                <SmallSpinnerWrapper>
+                  <SpinningLoader variant='color' size='small' />
+                </SmallSpinnerWrapper>
               )}
 
               {props.useLoqateServiceEnabled &&
