@@ -111,7 +111,7 @@ const SanctionsInfo = (props: Props) => {
                     {messageToShow || (
                       <FormattedMessage
                         id='modals.sanctions_notifications.description'
-                        defaultMessage='Currently, trading is not allowed due to regulatory sanctions. 6666'
+                        defaultMessage='Currently, trading is not allowed due to regulatory sanctions.'
                       />
                     )}
                   </RowItemDescription>
