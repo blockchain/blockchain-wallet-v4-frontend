@@ -67,6 +67,11 @@ const CoinTitle = styled.div`
 const TitleActionContainer = styled.div`
   display: flex;
 
+  & > a {
+    text-decoration: none;
+    margin-right: 8px;
+  }
+
   ${media.mobile`
     margin-top: 8px;
     width: 100%;
@@ -119,7 +124,7 @@ const ExplainerText = styled(Text)`
 
 const StyledButton = styled(Button)`
   &:not(:last-child) {
-    margin-right: 0.5rem;
+    margin-right: 8px;
   }
 
   ${media.mobile`
