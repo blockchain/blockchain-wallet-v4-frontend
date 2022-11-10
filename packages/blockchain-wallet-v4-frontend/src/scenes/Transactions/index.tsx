@@ -37,6 +37,7 @@ import { media } from 'services/styles'
 
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
+import RecurringBuys from './RecurringBuys'
 import { getData } from './selectors'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
@@ -304,32 +305,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
               {coinfig.type.name !== 'FIAT' && <CoinPerformance coin={coin} />}
             </StatsContainer>
           </Header>
-          <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
-            {isRecurringBuy &&
-              recurringBuys.map((recurringBuy) => (
-                <SavedRecurringBuy
-                  key={recurringBuy.id}
-                  action={'BUY' as ActionEnum}
-                  amount={`${Exchange.getSymbol(recurringBuy.inputCurrency)}${convertBaseToStandard(
-                    recurringBuy.inputCurrency,
-                    recurringBuy.inputValue
-                  )}`}
-                  coin={recurringBuy.destinationCurrency}
-                  nextPayment={recurringBuy.nextPayment}
-                  onClick={() => {
-                    this.props.recurringBuyActions.setActive(recurringBuy)
-                    this.props.recurringBuyActions.showModal({
-                      origin: RecurringBuyOrigins.COIN_PAGE
-                    })
-                    this.props.recurringBuyActions.setStep({
-                      origin: RecurringBuyOrigins.COIN_PAGE,
-                      step: RecurringBuyStepType.DETAILS
-                    })
-                  }}
-                  period={recurringBuy.period as RecurringBuyPeriods}
-                />
-              ))}
-          </div>
+          <RecurringBuys coin={coin as CoinType} />
           {(hasTxResults || isSearchEntered) && coinfig.type.name !== 'FIAT' && (
             <TransactionFilters coin={coin as CoinType} />
           )}
