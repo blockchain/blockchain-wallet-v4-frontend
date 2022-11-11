@@ -8,7 +8,6 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Exchange } from '@core'
 import {
   CoinType,
   EarnEligibleType,
@@ -18,21 +17,12 @@ import {
   WalletFiatType
 } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { SavedRecurringBuy } from 'components/Box'
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, model, selectors } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import {
-  ActionEnum,
-  Analytics,
-  RecurringBuyOrigins,
-  RecurringBuyPeriods,
-  RecurringBuyRegisteredList,
-  RecurringBuyStepType
-} from 'data/types'
+import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 import CoinIntroduction from './CoinIntroduction'
@@ -172,11 +162,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
       interestEligible,
       isGoldTier,
       isInvited,
-      isRecurringBuy,
       isSearchEntered,
       loadMoreTxs,
       pages,
-      recurringBuys,
       sourceType,
       stakingEligible
     } = this.props
@@ -324,7 +312,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <CoinIntroduction coin={coin as CoinType} />
             </SceneWrapper>
           )}
-          {hasTxResults && sourceType && sourceType === 'INTEREST' && <InterestTransactions />}
+          {hasTxResults &&
+            sourceType &&
+            (sourceType === 'INTEREST' || sourceType === 'STAKING') && <InterestTransactions />}
           {hasTxResults &&
             (!sourceType || sourceType !== 'INTEREST') &&
             pages.map((value, i) => (
@@ -409,10 +399,8 @@ export type SuccessStateType = {
   hasTxResults: boolean
   interestEligible: EarnEligibleType
   isInvited: boolean
-  isRecurringBuy: boolean
   isSearchEntered: boolean
   pages: Array<any>
-  recurringBuys: RecurringBuyRegisteredList[]
   sourceType: string
   stakingEligible: EarnEligibleType
 }
