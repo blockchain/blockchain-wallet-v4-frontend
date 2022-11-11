@@ -175,6 +175,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     const stakingEligibleCoin =
       !isEmpty(stakingEligible) && stakingEligible[coin] && stakingEligible[coin]?.eligible
     const isEarnButtonEnabled = isGoldTier && (interestEligibleCoin || stakingEligibleCoin)
+    const isEarnSourceType = sourceType && (sourceType === 'INTEREST' || sourceType === 'STAKING')
 
     return (
       <SceneWrapper>
@@ -312,11 +313,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <CoinIntroduction coin={coin as CoinType} />
             </SceneWrapper>
           )}
+          {hasTxResults && isEarnSourceType && <InterestTransactions sourceType={sourceType} />}
           {hasTxResults &&
-            sourceType &&
-            (sourceType === 'INTEREST' || sourceType === 'STAKING') && <InterestTransactions />}
-          {hasTxResults &&
-            (!sourceType || sourceType !== 'INTEREST') &&
+            (!sourceType || !isEarnSourceType) &&
             pages.map((value, i) => (
               <TransactionList
                 coin={coin}
