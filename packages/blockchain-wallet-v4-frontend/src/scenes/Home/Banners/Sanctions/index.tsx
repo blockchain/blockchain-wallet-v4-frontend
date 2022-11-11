@@ -75,7 +75,7 @@ const Sanctions = () => {
             {message || (
               <FormattedMessage
                 id='modals.sanctions_notifications.description'
-                defaultMessage='Currently, trading is not allowed for balances over €10.000 due to regulatory sanctions. However, you can still hold or withdraw.'
+                defaultMessage='Currently, trading is not allowed due to regulatory sanctions.'
               />
             )}
           </Text>

@@ -1461,7 +1461,7 @@
   "modals.residential_address.subTitle": "Confirm your address below as part of a federal identity requirement.",
   "modals.residential_address.title": "Verify Your Address",
   "modals.residential_address.why_do_i_need": "Why Do I Need To Do This",
-  "modals.sanctions_notifications.description": "Currently, trading is not allowed for balances over €10.000 due to regulatory sanctions. However, you can still hold or withdraw.",
+  "modals.sanctions_notifications.description": "Currently, trading is not allowed due to regulatory sanctions.",
   "modals.sanctions_notifications.i_understand": "I Understand",
   "modals.secondpassword.blockstack": "Our next airdrop is here. Enter your second password to reserve an address for the Blockstack Airdrop.",
   "modals.secondpassword.confirm": "Confirm",

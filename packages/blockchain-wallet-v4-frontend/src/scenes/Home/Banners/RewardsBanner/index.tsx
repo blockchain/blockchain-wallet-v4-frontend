@@ -113,7 +113,7 @@ const StartEarningRewards: React.FC<Props> = (props) => {
         <IconCloseCircleV2
           label='close'
           color={PaletteColors['grey-600']}
-          data-e2e='sanctionsInfoCloseModalIcon'
+          data-e2e='rewardsBannerCloseModalIcon'
           size='medium'
         />
       </CloseLink>
