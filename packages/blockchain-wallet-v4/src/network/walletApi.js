@@ -4,6 +4,7 @@ import { futurizeP } from 'futurize'
 import { compose, identity, ifElse, includes, map, propSatisfies } from 'ramda'
 
 import { Wrapper } from '../types'
+import { isWrapper } from '../types/Wrapper'
 import createApi from './api'
 
 const createWalletApi = (

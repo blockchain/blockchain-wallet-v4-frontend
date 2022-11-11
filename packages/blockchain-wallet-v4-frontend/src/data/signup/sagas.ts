@@ -104,7 +104,6 @@ export default ({ api, coreSagas, networks }) => {
           password,
           sessionToken
         })
-
         // set new lifetime tokens for nabu and exchange for user in new unified metadata entry
         // also write nabu credentials to legacy userCredentials for old app versions
         // TODO: in future, consider just writing to unifiedCredentials entry
@@ -287,6 +286,11 @@ export default ({ api, coreSagas, networks }) => {
       // create a new wallet
       yield call(register, actions.signup.register({ email, language, password, sessionToken }))
       const guid = yield select(selectors.core.wallet.getGuid)
+      let data = sessionStorage.getItem('accountRecovery')
+      if (data) {
+        data = JSON.parse(data)
+      }
+
       // generate a retail token for new wallet
       // const retailToken = yield call(generateRetailToken)
       // call the reset nabu user endpoint, receive new lifetime token for nabu user
@@ -307,6 +311,8 @@ export default ({ api, coreSagas, networks }) => {
       //     nabu_user_id: userId
       //   })
       // )
+
+      sessionStorage.removeItem('accountRecovery')
 
       // if user is resetting their account and
       // want to go to the Exchange
@@ -332,6 +338,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         actions.modals.showModal(ModalName.RESET_ACCOUNT_FAILED, { origin: 'ResetAccount' })
       )
+      sessionStorage.removeItem('accountRecovery')
     }
   }
 

@@ -135,7 +135,7 @@ const ChooseTwoFA = (props: Props) => {
           />
         </ButtonIcon>
       </ButtonPanel>
-      <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.SMS_SETUP)}>
+      {/* <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.SMS_SETUP)}>
         <Row>
           <IconPhone color={PaletteColors['blue-600']} size='medium' label='sms-2fa' />
 
@@ -171,7 +171,7 @@ const ChooseTwoFA = (props: Props) => {
             color={PaletteColors['grey-600']}
           />
         </ButtonIcon>
-      </ButtonPanel>
+      </ButtonPanel> */}
     </>
   )
 }

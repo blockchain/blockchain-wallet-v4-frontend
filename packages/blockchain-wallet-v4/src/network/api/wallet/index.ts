@@ -1,5 +1,7 @@
 import { concat, mergeRight, prop, propOr } from 'ramda'
 
+import { data as dataActions } from '../../../redux/actions'
+
 export default ({ get, post, rootUrl }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
     post({
@@ -68,7 +70,9 @@ export default ({ get, post, rootUrl }) => {
       endPoint: '/wallet/recovery/recover-account',
       sessionToken,
       url: rootUrl
-    }).then(() => data.checksum)
+    })
+      .then((response) => sessionStorage.setItem('accountRecovery', JSON.stringify(response)))
+      .then(() => data.checksum)
 
   // context => {
   //  addresses: [],
