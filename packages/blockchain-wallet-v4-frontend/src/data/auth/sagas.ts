@@ -128,7 +128,7 @@ export default ({ api, coreSagas, networks }) => {
     }
     // start signin flow
     try {
-      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.LOGIN)
+      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.EXCHANGE_LEGACY_LOGIN)
       const response = yield call(api.exchangeSignIn, captchaToken, code, password, username)
       const { csrfToken, sessionExpirationTime, token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
@@ -976,7 +976,7 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.session.saveWalletSession({ email, id: sessionToken }))
         }
       }
-      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.LOGIN)
+      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.EMAIL_REMINDER)
       yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product, redirect)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))

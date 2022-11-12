@@ -77,10 +77,10 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
       url: nabuUrl
     })
 
-  const getDCTransactions = (cardId) =>
+  const getDCTransactions = ({ cardId, limit }: { cardId: string; limit: number }) =>
     authorizedGet({
       contentType: 'application/json',
-      endPoint: `/card-issuing/transactions${cardId ? `?cardId=${cardId}&` : ''}`,
+      endPoint: `/card-issuing/transactions?cardId=${cardId}&limit=${limit}&`,
       url: nabuUrl
     })
 

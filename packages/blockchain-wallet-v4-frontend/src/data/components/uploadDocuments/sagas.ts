@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects'
 
 import { actions } from 'data'
 
-import * as A from './actions'
+import { actions as A } from './slice'
 
 export const logLocation = 'components/identityVerification/sagas'
 

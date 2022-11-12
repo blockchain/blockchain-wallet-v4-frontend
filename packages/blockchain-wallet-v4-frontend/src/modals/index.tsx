@@ -32,6 +32,7 @@ const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
 const TransactionDetail = React.lazy(() => import('./DebitCard/TransactionDetail'))
 const FundsList = React.lazy(() => import('./DebitCard/FundsList'))
 const CustomizableConfirm = React.lazy(() => import('./CustomizableConfirm'))
+const TransactionList = React.lazy(() => import('./DebitCard/TransactionList'))
 
 // DEX
 const DexSwapSettings = React.lazy(() => import('./Dex/SwapSettings'))
@@ -142,6 +143,9 @@ const Modals = (props: Props) => {
   return (
     <Suspense fallback={null}>
       <>
+        {props.modals.find((modal) => modal.type === ModalName.SIMPLE_BUY_MODAL) ? (
+          <BuySell />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.ADD_BANK_PLAID_MODAL) ? (
           <AddBankPlaid />
         ) : null}
@@ -290,9 +294,6 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SIGN_MESSAGE_MODAL) ? (
           <SignMessage />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.SIMPLE_BUY_MODAL) ? (
-          <BuySell />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMINATE_CARD) ? (
@@ -300,6 +301,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_DETAIL_MODAL) ? (
           <TransactionDetail />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_LIST_MODAL) ? (
+          <TransactionList />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS_MODAL) ? (
           <TermsAndConditions disableOutsideClose />

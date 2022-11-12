@@ -59,6 +59,7 @@ const IconsContainerRight = styled(IconsContainer)`
 export type OwnProps = {
   handleClose: () => void
   message?: string
+  sanctionsType?: string
 } & ModalPropsType
 
 const SanctionsInfo = (props: Props) => {
@@ -71,7 +72,9 @@ const SanctionsInfo = (props: Props) => {
     }, duration)
   }
 
-  const messageToShow = props?.message ?? null
+  const messageToShow = props.products?.notifications?.length
+    ? props.products?.notifications[0].message
+    : props?.message ?? null
 
   return (
     <Flyout {...props} onClose={handleClose} isOpen={show} data-e2e='sanctionsInfoModal'>
@@ -108,30 +111,32 @@ const SanctionsInfo = (props: Props) => {
                     {messageToShow || (
                       <FormattedMessage
                         id='modals.sanctions_notifications.description'
-                        defaultMessage='Currently, trading is not allowed for balances over €10.000 due to regulatory sanctions. However, you can still hold or withdraw.'
+                        defaultMessage='Currently, trading is not allowed due to regulatory sanctions.'
                       />
                     )}
                   </RowItemDescription>
                 </Padding>
               </Flex>
 
-              <Flex justifyContent='center'>
-                <Link
-                  href='https://ec.europa.eu/commission/presscorner/detail/en/ip_22_2332'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  <Button
-                    nature='empty-secondary'
-                    data-e2e='learnMoreSanctions'
-                    height='48px'
-                    size='16px'
-                    disabled={false}
+              {props.sanctionsType === 'SANCTIONS' && (
+                <Flex justifyContent='center'>
+                  <Link
+                    href='https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L:2022:259I:FULL&from=EN'
+                    target='_blank'
+                    rel='noopener noreferrer'
                   >
-                    <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
-                  </Button>
-                </Link>
-              </Flex>
+                    <Button
+                      nature='empty-secondary'
+                      data-e2e='learnMoreSanctions'
+                      height='48px'
+                      size='16px'
+                      disabled={false}
+                    >
+                      <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
+                    </Button>
+                  </Link>
+                </Flex>
+              )}
             </Padding>
           </FlyoutContent>
           <FlyoutFooter collapsed>

@@ -106,14 +106,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     if (userRetrievedAddress && userRetrievedAddress.data?.city) {
       const { data: userSelectedAddress } = userRetrievedAddress
 
-      if (userSelectedAddress) {
+      if (userSelectedAddress && !isAddressSelected) {
         setTimeout(() => {
           props.updateSelectedAddressDetails(userSelectedAddress)
         }, 200)
       }
       setIsAddressSelected(true)
     }
-  }, [userRetrievedAddress, props])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userRetrievedAddress, isAddressSelected])
 
   if (props.submitting || !supportedCountries?.countries || !supportedUSStates?.states) {
     return (

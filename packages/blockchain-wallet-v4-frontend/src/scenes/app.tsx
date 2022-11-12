@@ -45,6 +45,7 @@ const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
 // need to be authed to see this, but uses public layout
 const TwoStepVerification = React.lazy(() => import('./TwoStepVerification'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
+const UploadDocumentsForDebitCards = React.lazy(() => import('./UploadDocumentsForDebitCards'))
 const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Success'))
 const VerifyAccountRecovery = React.lazy(() => import('./RecoverWallet/EmailAuthLanding'))
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
@@ -197,6 +198,10 @@ const App = ({
                             <AuthLayout
                               path='/upload-document/:token'
                               component={UploadDocuments}
+                            />
+                            <AuthLayout
+                              path='/upload-document-card/:token'
+                              component={UploadDocumentsForDebitCards}
                             />
                             <AuthLayout
                               path='/wallet'

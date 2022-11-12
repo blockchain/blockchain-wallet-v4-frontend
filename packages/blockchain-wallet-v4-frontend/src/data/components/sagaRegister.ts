@@ -51,7 +51,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(xlmTransactions())
     yield fork(fiatTransactions())
     yield fork(fundRecovery({ api }))
-    yield fork(identityVerification({ api, coreSagas }))
+    yield fork(identityVerification({ api, coreSagas, networks }))
     yield fork(interest({ api, coreSagas, networks }))
     yield fork(interestUploadDocument({ api }))
     yield fork(termsAndConditions({ api }))
