@@ -279,38 +279,30 @@ export default ({ api, coreSagas, networks }) => {
         selectors.signup.getAccountRecoveryMagicLinkData
       )
 
-      const userId = recoveryLinkData?.userId
       const recoveryToken = recoveryLinkData?.recovery_token
       const sessionToken = yield select(selectors.session.getRecoverSessionId, email)
       yield put(actions.signup.setResetAccount(true))
       // create a new wallet
       yield call(register, actions.signup.register({ email, language, password, sessionToken }))
       const guid = yield select(selectors.core.wallet.getGuid)
-      let data = sessionStorage.getItem('accountRecovery')
-      if (data) {
-        data = JSON.parse(data)
-      }
+      const data = sessionStorage.getItem('accountRecovery')
 
-      // generate a retail token for new wallet
-      // const retailToken = yield call(generateRetailToken)
-      // call the reset nabu user endpoint, receive new lifetime token for nabu user
-      // const {
-      //   mercuryLifetimeToken: exchangeLifetimeToken,
-      //   token: lifetimeToken,
-      //   userCredentialsId: exchangeUserId
-      // } = yield call(api.resetUserAccount, userId, recoveryToken, retailToken)
+      const accountRecoveryData = data && JSON.parse(data)
+
+      const { mercuryLifetimeToken, token, userCredentialsId, userId } = accountRecoveryData
+
       // set new lifetime tokens for nabu and exchange for user in new unified metadata entry
       // also write nabu credentials to legacy userCredentials for old app versions
       // TODO: in future, consider just writing to unifiedCredentials entry
-      // yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
-      // yield put(
-      //   actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
-      //     exchange_lifetime_token: exchangeLifetimeToken,
-      //     exchange_user_id: exchangeUserId,
-      //     nabu_lifetime_token: lifetimeToken,
-      //     nabu_user_id: userId
-      //   })
-      // )
+      yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, token))
+      yield put(
+        actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
+          exchange_lifetime_token: mercuryLifetimeToken,
+          exchange_user_id: userCredentialsId,
+          nabu_lifetime_token: token,
+          nabu_user_id: userId
+        })
+      )
 
       sessionStorage.removeItem('accountRecovery')
 
@@ -323,7 +315,7 @@ export default ({ api, coreSagas, networks }) => {
       //   return
       // }
       // fetch user in new wallet
-      // yield call(setSession, userId, lifetimeToken, email, guid)
+      yield call(setSession, userId, token, email, guid)
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.RECOVERY_PASSWORD_RESET,
