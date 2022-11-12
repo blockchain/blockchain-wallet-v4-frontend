@@ -105,13 +105,6 @@ const CheckInbox = (props: Props) => {
           />
         )}
       </Button>
-      <Text
-        style={{ cursor: 'pointer', marginTop: '16px' }}
-        onClick={() => props.signupActions.pollForResetApproval()}
-        size='12px'
-      >
-        Poll for Status placeholder
-      </Text>
     </FormWrapper>
   )
 }
