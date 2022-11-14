@@ -151,6 +151,10 @@ export const CenterField = styled.div`
   justify-content: center;
 `
 
+const LabelItem = styled.label`
+  cursor: pointer;
+`
+
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const disabled = props.invalid || props.submitting
 
@@ -257,24 +261,26 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         {node.children &&
           node.children.map((child) => {
             return (
-              <FormItem key={`checkbox-${child.id}`}>
-                <CheckBoxContainer>
-                  <CenterField>
-                    <CheckBoxText>{getFormattedMessageComponent(child.id)}</CheckBoxText>
-                  </CenterField>
-                  <CenterField>
-                    <Field
-                      name={child.id}
-                      id={child.id}
-                      value={child.id}
-                      component={CheckBox}
-                      type='checkbox'
-                      onChange={() => updateItem(node.id, child.id)}
-                      data-testId='text-box-545744'
-                    />
-                  </CenterField>
-                </CheckBoxContainer>
-              </FormItem>
+              <LabelItem htmlFor={child.id} key={`checkbox-${child.id}`}>
+                <FormItem>
+                  <CheckBoxContainer>
+                    <CenterField>
+                      <CheckBoxText>{getFormattedMessageComponent(child.id)}</CheckBoxText>
+                    </CenterField>
+                    <CenterField>
+                      <Field
+                        name={child.id}
+                        id={child.id}
+                        value={child.id}
+                        component={CheckBox}
+                        type='checkbox'
+                        onChange={() => updateItem(node.id, child.id)}
+                        data-testId={`text-box-${node.id}`}
+                      />
+                    </CenterField>
+                  </CheckBoxContainer>
+                </FormItem>
+              </LabelItem>
             )
           })}
       </FormGroup>
@@ -298,21 +304,24 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             {node.children &&
               node.children.map((child) => {
                 return (
-                  <CheckBoxContainer key={child.id}>
-                    <CenterField>
-                      <CheckBoxText>{getFormattedMessageComponent(child.id)}</CheckBoxText>
-                    </CenterField>
-                    <CenterField>
-                      <Field
-                        component='input'
-                        type='radio'
-                        name={node.id}
-                        value={child.id}
-                        validate={required}
-                        onChange={() => updateItem(node.id, child.id)}
-                      />
-                    </CenterField>
-                  </CheckBoxContainer>
+                  <LabelItem htmlFor={child.id} key={child.id}>
+                    <CheckBoxContainer>
+                      <CenterField>
+                        <CheckBoxText>{getFormattedMessageComponent(child.id)}</CheckBoxText>
+                      </CenterField>
+                      <CenterField>
+                        <Field
+                          component='input'
+                          type='radio'
+                          name={node.id}
+                          id={child.id}
+                          value={child.id}
+                          validate={required}
+                          onChange={() => updateItem(node.id, child.id)}
+                        />
+                      </CenterField>
+                    </CheckBoxContainer>
+                  </LabelItem>
                 )
               })}
           </FormItem>
