@@ -83,7 +83,6 @@ const getStateElements = (states: Array<StateType>) => [
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
   const { data: supportedUSStates } = useUSStateList()
-  // const userAddresses = useSelector(selectors.components.identityVerification.getUserAddresses)
   const { data: userAddresses, isLoading } = useRemote(
     selectors.components.identityVerification.getUserAddresses
   )

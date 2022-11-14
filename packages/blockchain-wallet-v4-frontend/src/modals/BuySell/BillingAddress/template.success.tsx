@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { SpinningLoader } from '@blockchain-com/constellation'
+import { Padding, SpinningLoader } from '@blockchain-com/constellation'
 import axios from 'axios'
 import { validate } from 'postal-codes-js'
 // @ts-ignore
@@ -27,7 +27,6 @@ import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
-import { Padding } from 'components/Padding'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { StateType } from 'data/types'
@@ -78,10 +77,6 @@ const CentralContent = styled(FormWrapper)`
 
 export const LinkButton = styled(Text)`
   cursor: pointer;
-`
-
-const SmallSpinnerWrapper = styled.div`
-  margin-top: 10px;
 `
 
 export type Props = OwnProps & SuccessStateType
@@ -212,7 +207,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       <FlyoutContent mode='middle'>
         <CustomForm onSubmit={props.handleSubmit}>
           <FormWrapper flexDirection='column'>
-            <Padding horizontal={40}>
+            <Padding horizontal={2.5}>
               <CountrySelect {...props} />
             </Padding>
             <Divider />
@@ -250,9 +245,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               )}
 
               {props.useLoqateServiceEnabled && isAddressLoading && (
-                <SmallSpinnerWrapper>
+                <Padding top={0.625}>
                   <SpinningLoader variant='color' size='small' />
-                </SmallSpinnerWrapper>
+                </Padding>
               )}
 
               {props.useLoqateServiceEnabled &&
