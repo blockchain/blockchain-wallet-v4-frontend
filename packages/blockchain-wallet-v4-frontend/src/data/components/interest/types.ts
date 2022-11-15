@@ -91,6 +91,8 @@ export type ErrorStringType = { error: string }
 
 export type InterestLimits = { coin: CoinType; currency: FiatType }
 
+export type EarnTabTypes = 'All' | 'Staking' | 'Rewards'
+
 export type EarnInstrumentsType = Array<{
   coin: CoinType
   product: 'Staking' | 'Rewards'
@@ -122,6 +124,7 @@ export interface InterestState {
   earnDepositLimits: EarnMinMaxType
   earnEDDStatus: RemoteDataType<string, EarnEDDStatus>
   earnEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>
+  earnTab: EarnTabTypes
   instruments: RemoteDataType<string, EarnInstrumentsType>
   interestEligible: RemoteDataType<string, EarnEligibleType>
   interestLimits: RemoteDataType<string, InterestLimitsType>

@@ -23,6 +23,7 @@ import {
   EarnInstrumentsType,
   EarnMinMaxType,
   EarnStepMetaData,
+  EarnTabTypes,
   EarnTransactionType,
   ErrorStringType,
   InterestLimits,
@@ -44,6 +45,7 @@ const initialState: InterestState = {
   },
   earnEDDStatus: Remote.NotAsked,
   earnEDDWithdrawLimits: Remote.NotAsked,
+  earnTab: 'All',
   instruments: Remote.NotAsked,
   interestEligible: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
@@ -448,6 +450,10 @@ const interestSlice = createSlice({
       state.earnDepositLimits = action.payload.limits
     },
 
+    setEarnTab: (state, action: PayloadAction<{ tab: EarnTabTypes }>) => {
+      state.earnTab = action.payload.tab
+    },
+
     setPaymentFailure: (state, action: PayloadAction<{ error: string }>) => {
       state.payment = Remote.Failure(action.payload.error)
     },
@@ -620,6 +626,7 @@ export const {
   routeToTxHash,
   setCoinDisplay,
   setEarnDepositLimits,
+  setEarnTab,
   setPaymentFailure,
   setPaymentLoading,
   setPaymentSuccess,
