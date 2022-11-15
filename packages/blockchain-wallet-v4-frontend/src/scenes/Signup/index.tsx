@@ -69,7 +69,7 @@ class SignupContainer extends React.PureComponent<
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()
     signupActions.initializeSignup()
-    if (window?._SardineContext) {
+    if (window?._SardineContext && this.props.isFlowInRiskSettings) {
       window._SardineContext.updateConfig({
         flow: 'SIGNUP'
       })
@@ -160,6 +160,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   } as WalletOptionsType['domains']),
   formValues: selectors.form.getFormValues(SIGNUP_FORM)(state) as SignupFormType,
   goals: selectors.goals.getGoals(state) as GoalDataType,
+  isFlowInRiskSettings: selectors.modules.profile.isFlowInRiskSettings(state, 'SIGNUP'),
   isLoadingR: selectors.signup.getRegistering(state) as RemoteDataType<string, undefined>,
   isReferralEnabled: selectors.core.walletOptions
     .getReferralEnabled(state)
@@ -186,6 +187,7 @@ type LinkStatePropsType = {
   domains: WalletOptionsType['domains']
   formValues: SignupFormType
   goals: GoalDataType
+  isFlowInRiskSettings: boolean
   isLoadingR: RemoteDataType<string, undefined>
   isReferralEnabled: boolean
   isValidReferralCode?: boolean

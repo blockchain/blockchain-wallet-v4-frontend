@@ -21,15 +21,16 @@ import {
   propEq
 } from 'ramda'
 
-import { ExtractSuccess, RemoteDataType } from '@core/types'
+import { ExtractSuccess, RemoteDataType, UserRiskSettings } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
-import { UserDataType, UserTradingCurrencies } from './types'
+import { UserDataType } from './types'
 
 export const getUserData = (state: RootState) => state.profile.userData
 export const getUserCampaigns = (state: RootState) => state.profile.userCampaigns
+export const getUserRiskSettings = (state: RootState) => state.profile.userRiskSettings
 
 export const getUserId = compose(lift(prop('id')), getUserData)
 export const getWalletAddresses = compose(lift(prop('walletAddresses')), getUserData)
@@ -166,3 +167,11 @@ export const isExchangeRelinkRequired = (state): RemoteDataType<string, boolean 
   lift((user: UserDataType) => {
     return not(isNil(prop('settings', user))) && length(getRemainingCoins(state))
   })(getUserData(state))
+
+export const isFlowInRiskSettings = (state: RootState, flowName: string): boolean => {
+  const userRiskSettings = getUserRiskSettings(state).getOrElse({ flows: [] } as UserRiskSettings)
+
+  return !!(
+    userRiskSettings.flows.length && userRiskSettings.flows.some((ur) => ur.name === flowName)
+  )
+}

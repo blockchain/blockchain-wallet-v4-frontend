@@ -43,7 +43,7 @@ import {
   RecurringBuyPeriods,
   UserDataType
 } from 'data/types'
-import { useDefer3rdPartyScript } from 'hooks'
+import { useDefer3rdPartyScript, useSardineContext } from 'hooks'
 import { isNabuError } from 'services/errors'
 
 import {
@@ -179,6 +179,8 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
   const [isActiveFeeTooltip, setFeeToolTip] = useState(true)
   const dispatch = useDispatch()
+  const [sardineContextIsReady, sardineContext] = useSardineContext('ACH_LINK')
+  const [sardineContextIsReadyOB, sardineContextOB] = useSardineContext('OB_LINK')
 
   const [isGooglePayReady] = useDefer3rdPartyScript('https://pay.google.com/gp/p/js/pay.js', {
     attributes: {
@@ -325,15 +327,15 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           defaultTo([])(bankAccounts)
         )
         const paymentPartner = prop('partner', bankAccount)
-        if (window?._SardineContext) {
-          window._SardineContext.updateConfig({
+        if (sardineContextIsReady) {
+          sardineContext.updateConfig({
             flow: 'ACH_LINK'
           })
         }
         // if yapily we need the auth screen before creating the order
         if (paymentPartner === BankPartners.YAPILY) {
-          if (window?._SardineContext) {
-            window._SardineContext.updateConfig({
+          if (sardineContextIsReadyOB) {
+            sardineContextOB.updateConfig({
               flow: 'OB_LINK'
             })
           }

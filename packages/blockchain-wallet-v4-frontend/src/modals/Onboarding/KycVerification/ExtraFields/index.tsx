@@ -6,6 +6,7 @@ import { Text } from 'blockchain-info-components'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { Analytics, ExtraKeyFieldsFormValuesType } from 'data/types'
+import { useSardineContext } from 'hooks'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -14,13 +15,14 @@ import Success from './template.success'
 const { KYC_EXTRA_QUESTIONS_FORM } = model.components.identityVerification
 
 const KYCExtraQuestionnaire = (props: Props) => {
+  const [sardineContextIsReady, sardineContext] = useSardineContext('KYC')
   useEffect(() => {
     props.analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_ACCOUNT_INFO_SCREEN_VIEWED,
       properties: {}
     })
-    if (window?._SardineContext) {
-      window._SardineContext.updateConfig({
+    if (sardineContextIsReady) {
+      sardineContext.updateConfig({
         flow: 'KYC'
       })
     }

@@ -1,4 +1,9 @@
-import { FindAddressResponse, RetrieveAddress, TermsAndConditionType } from './types'
+import {
+  FindAddressResponse,
+  RetrieveAddress,
+  TermsAndConditionType,
+  UserRiskSettings
+} from './types'
 
 export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
   const exchangeSignIn = (captchaToken, code, password, username) =>
@@ -301,6 +306,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const getUserRiskSettings = (): UserRiskSettings =>
+    authorizedGet({
+      endPoint: '/user/risk/settings',
+      url: nabuUrl
+    })
+
   return {
     createExchangeUser,
     createLinkAccountId,
@@ -317,6 +328,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     getUser,
     getUserCampaigns,
     getUserReferralInfo,
+    getUserRiskSettings,
     getUserTermsAndConditions,
     getUserTermsAndConditionsLast,
     linkAccount,
