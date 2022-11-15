@@ -110,7 +110,7 @@ const buySellSlice = createSlice({
     cancelOrder: (state, action: PayloadAction<BSOrderType>) => {
       state.pendingOrder = undefined
     },
-    checkCardSuccessRate: (state, action: PayloadAction<{ bin: string; scheme: string }>) => {},
+    checkCardSuccessRate: (state, action: PayloadAction<{ bin: string; scheme?: string }>) => {},
     confirmFundsOrder: () => {},
     confirmOrder: (
       state,

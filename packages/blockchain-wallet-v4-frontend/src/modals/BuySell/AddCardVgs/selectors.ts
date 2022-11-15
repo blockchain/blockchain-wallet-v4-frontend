@@ -9,7 +9,6 @@ export const getData = (state: RootState) => {
   const fiatCurrencyR = selectors.modules.profile.getTradingCurrency(state)
   const appEnvR = selectors.core.walletOptions.getAppEnv(state)
   const userDataR = selectors.modules.profile.getUserData(state)
-
   const cryptoCurrency = selectors.components.buySell.getCryptoCurrency(state)
   const pair = selectors.components.buySell.getBSPair(state)
 

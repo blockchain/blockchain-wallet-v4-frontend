@@ -217,6 +217,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // This is for the 0 dollar payment
       yield put(A.activateCard({ card, cvv }))
+
       yield take([A.activateCardSuccess.type, A.activateCardFailure.type])
     } catch (e) {
       // TODO: improve error message here, adding translations and more context
@@ -255,7 +256,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const activateBSCard = function* ({ payload }: ReturnType<typeof A.activateCard>) {
+  const activateCard = function* ({ payload }: ReturnType<typeof A.activateCard>) {
     try {
       const { card, cvv } = payload
 
@@ -267,7 +268,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const redirectUrl = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
 
-      const providerDetails = yield call(api.activateBSCard, {
+      const providerDetails = yield call(api.activateCard, {
         cardBeneficiaryId: card.id,
         cvv,
         redirectUrl
@@ -1806,7 +1807,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(A.fetchBalance({ skipLoading }))
   }
 
-  const pollBSCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
+  const pollCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
     let retryAttempts = 0
     const maxRetryAttempts = 10
 
@@ -1822,6 +1823,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         retryAttempts += 1
         step = S.getStep(yield select())
         if (
+          step !== 'ADD_CARD_VGS' &&
           step !== '3DS_HANDLER_EVERYPAY' &&
           step !== '3DS_HANDLER_STRIPE' &&
           step !== '3DS_HANDLER_CHECKOUTDOTCOM'
@@ -2231,7 +2233,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   return {
-    activateBSCard,
+    activateCard,
     cancelBSOrder,
     checkCardSuccessRate,
     confirmBSFundsOrder,
@@ -2265,8 +2267,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     initializeBillingAddress,
     initializeCheckout,
     pollBSBalances,
-    pollBSCard,
     pollBSOrder,
+    pollCard,
     registerCard,
     setStepChange,
     showModal,

@@ -49,7 +49,7 @@ export default ({
   get,
   nabuUrl
 }) => {
-  const activateBSCard = ({
+  const activateCard = ({
     cardBeneficiaryId,
     cvv,
     redirectUrl
@@ -557,7 +557,7 @@ export default ({
     })
 
   return {
-    activateBSCard,
+    activateCard,
     cancelBSOrder,
     checkCardSuccessRate,
     confirmBSOrder,
