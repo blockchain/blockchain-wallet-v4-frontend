@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Cartridge } from '@blockchain-com/components'
 import styled from 'styled-components'
 
-import { Icon, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { Icon, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { ExchangeAuthOriginType } from 'data/types'
 import { Destination, MenuIcon, MenuItem, Separator, Wrapper } from 'layouts/Wallet/components'
 
@@ -49,6 +49,16 @@ export const NewCartridge = styled(Cartridge)`
   border-radius: 4px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
     Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+`
+
+const PortfolioSeparator = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 16px;
+  margin-bottom: 4px;
+  width: calc(100% - 16px);
+  box-sizing: content-box;
 `
 
 export const Divider = (props: { margin?: string }) => (
@@ -103,9 +113,29 @@ const Navigation = (props: OwnProps & Props) => {
       </>
       {coinList.cata({
         Failure: () => null,
-        Loading: () => <Loading />,
+        Loading: () => (
+          <>
+            <PortfolioSeparator>
+              <Text color='grey600' lineHeight='20px' weight={600} size='14px'>
+                <FormattedMessage id='copy.portfolio' defaultMessage='Portfolio' />
+              </Text>
+              <Divider />
+            </PortfolioSeparator>
+            <Loading />
+          </>
+        ),
         NotAsked: () => <Loading />,
-        Success: (coinList) => <Success coinList={coinList} />
+        Success: (coinList) => (
+          <>
+            <PortfolioSeparator>
+              <Text color='grey600' lineHeight='20px' weight={600} size='14px'>
+                <FormattedMessage id='copy.portfolio' defaultMessage='Portfolio' />
+              </Text>
+              <Divider />
+            </PortfolioSeparator>
+            <Success coinList={coinList} />
+          </>
+        )
       })}
       <Divider margin='0 16px 8px 16px' />
       <LinkContainer to='/airdrops' activeClassName='active'>

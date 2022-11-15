@@ -10,6 +10,7 @@ import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import CoinAccountListOption from 'components/Form/CoinAccountListOption'
+import { NetworkWarning, NetworkWarningVariant } from 'components/NetworkWarning'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { actions, selectors } from 'data'
 import { SwapBaseCounterTypes } from 'data/types'
@@ -64,7 +65,7 @@ const ButtonsWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 40px;
+  padding: 0 40px 40px;
 
   & > :last-child {
     margin-top: 16px;
@@ -88,9 +89,6 @@ class RequestShowAddress extends React.PureComponent<Props> {
     const { formValues, handleClose, setStep, walletCurrency } = this.props
     const { selectedAccount } = formValues
     const { coinfig } = window.coins[selectedAccount.coin]
-    const coinNetwork = coinfig?.type?.parentChain
-      ? window.coins[coinfig.type.parentChain].coinfig.name
-      : null
 
     return (
       <Wrapper>
@@ -156,17 +154,6 @@ class RequestShowAddress extends React.PureComponent<Props> {
             })}
           </ClipboardWrapper>
         </AddressWrapper>
-        {coinNetwork ? (
-          <InfoContainer>
-            <Text size='14px' weight={600} color='orange600'>
-              {coinfig.symbol} on {coinNetwork} Network
-            </Text>
-            <Text size='12px' weight={500}>
-              Please send {coinfig.symbol} on {coinNetwork} Network to this address only. We cannot
-              recover lost funds.
-            </Text>
-          </InfoContainer>
-        ) : null}
         {this.props.addressR.cata({
           Failure: () => null,
           Loading: () => null,
@@ -228,6 +215,8 @@ class RequestShowAddress extends React.PureComponent<Props> {
           })}
         </QRCodeContainer>
         <ButtonsWrapper>
+          <NetworkWarning coin={selectedAccount.coin} variant={NetworkWarningVariant.RECEIVE} />
+
           <Button
             data-e2e='copyRequestLink'
             fullwidth

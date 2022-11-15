@@ -209,7 +209,7 @@ const FormattedMessages = {
   'CITIZENSHIP_SET-q1_instructions': (
     <FormattedMessage
       id='modals.onboarding.kyc_verification.extra_fields.CITIZENSHIP_SET-q1_instructions'
-      defaultMessage='(Select only one)'
+      defaultMessage='(Select all that apply)'
     />
   ),
   'INITIAL_SET-q1': (

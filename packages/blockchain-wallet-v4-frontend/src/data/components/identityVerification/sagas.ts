@@ -4,7 +4,7 @@ import { call, delay, put, select, take } from 'redux-saga/effects'
 import { Types } from '@core'
 import { ExtraKYCContext, ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
 import { actions, actionTypes, model, selectors } from 'data'
-import { ModalName } from 'data/modals/types'
+import { ModalName, ModalParamPropsType } from 'data/modals/types'
 import { Analytics, KycStateType, UserDataType } from 'data/types'
 import * as C from 'services/alerts'
 
@@ -46,8 +46,8 @@ export default ({ api, coreSagas, networks }) => {
     networks
   })
 
-  const verifyIdentity = function* ({ payload }) {
-    yield put(actions.modals.showModal(ModalName.KYC_MODAL, payload))
+  const verifyIdentity = function* ({ payload }: ReturnType<typeof A.verifyIdentity>) {
+    yield put(actions.modals.showModal(ModalName.KYC_MODAL, payload as ModalParamPropsType))
   }
 
   const registerUserCampaign = function* (payload) {
@@ -64,13 +64,15 @@ export default ({ api, coreSagas, networks }) => {
 
   const createRegisterUserCampaign = function* () {
     try {
-      yield call(verifyIdentity, { payload: { origin: 'Unknown', tier: 2 } })
+      yield call(verifyIdentity, { payload: { origin: 'Unknown', tier: 2 } } as ReturnType<
+        typeof A.verifyIdentity
+      >)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'createRegisterUserCampaign', e))
     }
   }
 
-  const claimCampaignClicked = function* ({ payload }) {
+  const claimCampaignClicked = function* ({ payload }: ReturnType<typeof A.claimCampaignClicked>) {
     const { campaign } = payload
     try {
       yield put(actions.form.startSubmit(ID_VERIFICATION_SUBMITTED_FORM))
@@ -209,7 +211,9 @@ export default ({ api, coreSagas, networks }) => {
     return yield put(A.setVerificationStep(steps[0]))
   }
 
-  const initializeVerification = function* ({ payload }) {
+  const initializeVerification = function* ({
+    payload
+  }: ReturnType<typeof A.initializeVerification>) {
     const {
       tier = TIERS[2],
       needMoreInfo = false,
@@ -253,7 +257,9 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
   }
 
-  const fetchSupportedCountries = function* ({ payload }) {
+  const fetchSupportedCountries = function* ({
+    payload
+  }: ReturnType<typeof A.fetchSupportedCountries>) {
     try {
       yield put(A.setSupportedCountriesLoading())
       const { scope } = payload
@@ -331,7 +337,9 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const sendEmailVerification = function* ({ payload }) {
+  const sendEmailVerification = function* ({
+    payload
+  }: ReturnType<typeof A.sendEmailVerification>) {
     try {
       yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
       const { email } = payload
@@ -345,7 +353,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const updateEmail = function* ({ payload }) {
+  const updateEmail = function* ({ payload }: ReturnType<typeof A.updateEmail>) {
     try {
       yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
       const prevEmail = (yield select(selectors.core.settings.getEmail)).getOrElse('')
@@ -396,10 +404,11 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const saveUserResidentialData = function* ({ payload }) {
+  const saveUserResidentialData = function* ({
+    payload
+  }: ReturnType<typeof A.saveUserResidentialData>) {
     try {
       yield put(actions.form.startSubmit(RESIDENTIAL_FORM))
-      yield call(syncUserWithWallet)
       const { city, country, line1, line2, postCode, state } = yield select(
         selectors.form.getFormValues(RESIDENTIAL_FORM)
       )
@@ -423,6 +432,7 @@ export default ({ api, coreSagas, networks }) => {
         selectors.components.identityVerification.getStopFlowAfterLimitedAccessAchieved(
           yield select()
         )
+
       if (stopAfterLimitedAccess) {
         yield put(actions.form.stopSubmit(RESIDENTIAL_FORM))
         yield put(actions.modules.profile.fetchUser())
@@ -481,6 +491,7 @@ export default ({ api, coreSagas, networks }) => {
               )
             } else {
               // go immediately to extra KYC step
+              yield put(actions.form.stopSubmit(RESIDENTIAL_FORM))
               yield call(goToNextStep)
               return
             }
@@ -533,7 +544,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchExtraKYC = function* ({ payload }) {
+  const fetchExtraKYC = function* ({ payload }: ReturnType<typeof A.fetchExtraKYC>) {
     try {
       yield put(A.fetchExtraKYCLoading())
       const questions = yield call(api.fetchKYCExtraQuestions, payload)
@@ -583,7 +594,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchUserAddress = function* ({ payload }) {
+  const fetchUserAddress = function* ({ payload }: ReturnType<typeof A.fetchUserAddress>) {
     try {
       yield put(A.fetchUserAddressLoading())
       const { countryCode, id, text } = payload
@@ -594,7 +605,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const retrieveUserAddress = function* ({ payload }) {
+  const retrieveUserAddress = function* ({ payload }: ReturnType<typeof A.retrieveUserAddress>) {
     try {
       yield put(A.retrieveUserAddressLoading())
       const { id } = payload

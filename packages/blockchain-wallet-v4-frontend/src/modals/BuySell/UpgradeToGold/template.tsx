@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled, { css } from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
@@ -14,11 +15,11 @@ const HeaderWrapper = styled(FlyoutWrapper)`
   flex-direction: column;
   display: flex;
   max-width: 480px;
-  background-color: ${(props) => props.theme.white};
+  background-color: ${PaletteColors['white-000']};
   padding: 40px 40px 0 40px;
 `
 const RowItemTitle = styled(Text)`
-  color: ${(props) => props.theme.grey900};
+  color: ${PaletteColors['grey-900']};
   font-size: 16px;
   padding-left: 16px;
   font-weight: 600;
@@ -36,7 +37,7 @@ const RowItemWrapper = styled.div`
 `
 
 const RowItemSubTitle = styled(Text)`
-  color: ${(props) => props.theme.grey600};
+  color: ${PaletteColors['grey-600']};
   font-size: 14px;
   padding-left: 16px;
   font-weight: 500;
@@ -48,7 +49,7 @@ const RowItemSubTitle = styled(Text)`
 `
 
 const RowItemTitleWhite = styled(RowItemTitle)`
-  color: ${(props) => props.theme.white};
+  color: ${PaletteColors['white-000']};
 `
 
 const RowItemSubTitleWhite = styled(RowItemSubTitle)`
@@ -72,15 +73,15 @@ const StatusCartridgeBlue = styled(BlueCartridge)`
 `
 
 const UpgradeContainer = styled.div<{ second?: boolean }>`
-  border: 1px solid ${(props) => props.theme.grey000};
+  border: 1px solid ${PaletteColors['grey-000']};
   box-sizing: border-box;
   border-radius: 16px;
   margin: 16px 40px;
   ${(props) =>
     props.second &&
     css`
-      border: 1px solid ${(props) => props.theme.blue400};
-      background-color: ${(props) => props.theme.blue600};
+      border: 1px solid ${PaletteColors['blue-400']};
+      background-color: ${PaletteColors['blue-600']};
     `}
 `
 
@@ -96,10 +97,10 @@ const UpgradeRow = styled.div`
   padding: 16px 24px;
 `
 const UpgradeRowWithBorder = styled(UpgradeRow)`
-  border-bottom: 1px solid ${(props) => props.theme.grey000};
+  border-bottom: 1px solid ${PaletteColors['grey-000']};
 `
 const UpgradeRowWithBlueBorder = styled(UpgradeRow)`
-  border-bottom: 1px solid ${(props) => props.theme.blue400};
+  border-bottom: 1px solid ${PaletteColors['blue-400']};
 `
 
 const CloseIconContainer = styled.div`
@@ -109,7 +110,7 @@ const CloseIconContainer = styled.div`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: ${(props) => props.theme.grey000};
+  background: ${PaletteColors['grey-000']};
   backdrop-filter: blur(54.3656px);
   > span {
     justify-content: center;
@@ -120,7 +121,7 @@ const IconsContainerRight = styled(IconsContainer)`
   justify-content: space-between;
 `
 
-const Template: React.FC<Props> = (props) => {
+const Template: React.FC<Props> = (props: Props) => {
   return (
     <FlyoutContainer>
       <HeaderWrapper>

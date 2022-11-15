@@ -92,10 +92,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         products.withdrawFiat.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.withdrawFiat.reasonNotEligible.message
           : undefined
+      const sanctionsType = products.withdrawFiat.reasonNotEligible.type
       yield put(
         actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
           message,
-          origin: 'WithdrawModal'
+          origin: 'WithdrawModal',
+          sanctionsType
         })
       )
       yield put(actions.modals.closeModal(ModalName.CUSTODY_WITHDRAW_MODAL))

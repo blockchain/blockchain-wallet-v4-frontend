@@ -8,7 +8,9 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
 
   const ethProvider = IS_TESTNET
     ? new ethers.providers.EtherscanProvider('rinkeby', '5PZU5W8MYTB61C8Z5E3BRJPCIW63BFPBJ8')
-    : ethers.providers.getDefaultProvider(`${apiUrl}/eth/nodes/rpc`)
+    : // : ethers.providers.getDefaultProvider(`${apiUrl}/eth/nodes/rpc`)
+      // temp solution is to use prod URL
+      ethers.providers.getDefaultProvider(`https://api.blockchain.info/eth/nodes/rpc`)
 
   //
   // Deprecate

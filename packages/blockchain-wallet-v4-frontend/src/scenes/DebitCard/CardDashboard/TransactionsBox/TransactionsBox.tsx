@@ -9,6 +9,7 @@ import TransactionsBox from './TransactionsBox.template'
 const TransactionsBoxContainer = (props) => <TransactionsBox {...props} />
 
 const mapDispatchToProps = (dispatch) => ({
+  debitCardActions: bindActionCreators(actions.components.debitCard, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
