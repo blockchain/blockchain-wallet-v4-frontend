@@ -299,12 +299,21 @@ const ResidentialAddress = ({
     }
   }
 
+  const resetAddressForm = () => {
+    dispatch(actions.form.clearFields(RESIDENTIAL_ADDRESS_FORM, false, false, 'line1'))
+    dispatch(actions.form.clearFields(RESIDENTIAL_ADDRESS_FORM, false, false, 'line2'))
+    dispatch(actions.form.clearFields(RESIDENTIAL_ADDRESS_FORM, false, false, 'city'))
+    dispatch(actions.form.clearFields(RESIDENTIAL_ADDRESS_FORM, false, false, 'postCode'))
+  }
+
   const findUserAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value
-    if (text !== '') {
-      setSearchText(text)
-      findUserAddresses(text)
-      setUserStartedSearch(true)
+    if (text === '') return
+    setSearchText(text)
+    findUserAddresses(text)
+    setUserStartedSearch(true)
+    if (isAddressSelected) {
+      setIsAddressSelected(false)
     }
   }
 
@@ -313,6 +322,7 @@ const ResidentialAddress = ({
       setSearchText(`${searchText} `)
       findUserAddresses(searchText, address.id)
     } else {
+      resetAddressForm()
       setIsAddressSelected(true)
       retrieveUserAddresses(address.id)
     }
@@ -374,6 +384,7 @@ const ResidentialAddress = ({
                 {useLoqateServiceEnabled &&
                   editAddress &&
                   !enterAddressManually &&
+                  !isAddressSelected &&
                   userStartedSearch && (
                     <LinkButton onClick={() => setEnterAddressManually(true)}>
                       <Text weight={600} size='16px' color='blue600'>
