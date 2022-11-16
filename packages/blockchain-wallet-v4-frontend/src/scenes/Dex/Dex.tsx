@@ -8,7 +8,8 @@ import { DexSwapForm, DexSwapSteps } from 'data/components/dex/types'
 import { RootState } from 'data/rootReducer'
 
 import { FormWrapper, PageWrapper } from './Dex.model'
-import Intro from './Intro'
+// import Intro from './Intro'
+import { Onboarding } from './Onboarding'
 import ConfirmSwap from './Swap/ConfirmSwap'
 import EnterSwapDetails from './Swap/EnterSwapDetails'
 
@@ -25,7 +26,8 @@ const Dex = ({ dexActions, formValues, ratesActions }: Props) => {
 
   return (
     <PageWrapper>
-      {!wasIntroViewed && <Intro />}
+      {/* {!wasIntroViewed && <Intro />} */}
+      {!wasIntroViewed && <Onboarding />}
       {wasIntroViewed && (
         <FormWrapper>
           {step === DexSwapSteps.ENTER_DETAILS && <EnterSwapDetails />}
