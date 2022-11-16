@@ -67,7 +67,7 @@ export const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-  padding: 1rem 1.5rem;
+  padding: 1rem 0;
   font-family: 'Inter';
 `
 
@@ -80,12 +80,12 @@ export const CardListHeader = styled.div`
 `
 
 export const CardList = styled.div`
-  margin-right: 36px;
+  box-sizing: border-box;
   width: 100%;
-  display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: start;
+  padding: 0 1.5rem;
 `
 
 export const CardItem = styled.div`
