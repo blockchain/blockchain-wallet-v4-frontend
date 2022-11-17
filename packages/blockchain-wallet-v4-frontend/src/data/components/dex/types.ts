@@ -38,6 +38,11 @@ export enum DexSwapSideEnum {
   COUNTER = 'counterToken'
 }
 
+export enum DexScenes {
+  ONBOARDING = 'ONBOARDING',
+  SWAP = 'SWAP'
+}
+
 export enum DexSwapSteps {
   CONFIRM_SWAP = 'CONFIRM_SWAP',
   ENTER_DETAILS = 'ENTER_DETAILS'

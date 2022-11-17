@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { model } from 'data'
+import { SceneWrapper, StepCard } from './components'
 
-import { SceneWrapper, Slide, StepCard } from './components'
-
-const { DEX_INTRO_VIEWED_KEY } = model.components.dex
-
-const slides: React.ComponentProps<typeof Slide>[] = [
+const slides: React.ComponentProps<typeof StepCard.Content>[] = [
   {
     description: (
       <FormattedMessage
@@ -47,13 +43,12 @@ const slides: React.ComponentProps<typeof Slide>[] = [
   }
 ]
 
-export const Onboarding = () => {
+type Props = {
+  onClickStart: () => void
+}
+
+export const Onboarding = ({ onClickStart }: Props) => {
   const [currentStep, setCurrentStep] = useState<number>(0)
-
-  const onClickStart = () => {
-    localStorage.setItem(DEX_INTRO_VIEWED_KEY, 'true')
-  }
-
   return (
     <SceneWrapper>
       <StepCard
@@ -62,7 +57,7 @@ export const Onboarding = () => {
         onClickStart={onClickStart}
         onSwitchStep={setCurrentStep}
       >
-        <Slide {...slides[currentStep]} />
+        <StepCard.Content {...slides[currentStep]} />
       </StepCard>
     </SceneWrapper>
   )
