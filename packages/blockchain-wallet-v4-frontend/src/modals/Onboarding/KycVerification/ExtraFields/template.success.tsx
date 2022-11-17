@@ -213,6 +213,23 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     }
   }
 
+  const updateMultiSelectItem = (nodeId: string, allSelectedItems: Array<string>) => {
+    props.formActions.change(KYC_EXTRA_QUESTIONS_FORM, nodeId, nodeId)
+
+    const { blocking, context, nodes } = props.extraSteps
+
+    nodes.map(
+      (node) =>
+        node.id === nodeId &&
+        node.children &&
+        node.children.map((child) => {
+          child.checked = allSelectedItems.includes(child.id)
+          return child
+        })
+    )
+    props.identityVerificationActions.updateExtraKYCQuestions({ blocking, context, nodes })
+  }
+
   const onChangeInput = (e, value) => {
     const itemId = e.currentTarget.name
 
@@ -243,7 +260,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     }
   }
 
-  const renderCheckBoxBasedQuestion = (node: NodeItem, updateItem) => {
+  const renderCheckBoxBasedQuestion = (node: NodeItem) => {
     const nodeTranslation = {
       instructions: getFormattedMessageComponent(`${node.id}_instructions`),
       title: getFormattedMessageComponent(node.id)
@@ -281,7 +298,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
-  const RenderSingleSelectionQuestion = (node: NodeItem, updateItem) => {
+  const RenderSingleSelectionQuestion = (node: NodeItem) => {
     const formValue = props?.formValues ? props?.formValues[node.id] : null
     const nodeTranslation = {
       instructions: getFormattedMessageComponent(`${node.id}_instructions`),
@@ -411,7 +428,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
-  const RenderDropDownBasedQuestion = (node: NodeItem, updateItem) => {
+  const RenderDropDownBasedQuestion = (node: NodeItem) => {
     const questionElements = GetNodeQuestionElements(node)
 
     const onChangeItem = (e, value) => {
@@ -420,7 +437,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
     const onChangeMultiItem = (e, value) => {
       if (value?.length) {
-        value.map((item) => updateItem(node.id, item.value))
+        const allSelectedItems = value.map((item) => item.value)
+        updateMultiSelectItem(node.id, allSelectedItems)
       }
     }
 
@@ -469,16 +487,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   {child.children.map((item) => {
                     if (item.type === NodeItemTypes.MULTIPLE_SELECTION) {
                       return item.isDropdown
-                        ? RenderDropDownBasedQuestion(item, updateItem)
-                        : renderCheckBoxBasedQuestion(item, updateItem)
+                        ? RenderDropDownBasedQuestion(item)
+                        : renderCheckBoxBasedQuestion(item)
                     }
                     if (
                       item.type === NodeItemTypes.SINGLE_SELECTION ||
                       item.type === NodeItemTypes.SELECTION
                     ) {
                       return item.isDropdown
-                        ? RenderDropDownBasedQuestion(item, updateItem)
-                        : RenderSingleSelectionQuestion(item, updateItem)
+                        ? RenderDropDownBasedQuestion(item)
+                        : RenderSingleSelectionQuestion(item)
                     }
                     if (item.type === NodeItemTypes.OPEN_ENDED) {
                       return (
@@ -531,16 +549,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           props.extraSteps.nodes.map((node) => {
             if (node.type === NodeItemTypes.MULTIPLE_SELECTION) {
               return node.isDropdown
-                ? RenderDropDownBasedQuestion(node, updateItem)
-                : renderCheckBoxBasedQuestion(node, updateItem)
+                ? RenderDropDownBasedQuestion(node)
+                : renderCheckBoxBasedQuestion(node)
             }
             if (
               node.type === NodeItemTypes.SINGLE_SELECTION ||
               node.type === NodeItemTypes.SELECTION
             ) {
               return node.isDropdown
-                ? RenderDropDownBasedQuestion(node, updateItem)
-                : RenderSingleSelectionQuestion(node, updateItem)
+                ? RenderDropDownBasedQuestion(node)
+                : RenderSingleSelectionQuestion(node)
             }
             if (node.type === NodeItemTypes.OPEN_ENDED) {
               return RenderTextBoxQuestion(node)
