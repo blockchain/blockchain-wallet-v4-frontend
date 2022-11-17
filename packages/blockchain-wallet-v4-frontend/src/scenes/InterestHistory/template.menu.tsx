@@ -10,7 +10,7 @@ const TabRow = styled.div`
   display: flex;
 `
 
-const InterestMenu = () => {
+const EarnMenu = () => {
   return (
     <TabRow>
       <TabMenu>
@@ -29,4 +29,4 @@ const InterestMenu = () => {
   )
 }
 
-export default InterestMenu
+export default EarnMenu

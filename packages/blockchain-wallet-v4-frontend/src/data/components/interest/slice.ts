@@ -23,7 +23,7 @@ import {
   EarnInstrumentsType,
   EarnMinMaxType,
   EarnStepMetaData,
-  EarnTabTypes,
+  EarnTabsType,
   EarnTransactionType,
   ErrorStringType,
   InterestLimits,
@@ -450,7 +450,7 @@ const interestSlice = createSlice({
       state.earnDepositLimits = action.payload.limits
     },
 
-    setEarnTab: (state, action: PayloadAction<{ tab: EarnTabTypes }>) => {
+    setEarnTab: (state, action: PayloadAction<{ tab: EarnTabsType }>) => {
       state.earnTab = action.payload.tab
     },
 

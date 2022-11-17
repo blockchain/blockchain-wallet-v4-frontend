@@ -23,7 +23,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as ParentProps, SuccessStateType } from '..'
-import { RewardsTextContainer, StakingTextContainer, Tag } from '../EarnTable.model'
+import { RewardsTextContainer, StakingTextContainer, Tag } from '../Table.model'
 import { sortTextCells, TableContainer } from './SortableTable.model'
 
 const SortableTable = ({

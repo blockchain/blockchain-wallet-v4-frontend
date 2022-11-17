@@ -8,7 +8,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as ParentProps, SuccessStateType } from '..'
-import { RewardsTextContainer, StakingTextContainer, Tag } from '../EarnTable.model'
+import { RewardsTextContainer, StakingTextContainer, Tag } from '../Table.model'
 import { AmountContainer, CoinContainer, RightContainer, Row, Wrapper } from './MobileRow.model'
 
 const MobileRow = ({
@@ -65,7 +65,7 @@ const MobileRow = ({
               <Text color='grey700' size='14px' weight={500}>
                 <FormattedMessage
                   defaultMessage='Earn {interestRate}%'
-                  id='scenes.interest.earntable.mobilerow.earn'
+                  id='scenes.interest.Table.mobilerow.earn'
                   values={{
                     interestRate: interestRates[coin]
                   }}
@@ -73,7 +73,7 @@ const MobileRow = ({
               </Text>
             )}
             {isStaking ? (
-              <TooltipHost id='earntable.staking.tooltip'>
+              <TooltipHost id='Table.staking.tooltip'>
                 <StakingTextContainer>
                   <Text color='grey900' size='12px' weight={600}>
                     {product}
@@ -81,7 +81,7 @@ const MobileRow = ({
                 </StakingTextContainer>
               </TooltipHost>
             ) : (
-              <TooltipHost id='earntable.rewards.tooltip'>
+              <TooltipHost id='Table.rewards.tooltip'>
                 <RewardsTextContainer>
                   <Text color='grey600' size='12px' weight={600}>
                     {product}
