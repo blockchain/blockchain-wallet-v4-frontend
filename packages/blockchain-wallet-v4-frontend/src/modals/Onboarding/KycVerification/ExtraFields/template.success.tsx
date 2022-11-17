@@ -185,11 +185,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const { blocking, context, nodes } = props.extraSteps
     let isChanged = false
 
-    nodes.map(
+    nodes.forEach(
       (node) =>
         node.id === nodeId &&
         node.children &&
-        node.children.map((child) => {
+        node.children.forEach((child) => {
           if (child.id === childId) {
             child.checked = !child.checked
             isChanged = true
@@ -205,7 +205,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             child.checked = false
             isChanged = true
           }
-          return child
         })
     )
     if (isChanged) {
@@ -218,13 +217,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
     const { blocking, context, nodes } = props.extraSteps
 
-    nodes.map(
+    nodes.forEach(
       (node) =>
         node.id === nodeId &&
         node.children &&
-        node.children.map((child) => {
+        node.children.forEach((child) => {
           child.checked = allSelectedItems.includes(child.id)
-          return child
         })
     )
     props.identityVerificationActions.updateExtraKYCQuestions({ blocking, context, nodes })
@@ -236,23 +234,21 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const { blocking, context, nodes } = props.extraSteps
     const isChanged = false
 
-    nodes.map((node) => {
+    nodes.forEach((node) => {
       if (node.children) {
-        node.children.map(
+        node.children.forEach(
           (child) =>
             child.children &&
-            child.children.map((item) => {
+            child.children.forEach((item) => {
               if (item.id === itemId && item.input !== value) {
                 item.input = value
               }
-              return item
             })
         )
       }
       if (node.id === itemId && node.input !== value) {
         node.input = value
       }
-      return node
     })
 
     if (isChanged) {
