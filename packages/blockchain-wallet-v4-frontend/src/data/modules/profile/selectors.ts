@@ -169,9 +169,7 @@ export const isExchangeRelinkRequired = (state): RemoteDataType<string, boolean 
   })(getUserData(state))
 
 export const isFlowInRiskSettings = (state: RootState, flowName: string): boolean => {
-  const userRiskSettings = getUserRiskSettings(state).getOrElse({ flows: [] } as UserRiskSettings)
+  const userRiskSettings: UserRiskSettings = getUserRiskSettings(state).getOrElse({ flows: [] })
 
-  return !!(
-    userRiskSettings.flows.length && userRiskSettings.flows.some((ur) => ur.name === flowName)
-  )
+  return userRiskSettings.flows.some((ur) => ur.name === flowName)
 }
