@@ -1,10 +1,11 @@
 import { concat, mergeRight, prop, propOr } from 'ramda'
 
 export default ({ get, post, rootUrl }) => {
-  const fetchPayloadWithSharedKey = (guid, sharedKey) =>
+  const fetchPayloadWithSharedKey = (guid, sharedKey, sessionToken) =>
     post({
       data: { format: 'json', guid, method: 'wallet.aes.json', sharedKey },
       endPoint: '/wallet',
+      sessionToken,
       url: rootUrl
     })
 

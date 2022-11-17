@@ -23,7 +23,7 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
         sharedKey
       },
       endPoint: '/wallet',
-      sessionToken: '1',
+      sessionToken,
       url: rootUrl
     })
 

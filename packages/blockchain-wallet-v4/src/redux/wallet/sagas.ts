@@ -204,7 +204,8 @@ export default ({ api, networks }) => {
         api.fetchWalletWithSharedKey,
         kvCredentials.guid,
         kvCredentials.sharedKey,
-        kvCredentials.password
+        kvCredentials.password,
+        sessionToken
       )
       const wrapperT = set(Wrapper.password, newPassword, wallet)
       // eslint-disable-next-line no-useless-catch

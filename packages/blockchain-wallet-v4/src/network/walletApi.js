@@ -29,8 +29,8 @@ const createWalletApi = (
 
   // **********
 
-  const fetchWalletWithSharedKeyTask = (guid, sharedKey, password) =>
-    promiseToTask(ApiPromise.fetchPayloadWithSharedKey)(guid, sharedKey).chain(
+  const fetchWalletWithSharedKeyTask = (guid, sharedKey, password, sessionToken) =>
+    promiseToTask(ApiPromise.fetchPayloadWithSharedKey)(guid, sharedKey, sessionToken).chain(
       Wrapper.fromEncJSON(password)
     )
   const fetchWalletWithSharedKey = compose(taskToPromise, fetchWalletWithSharedKeyTask)
