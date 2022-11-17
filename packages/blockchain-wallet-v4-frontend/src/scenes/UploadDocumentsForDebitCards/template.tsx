@@ -1,7 +1,6 @@
 import React, { RefObject } from 'react'
 import Dropzone from 'react-dropzone'
 import { FormattedMessage } from 'react-intl'
-import { FasIdBadge, FasIdCard, FasPassport } from '@blockchain-com/components'
 import { prop } from 'ramda'
 import styled from 'styled-components'
 
@@ -24,26 +23,14 @@ const FileInfo = styled.div`
   display: flex;
   flex-direction: column;
 `
+
 const FilesList = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
 `
-const Icons = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  width: 100%;
-  & > * {
-    fill: ${(props) => props.theme.blue900};
-  }
-`
-const IdContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
+
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -346,29 +333,6 @@ const UploadDocuments = ({
                   </TextGroup>
                 </>
               )}
-              <Icons>
-                <IdContainer>
-                  <FasPassport />
-                  <Text color='blue900' size='12px' weight={400}>
-                    <FormattedMessage id='scenes.uploaddoc.passport' defaultMessage='Passport' />
-                  </Text>
-                </IdContainer>
-                <IdContainer>
-                  <FasIdBadge />
-                  <Text color='blue900' size='12px' weight={400}>
-                    <FormattedMessage
-                      id='scenes.uploaddoc.drivinglicense'
-                      defaultMessage='Driving license'
-                    />
-                  </Text>
-                </IdContainer>
-                <IdContainer>
-                  <FasIdCard />
-                  <Text color='blue900' size='12px' weight={400}>
-                    <FormattedMessage id='scenes.uploaddoc.idcard' defaultMessage='ID Card' />
-                  </Text>
-                </IdContainer>
-              </Icons>
             </>
           ) : (
             <>
