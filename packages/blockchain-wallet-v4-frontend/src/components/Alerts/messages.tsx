@@ -999,6 +999,13 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Failed to update imported address label'
         />
       )
+    case C.UPDATE_PAYLOAD_FAILED:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.update_imported_address_label_error'
+          defaultMessage='Failed to update.'
+        />
+      )
     case C.VERIFY_DEVICE_EXPIRY:
       return buildMessageTemplate(
         <FormattedMessage

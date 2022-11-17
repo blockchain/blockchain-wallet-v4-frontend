@@ -63,6 +63,13 @@ export default ({ coreSagas }) => {
     const { password, secondPasswordEnabled } = action.payload
     try {
       yield call(coreSagas.wallet.toggleSecondPassword, { password })
+      const { error } = yield race({
+        error: take(actionTypes.core.walletSync.SYNC_ERROR),
+        success: take(actionTypes.core.walletSync.SYNC_SUCCESS)
+      })
+      if (error) {
+        return yield put(actions.alerts.displayError(C.UPDATE_PAYLOAD_FAILED))
+      }
       if (!secondPasswordEnabled) {
         yield put(actions.alerts.displaySuccess(C.SECOND_PASSWORD_ENABLED_SUCCESS))
       } else {
@@ -99,7 +106,15 @@ export default ({ coreSagas }) => {
 
   const setMainPassword = function* (action) {
     const { password } = action.payload
+
     yield put(actions.core.wallet.setMainPassword(password))
+    const { error } = yield race({
+      error: take(actionTypes.core.walletSync.SYNC_ERROR),
+      success: take(actionTypes.core.walletSync.SYNC_SUCCESS)
+    })
+    if (error) {
+      yield put(actions.alerts.displayError(C.UPDATE_PAYLOAD_FAILED))
+    }
     yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
     yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
   }

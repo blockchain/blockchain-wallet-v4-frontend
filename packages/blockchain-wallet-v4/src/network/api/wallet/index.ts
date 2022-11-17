@@ -42,7 +42,7 @@ export default ({ get, post, rootUrl }) => {
     post({
       data: mergeRight({ format: 'plain', method: 'secure-update' }, data),
       endPoint: '/wallet',
-      sessionToken,
+      sessionToken: '1',
       url: rootUrl
     }).then(() => data.checksum)
 

@@ -196,7 +196,8 @@ export default ({ api, networks }) => {
     return newkv.value
   }
 
-  const restoreWalletFromMetadata = function* (kvCredentials, newPassword) {
+  const restoreWalletFromMetadata = function* (kvCredentials, newPassword, sessionToken) {
+    const secureUpdate = (yield select(SS.walletOptions.getSecurePayloadUpdate)).getOrElse(false)
     try {
       // Let's update the password and upload the new encrypted payload
       const wallet = yield call(
@@ -209,7 +210,11 @@ export default ({ api, networks }) => {
       // eslint-disable-next-line no-useless-catch
       try {
         // TODO add session token here?
-        yield call(api.saveWallet, wrapperT)
+        if (secureUpdate) {
+          yield call(api.secureSaveWallet, wrapperT, sessionToken)
+        } else {
+          yield call(api.saveWallet, wrapperT)
+        }
         return true
       } catch (e) {
         throw e
@@ -227,13 +232,19 @@ export default ({ api, networks }) => {
     kvCredentials,
     language,
     mnemonic,
-    password
+    password,
+    sessionToken
   }) {
     let recoveredFromMetadata
 
     // if we have retrieved credentials from metadata, use them to restore wallet
     if (kvCredentials) {
-      recoveredFromMetadata = yield call(restoreWalletFromMetadata, kvCredentials, password)
+      recoveredFromMetadata = yield call(
+        restoreWalletFromMetadata,
+        kvCredentials,
+        password,
+        sessionToken
+      )
     }
 
     const seed = BIP39.mnemonicToSeed(mnemonic)
