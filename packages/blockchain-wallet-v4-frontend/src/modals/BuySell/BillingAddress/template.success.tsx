@@ -147,10 +147,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const findUserAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value
-    if (text !== '') {
-      setSearchText(text)
-      findUserAddresses(text)
-      setUserStartedSearch(true)
+    if (text === '') return
+    setSearchText(text)
+    findUserAddresses(text)
+    setUserStartedSearch(true)
+    if (isAddressSelected) {
+      setIsAddressSelected(false)
     }
   }
 
@@ -170,11 +172,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     }
   }
 
+  const resetAddressForm = () => {
+    dispatch(actions.form.clearFields(FORMS_BS_BILLING_ADDRESS, false, false, 'line1'))
+    dispatch(actions.form.clearFields(FORMS_BS_BILLING_ADDRESS, false, false, 'line2'))
+    dispatch(actions.form.clearFields(FORMS_BS_BILLING_ADDRESS, false, false, 'city'))
+    dispatch(actions.form.clearFields(FORMS_BS_BILLING_ADDRESS, false, false, 'postCode'))
+  }
+
   const useAddress = (address: LocationAddress) => {
     if (address.type === 'Container') {
       setSearchText(`${searchText} `)
       findUserAddresses(searchText, address.id)
     } else {
+      resetAddressForm()
       setIsAddressSelected(true)
       retrieveUserAddresses(address.id)
       setUserStartedSearch(false)
@@ -233,16 +243,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 </FormGroup>
               )}
 
-              {props.useLoqateServiceEnabled && !enterAddressManually && userStartedSearch && (
-                <LinkButton onClick={onEnterAddressManually}>
-                  <Text weight={600} size='16px' color='blue600'>
-                    <FormattedMessage
-                      id='debitcard.residential_address.add_my_address'
-                      defaultMessage='Add address manually'
-                    />
-                  </Text>
-                </LinkButton>
-              )}
+              {props.useLoqateServiceEnabled &&
+                !enterAddressManually &&
+                userStartedSearch &&
+                !isAddressSelected && (
+                  <LinkButton onClick={onEnterAddressManually}>
+                    <Text weight={600} size='16px' color='blue600'>
+                      <FormattedMessage
+                        id='debitcard.residential_address.add_my_address'
+                        defaultMessage='Add address manually'
+                      />
+                    </Text>
+                  </LinkButton>
+                )}
 
               {props.useLoqateServiceEnabled && isAddressLoading && (
                 <Padding top={0.625}>

@@ -108,15 +108,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     if (userRetrievedAddress && userRetrievedAddress.data?.city) {
       const { data: userSelectedAddress } = userRetrievedAddress
 
-      if (userSelectedAddress && !isAddressSelected) {
+      if (userSelectedAddress) {
         setTimeout(() => {
           props.updateSelectedAddressDetails(userSelectedAddress)
         }, 200)
       }
-      setIsAddressSelected(true)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userRetrievedAddress, isAddressSelected])
+  }, [userRetrievedAddress])
 
   if (props.submitting || !supportedCountries?.countries || !supportedUSStates?.states) {
     return (
@@ -157,10 +156,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const findUserAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value
-    if (text !== '') {
-      setSearchText(text)
-      findUserAddresses(text)
+    if (text === '') return
+
+    if (isAddressSelected) {
+      setIsAddressSelected(false)
     }
+    setSearchText(text)
+    findUserAddresses(text)
   }
 
   if (defaultCountry && (!props.formValues || (props.formValues && !props.formValues.country))) {
@@ -182,6 +184,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       setSearchText(`${searchText} `)
       findUserAddresses(searchText, address.id)
     } else {
+      setIsAddressSelected(true)
+      props.resetAddressDetails()
       dispatch(actions.components.identityVerification.retrieveUserAddress({ id: address.id }))
     }
   }
@@ -228,7 +232,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </FormGroup>
             )}
 
-            {useLoqateServiceEnabled && (
+            {useLoqateServiceEnabled && !isAddressSelected && !enterAddressManually && (
               <LinkButton onClick={() => setEnterAddressManually(true)}>
                 <Text weight={600} size='16px' color='blue600'>
                   <FormattedMessage
@@ -433,6 +437,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 export type Props = OwnProps &
   SuccessStateType & {
     onCountrySelect: (e, value: CountryType) => void
+    resetAddressDetails: () => void
     searchForAddress: (text: string) => void
     updateDefaultCountry: (country: CountryType) => void
     updateDefaultState: (state: StateType) => void

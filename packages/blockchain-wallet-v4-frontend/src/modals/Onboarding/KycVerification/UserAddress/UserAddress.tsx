@@ -70,6 +70,13 @@ const UserAddress = (props: Props) => {
     props.formActions.change(RESIDENTIAL_FORM, 'postCode', addressDetails.postalCode)
   }
 
+  const resetAddressDetails = () => {
+    props.formActions.clearFields(RESIDENTIAL_FORM, false, false, 'line1')
+    props.formActions.clearFields(RESIDENTIAL_FORM, false, false, 'line2')
+    props.formActions.clearFields(RESIDENTIAL_FORM, false, false, 'city')
+    props.formActions.clearFields(RESIDENTIAL_FORM, false, false, 'postCode')
+  }
+
   return props.data.cata({
     Failure: () => <DataError />,
     Loading: () => <Loading />,
@@ -83,6 +90,7 @@ const UserAddress = (props: Props) => {
         updateDefaultCountry={setDefaultCountry}
         updateDefaultState={setDefaultState}
         updateSelectedAddressDetails={updateSelectedAddressDetails}
+        resetAddressDetails={resetAddressDetails}
         initialValues={{
           ...val.userData
         }}
