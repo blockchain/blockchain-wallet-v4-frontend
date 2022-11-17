@@ -30,7 +30,10 @@ export type DexStateType = {
   chains: RemoteDataType<string, DexChainList>
   currentChain: RemoteDataType<string, DexChain>
   currentChainTokens: RemoteDataType<string, DexChainTokenList>
-  swapQuote: RemoteDataType<string, DexSwapQuoteResponse>
+  swapQuote: RemoteDataType<
+    DexSwapQuoteResponse | { status?: string; type?: string },
+    DexSwapQuoteResponse
+  >
 }
 
 export enum DexSwapSideEnum {
