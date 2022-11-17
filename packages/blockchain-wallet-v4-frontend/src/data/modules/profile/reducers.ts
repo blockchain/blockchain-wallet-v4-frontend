@@ -17,6 +17,7 @@ const INITIAL_STATE: ProfileState = {
   },
   userCampaigns: Remote.NotAsked,
   userData: Remote.NotAsked,
+  userRiskSettings: Remote.NotAsked,
   userTiers: Remote.Success(INITIAL_TIERS)
 }
 
@@ -41,6 +42,21 @@ export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes
       return {
         ...state,
         userCampaigns: Remote.Success(action.payload.userCampaigns)
+      }
+    case AT.FETCH_USER_RISK_SETTINGS_FAILURE:
+      return {
+        ...state,
+        userRiskSettings: Remote.Failure(action.payload.error)
+      }
+    case AT.FETCH_USER_RISK_SETTINGS_LOADING:
+      return {
+        ...state,
+        userRiskSettings: Remote.Loading
+      }
+    case AT.FETCH_USER_RISK_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        userRiskSettings: Remote.Success(action.payload.userRiskSettings)
       }
     case AT.FETCH_USER_DATA_FAILURE:
       return {

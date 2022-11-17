@@ -1,6 +1,12 @@
 import { AxiosError } from 'axios'
 
-import type { NabuAddressType, NabuApiErrorType, RemoteDataType, WalletFiatType } from '@core/types'
+import type {
+  NabuAddressType,
+  NabuApiErrorType,
+  RemoteDataType,
+  UserRiskSettings,
+  WalletFiatType
+} from '@core/types'
 import type { CampaignsType } from 'data/components/identityVerification/types'
 
 import * as AT from './actionTypes'
@@ -147,6 +153,7 @@ export interface ProfileState {
   }
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
+  userRiskSettings: RemoteDataType<string, UserRiskSettings>
   userTiers: RemoteDataType<string, UserTiersType>
 }
 
@@ -321,6 +328,22 @@ interface SigninActionType {
   type: typeof AT.SIGN_IN
 }
 
+interface FetchUserRiskSettingsFailureAction {
+  payload: {
+    error: NabuApiErrorType
+  }
+  type: typeof AT.FETCH_USER_RISK_SETTINGS_FAILURE
+}
+interface FetchUserRiskSettingsLoadingAction {
+  type: typeof AT.FETCH_USER_RISK_SETTINGS_LOADING
+}
+interface FetchUserRiskSettingsSuccessAction {
+  payload: {
+    userRiskSettings: UserRiskSettings
+  }
+  type: typeof AT.FETCH_USER_RISK_SETTINGS_SUCCESS
+}
+
 export type ProfileActionTypes =
   | AuthAndRouteToExchangeAction
   | ClearProfileStateAction
@@ -335,6 +358,9 @@ export type ProfileActionTypes =
   | FetchUserDataFailureAction
   | FetchUserDataLoadingAction
   | FetchUserDataSuccessAction
+  | FetchUserRiskSettingsSuccessAction
+  | FetchUserRiskSettingsLoadingAction
+  | FetchUserRiskSettingsFailureAction
   | LinkFromExchangeAccountAction
   | LinkFromExchangeAccountFailureAction
   | LinkFromExchangeAccountLoadingAction

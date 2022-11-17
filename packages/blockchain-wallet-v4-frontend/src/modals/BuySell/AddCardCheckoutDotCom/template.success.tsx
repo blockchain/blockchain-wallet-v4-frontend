@@ -8,6 +8,7 @@ import { Expanded, Flex } from 'components/Flex'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Padding } from 'components/Padding'
 import { ModalOriginType } from 'data/types'
+import { useSardineContext } from 'hooks'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 
@@ -52,8 +53,9 @@ const Success = ({
   origin,
   pair
 }: Props) => {
-  if (window?._SardineContext) {
-    window._SardineContext.updateConfig({
+  const [sardineContextIsReady, sardineContext] = useSardineContext('CARD_LINK')
+  if (sardineContextIsReady) {
+    sardineContext.updateConfig({
       flow: 'CARD_LINK'
     })
   }
