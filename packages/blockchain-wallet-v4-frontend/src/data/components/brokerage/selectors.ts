@@ -1,11 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit'
 
-import { Remote } from '@core'
+import { getDomains } from '@core/redux/walletOptions/selectors'
 import { WalletOptionsType } from '@core/types'
-import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-
-import { DEFAULT_BS_BALANCE } from '../buySell/model'
 
 export const getBankCredentials = (state: RootState) => state.components.brokerage.bankCredentials
 
@@ -34,7 +31,7 @@ export const getIsFlow = (state: RootState) => state.components.brokerage.isFlow
 export const getReason = (state: RootState) => state.components.brokerage.reason
 
 export const getPlaidWalletHelperLink = createSelector(
-  (state: RootState) => selectors.core.walletOptions.getDomains(state),
+  (state: RootState) => getDomains(state),
   (domainsR) => {
     const { walletHelper } = domainsR.getOrElse({
       walletHelper: 'https://wallet-helper.blockchain.com'
@@ -46,17 +43,3 @@ export const getPlaidWalletHelperLink = createSelector(
 
 export const getCrossBorderLimits = (state: RootState) =>
   state.components.brokerage.crossBorderLimits
-
-export const getWithdrawableBalance = createSelector(
-  (state: RootState) => selectors.components.buySell.getBSBalances(state),
-  (state: RootState) => selectors.modules.profile.getUserCurrencies(state),
-  (sbBalancesR, userCurrenciesR) => {
-    const { defaultWalletCurrency } = userCurrenciesR.getOrFail('could not get user currencies')
-
-    return Remote.of(
-      sbBalancesR.getOrElse({
-        [defaultWalletCurrency]: DEFAULT_BS_BALANCE
-      })[defaultWalletCurrency]?.withdrawable || '0'
-    )
-  }
-)

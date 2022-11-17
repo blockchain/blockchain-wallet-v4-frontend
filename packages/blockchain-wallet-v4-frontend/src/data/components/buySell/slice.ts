@@ -15,7 +15,6 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
-  BuyQuoteStateType,
   CoinType,
   CrossBorderLimits,
   CrossBorderLimitsPayload,
@@ -28,7 +27,6 @@ import {
   ProviderDetailsType,
   SDDEligibleType,
   SDDVerifiedType,
-  SwapQuoteStateType,
   SwapUserLimitsType,
   TradeAccumulatedItem
 } from '@core/types'
@@ -39,14 +37,16 @@ import {
   BSCardStateEnum,
   BSFixType,
   BSShowModalOriginType,
+  BuyQuoteStateType,
   InitializeCheckout,
   ModalOriginType,
+  SellQuoteStateType,
   StepActionsPayload,
   SwapAccountType
 } from 'data/types'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
-import { BSCardSuccessRateType, BuySellState, BuySellStepType } from './types'
+import { BSCardSuccessRateType, BuySellState } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
@@ -367,10 +367,7 @@ const buySellSlice = createSlice({
     fetchSellQuoteFailure: (state, action: PayloadAction<string>) => {
       state.sellQuote = Remote.Failure(action.payload)
     },
-    fetchSellQuoteLoading: (state) => {
-      state.sellQuote = Remote.Loading
-    },
-    fetchSellQuoteSuccess: (state, action: PayloadAction<SwapQuoteStateType>) => {
+    fetchSellQuoteSuccess: (state, action: PayloadAction<SellQuoteStateType>) => {
       state.sellQuote = Remote.Success(action.payload)
     },
     handleBuyMaxAmountClick: (

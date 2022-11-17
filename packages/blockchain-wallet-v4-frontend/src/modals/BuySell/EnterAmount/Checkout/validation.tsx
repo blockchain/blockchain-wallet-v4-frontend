@@ -10,21 +10,20 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
-  BuyQuoteStateType,
   OrderType,
   PaymentValue,
   SwapQuoteStateType,
   SwapUserLimitsType
 } from '@core/types'
-import { model } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BSCheckoutFormValuesType, BSFixType, SwapAccountType } from 'data/types'
+import { components } from 'data/model'
+import { BSCheckoutFormValuesType, BSFixType, BuyQuoteStateType, SwapAccountType } from 'data/types'
 
 import { Props } from './template.success'
 import { Limits } from './types'
 
-const { LIMIT } = model.components.buySell
+const { LIMIT } = components.buySell
 
 export const getQuote = (
   pair: string,

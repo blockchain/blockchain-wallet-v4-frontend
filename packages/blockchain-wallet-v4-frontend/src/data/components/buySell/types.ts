@@ -10,7 +10,7 @@ import type {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
-  BuyQuoteStateType,
+  BuyQuoteType,
   CoinType,
   CrossBorderLimits,
   FiatEligibleType,
@@ -24,10 +24,10 @@ import type {
   SDDEligibleType,
   SDDVerifiedType,
   SwapOrderType,
-  SwapQuoteStateType,
   SwapUserLimitsType,
   TradeAccumulatedItem
 } from '@core/types'
+import { SwapQuoteType } from '@core/types'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
@@ -143,6 +143,25 @@ export type BSCardSuccessRateType = {
   isBlocked: boolean
 }
 
+export type RefreshConfig = {
+  date: Date
+  totalMs: number
+}
+
+export type BuyQuoteStateType = {
+  fee: string
+  pair: string
+  quote: BuyQuoteType
+  rate: number
+  refreshConfig: RefreshConfig
+}
+
+export type SellQuoteStateType = {
+  quote: SwapQuoteType
+  rate: number
+  refreshConfig: RefreshConfig
+}
+
 // State
 export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
@@ -183,7 +202,7 @@ export type BuySellState = {
   sddTransactionFinished: boolean
   sddVerified: RemoteDataType<PartialClientErrorProperties, SDDVerifiedType>
   sellOrder?: SwapOrderType
-  sellQuote: RemoteDataType<string, SwapQuoteStateType>
+  sellQuote: RemoteDataType<string, SellQuoteStateType>
   step: keyof typeof BuySellStepType
   swapAccount?: SwapAccountType
 }
