@@ -141,6 +141,7 @@ export interface InterestState {
     name: InterestStep
   }
   rewardsTransactionsNextPage?: string | null
+  searchValue: string
   showAvailableAssets: boolean
   stakingAccount: RemoteDataType<string, EarnAccountResponseType>
   stakingAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>

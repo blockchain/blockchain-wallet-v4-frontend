@@ -61,6 +61,7 @@ const initialState: InterestState = {
     name: 'ACCOUNT_SUMMARY'
   },
   rewardsTransactionsNextPage: null,
+  searchValue: '',
   showAvailableAssets: false,
   stakingAccount: Remote.NotAsked,
   stakingAccountBalance: Remote.NotAsked,
@@ -485,6 +486,10 @@ const interestSlice = createSlice({
       state.rewardsTransactionsNextPage = action.payload.nextPage
     },
 
+    setSearchValue: (state, action: PayloadAction<{ value: string }>) => {
+      state.searchValue = action.payload.value
+    },
+
     setShowAvailableAssets: (state, action: PayloadAction<{ status: boolean }>) => {
       state.showAvailableAssets = action.payload.status
     },
@@ -637,6 +642,7 @@ export const {
   setPaymentSuccess,
   setRewardsStep,
   setRewardsTransactionsNextPage,
+  setSearchValue,
   setShowAvailableAssets,
   setStakingModal,
   setStakingTransactionsNextPage,

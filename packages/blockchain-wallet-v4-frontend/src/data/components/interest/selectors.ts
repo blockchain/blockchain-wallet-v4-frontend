@@ -218,3 +218,4 @@ export const getUnderSanctionsMessage = (state: RootState) =>
 export const getEarnTab = (state: RootState) => state.components.interest.earnTab
 export const getShowAvailableAssets = (state: RootState) =>
   state.components.interest.showAvailableAssets
+export const getSearchValue = (state: RootState) => state.components.interest.searchValue
