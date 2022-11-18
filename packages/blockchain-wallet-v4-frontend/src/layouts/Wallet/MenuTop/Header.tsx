@@ -118,6 +118,14 @@ const Header = (props: OwnProps) => {
     })
   }
 
+  if (featureFlags.dex) {
+    primaryNavItems.push({
+      dest: '/dex',
+      e2e: 'dexLink',
+      text: <FormattedMessage id='copy.dex' defaultMessage='DEX' />
+    })
+  }
+
   return (
     <Navbar
       primaryNavItems={primaryNavItems}
