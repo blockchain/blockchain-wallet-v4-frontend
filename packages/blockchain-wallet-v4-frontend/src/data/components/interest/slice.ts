@@ -61,6 +61,7 @@ const initialState: InterestState = {
     name: 'ACCOUNT_SUMMARY'
   },
   rewardsTransactionsNextPage: null,
+  showAvailableAssets: false,
   stakingAccount: Remote.NotAsked,
   stakingAccountBalance: Remote.NotAsked,
   stakingEligible: Remote.NotAsked,
@@ -484,6 +485,10 @@ const interestSlice = createSlice({
       state.rewardsTransactionsNextPage = action.payload.nextPage
     },
 
+    setShowAvailableAssets: (state, action: PayloadAction<{ status: boolean }>) => {
+      state.showAvailableAssets = action.payload.status
+    },
+
     setStakingModal: (
       state,
       action: PayloadAction<{ data?: EarnStepMetaData; name: StakingStep }>
@@ -632,6 +637,7 @@ export const {
   setPaymentSuccess,
   setRewardsStep,
   setRewardsTransactionsNextPage,
+  setShowAvailableAssets,
   setStakingModal,
   setStakingTransactionsNextPage,
   setTotalBondingDeposits,

@@ -216,3 +216,5 @@ export const getEarnEDDDepositLimits = (state: RootState) =>
 export const getUnderSanctionsMessage = (state: RootState) =>
   state.components.interest.underSanctionsMessage
 export const getEarnTab = (state: RootState) => state.components.interest.earnTab
+export const getShowAvailableAssets = (state: RootState) =>
+  state.components.interest.showAvailableAssets
