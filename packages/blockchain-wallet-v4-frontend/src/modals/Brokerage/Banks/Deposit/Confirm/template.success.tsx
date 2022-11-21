@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { getLockRuleMessaging } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/model'
-import { addDays, format, intervalToDuration } from 'date-fns'
+import { addDays, format } from 'date-fns'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { BSPaymentTypes, FiatType } from '@core/types'
+import { FiatType } from '@core/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import {
   FlyoutContainer,
@@ -44,10 +43,6 @@ const Success = (props: Props) => {
   }, [])
 
   const amount = props.formValues?.amount || 0
-  const showLock = (props.withdrawLockCheck && props.withdrawLockCheck.lockTime > 0) || false
-  const days = showLock
-    ? (intervalToDuration({ end: props.withdrawLockCheck?.lockTime || 0, start: 0 }).days as number)
-    : 0
 
   return (
     <FlyoutContainer>
@@ -98,9 +93,6 @@ const Success = (props: Props) => {
             })}
           </LineItemText>
         </Row>
-        <div style={{ padding: '20px 40px 0' }}>
-          {getLockRuleMessaging(showLock, days, BSPaymentTypes.BANK_TRANSFER)}
-        </div>
       </FlyoutContent>
       <FlyoutFooter collapsed>
         <Button

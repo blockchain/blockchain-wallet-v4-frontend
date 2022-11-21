@@ -17,6 +17,7 @@ import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
 import { Analytics } from 'data/types'
+import { useSardineContext } from 'hooks'
 import { required } from 'services/forms'
 
 import { amountToCrypto, amountToFiat } from '../conversions'
@@ -51,6 +52,7 @@ const FORM_NAME = 'interestWithdrawalForm'
 
 // eslint-disable-next-line
 const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+  const [sardineContextIsReady, sardineContext] = useSardineContext('WITHDRAWAL')
   const {
     accountBalances,
     analyticsActions,
@@ -151,8 +153,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
       withdrawalAmountFiat
     })
     props.setShowSupply(showEDDWithdrawLimit)
-    if (window?._SardineContext) {
-      window._SardineContext.updateConfig({
+    if (sardineContextIsReady) {
+      sardineContext.updateConfig({
         flow: 'WITHDRAWAL'
       })
     }

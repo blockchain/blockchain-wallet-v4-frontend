@@ -30,7 +30,9 @@ import { isNabuError } from 'services/errors'
 
 import { Border, TopText } from '../../Swap/components'
 import { ErrorCodeMappings } from '../model'
+import { QuoteCountDown } from '../QuoteCountDown'
 import Loading from '../template.loading'
+import { SellButton } from './SellButton'
 
 const { FORM_BS_CHECKOUT, FORM_BS_PREVIEW_SELL } = model.components.buySell
 
@@ -101,10 +103,14 @@ const IconWrapper = styled.div`
   margin-left: 4px;
 `
 
+const QuoteCountDownWrapper = styled.div`
+  margin-top: 28px;
+`
+
 const Amount = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 40px;
+  margin-top: 8px;
   > div {
     display: flex;
     flex-direction: row;
@@ -217,7 +223,7 @@ class PreviewSell extends PureComponent<
     return this.props.quoteR.cata({
       Failure: () => null,
       Loading: () => <Loading />,
-      NotAsked: () => null,
+      NotAsked: () => <Loading />,
       Success: (val) => {
         const { account, formValues } = this.props
         if (!formValues) return null
@@ -252,6 +258,9 @@ class PreviewSell extends PureComponent<
                   />
                 </Text>
               </TopText>
+              <QuoteCountDownWrapper>
+                <QuoteCountDown date={val.refreshConfig.date} totalMs={val.refreshConfig.totalMs} />
+              </QuoteCountDownWrapper>
               <Amount data-e2e='sbTotalAmount'>
                 <div>
                   <Text size='32px' weight={600} color='grey800'>
@@ -534,28 +543,10 @@ class PreviewSell extends PureComponent<
             </FlyoutWrapper>
             <Bottom>
               <BottomActions>
-                <Button
-                  nature='primary'
-                  data-e2e='swapBtn'
-                  type='submit'
-                  disabled={this.props.submitting}
-                  fullwidth
-                  height='48px'
-                >
-                  {this.props.submitting ? (
-                    <HeartbeatLoader height='16px' width='16px' color='white' />
-                  ) : (
-                    <Text weight={600} color='white'>
-                      <FormattedMessage
-                        id='buttons.buy_sell_now'
-                        defaultMessage='{orderType} Now'
-                        values={{
-                          orderType: 'Sell'
-                        }}
-                      />
-                    </Text>
-                  )}
-                </Button>
+                <SellButton
+                  isSubmitting={this.props.submitting}
+                  refreshConfig={val.refreshConfig}
+                />
                 <Text
                   size='12px'
                   weight={500}

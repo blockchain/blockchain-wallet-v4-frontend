@@ -24,6 +24,7 @@ import { actions, selectors } from 'data'
 import { RewardsDepositFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
+import { useSardineContext } from 'hooks'
 import { required } from 'services/forms'
 import { debounce } from 'utils/helpers'
 
@@ -77,6 +78,7 @@ const checkIsAmountUnderDepositLimit = (
 }
 
 const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
+  const [sardineContextIsReady, sardineContext] = useSardineContext('ACH_DEPOSIT')
   const {
     analyticsActions,
     coin,
@@ -146,8 +148,8 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
       }
     })
 
-    if (window?._SardineContext) {
-      window._SardineContext.updateConfig({
+    if (sardineContextIsReady) {
+      sardineContext.updateConfig({
         flow: isCustodial ? 'ACH_DEPOSIT' : 'OB_DEPOSIT'
       })
     }
