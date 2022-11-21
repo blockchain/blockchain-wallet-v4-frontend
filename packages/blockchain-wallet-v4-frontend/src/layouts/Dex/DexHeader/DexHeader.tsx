@@ -1,103 +1,207 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
-import { NavLink } from 'react-router-dom'
-import { IconUser, IconWallet, PaletteColors } from '@blockchain-com/constellation'
-import styled from 'styled-components'
+import { useIntl } from 'react-intl'
+import { withRouter } from 'react-router-dom'
+import { IconPhone, IconRefresh, Navigation } from '@blockchain-com/constellation'
 
-import { Button, Image, SpinningLoader, Text } from 'blockchain-info-components'
-import { Flex } from 'components/Flex'
-import AppSwitcher from 'components/Navbar/AppSwitcher'
-import { Logo, NavButton, NavContainer, NavLeft, NavRight } from 'components/Navbar/Navbar'
-import { selectors } from 'data'
-import { useMedia } from 'services/styles'
+type Props = {
+  selectedTab?: 'home' | 'prices' | 'earn' | 'nfts' | 'dex'
+}
 
-import { Props as OwnProps } from '../Dex'
+type RouterProps = {
+  // TODO: Install proper version of history lib to import type
+  history: { push: (to: string) => void }
+}
 
-export const FIXED_HEADER_HEIGHT = 56
-
-const StickyNav = styled(NavContainer)`
-  top: 0;
-  z-index: 3;
-  position: fixed;
-  background-color: ${PaletteColors['white-900']};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`
-
-const DexHeader: React.FC<Props> = ({ ethBalanceR, isAuthenticated, pathname }) => {
-  const isTablet = useMedia('tablet')
-
+const Header: React.FC<Props & RouterProps> = ({ history, selectedTab = 'home' }) => {
+  const { formatMessage } = useIntl()
   return (
-    <StickyNav>
-      <NavLeft>
-        <Logo>
-          <NavLink to='/home' data-e2e='homeLink'>
-            <Image width='25px' name='blockchain-icon' />
-          </NavLink>
-        </Logo>
-        <AppSwitcher />
-      </NavLeft>
-      <NavRight>
-        {isAuthenticated ? (
-          <Flex gap={8} alignItems='center'>
-            <Button small data-e2e='back' nature='empty'>
-              {ethBalanceR.cata({
-                Failure: () => <>N/A</>,
-                Loading: () => <SpinningLoader width='10px' height='10px' borderWidth='3px' />,
-                NotAsked: () => <SpinningLoader width='10px' height='10px' borderWidth='3px' />,
-                Success: (ethBalance) => (
-                  <>
-                    <IconWallet color={PaletteColors['grey-400']} label='wallet' size='small' />
-                    <Text
-                      color='grey900'
-                      lineHeight='20px'
-                      size='14px'
-                      weight={600}
-                      style={{ marginLeft: '10px' }}
-                    >
-                      Wallet
-                    </Text>
-                  </>
-                )
-              })}
-            </Button>
-            <NavButton data-e2e='settingsLink'>
-              <IconUser color={PaletteColors['grey-400']} label='open-menu' size='small' />
-            </NavButton>
-          </Flex>
-        ) : (
-          <>
-            <LinkContainer
-              style={isTablet ? {} : { marginRight: '8px' }}
-              to={`/open${pathname}`}
-              data-e2e='loginLink'
-            >
-              <Button small data-e2e='login' nature='empty-blue'>
-                <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
-              </Button>
-            </LinkContainer>
-            {isTablet ? null : (
-              <LinkContainer to={`/open${pathname}`} data-e2e='signupLink'>
-                <Button small data-e2e='signup' nature='primary'>
-                  <FormattedMessage id='buttons.signup' defaultMessage='Sign Up' />
-                </Button>
-              </LinkContainer>
-            )}
-          </>
-        )}
-      </NavRight>
-    </StickyNav>
+    <Navigation
+      defaultSelected={selectedTab}
+      onSelectedChange={(key) => {
+        switch (key) {
+          // primary nav
+          case 'home':
+            history.push('/home')
+            break
+          case 'prices':
+            history.push('/prices')
+            break
+          case 'earn':
+            history.push('/earn')
+            break
+          case 'nfts':
+            history.push('/nfts')
+            break
+          case 'dex':
+            history.push('/dex')
+            break
+          // dropdown nav
+          case 'general':
+            history.push('/settings/general')
+            break
+          case 'security':
+            history.push('/security-center')
+            break
+          case 'preferences':
+            history.push('/settings/preferences')
+            break
+          case 'wallets-addresses':
+            history.push('/settings/addresses')
+            break
+          case 'tax-center':
+            history.push('/tax-center')
+            break
+          // TODO: Handle the following clicks
+          case 'refer-friend':
+          case 'trading-limits':
+            break
+          default:
+            break
+        }
+      }}
+      dropdownCtaButton={{
+        onClick: () => undefined,
+        text: 'Dropdown CTA button'
+      }}
+      title={formatMessage({
+        defaultMessage: 'Wallet',
+        id: 'navbar.title.wallet'
+      })}
+      navigationTabs={[
+        {
+          key: 'home',
+          label: formatMessage({
+            defaultMessage: 'Home',
+            id: 'navbar.primary.home'
+          })
+        },
+        {
+          key: 'prices',
+          label: formatMessage({
+            defaultMessage: 'Prices',
+            id: 'navbar.primary.prices'
+          })
+        },
+        {
+          dot: true,
+          key: 'earn',
+          label: formatMessage({
+            defaultMessage: 'Earn',
+            id: 'navbar.primary.earn'
+          })
+        },
+        {
+          dot: true,
+          key: 'nfts',
+          label: formatMessage({
+            defaultMessage: 'NFTs',
+            id: 'navbar.primary.nfts'
+          })
+        },
+        {
+          dot: true,
+          key: 'dex',
+          label: formatMessage({
+            defaultMessage: 'DEX',
+            id: 'navbar.primary.dex'
+          })
+        }
+      ]}
+      dropdownSecondSectionItems={[
+        {
+          key: 'general',
+          label: formatMessage({
+            defaultMessage: 'General',
+            id: 'navbar.dropdown.general'
+          })
+        },
+        {
+          key: 'security',
+          label: formatMessage({
+            defaultMessage: 'Security',
+            id: 'navbar.dropdown.security'
+          })
+        },
+        {
+          key: 'trading-limits',
+          label: formatMessage({
+            defaultMessage: 'Trading Limits',
+            id: 'navbar.dropdown.tradingLimits'
+          })
+        },
+        {
+          key: 'preferences',
+          label: formatMessage({
+            defaultMessage: 'Preferences',
+            id: 'navbar.dropdown.preferences'
+          })
+        },
+        {
+          key: 'wallets-addresses',
+          label: formatMessage({
+            defaultMessage: 'Wallets & Addresses',
+            id: 'navbar.dropdown.walletsAndAddresses'
+          })
+        },
+        {
+          key: 'refer-friend',
+          label: formatMessage({
+            defaultMessage: 'Refer a friend',
+            id: 'navbar.dropdown.referFriend'
+          })
+        },
+        {
+          key: 'tax-center',
+          label: formatMessage({
+            defaultMessage: 'Tax Center',
+            id: 'navbar.dropdown.taxCenter'
+          })
+        }
+      ]}
+      dropdownSecondSectionSeparator={{
+        key: 'account',
+        label: formatMessage({
+          defaultMessage: 'Account',
+          id: 'navbar.dropdown.separator'
+        })
+      }}
+      iconActions={[
+        {
+          icon: () => <IconRefresh />,
+          label: formatMessage({
+            defaultMessage: 'Refresh',
+            id: 'navbar.icons.refresh'
+          }),
+          // TODO: Handle refresh
+          onClick: () => undefined
+        },
+        {
+          // TODO: Handle app QR code dropdown
+          icon: () => <IconPhone />,
+
+          label: formatMessage({
+            defaultMessage: 'Phone app',
+            id: 'navbar.icons.phoneApp'
+          }),
+          onClick: () => undefined
+        }
+      ]}
+      // TODO: Fetch correct information and handle a click
+      walletButton={{
+        id: '14qViLJfdGaP4EeHnDyJbEGQysnCpwk3gd',
+        imgAlt: 'ETH',
+        imgSrc:
+          'https://cloudfront-us-east-1.images.arcpublishing.com/coindesk/ZJZZK5B2ZNF25LYQHMUTBTOMLU.png',
+        onClick: () => undefined
+      }}
+      // TODO: Pass real user details
+      user={{
+        name: 'John Doe',
+        // TODO: Handle dropdown
+        onClick: () => undefined
+      }}
+    />
   )
 }
 
-const mapStateToProps = (state) => ({
-  ethBalanceR: selectors.balances.getCoinNonCustodialBalance('ETH')(state)
-})
-
-const connector = connect(mapStateToProps)
-type Props = ConnectedProps<typeof connector> & OwnProps
-
-export default connector(DexHeader)
+export const DexHeader = withRouter<Props>(Header)

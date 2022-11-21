@@ -122,6 +122,7 @@ const Header = (props: OwnProps) => {
     primaryNavItems.push({
       dest: '/dex',
       e2e: 'dexLink',
+      isNew: true,
       text: <FormattedMessage id='copy.dex' defaultMessage='DEX' />
     })
   }

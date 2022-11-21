@@ -1815,10 +1815,10 @@
     tailwindcss-animation-delay "1.0.7"
     tailwindcss-radix "2.3.1"
 
-"@blockchain-com/constellation@0.2.13":
-  version "0.2.13"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.2.13.tgz#89dd628087dcfa147a2c72b74205a1950a98e8ea"
-  integrity sha512-qfV0+/72htxyf9rcE16Za4LjWbJwVn5WfTHmHIZ1TL6Vwgb82zMBM07U61VwOGWZsELdf1rvsv+GKfTrUHtAJQ==
+"@blockchain-com/constellation@0.2.14":
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.2.14.tgz#ca2b66d25e3be5dadb5e59372fbc4ce9cc36d3b9"
+  integrity sha512-Tl+WyAHzrp1uMuBeKUMCHtXy/dlOGk0dGu4Wb970L7eKsoM22cFwERkNtWL5P4CJFFSNfuoLE8l+kgbPTZbkAw==
   dependencies:
     "@headlessui/react" "1.6.6"
     "@radix-ui/colors" "0.1.8"
