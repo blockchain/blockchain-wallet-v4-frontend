@@ -20,7 +20,7 @@ const Yubikey = (props: Props) => {
       {props.authType === 0 && (
         <YubikeySetup {...props} changeAuthenticatorStep={changeAuthenticatorStep} />
       )}
-      {props.authType === 1 && (
+      {(props.authType === 1 || props.authType === 2) && (
         <YubikeyVerified {...props} changeAuthenticatorStep={changeAuthenticatorStep} />
       )}
     </>
