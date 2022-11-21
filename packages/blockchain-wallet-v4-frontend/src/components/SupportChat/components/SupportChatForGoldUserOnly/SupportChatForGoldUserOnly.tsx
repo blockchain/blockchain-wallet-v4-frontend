@@ -58,10 +58,15 @@ export const SupportChatForGoldUserOnly: SupportChatForGoldUserOnlyComponent = (
 
   useEffect(() => {
     if (isGoldUser && userData && isAvailable) {
-      sendMessage('showChat', {
-        email: userData.email,
-        fullName: userFullname
-      })
+      // FIXME: adding a 7 second delay because sendMessage was preiously firing before react was loaded
+      // in the iframe and the chat button wasn't showing up. The proper solution should wait for the iframe
+      // to tell wallet that it's loaded properly and will receive this message.
+      setTimeout(() => {
+        sendMessage('showChat', {
+          email: userData.email,
+          fullName: userFullname
+        })
+      }, 7000)
     }
   }, [userData, isAvailable, sendMessage, isGoldUser, userFullname])
 
