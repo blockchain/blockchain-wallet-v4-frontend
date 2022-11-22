@@ -1,19 +1,17 @@
 import React from 'react'
 import { useIntl } from 'react-intl'
-import { withRouter } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { IconPhone, IconRefresh, Navigation } from '@blockchain-com/constellation'
+
+import { actions } from 'data'
 
 type Props = {
   selectedTab?: 'home' | 'prices' | 'earn' | 'nfts' | 'dex'
 }
 
-type RouterProps = {
-  // TODO: Install proper version of history lib to import type
-  history: { push: (to: string) => void }
-}
-
-const Header: React.FC<Props & RouterProps> = ({ history, selectedTab = 'home' }) => {
+export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
   const { formatMessage } = useIntl()
+  const dispatch = useDispatch()
   return (
     <Navigation
       defaultSelected={selectedTab}
@@ -21,35 +19,35 @@ const Header: React.FC<Props & RouterProps> = ({ history, selectedTab = 'home' }
         switch (key) {
           // primary nav
           case 'home':
-            history.push('/home')
+            dispatch(actions.router.push('/home'))
             break
           case 'prices':
-            history.push('/prices')
+            dispatch(actions.router.push('/prices'))
             break
           case 'earn':
-            history.push('/earn')
+            dispatch(actions.router.push('/earn'))
             break
           case 'nfts':
-            history.push('/nfts')
+            dispatch(actions.router.push('/nfts'))
             break
           case 'dex':
-            history.push('/dex')
+            dispatch(actions.router.push('/dex'))
             break
           // dropdown nav
           case 'general':
-            history.push('/settings/general')
+            dispatch(actions.router.push('/settings/general'))
             break
           case 'security':
-            history.push('/security-center')
+            dispatch(actions.router.push('/security-center'))
             break
           case 'preferences':
-            history.push('/settings/preferences')
+            dispatch(actions.router.push('/settings/preferences'))
             break
           case 'wallets-addresses':
-            history.push('/settings/addresses')
+            dispatch(actions.router.push('/settings/addresses'))
             break
           case 'tax-center':
-            history.push('/tax-center')
+            dispatch(actions.router.push('/tax-center'))
             break
           // TODO: Handle the following clicks
           case 'refer-friend':
@@ -203,5 +201,3 @@ const Header: React.FC<Props & RouterProps> = ({ history, selectedTab = 'home' }
     />
   )
 }
-
-export const DexHeader = withRouter<Props>(Header)
