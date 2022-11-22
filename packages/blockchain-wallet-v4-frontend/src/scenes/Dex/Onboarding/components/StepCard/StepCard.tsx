@@ -4,6 +4,10 @@ import styled from 'styled-components'
 
 import { media } from 'services/styles'
 
+const Space = styled.div`
+  padding-top: 1.5rem;
+`
+
 const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,10 +23,6 @@ const Card = styled.div`
 
   ${media.tablet`
     width: 100%;
-  `}
-
-  ${media.mobile`
-    padding: 20px;
   `}
 `
 
@@ -46,7 +46,7 @@ export const StepCard = ({
       {children}
       <Flex flexDirection='column' alignItems='center'>
         <Pager totalPages={totalSteps} selectedPage={currentStep} onChange={onSwitchStep} />
-        <Padding top={1.5} />
+        <Space />
         <Button width='full' size='default' text='Start trading' onClick={onClickStart} />
       </Flex>
     </Card>
