@@ -174,7 +174,7 @@ const SortableTable = ({
 
       const isCoinInWindow = !!window.coins[coin]
 
-      if (searchValue !== '' && isCoinInWindow) {
+      if (isCoinInWindow) {
         const { displaySymbol, name, symbol } = window.coins[coin].coinfig
         const containsSearchValue = [displaySymbol, name, symbol].some((value) =>
           value.toLowerCase().includes(searchValue.toLowerCase())
