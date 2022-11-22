@@ -8,11 +8,11 @@ import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions } from 'data'
 
 import EarnHeader from '../Earn/Earn.template.header'
-import EarnMenu from '../Earn/Earn.template.menu'
 import CoinFilter from './CoinFilter'
 import DownloadTransactions from './DownloadTransactions'
 import { getData } from './selectors'
 import Loading from './template.loading'
+import EarnMenu from './template.menu'
 import TransactionList from './template.success'
 
 const LazyLoadWrapper = styled(LazyLoadContainer)`
