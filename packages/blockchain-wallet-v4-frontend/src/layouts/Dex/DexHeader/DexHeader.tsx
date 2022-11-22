@@ -1,7 +1,7 @@
 import React from 'react'
 import { useIntl } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { IconPhone, IconRefresh, Navigation } from '@blockchain-com/constellation'
+import { IconPresent, IconRefresh, Navigation } from '@blockchain-com/constellation'
 
 import { actions, selectors } from 'data'
 
@@ -126,13 +126,12 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
       onClick: () => undefined
     },
     {
-      // TODO: Handle app QR code dropdown
-      icon: () => <IconPhone />,
-
+      icon: () => <IconPresent />,
       label: formatMessage({
-        defaultMessage: 'Phone app',
-        id: 'navbar.icons.phoneApp'
+        defaultMessage: 'Refer',
+        id: 'navbar.icons.refer'
       }),
+      // TODO: Same as click on "Refer a Friend" from a dropdown
       onClick: () => undefined
     }
   ]
