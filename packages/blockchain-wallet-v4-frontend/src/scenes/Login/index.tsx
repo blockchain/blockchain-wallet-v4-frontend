@@ -33,7 +33,7 @@ import TwoFAWallet from './Wallet/TwoFA'
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   componentDidMount() {
     this.props.authActions.initializeLogin()
-    if (window?._SardineContext && this.props.isFlowInRiskSettings) {
+    if (window?._SardineContext) {
       window._SardineContext.updateConfig({
         flow: 'LOGIN'
       })
@@ -206,7 +206,6 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  isFlowInRiskSettings: selectors.modules.profile.isFlowInRiskSettings(state, 'LOGIN'),
   jwtToken: selectors.auth.getJwtToken(state),
   magicLinkData: selectors.auth.getMagicLinkData(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
