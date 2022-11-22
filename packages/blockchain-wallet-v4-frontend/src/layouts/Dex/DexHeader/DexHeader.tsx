@@ -122,8 +122,7 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
         defaultMessage: 'Refresh',
         id: 'navbar.icons.refresh'
       }),
-      // TODO: Handle refresh
-      onClick: () => undefined
+      onClick: () => dispatch(actions.components.refresh.refreshClicked())
     },
     {
       icon: () => <IconPresent />,
