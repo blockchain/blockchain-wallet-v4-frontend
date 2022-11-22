@@ -5,6 +5,19 @@ import { IconPresent, IconRefresh, Navigation } from '@blockchain-com/constellat
 
 import { actions, selectors } from 'data'
 
+const getUserAlias = ({
+  email,
+  firstName,
+  lastName
+}: {
+  email: string
+  firstName?: string
+  lastName?: string
+}) => {
+  if (firstName && lastName) return `${firstName} ${lastName}`
+  return firstName || lastName || email
+}
+
 type Props = {
   selectedTab?: 'home' | 'prices' | 'earn' | 'nfts' | 'dex'
 }
@@ -15,6 +28,7 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
 
   const isDexEnabled = useSelector(selectors.core.walletOptions.getDexProductEnabled)
   const isNftExplorerEnabled = useSelector(selectors.core.walletOptions.getNftExplorer)
+  const userData = useSelector(selectors.modules.profile.getUserData).getOrFail('No user data')
 
   const navigationTabs = [
     {
@@ -206,9 +220,8 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
           'https://cloudfront-us-east-1.images.arcpublishing.com/coindesk/ZJZZK5B2ZNF25LYQHMUTBTOMLU.png',
         onClick: () => undefined
       }}
-      // TODO: Pass real user details
       user={{
-        name: 'John Doe',
+        name: getUserAlias(userData),
         // TODO: Handle dropdown
         onClick: () => undefined
       }}
