@@ -1,9 +1,9 @@
 import React from 'react'
 import { useIntl } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IconPhone, IconRefresh, Navigation } from '@blockchain-com/constellation'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 
 type Props = {
   selectedTab?: 'home' | 'prices' | 'earn' | 'nfts' | 'dex'
@@ -12,9 +12,137 @@ type Props = {
 export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
   const { formatMessage } = useIntl()
   const dispatch = useDispatch()
+
+  const isDexEnabled = useSelector(selectors.core.walletOptions.getDexProductEnabled)
+  const isNftExplorerEnabled = useSelector(selectors.core.walletOptions.getNftExplorer)
+
+  const navigationTabs = [
+    {
+      key: 'home',
+      label: formatMessage({
+        defaultMessage: 'Home',
+        id: 'navbar.primary.home'
+      })
+    },
+    {
+      key: 'prices',
+      label: formatMessage({
+        defaultMessage: 'Prices',
+        id: 'navbar.primary.prices'
+      })
+    },
+    {
+      dot: true,
+      key: 'earn',
+      label: formatMessage({
+        defaultMessage: 'Earn',
+        id: 'navbar.primary.earn'
+      })
+    }
+  ]
+
+  if (isNftExplorerEnabled) {
+    navigationTabs.push({
+      dot: true,
+      key: 'nfts',
+      label: formatMessage({
+        defaultMessage: 'NFTs',
+        id: 'navbar.primary.nfts'
+      })
+    })
+  }
+
+  if (isDexEnabled) {
+    navigationTabs.push({
+      dot: true,
+      key: 'dex',
+      label: formatMessage({
+        defaultMessage: 'DEX',
+        id: 'navbar.primary.dex'
+      })
+    })
+  }
+
+  const accountDropdownItems = [
+    {
+      key: 'general',
+      label: formatMessage({
+        defaultMessage: 'General',
+        id: 'navbar.dropdown.general'
+      })
+    },
+    {
+      key: 'security',
+      label: formatMessage({
+        defaultMessage: 'Security',
+        id: 'navbar.dropdown.security'
+      })
+    },
+    {
+      key: 'trading-limits',
+      label: formatMessage({
+        defaultMessage: 'Trading Limits',
+        id: 'navbar.dropdown.tradingLimits'
+      })
+    },
+    {
+      key: 'preferences',
+      label: formatMessage({
+        defaultMessage: 'Preferences',
+        id: 'navbar.dropdown.preferences'
+      })
+    },
+    {
+      key: 'wallets-addresses',
+      label: formatMessage({
+        defaultMessage: 'Wallets & Addresses',
+        id: 'navbar.dropdown.walletsAndAddresses'
+      })
+    },
+    {
+      key: 'refer-friend',
+      label: formatMessage({
+        defaultMessage: 'Refer a friend',
+        id: 'navbar.dropdown.referFriend'
+      })
+    },
+    {
+      key: 'tax-center',
+      label: formatMessage({
+        defaultMessage: 'Tax Center',
+        id: 'navbar.dropdown.taxCenter'
+      })
+    }
+  ]
+
+  const iconActions = [
+    {
+      icon: () => <IconRefresh />,
+      label: formatMessage({
+        defaultMessage: 'Refresh',
+        id: 'navbar.icons.refresh'
+      }),
+      // TODO: Handle refresh
+      onClick: () => undefined
+    },
+    {
+      // TODO: Handle app QR code dropdown
+      icon: () => <IconPhone />,
+
+      label: formatMessage({
+        defaultMessage: 'Phone app',
+        id: 'navbar.icons.phoneApp'
+      }),
+      onClick: () => undefined
+    }
+  ]
+
   return (
     <Navigation
       defaultSelected={selectedTab}
+      iconActions={iconActions}
+      navigationTabs={navigationTabs}
+      dropdownSecondSectionItems={accountDropdownItems}
       onSelectedChange={(key) => {
         switch (key) {
           // primary nav
@@ -65,97 +193,6 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
         defaultMessage: 'Wallet',
         id: 'navbar.title.wallet'
       })}
-      navigationTabs={[
-        {
-          key: 'home',
-          label: formatMessage({
-            defaultMessage: 'Home',
-            id: 'navbar.primary.home'
-          })
-        },
-        {
-          key: 'prices',
-          label: formatMessage({
-            defaultMessage: 'Prices',
-            id: 'navbar.primary.prices'
-          })
-        },
-        {
-          dot: true,
-          key: 'earn',
-          label: formatMessage({
-            defaultMessage: 'Earn',
-            id: 'navbar.primary.earn'
-          })
-        },
-        {
-          dot: true,
-          key: 'nfts',
-          label: formatMessage({
-            defaultMessage: 'NFTs',
-            id: 'navbar.primary.nfts'
-          })
-        },
-        {
-          dot: true,
-          key: 'dex',
-          label: formatMessage({
-            defaultMessage: 'DEX',
-            id: 'navbar.primary.dex'
-          })
-        }
-      ]}
-      dropdownSecondSectionItems={[
-        {
-          key: 'general',
-          label: formatMessage({
-            defaultMessage: 'General',
-            id: 'navbar.dropdown.general'
-          })
-        },
-        {
-          key: 'security',
-          label: formatMessage({
-            defaultMessage: 'Security',
-            id: 'navbar.dropdown.security'
-          })
-        },
-        {
-          key: 'trading-limits',
-          label: formatMessage({
-            defaultMessage: 'Trading Limits',
-            id: 'navbar.dropdown.tradingLimits'
-          })
-        },
-        {
-          key: 'preferences',
-          label: formatMessage({
-            defaultMessage: 'Preferences',
-            id: 'navbar.dropdown.preferences'
-          })
-        },
-        {
-          key: 'wallets-addresses',
-          label: formatMessage({
-            defaultMessage: 'Wallets & Addresses',
-            id: 'navbar.dropdown.walletsAndAddresses'
-          })
-        },
-        {
-          key: 'refer-friend',
-          label: formatMessage({
-            defaultMessage: 'Refer a friend',
-            id: 'navbar.dropdown.referFriend'
-          })
-        },
-        {
-          key: 'tax-center',
-          label: formatMessage({
-            defaultMessage: 'Tax Center',
-            id: 'navbar.dropdown.taxCenter'
-          })
-        }
-      ]}
       dropdownSecondSectionSeparator={{
         key: 'account',
         label: formatMessage({
@@ -163,27 +200,6 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
           id: 'navbar.dropdown.separator'
         })
       }}
-      iconActions={[
-        {
-          icon: () => <IconRefresh />,
-          label: formatMessage({
-            defaultMessage: 'Refresh',
-            id: 'navbar.icons.refresh'
-          }),
-          // TODO: Handle refresh
-          onClick: () => undefined
-        },
-        {
-          // TODO: Handle app QR code dropdown
-          icon: () => <IconPhone />,
-
-          label: formatMessage({
-            defaultMessage: 'Phone app',
-            id: 'navbar.icons.phoneApp'
-          }),
-          onClick: () => undefined
-        }
-      ]}
       // TODO: Fetch correct information and handle a click
       walletButton={{
         id: '14qViLJfdGaP4EeHnDyJbEGQysnCpwk3gd',
