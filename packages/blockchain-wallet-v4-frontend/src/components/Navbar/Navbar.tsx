@@ -6,6 +6,7 @@ import {
   IconClose,
   IconMenu,
   IconRefresh,
+  Padding,
   PaletteColors,
   Text
 } from '@blockchain-com/constellation'
@@ -308,7 +309,9 @@ const Navbar = ({
               <li key={e2e}>
                 <NavLink to={dest} data-e2e={e2e}>
                   <Flex alignItems='center' gap={6}>
-                    <Text variant='paragraph1'>{text}</Text>
+                    <Padding vertical={0.625}>
+                      <Text variant='paragraph1'>{text}</Text>
+                    </Padding>
                     {isNew && (
                       <RoundedBadge>
                         <FormattedMessage defaultMessage='New' id='copy.new' />

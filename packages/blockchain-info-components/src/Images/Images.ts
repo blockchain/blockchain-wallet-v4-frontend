@@ -72,6 +72,9 @@ import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
 import orderSuccess from './img/debitCard/order-success.png'
 import terminateCard from './img/debitCard/terminate-card.png'
+import dexOnboardingSlideFunds from './img/dex-onboarding-slide-funds@2x.png'
+import dexOnboardingSlideSwap from './img/dex-onboarding-slide-swap@2x.png'
+import dexOnboardingSlideWelcome from './img/dex-onboarding-slide-welcome@2x.png'
 import ethLocked from './img/earn/eth-locked.svg'
 import ethPending from './img/earn/eth-pending.svg'
 import emailError from './img/email-error.svg'
@@ -239,6 +242,9 @@ const Images = {
   'cryptoad-4502': cryptoad4502,
   'cryptoad-large': cryptoadlarge,
   'cryptoad-small': cryptoadsmall,
+  'dex-onboarding-slide-funds': dexOnboardingSlideFunds,
+  'dex-onboarding-slide-swap': dexOnboardingSlideSwap,
+  'dex-onboarding-slide-welcome': dexOnboardingSlideWelcome,
   'email-error': emailError,
   'email-success': emailSuccess,
   'email-verified': emailVerified,

@@ -1,4 +1,9 @@
-import { FindAddressResponse, RetrieveAddress, TermsAndConditionType } from './types'
+import {
+  FindAddressResponse,
+  RetrieveAddress,
+  TermsAndConditionType,
+  UserRiskSettings
+} from './types'
 
 export default ({
   apiUrl,
@@ -345,6 +350,12 @@ export default ({
       url: nabuUrl
     })
 
+  const getUserRiskSettings = (): UserRiskSettings =>
+    authorizedGet({
+      endPoint: '/user/risk/settings',
+      url: nabuUrl
+    })
+
   return {
     approveAccountReset,
     // checkIsValidReferralCode,
@@ -363,6 +374,7 @@ export default ({
     getUser,
     getUserCampaigns,
     getUserReferralInfo,
+    getUserRiskSettings,
     getUserTermsAndConditions,
     getUserTermsAndConditionsLast,
     linkAccount,

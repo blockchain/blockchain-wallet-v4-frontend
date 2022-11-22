@@ -142,3 +142,18 @@ export const shareWalletAddressesWithExchangeFailure = (error): ProfileActionTyp
   payload: { error },
   type: AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_FAILURE
 })
+
+export const fetchUserRiskSettings = () => ({
+  type: AT.FETCH_USER_RISK_SETTINGS
+})
+export const fetchUserRiskSettingsFailure = (error: NabuApiErrorType): ProfileActionTypes => ({
+  payload: { error },
+  type: AT.FETCH_USER_RISK_SETTINGS_FAILURE
+})
+export const fetchUserRiskSettingsLoading = (): ProfileActionTypes => ({
+  type: AT.FETCH_USER_RISK_SETTINGS_LOADING
+})
+export const fetchUserRiskSettingsSuccess = (userRiskSettings): ProfileActionTypes => ({
+  payload: { userRiskSettings },
+  type: AT.FETCH_USER_RISK_SETTINGS_SUCCESS
+})

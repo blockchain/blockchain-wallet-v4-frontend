@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 
 import { actions, model, selectors } from 'data'
-import { DexSwapForm, DexSwapSteps } from 'data/components/dex/types'
+import { DexScenes, DexSwapForm, DexSwapSteps } from 'data/components/dex/types'
 import { RootState } from 'data/rootReducer'
+import { notReachable } from 'utils/notReachable'
 
 import { FormWrapper, PageWrapper } from './Dex.model'
-import Intro from './Intro'
+import { Onboarding } from './Onboarding'
 import ConfirmSwap from './Swap/ConfirmSwap'
 import EnterSwapDetails from './Swap/EnterSwapDetails'
 
@@ -20,20 +21,51 @@ const Dex = ({ dexActions, formValues, ratesActions }: Props) => {
     ratesActions.fetchCoinsRates()
   }, [dexActions, ratesActions])
 
-  const wasIntroViewed = !!localStorage.getItem(DEX_INTRO_VIEWED_KEY)
   const { step } = formValues
-
-  return (
-    <PageWrapper>
-      {!wasIntroViewed && <Intro />}
-      {wasIntroViewed && (
-        <FormWrapper>
-          {step === DexSwapSteps.ENTER_DETAILS && <EnterSwapDetails />}
-          {step === DexSwapSteps.CONFIRM_SWAP && <ConfirmSwap />}
-        </FormWrapper>
-      )}
-    </PageWrapper>
+  const [scene, setScene] = useState<DexScenes>(
+    localStorage.getItem(DEX_INTRO_VIEWED_KEY) ? DexScenes.SWAP : DexScenes.ONBOARDING
   )
+
+  const onFinishOnboarding = () => {
+    localStorage.setItem(DEX_INTRO_VIEWED_KEY, 'true')
+    setScene(DexScenes.SWAP)
+  }
+
+  switch (scene) {
+    case DexScenes.ONBOARDING:
+      return (
+        <PageWrapper>
+          <Onboarding onClickStart={onFinishOnboarding} />
+        </PageWrapper>
+      )
+
+    case DexScenes.SWAP:
+      switch (step) {
+        case DexSwapSteps.ENTER_DETAILS:
+          return (
+            <PageWrapper>
+              <FormWrapper>
+                <EnterSwapDetails />
+              </FormWrapper>
+            </PageWrapper>
+          )
+
+        case DexSwapSteps.CONFIRM_SWAP:
+          return (
+            <PageWrapper>
+              <FormWrapper>
+                <ConfirmSwap />
+              </FormWrapper>
+            </PageWrapper>
+          )
+
+        default:
+          return notReachable(step)
+      }
+
+    default:
+      return notReachable(scene)
+  }
 }
 
 const mapStateToProps = (state: RootState) => ({

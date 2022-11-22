@@ -30,21 +30,22 @@ const Column = styled.div`
   text-align: center;
 `
 
-const InterestTransactions: React.FC<Props> = () => {
+const InterestTransactions: React.FC<Props> = ({ sourceType }) => {
   return (
     <Container>
       <Column>
         <div>
           <Text size='20px' weight={600} color='grey800'>
             <FormattedMessage
-              id='scenes.interest.interestaccount'
-              defaultMessage='Rewards Account'
+              id='scenes.interest.earnAccount'
+              defaultMessage='{product} Account'
+              values={{ product: sourceType === 'INTEREST' ? 'Rewards' : 'Staking' }}
             />
           </Text>
           <Content weight={400}>
             <FormattedMessage
-              id='scenes.transaction.interest.view_txs'
-              defaultMessage='Visit the Earn Rewards page to view your transaction history.'
+              id='scenes.transaction.earn.view_txs'
+              defaultMessage='Visit the Earn page to view your transaction history.'
             />
           </Content>
         </div>
@@ -60,6 +61,6 @@ const InterestTransactions: React.FC<Props> = () => {
   )
 }
 
-type Props = {}
+type Props = { sourceType: 'STAKING' | 'INTEREST' }
 
 export default InterestTransactions

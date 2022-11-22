@@ -69,7 +69,6 @@ const DebitCard = ({
           alertActions={alertActions}
           domains={domains}
           cardToken={cardToken}
-          last4={cards[0].last4}
           cards={cards}
           debitCardActions={debitCardActions}
           lockHandler={lockHandler}
