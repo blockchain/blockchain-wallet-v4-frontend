@@ -51,14 +51,6 @@ function TransactionList(props: Props): ReactElement | null {
   )
   return txList && txList.length > 0 ? (
     <Container style={{ minWidth: '900px', paddingBottom: '45px' }}>
-      <Text
-        size='24px'
-        weight={600}
-        color='grey800'
-        style={{ lineHeight: 1.5, marginBottom: '16px' }}
-      >
-        <FormattedMessage id='scenes.interest.history.header' defaultMessage='History' />
-      </Text>
       <Table style={{ minWidth: '900px' }}>
         <TableHeader>
           <TableCell width='20%'>

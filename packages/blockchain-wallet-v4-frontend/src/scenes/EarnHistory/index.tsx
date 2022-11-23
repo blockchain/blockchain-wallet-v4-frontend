@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps, useSelector } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Flex, IconChevronLeft, Padding, SemanticColors, Text } from '@blockchain-com/constellation'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { Link } from 'blockchain-info-components'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions } from 'data'
@@ -10,11 +14,8 @@ import { RootState } from 'data/rootReducer'
 import { EarnTabsType } from 'data/types'
 import { useRemote } from 'hooks'
 
-import EarnHeader from '../Earn/Earn.template.header'
-import CoinFilter from './CoinFilter'
-import DownloadTransactions from './DownloadTransactions'
 import { getData } from './EarnHistory.selectors'
-import Tabs from './Tabs'
+import Filter from './Filter'
 import Loading from './template.loading'
 import TransactionList from './template.success'
 
@@ -25,13 +26,15 @@ const LazyLoadWrapper = styled(LazyLoadContainer)`
   align-items: flex-start;
   box-sizing: border-box;
 `
-
 const MenuRow = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 26px;
+  margin-bottom: 16px;
+`
+const Container = styled.div`
+  width: fit-content;
 `
 
 const EarnHistoryContainer = ({ earnActions }: Props) => {
@@ -68,12 +71,31 @@ const EarnHistoryContainer = ({ earnActions }: Props) => {
 
   return (
     <SceneWrapper>
-      <EarnHeader />
-      <MenuRow>
-        <Tabs earnTab={earnTab} handleTabClick={handleTabClick} />
-        <DownloadTransactions />
-        <CoinFilter rates={rates} txPages={txPages} walletCurrency={walletCurrency} />
-      </MenuRow>
+      <Container>
+        <LinkContainer to='/earn'>
+          <Link>
+            <Flex alignItems='center'>
+              <IconChevronLeft color={SemanticColors.primary} size='medium' />
+              <Text color={SemanticColors.primary} variant='caption1'>
+                <FormattedMessage id='copy.earn' defaultMessage='Earn' />
+              </Text>
+            </Flex>
+          </Link>
+        </LinkContainer>
+      </Container>
+      <Padding vertical={1}>
+        <Text variant='title1'>
+          <FormattedMessage id='copy.activity' defaultMessage='Activity' />
+        </Text>
+      </Padding>
+      <Filter
+        earnTab={earnTab}
+        handleTabClick={handleTabClick}
+        rates={rates}
+        txPages={txPages}
+        walletCurrency={walletCurrency}
+      />
+
       <LazyLoadWrapper triggerDistance={200} onLazyLoad={onFetchMoreTransactions}>
         <TransactionList
           earnActions={earnActions}

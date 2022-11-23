@@ -1,5 +1,4 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -8,16 +7,11 @@ import styled from 'styled-components'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import { actions } from 'data'
 
-import { Props as OwnProps, SuccessStateType } from '..'
-import { Value } from '../EarnHistory.model'
+import { Props as OwnProps, SuccessStateType } from '../..'
 
-const FilterText = styled(Value)`
-  margin-right: 8px;
-  font-size: 16px;
-`
 const SelectCoinWrapper = styled.div`
   display: flex;
-  width: 40%;
+  min-width: 240px;
   align-items: center;
 `
 
@@ -29,12 +23,9 @@ const CoinFilter = ({ earnActions, txPages }: Props) => {
   if (!txPages) return null
   return (
     <SelectCoinWrapper>
-      <FilterText>
-        <FormattedMessage id='scenes.interest.history.filter' defaultMessage='Filter by:' />
-      </FilterText>
       <Field
         component={SelectBoxCoin}
-        height='32px'
+        height='48px'
         name='coin'
         onChange={onChange}
         props={{
@@ -57,7 +48,7 @@ const connector = connect(null, mapDispatchToProps)
 
 const enhance = compose<any>(
   reduxForm({
-    form: 'interestHistoryCoin',
+    form: 'earnHistoryCoin',
     initialValues: { coin: 'ALL' }
   }),
   connector
