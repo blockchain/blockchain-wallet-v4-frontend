@@ -389,7 +389,11 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
-      yield put(actions.goals.runGoals())
+      // We run goals in accountResetSaga in this case
+      // Need time to write new entry
+      if (!isAccountReset) {
+        yield put(actions.goals.runGoals())
+      }
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.startLogoutTimer())
       yield call(startCoinWebsockets)
