@@ -59,7 +59,10 @@ const Earn = ({ analyticsActions, earnActions }) => {
     earnActions.fetchInterestEligible()
     earnActions.fetchStakingEligible()
 
-    return () => earnActions.setSearchValue({ value: '' })
+    return () => {
+      earnActions.setSearchValue({ value: '' })
+      earnActions.setEarnTab({ tab: 'All' })
+    }
   }, [])
 
   useEffect(() => {
