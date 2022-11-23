@@ -17,7 +17,6 @@ import {
 import { EarnTransactionType } from 'data/components/interest/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
-import Empty from './Empty'
 import {
   AmountTableCell,
   CoinAmountWrapper,
@@ -28,7 +27,8 @@ import {
   PendingTag,
   Value,
   ViewTransaction
-} from './model'
+} from './EarnHistory.model'
+import Empty from './Empty'
 import Loading from './template.loading'
 
 const LoadingWrapper = styled.div`

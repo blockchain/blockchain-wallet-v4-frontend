@@ -9,7 +9,7 @@ import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import { actions } from 'data'
 
 import { Props as OwnProps, SuccessStateType } from '..'
-import { Value } from '../model'
+import { Value } from '../EarnHistory.model'
 
 const FilterText = styled(Value)`
   margin-right: 8px;
