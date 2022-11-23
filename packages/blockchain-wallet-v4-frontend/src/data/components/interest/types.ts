@@ -85,7 +85,7 @@ export enum StakingStepsType {
 
 export type InterestTransactionsReportType = Array<Array<string>>
 
-export type InterestHistoryCoinFormType = { coin: CoinType | 'ALL' }
+export type EarnHistoryCoinFormType = { coin: CoinType | 'ALL' }
 
 export type ErrorStringType = { error: string }
 

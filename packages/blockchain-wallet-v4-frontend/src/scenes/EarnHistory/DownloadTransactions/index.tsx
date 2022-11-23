@@ -8,7 +8,7 @@ import styled, { css } from 'styled-components'
 
 import { Button, HeartbeatLoader, IconButton } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
-import { InterestHistoryCoinFormType } from 'data/components/interest/types'
+import { EarnHistoryCoinFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 
@@ -168,9 +168,7 @@ class DownloadTransactions extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  formValues: selectors.form.getFormValues('interestHistoryCoin')(
-    state
-  ) as InterestHistoryCoinFormType,
+  formValues: selectors.form.getFormValues('earnHistoryCoin')(state) as EarnHistoryCoinFormType,
   transactionsReportR: selectors.components.interest.getInterestTransactionsReport(state),
   txPages: selectors.components.interest.getEarnTransactions(state)
 })

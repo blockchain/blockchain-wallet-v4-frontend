@@ -34,9 +34,10 @@ const MenuRow = styled.div`
   margin-bottom: 26px;
 `
 
-const InterestHistoryContainer = ({ earnActions }: Props) => {
+const EarnHistoryContainer = ({ earnActions }: Props) => {
   const earnTab: EarnTabsType = useSelector((state: RootState) => state.components.interest.earnTab)
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
+
   useEffect(() => {
     earnActions.fetchEarnTransactions({ reset: true })
 
@@ -59,9 +60,7 @@ const InterestHistoryContainer = ({ earnActions }: Props) => {
     earnActions.setEarnTab({ tab })
   }
 
-  if (error) {
-    return null
-  }
+  if (error) return null
 
   if (!data || isLoading || isNotAsked) return <Loading />
 
@@ -97,4 +96,4 @@ export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type Props = ConnectedProps<typeof connector>
 
-export default connector(InterestHistoryContainer)
+export default connector(EarnHistoryContainer)

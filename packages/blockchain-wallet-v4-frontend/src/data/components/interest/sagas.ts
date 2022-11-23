@@ -284,7 +284,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let nextRewardsPageUrl
     let hasStakingNext = true
     let nextStakingPageUrl
-    const { coin } = yield select(selectors.form.getFormValues('interestHistoryCoin'))
+    const { coin } = yield select(selectors.form.getFormValues('earnHistoryCoin'))
     yield put(A.fetchEarnTransactionsReportLoading())
     try {
       while (hasRewardsNext) {
