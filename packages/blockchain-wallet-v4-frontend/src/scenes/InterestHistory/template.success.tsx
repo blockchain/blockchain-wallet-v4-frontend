@@ -43,7 +43,7 @@ const Container = styled.div`
 `
 
 function TransactionList(props: Props): ReactElement | null {
-  const { interestActions, txPages, walletCurrency } = props
+  const { earnActions, txPages, walletCurrency } = props
   const txList = flatten(
     txPages &&
       // @ts-ignore
@@ -251,7 +251,7 @@ function TransactionList(props: Props): ReactElement | null {
                     <ViewTransaction
                       data-e2e='viewTxHash'
                       onClick={() =>
-                        interestActions.routeToTxHash({
+                        earnActions.routeToTxHash({
                           coin: amount.symbol,
                           txHash: extraAttributes.hash
                         })
@@ -267,7 +267,7 @@ function TransactionList(props: Props): ReactElement | null {
                     <ViewTransaction
                       data-e2e='viewTxHash'
                       onClick={() =>
-                        interestActions.routeToTxHash({
+                        earnActions.routeToTxHash({
                           coin: amount.symbol,
                           txHash: extraAttributes.txHash
                         })
