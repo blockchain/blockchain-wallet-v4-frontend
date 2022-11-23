@@ -2,11 +2,12 @@ import React from 'react'
 import { CSVLink } from 'react-csv'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { Button, IconDownload, SemanticColors } from '@blockchain-com/constellation'
 import { flatten, map } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled, { css } from 'styled-components'
 
-import { Button, HeartbeatLoader, IconButton } from 'blockchain-info-components'
+import { HeartbeatLoader, IconButton } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { EarnHistoryCoinFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
@@ -44,28 +45,27 @@ const LoadingButton = styled(Button)`
     margin-right: 8px;
   }
 `
-
 class DownloadTransactions extends React.PureComponent<Props> {
   state: StateProps = { hasSavedReport: false }
 
   componentDidUpdate(prevProps) {
-    const { formValues, interestActions } = this.props
+    const { earnActions, formValues } = this.props
 
     if (prevProps.formValues?.coin !== formValues?.coin) {
-      interestActions.clearInterestTransactionsReport()
+      earnActions.clearInterestTransactionsReport()
       this.setState({ hasSavedReport: false }) // eslint-disable-line
     }
   }
 
   componentWillUnmount() {
-    this.props.interestActions.clearInterestTransactionsReport()
+    this.props.earnActions.clearInterestTransactionsReport()
   }
 
   handleDownload = () => {
     const {
       analyticsActions,
-      formValues: { coin },
-      interestActions
+      earnActions,
+      formValues: { coin }
     } = this.props
     analyticsActions.trackEvent({
       key: Analytics.WALLET_REWARDS_TRANSACTION_HISTORY_DOWNLOAD_CLICKED,
@@ -73,7 +73,7 @@ class DownloadTransactions extends React.PureComponent<Props> {
         currency: coin
       }
     })
-    interestActions.fetchEarnTransactionsReport()
+    earnActions.fetchEarnTransactionsReport()
   }
 
   handleSaveReport = () => {
@@ -110,20 +110,17 @@ class DownloadTransactions extends React.PureComponent<Props> {
             nature='empty-blue'
           >
             <HeartbeatLoader height='16px' width='16px' />
-            <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
           </LoadingButton>
         ),
         NotAsked: () => (
-          <StyledIconButton
-            data-e2e='generateInterestTxReport'
-            height='45px'
+          <Button
+            as='button'
             onClick={this.handleDownload}
-            name='download'
-            nature='light'
-            width='140px'
-          >
-            <FormattedMessage id='copy.download' defaultMessage='Download' />
-          </StyledIconButton>
+            size='default'
+            state='initial'
+            text={<IconDownload size='medium' color={SemanticColors.primary} />}
+            variant='minimal'
+          />
         ),
         Success: (val) => {
           // potential race condition in render - ensure data is always valid for csv
@@ -155,8 +152,8 @@ class DownloadTransactions extends React.PureComponent<Props> {
                 width='140px'
               >
                 <FormattedMessage
-                  id='scenes.interest.transactions.savereport'
-                  defaultMessage='Save Report'
+                  id='scenes.interest.transactions.savefile'
+                  defaultMessage='Save file'
                 />
               </StyledIconButton>
             </DownloadButton>
@@ -175,7 +172,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  earnActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
