@@ -198,8 +198,11 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
         }
       }}
       dropdownCtaButton={{
-        onClick: () => undefined,
-        text: 'Dropdown CTA button'
+        onClick: () => dispatch(actions.session.logout()),
+        text: formatMessage({
+          defaultMessage: 'Sign out',
+          id: 'navbar.dropdown.signOut'
+        })
       }}
       title={formatMessage({
         defaultMessage: 'Wallet',
