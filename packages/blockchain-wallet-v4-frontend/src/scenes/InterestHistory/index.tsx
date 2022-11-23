@@ -1,18 +1,21 @@
-import React, { Component } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import React, { useEffect } from 'react'
+import { connect, ConnectedProps, useSelector } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
+import { EarnTabsType } from 'data/types'
+import { useRemote } from 'hooks'
 
 import EarnHeader from '../Earn/Earn.template.header'
 import CoinFilter from './CoinFilter'
 import DownloadTransactions from './DownloadTransactions'
 import { getData } from './selectors'
+import Tabs from './Tabs'
 import Loading from './template.loading'
-import EarnMenu from './template.menu'
 import TransactionList from './template.success'
 
 const LazyLoadWrapper = styled(LazyLoadContainer)`
@@ -31,58 +34,64 @@ const MenuRow = styled.div`
   margin-bottom: 26px;
 `
 
-class InterestHistoryContainer extends Component<Props> {
-  componentDidMount() {
-    this.props.interestActions.fetchEarnTransactions({ reset: true })
+const InterestHistoryContainer = ({ earnActions }: Props) => {
+  const earnTab: EarnTabsType = useSelector((state: RootState) => state.components.interest.earnTab)
+  const { data, error, isLoading, isNotAsked } = useRemote(getData)
+  useEffect(() => {
+    earnActions.fetchEarnTransactions({ reset: true })
+
+    return () => {
+      earnActions.fetchEarnTransactionsSuccess({ reset: true, transactions: [] })
+      earnActions.setRewardsTransactionsNextPage({ nextPage: null })
+      earnActions.setEarnTab({ tab: 'All' })
+    }
+  }, [])
+
+  useEffect(() => {
+    earnActions.fetchEarnTransactions({ reset: true })
+  }, [earnTab])
+
+  const onFetchMoreTransactions = () => {
+    earnActions.fetchEarnTransactions({ reset: false })
   }
 
-  componentWillUnmount() {
-    // clear transactions related data on exit
-    this.props.interestActions.fetchEarnTransactionsSuccess({ reset: true, transactions: [] })
-    this.props.interestActions.setRewardsTransactionsNextPage({ nextPage: null })
+  const handleTabClick = (tab: EarnTabsType) => {
+    earnActions.setEarnTab({ tab })
   }
 
-  onFetchMoreTransactions = () => {
-    this.props.interestActions.fetchEarnTransactions({ reset: false })
+  if (error) {
+    return null
   }
 
-  render() {
-    const { data } = this.props
-    return (
-      <SceneWrapper>
-        <EarnHeader />
-        {data.cata({
-          Failure: () => null,
-          Loading: () => <Loading />,
-          NotAsked: () => <Loading />,
-          Success: (val) => {
-            return (
-              <>
-                <MenuRow>
-                  <EarnMenu />
-                  <DownloadTransactions />
-                  <CoinFilter {...val} />
-                </MenuRow>
-                <LazyLoadWrapper triggerDistance={200} onLazyLoad={this.onFetchMoreTransactions}>
-                  <TransactionList {...val} {...this.props} />
-                </LazyLoadWrapper>
-              </>
-            )
-          }
-        })}
-      </SceneWrapper>
-    )
-  }
+  if (!data || isLoading || isNotAsked) return <Loading />
+
+  const { rates, txPages, walletCurrency } = data
+
+  return (
+    <SceneWrapper>
+      <EarnHeader />
+      <MenuRow>
+        <Tabs earnTab={earnTab} handleTabClick={handleTabClick} />
+        <DownloadTransactions />
+        <CoinFilter rates={rates} txPages={txPages} walletCurrency={walletCurrency} />
+      </MenuRow>
+      <LazyLoadWrapper triggerDistance={200} onLazyLoad={onFetchMoreTransactions}>
+        <TransactionList
+          earnActions={earnActions}
+          rates={rates}
+          txPages={txPages}
+          walletCurrency={walletCurrency}
+        />
+      </LazyLoadWrapper>
+    </SceneWrapper>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  data: getData(state)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  earnActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
-})
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(null, mapDispatchToProps)
 
 export type SuccessStateType = ReturnType<typeof getData>['data']
 
