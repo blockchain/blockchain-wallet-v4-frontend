@@ -27,13 +27,14 @@ const BannerWrapper = styled.div`
 `
 
 const Banners = (props: Props) => {
-  const { buySellActions, interestActions } = props
+  const { buySellActions, fetchUnifiedActivityWS, interestActions } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
 
   useEffect(() => {
     buySellActions.fetchSDDEligibility()
     interestActions.fetchInterestEligible()
     interestActions.fetchStakingEligible()
+    fetchUnifiedActivityWS.startSocket()
     if (data && data.userData.tiers?.current > 0) {
       // we need such to distinguish is profile completed
       buySellActions.fetchCards(false)
@@ -140,6 +141,7 @@ const Banners = (props: Props) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  fetchUnifiedActivityWS: bindActionCreators(actions.activities, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 

@@ -23,7 +23,7 @@ import {
 } from 'services/errors/NabuError'
 import axios from 'axios'
 
-import { analyticsMiddleware, streamingXlm, webSocketCoins, webSocketRates } from '../middleware'
+import { analyticsMiddleware, streamingXlm, webSocketCoins, webSocketRates, webSocketActivities } from '../middleware'
 
 const manuallyRouteToErrorPage = (error) => {
   if (window.history.replaceState) {
@@ -89,6 +89,10 @@ const configuredStore = async function () {
     options,
     url: `${socketUrl}/coins`
   })
+  const activitiesSocket = new Socket({
+    options,
+    url: `${socketUrl}/wallet-pubkey`
+  })
   const ratesSocket = new ApiSocket({
     maxReconnects: 3,
     options,
@@ -137,6 +141,7 @@ const configuredStore = async function () {
       streamingXlm(xlmStreamingService, api),
       webSocketRates(ratesSocket),
       webSocketCoins(coinsSocket),
+      webSocketActivities(activitiesSocket),
       coreMiddleware.walletSync({ api, isAuthenticated, walletPath: 'wallet.payload' }),
       analyticsMiddleware()
     ]),
@@ -162,7 +167,8 @@ const configuredStore = async function () {
     coinsSocket,
     networks,
     options,
-    ratesSocket
+    ratesSocket,
+    activitiesSocket
   })
 
   store.dispatch(actions.goals.defineGoals())
