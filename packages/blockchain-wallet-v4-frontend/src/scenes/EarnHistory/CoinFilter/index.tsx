@@ -21,42 +21,39 @@ const SelectCoinWrapper = styled.div`
   align-items: center;
 `
 
-class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
-  onChange = (coinVal) => {
-    const { interestActions } = this.props
+const CoinFilter = ({ earnActions, txPages }: Props) => {
+  const onChange = (coinVal) => {
     const coin = coinVal === 'ALL' ? undefined : coinVal
-    interestActions.fetchEarnTransactions({ coin, reset: true })
+    earnActions.fetchEarnTransactions({ coin, reset: true })
   }
-
-  render() {
-    const { txPages } = this.props
-    return txPages ? (
-      <SelectCoinWrapper>
-        <FilterText>
-          <FormattedMessage id='scenes.interest.history.filter' defaultMessage='Filter by:' />
-        </FilterText>
-        <Field
-          component={SelectBoxCoin}
-          height='32px'
-          name='coin'
-          onChange={this.onChange}
-          props={{
-            additionalOptions: [{ text: 'All Coins', value: 'ALL' }] as any
-          }}
-          type='request'
-        />
-      </SelectCoinWrapper>
-    ) : null
-  }
+  if (!txPages) return null
+  return (
+    <SelectCoinWrapper>
+      <FilterText>
+        <FormattedMessage id='scenes.interest.history.filter' defaultMessage='Filter by:' />
+      </FilterText>
+      <Field
+        component={SelectBoxCoin}
+        height='32px'
+        name='coin'
+        onChange={onChange}
+        props={{
+          additionalOptions: [{ text: 'All Coins', value: 'ALL' }] as any
+        }}
+        type='request'
+      />
+    </SelectCoinWrapper>
+  )
 }
 
+type Props = ConnectedProps<typeof connector> & OwnProps & SuccessStateType & InjectedFormProps
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  earnActions: bindActionCreators(actions.components.interest, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(null, mapDispatchToProps)
-type Props = ConnectedProps<typeof connector> & OwnProps & SuccessStateType
 
 const enhance = compose<any>(
   reduxForm({
