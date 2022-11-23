@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import { IconChevronRightV2, IconPhone, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
@@ -14,7 +15,7 @@ const Column = styled.div`
   flex-direction: column;
 `
 
-const Row = styled.div`
+const ButtonRow = styled.div`
   display: flex;
   margin-top: 0.5rem;
   min-width: 95%;
@@ -30,6 +31,17 @@ const IconWrapper = styled.div`
 const ButtonIcon = styled.div`
   align-items: center;
   margin-right: 1rem;
+`
+
+const SkipLink = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  width: auto;
+`
+
+const SkipLinkText = styled(Text)`
+  cursor: pointer;
 `
 
 const StyledImage = styled(Image)`
@@ -68,7 +80,7 @@ const ChooseTwoFA = (props: Props) => {
         </Text>
       </CenteredColumn>
       <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.AUTHENTICATOR_SETUP)}>
-        <Row>
+        <ButtonRow>
           <IconWrapper>
             <StyledImage name='google-authenticator' height='24px' />
           </IconWrapper>
@@ -92,7 +104,7 @@ const ChooseTwoFA = (props: Props) => {
               </Text>
             </StyledGreyCartridge>
           </Column>
-        </Row>
+        </ButtonRow>
 
         <ButtonIcon>
           <IconChevronRightV2
@@ -103,7 +115,7 @@ const ChooseTwoFA = (props: Props) => {
         </ButtonIcon>
       </ButtonPanel>
       <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.YUBIKEY_SETUP)}>
-        <Row>
+        <ButtonRow>
           <IconWrapper>
             <StyledImage name='yubikey-logo' />
           </IconWrapper>
@@ -126,7 +138,7 @@ const ChooseTwoFA = (props: Props) => {
               </Text>
             </StyledSuccessCartridge>
           </Column>
-        </Row>
+        </ButtonRow>
         <ButtonIcon>
           <IconChevronRightV2
             label='chevronRight'
@@ -135,6 +147,19 @@ const ChooseTwoFA = (props: Props) => {
           />
         </ButtonIcon>
       </ButtonPanel>
+      <SkipLink>
+        <LinkContainer to='/select-product'>
+          <SkipLinkText
+            color='blue600'
+            size='16px'
+            weight={600}
+            data-e2e='skipTwoFA'
+            style={{ cursor: 'pointer' }}
+          >
+            <FormattedMessage id='modals.wallet.welcome.sb.skip' defaultMessage='Skip Setup' />
+          </SkipLinkText>
+        </LinkContainer>
+      </SkipLink>
       {/* <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.SMS_SETUP)}>
         <Row>
           <IconPhone color={PaletteColors['blue-600']} size='medium' label='sms-2fa' />

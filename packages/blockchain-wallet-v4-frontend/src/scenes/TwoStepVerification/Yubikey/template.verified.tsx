@@ -39,13 +39,7 @@ const YubikeyVerified = (props: Props) => {
         </Text>
       </CenteredColumn>
       <LinkContainer to='/select-product'>
-        <Button
-          nature='primary'
-          data-e2e='nextButton'
-          fullwidth
-          height='48px'
-          // onClick={handleNext}
-        >
+        <Button nature='primary' data-e2e='nextButton' fullwidth height='48px'>
           <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </Button>
       </LinkContainer>
