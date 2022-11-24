@@ -23,15 +23,18 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as ParentProps, SuccessStateType } from '..'
-import { RewardsTextContainer, StakingTextContainer, Tag } from '../EarnTable.model'
+import { RewardsTextContainer, StakingTextContainer, Tag } from '../Table.model'
 import { sortTextCells, TableContainer } from './SortableTable.model'
 
 const SortableTable = ({
+  earnTab,
   handleClick,
   interestAccountBalance,
   interestEligible,
   interestRates,
   isGoldTier,
+  searchValue,
+  showAvailableAssets,
   sortedInstruments,
   stakingAccountBalance,
   stakingEligible,
@@ -143,8 +146,44 @@ const SortableTable = ({
   )
 
   const data = sortedInstruments
-    .filter(({ coin }) => {
-      return window.coins[coin]
+    .filter(({ coin, product }) => {
+      switch (earnTab) {
+        case 'All':
+          break
+        case 'Rewards':
+          if (product !== earnTab) return false
+          break
+        case 'Staking':
+          if (product !== earnTab) return false
+          break
+
+        default:
+          break
+      }
+
+      if (showAvailableAssets) {
+        const isStaking = product === 'Staking'
+        const account = isStaking
+          ? stakingAccountBalance && stakingAccountBalance[coin]
+          : interestAccountBalance && interestAccountBalance[coin]
+        const accountBalanceBase = account ? account.balance : 0
+        const hasAccountBalance = accountBalanceBase > 0
+
+        if (!hasAccountBalance) return false
+      }
+
+      const isCoinInWindow = !!window.coins[coin]
+
+      if (isCoinInWindow) {
+        const { displaySymbol, name, symbol } = window.coins[coin].coinfig
+        const containsSearchValue = [displaySymbol, name, symbol].some((value) =>
+          value.toLowerCase().includes(searchValue.toLowerCase())
+        )
+
+        if (!containsSearchValue) return false
+      }
+
+      return isCoinInWindow
     })
     .map(({ coin, product, rate }) => {
       const { coinfig } = window.coins[coin] || {}

@@ -17,7 +17,6 @@ import {
 import { EarnTransactionType } from 'data/components/interest/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
-import Empty from './Empty'
 import {
   AmountTableCell,
   CoinAmountWrapper,
@@ -28,7 +27,8 @@ import {
   PendingTag,
   Value,
   ViewTransaction
-} from './model'
+} from './EarnHistory.model'
+import Empty from './Empty'
 import Loading from './template.loading'
 
 const LoadingWrapper = styled.div`
@@ -43,7 +43,7 @@ const Container = styled.div`
 `
 
 function TransactionList(props: Props): ReactElement | null {
-  const { interestActions, txPages, walletCurrency } = props
+  const { earnActions, txPages, walletCurrency } = props
   const txList = flatten(
     txPages &&
       // @ts-ignore
@@ -51,14 +51,6 @@ function TransactionList(props: Props): ReactElement | null {
   )
   return txList && txList.length > 0 ? (
     <Container style={{ minWidth: '900px', paddingBottom: '45px' }}>
-      <Text
-        size='24px'
-        weight={600}
-        color='grey800'
-        style={{ lineHeight: 1.5, marginBottom: '16px' }}
-      >
-        <FormattedMessage id='scenes.interest.history.header' defaultMessage='History' />
-      </Text>
       <Table style={{ minWidth: '900px' }}>
         <TableHeader>
           <TableCell width='20%'>
@@ -251,7 +243,7 @@ function TransactionList(props: Props): ReactElement | null {
                     <ViewTransaction
                       data-e2e='viewTxHash'
                       onClick={() =>
-                        interestActions.routeToTxHash({
+                        earnActions.routeToTxHash({
                           coin: amount.symbol,
                           txHash: extraAttributes.hash
                         })
@@ -267,7 +259,7 @@ function TransactionList(props: Props): ReactElement | null {
                     <ViewTransaction
                       data-e2e='viewTxHash'
                       onClick={() =>
-                        interestActions.routeToTxHash({
+                        earnActions.routeToTxHash({
                           coin: amount.symbol,
                           txHash: extraAttributes.txHash
                         })

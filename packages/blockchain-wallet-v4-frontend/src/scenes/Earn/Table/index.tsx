@@ -2,19 +2,18 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { RemoteDataType, RewardsRatesType } from '@core/types'
+import { EarnEDDStatus, RemoteDataType, RewardsRatesType, StakingRatesType } from '@core/types'
 import { actions } from 'data'
-import { Analytics } from 'data/types'
+import { Analytics, UserDataType } from 'data/types'
 import { useRemote } from 'hooks'
 import { useMedia } from 'services/styles'
 
-import { SuccessStateType as ParentSuccessStateType } from '..'
 import Loading from '../Earn.loading.template'
 import MobileRow from './MobileRow'
 import { getData } from './selectors'
 import SortableTable from './SortableTable'
 
-const EarnTableContainer = (props: Props) => {
+const TableContainer = (props: Props) => {
   const { analyticsActions, earnActions } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const isTabletL = useMedia('tabletL')
@@ -83,8 +82,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(null, mapDispatchToProps)
 
 export type OwnPropsType = {
+  earnEDDStatus: EarnEDDStatus
   interestRates: RewardsRatesType
+  interestRatesArray: Array<number>
   isGoldTier: boolean
+  stakingRates: StakingRatesType
+  userData: UserDataType
 }
 
 export type SuccessStateType = ReturnType<typeof getData>['data']
@@ -93,6 +96,6 @@ export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
 }
 
-export type Props = OwnPropsType & ParentSuccessStateType & ConnectedProps<typeof connector>
+export type Props = OwnPropsType & ConnectedProps<typeof connector>
 
-export default connector(EarnTableContainer)
+export default connector(TableContainer)

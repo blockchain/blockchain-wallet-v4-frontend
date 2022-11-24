@@ -8,29 +8,56 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as ParentProps, SuccessStateType } from '..'
-import { RewardsTextContainer, StakingTextContainer, Tag } from '../EarnTable.model'
+import { RewardsTextContainer, StakingTextContainer, Tag } from '../Table.model'
 import { AmountContainer, CoinContainer, RightContainer, Row, Wrapper } from './MobileRow.model'
 
 const MobileRow = ({
   coin,
+  earnTab,
   handleClick,
   interestAccountBalance,
   interestEligible,
   interestRates,
   isGoldTier,
   product,
+  searchValue,
+  showAvailableAssets,
   stakingAccountBalance,
   stakingEligible,
   walletCurrency
-}: Props): ReactElement => {
-  const { coinfig } = window.coins[coin] || {}
-  const { displaySymbol, name: displayName } = coinfig
+}: Props): ReactElement | null => {
+  switch (earnTab) {
+    case 'All':
+      break
+    case 'Rewards':
+      if (product !== earnTab) return null
+      break
+    case 'Staking':
+      if (product !== earnTab) return null
+      break
+
+    default:
+      break
+  }
+
   const isStaking = product === 'Staking'
   const account = isStaking
     ? stakingAccountBalance && stakingAccountBalance[coin]
     : interestAccountBalance && interestAccountBalance[coin]
   const accountBalanceBase = account ? account.balance : 0
   const hasAccountBalance = accountBalanceBase > 0
+
+  if (showAvailableAssets && !hasAccountBalance) return null
+
+  const { coinfig } = window.coins[coin] || {}
+  const { displaySymbol, name: displayName, symbol } = coinfig
+
+  const containsSearchValue = [displaySymbol, displayName, symbol].some((value) =>
+    value.toLowerCase().includes(searchValue.toLowerCase())
+  )
+
+  if (!containsSearchValue) return null
+
   const isInterestCoinEligible = interestEligible[coin] && interestEligible[coin]?.eligible
   const isStakingCoinEligible = stakingEligible[coin] && stakingEligible[coin]?.eligible
   const isCoinEligible = isStaking ? !isStakingCoinEligible : !isInterestCoinEligible
@@ -65,7 +92,7 @@ const MobileRow = ({
               <Text color='grey700' size='14px' weight={500}>
                 <FormattedMessage
                   defaultMessage='Earn {interestRate}%'
-                  id='scenes.interest.earntable.mobilerow.earn'
+                  id='scenes.interest.Table.mobilerow.earn'
                   values={{
                     interestRate: interestRates[coin]
                   }}
@@ -73,7 +100,7 @@ const MobileRow = ({
               </Text>
             )}
             {isStaking ? (
-              <TooltipHost id='earntable.staking.tooltip'>
+              <TooltipHost id='Table.staking.tooltip'>
                 <StakingTextContainer>
                   <Text color='grey900' size='12px' weight={600}>
                     {product}
@@ -81,7 +108,7 @@ const MobileRow = ({
                 </StakingTextContainer>
               </TooltipHost>
             ) : (
-              <TooltipHost id='earntable.rewards.tooltip'>
+              <TooltipHost id='Table.rewards.tooltip'>
                 <RewardsTextContainer>
                   <Text color='grey600' size='12px' weight={600}>
                     {product}

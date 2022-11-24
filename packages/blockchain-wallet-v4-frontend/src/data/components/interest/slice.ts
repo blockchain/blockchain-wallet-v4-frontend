@@ -23,6 +23,7 @@ import {
   EarnInstrumentsType,
   EarnMinMaxType,
   EarnStepMetaData,
+  EarnTabsType,
   EarnTransactionType,
   ErrorStringType,
   InterestLimits,
@@ -44,6 +45,7 @@ const initialState: InterestState = {
   },
   earnEDDStatus: Remote.NotAsked,
   earnEDDWithdrawLimits: Remote.NotAsked,
+  earnTab: 'All',
   instruments: Remote.NotAsked,
   interestEligible: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
@@ -59,6 +61,8 @@ const initialState: InterestState = {
     name: 'ACCOUNT_SUMMARY'
   },
   rewardsTransactionsNextPage: null,
+  searchValue: '',
+  showAvailableAssets: false,
   stakingAccount: Remote.NotAsked,
   stakingAccountBalance: Remote.NotAsked,
   stakingEligible: Remote.NotAsked,
@@ -448,6 +452,10 @@ const interestSlice = createSlice({
       state.earnDepositLimits = action.payload.limits
     },
 
+    setEarnTab: (state, action: PayloadAction<{ tab: EarnTabsType }>) => {
+      state.earnTab = action.payload.tab
+    },
+
     setPaymentFailure: (state, action: PayloadAction<{ error: string }>) => {
       state.payment = Remote.Failure(action.payload.error)
     },
@@ -476,6 +484,14 @@ const interestSlice = createSlice({
       action: PayloadAction<{ nextPage?: string | null }>
     ) => {
       state.rewardsTransactionsNextPage = action.payload.nextPage
+    },
+
+    setSearchValue: (state, action: PayloadAction<{ value: string }>) => {
+      state.searchValue = action.payload.value
+    },
+
+    setShowAvailableAssets: (state, action: PayloadAction<{ status: boolean }>) => {
+      state.showAvailableAssets = action.payload.status
     },
 
     setStakingModal: (
@@ -620,11 +636,14 @@ export const {
   routeToTxHash,
   setCoinDisplay,
   setEarnDepositLimits,
+  setEarnTab,
   setPaymentFailure,
   setPaymentLoading,
   setPaymentSuccess,
   setRewardsStep,
   setRewardsTransactionsNextPage,
+  setSearchValue,
+  setShowAvailableAssets,
   setStakingModal,
   setStakingTransactionsNextPage,
   setTotalBondingDeposits,
