@@ -6,7 +6,8 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { ExtractSuccess } from '@core/remote/types'
-import { Icon, Link, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
+import { Icon, Link, Text } from 'blockchain-info-components'
+import { StandardRow } from 'components/Rows'
 import { actions, selectors } from 'data'
 import { media } from 'services/styles'
 
@@ -36,30 +37,11 @@ const PricesLink = styled(Link)`
   display: flex;
   align-items: center;
 `
-const SkeletonLoader = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 12px 0;
-  > div:last-child {
-    flex: 1;
-    margin-left: 16px;
-  }
-`
 const Loading = () => (
   <>
-    <SkeletonLoader>
-      <SkeletonCircle height='32px' width='32px' />
-      <SkeletonRectangle height='40px' width='100%' />
-    </SkeletonLoader>
-    <SkeletonLoader>
-      <SkeletonCircle height='32px' width='32px' />
-      <SkeletonRectangle height='40px' width='100%' />
-    </SkeletonLoader>
-    <SkeletonLoader>
-      <SkeletonCircle height='32px' width='32px' />
-      <SkeletonRectangle height='40px' width='100%' />
-    </SkeletonLoader>
+    <StandardRow loading />
+    <StandardRow loading />
+    <StandardRow loading />
   </>
 )
 

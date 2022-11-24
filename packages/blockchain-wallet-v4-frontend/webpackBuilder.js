@@ -54,6 +54,7 @@ const getAndLogEnvConfig = () => {
       chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
     )
     console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL))
+    console.log(`${chalk.cyan('App Environment')}: ${chalk.blue(APP_ENV)}`)
   }
 
   return { envConfig, isSslEnabled }
@@ -254,7 +255,8 @@ const buildDevServerConfig = (
           'https://static.zdassets.com',
           'https://ekr.zdassets.com',
           'ws://localhost:8080',
-          'wss://localhost:8080'
+          'wss://localhost:8080',
+          APP_ENV !== 'production' ? 'https://api.blockchain.info' : null
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",

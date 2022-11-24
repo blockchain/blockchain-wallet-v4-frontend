@@ -3,8 +3,8 @@ import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 import { actions } from './slice'
 
-export default ({ api, coreSagas }) => {
-  const identityVerificationSagas = sagas({ api, coreSagas })
+export default ({ api, coreSagas, networks }) => {
+  const identityVerificationSagas = sagas({ api, coreSagas, networks })
 
   return function* identityVerificationSaga() {
     yield takeLatest(actions.verifyIdentity.type, identityVerificationSagas.verifyIdentity)

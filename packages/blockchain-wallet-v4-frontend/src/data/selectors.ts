@@ -12,6 +12,7 @@ import * as goals from './goals/selectors'
 import * as misc from './misc/selectors'
 import * as modals from './modals/selectors'
 import * as modules from './modules/selectors'
+import * as networkConfig from './networkConfig/selectors'
 import * as preferences from './preferences/selectors'
 import * as prices from './prices/selectors'
 import * as router from './router/selectors'
@@ -32,6 +33,7 @@ export {
   misc,
   modals,
   modules,
+  networkConfig,
   preferences,
   prices,
   router,

@@ -37,8 +37,16 @@ class TransactionList extends PureComponent<Props> {
     const { coin, coinTicker, currency, data } = this.props
     return data.cata({
       Failure: (message) => <DataError onClick={this.props.onRefresh} message={message} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
+      Loading: () => (
+        <TransactionsWrapper>
+          <Loading />
+        </TransactionsWrapper>
+      ),
+      NotAsked: () => (
+        <TransactionsWrapper>
+          <Loading />
+        </TransactionsWrapper>
+      ),
       Success: (transactions: SuccessStateType) => (
         <TransactionsWrapper>
           {transactions.map((tx) => {
