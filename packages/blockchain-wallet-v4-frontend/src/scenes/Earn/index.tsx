@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps, useSelector } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
@@ -73,7 +74,10 @@ const Earn = ({ analyticsActions, earnActions }) => {
     if (error) {
       return (
         <Text size='16px' weight={500}>
-          Oops. Something went wrong. Please refresh and try again.
+          <FormattedMessage
+            id='copy.oops.message'
+            defaultMessage='Oops. Something went wrong. Please refresh and try again.'
+          />
         </Text>
       )
     }
