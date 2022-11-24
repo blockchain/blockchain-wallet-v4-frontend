@@ -1,36 +1,98 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useIntl } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { IconPresent, IconRefresh, Navigation } from '@blockchain-com/constellation'
 
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/types'
+import { notReachable } from 'utils/notReachable'
 
-const getUserAlias = ({
-  email,
-  firstName,
-  lastName
-}: {
-  email: string
-  firstName?: string
-  lastName?: string
-}) => {
-  if (firstName && lastName) return `${firstName} ${lastName}`
-  return firstName || lastName || email
-}
+import { AccountDropdown, NavbarWrapper } from './components'
+import { useIsReferralAvailable, useUserAlias } from './hooks'
+import type { AccountNavItems, AccountNavKeys, PrimaryNavItem, PrimaryNavKeys } from './types'
 
 type Props = {
-  selectedTab?: 'home' | 'prices' | 'earn' | 'nfts' | 'dex'
+  selectedTab?: PrimaryNavKeys
 }
 
 export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
-  const { formatMessage } = useIntl()
   const dispatch = useDispatch()
+  const { formatMessage } = useIntl()
 
   const isDexEnabled = useSelector(selectors.core.walletOptions.getDexProductEnabled)
   const isNftExplorerEnabled = useSelector(selectors.core.walletOptions.getNftExplorer)
   const userData = useSelector(selectors.modules.profile.getUserData).getOrFail('No user data')
 
-  const navigationTabs = [
+  const userAlias = useUserAlias(userData)
+  const isReferralAvailable = useIsReferralAvailable()
+
+  const [isAccountDropdownVisible, setIsAccountDropdownVisible] = useState(false)
+
+  const onReferFriendClick = () => {
+    dispatch(
+      actions.modals.showModal(ModalName.REFERRAL_LANDING_MODAL, {
+        origin: 'Header'
+      })
+    )
+    dispatch(actions.modules.settings.generalSettingsInternalRedirect('Referral'))
+  }
+
+  const onClickNavItem = (key: PrimaryNavKeys | AccountNavKeys) => {
+    switch (key) {
+      // primary nav
+      case 'home':
+        dispatch(actions.router.push('/home'))
+        break
+      case 'prices':
+        dispatch(actions.router.push('/prices'))
+        break
+      case 'earn':
+        dispatch(actions.router.push('/earn'))
+        break
+      case 'nfts':
+        dispatch(actions.router.push('/nfts'))
+        break
+      case 'dex':
+        dispatch(actions.router.push('/dex'))
+        break
+      // dropdown nav
+      case 'general':
+        dispatch(actions.modules.settings.generalSettingsInternalRedirect('General'))
+        dispatch(actions.router.push('/settings/general'))
+        break
+      case 'security':
+        dispatch(actions.router.push('/security-center'))
+        break
+      case 'preferences':
+        dispatch(actions.modules.settings.generalSettingsInternalRedirect('Preferences'))
+        dispatch(actions.router.push('/settings/preferences'))
+        break
+      case 'wallets-addresses':
+        dispatch(actions.router.push('/settings/addresses'))
+        break
+      case 'tax-center':
+        dispatch(actions.router.push('/tax-center'))
+        break
+      case 'refer-friend':
+        onReferFriendClick()
+        break
+      case 'trading-limits':
+        dispatch(
+          actions.modals.showModal(ModalName.TRADING_LIMITS_MODAL, {
+            origin: 'Header'
+          })
+        )
+        dispatch(actions.modules.settings.generalSettingsInternalRedirect('TradingLimits'))
+        break
+      case 'sign-out':
+        dispatch(actions.session.logout())
+        break
+      default:
+        notReachable(key)
+    }
+  }
+
+  const navigationTabs: PrimaryNavItem[] = [
     {
       key: 'home',
       label: formatMessage({
@@ -77,7 +139,7 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
     })
   }
 
-  const accountDropdownItems = [
+  const accountDropdownItems: AccountNavItems[] = [
     {
       key: 'general',
       label: formatMessage({
@@ -114,13 +176,6 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
       })
     },
     {
-      key: 'refer-friend',
-      label: formatMessage({
-        defaultMessage: 'Refer a friend',
-        id: 'navbar.dropdown.referFriend'
-      })
-    },
-    {
       key: 'tax-center',
       label: formatMessage({
         defaultMessage: 'Tax Center',
@@ -144,90 +199,77 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
         defaultMessage: 'Refer',
         id: 'navbar.icons.refer'
       }),
-      // TODO: Same as click on "Refer a Friend" from a dropdown
-      onClick: () => undefined
+      onClick: onReferFriendClick
     }
   ]
 
+  if (isReferralAvailable) {
+    accountDropdownItems.push({
+      key: 'refer-friend',
+      label: formatMessage({
+        defaultMessage: 'Refer a friend',
+        id: 'navbar.dropdown.referFriend'
+      })
+    })
+
+    iconActions.push({
+      icon: () => <IconPresent />,
+      label: formatMessage({
+        defaultMessage: 'Refer',
+        id: 'navbar.icons.refer'
+      }),
+      onClick: onReferFriendClick
+    })
+  }
+
   return (
-    <Navigation
-      defaultSelected={selectedTab}
-      iconActions={iconActions}
-      navigationTabs={navigationTabs}
-      dropdownSecondSectionItems={accountDropdownItems}
-      onSelectedChange={(key) => {
-        switch (key) {
-          // primary nav
-          case 'home':
-            dispatch(actions.router.push('/home'))
-            break
-          case 'prices':
-            dispatch(actions.router.push('/prices'))
-            break
-          case 'earn':
-            dispatch(actions.router.push('/earn'))
-            break
-          case 'nfts':
-            dispatch(actions.router.push('/nfts'))
-            break
-          case 'dex':
-            dispatch(actions.router.push('/dex'))
-            break
-          // dropdown nav
-          case 'general':
-            dispatch(actions.router.push('/settings/general'))
-            break
-          case 'security':
-            dispatch(actions.router.push('/security-center'))
-            break
-          case 'preferences':
-            dispatch(actions.router.push('/settings/preferences'))
-            break
-          case 'wallets-addresses':
-            dispatch(actions.router.push('/settings/addresses'))
-            break
-          case 'tax-center':
-            dispatch(actions.router.push('/tax-center'))
-            break
-          // TODO: Handle the following clicks
-          case 'refer-friend':
-          case 'trading-limits':
-            break
-          default:
-            break
-        }
-      }}
-      dropdownCtaButton={{
-        onClick: () => dispatch(actions.session.logout()),
-        text: formatMessage({
-          defaultMessage: 'Sign out',
-          id: 'navbar.dropdown.signOut'
-        })
-      }}
-      title={formatMessage({
-        defaultMessage: 'Wallet',
-        id: 'navbar.title.wallet'
-      })}
-      dropdownSecondSectionSeparator={{
-        key: 'account',
-        label: formatMessage({
-          defaultMessage: 'Account',
-          id: 'navbar.dropdown.separator'
-        })
-      }}
-      // TODO: Fetch correct information and handle a click
-      walletButton={{
-        id: '14qViLJfdGaP4EeHnDyJbEGQysnCpwk3gd',
-        imgAlt: 'ETH',
-        imgSrc:
-          'https://cloudfront-us-east-1.images.arcpublishing.com/coindesk/ZJZZK5B2ZNF25LYQHMUTBTOMLU.png',
-        onClick: () => undefined
-      }}
-      user={{
-        name: getUserAlias(userData),
-        // TODO: Handle dropdown
-        onClick: () => undefined
-      }}
-    />
+    <NavbarWrapper>
+      <Navigation
+        defaultSelected={selectedTab}
+        iconActions={iconActions}
+        navigationTabs={navigationTabs}
+        dropdownSecondSectionItems={accountDropdownItems}
+        // TODO: Add type support to constellation
+        onSelectedChange={(key) => onClickNavItem(key as any)}
+        dropdownCtaButton={{
+          onClick: () => onClickNavItem('sign-out'),
+          text: formatMessage({
+            defaultMessage: 'Sign out',
+            id: 'navbar.dropdown.signOut'
+          })
+        }}
+        title={formatMessage({
+          defaultMessage: 'Wallet',
+          id: 'navbar.title.wallet'
+        })}
+        dropdownSecondSectionSeparator={{
+          key: 'account',
+          label: formatMessage({
+            defaultMessage: 'Account',
+            id: 'navbar.dropdown.separator'
+          })
+        }}
+        // TODO: Fetch correct information and handle a click
+        walletButton={{
+          id: '14qViLJfdGaP4EeHnDyJbEGQysnCpwk3gd',
+          imgAlt: 'ETH',
+          imgSrc:
+            'https://cloudfront-us-east-1.images.arcpublishing.com/coindesk/ZJZZK5B2ZNF25LYQHMUTBTOMLU.png',
+          onClick: () => undefined
+        }}
+        user={{
+          name: userAlias,
+          onClick: () => setIsAccountDropdownVisible((prev) => !prev)
+        }}
+      />
+      {/* TODO: Remove when migrated to a separate Account Settings screen */}
+      {isAccountDropdownVisible ? (
+        <AccountDropdown
+          navItems={accountDropdownItems}
+          onClickNavItem={onClickNavItem}
+          onClose={() => setIsAccountDropdownVisible(false)}
+        />
+      ) : null}
+    </NavbarWrapper>
   )
 }
