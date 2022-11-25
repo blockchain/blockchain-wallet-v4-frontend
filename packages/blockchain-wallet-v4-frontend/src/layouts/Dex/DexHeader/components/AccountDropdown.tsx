@@ -4,12 +4,17 @@ import styled from 'styled-components'
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/Navbar/Dropdown'
 import { Destination } from 'layouts/Wallet/components'
 import { useOnClickOutside } from 'services/misc'
+import { media } from 'services/styles'
 
 import { AccountNavKeys, PrimaryNavKeys } from '../types'
 
 const DropdownPositioned = styled(DropdownMenu)`
   top: 54px;
-  right: 12px;
+  right: 12px !important;
+
+  ${media.tablet`
+    display: none;
+  `};
 `
 
 type Props = {
