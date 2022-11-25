@@ -1,4 +1,4 @@
-import { RemoteDataType } from '@core/types'
+import { FileUploadItem, RemoteDataType } from '@core/types'
 
 export type DataObject = {
   documentsTypes: Array<string>
@@ -11,3 +11,5 @@ export type UploadDocumentsType = {
   reference: any
   uploaded: RemoteDataType<string, Array<string>>
 }
+
+export type UploadPayload = { files: FileUploadItem[]; redirectUrl: string | null; token: string }

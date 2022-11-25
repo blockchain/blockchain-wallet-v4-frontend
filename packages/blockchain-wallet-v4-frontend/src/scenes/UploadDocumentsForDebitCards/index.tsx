@@ -1,19 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { RouteComponentProps } from 'react-router'
+import { useParams, useSearchParams } from 'react-router-dom'
 import Base64 from 'base-64'
 import { bindActionCreators } from 'redux'
 
+import { FileUploadItem, RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 
 import UploadDocuments from './template'
 
 const UploadDocumentsContainer = (props: Props) => {
-  const search = new URLSearchParams(props.location.search)
+  const [searchParams] = useSearchParams()
+  const { token: tokenFromParams } = useParams()
+  const search = new URLSearchParams(searchParams)
   const dropzoneRef = useRef<any>(null)
   const [files, setFiles] = useState<Array<File>>([])
 
-  const { token } = props.match.params
+  const token = tokenFromParams || ''
   const redirectUrl = search.get('redirect_url')
 
   useEffect(() => {
@@ -21,7 +24,7 @@ const UploadDocumentsContainer = (props: Props) => {
   }, [])
 
   const onSubmit = () => {
-    const filesLoaded: Array<string> = []
+    const filesLoaded: Array<FileUploadItem> = []
     files.forEach((file) => {
       const fileReader = new FileReader()
       // One single upload for the array of all byte arrays
@@ -106,9 +109,9 @@ type OwnProps = {
   data: object
   displayError: () => void
   uploadDocuments: () => void
-  uploaded: object
+  uploaded: RemoteDataType<string, any>
 }
 
-type Props = OwnProps & RouteComponentProps & ConnectedProps<typeof connector>
+type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(UploadDocumentsContainer)
+export default connector(UploadDocumentsContainer as any)

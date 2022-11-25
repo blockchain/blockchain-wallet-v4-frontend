@@ -102,4 +102,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 
-export default connector(VerifyEmailContainer)
+export default connector(VerifyEmailContainer as any)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { lift } from 'ramda'
@@ -30,92 +30,87 @@ export const MainTitle = styled(Text)`
   margin-bottom: 8px;
 `
 
-class Airdrops extends React.PureComponent<Props> {
-  componentDidMount() {
-    this.props.profileActions.fetchUserCampaigns()
-  }
+const Airdrops = (props: Props) => {
+  const { data, hasEmail } = props
+  useEffect(() => {
+    props.profileActions.fetchUserCampaigns()
+  }, [])
 
-  render() {
-    const { data, hasEmail } = this.props
-    const userData = this.props.data.getOrElse({
-      kycState: 'NONE'
-    } as SuccessStateType)
-    const AirdropCards = data.cata({
-      Failure: (e) =>
-        e.type === 'INVALID_CREDENTIALS' ? (
-          // @ts-ignore
-          <Success
-            {...this.props}
-            userDoesNotExistYet
-            userCampaignsInfoResponseList={[]}
-            kycState='NONE'
-            tags={{}}
-          />
-        ) : (
-          <Text size='16px' weight={500}>
-            <FormattedMessage
-              id='scenes.airdrops.error'
-              defaultMessage='Something went wrong. Error: {error}'
-              values={{ error: e.type }}
-            />
-          </Text>
-        ),
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) => <Success {...val} {...this.props} />
-    })
-    const PastAirdrops = data.cata({
-      Failure: (e) =>
-        e.type === 'INVALID_CREDENTIALS' ? (
-          <Text weight={500} size='12px'>
-            <FormattedMessage
-              id='scenes.airdrops.upgradetoview'
-              defaultMessage='Please upgrade to view past airdrops.'
-            />
-          </Text>
-        ) : (
-          <Text size='16px' weight={500}>
-            Oops. Something went wrong and we don't know why. <b>Here's the error: {e.type}</b>
-          </Text>
-        ),
-      Loading: () => <Text weight={500}>Loading...</Text>,
-      NotAsked: () => <Text weight={500}>Loading...</Text>,
-      Success: (val) => <PastAirdropsSuccess {...val} {...this.props} />
-    })
-    if (!hasEmail) return <EmailRequired />
-    return (
-      <Wrapper>
-        <SceneHeader>
-          <IconBackground>
-            <Icon name='parachute' color='blue600' size='24px' />
-          </IconBackground>
-          <SceneHeaderText>
-            <FormattedMessage id='scenes.airdrops.header' defaultMessage='Airdrops' />
-          </SceneHeaderText>
-        </SceneHeader>
-        <SceneSubHeaderText>
+  const userData = data.getOrElse({
+    kycState: 'NONE'
+  } as SuccessStateType)
+  const AirdropCards = data.cata({
+    Failure: (e) =>
+      e.type === 'INVALID_CREDENTIALS' ? (
+        // @ts-ignore
+        <Success
+          {...props}
+          userDoesNotExistYet
+          userCampaignsInfoResponseList={[]}
+          kycState='NONE'
+          tags={{}}
+        />
+      ) : (
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id='scenes.airdrops.blockchain.safest'
-            defaultMessage='The safest and easiest way to try and discover new crypto.'
+            id='scenes.airdrops.error'
+            defaultMessage='Something went wrong. Error: {error}'
+            values={{ error: e.type }}
           />
-        </SceneSubHeaderText>
-        {AirdropCards}
-        {userData.kycState === 'VERIFIED' && (
-          <>
-            <History>
-              <MainTitle size='24px' color='grey800' weight={600}>
-                <FormattedMessage
-                  id='scenes.airdrops.pastairdrops'
-                  defaultMessage='Past Airdrops'
-                />
-              </MainTitle>
-            </History>
-            {PastAirdrops}
-          </>
-        )}
-      </Wrapper>
-    )
-  }
+        </Text>
+      ),
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />,
+    Success: (val) => <Success {...val} {...props} />
+  })
+  const PastAirdrops = data.cata({
+    Failure: (e) =>
+      e.type === 'INVALID_CREDENTIALS' ? (
+        <Text weight={500} size='12px'>
+          <FormattedMessage
+            id='scenes.airdrops.upgradetoview'
+            defaultMessage='Please upgrade to view past airdrops.'
+          />
+        </Text>
+      ) : (
+        <Text size='16px' weight={500}>
+          Oops. Something went wrong and we don`t know why. <b>Here`s the error: {e.type}</b>
+        </Text>
+      ),
+    Loading: () => <Text weight={500}>Loading...</Text>,
+    NotAsked: () => <Text weight={500}>Loading...</Text>,
+    Success: (val) => <PastAirdropsSuccess {...val} {...props} />
+  })
+  if (!hasEmail) return <EmailRequired />
+  return (
+    <Wrapper>
+      <SceneHeader>
+        <IconBackground>
+          <Icon name='parachute' color='blue600' size='24px' />
+        </IconBackground>
+        <SceneHeaderText>
+          <FormattedMessage id='scenes.airdrops.header' defaultMessage='Airdrops' />
+        </SceneHeaderText>
+      </SceneHeader>
+      <SceneSubHeaderText>
+        <FormattedMessage
+          id='scenes.airdrops.blockchain.safest'
+          defaultMessage='The safest and easiest way to try and discover new crypto.'
+        />
+      </SceneSubHeaderText>
+      {AirdropCards}
+      {userData.kycState === 'VERIFIED' && (
+        <>
+          <History>
+            <MainTitle size='24px' color='grey800' weight={600}>
+              <FormattedMessage id='scenes.airdrops.pastairdrops' defaultMessage='Past Airdrops' />
+            </MainTitle>
+          </History>
+          {PastAirdrops}
+        </>
+      )}
+    </Wrapper>
+  )
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({

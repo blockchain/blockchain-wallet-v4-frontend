@@ -8,16 +8,13 @@ import { ModalName } from 'data/types'
 
 import Exchange from './template'
 
-class ExchangeContainer extends React.PureComponent<Props> {
-  onSignup = () => {
-    this.props.modalActions.showModal(ModalName.LINK_TO_EXCHANGE_ACCOUNT_MODAL, {
+const ExchangeContainer = (props: Props) => {
+  const onSignup = () => {
+    props.modalActions.showModal(ModalName.LINK_TO_EXCHANGE_ACCOUNT_MODAL, {
       origin: 'TheExchangePage'
     })
   }
-
-  render() {
-    return <Exchange onSignup={this.onSignup} {...this.props} />
-  }
+  return <Exchange onSignup={onSignup} {...props} />
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({

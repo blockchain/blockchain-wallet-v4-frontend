@@ -66,4 +66,4 @@ type State = {
   secondsRemaining: number
 }
 
-export default connector(LogoutContainer)
+export default connector(LogoutContainer as any)

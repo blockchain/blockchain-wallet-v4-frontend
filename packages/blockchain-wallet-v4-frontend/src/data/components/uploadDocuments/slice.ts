@@ -2,9 +2,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from '@core/remote'
-import { FileUploadItem } from '@core/types'
 
-import { DataObject, UploadDocumentsType } from './types'
+import { DataObject, UploadDocumentsType, UploadPayload } from './types'
 
 const initialState: UploadDocumentsType = {
   data: null,
@@ -32,10 +31,7 @@ const uploadDocumentsSlice = createSlice({
     setUploadedSuccess: (state, action: PayloadAction<any>) => {
       state.uploaded = Remote.Success(action.payload)
     },
-    upload: (
-      state,
-      action: PayloadAction<{ files: FileUploadItem[]; redirectUrl: string; token: string }>
-    ) => {}
+    upload: (state, action: PayloadAction<UploadPayload>) => {}
   }
 })
 
