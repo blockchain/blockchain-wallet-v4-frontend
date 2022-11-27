@@ -1,66 +1,89 @@
 import React, { useEffect, useState } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, compose, Dispatch } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
+import type { InjectedFormProps } from 'redux-form'
 import { reduxForm } from 'redux-form'
 
 import { actions, model, selectors } from 'data'
-import { DexScenes, DexSwapForm, DexSwapSteps } from 'data/components/dex/types'
-import { RootState } from 'data/rootReducer'
+import { DexScenes, DexSwapForm } from 'data/components/dex/types'
 import { notReachable } from 'utils/notReachable'
 
-import { FormWrapper, PageWrapper } from './Dex.model'
+import { PageWrapper } from './components'
 import { Onboarding } from './Onboarding'
-import ConfirmSwap from './Swap/ConfirmSwap'
-import EnterSwapDetails from './Swap/EnterSwapDetails'
+import { ConfirmSwap } from './Swap/ConfirmSwap'
+import { EnterSwapDetails } from './Swap/EnterSwapDetails'
 
-const { DEX_INTRO_VIEWED_KEY, DEX_SWAP_FORM } = model.components.dex
+const { DEX_SWAP_FORM } = model.components.dex
 
-const Dex = ({ dexActions, formValues, ratesActions }: Props) => {
-  useEffect(() => {
-    dexActions.fetchChains()
-    ratesActions.fetchCoinsRates()
-  }, [dexActions, ratesActions])
+const DEX_INTRO_VIEWED_KEY = 'dexIntroViewed'
 
-  const { step } = formValues
+// With additional own Props: InjectedFormProps<FormData, Props> & Props and reduxForm<FormData, Props>
+const Dex = (form: InjectedFormProps<DexSwapForm>) => {
+  const dispatch = useDispatch()
+
+  // TODO: Add proper currency union type
+  const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
+  const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
+  const isAuthenticated = useSelector(selectors.auth.isAuthenticated)
+
   const [scene, setScene] = useState<DexScenes>(
-    localStorage.getItem(DEX_INTRO_VIEWED_KEY) ? DexScenes.SWAP : DexScenes.ONBOARDING
+    localStorage.getItem(DEX_INTRO_VIEWED_KEY) ? 'SWAP' : 'ONBOARDING'
   )
+
+  useEffect(() => {
+    dispatch(actions.components.dex.fetchChains())
+    dispatch(actions.core.data.coins.fetchCoinsRates())
+  }, [])
+
+  const onGoBack = () => {
+    setScene('SWAP')
+    // TODO: Make a form fiend names / values type safe while migrating to final-form or another lib
+    form.change('step', 'ENTER_DETAILS')
+  }
+
+  useEffect(() => {
+    if (
+      (swapFormValues.step === 'CONFIRM_SWAP' && !swapFormValues.baseToken) ||
+      !swapFormValues.counterToken
+    ) {
+      onGoBack()
+    }
+  }, [swapFormValues.step, swapFormValues.baseToken, swapFormValues.counterToken])
 
   const onFinishOnboarding = () => {
     localStorage.setItem(DEX_INTRO_VIEWED_KEY, 'true')
-    setScene(DexScenes.SWAP)
+    setScene('SWAP')
   }
 
   switch (scene) {
-    case DexScenes.ONBOARDING:
+    case 'ONBOARDING':
       return (
         <PageWrapper>
           <Onboarding onClickStart={onFinishOnboarding} />
         </PageWrapper>
       )
 
-    case DexScenes.SWAP:
-      switch (step) {
-        case DexSwapSteps.ENTER_DETAILS:
+    case 'SWAP':
+      switch (swapFormValues.step) {
+        case 'ENTER_DETAILS':
           return (
             <PageWrapper>
-              <FormWrapper>
-                <EnterSwapDetails />
-              </FormWrapper>
+              <EnterSwapDetails isAuthenticated={isAuthenticated} walletCurrency={walletCurrency} />
             </PageWrapper>
           )
 
-        case DexSwapSteps.CONFIRM_SWAP:
+        case 'CONFIRM_SWAP':
           return (
             <PageWrapper>
-              <FormWrapper>
-                <ConfirmSwap />
-              </FormWrapper>
+              <ConfirmSwap
+                formValues={swapFormValues}
+                walletCurrency={walletCurrency}
+                onClickBack={onGoBack}
+              />
             </PageWrapper>
           )
 
         default:
-          return notReachable(step)
+          return notReachable(swapFormValues.step)
       }
 
     default:
@@ -68,27 +91,9 @@ const Dex = ({ dexActions, formValues, ratesActions }: Props) => {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  formValues: selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  dexActions: bindActionCreators(actions.components.dex, dispatch),
-  ratesActions: bindActionCreators(actions.core.data.coins, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-const enhance = compose<React.ComponentType>(
-  reduxForm({
-    destroyOnUnmount: false,
-    enableReinitialize: true,
-    form: DEX_SWAP_FORM,
-    initialValues: { step: DexSwapSteps.ENTER_DETAILS }
-  }),
-  connector
-)
-
-type Props = ConnectedProps<typeof connector>
-
-export default enhance(Dex)
+export default reduxForm<DexSwapForm>({
+  destroyOnUnmount: false,
+  enableReinitialize: true,
+  form: DEX_SWAP_FORM,
+  initialValues: { step: 'ENTER_DETAILS' }
+})(Dex)

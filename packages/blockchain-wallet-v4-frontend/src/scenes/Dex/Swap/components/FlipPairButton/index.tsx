@@ -1,1 +1,1 @@
-export { default } from './FlipPairButton'
+export { FlipPairButton } from './FlipPairButton'
