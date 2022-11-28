@@ -18,7 +18,7 @@ import { ModalName } from 'data/modals/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { SLIPPAGE_PRESETS } from './constants'
-import { CloseIcon, Section, SlippageButtons } from './styled'
+import { CloseIcon, Section, SlippageButtons } from './styles'
 import { validators } from './utils'
 
 const { DEX_SWAP_FORM } = model.components.dex

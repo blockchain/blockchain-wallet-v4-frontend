@@ -23,7 +23,6 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import { getDexTokensList } from './SelectToken.selectors'
 import {
   CloseIcon,
-  Header,
   Loading,
   NoResultsWrapper,
   SearchIconWrapper,
@@ -33,7 +32,7 @@ import {
   TokenIcon,
   TokenList,
   TokenRow
-} from './styled'
+} from './styles'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
@@ -72,14 +71,14 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
 
   return (
     <Modal size='small' position={position} total={total} style={{ padding: '24px' }}>
-      <Header>
+      <Flex justifyContent='space-between'>
         <Text color={SemanticColors.body} variant='title2'>
           <FormattedMessage id='copy.select_token' defaultMessage='Select Token' />
         </Text>
         <CloseIcon onClick={onClose}>
           <IconCloseCircleV2 label='close' size='medium' color={PaletteColors['grey-400']} />
         </CloseIcon>
-      </Header>
+      </Flex>
       <TextFilterWrapper>
         <Input
           id='dexCoinSearch'

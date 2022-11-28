@@ -3,11 +3,6 @@ import styled from 'styled-components'
 
 import { Icon as BcIcon, SpinningLoader } from 'blockchain-info-components'
 
-export const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-
 export const CloseIcon = styled.div`
   > :first-child {
     cursor: pointer;
