@@ -549,6 +549,7 @@ const buySellSlice = createSlice({
         orderType: BSOrderActionType
       }>
     ) => {},
+    updateCardCvv: (state, action: PayloadAction<{ cvv: string; paymentId: string }>) => {},
     updatePaymentFailure: (state, action: PayloadAction<string>) => {
       state.payment = Remote.Failure(action.payload)
     },

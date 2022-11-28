@@ -171,11 +171,54 @@ export type BSPaymentMethodsType = {
   methods: Array<BSPaymentMethodType>
 }
 
-export type BSProviderAttributesType = {
+export type OrderConfirmAttributesType =
+  | CardConfirmAttributesType
+  | YapilyConfirmAttributesType
+  | ApplePayConfirmAttributesType
+  | GooglePayConfirmAttributesType
+
+export type CardConfirmAttributesType = {
   everypay: {
     customerUrl: string
   }
+  isAsync?: boolean
   redirectUrl: string
+}
+
+export type ApplePayConfirmAttributesType = CardConfirmAttributesType & {
+  applePayPaymentToken: string
+  paymentContact: {
+    city: ApplePayJS.ApplePayPaymentContact['locality']
+    country: ApplePayJS.ApplePayPaymentContact['country']
+    email: ApplePayJS.ApplePayPaymentContact['emailAddress']
+    firstname: ApplePayJS.ApplePayPaymentContact['givenName']
+    lastname: ApplePayJS.ApplePayPaymentContact['familyName']
+    line1?: string
+    line2?: string
+    phone: ApplePayJS.ApplePayPaymentContact['phoneNumber']
+    postCode: ApplePayJS.ApplePayPaymentContact['postalCode']
+    state: ApplePayJS.ApplePayPaymentContact['administrativeArea']
+  } | null
+}
+
+export type GooglePayConfirmAttributesType = CardConfirmAttributesType & {
+  googlePayPayload: string
+  paymentContact: {
+    city: google.payments.api.Address['locality']
+    country: google.payments.api.Address['countryCode']
+    firstname: google.payments.api.Address['name']
+    lastname: google.payments.api.Address['name']
+    line1: google.payments.api.Address['address1']
+    line2: google.payments.api.Address['address2']
+    middleName: google.payments.api.Address['name']
+    phoneNumber: google.payments.api.Address['phoneNumber']
+    postCode: google.payments.api.Address['postalCode']
+    state: google.payments.api.Address['administrativeArea']
+  } | null
+}
+
+export type YapilyConfirmAttributesType = {
+  callback: string
 }
 
 export type ProviderDetailsType = {
@@ -235,6 +278,7 @@ export type BSOrderProperties = {
         | null
     }
     expiresAt?: string
+    needCvv?: boolean
     paymentId: string
     qrcodeUrl?: string
   }

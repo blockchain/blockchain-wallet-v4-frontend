@@ -92,7 +92,8 @@ export enum BuySellStepType {
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
   'FREQUENCY',
-  'VERIFY_EMAIL'
+  'VERIFY_EMAIL',
+  'UPDATE_SECURITY_CODE'
 }
 export type BSShowModalOriginType =
   | 'CoinPageHoldings'
@@ -281,4 +282,5 @@ export type StepActionsPayload =
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
         | 'FREQUENCY'
+        | 'UPDATE_SECURITY_CODE'
     }

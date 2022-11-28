@@ -23,6 +23,7 @@ import {
   FiatType,
   GooglePayInfoType,
   MobilePaymentType,
+  OrderConfirmAttributesType,
   OrderType,
   ProductTypes,
   SwapOrderType,
@@ -588,7 +589,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const checkOrderAuthUrl = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
-    if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
+    if (order.attributes || order.state === 'FAILED') {
       return order
     }
 
@@ -597,8 +598,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const orderConfirmCheck = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
-
-    if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
+    if (
+      order.state === 'FINISHED' ||
+      order.state === 'FAILED' ||
+      order.state === 'CANCELED' ||
+      order.attributes?.needCvv
+    ) {
       return order
     }
 
@@ -645,7 +650,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         walletHelper: 'https://wallet-helper.blockchain.com'
       } as WalletOptionsType['domains'])
 
-      let attributes
+      let attributes: OrderConfirmAttributesType | undefined
 
       const paymentSuccessLink = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
 
@@ -657,7 +662,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           everypay: {
             customerUrl: paymentSuccessLink
           },
-          redirectURL: paymentSuccessLink
+          isAsync: true,
+          redirectUrl: paymentSuccessLink
         }
       } else if (account?.partner === BankPartners.YAPILY) {
         attributes = { callback: `${domains.comRoot}/brokerage-link-success` }
@@ -748,7 +754,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                   state: address.administrativeArea
                 }
               : null,
-            redirectURL: paymentSuccessLink
+            redirectUrl: paymentSuccessLink
           }
         }
 
@@ -866,7 +872,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                   state: address.administrativeArea
                 }
               : null,
-            redirectURL: paymentSuccessLink
+            redirectUrl: paymentSuccessLink
           }
         }
       }
@@ -904,8 +910,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.confirmOrderSuccess(order))
 
         yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT' }))
-        // Now we need to poll for the order success
 
+        // Now we need to poll for the order success
         yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       }
 
@@ -913,7 +919,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(actions.components.recurringBuy.fetchRegisteredList())
 
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
-
       if (confirmedOrder.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.confirmOrderSuccess(confirmedOrder))
 
@@ -922,7 +927,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       } else if (
         confirmedOrder.attributes?.everypay?.paymentState === 'SETTLED' ||
-        confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED'
+        confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED' ||
+        (attributes && 'isAsync' in attributes)
       ) {
         // Have to check if the state is "FINISHED", otherwise poll for 1 minute until it is
         if (confirmedOrder.state === 'FINISHED') {
@@ -2232,6 +2238,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const updateCardCvv = function* ({ payload }: ReturnType<typeof A.updateCardCvv>) {
+    try {
+      yield call(api.updateCardCvv, payload)
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e)
+    }
+  }
+
   return {
     activateCard,
     cancelBSOrder,
@@ -2272,6 +2287,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     registerCard,
     setStepChange,
     showModal,
-    switchFix
+    switchFix,
+    updateCardCvv
   }
 }

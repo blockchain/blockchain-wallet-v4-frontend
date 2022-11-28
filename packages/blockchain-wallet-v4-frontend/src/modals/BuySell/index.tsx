@@ -54,6 +54,7 @@ import Pending from './template.pending'
 import ThreeDSHandlerCheckoutDotCom from './ThreeDSHandlerCheckoutDotCom'
 import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
 import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
+import UpdateSecurityCode from './UpdateSecurityCode'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
@@ -191,6 +192,14 @@ class BuySell extends PureComponent<Props, State> {
             {this.props.step === 'ENTER_AMOUNT' && (
               <FlyoutChild>
                 <EnterAmount {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'UPDATE_SECURITY_CODE' && (
+              <FlyoutChild>
+                <UpdateSecurityCode
+                  backToEnterAmount={this.backToEnterAmount}
+                  handleClose={this.handleClose}
+                />
               </FlyoutChild>
             )}
             {this.props.step === 'CRYPTO_SELECTION' && (
@@ -387,6 +396,7 @@ type LinkStatePropsType =
         | 'ORDER_SUMMARY'
         | 'OPEN_BANKING_CONNECT'
         | 'AUTHORIZE_PAYMENT'
+        | 'UPDATE_SECURITY_CODE'
     }
   | {
       orderType: BSOrderActionType

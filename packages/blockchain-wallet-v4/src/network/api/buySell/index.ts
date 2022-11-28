@@ -25,7 +25,6 @@ import {
   BSPaymentMethodsType,
   BSPaymentMethodType,
   BSPaymentTypes,
-  BSProviderAttributesType,
   BSQuoteType,
   BSTransactionStateType,
   BSTransactionsType,
@@ -36,19 +35,13 @@ import {
   FiatEligibleType,
   GooglePayInfoType,
   NabuAddressType,
+  OrderConfirmAttributesType,
   TradesAccumulatedResponse,
   ValidateApplePayMerchantRequest,
   ValidateApplePayMerchantResponse
 } from './types'
 
-export default ({
-  authorizedDelete,
-  authorizedGet,
-  authorizedPost,
-  authorizedPut,
-  get,
-  nabuUrl
-}) => {
+export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
   const activateCard = ({
     cardBeneficiaryId,
     cvv,
@@ -221,7 +214,7 @@ export default ({
     order,
     paymentMethodId
   }: {
-    attributes?: BSProviderAttributesType
+    attributes?: OrderConfirmAttributesType
     order: BSOrderType
     paymentMethodId?: string
   }): BSOrderType =>
@@ -556,6 +549,14 @@ export default ({
       url: nabuUrl
     })
 
+  const updateCardCvv = (data: { cvv: string; paymentId: string }) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data,
+      endPoint: '/payments/cassy/charge/cvv',
+      url: nabuUrl
+    })
+
   return {
     activateCard,
     cancelBSOrder,
@@ -594,6 +595,7 @@ export default ({
     getUnifiedSellTrades,
     refreshBankAccountLink,
     updateBankAccountLink,
+    updateCardCvv,
     validateApplePayMerchant,
     withdrawBSFunds
   }
