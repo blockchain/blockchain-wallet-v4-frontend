@@ -1,110 +1,52 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
+import { Flex } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
-import styled, { keyframes } from 'styled-components'
 
 import { Exchange } from '@core'
-import { DexSwapQuoteResponse } from '@core/network/api/dex/types'
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { model, selectors } from 'data'
-import { DexSwapSettingsForm } from 'data/components/dex/types'
-import { RootState } from 'data/rootReducer'
+import { notReachable } from 'utils/notReachable'
 
-// TODO: better way to expose props?
-import { Props as OwnProps } from '../../EnterSwapDetails/EnterSwapDetails'
+import {
+  EditSlippageText,
+  LoadingBox,
+  QuoteWrapper,
+  RowDetails,
+  RowTitle,
+  ValueSubText,
+  ValueText
+} from './styles'
 
-const { DEX_SWAP_SETTINGS_FORM } = model.components.dex
+type Slippage = { type: 'manual'; value: number } | { type: 'auto' }
 
-const slideInTop = keyframes`
-  0% {
-    transform: scaleY(0.25);
-    transform-origin: 100% 0;
+const SlippageText = ({ slippage }: { slippage: Slippage }) => {
+  switch (slippage.type) {
+    case 'auto':
+      return <FormattedMessage id='dex.slippage.labelAuto' defaultMessage='Auto' />
+    case 'manual':
+      return <>`${slippage.value * 100}%`</>
+    default:
+      return notReachable(slippage)
   }
-  100% {
-    transform: scaleY(1);
-    transform-origin: 100% 0;
-  }
-`
+}
 
-const QuoteWrapper = styled.div<{ animate: boolean }>`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 24px;
-  animation: ${slideInTop} 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  border: 1px solid ${(props) => props.theme.grey000};
-  border-radius: 16px;
-  > :last-child {
-    border-bottom: none;
-  }
-`
-const RowDetails = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 16px;
-  border-bottom: 1px solid ${(props) => props.theme.grey000};
-`
-const RowTitle = styled(Text)`
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 150%;
-  color: ${(props) => props.theme.textBlack};
-`
-const RowValue = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-content: space-between;
-  align-items: flex-end;
-`
-const ValueText = styled(Text)`
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 150%;
-  color: ${(props) => props.theme.textBlack};
-`
-const ValueSubText = styled(Text)`
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 150%;
-  color: ${(props) => props.theme.grey600};
-`
-const EditSlippageText = styled(Text)`
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 150%;
-  color: ${(props) => props.theme.blue600};
-  &:hover {
-    cursor: pointer;
-  }
-`
-const LoadingBox = styled(SkeletonRectangle)`
-  height: 39px;
-  width: 75px;
-`
+type Props = {
+  handleSettingsClick: () => void
+  slippage: Slippage
+  swapDetailsOpen: boolean
+  walletCurrency: string
+}
 
 // TODO: ETH is hardcoded in some spots, should be from current chain data
 // TODO: hardcoded for only single-leg swaps
-const QuoteDetails = ({
+export const QuoteDetails = ({
   handleSettingsClick,
-  quoteR,
+  slippage,
   swapDetailsOpen,
-  swapSettingsFormValues,
   walletCurrency
 }: Props) => {
-  const { isQuoteLoading, quote } = quoteR.cata<
-    DexSwapQuoteResponse | { status?: string; type?: string },
-    DexSwapQuoteResponse,
-    // TODO: to remove `any` - the whole component has to be refactored to account for nullable quote
-    { isQuoteLoading: boolean; quote: any } // eslint-disable-line
-  >({
-    Failure: () => ({ isQuoteLoading: true, quote: null }),
-    Loading: () => ({ isQuoteLoading: true, quote: null }),
-    NotAsked: () => ({ isQuoteLoading: true, quote: null }),
-    Success: (val) => ({ isQuoteLoading: false, quote: val })
-  })
+  const isQuoteLoading = true
+  let quote
 
   return (
     <QuoteWrapper animate={swapDetailsOpen}>
@@ -112,22 +54,20 @@ const QuoteDetails = ({
         <RowTitle>
           <FormattedMessage id='copy.allowed_slippage' defaultMessage='Allowed Slippage' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           <ValueText>
-            {swapSettingsFormValues?.activeSlippage
-              ? `${parseFloat(swapSettingsFormValues?.activeSlippage) * 100}%`
-              : 'Auto'}
+            <SlippageText slippage={slippage} />
           </ValueText>
           <EditSlippageText onClick={handleSettingsClick}>
             <FormattedMessage id='buttons.edit' defaultMessage='Edit' />
           </EditSlippageText>
-        </RowValue>
+        </Flex>
       </RowDetails>
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.minimum_received' defaultMessage='Minimum Received' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {isQuoteLoading ? (
             <LoadingBox bgColor='white' />
           ) : (
@@ -136,13 +76,13 @@ const QuoteDetails = ({
               <ValueSubText>?</ValueSubText>
             </>
           )}
-        </RowValue>
+        </Flex>
       </RowDetails>
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.send_amount' defaultMessage='Send Amount' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {isQuoteLoading ? (
             <LoadingBox bgColor='white' />
           ) : (
@@ -174,13 +114,13 @@ const QuoteDetails = ({
               </ValueSubText>
             </>
           )}
-        </RowValue>
+        </Flex>
       </RowDetails>
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {isQuoteLoading ? (
             <LoadingBox bgColor='white' />
           ) : (
@@ -207,13 +147,13 @@ const QuoteDetails = ({
               </ValueSubText>
             </>
           )}
-        </RowValue>
+        </Flex>
       </RowDetails>
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.blockchain_fee' defaultMessage='Blockchain.com Fee' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {isQuoteLoading ? (
             <LoadingBox bgColor='white' />
           ) : (
@@ -222,13 +162,13 @@ const QuoteDetails = ({
               <ValueSubText>?</ValueSubText>
             </>
           )}
-        </RowValue>
+        </Flex>
       </RowDetails>
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.total' defaultMessage='Total' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {isQuoteLoading ? (
             <LoadingBox bgColor='white' />
           ) : (
@@ -237,23 +177,8 @@ const QuoteDetails = ({
               <ValueSubText>?</ValueSubText>
             </>
           )}
-        </RowValue>
+        </Flex>
       </RowDetails>
     </QuoteWrapper>
   )
 }
-
-const mapStateToProps = (state: RootState) => ({
-  swapSettingsFormValues: selectors.form.getFormValues(DEX_SWAP_SETTINGS_FORM)(
-    state
-  ) as DexSwapSettingsForm
-})
-
-const connector = connect(mapStateToProps)
-
-type Props = ConnectedProps<typeof connector> & {
-  handleSettingsClick: () => void
-  swapDetailsOpen: boolean
-} & Pick<OwnProps, 'quoteR' | 'walletCurrency'>
-
-export default connector(QuoteDetails)
