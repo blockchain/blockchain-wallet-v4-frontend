@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Flex } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 
 import { Exchange } from '@core'
@@ -12,10 +13,9 @@ import {
   QuoteWrapper,
   RowDetails,
   RowTitle,
-  RowValue,
   ValueSubText,
   ValueText
-} from './styled'
+} from './styles'
 
 type Slippage = { type: 'manual'; value: number } | { type: 'auto' }
 
@@ -47,18 +47,6 @@ export const QuoteDetails = ({
 }: Props) => {
   const isQuoteLoading = true
   let quote
-  // TODO: use useRemote hook
-  /* eslint-disable no-return-assign */
-  // import { DexSwapQuoteResponse } from '@core/network/api/dex/types'
-  // quoteR.cata({
-  //   Failure: () => (isQuoteLoading = true),
-  //   Loading: () => (isQuoteLoading = true),
-  //   NotAsked: () => (isQuoteLoading = true),
-  //   Success: (val) => {
-  //     isQuoteLoading = false
-  //     return (quote = val as DexSwapQuoteResponse)
-  //   }
-  // })
 
   return (
     <QuoteWrapper animate={swapDetailsOpen}>
@@ -66,20 +54,20 @@ export const QuoteDetails = ({
         <RowTitle>
           <FormattedMessage id='copy.allowed_slippage' defaultMessage='Allowed Slippage' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           <ValueText>
             <SlippageText slippage={slippage} />
           </ValueText>
           <EditSlippageText onClick={handleSettingsClick}>
             <FormattedMessage id='buttons.edit' defaultMessage='Edit' />
           </EditSlippageText>
-        </RowValue>
+        </Flex>
       </RowDetails>
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.minimum_received' defaultMessage='Minimum Received' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {isQuoteLoading ? (
             <LoadingBox bgColor='white' />
           ) : (
@@ -88,13 +76,13 @@ export const QuoteDetails = ({
               <ValueSubText>?</ValueSubText>
             </>
           )}
-        </RowValue>
+        </Flex>
       </RowDetails>
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.send_amount' defaultMessage='Send Amount' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {isQuoteLoading ? (
             <LoadingBox bgColor='white' />
           ) : (
@@ -126,13 +114,13 @@ export const QuoteDetails = ({
               </ValueSubText>
             </>
           )}
-        </RowValue>
+        </Flex>
       </RowDetails>
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {isQuoteLoading ? (
             <LoadingBox bgColor='white' />
           ) : (
@@ -159,13 +147,13 @@ export const QuoteDetails = ({
               </ValueSubText>
             </>
           )}
-        </RowValue>
+        </Flex>
       </RowDetails>
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.blockchain_fee' defaultMessage='Blockchain.com Fee' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {isQuoteLoading ? (
             <LoadingBox bgColor='white' />
           ) : (
@@ -174,13 +162,13 @@ export const QuoteDetails = ({
               <ValueSubText>?</ValueSubText>
             </>
           )}
-        </RowValue>
+        </Flex>
       </RowDetails>
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.total' defaultMessage='Total' />
         </RowTitle>
-        <RowValue>
+        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {isQuoteLoading ? (
             <LoadingBox bgColor='white' />
           ) : (
@@ -189,7 +177,7 @@ export const QuoteDetails = ({
               <ValueSubText>?</ValueSubText>
             </>
           )}
-        </RowValue>
+        </Flex>
       </RowDetails>
     </QuoteWrapper>
   )

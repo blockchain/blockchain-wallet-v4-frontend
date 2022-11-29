@@ -1,8 +1,17 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 import { SkeletonRectangle, Text } from 'blockchain-info-components'
 
-import { slideInTopAnimation } from './animation'
+const slideInTopAnimation = keyframes`
+  0% {
+    transform: scaleY(0.25);
+    transform-origin: 100% 0;
+  }
+  100% {
+    transform: scaleY(1);
+    transform-origin: 100% 0;
+  }
+`
 
 export const QuoteWrapper = styled.div<{ animate: boolean }>`
   display: flex;
@@ -30,13 +39,6 @@ export const RowTitle = styled(Text)`
   font-size: 14px;
   line-height: 150%;
   color: ${(props) => props.theme.textBlack};
-`
-
-export const RowValue = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-content: space-between;
-  align-items: flex-end;
 `
 
 export const ValueText = styled(Text)`

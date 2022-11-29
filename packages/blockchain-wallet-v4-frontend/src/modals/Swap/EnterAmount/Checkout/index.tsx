@@ -219,7 +219,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { coinfig: baseCoinfig } = window.coins[BASE.coin]
   // if user is attempting to send NC ERC20, ensure they have sufficient
   // ETH balance else warn user and disable trade
-  const isErc20 = baseCoinfig.type.erc20Address
+  const isErc20 = !!baseCoinfig.type.erc20Address
   const disableInsufficientEth =
     props.payment &&
     BASE.type === SwapBaseCounterTypes.ACCOUNT &&

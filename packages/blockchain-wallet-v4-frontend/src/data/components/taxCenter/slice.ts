@@ -21,11 +21,11 @@ const taxCenterSlice = createSlice({
       state.reportGenerationStatus = Remote.Loading
     },
     createReportSuccess: (state) => {
-      state.reportGenerationStatus = Remote.Success({})
+      state.reportGenerationStatus = Remote.Success('')
     },
     getReports: () => {},
     getReportsFailure: (state) => {
-      state.reports = Remote.Failure()
+      state.reports = Remote.Failure(null)
     },
     getReportsSuccess: (state, action: PayloadAction<ReportType[]>) => {
       state.reports = Remote.Success(action.payload)

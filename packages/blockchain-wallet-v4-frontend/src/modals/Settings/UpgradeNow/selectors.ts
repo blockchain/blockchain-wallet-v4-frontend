@@ -1,4 +1,3 @@
-import { Remote } from '@core'
 import { EarnEDDStatus, SDDEligibleType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -27,12 +26,12 @@ const getData = (state: RootState) => {
     .getEarnEDDStatus(state)
     .getOrElse({} as EarnEDDStatus)
 
-  return Remote.Success({
+  return {
     earnEDDStatus,
     sddEligible,
     userData,
     userTiers
-  })
+  }
 }
 
 export default getData

@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
@@ -60,7 +59,7 @@ const Status: React.FC<Props> = (props) => {
     NotAsked: () => <FormattedMessage id='copy.loading' defaultMessage='Loading...' />,
     Success: (val) => (
       <>
-        {new BigNumber(val.amount.value).plus(val.fee?.value || 0).toString()} {val.amount.symbol}{' '}
+        {val.amount.value} {val.amount.symbol}{' '}
         <FormattedMessage id='copy.sent' defaultMessage='Sent' />
       </>
     )

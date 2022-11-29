@@ -106,14 +106,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
     const { exchangeError } = exchangeLoginDataR.cata({
       Failure: (val) => ({ busy: false, exchangeError: val }),
-      Loading: () => <Loading />,
+      Loading: () => ({ busy: true, exchangeError: null }),
       NotAsked: () => ({ busy: false, exchangeError: null }),
       Success: () => ({ busy: false, exchangeError: null })
     })
 
     const { busy, walletError } = walletLoginDataR.cata({
       Failure: (val) => ({ busy: false, walletError: val }),
-      Loading: () => <Loading />,
+      Loading: () => ({ busy: true, walletError: null }),
       NotAsked: () => ({ busy: false, walletError: null }),
       Success: () => ({ busy: false, walletError: null })
     })

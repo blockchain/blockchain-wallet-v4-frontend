@@ -6,13 +6,13 @@ import { TIERS } from '../../modules/profile/model'
 /* eslint-disable */
 // order is important do not change it
 export const STEPS = {
-  userDetails: 'userDetails',
-  userAddress: 'userAddress',
-  moreInfo: 'moreInfo',
-  addExtraStep: 'addExtraStep',
-  additionalInfo: 'additionalInfo',
-  verify: 'verify',
-  submitted: 'submitted'
+  userDetails: 'userDetails' as const,
+  userAddress: 'userAddress' as const,
+  moreInfo: 'moreInfo' as const,
+  addExtraStep: 'addExtraStep' as const,
+  additionalInfo: 'additionalInfo' as const,
+  verify: 'verify' as const,
+  submitted: 'submitted' as const
 }
 
 // order is important do not change it

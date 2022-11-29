@@ -17,7 +17,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import type { DexSwapSide } from 'data/types'
 
-import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './styled'
+import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './styles'
 
 type Props = {
   swapSide: DexSwapSide
@@ -48,7 +48,7 @@ export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
           disabled={props.isQuoteLocked}
           placeholder='0.00'
           name={amountInputField}
-          validate={[]} // FIXME: Validate
+          validate={[]}
         />
         <FiatDisplay
           coin={props.coin}

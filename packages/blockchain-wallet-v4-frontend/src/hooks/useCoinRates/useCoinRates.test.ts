@@ -37,7 +37,7 @@ describe('useCoinRates()', () => {
 
   describe('When rates are not available', () => {
     beforeEach(() => {
-      getRatesSelectorMock.mockImplementation(() => Remote.Success(undefined))
+      getRatesSelectorMock.mockImplementation(() => Remote.Failure('Rates are not available'))
     })
 
     it('Should return undefined', () => {

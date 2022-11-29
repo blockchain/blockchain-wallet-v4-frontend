@@ -1,10 +1,5 @@
 declare module 'daggy' {
-  import {
-    RemoteFailure,
-    RemoteLoading,
-    RemoteNotAsked,
-    RemoteSuccess
-  } from '@core/remote/types'
+  import { RemoteFailure, RemoteLoading, RemoteNotAsked, RemoteSuccess } from '@core/remote/types'
 
   interface IConstructor {
     Failure: ['error']
@@ -13,12 +8,12 @@ declare module 'daggy' {
     Success: ['data']
   }
 
-  interface RemoteSuccess {
+  interface _RemoteSuccess {
     is: (data: any) => boolean
     <A>(data: A): RemoteSuccess<A>
   }
 
-  interface RemoteFailure {
+  interface _RemoteFailure {
     is: (data: any) => boolean
     <E>(error: E): RemoteFailure<E>
   }
@@ -30,15 +25,15 @@ declare module 'daggy' {
   class _Remote {
     '@@type': 'Remote'
 
-    Failure: RemoteFailure
+    Failure: _RemoteFailure
 
     Loading: DaggyRemoteI & RemoteLoading
 
     NotAsked: DaggyRemoteI & RemoteNotAsked
 
-    Success: RemoteSuccess
+    Success: _RemoteSuccess
 
-    of: <A>(data: A) => RemoteSuccess<A>
+    of: <A>(data: A) => _RemoteSuccess<A>
 
     prototype: any
 
