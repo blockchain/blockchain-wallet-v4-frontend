@@ -98,6 +98,15 @@ flex-direction: column;
 align-items: center;
 `}
 `
+// TODO: remove with feature flag
+export const TroubleLoggingInRow = styled.div`
+  display: flex;
+  align-items: center;
+  ${media.mobile`
+flex-direction: column;
+align-items: center;
+`}
+`
 export const ContactSupportText = styled(Link)`
   margin-top: 16px;
   cursor: pointer;

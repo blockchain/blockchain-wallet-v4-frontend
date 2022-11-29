@@ -81,6 +81,9 @@ export default ({ api, coreSagas, networks }) => {
   const register = function* (action) {
     const { country, email, language, password, referral, sessionToken, state } = action.payload
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
+    const accountRecoveryV2: boolean = (yield select(
+      selectors.core.walletOptions.getAccountRecoveryV2
+    )).getOrElse(false)
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
     const isExchangeMobileSignup =
       product === ProductAuthOptions.EXCHANGE &&
@@ -96,7 +99,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.signup.setRegisterEmail(email))
       yield put(actions.signup.setSignupCountry(country))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
-      if (isAccountReset) {
+      if (isAccountReset && accountRecoveryV2) {
         yield call(coreSagas.wallet.createResetWalletSaga, {
           captchaToken,
           email,
@@ -104,34 +107,10 @@ export default ({ api, coreSagas, networks }) => {
           password,
           sessionToken
         })
-        // set new lifetime tokens for nabu and exchange for user in new unified metadata entry
-        // also write nabu credentials to legacy userCredentials for old app versions
-        // TODO: in future, consider just writing to unifiedCredentials entry
-        // yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
-        // yield put(
-        //   actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
-        //     exchange_lifetime_token: exchangeLifetimeToken,
-        //     exchange_user_id: exchangeUserId,
-        //     nabu_lifetime_token: lifetimeToken,
-        //     nabu_user_id: userId
-        //   })
-        // )
-
-        // if user is resetting their account and
-        // want to go to the Exchange
-        // if (magicLinkData.product === ProductAuthOptions.EXCHANGE) {
-        //   yield put(
-        //     actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
-        //   )
-        //   return
-        // }
-        // fetch user in new wallet
-        // yield call(setSession, userId, lifetimeToken, email, guid)
       } else {
         yield call(coreSagas.wallet.createWalletSaga, {
           captchaToken,
           email,
-          // TODO: remove,only needed for createResetWalletSaga
           forceVerifyEmail: isAccountReset,
           language,
           password

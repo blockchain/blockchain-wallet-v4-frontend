@@ -37,9 +37,10 @@ class RecoverWalletContainer extends React.PureComponent<
   }
 
   componentDidMount() {
-    // this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.FORGOT_PASSWORD_EMAIL)
     if (this.state.showPhraseStep) {
       this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_PHRASE)
+    } else if (!this.props.accountRecoveryV2Flag) {
+      this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS)
     } else {
       this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.FORGOT_PASSWORD_EMAIL)
     }
@@ -87,6 +88,7 @@ class RecoverWalletContainer extends React.PureComponent<
 
 const mapStateToProps = (state) => ({
   accountRecoveryData: selectors.signup.getAccountRecoveryMagicLinkData(state),
+  accountRecoveryV2Flag: selectors.core.walletOptions.getAccountRecoveryV2(state).getOrElse(false),
   alerts: selectors.alerts.selectAlerts(state) as AlertsState,
   cachedEmail: selectors.cache.getEmail(state),
   cachedGuid: selectors.cache.getStoredGuid(state),

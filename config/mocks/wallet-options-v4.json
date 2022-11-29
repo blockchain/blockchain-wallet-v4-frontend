@@ -35,6 +35,7 @@
         }
       },
       "featureFlags": {
+        "accountRecoveryV2": true,
         "addCheckoutPaymentProvider": true,
         "addPlaidPaymentProvider": true,
         "addStripePaymentProvider": false,

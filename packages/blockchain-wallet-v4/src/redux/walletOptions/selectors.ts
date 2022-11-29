@@ -171,3 +171,8 @@ export const getThemeEnabled = (state: RootState) =>
 // use Loqate service for address search
 export const useLoqateServiceEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useLoqateService']))
+
+// Account recovery v2
+// use Loqate service for address search
+export const getAccountRecoveryV2 = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'accountRecoveryV2']))

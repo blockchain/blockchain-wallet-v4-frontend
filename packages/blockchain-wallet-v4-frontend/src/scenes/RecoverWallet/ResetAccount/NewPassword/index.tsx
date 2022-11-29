@@ -31,17 +31,25 @@ const Footer = styled(FormGroup)`
 const validatePasswordConfirmation = validPasswordConfirmation('resetAccountPassword')
 
 const NewPassword = (props: Props) => {
-  const { accountRecoveryData, invalid, setStep } = props
+  const { accountRecoveryData, accountRecoveryV2Flag, cachedEmail, invalid, setStep } = props
   const isRegistering = Remote.Loading.is(props.registering)
   const handleSubmit = (e) => {
     e.preventDefault()
     const { formValues, language, signupActions } = props
-    // TODO: Temp remove
-    signupActions.resetAccountV2({
-      email: formValues?.recoveryEmail,
-      language,
-      password: formValues.resetAccountPassword
-    })
+    if (accountRecoveryV2Flag) {
+      signupActions.resetAccountV2({
+        email: formValues?.recoveryEmail,
+        language,
+        password: formValues.resetAccountPassword
+      })
+    } else {
+      // legacy account recovery for FF
+      signupActions.resetAccount({
+        email: cachedEmail,
+        language,
+        password: formValues.resetAccountPassword
+      })
+    }
   }
 
   return (
