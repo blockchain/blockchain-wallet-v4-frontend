@@ -1,1 +1,1 @@
-export { default } from './EnterSwapDetails'
+export { EnterSwapDetails } from './EnterSwapDetails'

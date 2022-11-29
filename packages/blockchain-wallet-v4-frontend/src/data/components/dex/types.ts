@@ -30,29 +30,25 @@ export type DexStateType = {
   chains: RemoteDataType<string, DexChainList>
   currentChain: RemoteDataType<string, DexChain>
   currentChainTokens: RemoteDataType<string, DexChainTokenList>
-  swapQuote: RemoteDataType<string, DexSwapQuoteResponse>
+  swapQuote: RemoteDataType<
+    DexSwapQuoteResponse | { status?: string; type?: string },
+    DexSwapQuoteResponse
+  >
 }
 
-export enum DexSwapSideEnum {
+export type DexSwapSide = 'BASE' | 'COUNTER'
+export type DexScenes = 'ONBOARDING' | 'SWAP'
+export type DexSwapSteps = 'CONFIRM_SWAP' | 'ENTER_DETAILS'
+export enum DexSwapSideFields {
   BASE = 'baseToken',
   COUNTER = 'counterToken'
 }
 
-export enum DexScenes {
-  ONBOARDING = 'ONBOARDING',
-  SWAP = 'SWAP'
-}
-
-export enum DexSwapSteps {
-  CONFIRM_SWAP = 'CONFIRM_SWAP',
-  ENTER_DETAILS = 'ENTER_DETAILS'
-}
-
 export type DexSwapForm = {
   baseToken?: CoinType
-  baseTokenAmount?: number | string
+  baseTokenAmount?: number
   counterToken?: CoinType
-  counterTokenAmount?: number | string
+  counterTokenAmount?: number
   slippage?: string | null
   step: DexSwapSteps
 }

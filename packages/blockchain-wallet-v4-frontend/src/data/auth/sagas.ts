@@ -81,7 +81,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(stopSubmit('exchangePasswordReset'))
       yield put(actions.auth.exchangeResetPasswordSuccess(response))
     } catch (e) {
-      yield put(actions.auth.exchangeResetPasswordFailure(e))
+      yield put(actions.auth.exchangeResetPasswordFailure())
       yield put(stopSubmit('exchangePasswordReset'))
     }
   }

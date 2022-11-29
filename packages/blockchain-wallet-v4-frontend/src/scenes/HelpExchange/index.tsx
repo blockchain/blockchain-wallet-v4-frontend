@@ -126,14 +126,17 @@ class Help extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
             />
           </Text>
           {this.props.resetExchangePasswordR.cata({
-            Failure: (val) => (
+            Failure: () => (
               <ErrorOrSuccessWrapper>
                 <Icon color='error' name='close-circle' size='40px' />
                 <Text size='20px' weight={600} color='black' style={{ margin: '8px 0' }}>
                   <FormattedMessage id='copy.oops' defaultMessage='Oops. Something went wrong.' />
                 </Text>
                 <Text size='16px' weight={500} color='grey600'>
-                  {val}
+                  <FormattedMessage
+                    id='copy.exchange_password_reset_failed'
+                    defaultMessage='Failed to reset exchange password.'
+                  />
                 </Text>
               </ErrorOrSuccessWrapper>
             ),
@@ -241,7 +244,7 @@ type LinkStatePropsType = {
   formValues: {
     email: string
   }
-  resetExchangePasswordR: RemoteDataType<string, null>
+  resetExchangePasswordR: RemoteDataType<null, null>
 }
 type Props = LinkStatePropsType & {
   showHelpOptions: () => void

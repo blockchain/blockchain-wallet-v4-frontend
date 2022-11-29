@@ -170,23 +170,23 @@ export type BuySellState = {
   applePayInfo?: ApplePayInfoType
   balances: RemoteDataType<PartialClientErrorProperties, BSBalancesType>
   buyQuote: RemoteDataType<PartialClientErrorProperties, BuyQuoteStateType>
-  card: RemoteDataType<string, BSCardType>
+  card: RemoteDataType<string | number | Error, BSCardType>
   cardId?: string
   cardSuccessRate?: BSCardSuccessRateType
   cards: RemoteDataType<PartialClientErrorProperties, Array<BSCardType>>
   checkoutDotComAccountCodes?: Array<string>
   checkoutDotComApiKey?: string
-  crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
+  crossBorderLimits: RemoteDataType<unknown, CrossBorderLimits>
   cryptoCurrency?: CoinType
   displayBack: boolean
   fiatCurrency?: FiatType
-  fiatEligible: RemoteDataType<PartialClientErrorProperties, FiatEligibleType>
+  fiatEligible: RemoteDataType<PartialClientErrorProperties | Error, FiatEligibleType>
   googlePayInfo?: GooglePayInfoType
   limits: RemoteDataType<string, undefined | SwapUserLimitsType>
   method?: BSPaymentMethodType
   methods: RemoteDataType<string, BSPaymentMethodsType>
   mobilePaymentMethod?: MobilePaymentType
-  order: RemoteDataType<string, BSOrderType>
+  order: RemoteDataType<string | number | Error, BSOrderType>
   orderType?: BSOrderActionType
   orders: RemoteDataType<PartialClientErrorProperties, Array<BSOrderType>>
   origin?: BSShowModalOriginType
@@ -195,7 +195,7 @@ export type BuySellState = {
   pairs: RemoteDataType<PartialClientErrorProperties, Array<BSPairType>>
   payment: RemoteDataType<string, undefined | PaymentValue>
   pendingOrder?: BSOrderType
-  providerDetails: RemoteDataType<string, ProviderDetailsType>
+  providerDetails: RemoteDataType<string | Error, ProviderDetailsType>
   quote: RemoteDataType<string, BSQuoteType>
   reason?: PlaidSettlementErrorReasons
   sddEligible: RemoteDataType<PartialClientErrorProperties, SDDEligibleType>

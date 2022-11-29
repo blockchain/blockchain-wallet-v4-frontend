@@ -5,7 +5,7 @@ import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 import { DexToken } from 'data/types'
 
-export const getData = createDeepEqualSelector(
+export const getDexTokensList = createDeepEqualSelector(
   [selectors.components.dex.getCurrentChainTokens, (state) => state],
   (tokenListR, state) => {
     const transform = (tokenList: ExtractSuccess<typeof tokenListR>) => {
