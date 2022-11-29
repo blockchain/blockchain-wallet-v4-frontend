@@ -18,6 +18,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions, model, selectors } from 'data'
 import { DexSwapForm, DexSwapSide, DexSwapSideFields, ModalName } from 'data/types'
+import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { getDexTokensList } from './SelectToken.selectors'
@@ -49,9 +50,14 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
 
   const [search, setSearch] = useState('')
 
-  const dexTokensList = useSelector(getDexTokensList)
   const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
+
+  const {
+    data: dexTokensList,
+    hasError: isDexTokensListFailed,
+    isLoading: isDexTokensListLoading
+  } = useRemote(getDexTokensList)
 
   const onTokenSelect = (token) => {
     // set selected token
@@ -66,12 +72,19 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
     dispatch(actions.modals.closeModal())
   }
 
+  const onTokenFilter = ({ name }) => name.toLowerCase().includes(search.toLowerCase())
+
   const onClose = () => {
     dispatch(actions.modals.closeModal())
   }
 
   return (
-    <Modal size='small' position={position} total={total} style={{ padding: '24px' }}>
+    <Modal
+      size='small'
+      total={total}
+      position={position}
+      style={{ height: '480px', padding: '24px', width: '480px' }}
+    >
       <Header>
         <Text color={SemanticColors.body} variant='title2'>
           <FormattedMessage id='copy.select_token' defaultMessage='Select Token' />
@@ -85,6 +98,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
           id='dexCoinSearch'
           state='default'
           type='text'
+          onChange={(event) => setSearch((event.target as HTMLInputElement).value)}
           placeholder={formatMessage({
             defaultMessage: 'Search Symbol or Address',
             id: 'dex.searCoin.placeholder'
@@ -94,21 +108,13 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
           <IconSearch label='close' size='medium' color={PaletteColors['grey-400']} />
         </SearchIconWrapper>
       </TextFilterWrapper>
-      {dexTokensList.cata({
-        Failure: (error) => <span>{error}</span>,
-        Loading: () => <Loading />,
-        NotAsked: () => <Loading />,
-        Success: (tokenList) => {
-          return search.length && tokenList.length === 0 ? (
-            <NoResultsWrapper>
-              <Text color={SemanticColors.body} variant='body1'>
-                <FormattedMessage id='copy.no_results_found' defaultMessage='No results found!' />
-              </Text>
-            </NoResultsWrapper>
-          ) : (
-            <TokenList>
-              {tokenList.map((token) => {
-                return (
+
+      {dexTokensList
+        ? (() => {
+            const filteredDexTokenList = dexTokensList.filter(onTokenFilter)
+            return filteredDexTokenList.length ? (
+              <TokenList>
+                {filteredDexTokenList.map((token) => (
                   <TokenRow
                     key={token.displaySymbol}
                     onClick={() => onTokenSelect(token.displaySymbol)}
@@ -151,12 +157,31 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
                       </TokenBalanceColumn>
                     </TokenDetails>
                   </TokenRow>
-                )
-              })}
-            </TokenList>
-          )
-        }
-      })}
+                ))}
+              </TokenList>
+            ) : (
+              <NoResultsWrapper>
+                <Text color={SemanticColors.body} variant='body1'>
+                  <FormattedMessage
+                    id='dex.tokens.notFound'
+                    defaultMessage='No results found for {search}'
+                    values={{ search }}
+                  />
+                </Text>
+              </NoResultsWrapper>
+            )
+          })()
+        : null}
+
+      {isDexTokensListLoading ? <Loading /> : null}
+
+      {isDexTokensListFailed ? (
+        <NoResultsWrapper>
+          <Text color={SemanticColors.error} variant='body1'>
+            <FormattedMessage id='dex.tokens.failedToLoad' defaultMessage='Unable to get tokens' />
+          </Text>
+        </NoResultsWrapper>
+      ) : null}
     </Modal>
   )
 }

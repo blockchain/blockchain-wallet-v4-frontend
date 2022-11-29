@@ -16,14 +16,14 @@ const dexSlice = createSlice({
   initialState,
   name: 'dex',
   reducers: {
-    fetchChainTopTokens: () => {},
-    fetchChainTopTokensFailure: (state, action: PayloadAction<string>) => {
+    fetchChainAllTokens: () => {},
+    fetchChainAllTokensFailure: (state, action: PayloadAction<string>) => {
       state.currentChainTokens = Remote.Failure(action.payload)
     },
-    fetchChainTopTokensLoading: (state) => {
+    fetchChainAllTokensLoading: (state) => {
       state.currentChainTokens = Remote.Loading
     },
-    fetchChainTopTokensSuccess: (state, action: PayloadAction<DexChainTokenList>) => {
+    fetchChainAllTokensSuccess: (state, action: PayloadAction<DexChainTokenList>) => {
       state.currentChainTokens = Remote.Success(action.payload)
     },
     fetchChains: () => {},
