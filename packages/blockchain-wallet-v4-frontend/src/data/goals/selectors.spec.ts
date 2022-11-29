@@ -1,9 +1,10 @@
 import * as selectors from './selectors'
 
 describe('goals selectors', () => {
-  const mockState = {
+  // no need to mock entire root state
+  const mockState: any = {
     goals: {
-      goals: { name: 'referral' },
+      goals: [{ data: {}, id: '123', name: 'referral' }],
       initialModals: { key: '123' }
     }
   }

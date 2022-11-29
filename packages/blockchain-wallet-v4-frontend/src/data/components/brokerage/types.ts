@@ -5,6 +5,7 @@ import {
   RemoteDataType,
   WalletFiatType
 } from '@core/types'
+import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 
 export enum BankPartners {
   PLAID = 'PLAID',
@@ -235,9 +236,9 @@ export type BrokerageState = {
   account: BankTransferAccountType | undefined
   addBankStep: AddBankStepType
   addNew: boolean
-  bankCredentials: RemoteDataType<string, BankCredentialsType>
+  bankCredentials: RemoteDataType<string | Error, BankCredentialsType>
   bankStatus: RemoteDataType<string, BankStatusType>
-  bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
+  bankTransferAccounts: RemoteDataType<PartialClientErrorProperties, Array<BankTransferAccountType>>
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   dwStep: BankDWStepType
   fiatCurrency: WalletFiatType | undefined

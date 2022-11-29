@@ -74,8 +74,10 @@ export type WithdrawalLockResponseType = {
   totalLocked: WithdrawLockAmount
 }
 
+export type WithdrawAmount = { symbol: string; value: string }
+
 export type WithdrawResponseType = {
-  amount: { symbol: string; value: string }
+  amount: WithdrawAmount
   fee?: { symbol: string; value: string }
   id: string
   product: NabuCustodialProductType

@@ -438,8 +438,7 @@ export type Props = OwnProps &
   SuccessStateType & {
     onCountrySelect: (e, value: CountryType) => void
     resetAddressDetails: () => void
-    searchForAddress: (text: string) => void
-    updateDefaultCountry: (country: CountryType) => void
+    updateDefaultCountry: (country: string) => void
     updateDefaultState: (state: StateType) => void
     updateSelectedAddressDetails: (addressDetails: RetrieveAddress) => void
   }

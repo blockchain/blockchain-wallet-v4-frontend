@@ -4,9 +4,9 @@ import { RemoteDataType } from '@core/remote/types'
 import { OrderCardStep } from './model'
 
 export type DebitCardState = {
-  cardCreationData: RemoteDataType<string, string>
+  cardCreationData: RemoteDataType<string, DebitCardType>
   cardToken: string
-  cards: RemoteDataType<string, Array<DebitCardType>>
+  cards: RemoteDataType<null, Array<DebitCardType>>
   currentCardAccount: RemoteDataType<string, AccountType>
   currentCardSelected: DebitCardType | undefined
   eligibleAccounts: RemoteDataType<string, Array<AccountType>>
@@ -16,7 +16,7 @@ export type DebitCardState = {
   products: Array<ProductType>
   residentialAddress: RemoteDataType<string, ResidentialAddress>
   selectAccountHandler: RemoteDataType<string, string>
-  terminateHandler: RemoteDataType<string, string>
+  terminateHandler: RemoteDataType<null, null>
   transactions: RemoteDataType<string, Array<CardTransaction>>
 }
 

@@ -74,8 +74,8 @@ const authSlice = createSlice({
       state.exchangeAuth.exchangeLogin = Remote.Success(action.payload)
     },
     exchangeResetPassword: (state, action: PayloadAction<string>) => {},
-    exchangeResetPasswordFailure: (state, action: PayloadAction<TypeError>) => {
-      state.exchangeAuth.resetPassword = Remote.Failure(action.payload)
+    exchangeResetPasswordFailure: (state) => {
+      state.exchangeAuth.resetPassword = Remote.Failure(null)
     },
     exchangeResetPasswordLoading: (state) => {
       state.exchangeAuth.resetPassword = Remote.Loading
@@ -123,7 +123,7 @@ const authSlice = createSlice({
       state,
       action: PayloadAction<RemoteDataType<string, undefined>>
     ) => {
-      state.secureChannelLogin = Remote.Success(action.payload)
+      state.secureChannelLogin = action.payload
     },
     sendLoginMessageToMobile: () => {},
     setAccountUnificationFlowType: (state, action: PayloadAction<AccountUnificationFlows>) => {

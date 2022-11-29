@@ -12,7 +12,7 @@ import {
   // BSTransactionType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
-  WithdrawResponseType
+  WithdrawAmount
 } from '@core/types'
 
 import { SwapAccountType } from '../swap/types'
@@ -105,10 +105,7 @@ const sendCryptoSlice = createSlice({
     submitTransactionLoading: (state) => {
       state.transaction = Remote.Loading
     },
-    submitTransactionSuccess: (
-      state,
-      action: PayloadAction<{ amount: { symbol: string; value: string } }>
-    ) => {
+    submitTransactionSuccess: (state, action: PayloadAction<{ amount: WithdrawAmount }>) => {
       state.transaction = Remote.Success(action.payload)
     },
     validateAddress: (state, action: PayloadAction<{ address: string; coin: string }>) => {},

@@ -149,7 +149,7 @@ export type AuthStateType = {
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
     jwtToken?: string
-    resetPassword?: RemoteDataType<string, string>
+    resetPassword?: RemoteDataType<null, string>
   }
   isAuthenticated: boolean
   isLoggingIn: boolean

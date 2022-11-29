@@ -6,6 +6,7 @@ import {
   NftCollection,
   NftOrder,
   NftUserPreferencesReturnType,
+  OpenSeaStatus,
   OwnerNftBalance,
   SeaportRawOrder,
   WyvernRawOrder
@@ -52,10 +53,10 @@ export type NftsStateType = {
   }
   collection: RemoteDataType<string, NftCollection>
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
-  nftOwnerAssets: RemoteDataType<string, OwnerNftBalance>
+  nftOwnerAssets: RemoteDataType<OwnerNftBalance, OwnerNftBalance>
   openSeaAsset: RemoteDataType<string, NftAsset>
   openSeaStatus: RemoteDataType<
-    string,
+    OpenSeaStatus,
     {
       page: {
         id: string
