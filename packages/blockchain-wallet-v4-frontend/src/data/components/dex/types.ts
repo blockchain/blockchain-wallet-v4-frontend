@@ -49,7 +49,7 @@ export type DexSwapForm = {
   baseTokenAmount?: number
   counterToken?: CoinType
   counterTokenAmount?: number
-  slippage?: string | null
+  slippage: string | null
   step: DexSwapSteps
 }
 

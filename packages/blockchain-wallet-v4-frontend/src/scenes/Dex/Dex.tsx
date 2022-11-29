@@ -74,11 +74,7 @@ const Dex = (form: InjectedFormProps<DexSwapForm>) => {
         case 'CONFIRM_SWAP':
           return (
             <PageWrapper>
-              <ConfirmSwap
-                formValues={swapFormValues}
-                walletCurrency={walletCurrency}
-                onClickBack={onGoBack}
-              />
+              <ConfirmSwap walletCurrency={walletCurrency} onClickBack={onGoBack} />
             </PageWrapper>
           )
 
@@ -95,5 +91,5 @@ export default reduxForm<DexSwapForm>({
   destroyOnUnmount: false,
   enableReinitialize: true,
   form: DEX_SWAP_FORM,
-  initialValues: { step: 'ENTER_DETAILS' }
+  initialValues: { slippage: null, step: 'ENTER_DETAILS' }
 })(Dex)
