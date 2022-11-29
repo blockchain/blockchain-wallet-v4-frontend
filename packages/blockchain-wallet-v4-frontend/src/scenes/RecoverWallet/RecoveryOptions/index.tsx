@@ -191,47 +191,49 @@ const RecoveryOptions = (props: Props) => {
           )}
         </FormBody>
       </WrapperWithPadding>
-      <SubCard>
-        <TroubleLoggingInRow>
-          <Text
-            size='16px'
-            color='grey600'
-            weight={500}
-            style={{ cursor: 'pointer', marginTop: '16px' }}
-          >
-            <FormattedMessage
-              id='scenes.login.trouble_logging_in'
-              defaultMessage='Trouble Logging In?'
-            />
-          </Text>
-          &nbsp;
-          {props.nabuId ? (
-            <ContactSupportText
+      {!accountRecoveryV2Flag && (
+        <SubCard>
+          <TroubleLoggingInRow>
+            <Text
               size='16px'
-              weight={600}
-              color='blue600'
-              data-e2e='troubleLoggingIn'
-              onClick={resetAccountClicked}
-              style={{ marginLeft: '4px' }}
+              color='grey600'
+              weight={500}
+              style={{ cursor: 'pointer', marginTop: '16px' }}
             >
               <FormattedMessage
-                id='scenes.login.reset_your_account.arrow'
-                defaultMessage='Reset your account ->'
+                id='scenes.login.trouble_logging_in'
+                defaultMessage='Trouble Logging In?'
               />
-            </ContactSupportText>
-          ) : (
-            <ContactSupportText
-              weight={600}
-              size='16px'
-              target='_blank'
-              href='https://support.blockchain.com/'
-              style={{ marginLeft: '2px' }}
-            >
-              <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
-            </ContactSupportText>
-          )}
-        </TroubleLoggingInRow>
-      </SubCard>
+            </Text>
+            &nbsp;
+            {props.nabuId ? (
+              <ContactSupportText
+                size='16px'
+                weight={600}
+                color='blue600'
+                data-e2e='troubleLoggingIn'
+                onClick={resetAccountClicked}
+                style={{ marginLeft: '4px' }}
+              >
+                <FormattedMessage
+                  id='scenes.login.reset_your_account.arrow'
+                  defaultMessage='Reset your account ->'
+                />
+              </ContactSupportText>
+            ) : (
+              <ContactSupportText
+                weight={600}
+                size='16px'
+                target='_blank'
+                href='https://support.blockchain.com/'
+                style={{ marginLeft: '2px' }}
+              >
+                <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
+              </ContactSupportText>
+            )}
+          </TroubleLoggingInRow>
+        </SubCard>
+      )}
     </OuterWrapper>
   )
 }
