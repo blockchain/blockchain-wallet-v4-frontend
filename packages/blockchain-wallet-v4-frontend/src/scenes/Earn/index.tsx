@@ -15,6 +15,7 @@ import { CustomSceneWrapper, EarnContainer, Overlay } from './Earn.model'
 import getData from './Earn.selectors'
 import EarnHeader from './Earn.template.header'
 import EarnFilter from './Filter'
+import Learn from './Learn'
 import Message from './Message'
 import Table from './Table'
 
@@ -102,6 +103,7 @@ const Earn = ({ analyticsActions, earnActions }) => {
   return (
     <CustomSceneWrapper $isGoldTier={isGoldTier}>
       <EarnHeader />
+      <Learn />
       <Message isGoldTier={isGoldTier} />
       <EarnContainer>
         {!isGoldTier && <Overlay />}
