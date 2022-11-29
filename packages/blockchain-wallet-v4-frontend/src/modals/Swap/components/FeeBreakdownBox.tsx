@@ -162,7 +162,7 @@ const FeeBreakdownBox = ({
                   style={{ alignItems: 'flex-end', display: 'flex', flexDirection: 'column' }}
                 >
                   {basePayment.cata({
-                    Failure: (e) => e,
+                    Failure: (e) => <>{e}</>,
                     Loading: () => <SkeletonRectangle height='18px' width='70px' />,
                     NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
                     Success: (value) => {
@@ -203,7 +203,7 @@ const FeeBreakdownBox = ({
                   style={{ alignItems: 'flex-end', display: 'flex', flexDirection: 'column' }}
                 >
                   {counterQuote.cata({
-                    Failure: (e) => e,
+                    Failure: (e) => <>{e}</>,
                     Loading: () => <SkeletonRectangle height='18px' width='70px' />,
                     NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
                     Success: (value) => (

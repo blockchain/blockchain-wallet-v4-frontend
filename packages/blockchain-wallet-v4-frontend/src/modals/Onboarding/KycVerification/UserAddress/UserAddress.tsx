@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { RetrieveAddress } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
-import { CountryType } from 'data/components/identityVerification/types'
+import { StateType } from 'data/components/identityVerification/types'
 import { RootState } from 'data/rootReducer'
 import { Analytics, InfoAndResidentialFormValuesType } from 'data/types'
 
@@ -50,12 +50,12 @@ const UserAddress = (props: Props) => {
     })
   }
 
-  const setDefaultCountry = (country: CountryType) => {
+  const setDefaultCountry = (country: string) => {
     props.formActions.change(RESIDENTIAL_FORM, 'country', country)
     props.formActions.clearFields(RESIDENTIAL_FORM, false, false, 'state')
   }
 
-  const setDefaultState = (state: string) => {
+  const setDefaultState = (state: StateType) => {
     props.formActions.change(RESIDENTIAL_FORM, 'state', state)
   }
 

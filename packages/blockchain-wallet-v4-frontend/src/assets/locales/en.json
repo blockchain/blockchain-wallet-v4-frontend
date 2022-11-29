@@ -476,6 +476,7 @@
   "copy.event_type": "Event",
   "copy.events": "Events",
   "copy.exchange": "Exchange",
+  "copy.exchange_password_reset_failed": "Failed to reset exchange password.",
   "copy.expiration": "Expiration",
   "copy.explore": "Explore",
   "copy.failed": "Failed",

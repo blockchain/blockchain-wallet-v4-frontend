@@ -94,18 +94,16 @@ const QuoteDetails = ({
   swapSettingsFormValues,
   walletCurrency
 }: Props) => {
-  let isQuoteLoading = true
-  let quote
-  // TODO: use useRemote hook
-  /* eslint-disable no-return-assign */
-  quoteR.cata({
-    Failure: () => (isQuoteLoading = true),
-    Loading: () => (isQuoteLoading = true),
-    NotAsked: () => (isQuoteLoading = true),
-    Success: (val) => {
-      isQuoteLoading = false
-      return (quote = val as DexSwapQuoteResponse)
-    }
+  const { isQuoteLoading, quote } = quoteR.cata<
+    DexSwapQuoteResponse | { status?: string; type?: string },
+    DexSwapQuoteResponse,
+    // TODO: to remove `any` - the whole component has to be refactored to account for nullable quote
+    { isQuoteLoading: boolean; quote: any } // eslint-disable-line
+  >({
+    Failure: () => ({ isQuoteLoading: true, quote: null }),
+    Loading: () => ({ isQuoteLoading: true, quote: null }),
+    NotAsked: () => ({ isQuoteLoading: true, quote: null }),
+    Success: (val) => ({ isQuoteLoading: false, quote: val })
   })
 
   return (
