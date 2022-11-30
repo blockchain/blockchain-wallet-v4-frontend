@@ -5,6 +5,8 @@ import BigNumber from 'bignumber.js'
 
 import { Exchange } from '@core'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { selectors } from 'data'
+import { useRemote } from 'hooks'
 
 import {
   EditSlippageText,
@@ -31,8 +33,11 @@ export const QuoteDetails = ({
   swapDetailsOpen,
   walletCurrency
 }: Props) => {
-  const isQuoteLoading = true
-  let quote
+  const isQuoteLoading = false
+  const { data: swapQuoteResponse } = useRemote(selectors.components.dex.getSwapQuote)
+
+  const quote = swapQuoteResponse ? (swapQuoteResponse as any)?.quotes_?.[0] : null
+  const txLeg = (swapQuoteResponse as any)?.txs_?.[0] || {}
 
   return (
     <QuoteWrapper animate={swapDetailsOpen}>
@@ -72,7 +77,7 @@ export const QuoteDetails = ({
           ) : (
             <>
               <FiatDisplay
-                coin={quote?.quotes[0].sellAmount.symbol}
+                coin={quote?.sellAmount_.symbol_}
                 currency={walletCurrency}
                 color='textBlack'
                 lineHeight='150%'
@@ -82,19 +87,19 @@ export const QuoteDetails = ({
               >
                 {Exchange.convertCoinToCoin({
                   baseToStandard: false,
-                  coin: quote?.quotes[0].sellAmount.symbol,
+                  coin: quote?.sellAmount_.symbol_,
                   value: Exchange.convertCoinToCoin({
-                    coin: quote?.quotes[0].sellAmount.symbol,
-                    value: quote?.quotes[0].sellAmount.amount
+                    coin: quote?.sellAmount_.symbol_,
+                    value: quote?.sellAmount_.amount_
                   })
                 })}
               </FiatDisplay>
               <ValueSubText>
                 {Exchange.convertCoinToCoin({
-                  coin: quote?.quotes[0].sellAmount.symbol,
-                  value: quote?.quotes[0].sellAmount.amount
+                  coin: quote?.sellAmount_.symbol_,
+                  value: quote?.sellAmount_.amount_
                 })}{' '}
-                {quote?.quotes[0].sellAmount.symbol}
+                {quote?.sellAmount_.symbol_}
               </ValueSubText>
             </>
           )}
@@ -110,7 +115,7 @@ export const QuoteDetails = ({
           ) : (
             <>
               <FiatDisplay
-                coin={quote?.quotes[0].sellAmount.symbol}
+                coin={quote?.sellAmount_.symbol_}
                 currency={walletCurrency}
                 color='textBlack'
                 lineHeight='150%'
@@ -118,14 +123,14 @@ export const QuoteDetails = ({
                 size='14px'
                 weight={600}
               >
-                {new BigNumber(quote?.txs[0].gasPrice || 0)
-                  .multipliedBy(quote.txs[0].gasLimit || 0)
+                {new BigNumber(txLeg?.gasPrice_ || 0)
+                  .multipliedBy(txLeg?.gasPrice_ || 0)
                   .toString()}
               </FiatDisplay>
               <ValueSubText>
                 {Exchange.convertCoinToCoin({
                   coin: 'ETH',
-                  value: quote.txs[0].gasPrice * quote.txs[0].gasLimit
+                  value: txLeg?.gasPrice_ * txLeg?.gasPrice_
                 })}
                 {' ETH'}
               </ValueSubText>

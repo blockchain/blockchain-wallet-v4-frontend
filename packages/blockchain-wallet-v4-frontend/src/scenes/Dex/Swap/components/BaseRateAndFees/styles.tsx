@@ -2,11 +2,18 @@ import React from 'react'
 import { Flex } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-const WrapperStyled = styled(Flex)`
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin: 24px 16px;
 `
 
-const GasFeeWrapperStyled = styled(Flex)`
+export const GasFeeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   height: 20px;
   padding: 4px 8px;
   margin-right: 8px;
@@ -19,32 +26,11 @@ const GasFeeWrapperStyled = styled(Flex)`
   }
 `
 
-const ShowDetailsWrapperStyled = styled(Flex)`
+export const ShowDetailsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
   &:hover {
     cursor: pointer;
   }
 `
-
-export const Wrapper = ({ children, ...props }: React.ComponentProps<typeof WrapperStyled>) => (
-  <WrapperStyled {...props} alignItems='center' justifyContent='space-between'>
-    {children}
-  </WrapperStyled>
-)
-
-export const GasFeeWrapper = ({
-  children,
-  ...props
-}: React.ComponentProps<typeof WrapperStyled>) => (
-  <GasFeeWrapperStyled {...props} alignItems='center' justifyContent='space-between'>
-    {children}
-  </GasFeeWrapperStyled>
-)
-
-export const ShowDetailsWrapper = ({
-  children,
-  ...props
-}: React.ComponentProps<typeof WrapperStyled>) => (
-  <ShowDetailsWrapperStyled {...props} alignItems='center'>
-    {children}
-  </ShowDetailsWrapperStyled>
-)

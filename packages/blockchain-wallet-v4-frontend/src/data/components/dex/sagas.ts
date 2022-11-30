@@ -5,7 +5,6 @@ import { APIType } from '@core/network/api'
 import { actions, model, selectors } from 'data'
 
 import { SwapAccountType } from '../swap/types'
-import * as S from './selectors'
 import { actions as A } from './slice'
 import { DexChain, DexChainList, DexChainTokenList, DexSwapForm } from './types'
 
@@ -61,7 +60,7 @@ export default ({ api }: { api: APIType }) => {
     const { baseToken, baseTokenAmount, counterToken, slippage } = formValues
 
     // only fetch/update swap quote if we have a valid pair and a base amount
-    if (baseToken && counterToken && baseTokenAmount) {
+    if (baseToken && counterToken && baseTokenAmount && parseFloat(`${baseTokenAmount}`)) {
       try {
         yield put(A.fetchSwapQuoteLoading())
 
@@ -127,7 +126,7 @@ export default ({ api }: { api: APIType }) => {
               symbol: counterToken
             },
 
-            // // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
+            // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
             venue: 'ZEROX'
           },
           {
@@ -143,13 +142,26 @@ export default ({ api }: { api: APIType }) => {
           yield put(A.fetchSwapQuoteSuccess(quoteResponse))
         }
 
-        // now that we have an updated quote, determine which fields we need to update
-        // counterToken = quotes.buyAmount
-        // baseToken = quotes.sellAmount
-        const quote = quoteResponse?.quotes[quoteResponse.type === 'SINGLE' ? 0 : 1]
+        // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
+        // Also we consider to return to the FE only one quote in that case
+        const quote = quoteResponse?.quotes_?.[0]
+
         if (quote) {
           switch (field) {
             case 'flipPairs':
+              yield put(
+                actions.form.change(
+                  DEX_SWAP_FORM,
+                  'counterTokenAmount',
+                  Exchange.convertCoinToCoin({
+                    baseToStandard: true,
+                    coin: quote.buyAmount_.symbol_,
+                    value: quote.buyAmount_.amount_
+                  })
+                )
+              )
+              break
+
             case 'baseTokenAmount':
               yield put(
                 actions.form.change(
@@ -157,12 +169,13 @@ export default ({ api }: { api: APIType }) => {
                   'counterTokenAmount',
                   Exchange.convertCoinToCoin({
                     baseToStandard: true,
-                    coin: quote.buyAmount.symbol,
-                    value: quote.buyAmount.amount
+                    coin: quote.buyAmount_.symbol_,
+                    value: quote.buyAmount_.amount_
                   })
                 )
               )
               break
+
             case 'counterTokenAmount':
               yield put(
                 actions.form.change(
@@ -170,22 +183,22 @@ export default ({ api }: { api: APIType }) => {
                   'baseTokenAmount',
                   Exchange.convertCoinToCoin({
                     baseToStandard: true,
-                    coin: quote.sellAmount.symbol,
-                    value: quote.sellAmount.amount
+                    coin: quote.sellAmount_.symbol_,
+                    value: quote.sellAmount_.amount_
                   })
                 )
               )
               break
+
             case 'baseToken':
-            case 'counterToken':
               yield put(
                 actions.form.change(
                   DEX_SWAP_FORM,
                   'baseTokenAmount',
                   Exchange.convertCoinToCoin({
                     baseToStandard: true,
-                    coin: quote.sellAmount.symbol,
-                    value: quote.sellAmount.amount
+                    coin: quote.sellAmount_.symbol_,
+                    value: quote.sellAmount_.amount_
                   })
                 )
               )
@@ -195,12 +208,38 @@ export default ({ api }: { api: APIType }) => {
                   'counterTokenAmount',
                   Exchange.convertCoinToCoin({
                     baseToStandard: true,
-                    coin: quote.buyAmount.symbol,
-                    value: quote.buyAmount.amount
+                    coin: quote.buyAmount_.symbol_,
+                    value: quote.buyAmount_.amount_
                   })
                 )
               )
               break
+
+            case 'counterToken':
+              yield put(
+                actions.form.change(
+                  DEX_SWAP_FORM,
+                  'baseTokenAmount',
+                  Exchange.convertCoinToCoin({
+                    baseToStandard: true,
+                    coin: quote.sellAmount_.symbol_,
+                    value: quote.sellAmount_.amount_
+                  })
+                )
+              )
+              yield put(
+                actions.form.change(
+                  DEX_SWAP_FORM,
+                  'counterTokenAmount',
+                  Exchange.convertCoinToCoin({
+                    baseToStandard: true,
+                    coin: quote.buyAmount_.symbol_,
+                    value: quote.buyAmount_.amount_
+                  })
+                )
+              )
+              break
+
             default:
               break
           }

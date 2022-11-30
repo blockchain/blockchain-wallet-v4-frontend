@@ -30,30 +30,28 @@ export const BaseRateAndFees = ({
   walletCurrency
 }: OwnProps) => {
   const { data: currentChain } = useRemote(selectors.components.dex.getCurrentChain)
+  const { data: swapQuoteResponse } = useRemote(selectors.components.dex.getSwapQuote)
+
+  const quote = swapQuoteResponse ? (swapQuoteResponse as any)?.quotes_?.[0] : null
 
   // FIXME: Pass data from remote response
-  const txLeg = {
-    gasLimit: 1,
-    gasPrice: 1,
-    sellAmount: {
-      symbol: 'SYMBOL'
-    }
-  }
+  const txLeg = (swapQuoteResponse as any)?.txs_?.[0] || {}
 
-  const quote = {
+  const quoteDetails = {
     buyAmount: {
-      symbol: 'SYMBOL'
+      symbol: quote?.buyAmount_.symbol_ || ''
     },
-    price: 1,
+    price: quote?.price_ ? parseFloat(quote?.price_) : 0,
     sellAmount: {
-      symbol: 'SYMBOL'
+      symbol: quote?.sellAmount_.symbol_ || ''
     }
   }
 
   return (
     <Wrapper>
       <Text variant='paragraph-mono' color={SemanticColors.body}>
-        1 {quote.sellAmount.symbol} = ~{quote.price.toFixed(8)} {quote.buyAmount.symbol}
+        1 {quoteDetails.sellAmount.symbol} = ~{quoteDetails.price.toFixed(8)}{' '}
+        {quoteDetails.buyAmount.symbol}
       </Text>
       {!isQuoteLocked && (
         <Flex alignItems='center'>
@@ -65,7 +63,7 @@ export const BaseRateAndFees = ({
               coin={currentChain?.nativeCurrency.symbol}
               currency={walletCurrency}
             >
-              {new BigNumber(txLeg.gasLimit).multipliedBy(txLeg.gasPrice).toString()}
+              {new BigNumber(txLeg.gasLimit_).multipliedBy(txLeg.gasPrice_).toString()}
             </FiatDisplay>
           </GasFeeWrapper>
 
