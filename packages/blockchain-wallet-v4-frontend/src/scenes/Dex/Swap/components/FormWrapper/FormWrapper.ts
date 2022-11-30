@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import Form from 'components/Form/Form'
 import { media } from 'services/styles'
 
-export const FormContainerCss = css`
+export const FormWrapper = styled(Form)`
   box-sizing: border-box;
   width: 550px;
   margin-top: 72px;
@@ -19,12 +19,4 @@ export const FormContainerCss = css`
   ${media.mobile`
     padding: 20px;
   `}
-`
-export const PageWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`
-export const FormWrapper = styled(Form)`
-  ${FormContainerCss}
 `

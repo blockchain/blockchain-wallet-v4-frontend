@@ -148,7 +148,7 @@ const identityVerificationSlice = createSlice({
     setStepsLoading: (state) => {
       state.steps = Remote.Loading
     },
-    setStepsSuccess: (state, action: PayloadAction<Array<string>>) => {
+    setStepsSuccess: (state, action: PayloadAction<Array<StepsType>>) => {
       state.steps = Remote.Success(action.payload)
     },
     setStopFlowAfterLimitedAccessAchieved: (state, action: PayloadAction<boolean>) => {

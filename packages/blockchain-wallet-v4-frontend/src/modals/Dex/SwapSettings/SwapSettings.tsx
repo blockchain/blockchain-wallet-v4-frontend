@@ -1,209 +1,149 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { IconCloseCircleV2, PaletteColors } from '@blockchain-com/constellation'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { Field, getFormValues, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
+import React, { useState } from 'react'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { useDispatch } from 'react-redux'
+import {
+  Button,
+  Flex,
+  IconCloseCircleV2,
+  Input,
+  PaletteColors,
+  SemanticColors,
+  Text
+} from '@blockchain-com/constellation'
+import { compose } from 'redux'
 
-import { Button, Modal, Text } from 'blockchain-info-components'
-import Form from 'components/Form/Form'
-import NumberBox from 'components/Form/NumberBox'
+import { Button as ButtonLegacy, Modal } from 'blockchain-info-components'
 import { actions, model } from 'data'
-import { DEX_SWAP_FORM } from 'data/components/dex/model'
-import { DexSwapSettingsForm } from 'data/components/dex/types'
 import { ModalName } from 'data/modals/types'
-import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-const { DEX_SWAP_SETTINGS_FORM } = model.components.dex
+import { SLIPPAGE_PRESETS } from './constants'
+import { CloseIcon, Section, SlippageButtons } from './styles'
+import { validators } from './utils'
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-const CloseIcon = styled.div`
-  > :first-child {
-    cursor: pointer;
-  }
-`
-const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 24px;
-`
-const SlippageButtons = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 8px;
+const { DEX_SWAP_FORM } = model.components.dex
 
-  > button {
-    width: calc(25% - 8px);
-    min-width: calc(25% - 8px);
-    max-width: calc(25% - 8px);
-
-    &.active {
-      color: ${(props) => props.theme.white};
-      background-color: ${(props) => props.theme.grey800};
-      border: 1px solid ${(props) => props.theme.grey800};
-      cursor: default;
-    }
-  }
-`
-
-// determine active slippage with priority on custom, then standard values else default to 'Auto' (null)
-const determineActiveSlippage = (formValues?: DexSwapSettingsForm) => {
-  if (formValues?.customSlippage) {
-    return (parseFloat(formValues?.customSlippage) * 100).toString()
-  }
-  return formValues?.standardSlippage?.toString() || null
+type Props = {
+  position: number
+  total: number
 }
 
-// validators for custom slippage
-const validateMin = (value) => {
-  if (!value) return
-  if (value < 1)
-    return (
-      <FormattedMessage
-        id='dex.settings.invalid_min_slippage_percentage'
-        defaultMessage='Value must be greater than 0'
-      />
-    )
-}
-const validateMax = (value) => {
-  if (!value) return
-  if (value > 99)
-    return (
-      <FormattedMessage
-        id='dex.settings.invalid_max_slippage_percentage'
-        defaultMessage='Value must be less than 99'
-      />
-    )
-}
+type SlippageValue =
+  | { isCustom: false; value: number }
+  | { error?: React.ReactNode; isCustom: true; value: number }
 
-const DexSwapSettings = ({ formActions, formValues, modalActions, position, total }: Props) => {
-  const onStandardSlippageSelect = (val) => {
-    formActions.change(DEX_SWAP_SETTINGS_FORM, 'customSlippage', undefined)
-    formActions.change(DEX_SWAP_SETTINGS_FORM, 'standardSlippage', val)
-  }
+const DexSwapSettings = ({ position, total }: Props) => {
+  const dispatch = useDispatch()
+  const { formatMessage } = useIntl()
+
+  const [slippage, setSlippage] = useState<SlippageValue>({
+    isCustom: false,
+    value: 0.01
+  })
+
   const onSaveSettings = () => {
-    let newSlippage: string | null = null
-    if (formValues?.customSlippage) {
-      newSlippage = (parseInt(formValues?.customSlippage) / 100).toString()
-    } else if (formValues?.standardSlippage) {
-      newSlippage = formValues?.standardSlippage?.toString()
-    }
-    formActions.change(DEX_SWAP_SETTINGS_FORM, 'activeSlippage', newSlippage)
-    formActions.change(DEX_SWAP_FORM, 'slippage', newSlippage)
-    modalActions.closeModal()
+    dispatch(actions.form.change(DEX_SWAP_FORM, 'slippage', slippage.value))
+    dispatch(actions.modals.closeModal())
   }
-  const activeSlippage = determineActiveSlippage(formValues)
+
+  const onChangeCustomSlippage = (value: string) => {
+    const isNumber = validators.isNumber(value)
+    if (isNumber) {
+      setSlippage({
+        error: undefined,
+        isCustom: true,
+        value: parseFloat(value)
+      })
+    }
+  }
+
+  const onValidateCustomSlippage = (value: string) => {
+    const numericValue = validators.isNumber(value) ? parseFloat(value) : 0
+    const error = validators.minValue(numericValue) || validators.maxValue(numericValue)
+    setSlippage({
+      error,
+      isCustom: true,
+      value: numericValue
+    })
+  }
 
   return (
     <Modal size='small' position={position} total={total} style={{ padding: '24px' }}>
-      <Header>
-        <Text color='textBlack' lineHeight='135%' size='24px' weight={600}>
+      <Flex justifyContent='space-between'>
+        <Text variant='title2' color={SemanticColors.body}>
           <FormattedMessage id='copy.swap_settings' defaultMessage='Swap Settings' />
         </Text>
-        <CloseIcon
-          onClick={() => {
-            modalActions.closeModal()
-          }}
-        >
+        <CloseIcon onClick={() => dispatch(actions.modals.closeModal())}>
           <IconCloseCircleV2 color={PaletteColors['grey-400']} label='close' size='medium' />
         </CloseIcon>
-      </Header>
-      <Form>
+      </Flex>
+      <form>
         <Section>
-          <Text color='textBlack' lineHeight='20px' size='14px' weight={600}>
+          <Text variant='paragraph1' color={SemanticColors.body}>
             <FormattedMessage
               id='copy.allowed_slippage_percentage'
               defaultMessage='Allowed Slippage %'
             />
           </Text>
           <SlippageButtons>
-            {[
-              { display: '0.5%', value: '0.005' },
-              { display: '2%', value: '0.02' },
-              { display: '5%', value: '0.05' },
-              { display: 'Auto', value: null }
-            ].map((option) => (
-              <Button
-                className={
-                  activeSlippage === option.value && !formValues?.customSlippage ? 'active' : ''
-                }
+            {SLIPPAGE_PRESETS.map((option) => (
+              <ButtonLegacy
+                className={slippage.value === option.value && !slippage.isCustom ? 'active' : ''}
                 data-e2e={`dexSlippage${option.display}Btn`}
                 height='48px'
                 key={option.display}
                 nature='empty-blue'
-                onClick={() => onStandardSlippageSelect(option.value)}
+                onClick={() =>
+                  setSlippage({
+                    isCustom: false,
+                    value: option.value
+                  })
+                }
               >
                 {option.display}
-              </Button>
+              </ButtonLegacy>
             ))}
           </SlippageButtons>
         </Section>
         <Section>
-          <Text
-            color='textBlack'
-            lineHeight='20px'
-            size='14px'
-            weight={600}
-            style={{ marginBottom: '8px' }}
-          >
+          <Text variant='paragraph1' color={SemanticColors.body}>
             <FormattedMessage
               id='copy.custom_slippage_percentage'
               defaultMessage='Custom Slippage %'
             />
           </Text>
-          <Field
-            component={NumberBox}
-            data-e2e='customSlippageInput'
-            name='customSlippage'
-            placeholder='Enter Custom Slippage'
-            validate={[validateMin, validateMax]}
+          <Input
+            // value={''} // TODO: Really no value prop for an INPUT field??? Fix constellation
+            id='dexCoinSearch'
+            state={slippage.isCustom && slippage.error ? 'error' : 'default'}
+            type='number' // TODO: Fix constellation input to actually accept only numbers
+            placeholder={formatMessage({
+              defaultMessage: 'Search Symbol or Address',
+              id: 'dex.customSlippage.placeholder'
+            })}
+            onBlur={(event) => onValidateCustomSlippage((event.target as HTMLInputElement).value)}
+            onChange={(event) => onChangeCustomSlippage((event.target as HTMLInputElement).value)}
           />
+          {slippage.isCustom && slippage.error ? (
+            <Text variant='caption1' color={SemanticColors.error}>
+              {slippage.error}
+            </Text>
+          ) : null}
         </Section>
         <Section>
           <Button
-            data-e2e='saveSwapSettings'
-            fullwidth
-            jumbo
-            nature='primary'
+            size='large'
+            width='full'
+            variant='primary'
             onClick={onSaveSettings}
-          >
-            <FormattedMessage id='buttons.save' defaultMessage='Save' />
-          </Button>
+            text={<FormattedMessage id='buttons.save' defaultMessage='Save' />}
+          />
         </Section>
-      </Form>
+      </form>
     </Modal>
   )
 }
 
-const mapStateToProps = (state: RootState) => ({
-  formValues: getFormValues(DEX_SWAP_SETTINGS_FORM)(state) as DexSwapSettingsForm
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type Props = ConnectedProps<typeof connector> &
-  InjectedFormProps & {
-    position: number
-    total: number
-  }
-
-const enhance = compose<React.ComponentType>(
-  ModalEnhancer(ModalName.DEX_SWAP_SETTINGS),
-  connector,
-  reduxForm({
-    destroyOnUnmount: false,
-    form: DEX_SWAP_SETTINGS_FORM
-  })
+export default compose<React.ComponentType>(ModalEnhancer(ModalName.DEX_SWAP_SETTINGS))(
+  DexSwapSettings
 )
-
-export default enhance(DexSwapSettings)

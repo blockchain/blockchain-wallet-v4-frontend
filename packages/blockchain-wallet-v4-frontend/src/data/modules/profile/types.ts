@@ -153,7 +153,7 @@ export interface ProfileState {
   }
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
-  userRiskSettings: RemoteDataType<string, UserRiskSettings>
+  userRiskSettings: RemoteDataType<NabuApiErrorType, UserRiskSettings>
   userTiers: RemoteDataType<string, UserTiersType>
 }
 
