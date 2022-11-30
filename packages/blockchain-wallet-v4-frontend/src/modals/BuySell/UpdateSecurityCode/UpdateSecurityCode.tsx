@@ -99,33 +99,35 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
               </Text>
             </Padding>
             <Padding bottom={1}>
-              <Input
-                id='primary'
-                label='CVV Code'
-                placeholder='000'
-                state={cvvHasError ? 'error' : 'default'}
-                type='number'
-                // @ts-ignore
-                autocomplete='cc-csc'
-                aria-label='Card Security Code'
-                aria-placeholder='CVC'
-                postfix={
-                  cvvHasData ? (
-                    <IconCheckCircle color={SemanticColors.success} size='medium' />
-                  ) : (
-                    <IconLockClosed color={SemanticColors.muted} size='medium' />
-                  )
-                }
-                onChange={(e) => setCvv(e.currentTarget.value)}
-                helperText={
-                  cvvHasError && (
-                    <FormattedMessage
-                      id='copy.invalid_cvv_code'
-                      defaultMessage='The code entered is either invalid or expired. Try Again.'
-                    />
-                  )
-                }
-              />
+              <div style={{ height: '97.5px' }}>
+                <Input
+                  id='primary'
+                  label='CVV Code'
+                  placeholder='000'
+                  state={cvvHasError ? 'error' : 'default'}
+                  type='number'
+                  // @ts-ignore
+                  autoComplete='cc-csc'
+                  aria-label='Card Security Code'
+                  aria-placeholder='CVC'
+                  postfix={
+                    cvvHasData ? (
+                      <IconCheckCircle color={SemanticColors.success} size='medium' />
+                    ) : (
+                      <IconLockClosed color={SemanticColors.muted} size='medium' />
+                    )
+                  }
+                  onChange={(e) => setCvv(e.currentTarget.value)}
+                  helperText={
+                    cvvHasError && (
+                      <FormattedMessage
+                        id='copy.invalid_cvv_code'
+                        defaultMessage='The code entered is either invalid or expired. Try Again.'
+                      />
+                    )
+                  }
+                />
+              </div>
             </Padding>
             <Card backgroundColor='grey-050' borderWidth={1} borderRadius='lg'>
               <StandardRow
