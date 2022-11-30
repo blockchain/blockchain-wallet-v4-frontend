@@ -1,20 +1,23 @@
 import { DexSwapQuoteRequest, DexSwapQuoteResponse } from './types'
 
+const DEX_GATEWAY_PREFIX = '/dex-gateway/v1'
+
 export default ({ apiUrl, get, post }) => {
   const getDexChains = () =>
     get({
-      endPoint: `/dex-gateway/v1/chains`,
+      contentType: 'application/json',
+      endPoint: `/${DEX_GATEWAY_PREFIX}/chains`,
       url: apiUrl
     })
 
-  const getDexChainTopTokens = (chainId: number) =>
+  const getDexChainAllTokens = (chainId: number) =>
     post({
       contentType: 'application/json',
       data: {
         chainId,
-        queryBy: 'TOP'
+        queryBy: 'TOP' // FIXME: Change to ALL after checking how we have ETH added there
       },
-      endPoint: '/dex-gateway/v1/tokens',
+      endPoint: `/${DEX_GATEWAY_PREFIX}/tokens`,
       removeDefaultPostData: true,
       url: apiUrl
     })
@@ -29,7 +32,7 @@ export default ({ apiUrl, get, post }) => {
     })
 
   return {
-    getDexChainTopTokens,
+    getDexChainAllTokens,
     getDexChains,
     getDexSwapQuote
   }
