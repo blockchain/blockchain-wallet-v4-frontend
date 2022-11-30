@@ -40,7 +40,7 @@ const Learn = () => {
             <Flex>{description}</Flex>
           </Flex>
           {isActiveRewards ? (
-            <LinkContainer to='/active-rewards'>
+            <LinkContainer to={link}>
               <a>
                 <Link
                   size='small'

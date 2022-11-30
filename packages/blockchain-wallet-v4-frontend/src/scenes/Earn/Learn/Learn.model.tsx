@@ -83,7 +83,7 @@ export const learnColumn: LearnColumnType[] = [
     ),
     icon: <IconMarketUp color={SemanticColors.primary} size='medium' />,
     isActiveRewards: true,
-    link: 'https://support.blockchain.com/hc/en-us/sections/5954708914460-Staking',
+    link: '/earn/active-rewards-learn',
     title: (
       <Text color={SemanticColors.body}>
         <FormattedMessage id='copy.active-rewards' defaultMessage='Active Rewards' />
