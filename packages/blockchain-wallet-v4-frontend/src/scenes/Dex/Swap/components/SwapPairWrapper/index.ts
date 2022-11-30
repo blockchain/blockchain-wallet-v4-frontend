@@ -1,0 +1,1 @@
+export { SwapPairWrapper } from './SwapPairWrapper'

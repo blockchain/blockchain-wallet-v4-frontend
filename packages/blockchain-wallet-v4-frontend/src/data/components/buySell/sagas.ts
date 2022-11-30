@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
-import { addSeconds, differenceInMilliseconds } from 'date-fns'
 import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
@@ -15,7 +14,6 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
-  BuyQuoteStateType,
   CardAcquirer,
   CardSuccessRateResponse,
   ExtraKYCContext,
@@ -38,6 +36,7 @@ import {
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
+  BuyQuoteStateType,
   CustodialSanctionsEnum,
   ModalName,
   ProductEligibilityForUser,
@@ -80,7 +79,7 @@ import {
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
-import { getDirection, reversePair } from './utils'
+import { getDirection, getQuoteRefreshConfig, reversePair } from './utils'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -1380,18 +1379,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           buyQuotePaymentMethodId
         )
 
+        const refreshConfig = getQuoteRefreshConfig({
+          currentDate: new Date(),
+          expireDate: new Date(quote.quoteExpiresAt)
+        })
         yield put(
           A.fetchBuyQuoteSuccess({
             fee: quote.feeDetails.fee.toString(),
             pair,
             quote,
-            rate: parseInt(quote.price)
+            rate: parseInt(quote.price),
+            refreshConfig
           })
         )
-        const refresh = Math.abs(
-          differenceInMilliseconds(new Date(quote.quoteExpiresAt), addSeconds(new Date(), 10))
-        )
-        yield delay(refresh)
+
+        yield delay(refreshConfig.totalMs)
       } catch (e) {
         if (isNabuError(e)) {
           yield put(A.fetchBuyQuoteFailure(e))
@@ -1425,8 +1427,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchSellQuote = function* ({ payload }: ReturnType<typeof A.fetchSellQuote>) {
     while (true) {
       try {
-        yield put(A.fetchSellQuoteLoading())
-
         const { pair } = payload
         const direction = getDirection(payload.account)
         const quote: ReturnType<typeof api.getSwapQuote> = yield call(
@@ -1441,11 +1441,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           true
         )
 
-        yield put(A.fetchSellQuoteSuccess({ quote, rate }))
-        const refresh = Math.abs(
-          differenceInMilliseconds(new Date(quote.expiresAt), addSeconds(new Date(), 10))
-        )
-        yield delay(refresh)
+        const refreshConfig = getQuoteRefreshConfig({
+          currentDate: new Date(),
+          expireDate: new Date(quote.expiresAt)
+        })
+        yield put(A.fetchSellQuoteSuccess({ quote, rate, refreshConfig }))
+        yield delay(refreshConfig.totalMs)
       } catch (e) {
         const error = errorHandler(e)
         yield put(A.fetchSellQuoteFailure(error))

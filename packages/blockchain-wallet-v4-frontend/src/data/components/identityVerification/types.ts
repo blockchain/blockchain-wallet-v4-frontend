@@ -32,6 +32,7 @@ export type VerifyIdentityOriginType =
   | 'Interest'
   | 'Withdraw'
   | 'DebitCard'
+  | 'UpgradeNowSilver'
 
 export type StepsType =
   | 'addExtraStep'
@@ -39,6 +40,7 @@ export type StepsType =
   | 'userAddress'
   | 'personal'
   | 'moreInfo'
+  | 'additionalInfo'
   | 'mobile'
   | 'verify'
   | 'submitted'

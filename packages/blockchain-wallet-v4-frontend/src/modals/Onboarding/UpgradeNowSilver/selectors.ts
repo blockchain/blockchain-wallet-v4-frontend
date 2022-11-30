@@ -1,4 +1,3 @@
-import { Remote } from '@core'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType, UserTierType } from 'data/types'
@@ -17,10 +16,10 @@ const getData = (state: RootState) => {
     tiers: { current: 0 }
   } as UserDataType)
 
-  return Remote.Success({
+  return {
     userData,
     userTiers
-  })
+  }
 }
 
 export default getData

@@ -139,7 +139,8 @@ const Template = (props: Props) => {
     modalActions.closeModal(ModalName.UPGRADE_NOW_SILVER_MODAL)
     identityVerificationActions.verifyIdentity({
       needMoreInfo: false,
-      origin: 'UpgradeNowSilver'
+      origin: 'UpgradeNowSilver',
+      tier: userCurrentTier
     })
     analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_TRADING_LIMITS_GET_VERIFIED_CTA_CLICKED,
