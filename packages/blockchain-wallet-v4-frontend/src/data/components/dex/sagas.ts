@@ -22,29 +22,28 @@ export default ({ api }: { api: APIType }) => {
         (chain) => chain.nativeCurrency.name === 'Ethereum'
       ) as DexChain
       yield put(A.setCurrentChain(ethChain))
-      yield put(A.fetchChainTopTokens())
+      yield put(A.fetchChainAllTokens())
     } catch (e) {
       yield put(A.fetchChainsFailure(e.toString()))
     }
   }
 
-  const fetchChainTopTokens = function* () {
+  const fetchChainAllTokens = function* () {
     try {
-      yield put(A.fetchChainTopTokensLoading())
-
+      yield put(A.fetchChainAllTokensLoading())
       const currentChain = selectors.components.dex
         .getCurrentChain(yield select())
         .getOrFail('Unable to get current chain')
 
       const tokenList: DexChainTokenList = yield call(
-        api.getDexChainTopTokens,
+        api.getDexChainAllTokens,
         currentChain.chainId
       )
       // append the native currency of chain to full token list
       const fullTokenList = [currentChain.nativeCurrency].concat(tokenList).filter(Boolean)
-      yield put(A.fetchChainTopTokensSuccess(fullTokenList))
+      yield put(A.fetchChainAllTokensSuccess(fullTokenList))
     } catch (e) {
-      yield put(A.fetchChainTopTokensFailure(e.toString()))
+      yield put(A.fetchChainAllTokensFailure(e.toString()))
     }
   }
 
@@ -114,7 +113,7 @@ export default ({ api }: { api: APIType }) => {
               symbol: baseToken
             },
             params: {
-              slippage
+              slippage: `${slippage}`
             },
             // // User always has a private wallet setup automatically on sign up but should go through a security phrase
             // // in order to receive funds. If he didn't do it he has 0 balance and just nothing to swap. We don't need
@@ -213,7 +212,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
-    fetchChainTopTokens,
+    fetchChainAllTokens,
     fetchChains,
     fetchSwapQuote
   }

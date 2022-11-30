@@ -13,7 +13,7 @@ export type DexSwapQuoteRequest = {
     symbol: CoinType
   }
   params: {
-    slippage: string | null
+    slippage: string
   }
   takerAddress: string
   toCurrency: {

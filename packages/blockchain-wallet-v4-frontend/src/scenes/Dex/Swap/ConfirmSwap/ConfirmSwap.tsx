@@ -76,11 +76,7 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
       <QuoteDetails
         swapDetailsOpen
         walletCurrency={walletCurrency}
-        slippage={
-          formValues.slippage
-            ? { type: 'manual', value: parseFloat(formValues.slippage) }
-            : { type: 'auto' }
-        }
+        slippage={formValues.slippage}
         handleSettingsClick={onViewSettings}
       />
 

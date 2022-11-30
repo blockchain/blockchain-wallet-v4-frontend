@@ -132,11 +132,7 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
           handleSettingsClick={onViewSettings}
           swapDetailsOpen={isDetailsExpanded}
           walletCurrency={walletCurrency}
-          slippage={
-            formValues.slippage
-              ? { type: 'manual', value: parseFloat(formValues.slippage) }
-              : { type: 'auto' }
-          }
+          slippage={formValues.slippage}
         />
       )}
 
