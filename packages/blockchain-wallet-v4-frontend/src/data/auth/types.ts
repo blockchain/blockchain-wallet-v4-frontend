@@ -54,6 +54,7 @@ export type LoginRoutinePayloadType = {
 }
 
 export type ExchangeLoginType = {
+  authType?: number
   code?: string
   password?: string
   username: string
@@ -169,6 +170,7 @@ export type MagicLinkRequestPayloadType = {
 }
 
 export type LoginPayloadType = {
+  authType?: number
   code?: string
   guid: string
   mobileLogin: boolean | null

@@ -41,6 +41,15 @@ import {
   ProductAuthOptions
 } from './types'
 
+const getTwoFaType = (authType?: number): string | null => {
+  if (authType && authType > 0) {
+    if (authType === 1) return 'YUBIKEY'
+    if (authType === 4 || authType === 5) return 'SMS'
+    return 'OTP_CODE'
+  }
+  return null
+}
+
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
   const { createExchangeUser, createUser } = profileSagas({
@@ -88,7 +97,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     yield put(startSubmit(LOGIN_FORM))
-    const { code, password, username } = action.payload
+    const { authType, code, password, username } = action.payload
     const { platform, product, redirect, userType } = yield select(
       selectors.auth.getProductAuthMetadata
     )
@@ -108,6 +117,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
           properties: {
+            '2fa_type': getTwoFaType(authType),
             device_origin: platform,
             site_redirect: product,
             unified: false
@@ -448,7 +458,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const login = function* (action) {
-    const { code, guid, password, sharedKey } = action.payload
+    const { authType, code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const { exchangeEmail, unifiedAccount } = yield select(selectors.cache.getCache)
     const { email, emailToken } = formValues
@@ -469,6 +479,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
           properties: {
+            '2fa_type': getTwoFaType(authType),
             device_origin: platform,
             site_redirect: product,
             unified: unifiedAccount
@@ -919,7 +930,14 @@ export default ({ api, coreSagas, networks }) => {
         (step === LoginSteps.TWO_FA_WALLET && product === ProductAuthOptions.WALLET)
       ) {
         yield put(
-          actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
+          actions.auth.login({
+            authType,
+            code: auth,
+            guid,
+            mobileLogin: null,
+            password,
+            sharedKey: null
+          })
         )
       } else if (
         (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) &&
@@ -943,6 +961,7 @@ export default ({ api, coreSagas, networks }) => {
         // i.e. creating a new wallet and merging it to their exchange account
         yield put(
           actions.auth.exchangeLogin({
+            authType,
             code: exchangeTwoFA,
             password: exchangePassword,
             username: exchangeEmail
