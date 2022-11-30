@@ -21,6 +21,7 @@ import { DexSwapForm, DexSwapSide, DexSwapSideFields, ModalName } from 'data/typ
 import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import { VerificationCheckmark } from './components'
 import { getDexTokensList } from './SelectToken.selectors'
 import {
   CloseIcon,
@@ -121,9 +122,12 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
                     <TokenIcon name={token.symbol as CoinType} size='24px' />
                     <TokenDetails>
                       <Flex flexDirection='column'>
-                        <Text color={SemanticColors.body} variant='body2'>
-                          {token.name}
-                        </Text>
+                        <Flex alignItems='center'>
+                          <Text color={SemanticColors.body} variant='body2'>
+                            {token.name}
+                          </Text>
+                          <VerificationCheckmark ml={10} />
+                        </Flex>
                         <Text color={SemanticColors.body} variant='paragraph1'>
                           {token.displaySymbol}
                         </Text>
