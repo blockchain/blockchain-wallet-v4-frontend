@@ -48,6 +48,13 @@ const Dex = (form: InjectedFormProps<DexSwapForm>) => {
     }
   }, [swapFormValues.step, swapFormValues.baseToken, swapFormValues.counterToken])
 
+  // clear data on exiting DEX app
+  useEffect(() => {
+    return () => {
+      dispatch(actions.components.dex.clearCurrentSwapQuote())
+    }
+  }, [])
+
   const onFinishOnboarding = () => {
     localStorage.setItem(DEX_INTRO_VIEWED_KEY, 'true')
     setScene('SWAP')
