@@ -56,10 +56,10 @@ export type RecoverFormType = {
 
 export type AccountRecoveryMagicLinkData = {
   email?: string
-  guid?: string
   recovery_token?: string
   two_fa_type?: number
   userId?: string
+  walletGuid?: string
 }
 
 export enum AccountRecoveryApprovalStatusType {

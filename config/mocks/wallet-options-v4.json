@@ -61,7 +61,7 @@
         "recurringBuys": true,
         "rewardsFlowUnderSwapEnabled": true,
         "rewardsPromoBanner": true,
-        "secureEmailSmsUpdate": true,
+        "secureEmailSmsUpdate": false,
         "showSilverRevamp": true,
         "showTermsAndConditions": false,
         "stakingPromoBanner": true,

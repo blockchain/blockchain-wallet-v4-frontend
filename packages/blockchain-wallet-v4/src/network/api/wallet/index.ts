@@ -302,11 +302,11 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const sendTwoFAChallenge = (guid, sessionToken) =>
+  const sendTwoFAChallenge = (walletGuid, sessionToken) =>
     post({
       contentType: 'application/json',
       data: {
-        walletGuid: guid
+        walletGuid
       },
       endPoint: `/wallet/recovery/send-2fa-challenge`,
       sessionToken,

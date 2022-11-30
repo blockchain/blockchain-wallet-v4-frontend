@@ -488,9 +488,9 @@ export default ({ api, coreSagas, networks }) => {
       const recoveryLinkData: AccountRecoveryMagicLinkData = yield select(
         selectors.signup.getAccountRecoveryMagicLinkData
       )
-      const { email, guid } = recoveryLinkData
+      const { email, walletGuid } = recoveryLinkData
       const sessionToken = yield select(selectors.session.getRecoverSessionId, email)
-      yield call(api.sendTwoFAChallenge, guid, sessionToken)
+      yield call(api.sendTwoFAChallenge, walletGuid, sessionToken)
       yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.TWO_FA_CONFIRMATION))
     } catch (e) {
       yield put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
