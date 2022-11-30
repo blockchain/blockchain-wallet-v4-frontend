@@ -1,0 +1,4 @@
+div[data-radix-popper-content-wrapper] {
+  z-index: 99999 !important;
+  margin-left: 3px;
+}
