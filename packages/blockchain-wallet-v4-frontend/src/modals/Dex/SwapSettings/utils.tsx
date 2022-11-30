@@ -56,11 +56,10 @@ export type SlippageValue =
   | { error?: React.ReactNode; isCustom: true; value: number }
 
 export const useSlippageValueFromSwapForm = (): SlippageValue => {
-  const dexSwapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
-  const numericSlippageValue = dexSwapFormValues.slippage && parseFloat(dexSwapFormValues.slippage)
+  const { slippage } = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
 
   // no value set in a form
-  if (!numericSlippageValue || Number.isNaN(numericSlippageValue)) {
+  if (!slippage) {
     return {
       isCustom: false,
       value: DEFAULT_SLIPPAGE
@@ -68,16 +67,16 @@ export const useSlippageValueFromSwapForm = (): SlippageValue => {
   }
 
   // we have that value in presets
-  if (SLIPPAGE_PRESETS.find((preset) => preset.value === numericSlippageValue)) {
+  if (SLIPPAGE_PRESETS.find((preset) => preset.value === slippage)) {
     return {
       isCustom: false,
-      value: numericSlippageValue
+      value: slippage
     }
   }
 
   // custom user value
   return {
     isCustom: true,
-    value: numericSlippageValue
+    value: slippage
   }
 }

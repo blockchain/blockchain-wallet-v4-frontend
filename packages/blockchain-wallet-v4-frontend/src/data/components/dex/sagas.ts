@@ -87,7 +87,7 @@ export default ({ api }: { api: APIType }) => {
             symbol: baseToken
           },
           params: {
-            slippage: slippage || null
+            slippage: `${slippage}`
           },
           toCurrency: {
             address: counterTokenInfo.address,
