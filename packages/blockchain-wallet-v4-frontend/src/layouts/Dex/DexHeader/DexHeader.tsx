@@ -5,6 +5,7 @@ import { IconPresent, IconRefresh, Navigation } from '@blockchain-com/constellat
 
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
+import { useRemote } from 'hooks'
 import { notReachable } from 'utils/notReachable'
 
 import { AccountDropdown, NavbarWrapper } from './components'
@@ -19,13 +20,12 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
   const dispatch = useDispatch()
   const { formatMessage } = useIntl()
 
+  const isReferralAvailable = useIsReferralAvailable()
   const isDexEnabled = useSelector(selectors.core.walletOptions.getDexProductEnabled)
   const isNftExplorerEnabled = useSelector(selectors.core.walletOptions.getNftExplorer)
-  const userData = useSelector(selectors.modules.profile.getUserData).getOrFail('No user data')
+  const { data: userData } = useRemote(selectors.modules.profile.getUserData)
 
-  const userAlias = useUserAlias(userData)
-  const isReferralAvailable = useIsReferralAvailable()
-
+  const userAlias = useUserAlias(userData || { email: '' })
   const [isAccountDropdownVisible, setIsAccountDropdownVisible] = useState(false)
 
   const onReferFriendClick = () => {
