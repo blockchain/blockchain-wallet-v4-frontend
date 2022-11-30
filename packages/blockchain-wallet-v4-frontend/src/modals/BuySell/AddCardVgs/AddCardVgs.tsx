@@ -66,12 +66,6 @@ const AddCardVgs: VgsComponent = ({ handleClose }) => {
 
         buySellActions.checkCardSuccessRate({ bin: eventData.bin })
       }
-
-      if (eventData.action === IFRAME_ACTION.DEEP_LINK) {
-        if (!eventData.url) throw new Error(ADD_CARD_ERROR.NO_DEEP_LINK_URL)
-
-        // onClickDeepLink(data.url)
-      }
     },
     []
   )
