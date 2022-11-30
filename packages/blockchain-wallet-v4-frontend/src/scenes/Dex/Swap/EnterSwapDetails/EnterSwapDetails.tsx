@@ -31,7 +31,7 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
 
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
-  const { baseToken, counterToken, counterTokenAmount } = formValues || {}
+  const { baseToken, counterToken, counterTokenAmount, slippage } = formValues || {}
 
   // TODO: useRemote hook
   const hasQuote = false // Remote.Success.is(quoteR) // quoteR = selectors.components.dex.getSwapQuote(state)
@@ -128,7 +128,7 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
           handleSettingsClick={onViewSettings}
           swapDetailsOpen={isDetailsExpanded}
           walletCurrency={walletCurrency}
-          slippage={{ type: 'auto' }} // FIXME: Pass slippage from settings form
+          slippage={slippage}
         />
       )}
 
