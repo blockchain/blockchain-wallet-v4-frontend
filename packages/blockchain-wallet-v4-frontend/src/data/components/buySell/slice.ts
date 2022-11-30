@@ -64,6 +64,7 @@ const initialState: BuySellState = {
   checkoutDotComApiKey: undefined,
   crossBorderLimits: Remote.NotAsked,
   cryptoCurrency: undefined,
+  cvvStatus: Remote.NotAsked,
   displayBack: false,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
@@ -164,6 +165,15 @@ const buySellSlice = createSlice({
     createOrderSuccess: (state, action: PayloadAction<BSOrderType>) => {
       state.order = Remote.Success(action.payload)
       state.pendingOrder = action.payload
+    },
+    cvvStatusFailure: (state) => {
+      state.cvvStatus = Remote.Failure('The code entered is either invalid or expired. Try Again.')
+    },
+    cvvStatusLoading: (state) => {
+      state.cvvStatus = Remote.Loading
+    },
+    cvvStatusSuccess: (state) => {
+      state.cvvStatus = Remote.Success(true)
     },
     defaultMethodEvent: (state, action: PayloadAction<BSPaymentMethodType>) => {},
     deleteCard: (state, action: PayloadAction<BSCardType['id']>) => {},

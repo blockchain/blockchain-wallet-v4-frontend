@@ -2240,10 +2240,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const updateCardCvv = function* ({ payload }: ReturnType<typeof A.updateCardCvv>) {
     try {
+      yield put(A.cvvStatusLoading())
       yield call(api.updateCardCvv, payload)
+      yield put(A.cvvStatusSuccess())
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log(e)
+      yield put(A.cvvStatusFailure())
     }
   }
 

@@ -57,6 +57,8 @@ export const getCardTokenId = (state: RootState) => state.components.buySell.car
 
 export const getVgsVaultId = (state: RootState) => state.components.buySell.vgsVaultId
 
+export const getCvvStatus = (state: RootState) => state.components.buySell.cvvStatus
+
 export const getDefaultPaymentMethod = (state: RootState) => {
   const fiatCurrency = getFiatCurrency(state)
   const orders = getBSOrders(state).getOrElse([])

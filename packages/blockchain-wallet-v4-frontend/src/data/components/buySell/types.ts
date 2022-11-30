@@ -162,6 +162,7 @@ export type BuySellState = {
   checkoutDotComApiKey?: string
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   cryptoCurrency?: CoinType
+  cvvStatus: RemoteDataType<string, boolean>
   displayBack: boolean
   fiatCurrency?: FiatType
   fiatEligible: RemoteDataType<PartialClientErrorProperties, FiatEligibleType>

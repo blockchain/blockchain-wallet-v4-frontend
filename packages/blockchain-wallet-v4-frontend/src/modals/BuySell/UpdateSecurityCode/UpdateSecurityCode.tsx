@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   Button,
   Flex,
+  IconCheckCircle,
   IconCreditCard,
   IconLockClosed,
   IconShield,
@@ -12,6 +13,7 @@ import {
   Padding,
   PaletteColors,
   SemanticColors,
+  SpinningLoader,
   Text
 } from '@blockchain-com/constellation'
 
@@ -32,6 +34,11 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
   const dispatch = useDispatch()
   const [cvv, setCvv] = useState<string | null>(null)
   const { data: order } = useRemote(selectors.components.buySell.getBSOrder)
+  const {
+    hasData: cvvHasData,
+    hasError: cvvHasError,
+    isLoading: cvvLoading
+  } = useRemote(selectors.components.buySell.getCvvStatus)
   const method = useSelector(selectors.components.buySell.getBSPaymentMethod)
 
   const updateCvv = () => {
@@ -41,8 +48,16 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
     }
   }
 
-  // TODO: implement fallback for no method
+  useEffect(() => {
+    if (cvvHasData) {
+      setTimeout(() => {
+        dispatch(actions.components.buySell.setStep({ step: 'CHECKOUT_CONFIRM' }))
+      }, 500)
+    }
+  }, [cvvHasData, dispatch])
+
   if (!method) {
+    backToEnterAmount()
     return null
   }
 
@@ -88,26 +103,42 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
                 id='primary'
                 label='CVV Code'
                 placeholder='000'
-                state='default'
+                state={cvvHasError ? 'error' : 'default'}
                 type='number'
                 // @ts-ignore
                 autocomplete='cc-csc'
                 aria-label='Card Security Code'
                 aria-placeholder='CVC'
-                postfix={<IconLockClosed color={SemanticColors.muted} size='medium' />}
+                postfix={
+                  cvvHasData ? (
+                    <IconCheckCircle color={SemanticColors.success} size='medium' />
+                  ) : (
+                    <IconLockClosed color={SemanticColors.muted} size='medium' />
+                  )
+                }
                 onChange={(e) => setCvv(e.currentTarget.value)}
                 helperText={
-                  <FormattedMessage
-                    id='copy.invalid_cvv_code'
-                    defaultMessage='The code entered is either invalid or expired. Try Again.'
-                  />
+                  cvvHasError && (
+                    <FormattedMessage
+                      id='copy.invalid_cvv_code'
+                      defaultMessage='The code entered is either invalid or expired. Try Again.'
+                    />
+                  )
                 }
               />
             </Padding>
             <Card backgroundColor='grey-050' borderWidth={1} borderRadius='lg'>
               <StandardRow
-                topLeftText={<>Chase Bank</>}
-                bottomLeftText={<>Card Ending in 8800</>}
+                topLeftText={method.card?.label}
+                bottomLeftText={
+                  <FormattedMessage
+                    id='modals.simplebuy.card_ending_in'
+                    defaultMessage='Card Ending in {lastFour}'
+                    values={{
+                      lastFour: method.card?.number
+                    }}
+                  />
+                }
               />
             </Card>
           </Padding>
@@ -117,9 +148,14 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
         <Button
           as='button'
           disabled={!cvv || cvv.length < 3}
+          icon={
+            cvvLoading && <SpinningLoader borderWidth='xsmall' size='small' variant='monotone' />
+          }
           size='default'
           state='initial'
-          text='Update Card'
+          text={
+            !cvvLoading && <FormattedMessage id='copy.update_card' defaultMessage='Update Card' />
+          }
           type='submit'
           variant='primary'
           width='full'
