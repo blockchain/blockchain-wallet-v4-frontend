@@ -9,6 +9,7 @@ import { compose } from 'redux'
 import storage from 'redux-persist/lib/storage'
 import createSagaMiddleware from 'redux-saga'
 import Worker from 'web-worker'
+import { v4 as uuidv4 } from 'uuid'
 
 import { coreMiddleware } from '@core'
 import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network'
@@ -42,18 +43,8 @@ const configuredStore = async function () {
     throw new Error('errorWalletOptionsApi')
   }
 
-  // generate xSessionId and store in local storage
-  try {
-    const res = await axios.put(`${options.domains.api}/nabu-gateway/generate-session`)
-    const { xSessionId } = res.data
-    if (xSessionId) {
-      localStorage.setItem(model.profile.X_SESSION_ID, xSessionId)
-    }
-  } catch (e) {
-    // we do not need to stop app here it's not a vital if BE api fails
-    // eslint-disable-next-line no-console
-    console.log(e)
-  }
+  // set session id for sardine integration
+  sessionStorage.setItem(model.profile.X_SESSION_ID, uuidv4())
 
   // ensure browser is supported
   const browserSupported = isBrowserSupported()

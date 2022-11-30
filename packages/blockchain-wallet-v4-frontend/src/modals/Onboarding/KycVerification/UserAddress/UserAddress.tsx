@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { RetrieveAddress } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
-import { CountryType } from 'data/components/identityVerification/types'
+import { StateType } from 'data/components/identityVerification/types'
 import { RootState } from 'data/rootReducer'
 import { Analytics, InfoAndResidentialFormValuesType } from 'data/types'
 
@@ -50,12 +50,12 @@ const UserAddress = (props: Props) => {
     })
   }
 
-  const setDefaultCountry = (country: CountryType) => {
+  const setDefaultCountry = (country: string) => {
     props.formActions.change(RESIDENTIAL_FORM, 'country', country)
     props.formActions.clearFields(RESIDENTIAL_FORM, false, false, 'state')
   }
 
-  const setDefaultState = (state: string) => {
+  const setDefaultState = (state: StateType) => {
     props.formActions.change(RESIDENTIAL_FORM, 'state', state)
   }
 
@@ -68,6 +68,13 @@ const UserAddress = (props: Props) => {
     props.formActions.change(RESIDENTIAL_FORM, 'line2', addressDetails.secondaryStreet)
     props.formActions.change(RESIDENTIAL_FORM, 'city', addressDetails.city)
     props.formActions.change(RESIDENTIAL_FORM, 'postCode', addressDetails.postalCode)
+  }
+
+  const resetAddressDetails = () => {
+    props.formActions.clearFields(RESIDENTIAL_FORM, false, false, 'line1')
+    props.formActions.clearFields(RESIDENTIAL_FORM, false, false, 'line2')
+    props.formActions.clearFields(RESIDENTIAL_FORM, false, false, 'city')
+    props.formActions.clearFields(RESIDENTIAL_FORM, false, false, 'postCode')
   }
 
   return props.data.cata({
@@ -83,6 +90,7 @@ const UserAddress = (props: Props) => {
         updateDefaultCountry={setDefaultCountry}
         updateDefaultState={setDefaultState}
         updateSelectedAddressDetails={updateSelectedAddressDetails}
+        resetAddressDetails={resetAddressDetails}
         initialValues={{
           ...val.userData
         }}

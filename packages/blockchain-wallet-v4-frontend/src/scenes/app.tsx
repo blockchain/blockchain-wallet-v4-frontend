@@ -43,6 +43,7 @@ const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
+const UploadDocumentsForDebitCards = React.lazy(() => import('./UploadDocumentsForDebitCards'))
 const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Success'))
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
@@ -65,7 +66,7 @@ const CoinPage = React.lazy(() => import('./CoinPage/components/CoinPage'))
 const General = React.lazy(() => import('./Settings/General'))
 const Home = React.lazy(() => import('./Home'))
 const Earn = React.lazy(() => import('./Earn'))
-const InterestHistory = React.lazy(() => import('./InterestHistory'))
+const EarnHistory = React.lazy(() => import('./EarnHistory'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
@@ -184,6 +185,10 @@ const App = ({
                               component={UploadDocuments}
                             />
                             <AuthLayout
+                              path='/upload-document-card/:token'
+                              component={UploadDocumentsForDebitCards}
+                            />
+                            <AuthLayout
                               path='/wallet'
                               component={Login}
                               pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
@@ -230,7 +235,7 @@ const App = ({
                             <WalletLayout path='/exchange' component={TheExchange} />
                             <WalletLayout path='/home' component={Home} />
                             <WalletLayout path='/earn' component={Earn} exact />
-                            <WalletLayout path='/earn/history' component={InterestHistory} />
+                            <WalletLayout path='/earn/history' component={EarnHistory} />
                             <WalletLayout path='/security-center' component={SecurityCenter} />
                             <WalletLayout path='/settings/addresses' component={Addresses} />
                             <WalletLayout path='/settings/general' component={General} />

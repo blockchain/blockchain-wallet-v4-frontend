@@ -141,10 +141,18 @@ export const CheckBoxText = styled(Text)`
   max-width: 312px;
   color: ${(props) => props.theme.grey600};
 `
+export const DropdownStyled = styled.div`
+  z-index: 9;
+  background-color: ${(props) => props.theme.white};
+`
 export const CenterField = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+`
+
+const LabelItem = styled.label`
+  cursor: pointer;
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
@@ -181,11 +189,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const { blocking, context, nodes } = props.extraSteps
     let isChanged = false
 
-    nodes.map(
+    nodes.forEach(
       (node) =>
         node.id === nodeId &&
         node.children &&
-        node.children.map((child) => {
+        node.children.forEach((child) => {
           if (child.id === childId) {
             child.checked = !child.checked
             isChanged = true
@@ -194,17 +202,34 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           if (
             child.id !== childId &&
             child.checked &&
-            node.type !== NodeItemTypes.MULTIPLE_SELECTION
+            (node.type !== NodeItemTypes.MULTIPLE_SELECTION ||
+              // remove all for dropdown items
+              (node.type !== NodeItemTypes.MULTIPLE_SELECTION && node.isDropdown))
           ) {
             child.checked = false
             isChanged = true
           }
-          return child
         })
     )
     if (isChanged) {
       props.identityVerificationActions.updateExtraKYCQuestions({ blocking, context, nodes })
     }
+  }
+
+  const updateMultiSelectItem = (nodeId: string, allSelectedItems: Array<string>) => {
+    props.formActions.change(KYC_EXTRA_QUESTIONS_FORM, nodeId, nodeId)
+
+    const { blocking, context, nodes } = props.extraSteps
+
+    nodes.forEach(
+      (node) =>
+        node.id === nodeId &&
+        node.children &&
+        node.children.forEach((child) => {
+          child.checked = allSelectedItems.includes(child.id)
+        })
+    )
+    props.identityVerificationActions.updateExtraKYCQuestions({ blocking, context, nodes })
   }
 
   const onChangeInput = (e, value) => {
@@ -213,23 +238,21 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const { blocking, context, nodes } = props.extraSteps
     const isChanged = false
 
-    nodes.map((node) => {
+    nodes.forEach((node) => {
       if (node.children) {
-        node.children.map(
+        node.children.forEach(
           (child) =>
             child.children &&
-            child.children.map((item) => {
+            child.children.forEach((item) => {
               if (item.id === itemId && item.input !== value) {
                 item.input = value
               }
-              return item
             })
         )
       }
       if (node.id === itemId && node.input !== value) {
         node.input = value
       }
-      return node
     })
 
     if (isChanged) {
@@ -237,7 +260,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     }
   }
 
-  const renderCheckBoxBasedQuestion = (node: NodeItem, updateItem) => {
+  const renderCheckBoxBasedQuestion = (node: NodeItem) => {
     const nodeTranslation = {
       instructions: getFormattedMessageComponent(`${node.id}_instructions`),
       title: getFormattedMessageComponent(node.id)
@@ -251,31 +274,33 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         {node.children &&
           node.children.map((child) => {
             return (
-              <FormItem key={`checkbox-${child.id}`}>
-                <CheckBoxContainer>
-                  <CenterField>
-                    <CheckBoxText>{getFormattedMessageComponent(child.id)}</CheckBoxText>
-                  </CenterField>
-                  <CenterField>
-                    <Field
-                      name={child.id}
-                      id={child.id}
-                      value={child.id}
-                      component={CheckBox}
-                      type='checkbox'
-                      onChange={() => updateItem(node.id, child.id)}
-                      data-testId='text-box-545744'
-                    />
-                  </CenterField>
-                </CheckBoxContainer>
-              </FormItem>
+              <LabelItem htmlFor={child.id} key={`checkbox-${child.id}`}>
+                <FormItem>
+                  <CheckBoxContainer>
+                    <CenterField>
+                      <CheckBoxText>{getFormattedMessageComponent(child.id)}</CheckBoxText>
+                    </CenterField>
+                    <CenterField>
+                      <Field
+                        name={child.id}
+                        id={child.id}
+                        value={child.id}
+                        component={CheckBox}
+                        type='checkbox'
+                        onChange={() => updateItem(node.id, child.id)}
+                        data-testId={`text-box-${node.id}`}
+                      />
+                    </CenterField>
+                  </CheckBoxContainer>
+                </FormItem>
+              </LabelItem>
             )
           })}
       </FormGroup>
     )
   }
 
-  const RenderSingleSelectionQuestion = (node: NodeItem, updateItem) => {
+  const RenderSingleSelectionQuestion = (node: NodeItem) => {
     const formValue = props?.formValues ? props?.formValues[node.id] : null
     const nodeTranslation = {
       instructions: getFormattedMessageComponent(`${node.id}_instructions`),
@@ -292,21 +317,24 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             {node.children &&
               node.children.map((child) => {
                 return (
-                  <CheckBoxContainer key={child.id}>
-                    <CenterField>
-                      <CheckBoxText>{getFormattedMessageComponent(child.id)}</CheckBoxText>
-                    </CenterField>
-                    <CenterField>
-                      <Field
-                        component='input'
-                        type='radio'
-                        name={node.id}
-                        value={child.id}
-                        validate={required}
-                        onChange={() => updateItem(node.id, child.id)}
-                      />
-                    </CenterField>
-                  </CheckBoxContainer>
+                  <LabelItem htmlFor={child.id} key={child.id}>
+                    <CheckBoxContainer>
+                      <CenterField>
+                        <CheckBoxText>{getFormattedMessageComponent(child.id)}</CheckBoxText>
+                      </CenterField>
+                      <CenterField>
+                        <Field
+                          component='input'
+                          type='radio'
+                          name={node.id}
+                          id={child.id}
+                          value={child.id}
+                          validate={required}
+                          onChange={() => updateItem(node.id, child.id)}
+                        />
+                      </CenterField>
+                    </CheckBoxContainer>
+                  </LabelItem>
                 )
               })}
           </FormItem>
@@ -405,11 +433,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
-  const RenderDropDownBasedQuestion = (node: NodeItem, updateItem) => {
+  const RenderDropDownBasedQuestion = (node: NodeItem) => {
     const questionElements = GetNodeQuestionElements(node)
 
     const onChangeItem = (e, value) => {
       updateItem(node.id, value)
+    }
+
+    const onChangeMultiItem = (e, value) => {
+      if (value?.length) {
+        const allSelectedItems = value.map((item) => item.value)
+        updateMultiSelectItem(node.id, allSelectedItems)
+      }
     }
 
     const formValue = props?.formValues ? props?.formValues[node.id] : null
@@ -422,23 +457,30 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     return (
       <FormGroup>
         <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
-
-        {/* TODO add multiselect ability and then remove this one */}
-        {!(node.isDropdown && node.type === NodeItemTypes.SINGLE_SELECTION) && (
-          <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
-        )}
+        <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
         <FormItem>
-          <Field
-            data-e2e={`sourceOfFundsDropDown_${node.id}`}
-            name={node.id}
-            validate={required}
-            elements={questionElements}
-            component={SelectBox}
-            menuPlacement='auto'
-            onChange={onChangeItem}
-            // TODO we need to build ability to have multi select
-            // multiple={node.type === NodeItemTypes.MULTIPLE_SELECTION}
-          />
+          {node.type === NodeItemTypes.MULTIPLE_SELECTION ? (
+            <Field
+              data-e2e={`sourceOfFundsDropDown_${node.id}`}
+              name={node.id}
+              validate={required}
+              elements={questionElements}
+              component={SelectBox}
+              menuPlacement='auto'
+              isMulti
+              onChange={onChangeMultiItem}
+            />
+          ) : (
+            <Field
+              data-e2e={`sourceOfFundsDropDown_${node.id}`}
+              name={node.id}
+              validate={required}
+              elements={questionElements}
+              component={SelectBox}
+              menuPlacement='auto'
+              onChange={onChangeItem}
+            />
+          )}
         </FormItem>
         {formValue &&
           node.children &&
@@ -450,16 +492,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   {child.children.map((item) => {
                     if (item.type === NodeItemTypes.MULTIPLE_SELECTION) {
                       return item.isDropdown
-                        ? RenderDropDownBasedQuestion(item, updateItem)
-                        : renderCheckBoxBasedQuestion(item, updateItem)
+                        ? RenderDropDownBasedQuestion(item)
+                        : renderCheckBoxBasedQuestion(item)
                     }
                     if (
                       item.type === NodeItemTypes.SINGLE_SELECTION ||
                       item.type === NodeItemTypes.SELECTION
                     ) {
                       return item.isDropdown
-                        ? RenderDropDownBasedQuestion(item, updateItem)
-                        : RenderSingleSelectionQuestion(item, updateItem)
+                        ? RenderDropDownBasedQuestion(item)
+                        : RenderSingleSelectionQuestion(item)
                     }
                     if (item.type === NodeItemTypes.OPEN_ENDED) {
                       return (
@@ -512,16 +554,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           props.extraSteps.nodes.map((node) => {
             if (node.type === NodeItemTypes.MULTIPLE_SELECTION) {
               return node.isDropdown
-                ? RenderDropDownBasedQuestion(node, updateItem)
-                : renderCheckBoxBasedQuestion(node, updateItem)
+                ? RenderDropDownBasedQuestion(node)
+                : renderCheckBoxBasedQuestion(node)
             }
             if (
               node.type === NodeItemTypes.SINGLE_SELECTION ||
               node.type === NodeItemTypes.SELECTION
             ) {
               return node.isDropdown
-                ? RenderDropDownBasedQuestion(node, updateItem)
-                : RenderSingleSelectionQuestion(node, updateItem)
+                ? RenderDropDownBasedQuestion(node)
+                : RenderSingleSelectionQuestion(node)
             }
             if (node.type === NodeItemTypes.OPEN_ENDED) {
               return RenderTextBoxQuestion(node)

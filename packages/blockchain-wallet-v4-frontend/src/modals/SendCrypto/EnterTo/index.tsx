@@ -13,6 +13,7 @@ import CoinAccountListOption from 'components/Form/CoinAccountListOption'
 import Form from 'components/Form/Form'
 import TextBox from 'components/Form/TextBox'
 import TextWithQRScanner from 'components/Form/TextWithQRScanner'
+import { NetworkWarning, NetworkWarningVariant } from 'components/NetworkWarning'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { debounce } from 'utils/helpers'
 
@@ -34,6 +35,11 @@ const ErrorWrapper = styled(FlyoutWrapper)`
   display: flex;
   padding-bottom: 0px;
   padding-top: 0px;
+`
+const ActionWrapper = styled(FlyoutWrapper)`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `
 
 class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
@@ -130,7 +136,9 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
             </>
           ) : null}
         </div>
-        <FlyoutWrapper>
+        <ActionWrapper>
+          <NetworkWarning coin={selectedAccount.coin} variant={NetworkWarningVariant.SEND} />
+
           <Button
             nature='primary'
             type='submit'
@@ -141,7 +149,7 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
           >
             <FormattedMessage id='buttons.next' defaultMessage='Next' />
           </Button>
-        </FlyoutWrapper>
+        </ActionWrapper>
       </Wrapper>
     )
   }

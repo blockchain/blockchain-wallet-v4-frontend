@@ -2,12 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import {
-  ExtraKYCContext,
-  ExtraQuestionsType,
-  FindAddressResponse,
-  RetrieveAddress
-} from '@core/types'
+import { ExtraQuestionsType, FindAddressResponse, RetrieveAddress } from '@core/types'
 
 import { EMAIL_STEPS } from './model'
 import {
@@ -19,7 +14,7 @@ import {
   PreIdvDataType,
   StateType,
   StepsType,
-  VerifyIdentityOriginType
+  VerifyIdentityPayload
 } from './types'
 
 const initialState: IdentityVerificationState = {
@@ -153,7 +148,7 @@ const identityVerificationSlice = createSlice({
     setStepsLoading: (state) => {
       state.steps = Remote.Loading
     },
-    setStepsSuccess: (state, action: PayloadAction<Array<string>>) => {
+    setStepsSuccess: (state, action: PayloadAction<Array<StepsType>>) => {
       state.steps = Remote.Success(action.payload)
     },
     setStopFlowAfterLimitedAccessAchieved: (state, action: PayloadAction<boolean>) => {
@@ -185,17 +180,7 @@ const identityVerificationSlice = createSlice({
     updateExtraKYCQuestions: (state, action: PayloadAction<ExtraQuestionsType>) => {
       state.kycExtraQuestions = Remote.Success(action.payload)
     },
-    verifyIdentity: (
-      state,
-      action: PayloadAction<{
-        checkSddEligibility?: boolean
-        context?: ExtraKYCContext
-        needMoreInfo?: boolean
-        onCompletionCallback?: () => void
-        origin: VerifyIdentityOriginType
-        tier: number
-      }>
-    ) => {}
+    verifyIdentity: (state, action: PayloadAction<VerifyIdentityPayload>) => {}
   }
 })
 

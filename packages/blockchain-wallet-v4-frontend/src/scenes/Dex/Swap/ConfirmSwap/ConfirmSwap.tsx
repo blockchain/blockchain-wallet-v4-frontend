@@ -1,111 +1,87 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { IconArrowLeft, PaletteColors } from '@blockchain-com/constellation'
-import { bindActionCreators, Dispatch } from 'redux'
-import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button } from '@blockchain-com/constellation'
 
-import { Button, Text } from 'blockchain-info-components'
 import { actions, model, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
-import { DexSwapForm, DexSwapSideEnum, DexSwapSteps, ModalName } from 'data/types'
+import type { DexSwapForm } from 'data/types'
+import { ModalName } from 'data/types'
 
-import BaseRateAndFees from '../components/BaseRateAndFees'
-import FlipPairButton from '../components/FlipPairButton'
-import QuoteDetails from '../components/QuoteDetails'
-import SwapPair from '../components/SwapPair'
+import {
+  BaseRateAndFees,
+  FlipPairButton,
+  FormWrapper,
+  QuoteDetails,
+  SwapPair,
+  SwapPairWrapper
+} from '../components'
+import { Header } from './Header'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-`
-const GoBackIcon = styled.div`
-  display: flex;
-  align-items: center;
-  > :first-child {
-    cursor: pointer;
-  }
-`
-const SwapWrapper = styled.div`
-  position: relative;
-  margin-bottom: 20px;
-  > :nth-child(3) {
-    margin-top: 8px;
-  }
-`
-
-const ConfirmSwap = ({ formActions, formValues, modalActions, quoteR, walletCurrency }: Props) => {
-  return (
-    <>
-      <Header>
-        <div>
-          <GoBackIcon
-            onClick={() => formActions.change(DEX_SWAP_FORM, 'step', DexSwapSteps.ENTER_DETAILS)}
-          >
-            <IconArrowLeft color={PaletteColors['grey-400']} label='go back' size='medium' />
-          </GoBackIcon>
-          <Text color='textBlack' lineHeight='28px' size='24px' weight={600}>
-            <FormattedMessage id='copy.confirm_swap' defaultMessage='Confirm Swap' />
-          </Text>
-        </div>
-        <div>
-          <Text color='textBlack' lineHeight='28px' size='24px' weight={600}>
-            14 seconds left
-          </Text>
-        </div>
-      </Header>
-      <SwapWrapper>
-        <SwapPair
-          coin={formValues?.[DexSwapSideEnum.BASE]}
-          formValues={formValues}
-          swapSide={DexSwapSideEnum.BASE}
-          quoteLocked
-        />
-        <FlipPairButton quoteLocked />
-        <SwapPair
-          coin={formValues?.[DexSwapSideEnum.COUNTER]}
-          formValues={formValues}
-          swapSide={DexSwapSideEnum.COUNTER}
-          quoteLocked
-        />
-      </SwapWrapper>
-      <BaseRateAndFees
-        swapDetailsOpen
-        walletCurrency={walletCurrency}
-        quoteR={quoteR}
-        quoteLocked
-      />
-      <QuoteDetails
-        handleSettingsClick={() =>
-          modalActions.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' })
-        }
-        swapDetailsOpen
-        walletCurrency={walletCurrency}
-        quoteR={quoteR}
-      />
-      <Button data-e2e='dexConfirmSwapBtn' fullwidth jumbo nature='primary'>
-        <FormattedMessage id='copy.confirm_swap' defaultMessage='Confirm Swap' />
-      </Button>
-    </>
-  )
+type Props = {
+  onClickBack: () => void
+  walletCurrency: string
 }
 
-const mapStateToProps = (state: RootState) => ({
-  formValues: selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm,
-  quoteR: selectors.components.dex.getSwapQuote(state),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
-})
+export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
+  const dispatch = useDispatch()
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
+  const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+  const onViewSettings = () => {
+    dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))
+  }
 
-type Props = ConnectedProps<typeof connector>
+  const onConfirmSwap = () => null
 
-export default connector(ConfirmSwap)
+  return (
+    <FormWrapper>
+      <Header onClickBack={onClickBack} />
+
+      <SwapPairWrapper>
+        <SwapPair
+          isQuoteLocked
+          swapSide='BASE'
+          balance={0} // FIXME: Pass balance
+          coin={formValues.baseToken}
+          amount={formValues.baseTokenAmount || 0}
+          walletCurrency={walletCurrency}
+        />
+
+        <FlipPairButton isQuoteLocked />
+
+        <SwapPair
+          isQuoteLocked
+          swapSide='COUNTER'
+          balance={0} // FIXME: Pass balance
+          coin={formValues.counterToken}
+          amount={formValues.counterTokenAmount || 0}
+          walletCurrency={walletCurrency}
+        />
+      </SwapPairWrapper>
+
+      <BaseRateAndFees
+        isQuoteLocked
+        swapDetailsOpen
+        walletCurrency={walletCurrency}
+        handleDetailsToggle={() => null} // FIXME: Toggle details
+      />
+
+      <QuoteDetails
+        swapDetailsOpen
+        walletCurrency={walletCurrency}
+        slippage={formValues.slippage}
+        handleSettingsClick={onViewSettings}
+      />
+
+      <Button
+        size='large'
+        width='full'
+        variant='primary'
+        onClick={onConfirmSwap} // FIXME: Pass slippage from settings form
+        text={<FormattedMessage id='copy.confirmSwap' defaultMessage='Confirm Swap' />}
+      />
+    </FormWrapper>
+  )
+}

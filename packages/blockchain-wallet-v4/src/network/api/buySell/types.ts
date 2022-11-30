@@ -462,8 +462,6 @@ export type BuyQuoteType = {
   staticFee: null
 }
 
-export type BuyQuoteStateType = { fee: string; pair: string; quote: BuyQuoteType; rate: number }
-
 export enum TermType {
   ALL = 'ALL',
   DAY = 'DAY',

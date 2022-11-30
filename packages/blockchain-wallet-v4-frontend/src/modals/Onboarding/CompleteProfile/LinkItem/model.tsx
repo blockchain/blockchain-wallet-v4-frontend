@@ -125,7 +125,10 @@ export const ActionButton = styled.div`
 
 export const LinkTitle = {
   [COMPLETE_PROFILE_STEPS.VERIFY]: (
-    <FormattedMessage id='modal.complete_profile.verify_your_id' defaultMessage='Verify Your ID' />
+    <FormattedMessage
+      id='modal.complete_profile.verify_your_account'
+      defaultMessage='Verify your account'
+    />
   ),
   [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: (
     <FormattedMessage

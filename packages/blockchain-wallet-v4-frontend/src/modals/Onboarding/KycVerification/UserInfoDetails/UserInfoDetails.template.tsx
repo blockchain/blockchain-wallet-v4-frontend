@@ -104,7 +104,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   <Text weight={500} size='14px' color='grey900'>
                     <FormattedMessage
                       id='identityverification.personal.firstnamerequired'
-                      defaultMessage='First Name *'
+                      defaultMessage='Legal First Name *'
                     />
                   </Text>
                 </Label>
@@ -121,7 +121,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   <Text weight={500} size='14px' color='grey900'>
                     <FormattedMessage
                       id='identityverification.personal.lastnamerequired'
-                      defaultMessage='Last Name *'
+                      defaultMessage='Legal Last Name *'
                     />
                   </Text>
                 </Label>

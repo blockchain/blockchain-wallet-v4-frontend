@@ -2,34 +2,33 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
+import { NavLink } from 'react-router-dom'
 import { isEmpty, path, toLower } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Exchange } from '@core'
-import { CoinType, FiatType, OrderType, TimeRange, WalletFiatType } from '@core/types'
+import {
+  CoinType,
+  EarnEligibleType,
+  FiatType,
+  OrderType,
+  TimeRange,
+  WalletFiatType
+} from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { SavedRecurringBuy } from 'components/Box'
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { StandardRow } from 'components/Rows'
 import { actions, model, selectors } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import {
-  ActionEnum,
-  Analytics,
-  RecurringBuyOrigins,
-  RecurringBuyPeriods,
-  RecurringBuyRegisteredList,
-  RecurringBuyStepType
-} from 'data/types'
+import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
+import RecurringBuys from './RecurringBuys'
 import { getData } from './selectors'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
@@ -58,6 +57,11 @@ const CoinTitle = styled.div`
 `
 const TitleActionContainer = styled.div`
   display: flex;
+
+  & > a {
+    text-decoration: none;
+    margin-right: 8px;
+  }
 
   ${media.mobile`
     margin-top: 8px;
@@ -111,7 +115,7 @@ const ExplainerText = styled(Text)`
 
 const StyledButton = styled(Button)`
   &:not(:last-child) {
-    margin-right: 0.5rem;
+    margin-right: 8px;
   }
 
   ${media.mobile`
@@ -159,18 +163,20 @@ class TransactionsContainer extends React.PureComponent<Props> {
       interestEligible,
       isGoldTier,
       isInvited,
-      isRecurringBuy,
       isSearchEntered,
       loadMoreTxs,
       pages,
-      recurringBuys,
-      sourceType
+      sourceType,
+      stakingEligible
     } = this.props
     const { coin } = computedMatch.params
     const { coinfig } = window.coins[coin]
     const interestEligibleCoin =
       !isEmpty(interestEligible) && interestEligible[coin] && interestEligible[coin]?.eligible
-    const isEarnButtonEnabled = isGoldTier && interestEligibleCoin
+    const stakingEligibleCoin =
+      !isEmpty(stakingEligible) && stakingEligible[coin] && stakingEligible[coin]?.eligible
+    const isEarnButtonEnabled = isGoldTier && (interestEligibleCoin || stakingEligibleCoin)
+    const isEarnSourceType = sourceType && (sourceType === 'INTEREST' || sourceType === 'STAKING')
 
     return (
       <SceneWrapper>
@@ -205,30 +211,28 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
                     </StyledButton>
                     {isEarnButtonEnabled && (
-                      <StyledButton
-                        width='100px'
-                        nature='primary'
-                        data-e2e='earnInterest'
-                        onClick={() => {
-                          analyticsActions.trackEvent({
-                            key: Analytics.COINVIEW_EARN_REWARDS_BUTTON_CLICKED,
-                            properties: {
-                              currency: coin,
-                              device: 'WEB',
-                              platform: 'WALLET'
-                            }
-                          })
-                          this.props.interestActions.showInterestModal({
-                            coin,
-                            step: 'ACCOUNT_SUMMARY'
-                          })
-                        }}
-                      >
-                        <FormattedMessage
-                          id='scenes.interest.summarycard.earnOnly'
-                          defaultMessage='Earn'
-                        />
-                      </StyledButton>
+                      <NavLink to='/earn' data-e2e='vistEarnPage'>
+                        <StyledButton
+                          width='100px'
+                          nature='primary'
+                          data-e2e='earnInterest'
+                          onClick={() => {
+                            analyticsActions.trackEvent({
+                              key: Analytics.COINVIEW_EARN_REWARDS_BUTTON_CLICKED,
+                              properties: {
+                                currency: coin,
+                                device: 'WEB',
+                                platform: 'WALLET'
+                              }
+                            })
+                          }}
+                        >
+                          <FormattedMessage
+                            id='scenes.interest.summarycard.earnOnly'
+                            defaultMessage='Earn'
+                          />
+                        </StyledButton>
+                      </NavLink>
                     )}
                     <StyledButton
                       nature='light'
@@ -296,32 +300,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
               {coinfig.type.name !== 'FIAT' && <CoinPerformance coin={coin} />}
             </StatsContainer>
           </Header>
-          <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
-            {isRecurringBuy &&
-              recurringBuys.map((recurringBuy) => (
-                <SavedRecurringBuy
-                  key={recurringBuy.id}
-                  action={'BUY' as ActionEnum}
-                  amount={`${Exchange.getSymbol(recurringBuy.inputCurrency)}${convertBaseToStandard(
-                    recurringBuy.inputCurrency,
-                    recurringBuy.inputValue
-                  )}`}
-                  coin={recurringBuy.destinationCurrency}
-                  nextPayment={recurringBuy.nextPayment}
-                  onClick={() => {
-                    this.props.recurringBuyActions.setActive(recurringBuy)
-                    this.props.recurringBuyActions.showModal({
-                      origin: RecurringBuyOrigins.COIN_PAGE
-                    })
-                    this.props.recurringBuyActions.setStep({
-                      origin: RecurringBuyOrigins.COIN_PAGE,
-                      step: RecurringBuyStepType.DETAILS
-                    })
-                  }}
-                  period={recurringBuy.period as RecurringBuyPeriods}
-                />
-              ))}
-          </div>
+          <RecurringBuys coin={coin as CoinType} />
           {(hasTxResults || isSearchEntered) && coinfig.type.name !== 'FIAT' && (
             <TransactionFilters coin={coin as CoinType} />
           )}
@@ -335,9 +314,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <CoinIntroduction coin={coin as CoinType} />
             </SceneWrapper>
           )}
-          {hasTxResults && sourceType && sourceType === 'INTEREST' && <InterestTransactions />}
+          {hasTxResults && isEarnSourceType && <InterestTransactions sourceType={sourceType} />}
           {hasTxResults &&
-            (!sourceType || sourceType !== 'INTEREST') &&
+            (!sourceType || !isEarnSourceType) &&
             pages.map((value, i) => (
               <TransactionList
                 coin={coin}
@@ -418,12 +397,12 @@ export type OwnProps = RouteComponentProps
 export type SuccessStateType = {
   currency: FiatType
   hasTxResults: boolean
+  interestEligible: EarnEligibleType
   isInvited: boolean
-  isRecurringBuy: boolean
   isSearchEntered: boolean
   pages: Array<any>
-  recurringBuys: RecurringBuyRegisteredList[]
   sourceType: string
+  stakingEligible: EarnEligibleType
 }
 
 // data is not remote

@@ -11,7 +11,7 @@ import {
 
 import { CoinType, FiatCurrenciesType, FiatType, WalletCurrencyType } from '../../../types'
 import { NabuCustodialProductType, ProductTypes, WithdrawResponseType } from '../custodial/types'
-import { SwapOrderStateType, SwapOrderType, SwapUserLimitsType } from '../swap/types'
+import { SwapUserLimitsType } from '../swap/types'
 import {
   ApplePayInfoType,
   BSAccountType,
@@ -443,27 +443,6 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
           endPoint: '/payments/transactions',
           url: nabuUrl
         })
-  // This is to get unified Sell trades from sellp3 using the swap 2.0 api
-  // Will eventually be used to get all trades, buy/sell/swap included
-  // keeping all the swap types until buy/sell everything else is together
-  const getUnifiedSellTrades = (
-    currency: FiatType,
-    limit?: number,
-    before?: string,
-    after?: string,
-    v2states?: SwapOrderStateType
-  ): Array<SwapOrderType> =>
-    authorizedGet({
-      data: {
-        after,
-        before,
-        currency,
-        limit,
-        states: v2states
-      },
-      endPoint: `/trades/unified`,
-      url: nabuUrl
-    })
 
   const withdrawBSFunds = (
     address: string,
@@ -592,7 +571,6 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
     getPaymentById,
     getRBPaymentInfo,
     getRBRegisteredList,
-    getUnifiedSellTrades,
     refreshBankAccountLink,
     updateBankAccountLink,
     updateCardCvv,

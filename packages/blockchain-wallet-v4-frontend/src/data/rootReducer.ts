@@ -16,6 +16,7 @@ import profile from './modules/profile/reducers'
 import rates from './modules/rates/reducers'
 import securityCenter from './modules/settings/reducers'
 import { transferEthReducer } from './modules/transferEth/reducers'
+import { networkConfigReducer as networkConfig } from './networkConfig/slice'
 import { preferencesReducer } from './preferences/reducers'
 import { pricesReducer as prices } from './prices/slice'
 import { sessionReducer as session } from './session/slice'
@@ -32,6 +33,7 @@ const rootReducer = {
   logs,
   misc,
   modals: modalReducer,
+  networkConfig,
   preferences: preferencesReducer,
   prices,
   profile,
@@ -39,12 +41,12 @@ const rootReducer = {
   securityCenter,
   session,
   signup,
-  transferEth: transferEthReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,
   [paths.settingsPath]: coreReducers.settings,
   [paths.walletOptionsPath]: coreReducers.walletOptionsReducer,
-  [paths.kvStorePath]: coreReducers.kvStore
+  [paths.kvStorePath]: coreReducers.kvStore,
+  transferEth: transferEthReducer
 }
 
 const combinedReducer = combineReducers(rootReducer)

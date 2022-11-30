@@ -29,4 +29,6 @@ jobs:
 #        run: yarn storybook:base
 
       - name: Deploy storybook - wallet
-        run: yarn storybook:deploy-wallet
+        run: yarn storybook:deploy-wallet --ci
+        env:
+          GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}

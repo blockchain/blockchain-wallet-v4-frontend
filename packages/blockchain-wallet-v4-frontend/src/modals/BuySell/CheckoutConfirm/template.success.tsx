@@ -8,16 +8,8 @@ import { clearSubmitErrors, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { coinToString, fiatToString } from '@core/exchange/utils'
-import { BSPaymentTypes, FiatType, MobilePaymentType, OrderType, WalletFiatType } from '@core/types'
-import {
-  Button,
-  CheckBoxInput,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { BSPaymentTypes, FiatType, MobilePaymentType, WalletFiatType } from '@core/types'
+import { CheckBoxInput, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
@@ -43,7 +35,7 @@ import {
   RecurringBuyPeriods,
   UserDataType
 } from 'data/types'
-import { useDefer3rdPartyScript } from 'hooks'
+import { useDefer3rdPartyScript, useSardineContext } from 'hooks'
 import { isNabuError } from 'services/errors'
 
 import {
@@ -52,7 +44,9 @@ import {
   getPaymentMethod,
   getPaymentMethodDetails
 } from '../model'
+import { QuoteCountDown } from '../QuoteCountDown'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { ConfirmButton } from './ConfirmButton'
 
 const { FORM_BS_CHECKOUT_CONFIRM } = model.components.buySell
 
@@ -88,10 +82,13 @@ const InfoTerms = styled(Text)`
     display: contents;
   }
 `
+const QuoteCountDownWrapper = styled.div`
+  margin-top: 28px;
+`
 const Amount = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 40px;
+  margin-top: 8px;
   > div {
     display: flex;
     flex-direction: row;
@@ -174,11 +171,17 @@ const StickyFooter = styled.div`
   background: ${(props) => props.theme.white};
 `
 
+const ButtonWrapper = styled.div`
+  margin-top: 28px;
+`
+
 const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
   const [isActiveFeeTooltip, setFeeToolTip] = useState(true)
   const dispatch = useDispatch()
+  const [sardineContextIsReady, sardineContext] = useSardineContext('ACH_LINK')
+  const [sardineContextIsReadyOB, sardineContextOB] = useSardineContext('OB_LINK')
 
   const [isGooglePayReady] = useDefer3rdPartyScript('https://pay.google.com/gp/p/js/pay.js', {
     attributes: {
@@ -212,8 +215,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
 
   const cardDetails =
     (requiresTerms && props.cards.filter((card) => card.id === paymentMethodId)[0]) || null
-
-  const isCardPayment = requiresTerms && cardDetails
 
   const totalAmount = fiatToString({
     unit: counterCurrency as FiatType,
@@ -325,8 +326,18 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           defaultTo([])(bankAccounts)
         )
         const paymentPartner = prop('partner', bankAccount)
+        if (sardineContextIsReady) {
+          sardineContext.updateConfig({
+            flow: 'ACH_LINK'
+          })
+        }
         // if yapily we need the auth screen before creating the order
         if (paymentPartner === BankPartners.YAPILY) {
+          if (sardineContextIsReadyOB) {
+            sardineContextOB.updateConfig({
+              flow: 'OB_LINK'
+            })
+          }
           return props.buySellActions.setStep({
             step: 'AUTHORIZE_PAYMENT'
           })
@@ -374,6 +385,12 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           />
           <FormattedMessage id='modals.simplebuy.checkoutconfirm' defaultMessage='Checkout' />
         </TopText>
+        <QuoteCountDownWrapper>
+          <QuoteCountDown
+            date={props.quote.refreshConfig.date}
+            totalMs={props.quote.refreshConfig.totalMs}
+          />
+        </QuoteCountDownWrapper>
         <Amount data-e2e='sbTotalAmount'>
           <div>
             <Text size='32px' weight={600} color='grey800'>
@@ -606,30 +623,15 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
       </Bottom>
 
       <StickyFooter>
-        <Button
-          fullwidth
-          nature='primary'
-          data-e2e='confirmBSOrder'
-          size='16px'
-          height='48px'
-          type='submit'
-          style={{ marginTop: '28px' }}
-          disabled={
-            props.submitting ||
-            !acceptTerms ||
-            (props.mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY && !isGooglePayReady)
-          }
-        >
-          {props.submitting ? (
-            <HeartbeatLoader height='16px' width='16px' color='white' />
-          ) : (
-            <FormattedMessage
-              id='buttons.buy_sell_now'
-              defaultMessage='{orderType} Now'
-              values={{ orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell' }}
-            />
-          )}
-        </Button>
+        <ButtonWrapper>
+          <ConfirmButton
+            isAcceptedTerms={acceptTerms}
+            isGooglePayReady={isGooglePayReady}
+            isSubmitting={props.submitting}
+            orderType={orderType}
+            refreshConfig={props.quote.refreshConfig}
+          />
+        </ButtonWrapper>
 
         {props.error && (
           <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>

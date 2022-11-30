@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import sha256 from 'crypto-js/sha256'
 
 import { useDefer3rdPartyScript } from 'hooks'
 
@@ -17,7 +18,7 @@ export const useSardine = () => {
     }
   }
 
-  const xSessionId = localStorage.getItem('xSessionId')
+  const xSessionId = sessionStorage.getItem('xSessionId')
   const sardineHost = resolveSardineHost(window?.SARDINE_ENVIRONMENT ?? 'sandbox')
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -32,12 +33,12 @@ export const useSardine = () => {
       const context = window?._Sardine?.createContext({
         clientId: window?.SARDINE_CLIENT_ID,
         environment: window?.SARDINE_ENVIRONMENT,
-        flow: window.location.pathname,
+        flow: 'IGNORE', // per default we are going to ignore al flows except those which we monitor
         onDeviceResponse(data: any) {
           setSardineDeviceInfo(data)
         },
         parentElement: document.body,
-        sessionKey: xSessionId
+        sessionKey: sha256(xSessionId).toString()
       })
       window._SardineContext = context
       setSardineContext(context)

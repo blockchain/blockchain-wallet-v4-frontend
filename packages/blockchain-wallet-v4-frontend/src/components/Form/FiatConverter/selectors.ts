@@ -8,16 +8,15 @@ export const getData = (state, ownProps) => {
   const { coinfig } = window.coins[coin]
   const currencyR = selectors.core.settings.getCurrency(state)
   const ratesR = selectors.core.data.coins.getRates(coin, state)
-  const rates = ratesR.getOrElse({ price: 1 })
 
-  const transform = (currency) => ({
+  const transform = (currency, rates) => ({
     coinTicker: coinfig.displaySymbol,
     currency,
     rates,
     unit: coin
   })
-  // @ts-ignore
-  return lift(transform)(currencyR)
+
+  return lift(transform)(currencyR, ratesR)
 }
 
 export default getData

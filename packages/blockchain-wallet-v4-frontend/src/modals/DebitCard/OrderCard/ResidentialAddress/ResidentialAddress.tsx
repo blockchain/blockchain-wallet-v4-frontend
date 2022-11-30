@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { PaletteColors } from '@blockchain-com/constellation'
+import { Padding, PaletteColors, SpinningLoader } from '@blockchain-com/constellation'
 import axios from 'axios'
 import { validate } from 'postal-codes-js'
 // @ts-ignore
@@ -33,7 +33,6 @@ import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
-import { Padding } from 'components/Padding'
 import { actions, model, selectors } from 'data'
 import { ResidentialAddress as ResidentialAddressFormValues } from 'data/components/debitCard/types'
 import { RootState } from 'data/rootReducer'
@@ -45,6 +44,8 @@ import { debounce } from 'utils/helpers'
 import AddressItem from '../../../Onboarding/KycVerification/UserAddress/AddressItem'
 
 const { RESIDENTIAL_ADDRESS_FORM } = model.components.debitCard
+
+const MIN_SEARCH_CHARACTERS = 3
 
 const countryUsesPostalCode = (countryCode) => {
   return path([countryCode, 'postalCodeFormat'], postalCodes)
@@ -169,6 +170,7 @@ const ResidentialAddress = ({
   const [userStartedSearch, setUserStartedSearch] = useState<boolean>(false)
   const [suggestedAddresses, setSuggestedAddresses] = useState<Array<LocationAddress>>([])
   const [searchText, setSearchText] = useState('')
+  const [isAddressLoading, setIsAddressLoading] = useState(false)
 
   const canSubmitAddress =
     (!isAddressSelected && enterAddressManually) || (isAddressSelected && !enterAddressManually)
@@ -181,7 +183,8 @@ const ResidentialAddress = ({
     data: { api }
   } = useSelector(selectors.core.walletOptions.getDomains)
 
-  const disabled = invalid || submitting || (!canSubmitAddress && editAddress)
+  const disabled =
+    invalid || submitting || (!!useLoqateServiceEnabled && !canSubmitAddress && editAddress)
 
   useEffect(() => {
     dispatch(actions.components.debitCard.getResidentialAddress())
@@ -251,23 +254,33 @@ const ResidentialAddress = ({
   }
 
   const findUserAddresses = async (text: string, id?: string) => {
-    if (residentialAddress) {
-      let addresses = []
-      const searchQuery = queryString.stringify({
-        country_code: residentialAddress.country,
-        id,
-        text
-      })
-      const response = await axios.get(`${api}/nabu-gateway/address-capture/find?${searchQuery}`, {
-        headers: { authorization: `Bearer ${nabuToken}` }
-      })
-
-      if (response.data) {
-        addresses = response.data?.addresses
-      }
-
-      setSuggestedAddresses(addresses)
+    if (!residentialAddress || text.length < MIN_SEARCH_CHARACTERS) {
+      return
     }
+    if (text.length === 0) {
+      setSuggestedAddresses([])
+      return
+    }
+    if (suggestedAddresses.length) {
+      setSuggestedAddresses([])
+    }
+    setIsAddressLoading(true)
+    let addresses = []
+    const searchQuery = queryString.stringify({
+      country_code: residentialAddress.country,
+      id,
+      text
+    })
+    const response = await axios.get(`${api}/nabu-gateway/address-capture/find?${searchQuery}`, {
+      headers: { authorization: `Bearer ${nabuToken}` }
+    })
+
+    if (response.data) {
+      addresses = response.data?.addresses
+    }
+
+    setSuggestedAddresses(addresses)
+    setIsAddressLoading(false)
   }
 
   const retrieveUserAddresses = async (id: string) => {
@@ -286,12 +299,21 @@ const ResidentialAddress = ({
     }
   }
 
+  const resetAddressForm = () => {
+    dispatch(actions.form.clearFields(RESIDENTIAL_ADDRESS_FORM, false, false, 'line1'))
+    dispatch(actions.form.clearFields(RESIDENTIAL_ADDRESS_FORM, false, false, 'line2'))
+    dispatch(actions.form.clearFields(RESIDENTIAL_ADDRESS_FORM, false, false, 'city'))
+    dispatch(actions.form.clearFields(RESIDENTIAL_ADDRESS_FORM, false, false, 'postCode'))
+  }
+
   const findUserAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value
-    if (text !== '') {
-      setSearchText(text)
-      findUserAddresses(text)
-      setUserStartedSearch(true)
+    if (text === '') return
+    setSearchText(text)
+    findUserAddresses(text)
+    setUserStartedSearch(true)
+    if (isAddressSelected) {
+      setIsAddressSelected(false)
     }
   }
 
@@ -300,6 +322,7 @@ const ResidentialAddress = ({
       setSearchText(`${searchText} `)
       findUserAddresses(searchText, address.id)
     } else {
+      resetAddressForm()
       setIsAddressSelected(true)
       retrieveUserAddresses(address.id)
     }
@@ -319,7 +342,7 @@ const ResidentialAddress = ({
           />
         </Text>
       </FlyoutHeader>
-      <Padding left={40} right={40}>
+      <Padding left={2.5} right={2.5}>
         <Text
           weight={500}
           size='16px'
@@ -336,7 +359,7 @@ const ResidentialAddress = ({
         <CustomForm onSubmit={handleSubmit}>
           <FormWrapper flexDirection='column' justifyContent='space-between'>
             {editAddress ? (
-              <Padding horizontal={40}>
+              <Padding horizontal={2.5}>
                 {useLoqateServiceEnabled && (
                   <FormGroup>
                     <FormItem>
@@ -352,7 +375,7 @@ const ResidentialAddress = ({
                         name='homeAddress'
                         placeholder='Start typing to find your home address'
                         component={TextBox}
-                        onChange={debounce(findUserAddress, 200)}
+                        onChange={debounce(findUserAddress, 400)}
                       />
                     </FormItem>
                   </FormGroup>
@@ -361,6 +384,7 @@ const ResidentialAddress = ({
                 {useLoqateServiceEnabled &&
                   editAddress &&
                   !enterAddressManually &&
+                  !isAddressSelected &&
                   userStartedSearch && (
                     <LinkButton onClick={() => setEnterAddressManually(true)}>
                       <Text weight={600} size='16px' color='blue600'>
@@ -372,6 +396,11 @@ const ResidentialAddress = ({
                     </LinkButton>
                   )}
 
+                {useLoqateServiceEnabled && isAddressLoading && (
+                  <Padding top={0.625}>
+                    <SpinningLoader variant='color' size='small' />
+                  </Padding>
+                )}
                 {useLoqateServiceEnabled &&
                   !isAddressSelected &&
                   !enterAddressManually &&
@@ -540,7 +569,7 @@ const ResidentialAddress = ({
                 )}
               </Padding>
             ) : (
-              <Padding left={40} right={40}>
+              <Padding left={2.5} right={2.5}>
                 <FormGroup>
                   <FormItem>
                     <Label htmlFor='homeAddress'>

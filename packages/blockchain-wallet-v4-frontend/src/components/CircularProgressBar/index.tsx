@@ -1,16 +1,29 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { buildStyles, CircularProgressbarWithChildren } from 'react-circular-progressbar'
-import { withTheme } from 'styled-components'
+import { DefaultTheme, withTheme } from 'styled-components'
 
 import 'react-circular-progressbar/dist/styles.css'
 
-const ProgressCircle = ({ children, percentage, strokeWidth, theme }) => {
+export type Props = {
+  children?: ReactNode
+  percentage: number
+  strokeWidth?: number
+  styles?: Parameters<typeof buildStyles>[0]
+}
+
+const CircularProgressBar = ({
+  children,
+  percentage,
+  strokeWidth = 8,
+  styles = {},
+  theme
+}: Props & { theme: DefaultTheme }) => {
   return (
     <CircularProgressbarWithChildren
       styles={buildStyles({
-        backgroundColor: theme.blue600,
         pathColor: theme.blue600,
-        trailColor: theme.grey000
+        trailColor: theme.grey000,
+        ...styles
       })}
       strokeWidth={strokeWidth}
       value={percentage}
@@ -20,4 +33,4 @@ const ProgressCircle = ({ children, percentage, strokeWidth, theme }) => {
   )
 }
 
-export default withTheme(ProgressCircle)
+export default withTheme(CircularProgressBar)

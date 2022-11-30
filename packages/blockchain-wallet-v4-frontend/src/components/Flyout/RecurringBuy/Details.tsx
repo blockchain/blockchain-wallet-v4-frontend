@@ -1,24 +1,20 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Tag } from '@blockchain-com/constellation'
 import { format } from 'date-fns'
-import styled from 'styled-components'
 
 import { Exchange } from '@core'
 import { BSPaymentTypes, FiatType } from '@core/types'
-import { Banner, Button } from 'blockchain-info-components'
+import { Button } from 'blockchain-info-components'
 import { RecurringBuyPeriods } from 'data/types'
 
 import CheckoutRow from '../../Rows/Checkout'
-import Container from '../Container'
+import FlyoutContainer from '../Container'
 import Content from '../Content'
 import Footer from '../Footer'
 import Header from '../Header'
 import { getPaymentMethodText, getPeriodSubTitleText, getPeriodTitleText } from '../model'
 import SubHeader from '../SubHeader'
-
-const StyledBanner = styled(Banner)`
-  border: unset;
-`
 
 const RecurringBuyDetails = ({
   closeClick,
@@ -39,23 +35,22 @@ const RecurringBuyDetails = ({
     removeClick(id)
   }, [removeClick, id])
   const bannerProps = {
-    children: (complete && <FormattedMessage id='copy.complete' defaultMessage='Complete' />) || (
+    content: (complete && <FormattedMessage id='copy.complete' defaultMessage='Complete' />) || (
       <>
         {getPeriodTitleText(period)} {getPeriodSubTitleText(period, nextPayment)}
       </>
-    ),
-    type: (complete && 'success') || undefined
+    )
   }
   const amountString = `${Exchange.getSymbol(currency)}${standardAmount}`
   return (
-    <Container>
+    <FlyoutContainer>
       <Header data-e2e='recurringBuyDetailsClose' mode='close' onClick={closeClickCallback}>
         <FormattedMessage id='copy.recurring_buy' defaultMessage='Recurring Buy' />
       </Header>
       <Content mode='top'>
         <SubHeader
           data-e2e='recurringBuyAmount'
-          subTitle={<StyledBanner {...bannerProps} />}
+          subTitle={<Tag as='div' {...bannerProps} variant={complete ? 'success' : 'default'} />}
           title={`${amountString} of ${crypto}`}
         />
         <CheckoutRow
@@ -90,7 +85,7 @@ const RecurringBuyDetails = ({
           <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
         </Button>
       </Footer>
-    </Container>
+    </FlyoutContainer>
   )
 }
 

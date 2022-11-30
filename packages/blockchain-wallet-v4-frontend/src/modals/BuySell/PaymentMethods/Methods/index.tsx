@@ -15,6 +15,7 @@ import { Image, Text } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutHeader } from 'components/Flyout/Layout'
 import { Padding } from 'components/Padding'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
+import { useSardineContext } from 'hooks'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import ApplePay from './ApplePay'
@@ -29,6 +30,7 @@ export type Props = OwnProps & SuccessStateType
 const Methods: React.FC<Props> = (props: Props) => {
   const [isApplePayAvailable, setApplePayAvailable] = useState(false)
   const [isGooglePayAvailable, setGooglePayAvailable] = useState(false)
+  const [sardineContextIsReady, sardineContext] = useSardineContext('MOBILE_WALLET_DEPOSIT')
 
   const getType = (value: BSPaymentMethodType) => {
     switch (value.type) {
@@ -36,7 +38,7 @@ const Methods: React.FC<Props> = (props: Props) => {
       case BSPaymentTypes.LINK_BANK:
         return (
           <FormattedMessage
-            id='modals.simplebuy.easybanktrasnfer'
+            id='modals.simplebuy.easybanktransfer'
             defaultMessage='Easy Bank Transfer'
           />
         )
@@ -132,7 +134,7 @@ const Methods: React.FC<Props> = (props: Props) => {
     [props.buySellActions]
   )
 
-  const { fiatCurrency, orderType } = props
+  const { orderType } = props
 
   const availableCards = props.cards.filter(
     (card) => card.state === 'ACTIVE' && orderType === OrderType.BUY
@@ -260,6 +262,11 @@ const Methods: React.FC<Props> = (props: Props) => {
                   method: applePay.value,
                   mobilePaymentMethod: MobilePaymentType.APPLE_PAY
                 })
+                if (sardineContextIsReady) {
+                  sardineContext.updateConfig({
+                    flow: 'MOBILE_WALLET_DEPOSIT'
+                  })
+                }
               }}
             />
           ) : null}
@@ -270,6 +277,11 @@ const Methods: React.FC<Props> = (props: Props) => {
                   method: googlePay.value,
                   mobilePaymentMethod: MobilePaymentType.GOOGLE_PAY
                 })
+                if (sardineContextIsReady) {
+                  sardineContext.updateConfig({
+                    flow: 'MOBILE_WALLET_DEPOSIT'
+                  })
+                }
               }}
             />
           ) : null}

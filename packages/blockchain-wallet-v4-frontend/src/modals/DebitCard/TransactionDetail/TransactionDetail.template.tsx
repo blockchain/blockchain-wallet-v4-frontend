@@ -40,7 +40,7 @@ const TransactionDetail = (props: Props) => {
   return (
     <Flyout {...props} isOpen={show} onClose={handleClose}>
       <FlyoutContainer>
-        <FlyoutHeader data-e2e='transactionDetailFlyout' mode='back' onClick={handleClose}>
+        <FlyoutHeader data-e2e='transactionDetailFlyout' mode='close' onClick={handleClose}>
           <FormattedMessage
             id='modals.transaction_detail.title'
             defaultMessage='Card Transaction'

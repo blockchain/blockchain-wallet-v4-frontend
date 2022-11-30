@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { lighten } from 'polished'
 import styled from 'styled-components'
 
-import { Box, Button, Icon, Text, TextGroup } from 'blockchain-info-components'
+import { Box, Button, Icon, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 
 import { ActionEnum, RecurringBuyPeriods } from '../../data/types'
 import { getActionText, getPeriodText } from '../Flyout/model'
@@ -44,10 +44,57 @@ const SyncIconWrapper = styled.div<{ coin: string }>`
   min-width: 40px;
   border-radius: 20px;
   margin-right: 20px;
-  background-color: ${(props) => lighten(0.35, props.theme[props.coin])};
+  background-color: ${(props) => {
+    const coinColor = props.theme[props.coin]
+
+    return coinColor ? lighten(0.35, coinColor) : props.theme.grey100
+  }};
 `
 
-const SavedRecurringBuy = ({ action, amount, coin, nextPayment, onClick, period }: Props) => {
+const LoadingTextDark = styled(SkeletonRectangle)`
+  border-radius: 10px;
+  width: 75px;
+  height: 16px;
+  margin-bottom: 3px;
+`
+
+const LoadingTextLight = styled(SkeletonRectangle)`
+  opacity: 0.7;
+  width: 50px;
+  height: 14px;
+  margin-bottom: 3px;
+`
+
+const LoadingIcon = styled.div`
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: ${(props) => props.theme.grey000};
+`
+
+const SavedRecurringBuy = ({
+  action,
+  amount,
+  coin,
+  loading,
+  nextPayment,
+  onClick,
+  period
+}: Props) => {
+  if (loading || !period || !action || !nextPayment || !coin) {
+    return (
+      <StyledBox disabled={false} isMethod={false} isMobile={false}>
+        <MetaContainer>
+          <LoadingIcon />
+          <TextGroup>
+            <LoadingTextDark />
+            <LoadingTextLight />
+          </TextGroup>
+        </MetaContainer>
+      </StyledBox>
+    )
+  }
+
   return (
     <StyledBox disabled={false} isMethod={false} isMobile={false}>
       <MetaContainer>
@@ -83,12 +130,23 @@ const SavedRecurringBuy = ({ action, amount, coin, nextPayment, onClick, period 
   )
 }
 
-export type Props = {
-  action: ActionEnum
-  amount: string | number
-  coin: string
-  nextPayment: string | number
-  onClick: () => void
-  period: RecurringBuyPeriods
-}
+export type Props =
+  | {
+      action: ActionEnum
+      amount: string | number
+      coin: string
+      loading?: never
+      nextPayment: string | number
+      onClick: () => void
+      period: RecurringBuyPeriods
+    }
+  | {
+      action?: never
+      amount?: never
+      coin?: never
+      loading: true
+      nextPayment?: never
+      onClick?: never
+      period?: never
+    }
 export default SavedRecurringBuy

@@ -11,6 +11,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
 import Form from 'components/Form/Form'
 import { WithdrawCheckoutFormValuesType, WithdrawStepEnum } from 'data/types'
+import { useSardineContext } from 'hooks'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 
@@ -47,6 +48,7 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
   props
 ) => {
   const userCountryCode = props.userData?.address?.country || 'default'
+  const [sardineContextIsReady, sardineContext] = useSardineContext('WITHDRAWAL')
 
   return (
     <Form
@@ -57,6 +59,11 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
           beneficiary: props.beneficiary || props.defaultMethod || null,
           fiatCurrency: props.fiatCurrency
         })
+        if (sardineContextIsReady) {
+          sardineContext.updateConfig({
+            flow: 'WITHDRAWAL'
+          })
+        }
       }}
     >
       <FlyoutWrapper>

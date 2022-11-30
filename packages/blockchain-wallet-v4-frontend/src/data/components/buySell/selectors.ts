@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
+import memoize from 'fast-memoize'
 import { head, isEmpty, isNil, lift } from 'ramda'
 import { createSelector } from 'reselect'
 
@@ -11,7 +12,9 @@ import {
   FiatType,
   FiatTypeEnum
 } from '@core/types'
-import { model, selectors } from 'data'
+import { getBankTransferAccounts } from 'data/components/brokerage/selectors'
+import { getFormValues } from 'data/form/selectors'
+import { components } from 'data/model'
 import { RootState } from 'data/rootReducer'
 
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
@@ -20,7 +23,7 @@ import { getRate } from '../swap/utils'
 import { LIMIT } from './model'
 import { BSCardStateEnum, BSCheckoutFormValuesType } from './types'
 
-const { FORM_BS_CHECKOUT } = model.components.buySell
+const { FORM_BS_CHECKOUT } = components.buySell
 
 const hasEligibleFiatCurrency = (currency) =>
   currency === FiatTypeEnum.USD || currency === FiatTypeEnum.GBP || currency === FiatTypeEnum.EUR
@@ -65,7 +68,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
   const sbMethodsR = getBSPaymentMethods(state)
   const actionType = getOrderType(state)
   const sbBalancesR = getBSBalances(state)
-  const bankAccounts = selectors.components.brokerage.getBankTransferAccounts(state).getOrElse([])
+  const bankAccounts = getBankTransferAccounts(state).getOrElse([])
 
   const transform = (
     sbMethods: ExtractSuccess<typeof sbMethodsR>,
@@ -217,6 +220,23 @@ export const getVgsAddCardInfo = createSelector(
 
 export const getBuyQuote = (state: RootState) => state.components.buySell.buyQuote
 
+const makeGetBuyQuoteMemoizedByOrder = memoize(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (_: ReturnType<typeof getBSOrder>, state: RootState) => {
+    return getBuyQuote(state)
+  },
+  {
+    serializer: (args) => JSON.stringify(args[0]) // Use only first argument as memoization key
+  }
+)
+
+/**
+ * @returns Up to date quote only if order was also updated. Otherwise, previous cached quote.
+ */
+export const getBuyQuoteMemoizedByOrder = (state: RootState) => {
+  return makeGetBuyQuoteMemoizedByOrder(getBSOrder(state), state)
+}
+
 export const getSellQuote = (state: RootState) => state.components.buySell.sellQuote
 
 export const getSellOrder = (state: RootState) => state.components.buySell.sellOrder
@@ -237,9 +257,10 @@ export const getPayment = (state: RootState) => state.components.buySell.payment
 
 export const getIncomingAmount = (state: RootState) => {
   const quoteR = getSellQuote(state)
-  const values = (selectors.form.getFormValues(FORM_BS_CHECKOUT)(
-    state
-  ) as BSCheckoutFormValuesType) || { amount: '0', fix: 'CRYPTO' }
+  const values = (getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType) || {
+    amount: '0',
+    fix: 'CRYPTO'
+  }
 
   return lift(({ quote, rate }: ExtractSuccess<typeof quoteR>) => {
     const fromCoin = getInputFromPair(quote.pair)
