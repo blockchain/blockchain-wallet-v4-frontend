@@ -8,6 +8,7 @@ export enum Events {
   LOGIN_IDENTIFIER_FAILED = 'Login Identifier Failed',
   LOGIN_PASSWORD_DENIED = 'Login Password Denied',
   LOGIN_PASSWORD_ENTERED = 'Login Password Entered',
+  LOGIN_PASSWORD_INPUT_PAGE_ENTERED = 'Password Input Page Viewed',
   LOGIN_RECOVERY_OPTION_SELECTED = 'Recovery Option Selected',
   LOGIN_REQUEST_APPROVED = 'Login Request Approved',
   LOGIN_REQUEST_DENIED = 'Login Request Denied',
@@ -17,7 +18,7 @@ export enum Events {
   LOGIN_TERMS_AND_CONDITIONS_VIEWED = 'T&C Viewed',
   LOGIN_TWO_STEP_VERIFICATION_DENIED = 'Login Two Step Verification Denied',
   LOGIN_TWO_STEP_VERIFICATION_ENTERED = 'Login Two Step Verification Entered',
-  LOGIN_VIEWED = 'Password Input Page Viewed'
+  LOGIN_VIEWED = 'Login Viewed'
 }
 
 type LoginActions = {
@@ -39,6 +40,7 @@ type LoginActions = {
     | Events.LOGIN_REQUEST_APPROVED
     | Events.LOGIN_REQUEST_DENIED
     | Events.LOGIN_VIEWED
+    | Events.LOGIN_PASSWORD_INPUT_PAGE_ENTERED
     | Events.LOGIN_2FA_PAGE_VIEWED
   properties: {}
 }
