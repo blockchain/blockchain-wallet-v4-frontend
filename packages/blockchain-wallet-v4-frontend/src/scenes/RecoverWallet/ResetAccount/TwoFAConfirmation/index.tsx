@@ -38,6 +38,9 @@ const TwoFAConfirmation = (props: Props) => {
     props
   const authType = accountRecoveryData && accountRecoveryData?.two_fa_type
   const placeholder = authType === 4 ? '_ _ _  _ _ _' : authType === 5 ? '_ _ _ _ _' : null
+  // authType 5 is mobile sms code, 5 characters
+  // authType 4 is OTP code, 6. yubikey is at least 6
+  const minRequiredCharaters = authType === 4 ? 6 : 5
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -127,7 +130,12 @@ const TwoFAConfirmation = (props: Props) => {
           nature='primary'
           fullwidth
           height='48px'
-          disabled={submitting || invalid || busy || !formValues?.twoFACode}
+          disabled={
+            submitting ||
+            invalid ||
+            busy ||
+            (formValues?.twoFACode?.length || 0) < minRequiredCharaters
+          }
           data-e2e='confirmTwoFA'
           style={{ marginBottom: '16px' }}
         >
