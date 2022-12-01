@@ -1002,13 +1002,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
         order
       })
-      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
+      yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
+
       yield put(A.fetchOrders())
-      yield put(A.confirmOrderSuccess(confirmedOrder))
-
-      yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
-
-      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     } catch (e) {
       if (isNabuError(e)) {
         yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: e }))
