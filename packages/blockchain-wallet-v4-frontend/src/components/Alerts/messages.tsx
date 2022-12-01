@@ -508,7 +508,7 @@ const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.mobile_code_sent_error'
-          defaultMessage='Mobile verification code sent'
+          defaultMessage='Failed to send mobile verification code'
         />
       )
     case C.MOBILE_CODE_SENT_SUCCESS:
