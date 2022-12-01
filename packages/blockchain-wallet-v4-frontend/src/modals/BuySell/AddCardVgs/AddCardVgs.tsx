@@ -75,9 +75,7 @@ const AddCardVgs: VgsComponent = ({ handleClose }) => {
   }
 
   useEffect(() => {
-    if (!cardSuccessRate) return
-
-    if (!ref.current?.contentWindow) {
+    if (!cardSuccessRate || !ref.current?.contentWindow) {
       return
     }
 
@@ -103,7 +101,6 @@ const AddCardVgs: VgsComponent = ({ handleClose }) => {
   if (isPolling) return <CardLoading polling />
   if (error) return null
   if (!data || isLoading || isNotAsked) return <Loading text={LoadingTextEnum.GETTING_READY} />
-  if (!data) return null
 
   return (
     <Success

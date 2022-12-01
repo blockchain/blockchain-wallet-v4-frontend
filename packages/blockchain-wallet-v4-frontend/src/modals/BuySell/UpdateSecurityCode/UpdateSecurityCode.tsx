@@ -119,11 +119,13 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
                   }
                   onChange={(e) => setCvv(e.currentTarget.value)}
                   helperText={
-                    cvvHasError && (
+                    cvvHasError ? (
                       <FormattedMessage
                         id='copy.invalid_cvv_code'
                         defaultMessage='The code entered is either invalid or expired. Try Again.'
                       />
+                    ) : (
+                      <></>
                     )
                   }
                 />
