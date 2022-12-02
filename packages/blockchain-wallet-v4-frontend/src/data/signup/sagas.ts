@@ -410,24 +410,6 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield delay(2000)
       const response = yield call(api.pollForResetApprovalStatus, sessionToken)
-      // const { recoveryEmail } = yield select(selectors.form.getFormValues(RECOVER_FORM))
-
-      // const response = {
-      //   email: recoveryEmail,
-      //   guid: 'fad8a238-3e0f-4422-a0a1-d1edeb4a3d25',
-      //   request_denied: false,
-      //   status: 'true',
-      //   two_fa_type: 4,
-      //   userId: '34735c52-61e1-4e55-92a0-2cce89774add'
-      // }
-
-      // placeholder response until email approval gets fix
-      // if (response?.userId) {
-
-      //   yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
-      //   yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS))
-      //   return true
-      // }
 
       if (response?.status === AccountRecoveryApprovalStatusType.APPROVED) {
         yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
@@ -448,7 +430,6 @@ export default ({ api, coreSagas, networks }) => {
   const triggerRecoverEmail = function* (action) {
     const email = action.payload
     try {
-      // TODO: confirm session token logic
       yield put(startSubmit(RECOVER_FORM))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.RECOVER)
 
