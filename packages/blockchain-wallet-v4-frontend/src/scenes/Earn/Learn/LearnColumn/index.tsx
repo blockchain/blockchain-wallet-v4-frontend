@@ -1,0 +1,55 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Flex, Link } from '@blockchain-com/constellation'
+
+import { RoundedBadge } from 'components/Badge'
+
+import { VerticalDivider } from './LearnColumn.model'
+import { LearnColumnPropsType } from './LearnColumn.types'
+
+const LearnColumn = ({
+  description,
+  icon,
+  isActiveRewards,
+  link,
+  showDivider,
+  title
+}: LearnColumnPropsType) => (
+  <Flex alignItems='center' gap={16}>
+    {showDivider && <VerticalDivider />}
+    <Flex flexDirection='column' gap={12} justifyContent='space-between'>
+      <Flex flexDirection='column' gap={8}>
+        <Flex alignItems='center' gap={8}>
+          {icon}
+          {title}
+          {isActiveRewards && (
+            <RoundedBadge>
+              <FormattedMessage defaultMessage='New' id='copy.new' />
+            </RoundedBadge>
+          )}
+        </Flex>
+        <Flex>{description}</Flex>
+      </Flex>
+      {isActiveRewards ? (
+        <LinkContainer to={link}>
+          <a>
+            <Link
+              size='small'
+              text={<FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />}
+            />
+          </a>
+        </LinkContainer>
+      ) : (
+        <Link
+          href={link}
+          target='_blank'
+          size='small'
+          text={<FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />}
+        />
+      )}
+    </Flex>
+  </Flex>
+)
+
+export default LearnColumn

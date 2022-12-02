@@ -32,12 +32,6 @@ export const Wrapper = styled.div`
   }
 `
 
-export const VerticalLine = styled.div`
-  height: 32px;
-  width: 1px;
-  background-color: ${SemanticColors.medium};
-`
-
 export const learnColumn: LearnColumnType[] = [
   {
     description: (
@@ -49,6 +43,7 @@ export const learnColumn: LearnColumnType[] = [
       </Text>
     ),
     icon: <IconRewardsCircle color={SemanticColors.primary} size='medium' />,
+    id: 'scenes.earn.learn.rewards.description',
     link: 'https://support.blockchain.com/hc/en-us/sections/4416668318740-Rewards',
     title: (
       <Text color={SemanticColors.body}>
@@ -66,6 +61,7 @@ export const learnColumn: LearnColumnType[] = [
       </Text>
     ),
     icon: <IconLockClosed color={SemanticColors.primary} size='medium' />,
+    id: 'scenes.earn.learn.staking.description',
     link: 'https://support.blockchain.com/hc/en-us/sections/5954708914460-Staking',
     title: (
       <Text color={SemanticColors.body}>
@@ -83,6 +79,7 @@ export const learnColumn: LearnColumnType[] = [
       </Text>
     ),
     icon: <IconMarketUp color={SemanticColors.primary} size='medium' />,
+    id: 'scenes.earn.learn.active-rewards.description',
     isActiveRewards: true,
     link: '/earn/active-rewards-learn',
     title: (
