@@ -58,6 +58,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     }),
     ...dex({
       apiUrl,
+      authorizedPost: authorizedHttp.post,
       ...http
     }),
     ...earn({

@@ -191,15 +191,9 @@ export const DexHeader: React.FC<Props> = ({ selectedTab = 'home' }) => {
         defaultMessage: 'Refresh',
         id: 'navbar.icons.refresh'
       }),
-      onClick: () => dispatch(actions.components.refresh.refreshClicked())
-    },
-    {
-      icon: () => <IconPresent />,
-      label: formatMessage({
-        defaultMessage: 'Refer',
-        id: 'navbar.icons.refer'
-      }),
-      onClick: onReferFriendClick
+      onClick: () => {
+        dispatch(actions.components.refresh.refreshClicked())
+      }
     }
   ]
 
