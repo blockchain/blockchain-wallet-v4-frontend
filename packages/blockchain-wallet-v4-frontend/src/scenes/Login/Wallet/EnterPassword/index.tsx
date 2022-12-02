@@ -187,7 +187,6 @@ const EnterPasswordWallet = (props: Props) => {
             />
           </CenteredColumn>
         </WrapperWithPadding>
-        {/* <SignupLink platform={magicLinkData?.platform_type} /> */}
       </FormWrapper>
       {!isMobile() && (
         <MobileAuthWrapper>

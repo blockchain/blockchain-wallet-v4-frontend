@@ -35,8 +35,6 @@ const CheckInbox = (props: Props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // trigger email request for recovery token
-    // for now, just setting step to 'check your email' template
     props.signupActions.triggerRecoverEmail(props.formValues?.recoveryEmail)
   }
 
