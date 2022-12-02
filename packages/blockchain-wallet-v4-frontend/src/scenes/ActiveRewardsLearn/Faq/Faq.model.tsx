@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { Link } from 'blockchain-info-components'
 
@@ -13,12 +14,14 @@ export const faqs: FaqType[] = [
         id='scenes.earn.active-rewards-learn.faq.eligible.answer'
         values={{
           link: (
-            <Link href='#' size='14px' target='_blank'>
-              <FormattedMessage
-                defaultMessage='Learn more about eligibility here'
-                id='scenes.earn.active-rewards-learn.faq.eligible.link'
-              />
-            </Link>
+            <Text color={SemanticColors.primary} variant='paragraph1'>
+              <Link href='#' size='14px' target='_blank'>
+                <FormattedMessage
+                  defaultMessage='Learn more about eligibility here'
+                  id='scenes.earn.active-rewards-learn.faq.eligible.link'
+                />
+              </Link>
+            </Text>
           )
         }}
       />

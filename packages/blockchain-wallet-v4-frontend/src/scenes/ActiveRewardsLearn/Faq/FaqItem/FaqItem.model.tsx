@@ -9,12 +9,6 @@ export const FaqItemContainer = styled.div`
   border: 1px solid ${SemanticColors['background-light']};
   border-radius: 16px;
 
-  & a {
-    &:hover {
-      color: ${PaletteColors['blue-700']} !important;
-    }
-  }
-
   &:hover {
     cursor: pointer;
   }
