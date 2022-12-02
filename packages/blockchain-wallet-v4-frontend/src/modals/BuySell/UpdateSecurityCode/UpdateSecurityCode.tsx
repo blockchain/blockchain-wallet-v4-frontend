@@ -49,10 +49,14 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
   }
 
   useEffect(() => {
+    let timeout
     if (cvvHasData) {
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         dispatch(actions.components.buySell.setStep({ step: 'CHECKOUT_CONFIRM' }))
       }, 500)
+    }
+    return () => {
+      clearTimeout(timeout)
     }
   }, [cvvHasData, dispatch])
 
