@@ -117,9 +117,7 @@ const SMSSetup = (props: Props) => {
             data-e2e='nextButton'
             fullwidth
             height='48px'
-            // TODO: Temporary step change
             onClick={() => setVerifyCodeField(true)}
-            // onClick={handleSubmit}
             style={{ marginTop: '24px' }}
           >
             <FormattedMessage

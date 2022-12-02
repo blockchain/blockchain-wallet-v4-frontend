@@ -10,7 +10,7 @@ import { RootState } from 'data/rootReducer'
 import { Props as ResetProps } from '../..'
 import Authenticator from './Authenticator'
 import ChooseTwoFA from './ChoooseTwoFA'
-import { FormWrapper, SETUP_TWO_FACTOR, TwoFactorSetupSteps } from './model'
+import { Error, FormWrapper, SETUP_TWO_FACTOR, TwoFactorSetupSteps } from './model'
 import SMS from './SMS'
 import Yubikey from './Yubikey'
 
@@ -25,16 +25,11 @@ const TwoStepVerification: React.FC<InjectedFormProps<{}, ResetProps> & ResetPro
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // const { cachedEmail, formValues, language, signupActions } = props
-    // signupActions.resetAccount({
-    //   email: cachedEmail,
-    //   language,
-    //   password: formValues.resetAccountPassword
-    // })
   }
-  return (
-    <FormWrapper>
-      <Form onSubmit={handleSubmit}>
+
+  return props.isAuthenticated ? (
+    <FormWrapper onSubmit={handleSubmit}>
+      <Form>
         {twoFactorSetupStep === TwoFactorSetupSteps.CHOOSE_TWOFA && (
           <ChooseTwoFA {...props} setFormStep={setFormStep} />
         )}
@@ -49,12 +44,15 @@ const TwoStepVerification: React.FC<InjectedFormProps<{}, ResetProps> & ResetPro
         )}
       </Form>
     </FormWrapper>
+  ) : (
+    <Error />
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
   authType: selectors.core.settings.getAuthType(state).getOrElse(0),
   formValues: selectors.form.getFormValues(SETUP_TWO_FACTOR)(state),
+  isAuthenticated: selectors.auth.isAuthenticated(state),
   language: selectors.preferences.getLanguage(state)
 })
 
