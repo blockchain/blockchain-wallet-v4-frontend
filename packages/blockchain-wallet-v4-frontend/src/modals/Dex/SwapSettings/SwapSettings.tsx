@@ -37,7 +37,7 @@ const DexSwapSettings = ({ position, total }: Props) => {
   const [slippage, setSlippage] = useState<SlippageValue>(currentSlippage)
 
   const onSaveSettings = () => {
-    dispatch(actions.form.change(DEX_SWAP_FORM, 'slippage', slippage.value))
+    dispatch(actions.form.change(DEX_SWAP_FORM, 'slippage', `${slippage.value}`))
     dispatch(actions.modals.closeModal())
   }
 

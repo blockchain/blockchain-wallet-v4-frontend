@@ -1,10 +1,5 @@
 import { CoinType } from '@core/types'
 
-export type DexSwapQuoteQueryParams = {
-  ccy: string
-  product: string // TODO: Update to coin type after it's done for DEX form values
-}
-
 export type DexSwapQuoteRequest = {
   fromCurrency: {
     address: string
@@ -15,12 +10,12 @@ export type DexSwapQuoteRequest = {
   params: {
     slippage: string
   }
-  takerAddress: string
   toCurrency: {
     address: string
     chainId: number
     symbol: CoinType
   }
+  userWalletPublicKey?: string
   venue: 'ZEROX'
 }
 
