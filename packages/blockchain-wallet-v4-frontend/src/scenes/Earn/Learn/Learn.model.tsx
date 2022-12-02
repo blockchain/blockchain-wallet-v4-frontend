@@ -23,6 +23,7 @@ export const Wrapper = styled.div`
 
   a {
     padding: 0 !important;
+    width: fit-content;
     text-decoration: none !important;
   }
 
