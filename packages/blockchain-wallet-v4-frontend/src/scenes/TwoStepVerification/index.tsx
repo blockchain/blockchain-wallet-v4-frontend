@@ -27,7 +27,8 @@ const TwoStepVerification: React.FC<InjectedFormProps<{}, ResetProps> & ResetPro
     e.preventDefault()
   }
 
-  return props.isAuthenticated ? (
+  return (
+    // props.isAuthenticated ? (
     <FormWrapper onSubmit={handleSubmit}>
       <Form>
         {twoFactorSetupStep === TwoFactorSetupSteps.CHOOSE_TWOFA && (
@@ -44,9 +45,10 @@ const TwoStepVerification: React.FC<InjectedFormProps<{}, ResetProps> & ResetPro
         )}
       </Form>
     </FormWrapper>
-  ) : (
-    <Error />
   )
+  // ) : (
+  //   <Error />
+  // )
 }
 
 const mapStateToProps = (state: RootState) => ({

@@ -163,7 +163,6 @@ import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
 import yodleeConnect from './img/yodlee-connect.svg'
 import yubikey from './img/yubikey.svg'
-import yubikeyLogo from './img/yubikey-logo.svg'
 
 const Images = {
   ...fiatIcons,
@@ -330,8 +329,7 @@ const Images = {
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
   'yodlee-connect': yodleeConnect,
-  yubikey,
-  'yubikey-logo': yubikeyLogo
+  yubikey
 }
 
 export type ImageType = typeof Images

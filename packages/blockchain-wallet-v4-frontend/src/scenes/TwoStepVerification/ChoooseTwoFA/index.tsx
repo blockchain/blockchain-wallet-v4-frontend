@@ -1,7 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { IconChevronRightV2, IconPhone, PaletteColors } from '@blockchain-com/constellation'
+import {
+  IconChevronRightV2,
+  IconPhone,
+  IconYubiKey,
+  PaletteColors
+} from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'
@@ -116,8 +121,8 @@ const ChooseTwoFA = (props: Props) => {
       </ButtonPanel>
       <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.YUBIKEY_SETUP)}>
         <ButtonRow>
-          <IconWrapper>
-            <StyledImage name='yubikey-logo' />
+          <IconWrapper style={{ marginRight: '12px' }}>
+            <IconYubiKey size='medium' />
           </IconWrapper>
           <Column>
             <Text color='grey900' size='16px' weight={600} lineHeight='1.5'>
