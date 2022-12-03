@@ -410,8 +410,9 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield delay(2000)
       const response = yield call(api.pollForResetApprovalStatus, sessionToken)
-
-      if (response?.status === AccountRecoveryApprovalStatusType.APPROVED) {
+      // temo should revert back to approved
+      if (response?.status === 'true') {
+        // if (response?.status === AccountRecoveryApprovalStatusType.APPROVED) {
         yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
         yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS))
         return true

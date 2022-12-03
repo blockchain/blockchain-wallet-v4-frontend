@@ -1,12 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect } from 'react-redux'
+import { Button } from '@blockchain-com/constellation'
 import { bindActionCreators, compose } from 'redux'
-import styled from 'styled-components'
 
-import { Button, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
+import { Modal, ModalBody, Text } from 'blockchain-info-components'
 import { actions } from 'data'
-import { ModalName } from 'data/modals/types'
 import { RecoverSteps } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -45,28 +44,23 @@ const TwoFASkipWarning = (props) => {
         </Text>
         <Button
           type='submit'
-          nature='primary'
-          fullwidth
-          height='48px'
+          variant='primary'
+          width='full'
           data-e2e='EnterTwoFA'
           style={{ margin: '16px 0' }}
           onClick={() => props.closeAll()}
-        >
-          <Text color='whiteFade900' size='16px' weight={600}>
-            <FormattedMessage id='scenes.reset.2fa_continue' defaultMessage='Enter 2FA' />
-          </Text>
-        </Button>
+          text={<FormattedMessage id='scenes.reset.2fa_continue' defaultMessage='Enter 2FA' />}
+        />
+
         <Button
           data-e2e='show_private_key_button'
-          width='262px'
-          nature='empty-blue'
-          fullwidth
+          width='full'
+          variant='secondary'
           onClick={skip}
-        >
-          <Text color='blue600' size='16px' weight={600}>
+          text={
             <FormattedMessage id='scenes.reset.without_2fa' defaultMessage='Continue without 2FA' />
-          </Text>
-        </Button>
+          }
+        />
       </ModalBody>
     </Modal>
   )

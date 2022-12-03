@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { pathOr } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
@@ -25,65 +25,54 @@ import NewPassword from './ResetAccount/NewPassword'
 import ResetWarning from './ResetAccount/ResetWarning'
 import TwoFAConfirmation from './ResetAccount/TwoFAConfirmation'
 
-class RecoverWalletContainer extends React.PureComponent<
-  InjectedFormProps<{}, Props> & Props,
-  State
-> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      showPhraseStep: pathOr(false, ['location', 'state', 'showPhraseStep'], this.props)
-    }
-  }
+const RecoverWalletContainer = (props: Props) => {
+  const [showPhraseStep] = useState(pathOr(false, ['location', 'state', 'showPhraseStep'], props))
 
-  componentDidMount() {
-    if (this.state.showPhraseStep) {
-      this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_PHRASE)
-    } else if (!this.props.accountRecoveryV2Flag) {
-      this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS)
+  useEffect(() => {
+    if (showPhraseStep) {
+      props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_PHRASE)
+    } else if (!props.accountRecoveryV2Flag) {
+      props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS)
     } else {
-      this.props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.FORGOT_PASSWORD_EMAIL)
+      props.formActions.change(RECOVER_FORM, 'step', RecoverSteps.FORGOT_PASSWORD_EMAIL)
     }
+    return () => {
+      props.formActions.destroy(RECOVER_FORM)
+    }
+  }, [])
+
+  const setStep = (step: RecoverSteps | ResetFormSteps) => {
+    props?.formActions.change(RECOVER_FORM, 'step', step)
   }
 
-  componentWillUnmount() {
-    this.props.formActions.destroy(RECOVER_FORM)
-  }
+  const { step } = props.formValues || RecoverSteps.RECOVERY_OPTIONS
 
-  setStep = (step: RecoverSteps | ResetFormSteps) => {
-    this.props.formActions.change(RECOVER_FORM, 'step', step)
-  }
-
-  render() {
-    const { step } = this.props.formValues || RecoverSteps.RECOVERY_OPTIONS
-
-    return (
-      <Form>
-        {(() => {
-          switch (step) {
-            case RecoverSteps.FORGOT_PASSWORD_EMAIL:
-              return <ForgotPasswordEmail {...this.props} setStep={this.setStep} />
-            case RecoverSteps.CHECK_INBOX:
-              return <CheckInbox {...this.props} setStep={this.setStep} />
-            case RecoverSteps.RECOVERY_OPTIONS:
-              return <RecoveryOptions {...this.props} setStep={this.setStep} />
-            case RecoverSteps.CLOUD_RECOVERY:
-              return <CloudRecovery {...this.props} setStep={this.setStep} />
-            case RecoverSteps.RECOVERY_PHRASE:
-              return <RecoveryPhrase {...this.props} setStep={this.setStep} />
-            case RecoverSteps.RESET_WARNING:
-              return <ResetWarning {...this.props} setStep={this.setStep} />
-            case RecoverSteps.TWO_FA_CONFIRMATION:
-              return <TwoFAConfirmation {...this.props} setStep={this.setStep} />
-            case RecoverSteps.NEW_PASSWORD:
-              return <NewPassword {...this.props} setStep={this.setStep} />
-            default:
-              return <RecoveryOptions {...this.props} setStep={this.setStep} />
-          }
-        })()}
-      </Form>
-    )
-  }
+  return (
+    <Form>
+      {(() => {
+        switch (step) {
+          case RecoverSteps.FORGOT_PASSWORD_EMAIL:
+            return <ForgotPasswordEmail {...props} setStep={setStep} />
+          case RecoverSteps.CHECK_INBOX:
+            return <CheckInbox {...props} setStep={setStep} />
+          case RecoverSteps.RECOVERY_OPTIONS:
+            return <RecoveryOptions {...props} setStep={setStep} />
+          case RecoverSteps.CLOUD_RECOVERY:
+            return <CloudRecovery {...props} setStep={setStep} />
+          case RecoverSteps.RECOVERY_PHRASE:
+            return <RecoveryPhrase {...props} setStep={setStep} />
+          case RecoverSteps.RESET_WARNING:
+            return <ResetWarning {...props} setStep={setStep} />
+          case RecoverSteps.TWO_FA_CONFIRMATION:
+            return <TwoFAConfirmation {...props} setStep={setStep} />
+          case RecoverSteps.NEW_PASSWORD:
+            return <NewPassword {...props} setStep={setStep} />
+          default:
+            return <RecoveryOptions {...props} setStep={setStep} />
+        }
+      })()}
+    </Form>
+  )
 }
 
 const mapStateToProps = (state) => ({
@@ -122,8 +111,8 @@ type FormProps = {
   submitting: boolean
 }
 
-type State = { showPhraseStep: boolean }
-export type Props = ConnectedProps<typeof connector> &
+export type Props = InjectedFormProps<{}> &
+  ConnectedProps<typeof connector> &
   FormProps & {
     changeAuthenticatorStep: (number) => void
   }
