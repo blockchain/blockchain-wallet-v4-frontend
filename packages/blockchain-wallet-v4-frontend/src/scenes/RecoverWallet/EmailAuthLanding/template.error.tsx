@@ -1,20 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
+import { Button, Flex, IconCloseCircle, SemanticColors } from '@blockchain-com/constellation'
 
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
-
-const Wrapper = styled.div`
-  display: flex;
-  text-align: center;
-  align-items: center;
-  flex-direction: column;
-`
+import { Link, Text } from 'blockchain-info-components'
 
 const Error = ({ error }: Props) => {
   return (
-    <Wrapper>
-      <Icon color='error' name='close-circle' size='40px' />
+    <Flex alignItems='center' flexDirection='column'>
+      <IconCloseCircle color={SemanticColors.error} name='close-circle' size='large' />
 
       <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
         <FormattedMessage
@@ -33,11 +26,15 @@ const Error = ({ error }: Props) => {
       </Text>
 
       <Link target='_blank' href='https://support.blockchain.com/'>
-        <Button nature='primary' fullwidth style={{ marginTop: '16px' }} height='50px' data-e2e=''>
-          <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
-        </Button>
+        <Button
+          variant='primary'
+          width='full'
+          style={{ marginTop: '16px' }}
+          data-e2e='support'
+          text={<FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />}
+        />
       </Link>
-    </Wrapper>
+    </Flex>
   )
 }
 

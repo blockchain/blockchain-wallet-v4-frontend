@@ -1,15 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { Flex } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { SpinningLoader, Text } from 'blockchain-info-components'
-
-const Wrapper = styled.div`
-  display: flex;
-  text-align: center;
-  align-items: center;
-  flex-direction: column;
-`
 
 const LoadingWrapper = styled.div`
   position: relative;
@@ -19,7 +13,7 @@ const LoadingWrapper = styled.div`
 
 const Loading = () => {
   return (
-    <Wrapper>
+    <Flex alignItems='center' flexDirection='column'>
       <LoadingWrapper>
         <SpinningLoader width='40px' height='40px' />
       </LoadingWrapper>
@@ -29,7 +23,7 @@ const Loading = () => {
           defaultMessage="We're approving your request. Please wait..."
         />
       </Text>
-    </Wrapper>
+    </Flex>
   )
 }
 
