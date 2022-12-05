@@ -13,33 +13,16 @@ import { AmountContainer, CoinContainer, RightContainer, Row, Wrapper } from './
 
 const MobileRow = ({
   coin,
-  earnTab,
   handleClick,
   interestAccountBalance,
   interestEligible,
   interestRates,
   isGoldTier,
   product,
-  searchValue,
-  showAvailableAssets,
   stakingAccountBalance,
   stakingEligible,
   walletCurrency
 }: Props): ReactElement | null => {
-  switch (earnTab) {
-    case 'All':
-      break
-    case 'Rewards':
-      if (product !== earnTab) return null
-      break
-    case 'Staking':
-      if (product !== earnTab) return null
-      break
-
-    default:
-      break
-  }
-
   const isStaking = product === 'Staking'
   const account = isStaking
     ? stakingAccountBalance && stakingAccountBalance[coin]
@@ -47,16 +30,8 @@ const MobileRow = ({
   const accountBalanceBase = account ? account.balance : 0
   const hasAccountBalance = accountBalanceBase > 0
 
-  if (showAvailableAssets && !hasAccountBalance) return null
-
   const { coinfig } = window.coins[coin] || {}
-  const { displaySymbol, name: displayName, symbol } = coinfig
-
-  const containsSearchValue = [displaySymbol, displayName, symbol].some((value) =>
-    value.toLowerCase().includes(searchValue.toLowerCase())
-  )
-
-  if (!containsSearchValue) return null
+  const { displaySymbol, name: displayName } = coinfig
 
   const isInterestCoinEligible = interestEligible[coin] && interestEligible[coin]?.eligible
   const isStakingCoinEligible = stakingEligible[coin] && stakingEligible[coin]?.eligible
