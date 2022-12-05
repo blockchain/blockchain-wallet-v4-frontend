@@ -1,20 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { IconCloseCircle, PaletteColors } from '@blockchain-com/constellation'
-import styled from 'styled-components'
+import { Flex, IconCloseCircle, PaletteColors } from '@blockchain-com/constellation'
 
 import { Button, Link, Text } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
-  display: flex;
-  text-align: center;
-  align-items: center;
-  flex-direction: column;
-`
-
 const Error = () => {
   return (
-    <Wrapper>
+    <Flex alignItems='center' flexDirection='column'>
       <>
         <IconCloseCircle color={PaletteColors['red-600']} label='error' size='large' />
         <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
@@ -35,7 +27,7 @@ const Error = () => {
           <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
         </Button>
       </Link>
-    </Wrapper>
+    </Flex>
   )
 }
 

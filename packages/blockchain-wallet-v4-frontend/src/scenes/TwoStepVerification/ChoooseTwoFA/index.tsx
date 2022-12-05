@@ -165,6 +165,8 @@ const ChooseTwoFA = (props: Props) => {
           </SkipLinkText>
         </LinkContainer>
       </SkipLink>
+      {/* leaving this commented out for now since we are 
+      moving away from sms 2fa */}
       {/* <ButtonPanel onClick={() => props.setFormStep(TwoFactorSetupSteps.SMS_SETUP)}>
         <Row>
           <IconPhone color={PaletteColors['blue-600']} size='medium' label='sms-2fa' />
