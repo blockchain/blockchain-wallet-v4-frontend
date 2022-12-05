@@ -171,3 +171,7 @@ export const getThemeEnabled = (state: RootState) =>
 // use Loqate service for address search
 export const useLoqateServiceEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useLoqateService']))
+
+// show active rewards
+export const getActiveRewardsEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isActiveRewardsEnabled']))
