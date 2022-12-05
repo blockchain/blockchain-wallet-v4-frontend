@@ -19,7 +19,8 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { SLIPPAGE_PRESETS } from './constants'
 import { CloseIcon, Section, SlippageButtons } from './styles'
-import { validators } from './utils'
+import type { SlippageValue } from './utils'
+import { useSlippageValueFromSwapForm, validators } from './utils'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
@@ -28,21 +29,15 @@ type Props = {
   total: number
 }
 
-type SlippageValue =
-  | { isCustom: false; value: number }
-  | { error?: React.ReactNode; isCustom: true; value: number }
-
 const DexSwapSettings = ({ position, total }: Props) => {
   const dispatch = useDispatch()
   const { formatMessage } = useIntl()
 
-  const [slippage, setSlippage] = useState<SlippageValue>({
-    isCustom: false,
-    value: 0.01
-  })
+  const currentSlippage = useSlippageValueFromSwapForm()
+  const [slippage, setSlippage] = useState<SlippageValue>(currentSlippage)
 
   const onSaveSettings = () => {
-    dispatch(actions.form.change(DEX_SWAP_FORM, 'slippage', slippage.value))
+    dispatch(actions.form.change(DEX_SWAP_FORM, 'slippage', `${slippage.value}`))
     dispatch(actions.modals.closeModal())
   }
 
@@ -52,13 +47,13 @@ const DexSwapSettings = ({ position, total }: Props) => {
       setSlippage({
         error: undefined,
         isCustom: true,
-        value: parseFloat(value)
+        value: parseFloat(value) / 100
       })
     }
   }
 
   const onValidateCustomSlippage = (value: string) => {
-    const numericValue = validators.isNumber(value) ? parseFloat(value) : 0
+    const numericValue = (validators.isNumber(value) ? parseFloat(value) : 0) / 100
     const error = validators.minValue(numericValue) || validators.maxValue(numericValue)
     setSlippage({
       error,
@@ -115,6 +110,7 @@ const DexSwapSettings = ({ position, total }: Props) => {
           <Input
             // value={''} // TODO: Really no value prop for an INPUT field??? Fix constellation
             id='dexCoinSearch'
+            defaultValue={slippage.isCustom ? slippage.value * 100 : ''}
             state={slippage.isCustom && slippage.error ? 'error' : 'default'}
             type='number' // TODO: Fix constellation input to actually accept only numbers
             placeholder={formatMessage({

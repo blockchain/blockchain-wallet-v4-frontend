@@ -11,6 +11,6 @@ export default ({ api }) => {
   return function* dexSaga() {
     yield takeEvery(actionTypes.form.CHANGE, dexSagas.fetchSwapQuote)
     yield takeLatest(actions.fetchChains.type, dexSagas.fetchChains)
-    yield takeLatest(actions.fetchChainTopTokens.type, dexSagas.fetchChainTopTokens)
+    yield takeLatest(actions.fetchChainAllTokens.type, dexSagas.fetchChainAllTokens)
   }
 }
