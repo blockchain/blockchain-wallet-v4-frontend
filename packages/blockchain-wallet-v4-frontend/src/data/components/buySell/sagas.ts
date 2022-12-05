@@ -80,7 +80,7 @@ import {
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
-import { getDirection, getQuoteRefreshConfig, reversePair } from './utils'
+import { getDirection, getEnterAmountStepType, getQuoteRefreshConfig, reversePair } from './utils'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -288,7 +288,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const cancelBSOrder = function* ({ payload }: ReturnType<typeof A.cancelOrder>) {
+  const cancelBuyOrder = function* ({ payload }: ReturnType<typeof A.cancelOrder>) {
     try {
       const { state } = payload
       const fiatCurrency = getFiatFromPair(payload.pair)
@@ -558,7 +558,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               method,
               orderType: values?.orderType,
               pair,
-              step: 'ENTER_AMOUNT',
+              step: getEnterAmountStepType(values?.orderType),
               swapAccount: from
             })
           )
@@ -1664,7 +1664,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               mobilePaymentMethod,
               orderType: values?.orderType,
               pair,
-              step: 'ENTER_AMOUNT',
+              step: getEnterAmountStepType(values?.orderType),
               swapAccount
             })
           )
@@ -1683,7 +1683,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             method,
             orderType: values?.orderType,
             pair,
-            step: 'ENTER_AMOUNT',
+            step: getEnterAmountStepType(values?.orderType),
             swapAccount
           })
         )
@@ -2144,7 +2144,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               method,
               mobilePaymentMethod,
               orderType,
-              step: 'ENTER_AMOUNT'
+              step: getEnterAmountStepType(orderType)
             })
           )
           break
@@ -2252,7 +2252,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   return {
     activateCard,
-    cancelBSOrder,
+    cancelBuyOrder,
     checkCardSuccessRate,
     confirmBSFundsOrder,
     confirmOrder,

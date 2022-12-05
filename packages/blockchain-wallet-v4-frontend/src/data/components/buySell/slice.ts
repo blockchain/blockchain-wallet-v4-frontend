@@ -451,6 +451,7 @@ const buySellSlice = createSlice({
           state.step = action.payload.step
           break
         case 'ENTER_AMOUNT':
+        case 'SELL_ENTER_AMOUNT':
         case 'VERIFY_EMAIL':
           state.addBank = undefined
           state.cryptoCurrency = action.payload.cryptoCurrency
