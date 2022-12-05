@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Badge, Button, Image, Text } from 'blockchain-info-components'
 import CopyClipboard from 'components/Clipboard/CopyClipboard'
 import QRCodeWrapper from 'components/QRCodeWrapper'
+import { isMobile } from 'services/styles'
 
 import { BackArrowFormHeader, CenteredColumn, TwoFactorSetupSteps } from '../model'
 import { Props } from '.'
@@ -45,8 +46,9 @@ const AuthenticatorCode = (props: Props) => {
         {props.googleAuthSecretUrl && (
           <QRCodeWrapper size={150} value={props.googleAuthSecretUrl} />
         )}
-        {/*
-        <CopyClipboard address={props.data.secret || ''} /> */}
+        {isMobile() && props.googleAuthSecretUrl && (
+          <CopyClipboard address={props.googleAuthSecretUrl || ''} />
+        )}
         <AppButtons>
           <Badge type='applestore_2fa' />
           <Badge type='googleplay_2fa' />
