@@ -33,6 +33,7 @@ import { Loading as StdLoading, LoadingTextEnum } from '../components'
 import Rejected from '../components/Rejected'
 import { ModalPropsType } from '../types'
 import AddCardCheckoutDotCom from './AddCardCheckoutDotCom'
+import AddCardVgs from './AddCardVgs'
 import Authorize from './Authorize'
 import BankWireDetails from './BankWireDetails'
 import BillingAddress from './BillingAddress'
@@ -53,6 +54,7 @@ import Pending from './template.pending'
 import ThreeDSHandlerCheckoutDotCom from './ThreeDSHandlerCheckoutDotCom'
 import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
 import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
+import UpdateSecurityCode from './UpdateSecurityCode'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
@@ -192,6 +194,14 @@ class BuySell extends PureComponent<Props, State> {
                 <EnterAmount {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {this.props.step === 'UPDATE_SECURITY_CODE' && (
+              <FlyoutChild>
+                <UpdateSecurityCode
+                  backToEnterAmount={this.backToEnterAmount}
+                  handleClose={this.handleClose}
+                />
+              </FlyoutChild>
+            )}
             {this.props.step === 'CRYPTO_SELECTION' && (
               <FlyoutChild>
                 <CryptoSelection {...this.props} handleClose={this.handleClose} />
@@ -210,6 +220,11 @@ class BuySell extends PureComponent<Props, State> {
             {this.props.step === 'DETERMINE_CARD_PROVIDER' && (
               <FlyoutChild>
                 <Loading />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'ADD_CARD_VGS' && (
+              <FlyoutChild>
+                <AddCardVgs handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'ADD_CARD_CHECKOUTDOTCOM' && (
@@ -381,6 +396,7 @@ type LinkStatePropsType =
         | 'ORDER_SUMMARY'
         | 'OPEN_BANKING_CONNECT'
         | 'AUTHORIZE_PAYMENT'
+        | 'UPDATE_SECURITY_CODE'
     }
   | {
       orderType: BSOrderActionType
@@ -406,6 +422,11 @@ type LinkStatePropsType =
     }
   | {
       step: 'DETERMINE_CARD_PROVIDER'
+    }
+  | {
+      cardTokenId: string
+      step: 'ADD_CARD_VGS'
+      vgsVaultId: string
     }
   | {
       cardId?: string

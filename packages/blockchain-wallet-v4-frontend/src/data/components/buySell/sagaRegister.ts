@@ -14,8 +14,8 @@ export default ({ api, coreSagas, networks }) => {
 
   return function* buySellSaga() {
     yield takeEvery(actionTypes.form.CHANGE, buySellSagas.formChanged)
-    yield takeLatest(actions.registerCard, buySellSagas.registerBSCard)
-    yield takeLatest(actions.activateCard.type, buySellSagas.activateBSCard)
+    yield takeLatest(actions.registerCard, buySellSagas.registerCard)
+    yield takeLatest(actions.activateCard.type, buySellSagas.activateCard)
     yield takeLatest(actions.cancelOrder.type, buySellSagas.cancelBSOrder)
     yield takeLatest(actions.createOrder.type, buySellSagas.createBSOrder)
     yield takeLatest(actions.confirmFundsOrder.type, buySellSagas.confirmBSFundsOrder)
@@ -24,7 +24,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.checkCardSuccessRate.type, buySellSagas.checkCardSuccessRate)
     yield takeLatest(actions.fetchBalance.type, buySellSagas.fetchBSBalances)
     yield takeLatest(actions.deleteCard.type, buySellSagas.deleteBSCard)
-    yield takeLatest(actions.createCard.type, buySellSagas.createBSCard)
+    yield takeLatest(actions.createCard.type, buySellSagas.createCard)
     yield takeLatest(actions.fetchCards.type, buySellSagas.fetchBSCards)
     yield takeLatest(actions.fetchFiatEligible.type, buySellSagas.fetchFiatEligible)
     yield takeLatest(actions.fetchSDDEligibility.type, buySellSagas.fetchSDDEligible)
@@ -43,12 +43,13 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.initializeBillingAddress.type, buySellSagas.initializeBillingAddress)
     yield takeLatest(actions.initializeCheckout.type, buySellSagas.initializeCheckout)
     yield takeLatest(actions.pollBalances.type, buySellSagas.pollBSBalances)
-    yield takeLatest(actions.pollCard.type, buySellSagas.pollBSCard)
+    yield takeLatest(actions.pollCard.type, buySellSagas.pollCard)
     yield takeLatest(actions.pollOrder.type, buySellSagas.pollBSOrder)
     yield takeLatest(actions.showModal.type, buySellSagas.showModal)
     yield takeLatest(actions.switchFix.type, buySellSagas.switchFix)
     yield takeLatest(actions.fetchCrossBorderLimits.type, buySellSagas.fetchCrossBorderLimits)
     yield takeLatest(actions.fetchAccumulatedTrades.type, buySellSagas.fetchAccumulatedTrades)
+    yield takeLatest(actions.updateCardCvv.type, buySellSagas.updateCardCvv)
 
     // Fetch balances when profile/user is fetched
     yield takeLatest(
