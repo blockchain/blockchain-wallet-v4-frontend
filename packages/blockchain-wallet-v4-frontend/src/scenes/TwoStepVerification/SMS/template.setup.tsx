@@ -75,7 +75,6 @@ const SMSSetup = (props: Props) => {
             data-e2e='submitCode'
             fullwidth
             height='48px'
-            // TODO: Add real on click event
             onClick={() => props.changeAuthenticatorStep(2)}
             style={{ marginTop: '24px' }}
           >
