@@ -81,9 +81,9 @@ export default ({ api, coreSagas, networks }) => {
   const register = function* (action) {
     const { country, email, language, password, referral, sessionToken, state } = action.payload
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
-    const accountRecoveryV2: boolean = (yield select(
-      selectors.core.walletOptions.getAccountRecoveryV2
-    )).getOrElse(false)
+    const accountRecoveryV2: boolean = selectors.core.walletOptions
+      .getAccountRecoveryV2(yield select())
+      .getOrElse(false) as boolean
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
     const isExchangeMobileSignup =
       product === ProductAuthOptions.EXCHANGE &&
@@ -254,11 +254,6 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const { email, language, password } = action.payload
       // get recovery token and nabu ID
-      const recoveryLinkData: AccountRecoveryMagicLinkData = yield select(
-        selectors.signup.getAccountRecoveryMagicLinkData
-      )
-
-      const recoveryToken = recoveryLinkData?.recovery_token
       const sessionToken = yield select(selectors.session.getRecoverSessionId, email)
       yield put(actions.signup.setResetAccount(true))
       // create a new wallet
@@ -285,14 +280,6 @@ export default ({ api, coreSagas, networks }) => {
 
       sessionStorage.removeItem('accountRecovery')
 
-      // if user is resetting their account and
-      // want to go to the Exchange
-      // if (magicLinkData.product === ProductAuthOptions.EXCHANGE) {
-      //   yield put(
-      //     actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
-      //   )
-      //   return
-      // }
       // fetch user in new wallet
       yield call(setSession, userId, token, email, guid)
       yield put(
@@ -448,7 +435,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.signup.accountRecoveryVerifyLoading())
       const pathname = yield select(selectors.router.getPathname)
       const urlPathParams = pathname.split('/')
-      const accountRecoveryDataEncoded = urlPathParams[2]
+      const accountRecoveryDataEncoded = urlPathParams[2] || ''
       yield put(actions.signup.setAccountRecoveryMagicLinkDataEncoded(accountRecoveryDataEncoded))
       const accountRecoveryData = JSON.parse(
         base64url.decode(accountRecoveryDataEncoded)
@@ -458,7 +445,6 @@ export default ({ api, coreSagas, networks }) => {
       yield call(api.approveAccountReset, email, sessionToken, token, userId)
       yield put(actions.signup.accountRecoveryVerifySuccess(true))
     } catch (e) {
-      // TODO: handle error
       yield put(actions.signup.accountRecoveryVerifyFailure(e))
     }
   }

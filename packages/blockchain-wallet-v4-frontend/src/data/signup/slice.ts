@@ -16,6 +16,7 @@ import {
 } from './types'
 
 const initialState: SignupStateType = {
+  accountRecoveryMagicLinkData: {},
   accountRecoveryVerify: Remote.NotAsked,
   firstLogin: false,
   isValidReferralCode: undefined,

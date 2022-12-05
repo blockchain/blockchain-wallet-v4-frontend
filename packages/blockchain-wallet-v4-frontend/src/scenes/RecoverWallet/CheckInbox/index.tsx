@@ -1,19 +1,13 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
+import { Flex, IconCheckCircle, IconComputer, PaletteColors } from '@blockchain-com/constellation'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { RecoverSteps } from 'data/types'
 import { RECOVERY_EMAIL_SENT_ERROR } from 'services/alerts'
 
 import { Props } from '..'
 import { BackArrowFormHeader, CircleBackground, FormWrapper, Row } from '../model'
-
-const FormBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
 
 const CheckInbox = (props: Props) => {
   const [disabled, setDisabled] = useState(true)
@@ -44,9 +38,9 @@ const CheckInbox = (props: Props) => {
         handleBackArrowClick={() => props.setStep(RecoverSteps.FORGOT_PASSWORD_EMAIL)}
         email={props.formValues.recoveryEmail}
       />
-      <FormBody>
+      <Flex flexDirection='column' alignItems='center'>
         <CircleBackground color='blue600'>
-          <Icon name='computer' color='white' size='24px' />
+          <IconComputer color={PaletteColors['white-000']} size='medium' />
         </CircleBackground>
         <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
           <FormattedMessage id='copy.check_your_inbox' defaultMessage='Check Your Inbox' />
@@ -63,7 +57,7 @@ const CheckInbox = (props: Props) => {
             defaultMessage='A link to recover your account has been sent to your inbox.'
           />
         </Text>
-      </FormBody>
+      </Flex>
       <Button
         type='submit'
         nature='empty-blue'
@@ -81,10 +75,9 @@ const CheckInbox = (props: Props) => {
       >
         {disabled && sentState === 'sent' && !hasErrorAlert && (
           <Row>
-            <Icon
-              color='blue600'
-              name='checkmark-circle-filled'
-              size='14px'
+            <IconCheckCircle
+              color={PaletteColors['white-000']}
+              size='medium'
               style={{ marginRight: '8px' }}
             />
             <FormattedMessage

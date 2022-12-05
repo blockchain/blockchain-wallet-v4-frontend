@@ -82,7 +82,7 @@ export type VerifyTwoFAType = {
 }
 
 export type SignupStateType = {
-  accountRecoveryMagicLinkData?: AccountRecoveryMagicLinkData
+  accountRecoveryMagicLinkData: AccountRecoveryMagicLinkData
   accountRecoveryMagicLinkDataEncoded?: string
   accountRecoveryVerify: RemoteDataType<string, any>
   firstLogin: boolean
