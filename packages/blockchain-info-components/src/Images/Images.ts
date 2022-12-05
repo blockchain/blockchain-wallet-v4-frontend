@@ -75,6 +75,8 @@ import terminateCard from './img/debitCard/terminate-card.png'
 import dexOnboardingSlideFunds from './img/dex-onboarding-slide-funds@2x.png'
 import dexOnboardingSlideSwap from './img/dex-onboarding-slide-swap@2x.png'
 import dexOnboardingSlideWelcome from './img/dex-onboarding-slide-welcome@2x.png'
+import earnActivityEmpty from './img/earn/earn-activity-empty.svg'
+import earnEmpty from './img/earn/earn-empty.svg'
 import ethLocked from './img/earn/eth-locked.svg'
 import ethPending from './img/earn/eth-pending.svg'
 import emailError from './img/email-error.svg'
@@ -246,6 +248,8 @@ const Images = {
   'dex-onboarding-slide-funds': dexOnboardingSlideFunds,
   'dex-onboarding-slide-swap': dexOnboardingSlideSwap,
   'dex-onboarding-slide-welcome': dexOnboardingSlideWelcome,
+  'earn-activity-empty': earnActivityEmpty,
+  'earn-empty': earnEmpty,
   'email-error': emailError,
   'email-success': emailSuccess,
   'email-verified': emailVerified,
