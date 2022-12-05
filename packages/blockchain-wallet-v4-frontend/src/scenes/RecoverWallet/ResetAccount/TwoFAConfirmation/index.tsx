@@ -57,11 +57,9 @@ const TwoFAConfirmation = (props: Props) => {
   //       walletError.toLowerCase().includes('account deactivated'))'
 
   //   const twoFactorError = walletError && walletError.toLowerCase().includes('authentication code')
-  //   const handleSmsResend = () => {
-  //     const email =
-  //       product === ProductAuthOptions.EXCHANGE ? formValues?.exchangeEmail : formValues.email
-  //     authActions.resendSmsCode({ email, guid: formValues?.guid })
-  // }
+  const handleSmsResend = () => {
+    props.signupActions.triggerSmsVerificationRecovery()
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -111,17 +109,17 @@ const TwoFAConfirmation = (props: Props) => {
                 />
               </FormError>
             )}
-
-            {/* figure out what errors will be for these codes
-          {authType === 5 && (
-              <Link size='12px' weight={400} onClick={handleSmsResend}>
+            {authType === 5 && (
+              <Text
+                size='12px'
+                color='blue600'
+                weight={400}
+                onClick={handleSmsResend}
+                style={{ cursor: 'pointer', marginTop: '8px', textAlign: 'center' }}
+              >
                 <FormattedMessage id='scenes.login.resendsms' defaultMessage='Resend SMS' />
-              </Link>
+              </Text>
             )}
-            {twoFactorError && <FormError position='absolute'>{walletError}</FormError>}
-            {accountLocked && (
-              <FormError position='absolute'>{walletError?.split('.')[0]}.</FormError>
-            )} */}
           </FormItem>
         </FormGroup>
 
