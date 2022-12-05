@@ -93,6 +93,12 @@ const Success = (props: Props) => {
             })}
           </LineItemText>
         </Row>
+        <Row>
+          <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
+            <FormattedMessage id='copy.total' defaultMessage='Total' />
+          </Text>
+          {/* <LineItemText>{props.depositTerms.availableToTradeDisplayMode}</LineItemText> */}
+        </Row>
       </FlyoutContent>
       <FlyoutFooter collapsed>
         <Button

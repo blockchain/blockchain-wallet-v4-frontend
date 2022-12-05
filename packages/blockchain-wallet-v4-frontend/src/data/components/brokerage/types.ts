@@ -240,9 +240,45 @@ export type BrokerageState = {
   bankStatus: RemoteDataType<string, BankStatusType>
   bankTransferAccounts: RemoteDataType<PartialClientErrorProperties, Array<BankTransferAccountType>>
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
+  depositTerms: RemoteDataType<string, DepositTerms>
   dwStep: BankDWStepType
   fiatCurrency: WalletFiatType | undefined
   isFlow: boolean
   reason: PlaidSettlementErrorReasons | undefined
   redirectBackToStep: boolean
+}
+
+enum DisplayMode {
+  DAY_RANGE = 'DAY_RANGE',
+  IMMEDIATELY = 'IMMEDIATELY',
+  MAX_DAY = 'MAX_DAY',
+  MAX_MINUTE = 'MAX_MINUTE',
+  MINUTE_RANGE = 'MINUTE_RANGE',
+  NONE = 'NONE'
+}
+
+enum SettlementType {
+  INSTANT = 'INSTANT',
+  REGULAR = 'REGULAR',
+  UNAVAILABLE = 'UNAVAILABLE'
+}
+
+enum SettlementReason {
+  GENERIC = 'GENERIC',
+  INSUFFICIENT_BALANCE = 'INSUFFICIENT_BALANCE',
+  REQUIRES_UPDATE = 'REQUIRES_UPDATE',
+  STALE_BALANCE = 'STALE_BALANCE'
+}
+
+export type DepositTerms = {
+  availableToTradeDisplayMode: DisplayMode
+  availableToTradeMinutesMax: number
+  availableToTradeMinutesMin: number
+  availableToWithdrawDisplayMode: DisplayMode
+  availableToWithdrawMinutesMax: number
+  availableToWithdrawMinutesMin: number
+  creditCurrency: FiatType
+  settlementReason: SettlementReason
+  settlementType: SettlementType
+  withdrawalLockDays: number
 }

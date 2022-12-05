@@ -6,10 +6,17 @@ import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
+  const depositTermsR = selectors.components.brokerage.getDepositTerms(state)
 
-  return lift((withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>) => ({
-    withdrawLockCheck
-  }))(withdrawLockCheckR)
+  return lift(
+    (
+      // depositTerms: ExtractSuccess<typeof depositTermsR>,
+      withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>
+    ) => ({
+      // depositTerms,
+      withdrawLockCheck
+    })
+  )(withdrawLockCheckR)
 }
 
 export default getData

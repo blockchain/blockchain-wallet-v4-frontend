@@ -15,6 +15,12 @@ import Success from './template.success'
 const DepositMethods = (props: Props) => {
   useEffect(() => {
     props.sendActions.getLockRule()
+    if (props.formValues?.currency && props.defaultMethod) {
+      props.brokerageActions.fetchDepositTerms({
+        amount: { currency: props.formValues.currency, value: String(props.formValues.amount) },
+        paymentMethodId: props.defaultMethod.id
+      })
+    }
   }, [])
 
   return props.data.cata({

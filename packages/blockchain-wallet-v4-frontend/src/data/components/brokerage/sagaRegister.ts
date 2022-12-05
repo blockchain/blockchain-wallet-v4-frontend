@@ -11,6 +11,7 @@ export default ({ api, coreSagas, networks }) => {
       actions.fetchBankTransferAccounts.type,
       brokerageSagas.fetchBankTransferAccounts
     )
+    yield takeLatest(actions.fetchDepositTerms.type, brokerageSagas.fetchDepositTerms)
     yield takeLatest(actions.fetchBankTransferUpdate.type, brokerageSagas.fetchBankTransferUpdate)
     yield takeLatest(actions.handleDepositFiatClick.type, brokerageSagas.handleDepositFiatClick)
     yield takeLatest(actions.handleWithdrawClick.type, brokerageSagas.handleWithdrawClick)
