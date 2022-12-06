@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { SceneWrapper, StepCard } from './components'
+import { InfoWidget, PageWrapper } from '../components'
+import { StepCard } from './components'
 
-const slides: React.ComponentProps<typeof StepCard.Content>[] = [
+const slides: React.ComponentProps<typeof InfoWidget>[] = [
   {
     description: (
       <FormattedMessage
@@ -50,15 +51,15 @@ type Props = {
 export const Onboarding = ({ onClickStart }: Props) => {
   const [currentStep, setCurrentStep] = useState<number>(0)
   return (
-    <SceneWrapper>
+    <PageWrapper>
       <StepCard
         totalSteps={3}
         currentStep={currentStep}
         onClickStart={onClickStart}
         onSwitchStep={setCurrentStep}
       >
-        <StepCard.Content {...slides[currentStep]} />
+        <InfoWidget {...slides[currentStep]} />
       </StepCard>
-    </SceneWrapper>
+    </PageWrapper>
   )
 }
