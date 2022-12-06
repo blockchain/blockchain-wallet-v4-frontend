@@ -7,8 +7,7 @@ import { RootState } from 'data/rootReducer'
 import { WalletOptionsType } from './types'
 
 // general
-export const getOptions = (state: RootState) =>
-  state.walletOptionsPath as RemoteDataType<string, WalletOptionsType>
+export const getOptions = (state: RootState) => state.walletOptions.details
 export const getDomains = (state) => getOptions(state).map((x) => x.domains)
 export const getWebOptions = (state) =>
   getOptions(state).map(path(['platforms', 'web'])) as RemoteDataType<
