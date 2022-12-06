@@ -1,4 +1,6 @@
-import { call, put, select } from 'redux-saga/effects'
+import base64url from 'base64url'
+import { startSubmit, stopSubmit } from 'redux-form'
+import { call, delay, put, select } from 'redux-saga/effects'
 
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
@@ -6,6 +8,8 @@ import authSagas from 'data/auth/sagas'
 import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 import {
+  AccountRecoveryApprovalStatusType,
+  AccountRecoveryMagicLinkData,
   Analytics,
   AuthMagicLink,
   CaptchaActionName,
@@ -13,6 +17,8 @@ import {
   ModalName,
   PlatformTypes,
   ProductAuthOptions,
+  RecoverSteps,
+  ResetFormSteps,
   SignupRedirectTypes
 } from 'data/types'
 import * as C from 'services/alerts'
@@ -32,6 +38,7 @@ export default ({ api, coreSagas, networks }) => {
   })
 
   const REFERRAL_ERROR_MESSAGE = 'Invalid Referral Code'
+  const RECOVER_FORM = 'recover'
 
   const { generateCaptchaToken } = miscSagas()
 
@@ -72,8 +79,11 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const register = function* (action) {
-    const { country, email, language, password, referral, state } = action.payload
+    const { country, email, language, password, referral, sessionToken, state } = action.payload
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
+    const accountRecoveryV2: boolean = selectors.core.walletOptions
+      .getAccountRecoveryV2(yield select())
+      .getOrElse(false) as boolean
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
     const isExchangeMobileSignup =
       product === ProductAuthOptions.EXCHANGE &&
@@ -89,13 +99,23 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.signup.setRegisterEmail(email))
       yield put(actions.signup.setSignupCountry(country))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
-      yield call(coreSagas.wallet.createWalletSaga, {
-        captchaToken,
-        email,
-        forceVerifyEmail: isAccountReset,
-        language,
-        password
-      })
+      if (isAccountReset && accountRecoveryV2) {
+        yield call(coreSagas.wallet.createResetWalletSaga, {
+          captchaToken,
+          email,
+          language,
+          password,
+          sessionToken
+        })
+      } else {
+        yield call(coreSagas.wallet.createWalletSaga, {
+          captchaToken,
+          email,
+          forceVerifyEmail: isAccountReset,
+          language,
+          password
+        })
+      }
       // We don't want to show the account success message if user is resetting their account
       if (!isAccountReset && !isExchangeMobileSignup) {
         yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
@@ -228,6 +248,59 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const resetAccountV2 = function* (action) {
+    // if user is resetting their custodial account
+    // create a new wallet and assign an existing custodial account to that wallet
+    try {
+      const { email, language, password } = action.payload
+      // get recovery token and nabu ID
+      const sessionToken = yield select(selectors.session.getRecoverSessionId, email)
+      yield put(actions.signup.setResetAccount(true))
+      // create a new wallet
+      yield call(register, actions.signup.register({ email, language, password, sessionToken }))
+      const guid = yield select(selectors.core.wallet.getGuid)
+      const data = sessionStorage.getItem('accountRecovery')
+
+      const accountRecoveryData = data && JSON.parse(data)
+
+      const { mercuryLifetimeToken, token, userCredentialsId, userId } = accountRecoveryData
+
+      // set new lifetime tokens for nabu and exchange for user in new unified metadata entry
+      // also write nabu credentials to legacy userCredentials for old app versions
+      // TODO: in future, consider just writing to unifiedCredentials entry
+      yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, token))
+      yield put(
+        actions.core.kvStore.unifiedCredentials.setUnifiedCredentials({
+          exchange_lifetime_token: mercuryLifetimeToken,
+          exchange_user_id: userCredentialsId,
+          nabu_lifetime_token: token,
+          nabu_user_id: userId
+        })
+      )
+
+      sessionStorage.removeItem('accountRecovery')
+
+      // fetch user in new wallet
+      yield call(setSession, userId, token, email, guid)
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.RECOVERY_PASSWORD_RESET,
+          properties: {
+            account_type: 'CUSTODIAL',
+            site_redirect: 'WALLET'
+          }
+        })
+      )
+      yield put(actions.goals.runGoals())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
+      yield put(
+        actions.modals.showModal(ModalName.RESET_ACCOUNT_FAILED, { origin: 'ResetAccount' })
+      )
+      sessionStorage.removeItem('accountRecovery')
+    }
+  }
+
   const resetAccount = function* (action) {
     // if user is resetting their custodial account
     // create a new wallet and assign an existing custodial account to that wallet
@@ -314,12 +387,109 @@ export default ({ api, coreSagas, networks }) => {
       })
     )
   }
+  const pollForResetApproval = function* (sessionToken, n = 50) {
+    if (n === 0) {
+      yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.FORGOT_PASSWORD_EMAIL))
+      yield put(actions.alerts.displayInfo(C.VERIFY_DEVICE_EXPIRY, undefined, true))
+
+      return false
+    }
+    try {
+      yield delay(2000)
+      const response = yield call(api.pollForResetApprovalStatus, sessionToken)
+      // if (response?.status === 'true') {
+      if (response?.status === AccountRecoveryApprovalStatusType.APPROVED) {
+        yield put(actions.signup.setAccountRecoveryMagicLinkData(response))
+        yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_OPTIONS))
+        return true
+      }
+      if (response?.status === AccountRecoveryApprovalStatusType.INVALID) {
+        yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.FORGOT_PASSWORD_EMAIL))
+        yield put(actions.alerts.displayError(C.VERIFY_DEVICE_FAILED, undefined, true))
+        return false
+      }
+    } catch (error) {
+      return false
+    }
+    return yield call(pollForResetApproval, sessionToken, n - 1)
+  }
+
+  const triggerRecoverEmail = function* (action) {
+    const email = action.payload
+    try {
+      yield put(startSubmit(RECOVER_FORM))
+      const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.RECOVER)
+
+      const sessionToken = yield call(api.obtainSessionToken)
+      yield put(actions.session.saveRecoverSession({ email, id: sessionToken }))
+
+      yield call(api.triggerResetAccountEmail, captchaToken, email, sessionToken)
+      yield put(stopSubmit(RECOVER_FORM))
+      yield call(pollForResetApproval, sessionToken)
+    } catch {
+      yield put(stopSubmit(RECOVER_FORM))
+    }
+  }
+
+  const approveAccountReset = function* () {
+    try {
+      yield put(actions.signup.accountRecoveryVerifyLoading())
+      const pathname = yield select(selectors.router.getPathname)
+      const urlPathParams = pathname.split('/')
+      const accountRecoveryDataEncoded = urlPathParams[2] || ''
+      yield put(actions.signup.setAccountRecoveryMagicLinkDataEncoded(accountRecoveryDataEncoded))
+      const accountRecoveryData = JSON.parse(
+        base64url.decode(accountRecoveryDataEncoded)
+      ) as AccountRecoveryMagicLinkData
+      const { email, recovery_token: token, userId } = accountRecoveryData
+      const sessionToken = yield select(selectors.session.getRecoverSessionId, email)
+      yield call(api.approveAccountReset, email, sessionToken, token, userId)
+      yield put(actions.signup.accountRecoveryVerifySuccess(true))
+    } catch (e) {
+      yield put(actions.signup.accountRecoveryVerifyFailure(e))
+    }
+  }
+
+  const triggerSmsVerificationRecovery = function* () {
+    try {
+      const recoveryLinkData: AccountRecoveryMagicLinkData = yield select(
+        selectors.signup.getAccountRecoveryMagicLinkData
+      )
+      const { email, walletGuid } = recoveryLinkData
+      const sessionToken = yield select(selectors.session.getRecoverSessionId, email)
+      yield call(api.sendTwoFAChallenge, walletGuid, sessionToken)
+      yield put(actions.form.change(RECOVER_FORM, 'step', RecoverSteps.TWO_FA_CONFIRMATION))
+      yield put(actions.alerts.displaySuccess(C.MOBILE_CODE_SENT_SUCCESS))
+    } catch (e) {
+      yield put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
+    }
+  }
+
+  const verifyTwoFaForRecovery = function* (action) {
+    try {
+      const { code, email } = action.payload
+      const { success, verified } = yield call(api.validate2faResponse, email, code)
+      if (success && verified) {
+        yield put(actions.form.change(RECOVER_FORM, 'step', ResetFormSteps.NEW_PASSWORD))
+        yield put(actions.alerts.displaySuccess(C.TWOFA_VERIFIED))
+        yield put(actions.signup.verifyTwoFaForRecoverySuccess(true))
+      }
+    } catch (e) {
+      yield put(actions.signup.verifyTwoFaForRecoveryFailure(e))
+    }
+  }
 
   return {
+    approveAccountReset,
     initializeSignUp,
+    pollForResetApproval,
     register,
     resetAccount,
+    resetAccountV2,
     restore,
-    restoreFromMetadata
+    restoreFromMetadata,
+    triggerRecoverEmail,
+    triggerSmsVerificationRecovery,
+    verifyTwoFaForRecovery
   }
 }

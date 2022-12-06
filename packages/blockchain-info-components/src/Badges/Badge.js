@@ -16,10 +16,28 @@ const Badge = ({ ...props }) => {
           <Image name='apple-app-store-badge' height={size || '48px'} />
         </Link>
       )
+    case 'applestore_2fa':
+      return (
+        <Link
+          href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8'
+          target='_blank'
+        >
+          <Image name='apple-app-store-badge' height={size || '48px'} />
+        </Link>
+      )
     case 'googleplay':
       return (
         <Link
           href='https://play.google.com/store/apps/details?id=piuk.blockchain.android'
+          target='_blank'
+        >
+          <Image name='google-play-badge' height={size || '48px'} />
+        </Link>
+      )
+    case 'googleplay_2fa':
+      return (
+        <Link
+          href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en'
           target='_blank'
         >
           <Image name='google-play-badge' height={size || '48px'} />

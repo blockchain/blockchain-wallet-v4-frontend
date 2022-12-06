@@ -4,21 +4,26 @@ import { Remote } from '@core'
 
 import { PlatformTypes, ProductAuthOptions } from '../auth/types'
 import {
+  AccountRecoveryMagicLinkData,
   MetadataRestoreType,
   ProductSignupMetadata,
   RegisteringFailureType,
   RegisteringSuccessType,
   RestoringType,
   SignupRedirectTypes,
-  SignupStateType
+  SignupStateType,
+  VerifyTwoFAType
 } from './types'
 
 const initialState: SignupStateType = {
+  accountRecoveryMagicLinkData: {},
+  accountRecoveryVerify: Remote.NotAsked,
   firstLogin: false,
   isValidReferralCode: undefined,
   kycReset: undefined,
   metadataRestore: Remote.NotAsked,
   productSignupMetadata: {},
+  recoveryTwoFAVerification: Remote.NotAsked,
   registerEmail: undefined,
   registering: Remote.NotAsked,
   resetAccount: false,
@@ -30,7 +35,19 @@ const signupSlice = createSlice({
   initialState,
   name: 'signup',
   reducers: {
+    accountRecoveryVerify: (state, action?) => {},
+    accountRecoveryVerifyFailure: (state, action) => {
+      state.accountRecoveryVerify = Remote.Failure(action.payload)
+    },
+    accountRecoveryVerifyLoading: (state) => {
+      state.accountRecoveryVerify = Remote.Loading
+    },
+    accountRecoveryVerifySuccess: (state, action) => {
+      state.accountRecoveryVerify = Remote.Success(action.payload)
+    },
+    approveAccountReset: () => {},
     initializeSignup: () => {},
+    pollForResetApproval: () => {},
     register: (state, action) => {},
     registerFailure: (state, action: PayloadAction<RegisteringFailureType>) => {
       state.registering = Remote.Failure(action.payload)
@@ -42,6 +59,7 @@ const signupSlice = createSlice({
       state.registering = Remote.Success(action.payload)
     },
     resetAccount: (state, action) => {},
+    resetAccountV2: (state, action) => {},
     restore: (state, action) => {},
     restoreFailure: () => {},
     restoreFromMetadata: (state, action) => {},
@@ -59,6 +77,15 @@ const signupSlice = createSlice({
     },
     restoreSuccess: (state, action: PayloadAction<RestoringType>) => {
       state.restoring = Remote.Success(action.payload)
+    },
+    setAccountRecoveryMagicLinkData: (
+      state,
+      action: PayloadAction<AccountRecoveryMagicLinkData>
+    ) => {
+      state.accountRecoveryMagicLinkData = action.payload
+    },
+    setAccountRecoveryMagicLinkDataEncoded: (state, action: PayloadAction<string>) => {
+      state.accountRecoveryMagicLinkDataEncoded = action.payload
     },
     setFirstLogin: (state, action: PayloadAction<SignupStateType['firstLogin']>) => {
       state.firstLogin = action.payload
@@ -93,6 +120,15 @@ const signupSlice = createSlice({
     },
     setSignupCountry: (state, action: PayloadAction<SignupStateType['signupCountry']>) => {
       state.signupCountry = action.payload
+    },
+    triggerRecoverEmail: (state, action) => {},
+    triggerSmsVerificationRecovery: () => {},
+    verifyTwoFaForRecovery: (state, action: PayloadAction<VerifyTwoFAType>) => {},
+    verifyTwoFaForRecoveryFailure: (state, action) => {
+      state.recoveryTwoFAVerification = Remote.Failure(action.payload)
+    },
+    verifyTwoFaForRecoverySuccess: (state, action) => {
+      state.recoveryTwoFAVerification = Remote.Success(action.payload)
     }
   }
 })

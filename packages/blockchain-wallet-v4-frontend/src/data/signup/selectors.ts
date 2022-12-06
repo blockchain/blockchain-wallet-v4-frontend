@@ -3,6 +3,25 @@ import { RootState } from 'data/rootReducer'
 import { SignupStateType } from './types'
 
 // TODO: organize these functions
+
+export function getAccountRecoveryMagicLinkData(
+  state: RootState
+): SignupStateType['accountRecoveryMagicLinkData'] {
+  return state.signup.accountRecoveryMagicLinkData
+}
+
+export function getAccountRecoveryMagicLinkDataEncoded(
+  state: RootState
+): SignupStateType['accountRecoveryMagicLinkDataEncoded'] {
+  return state.signup.accountRecoveryMagicLinkDataEncoded
+}
+
+export function getAccountRecoveryVerify(
+  state: RootState
+): SignupStateType['accountRecoveryVerify'] {
+  return state.signup.accountRecoveryVerify
+}
+
 export function getAccountReset(state: RootState): SignupStateType['resetAccount'] {
   return state.signup.resetAccount
 }
@@ -39,6 +58,12 @@ export function getKycResetStatus(state: RootState): SignupStateType['kycReset']
 
 export function getIsValidReferralCode(state: RootState): SignupStateType['isValidReferralCode'] {
   return state.signup.isValidReferralCode
+}
+
+export function getRecoveryTwoFAVerification(
+  state: RootState
+): SignupStateType['recoveryTwoFAVerification'] {
+  return state.signup.recoveryTwoFAVerification
 }
 
 export function getSignupCountry(state: RootState): SignupStateType['signupCountry'] {

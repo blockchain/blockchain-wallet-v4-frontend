@@ -80,6 +80,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     ...networkConfig({ apiUrl, authorizedGet: authorizedHttp.get }),
     ...nfts({ apiUrl, openSeaApi, ...http }),
     ...profile({
+      apiUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
