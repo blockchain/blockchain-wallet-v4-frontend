@@ -1,10 +1,15 @@
 import React from 'react'
 import { useIntl } from 'react-intl'
 import { Flex, Tooltip } from '@blockchain-com/constellation'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 
 // TODO: Fix z-index and offset in constellation and remove that CSS file
-import './styles.css'
+const GlobalStyleTooltipZIndexFix = createGlobalStyle`
+  div[data-radix-popper-content-wrapper] {
+    z-index: 99999 !important;
+    margin-left: 3px;
+  }
+`
 
 const Container = styled.div<{ ml: number }>`
   margin-left: ${({ ml }) => `${ml}px`};
@@ -45,6 +50,7 @@ const Checkmark = styled.div`
 
 const VerificationCheckmarkTrigger = ({ ml = 0 }: { ml?: number }) => (
   <Container ml={ml}>
+    <GlobalStyleTooltipZIndexFix />
     <Flex justifyContent='center' alignItems='center'>
       <Star />
       <CheckmarkContainer>
@@ -66,7 +72,6 @@ export const VerificationCheckmark = ({ ml = 0 }: { ml?: number }) => {
       text={formatMessage({
         // TODO: Receive X value and use it here
         defaultMessage: 'Verified by at least X source(s) from https://tokenlists.org',
-
         id: 'dex.coinVerification.description'
       })}
     />
