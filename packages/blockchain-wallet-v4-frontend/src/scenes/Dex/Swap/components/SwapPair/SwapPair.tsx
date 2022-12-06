@@ -12,7 +12,6 @@ import type { BigNumber } from 'bignumber.js'
 import { Field } from 'redux-form'
 
 import { Exchange } from '@core'
-import Currencies, { FiatCurrenciesType } from '@core/exchange/currencies'
 import { CoinType } from '@core/types'
 import { Icon as TokenIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -20,14 +19,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { DexSwapSide, DexSwapSideFields } from 'data/types'
 
 import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './styles'
-
-const getZeroFiatAmountPreview = (walletCurrency: string) => {
-  return `${
-    Currencies[walletCurrency as keyof FiatCurrenciesType].units[
-      walletCurrency as keyof FiatCurrenciesType
-    ].symbol
-  }0.00`
-}
+import { getZeroFiatAmountPreview } from './utils'
 
 type Props = {
   swapSide: DexSwapSide

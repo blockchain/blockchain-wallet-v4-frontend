@@ -15,7 +15,6 @@ import {
   SwapPair,
   SwapPairWrapper
 } from '../components'
-import { useTokenBalancePreview } from '../hooks'
 import { Header } from './Header'
 
 const { DEX_SWAP_FORM } = model.components.dex
@@ -32,8 +31,12 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
   const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
     formValues || {}
 
-  const baseTokenBalance = useTokenBalancePreview(baseToken)
-  const counterTokenBalance = useTokenBalancePreview(counterToken)
+  const baseTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
+  )
+  const counterTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
+  )
 
   const onViewSettings = () => {
     dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))

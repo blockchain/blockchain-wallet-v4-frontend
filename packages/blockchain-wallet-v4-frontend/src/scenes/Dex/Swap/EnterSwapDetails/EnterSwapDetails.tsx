@@ -15,7 +15,6 @@ import {
   SwapPair,
   SwapPairWrapper
 } from '../components'
-import { useTokenBalancePreview } from '../hooks'
 import { ErrorMessage } from './ErrorMessage'
 import { Header } from './Header'
 
@@ -38,8 +37,12 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
 
   const { data: quote, hasError: hasQuoteError } = useRemote(selectors.components.dex.getSwapQuote)
 
-  const baseTokenBalance = useTokenBalancePreview(baseToken)
-  const counterTokenBalance = useTokenBalancePreview(counterToken)
+  const baseTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
+  )
+  const counterTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
+  )
 
   const onViewSettings = () => {
     dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))
