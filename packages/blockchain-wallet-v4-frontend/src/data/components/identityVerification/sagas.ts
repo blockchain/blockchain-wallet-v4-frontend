@@ -164,8 +164,6 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         return
       }
-    } else if (tiers.current === 0) {
-      tiers = { current: 0, next: 1, selected: 2 }
     }
 
     let addExtraStep = false
