@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Flex, Padding, Pager } from '@blockchain-com/constellation'
+import { Button, Flex, Pager } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { media } from 'services/styles'

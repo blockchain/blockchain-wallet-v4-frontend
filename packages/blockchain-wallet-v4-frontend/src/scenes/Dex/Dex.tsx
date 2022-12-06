@@ -23,10 +23,9 @@ const Dex = (form: InjectedFormProps<DexSwapForm>) => {
   const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
   const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const isAuthenticated = useSelector(selectors.auth.isAuthenticated)
+  const isOnboardingPassed = !!localStorage.getItem(DEX_INTRO_VIEWED_KEY)
 
-  const [scene, setScene] = useState<DexScenes>(
-    localStorage.getItem(DEX_INTRO_VIEWED_KEY) ? 'SWAP' : 'ONBOARDING'
-  )
+  const [scene, setScene] = useState<DexScenes>(isOnboardingPassed ? 'SWAP' : 'ONBOARDING')
 
   useEffect(() => {
     dispatch(actions.components.dex.fetchChains())
@@ -41,8 +40,9 @@ const Dex = (form: InjectedFormProps<DexSwapForm>) => {
 
   useEffect(() => {
     if (
-      (swapFormValues.step === 'CONFIRM_SWAP' && !swapFormValues.baseToken) ||
-      !swapFormValues.counterToken
+      isOnboardingPassed &&
+      ((swapFormValues.step === 'CONFIRM_SWAP' && !swapFormValues.baseToken) ||
+        !swapFormValues.counterToken)
     ) {
       onGoBack()
     }

@@ -46,7 +46,7 @@ export const QuoteDetails = ({
           <FormattedMessage id='copy.allowed_slippage' defaultMessage='Allowed Slippage' />
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
-          <ValueText>{slippage * 100}</ValueText>
+          <ValueText>{slippage * 100}%</ValueText>
           <EditSlippageText onClick={handleSettingsClick}>
             <FormattedMessage id='buttons.edit' defaultMessage='Edit' />
           </EditSlippageText>
@@ -147,23 +147,31 @@ export const QuoteDetails = ({
             <LoadingBox bgColor='white' />
           ) : (
             <>
-              <ValueText>?</ValueText>
-              <ValueSubText>?</ValueSubText>
-            </>
-          )}
-        </Flex>
-      </RowDetails>
-      <RowDetails>
-        <RowTitle>
-          <FormattedMessage id='copy.total' defaultMessage='Total' />
-        </RowTitle>
-        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
-          {isQuoteLoading ? (
-            <LoadingBox bgColor='white' />
-          ) : (
-            <>
-              <ValueText>?</ValueText>
-              <ValueSubText>?</ValueSubText>
+              <FiatDisplay
+                coin={quote?.sellAmount_.symbol_}
+                currency={walletCurrency}
+                color='textBlack'
+                lineHeight='150%'
+                loadingHeight='14px'
+                size='14px'
+                weight={600}
+              >
+                {Exchange.convertCoinToCoin({
+                  baseToStandard: false,
+                  coin: quote?.sellAmount_.symbol_,
+                  value: Exchange.convertCoinToCoin({
+                    coin: quote?.sellAmount_.symbol_,
+                    value: (quote?.sellAmount_.amount_ / 100) * 0.9
+                  })
+                })}
+              </FiatDisplay>
+              <ValueSubText>
+                {Exchange.convertCoinToCoin({
+                  coin: quote?.sellAmount_.symbol_,
+                  value: (quote?.sellAmount_.amount_ / 100) * 0.9
+                })}{' '}
+                {quote?.sellAmount_.symbol_}
+              </ValueSubText>
             </>
           )}
         </Flex>
