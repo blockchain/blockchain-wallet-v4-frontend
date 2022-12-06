@@ -29,6 +29,7 @@ export const getXlmExchangeAddresses = () => Remote.of([])
 // 3rd Party
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
 export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
+export const getWalletHelperDomain = (state) => getDomains(state).map(prop('walletHelper'))
 
 //
 // FEATURE FLAG SELECTORS
@@ -50,6 +51,9 @@ export const getPairingCodeFlag = (state: RootState) =>
 // recurring buys flag
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'recurringBuys']))
+
+export const getFeatureFlagUseVgsProvider = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useVgsProvider']))
 
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
@@ -175,3 +179,8 @@ export const useLoqateServiceEnabled = (state: RootState) =>
 // Account recovery v2
 export const getAccountRecoveryV2 = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'accountRecoveryV2']))
+
+// show active rewards
+export const getActiveRewardsEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isActiveRewardsEnabled']))
+

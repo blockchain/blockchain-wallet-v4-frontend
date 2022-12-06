@@ -24,18 +24,6 @@ export const Overlay = styled.div`
 export const CustomSceneWrapper = styled(SceneWrapper)<{ $isGoldTier?: boolean }>`
   ${({ $isGoldTier }) => !$isGoldTier && `overflow: hidden;`}
 `
-
-export const SubheaderSeparator = styled.div`
-  display: flex;
-  flex-grow: 2;
-`
 export const SceneSubHeaderTextCustom = styled(SceneSubHeaderText)`
   display: contents;
-`
-export const CustomLink = styled(Link)`
-  color: ${PaletteColors['blue-400']} !important;
-
-  &:hover {
-    color: ${PaletteColors['blue-400']};
-  }
 `

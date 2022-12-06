@@ -134,6 +134,8 @@ import recurringBuyGetStarted from './img/recurring-buys-get-started.svg'
 import referralIcon from './img/referral-icon.svg'
 import refresh from './img/refresh.svg'
 import safeConnect from './img/safe-connect.svg'
+import scenario1Graph from './img/scenario-1-graph.svg'
+import scenario2Graph from './img/scenario-2-graph.svg'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import sell from './img/sell.svg'
@@ -300,6 +302,8 @@ const Images = {
   'referral-icon': referralIcon,
   refresh,
   'safe-connect': safeConnect,
+  'scenario-1-graph': scenario1Graph,
+  'scenario-2-graph': scenario2Graph,
   search,
   'select-arrow': selectArrow,
   sell,

@@ -123,9 +123,9 @@ export type Props = {
   | {
       bottomLeftText: string | React.ReactNode
       bottomRightText?: never
-      icon: React.ReactNode
+      icon?: React.ReactNode
       loading?: never
-      rightAction: true
+      rightAction?: true
       topLeftText: string | React.ReactNode
       topRightText?: never
     }

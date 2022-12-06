@@ -136,10 +136,10 @@ export const CheckBoxContainer = styled.div`
 `
 
 export const CheckBoxText = styled(Text)`
-  font-weight: 600;
+  font-weight: 400;
   font-size: 16px;
   max-width: 312px;
-  color: ${(props) => props.theme.grey600};
+  color: ${(props) => props.theme.grey900};
 `
 export const DropdownStyled = styled.div`
   z-index: 9;
