@@ -5,4 +5,4 @@ export const MIN_ALLOWED_SLIPPAGE = 0.005
 export const MAX_ALLOWED_SLIPPAGE = 0.99
 
 // TODO: Update with exact page when available
-export const DEX_SUPPORT_SECTION_URL = ''
+export const DEX_SUPPORT_SECTION_URL = 'https://support.blockchain.com/hc/en-us'
