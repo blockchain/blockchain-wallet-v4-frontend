@@ -1,9 +1,9 @@
-import { DexSwapQuoteRequest, DexSwapQuoteResponse } from './types'
+import { DexSwapQuoteQueryParams, DexSwapQuoteRequest, DexSwapQuoteResponse } from './types'
 
 const DEX_NABU_GATEWAY_PREFIX = '/nabu-gateway/dex'
 const DEX_GATEWAY_PREFIX = '/dex-gateway/v1'
 
-export default ({ apiUrl, authorizedGet, get, post }) => {
+export default ({ apiUrl, authorizedGet, authorizedPost, get, post }) => {
   const getDexChains = () =>
     get({
       contentType: 'application/json',
@@ -23,11 +23,15 @@ export default ({ apiUrl, authorizedGet, get, post }) => {
       url: apiUrl
     })
 
-  const getDexSwapQuote = (quoteRequest: DexSwapQuoteRequest): DexSwapQuoteResponse =>
-    post({
+  const getDexSwapQuote = (
+    quoteRequest: DexSwapQuoteRequest,
+    queryParams: DexSwapQuoteQueryParams
+  ): DexSwapQuoteResponse =>
+    authorizedPost({
       contentType: 'application/json',
       data: quoteRequest,
-      endPoint: '/dex-gateway/v1/quote',
+      endPoint: `${DEX_NABU_GATEWAY_PREFIX}/quote`,
+      params: queryParams,
       removeDefaultPostData: true,
       url: apiUrl
     })
