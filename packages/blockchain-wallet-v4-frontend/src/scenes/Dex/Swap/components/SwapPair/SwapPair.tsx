@@ -8,6 +8,7 @@ import {
   SemanticColors,
   Text
 } from '@blockchain-com/constellation'
+import type { BigNumber } from 'bignumber.js'
 import { Field } from 'redux-form'
 
 import { Exchange } from '@core'
@@ -15,14 +16,15 @@ import { CoinType } from '@core/types'
 import { Icon as TokenIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import type { DexSwapSide } from 'data/types'
+import { DexSwapSide, DexSwapSideFields } from 'data/types'
 
 import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './styles'
+import { getZeroFiatAmountPreview } from './utils'
 
 type Props = {
   swapSide: DexSwapSide
   walletCurrency: string
-} & ({ amount: number; balance: number; coin: CoinType } | { coin?: never }) &
+} & ({ amount: number; balance: number | BigNumber; coin: CoinType } | { coin?: never }) &
   (
     | { isQuoteLocked: true }
     | {
@@ -33,7 +35,8 @@ type Props = {
   )
 
 export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
-  const amountInputField = `${swapSide}Amount`
+  // TODO: Make type safe mapping between inputs name and form data properties
+  const amountInputField = `${DexSwapSideFields[swapSide]}Amount`
   const isAnimationEnabled = !props.isQuoteLocked ? props.animate : false
   const isAmountEntered = !!(props.coin && props.amount !== 0)
 
@@ -96,14 +99,19 @@ export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
     </PairWrapper>
   ) : (
     <PairWrapper animate={isAnimationEnabled} swapSide={swapSide}>
-      <Field
-        component={AmountInput}
-        data-e2e={`${swapSide}AmountField`}
-        disabled={props.isQuoteLocked}
-        placeholder='0.00'
-        name={amountInputField}
-        validate={[]}
-      />
+      <Flex flexDirection='column' justifyContent={isAmountEntered ? 'space-evenly' : 'center'}>
+        <Field
+          component={AmountInput}
+          data-e2e={`${swapSide}AmountField`}
+          disabled={props.isQuoteLocked}
+          placeholder='0.00'
+          name={amountInputField}
+          validate={[]}
+        />
+        <Text variant='paragraph-mono' color={SemanticColors.body}>
+          {getZeroFiatAmountPreview(walletCurrency)}
+        </Text>
+      </Flex>
       <Flex justifyContent='space-evenly' alignItems='center'>
         <TokenSelectWrapper
           role='button'

@@ -28,6 +28,15 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
   const dispatch = useDispatch()
 
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
+  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
+    formValues || {}
+
+  const baseTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
+  )
+  const counterTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
+  )
 
   const onViewSettings = () => {
     dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))
@@ -43,9 +52,9 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
         <SwapPair
           isQuoteLocked
           swapSide='BASE'
-          balance={0} // FIXME: Pass balance
-          coin={formValues.baseToken}
-          amount={formValues.baseTokenAmount || 0}
+          balance={baseTokenBalance}
+          coin={baseToken}
+          amount={baseTokenAmount || 0}
           walletCurrency={walletCurrency}
         />
 
@@ -54,9 +63,9 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
         <SwapPair
           isQuoteLocked
           swapSide='COUNTER'
-          balance={0} // FIXME: Pass balance
-          coin={formValues.counterToken}
-          amount={formValues.counterTokenAmount || 0}
+          balance={counterTokenBalance}
+          coin={counterToken}
+          amount={counterTokenAmount || 0}
           walletCurrency={walletCurrency}
         />
       </SwapPairWrapper>
@@ -71,7 +80,7 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
       <QuoteDetails
         swapDetailsOpen
         walletCurrency={walletCurrency}
-        slippage={formValues.slippage}
+        slippage={slippage}
         handleSettingsClick={onViewSettings}
       />
 
@@ -79,7 +88,7 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
         size='large'
         width='full'
         variant='primary'
-        onClick={onConfirmSwap} // FIXME: Pass slippage from settings form
+        onClick={onConfirmSwap}
         text={<FormattedMessage id='copy.confirmSwap' defaultMessage='Confirm Swap' />}
       />
     </FormWrapper>

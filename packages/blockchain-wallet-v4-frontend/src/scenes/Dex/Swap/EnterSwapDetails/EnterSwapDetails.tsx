@@ -5,6 +5,7 @@ import { Button } from '@blockchain-com/constellation'
 
 import { actions, model, selectors } from 'data'
 import { DexSwapForm, DexSwapSide, ModalName } from 'data/types'
+import { useRemote } from 'hooks'
 
 import {
   BaseRateAndFees,
@@ -31,11 +32,17 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
 
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
-  const { baseToken, counterToken, counterTokenAmount, slippage } = formValues || {}
+  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
+    formValues || {}
 
-  // TODO: useRemote hook
-  const hasQuote = false // Remote.Success.is(quoteR) // quoteR = selectors.components.dex.getSwapQuote(state)
-  const hasQuoteError = false // = Remote.Failure.is(quoteR)
+  const { data: quote, hasError: hasQuoteError } = useRemote(selectors.components.dex.getSwapQuote)
+
+  const baseTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
+  )
+  const counterTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
+  )
 
   const onViewSettings = () => {
     dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))
@@ -74,9 +81,9 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
             swapSide='BASE'
             animate={pairAnimate}
             isQuoteLocked={false}
-            balance={0} // FIXME: Pass balance
-            coin={formValues.baseToken}
-            amount={formValues.baseTokenAmount || 0}
+            balance={baseTokenBalance}
+            coin={baseToken}
+            amount={baseTokenAmount || 0}
             walletCurrency={walletCurrency}
             onTokenSelect={onTokenSelect}
           />
@@ -97,9 +104,9 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
             swapSide='COUNTER'
             animate={pairAnimate}
             isQuoteLocked={false}
-            balance={0} // FIXME: Pass balance
-            coin={formValues.counterToken}
-            amount={formValues.counterTokenAmount || 0}
+            balance={counterTokenBalance}
+            coin={counterToken}
+            amount={counterTokenAmount || 0}
             walletCurrency={walletCurrency}
             onTokenSelect={onTokenSelect}
           />
@@ -114,7 +121,7 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
         )}
       </SwapPairWrapper>
 
-      {hasQuote && (
+      {quote && (
         <BaseRateAndFees
           handleDetailsToggle={onDetailsToggle}
           swapDetailsOpen={isDetailsExpanded}
@@ -136,7 +143,7 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
         size='large'
         width='full'
         variant='primary'
-        disabled={!hasQuote || !isAuthenticated}
+        disabled={!quote || !isAuthenticated}
         onClick={onConfirmSwap}
         text={
           isAuthenticated ? (
@@ -147,7 +154,7 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
         }
       />
 
-      {/* FIXME: Check if we have other errors to display the same way and make it generic */}
+      {/* TODO: Check if we have other errors to display the same way and make it generic */}
       {hasQuoteError ? <ErrorMessage /> : null}
     </FormWrapper>
   )
