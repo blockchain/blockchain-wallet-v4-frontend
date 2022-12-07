@@ -145,28 +145,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case '/login': {
-            const state = store.getState()
-            const { platform } = state?.auth?.getProductAuthMetadata ?? { platform: 'WEB' }
-            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-            const email = state.profile.userData.getOrElse({})?.emailVerified
-              ? state.profile.userData.getOrElse({})?.email
-              : null
-            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-            analytics.push(AnalyticsKey.LOGIN_VIEWED, {
-              properties: {
-                device_origin: platform,
-                originalTimestamp: getOriginalTimestamp()
-              },
-              traits: {
-                email,
-                nabuId,
-                tier
-              }
-            })
-            break
-          }
           case '/settings/addresses/btc': {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id ?? null

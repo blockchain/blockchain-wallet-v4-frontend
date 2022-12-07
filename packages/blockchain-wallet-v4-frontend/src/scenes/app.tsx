@@ -67,6 +67,7 @@ const General = React.lazy(() => import('./Settings/General'))
 const Home = React.lazy(() => import('./Home'))
 const Earn = React.lazy(() => import('./Earn'))
 const EarnHistory = React.lazy(() => import('./EarnHistory'))
+const ActiveRewardsLearn = React.lazy(() => import('./ActiveRewardsLearn'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
@@ -80,6 +81,7 @@ const BLOCKCHAIN_TITLE = 'Blockchain.com'
 const App = ({
   apiUrl,
   history,
+  isActiveRewardsEnabled,
   isAuthenticated,
   isCoinViewV2Enabled,
   isDebitCardEnabled,
@@ -236,6 +238,12 @@ const App = ({
                             <WalletLayout path='/home' component={Home} />
                             <WalletLayout path='/earn' component={Earn} exact />
                             <WalletLayout path='/earn/history' component={EarnHistory} />
+                            {isActiveRewardsEnabled && (
+                              <WalletLayout
+                                path='/earn/active-rewards-learn'
+                                component={ActiveRewardsLearn}
+                              />
+                            )}
                             <WalletLayout path='/security-center' component={SecurityCenter} />
                             <WalletLayout path='/settings/addresses' component={Addresses} />
                             <WalletLayout path='/settings/general' component={General} />
@@ -270,6 +278,9 @@ const mapStateToProps = (state) => ({
   apiUrl: selectors.core.walletOptions.getDomains(state).getOrElse({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
+  isActiveRewardsEnabled: selectors.core.walletOptions
+    .getActiveRewardsEnabled(state)
+    .getOrElse(false) as boolean,
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
   isCoinViewV2Enabled: selectors.core.walletOptions

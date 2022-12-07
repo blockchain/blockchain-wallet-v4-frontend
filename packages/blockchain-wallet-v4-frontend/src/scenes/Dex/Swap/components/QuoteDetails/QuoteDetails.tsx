@@ -5,7 +5,6 @@ import BigNumber from 'bignumber.js'
 
 import { Exchange } from '@core'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { notReachable } from 'utils/notReachable'
 
 import {
   EditSlippageText,
@@ -17,22 +16,9 @@ import {
   ValueText
 } from './styles'
 
-type Slippage = { type: 'manual'; value: number } | { type: 'auto' }
-
-const SlippageText = ({ slippage }: { slippage: Slippage }) => {
-  switch (slippage.type) {
-    case 'auto':
-      return <FormattedMessage id='dex.slippage.labelAuto' defaultMessage='Auto' />
-    case 'manual':
-      return <>`${slippage.value * 100}%`</>
-    default:
-      return notReachable(slippage)
-  }
-}
-
 type Props = {
   handleSettingsClick: () => void
-  slippage: Slippage
+  slippage: number
   swapDetailsOpen: boolean
   walletCurrency: string
 }
@@ -55,9 +41,7 @@ export const QuoteDetails = ({
           <FormattedMessage id='copy.allowed_slippage' defaultMessage='Allowed Slippage' />
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
-          <ValueText>
-            <SlippageText slippage={slippage} />
-          </ValueText>
+          <ValueText>{slippage * 100}</ValueText>
           <EditSlippageText onClick={handleSettingsClick}>
             <FormattedMessage id='buttons.edit' defaultMessage='Edit' />
           </EditSlippageText>

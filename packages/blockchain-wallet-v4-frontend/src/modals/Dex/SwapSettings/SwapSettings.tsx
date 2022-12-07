@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import {
@@ -19,7 +19,8 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { SLIPPAGE_PRESETS } from './constants'
 import { CloseIcon, Section, SlippageButtons } from './styles'
-import { validators } from './utils'
+import { SlippageValue, ValidatorTypeEnum } from './types'
+import { useSlippageValueFromSwapForm, validateSlippage } from './utils'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
@@ -28,18 +29,18 @@ type Props = {
   total: number
 }
 
-type SlippageValue =
-  | { isCustom: false; value: number }
-  | { error?: React.ReactNode; isCustom: true; value: number }
-
 const DexSwapSettings = ({ position, total }: Props) => {
   const dispatch = useDispatch()
   const { formatMessage } = useIntl()
 
-  const [slippage, setSlippage] = useState<SlippageValue>({
-    isCustom: false,
-    value: 0.01
-  })
+  const currentSlippage = useSlippageValueFromSwapForm()
+  const [slippage, setSlippage] = useState<SlippageValue>(currentSlippage)
+
+  useEffect(() => {
+    if (slippage.isCustom && slippage.value) {
+      setSlippage(validateSlippage(`${slippage.value * 100}`))
+    }
+  }, [slippage])
 
   const onSaveSettings = () => {
     dispatch(actions.form.change(DEX_SWAP_FORM, 'slippage', slippage.value))
@@ -47,24 +48,7 @@ const DexSwapSettings = ({ position, total }: Props) => {
   }
 
   const onChangeCustomSlippage = (value: string) => {
-    const isNumber = validators.isNumber(value)
-    if (isNumber) {
-      setSlippage({
-        error: undefined,
-        isCustom: true,
-        value: parseFloat(value)
-      })
-    }
-  }
-
-  const onValidateCustomSlippage = (value: string) => {
-    const numericValue = validators.isNumber(value) ? parseFloat(value) : 0
-    const error = validators.minValue(numericValue) || validators.maxValue(numericValue)
-    setSlippage({
-      error,
-      isCustom: true,
-      value: numericValue
-    })
+    setSlippage(validateSlippage(value))
   }
 
   return (
@@ -115,18 +99,18 @@ const DexSwapSettings = ({ position, total }: Props) => {
           <Input
             // value={''} // TODO: Really no value prop for an INPUT field??? Fix constellation
             id='dexCoinSearch'
-            state={slippage.isCustom && slippage.error ? 'error' : 'default'}
+            defaultValue={slippage.isCustom ? slippage.value * 100 : ''}
+            state={slippage.isCustom && slippage.message ? slippage.messageType : 'default'}
             type='number' // TODO: Fix constellation input to actually accept only numbers
             placeholder={formatMessage({
               defaultMessage: 'Search Symbol or Address',
               id: 'dex.customSlippage.placeholder'
             })}
-            onBlur={(event) => onValidateCustomSlippage((event.target as HTMLInputElement).value)}
             onChange={(event) => onChangeCustomSlippage((event.target as HTMLInputElement).value)}
           />
-          {slippage.isCustom && slippage.error ? (
-            <Text variant='caption1' color={SemanticColors.error}>
-              {slippage.error}
+          {slippage.isCustom && slippage.messageType ? (
+            <Text variant='caption1' color={SemanticColors[slippage.messageType]}>
+              {slippage.message}
             </Text>
           ) : null}
         </Section>
@@ -135,8 +119,12 @@ const DexSwapSettings = ({ position, total }: Props) => {
             size='large'
             width='full'
             variant='primary'
-            onClick={onSaveSettings}
             text={<FormattedMessage id='buttons.save' defaultMessage='Save' />}
+            onClick={onSaveSettings}
+            disabled={
+              slippage.isCustom &&
+              (slippage.messageType === ValidatorTypeEnum.ERROR || !slippage.value)
+            }
           />
         </Section>
       </form>

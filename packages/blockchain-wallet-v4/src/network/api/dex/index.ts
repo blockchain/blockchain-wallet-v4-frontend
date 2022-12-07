@@ -1,35 +1,43 @@
-import { DexSwapQuoteRequest, DexSwapQuoteResponse } from './types'
+import { DexSwapQuoteQueryParams, DexSwapQuoteRequest, DexSwapQuoteResponse } from './types'
 
-export default ({ apiUrl, get, post }) => {
+const DEX_NABU_GATEWAY_PREFIX = '/nabu-gateway/dex'
+const DEX_GATEWAY_PREFIX = '/dex-gateway/v1'
+
+export default ({ apiUrl, authorizedPost, get, post }) => {
   const getDexChains = () =>
     get({
-      endPoint: `/dex-gateway/v1/chains`,
+      contentType: 'application/json',
+      endPoint: `/${DEX_GATEWAY_PREFIX}/chains`,
       url: apiUrl
     })
 
-  const getDexChainTopTokens = (chainId: number) =>
+  const getDexChainAllTokens = (chainId: number) =>
     post({
       contentType: 'application/json',
       data: {
         chainId,
-        queryBy: 'TOP'
+        queryBy: 'TOP' // FIXME: Change to ALL after checking how we have ETH added there
       },
-      endPoint: '/dex-gateway/v1/tokens',
+      endPoint: `/${DEX_GATEWAY_PREFIX}/tokens`,
       removeDefaultPostData: true,
       url: apiUrl
     })
 
-  const getDexSwapQuote = (quoteRequest: DexSwapQuoteRequest): DexSwapQuoteResponse =>
-    post({
+  const getDexSwapQuote = (
+    quoteRequest: DexSwapQuoteRequest,
+    queryParams: DexSwapQuoteQueryParams
+  ): DexSwapQuoteResponse =>
+    authorizedPost({
       contentType: 'application/json',
       data: quoteRequest,
-      endPoint: '/dex-gateway/v1/quote',
+      endPoint: `${DEX_NABU_GATEWAY_PREFIX}/quote`,
+      params: queryParams,
       removeDefaultPostData: true,
       url: apiUrl
     })
 
   return {
-    getDexChainTopTokens,
+    getDexChainAllTokens,
     getDexChains,
     getDexSwapQuote
   }

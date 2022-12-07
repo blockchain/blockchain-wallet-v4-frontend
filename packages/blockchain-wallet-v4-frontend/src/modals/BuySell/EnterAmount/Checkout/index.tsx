@@ -188,7 +188,6 @@ const Checkout = (props: Props) => {
 
     if (!data) {
       props.buySellActions.fetchSDDEligibility()
-      props.buySellActions.fetchCards(false)
       props.brokerageActions.fetchBankTransferAccounts()
       props.recurringBuyActions.fetchPaymentInfo()
     }

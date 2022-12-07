@@ -2,17 +2,18 @@ import { compose, includes, propOr } from 'ramda'
 import { WalletFormType } from 'redux-form'
 
 import { TIERS } from '../../modules/profile/model'
+import { StepsEnum } from './types'
 
 /* eslint-disable */
 // order is important do not change it
 export const STEPS = {
-  userDetails: 'userDetails' as const,
-  userAddress: 'userAddress' as const,
-  moreInfo: 'moreInfo' as const,
-  addExtraStep: 'addExtraStep' as const,
-  additionalInfo: 'additionalInfo' as const,
-  verify: 'verify' as const,
-  submitted: 'submitted' as const
+  userDetails: StepsEnum.userDetails,
+  userAddress: StepsEnum.userAddress,
+  moreInfo: StepsEnum.moreInfo,
+  addExtraStep: StepsEnum.addExtraStep,
+  additionalInfo: StepsEnum.additionalInfo,
+  verify: StepsEnum.verify,
+  submitted: StepsEnum.submitted
 }
 
 // order is important do not change it

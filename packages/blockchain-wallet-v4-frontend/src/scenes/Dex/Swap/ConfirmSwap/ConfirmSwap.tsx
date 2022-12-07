@@ -1,9 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '@blockchain-com/constellation'
 
-import { actions } from 'data'
+import { actions, model, selectors } from 'data'
 import type { DexSwapForm } from 'data/types'
 import { ModalName } from 'data/types'
 
@@ -17,14 +17,26 @@ import {
 } from '../components'
 import { Header } from './Header'
 
+const { DEX_SWAP_FORM } = model.components.dex
+
 type Props = {
-  formValues: DexSwapForm
   onClickBack: () => void
   walletCurrency: string
 }
 
-export const ConfirmSwap = ({ formValues, onClickBack, walletCurrency }: Props) => {
+export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
   const dispatch = useDispatch()
+
+  const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
+  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
+    formValues || {}
+
+  const baseTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
+  )
+  const counterTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
+  )
 
   const onViewSettings = () => {
     dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))
@@ -40,9 +52,9 @@ export const ConfirmSwap = ({ formValues, onClickBack, walletCurrency }: Props) 
         <SwapPair
           isQuoteLocked
           swapSide='BASE'
-          balance={0} // FIXME: Pass balance
-          coin={formValues.baseToken}
-          amount={formValues.baseTokenAmount || 0}
+          balance={baseTokenBalance}
+          coin={baseToken}
+          amount={baseTokenAmount || 0}
           walletCurrency={walletCurrency}
         />
 
@@ -51,9 +63,9 @@ export const ConfirmSwap = ({ formValues, onClickBack, walletCurrency }: Props) 
         <SwapPair
           isQuoteLocked
           swapSide='COUNTER'
-          balance={0} // FIXME: Pass balance
-          coin={formValues.counterToken}
-          amount={formValues.counterTokenAmount || 0}
+          balance={counterTokenBalance}
+          coin={counterToken}
+          amount={counterTokenAmount || 0}
           walletCurrency={walletCurrency}
         />
       </SwapPairWrapper>
@@ -68,7 +80,7 @@ export const ConfirmSwap = ({ formValues, onClickBack, walletCurrency }: Props) 
       <QuoteDetails
         swapDetailsOpen
         walletCurrency={walletCurrency}
-        slippage={{ type: 'auto' }} // FIXME: Pass slippage from settings form
+        slippage={slippage}
         handleSettingsClick={onViewSettings}
       />
 
@@ -76,7 +88,7 @@ export const ConfirmSwap = ({ formValues, onClickBack, walletCurrency }: Props) 
         size='large'
         width='full'
         variant='primary'
-        onClick={onConfirmSwap} // FIXME: Pass slippage from settings form
+        onClick={onConfirmSwap}
         text={<FormattedMessage id='copy.confirmSwap' defaultMessage='Confirm Swap' />}
       />
     </FormWrapper>

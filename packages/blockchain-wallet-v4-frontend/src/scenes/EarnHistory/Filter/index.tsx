@@ -1,12 +1,13 @@
 import React from 'react'
 
+import { useMedia } from 'services/styles'
+
 import { SuccessStateType } from '..'
 import CoinFilter from './CoinFilter'
 import DownloadTransactions from './DownloadTransactions'
 import { LeftContainer, MenuRow, RightContainer } from './Filter.model'
 import Tabs from './Tabs'
 import { TabsProps } from './Tabs/Tabs.types'
-import { useMedia } from 'services/styles'
 
 const Filter = ({
   earnTab,

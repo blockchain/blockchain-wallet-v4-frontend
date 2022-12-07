@@ -12,15 +12,14 @@ import { Onboarding } from './Onboarding'
 import { ConfirmSwap } from './Swap/ConfirmSwap'
 import { EnterSwapDetails } from './Swap/EnterSwapDetails'
 
-const { DEX_SWAP_FORM } = model.components.dex
+const { DEFAULT_SLIPPAGE, DEX_SWAP_FORM } = model.components.dex
 
 const DEX_INTRO_VIEWED_KEY = 'dexIntroViewed'
 
-// With additional own Props: InjectedFormProps<FormData, Props> & Props and reduxForm<FormData, Props>
 const Dex = (form: InjectedFormProps<DexSwapForm>) => {
   const dispatch = useDispatch()
 
-  // TODO: Add proper currency union type
+  // TODO: Add proper currency type from @core/exchange/currencies to selector
   const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
   const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const isAuthenticated = useSelector(selectors.auth.isAuthenticated)
@@ -74,11 +73,7 @@ const Dex = (form: InjectedFormProps<DexSwapForm>) => {
         case 'CONFIRM_SWAP':
           return (
             <PageWrapper>
-              <ConfirmSwap
-                formValues={swapFormValues}
-                walletCurrency={walletCurrency}
-                onClickBack={onGoBack}
-              />
+              <ConfirmSwap walletCurrency={walletCurrency} onClickBack={onGoBack} />
             </PageWrapper>
           )
 
@@ -95,5 +90,5 @@ export default reduxForm<DexSwapForm>({
   destroyOnUnmount: false,
   enableReinitialize: true,
   form: DEX_SWAP_FORM,
-  initialValues: { step: 'ENTER_DETAILS' }
+  initialValues: { slippage: DEFAULT_SLIPPAGE, step: 'ENTER_DETAILS' }
 })(Dex)

@@ -69,3 +69,6 @@ export type SupportedWalletCurrencyType = SupportedCoinType | SupportedFiatType
 
 // state
 export type WalletOptionsState = RemoteDataType<string, WalletOptionsType>
+export type WalletOptionsStateType = {
+  details: RemoteDataType<string, WalletOptionsType>
+}

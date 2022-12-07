@@ -21,6 +21,7 @@ import {
   FiatType,
   GooglePayInfoType,
   MobilePaymentType,
+  OrderConfirmAttributesType,
   OrderType,
   ProductTypes,
   SwapOrderType,
@@ -190,7 +191,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
+  const registerCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
     try {
       const { cvv, paymentMethodTokens } = payload
       const userDataR = selectors.modules.profile.getUserData(yield select())
@@ -216,6 +217,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // This is for the 0 dollar payment
       yield put(A.activateCard({ card, cvv }))
+
       yield take([A.activateCardSuccess.type, A.activateCardFailure.type])
     } catch (e) {
       // TODO: improve error message here, adding translations and more context
@@ -254,7 +256,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const activateBSCard = function* ({ payload }: ReturnType<typeof A.activateCard>) {
+  const activateCard = function* ({ payload }: ReturnType<typeof A.activateCard>) {
     try {
       const { card, cvv } = payload
 
@@ -266,7 +268,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const redirectUrl = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
 
-      const providerDetails = yield call(api.activateBSCard, {
+      const providerDetails = yield call(api.activateCard, {
         cardBeneficiaryId: card.id,
         cvv,
         redirectUrl
@@ -586,7 +588,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const checkOrderAuthUrl = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
-    if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
+    if (order.attributes || order.state === 'FAILED') {
       return order
     }
 
@@ -595,8 +597,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const orderConfirmCheck = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
-
-    if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
+    if (
+      order.state === 'FINISHED' ||
+      order.state === 'FAILED' ||
+      order.state === 'CANCELED' ||
+      order.attributes?.needCvv
+    ) {
       return order
     }
 
@@ -643,7 +649,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         walletHelper: 'https://wallet-helper.blockchain.com'
       } as WalletOptionsType['domains'])
 
-      let attributes
+      let attributes: OrderConfirmAttributesType | undefined
 
       const paymentSuccessLink = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
 
@@ -655,7 +661,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           everypay: {
             customerUrl: paymentSuccessLink
           },
-          redirectURL: paymentSuccessLink
+          isAsync: true,
+          redirectUrl: paymentSuccessLink
         }
       } else if (account?.partner === BankPartners.YAPILY) {
         attributes = { callback: `${domains.comRoot}/brokerage-link-success` }
@@ -746,7 +753,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                   state: address.administrativeArea
                 }
               : null,
-            redirectURL: paymentSuccessLink
+            redirectUrl: paymentSuccessLink
           }
         }
 
@@ -864,7 +871,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                   state: address.administrativeArea
                 }
               : null,
-            redirectURL: paymentSuccessLink
+            redirectUrl: paymentSuccessLink
           }
         }
       }
@@ -902,8 +909,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.confirmOrderSuccess(order))
 
         yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT' }))
-        // Now we need to poll for the order success
 
+        // Now we need to poll for the order success
         yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       }
 
@@ -911,7 +918,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(actions.components.recurringBuy.fetchRegisteredList())
 
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
-
       if (confirmedOrder.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.confirmOrderSuccess(confirmedOrder))
 
@@ -920,7 +926,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       } else if (
         confirmedOrder.attributes?.everypay?.paymentState === 'SETTLED' ||
-        confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED'
+        confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED' ||
+        (attributes && 'isAsync' in attributes)
       ) {
         // Have to check if the state is "FINISHED", otherwise poll for 1 minute until it is
         if (confirmedOrder.state === 'FINISHED') {
@@ -1002,13 +1009,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
         order
       })
-      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
+      yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
+
       yield put(A.fetchOrders())
-      yield put(A.confirmOrderSuccess(confirmedOrder))
-
-      yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
-
-      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     } catch (e) {
       if (isNabuError(e)) {
         yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: e }))
@@ -1047,7 +1051,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const createBSCard = function* ({ payload }: ReturnType<typeof A.createCard>) {
+  const createCard = function* ({ payload }: ReturnType<typeof A.createCard>) {
     try {
       yield put(A.createCardLoading())
       const currency = S.getFiatCurrency(yield select())
@@ -1063,7 +1067,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!address) throw new Error(BS_ERROR.NO_ADDRESS)
 
-      const card = yield call(api.createBSCard, {
+      const card = yield call(api.createCard, {
         address,
         currency,
         email: userData.email,
@@ -1807,7 +1811,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(A.fetchBalance({ skipLoading }))
   }
 
-  const pollBSCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
+  const pollCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
     let retryAttempts = 0
     const maxRetryAttempts = 10
 
@@ -1823,6 +1827,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         retryAttempts += 1
         step = S.getStep(yield select())
         if (
+          step !== 'ADD_CARD_VGS' &&
           step !== '3DS_HANDLER_EVERYPAY' &&
           step !== '3DS_HANDLER_STRIPE' &&
           step !== '3DS_HANDLER_CHECKOUTDOTCOM'
@@ -1923,8 +1928,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(pollBSBalances)
       }
     }
+    const useVgsProvider = selectors.core.walletOptions
+      .getFeatureFlagUseVgsProvider(yield select())
+      .getOrElse(false) as boolean
 
-    if (action.payload.step === 'DETERMINE_CARD_PROVIDER') {
+    // If VGS feature flag is on we should go the VGS flow, otherwise go down our
+    // normal checkout.com card add flow
+    if (action.payload.step === 'DETERMINE_CARD_PROVIDER' && !useVgsProvider) {
       const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers)
 
       const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
@@ -1946,6 +1956,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           checkoutDotComAccountCodes,
           checkoutDotComApiKey,
           step: 'ADD_CARD_CHECKOUTDOTCOM'
+        })
+      )
+    } else if (action.payload.step === 'DETERMINE_CARD_PROVIDER' && useVgsProvider) {
+      const vgsDetails: ReturnType<typeof api.createAddCardToken> = yield call(
+        api.createAddCardToken
+      )
+      yield put(
+        A.setStep({
+          cardTokenId: vgsDetails.card_token_id,
+          step: 'ADD_CARD_VGS',
+          vgsVaultId: vgsDetails.vgs_vault_id
         })
       )
     }
@@ -1996,6 +2017,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
+    // FIXME: This call is causing the modal to be very slow, abstract this to somewhere other than here
     yield put(actions.custodial.fetchProductEligibilityForUser())
     yield take([
       custodialActions.fetchProductEligibilityForUserSuccess.type,
@@ -2023,6 +2045,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
+    // FIXME: This call is causing the modal to be very slow, abstract this to somewhere other than here
     const completedKYC = yield call(getExtraKYCCompletedStatus, {
       api,
       context: ExtraKYCContext.TRADING,
@@ -2217,15 +2240,25 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const updateCardCvv = function* ({ payload }: ReturnType<typeof A.updateCardCvv>) {
+    try {
+      yield put(A.cvvStatusLoading())
+      yield call(api.updateCardCvv, payload)
+      yield put(A.cvvStatusSuccess())
+    } catch (e) {
+      yield put(A.cvvStatusFailure())
+    }
+  }
+
   return {
-    activateBSCard,
+    activateCard,
     cancelBSOrder,
     checkCardSuccessRate,
     confirmBSFundsOrder,
     confirmOrder,
     confirmOrderPoll,
-    createBSCard,
     createBSOrder,
+    createCard,
     deleteBSCard,
     fetchAccumulatedTrades,
     fetchBSBalances,
@@ -2252,11 +2285,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     initializeBillingAddress,
     initializeCheckout,
     pollBSBalances,
-    pollBSCard,
     pollBSOrder,
-    registerBSCard,
+    pollCard,
+    registerCard,
     setStepChange,
     showModal,
-    switchFix
+    switchFix,
+    updateCardCvv
   }
 }

@@ -9,9 +9,11 @@ import { useRemote } from 'hooks'
 import { useMedia } from 'services/styles'
 
 import Loading from '../Earn.loading.template'
+import EmptyState from './EmptyState'
 import MobileRow from './MobileRow'
 import { getData } from './selectors'
 import SortableTable from './SortableTable'
+import { Wrapper } from './Table.model'
 
 const TableContainer = (props: Props) => {
   const { analyticsActions, earnActions } = props
@@ -53,23 +55,28 @@ const TableContainer = (props: Props) => {
     }
   }
 
-  return isTabletL ? (
-    <>
-      {sortedInstruments.map(({ coin, product }) => {
-        return window.coins[coin] ? (
-          <MobileRow
-            {...data}
-            {...props}
-            coin={coin}
-            handleClick={handleClick}
-            product={product}
-            key={coin}
-          />
-        ) : null
-      })}
-    </>
-  ) : (
-    <SortableTable {...data} {...props} handleClick={handleClick} />
+  return (
+    <Wrapper>
+      {isTabletL ? (
+        <>
+          {sortedInstruments.map(({ coin, product }) => {
+            return window.coins[coin] ? (
+              <MobileRow
+                {...data}
+                {...props}
+                coin={coin}
+                handleClick={handleClick}
+                product={product}
+                key={coin}
+              />
+            ) : null
+          })}
+        </>
+      ) : (
+        <SortableTable {...data} {...props} handleClick={handleClick} />
+      )}
+      {sortedInstruments.length === 0 && <EmptyState />}
+    </Wrapper>
   )
 }
 

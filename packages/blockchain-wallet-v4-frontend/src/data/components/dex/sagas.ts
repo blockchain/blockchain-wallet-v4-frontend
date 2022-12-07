@@ -1,9 +1,10 @@
 import { call, put, select } from 'redux-saga/effects'
 
-import { Exchange } from '@core'
+import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
 import { actions, model, selectors } from 'data'
 
+import { SwapAccountType } from '../swap/types'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { DexChain, DexChainList, DexChainTokenList, DexSwapForm } from './types'
@@ -21,25 +22,28 @@ export default ({ api }: { api: APIType }) => {
         (chain) => chain.nativeCurrency.name === 'Ethereum'
       ) as DexChain
       yield put(A.setCurrentChain(ethChain))
-      yield put(A.fetchChainTopTokens())
+      yield put(A.fetchChainAllTokens())
     } catch (e) {
       yield put(A.fetchChainsFailure(e.toString()))
     }
   }
 
-  const fetchChainTopTokens = function* () {
+  const fetchChainAllTokens = function* () {
     try {
-      yield put(A.fetchChainTopTokensLoading())
-      const currentChain = (yield select(S.getCurrentChain)).getOrFail('unknown chain')
+      yield put(A.fetchChainAllTokensLoading())
+      const currentChain = selectors.components.dex
+        .getCurrentChain(yield select())
+        .getOrFail('Unable to get current chain')
+
       const tokenList: DexChainTokenList = yield call(
-        api.getDexChainTopTokens,
+        api.getDexChainAllTokens,
         currentChain.chainId
       )
       // append the native currency of chain to full token list
       const fullTokenList = [currentChain.nativeCurrency].concat(tokenList).filter(Boolean)
-      yield put(A.fetchChainTopTokensSuccess(fullTokenList))
+      yield put(A.fetchChainAllTokensSuccess(fullTokenList))
     } catch (e) {
-      yield put(A.fetchChainTopTokensFailure(e.toString()))
+      yield put(A.fetchChainAllTokensFailure(e.toString()))
     }
   }
 
@@ -61,41 +65,76 @@ export default ({ api }: { api: APIType }) => {
       try {
         yield put(A.fetchSwapQuoteLoading())
 
-        // get chain config and user settings
-        const currentChain: DexChain = (yield select(
-          selectors.components.dex.getCurrentChain
-        )).getOrFail()
-        const baseTokenInfo = (yield select(
-          selectors.components.dex.getChainTokenInfo,
-          baseToken
-        )).getOrFail()
+        const currentChain = selectors.components.dex
+          .getCurrentChain(yield select())
+          .getOrFail('Unable to get current chain')
+
+        const baseTokenInfo = selectors.components.dex
+          .getChainTokenInfo(yield select(), baseToken)
+          .getOrFail('Unable to get base token info')
+
+        if (!baseTokenInfo) {
+          return Remote.Failure('No base token')
+        }
+
         const baseAmountGwei = Exchange.convertCoinToCoin({
           baseToStandard: false,
           coin: currentChain.nativeCurrency.symbol,
           value: baseTokenAmount || 0
         })
-        const counterTokenInfo = (yield select(
-          selectors.components.dex.getChainTokenInfo,
-          counterToken
-        )).getOrFail()
 
-        quoteResponse = yield call(api.getDexSwapQuote, {
-          fromCurrency: {
-            address: baseTokenInfo.address,
-            amount: baseAmountGwei,
-            chainId: currentChain.chainId,
-            symbol: baseToken
+        const counterTokenInfo = selectors.components.dex
+          .getChainTokenInfo(yield select(), counterToken)
+          .getOrFail('Unable to get counter token info')
+
+        if (!counterTokenInfo) {
+          return Remote.Failure('No counter token')
+        }
+
+        const nonCustodialCoinAccounts: Record<string, SwapAccountType[]> = yield select(() =>
+          selectors.coins.getCoinAccounts(state, {
+            coins: [baseToken],
+            nonCustodialAccounts: true
+          })
+        )
+
+        const nonCustodialAddress = nonCustodialCoinAccounts[baseToken][0].address
+        if (!nonCustodialAddress) {
+          return Remote.Failure('No user wallet address')
+        }
+
+        quoteResponse = yield call(
+          api.getDexSwapQuote,
+          {
+            fromCurrency: {
+              address: baseTokenInfo.address,
+              amount: baseAmountGwei,
+              chainId: currentChain.chainId,
+              symbol: baseToken
+            },
+            params: {
+              slippage: `${slippage}`
+            },
+            // // User always has a private wallet setup automatically on sign up but should go through a security phrase
+            // // in order to receive funds. If he didn't do it he has 0 balance and just nothing to swap. We don't need
+            // // any additional checks here to make sure user can use a wallet
+            // // TODO: Pass selected wallet not the first one when we have more than 1 wallet
+            takerAddress: `${nonCustodialAddress}`,
+
+            toCurrency: {
+              address: counterTokenInfo.address,
+              chainId: currentChain.chainId,
+              symbol: counterToken
+            },
+
+            // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
+            venue: 'ZEROX'
           },
-          params: {
-            slippage: slippage || null
-          },
-          toCurrency: {
-            address: counterTokenInfo.address,
-            chainId: currentChain.chainId,
-            symbol: counterToken
-          },
-          venue: 'ZEROX'
-        })
+          {
+            ccy: 'ETH',
+            product: 'DEX'
+          }
+        )
 
         // check for error
         if (quoteResponse?.code) {
@@ -173,7 +212,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
-    fetchChainTopTokens,
+    fetchChainAllTokens,
     fetchChains,
     fetchSwapQuote
   }
