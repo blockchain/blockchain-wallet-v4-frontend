@@ -19,6 +19,7 @@ export const Wrapper = styled.div`
   padding: 24px;
   border-radius: 8px;
   margin-top: 12px;
+  margin-bottom: 24px;
 
   a {
     padding: 0 !important;
