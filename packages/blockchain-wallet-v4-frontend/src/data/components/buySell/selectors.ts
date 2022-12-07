@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
+import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/SellEnterAmount/Checkout/validation'
 import memoize from 'fast-memoize'
 import { head, isEmpty, isNil, lift } from 'ramda'
 import { createSelector } from 'reselect'

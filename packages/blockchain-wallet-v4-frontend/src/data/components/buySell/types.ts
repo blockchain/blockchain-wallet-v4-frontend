@@ -221,8 +221,6 @@ export type InitializeCheckout = {
   orderType: BSOrderActionType
   pair?: BSPairType
   pairs: Array<BSPairType>
-  paymentMethodId?: BSPaymentMethodType['id']
-  paymentMethodType: BSPaymentTypes
   period: RecurringBuyPeriods
 }
 
