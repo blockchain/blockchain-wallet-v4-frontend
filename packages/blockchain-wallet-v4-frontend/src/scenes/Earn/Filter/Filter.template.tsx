@@ -10,7 +10,7 @@ import {
   Tabs
 } from '@blockchain-com/constellation'
 
-import { LeftContainer, RightContainer, TabRow, TextContainer } from './Filter.model'
+import { LeftContainer, RightContainer, TabRow, tabs } from './Filter.model'
 import { EarnFilterPropsType } from './Filter.types'
 
 const EarnFilter = ({
@@ -27,43 +27,7 @@ const EarnFilter = ({
         defaultActiveTab={earnTab}
         onTabChange={handleTabClick}
         size='large'
-        tabs={[
-          {
-            key: 'All',
-            titleContent: (
-              <TextContainer>
-                <FormattedMessage
-                  id='scenes.earn.filter.all-rewards'
-                  defaultMessage='All Rewards'
-                />
-              </TextContainer>
-            )
-          },
-          {
-            key: 'Passive',
-            titleContent: (
-              <TextContainer>
-                <FormattedMessage id='copy.Passive' defaultMessage='Passive' />
-              </TextContainer>
-            )
-          },
-          {
-            key: 'Staking',
-            titleContent: (
-              <TextContainer>
-                <FormattedMessage id='copy.staking' defaultMessage='Staking' />
-              </TextContainer>
-            )
-          },
-          {
-            key: 'Active',
-            titleContent: (
-              <TextContainer>
-                <FormattedMessage id='copy.active' defaultMessage='Active' />
-              </TextContainer>
-            )
-          }
-        ]}
+        tabs={tabs}
         variant='default'
       />
       <Checkbox

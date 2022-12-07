@@ -14,9 +14,9 @@ const EarnFilterContainer = ({
   handleTabClick,
   showAvailableAssets
 }: EarnFilterPropsType) => {
-  const isMobile = useMedia('mobile')
+  const isTabletL = useMedia('tabletL')
 
-  return isMobile ? (
+  return isTabletL ? (
     <MobileFilter
       earnTab={earnTab}
       handleAssetClick={handleAssetClick}
