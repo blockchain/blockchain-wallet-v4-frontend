@@ -1,6 +1,7 @@
 import { prop } from 'ramda'
 
 import { RemoteDataType } from '@core/types'
+import { RootState } from 'data/rootReducer'
 
 import { settingsPath } from '../paths'
 import { InvitationsType } from './types'
@@ -32,3 +33,13 @@ export const getNotificationsType = (state) => getSettings(state).map(prop('noti
 export const getInvitations = (state): RemoteDataType<string, InvitationsType> =>
   getSettings(state).map(prop('invited'))
 export const getLastMnemonicBackup = (state) => getSettings(state).map(prop('last_mnemonic_backup'))
+
+export const getAuthTypeValue = (state: RootState) => {
+  const authType = getAuthType(state)
+  if (authType && authType > 0) {
+    if (authType === 1) return 'YUBIKEY'
+    if (authType === 4 || authType === 5) return 'SMS'
+    return 'OTP_CODE'
+  }
+  return null
+}

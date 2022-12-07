@@ -16,6 +16,7 @@ export const getDexTokensList = createDeepEqualSelector(
           .getOrElse(0)
 
         return {
+          address: token.address,
           balance,
           ...coinfig
         }

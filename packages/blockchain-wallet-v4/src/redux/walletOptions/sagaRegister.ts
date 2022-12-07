@@ -1,9 +1,9 @@
 import { put } from 'redux-saga/effects'
 
-import * as A from './actions'
+import { actions } from './slice'
 
 export default ({ options }) => {
   return function* coreWalletOptionsSaga() {
-    yield put(A.fetchOptionsSuccess(options))
+    yield put(actions.fetchOptionsSuccess(options))
   }
 }

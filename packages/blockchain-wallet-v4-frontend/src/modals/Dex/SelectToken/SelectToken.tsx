@@ -6,6 +6,7 @@ import {
   IconCloseCircleV2,
   IconSearch,
   Input,
+  Padding,
   PaletteColors,
   SemanticColors,
   Text
@@ -21,6 +22,7 @@ import { DexSwapForm, DexSwapSide, DexSwapSideFields, ModalName } from 'data/typ
 import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
+import { ViewEtherscan } from './components'
 import { getDexTokensList } from './SelectToken.selectors'
 import {
   CloseIcon,
@@ -124,9 +126,13 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
                         <Text color={SemanticColors.body} variant='body2'>
                           {token.name}
                         </Text>
-                        <Text color={SemanticColors.body} variant='paragraph1'>
-                          {token.displaySymbol}
-                        </Text>
+                        <Flex alignItems='center'>
+                          <Text color={SemanticColors.muted} variant='paragraph1'>
+                            {token.displaySymbol}
+                          </Text>
+                          <Padding left={0.5} />
+                          <ViewEtherscan tokenAddress={token.address} />
+                        </Flex>
                       </Flex>
                       <TokenBalanceColumn>
                         <FiatDisplay
