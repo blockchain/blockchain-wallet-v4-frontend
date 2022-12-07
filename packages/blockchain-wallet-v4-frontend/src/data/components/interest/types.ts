@@ -91,11 +91,13 @@ export type ErrorStringType = { error: string }
 
 export type InterestLimits = { coin: CoinType; currency: FiatType }
 
-export type EarnTabsType = 'All' | 'Staking' | 'Rewards'
+export type EarnProductsType = 'Staking' | 'Passive' | 'Active'
+
+export type EarnTabsType = 'All' | EarnProductsType
 
 export type EarnInstrumentsType = Array<{
   coin: CoinType
-  product: 'Staking' | 'Rewards'
+  product: EarnProductsType
   rate: RatesType
 }>
 
@@ -105,7 +107,7 @@ export type TransferMinMaxAmountType = {
 }
 
 export type EarnTransactionType = TransactionType & {
-  product: 'Staking' | 'Rewards'
+  product: EarnProductsType
 }
 
 export type PendingTransactionType = {

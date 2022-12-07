@@ -1,14 +1,16 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { CoinType } from '@core/types'
-import { Icon, Text, TooltipHost } from 'blockchain-info-components'
+import { Icon, TooltipHost } from 'blockchain-info-components'
 import { RoundedBadge } from 'components/Badge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { EarnProductsType } from 'data/types'
 
 import { Props as ParentProps, SuccessStateType } from '..'
-import { RewardsTextContainer, StakingTextContainer, Tag } from '../Table.model'
+import Tag from '../Tag'
 import { AmountContainer, CoinContainer, RightContainer, Row, Wrapper } from './MobileRow.model'
 
 const MobileRow = ({
@@ -33,8 +35,8 @@ const MobileRow = ({
   const { coinfig } = window.coins[coin] || {}
   const { displaySymbol, name: displayName } = coinfig
 
-  const isInterestCoinEligible = interestEligible[coin] && interestEligible[coin]?.eligible
-  const isStakingCoinEligible = stakingEligible[coin] && stakingEligible[coin]?.eligible
+  const isInterestCoinEligible = interestEligible[coin]?.eligible
+  const isStakingCoinEligible = stakingEligible[coin]?.eligible
   const isCoinEligible = isStaking ? !isStakingCoinEligible : !isInterestCoinEligible
   return (
     <Wrapper
@@ -45,7 +47,7 @@ const MobileRow = ({
       <RightContainer>
         <CoinContainer>
           <Row>
-            <Text color='grey900' size='16px' weight={600}>
+            <Text color={SemanticColors.title} variant='paragraph1'>
               {displayName}
             </Text>
             {isStaking && (
@@ -56,15 +58,17 @@ const MobileRow = ({
           </Row>
           <Row>
             {hasAccountBalance ? (
-              <Tag>
-                <FormattedMessage
-                  defaultMessage='Earning {earnRate}%'
-                  id='scene.earn.earnrate'
-                  values={{ earnRate: interestRates[coin] }}
-                />
+              <Tag backgroundColor='background-green'>
+                <Text color={SemanticColors.success} variant='caption2'>
+                  <FormattedMessage
+                    defaultMessage='Earning {earnRate}%'
+                    id='scene.earn.earnrate'
+                    values={{ earnRate: interestRates[coin] }}
+                  />
+                </Text>
               </Tag>
             ) : (
-              <Text color='grey700' size='14px' weight={500}>
+              <Text color={SemanticColors.body} variant='caption1'>
                 <FormattedMessage
                   defaultMessage='Earn {interestRate}%'
                   id='scenes.interest.Table.mobilerow.earn'
@@ -74,23 +78,13 @@ const MobileRow = ({
                 />
               </Text>
             )}
-            {isStaking ? (
-              <TooltipHost id='Table.staking.tooltip'>
-                <StakingTextContainer>
-                  <Text color='grey900' size='12px' weight={600}>
-                    {product}
-                  </Text>
-                </StakingTextContainer>
-              </TooltipHost>
-            ) : (
-              <TooltipHost id='Table.rewards.tooltip'>
-                <RewardsTextContainer>
-                  <Text color='grey600' size='12px' weight={600}>
-                    {product}
-                  </Text>
-                </RewardsTextContainer>
-              </TooltipHost>
-            )}
+            <TooltipHost id={`Table.${product.toLowerCase()}.tooltip`}>
+              <Tag backgroundColor='background' borderColor='background-light'>
+                <Text color={SemanticColors.body} variant='caption2'>
+                  {product}
+                </Text>
+              </Tag>
+            </TooltipHost>
           </Row>
         </CoinContainer>
         <AmountContainer>
@@ -124,7 +118,7 @@ const MobileRow = ({
 type OwnPropsType = {
   coin: CoinType
   handleClick: (coin: CoinType, isStaking: boolean) => void
-  product: 'Staking' | 'Rewards'
+  product: EarnProductsType
 }
 
 type Props = ParentProps & SuccessStateType & OwnPropsType

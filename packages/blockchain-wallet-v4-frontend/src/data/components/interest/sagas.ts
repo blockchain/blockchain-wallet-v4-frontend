@@ -159,7 +159,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }))
       const rewardsInstruments: EarnInstrumentsType = rewardsCoins.map((coin) => ({
         coin,
-        product: 'Rewards',
+        product: 'Passive',
         rate: allRates[`${coin}-${walletCurrency}`]
       }))
 
@@ -284,7 +284,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let rewardsResponse: EarnTransactionResponseType = { items: [], next: null }
       let stakingResponse: EarnTransactionResponseType = { items: [], next: null }
 
-      if (rewardsNextPageUrl !== '' && (earnTab === 'All' || earnTab === 'Rewards')) {
+      if (rewardsNextPageUrl !== '' && (earnTab === 'All' || earnTab === 'Passive')) {
         rewardsResponse = yield call(api.getEarnTransactions, {
           currency: coin,
           nextPageUrl: rewardsNextPageUrl,
@@ -309,7 +309,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       const transactions: Array<EarnTransactionType> = [
-        ...mapProductToItems(rewardsResponse.items, 'Rewards'),
+        ...mapProductToItems(rewardsResponse.items, 'Passive'),
         ...mapProductToItems(stakingResponse.items, 'Staking')
       ]
 
@@ -337,7 +337,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       d.amount?.symbol,
       d.amount?.value,
       d.txHash,
-      'Rewards'
+      'Passive'
     ]
     const formatStakingTxData = (d) => [
       d.insertedAt,

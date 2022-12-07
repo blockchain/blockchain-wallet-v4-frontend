@@ -16,18 +16,15 @@ const Tab = ({ earnTab, handleTabClick }: TabsProps) => (
         key: 'All',
         titleContent: (
           <TextContainer>
-            <FormattedMessage
-              id='scenes.earnhistory.tabs.allproducts'
-              defaultMessage='All Products'
-            />
+            <FormattedMessage id='scenes.earn.filter.all-rewards' defaultMessage='All Rewards' />
           </TextContainer>
         )
       },
       {
-        key: 'Rewards',
+        key: 'Passive',
         titleContent: (
           <TextContainer>
-            <FormattedMessage id='copy.rewards' defaultMessage='Rewards' />
+            <FormattedMessage id='copy.Passive' defaultMessage='Passive' />
           </TextContainer>
         )
       },
@@ -36,6 +33,14 @@ const Tab = ({ earnTab, handleTabClick }: TabsProps) => (
         titleContent: (
           <TextContainer>
             <FormattedMessage id='copy.staking' defaultMessage='Staking' />
+          </TextContainer>
+        )
+      },
+      {
+        key: 'Active',
+        titleContent: (
+          <TextContainer>
+            <FormattedMessage id='copy.active' defaultMessage='Active' />
           </TextContainer>
         )
       }

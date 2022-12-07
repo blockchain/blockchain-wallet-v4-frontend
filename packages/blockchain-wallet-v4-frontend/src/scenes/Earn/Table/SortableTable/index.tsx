@@ -4,6 +4,8 @@ import {
   ButtonCell,
   ButtonCellProps,
   Row,
+  SemanticColors,
+  Text,
   TextCell,
   TextCellProps
 } from '@blockchain-com/constellation'
@@ -17,14 +19,14 @@ import {
 
 import { Exchange } from '@core'
 import { CoinType } from '@core/types'
-import { Icon, Text, TooltipHost } from 'blockchain-info-components'
+import { Icon } from 'blockchain-info-components'
 import { RoundedBadge } from 'components/Badge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as ParentProps, SuccessStateType } from '..'
-import { RewardsTextContainer, StakingTextContainer, Tag } from '../Table.model'
-import { sortTextCells, TableContainer } from './SortableTable.model'
+import Tag from '../Tag'
+import { ButtonContainer, sortTextCells, TableContainer } from './SortableTable.model'
 
 const SortableTable = ({
   handleClick,
@@ -151,33 +153,74 @@ const SortableTable = ({
       : interestAccountBalance && interestAccountBalance[coin]
     const accountBalanceBase = account ? account.balance : 0
     const hasAccountBalance = accountBalanceBase > 0
-    const isInterestCoinEligible = interestEligible[coin] && interestEligible[coin]?.eligible
-    const isStakingCoinEligible = stakingEligible[coin] && stakingEligible[coin]?.eligible
+    const isInterestCoinEligible = interestEligible[coin]?.eligible
+    const isStakingCoinEligible = stakingEligible[coin]?.eligible
+    const isCoinEligible = isStaking ? isStakingCoinEligible : isInterestCoinEligible
     const earnRate = isStaking ? stakingRates[coin].rate : interestRates[coin]
 
-    const primaryButton = isStaking
+    const balanceText: TextCellProps = hasAccountBalance
       ? {
-          disabled: !isGoldTier || (!hasAccountBalance && !isStakingCoinEligible),
-          onClick: () => handleClick(coin, isStaking),
-          text: hasAccountBalance ? (
-            <FormattedMessage id='copy.manage' defaultMessage='Manage' />
-          ) : (
-            <FormattedMessage id='copy.stake' defaultMessage='Stake' />
+          subtext: (
+            <CoinDisplay
+              coin={coin}
+              size='14px'
+              color='grey700'
+              cursor='inherit'
+              weight={500}
+              data-e2e={`${displaySymbol}Balance`}
+            >
+              {accountBalanceBase}
+            </CoinDisplay>
           ),
-          variant: hasAccountBalance ? 'minimal' : 'primary',
-          width: 'auto'
+          text: (
+            <FiatDisplay
+              color='grey900'
+              coin={coin}
+              currency={walletCurrency}
+              loadingHeight='24px'
+              size='14px'
+              style={{ lineHeight: '21px' }}
+              weight={500}
+            >
+              {accountBalanceBase}
+            </FiatDisplay>
+          )
         }
       : {
-          disabled: !isGoldTier || (!hasAccountBalance && !isInterestCoinEligible),
-          onClick: () => handleClick(coin, isStaking),
-          text: hasAccountBalance ? (
-            <FormattedMessage id='copy.manage' defaultMessage='Manage' />
-          ) : (
-            <FormattedMessage id='copy.add' defaultMessage='Add' />
-          ),
-          variant: hasAccountBalance ? 'minimal' : 'primary',
-          width: 'auto'
+          text: (
+            <Tag backgroundColor='background-light'>
+              <Text color={SemanticColors.title} variant='caption2'>
+                <FormattedMessage
+                  defaultMessage='Start earning'
+                  id='scenes.earn.table.start-earning'
+                />
+              </Text>
+            </Tag>
+          )
         }
+
+    const primaryButton = {
+      disabled: !isGoldTier || (!hasAccountBalance && !isCoinEligible),
+      onClick: () => handleClick(coin, isStaking),
+      text: (
+        <ButtonContainer>
+          {hasAccountBalance ? (
+            <Text color={SemanticColors.primary} variant='paragraph1'>
+              <FormattedMessage id='copy.manage' defaultMessage='Manage' />
+            </Text>
+          ) : (
+            <Text color={SemanticColors.background} variant='paragraph1'>
+              <FormattedMessage
+                id='scenes.earn.table.sortable.button.get-started'
+                defaultMessage='Get started'
+              />
+            </Text>
+          )}
+        </ButtonContainer>
+      ),
+      variant: hasAccountBalance ? 'minimal' : 'primary',
+      width: 'content'
+    }
 
     return {
       actions: {
@@ -187,7 +230,7 @@ const SortableTable = ({
         icon: <Icon name={coin} color={coin} size='32px' />,
         iconPosition: 'left',
         subtext: (
-          <Text color='grey700' size='14px' weight={500}>
+          <Text color={SemanticColors.body} variant='paragraph1'>
             {displaySymbol}
           </Text>
         ),
@@ -198,38 +241,14 @@ const SortableTable = ({
         ) : undefined,
         tagPosition: isStaking ? 'right' : undefined,
         text: (
-          <Text color='grey900' size='14px' weight={500}>
+          <Text color={SemanticColors.title} variant='paragraph1'>
             {displayName}
           </Text>
         ),
         value: displayName
       } as TextCellProps,
       balance: {
-        subtext: (
-          <CoinDisplay
-            coin={coin}
-            size='14px'
-            color='grey700'
-            cursor='inherit'
-            weight={500}
-            data-e2e={`${displaySymbol}Balance`}
-          >
-            {accountBalanceBase}
-          </CoinDisplay>
-        ),
-        text: (
-          <FiatDisplay
-            color='grey900'
-            coin={coin}
-            currency={walletCurrency}
-            loadingHeight='24px'
-            size='14px'
-            style={{ lineHeight: '21px' }}
-            weight={500}
-          >
-            {accountBalanceBase}
-          </FiatDisplay>
-        ),
+        ...balanceText,
         value: Number(
           Exchange.convertCoinToFiat({
             coin,
@@ -241,35 +260,35 @@ const SortableTable = ({
       } as TextCellProps,
       rates: {
         text: hasAccountBalance ? (
-          <Tag>
-            <FormattedMessage
-              defaultMessage='Earning {earnRate}%'
-              id='scene.earn.earnrate'
-              values={{ earnRate }}
-            />
+          <Tag backgroundColor='background-green'>
+            <Text color={SemanticColors.success} variant='caption2'>
+              <FormattedMessage
+                defaultMessage='Earning {earnRate}%'
+                id='scene.earn.earnrate'
+                values={{ earnRate }}
+              />
+            </Text>
           </Tag>
         ) : (
-          `${earnRate}%`
+          <Text color={SemanticColors.title} variant='caption1'>
+            {`${earnRate}%`}
+          </Text>
         ),
         value: earnRate
       } as TextCellProps,
       type: {
-        text: isStaking ? (
-          <TooltipHost id='earntable.staking.tooltip'>
-            <StakingTextContainer>
-              <Text color='grey900' size='12px' weight={600}>
-                {product}
-              </Text>
-            </StakingTextContainer>
-          </TooltipHost>
-        ) : (
-          <TooltipHost id='earntable.rewards.tooltip'>
-            <RewardsTextContainer>
-              <Text color='grey600' size='12px' weight={600}>
-                {product}
-              </Text>
-            </RewardsTextContainer>
-          </TooltipHost>
+        text: (
+          <Tag backgroundColor='background' borderColor='background-light'>
+            <Text color={SemanticColors.body} variant='caption2'>
+              <FormattedMessage
+                defaultMessage='{product} Rewards'
+                id='scenes.earn.table.type'
+                values={{
+                  product
+                }}
+              />
+            </Text>
+          </Tag>
         ),
         value: product
       } as TextCellProps

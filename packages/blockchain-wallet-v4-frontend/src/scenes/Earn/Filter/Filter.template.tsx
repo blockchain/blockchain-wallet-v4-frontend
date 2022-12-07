@@ -32,15 +32,18 @@ const EarnFilter = ({
             key: 'All',
             titleContent: (
               <TextContainer>
-                <FormattedMessage id='copy.all' defaultMessage='All' />
+                <FormattedMessage
+                  id='scenes.earn.filter.all-rewards'
+                  defaultMessage='All Rewards'
+                />
               </TextContainer>
             )
           },
           {
-            key: 'Rewards',
+            key: 'Passive',
             titleContent: (
               <TextContainer>
-                <FormattedMessage id='copy.rewards' defaultMessage='Rewards' />
+                <FormattedMessage id='copy.Passive' defaultMessage='Passive' />
               </TextContainer>
             )
           },
@@ -49,6 +52,14 @@ const EarnFilter = ({
             titleContent: (
               <TextContainer>
                 <FormattedMessage id='copy.staking' defaultMessage='Staking' />
+              </TextContainer>
+            )
+          },
+          {
+            key: 'Active',
+            titleContent: (
+              <TextContainer>
+                <FormattedMessage id='copy.active' defaultMessage='Active' />
               </TextContainer>
             )
           }

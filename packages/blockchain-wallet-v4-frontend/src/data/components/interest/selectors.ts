@@ -11,7 +11,7 @@ import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { EarnInstrumentsType } from './types'
+import { EarnInstrumentsType, EarnProductsType } from './types'
 
 export const getRewardsAccountBalance = (state: RootState) =>
   state.components.interest.rewardsAccountBalance
@@ -78,7 +78,7 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
       const mapBalancesToPreferredCoins = (
         balances: EarnAccountBalanceResponseType,
         preferredCoins: EarnInstrumentsType,
-        product: 'Staking' | 'Rewards'
+        product: EarnProductsType
       ) => {
         if (!isEmpty(balances)) {
           const mappedBalances: EarnInstrumentsType = Object.keys(balances).map((coin) => ({
@@ -93,10 +93,10 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
       }
 
       let preferredRewardsCoins: EarnInstrumentsType = [
-        { coin: 'BTC', product: 'Rewards', rate: allRates[`BTC-${walletCurrency}`] },
-        { coin: 'ETH', product: 'Rewards', rate: allRates[`ETH-${walletCurrency}`] },
-        { coin: 'USDT', product: 'Rewards', rate: allRates[`USDT-${walletCurrency}`] },
-        { coin: 'USDC', product: 'Rewards', rate: allRates[`USDC-${walletCurrency}`] }
+        { coin: 'BTC', product: 'Passive', rate: allRates[`BTC-${walletCurrency}`] },
+        { coin: 'ETH', product: 'Passive', rate: allRates[`ETH-${walletCurrency}`] },
+        { coin: 'USDT', product: 'Passive', rate: allRates[`USDT-${walletCurrency}`] },
+        { coin: 'USDC', product: 'Passive', rate: allRates[`USDC-${walletCurrency}`] }
       ]
       let preferredStakingCoins: EarnInstrumentsType = [
         { coin: 'ETH', product: 'Staking', rate: allRates[`ETH-${walletCurrency}`] }
@@ -104,7 +104,7 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
 
       const stakingInstruments = instruments.filter(({ product }) => product === 'Staking')
 
-      const rewardsInstruments = instruments.filter(({ product }) => product === 'Rewards')
+      const rewardsInstruments = instruments.filter(({ product }) => product === 'Passive')
 
       preferredStakingCoins = mapBalancesToPreferredCoins(
         stakingBalances,
@@ -115,7 +115,7 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
       preferredRewardsCoins = mapBalancesToPreferredCoins(
         rewardsBalances,
         preferredRewardsCoins,
-        'Rewards'
+        'Passive'
       )
 
       preferredStakingCoins.forEach(({ coin }) => {
@@ -146,15 +146,17 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
         ...rewardsInstruments
       ].filter(({ coin, product }) => {
         switch (earnTab) {
-          case 'All':
-            break
-          case 'Rewards':
+          case 'Passive':
             if (product !== earnTab) return false
             break
           case 'Staking':
             if (product !== earnTab) return false
             break
+          case 'Active':
+            if (product !== earnTab) return false
+            break
 
+          case 'All':
           default:
             break
         }
