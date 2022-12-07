@@ -2,6 +2,7 @@ import { countryCodes, postCodeExistsForCountry, postCodeValidator } from '.'
 
 const COUNTRY_INVALID = 'XX'
 const AR_POSTCODE = 'C1408BSK'
+const AR_POSTCODE_NON_NORMALIZED = 'C-14-0 8 B SK' // not normalized post code
 const AR_INVALID_POSTCODE = 'xxC1408BSK'
 const RS_POSTCODE = '24224'
 const RS_INVALID_POSTCODE = '24224not_valid'
@@ -29,6 +30,13 @@ describe('PostCode validator', () => {
       const isSerbiaValidCode = postCodeValidator(countryCodes.RS, RS_POSTCODE)
 
       expect(isSerbiaValidCode).toEqual(true)
+
+      const isArgentinaNonNormalizedValidCode = postCodeValidator(
+        countryCodes.AR,
+        AR_POSTCODE_NON_NORMALIZED
+      )
+
+      expect(isArgentinaNonNormalizedValidCode).toEqual(true)
     })
     it('should return false for invalid zip code country code', () => {
       const isArgentinaValidCode = postCodeValidator(countryCodes.AR, AR_INVALID_POSTCODE)
