@@ -1815,10 +1815,10 @@
     tailwindcss-animation-delay "1.0.7"
     tailwindcss-radix "2.3.1"
 
-"@blockchain-com/constellation@0.2.14":
-  version "0.2.14"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.2.14.tgz#ca2b66d25e3be5dadb5e59372fbc4ce9cc36d3b9"
-  integrity sha512-Tl+WyAHzrp1uMuBeKUMCHtXy/dlOGk0dGu4Wb970L7eKsoM22cFwERkNtWL5P4CJFFSNfuoLE8l+kgbPTZbkAw==
+"@blockchain-com/constellation@0.2.16":
+  version "0.2.16"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.2.16.tgz#ed5959cb82c01facb92cf24b3851be4c57b1c04a"
+  integrity sha512-oVu8cmpW5qtz9eWMN1zT/jYVyaMKvb5uLW4piEUAa1DQZzO5W7/xOUoE0tMqJl11Zs+5iGR406CvebhHp2Hgzw==
   dependencies:
     "@headlessui/react" "1.6.6"
     "@radix-ui/colors" "0.1.8"
@@ -6686,11 +6686,6 @@
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
-
-"@types/applepayjs@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/applepayjs/-/applepayjs-3.0.3.tgz#60553647487ddddf75797e83fc6a13774c352725"
-  integrity sha512-8hHE87c/JN/BebRDYzkOWIuTkuB1JHaQUEaQd1atNn/9FQb6s9iEpptAcugxbvQL1ykE0czQgEkUAyVVtR8Jzw==
 
 "@types/applepayjs@3.0.4":
   version "3.0.4"

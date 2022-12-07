@@ -26,13 +26,6 @@ const LazyLoadWrapper = styled(LazyLoadContainer)`
   align-items: flex-start;
   box-sizing: border-box;
 `
-const MenuRow = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-`
 const Container = styled.div`
   width: fit-content;
 `

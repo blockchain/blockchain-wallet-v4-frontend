@@ -9,6 +9,7 @@ import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import {
   AlertsState,
+  Analytics,
   ExchangeErrorCodes,
   LoginFormType,
   LoginSteps,
@@ -16,7 +17,6 @@ import {
   ProductAuthOptions,
   UnifiedAccountRedirectType
 } from 'data/types'
-import Loading from 'layouts/Auth/template.loading'
 
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
@@ -38,6 +38,13 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         flow: 'LOGIN'
       })
     }
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.LOGIN_VIEWED,
+      properties: {
+        device_origin: this.props?.productAuthMetadata?.platform || 'WEB',
+        originalTimestamp: new Date().toISOString()
+      }
+    })
   }
 
   setStep = (step: LoginSteps) => {
@@ -213,6 +220,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),

@@ -41,12 +41,12 @@ const rootReducer = {
   securityCenter,
   session,
   signup,
+  transferEth: transferEthReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,
   [paths.settingsPath]: coreReducers.settings,
-  [paths.walletOptionsPath]: coreReducers.walletOptionsReducer,
   [paths.kvStorePath]: coreReducers.kvStore,
-  transferEth: transferEthReducer
+  walletOptions: coreReducers.walletOptionsReducer
 }
 
 const combinedReducer = combineReducers(rootReducer)

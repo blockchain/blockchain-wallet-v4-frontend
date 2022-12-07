@@ -73,6 +73,7 @@ export enum BuySellStepType {
   '3DS_HANDLER_CHECKOUTDOTCOM',
   'DETERMINE_CARD_PROVIDER',
   'ADD_CARD_CHECKOUTDOTCOM',
+  'ADD_CARD_VGS',
   'AUTHORIZE_PAYMENT',
   'BANK_WIRE_DETAILS',
   'BILLING_ADDRESS',
@@ -91,7 +92,8 @@ export enum BuySellStepType {
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
   'FREQUENCY',
-  'VERIFY_EMAIL'
+  'VERIFY_EMAIL',
+  'UPDATE_SECURITY_CODE'
 }
 export type BSShowModalOriginType =
   | 'CoinPageHoldings'
@@ -173,11 +175,13 @@ export type BuySellState = {
   card: RemoteDataType<string | number | Error, BSCardType>
   cardId?: string
   cardSuccessRate?: BSCardSuccessRateType
+  cardTokenId?: string
   cards: RemoteDataType<PartialClientErrorProperties, Array<BSCardType>>
   checkoutDotComAccountCodes?: Array<string>
   checkoutDotComApiKey?: string
   crossBorderLimits: RemoteDataType<unknown, CrossBorderLimits>
   cryptoCurrency?: CoinType
+  cvvStatus: RemoteDataType<string, boolean>
   displayBack: boolean
   fiatCurrency?: FiatType
   fiatEligible: RemoteDataType<PartialClientErrorProperties | Error, FiatEligibleType>
@@ -205,6 +209,7 @@ export type BuySellState = {
   sellQuote: RemoteDataType<string, SellQuoteStateType>
   step: keyof typeof BuySellStepType
   swapAccount?: SwapAccountType
+  vgsVaultId?: string
 }
 
 export type InitializeCheckout = {
@@ -277,6 +282,11 @@ export type StepActionsPayload =
       step: 'ADD_CARD_CHECKOUTDOTCOM'
     }
   | {
+      cardTokenId: string
+      step: 'ADD_CARD_VGS'
+      vgsVaultId: string
+    }
+  | {
       reason: PlaidSettlementErrorReasons
       step: BankDWStepType.PAYMENT_ACCOUNT_ERROR
     }
@@ -292,4 +302,5 @@ export type StepActionsPayload =
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
         | 'FREQUENCY'
+        | 'UPDATE_SECURITY_CODE'
     }

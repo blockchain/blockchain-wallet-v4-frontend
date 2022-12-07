@@ -23,3 +23,10 @@ export const Tag = styled.div`
   color: ${PaletteColors['green-600']};
   border-radius: 4px;
 `
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  border: 1px solid ${PaletteColors['grey-050']};
+  overflow: hidden;
+`

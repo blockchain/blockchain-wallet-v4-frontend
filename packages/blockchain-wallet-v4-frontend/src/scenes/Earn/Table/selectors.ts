@@ -11,9 +11,6 @@ export const getData = (state) => {
   const showInterestInfoBox = selectors.preferences.getShowInterestInfoBox(state) as boolean
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const sortedInstrumentsR = selectors.components.interest.getInstrumentsSortedByBalance(state)
-  const earnTab = selectors.components.interest.getEarnTab(state)
-  const searchValue = selectors.components.interest.getSearchValue(state)
-  const showAvailableAssets = selectors.components.interest.getShowAvailableAssets(state)
 
   return lift(
     (
@@ -24,11 +21,8 @@ export const getData = (state) => {
       stakingEligible: ExtractSuccess<typeof stakingEligibleR>,
       walletCurrency: FiatType
     ) => ({
-      earnTab,
       interestAccountBalance,
       interestEligible,
-      searchValue,
-      showAvailableAssets,
       showInterestInfoBox,
       sortedInstruments,
       stakingAccountBalance,

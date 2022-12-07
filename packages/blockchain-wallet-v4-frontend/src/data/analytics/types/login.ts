@@ -15,7 +15,8 @@ export enum Events {
   LOGIN_TERMS_AND_CONDITIONS_ACCEPTED = 'T&C Accepted',
   LOGIN_TERMS_AND_CONDITIONS_VIEWED = 'T&C Viewed',
   LOGIN_TWO_STEP_VERIFICATION_DENIED = 'Login Two Step Verification Denied',
-  LOGIN_TWO_STEP_VERIFICATION_ENTERED = 'Login Two Step Verification Entered'
+  LOGIN_TWO_STEP_VERIFICATION_ENTERED = 'Login Two Step Verification Entered',
+  LOGIN_VIEWED = 'Login Viewed'
 }
 
 type LoginActions = {
@@ -36,6 +37,7 @@ type LoginActions = {
     | Events.LOGIN_TERMS_AND_CONDITIONS_VIEWED
     | Events.LOGIN_REQUEST_APPROVED
     | Events.LOGIN_REQUEST_DENIED
+    | Events.LOGIN_VIEWED
   properties: {}
 }
 

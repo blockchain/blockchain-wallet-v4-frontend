@@ -7,8 +7,7 @@ import { RootState } from 'data/rootReducer'
 import { WalletOptionsType } from './types'
 
 // general
-export const getOptions = (state: RootState) =>
-  state.walletOptionsPath as RemoteDataType<string, WalletOptionsType>
+export const getOptions = (state: RootState) => state.walletOptions.details
 export const getDomains = (state) => getOptions(state).map((x) => x.domains)
 export const getWebOptions = (state) =>
   getOptions(state).map(path(['platforms', 'web'])) as RemoteDataType<
@@ -29,6 +28,7 @@ export const getXlmExchangeAddresses = () => Remote.of([])
 // 3rd Party
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
 export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
+export const getWalletHelperDomain = (state) => getDomains(state).map(prop('walletHelper'))
 
 //
 // FEATURE FLAG SELECTORS
@@ -50,6 +50,9 @@ export const getPairingCodeFlag = (state: RootState) =>
 // recurring buys flag
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'recurringBuys']))
+
+export const getFeatureFlagUseVgsProvider = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useVgsProvider']))
 
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
@@ -171,3 +174,7 @@ export const getThemeEnabled = (state: RootState) =>
 // use Loqate service for address search
 export const useLoqateServiceEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useLoqateService']))
+
+// show active rewards
+export const getActiveRewardsEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isActiveRewardsEnabled']))
