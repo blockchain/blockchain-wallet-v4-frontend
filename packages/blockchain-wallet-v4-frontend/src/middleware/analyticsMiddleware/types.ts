@@ -32,7 +32,6 @@ enum AnalyticsKey {
   INTEREST_WITHDRAWAL_CLICKED = 'Interest Withdrawal Clicked',
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
   LINK_BANK_CLICKED = 'Link Bank Clicked',
-  LOGIN_VIEWED = 'Login Viewed',
   MANAGE_TAB_SELECTION_CLICKED = 'Manage Tab Selection Clicked',
   NEW_ACCOUNT_PASSWORD_ENTERED = 'New Account Password Entered',
   NFT_ORDER_CREATED = 'NFT Order Created',

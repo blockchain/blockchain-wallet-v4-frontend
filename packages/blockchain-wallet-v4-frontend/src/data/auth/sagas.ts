@@ -3,6 +3,7 @@ import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { all, call, fork, put, select, take } from 'redux-saga/effects'
 
+import { coreSelectors } from '@core'
 import { CountryScope, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { ClientErrorProperties } from 'data/analytics/types/errors'
@@ -104,10 +105,12 @@ export default ({ api, coreSagas, networks }) => {
     )).getOrElse(false)
 
     if (code) {
+      const authTypeValue = coreSelectors.settings.getAuthTypeValue(yield select())
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
           properties: {
+            '2fa_type': authTypeValue,
             device_origin: platform,
             site_redirect: product,
             unified: false
@@ -466,10 +469,12 @@ export default ({ api, coreSagas, networks }) => {
       session = yield select(selectors.session.getWalletSessionId, guid, email)
     }
     if (code) {
+      const authTypeValue = coreSelectors.settings.getAuthTypeValue(yield select())
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_TWO_STEP_VERIFICATION_ENTERED,
           properties: {
+            '2fa_type': authTypeValue,
             device_origin: platform,
             site_redirect: product,
             unified: unifiedAccount
@@ -920,7 +925,13 @@ export default ({ api, coreSagas, networks }) => {
         (step === LoginSteps.TWO_FA_WALLET && product === ProductAuthOptions.WALLET)
       ) {
         yield put(
-          actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
+          actions.auth.login({
+            code: auth,
+            guid,
+            mobileLogin: null,
+            password,
+            sharedKey: null
+          })
         )
       } else if (
         (unificationFlowType === AccountUnificationFlows.UNIFIED || unified) &&
