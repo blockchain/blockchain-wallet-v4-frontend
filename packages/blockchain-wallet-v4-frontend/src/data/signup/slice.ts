@@ -36,13 +36,13 @@ const signupSlice = createSlice({
   name: 'signup',
   reducers: {
     accountRecoveryVerify: (state, action?) => {},
-    accountRecoveryVerifyFailure: (state, action) => {
+    accountRecoveryVerifyFailure: (state, action: PayloadAction<string>) => {
       state.accountRecoveryVerify = Remote.Failure(action.payload)
     },
     accountRecoveryVerifyLoading: (state) => {
       state.accountRecoveryVerify = Remote.Loading
     },
-    accountRecoveryVerifySuccess: (state, action) => {
+    accountRecoveryVerifySuccess: (state, action: PayloadAction<boolean>) => {
       state.accountRecoveryVerify = Remote.Success(action.payload)
     },
     approveAccountReset: () => {},

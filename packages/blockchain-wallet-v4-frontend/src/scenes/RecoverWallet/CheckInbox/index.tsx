@@ -29,6 +29,8 @@ const CheckInbox = (props: Props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setDisabled(true)
+    setSentState('sent')
     props.signupActions.triggerRecoverEmail(props.formValues?.recoveryEmail)
   }
 
@@ -67,19 +69,12 @@ const CheckInbox = (props: Props) => {
         disabled={disabled && !hasErrorAlert}
         // @ts-ignore
         onClick={(e: SyntheticEvent) => {
-          setDisabled(true)
-          setSentState('sent')
-          // TODO: correctly handle this resend email button
           handleSubmit(e)
         }}
       >
         {disabled && sentState === 'sent' && !hasErrorAlert && (
           <Row>
-            <IconCheckCircle
-              color={PaletteColors['white-000']}
-              size='medium'
-              style={{ marginRight: '8px' }}
-            />
+            <IconCheckCircle size='small' style={{ marginRight: '8px' }} />
             <FormattedMessage
               id='components.form.tabmenutransactionstatus.sent'
               defaultMessage='Sent'
