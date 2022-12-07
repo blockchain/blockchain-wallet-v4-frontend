@@ -16,7 +16,6 @@ import {
   LoginPayloadType,
   LoginSuccessType,
   MagicLinkRequestPayloadType,
-  MobileAuthLoginPayloadType,
   PlatformTypes,
   ProductAuthMetadata,
   ProductAuthOptions

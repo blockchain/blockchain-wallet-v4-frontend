@@ -1,6 +1,6 @@
+import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { PaletteColors } from '@blockchain-com/constellation'
 import { Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
