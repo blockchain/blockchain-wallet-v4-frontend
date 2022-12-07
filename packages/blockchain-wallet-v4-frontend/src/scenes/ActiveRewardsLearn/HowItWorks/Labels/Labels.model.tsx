@@ -45,11 +45,11 @@ export const labels: LabelType[] = [
     )
   },
   {
-    id: 'scenes.earn.active-rewards-learn.how-it-works.label.forecasted-price',
+    id: 'scenes.earn.active-rewards-learn.how-it-works.label.trigger-price',
     label: (
       <FormattedMessage
-        id='scenes.earn.active-rewards-learn.how-it-works.label.forecasted-price'
-        defaultMessage='Forecasted price: $22,000'
+        id='scenes.earn.active-rewards-learn.how-it-works.label.trigger-price'
+        defaultMessage='Trigger price: $22,000'
       />
     )
   }
