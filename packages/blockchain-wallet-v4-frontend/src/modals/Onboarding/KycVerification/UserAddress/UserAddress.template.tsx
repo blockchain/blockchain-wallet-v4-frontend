@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Flex, SpinningLoader } from '@blockchain-com/constellation'
-import { validate } from 'postal-codes-js'
-// @ts-ignore
-import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
 import { path } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
@@ -26,6 +23,7 @@ import { RootState } from 'data/rootReducer'
 import { CountryType, StateType } from 'data/types'
 import { useCountryList, useRemote, useUSStateList } from 'hooks'
 import { countryUsesZipcode, required } from 'services/forms'
+import { postCodeExistsForCountry, postCodeValidator } from 'services/postCodeValidator'
 import { debounce } from 'utils/helpers'
 
 import AddressItem from './AddressItem'
@@ -39,13 +37,9 @@ import {
   SpinnerWrapper
 } from './UserAddress.model'
 
-const countryUsesPostalCode = (countryCode) => {
-  return path([countryCode, 'postalCodeFormat'], postalCodes)
-}
-
 const requiredZipCode = (value, allVals) => {
   const countryCode = (path(['country', 'code'], allVals) || path(['country'], allVals)) as string
-  if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
+  if (!postCodeExistsForCountry(countryCode)) return undefined
   if (!value)
     return (
       <div data-e2e='requiredMessage'>
@@ -53,7 +47,7 @@ const requiredZipCode = (value, allVals) => {
       </div>
     )
 
-  return validate(countryCode, value) === true ? undefined : (
+  return postCodeValidator(countryCode, value) === true ? undefined : (
     <FormattedMessage id='formhelper.requiredzipcode' defaultMessage='Invalid zipcode' />
   )
 }
@@ -141,7 +135,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const countryIsUS = countryCode === 'US'
   const countryUsesZipOrPostcode =
-    countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)
+    countryUsesZipcode(countryCode) || postCodeExistsForCountry(countryCode)
 
   const defaultCountry = supportedCountries.countries.find(
     (country) => country.code === countryCode
