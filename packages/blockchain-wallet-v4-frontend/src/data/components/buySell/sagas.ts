@@ -329,7 +329,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const createBSOrder = function* ({
+  const createOrder = function* ({
     payload: { mobilePaymentMethod, paymentMethodId, paymentType }
   }: ReturnType<typeof A.createOrder>) {
     const values: T.BSCheckoutFormValuesType = yield select(
@@ -485,7 +485,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
 
         buyOrder = yield call(
-          api.createBSOrder,
+          api.createOrder,
           pair.pair,
           orderType,
           true,
@@ -631,14 +631,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const confirmOrder = function* ({ payload }: ReturnType<typeof A.confirmOrder>) {
-    const { mobilePaymentMethod, paymentMethodId } = payload
-
-    const { order } = payload
-
     try {
+      const { mobilePaymentMethod, paymentMethodId } = payload
+      const { order } = payload
+
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
 
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
+      // we should stop polling for a new quote now
+      yield put(A.stopPollBuyQuote())
 
       const account = selectors.components.brokerage.getAccount(yield select())
 
@@ -927,7 +928,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } else if (
         confirmedOrder.attributes?.everypay?.paymentState === 'SETTLED' ||
         confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED' ||
-        (attributes && 'isAsync' in attributes)
+        confirmedOrder.attributes?.cardCassy?.paymentState === 'SETTLED' ||
+        (attributes && 'isAsync' in attributes) // FIXME: and payment method partner is CARD_CASSY
       ) {
         // Have to check if the state is "FINISHED", otherwise poll for 1 minute until it is
         if (confirmedOrder.state === 'FINISHED') {
@@ -952,21 +954,36 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } else if (
         confirmedOrder.attributes?.everypay ||
         (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
-          confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
+          confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+        (confirmedOrder.attributes?.cardCassy?.cardAcquirerName === 'EVERYPAY' &&
+          confirmedOrder.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
       ) {
         yield put(A.confirmOrderSuccess(confirmedOrder))
 
         yield put(A.setStep({ step: '3DS_HANDLER_EVERYPAY' }))
       } else if (
-        confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'STRIPE' &&
-        confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+        (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'FAKE_CARD_ACQUIRER' &&
+          confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+        (confirmedOrder.attributes?.cardCassy?.cardAcquirerName === 'FAKE_CARD_ACQUIRER' &&
+          confirmedOrder.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
+      ) {
+        yield put(A.confirmOrderSuccess(confirmedOrder))
+
+        yield put(A.setStep({ step: '3DS_HANDLER_FAKE_CARD_ACQUIRER' }))
+      } else if (
+        (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'STRIPE' &&
+          confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+        (confirmedOrder.attributes?.cardCassy?.cardAcquirerName === 'STRIPE' &&
+          confirmedOrder.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
       ) {
         yield put(A.confirmOrderSuccess(confirmedOrder))
 
         yield put(A.setStep({ step: '3DS_HANDLER_STRIPE' }))
       } else if (
-        confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
-        confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+        (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
+          confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+        (confirmedOrder.attributes?.cardCassy?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
+          confirmedOrder.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
       ) {
         yield put(A.confirmOrderSuccess(confirmedOrder))
 
@@ -1599,7 +1616,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           // 👇-----------------------------------------------------
           // const methodType =
           //   method.type === BSPaymentTypes.BANK_ACCOUNT ? BSPaymentTypes.FUNDS : method.type
-          // return yield put(A.createBSOrder(undefined, methodType))
+          // return yield put(A.createOrder(undefined, methodType))
           // 👆------------------------------------------------------
 
           return yield put(A.createOrder({ paymentType: method.type }))
@@ -2257,8 +2274,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     confirmBSFundsOrder,
     confirmOrder,
     confirmOrderPoll,
-    createBSOrder,
     createCard,
+    createOrder,
     deleteBSCard,
     fetchAccumulatedTrades,
     fetchBSBalances,

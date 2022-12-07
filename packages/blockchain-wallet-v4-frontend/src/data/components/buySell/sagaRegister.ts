@@ -17,7 +17,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.registerCard, buySellSagas.registerCard)
     yield takeLatest(actions.activateCard.type, buySellSagas.activateCard)
     yield takeLatest(actions.cancelOrder.type, buySellSagas.cancelBSOrder)
-    yield takeLatest(actions.createOrder.type, buySellSagas.createBSOrder)
+    yield takeLatest(actions.createOrder.type, buySellSagas.createOrder)
     yield takeLatest(actions.confirmFundsOrder.type, buySellSagas.confirmBSFundsOrder)
     yield takeLatest(actions.confirmOrderPoll.type, buySellSagas.confirmOrderPoll)
     yield takeLatest(actions.confirmOrder.type, buySellSagas.confirmOrder)

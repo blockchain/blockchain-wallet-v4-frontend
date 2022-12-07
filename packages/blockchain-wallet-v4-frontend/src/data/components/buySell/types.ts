@@ -71,6 +71,7 @@ export enum BuySellStepType {
   '3DS_HANDLER_EVERYPAY',
   '3DS_HANDLER_STRIPE',
   '3DS_HANDLER_CHECKOUTDOTCOM',
+  '3DS_HANDLER_FAKE_CARD_ACQUIRER',
   'DETERMINE_CARD_PROVIDER',
   'ADD_CARD_CHECKOUTDOTCOM',
   'ADD_CARD_VGS',
@@ -270,7 +271,11 @@ export type StepActionsPayload =
     }
   | {
       order?: BSOrderType
-      step: '3DS_HANDLER_EVERYPAY' | '3DS_HANDLER_STRIPE' | '3DS_HANDLER_CHECKOUTDOTCOM'
+      step:
+        | '3DS_HANDLER_EVERYPAY'
+        | '3DS_HANDLER_STRIPE'
+        | '3DS_HANDLER_CHECKOUTDOTCOM'
+        | '3DS_HANDLER_FAKE_CARD_ACQUIRER'
     }
   | {
       sellOrderType?: SwapBaseCounterTypes
