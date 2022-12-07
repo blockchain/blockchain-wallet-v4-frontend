@@ -10,8 +10,8 @@ import {
   Tabs
 } from '@blockchain-com/constellation'
 
-import { LeftContainer, RightContainer, TabRow, tabs } from './Filter.model'
-import { EarnFilterPropsType } from './Filter.types'
+import { LeftContainer, RightContainer, TabRow } from './Filter.model'
+import { FilterPropsType } from './Filter.types'
 
 const EarnFilter = ({
   earnTab,
@@ -19,8 +19,9 @@ const EarnFilter = ({
   handleHistoryClick,
   handleSearch,
   handleTabClick,
-  showAvailableAssets
-}: EarnFilterPropsType) => (
+  showAvailableAssets,
+  tabs
+}: FilterPropsType) => (
   <TabRow>
     <LeftContainer>
       <Tabs

@@ -4,6 +4,8 @@ import styled from 'styled-components'
 
 import { media } from 'services/styles'
 
+import { TabType } from './Filter.types'
+
 export const TabRow = styled.div`
   width: 100%;
   display: flex;
@@ -89,32 +91,34 @@ export const RightContainer = styled.div`
   `}
 `
 
-export const tabs = [
-  {
-    key: 'All',
-    titleContent: (
-      <TextContainer>
-        <FormattedMessage id='scenes.earn.filter.all-rewards' defaultMessage='All Rewards' />
-      </TextContainer>
-    )
-  },
-  {
-    key: 'Passive',
-    titleContent: (
-      <TextContainer>
-        <FormattedMessage id='copy.Passive' defaultMessage='Passive' />
-      </TextContainer>
-    )
-  },
-  {
-    key: 'Staking',
-    titleContent: (
-      <TextContainer>
-        <FormattedMessage id='copy.staking' defaultMessage='Staking' />
-      </TextContainer>
-    )
-  },
-  {
+export const getTabs = (isActiveRewardsEnabled: boolean): TabType[] => {
+  const tabs = [
+    {
+      key: 'All',
+      titleContent: (
+        <TextContainer>
+          <FormattedMessage id='scenes.earn.filter.all-rewards' defaultMessage='All Rewards' />
+        </TextContainer>
+      )
+    },
+    {
+      key: 'Passive',
+      titleContent: (
+        <TextContainer>
+          <FormattedMessage id='copy.Passive' defaultMessage='Passive' />
+        </TextContainer>
+      )
+    },
+    {
+      key: 'Staking',
+      titleContent: (
+        <TextContainer>
+          <FormattedMessage id='copy.staking' defaultMessage='Staking' />
+        </TextContainer>
+      )
+    }
+  ]
+  const activeRewardsTab = {
     key: 'Active',
     titleContent: (
       <TextContainer>
@@ -122,4 +126,6 @@ export const tabs = [
       </TextContainer>
     )
   }
-]
+
+  return isActiveRewardsEnabled ? [...tabs, activeRewardsTab] : tabs
+}

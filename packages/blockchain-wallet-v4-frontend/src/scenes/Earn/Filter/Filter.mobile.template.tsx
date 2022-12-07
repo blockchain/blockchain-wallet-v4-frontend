@@ -10,8 +10,8 @@ import {
   Tabs
 } from '@blockchain-com/constellation'
 
-import { Column, TabRow, tabs } from './Filter.model'
-import { EarnFilterPropsType } from './Filter.types'
+import { Column, TabRow } from './Filter.model'
+import { FilterPropsType } from './Filter.types'
 
 const MobileFilter = ({
   earnTab,
@@ -19,8 +19,9 @@ const MobileFilter = ({
   handleHistoryClick,
   handleSearch,
   handleTabClick,
-  showAvailableAssets
-}: EarnFilterPropsType) => (
+  showAvailableAssets,
+  tabs
+}: FilterPropsType) => (
   <TabRow>
     <Column>
       <Tabs

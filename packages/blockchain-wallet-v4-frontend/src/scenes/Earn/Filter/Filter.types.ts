@@ -2,6 +2,11 @@ import { ChangeEvent } from 'react'
 
 import { EarnTabsType } from 'data/types'
 
+export type TabType = {
+  key: string | EarnTabsType
+  titleContent: JSX.Element
+}
+
 export type EarnFilterPropsType = {
   earnTab: EarnTabsType
   handleAssetClick: (status: boolean) => void
@@ -10,3 +15,7 @@ export type EarnFilterPropsType = {
   handleTabClick: (tab: string) => void
   showAvailableAssets: boolean
 }
+
+export type FilterPropsType = {
+  tabs: TabType[]
+} & EarnFilterPropsType
