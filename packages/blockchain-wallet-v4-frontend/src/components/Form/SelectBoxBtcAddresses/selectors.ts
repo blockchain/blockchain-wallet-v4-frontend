@@ -52,6 +52,7 @@ export const getData = (
     excludeHDWallets?: boolean
     excludeImported?: boolean
     forceCustodialFirst?: boolean
+    includeActiveRewards?: boolean
     includeAll?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
