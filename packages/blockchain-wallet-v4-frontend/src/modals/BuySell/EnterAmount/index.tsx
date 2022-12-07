@@ -44,6 +44,7 @@ const EnterAmount = (props: Props) => {
       props.brokerageActions.fetchBankTransferAccounts()
       props.buySellActions.fetchCards(false)
       props.buySellActions.fetchSDDEligibility()
+      props.buySellActions.fetchOrders()
     }
 
     // data was successful but paymentMethods was DEFAULT_BS_METHODS
