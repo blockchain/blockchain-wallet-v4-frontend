@@ -297,7 +297,6 @@ export default ({ api, coreSagas, networks }) => {
           properties: {}
         })
       )
-      yield put(actions.goals.runGoals())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
       yield put(
