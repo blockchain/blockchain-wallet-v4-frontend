@@ -24,8 +24,8 @@ const NeedHelpLink = ({ analyticsActions, origin, platform, product, unified }: 
       })
     }}
   >
-    <Link size='13px' weight={600} data-e2e='loginGetHelp'>
-      <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
+    <Link size='13px' weight={600} data-e2e='loginForgotPassword'>
+      <FormattedMessage id='scenes.help.forgotpassword' defaultMessage='Forgot your password?' />
     </Link>
   </LinkContainer>
 )

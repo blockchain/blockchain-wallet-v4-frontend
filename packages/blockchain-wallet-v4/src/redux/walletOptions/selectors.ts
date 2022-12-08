@@ -175,6 +175,14 @@ export const getThemeEnabled = (state: RootState) =>
 export const useLoqateServiceEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useLoqateService']))
 
+// Account recovery v2
+export const getAccountRecoveryV2 = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'accountRecoveryV2']))
+
 // show active rewards
 export const getActiveRewardsEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isActiveRewardsEnabled']))
+
+// show earn available assets checkbox
+export const getShowEarnAvailableAssets = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showEarnAvailableAssetsCheckbox']))

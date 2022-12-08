@@ -43,7 +43,7 @@ export const TextContainer = styled.div`
   `}
 `
 
-export const LeftContainer = styled.div`
+export const LeftContainer = styled.div<{ showAvailableAssetsEnabled?: boolean }>`
   display: flex;
   gap: 16px;
   width: 100%;
@@ -54,14 +54,16 @@ export const LeftContainer = styled.div`
 
   ${media.laptopL`
     & > div:first-child {
-      max-width: 70%;
+      max-width: ${({ showAvailableAssetsEnabled }) =>
+        showAvailableAssetsEnabled ? '70%' : '100%'};
       width: 100%;
     }
   `}
 
   ${media.laptop`
     & > div:first-child {
-      max-width: 60%;
+      max-width: ${({ showAvailableAssetsEnabled }) =>
+        showAvailableAssetsEnabled ? '60%' : '100%'};
     }
   `}
 `

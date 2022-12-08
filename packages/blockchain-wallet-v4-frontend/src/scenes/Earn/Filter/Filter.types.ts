@@ -17,5 +17,6 @@ export type EarnFilterPropsType = {
 }
 
 export type FilterPropsType = {
+  showAvailableAssetsEnabled: boolean
   tabs: TabType[]
 } & EarnFilterPropsType

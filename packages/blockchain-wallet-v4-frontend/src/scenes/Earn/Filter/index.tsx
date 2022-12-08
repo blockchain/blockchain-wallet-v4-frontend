@@ -23,6 +23,10 @@ const EarnFilterContainer = ({
     (state: RootState) =>
       selectors.core.walletOptions.getActiveRewardsEnabled(state).getOrElse(false) as boolean
   )
+  const showAvailableAssetsEnabled = useSelector(
+    (state: RootState) =>
+      selectors.core.walletOptions.getShowEarnAvailableAssets(state).getOrElse(false) as boolean
+  )
   const tabs = getTabs(isActiveRewardsEnabled)
 
   return isTabletL ? (
@@ -33,6 +37,7 @@ const EarnFilterContainer = ({
       handleSearch={handleSearch}
       handleTabClick={handleTabClick}
       showAvailableAssets={showAvailableAssets}
+      showAvailableAssetsEnabled={showAvailableAssetsEnabled}
       tabs={tabs}
     />
   ) : (
@@ -43,6 +48,7 @@ const EarnFilterContainer = ({
       handleSearch={handleSearch}
       handleTabClick={handleTabClick}
       showAvailableAssets={showAvailableAssets}
+      showAvailableAssetsEnabled={showAvailableAssetsEnabled}
       tabs={tabs}
     />
   )

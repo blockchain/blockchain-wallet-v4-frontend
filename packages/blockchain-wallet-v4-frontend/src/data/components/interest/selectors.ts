@@ -172,10 +172,12 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
           if (!hasAccountBalance) return false
         }
 
-        const isCoinInWindow = !!window.coins[coin]
+        const coins = selectors.core.data.coins.getCoins()
 
-        if (isCoinInWindow) {
-          const { displaySymbol, name, symbol } = window.coins[coin].coinfig
+        const coinfig = coins[coin]?.coinfig
+
+        if (coinfig) {
+          const { displaySymbol, name, symbol } = coinfig
           const containsSearchValue = [displaySymbol, name, symbol].some((value) =>
             value.toLowerCase().includes(searchValue.toLowerCase())
           )
@@ -183,7 +185,7 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
           if (!containsSearchValue) return false
         }
 
-        return isCoinInWindow
+        return coinfig
       })
 
       return sortedInstruments
