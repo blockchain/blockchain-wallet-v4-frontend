@@ -1,39 +1,12 @@
-import { DexSwapQuoteResponse } from '@core/network/api/dex/types'
+import type { DexChain, DexSwapQuote, DexToken } from '@core/network/api/dex'
 import { CoinType, RemoteDataType } from '@core/types'
 
-export type DexToken = {
-  address: string
-  chainId: number
-  decimals: number
-  name: string
-  symbol: CoinType
-  verifiedBy?: number
-}
-
-export type DexChainTokenList = Array<DexToken>
-
-export type DexChain = {
-  chainId: number
-  name: string
-  nativeCurrency: {
-    address: string
-    chainId: number
-    decimals: number
-    name: string
-    symbol: CoinType
-  }
-}
-
-export type DexChainList = Array<DexChain>
-
+// TODO: Handle errors types when the new BE driven errors will be delivered
 export type DexStateType = {
-  chains: RemoteDataType<string, DexChainList>
+  chains: RemoteDataType<string, DexChain[]>
   currentChain: RemoteDataType<string, DexChain>
-  currentChainTokens: RemoteDataType<string, DexChainTokenList>
-  swapQuote: RemoteDataType<
-    DexSwapQuoteResponse | { status?: string; type?: string },
-    DexSwapQuoteResponse
-  >
+  currentChainTokens: RemoteDataType<string, DexToken[]>
+  swapQuote: RemoteDataType<string, DexSwapQuote>
 }
 
 export type DexSwapSide = 'BASE' | 'COUNTER'

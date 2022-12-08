@@ -35,11 +35,7 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
   const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
     formValues || {}
 
-  const {
-    data: quote,
-    error: quoteError,
-    hasError: hasQuoteError
-  } = useRemote(selectors.components.dex.getSwapQuote)
+  const { data: quote, hasError: hasQuoteError } = useRemote(selectors.components.dex.getSwapQuote)
 
   const baseTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)

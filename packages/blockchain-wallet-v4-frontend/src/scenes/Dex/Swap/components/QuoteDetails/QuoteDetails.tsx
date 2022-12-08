@@ -33,12 +33,9 @@ export const QuoteDetails = ({
   swapDetailsOpen,
   walletCurrency
 }: Props) => {
-  const isQuoteLoading = false
-  const { data: swapQuoteResponse } = useRemote(selectors.components.dex.getSwapQuote)
-
-  const quote = swapQuoteResponse ? (swapQuoteResponse as any)?.quotes_?.[0] : null
-  const txLeg = (swapQuoteResponse as any)?.txs_?.[0] || {}
-
+  const { data: swapQuote, isLoading: isQuoteLoading } = useRemote(
+    selectors.components.dex.getSwapQuote
+  )
   return (
     <QuoteWrapper animate={swapDetailsOpen}>
       <RowDetails>
@@ -57,7 +54,7 @@ export const QuoteDetails = ({
           <FormattedMessage id='copy.minimum_received' defaultMessage='Minimum Received' />
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
-          {isQuoteLoading ? (
+          {isQuoteLoading || !swapQuote ? (
             <LoadingBox bgColor='white' />
           ) : (
             <>
@@ -72,12 +69,12 @@ export const QuoteDetails = ({
           <FormattedMessage id='copy.send_amount' defaultMessage='Send Amount' />
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
-          {isQuoteLoading ? (
+          {isQuoteLoading || !swapQuote ? (
             <LoadingBox bgColor='white' />
           ) : (
             <>
               <FiatDisplay
-                coin={quote?.sellAmount_.symbol_}
+                coin={swapQuote.quote.sellAmount.symbol}
                 currency={walletCurrency}
                 color='textBlack'
                 lineHeight='150%'
@@ -87,19 +84,19 @@ export const QuoteDetails = ({
               >
                 {Exchange.convertCoinToCoin({
                   baseToStandard: false,
-                  coin: quote?.sellAmount_.symbol_,
+                  coin: swapQuote.quote.sellAmount.symbol,
                   value: Exchange.convertCoinToCoin({
-                    coin: quote?.sellAmount_.symbol_,
-                    value: quote?.sellAmount_.amount_
+                    coin: swapQuote.quote.sellAmount.symbol,
+                    value: swapQuote.quote.sellAmount.amount
                   })
                 })}
               </FiatDisplay>
               <ValueSubText>
                 {Exchange.convertCoinToCoin({
-                  coin: quote?.sellAmount_.symbol_,
-                  value: quote?.sellAmount_.amount_
+                  coin: swapQuote.quote.sellAmount.symbol,
+                  value: swapQuote.quote.sellAmount.amount
                 })}{' '}
-                {quote?.sellAmount_.symbol_}
+                {swapQuote.quote.sellAmount.symbol}
               </ValueSubText>
             </>
           )}
@@ -110,12 +107,12 @@ export const QuoteDetails = ({
           <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
-          {isQuoteLoading ? (
+          {isQuoteLoading || !swapQuote ? (
             <LoadingBox bgColor='white' />
           ) : (
             <>
               <FiatDisplay
-                coin={quote?.sellAmount_.symbol_}
+                coin={swapQuote.quote.sellAmount.symbol}
                 currency={walletCurrency}
                 color='textBlack'
                 lineHeight='150%'
@@ -123,14 +120,14 @@ export const QuoteDetails = ({
                 size='14px'
                 weight={600}
               >
-                {new BigNumber(txLeg?.gasPrice_ || 0)
-                  .multipliedBy(txLeg?.gasPrice_ || 0)
+                {new BigNumber(swapQuote.transaction.gasPrice)
+                  .multipliedBy(swapQuote.transaction.gasLimit)
                   .toString()}
               </FiatDisplay>
               <ValueSubText>
                 {Exchange.convertCoinToCoin({
                   coin: 'ETH',
-                  value: txLeg?.gasPrice_ * txLeg?.gasPrice_
+                  value: swapQuote.transaction.gasPrice * swapQuote.transaction.gasLimit
                 })}
                 {' ETH'}
               </ValueSubText>
@@ -143,12 +140,12 @@ export const QuoteDetails = ({
           <FormattedMessage id='copy.blockchain_fee' defaultMessage='Blockchain.com Fee' />
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
-          {isQuoteLoading ? (
+          {isQuoteLoading || !swapQuote ? (
             <LoadingBox bgColor='white' />
           ) : (
             <>
               <FiatDisplay
-                coin={quote?.sellAmount_.symbol_}
+                coin={swapQuote.quote.sellAmount.symbol}
                 currency={walletCurrency}
                 color='textBlack'
                 lineHeight='150%'
@@ -158,19 +155,19 @@ export const QuoteDetails = ({
               >
                 {Exchange.convertCoinToCoin({
                   baseToStandard: false,
-                  coin: quote?.sellAmount_.symbol_,
+                  coin: swapQuote.quote.sellAmount.symbol,
                   value: Exchange.convertCoinToCoin({
-                    coin: quote?.sellAmount_.symbol_,
-                    value: (quote?.sellAmount_.amount_ / 100) * 0.9
+                    coin: swapQuote.quote.sellAmount.symbol,
+                    value: (swapQuote.quote.sellAmount.amount / 100) * 0.9
                   })
                 })}
               </FiatDisplay>
               <ValueSubText>
                 {Exchange.convertCoinToCoin({
-                  coin: quote?.sellAmount_.symbol_,
-                  value: (quote?.sellAmount_.amount_ / 100) * 0.9
+                  coin: swapQuote.quote.sellAmount.symbol,
+                  value: (swapQuote.quote.sellAmount.amount / 100) * 0.9
                 })}{' '}
-                {quote?.sellAmount_.symbol_}
+                {swapQuote.quote.sellAmount.symbol}
               </ValueSubText>
             </>
           )}

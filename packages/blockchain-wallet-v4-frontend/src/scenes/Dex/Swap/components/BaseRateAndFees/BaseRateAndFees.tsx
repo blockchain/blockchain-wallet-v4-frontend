@@ -30,40 +30,27 @@ export const BaseRateAndFees = ({
   walletCurrency
 }: OwnProps) => {
   const { data: currentChain } = useRemote(selectors.components.dex.getCurrentChain)
-  const { data: swapQuoteResponse } = useRemote(selectors.components.dex.getSwapQuote)
+  const { data: swapQuote } = useRemote(selectors.components.dex.getSwapQuote)
 
-  const quote = swapQuoteResponse ? (swapQuoteResponse as any)?.quotes_?.[0] : null
-
-  // FIXME: Pass data from remote response
-  const txLeg = (swapQuoteResponse as any)?.txs_?.[0] || {}
-
-  const quoteDetails = {
-    buyAmount: {
-      symbol: quote?.buyAmount_.symbol_ || ''
-    },
-    price: quote?.price_ ? parseFloat(quote?.price_) : 0,
-    sellAmount: {
-      symbol: quote?.sellAmount_.symbol_ || ''
-    }
-  }
-
-  return (
+  return !swapQuote ? null : (
     <Wrapper>
       <Text variant='paragraph-mono' color={SemanticColors.body}>
-        1 {quoteDetails.sellAmount.symbol} = ~{quoteDetails.price.toFixed(8)}{' '}
-        {quoteDetails.buyAmount.symbol}
+        1 {swapQuote.quote.sellAmount.symbol} = ~{swapQuote.quote.price.toFixed(8)}{' '}
+        {swapQuote.quote.buyAmount.symbol}
       </Text>
-      {!isQuoteLocked && (
+      {!isQuoteLocked && currentChain && (
         <Flex alignItems='center'>
           <GasFeeWrapper>
             <Image name='gas-icon' width='16px' height='16px' />
             <FiatDisplay
               size='12px'
               weight={600}
-              coin={currentChain?.nativeCurrency.symbol}
+              coin={currentChain.nativeCurrency.symbol}
               currency={walletCurrency}
             >
-              {new BigNumber(txLeg.gasLimit_).multipliedBy(txLeg.gasPrice_).toString()}
+              {new BigNumber(swapQuote.transaction.gasLimit)
+                .multipliedBy(swapQuote.transaction.gasPrice)
+                .toString()}
             </FiatDisplay>
           </GasFeeWrapper>
 
