@@ -42,9 +42,12 @@ const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
 const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
+// need to be authed to see this, but uses public layout
+const TwoStepVerification = React.lazy(() => import('./TwoStepVerification'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
 const UploadDocumentsForDebitCards = React.lazy(() => import('./UploadDocumentsForDebitCards'))
 const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Success'))
+const VerifyAccountRecovery = React.lazy(() => import('./RecoverWallet/EmailAuthLanding'))
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
@@ -125,6 +128,11 @@ const App = ({
                           <Switch>
                             {/* Unauthenticated Wallet routes */}
                             <Route path='/app-error' component={AppError} />
+                            <AuthLayout
+                              path='/account-recovery'
+                              component={VerifyAccountRecovery}
+                              pageTitle={`${BLOCKCHAIN_TITLE} | Recovery`}
+                            />
                             <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                             <AuthLayout
                               path='/help'
@@ -166,6 +174,11 @@ const App = ({
                               path='/reset-two-factor'
                               component={ResetWallet2faToken}
                               pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
+                            />
+                            <AuthLayout
+                              path='/setup-two-factor'
+                              component={TwoStepVerification}
+                              pageTitle={`${BLOCKCHAIN_TITLE} | Setup 2FA`}
                             />
                             <AuthLayout
                               path='/signup'

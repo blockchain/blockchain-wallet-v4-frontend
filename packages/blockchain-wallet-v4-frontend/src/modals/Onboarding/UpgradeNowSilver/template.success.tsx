@@ -140,7 +140,7 @@ const Template = (props: Props) => {
     identityVerificationActions.verifyIdentity({
       needMoreInfo: false,
       origin: 'UpgradeNowSilver',
-      tier: userCurrentTier
+      tier: userCurrentTier === TIER_TYPES.NONE ? TIER_TYPES.GOLD : userCurrentTier
     })
     analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_TRADING_LIMITS_GET_VERIFIED_CTA_CLICKED,

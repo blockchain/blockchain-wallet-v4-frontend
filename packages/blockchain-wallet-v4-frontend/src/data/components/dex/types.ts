@@ -30,6 +30,7 @@ export type DexStateType = {
   chains: RemoteDataType<string, DexChainList>
   currentChain: RemoteDataType<string, DexChain>
   currentChainTokens: RemoteDataType<string, DexChainTokenList>
+  isUserEligible: RemoteDataType<string, boolean>
   swapQuote: RemoteDataType<
     DexSwapQuoteResponse | { status?: string; type?: string },
     DexSwapQuoteResponse
@@ -37,7 +38,7 @@ export type DexStateType = {
 }
 
 export type DexSwapSide = 'BASE' | 'COUNTER'
-export type DexScenes = 'ONBOARDING' | 'SWAP'
+export type DexScenes = 'ONBOARDING' | 'SWAP' | 'NOT_ELIGIBLE' | 'ERROR' | 'LOADING'
 export type DexSwapSteps = 'CONFIRM_SWAP' | 'ENTER_DETAILS'
 export enum DexSwapSideFields {
   BASE = 'baseToken',

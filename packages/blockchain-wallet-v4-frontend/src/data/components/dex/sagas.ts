@@ -12,6 +12,34 @@ import { DexChain, DexChainList, DexChainTokenList, DexSwapForm } from './types'
 const { DEX_SWAP_FORM } = model.components.dex
 
 export default ({ api }: { api: APIType }) => {
+  const fetchUserEligibility = function* () {
+    try {
+      // TODO: since MVP only supports ETH chain
+      const token = 'ETH'
+      const state = yield select()
+
+      const nonCustodialCoinAccounts: Record<string, SwapAccountType[]> = yield select(() =>
+        selectors.coins.getCoinAccounts(state, {
+          coins: [token],
+          nonCustodialAccounts: true
+        })
+      )
+
+      const walletAddress = nonCustodialCoinAccounts[token][0].address
+      if (!walletAddress) {
+        return Remote.Failure('No user wallet address')
+      }
+
+      yield put(A.fetchUserEligibilityLoading())
+      const userEligibility: boolean = yield call(api.getDexUserEligibility, {
+        walletAddress: `${walletAddress}`
+      })
+      yield put(A.fetchUserEligibilitySuccess(userEligibility))
+    } catch (e) {
+      yield put(A.fetchUserEligibilityFailure(e.toString()))
+    }
+  }
+
   const fetchChains = function* () {
     try {
       yield put(A.fetchChainsLoading())
@@ -214,6 +242,7 @@ export default ({ api }: { api: APIType }) => {
   return {
     fetchChainAllTokens,
     fetchChains,
-    fetchSwapQuote
+    fetchSwapQuote,
+    fetchUserEligibility
   }
 }

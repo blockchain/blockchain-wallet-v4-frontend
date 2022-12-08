@@ -12,9 +12,13 @@ const sessionSlice = createSlice({
   initialState,
   name: 'session',
   reducers: {
+    clearRecoverSession: (state) => {
+      state.recover = undefined
+    },
     clearSessions: (state) => {
       state.wallet = undefined
       state.exchange = undefined
+      state.recover = undefined
     },
     deauthorizeBrowser: () => {},
     logout: () => {},
@@ -24,6 +28,9 @@ const sessionSlice = createSlice({
     },
     saveExchangeSession: (state, action: PayloadAction<AccountSessionType>) => {
       state.exchange = action.payload
+    },
+    saveRecoverSession: (state, action: PayloadAction<AccountSessionType>) => {
+      state.recover = action.payload
     },
     saveWalletSession: (state, action: PayloadAction<AccountSessionType>) => {
       state.wallet = action.payload

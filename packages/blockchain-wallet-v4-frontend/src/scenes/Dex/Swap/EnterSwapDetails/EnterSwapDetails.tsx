@@ -21,11 +21,10 @@ import { Header } from './Header'
 const { DEX_SWAP_FORM } = model.components.dex
 
 type Props = {
-  isAuthenticated: boolean
   walletCurrency: string
 }
 
-export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => {
+export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const dispatch = useDispatch()
 
   const [pairAnimate, setPairAnimate] = useState(false)
@@ -143,15 +142,9 @@ export const EnterSwapDetails = ({ isAuthenticated, walletCurrency }: Props) => 
         size='large'
         width='full'
         variant='primary'
-        disabled={!quote || !isAuthenticated}
+        disabled={!quote}
         onClick={onConfirmSwap}
-        text={
-          isAuthenticated ? (
-            <FormattedMessage id='copy.swap' defaultMessage='Swap' />
-          ) : (
-            <FormattedMessage id='copy.login_to_swap' defaultMessage='Signin to Continue' />
-          )
-        }
+        text={<FormattedMessage id='copy.swap' defaultMessage='Swap' />}
       />
 
       {/* TODO: Check if we have other errors to display the same way and make it generic */}

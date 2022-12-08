@@ -204,7 +204,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
   alerts: selectors.alerts.selectAlerts(state) as AlertsState,
-  authType: selectors.auth.getAuthType(state) as Number,
+  authType: selectors.auth.getAuthType(state) as number,
   cache: selectors.cache.getCache(state),
   data: getData(state),
   exchangeLoginDataR: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,

@@ -3,7 +3,7 @@ import { DexSwapQuoteQueryParams, DexSwapQuoteRequest, DexSwapQuoteResponse } fr
 const DEX_NABU_GATEWAY_PREFIX = '/nabu-gateway/dex'
 const DEX_GATEWAY_PREFIX = '/dex-gateway/v1'
 
-export default ({ apiUrl, authorizedPost, get, post }) => {
+export default ({ apiUrl, authorizedGet, authorizedPost, get, post }) => {
   const getDexChains = () =>
     get({
       contentType: 'application/json',
@@ -36,9 +36,18 @@ export default ({ apiUrl, authorizedPost, get, post }) => {
       url: apiUrl
     })
 
+  const getDexUserEligibility = ({ walletAddress }: { walletAddress: string }) =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `${DEX_NABU_GATEWAY_PREFIX}/eligible`,
+      params: { product: 'DEX', walletAddress },
+      url: apiUrl
+    }).then(({ eligible }) => eligible)
+
   return {
     getDexChainAllTokens,
     getDexChains,
-    getDexSwapQuote
+    getDexSwapQuote,
+    getDexUserEligibility
   }
 }

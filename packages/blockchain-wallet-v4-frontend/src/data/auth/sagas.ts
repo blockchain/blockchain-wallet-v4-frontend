@@ -376,16 +376,13 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.core.settings.setCurrency(currency))
 
         if (isAccountReset) {
-          if (product === ProductAuthOptions.EXCHANGE) {
-            yield put(
-              actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
-            )
-            return
-          }
-          if (product === ProductAuthOptions.WALLET) {
-            yield put(actions.router.push('/home'))
+          const verifiedTwoFa = (yield select(
+            selectors.signup.getRecoveryTwoFAVerification
+          )).getOrElse(false)
+          if (!verifiedTwoFa) {
+            yield put(actions.router.push('/setup-two-factor'))
           } else {
-            yield put(actions.router.push('/select-product'))
+            yield put(actions.router.push('/home'))
           }
         } else {
           yield put(actions.router.push('/verify-email-step'))
@@ -395,7 +392,11 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
-      yield put(actions.goals.runGoals())
+      // We run goals in accountResetSaga in this case
+      // Need time to write new entry
+      if (!isAccountReset) {
+        yield put(actions.goals.runGoals())
+      }
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.startLogoutTimer())
       yield call(startCoinWebsockets)
