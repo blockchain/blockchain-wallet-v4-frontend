@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
@@ -8,7 +8,7 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import TextBox from 'components/Form/TextBox'
-import { RecoverSteps } from 'data/types'
+import { Analytics, RecoverSteps } from 'data/types'
 import { required, validEmail } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 
@@ -16,13 +16,32 @@ import { Props } from '..'
 import { BackArrowFormHeader, FormWrapper } from '../model'
 
 const ForgotPasswordEmail = (props: Props) => {
-  const { busy, formValues, invalid, product, routerActions, setStep, signupActions, submitting } =
-    props
+  const {
+    analyticsActions,
+    busy,
+    formValues,
+    invalid,
+    product,
+    routerActions,
+    setStep,
+    signupActions,
+    submitting
+  } = props
 
+  useEffect(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.ACCOUNT_RECOVERY_FORGOT_PASSWORD_VIEWED,
+      properties: {}
+    })
+  }, [])
   const handleSubmit = (e) => {
     e.preventDefault()
     signupActions.triggerRecoverEmail(formValues?.recoveryEmail)
     setStep(RecoverSteps.CHECK_INBOX)
+    analyticsActions.trackEvent({
+      key: Analytics.ACCOUNT_RECOVERY_EMAIL_SENT,
+      properties: {}
+    })
   }
 
   return (

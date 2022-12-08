@@ -291,6 +291,12 @@ export default ({ api, coreSagas, networks }) => {
           }
         })
       )
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.ACCOUNT_RECOVERY_PROCESS_COMPLETED,
+          properties: {}
+        })
+      )
       yield put(actions.goals.runGoals())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))

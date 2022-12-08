@@ -5,13 +5,12 @@ import { IconCheckCircle, PaletteColors } from '@blockchain-com/constellation'
 
 import { Button, Text } from 'blockchain-info-components'
 
-import { BackArrowFormHeader, CenteredColumn } from '../model'
+import { CenteredColumn } from '../model'
 import { Props } from '.'
 
-const YubikeyVerified = (props: Props) => {
+const YubikeyVerified = () => {
   return (
     <>
-      <BackArrowFormHeader handleBackArrowClick={() => props.changeAuthenticatorStep(1)} />
       <CenteredColumn>
         <IconCheckCircle
           label='checkmark-circle-filled'

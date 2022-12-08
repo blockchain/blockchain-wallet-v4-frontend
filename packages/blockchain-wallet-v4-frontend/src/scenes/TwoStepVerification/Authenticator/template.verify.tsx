@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Field, InjectedFormProps } from 'redux-form'
+import { Field } from 'redux-form'
 
 import { Button, Text } from 'blockchain-info-components'
-import Form from 'components/Form/Form'
-import FormError from 'components/Form/FormError'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import TextBox from 'components/Form/TextBox'
+import { Analytics } from 'data/types'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 
 import { BackArrowFormHeader, CenteredColumn } from '../model'
 
 const AuthenticatorVerify = (props) => {
-  const [inputValue, setInputValue] = useState('')
-  const [isInputValid, setIsInputValid] = useState(false)
-
   const handleSubmit = () => {
     props.securityCenterActions.verifyGoogleAuthenticator(props.formValues.newTwoFACode)
+    props.analyticsActions.trackEvent({
+      key: Analytics.ACCOUNT_RECOVERY_2FA_ACTIVATION,
+      properties: {}
+    })
   }
   return (
     <>
@@ -71,6 +71,7 @@ const AuthenticatorVerify = (props) => {
           fullwidth
           height='48px'
           onClick={handleSubmit}
+          disabled={(props.formValues?.newTwoFACode.length || 0) < 6}
         >
           <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </Button>

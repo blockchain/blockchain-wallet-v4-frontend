@@ -57,6 +57,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   signupActions: bindActionCreators(actions.signup, dispatch)
 })
 
