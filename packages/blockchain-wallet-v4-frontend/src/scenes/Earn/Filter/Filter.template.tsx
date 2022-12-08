@@ -19,7 +19,8 @@ const EarnFilter = ({
   handleHistoryClick,
   handleSearch,
   handleTabClick,
-  showAvailableAssets
+  showAvailableAssets,
+  showAvailableAssetsEnabled
 }: EarnFilterPropsType) => (
   <TabRow>
     <LeftContainer>
@@ -55,14 +56,16 @@ const EarnFilter = ({
         ]}
         variant='default'
       />
-      <Checkbox
-        checked={showAvailableAssets}
-        id='availableAssets'
-        label={
-          <FormattedMessage id='scenes.earn.filter.assets' defaultMessage='My available assets' />
-        }
-        onCheckedChange={handleAssetClick}
-      />
+      {showAvailableAssetsEnabled && (
+        <Checkbox
+          checked={showAvailableAssets}
+          id='availableAssets'
+          label={
+            <FormattedMessage id='scenes.earn.filter.assets' defaultMessage='My available assets' />
+          }
+          onCheckedChange={handleAssetClick}
+        />
+      )}
     </LeftContainer>
     <RightContainer>
       <Input
