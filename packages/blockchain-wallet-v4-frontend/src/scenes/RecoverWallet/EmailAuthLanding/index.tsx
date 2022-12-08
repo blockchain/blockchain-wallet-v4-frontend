@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import {} from 'redux'
 
 import { Wrapper } from 'components/Public'
 import { selectors } from 'data'
