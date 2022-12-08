@@ -1,52 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import type { InjectedFormProps } from 'redux-form'
-import { reduxForm } from 'redux-form'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
-import { actions, model, selectors } from 'data'
-import { DexScenes, DexSwapForm } from 'data/components/dex/types'
+import { actions } from 'data'
 import { notReachable } from 'utils/notReachable'
 
-import { PageWrapper } from './components'
+import { PageLoading } from './components'
+import { useSceneResolver } from './hooks'
+import { NonEligible } from './NonEligible'
 import { Onboarding } from './Onboarding'
-import { ConfirmSwap } from './Swap/ConfirmSwap'
-import { EnterSwapDetails } from './Swap/EnterSwapDetails'
-
-const { DEFAULT_SLIPPAGE, DEX_SWAP_FORM } = model.components.dex
+import { Swap } from './Swap'
 
 const DEX_INTRO_VIEWED_KEY = 'dexIntroViewed'
 
-const Dex = (form: InjectedFormProps<DexSwapForm>) => {
+const Dex = () => {
   const dispatch = useDispatch()
-
-  // TODO: Add proper currency type from @core/exchange/currencies to selector
-  const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
-  const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
-  const isAuthenticated = useSelector(selectors.auth.isAuthenticated)
-  const isOnboardingPassed = !!localStorage.getItem(DEX_INTRO_VIEWED_KEY)
-
-  const [scene, setScene] = useState<DexScenes>(isOnboardingPassed ? 'SWAP' : 'ONBOARDING')
-
-  useEffect(() => {
-    dispatch(actions.components.dex.fetchChains())
-    dispatch(actions.core.data.coins.fetchCoinsRates())
-  }, [])
-
-  const onGoBack = () => {
-    setScene('SWAP')
-    // TODO: Make a form fiend names / values type safe while migrating to final-form or another lib
-    form.change('step', 'ENTER_DETAILS')
-  }
-
-  useEffect(() => {
-    if (
-      isOnboardingPassed &&
-      ((swapFormValues.step === 'CONFIRM_SWAP' && !swapFormValues.baseToken) ||
-        !swapFormValues.counterToken)
-    ) {
-      onGoBack()
-    }
-  }, [swapFormValues.step, swapFormValues.baseToken, swapFormValues.counterToken])
+  const [scene, setScene] = useSceneResolver()
 
   // clear data on exiting DEX app
   useEffect(() => {
@@ -61,41 +29,25 @@ const Dex = (form: InjectedFormProps<DexSwapForm>) => {
   }
 
   switch (scene) {
+    case 'ERROR':
+      // TODO: Handle error
+      return null
+
+    case 'LOADING':
+      return <PageLoading />
+
     case 'ONBOARDING':
-      return (
-        <PageWrapper>
-          <Onboarding onClickStart={onFinishOnboarding} />
-        </PageWrapper>
-      )
+      return <Onboarding onClickStart={onFinishOnboarding} />
+
+    case 'NOT_ELIGIBLE':
+      return <NonEligible />
 
     case 'SWAP':
-      switch (swapFormValues.step) {
-        case 'ENTER_DETAILS':
-          return (
-            <PageWrapper>
-              <EnterSwapDetails isAuthenticated={isAuthenticated} walletCurrency={walletCurrency} />
-            </PageWrapper>
-          )
-
-        case 'CONFIRM_SWAP':
-          return (
-            <PageWrapper>
-              <ConfirmSwap walletCurrency={walletCurrency} onClickBack={onGoBack} />
-            </PageWrapper>
-          )
-
-        default:
-          return notReachable(swapFormValues.step)
-      }
+      return <Swap />
 
     default:
       return notReachable(scene)
   }
 }
 
-export default reduxForm<DexSwapForm>({
-  destroyOnUnmount: false,
-  enableReinitialize: true,
-  form: DEX_SWAP_FORM,
-  initialValues: { slippage: DEFAULT_SLIPPAGE, step: 'ENTER_DETAILS' }
-})(Dex)
+export default Dex

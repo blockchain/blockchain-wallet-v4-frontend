@@ -96,3 +96,9 @@ export const DexSwapQuoteSchema: z.ZodSchema<DexSwapQuote, z.ZodTypeDef, unknown
     transaction: txs[0],
     ...result
   }))
+
+export const DexUserEligibilitySchema: z.ZodSchema<boolean, z.ZodTypeDef, unknown> = z
+  .object({
+    isEligible: z.boolean()
+  })
+  .transform(({ isEligible }) => isEligible)

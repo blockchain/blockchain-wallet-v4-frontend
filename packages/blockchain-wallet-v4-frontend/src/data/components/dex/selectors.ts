@@ -2,6 +2,8 @@ import { CoinType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+export const getIsUserEligible = (state: RootState) => state.components.dex.isUserEligible
+
 export const getChains = (state: RootState) => state.components.dex.chains
 
 export const getCurrentChain = (state: RootState) => state.components.dex.currentChain

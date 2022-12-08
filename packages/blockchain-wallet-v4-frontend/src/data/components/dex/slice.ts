@@ -9,6 +9,7 @@ const initialState: DexStateType = {
   chains: Remote.NotAsked,
   currentChain: Remote.NotAsked, // TODO: might not need Remote type
   currentChainTokens: Remote.NotAsked,
+  isUserEligible: Remote.NotAsked,
   swapQuote: Remote.NotAsked
 }
 
@@ -47,6 +48,16 @@ const dexSlice = createSlice({
     },
     fetchSwapQuoteSuccess: (state, action: PayloadAction<DexSwapQuote>) => {
       state.swapQuote = Remote.Success(action.payload)
+    },
+    fetchUserEligibility: () => {},
+    fetchUserEligibilityFailure: (state, action: PayloadAction<string>) => {
+      state.isUserEligible = Remote.Failure(action.payload)
+    },
+    fetchUserEligibilityLoading: (state) => {
+      state.isUserEligible = Remote.Loading
+    },
+    fetchUserEligibilitySuccess: (state, action: PayloadAction<boolean>) => {
+      state.isUserEligible = Remote.Success(action.payload)
     },
     setCurrentChain: (state, action: PayloadAction<DexChain>) => {
       state.currentChain = Remote.Success(action.payload)

@@ -3,9 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Padding, PaletteColors, SpinningLoader } from '@blockchain-com/constellation'
 import axios from 'axios'
-import { validate } from 'postal-codes-js'
-// @ts-ignore
-import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
 import queryString from 'query-string'
 import { path } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -39,6 +36,7 @@ import { RootState } from 'data/rootReducer'
 import { CountryType, StateType } from 'data/types'
 import { useCountryList, useOpenViewUsPatrioticAct, useRemote, useUSStateList } from 'hooks'
 import { countryUsesZipcode, required } from 'services/forms'
+import { postCodeExistsForCountry, postCodeValidator } from 'services/postCodeValidator'
 import { debounce } from 'utils/helpers'
 
 import AddressItem from '../../../Onboarding/KycVerification/UserAddress/AddressItem'
@@ -47,13 +45,9 @@ const { RESIDENTIAL_ADDRESS_FORM } = model.components.debitCard
 
 const MIN_SEARCH_CHARACTERS = 3
 
-const countryUsesPostalCode = (countryCode) => {
-  return path([countryCode, 'postalCodeFormat'], postalCodes)
-}
-
 const requiredZipCode = (value, allVals) => {
   const countryCode = (path(['country', 'code'], allVals) || path(['country'], allVals)) as string
-  if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
+  if (!postCodeExistsForCountry(countryCode)) return undefined
   if (!value)
     return (
       <div data-e2e='requiredMessage'>
@@ -61,7 +55,7 @@ const requiredZipCode = (value, allVals) => {
       </div>
     )
 
-  return validate(countryCode, value) === true ? undefined : (
+  return postCodeValidator(countryCode, value) === true ? undefined : (
     <FormattedMessage id='formhelper.requiredzipcode' defaultMessage='Invalid zipcode' />
   )
 }
@@ -245,7 +239,7 @@ const ResidentialAddress = ({
   }
 
   const countryUsesZipOrPostcode =
-    countryUsesZipcode(formValues?.country) || countryUsesPostalCode(formValues?.country)
+    countryUsesZipcode(formValues?.country) || postCodeExistsForCountry(formValues?.country)
 
   const handleSubmit = (e) => {
     e.preventDefault()

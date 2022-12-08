@@ -16,7 +16,7 @@ import {
   OuterWrapper,
   RECOVER_FORM,
   SubCard,
-  TroubleLoggingInRow,
+  TryAnotherMethodRow,
   WrapperWithPadding
 } from '../../model'
 
@@ -42,10 +42,19 @@ const FirstStep = (props: Props) => {
       }
     })
   }
+
+  const backArrowClicked = () => {
+    if (props.accountRecoveryData) {
+      setStep(RecoverSteps.RECOVERY_OPTIONS)
+    } else {
+      props.routerActions.push('/login')
+    }
+  }
+
   return (
     <OuterWrapper>
       <WrapperWithPadding>
-        <GoBackArrow handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)} />
+        <GoBackArrow handleBackArrowClick={backArrowClicked} />
         <FormBody>
           <Text
             color='grey900'
@@ -113,7 +122,7 @@ const FirstStep = (props: Props) => {
         </Button>
       </WrapperWithPadding>
       <SubCard>
-        <TroubleLoggingInRow>
+        <TryAnotherMethodRow>
           <Text
             size='16px'
             color='grey600'
@@ -151,7 +160,7 @@ const FirstStep = (props: Props) => {
               <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
             </ContactSupportText>
           )}
-        </TroubleLoggingInRow>
+        </TryAnotherMethodRow>
       </SubCard>
     </OuterWrapper>
   )

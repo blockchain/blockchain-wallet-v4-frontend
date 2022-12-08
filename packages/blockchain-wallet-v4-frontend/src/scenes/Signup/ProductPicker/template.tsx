@@ -51,7 +51,7 @@ const WhiteCircle = styled.div`
   border-radius: 36px;
 `
 
-const ProductPicker = ({ exchangeRedirect, walletRedirect }: Props) => {
+const ProductPicker = ({ exchangeRedirect, isAccountReset, walletRedirect }: Props) => {
   return (
     <>
       <TitleWrapper>
@@ -59,10 +59,17 @@ const ProductPicker = ({ exchangeRedirect, walletRedirect }: Props) => {
           <Icon color='success' name='checkmark-circle-filled' size='40px' />
         </WhiteCircle>
         <Text color='white' size='20px' weight={600} lineHeight='1.5'>
-          <FormattedMessage
-            id='scenes.register.account_created'
-            defaultMessage='Account Created!'
-          />
+          {isAccountReset ? (
+            <FormattedMessage
+              id='scenes.register.account_recovered'
+              defaultMessage='Account Recovered!'
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.register.account_created'
+              defaultMessage='Account Created!'
+            />
+          )}
         </Text>
         <Text color='white' size='16px' weight={500} lineHeight='1.5'>
           <FormattedMessage
@@ -85,6 +92,7 @@ const ProductPicker = ({ exchangeRedirect, walletRedirect }: Props) => {
 
 type Props = {
   exchangeRedirect: () => void
+  isAccountReset: boolean
   walletRedirect: () => void
 }
 
