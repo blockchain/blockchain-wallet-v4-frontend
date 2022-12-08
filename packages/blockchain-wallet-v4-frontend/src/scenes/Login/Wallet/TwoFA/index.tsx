@@ -23,6 +23,7 @@ import BackArrowHeader from '../../components/BackArrowHeader'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, CenteredColumn, Row, WrapperWithPadding } from '../../model'
+import { getTwoFaType } from '../../utils'
 
 const LoginWrapper = styled(Wrapper)`
   display: flex;
@@ -69,17 +70,8 @@ const TwoFAWallet = (props: Props) => {
     authActions.resendSmsCode({ email, guid: formValues?.guid })
   }
 
-  const getTwoFaType = (): string | null => {
-    if (authType > 0) {
-      if (authType === 1) return 'YUBIKEY'
-      if (authType === 4 || authType === 5) return 'SMS'
-      return 'OTP_CODE'
-    }
-    return null
-  }
-
   useEffect(() => {
-    const twoFAType = getTwoFaType()
+    const twoFAType = getTwoFaType(authType)
     analyticsActions.trackEvent({
       key: Analytics.LOGIN_2FA_PAGE_VIEWED,
       properties: {

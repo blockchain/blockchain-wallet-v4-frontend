@@ -21,6 +21,7 @@ import BackArrowHeader from '../../components/BackArrowHeader'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, LinkRow, WrapperWithPadding } from '../../model'
+import { getTwoFaType } from '../../utils'
 
 const LoginWrapper = styled(Wrapper)`
   padding: 32px 0 24px;
@@ -44,17 +45,8 @@ const TwoFAExchange = (props: Props) => {
   } = props
   const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
 
-  const getTwoFaType = (): string | null => {
-    if (authType > 0) {
-      if (authType === 1) return 'YUBIKEY'
-      if (authType === 4 || authType === 5) return 'SMS'
-      return 'OTP_CODE'
-    }
-    return null
-  }
-
   useEffect(() => {
-    const twoFAType = getTwoFaType()
+    const twoFAType = getTwoFaType(authType)
     analyticsActions.trackEvent({
       key: Analytics.LOGIN_2FA_PAGE_VIEWED,
       properties: {
