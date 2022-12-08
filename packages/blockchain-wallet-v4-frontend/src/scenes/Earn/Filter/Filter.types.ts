@@ -9,4 +9,5 @@ export type EarnFilterPropsType = {
   handleSearch: (e: ChangeEvent<HTMLInputElement>) => void
   handleTabClick: (tab: string) => void
   showAvailableAssets: boolean
+  showAvailableAssetsEnabled?: boolean
 }
