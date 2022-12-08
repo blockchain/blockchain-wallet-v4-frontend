@@ -12,14 +12,15 @@ const Description = styled(Text)`
 
 type SlideData = {
   description: React.ReactElement
-  image: 'dex-onboarding-slide-welcome' | 'dex-onboarding-slide-swap' | 'dex-onboarding-slide-funds'
+  image: React.ComponentProps<typeof Image>['name']
+  imageWidth?: string
   title: React.ReactElement
 }
 
-export const Content = ({ description, image, title }: SlideData) => {
+export const InfoWidget = ({ description, image, imageWidth = '100%', title }: SlideData) => {
   return (
     <Flex flexDirection='column' alignItems='center'>
-      <Image name={image} width='100%' />
+      <Image name={image} width={imageWidth} />
       <Padding top={2} bottom={1}>
         <Text variant='title2' textAlign='center' color={SemanticColors.title}>
           {title}
