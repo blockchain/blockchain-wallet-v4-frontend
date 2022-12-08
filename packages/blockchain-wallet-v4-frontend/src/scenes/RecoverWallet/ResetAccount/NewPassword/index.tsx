@@ -10,7 +10,7 @@ import FormGroup from 'components/Form/FormGroup'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import Terms from 'components/Terms'
-import { RecoverSteps } from 'data/types'
+import { Analytics, RecoverSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
 import { Props } from '../..'
@@ -31,11 +31,22 @@ const Footer = styled(FormGroup)`
 const validatePasswordConfirmation = validPasswordConfirmation('resetAccountPassword')
 
 const NewPassword = (props: Props) => {
-  const { accountRecoveryData, accountRecoveryV2Flag, cachedEmail, invalid, setStep } = props
+  const {
+    accountRecoveryData,
+    accountRecoveryV2Flag,
+    analyticsActions,
+    cachedEmail,
+    invalid,
+    setStep
+  } = props
   const isRegistering = Remote.Loading.is(props.registering)
   const handleSubmit = (e) => {
     e.preventDefault()
     const { formValues, language, signupActions } = props
+    analyticsActions.trackEvent({
+      key: Analytics.RECOVER_FUNDS_CLICKED,
+      properties: {}
+    })
     if (accountRecoveryV2Flag) {
       signupActions.resetAccountV2({
         email: formValues?.recoveryEmail,

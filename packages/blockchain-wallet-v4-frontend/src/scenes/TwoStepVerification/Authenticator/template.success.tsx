@@ -11,7 +11,6 @@ import { Props } from '.'
 const AuthenticatorVerified = (props: Props) => {
   return (
     <>
-      <BackArrowFormHeader handleBackArrowClick={() => props.changeAuthenticatorStep(1)} />
       <CenteredColumn>
         <IconCheckCircle
           label='checkmark-circle-filled'

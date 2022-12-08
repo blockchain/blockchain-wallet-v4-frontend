@@ -1,18 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { Field, InjectedFormProps } from 'redux-form'
+import { Field } from 'redux-form'
 
 import { Button, Text } from 'blockchain-info-components'
 import Form from 'components/Form/Form'
-import FormError from 'components/Form/FormError'
-import FormGroup from 'components/Form/FormGroup'
-import FormItem from 'components/Form/FormItem'
-import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
+import { Analytics } from 'data/types'
 import { required } from 'services/forms'
-import { removeWhitespace } from 'services/forms/normalizers'
 
 import { BackArrowFormHeader, CenteredColumn, TwoFactorSetupSteps } from '../model'
 import { Props } from '.'
@@ -21,6 +15,10 @@ const YubiKeySetup = (props: Props) => {
   const { formatMessage } = useIntl()
   const handleSubmit = () => {
     props.securityCenterActions.setYubikey(props.formValues.newTwoFACode)
+    props.analyticsActions.trackEvent({
+      key: Analytics.ACCOUNT_RECOVERY_2FA_ACTIVATION,
+      properties: {}
+    })
   }
 
   return (
@@ -68,6 +66,7 @@ const YubiKeySetup = (props: Props) => {
           height='48px'
           onClick={handleSubmit}
           style={{ marginTop: '24px' }}
+          disabled={(props.formValues?.newTwoFACode.length || 0) < 1}
         >
           <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </Button>

@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
 import { Wrapper } from 'components/Public'
-import { actions, selectors } from 'data'
+import { selectors } from 'data'
+import { Analytics } from 'data/types'
 
+import { Props as OwnProps } from '..'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-const VerifyAccountRecovery = ({ data, signupActions }: Props) => {
+const VerifyAccountRecovery = ({ analyticsActions, data, signupActions }: Props) => {
   useEffect(() => {
     signupActions.approveAccountReset()
+    analyticsActions.trackEvent({
+      key: Analytics.ACCOUNT_RECOVERY_EMAIL_CLICKED,
+      properties: {}
+    })
   }, [])
 
   return (
@@ -30,12 +35,8 @@ const mapStateToProps = (state) => ({
   data: selectors.signup.getAccountRecoveryVerify(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  signupActions: bindActionCreators(actions.signup, dispatch)
-})
+const connector = connect(mapStateToProps)
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type Props = ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector> & OwnProps
 
 export default connector(VerifyAccountRecovery)
