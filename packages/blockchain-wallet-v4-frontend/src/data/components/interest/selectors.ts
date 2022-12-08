@@ -15,6 +15,8 @@ import { EarnInstrumentsType, EarnProductsType } from './types'
 
 export const getRewardsAccountBalance = (state: RootState) =>
   state.components.interest.rewardsAccountBalance
+export const getActiveRewardsAccountBalance = (state: RootState) =>
+  state.components.interest.activeRewardsAccountBalance
 export const getStakingAccountBalance = (state: RootState) =>
   state.components.interest.stakingAccountBalance
 
@@ -25,12 +27,16 @@ export const getIsAmountDisplayedInCrypto = (state: RootState) =>
 
 export const getInterestEligible = (state: RootState) => state.components.interest.interestEligible
 
+export const getActiveRewardsEligible = (state: RootState) =>
+  state.components.interest.activeRewardsEligible
 export const getStakingEligible = (state: RootState) => state.components.interest.stakingEligible
 
 export const getEarnInstruments = (state: RootState) => state.components.interest.instruments
 
 export const getIsStakingEnabled = (state: RootState) =>
   selectors.core.walletOptions.getIsStakingEnabled(state) || false
+export const getIsActiveRewardsEnabled = (state: RootState) =>
+  selectors.core.walletOptions.getActiveRewardsEnabled(state) || false
 
 export const getWalletCurrency = (state: RootState): RemoteDataType<string, FiatType> => {
   return selectors.core.settings.getCurrency(state)
@@ -206,9 +212,15 @@ export const getInterestLimits = (state: RootState) => state.components.interest
 
 export const getStakingLimits = (state: RootState) => state.components.interest.stakingLimits
 
+export const getActiveRewardsLimits = (state: RootState) =>
+  state.components.interest.activeRewardsLimits
+
 export const getRewardsAccount = (state: RootState) => state.components.interest.rewardsAccount
 
 export const getStakingAccount = (state: RootState) => state.components.interest.stakingAccount
+
+export const getActiveRewardsAccount = (state: RootState) =>
+  state.components.interest.activeRewardsAccount
 
 export const getRewardsDepositAddress = (state: RootState) => {
   const account = getRewardsAccount(state).getOrElse({ accountRef: '' })
@@ -219,9 +231,18 @@ export const getStakingDepositAddress = (state: RootState) => {
   const account = getStakingAccount(state).getOrElse({ accountRef: '' })
   return account.accountRef
 }
+
+export const getActiveRewardsDepositAddress = (state: RootState) => {
+  const account = getActiveRewardsAccount(state).getOrElse({ accountRef: '' })
+  return account.accountRef
+}
+
 export const getInterestRates = (state: RootState) => state.components.interest.interestRates
 
 export const getStakingRates = (state: RootState) => state.components.interest.stakingRates
+
+export const getActiveRewardsRates = (state: RootState) =>
+  state.components.interest.activeRewardsRates
 
 export const getInterestTransactionsReport = (state: RootState) =>
   state.components.interest.transactionsReport
@@ -248,6 +269,9 @@ export const getRates = (state: RootState): RemoteDataType<string, RatesType> =>
 export const getRewardsStep = (state: RootState) => state.components.interest.rewardsStep
 
 export const getStakingStep = (state: RootState) => state.components.interest.stakingStep
+
+export const getActiveRewardsStep = (state: RootState) =>
+  state.components.interest.activeRewardsStep
 
 export const getRewardsTransactionsNextPage = (state: RootState) =>
   state.components.interest.rewardsTransactionsNextPage

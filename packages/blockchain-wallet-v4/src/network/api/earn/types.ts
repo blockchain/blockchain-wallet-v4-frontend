@@ -1,13 +1,13 @@
 import { CoinType, FiatType, NabuMoneyFloatType, WalletFiatType } from '@core/types'
 
-type ProductType = 'staking' | 'savings'
+export type EarnApiProductType = 'staking' | 'savings' | 'EARN_CC1W'
 
 type CapProductType = 'STAKING' | 'SAVINGS'
 
 export type EarnAccountBalanceType = {
   ccy?: CoinType
   din?: FiatType
-  product: ProductType
+  product: EarnApiProductType
 }
 
 export type EarnBalanceType = {
@@ -94,7 +94,7 @@ export type InterestLimitsType = {
 
 export type EarnAccountType = {
   coin: CoinType
-  product: ProductType
+  product: EarnApiProductType
 }
 
 export type EarnAccountResponseType = {
@@ -107,7 +107,7 @@ export type RewardsRatesType = {
   }
 }
 
-export type StakingRatesType = {
+export type EarnRatesType = {
   rates: {
     [key in CoinType]: {
       commission: number
@@ -212,14 +212,21 @@ export type UploadDocumentDetails = {
 export type StakingLimitType = {
   bondingDays: number
   disabledWithdrawals: boolean
-  minDepositValue: number
+  minDepositValue: string
   unbondingDays?: number
 }
 
-export type StakingLimitsType = {
-  [key in CoinType]: StakingLimitType
+export type ActiveRewardsLimitType = {
+  bondingDays: number
+  minDepositValue: string
+  rewardFrequency: string
+  unbondingDays: number
 }
 
-export type StakingLimitsResponse = {
-  limits: StakingLimitsType
+export type EarnLimitsType = {
+  [key in CoinType]: StakingLimitType | ActiveRewardsLimitType
+}
+
+export type EarnLimitsResponse = {
+  limits: EarnLimitsType
 }

@@ -1,5 +1,6 @@
 import {
   AccountTypes,
+  BSBalancesType,
   CoinType,
   EarnAccountBalanceResponseType,
   EarnAccountResponseType,
@@ -7,14 +8,14 @@ import {
   EarnDepositLimits,
   EarnEDDStatus,
   EarnEligibleType,
+  EarnLimitsType,
+  EarnRatesType,
   FiatType,
   InterestLimitsType,
   PaymentValue,
   RatesType,
   RemoteDataType,
   RewardsRatesType,
-  StakingLimitsType,
-  StakingRatesType,
   TransactionType,
   WithdrawalMinimumType,
   WithdrawLimits
@@ -63,6 +64,14 @@ export enum StakingSteps {
   'WARNING'
 }
 
+export enum ActiveRewardsSteps {
+  'ACCOUNT_SUMMARY',
+  'DEPOSIT',
+  'DEPOSIT_SUCCESS',
+  'WARNING',
+  'WITHDRAWAL'
+}
+
 export type EarnStepMetaData = {
   depositSuccess?: boolean
   error?: string
@@ -70,11 +79,16 @@ export type EarnStepMetaData = {
   withdrawalAmount?: number
 }
 
-export type EarnDepositFormType = 'rewardsDepositForm' | 'stakingDepositForm'
+export type EarnDepositFormType =
+  | 'passiveRewardsDepositForm'
+  | 'stakingDepositForm'
+  | 'activeRewardsDepositForm'
 
 export type InterestStep = keyof typeof InterestSteps
 
 export type StakingStep = keyof typeof StakingSteps
+
+export type ActiveRewardsStep = keyof typeof ActiveRewardsSteps
 
 export enum StakingStepsType {
   'WARNING',
@@ -94,6 +108,12 @@ export type InterestLimits = { coin: CoinType; currency: FiatType }
 export type EarnProductsType = 'Staking' | 'Passive' | 'Active'
 
 export type EarnTabsType = 'All' | EarnProductsType
+
+export type CreateLimitsParamTypes = {
+  custodialBalances?: BSBalancesType
+  payment?: PaymentValue
+  product: EarnProductsType
+}
 
 export type EarnInstrumentsType = Array<{
   coin: CoinType
@@ -121,6 +141,15 @@ export type PendingTransactionType = {
 // State
 //
 export interface InterestState {
+  activeRewardsAccount: RemoteDataType<string, EarnAccountResponseType>
+  activeRewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
+  activeRewardsEligible: RemoteDataType<string, EarnEligibleType>
+  activeRewardsLimits: RemoteDataType<string, EarnLimitsType>
+  activeRewardsRates: RemoteDataType<string, EarnRatesType['rates']>
+  activeRewardsStep: {
+    data: EarnStepMetaData
+    name: ActiveRewardsStep
+  }
   afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
   coin: CoinType
   earnDepositLimits: EarnMinMaxType
@@ -148,8 +177,8 @@ export interface InterestState {
   stakingAccount: RemoteDataType<string, EarnAccountResponseType>
   stakingAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   stakingEligible: RemoteDataType<string, EarnEligibleType>
-  stakingLimits: RemoteDataType<string, StakingLimitsType>
-  stakingRates: RemoteDataType<string, StakingRatesType['rates']>
+  stakingLimits: RemoteDataType<string, EarnLimitsType>
+  stakingRates: RemoteDataType<string, EarnRatesType['rates']>
   stakingStep: {
     data: EarnStepMetaData
     name: StakingStep

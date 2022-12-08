@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { EarnEDDStatus, RemoteDataType, RewardsRatesType, StakingRatesType } from '@core/types'
+import { EarnEDDStatus, EarnRatesType, RemoteDataType, RewardsRatesType } from '@core/types'
 import { actions } from 'data'
 import { Analytics, UserDataType } from 'data/types'
 import { useRemote } from 'hooks'
@@ -93,7 +93,7 @@ export type OwnPropsType = {
   interestRates: RewardsRatesType
   interestRatesArray: Array<number>
   isGoldTier: boolean
-  stakingRates: StakingRatesType
+  stakingRates: EarnRatesType
   userData: UserDataType
 }
 

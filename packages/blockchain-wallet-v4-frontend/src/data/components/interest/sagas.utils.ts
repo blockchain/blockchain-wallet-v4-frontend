@@ -3,15 +3,7 @@ import { call, CallEffect, put, select, take } from 'redux-saga/effects'
 
 import { Exchange } from '@core'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
-import {
-  AccountTypes,
-  BSBalancesType,
-  CoinType,
-  FiatType,
-  PaymentType,
-  PaymentValue,
-  RatesType
-} from '@core/types'
+import { AccountTypes, CoinType, FiatType, PaymentType, PaymentValue, RatesType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'
 
@@ -19,6 +11,7 @@ import exchangeSagaUtils from '../exchange/sagas.utils'
 import { convertBaseToStandard } from '../exchange/services'
 import * as S from './selectors'
 import { actions as A } from './slice'
+import { CreateLimitsParamTypes } from './types'
 
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const { calculateProvisionalPayment } = exchangeSagaUtils({
@@ -106,13 +99,24 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     }
   }
 
-  const createStakingLimits = function* (
-    payment?: PaymentValue,
-    custodialBalances?: BSBalancesType
-  ) {
+  const createLimits = function* ({ custodialBalances, payment, product }: CreateLimitsParamTypes) {
     try {
       const coin = S.getCoinType(yield select())
-      const limitsR = S.getStakingLimits(yield select())
+      let limitsR
+
+      switch (product) {
+        case 'Staking':
+          limitsR = S.getStakingLimits(yield select())
+          break
+        case 'Active':
+          limitsR = S.getActiveRewardsLimits(yield select())
+          break
+        case 'Passive':
+        default:
+          limitsR = S.getInterestLimits(yield select())
+          break
+      }
+
       const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
 
       const nonCustodialBalance = payment && payment.effectiveBalance
@@ -126,31 +130,6 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         minDepositAmount
       })
 
-      yield put(A.setEarnDepositLimits(minMaxLimits))
-    } catch (e) {
-      yield put(A.setPaymentFailure(e))
-    }
-  }
-
-  const createRewardsLimits = function* (
-    payment?: PaymentValue,
-    custodialBalances?: BSBalancesType
-  ) {
-    try {
-      const coin = S.getCoinType(yield select())
-      const limitsR = S.getInterestLimits(yield select())
-      const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
-
-      const minDepositAmount = limits[coin]?.minDepositAmount || 100
-      // determine balance to use based on args passed in
-      const nonCustodialBalance = payment && payment.effectiveBalance
-      const custodialBalance = custodialBalances && custodialBalances[coin]?.available
-      const baseUnitBalance = nonCustodialBalance || custodialBalance || 0
-      const minMaxLimits = yield call(getMinMaxLimits, {
-        baseUnitBalance,
-        coin,
-        minDepositAmount
-      })
       yield put(A.setEarnDepositLimits(minMaxLimits))
     } catch (e) {
       yield put(A.setPaymentFailure(e))
@@ -203,9 +182,8 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
   return {
     buildAndPublishPayment,
+    createLimits,
     createPayment,
-    createRewardsLimits,
-    createStakingLimits,
     getCustodialAccountForCoin
   }
 }
