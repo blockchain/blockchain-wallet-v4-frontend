@@ -1,8 +1,24 @@
 export enum Events {
+  // DETAIL: User visualises the successful transfer of a deposit.
+  WALLET_ACTIVE_REWARDS_DEPOSIT_SUCCESS_VIEWED = 'Wallet Active Rewards Deposit Success Viewed',
+  // ADD: User clicks on transfer on the deposit page.\
+  WALLET_ACTIVE_REWARDS_DEPOSIT_TRANSFER_CLICKED = 'Wallet Active Rewards Deposit Transfer Clicked',
+  // ADD: User visualises the page where user add balance to the staking account.
+  WALLET_ACTIVE_REWARDS_DEPOSIT_VIEWED = 'Active Rewards Deposit Viewed',
+  // EARN HOMEPAGE: User clicks in a Active Rewards token in the earn page.
+  WALLET_ACTIVE_REWARDS_DETAIL_CLICKED = 'Wallet Active Rewards Detail Clicked',
+  // DETAIL: User clicks in the deposit button in the staking detail view.
+  WALLET_ACTIVE_REWARDS_DETAIL_DEPOSIT_CLICKED = 'Wallet Active Rewards Detail Deposit Clicked',
+  // DETAIL: User visualises the detail of a specific token’s staking account. Balance, accruals, and CTA are shown here.
+  WALLET_ACTIVE_REWARDS_DETAIL_VIEWED = 'Wallet Active Rewards Detail Viewed',
+  // Active Rewards Modal: User clicks continue button
+  WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED = 'Wallet Active Rewards Warning Continue Clicked',
+
   // BUY: Wallet. The user clicks the buy earn rewards button.
   WALLET_BUY_EARN_REWARDS_CLICKED = 'Wallet Buy Earn Rewards Clicked',
   // BUY: Wallet. What the user sees after the wallet clicks the Buy Earn Rewards Button
   WALLET_BUY_EARN_REWARDS_VIEWED = 'Wallet Buy Earn Rewards Viewed',
+
   // ADD: User changes the wallet on the interest deposit page.
   WALLET_REWARDS_DEPOSIT_CHANGE_WALLET_CLICKED = 'Wallet Rewards Deposit Change Wallet Clicked',
   // ADD: User clicks on transfer on the deposit page.
@@ -29,11 +45,12 @@ export enum Events {
   WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED = 'Wallet Rewards Withdraw Max Amount Clicked',
   // WITHDRAW: User clicks on transfer on the withdrawal page.
   WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED = 'Wallet Rewards Withdraw Transfer Clicked',
+
   // DETAIL: User visualises the successful transfer of a deposit.
   WALLET_STAKING_DEPOSIT_SUCCESS_VIEWED = 'Wallet Staking Deposit Success Viewed',
   // ADD: User clicks on transfer on the deposit page.\
   WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED = 'Wallet Staking Deposit Transfer Clicked',
-  // ADD: User visualises the page where he add balance to the rewards account.
+  // ADD: User visualises the page where user add balance to the staking account.
   WALLET_STAKING_DEPOSIT_VIEWED = 'Staking Deposit Viewed',
   // EARN HOMEPAGE: User clicks in a Staking token in the earn page.
   WALLET_STAKING_DETAIL_CLICKED = 'Wallet Staking Detail Clicked',
@@ -58,9 +75,22 @@ type WalletStakingDetailClicked = {
     currency: string
   }
 }
+type WalletActiveRewardsDetailClicked = {
+  key: Events.WALLET_ACTIVE_REWARDS_DETAIL_CLICKED
+  properties: {
+    currency: string
+  }
+}
 
 type WalletStakingWarningContinueClicked = {
   key: Events.WALLET_STAKING_WARNING_CONTINUE_CLICKED
+  properties: {
+    currency: string
+  }
+}
+
+type WalletActiveRewardsWarningContinueClicked = {
+  key: Events.WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED
   properties: {
     currency: string
   }
@@ -100,6 +130,13 @@ type WalletStakingDetailDepositClicked = {
   }
 }
 
+type WalletActiveRewardsDetailDepositClicked = {
+  key: Events.WALLET_ACTIVE_REWARDS_DETAIL_DEPOSIT_CLICKED
+  properties: {
+    currency: string
+  }
+}
+
 type WalletRewardsDetailViewed = {
   key: Events.WALLET_REWARDS_DETAIL_VIEWED
   properties: {
@@ -116,6 +153,20 @@ type WalletStakingDetailViewed = {
 
 type WalletStakingDepositSuccessViewed = {
   key: Events.WALLET_STAKING_DEPOSIT_SUCCESS_VIEWED
+  properties: {
+    currency: string
+  }
+}
+
+type WalletActiveRewardsDetailViewed = {
+  key: Events.WALLET_ACTIVE_REWARDS_DETAIL_VIEWED
+  properties: {
+    currency: string
+  }
+}
+
+type WalletActiveRewardsDepositSuccessViewed = {
+  key: Events.WALLET_ACTIVE_REWARDS_DEPOSIT_SUCCESS_VIEWED
   properties: {
     currency: string
   }
@@ -153,6 +204,18 @@ type WalletRewardsDepositViewed = {
 
 type WalletStakingDepositViewed = {
   key: Events.WALLET_STAKING_DEPOSIT_VIEWED
+  properties: {
+    currency?: string
+    path?: string
+    referrer?: string
+    search?: string
+    title?: string
+    url?: string
+  }
+}
+
+type WalletActiveRewardsDepositViewed = {
+  key: Events.WALLET_ACTIVE_REWARDS_DEPOSIT_VIEWED
   properties: {
     currency?: string
     path?: string
@@ -208,6 +271,12 @@ type WalletBuyEarnRewardsViewed = {
 }
 
 export type TrackEventAction =
+  | WalletActiveRewardsDepositSuccessViewed
+  | WalletActiveRewardsDepositViewed
+  | WalletActiveRewardsDetailClicked
+  | WalletActiveRewardsDetailDepositClicked
+  | WalletActiveRewardsDetailViewed
+  | WalletActiveRewardsWarningContinueClicked
   | WalletBuyEarnRewardsClicked
   | WalletBuyEarnRewardsViewed
   | WalletRewardsDetailClicked
