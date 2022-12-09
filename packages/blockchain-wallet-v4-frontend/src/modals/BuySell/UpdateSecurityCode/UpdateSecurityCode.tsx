@@ -42,7 +42,7 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
   const method = useSelector(selectors.components.buySell.getBSPaymentMethod)
 
   const updateCvv = () => {
-    const paymentId = order?.attributes?.paymentId
+    const paymentId = order?.attributes?.paymentId || order?.depositPaymentId
     if (cvv && paymentId) {
       dispatch(actions.components.buySell.updateCardCvv({ cvv, paymentId }))
     }

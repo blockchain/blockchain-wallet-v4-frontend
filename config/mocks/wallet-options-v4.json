@@ -71,7 +71,7 @@
         "unifiedAccountLogin": true,
         "useLoqateService": true,
         "useNewPaymentProviders": true,
-        "useVgsProvider": true,
+        "useVgsProvider": false,
         "walletConnect": true,
         "walletDebitCardEnabled": true
       }

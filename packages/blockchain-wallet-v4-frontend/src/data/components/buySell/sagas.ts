@@ -44,7 +44,7 @@ import {
   UserDataType,
   VerifyIdentityOriginType
 } from 'data/types'
-import { isNabuError } from 'services/errors'
+import { isNabuError, NabuError } from 'services/errors'
 import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import { actions as cacheActions } from '../../cache/slice'
@@ -588,21 +588,41 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const checkOrderAuthUrl = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
-    if (order.attributes || order.state === 'FAILED') {
+    if (order.attributes?.authorisationUrl || order.state === 'FAILED') {
       return order
     }
 
     throw new Error(BS_ERROR.RETRYING_TO_GET_AUTH_URL)
   }
 
+  const asyncOrderConfirmCheck = function* (orderId) {
+    try {
+      // When isAsync is true on the confirm request this call can return the "ux" nabu error but the request is still
+      // techniclly not an http error (ex. 400, 500) and so we need to catch it and manually return the order info "dataFields"
+      const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
+      if (
+        order.state === 'FINISHED' ||
+        order.state === 'FAILED' ||
+        order.state === 'CANCELED' ||
+        order.attributes
+      ) {
+        return order
+      }
+    } catch (e) {
+      if (isNabuError(e)) {
+        // FIXME: The api is returning a 200 status code but also including a NABU error (ux)
+        // in the response. So it messes with all of the polling logic we have here. We need to
+        // catch that "error" and manually handle it here.
+        return e
+      }
+    }
+
+    throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
+  }
+
   const orderConfirmCheck = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
-    if (
-      order.state === 'FINISHED' ||
-      order.state === 'FAILED' ||
-      order.state === 'CANCELED' ||
-      order.attributes?.needCvv
-    ) {
+    if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
       return order
     }
 
@@ -632,8 +652,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const confirmOrder = function* ({ payload }: ReturnType<typeof A.confirmOrder>) {
     try {
-      const { mobilePaymentMethod, paymentMethodId } = payload
-      const { order } = payload
+      const { mobilePaymentMethod, order, paymentMethodId } = payload
 
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
 
@@ -885,7 +904,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.confirmOrderLoading())
 
-      const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
+      // Before isAsync this request would throw if the buy was going to fail and show the error UX
+      // to the user. Now with isAsync = true this will no longer throw and we need to poll for FAILED or success state
+      let confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
         attributes,
         order: freshOrder,
         paymentMethodId
@@ -913,12 +934,42 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         // Now we need to poll for the order success
         yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
+      } else if (attributes && 'isAsync' in attributes) {
+        // If this is an isAsync call then we need to poll the order to wait forattributes or FAIL
+        try {
+          const { RETRY_AMOUNT, SECONDS } = CARD_ORDER_POLLING
+          confirmedOrder = yield retry(
+            RETRY_AMOUNT,
+            SECONDS,
+            asyncOrderConfirmCheck,
+            confirmedOrder.id
+          )
+
+          // check if a nabu error was returned by the backend even if the request was a 200
+          if (isNabuError(confirmedOrder)) {
+            throw new NabuError(confirmedOrder)
+          }
+        } catch (error) {
+          if (isNabuError(error)) {
+            throw new NabuError(error) // bubble this up to the top level catch in this func
+          }
+
+          yield put(A.confirmOrderSuccess(confirmedOrder))
+
+          yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
+
+          yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+          return // no need to proceed with the rest of this func
+        }
       }
 
       // Refresh recurring buy list to check for new pending RBs for next step
       yield put(actions.components.recurringBuy.fetchRegisteredList())
-
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
+      // Start checking the confirmed order for different states and types to determine
+      // how to continue. ex. if 3DS is required, or it's a BANK_TRANSFER or SETTLED state
+      // we'll need to handle these cases slightly differently
       if (confirmedOrder.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.confirmOrderSuccess(confirmedOrder))
 
@@ -928,8 +979,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } else if (
         confirmedOrder.attributes?.everypay?.paymentState === 'SETTLED' ||
         confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED' ||
-        confirmedOrder.attributes?.cardCassy?.paymentState === 'SETTLED' ||
-        (attributes && 'isAsync' in attributes) // FIXME: and payment method partner is CARD_CASSY
+        confirmedOrder.attributes?.cardCassy?.paymentState === 'SETTLED'
       ) {
         // Have to check if the state is "FINISHED", otherwise poll for 1 minute until it is
         if (confirmedOrder.state === 'FINISHED') {
@@ -938,6 +988,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
           yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+          yield put(A.fetchOrders())
+          return
         }
 
         try {

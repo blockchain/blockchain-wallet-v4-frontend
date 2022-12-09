@@ -298,6 +298,7 @@ export type BSOrderProperties = {
     paymentId: string
     qrcodeUrl?: string
   }
+  depositPaymentId?: string
   expiresAt: string
   failureReason?: RecurringBuyFailureReasons
   fee?: string
