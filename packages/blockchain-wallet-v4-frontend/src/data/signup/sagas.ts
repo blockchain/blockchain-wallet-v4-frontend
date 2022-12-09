@@ -477,6 +477,9 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.alerts.displaySuccess(C.TWOFA_VERIFIED))
         yield put(actions.signup.verifyTwoFaForRecoverySuccess(true))
       }
+      if (!verified) {
+        yield put(actions.signup.verifyTwoFaForRecoveryFailure(true))
+      }
     } catch (e) {
       yield put(actions.signup.verifyTwoFaForRecoveryFailure(e))
     }
