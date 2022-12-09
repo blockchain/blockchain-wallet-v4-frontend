@@ -17,6 +17,9 @@ const dexSlice = createSlice({
   initialState,
   name: 'dex',
   reducers: {
+    clearCurrentSwapQuote: (state) => {
+      state.swapQuote = Remote.NotAsked
+    },
     fetchChainAllTokens: () => {},
     fetchChainAllTokensFailure: (state, action: PayloadAction<string>) => {
       state.currentChainTokens = Remote.Failure(action.payload)
