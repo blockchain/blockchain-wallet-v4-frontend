@@ -23,6 +23,7 @@ import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ViewEtherscan } from './components'
+import { useDebounce } from './hooks'
 import { getDexTokensList } from './SelectToken.selectors'
 import {
   CloseIcon,
@@ -49,14 +50,13 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
   const dispatch = useDispatch()
   const { formatMessage } = useIntl()
 
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState<string | null>(null)
 
   const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
 
   const {
     data: dexTokensList,
-    error: tokenError,
     hasError: isDexTokensListFailed,
     isLoading: isDexTokensListLoading
   } = useRemote(getDexTokensList)
@@ -74,11 +74,20 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
     dispatch(actions.modals.closeModal())
   }
 
-  const onTokenFilter = ({ name }) => name.toLowerCase().includes(search.toLowerCase())
-
   const onClose = () => {
     dispatch(actions.modals.closeModal())
   }
+
+  useDebounce(
+    {
+      action: () => {
+        if (search === null) return
+        dispatch(actions.components.dex.fetchChainAllTokens({ search: search || '' }))
+      },
+      timeout: 200
+    },
+    [search]
+  )
 
   return (
     <Modal
@@ -113,10 +122,9 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
 
       {dexTokensList
         ? (() => {
-            const filteredDexTokenList = dexTokensList.filter(onTokenFilter)
-            return filteredDexTokenList.length ? (
+            return dexTokensList.length ? (
               <TokenList>
-                {filteredDexTokenList.map((token) => (
+                {dexTokensList.map((token) => (
                   <TokenRow
                     key={token.displaySymbol}
                     onClick={() => onTokenSelect(token.displaySymbol)}

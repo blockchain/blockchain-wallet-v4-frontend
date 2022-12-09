@@ -1,3 +1,5 @@
+import type { CancelToken } from 'axios'
+
 import type { RequestConfig } from '../../http'
 import { DEX_GATEWAY_PREFIX } from '../constants'
 import { DexTokenSchema, listSchema } from '../schemas'
@@ -5,12 +7,15 @@ import type { DexToken } from '../types'
 
 export const getDexChainAllTokens =
   ({ apiUrl, post }: { apiUrl: string; post: (config: RequestConfig) => Promise<unknown> }) =>
-  (chainId: number): Promise<DexToken[]> =>
+  (chainId: number, search: string, cancelToken: CancelToken): Promise<DexToken[]> =>
     post({
+      // TODO: Migrate to AbortController after axios upgrade > 0.22.0
+      cancelToken,
       contentType: 'application/json',
       data: {
         chainId,
-        queryBy: 'ALL'
+        query: search,
+        queryBy: 'MIXED'
       },
       endPoint: `${DEX_GATEWAY_PREFIX}/tokens`,
       removeDefaultPostData: true,
