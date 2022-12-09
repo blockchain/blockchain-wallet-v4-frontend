@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
 
-import { actions } from 'data'
 import { notReachable } from 'utils/notReachable'
 
 import { PageLoading } from './components'
@@ -13,15 +11,7 @@ import { Swap } from './Swap'
 const DEX_INTRO_VIEWED_KEY = 'dexIntroViewed'
 
 const Dex = () => {
-  const dispatch = useDispatch()
   const [scene, setScene] = useSceneResolver()
-
-  // clear data on exiting DEX app
-  useEffect(() => {
-    return () => {
-      dispatch(actions.components.dex.clearCurrentSwapQuote())
-    }
-  }, [])
 
   const onFinishOnboarding = () => {
     localStorage.setItem(DEX_INTRO_VIEWED_KEY, 'true')
