@@ -23,17 +23,21 @@ import { Icon } from 'blockchain-info-components'
 import { RoundedBadge } from 'components/Badge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import { EarnProductsType } from 'data/types'
 
 import { Props as ParentProps, SuccessStateType } from '..'
 import Tag from '../Tag'
 import { ButtonContainer, sortTextCells, TableContainer } from './SortableTable.model'
 
 const SortableTable = ({
+  activeRewardsAccountBalance,
+  activeRewardsEligible,
+  activeRewardsRates,
   handleClick,
-  interestAccountBalance,
   interestEligible,
   interestRates,
   isGoldTier,
+  passiveRewardsAccountBalance,
   sortedInstruments,
   stakingAccountBalance,
   stakingEligible,
@@ -147,16 +151,34 @@ const SortableTable = ({
   const data = sortedInstruments.map(({ coin, product, rate }) => {
     const { coinfig } = window.coins[coin] || {}
     const { displaySymbol, name: displayName } = coinfig
-    const isStaking = product === 'Staking'
-    const account = isStaking
-      ? stakingAccountBalance && stakingAccountBalance[coin]
-      : interestAccountBalance && interestAccountBalance[coin]
+    let account
+    let earnRate
+    let isCoinEligible
+    let showNewTag = false
+
+    switch (product) {
+      case 'Staking':
+        account = stakingAccountBalance && stakingAccountBalance[coin]
+        earnRate = stakingRates[coin].rate
+        isCoinEligible = stakingEligible[coin]?.eligible
+        showNewTag = true
+        break
+      case 'Active':
+        account = activeRewardsAccountBalance && activeRewardsAccountBalance[coin]
+        earnRate = activeRewardsRates[coin].rate
+        isCoinEligible = activeRewardsEligible[coin]?.eligible
+        showNewTag = true
+        break
+      case 'Passive':
+      default:
+        account = passiveRewardsAccountBalance && passiveRewardsAccountBalance[coin]
+        earnRate = interestRates[coin].rate
+        isCoinEligible = interestEligible[coin]?.eligible
+        break
+    }
+
     const accountBalanceBase = account ? account.balance : 0
     const hasAccountBalance = accountBalanceBase > 0
-    const isInterestCoinEligible = interestEligible[coin]?.eligible
-    const isStakingCoinEligible = stakingEligible[coin]?.eligible
-    const isCoinEligible = isStaking ? isStakingCoinEligible : isInterestCoinEligible
-    const earnRate = isStaking ? stakingRates[coin].rate : interestRates[coin]
 
     const balanceText: TextCellProps = hasAccountBalance
       ? {
@@ -201,7 +223,7 @@ const SortableTable = ({
 
     const primaryButton = {
       disabled: !isGoldTier || (!hasAccountBalance && !isCoinEligible),
-      onClick: () => handleClick(coin, isStaking),
+      onClick: () => handleClick(coin, product),
       text: (
         <ButtonContainer>
           {hasAccountBalance ? (
@@ -234,12 +256,12 @@ const SortableTable = ({
             {displaySymbol}
           </Text>
         ),
-        tag: isStaking ? (
+        tag: showNewTag ? (
           <RoundedBadge>
             <FormattedMessage defaultMessage='New' id='copy.new' />
           </RoundedBadge>
         ) : undefined,
-        tagPosition: isStaking ? 'right' : undefined,
+        tagPosition: showNewTag ? 'right' : undefined,
         text: (
           <Text color={SemanticColors.title} variant='paragraph1'>
             {displayName}
@@ -338,7 +360,7 @@ const SortableTable = ({
 }
 
 type OwnPropsType = {
-  handleClick: (coin: CoinType, isStaking: boolean) => void
+  handleClick: (coin: CoinType, product: EarnProductsType) => void
 }
 
 export default SortableTable

@@ -151,15 +151,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchActiveRewardsEligible = function* () {
     try {
       yield call(waitForUserData)
-      yield put(A.fetchStakingEligibleLoading())
+      yield put(A.fetchActiveRewardsEligibleLoading())
       const response: ReturnType<typeof api.getEarnEligible> = yield call(
         api.getEarnEligible,
         'EARN_CC1W'
       )
-      yield put(A.fetchStakingEligibleSuccess(response))
+      yield put(A.fetchActiveRewardsEligibleSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchStakingEligibleFailure(error))
+      yield put(A.fetchActiveRewardsEligibleFailure(error))
     }
   }
 
@@ -167,35 +167,45 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield put(A.fetchEarnInstrumentsLoading())
 
-      const [stakingRates, rewardsRates] = yield all([
+      const [stakingRates, passiveRewardsRates, activeRewardsRates] = yield all([
         call(api.getEarnRates, 'staking'),
-        call(api.getRewardsRates)
+        call(api.getRewardsRates),
+        call(api.getEarnRates, 'EARN_CC1W')
       ])
 
       yield put(A.fetchStakingRatesSuccess(stakingRates))
-      yield put(A.fetchInterestRatesSuccess(rewardsRates))
+      yield put(A.fetchInterestRatesSuccess(passiveRewardsRates))
+      yield put(A.fetchActiveRewardsRatesSuccess(activeRewardsRates))
       const allRatesR = yield select(S.getAllRates)
       const walletCurrencyR = yield select(S.getWalletCurrency)
       const allRates = allRatesR.getOrElse({})
       const walletCurrency = walletCurrencyR.getOrElse('USD')
 
       const stakingCoins: Array<string> = Object.keys(stakingRates.rates)
-      const rewardsCoins: Array<string> = Object.keys(rewardsRates.rates)
+      const rewardsCoins: Array<string> = Object.keys(passiveRewardsRates.rates)
+      const activeRewardsCoins: Array<string> = Object.keys(activeRewardsRates.rates)
 
       const stakingInstruments: EarnInstrumentsType = stakingCoins.map((coin) => ({
         coin,
         product: 'Staking',
         rate: allRates[`${coin}-${walletCurrency}`]
       }))
-      const rewardsInstruments: EarnInstrumentsType = rewardsCoins.map((coin) => ({
+      const passiveRewardsRatesInstruments: EarnInstrumentsType = rewardsCoins.map((coin) => ({
         coin,
         product: 'Passive',
+        rate: allRates[`${coin}-${walletCurrency}`]
+      }))
+      const activeRewardsRatesInstruments: EarnInstrumentsType = activeRewardsCoins.map((coin) => ({
+        coin,
+        product: 'Active',
         rate: allRates[`${coin}-${walletCurrency}`]
       }))
 
       yield put(
         A.fetchEarnInstrumentsSuccess({
-          earnInstruments: stakingInstruments.concat(rewardsInstruments)
+          earnInstruments: activeRewardsRatesInstruments
+            .concat(stakingInstruments)
+            .concat(passiveRewardsRatesInstruments)
         })
       )
     } catch (e) {

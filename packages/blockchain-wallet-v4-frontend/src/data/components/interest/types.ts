@@ -107,7 +107,7 @@ export type InterestLimits = { coin: CoinType; currency: FiatType }
 
 export type EarnProductsType = 'Staking' | 'Passive' | 'Active'
 
-export type EarnTabsType = 'All' | EarnProductsType
+export type EarnTabsType = 'All' | EarnProductsType | string
 
 export type CreateLimitsParamTypes = {
   custodialBalances?: BSBalancesType
@@ -161,11 +161,11 @@ export interface InterestState {
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRates: RemoteDataType<string, RewardsRatesType['rates']>
   isAmountDisplayedInCrypto: boolean
+  passiveRewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   // make this optional here. places where ts doesnt like it, check, custodial
   payment?: RemoteDataType<string, PaymentValue | undefined>
   pendingStakingTransactions: RemoteDataType<string, Array<PendingTransactionType>>
   rewardsAccount: RemoteDataType<string, EarnAccountResponseType>
-  rewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   rewardsEDDDepositLimits: RemoteDataType<string, EarnDepositLimits>
   rewardsStep: {
     data: EarnStepMetaData

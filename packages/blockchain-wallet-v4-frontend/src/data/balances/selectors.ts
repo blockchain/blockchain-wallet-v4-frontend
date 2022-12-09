@@ -165,7 +165,7 @@ export const getCoinTradingBalance = (coin: CoinType, state) => {
 
 // given a coin, returns its interest account balance
 export const getCoinInterestBalance = (coin: CoinType, state) => {
-  return interestSelectors.getRewardsAccountBalance(state).map((x) => x[coin])
+  return interestSelectors.getPassiveRewardsAccountBalance(state).map((x) => x[coin])
 }
 
 // given a coin, returns its custodial balance
@@ -175,18 +175,18 @@ export const getCoinCustodialBalance = (
   createDeepEqualSelector(
     [
       buySellSelectors.getBSBalances,
-      interestSelectors.getRewardsAccountBalance,
+      interestSelectors.getPassiveRewardsAccountBalance,
       interestSelectors.getStakingAccountBalance
     ],
     (
       sbBalancesR: RemoteDataType<PartialClientErrorProperties, BSBalancesType>,
-      interestAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>,
+      passiveRewardsAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>,
       stakingAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>
     ) => {
       const sbCoinBalance = sbBalancesR.getOrElse({
         [coin]: DEFAULT_BS_BALANCE
       })[coin]
-      const interestCoinBalance = interestAccountBalanceR.getOrElse({
+      const interestCoinBalance = passiveRewardsAccountBalanceR.getOrElse({
         [coin]: { balance: '0' } as EarnAccountBalanceResponseType[typeof coin]
       })[coin]
       const stakingCoinBalance = stakingAccountBalanceR.getOrElse({

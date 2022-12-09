@@ -60,10 +60,10 @@ const initialState: InterestState = {
   interestLimits: Remote.NotAsked,
   interestRates: Remote.NotAsked,
   isAmountDisplayedInCrypto: false,
+  passiveRewardsAccountBalance: Remote.NotAsked,
   payment: Remote.NotAsked,
   pendingStakingTransactions: Remote.NotAsked,
   rewardsAccount: Remote.NotAsked,
-  rewardsAccountBalance: Remote.NotAsked,
   rewardsEDDDepositLimits: Remote.NotAsked,
   rewardsStep: {
     data: {},
@@ -363,15 +363,15 @@ const interestSlice = createSlice({
     fetchRewardsBalance: () => {},
 
     fetchRewardsBalanceFailure: (state, action: PayloadAction<string>) => {
-      state.rewardsAccountBalance = Remote.Failure(action.payload)
+      state.passiveRewardsAccountBalance = Remote.Failure(action.payload)
     },
 
     fetchRewardsBalanceLoading: (state) => {
-      state.rewardsAccountBalance = Remote.Loading
+      state.passiveRewardsAccountBalance = Remote.Loading
     },
 
     fetchRewardsBalanceSuccess: (state, action: PayloadAction<EarnAccountBalanceResponseType>) => {
-      state.rewardsAccountBalance = Remote.Success(action.payload)
+      state.passiveRewardsAccountBalance = Remote.Success(action.payload)
     },
 
     fetchShowInterestCardAfterTransaction: (

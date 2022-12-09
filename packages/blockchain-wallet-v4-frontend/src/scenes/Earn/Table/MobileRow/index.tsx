@@ -14,33 +14,56 @@ import Tag from '../Tag'
 import { AmountContainer, CoinContainer, RightContainer, Row, Wrapper } from './MobileRow.model'
 
 const MobileRow = ({
+  activeRewardsAccountBalance,
+  activeRewardsEligible,
+  activeRewardsRates,
   coin,
   handleClick,
-  interestAccountBalance,
   interestEligible,
   interestRates,
   isGoldTier,
+  passiveRewardsAccountBalance,
   product,
   stakingAccountBalance,
   stakingEligible,
+  stakingRates,
   walletCurrency
 }: Props): ReactElement | null => {
-  const isStaking = product === 'Staking'
-  const account = isStaking
-    ? stakingAccountBalance && stakingAccountBalance[coin]
-    : interestAccountBalance && interestAccountBalance[coin]
-  const accountBalanceBase = account ? account.balance : 0
-  const hasAccountBalance = accountBalanceBase > 0
-
   const { coinfig } = window.coins[coin] || {}
   const { displaySymbol, name: displayName } = coinfig
+  let account
+  let earnRate
+  let isCoinEligible
+  let showNewTag = false
 
-  const isInterestCoinEligible = interestEligible[coin]?.eligible
-  const isStakingCoinEligible = stakingEligible[coin]?.eligible
-  const isCoinEligible = isStaking ? !isStakingCoinEligible : !isInterestCoinEligible
+  switch (product) {
+    case 'Staking': {
+      account = stakingAccountBalance && stakingAccountBalance[coin]
+      earnRate = stakingRates[coin].rate
+      isCoinEligible = stakingEligible[coin]?.eligible
+      showNewTag = true
+      break
+    }
+    case 'Active': {
+      account = activeRewardsAccountBalance && activeRewardsAccountBalance[coin]
+      earnRate = activeRewardsRates[coin].rate
+      isCoinEligible = activeRewardsEligible[coin]?.eligible
+      showNewTag = true
+      break
+    }
+    case 'Passive':
+    default: {
+      account = passiveRewardsAccountBalance && passiveRewardsAccountBalance[coin]
+      earnRate = interestRates[coin].rate
+      isCoinEligible = interestEligible[coin]?.eligible
+      break
+    }
+  }
+  const accountBalanceBase = account ? account.balance : 0
+  const hasAccountBalance = accountBalanceBase > 0
   return (
     <Wrapper
-      onClick={() => handleClick(coin, isStaking)}
+      onClick={() => handleClick(coin, product)}
       disabled={!isGoldTier || (!hasAccountBalance && isCoinEligible)}
     >
       <Icon name={coin} color={coin} size='32px' />
@@ -50,7 +73,7 @@ const MobileRow = ({
             <Text color={SemanticColors.title} variant='paragraph1'>
               {displayName}
             </Text>
-            {isStaking && (
+            {showNewTag && (
               <RoundedBadge>
                 <FormattedMessage defaultMessage='New' id='copy.new' />
               </RoundedBadge>
@@ -63,7 +86,7 @@ const MobileRow = ({
                   <FormattedMessage
                     defaultMessage='Earning {earnRate}%'
                     id='scene.earn.earnrate'
-                    values={{ earnRate: interestRates[coin] }}
+                    values={{ earnRate }}
                   />
                 </Text>
               </Tag>
@@ -117,7 +140,7 @@ const MobileRow = ({
 
 type OwnPropsType = {
   coin: CoinType
-  handleClick: (coin: CoinType, isStaking: boolean) => void
+  handleClick: (coin: CoinType, product: EarnProductsType) => void
   product: EarnProductsType
 }
 
