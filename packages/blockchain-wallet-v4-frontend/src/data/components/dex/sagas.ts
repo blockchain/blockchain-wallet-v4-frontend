@@ -5,7 +5,6 @@ import { APIType } from '@core/network/api'
 import { actions, model, selectors } from 'data'
 
 import { SwapAccountType } from '../swap/types'
-import * as S from './selectors'
 import { actions as A } from './slice'
 import { DexChain, DexChainList, DexChainTokenList, DexSwapForm } from './types'
 
@@ -18,12 +17,10 @@ export default ({ api }: { api: APIType }) => {
       const token = 'ETH'
       const state = yield select()
 
-      const nonCustodialCoinAccounts: Record<string, SwapAccountType[]> = yield select(() =>
-        selectors.coins.getCoinAccounts(state, {
-          coins: [token],
-          nonCustodialAccounts: true
-        })
-      )
+      const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(state, {
+        coins: [token],
+        nonCustodialAccounts: true
+      })
 
       const walletAddress = nonCustodialCoinAccounts[token][0].address
       if (!walletAddress) {
@@ -119,12 +116,10 @@ export default ({ api }: { api: APIType }) => {
           return Remote.Failure('No counter token')
         }
 
-        const nonCustodialCoinAccounts: Record<string, SwapAccountType[]> = yield select(() =>
-          selectors.coins.getCoinAccounts(state, {
-            coins: [baseToken],
-            nonCustodialAccounts: true
-          })
-        )
+        const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(state, {
+          coins: [baseToken],
+          nonCustodialAccounts: true
+        })
 
         const nonCustodialAddress = nonCustodialCoinAccounts[baseToken][0].address
         if (!nonCustodialAddress) {
