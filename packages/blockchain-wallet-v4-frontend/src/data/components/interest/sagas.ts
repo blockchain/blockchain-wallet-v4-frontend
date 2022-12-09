@@ -167,10 +167,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield put(A.fetchEarnInstrumentsLoading())
 
-      const [stakingRates, passiveRewardsRates, activeRewardsRates] = yield all([
+      const [stakingRates, activeRewardsRates, passiveRewardsRates] = yield all([
         call(api.getEarnRates, 'staking'),
-        call(api.getRewardsRates),
-        call(api.getEarnRates, 'EARN_CC1W')
+        call(api.getEarnRates, 'EARN_CC1W'),
+        call(api.getRewardsRates)
       ])
 
       yield put(A.fetchStakingRatesSuccess(stakingRates))

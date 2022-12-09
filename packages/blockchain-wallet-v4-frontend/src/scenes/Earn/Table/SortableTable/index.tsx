@@ -172,7 +172,7 @@ const SortableTable = ({
       case 'Passive':
       default:
         account = passiveRewardsAccountBalance && passiveRewardsAccountBalance[coin]
-        earnRate = interestRates[coin].rate
+        earnRate = interestRates[coin]
         isCoinEligible = interestEligible[coin]?.eligible
         break
     }
