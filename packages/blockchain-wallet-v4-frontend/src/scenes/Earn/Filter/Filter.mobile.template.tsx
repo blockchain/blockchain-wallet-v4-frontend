@@ -19,7 +19,8 @@ const MobileFilter = ({
   handleHistoryClick,
   handleSearch,
   handleTabClick,
-  showAvailableAssets
+  showAvailableAssets,
+  showAvailableAssetsEnabled
 }: EarnFilterPropsType) => (
   <TabRow>
     <Column>
@@ -79,17 +80,19 @@ const MobileFilter = ({
           text={<FormattedMessage id='copy.activity' defaultMessage='Activity' />}
           type='button'
           variant='minimal'
-          width='auto'
+          width={showAvailableAssetsEnabled ? 'auto' : 'full'}
         />
       </LinkContainer>
-      <Checkbox
-        checked={showAvailableAssets}
-        id='availableAssets'
-        label={
-          <FormattedMessage id='scenes.earn.filter.assets' defaultMessage='My available assets' />
-        }
-        onCheckedChange={handleAssetClick}
-      />
+      {showAvailableAssetsEnabled && (
+        <Checkbox
+          checked={showAvailableAssets}
+          id='availableAssets'
+          label={
+            <FormattedMessage id='scenes.earn.filter.assets' defaultMessage='My available assets' />
+          }
+          onCheckedChange={handleAssetClick}
+        />
+      )}
     </Column>
   </TabRow>
 )

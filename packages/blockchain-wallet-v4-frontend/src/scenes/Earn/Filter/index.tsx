@@ -1,5 +1,8 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import { useMedia } from 'services/styles'
 
 import MobileFilter from './Filter.mobile.template'
@@ -15,6 +18,10 @@ const EarnFilterContainer = ({
   showAvailableAssets
 }: EarnFilterPropsType) => {
   const isMobile = useMedia('mobile')
+  const showAvailableAssetsEnabled = useSelector(
+    (state: RootState) =>
+      selectors.core.walletOptions.getShowEarnAvailableAssets(state).getOrElse(false) as boolean
+  )
 
   return isMobile ? (
     <MobileFilter
@@ -24,6 +31,7 @@ const EarnFilterContainer = ({
       handleSearch={handleSearch}
       handleTabClick={handleTabClick}
       showAvailableAssets={showAvailableAssets}
+      showAvailableAssetsEnabled={showAvailableAssetsEnabled}
     />
   ) : (
     <Filter
@@ -33,6 +41,7 @@ const EarnFilterContainer = ({
       handleSearch={handleSearch}
       handleTabClick={handleTabClick}
       showAvailableAssets={showAvailableAssets}
+      showAvailableAssetsEnabled={showAvailableAssetsEnabled}
     />
   )
 }

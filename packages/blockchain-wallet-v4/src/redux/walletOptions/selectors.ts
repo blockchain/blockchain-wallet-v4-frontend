@@ -182,3 +182,7 @@ export const getAccountRecoveryV2 = (state: RootState) =>
 // show active rewards
 export const getActiveRewardsEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isActiveRewardsEnabled']))
+
+// show earn available assets checkbox
+export const getShowEarnAvailableAssets = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showEarnAvailableAssetsCheckbox']))
