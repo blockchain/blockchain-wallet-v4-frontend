@@ -65,7 +65,8 @@ export default ({ api }: { api: APIType }) => {
         .getCurrentChain(yield* select())
         .getOrFail('Unable to get current chain')
       const tokenList = yield* call(api.getDexChainAllTokens, currentChain.chainId)
-      yield* put(A.fetchChainAllTokensSuccess(tokenList))
+      const tokenListWithNative = [currentChain.nativeCurrency, ...tokenList]
+      yield* put(A.fetchChainAllTokensSuccess(tokenListWithNative))
     } catch (e) {
       yield* put(A.fetchChainAllTokensFailure(e.toString()))
     }

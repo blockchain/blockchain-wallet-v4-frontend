@@ -15,4 +15,11 @@ export const getDexChainAllTokens =
       endPoint: `${DEX_GATEWAY_PREFIX}/tokens`,
       removeDefaultPostData: true,
       url: apiUrl
-    }).then((data) => listSchema(DexTokenSchema).parse(data))
+    }).then((data) => {
+      try {
+        return listSchema(DexTokenSchema).parse(data)
+      } catch (e) {
+        console.error(e)
+        throw e
+      }
+    })

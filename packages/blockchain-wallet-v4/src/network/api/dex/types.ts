@@ -3,48 +3,57 @@ import { CoinType } from '@core/types'
 
 // single only is supported now
 export type DexVenueName = 'ZEROX'
+export type DexVenueType = 'AGGREGATOR'
 export type DexSwapQuoteType = 'SINGLE'
 
-export type DexChainNativeCurrency = {
+type DexTokenCommon = {
   address: string
   chainId: number
   decimals: number
   name: string
   symbol: CoinType
 }
+
+export type DexTokenNative = DexTokenCommon & {
+  type: 'NATIVE'
+}
+
+export type DexTokenNotNative = DexTokenCommon & {
+  type: 'NOT_NATIVE'
+  verifiedBy: number
+}
+
+export type DexToken = DexTokenNative | DexTokenNotNative
 
 export type DexChain = {
   chainId: number
   name: string
-  nativeCurrency: DexChainNativeCurrency
+  nativeCurrency: DexTokenNative
 }
 
-export type DexToken = {
-  address: string
-  chainId: number
-  decimals: number
-  name: string
-  symbol: CoinType
-  type: 'NATIVE' | 'NOT_NATIVE'
-  verifiedBy: number
-}
-
-export type DexAmount = {
+type DexAmountCommon = {
   address: string
   amount: number
   chainId: number
-  minAmount: number
   symbol: CoinType
 }
 
+export type DexBuyAmount = DexAmountCommon & {
+  minAmount: number
+  type: 'BUY'
+}
+
+export type DexSellAmount = DexAmountCommon & {
+  type: 'SELL'
+}
+
 export type DexQuote = {
-  buyAmount: DexAmount
+  buyAmount: DexBuyAmount
   buyTokenFee: number
   buyTokenPercentageFee: number
-  estimatedPriceImpact: number
   guaranteedPrice: number
   price: number
-  sellAmount: DexAmount
+  sellAmount: DexSellAmount
 }
 
 export type DexTransaction = {
@@ -63,5 +72,5 @@ export type DexSwapQuote = {
   quote: DexQuote
   transaction: DexTransaction
   type: DexSwapQuoteType
-  venue: DexVenueName
+  venueType: DexVenueType
 }

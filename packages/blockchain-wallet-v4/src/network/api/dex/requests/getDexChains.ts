@@ -10,4 +10,11 @@ export const getDexChains =
       contentType: 'application/json',
       endPoint: `${DEX_GATEWAY_PREFIX}/chains`,
       url: apiUrl
-    }).then((data) => listSchema(DexChainSchema).parse(data))
+    }).then((data) => {
+      try {
+        return listSchema(DexChainSchema).parse(data)
+      } catch (e) {
+        console.error(e)
+        throw e
+      }
+    })

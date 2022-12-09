@@ -56,6 +56,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
 
   const {
     data: dexTokensList,
+    error: tokenError,
     hasError: isDexTokensListFailed,
     isLoading: isDexTokensListLoading
   } = useRemote(getDexTokensList)
@@ -123,10 +124,13 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
                     <TokenIcon name={token.symbol as CoinType} size='24px' />
                     <TokenDetails>
                       <Flex flexDirection='column'>
-                        <Text color={SemanticColors.body} variant='body2'>
-                          {token.name}
-                        </Text>
-                        <VerificationCheckmark />
+                        <Flex alignItems='center'>
+                          <Text color={SemanticColors.body} variant='body2'>
+                            {token.name}
+                          </Text>
+                          <Padding left={0.75} />
+                          <VerificationCheckmark />
+                        </Flex>
                         <Flex alignItems='center'>
                           <Text color={SemanticColors.muted} variant='paragraph1'>
                             {token.displaySymbol}

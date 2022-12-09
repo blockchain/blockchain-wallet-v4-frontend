@@ -1,15 +1,17 @@
 import z from 'zod'
 
 import type {
-  DexAmount,
+  DexBuyAmount,
   DexChain,
-  DexChainNativeCurrency,
   DexQuote,
+  DexSellAmount,
   DexSwapQuote,
   DexSwapQuoteType,
   DexToken,
+  DexTokenNative,
+  DexTokenNotNative,
   DexTransaction,
-  DexVenueName
+  DexVenueType
 } from './types'
 
 // TODO: Move somewhere to utils
@@ -22,60 +24,75 @@ export const listSchema = <T>(
   schema: z.ZodSchema<T, z.ZodTypeDef, unknown>
 ): z.ZodSchema<T[], z.ZodTypeDef, unknown> => z.array(schema)
 
-const VenueNameSchema: z.ZodSchema<DexVenueName, z.ZodTypeDef, unknown> = z.literal('ZEROX')
+const DexVenueTypeSchema: z.ZodSchema<DexVenueType, z.ZodTypeDef, unknown> = z.literal('AGGREGATOR')
 const DexSwapQuoteTypeSchema: z.ZodSchema<DexSwapQuoteType, z.ZodTypeDef, unknown> =
   z.literal('SINGLE')
 
-const DexChainNativeCurrencySchema: z.ZodSchema<DexChainNativeCurrency, z.ZodTypeDef, unknown> =
-  z.object({
+const DexTokenNativeSchema: z.ZodSchema<DexTokenNative, z.ZodTypeDef, unknown> = z
+  .object({
     address: z.string(),
     chainId: z.number(),
     decimals: z.number(),
     name: z.string(),
     symbol: z.string()
   })
+  .transform((data) => ({ type: 'NATIVE', ...data }))
 
-export const DexChainSchema: z.ZodSchema<DexChain, z.ZodTypeDef, unknown> = z.object({
-  chainId: z.number(),
-  name: z.string(),
-  nativeCurrency: DexChainNativeCurrencySchema
-})
-
-export const DexTokenSchema: z.ZodSchema<DexToken, z.ZodTypeDef, unknown> = z
+const DexTokenNotNativeSchema: z.ZodSchema<DexTokenNotNative, z.ZodTypeDef, unknown> = z
   .object({
     address: z.string(),
     chainId: z.number(),
     decimals: z.number(),
-    isNative: z.boolean(),
+    isNative: z.optional(z.boolean()),
     name: z.string(),
     symbol: z.string(),
     verifiedBy: z.number()
   })
-  .transform(({ isNative, ...result }) =>
-    isNative ? { type: 'NATIVE', ...result } : { type: 'NOT_NATIVE', ...result }
-  )
+  .transform(({ isNative, ...result }) => ({ type: 'NOT_NATIVE', ...result }))
 
-const DexAmountSchema: z.ZodSchema<DexAmount, z.ZodTypeDef, unknown> = z.object({
-  address: z.string(),
-  amount: stringToPositiveFloat,
+export const DexTokenSchema: z.ZodSchema<DexToken, z.ZodTypeDef, unknown> = z.union([
+  DexTokenNativeSchema,
+  DexTokenNotNativeSchema
+])
+
+export const DexChainSchema: z.ZodSchema<DexChain, z.ZodTypeDef, unknown> = z.object({
   chainId: z.number(),
-  minAmount: stringToPositiveFloat,
-  symbol: z.string()
+  name: z.string(),
+  nativeCurrency: DexTokenNativeSchema
 })
 
+const DexBuyAmountSchema: z.ZodSchema<DexBuyAmount, z.ZodTypeDef, unknown> = z
+  .object({
+    address: z.string(),
+    amount: stringToPositiveFloat,
+    chainId: z.number(),
+    minAmount: stringToPositiveFloat,
+    symbol: z.string()
+  })
+  .transform((data) => ({ type: 'BUY', ...data }))
+
+const DexSellAmountSchema: z.ZodSchema<DexSellAmount, z.ZodTypeDef, unknown> = z
+  .object({
+    address: z.string(),
+    amount: stringToPositiveFloat,
+    chainId: z.number(),
+    symbol: z.string()
+  })
+  .transform((data) => ({ type: 'SELL', ...data }))
+
 const DexQuoteSchema: z.ZodSchema<DexQuote, z.ZodTypeDef, unknown> = z.object({
-  buyAmount: DexAmountSchema,
+  buyAmount: DexBuyAmountSchema,
   buyTokenFee: stringToPositiveFloat,
   buyTokenPercentageFee: stringToPositiveFloat,
-  estimatedPriceImpact: stringToPositiveFloat,
   guaranteedPrice: stringToPositiveFloat,
   price: stringToPositiveFloat,
-  sellAmount: DexAmountSchema
+  sellAmount: DexSellAmountSchema
 })
 
 const DexTransactionSchema: z.ZodSchema<DexTransaction, z.ZodTypeDef, unknown> = z.object({
   allowanceTarget: z.string(),
-  chainId: z.number(),
+  // TODO: Change to just z.number when it's fixed on BE
+  chainId: z.union([z.number(), stringToPositiveFloat]),
   data: z.string(),
   gasLimit: stringToPositiveFloat,
   gasPrice: stringToPositiveFloat,
@@ -86,19 +103,18 @@ const DexTransactionSchema: z.ZodSchema<DexTransaction, z.ZodTypeDef, unknown> =
 export const DexSwapQuoteSchema: z.ZodSchema<DexSwapQuote, z.ZodTypeDef, unknown> = z
   .object({
     legs: z.literal(1),
-    quotes: z.array(DexQuoteSchema).length(1),
-    txs: z.array(DexTransactionSchema).length(1),
+    quote: DexQuoteSchema,
+    tx: DexTransactionSchema,
     type: DexSwapQuoteTypeSchema,
-    venue: VenueNameSchema
+    venueType: DexVenueTypeSchema
   })
-  .transform(({ quotes, txs, ...result }) => ({
-    quote: quotes[0],
-    transaction: txs[0],
+  .transform(({ tx, ...result }) => ({
+    transaction: tx,
     ...result
   }))
 
 export const DexUserEligibilitySchema: z.ZodSchema<boolean, z.ZodTypeDef, unknown> = z
   .object({
-    isEligible: z.boolean()
+    eligible: z.boolean()
   })
-  .transform(({ isEligible }) => isEligible)
+  .transform(({ eligible }) => eligible)

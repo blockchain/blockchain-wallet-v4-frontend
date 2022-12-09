@@ -58,8 +58,33 @@ export const QuoteDetails = ({
             <LoadingBox bgColor='white' />
           ) : (
             <>
-              <ValueText>?</ValueText>
-              <ValueSubText>?</ValueSubText>
+              <ValueText>
+                <FiatDisplay
+                  coin={swapQuote.quote.buyAmount.symbol}
+                  currency={walletCurrency}
+                  color='textBlack'
+                  lineHeight='150%'
+                  loadingHeight='14px'
+                  size='14px'
+                  weight={600}
+                >
+                  {Exchange.convertCoinToCoin({
+                    baseToStandard: false,
+                    coin: swapQuote.quote.buyAmount.symbol,
+                    value: Exchange.convertCoinToCoin({
+                      coin: swapQuote.quote.buyAmount.symbol,
+                      value: swapQuote.quote.buyAmount.minAmount
+                    })
+                  })}
+                </FiatDisplay>
+              </ValueText>
+              <ValueSubText>
+                {Exchange.convertCoinToCoin({
+                  coin: swapQuote.quote.buyAmount.symbol,
+                  value: swapQuote.quote.buyAmount.minAmount
+                })}{' '}
+                {swapQuote.quote.buyAmount.symbol}
+              </ValueSubText>
             </>
           )}
         </Flex>

@@ -44,4 +44,11 @@ export const getDexSwapQuote =
       params: { ...params, product: 'DEX' },
       removeDefaultPostData: true,
       url: apiUrl
-    }).then((data) => DexSwapQuoteSchema.parse(data))
+    }).then((data) => {
+      try {
+        return DexSwapQuoteSchema.parse(data)
+      } catch (e) {
+        console.error(e)
+        throw e
+      }
+    })

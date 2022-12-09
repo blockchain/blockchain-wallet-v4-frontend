@@ -10,10 +10,17 @@ export const getDexUserEligibility =
     apiUrl: string
     authorizedGet: (config: RequestConfig) => Promise<unknown>
   }) =>
-  ({ walletAddress }: { walletAddress: string }) =>
+  ({ walletAddress }: { walletAddress: string }): Promise<boolean> =>
     authorizedGet({
       contentType: 'application/json',
       endPoint: `${DEX_NABU_GATEWAY_PREFIX}/eligible`,
       params: { product: 'DEX', walletAddress },
       url: apiUrl
-    }).then((data) => DexUserEligibilitySchema.parse(data))
+    }).then((data) => {
+      try {
+        return DexUserEligibilitySchema.parse(data)
+      } catch (e) {
+        console.error(e)
+        throw e
+      }
+    })
