@@ -1010,6 +1010,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const showActiveRewardsModal = function* ({ payload }: ReturnType<typeof A.showInterestModal>) {
+    const { coin, step } = payload
+    yield put(A.setActiveRewardsStep({ name: step }))
+    yield put(
+      actions.modals.showModal(ModalName.ACTIVE_REWARDS_MODAL, {
+        coin,
+        origin: 'EarnPage'
+      })
+    )
+  }
+
   const showInterestModal = function* ({ payload }: ReturnType<typeof A.showInterestModal>) {
     const { coin, step } = payload
     yield put(A.setRewardsStep({ name: step }))
@@ -1143,6 +1154,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     requestWithdrawal,
     routeToTxHash,
     sendDeposit,
+    showActiveRewardsModal,
     showInterestModal,
     showStakingModal,
     stopShowingInterestModal

@@ -19,6 +19,7 @@ import Remote from '@core/remote'
 import { CoinType, FiatType, PaymentValue, WalletFiatType } from '@core/types'
 
 import {
+  ActiveRewardsStep,
   EarnDepositFormType,
   EarnInstrumentsType,
   EarnMinMaxType,
@@ -524,6 +525,17 @@ const interestSlice = createSlice({
     // eslint-disable-next-line
     routeToTxHash: (state, action: PayloadAction<{ coin: CoinType; txHash?: string }>) => {},
 
+    setActiveRewardsStep: (
+      state,
+      action: PayloadAction<{ data?: EarnStepMetaData; name: ActiveRewardsStep }>
+    ) => {
+      const { data, name } = action.payload
+      state.activeRewardsStep = {
+        data: data || {},
+        name
+      }
+    },
+
     setCoinDisplay: (state, action: PayloadAction<{ isAmountDisplayedInCrypto: boolean }>) => {
       state.isAmountDisplayedInCrypto = action.payload.isAmountDisplayedInCrypto
     },
@@ -623,6 +635,13 @@ const interestSlice = createSlice({
       state.withdrawalMinimums = Remote.Success(
         action.payload.withdrawalMinimumsResponse.minAmounts
       )
+    },
+
+    showActiveRewardsModal: (
+      state,
+      action: PayloadAction<{ coin: CoinType; step: ActiveRewardsStep }>
+    ) => {
+      state.coin = action.payload.coin
     },
 
     showInterestModal: (state, action: PayloadAction<{ coin: CoinType; step: InterestStep }>) => {
@@ -739,6 +758,7 @@ export const {
   setWithdrawalMinimumsFailure,
   setWithdrawalMinimumsLoading,
   setWithdrawalMinimumsSuccess,
+  showActiveRewardsModal,
   showInterestModal,
   showStakingModal,
   stopShowingInterestModal,

@@ -60,6 +60,10 @@ const TableContainer = (props: Props) => {
             : WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED,
           properties: { currency: coin }
         })
+        earnActions.showActiveRewardsModal({
+          coin,
+          step: hasBalance ? 'ACCOUNT_SUMMARY' : 'WARNING'
+        })
         break
       }
       case 'Passive':

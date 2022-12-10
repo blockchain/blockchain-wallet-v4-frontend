@@ -56,6 +56,12 @@ const SendCrypto = React.lazy(() => import('./SendCrypto'))
 const NftOrder = React.lazy(() => import('./Nfts/NftOrder'))
 const GetFeatured = React.lazy(() => import('./Nfts/components/GetFeatured'))
 
+// EARN
+const Interest = React.lazy(() => import('./Interest'))
+const Staking = React.lazy(() => import('./Staking'))
+const ActiveRewards = React.lazy(() => import('./ActiveRewards'))
+const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
+
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
 const PromptInput = React.lazy(() => import('./Generic/PromptInput'))
@@ -107,19 +113,16 @@ const ResetAccountFailed = React.lazy(() => import('./Wallet/ResetAccountFailed'
 
 // SOLO
 const FundRecovery = React.lazy(() => import('./FundRecovery'))
-const Interest = React.lazy(() => import('./Interest'))
 const QRCode = React.lazy(() => import('./QRCode'))
 const SkipTwoFAVerificationRecovery = React.lazy(
   () => import('./Wallet/SkipTwoFAVerificationRecovery')
 )
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const BuySell = React.lazy(() => import('./BuySell'))
-const Staking = React.lazy(() => import('./Staking'))
 const Swap = React.lazy(() => import('./Swap'))
 const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const ReferralLanding = React.lazy(() => import('./ReferralLandingFlyout'))
-const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
 const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
 const ViewPrivateKeyWalletFlyout = React.lazy(() => import('./ViewPrivateKeyWalletFlyout'))
@@ -143,6 +146,9 @@ const Modals = (props: Props) => {
   return (
     <Suspense fallback={null}>
       <>
+        {props.modals.find((modal) => modal.type === ModalName.ACTIVE_REWARDS_MODAL) ? (
+          <ActiveRewards />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SIMPLE_BUY_MODAL) ? (
           <BuySell />
         ) : null}
