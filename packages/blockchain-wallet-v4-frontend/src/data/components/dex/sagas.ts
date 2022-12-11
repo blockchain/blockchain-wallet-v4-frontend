@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { call, cancelled, put, select } from 'typed-redux-saga'
 
-import { Exchange, Remote } from '@core'
+import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import { actions, model, selectors } from 'data'
 
@@ -9,6 +9,9 @@ import { actions as A } from './slice'
 import type { DexSwapForm } from './types'
 
 const { DEX_SWAP_FORM } = model.components.dex
+
+const getValidAmount = (amount: number | undefined) =>
+  amount && !Number.isNaN(amount) && parseFloat(`${amount}`) !== 0 ? amount : 0
 
 export default ({ api }: { api: APIType }) => {
   const fetchUserEligibility = function* () {
@@ -88,15 +91,33 @@ export default ({ api }: { api: APIType }) => {
     } = action
     // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
     if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
-    const state = yield* select()
-    const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm
-    if (!formValues) return
+    const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
 
-    let quoteResponse
-    const { baseToken, baseTokenAmount, counterToken, slippage } = formValues
+    // do not request quote on automatic form flip
+    if (!formValues) return
+    if (formValues.isFlipping) return
+    if (formValues.baseToken === formValues.counterToken) return
+
+    // if one of the values is 0 set another one to 0 and clear a quote
+    if (field === 'baseTokenAmount' && getValidAmount(formValues.baseTokenAmount) === 0) {
+      yield* put(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', ''))
+      yield* put(A.clearCurrentSwapQuote())
+      return
+    }
+    if (field === 'counterTokenAmount' && getValidAmount(formValues.counterTokenAmount) === 0) {
+      yield* put(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', ''))
+      yield* put(A.clearCurrentSwapQuote())
+      return
+    }
+
+    const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } = formValues
 
     // only fetch/update swap quote if we have a valid pair and a base amount
-    if (baseToken && counterToken && baseTokenAmount && parseFloat(`${baseTokenAmount}`)) {
+    if (
+      baseToken &&
+      counterToken &&
+      (getValidAmount(baseTokenAmount) || getValidAmount(counterTokenAmount))
+    ) {
       try {
         yield* put(A.fetchSwapQuoteLoading())
 
@@ -109,7 +130,8 @@ export default ({ api }: { api: APIType }) => {
           .getOrFail('Unable to get base token info')
 
         if (!baseTokenInfo) {
-          return Remote.Failure('No base token')
+          yield* put(A.fetchSwapQuoteFailure('No base token'))
+          return
         }
 
         const baseAmountGwei = Exchange.convertCoinToCoin({
@@ -123,22 +145,22 @@ export default ({ api }: { api: APIType }) => {
           .getOrFail('Unable to get counter token info')
 
         if (!counterTokenInfo) {
-          return Remote.Failure('No counter token')
+          yield* put(A.fetchSwapQuoteFailure('No counter token'))
+          return
         }
 
-        const nonCustodialCoinAccounts = yield* select(() =>
-          selectors.coins.getCoinAccounts(state, {
-            coins: [baseToken],
-            nonCustodialAccounts: true
-          })
-        )
+        const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
+          coins: [baseToken],
+          nonCustodialAccounts: true
+        })
 
         const nonCustodialAddress = nonCustodialCoinAccounts[baseToken][0].address
         if (!nonCustodialAddress) {
-          return Remote.Failure('No user wallet address')
+          yield* put(A.fetchSwapQuoteFailure('No user wallet address'))
+          return
         }
 
-        quoteResponse = yield* call(
+        const quoteResponse = yield* call(
           api.getDexSwapQuote,
           {
             fromCurrency: {
@@ -171,114 +193,35 @@ export default ({ api }: { api: APIType }) => {
           }
         )
 
-        // check for error
-        if (quoteResponse?.code) {
-          yield* put(A.fetchSwapQuoteFailure(quoteResponse))
-        } else {
-          yield* put(A.fetchSwapQuoteSuccess(quoteResponse))
-        }
+        yield* put(A.fetchSwapQuoteSuccess(quoteResponse))
 
         // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
         // Also we consider to return to the FE only one quote in that case
-        const quote = quoteResponse?.quotes_?.[0]
+        const { quote } = quoteResponse
 
         if (quote) {
-          switch (field) {
-            case 'flipPairs':
-              yield* put(
-                actions.form.change(
-                  DEX_SWAP_FORM,
-                  'counterTokenAmount',
-                  Exchange.convertCoinToCoin({
-                    baseToStandard: true,
-                    coin: quote.buyAmount_.symbol_,
-                    value: quote.buyAmount_.amount_
-                  })
-                )
-              )
-              break
-
-            case 'baseTokenAmount':
-              yield* put(
-                actions.form.change(
-                  DEX_SWAP_FORM,
-                  'counterTokenAmount',
-                  Exchange.convertCoinToCoin({
-                    baseToStandard: true,
-                    coin: quote.buyAmount_.symbol_,
-                    value: quote.buyAmount_.amount_
-                  })
-                )
-              )
-              break
-
-            case 'counterTokenAmount':
-              yield* put(
-                actions.form.change(
-                  DEX_SWAP_FORM,
-                  'baseTokenAmount',
-                  Exchange.convertCoinToCoin({
-                    baseToStandard: true,
-                    coin: quote.sellAmount_.symbol_,
-                    value: quote.sellAmount_.amount_
-                  })
-                )
-              )
-              break
-
-            case 'baseToken':
-              yield* put(
-                actions.form.change(
-                  DEX_SWAP_FORM,
-                  'baseTokenAmount',
-                  Exchange.convertCoinToCoin({
-                    baseToStandard: true,
-                    coin: quote.sellAmount_.symbol_,
-                    value: quote.sellAmount_.amount_
-                  })
-                )
-              )
-              yield* put(
-                actions.form.change(
-                  DEX_SWAP_FORM,
-                  'counterTokenAmount',
-                  Exchange.convertCoinToCoin({
-                    baseToStandard: true,
-                    coin: quote.buyAmount_.symbol_,
-                    value: quote.buyAmount_.amount_
-                  })
-                )
-              )
-              break
-
-            case 'counterToken':
-              yield* put(
-                actions.form.change(
-                  DEX_SWAP_FORM,
-                  'baseTokenAmount',
-                  Exchange.convertCoinToCoin({
-                    baseToStandard: true,
-                    coin: quote.sellAmount_.symbol_,
-                    value: quote.sellAmount_.amount_
-                  })
-                )
-              )
-              yield* put(
-                actions.form.change(
-                  DEX_SWAP_FORM,
-                  'counterTokenAmount',
-                  Exchange.convertCoinToCoin({
-                    baseToStandard: true,
-                    coin: quote.buyAmount_.symbol_,
-                    value: quote.buyAmount_.amount_
-                  })
-                )
-              )
-              break
-
-            default:
-              break
-          }
+          yield* put(
+            actions.form.change(
+              DEX_SWAP_FORM,
+              'baseTokenAmount',
+              Exchange.convertCoinToCoin({
+                baseToStandard: true,
+                coin: quote.sellAmount.symbol,
+                value: quote.sellAmount.amount
+              })
+            )
+          )
+          yield* put(
+            actions.form.change(
+              DEX_SWAP_FORM,
+              'counterTokenAmount',
+              Exchange.convertCoinToCoin({
+                baseToStandard: true,
+                coin: quote.buyAmount.symbol,
+                value: quote.buyAmount.amount
+              })
+            )
+          )
         }
       } catch (e) {
         yield* put(A.fetchSwapQuoteFailure(e))
