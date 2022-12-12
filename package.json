@@ -224,9 +224,5 @@
   },
   "resolutions": {
     "qr.js": "https://github.com/defunctzombie/qr.js.git"
-  },
-  "dependencies": {
-    "typed-redux-saga": "^1.5.0",
-    "zod": "^3.19.1"
   }
 }

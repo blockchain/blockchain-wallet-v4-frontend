@@ -382,7 +382,7 @@ export default ({ api, coreSagas, networks }) => {
           if (!verifiedTwoFa) {
             yield put(actions.router.push('/setup-two-factor'))
           } else {
-            yield put(actions.router.push('/home'))
+            yield put(actions.router.push('/select-product'))
           }
         } else {
           yield put(actions.router.push('/verify-email-step'))
