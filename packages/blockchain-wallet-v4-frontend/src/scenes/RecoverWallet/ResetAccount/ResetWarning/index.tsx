@@ -109,7 +109,7 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
       <SubCard>
         <TryAnotherMethodRow>
           <MobileText
-            size='16px'
+            size='14px'
             weight={600}
             color='blue600'
             data-e2e='loginGetHelp'

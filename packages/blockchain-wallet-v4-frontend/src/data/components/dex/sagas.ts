@@ -1,8 +1,8 @@
-import axios from 'axios'
 import { call, cancelled, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
+import { cancelRequestSource } from '@core/network/utils'
 import { actions, model, selectors } from 'data'
 
 import { actions as A } from './slice'
@@ -61,7 +61,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const fetchChainAllTokens = function* (action: ReturnType<typeof A.fetchChainAllTokens>) {
-    const cancelSource = axios.CancelToken.source()
+    const cancelSource = cancelRequestSource()
     try {
       yield* put(A.fetchChainAllTokensLoading())
       const currentChain = selectors.components.dex

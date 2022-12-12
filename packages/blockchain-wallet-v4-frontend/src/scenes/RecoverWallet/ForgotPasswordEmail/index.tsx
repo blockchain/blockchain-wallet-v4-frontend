@@ -8,7 +8,7 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import TextBox from 'components/Form/TextBox'
-import { Analytics, RecoverSteps } from 'data/types'
+import { Analytics, ProductAuthOptions, RecoverSteps } from 'data/types'
 import { required, validEmail } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 
@@ -34,6 +34,15 @@ const ForgotPasswordEmail = (props: Props) => {
       properties: {}
     })
   }, [])
+
+  const handleBackArrowClick = () => {
+    if (product) {
+      routerActions.push(`/login?product=${product}`)
+    } else {
+      routerActions.push(`/login?product=${ProductAuthOptions.WALLET}`)
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     signupActions.triggerRecoverEmail(formValues?.recoveryEmail)
@@ -48,7 +57,7 @@ const ForgotPasswordEmail = (props: Props) => {
     <Form onSubmit={handleSubmit}>
       <FormWrapper>
         <BackArrowFormHeader
-          handleBackArrowClick={() => routerActions.push(`/login?product=${product}`)}
+          handleBackArrowClick={handleBackArrowClick}
           step={RecoverSteps.FORGOT_PASSWORD_EMAIL}
         />
         <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
