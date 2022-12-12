@@ -13,7 +13,7 @@ import {
 } from '@blockchain-com/constellation'
 import { compose } from 'redux'
 
-import { CoinType } from '@core/types'
+import type { CoinType } from '@core/types'
 import { Modal } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -23,7 +23,7 @@ import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import { debounce } from 'utils/helpers'
 
-import { VerificationCheckmark, ViewEtherscan } from './components'
+import { TokenName, ViewEtherscan } from './components'
 import { getDexTokensList } from './SelectToken.selectors'
 import {
   CloseIcon,
@@ -61,7 +61,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
     isLoading: isDexTokensListLoading
   } = useRemote(getDexTokensList)
 
-  const onTokenSelect = (token) => {
+  const onTokenSelect = (token: CoinType) => {
     // set selected token
     dispatch(actions.form.change(DEX_SWAP_FORM, DexSwapSideFields[swapSide], token))
 
@@ -127,22 +127,14 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
             return dexTokensList.length ? (
               <TokenList>
                 {dexTokensList.map((token) => (
-                  <TokenRow
-                    key={token.displaySymbol}
-                    onClick={() => onTokenSelect(token.displaySymbol)}
-                  >
+                  <TokenRow key={token.symbol} onClick={() => onTokenSelect(token.symbol)}>
                     <TokenIcon name={token.symbol as CoinType} size='24px' />
                     <TokenDetails>
                       <Flex flexDirection='column'>
-                        <Flex alignItems='center'>
-                          <Text color={SemanticColors.body} variant='body2'>
-                            {token.name}
-                          </Text>
-                          <VerificationCheckmark ml={10} />
-                        </Flex>
+                        <TokenName token={token} />
                         <Flex alignItems='center'>
                           <Text color={SemanticColors.muted} variant='paragraph1'>
-                            {token.displaySymbol}
+                            {token.symbol}
                           </Text>
                           <Padding left={0.5} />
                           <ViewEtherscan tokenAddress={token.address} />
@@ -154,7 +146,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
                           color='textBlack'
                           currency={walletCurrency}
                           cursor='pointer'
-                          data-e2e={`${token.displaySymbol}FiatBalance`}
+                          data-e2e={`${token.symbol}FiatBalance`}
                           lineHeight='150%'
                           loadingHeight='20px'
                           size='16px'
@@ -166,7 +158,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
                           coin={token.symbol}
                           color='grey600'
                           cursor='pointer'
-                          data-e2e={`${token.displaySymbol}Balance`}
+                          data-e2e={`${token.symbol}Balance`}
                           lineHeight='20px'
                           size='14px'
                           weight={500}
