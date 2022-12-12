@@ -600,13 +600,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // When isAsync is true on the confirm request this call can return the "ux" nabu error but the request is still
       // techniclly not an http error (ex. 400, 500) and so we need to catch it and manually return the order info "dataFields"
       const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
-      if (
-        order.state === 'FINISHED' ||
-        order.state === 'FAILED' ||
-        order.state === 'CANCELED' ||
-        order.attributes
-      ) {
+      if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
         return order
+      }
+
+      // If attributes is populated with any of these `cardAttrs` we want to return the order to be handled
+      // otherwise the order is probably in PENDING_DEPOSIT and so we should retry the fetch again
+      const cardAttrs = ['needCvv', 'everypay', 'cardProvider', 'cardCassy']
+      if (order.attributes) {
+        for (let i = 0; i < cardAttrs.length; i += 1) {
+          if (order.attributes[cardAttrs[i]]) {
+            return order
+          }
+        }
       }
     } catch (e) {
       if (isNabuError(e)) {
