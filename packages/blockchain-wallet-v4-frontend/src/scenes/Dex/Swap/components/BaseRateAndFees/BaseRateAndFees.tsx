@@ -30,42 +30,27 @@ export const BaseRateAndFees = ({
   walletCurrency
 }: OwnProps) => {
   const { data: currentChain } = useRemote(selectors.components.dex.getCurrentChain)
+  const { data: swapQuote } = useRemote(selectors.components.dex.getSwapQuote)
 
-  // FIXME: Pass data from remote response
-  const txLeg = {
-    gasLimit: 1,
-    gasPrice: 1,
-    sellAmount: {
-      symbol: 'SYMBOL'
-    }
-  }
-
-  const quote = {
-    buyAmount: {
-      symbol: 'SYMBOL'
-    },
-    price: 1,
-    sellAmount: {
-      symbol: 'SYMBOL'
-    }
-  }
-
-  return (
+  return !swapQuote ? null : (
     <Wrapper>
       <Text variant='paragraph-mono' color={SemanticColors.body}>
-        1 {quote.sellAmount.symbol} = ~{quote.price.toFixed(8)} {quote.buyAmount.symbol}
+        1 {swapQuote.quote.sellAmount.symbol} = ~{swapQuote.quote.price.toFixed(8)}{' '}
+        {swapQuote.quote.buyAmount.symbol}
       </Text>
-      {!isQuoteLocked && (
+      {!isQuoteLocked && currentChain && (
         <Flex alignItems='center'>
           <GasFeeWrapper>
             <Image name='gas-icon' width='16px' height='16px' />
             <FiatDisplay
               size='12px'
               weight={600}
-              coin={currentChain?.nativeCurrency.symbol}
+              coin={currentChain.nativeCurrency.symbol}
               currency={walletCurrency}
             >
-              {new BigNumber(txLeg.gasLimit).multipliedBy(txLeg.gasPrice).toString()}
+              {new BigNumber(swapQuote.transaction.gasLimit)
+                .multipliedBy(swapQuote.transaction.gasPrice)
+                .toString()}
             </FiatDisplay>
           </GasFeeWrapper>
 

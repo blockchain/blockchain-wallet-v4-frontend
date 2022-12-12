@@ -56,6 +56,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
 
   const {
     data: dexTokensList,
+    error: tokenError,
     hasError: isDexTokensListFailed,
     isLoading: isDexTokensListLoading
   } = useRemote(getDexTokensList)

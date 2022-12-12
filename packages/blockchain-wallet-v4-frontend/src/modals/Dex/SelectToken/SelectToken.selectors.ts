@@ -1,9 +1,9 @@
 import { lift } from 'ramda'
 
+import type { DexToken } from '@core/network/api/dex'
 import { ExtractSuccess } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
-import { DexToken } from 'data/types'
 
 export const getDexTokensList = createDeepEqualSelector(
   [selectors.components.dex.getCurrentChainTokens, (state) => state],
