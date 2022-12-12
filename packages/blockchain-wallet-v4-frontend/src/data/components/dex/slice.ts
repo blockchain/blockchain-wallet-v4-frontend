@@ -20,7 +20,7 @@ const dexSlice = createSlice({
     clearCurrentSwapQuote: (state) => {
       state.swapQuote = Remote.NotAsked
     },
-    fetchChainAllTokens: () => {},
+    fetchChainAllTokens: (state, action: PayloadAction<{ search: string }>) => {},
     fetchChainAllTokensFailure: (state, action: PayloadAction<string>) => {
       state.currentChainTokens = Remote.Failure(action.payload)
     },

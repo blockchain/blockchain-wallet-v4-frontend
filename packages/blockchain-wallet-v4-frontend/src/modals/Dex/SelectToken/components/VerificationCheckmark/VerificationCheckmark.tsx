@@ -60,7 +60,7 @@ const VerificationCheckmarkTrigger = ({ ml = 0 }: { ml?: number }) => (
   </Container>
 )
 
-export const VerificationCheckmark = ({ ml = 0 }: { ml?: number }) => {
+export const VerificationCheckmark = ({ ml = 0, sources }: { ml?: number; sources: number }) => {
   const { formatMessage } = useIntl()
   return (
     <Tooltip
@@ -69,11 +69,13 @@ export const VerificationCheckmark = ({ ml = 0 }: { ml?: number }) => {
       avoidCollisions
       sideOffset={8}
       trigger={<VerificationCheckmarkTrigger ml={ml} />}
-      text={formatMessage({
-        // TODO: Receive X value and use it here
-        defaultMessage: 'Verified by at least X source(s) from https://tokenlists.org',
-        id: 'dex.coinVerification.description'
-      })}
+      text={formatMessage(
+        {
+          defaultMessage: 'Verified by at least {{sources}} source(s) from https://tokenlists.org',
+          id: 'dex.coinVerification.description'
+        },
+        { sources }
+      )}
     />
   )
 }
