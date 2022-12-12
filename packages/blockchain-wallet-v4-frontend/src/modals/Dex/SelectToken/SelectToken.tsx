@@ -22,7 +22,7 @@ import { DexSwapForm, DexSwapSide, DexSwapSideFields, ModalName } from 'data/typ
 import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import { ViewEtherscan } from './components'
+import { VerificationCheckmark, ViewEtherscan } from './components'
 import { getDexTokensList } from './SelectToken.selectors'
 import {
   CloseIcon,
@@ -56,7 +56,6 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
 
   const {
     data: dexTokensList,
-    error: tokenError,
     hasError: isDexTokensListFailed,
     isLoading: isDexTokensListLoading
   } = useRemote(getDexTokensList)
@@ -127,6 +126,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
                         <Text color={SemanticColors.body} variant='body2'>
                           {token.name}
                         </Text>
+                        <VerificationCheckmark ml={10} />
                         <Flex alignItems='center'>
                           <Text color={SemanticColors.muted} variant='paragraph1'>
                             {token.displaySymbol}
