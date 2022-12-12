@@ -23,6 +23,7 @@ export type DexSwapForm = {
   baseTokenAmount?: number
   counterToken?: CoinType
   counterTokenAmount?: number
+  isFlipping: boolean
   slippage: number
   step: DexSwapSteps
 }

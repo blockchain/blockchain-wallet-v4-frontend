@@ -34,7 +34,11 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
     formValues || {}
 
-  const { data: quote, hasError: hasQuoteError } = useRemote(selectors.components.dex.getSwapQuote)
+  const {
+    data: quote,
+    hasError: hasQuoteError,
+    isLoading: isLoadingQuote
+  } = useRemote(selectors.components.dex.getSwapQuote)
 
   const baseTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
@@ -63,10 +67,12 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     setPairAnimate(true)
     // delay form change to assist in smoother animation
     setTimeout(() => {
+      dispatch(actions.form.change(DEX_SWAP_FORM, 'isFlipping', true))
       dispatch(actions.form.change(DEX_SWAP_FORM, 'baseToken', counterToken))
-      dispatch(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', counterTokenAmount))
       dispatch(actions.form.change(DEX_SWAP_FORM, 'counterToken', baseToken))
-      dispatch(actions.form.change(DEX_SWAP_FORM, 'flipPairs', undefined))
+      dispatch(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', baseTokenAmount))
+      dispatch(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', counterTokenAmount))
+      dispatch(actions.form.change(DEX_SWAP_FORM, 'isFlipping', false))
       setPairAnimate(false)
     }, 400)
   }
@@ -120,23 +126,44 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         )}
       </SwapPairWrapper>
 
-      {quote && (
+      {isLoadingQuote ? (
         <BaseRateAndFees
           handleDetailsToggle={onDetailsToggle}
-          swapDetailsOpen={isDetailsExpanded}
+          isDetailsOpen={isDetailsExpanded}
           walletCurrency={walletCurrency}
+          isQuoteLoading
+        />
+      ) : quote ? (
+        <BaseRateAndFees
+          handleDetailsToggle={onDetailsToggle}
+          isDetailsOpen={isDetailsExpanded}
+          walletCurrency={walletCurrency}
+          isQuoteLoading={false}
           isQuoteLocked={false}
+          swapQuote={quote}
         />
-      )}
+      ) : null}
 
-      {isDetailsExpanded && (
-        <QuoteDetails
-          handleSettingsClick={onViewSettings}
-          swapDetailsOpen={isDetailsExpanded}
-          walletCurrency={walletCurrency}
-          slippage={slippage}
-        />
-      )}
+      {isDetailsExpanded ? (
+        isLoadingQuote ? (
+          <QuoteDetails
+            handleSettingsClick={onViewSettings}
+            isDetailsOpen={isDetailsExpanded}
+            walletCurrency={walletCurrency}
+            slippage={slippage}
+            isQuoteLoading
+          />
+        ) : quote ? (
+          <QuoteDetails
+            handleSettingsClick={onViewSettings}
+            isDetailsOpen={isDetailsExpanded}
+            walletCurrency={walletCurrency}
+            slippage={slippage}
+            isQuoteLoading={false}
+            swapQuote={quote}
+          />
+        ) : null
+      ) : null}
 
       <Button
         size='large'

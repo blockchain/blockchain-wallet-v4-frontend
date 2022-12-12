@@ -3,18 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '@blockchain-com/constellation'
 
-import { actions, model, selectors } from 'data'
+import { model, selectors } from 'data'
 import type { DexSwapForm } from 'data/types'
-import { ModalName } from 'data/types'
 
-import {
-  BaseRateAndFees,
-  FlipPairButton,
-  FormWrapper,
-  QuoteDetails,
-  SwapPair,
-  SwapPairWrapper
-} from '../components'
+import { FlipPairButton, FormWrapper, SwapPair, SwapPairWrapper } from '../components'
 import { Header } from './Header'
 
 const { DEX_SWAP_FORM } = model.components.dex
@@ -25,11 +17,8 @@ type Props = {
 }
 
 export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
-  const dispatch = useDispatch()
-
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
-  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
-    formValues || {}
+  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues || {}
 
   const baseTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
@@ -37,10 +26,6 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
   const counterTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
   )
-
-  const onViewSettings = () => {
-    dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))
-  }
 
   const onConfirmSwap = () => null
 
@@ -69,20 +54,6 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
           walletCurrency={walletCurrency}
         />
       </SwapPairWrapper>
-
-      <BaseRateAndFees
-        isQuoteLocked
-        swapDetailsOpen
-        walletCurrency={walletCurrency}
-        handleDetailsToggle={() => null} // FIXME: Toggle details
-      />
-
-      <QuoteDetails
-        swapDetailsOpen
-        walletCurrency={walletCurrency}
-        slippage={slippage}
-        handleSettingsClick={onViewSettings}
-      />
 
       <Button
         size='large'
