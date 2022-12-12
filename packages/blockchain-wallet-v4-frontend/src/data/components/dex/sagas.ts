@@ -1,7 +1,8 @@
-import { call, put, select } from 'typed-redux-saga'
+import { call, cancelled, put, select } from 'typed-redux-saga'
 
 import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
+import { cancelRequestSource } from '@core/network/utils'
 import { actions, model, selectors } from 'data'
 
 import { actions as A } from './slice'
@@ -52,23 +53,32 @@ export default ({ api }: { api: APIType }) => {
       }
 
       yield* put(A.setCurrentChain(ethChain))
-      yield* put(A.fetchChainAllTokens())
+      yield* put(A.fetchChainAllTokens({ search: '' }))
     } catch (e) {
       yield* put(A.fetchChainsFailure(e.toString()))
     }
   }
 
-  const fetchChainAllTokens = function* () {
+  const fetchChainAllTokens = function* (action: ReturnType<typeof A.fetchChainAllTokens>) {
+    const cancelSource = cancelRequestSource()
     try {
       yield* put(A.fetchChainAllTokensLoading())
       const currentChain = selectors.components.dex
         .getCurrentChain(yield* select())
         .getOrFail('Unable to get current chain')
-      const tokenList = yield* call(api.getDexChainAllTokens, currentChain.chainId)
-      const tokenListWithNative = [currentChain.nativeCurrency, ...tokenList]
-      yield* put(A.fetchChainAllTokensSuccess(tokenListWithNative))
+      const tokenList = yield* call(
+        api.getDexChainAllTokens,
+        currentChain.chainId,
+        action.payload.search,
+        cancelSource.token
+      )
+      yield* put(A.fetchChainAllTokensSuccess(tokenList))
     } catch (e) {
       yield* put(A.fetchChainAllTokensFailure(e.toString()))
+    } finally {
+      if (yield* cancelled()) {
+        yield* call(cancelSource.cancel)
+      }
     }
   }
 

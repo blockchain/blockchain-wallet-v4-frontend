@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -21,6 +21,7 @@ import { actions, model, selectors } from 'data'
 import { DexSwapForm, DexSwapSide, DexSwapSideFields, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
+import { debounce } from 'utils/helpers'
 
 import { VerificationCheckmark, ViewEtherscan } from './components'
 import { getDexTokensList } from './SelectToken.selectors'
@@ -49,14 +50,13 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
   const dispatch = useDispatch()
   const { formatMessage } = useIntl()
 
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState<string | null>(null)
 
   const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
 
   const {
     data: dexTokensList,
-    error: tokenError,
     hasError: isDexTokensListFailed,
     isLoading: isDexTokensListLoading
   } = useRemote(getDexTokensList)
@@ -74,11 +74,22 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
     dispatch(actions.modals.closeModal())
   }
 
-  const onTokenFilter = ({ name }) => name.toLowerCase().includes(search.toLowerCase())
-
   const onClose = () => {
     dispatch(actions.modals.closeModal())
   }
+
+  const onSearchTokens = useMemo(
+    () =>
+      debounce((s: string) => {
+        if (s === null) return
+        dispatch(actions.components.dex.fetchChainAllTokens({ search: s || '' }))
+      }, 200),
+    []
+  )
+
+  useEffect(() => {
+    onSearchTokens(search)
+  }, [search])
 
   return (
     <Modal
@@ -113,10 +124,9 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
 
       {dexTokensList
         ? (() => {
-            const filteredDexTokenList = dexTokensList.filter(onTokenFilter)
-            return filteredDexTokenList.length ? (
+            return dexTokensList.length ? (
               <TokenList>
-                {filteredDexTokenList.map((token) => (
+                {dexTokensList.map((token) => (
                   <TokenRow
                     key={token.displaySymbol}
                     onClick={() => onTokenSelect(token.displaySymbol)}
@@ -124,10 +134,12 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
                     <TokenIcon name={token.symbol as CoinType} size='24px' />
                     <TokenDetails>
                       <Flex flexDirection='column'>
-                        <Text color={SemanticColors.body} variant='body2'>
-                          {token.name}
-                        </Text>
-                        <VerificationCheckmark ml={10} />
+                        <Flex alignItems='center'>
+                          <Text color={SemanticColors.body} variant='body2'>
+                            {token.name}
+                          </Text>
+                          <VerificationCheckmark ml={10} />
+                        </Flex>
                         <Flex alignItems='center'>
                           <Text color={SemanticColors.muted} variant='paragraph1'>
                             {token.displaySymbol}
