@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -13,7 +13,7 @@ import {
 } from '@blockchain-com/constellation'
 import { compose } from 'redux'
 
-import { CoinType } from '@core/types'
+import type { CoinType } from '@core/types'
 import { Modal } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -21,8 +21,9 @@ import { actions, model, selectors } from 'data'
 import { DexSwapForm, DexSwapSide, DexSwapSideFields, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
+import { debounce } from 'utils/helpers'
 
-import { ViewEtherscan } from './components'
+import { TokenName, ViewEtherscan } from './components'
 import { getDexTokensList } from './SelectToken.selectors'
 import {
   CloseIcon,
@@ -49,7 +50,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
   const dispatch = useDispatch()
   const { formatMessage } = useIntl()
 
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState<string | null>(null)
 
   const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
@@ -60,7 +61,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
     isLoading: isDexTokensListLoading
   } = useRemote(getDexTokensList)
 
-  const onTokenSelect = (token) => {
+  const onTokenSelect = (token: CoinType) => {
     // set selected token
     dispatch(actions.form.change(DEX_SWAP_FORM, DexSwapSideFields[swapSide], token))
 
@@ -73,11 +74,22 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
     dispatch(actions.modals.closeModal())
   }
 
-  const onTokenFilter = ({ name }) => name.toLowerCase().includes(search.toLowerCase())
-
   const onClose = () => {
     dispatch(actions.modals.closeModal())
   }
+
+  const onSearchTokens = useMemo(
+    () =>
+      debounce((s: string) => {
+        if (s === null) return
+        dispatch(actions.components.dex.fetchChainAllTokens({ search: s || '' }))
+      }, 200),
+    []
+  )
+
+  useEffect(() => {
+    onSearchTokens(search)
+  }, [search])
 
   return (
     <Modal
@@ -112,23 +124,17 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
 
       {dexTokensList
         ? (() => {
-            const filteredDexTokenList = dexTokensList.filter(onTokenFilter)
-            return filteredDexTokenList.length ? (
+            return dexTokensList.length ? (
               <TokenList>
-                {filteredDexTokenList.map((token) => (
-                  <TokenRow
-                    key={token.displaySymbol}
-                    onClick={() => onTokenSelect(token.displaySymbol)}
-                  >
+                {dexTokensList.map((token) => (
+                  <TokenRow key={token.symbol} onClick={() => onTokenSelect(token.symbol)}>
                     <TokenIcon name={token.symbol as CoinType} size='24px' />
                     <TokenDetails>
                       <Flex flexDirection='column'>
-                        <Text color={SemanticColors.body} variant='body2'>
-                          {token.name}
-                        </Text>
+                        <TokenName token={token} />
                         <Flex alignItems='center'>
                           <Text color={SemanticColors.muted} variant='paragraph1'>
-                            {token.displaySymbol}
+                            {token.symbol}
                           </Text>
                           <Padding left={0.5} />
                           <ViewEtherscan tokenAddress={token.address} />
@@ -140,7 +146,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
                           color='textBlack'
                           currency={walletCurrency}
                           cursor='pointer'
-                          data-e2e={`${token.displaySymbol}FiatBalance`}
+                          data-e2e={`${token.symbol}FiatBalance`}
                           lineHeight='150%'
                           loadingHeight='20px'
                           size='16px'
@@ -152,7 +158,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
                           coin={token.symbol}
                           color='grey600'
                           cursor='pointer'
-                          data-e2e={`${token.displaySymbol}Balance`}
+                          data-e2e={`${token.symbol}Balance`}
                           lineHeight='20px'
                           size='14px'
                           weight={500}

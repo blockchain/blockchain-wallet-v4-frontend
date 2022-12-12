@@ -5,7 +5,7 @@ import { merge, mergeRight, path, pathOr, prop } from 'ramda'
 axios.defaults.withCredentials = false
 axios.defaults.timeout = Infinity
 
-interface RequestConfig extends AxiosRequestConfig {
+export interface RequestConfig extends AxiosRequestConfig {
   contentType?: string
   endPoint?: string
   ignoreQueryParams?: boolean

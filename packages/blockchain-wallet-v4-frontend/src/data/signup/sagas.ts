@@ -297,7 +297,6 @@ export default ({ api, coreSagas, networks }) => {
           properties: {}
         })
       )
-      yield put(actions.goals.runGoals())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
       yield put(
@@ -477,6 +476,9 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change(RECOVER_FORM, 'step', ResetFormSteps.NEW_PASSWORD))
         yield put(actions.alerts.displaySuccess(C.TWOFA_VERIFIED))
         yield put(actions.signup.verifyTwoFaForRecoverySuccess(true))
+      }
+      if (!verified) {
+        yield put(actions.signup.verifyTwoFaForRecoveryFailure(true))
       }
     } catch (e) {
       yield put(actions.signup.verifyTwoFaForRecoveryFailure(e))

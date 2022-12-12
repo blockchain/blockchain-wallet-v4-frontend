@@ -1,4 +1,5 @@
-import { getQuoteRefreshConfig } from 'data/components/buySell/utils'
+import { OrderType } from '@core/network/api/buySell/types'
+import { getEnterAmountStepType, getQuoteRefreshConfig } from 'data/components/buySell/utils'
 
 describe('buySell utils', () => {
   describe('getQuoteRefreshConfig', () => {
@@ -14,6 +15,26 @@ describe('buySell utils', () => {
 
       expect(refreshConfig.date.getTime()).toBe(EXPIRE_TIMESTAMP - 10_000)
       expect(refreshConfig.totalMs).toBe(EXPIRE_OFFSET - 10_000)
+    })
+  })
+
+  describe('getEnterAmountStepType', () => {
+    describe('when order type is undefined', () => {
+      it('should return ENTER_AMOUNT string', () => {
+        expect(getEnterAmountStepType(undefined)).toBe('ENTER_AMOUNT')
+      })
+    })
+
+    describe('when order type is BUY', () => {
+      it('should return ENTER_AMOUNT string', () => {
+        expect(getEnterAmountStepType(OrderType.BUY)).toBe('ENTER_AMOUNT')
+      })
+    })
+
+    describe('when order type is SELL', () => {
+      it('should return SELL_ENTER_AMOUNT string', () => {
+        expect(getEnterAmountStepType(OrderType.SELL)).toBe('SELL_ENTER_AMOUNT')
+      })
     })
   })
 

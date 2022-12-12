@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { actions, selectors } from 'data'
+import { getEnterAmountStepType } from 'data/components/buySell/utils'
 import { DeepLinkClickState, DeepLinkHandler, DeepLinkListener } from 'services/deepLinkListener'
 import { NabuErrorDeepLinkActions } from 'services/errors'
 
@@ -12,6 +13,7 @@ export const NabuErrorDeepLinkHandler: NabuErrorDeepLinkHandlerComponent = ({ ch
   const cryptoCurrency = useSelector(selectors.components.buySell.getCryptoCurrency)
   const fiatCurrency = useSelector(selectors.components.buySell.getFiatCurrency)
   const pair = useSelector(selectors.components.buySell.getBSPair)
+  const orderType = useSelector(selectors.components.buySell.getOrderType)
 
   const goBackToEnterAmount = useCallback(() => {
     if (!cryptoCurrency || !fiatCurrency || !pair) return
@@ -21,10 +23,10 @@ export const NabuErrorDeepLinkHandler: NabuErrorDeepLinkHandlerComponent = ({ ch
         cryptoCurrency,
         fiatCurrency,
         pair,
-        step: 'ENTER_AMOUNT'
+        step: getEnterAmountStepType(orderType)
       })
     )
-  }, [cryptoCurrency, dispatch, fiatCurrency, pair])
+  }, [cryptoCurrency, dispatch, fiatCurrency, pair, orderType])
 
   const goToDashboard = useCallback(() => {
     dispatch(actions.modals.closeModal())

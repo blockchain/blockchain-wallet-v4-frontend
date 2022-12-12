@@ -1268,7 +1268,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const stepName = action.payload.step
 
         switch (stepName) {
-          case 'ENTER_AMOUNT': {
+          case 'ENTER_AMOUNT':
+          case 'SELL_ENTER_AMOUNT': {
             if (action.payload.orderType === Order.BUY) {
               break
             }

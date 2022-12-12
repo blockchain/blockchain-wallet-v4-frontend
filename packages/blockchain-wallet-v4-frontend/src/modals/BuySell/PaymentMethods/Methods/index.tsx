@@ -15,6 +15,7 @@ import { Image, Text } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutHeader } from 'components/Flyout/Layout'
 import { Padding } from 'components/Padding'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
+import { getEnterAmountStepType } from 'data/components/buySell/utils'
 import { useSardineContext } from 'hooks'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
@@ -223,7 +224,7 @@ const Methods: React.FC<Props> = (props: Props) => {
             fiatCurrency: getFiatFromPair(props.pair.pair),
             orderType: props.orderType,
             pair: props.pair,
-            step: 'ENTER_AMOUNT'
+            step: getEnterAmountStepType(props.orderType)
           })
         }
         mode='back'
