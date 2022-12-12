@@ -7,11 +7,9 @@ import { actions, model, selectors } from 'data'
 
 import { actions as A } from './slice'
 import type { DexSwapForm } from './types'
+import { getValidSwapAmount } from './utils'
 
 const { DEX_SWAP_FORM } = model.components.dex
-
-const getValidAmount = (amount: number | undefined) =>
-  amount && !Number.isNaN(amount) && parseFloat(`${amount}`) !== 0 ? amount : 0
 
 export default ({ api }: { api: APIType }) => {
   const fetchUserEligibility = function* () {
@@ -99,12 +97,12 @@ export default ({ api }: { api: APIType }) => {
     if (formValues.baseToken === formValues.counterToken) return
 
     // if one of the values is 0 set another one to 0 and clear a quote
-    if (field === 'baseTokenAmount' && getValidAmount(formValues.baseTokenAmount) === 0) {
+    if (field === 'baseTokenAmount' && getValidSwapAmount(formValues.baseTokenAmount) === 0) {
       yield* put(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', ''))
       yield* put(A.clearCurrentSwapQuote())
       return
     }
-    if (field === 'counterTokenAmount' && getValidAmount(formValues.counterTokenAmount) === 0) {
+    if (field === 'counterTokenAmount' && getValidSwapAmount(formValues.counterTokenAmount) === 0) {
       yield* put(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', ''))
       yield* put(A.clearCurrentSwapQuote())
       return
@@ -116,7 +114,7 @@ export default ({ api }: { api: APIType }) => {
     if (
       baseToken &&
       counterToken &&
-      (getValidAmount(baseTokenAmount) || getValidAmount(counterTokenAmount))
+      (getValidSwapAmount(baseTokenAmount) || getValidSwapAmount(counterTokenAmount))
     ) {
       try {
         yield* put(A.fetchSwapQuoteLoading())
