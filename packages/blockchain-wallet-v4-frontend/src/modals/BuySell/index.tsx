@@ -17,6 +17,7 @@ import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import PaymentAccountError from 'components/Flyout/PaymentAccountError'
 import { actions, model, selectors } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
+import { getEnterAmountStepType } from 'data/components/buySell/utils'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
 import {
@@ -48,11 +49,13 @@ import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
 import PreviewSell from './PreviewSell'
 import getData from './selectors'
+import SellEnterAmount from './SellEnterAmount'
 import SellOrderSummary from './SellOrderSummary'
 import Loading from './template.loading'
 import Pending from './template.pending'
 import ThreeDSHandlerCheckoutDotCom from './ThreeDSHandlerCheckoutDotCom'
 import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
+import ThreeDSHandlerFakeCardAcquirer from './ThreeDSHandlerFakeCardAcquirer'
 import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
 import UpdateSecurityCode from './UpdateSecurityCode'
 import UpgradeToGold from './UpgradeToGold'
@@ -89,7 +92,7 @@ class BuySell extends PureComponent<Props, State> {
         method: this.props.method,
         orderType: this.props.orderType,
         pair: this.props.pair,
-        step: 'ENTER_AMOUNT'
+        step: getEnterAmountStepType(this.props.orderType)
       })
     }
   }
@@ -194,6 +197,11 @@ class BuySell extends PureComponent<Props, State> {
                 <EnterAmount {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {this.props.step === 'SELL_ENTER_AMOUNT' && (
+              <FlyoutChild>
+                <SellEnterAmount {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
             {this.props.step === 'UPDATE_SECURITY_CODE' && (
               <FlyoutChild>
                 <UpdateSecurityCode
@@ -230,6 +238,11 @@ class BuySell extends PureComponent<Props, State> {
             {this.props.step === 'ADD_CARD_CHECKOUTDOTCOM' && (
               <FlyoutChild>
                 <AddCardCheckoutDotCom {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === '3DS_HANDLER_FAKE_CARD_ACQUIRER' && (
+              <FlyoutChild>
+                <ThreeDSHandlerFakeCardAcquirer {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === '3DS_HANDLER_EVERYPAY' && (
@@ -386,6 +399,7 @@ type LinkStatePropsType =
         | '3DS_HANDLER_EVERYPAY'
         | '3DS_HANDLER_CHECKOUTDOTCOM'
         | '3DS_HANDLER_STRIPE'
+        | '3DS_HANDLER_FAKE_CARD_ACQUIRER'
         | 'BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
@@ -441,7 +455,7 @@ type LinkStatePropsType =
       order?: BSOrderType
       orderType: BSOrderActionType
       pair: BSPairType
-      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
+      step: 'ENTER_AMOUNT' | 'SELL_ENTER_AMOUNT' | 'VERIFY_EMAIL'
     }
   | {
       orderType: BSOrderActionType

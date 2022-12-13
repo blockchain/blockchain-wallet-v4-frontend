@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import { ExtraQuestionsType, FindAddressResponse, RetrieveAddress } from '@core/types'
+import { ExtraQuestionsType, FindAddressResponse, KycFlowsType, RetrieveAddress } from '@core/types'
 
 import { EMAIL_STEPS } from './model'
 import {
@@ -21,6 +21,7 @@ const initialState: IdentityVerificationState = {
   emailStep: EMAIL_STEPS.edit as EmailSmsStepType,
   flowConfig: Remote.NotAsked,
   kycExtraQuestions: Remote.NotAsked,
+  kycFlows: Remote.NotAsked,
   preIdvData: Remote.NotAsked,
   smsStep: Remote.Loading,
   states: Remote.NotAsked,
@@ -49,6 +50,17 @@ const identityVerificationSlice = createSlice({
     },
     fetchExtraKYCSuccess: (state, action: PayloadAction<ExtraQuestionsType>) => {
       state.kycExtraQuestions = Remote.Success(action.payload)
+    },
+
+    fetchKYCFlows: (state, action: PayloadAction<string>) => {},
+    fetchKYCFlowsFailure: (state, action: PayloadAction<string>) => {
+      state.kycFlows = Remote.Failure(action.payload)
+    },
+    fetchKYCFlowsLoading: (state) => {
+      state.kycFlows = Remote.Loading
+    },
+    fetchKYCFlowsSuccess: (state, action: PayloadAction<KycFlowsType>) => {
+      state.kycFlows = Remote.Success(action.payload)
     },
 
     fetchStates: () => {},

@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { actions, model, selectors } from 'data'
+import { getEnterAmountStepType } from 'data/components/buySell/utils'
 import { RootState } from 'data/rootReducer'
 import { BSVerifyEmailFormValuesType } from 'data/types'
 
@@ -30,7 +31,7 @@ class VerifyEmail extends PureComponent<Props> {
         fiatCurrency: this.props.fiatCurrency,
         orderType: this.props.orderType,
         pair: this.props.pair,
-        step: 'ENTER_AMOUNT'
+        step: getEnterAmountStepType(this.props.orderType)
       })
     }
   }

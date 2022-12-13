@@ -167,7 +167,7 @@ class PreviewSell extends PureComponent<
       fiatCurrency: getFiatFromPair(this.props.pair.pair),
       orderType: this.props.orderType,
       pair: this.props.pair,
-      step: 'ENTER_AMOUNT',
+      step: 'SELL_ENTER_AMOUNT',
       swapAccount: this.props.account
     })
   }

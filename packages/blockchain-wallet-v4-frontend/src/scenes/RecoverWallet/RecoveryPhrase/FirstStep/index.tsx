@@ -44,7 +44,7 @@ const FirstStep = (props: Props) => {
   }
 
   const backArrowClicked = () => {
-    if (props.accountRecoveryData) {
+    if (props.accountRecoveryData?.userId) {
       setStep(RecoverSteps.RECOVERY_OPTIONS)
     } else {
       props.routerActions.push('/login')

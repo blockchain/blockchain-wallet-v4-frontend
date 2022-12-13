@@ -24,7 +24,7 @@ const VerifyAccountRecovery = ({ analyticsActions, data, signupActions }: Props)
       {data.cata({
         Failure: (error) => <Error error={error} />,
         Loading: () => <Loading />,
-        NotAsked: () => <Error />,
+        NotAsked: () => <Loading />,
         Success: () => <Success />
       })}
     </Wrapper>

@@ -71,6 +71,7 @@ export enum BuySellStepType {
   '3DS_HANDLER_EVERYPAY',
   '3DS_HANDLER_STRIPE',
   '3DS_HANDLER_CHECKOUTDOTCOM',
+  '3DS_HANDLER_FAKE_CARD_ACQUIRER',
   'DETERMINE_CARD_PROVIDER',
   'ADD_CARD_CHECKOUTDOTCOM',
   'ADD_CARD_VGS',
@@ -93,7 +94,8 @@ export enum BuySellStepType {
   'UPGRADE_TO_GOLD',
   'FREQUENCY',
   'VERIFY_EMAIL',
-  'UPDATE_SECURITY_CODE'
+  'UPDATE_SECURITY_CODE',
+  'SELL_ENTER_AMOUNT'
 }
 export type BSShowModalOriginType =
   | 'CoinPageHoldings'
@@ -238,7 +240,7 @@ export type StepActionsPayload =
       order?: BSOrderType
       orderType?: BSOrderActionType
       pair: BSPairType
-      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
+      step: 'ENTER_AMOUNT' | 'SELL_ENTER_AMOUNT' | 'VERIFY_EMAIL'
       swapAccount?: SwapAccountType
     }
   | {
@@ -270,7 +272,11 @@ export type StepActionsPayload =
     }
   | {
       order?: BSOrderType
-      step: '3DS_HANDLER_EVERYPAY' | '3DS_HANDLER_STRIPE' | '3DS_HANDLER_CHECKOUTDOTCOM'
+      step:
+        | '3DS_HANDLER_EVERYPAY'
+        | '3DS_HANDLER_STRIPE'
+        | '3DS_HANDLER_CHECKOUTDOTCOM'
+        | '3DS_HANDLER_FAKE_CARD_ACQUIRER'
     }
   | {
       sellOrderType?: SwapBaseCounterTypes

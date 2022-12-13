@@ -451,6 +451,7 @@ const buySellSlice = createSlice({
           state.step = action.payload.step
           break
         case 'ENTER_AMOUNT':
+        case 'SELL_ENTER_AMOUNT':
         case 'VERIFY_EMAIL':
           state.addBank = undefined
           state.cryptoCurrency = action.payload.cryptoCurrency
@@ -482,6 +483,7 @@ const buySellSlice = createSlice({
         case '3DS_HANDLER_EVERYPAY':
         case '3DS_HANDLER_STRIPE':
         case '3DS_HANDLER_CHECKOUTDOTCOM':
+        case '3DS_HANDLER_FAKE_CARD_ACQUIRER':
         case 'CHECKOUT_CONFIRM':
         case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':
