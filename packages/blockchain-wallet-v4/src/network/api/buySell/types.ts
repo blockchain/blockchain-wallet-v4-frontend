@@ -248,9 +248,25 @@ export type BSMoneyType = {
 export type BSOrderProperties = {
   attributes?: {
     authorisationUrl?: string
+    cardCassy?: {
+      cardAcquirerAccountCode: string
+      cardAcquirerName: 'CHECKOUTDOTCOM' | 'STRIPE' | 'EVERYPAY' | 'FAKE_CARD_ACQUIRER'
+      clientSecret: string
+      paymentLink: string
+      paymentState:
+        | 'INITIAL'
+        | 'WAITING_FOR_3DS_RESPONSE'
+        | 'CONFIRMED_3DS'
+        | 'SETTLED'
+        | 'VOIDED'
+        | 'ABANDONED'
+        | 'FAILED'
+        | null
+      publishableApiKey: string
+    }
     cardProvider?: {
       cardAcquirerAccountCode: string
-      cardAcquirerName: 'CHECKOUTDOTCOM' | 'STRIPE' | 'EVERYPAY'
+      cardAcquirerName: 'CHECKOUTDOTCOM' | 'STRIPE' | 'EVERYPAY' | 'FAKE_CARD_ACQUIRER'
       clientSecret: string
       paymentLink: string
       paymentState:
@@ -282,6 +298,7 @@ export type BSOrderProperties = {
     paymentId: string
     qrcodeUrl?: string
   }
+  depositPaymentId?: string
   expiresAt: string
   failureReason?: RecurringBuyFailureReasons
   fee?: string
