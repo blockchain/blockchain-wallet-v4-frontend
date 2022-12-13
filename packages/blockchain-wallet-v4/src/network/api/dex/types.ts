@@ -1,63 +1,76 @@
+// TODO: Split this file into domains
 import { CoinType } from '@core/types'
 
-export type DexSwapQuoteQueryParams = {
-  ccy: string
-  product: string // TODO: Update to coin type after it's done for DEX form values
+// single only is supported now
+export type DexVenueName = 'ZEROX'
+export type DexVenueType = 'AGGREGATOR'
+export type DexSwapQuoteType = 'SINGLE'
+
+type DexTokenCommon = {
+  address: string
+  chainId: number
+  decimals: number
+  name: string
+  symbol: CoinType
 }
 
-export type DexSwapQuoteRequest = {
-  fromCurrency: {
-    address: string
-    amount: string
-    chainId: number
-    symbol: CoinType
-  }
-  params: {
-    slippage: string
-  }
-  takerAddress: string
-  toCurrency: {
-    address: string
-    chainId: number
-    symbol: CoinType
-  }
-  venue: 'ZEROX'
+export type DexTokenNative = DexTokenCommon & {
+  type: 'NATIVE'
 }
 
-export type DexSwapQuoteResponse = {
-  approxConfirmationTime?: number
-  code?: number
-  legs?: number
-  message?: string
-  quotes?: Array<SwapQuoteLegInfo>
-  txs?: Array<SwapQuoteTxInfo>
-  type?: 'SINGLE' | 'MULTI' | string
-  venueType?: 'AGGREGATOR' | 'ZEROX'
+export type DexTokenNotNative = DexTokenCommon & {
+  type: 'NOT_NATIVE'
+  verifiedBy: number
 }
 
-type SwapQuoteLegInfo = {
-  buyAmount: {
-    address: string
-    amount: string
-    chainId: number
-    symbol: CoinType
-  }
-  estimatedPriceImpact: string
-  guaranteedPrice: string
-  price: string
-  sellAmount: {
-    address: string
-    amount: string
-    chainId: number
-    symbol: CoinType
-  }
+export type DexToken = DexTokenNative | DexTokenNotNative
+
+export type DexChain = {
+  chainId: number
+  name: string
+  nativeCurrency: DexTokenNative
 }
 
-type SwapQuoteTxInfo = {
-  chainId: string
+type DexAmountCommon = {
+  address: string
+  amount: number
+  chainId: number
+  symbol: CoinType
+}
+
+export type DexBuyAmount = DexAmountCommon & {
+  minAmount: number
+  type: 'BUY'
+}
+
+export type DexSellAmount = DexAmountCommon & {
+  type: 'SELL'
+}
+
+export type DexQuote = {
+  buyAmount: DexBuyAmount
+  buyTokenFee: number
+  buyTokenPercentageFee: number
+  guaranteedPrice: number
+  price: number
+  sellAmount: DexSellAmount
+}
+
+export type DexTransaction = {
+  allowanceTarget: string
+  chainId: number
   data: string
-  gasLimit: string
-  gasPrice: string
+  gasLimit: number
+  gasPrice: number
   to: string
-  value: string
+  value: number
+}
+
+export type DexSwapQuote = {
+  // now we support single only so its 1
+  legs: 1
+  quote: DexQuote
+  transaction: DexTransaction
+  type: DexSwapQuoteType
+  venueType: DexVenueType
 }

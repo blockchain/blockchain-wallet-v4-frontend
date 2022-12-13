@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
-import { Analytics, RecoverSteps } from 'data/types'
+import { Analytics, ProductAuthOptions, RecoverSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
 import {
@@ -93,21 +93,24 @@ const RecoveryOptions = (props: Props) => {
     })
   }
 
+  const handleBackArrowClick = () => {
+    if (product) {
+      routerActions.push(`/login?product=${product}`)
+    } else {
+      routerActions.push(`/login?product=${ProductAuthOptions.WALLET}`)
+    }
+  }
   return (
     <OuterWrapper>
       <WrapperWithPadding>
         {emailFromMagicLink && (
           <BackArrowFormHeader
-            handleBackArrowClick={() => routerActions.push(`/login?product=${product}`)}
+            handleBackArrowClick={handleBackArrowClick}
             email={emailFromMagicLink}
             guid={cachedGuid || lastGuid}
           />
         )}
-        {!emailFromMagicLink && (
-          <GoBackArrow
-            handleBackArrowClick={() => routerActions.push(`/login?product=${product}`)}
-          />
-        )}
+        {!emailFromMagicLink && <GoBackArrow handleBackArrowClick={handleBackArrowClick} />}
         <FormBody>
           <Text
             color='grey900'
