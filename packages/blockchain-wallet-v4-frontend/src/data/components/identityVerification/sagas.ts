@@ -110,6 +110,17 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const fetchKYCFlows = function* () {
+    try {
+      yield put(A.fetchKYCFlowsLoading())
+      const kycFlows = yield call(api.fetchKYCFlows)
+      yield put(A.fetchKYCFlowsSuccess(kycFlows))
+    } catch (e) {
+      yield put(A.fetchKYCFlowsFailure(e))
+      actions.logs.logErrorMessage(logLocation, 'fetchKYCFlows', `Error flows for KYC: ${e}`)
+    }
+  }
+
   const selectTier = function* (tier = 2) {
     const { selected } = yield select(selectors.modules.profile.getUserTiers)
     if (selected === tier) return
@@ -122,6 +133,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield call(createUser)
       yield call(selectTier, tier)
+      yield call(fetchKYCFlows)
       yield call(registerUserCampaign, { newUser: true })
     } catch (e) {
       return yield put(A.setStepsFailure(e))
@@ -622,6 +634,7 @@ export default ({ api, coreSagas, networks }) => {
     createUser,
     defineSteps,
     fetchExtraKYC,
+    fetchKYCFlows,
     fetchStates,
     fetchSupportedCountries,
     fetchSupportedDocuments,
