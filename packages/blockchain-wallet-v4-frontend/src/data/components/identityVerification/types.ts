@@ -2,6 +2,7 @@ import {
   ExtraKYCContext,
   ExtraQuestionsType,
   FindAddressResponse,
+  KycFlowsType,
   NabuAddressType,
   RemoteDataType,
   RetrieveAddress
@@ -91,6 +92,7 @@ export interface IdentityVerificationState {
   emailStep: EmailSmsStepType
   flowConfig: RemoteDataType<string, any>
   kycExtraQuestions: RemoteDataType<string, ExtraQuestionsType>
+  kycFlows: RemoteDataType<string, KycFlowsType>
   preIdvData: RemoteDataType<string, PreIdvDataType>
   smsStep: RemoteDataType<string, EmailSmsStepType>
   states: RemoteDataType<string, Array<StateType>>
