@@ -18,11 +18,19 @@ export default ({ api }: { api: APIType }) => {
       const token = 'ETH'
       const state = yield* select()
 
+      console.log('---1')
+
       const nonCustodialCoinAccounts = yield* select(() =>
         selectors.coins.getCoinAccounts(state, {
           coins: [token],
           nonCustodialAccounts: true
         })
+      )
+
+      console.log('---2 nonCustodialCoinAccounts', nonCustodialCoinAccounts)
+      console.log(
+        '---3 nonCustodialCoinAccounts[token][0].address',
+        nonCustodialCoinAccounts[token][0].address
       )
 
       const walletAddress = nonCustodialCoinAccounts[token][0].address

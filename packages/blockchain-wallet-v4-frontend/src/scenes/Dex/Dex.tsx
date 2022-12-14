@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { notReachable } from 'utils/notReachable'
 
 import { PageLoading } from './components'
@@ -15,6 +15,12 @@ const DEX_INTRO_VIEWED_KEY = 'dexIntroViewed'
 const Dex = () => {
   const dispatch = useDispatch()
   const [scene, setScene] = useSceneResolver()
+
+  const accounts = useSelector((state: any) =>
+    selectors.coins.getCoinAccounts(state, { coins: ['ETH'], nonCustodialAccounts: true })
+  )
+
+  console.log('Dex accounts', accounts)
 
   // clear data on exiting DEX app
   useEffect(() => {
@@ -31,6 +37,7 @@ const Dex = () => {
   switch (scene) {
     case 'ERROR':
       // TODO: Handle error
+      console.log('Dex render ERROR')
       return null
 
     case 'LOADING':
