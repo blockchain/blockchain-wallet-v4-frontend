@@ -30,16 +30,22 @@ export const getAccounts = createDeepEqualSelector(
     (state, ownProps) => ownProps // selector config
   ],
   (ethDataR, ethMetadataR, sbBalanceR, ownProps) => {
+    console.log('---0.1')
     const transform = (ethData, ethMetadata, sbBalance: ExtractSuccess<typeof sbBalanceR>) => {
+      console.log('---0.001', ethData, ethMetadata)
       const { coin } = ownProps
       let accounts: SwapAccountType[] = []
 
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
+        console.log('---0.1 non custodial')
         accounts = accounts.concat(
           ethMetadata.map((acc) => {
             const address = prop('addr', acc)
             const data = prop(address, ethData)
+
+            console.log('---0.1 non custodial address', address)
+            console.log('---0.1 non custodial data', data)
 
             return {
               address,
@@ -58,6 +64,7 @@ export const getAccounts = createDeepEqualSelector(
         accounts = accounts.concat(generateTradingAccount(coin, sbBalance as BSBalanceType))
       }
 
+      console.log('---0.1 return accounts', accounts)
       return accounts
     }
 

@@ -15,6 +15,7 @@ export const useSceneResolver = (): [DexScenes, (scene: DexScenes) => void] => {
 
   const {
     data: isUserEligible,
+    error: isUserEligibleError,
     hasError: isUserEligibilityFailed,
     isLoading: isUserEligibilityLoading
   } = useRemote(selectors.components.dex.getIsUserEligible)
@@ -29,6 +30,8 @@ export const useSceneResolver = (): [DexScenes, (scene: DexScenes) => void] => {
       dispatch(actions.core.data.coins.fetchCoinsRates())
     }
   }, [isUserEligible])
+
+  console.log('isUserEligibleError', isUserEligibleError)
 
   useEffect(() => {
     if (isUserEligibilityLoading) setScene('LOADING')
