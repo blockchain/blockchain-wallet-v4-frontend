@@ -147,6 +147,10 @@ export const getReferralEnabled = (state: RootState) =>
 export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'exchangeMobileDuplicateAccountRedirect']))
 
+// show exchange promo card
+export const getExchangePromoEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'exchangePromo']))
+
 // secure update endpoint for email and sms
 export const getSecureEmailSmsUpdate = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'secureEmailSmsUpdate']))
