@@ -67,7 +67,7 @@ const ExchangePromoContainer = () => {
 
   if (!featureFlag) return null
 
-  // if (!isExperimentOn(experiments)) return null
+  if (!isExperimentOn(experiments)) return null
 
   if (wasDismissed()) return null
 
