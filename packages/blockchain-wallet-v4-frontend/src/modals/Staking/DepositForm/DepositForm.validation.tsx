@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 
-import { Props } from './DepositForm.template.success'
+import { SuccessPropsType } from './DepositForm.types'
 
-export const minDepositAmount = (value, allValues, props: Props) => {
+export const minDepositAmount = (value, allValues, props: SuccessPropsType) => {
   if (!value) return true
   const minDeposit = props.displayCoin
     ? props.earnDepositLimits.minCoin
@@ -10,7 +10,7 @@ export const minDepositAmount = (value, allValues, props: Props) => {
   return new BigNumber(value).isLessThan(minDeposit) ? 'BELOW_MIN' : false
 }
 
-export const maxDepositAmount = (value, allValues, props: Props) => {
+export const maxDepositAmount = (value, allValues, props: SuccessPropsType) => {
   if (!value) return true
   const maxDeposit = props.displayCoin
     ? props.earnDepositLimits.maxCoin
