@@ -28,6 +28,7 @@ import {
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   AddBankStepType,
+  Analytics,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
@@ -177,8 +178,8 @@ const ButtonWrapper = styled.div`
 
 const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const [acceptTerms, setAcceptTerms] = useState(false)
-  const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
-  const [isActiveFeeTooltip, setFeeToolTip] = useState(true)
+  const [isActiveCoinTooltip, setIsActiveCoinTooltip] = useState(false)
+  const [isActiveFeeTooltip, setIsActiveFeeTooltip] = useState(true)
   const dispatch = useDispatch()
   const [sardineContextIsReady, sardineContext] = useSardineContext('ACH_LINK')
   const [sardineContextIsReadyOB, sardineContextOB] = useSardineContext('OB_LINK')
@@ -222,6 +223,13 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   })
 
   useEffect(() => {
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_CHECKOUT_SCREEN_VIEWED,
+      properties: {}
+    })
+  }, [])
+
+  useEffect(() => {
     if (!requiresTerms) {
       setAcceptTerms(true)
     }
@@ -245,12 +253,22 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
 
   const handleCancel = () => {
     props.buySellActions.cancelOrder(props.order)
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_CHECKOUT_SCREEN_BACK_CLICKED,
+      properties: {}
+    })
   }
 
   const clearFormErrors = () => dispatch(clearSubmitErrors(FORM_BS_CHECKOUT_CONFIRM))
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_CHECKOUT_SCREEN_SUBMITTED,
+      properties: {}
+    })
 
     const { bankAccounts, cards, isSddFlow, isUserSddVerified, sbBalances, userData } =
       props.data.getOrElse({
@@ -365,6 +383,24 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     }
   }
 
+  const toggleCoinTooltip = () => {
+    setIsActiveCoinTooltip((prevState) => !prevState)
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_PRICE_TOOLTIP_CLICKED,
+      properties: {}
+    })
+  }
+
+  const toggleFeeTooltip = () => {
+    setIsActiveFeeTooltip((prevState) => !prevState)
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_BLOCKCHAIN_COM_FEE_CLICKED,
+      properties: {}
+    })
+  }
+
   if (isNabuError(props.error)) {
     return <GenericNabuErrorFlyout error={props.error} onDismiss={clearFormErrors} />
   }
@@ -423,7 +459,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                   name='question-in-circle-filled'
                   size='16px'
                   color={isActiveCoinTooltip ? 'blue600' : 'grey300'}
-                  onClick={() => setCoinToolTip(!isActiveCoinTooltip)}
+                  onClick={toggleCoinTooltip}
                 />
               </IconWrapper>
             </RowIcon>
@@ -544,7 +580,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                     name='question-in-circle-filled'
                     size='16px'
                     color={isActiveFeeTooltip ? 'blue600' : 'grey300'}
-                    onClick={() => setFeeToolTip(!isActiveFeeTooltip)}
+                    onClick={toggleFeeTooltip}
                   />
                 </IconWrapper>
               </RowIcon>

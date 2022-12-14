@@ -9,7 +9,7 @@ import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-compone
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
-import { ModalName, SwapAccountType } from 'data/types'
+import { Analytics, ModalName, SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
@@ -68,8 +68,23 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     this.state = { orderType: this.props.orderType }
   }
 
+  componentDidMount() {
+    if (this.state.orderType === 'BUY') {
+      this.trackBuyViewed()
+    }
+  }
+
   shouldComponentUpdate = (nextProps, nextState) =>
     !equals(this.props, nextProps) || !equals(this.state, nextState)
+
+  componentDidUpdate(
+    prevProps: Readonly<InjectedFormProps<{}, Props> & Props>,
+    prevState: Readonly<State>
+  ) {
+    if (prevState.orderType !== this.state.orderType && this.state.orderType === 'BUY') {
+      this.trackBuyViewed()
+    }
+  }
 
   setOrderType = (orderType: OrderType) => {
     if (orderType === OrderType.SELL) {
@@ -89,6 +104,11 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
 
   handleBuy = (pair: BSPairType) => {
     const currentTier = this.props.userData?.tiers?.current ?? 0
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.BUY_ASSET_SELECTED,
+      properties: {}
+    })
 
     // if first time user, send to verify email step which is required future SDD check
     if (!this.props.emailVerified && currentTier !== 2 && currentTier !== 1) {
@@ -141,6 +161,13 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     // if user changes wallet/coin
 
     this.props.formActions.change(FORM_BS_CHECKOUT, 'amount', '')
+  }
+
+  trackBuyViewed() {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.BUY_ASSET_SCREEN_VIEWED,
+      properties: {}
+    })
   }
 
   render() {

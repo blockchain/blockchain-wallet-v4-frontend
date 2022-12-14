@@ -22,6 +22,7 @@ import { Divider } from 'components/Divider'
 import { FlyoutWrapper } from 'components/Flyout'
 import { GenericNabuErrorCard } from 'components/GenericNabuErrorCard'
 import { Padding } from 'components/Padding'
+import { Analytics } from 'data/analytics/types'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { getEnterAmountStepType } from 'data/components/buySell/utils'
 import { getBankLogoImageName } from 'services/images'
@@ -122,10 +123,22 @@ const Accounts = (props: Props) => {
     method: BSPaymentMethodType
     mobilePaymentMethod?: MobilePaymentType
   }) => {
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_PAYMENT_METHOD_CHANGED,
+      properties: {
+        payment_type: method.type
+      }
+    })
+
     props.buySellActions.handleMethodChange({ isFlow: false, method, mobilePaymentMethod })
   }
 
   const addNewPaymentMethod = () => {
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_PAYMENT_METHOD_ADD_NEW_CLICKED,
+      properties: {}
+    })
+
     if (props.fiatCurrency) {
       props.buySellActions.setStep({
         cryptoCurrency: getCoinFromPair(props.pair.pair),

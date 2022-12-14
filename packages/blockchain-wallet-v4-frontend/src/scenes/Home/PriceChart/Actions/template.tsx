@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { OrderType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
+import { Analytics } from 'data/analytics/types'
 import { media } from 'services/styles'
 
 import { Props } from '.'
@@ -24,20 +25,31 @@ const BuyTradeButton = styled(Button)`
   }
 `
 
-const Actions = ({ buySellActions, coinName, cryptoCurrency, swapActions }: Props) => {
+const Actions = ({
+  analyticsActions,
+  buySellActions,
+  coinName,
+  cryptoCurrency,
+  swapActions
+}: Props) => {
   return (
     <Wrapper>
       <BuyTradeButton
         data-e2e='buyButton'
         height='42px'
         nature='primary'
-        onClick={() =>
+        onClick={() => {
+          analyticsActions.trackEvent({
+            key: Analytics.PRICE_GRAPH_BUY_CLICKED,
+            properties: {}
+          })
+
           buySellActions.showModal({
             cryptoCurrency,
             orderType: OrderType.BUY,
             origin: 'PriceChart'
           })
-        }
+        }}
       >
         <Text color='white' size='16px' lineHeight='24px' weight={600}>
           <FormattedMessage
