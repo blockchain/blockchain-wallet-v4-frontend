@@ -123,7 +123,6 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const custodialBalance = custodialBalances && custodialBalances[coin]?.available
       const baseUnitBalance = nonCustodialBalance || custodialBalance || 0
       const minDepositAmount = limits[coin]?.minDepositValue || 1
-
       const minMaxLimits = yield call(getMinMaxLimits, {
         baseUnitBalance,
         coin,

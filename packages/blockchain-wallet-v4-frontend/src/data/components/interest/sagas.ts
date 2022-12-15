@@ -16,6 +16,7 @@ import {
   EarnBondingDepositsResponseType,
   EarnBondingDepositsType,
   EarnTransactionResponseType,
+  NabuCustodialProductType,
   PaymentValue,
   Product,
   RatesType,
@@ -35,6 +36,7 @@ import * as S from './selectors'
 import { actions as A } from './slice'
 import {
   EarnInstrumentsType,
+  EarnProductsType,
   EarnTabsType,
   EarnTransactionType,
   InterestWithdrawalFormType,
@@ -546,9 +548,27 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const formChanged = function* (action: FormAction) {
     const { form } = action.meta
-    const isStaking = form === STAKING_DEPOSIT_FORM
-    const product = isStaking ? 'Staking' : 'Passive'
-    if (!(form === PASSIVE_REWARDS_DEPOSIT_FORM || isStaking)) return
+    let product: EarnProductsType = 'Passive'
+
+    switch (form) {
+      case ACTIVE_REWARDS_DEPOSIT_FORM:
+        product = 'Active'
+        break
+      case STAKING_DEPOSIT_FORM:
+        product = 'Staking'
+        break
+      case PASSIVE_REWARDS_DEPOSIT_FORM:
+      default:
+        product = 'Passive'
+        break
+    }
+
+    if (
+      ![ACTIVE_REWARDS_DEPOSIT_FORM, STAKING_DEPOSIT_FORM, PASSIVE_REWARDS_DEPOSIT_FORM].includes(
+        form
+      )
+    )
+      return
 
     try {
       const formValues: RewardsDepositFormType | StakingDepositFormType = yield select(
@@ -591,7 +611,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             const custodialBalances: BSBalancesType = (yield select(
               selectors.components.buySell.getBSBalances
             )).getOrFail('Failed to get balance')
-
             yield call(createLimits, { custodialBalances, product })
             yield put(A.setPaymentSuccess({ payment: undefined }))
           } else {
@@ -826,7 +845,27 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const sendDeposit = function* ({ payload }: ReturnType<typeof A.submitDepositForm>) {
     const { formName } = payload
-    const isStaking = formName === STAKING_DEPOSIT_FORM
+    let hotWalletAddressProduct = 'rewards'
+    let product: EarnProductsType = 'Passive'
+    let destination: NabuCustodialProductType = 'SAVINGS'
+    switch (formName) {
+      case ACTIVE_REWARDS_DEPOSIT_FORM:
+        product = 'Active'
+        hotWalletAddressProduct = 'active'
+        destination = 'EARN_CC1W'
+        break
+      case STAKING_DEPOSIT_FORM:
+        product = 'Staking'
+        hotWalletAddressProduct = 'staking'
+        destination = 'STAKING'
+        break
+      case PASSIVE_REWARDS_DEPOSIT_FORM:
+      default:
+        product = 'Passive'
+        hotWalletAddressProduct = 'rewards'
+        destination = 'SAVINGS'
+        break
+    }
 
     try {
       yield put(actions.form.startSubmit(formName))
@@ -855,7 +894,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(api.initiateCustodialTransfer, {
           amount,
           currency: coin,
-          destination: isStaking ? 'STAKING' : 'SAVINGS',
+          destination,
           origin: 'SIMPLEBUY'
         })
       } else {
@@ -868,14 +907,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
         // fetch deposit address
         let depositAddress
-        if (isStaking) {
-          yield put(A.fetchStakingAccount({ coin }))
-          yield take([A.fetchStakingAccountSuccess.type, A.fetchStakingAccountFailure.type])
-          depositAddress = yield select(S.getStakingDepositAddress)
-        } else {
-          yield put(A.fetchRewardsAccount({ coin }))
-          yield take([A.fetchRewardsAccountSuccess.type, A.fetchRewardsAccountFailure.type])
-          depositAddress = yield select(S.getRewardsDepositAddress)
+        switch (product) {
+          case 'Active':
+            yield put(A.fetchActiveRewardsAccount({ coin }))
+            yield take([A.fetchActiveRewardsAccountSuccess.type, A.fetchStakingAccountFailure.type])
+            depositAddress = yield select(S.getActiveRewardsDepositAddress)
+            break
+          case 'Staking':
+            yield put(A.fetchStakingAccount({ coin }))
+            yield take([A.fetchStakingAccountSuccess.type, A.fetchStakingAccountFailure.type])
+            depositAddress = yield select(S.getStakingDepositAddress)
+            break
+
+          case 'Passive':
+          default:
+            yield put(A.fetchRewardsAccount({ coin }))
+            yield take([A.fetchRewardsAccountSuccess.type, A.fetchRewardsAccountFailure.type])
+            depositAddress = yield select(S.getRewardsDepositAddress)
+            break
         }
 
         // abort if deposit address missing
@@ -884,7 +933,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
 
         const hotWalletAddress = selectors.core.walletOptions
-          .getHotWalletAddresses(yield select(), isStaking ? Product.STAKING : Product.REWARDS)
+          .getHotWalletAddresses(yield select(), Product[hotWalletAddressProduct])
           .getOrElse(null)
         let transaction
         if (typeof hotWalletAddress !== 'string') {
@@ -905,7 +954,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(
           actions.components.send.notifyNonCustodialToCustodialTransfer(
             { ...transaction, fromType: 'ADDRESS' },
-            isStaking ? 'STAKING' : 'SAVINGS'
+            destination
           )
         )
       }
@@ -913,10 +962,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // notify UI of success
       yield put(actions.form.stopSubmit(formName))
 
-      if (isStaking) {
-        yield put(A.setStakingStep({ name: 'DEPOSIT_SUCCESS' }))
-      } else {
-        yield put(A.setRewardsStep({ data: { depositSuccess: true }, name: 'ACCOUNT_SUMMARY' }))
+      switch (product) {
+        case 'Active':
+          yield put(A.setStakingStep({ name: 'DEPOSIT_SUCCESS' }))
+          break
+        case 'Staking':
+          yield put(A.setStakingStep({ name: 'DEPOSIT_SUCCESS' }))
+          break
+        case 'Passive':
+        default:
+          yield put(A.setRewardsStep({ data: { depositSuccess: true }, name: 'ACCOUNT_SUMMARY' }))
+          break
       }
 
       const afterTransactionR = yield select(selectors.components.interest.getAfterTransaction)
@@ -929,37 +985,60 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield delay(3000)
 
-      if (isStaking) {
-        yield put(A.fetchStakingBalance())
-      } else {
-        yield put(A.fetchRewardsBalance())
+      switch (product) {
+        case 'Active':
+          yield put(A.fetchActiveRewardsBalance())
+          break
+        case 'Staking':
+          yield put(A.fetchStakingBalance())
+          break
+        case 'Passive':
+        default:
+          yield put(A.fetchRewardsBalance())
+          break
       }
 
       yield put(A.fetchEDDStatus())
     } catch (e) {
       const error = errorHandler(e)
-      if (isStaking) {
-        yield put(actions.form.stopSubmit(STAKING_DEPOSIT_FORM, { _error: error }))
-        yield put(
-          A.setStakingStep({
-            data: {
-              depositSuccess: false,
-              error
-            },
-            name: 'ACCOUNT_SUMMARY'
-          })
-        )
-      } else {
-        yield put(actions.form.stopSubmit(PASSIVE_REWARDS_DEPOSIT_FORM, { _error: error }))
-        yield put(
-          A.setRewardsStep({
-            data: {
-              depositSuccess: false,
-              error
-            },
-            name: 'ACCOUNT_SUMMARY'
-          })
-        )
+      switch (product) {
+        case 'Active':
+          yield put(actions.form.stopSubmit(ACTIVE_REWARDS_DEPOSIT_FORM, { _error: error }))
+          yield put(
+            A.setActiveRewardsStep({
+              data: {
+                depositSuccess: false,
+                error
+              },
+              name: 'ACCOUNT_SUMMARY'
+            })
+          )
+          break
+        case 'Staking':
+          yield put(actions.form.stopSubmit(STAKING_DEPOSIT_FORM, { _error: error }))
+          yield put(
+            A.setStakingStep({
+              data: {
+                depositSuccess: false,
+                error
+              },
+              name: 'ACCOUNT_SUMMARY'
+            })
+          )
+          break
+        case 'Passive':
+        default:
+          yield put(actions.form.stopSubmit(PASSIVE_REWARDS_DEPOSIT_FORM, { _error: error }))
+          yield put(
+            A.setRewardsStep({
+              data: {
+                depositSuccess: false,
+                error
+              },
+              name: 'ACCOUNT_SUMMARY'
+            })
+          )
+          break
       }
     }
   }
