@@ -50,6 +50,7 @@
         "dex": true,
         "eddInterestFileUpload": true,
         "exchangeMobileDuplicateAccountRedirect": true,
+        "exchangePromo": true,
         "flexiblePricingModel": true,
         "googlePayPaymentMethod": true,
         "institutionalPortal": true,

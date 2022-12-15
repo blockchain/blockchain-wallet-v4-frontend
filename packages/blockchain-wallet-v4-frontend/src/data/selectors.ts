@@ -7,6 +7,7 @@ import * as cache from './cache/selectors'
 import * as coins from './coins/selectors'
 import * as components from './components/selectors'
 import * as custodial from './custodial/selectors'
+import * as experiments from './experiments/selectors'
 import * as form from './form/selectors'
 import * as goals from './goals/selectors'
 import * as misc from './misc/selectors'
@@ -28,6 +29,7 @@ export {
   components,
   core,
   custodial,
+  experiments,
   form,
   goals,
   misc,
