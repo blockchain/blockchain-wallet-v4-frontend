@@ -47,6 +47,25 @@ const onDismiss = () => {
   }
 }
 
+const mustShow = (
+  hide: boolean,
+  featureFlag,
+  experiments: Experiments,
+  isUnified: boolean | undefined
+): boolean => {
+  if (typeof isUnified === 'undefined') return false
+
+  if (hide) return false
+
+  if (!featureFlag) return false
+
+  if (!isExperimentOn(experiments)) return false
+
+  if (wasDismissed()) return false
+
+  return true
+}
+
 const ExchangePromoContainer = () => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -60,27 +79,57 @@ const ExchangePromoContainer = () => {
     false
   )
 
+  const isUnified = useSelector(selectors.cache.getUnifiedAccountStatus)
+
   // State to hide it after clicks
   const [hide, setHide] = useState(false)
 
-  if (hide) return null
-
-  if (!featureFlag) return null
-
-  if (!isExperimentOn(experiments)) return null
-
-  if (wasDismissed()) return null
-
-  // TODO analytics https://blockchain.atlassian.net/browse/EXCXP-1959
   const onClick = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: 'Exchange Awareness Prompt Clicked',
+        properties: {
+          current_origin: 'Wallet-Prompt',
+          sso_user: !!isUnified
+        }
+      })
+    )
     setHide(true)
     dispatch(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.SideMenu))
   }
 
   const onClose = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: 'Exchange Awareness Prompt Dismissed',
+        properties: {
+          current_origin: 'Wallet-Prompt',
+          sso_user: !!isUnified
+        }
+      })
+    )
     setHide(true)
     onDismiss()
   }
+
+  const showCard = mustShow(hide, featureFlag, experiments, isUnified)
+
+  useEffect(() => {
+    if (showCard) {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: 'Exchange Awareness Prompt Shown',
+          properties: {
+            current_origin: 'Wallet-Prompt',
+            sso_user: !!isUnified,
+            user_eligible_for_prompt: true
+          }
+        })
+      )
+    }
+  }, [showCard])
+
+  if (!showCard) return null
 
   return <ExchangePromo onClick={onClick} onClose={onClose} />
 }
