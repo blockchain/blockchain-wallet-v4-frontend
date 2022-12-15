@@ -15,7 +15,7 @@ const A_WEEK = 7 * 24 * 60 * 60 * 1000
 // From experiments API
 const isExperimentOn = (experiments: Experiments) => {
   if (!Object.keys(experiments).length) return false
-  return experiments.walletAwarenessPrompt === 1
+  return Number(experiments.walletAwarenessPrompt) >= 1
 }
 
 const getDismissedDate = (): number | null => {
