@@ -1,62 +1,53 @@
 import React, { useEffect } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { reduxForm } from 'redux-form'
+import { useDispatch } from 'react-redux'
 
-import { actions, model, selectors } from 'data'
-import { DexSwapForm, DexSwapSteps } from 'data/components/dex/types'
-import { RootState } from 'data/rootReducer'
+import { actions } from 'data'
+import { notReachable } from 'utils/notReachable'
 
-import { FormWrapper, PageWrapper } from './Dex.model'
-import Intro from './Intro'
-import ConfirmSwap from './Swap/ConfirmSwap'
-import EnterSwapDetails from './Swap/EnterSwapDetails'
+import { PageLoading } from './components'
+import { useSceneResolver } from './hooks'
+import { NonEligible } from './NonEligible'
+import { Onboarding } from './Onboarding'
+import { Swap } from './Swap'
 
-const { DEX_INTRO_VIEWED_KEY, DEX_SWAP_FORM } = model.components.dex
+const DEX_INTRO_VIEWED_KEY = 'dexIntroViewed'
 
-const Dex = ({ dexActions, formValues, ratesActions }: Props) => {
+const Dex = () => {
+  const dispatch = useDispatch()
+  const [scene, setScene] = useSceneResolver()
+
+  // clear data on exiting DEX app
   useEffect(() => {
-    dexActions.fetchChains()
-    ratesActions.fetchCoinsRates()
-  }, [dexActions, ratesActions])
+    return () => {
+      dispatch(actions.components.dex.clearCurrentSwapQuote())
+    }
+  }, [])
 
-  const wasIntroViewed = !!localStorage.getItem(DEX_INTRO_VIEWED_KEY)
-  const { step } = formValues
+  const onFinishOnboarding = () => {
+    localStorage.setItem(DEX_INTRO_VIEWED_KEY, 'true')
+    setScene('SWAP')
+  }
 
-  return (
-    <PageWrapper>
-      {!wasIntroViewed && <Intro />}
-      {wasIntroViewed && (
-        <FormWrapper>
-          {step === DexSwapSteps.ENTER_DETAILS && <EnterSwapDetails />}
-          {step === DexSwapSteps.CONFIRM_SWAP && <ConfirmSwap />}
-        </FormWrapper>
-      )}
-    </PageWrapper>
-  )
+  switch (scene) {
+    case 'ERROR':
+      // TODO: Handle error
+      return null
+
+    case 'LOADING':
+      return <PageLoading />
+
+    case 'ONBOARDING':
+      return <Onboarding onClickStart={onFinishOnboarding} />
+
+    case 'NOT_ELIGIBLE':
+      return <NonEligible />
+
+    case 'SWAP':
+      return <Swap />
+
+    default:
+      return notReachable(scene)
+  }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  formValues: selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  dexActions: bindActionCreators(actions.components.dex, dispatch),
-  ratesActions: bindActionCreators(actions.core.data.coins, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-const enhance = compose<React.ComponentType>(
-  reduxForm({
-    destroyOnUnmount: false,
-    enableReinitialize: true,
-    form: DEX_SWAP_FORM,
-    initialValues: { step: DexSwapSteps.ENTER_DETAILS }
-  }),
-  connector
-)
-
-type Props = ConnectedProps<typeof connector>
-
-export default enhance(Dex)
+export default Dex

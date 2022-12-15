@@ -58,11 +58,13 @@ const initialState: BuySellState = {
   card: Remote.NotAsked,
   cardId: undefined,
   cardSuccessRate: undefined,
+  cardTokenId: undefined,
   cards: Remote.NotAsked,
   checkoutDotComAccountCodes: [],
   checkoutDotComApiKey: undefined,
   crossBorderLimits: Remote.NotAsked,
   cryptoCurrency: undefined,
+  cvvStatus: Remote.NotAsked,
   displayBack: false,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
@@ -88,7 +90,8 @@ const initialState: BuySellState = {
   sellOrder: undefined,
   sellQuote: Remote.NotAsked,
   step: 'CRYPTO_SELECTION',
-  swapAccount: undefined
+  swapAccount: undefined,
+  vgsVaultId: undefined
 }
 
 const buySellSlice = createSlice({
@@ -108,7 +111,7 @@ const buySellSlice = createSlice({
     cancelOrder: (state, action: PayloadAction<BSOrderType>) => {
       state.pendingOrder = undefined
     },
-    checkCardSuccessRate: (state, action: PayloadAction<{ bin: string; scheme: string }>) => {},
+    checkCardSuccessRate: (state, action: PayloadAction<{ bin: string; scheme?: string }>) => {},
     confirmFundsOrder: () => {},
     confirmOrder: (
       state,
@@ -162,6 +165,15 @@ const buySellSlice = createSlice({
     createOrderSuccess: (state, action: PayloadAction<BSOrderType>) => {
       state.order = Remote.Success(action.payload)
       state.pendingOrder = action.payload
+    },
+    cvvStatusFailure: (state) => {
+      state.cvvStatus = Remote.Failure('The code entered is either invalid or expired. Try Again.')
+    },
+    cvvStatusLoading: (state) => {
+      state.cvvStatus = Remote.Loading
+    },
+    cvvStatusSuccess: (state) => {
+      state.cvvStatus = Remote.Success(true)
     },
     defaultMethodEvent: (state, action: PayloadAction<BSPaymentMethodType>) => {},
     deleteCard: (state, action: PayloadAction<BSCardType['id']>) => {},
@@ -439,6 +451,7 @@ const buySellSlice = createSlice({
           state.step = action.payload.step
           break
         case 'ENTER_AMOUNT':
+        case 'SELL_ENTER_AMOUNT':
         case 'VERIFY_EMAIL':
           state.addBank = undefined
           state.cryptoCurrency = action.payload.cryptoCurrency
@@ -470,6 +483,7 @@ const buySellSlice = createSlice({
         case '3DS_HANDLER_EVERYPAY':
         case '3DS_HANDLER_STRIPE':
         case '3DS_HANDLER_CHECKOUTDOTCOM':
+        case '3DS_HANDLER_FAKE_CARD_ACQUIRER':
         case 'CHECKOUT_CONFIRM':
         case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':
@@ -490,6 +504,11 @@ const buySellSlice = createSlice({
           state.checkoutDotComAccountCodes = action.payload.checkoutDotComAccountCodes
           state.checkoutDotComApiKey = action.payload.checkoutDotComApiKey
           state.step = action.payload.step
+          break
+        case 'ADD_CARD_VGS':
+          state.step = action.payload.step
+          state.vgsVaultId = action.payload.vgsVaultId
+          state.cardTokenId = action.payload.cardTokenId
           break
         default:
           state.step = action.payload.step
@@ -539,6 +558,7 @@ const buySellSlice = createSlice({
         orderType: BSOrderActionType
       }>
     ) => {},
+    updateCardCvv: (state, action: PayloadAction<{ cvv: string; paymentId: string }>) => {},
     updatePaymentFailure: (state, action: PayloadAction<string>) => {
       state.payment = Remote.Failure(action.payload)
     },

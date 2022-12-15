@@ -1,5 +1,4 @@
-import React from 'react'
-import { InjectedFormProps } from 'redux-form'
+import React, { useEffect, useState } from 'react'
 
 import Form from 'components/Form/Form'
 import { LoginSteps } from 'data/types'
@@ -9,27 +8,21 @@ import { RECOVER_FORM } from '../model'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class RecoveryPhraseContainer extends React.PureComponent<
-  InjectedFormProps<{}, Props> & Props,
-  StateProps
-> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      step: 1
+const RecoveryPhraseContainer = (props: Props) => {
+  const [step, setStateStep] = useState(1)
+
+  useEffect(() => {
+    return () => {
+      props.formActions.clearFields(RECOVER_FORM, false, false, 'mnemonic')
     }
-  }
+  }, [])
 
-  componentWillUnmount() {
-    this.props.formActions.clearFields(RECOVER_FORM, false, false, 'mnemonic')
-  }
-
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    const { formValues, language, signupActions } = this.props
+    const { formValues, language, signupActions } = props
 
-    if (this.state.step === 1) {
-      return this.setState({ step: 2 })
+    if (step === 1) {
+      return setStateStep(2)
     }
 
     // we have a captcha token, continue recover process
@@ -41,22 +34,20 @@ class RecoveryPhraseContainer extends React.PureComponent<
     })
   }
 
-  previousStep = () => {
-    this.setState({ step: 1 })
+  const previousStep = () => {
+    setStateStep(2)
   }
 
-  setStep = (step: LoginSteps) => {
-    this.props.formActions.change(RECOVER_FORM, 'step', step)
+  const setStep = (step: LoginSteps) => {
+    props.formActions.change(RECOVER_FORM, 'step', step)
   }
 
-  render() {
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        {this.state.step === 1 && <FirstStep {...this.props} />}
-        {this.state.step === 2 && <SecondStep previousStep={this.previousStep} {...this.props} />}
-      </Form>
-    )
-  }
+  return (
+    <Form onSubmit={handleSubmit}>
+      {step === 1 && <FirstStep {...props} />}
+      {step === 2 && <SecondStep previousStep={previousStep} {...props} />}
+    </Form>
+  )
 }
 
 export type StateProps = {

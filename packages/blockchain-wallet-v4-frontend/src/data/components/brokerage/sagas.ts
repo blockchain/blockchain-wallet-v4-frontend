@@ -108,21 +108,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // Plaid
     // Yodlee
     return [bankCredentials.id, account]
-    // switch (true) {
-    //   case typeof account === 'string' && bankCredentials:
-    //     // Yapily
-    //     const domainsR = yield select(selectors.core.walletOptions.getDomains)
-    //     const { comRoot } = domainsR.getOrElse({
-    //       comRoot: 'https://www.blockchain.com'
-    //     })
-    //     const callback = `${comRoot}/brokerage-link-success`
-    //     return [bankCredentials.id, { callback, institutionId: account }]
-    //   case typeof account !== 'string':
-    //   default:
-    //     // Plaid
-    //     // Yodlee
-    //     return [bankCredentials.id, account]
-    // }
   }
 
   const fetchBankTransferUpdate = function* ({

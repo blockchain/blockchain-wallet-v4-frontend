@@ -4,7 +4,7 @@ import { EarnEDDStatus, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { SuccessStateType } from '.'
+import { SuccessStateType } from './Earn.types'
 
 const getData = (state: RootState): RemoteDataType<string, SuccessStateType> => {
   const userDataR = selectors.modules.profile.getUserData(state)

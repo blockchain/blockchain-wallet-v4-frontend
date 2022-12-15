@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 
 import { EarnEDDStatus, RewardsRatesType, StakingRatesType } from '@core/types'
@@ -20,7 +21,10 @@ const MessageContainer = ({ isGoldTier }: PropTypes) => {
   if (error)
     return (
       <Text size='16px' weight={500}>
-        Oops. Something went wrong. Please refresh and try again.
+        <FormattedMessage
+          id='copy.oops.message'
+          defaultMessage='Oops. Something went wrong. Please refresh and try again.'
+        />
       </Text>
     )
 

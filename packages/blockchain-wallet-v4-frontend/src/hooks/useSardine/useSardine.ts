@@ -33,7 +33,7 @@ export const useSardine = () => {
       const context = window?._Sardine?.createContext({
         clientId: window?.SARDINE_CLIENT_ID,
         environment: window?.SARDINE_ENVIRONMENT,
-        flow: window.location.pathname,
+        flow: 'IGNORE', // per default we are going to ignore al flows except those which we monitor
         onDeviceResponse(data: any) {
           setSardineDeviceInfo(data)
         },

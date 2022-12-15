@@ -1,5 +1,5 @@
 import { IndexMultiResponseType, TickerResponseType } from '@core/network/api/coin/types'
-import { RatesType, RemoteDataType } from '@core/types'
+import { RemoteDataType } from '@core/types'
 
 import * as AT from './actionTypes'
 
@@ -8,7 +8,7 @@ export type CoinsState = {
   balances: { [key in string]: RemoteDataType<string, any> }
   btcTicker: RemoteDataType<string, TickerResponseType>
   isCoinDataLoaded: boolean
-  rates: RemoteDataType<string, RatesType>
+  rates: RemoteDataType<string, IndexMultiResponseType>
   transactions: { [key in string]: Array<any> }
   transactions_at_bound: { [key in string]: boolean }
 }

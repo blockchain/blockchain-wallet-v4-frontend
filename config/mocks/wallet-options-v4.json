@@ -35,6 +35,7 @@
         }
       },
       "featureFlags": {
+        "accountRecoveryV2": false,
         "addCheckoutPaymentProvider": true,
         "addPlaidPaymentProvider": true,
         "addStripePaymentProvider": false,
@@ -52,6 +53,7 @@
         "flexiblePricingModel": true,
         "googlePayPaymentMethod": true,
         "institutionalPortal": true,
+        "isActiveRewardsEnabled": true,
         "isReferralEnabled": true,
         "isReferralRetrievalEnabled": true,
         "isStakingEnabled": true,
@@ -60,7 +62,8 @@
         "recurringBuys": true,
         "rewardsFlowUnderSwapEnabled": true,
         "rewardsPromoBanner": true,
-        "secureEmailSmsUpdate": true,
+        "secureEmailSmsUpdate": false,
+        "showEarnAvailableAssetsCheckbox": true,
         "showSilverRevamp": true,
         "showTermsAndConditions": false,
         "stakingPromoBanner": true,
@@ -70,6 +73,7 @@
         "unifiedAccountLogin": true,
         "useLoqateService": true,
         "useNewPaymentProviders": true,
+        "useVgsProvider": false,
         "walletConnect": true,
         "walletDebitCardEnabled": true
       }

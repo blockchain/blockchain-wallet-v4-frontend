@@ -10,8 +10,7 @@ export const languages: Array<Language> = [
   { language: 'es', name: 'Español' },
   { language: 'fr', name: 'Français' },
   { language: 'pt', name: 'Português' },
-  { language: 'ru', name: 'Русский' },
-  { language: 'tr', name: 'Türkçe' }
+  { language: 'ru', name: 'Русский' }
 ]
 
 export const languagesSortedByName = sortBy(prop('name'))(languages)
@@ -92,20 +91,6 @@ export const loadLocaleData = (locale, callback) => {
           setLocaleData(require('../../assets/locales/ru.json'))
         },
         'i18n-ru'
-      )
-      break
-    case 'tr':
-      require.ensure(
-        [
-          'date-fns/locale/tr',
-          '@formatjs/intl-relativetimeformat/locale-data/tr.js',
-          '../../assets/locales/tr.json'
-        ],
-        (require) => {
-          require('date-fns/locale/tr')
-          setLocaleData(require('../../assets/locales/tr.json'))
-        },
-        'i18n-tr'
       )
       break
     case 'en':

@@ -1,6 +1,6 @@
 import { addMilliseconds, addSeconds, differenceInMilliseconds } from 'date-fns'
 
-import { SwapOrderDirectionType } from '@core/types'
+import { BSOrderActionType, OrderType, SwapOrderDirectionType } from '@core/types'
 
 import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
 
@@ -38,4 +38,12 @@ export const getQuoteRefreshConfig = ({
     date: addMilliseconds(currentDate, millisecondsUntilRefresh),
     totalMs: millisecondsUntilRefresh
   }
+}
+
+export const getEnterAmountStepType = (orderType?: BSOrderActionType) => {
+  if (!orderType || orderType === OrderType.BUY) {
+    return 'ENTER_AMOUNT'
+  }
+
+  return 'SELL_ENTER_AMOUNT'
 }

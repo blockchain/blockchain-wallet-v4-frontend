@@ -85,11 +85,13 @@ export enum StakingStepsType {
 
 export type InterestTransactionsReportType = Array<Array<string>>
 
-export type InterestHistoryCoinFormType = { coin: CoinType | 'ALL' }
+export type EarnHistoryCoinFormType = { coin: CoinType | 'ALL' }
 
 export type ErrorStringType = { error: string }
 
 export type InterestLimits = { coin: CoinType; currency: FiatType }
+
+export type EarnTabsType = 'All' | 'Staking' | 'Rewards'
 
 export type EarnInstrumentsType = Array<{
   coin: CoinType
@@ -122,6 +124,7 @@ export interface InterestState {
   earnDepositLimits: EarnMinMaxType
   earnEDDStatus: RemoteDataType<string, EarnEDDStatus>
   earnEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>
+  earnTab: EarnTabsType
   instruments: RemoteDataType<string, EarnInstrumentsType>
   interestEligible: RemoteDataType<string, EarnEligibleType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
@@ -138,6 +141,8 @@ export interface InterestState {
     name: InterestStep
   }
   rewardsTransactionsNextPage?: string | null
+  searchValue: string
+  showAvailableAssets: boolean
   stakingAccount: RemoteDataType<string, EarnAccountResponseType>
   stakingAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   stakingEligible: RemoteDataType<string, EarnEligibleType>

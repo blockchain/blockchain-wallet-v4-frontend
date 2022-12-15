@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -10,7 +10,7 @@ import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
-import { ExchangeErrorCodes, ProductAuthOptions } from 'data/types'
+import { Analytics, ExchangeErrorCodes, ProductAuthOptions } from 'data/types'
 import { required } from 'services/forms'
 import { media } from 'services/styles'
 
@@ -30,6 +30,7 @@ const LoginWrapper = styled(Wrapper)`
 
 const EnterPasswordExchange = (props: Props) => {
   const {
+    analyticsActions,
     cache,
     exchangeError,
     formValues,
@@ -40,6 +41,17 @@ const EnterPasswordExchange = (props: Props) => {
     submitting,
     walletTabClicked
   } = props
+
+  useEffect(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.LOGIN_PASSWORD_INPUT_PAGE_ENTERED,
+      properties: {
+        device_origin: productAuthMetadata?.product || 'WEB',
+        originalTimestamp: new Date().toISOString()
+      }
+    })
+  }, [])
+
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
   const sanctionedRegionError = exchangeError && exchangeError === ExchangeErrorCodes.NOT_ACCEPTABLE
 

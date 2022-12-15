@@ -32,16 +32,21 @@ export type VerifyIdentityOriginType =
   | 'Interest'
   | 'Withdraw'
   | 'DebitCard'
+  | 'UpgradeNowSilver'
 
-export type StepsType =
-  | 'addExtraStep'
-  | 'userDetails'
-  | 'userAddress'
-  | 'personal'
-  | 'moreInfo'
-  | 'mobile'
-  | 'verify'
-  | 'submitted'
+export enum StepsEnum {
+  addExtraStep = 'addExtraStep',
+  additionalInfo = 'additionalInfo',
+  mobile = 'mobile',
+  moreInfo = 'moreInfo',
+  personal = 'personal',
+  submitted = 'submitted',
+  userAddress = 'userAddress',
+  userDetails = 'userDetails',
+  verify = 'verify'
+}
+
+export type StepsType = keyof typeof StepsEnum
 
 export type KycStatesType =
   | 'NONE'

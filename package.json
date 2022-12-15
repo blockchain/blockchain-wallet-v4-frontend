@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.78.4",
+  "version": "4.79.3",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -120,7 +120,7 @@
     "@storybook/cli": "6.3.6",
     "@storybook/react": "6.3.6",
     "@storybook/storybook-deployer": "2.8.10",
-    "@types/applepayjs": "3.0.3",
+    "@types/applepayjs": "3.0.4",
     "@types/googlepay": "0.6.4",
     "@types/gtag.js": "0.0.11",
     "@types/hoist-non-react-statics": "3.3.1",

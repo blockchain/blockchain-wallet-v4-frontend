@@ -23,6 +23,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { GenericNabuErrorCard } from 'components/GenericNabuErrorCard'
 import { Padding } from 'components/Padding'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
+import { getEnterAmountStepType } from 'data/components/buySell/utils'
 import { getBankLogoImageName } from 'services/images'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
@@ -314,7 +315,7 @@ const Accounts = (props: Props) => {
                   fiatCurrency: getFiatFromPair(props.pair.pair),
                   orderType: props.orderType,
                   pair: props.pair,
-                  step: 'ENTER_AMOUNT'
+                  step: getEnterAmountStepType(props.orderType)
                 })
               }
             />

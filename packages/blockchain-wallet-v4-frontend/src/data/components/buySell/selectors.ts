@@ -56,109 +56,121 @@ export const getBSCards = (state: RootState) => state.components.buySell.cards
 
 export const getCrossBorderLimits = (state: RootState) => state.components.buySell.crossBorderLimits
 
-export const getDefaultPaymentMethod = (state: RootState) => {
-  const fiatCurrency = getFiatCurrency(state)
-  const orders = getBSOrders(state).getOrElse([])
-  const sbMethodsR = getBSPaymentMethods(state)
-  const actionType = getOrderType(state)
-  const sbBalancesR = getBSBalances(state)
-  const bankAccounts = getBankTransferAccounts(state).getOrElse([])
+export const getCardTokenId = (state: RootState) => state.components.buySell.cardTokenId
 
-  const transform = (
-    sbMethods: ExtractSuccess<typeof sbMethodsR>,
-    sbBalances: ExtractSuccess<typeof sbBalancesR>
-  ): BSPaymentMethodType | undefined => {
-    const lastOrder = orders.find((order) => {
-      if (actionType === 'BUY') {
-        return order.inputCurrency in FiatTypeEnum
-      }
-      return order.outputCurrency in FiatTypeEnum
-    })
+export const getVgsVaultId = (state: RootState) => state.components.buySell.vgsVaultId
 
-    if (actionType === 'SELL') {
-      let fiatCurrencyToUse = fiatCurrency
-      if (!hasEligibleFiatCurrency(fiatCurrencyToUse)) {
-        const currenciesToUse = [FiatTypeEnum.USD, FiatTypeEnum.GBP, FiatTypeEnum.EUR]
-        const balancesToUse = Object.keys(sbBalances)
-          .filter((key) => currenciesToUse.indexOf(FiatTypeEnum[key]) >= 0)
-          .reduce((acc, key) => {
-            acc[key] = sbBalances[key]
-            return acc
-          }, {})
-        if (!isEmpty(balancesToUse)) {
-          fiatCurrencyToUse = Object.keys(balancesToUse).reduce((a, b) =>
-            balancesToUse[a].available > balancesToUse[b].available ? a : b
-          ) as FiatType
+export const getCvvStatus = (state: RootState) => state.components.buySell.cvvStatus
+
+export const getDefaultPaymentMethod = createSelector(
+  [
+    getOrderType,
+    getFiatCurrency,
+    getBSOrders,
+    getBSPaymentMethods,
+    getBSBalances,
+    getBankTransferAccounts,
+    getBSCards
+  ],
+  (actionType, fiatCurrency, ordersR, sbMethodsR, sbBalancesR, bankAccountsR, cardsR) => {
+    const transform = (
+      sbMethods: ExtractSuccess<typeof sbMethodsR>,
+      sbBalances: ExtractSuccess<typeof sbBalancesR>,
+      orders: ExtractSuccess<typeof ordersR>,
+      bankAccounts: ExtractSuccess<typeof bankAccountsR>,
+      cards: ExtractSuccess<typeof cardsR>
+    ): BSPaymentMethodType | undefined => {
+      const lastOrder = orders.find((order) => {
+        if (actionType === 'BUY') {
+          return order.inputCurrency in FiatTypeEnum
         }
-      }
+        return order.outputCurrency in FiatTypeEnum
+      })
 
-      return sbMethods.methods.find(
-        (method) => method.type === BSPaymentTypes.FUNDS && method.currency === fiatCurrencyToUse
-      )
-    }
-
-    if (!lastOrder) return undefined
-
-    const methodsOfType = sbMethods.methods.filter(
-      (method) => method.type === lastOrder.paymentType
-    )
-    const method = head(methodsOfType)
-
-    switch (lastOrder.paymentType) {
-      case BSPaymentTypes.USER_CARD:
-      case BSPaymentTypes.PAYMENT_CARD:
-        if (!method) return
-        const cards = getBSCards(state).getOrElse([])
-        let card = cards.find(
-          (value) =>
-            value.id === lastOrder.paymentMethodId && value.state === BSCardStateEnum.ACTIVE
-        )
-
-        if (!card) {
-          const randomActiveCard = cards.find((value) => value.state === BSCardStateEnum.ACTIVE)
-
-          card = randomActiveCard
-
-          if (!card) return undefined
-        }
-
-        return {
-          ...method,
-          ...card,
-          card: card?.card || undefined,
-          type: BSPaymentTypes.USER_CARD
-        }
-      case BSPaymentTypes.FUNDS:
-        return methodsOfType.find((method) => {
-          return (
-            method.currency === lastOrder.inputCurrency &&
-            method.currency === fiatCurrency &&
-            (sbBalances[method?.currency]?.available || 0) > 0
-          )
-        })
-      case BSPaymentTypes.LINK_BANK:
-      case BSPaymentTypes.BANK_TRANSFER:
-        if (!method) return
-        const bankAccount = bankAccounts.find((acct) => acct.id === lastOrder.paymentMethodId)
-        if (bankAccount && bankAccount.state === 'ACTIVE') {
-          return {
-            ...method,
-            ...bankAccount,
-            state: 'ACTIVE',
-            type: lastOrder.paymentType as BSPaymentTypes
+      if (actionType === 'SELL') {
+        let fiatCurrencyToUse = fiatCurrency
+        if (!hasEligibleFiatCurrency(fiatCurrencyToUse)) {
+          const currenciesToUse = [FiatTypeEnum.USD, FiatTypeEnum.GBP, FiatTypeEnum.EUR]
+          const balancesToUse = Object.keys(sbBalances)
+            .filter((key) => currenciesToUse.indexOf(FiatTypeEnum[key]) >= 0)
+            .reduce((acc, key) => {
+              acc[key] = sbBalances[key]
+              return acc
+            }, {})
+          if (!isEmpty(balancesToUse)) {
+            fiatCurrencyToUse = Object.keys(balancesToUse).reduce((a, b) =>
+              balancesToUse[a].available > balancesToUse[b].available ? a : b
+            ) as FiatType
           }
         }
-        return undefined
-      case BSPaymentTypes.BANK_ACCOUNT:
-      case undefined:
-        return undefined
-      default:
-        break
-    }
-  }
 
-  return lift(transform)(sbMethodsR, sbBalancesR)
-}
+        return sbMethods.methods.find(
+          (method) => method.type === BSPaymentTypes.FUNDS && method.currency === fiatCurrencyToUse
+        )
+      }
+
+      if (!lastOrder) return undefined
+
+      const methodsOfType = sbMethods.methods.filter(
+        (method) => method.type === lastOrder.paymentType
+      )
+      const method = head(methodsOfType)
+
+      switch (lastOrder.paymentType) {
+        case BSPaymentTypes.USER_CARD:
+        case BSPaymentTypes.PAYMENT_CARD:
+          if (!method) return
+          let card = cards.find(
+            (value) =>
+              value.id === lastOrder.paymentMethodId && value.state === BSCardStateEnum.ACTIVE
+          )
+
+          if (!card) {
+            const randomActiveCard = cards.find((value) => value.state === BSCardStateEnum.ACTIVE)
+
+            card = randomActiveCard
+
+            if (!card) return undefined
+          }
+
+          return {
+            ...method,
+            ...card,
+            card: card?.card || undefined,
+            type: BSPaymentTypes.USER_CARD
+          }
+        case BSPaymentTypes.FUNDS:
+          return methodsOfType.find((method) => {
+            return (
+              method.currency === lastOrder.inputCurrency &&
+              method.currency === fiatCurrency &&
+              (sbBalances[method?.currency]?.available || 0) > 0
+            )
+          })
+        case BSPaymentTypes.LINK_BANK:
+        case BSPaymentTypes.BANK_TRANSFER:
+          if (!method) return
+          const bankAccount = bankAccounts.find((acct) => acct.id === lastOrder.paymentMethodId)
+          if (bankAccount && bankAccount.state === 'ACTIVE') {
+            return {
+              ...method,
+              ...bankAccount,
+              state: 'ACTIVE',
+              type: lastOrder.paymentType as BSPaymentTypes
+            }
+          }
+          return undefined
+        case BSPaymentTypes.BANK_ACCOUNT:
+        case undefined:
+          return undefined
+        default:
+          break
+      }
+    }
+
+    return lift(transform)(sbMethodsR, sbBalancesR, ordersR, bankAccountsR, cardsR)
+  }
+)
 
 export const hasFiatBalances = (state: RootState) => {
   const fiatBalances = Object.keys(state.components.buySell.balances.data).filter(
@@ -205,6 +217,12 @@ export const getCancelableOrder = createSelector(getBSOrders, (ordersR) => {
   const orders = ordersR.getOrElse([])
   return orders.find((order) => order.state === 'PENDING_CONFIRMATION')
 })
+
+export const getVgsAddCardInfo = createSelector(
+  getCardTokenId,
+  getVgsVaultId,
+  (cardTokenId, vgsVaultId) => ({ cardTokenId, vgsVaultId })
+)
 
 export const getBuyQuote = (state: RootState) => state.components.buySell.buyQuote
 
