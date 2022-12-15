@@ -37,14 +37,14 @@ export const getRemote = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.components.interest.getRates(state)
   const earnEDDStatusR = selectors.components.interest.getEarnEDDStatus(state)
-  const interestRatesR = selectors.components.interest.getInterestRates(state)
+  const stakingRatesR = selectors.components.interest.getStakingRates(state)
   const paymentR = selectors.components.interest.getPayment(state)
   const stakingLimitsR = selectors.components.interest.getStakingLimits(state)
 
   return lift(
     (
       rates: ExtractSuccess<typeof ratesR>,
-      interestRates: ExtractSuccess<typeof interestRatesR>,
+      stakingRates: ExtractSuccess<typeof stakingRatesR>,
       payment: ExtractSuccess<typeof paymentR>,
       stakingLimits: ExtractSuccess<typeof stakingLimitsR>,
       earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>
@@ -57,11 +57,11 @@ export const getRemote = (state: RootState) => {
       return {
         depositFee,
         earnEDDStatus,
-        interestRates,
         payment,
         rates,
-        stakingLimits
+        stakingLimits,
+        stakingRates
       }
     }
-  )(ratesR, interestRatesR, paymentR, stakingLimitsR, earnEDDStatusR)
+  )(ratesR, stakingRatesR, paymentR, stakingLimitsR, earnEDDStatusR)
 }

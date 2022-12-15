@@ -60,10 +60,10 @@ const DepositForm = ({ coin }: PropsType) => {
   const {
     depositFee,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
-    interestRates,
     payment,
     rates,
-    stakingLimits
+    stakingLimits,
+    stakingRates
   }: RemoteType = data
 
   const { coinfig } = window.coins[coin]
@@ -111,7 +111,7 @@ const DepositForm = ({ coin }: PropsType) => {
         currency: walletCurrency,
         from_account_type: fromAccountType,
         input_amount: Number(values.depositAmount),
-        interest_rate: Number(interestRates[coin])
+        interest_rate: Number(stakingRates[coin])
       }
     })
   }

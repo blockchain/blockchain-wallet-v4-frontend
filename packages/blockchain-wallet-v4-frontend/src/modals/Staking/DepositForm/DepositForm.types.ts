@@ -3,10 +3,10 @@ import {
   EarnDepositErrorsType,
   EarnEDDStatus,
   EarnLimitsType,
+  EarnRatesType,
   FiatType,
   PaymentValue,
-  RatesType,
-  RewardsRatesType
+  RatesType
 } from '@core/types'
 import { EarnMinMaxType, RewardsDepositFormType } from 'data/types'
 
@@ -27,10 +27,10 @@ export type DataType = {
 export type RemoteType = {
   depositFee: number
   earnEDDStatus: EarnEDDStatus
-  interestRates: RewardsRatesType['rates']
   payment?: PaymentValue
   rates: RatesType
   stakingLimits: EarnLimitsType
+  stakingRates: EarnRatesType['rates']
 }
 
 export type SuccessPropsType = {
