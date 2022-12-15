@@ -62,7 +62,6 @@ const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) =>
     const coinList = ownProps?.coins
 
     // dynamically create account selectors via passed in coin list
-    console.log('---0', coinList)
     const accounts =
       isEmpty(coinList) || isNil(coinList)
         ? Remote.of({})
@@ -70,11 +69,9 @@ const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) =>
             const { coinfig } = window.coins[coin]
             const selector = __getSelector(coinfig)
             // eslint-disable-next-line
-            accounts[coin] = coinSelectors[selector]?.getAccounts(state, { coin, ...ownProps })
+          accounts[coin] = coinSelectors[selector]?.getAccounts(state, { coin, ...ownProps })
             return accounts
           }, {})
-
-    console.log('---0.2', accounts)
 
     const isNotLoaded = (coinAccounts) => Remote.Loading.is(coinAccounts)
     if (any(isNotLoaded, values(accounts))) return Remote.Loading
