@@ -10,6 +10,7 @@ import TextBox from 'components/Form/TextBox'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { required } from 'services/forms'
 import { media, spacing } from 'services/styles'
+import { getSecret } from 'utils/helpers'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -54,15 +55,6 @@ const ClipboardWrapper = styled.div`
 
 const Google = (props) => {
   const { data, handleSubmit, invalid, uiState } = props
-
-  const getSecret = (secret) => {
-    const myRegexp = /secret=(.*)/
-    const match = myRegexp.exec(secret)
-    if (match) {
-      return match[1]
-    }
-    return null
-  }
 
   return (
     <form onSubmit={handleSubmit}>
