@@ -190,6 +190,26 @@ type WalletRewardsDepositTransferClicked = {
   }
 }
 
+type WalletActiveRewardsDepositTransferClicked = {
+  key: Events.WALLET_ACTIVE_REWARDS_DEPOSIT_TRANSFER_CLICKED
+  properties: {
+    amount: number
+    amount_usd: number
+    currency: string
+    type: 'TRADING' | 'USERKEY'
+  }
+}
+
+type WalletStakingDepositTransferClicked = {
+  key: Events.WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED
+  properties: {
+    amount: number
+    amount_usd: number
+    currency: string
+    type: 'TRADING' | 'USERKEY'
+  }
+}
+
 type WalletRewardsDepositViewed = {
   key: Events.WALLET_REWARDS_DEPOSIT_VIEWED
   properties: {
@@ -272,6 +292,7 @@ type WalletBuyEarnRewardsViewed = {
 
 export type TrackEventAction =
   | WalletActiveRewardsDepositSuccessViewed
+  | WalletActiveRewardsDepositTransferClicked
   | WalletActiveRewardsDepositViewed
   | WalletActiveRewardsDetailClicked
   | WalletActiveRewardsDetailDepositClicked
@@ -293,6 +314,7 @@ export type TrackEventAction =
   | WalletRewardsWithdrawMaxAmountClicked
   | WalletRewardsWithdrawTransferClicked
   | WalletStakingDepositSuccessViewed
+  | WalletStakingDepositTransferClicked
   | WalletStakingDepositViewed
   | WalletStakingDetailClicked
   | WalletStakingDetailDepositClicked
