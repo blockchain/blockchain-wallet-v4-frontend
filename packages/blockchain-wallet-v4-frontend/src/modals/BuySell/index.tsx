@@ -71,10 +71,10 @@ class BuySell extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    /* eslint-disable */
     this.setState({ show: true })
     this.props.custodialActions.fetchProductEligibilityForUser()
-    /* eslint-enable */
+
+    this.props.recurringBuyActions.fetchPaymentInfo()
   }
 
   componentWillUnmount() {
@@ -375,6 +375,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   preferenceActions: bindActionCreators(actions.preferences, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 

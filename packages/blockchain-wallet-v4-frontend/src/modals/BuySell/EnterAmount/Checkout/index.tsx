@@ -17,13 +17,7 @@ import { actions, model, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
-import {
-  Analytics,
-  BSCheckoutFormValuesType,
-  ModalName,
-  RecurringBuyPeriods,
-  SwapBaseCounterTypes
-} from 'data/types'
+import { Analytics, BSCheckoutFormValuesType, ModalName, RecurringBuyPeriods } from 'data/types'
 import { useRemote } from 'hooks'
 import { isNabuError } from 'services/errors'
 
@@ -42,7 +36,7 @@ const Checkout = (props: Props) => {
     string | PartialClientErrorProperties | undefined,
     ExtractSuccess<ReturnType<typeof getData>>,
     RootState
-  >((state) => getData(state, props))
+  >(getData)
 
   const formValues = useSelector((state: RootState) =>
     selectors.form.getFormValues(FORM_BS_CHECKOUT)(state)
@@ -74,17 +68,6 @@ const Checkout = (props: Props) => {
 
     const method = props.method || props.defaultMethod
 
-    // TODO: sell
-    // need to do kyc check
-    // SELL
-    if (formValues?.orderType === OrderType.SELL) {
-      return props.buySellActions.setStep({
-        sellOrderType: props.swapAccount?.type,
-        step: 'PREVIEW_SELL'
-      })
-    }
-
-    // BUY
     if (isSddFlow) {
       const currentTier = userData?.tiers?.current ?? 0
 
@@ -171,12 +154,10 @@ const Checkout = (props: Props) => {
       account: props.swapAccount,
       amount,
       cryptoAmount,
-      fix: preferences[props.orderType].fix,
-      orderType: props.orderType,
+      fix: preferences[OrderType.BUY].fix,
+      orderType: OrderType.BUY,
       pair: props.pair,
       pairs: props.pairs,
-      paymentMethodId: props.method?.id || props.defaultMethod?.id,
-      paymentMethodType: props.method?.type || props.defaultMethod?.type || BSPaymentTypes.FUNDS,
       period
     })
 
@@ -189,26 +170,20 @@ const Checkout = (props: Props) => {
     if (!data) {
       props.buySellActions.fetchSDDEligibility()
       props.brokerageActions.fetchBankTransferAccounts()
-      props.recurringBuyActions.fetchPaymentInfo()
     }
     // we fetch limits as part of home banners logic at that point we had only fiatCurrency
     // here we have to re-fetch for crypto currency and order type
     props.buySellActions.fetchLimits({
       cryptoCurrency: props.cryptoCurrency,
       currency: props.fiatCurrency,
-      side: props.orderType || OrderType.BUY
+      side: OrderType.BUY
     })
 
-    const swapFromAccount =
-      props.swapAccount?.type === SwapBaseCounterTypes.ACCOUNT
-        ? WalletAccountEnum.NON_CUSTODIAL
-        : WalletAccountEnum.CUSTODIAL
     // fetch cross border limits
     props.buySellActions.fetchCrossBorderLimits({
-      fromAccount:
-        props.orderType === OrderType.BUY ? WalletAccountEnum.CUSTODIAL : swapFromAccount,
-      inputCurrency: props.orderType === OrderType.BUY ? props.fiatCurrency : props.cryptoCurrency,
-      outputCurrency: props.orderType === OrderType.BUY ? props.cryptoCurrency : props.fiatCurrency,
+      fromAccount: WalletAccountEnum.CUSTODIAL,
+      inputCurrency: props.fiatCurrency,
+      outputCurrency: props.cryptoCurrency,
       toAccount: WalletAccountEnum.CUSTODIAL
     } as CrossBorderLimitsPayload)
 
@@ -257,7 +232,6 @@ const Checkout = (props: Props) => {
     <Success
       formValues={formValues}
       isPristine={isPristine}
-      preferences={preferences}
       {...props}
       {...data}
       onSubmit={handleSubmit}

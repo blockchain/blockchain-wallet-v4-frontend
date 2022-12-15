@@ -38,7 +38,6 @@ class OrderSummaryContainer extends PureComponent<Props> {
       this.props.buySellActions.fetchCards(false)
       this.props.sendActions.getLockRule()
       this.props.recurringBuyActions.fetchRegisteredList()
-      this.props.recurringBuyActions.fetchPaymentInfo()
     }
 
     this.props.buySellActions.fetchOrders()

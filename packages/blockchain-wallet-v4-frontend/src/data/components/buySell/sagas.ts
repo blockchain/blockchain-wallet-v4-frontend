@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
+import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/SellEnterAmount/Checkout/validation'
 import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
@@ -37,7 +37,6 @@ import {
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
-  BuyQuoteStateType,
   CustodialSanctionsEnum,
   ModalName,
   ProductEligibilityForUser,
@@ -77,6 +76,7 @@ import {
   ORDER_POLLING,
   SDD_TIER
 } from './model'
+import { createBuyQuoteLoopAndWaitForFirstResult } from './sagas/createBuyQuoteLoopAndWaitForFirstResult'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
@@ -346,13 +346,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
-      let buyQuote: BuyQuoteStateType | undefined
-      if (orderType === OrderType.SELL) {
-        yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
-      } else {
-        buyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
-        yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
-      }
+      const formName = OrderType.SELL ? FORM_BS_PREVIEW_SELL : FORM_BS_CHECKOUT
+      yield put(actions.form.startSubmit(formName))
 
       const fiat = getFiatFromPair(pair.pair)
       const coin = getCoinFromPair(pair.pair)
@@ -418,6 +413,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       if (!paymentType) throw new Error(BS_ERROR.NO_PAYMENT_TYPE)
+
+      yield call(createBuyQuoteLoopAndWaitForFirstResult, {
+        amount,
+        pair: pair.pair,
+        paymentMethod: paymentType,
+        paymentMethodId
+      })
+
+      const buyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
 
       if (buyQuote) {
         const { availability, reason } = buyQuote.quote.settlementDetails
@@ -1796,16 +1800,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const initializeCheckout = function* ({
-    payload: {
-      account,
-      amount,
-      cryptoAmount,
-      fix,
-      orderType,
-      paymentMethodId,
-      paymentMethodType,
-      period
-    }
+    payload: { account, amount, cryptoAmount, fix, orderType, period }
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(waitForUserData)
@@ -1813,23 +1808,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!fiatCurrency) throw new Error(BS_ERROR.NO_FIAT_CURRENCY)
       const pair = S.getBSPair(yield select())
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
-      // Fetch rates
-      if (orderType === OrderType.BUY) {
-        const fakeQuoteAmount = '1000'
 
-        yield put(
-          A.startPollBuyQuote({
-            amount: fakeQuoteAmount,
-            pair: pair.pair,
-            paymentMethod: paymentMethodType,
-            paymentMethodId
-          })
-        )
-        yield race({
-          failure: take(A.fetchBuyQuoteFailure.type),
-          success: take(A.fetchBuyQuoteSuccess.type)
-        })
-      } else if (orderType === OrderType.SELL) {
+      if (orderType === OrderType.SELL) {
         if (!account) throw new Error(BS_ERROR.NO_ACCOUNT)
         yield put(A.fetchSellQuote({ account, pair: pair.pair }))
         yield put(A.startPollSellQuote({ account, pair: pair.pair }))
