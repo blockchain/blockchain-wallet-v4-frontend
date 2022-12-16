@@ -12,7 +12,7 @@ const PromoCard = styled(Card)`
   bottom: 40px;
   left: 40px;
   z-index: 99;
-  height: 176px;
+  min-height: 176px;
   width: 323px;
   border-radius: 20px;
   color: white;
