@@ -11,7 +11,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { ModalPropsType } from '../types'
 // import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
-// import DepositSuccess from './DepositSuccess'
+import DepositSuccess from './DepositSuccess'
 import Warning from './Warning'
 
 const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
@@ -59,11 +59,11 @@ const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalProp
           <DepositForm coin={coin} />
         </FlyoutChild>
       )}
-      {/* {step.name === 'DEPOSIT_SUCCESS' && (
+      {step.name === 'DEPOSIT_SUCCESS' && (
         <FlyoutChild>
           <DepositSuccess coin={coin} handleClose={handleClose} />
         </FlyoutChild>
-      )} */}
+      )}
       {/* {step.name === 'ACCOUNT_SUMMARY' && (
         <FlyoutChild>
           <AccountSummary

@@ -76,6 +76,7 @@ import dexOnboardingSlideFunds from './img/dex-onboarding-slide-funds@2x.png'
 import dexOnboardingSlideNotEligible from './img/dex-onboarding-slide-not-eligible@2x.png'
 import dexOnboardingSlideSwap from './img/dex-onboarding-slide-swap@2x.png'
 import dexOnboardingSlideWelcome from './img/dex-onboarding-slide-welcome@2x.png'
+import btcClock from './img/earn/btc-clock.svg'
 import btcGraph from './img/earn/btc-graph.svg'
 import earnActivityEmpty from './img/earn/earn-activity-empty.svg'
 import earnEmpty from './img/earn/earn-empty.svg'
@@ -221,6 +222,7 @@ const Images = {
   'blockchain-logo-circle': blockchainLogoCircle,
   'blockchain-silver': blockchainSilver,
   'blue-verified': blueVerified,
+  'btc-clock': btcClock,
   'btc-graph': btcGraph,
   'buy-blue-circle': buyBlueCircle,
   'buy-sell-learn-more': buySellLearnMore,

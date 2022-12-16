@@ -964,7 +964,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       switch (product) {
         case 'Active':
-          yield put(A.setStakingStep({ name: 'DEPOSIT_SUCCESS' }))
+          yield put(A.setActiveRewardsStep({ name: 'DEPOSIT_SUCCESS' }))
           break
         case 'Staking':
           yield put(A.setStakingStep({ name: 'DEPOSIT_SUCCESS' }))
