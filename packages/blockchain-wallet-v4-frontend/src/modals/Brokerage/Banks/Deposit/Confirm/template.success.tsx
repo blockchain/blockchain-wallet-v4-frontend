@@ -88,7 +88,7 @@ const Success = (props: Props) => {
           })}
           title={<FormattedMessage id='copy.total' defaultMessage='Total' />}
         />
-        <AvailabilityRows depositTerms={props.depositTerms} />
+        {props.availableToTradeWithdraw && <AvailabilityRows depositTerms={props.depositTerms} />}
       </FlyoutContent>
       <FlyoutFooter collapsed>
         <Button

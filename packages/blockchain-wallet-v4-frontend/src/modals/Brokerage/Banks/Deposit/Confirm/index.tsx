@@ -38,6 +38,9 @@ const DepositMethods = (props: Props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  availableToTradeWithdraw: selectors.core.walletOptions
+    .getFeatureFlagUseVgsProvider(state)
+    .getOrElse(false) as boolean,
   data: getData(state),
   defaultMethod: selectors.components.brokerage.getAccount(state),
   fiatCurrency: selectors.core.settings.getCurrency(state),

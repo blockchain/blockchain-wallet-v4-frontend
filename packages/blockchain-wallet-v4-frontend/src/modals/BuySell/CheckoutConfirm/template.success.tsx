@@ -589,7 +589,9 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         </RowText>
       </RowItem>
 
-      <AvailabilityRows depositTerms={props.quote.quote.depositTerms} />
+      {props.availableToTradeWithdraw && (
+        <AvailabilityRows depositTerms={props.quote.quote.depositTerms} />
+      )}
 
       <Bottom>
         {getLockRuleMessaging({
