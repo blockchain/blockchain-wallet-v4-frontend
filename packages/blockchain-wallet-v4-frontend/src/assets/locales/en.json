@@ -778,6 +778,7 @@
   "debitcard.residential_address.streetline2": "Street Line 2",
   "debitcard.residential_address.zip": "Zip Code *",
   "debitcard.social_security_number.ssn": "SSN or Individual Tax ID #",
+  "dex.coinVerification.description": "Verified by at least {{sources}} source(s) from https://tokenlists.org",
   "dex.customSlippage.placeholder": "Search Symbol or Address",
   "dex.onboarding.funds.title": "Keep control of your funds",
   "dex.onboarding.notEligible.description": "The DEX is not yet available in your account.",
