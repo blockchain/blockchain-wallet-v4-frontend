@@ -3,9 +3,9 @@ import { createSlice, PayloadAction, PayloadActionCreator } from '@reduxjs/toolk
 
 import { Remote } from '@core'
 import {
-  CrossBorderLimitItem,
   CrossBorderLimits,
   CrossBorderLimitsPayload,
+  NabuMoneyFloatType,
   WalletFiatType
 } from '@core/types'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
@@ -91,7 +91,7 @@ const brokerageSlice = createSlice({
     fetchDepositTerms: (
       state,
       action: PayloadAction<{
-        amount: CrossBorderLimitItem
+        amount: NabuMoneyFloatType
         paymentMethodId: string
       }>
     ) => {},

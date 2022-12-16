@@ -248,7 +248,7 @@ export type BrokerageState = {
   redirectBackToStep: boolean
 }
 
-enum DisplayMode {
+export enum DisplayMode {
   DAY_RANGE = 'DAY_RANGE',
   IMMEDIATELY = 'IMMEDIATELY',
   MAX_DAY = 'MAX_DAY',
@@ -257,13 +257,13 @@ enum DisplayMode {
   NONE = 'NONE'
 }
 
-enum SettlementType {
+export enum SettlementType {
   INSTANT = 'INSTANT',
   REGULAR = 'REGULAR',
   UNAVAILABLE = 'UNAVAILABLE'
 }
 
-enum SettlementReason {
+export enum SettlementReason {
   GENERIC = 'GENERIC',
   INSUFFICIENT_BALANCE = 'INSUFFICIENT_BALANCE',
   REQUIRES_UPDATE = 'REQUIRES_UPDATE',

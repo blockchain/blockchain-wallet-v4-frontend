@@ -18,10 +18,10 @@ import { BSTransactionsType } from '../buySell/types'
 import {
   BeneficiariesType,
   BeneficiaryType,
-  CrossBorderLimitItem,
   CustodialTransferRequestType,
   GetTransactionsHistoryType,
   NabuCustodialProductType,
+  NabuMoneyFloatType,
   PaymentDepositPendingResponseType,
   ProductTypes,
   WithdrawalFeesProductType,
@@ -68,7 +68,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     })
 
   const getDepositTerms = (
-    amount: CrossBorderLimitItem,
+    amount: NabuMoneyFloatType,
     paymentMethodId: string,
     product = ProductTypes.WALLET,
     purpose = ProductTypes.DEPOSIT
@@ -81,7 +81,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
         product,
         purpose
       },
-      endPoint: '/payments/deposits/terms',
+      endPoint: '/payments/deposit/terms',
       url: nabuUrl
     })
 

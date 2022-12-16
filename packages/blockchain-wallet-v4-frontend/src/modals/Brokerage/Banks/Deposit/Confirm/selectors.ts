@@ -10,13 +10,13 @@ export const getData = (state: RootState) => {
 
   return lift(
     (
-      // depositTerms: ExtractSuccess<typeof depositTermsR>,
+      depositTerms: ExtractSuccess<typeof depositTermsR>,
       withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>
     ) => ({
-      // depositTerms,
+      depositTerms,
       withdrawLockCheck
     })
-  )(withdrawLockCheckR)
+  )(depositTermsR, withdrawLockCheckR)
 }
 
 export default getData

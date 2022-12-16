@@ -5,6 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { ExtractSuccess } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
+import { convertStandardToBase } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
 import { BrokerageTxFormValuesType } from 'data/types'
 
@@ -17,7 +18,10 @@ const DepositMethods = (props: Props) => {
     props.sendActions.getLockRule()
     if (props.formValues?.currency && props.defaultMethod) {
       props.brokerageActions.fetchDepositTerms({
-        amount: { currency: props.formValues.currency, value: String(props.formValues.amount) },
+        amount: {
+          symbol: props.formValues.currency,
+          value: String(convertStandardToBase('FIAT', props.formValues.amount))
+        },
         paymentMethodId: props.defaultMethod.id
       })
     }
