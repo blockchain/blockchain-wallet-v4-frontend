@@ -95,6 +95,7 @@ const ExchangePromoContainer = () => {
       })
     )
     setHide(true)
+    onDismiss()
     dispatch(actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.SideMenu))
   }
 
