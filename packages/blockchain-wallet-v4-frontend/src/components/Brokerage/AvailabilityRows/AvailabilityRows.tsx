@@ -4,19 +4,23 @@ import { Flex, Text } from '@blockchain-com/constellation'
 
 import { CheckoutRow } from 'components/Rows'
 
+import useTitle from './hooks/useTitle'
+import useValue from './hooks/useValue'
 import { AvailabilityRowsComponent } from './types'
-import { ParseDepositTerms } from './util'
 
 const AvailabilityRows: AvailabilityRowsComponent = ({ depositTerms }) => {
-  if (!depositTerms) return null
-  const { trade, withdraw } = ParseDepositTerms(depositTerms)
+  const tradeTitle = useTitle('Trade')
+  const tradeValue = useValue('Trade', depositTerms)
+  const withdrawTitle = useTitle('Withdraw')
+  const withdrawValue = useValue('Withdraw', depositTerms)
+
   return (
     <>
-      {trade ? <CheckoutRow text={trade.value} title={trade.title} /> : null}
-      {withdraw ? (
+      {tradeValue ? <CheckoutRow text={tradeValue} title={tradeTitle} /> : null}
+      {withdrawValue ? (
         <CheckoutRow
-          text={withdraw.value}
-          title={withdraw.title}
+          text={withdrawValue}
+          title={withdrawTitle}
           toolTip={
             <Flex flexDirection='column'>
               <Text as='span' variant='paragraph2'>

@@ -106,7 +106,7 @@ class CheckoutConfirm extends PureComponent<Props> {
 const mapStateToProps = (state: RootState) => ({
   applePayInfo: selectors.components.buySell.getApplePayInfo(state),
   availableToTradeWithdraw: selectors.core.walletOptions
-    .getFeatureFlagUseVgsProvider(state)
+    .getFeatureFlagAvailableToTradeWithdraw(state)
     .getOrElse(false) as boolean,
   data: getData(state),
   formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,

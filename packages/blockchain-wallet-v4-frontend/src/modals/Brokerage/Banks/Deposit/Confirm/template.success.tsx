@@ -1,12 +1,11 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { addDays, format } from 'date-fns'
-import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import AvailabilityRows from 'components/Brokerage/ConfirmAvailabilityRows'
+import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import AvailabilityRows from 'components/Brokerage/AvailabilityRows'
 import {
   FlyoutContainer,
   FlyoutContent,
@@ -18,16 +17,8 @@ import { CheckoutRow } from 'components/Rows'
 import { BankDWStepType, BankPartners } from 'data/types'
 
 import { Props as _P, SuccessStateType as _S } from '.'
-import { FormattedBank, LineItemText } from './model'
+import { FormattedBank } from './model'
 import { getCurrencyName } from './utils'
-
-const BareRow = styled.div`
-  padding: 18px 40px;
-`
-
-const Row = styled(BareRow)`
-  border-bottom: 1px solid ${(p) => p.theme.grey000};
-`
 
 const Success = (props: Props) => {
   const [submitting, setSubmitting] = useState<boolean>(false)
