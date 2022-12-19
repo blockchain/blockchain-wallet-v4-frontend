@@ -22,7 +22,7 @@ export const labels: LabelType[] = [
     label: (
       <FormattedMessage
         id='scenes.earn.active-rewards-learn.how-it-works.label.duration'
-        defaultMessage='Duration: 1 Year'
+        defaultMessage='Duration: 1 week'
       />
     )
   },
