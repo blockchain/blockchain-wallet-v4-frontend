@@ -49,6 +49,8 @@ const PASSIVE_REWARDS_DEPOSIT_FORM = 'passiveRewardsDepositForm'
 const STAKING_DEPOSIT_FORM = 'stakingDepositForm'
 const ACTIVE_REWARDS_DEPOSIT_FORM = 'activeRewardsDepositForm'
 const WITHDRAWAL_FORM = 'interestWithdrawalForm'
+const ACTIVE_REWARDS_API_PRODUCT = 'EARN_CC1W'
+const STAKING_API_PRODUCT = 'STAKING'
 export const logLocation = 'components/interest/sagas'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -113,7 +115,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!(yield call(isTier2))) return yield put(A.fetchActiveRewardsBalanceSuccess({}))
       const response: ReturnType<typeof api.getEarnAccountBalance> = yield call(
         api.getEarnAccountBalance,
-        { product: 'EARN_CC1W' } as EarnAccountBalanceType
+        { product: ACTIVE_REWARDS_API_PRODUCT } as EarnAccountBalanceType
       )
       yield put(A.fetchActiveRewardsBalanceSuccess(response || {}))
     } catch (e) {
@@ -156,7 +158,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchActiveRewardsEligibleLoading())
       const response: ReturnType<typeof api.getEarnEligible> = yield call(
         api.getEarnEligible,
-        'EARN_CC1W'
+        ACTIVE_REWARDS_API_PRODUCT
       )
       yield put(A.fetchActiveRewardsEligibleSuccess(response))
     } catch (e) {
@@ -171,7 +173,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const [stakingRates, activeRewardsRates, passiveRewardsRates] = yield all([
         call(api.getEarnRates, 'staking'),
-        call(api.getEarnRates, 'EARN_CC1W'),
+        call(api.getEarnRates, ACTIVE_REWARDS_API_PRODUCT),
         call(api.getRewardsRates)
       ])
 
@@ -251,7 +253,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchActiveRewardsLimitsLoading())
       const response: ReturnType<typeof api.getEarnLimits> = yield call(
         api.getEarnLimits,
-        'EARN_CC1W'
+        ACTIVE_REWARDS_API_PRODUCT
       )
       yield put(A.fetchActiveRewardsLimitsSuccess(response.limits))
     } catch (e) {
@@ -308,7 +310,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchActiveRewardsAccountLoading())
       const paymentAccount: ReturnType<typeof api.getEarnAccount> = yield call(api.getEarnAccount, {
         coin,
-        product: 'EARN_CC1W'
+        product: ACTIVE_REWARDS_API_PRODUCT
       } as EarnAccountType)
       yield put(A.fetchActiveRewardsAccountSuccess({ ...paymentAccount }))
       yield put(A.setUnderSanctions({ message: null }))
@@ -347,7 +349,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchActiveRewardsRatesLoading())
       const response: ReturnType<typeof api.getEarnRates> = yield call(
         api.getEarnRates,
-        'EARN_CC1W'
+        ACTIVE_REWARDS_API_PRODUCT
       )
       yield put(A.fetchActiveRewardsRatesSuccess(response))
     } catch (e) {
@@ -394,7 +396,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         stakingResponse = yield call(api.getEarnTransactions, {
           currency: coin,
           nextPageUrl: stakingNextPageUrl,
-          product: 'STAKING'
+          product: STAKING_API_PRODUCT
         })
       }
 
@@ -463,7 +465,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const { items, next } = yield call(api.getEarnTransactions, {
           currency: coin === 'ALL' ? undefined : coin,
           nextPageUrl: nextStakingPageUrl,
-          product: 'STAKING'
+          product: STAKING_API_PRODUCT
         })
         txList = concat(txList, items.map(formatStakingTxData))
         hasStakingNext = next
@@ -496,14 +498,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchPendingStakingTransactionsLoading())
       const transactionResponse: EarnTransactionResponseType = yield call(api.getEarnTransactions, {
         currency: coin,
-        product: 'STAKING'
+        product: STAKING_API_PRODUCT
       })
       // can successfully return ''
       const earnBondingResponse: EarnBondingDepositsResponseType = yield call(
         api.getEarnBondingDeposits,
         {
           ccy: coin,
-          product: 'STAKING'
+          product: STAKING_API_PRODUCT
         }
       )
 
@@ -530,7 +532,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         pendingTransactions.push({ amount, bondingDays, date: bondingStartDate, type: 'BONDING' })
       })
 
-      if (totalBondingAmount > 0) yield put(A.setTotalBondingDeposits(totalBondingAmount))
+      if (totalBondingAmount > 0) yield put(A.setTotalStakingBondingDeposits(totalBondingAmount))
 
       if (pendingTransactions.length > 0) {
         pendingTransactions.sort((a, b) => {
@@ -543,6 +545,66 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchPendingStakingTransactionsFailure(error))
+    }
+  }
+
+  const fetchPendingActiveRewardsTransactions = function* ({
+    payload
+  }: ReturnType<typeof A.fetchPendingActiveRewardsTransactions>) {
+    const { coin } = payload
+
+    try {
+      yield put(A.fetchPendingActiveRewardsTransactionsLoading())
+      const transactionResponse: EarnTransactionResponseType = yield call(api.getEarnTransactions, {
+        currency: coin,
+        product: ACTIVE_REWARDS_API_PRODUCT
+      })
+      // can successfully return ''
+      const earnBondingResponse: EarnBondingDepositsResponseType = yield call(
+        api.getEarnBondingDeposits,
+        {
+          ccy: coin,
+          product: ACTIVE_REWARDS_API_PRODUCT
+        }
+      )
+
+      const bondingDeposits: EarnBondingDepositsType[] = earnBondingResponse?.bondingDeposits || []
+
+      const filteredTransactions: TransactionType[] =
+        transactionResponse?.items.filter(({ state }) => state.includes('PENDING')) || []
+
+      const pendingTransactions: PendingTransactionType[] = []
+
+      filteredTransactions.forEach(({ amount, insertedAt }) => {
+        const baseAmount = Exchange.convertCoinToCoin({
+          baseToStandard: false,
+          coin,
+          value: new BigNumber(amount.value).toNumber()
+        })
+        pendingTransactions.push({ amount: baseAmount, date: insertedAt, type: 'TRANSACTIONS' })
+      })
+
+      let totalBondingAmount = 0
+
+      bondingDeposits.forEach(({ amount, bondingDays, bondingStartDate }) => {
+        totalBondingAmount += Number(amount)
+        pendingTransactions.push({ amount, bondingDays, date: bondingStartDate, type: 'BONDING' })
+      })
+
+      if (totalBondingAmount > 0)
+        yield put(A.setTotalActiveRewardsBondingDeposits(totalBondingAmount))
+
+      if (pendingTransactions.length > 0) {
+        pendingTransactions.sort((a, b) => {
+          if (!a.date || !b.date) return 0
+
+          return getUnixTime(new Date(b.date)) - getUnixTime(new Date(a.date))
+        })
+      }
+      yield put(A.fetchPendingActiveRewardsTransactionsSuccess(pendingTransactions))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchPendingActiveRewardsTransactionsFailure(error))
     }
   }
 
@@ -852,12 +914,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       case ACTIVE_REWARDS_DEPOSIT_FORM:
         product = 'Active'
         hotWalletAddressProduct = 'active'
-        destination = 'EARN_CC1W'
+        destination = ACTIVE_REWARDS_API_PRODUCT
         break
       case STAKING_DEPOSIT_FORM:
         product = 'Staking'
         hotWalletAddressProduct = 'staking'
-        destination = 'STAKING'
+        destination = STAKING_API_PRODUCT
         break
       case PASSIVE_REWARDS_DEPOSIT_FORM:
       default:
@@ -1214,6 +1276,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchInterestEligible,
     fetchInterestLimits,
     fetchInterestRates,
+    fetchPendingActiveRewardsTransactions,
     fetchPendingStakingTransactions,
     fetchRewardsAccount,
     fetchRewardsBalance,

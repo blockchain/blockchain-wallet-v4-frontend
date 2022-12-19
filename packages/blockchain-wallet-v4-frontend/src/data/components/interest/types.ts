@@ -164,6 +164,7 @@ export interface InterestState {
   passiveRewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   // make this optional here. places where ts doesnt like it, check, custodial
   payment?: RemoteDataType<string, PaymentValue | undefined>
+  pendingActiveRewardsTransactions: RemoteDataType<string, Array<PendingTransactionType>>
   pendingStakingTransactions: RemoteDataType<string, Array<PendingTransactionType>>
   rewardsAccount: RemoteDataType<string, EarnAccountResponseType>
   rewardsEDDDepositLimits: RemoteDataType<string, EarnDepositLimits>
@@ -184,7 +185,8 @@ export interface InterestState {
     name: StakingStep
   }
   stakingTransactionsNextPage?: string | null
-  totalBondingDeposits: number
+  totalActiveRewardsBondingDeposits: number
+  totalStakingBondingDeposits: number
   transactions: Array<EarnTransactionType>
   transactionsReport: RemoteDataType<string, Array<EarnTransactionType>>
   underSanctionsMessage: string | null

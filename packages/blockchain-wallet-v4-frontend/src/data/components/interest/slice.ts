@@ -63,6 +63,7 @@ const initialState: InterestState = {
   isAmountDisplayedInCrypto: false,
   passiveRewardsAccountBalance: Remote.NotAsked,
   payment: Remote.NotAsked,
+  pendingActiveRewardsTransactions: Remote.NotAsked,
   pendingStakingTransactions: Remote.NotAsked,
   rewardsAccount: Remote.NotAsked,
   rewardsEDDDepositLimits: Remote.NotAsked,
@@ -83,7 +84,8 @@ const initialState: InterestState = {
     name: 'WARNING'
   },
   stakingTransactionsNextPage: null,
-  totalBondingDeposits: 0,
+  totalActiveRewardsBondingDeposits: 0,
+  totalStakingBondingDeposits: 0,
   transactions: [],
   transactionsReport: Remote.NotAsked,
   underSanctionsMessage: null,
@@ -328,6 +330,20 @@ const interestSlice = createSlice({
     },
     fetchInterestRatesSuccess: (state, action: PayloadAction<RewardsRatesType>) => {
       state.interestRates = Remote.Success(action.payload.rates)
+    },
+
+    fetchPendingActiveRewardsTransactions: (state, action: PayloadAction<{ coin: CoinType }>) => {},
+    fetchPendingActiveRewardsTransactionsFailure: (state, action: PayloadAction<string>) => {
+      state.pendingActiveRewardsTransactions = Remote.Failure(action.payload)
+    },
+    fetchPendingActiveRewardsTransactionsLoading: (state) => {
+      state.pendingActiveRewardsTransactions = Remote.Loading
+    },
+    fetchPendingActiveRewardsTransactionsSuccess: (
+      state,
+      action: PayloadAction<Array<PendingTransactionType>>
+    ) => {
+      state.pendingActiveRewardsTransactions = Remote.Success(action.payload)
     },
 
     fetchPendingStakingTransactions: (state, action: PayloadAction<{ coin: CoinType }>) => {},
@@ -614,8 +630,11 @@ const interestSlice = createSlice({
     ) => {
       state.stakingTransactionsNextPage = action.payload.nextPage
     },
-    setTotalBondingDeposits: (state, action: PayloadAction<number>) => {
-      state.totalBondingDeposits = action.payload
+    setTotalActiveRewardsBondingDeposits: (state, action: PayloadAction<number>) => {
+      state.totalActiveRewardsBondingDeposits = action.payload
+    },
+    setTotalStakingBondingDeposits: (state, action: PayloadAction<number>) => {
+      state.totalStakingBondingDeposits = action.payload
     },
 
     setUnderSanctions: (state, action: PayloadAction<{ message: string | null }>) => {
@@ -700,6 +719,10 @@ export const {
   fetchInterestRatesFailure,
   fetchInterestRatesLoading,
   fetchInterestRatesSuccess,
+  fetchPendingActiveRewardsTransactions,
+  fetchPendingActiveRewardsTransactionsFailure,
+  fetchPendingActiveRewardsTransactionsLoading,
+  fetchPendingActiveRewardsTransactionsSuccess,
   fetchPendingStakingTransactions,
   fetchPendingStakingTransactionsFailure,
   fetchPendingStakingTransactionsLoading,
@@ -754,7 +777,8 @@ export const {
   setShowAvailableAssets,
   setStakingModal,
   setStakingTransactionsNextPage,
-  setTotalBondingDeposits,
+  setTotalActiveRewardsBondingDeposits,
+  setTotalStakingBondingDeposits,
   setWithdrawalMinimumsFailure,
   setWithdrawalMinimumsLoading,
   setWithdrawalMinimumsSuccess,

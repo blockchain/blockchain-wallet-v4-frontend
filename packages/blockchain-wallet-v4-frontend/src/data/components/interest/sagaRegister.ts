@@ -38,6 +38,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     )
     yield takeLeading(actions.fetchEarnTransactions.type, interestSagas.fetchEarnTransactions)
     yield takeLeading(
+      actions.fetchPendingActiveRewardsTransactions.type,
+      interestSagas.fetchPendingActiveRewardsTransactions
+    )
+    yield takeLeading(
       actions.fetchPendingStakingTransactions.type,
       interestSagas.fetchPendingStakingTransactions
     )

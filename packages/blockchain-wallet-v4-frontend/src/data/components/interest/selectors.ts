@@ -292,11 +292,17 @@ export const getInterestTransactionsReport = (state: RootState) =>
 
 export const getEarnTransactions = (state: RootState) => state.components.interest.transactions
 
+export const getPendingActiveRewardsTransactions = (state: RootState) =>
+  state.components.interest.pendingActiveRewardsTransactions
+
 export const getPendingStakingTransactions = (state: RootState) =>
   state.components.interest.pendingStakingTransactions
 
-export const getTotalBondingDeposits = (state: RootState) =>
-  state.components.interest.totalBondingDeposits
+export const getTotalActiveRewardsBondingDeposits = (state: RootState) =>
+  state.components.interest.totalActiveRewardsBondingDeposits
+
+export const getTotalStakingBondingDeposits = (state: RootState) =>
+  state.components.interest.totalStakingBondingDeposits
 
 export const getEarnDepositLimits = (state: RootState) =>
   state.components.interest.earnDepositLimits
