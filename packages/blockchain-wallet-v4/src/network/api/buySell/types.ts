@@ -4,6 +4,7 @@ import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/t
 import { ORDER_ERROR_CODE } from 'data/components/buySell/model'
 import {
   BankDetails,
+  DepositTerms,
   PlaidSettlementErrorReasons,
   RecurringBuyFailureReasons,
   RecurringBuyPeriods
@@ -182,7 +183,7 @@ export type CardConfirmAttributesType = {
     customerUrl: string
   }
   isAsync?: boolean
-  redirectUrl: string
+  redirectURL: string
 }
 
 export type ApplePayConfirmAttributesType = CardConfirmAttributesType & {
@@ -460,6 +461,7 @@ export type CardAcquirer = {
 }
 
 export type BuyQuoteType = {
+  depositTerms: DepositTerms
   feeDetails: {
     fee: string
     feeFlags: []

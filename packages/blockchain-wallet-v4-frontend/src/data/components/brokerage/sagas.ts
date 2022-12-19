@@ -34,7 +34,7 @@ import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { BankCredentialsType, PlaidAccountType, YodleeAccountType } from './types'
+import { BankCredentialsType, DepositTerms, PlaidAccountType, YodleeAccountType } from './types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
 
@@ -211,6 +211,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
     } catch (error) {
       yield put(actions.components.brokerage.fetchBankLinkCredentialsError(error))
+    }
+  }
+
+  const fetchDepositTerms = function* ({ payload }: ReturnType<typeof A.fetchDepositTerms>) {
+    try {
+      yield put(actions.components.brokerage.fetchDepositTermsLoading())
+      const data: DepositTerms = yield call(
+        api.getDepositTerms,
+        payload.amount,
+        payload.paymentMethodId
+      )
+      yield put(actions.components.brokerage.fetchDepositTermsSuccess(data))
+    } catch (error) {
+      yield put(actions.components.brokerage.fetchDepositTermsFailure(error))
     }
   }
 
@@ -606,6 +620,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
     fetchCrossBorderLimits,
+    fetchDepositTerms,
     handleDepositFiatClick,
     handleWithdrawClick,
     paymentAccountCheck,

@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import { coinToString, fiatToString } from '@core/exchange/utils'
 import { BSPaymentTypes, FiatType, MobilePaymentType, WalletFiatType } from '@core/types'
 import { CheckBoxInput, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import AvailabilityRows from 'components/Brokerage/AvailabilityRows'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
@@ -192,13 +193,21 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
 
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
-
   const baseCurrency = getBaseCurrency(props.order)
   const baseCurrencyCoinfig = window.coins[baseCurrency]?.coinfig
   const baseCurrencyDisplay = baseCurrencyCoinfig?.displaySymbol || baseCurrency
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order)
   const paymentMethodId = getPaymentMethodId(props.order)
+
+  const quoteRate = fiatToString({
+    unit: counterCurrency as FiatType,
+    value:
+      (1 /
+        parseFloat(props.quote.rate.toString()) /
+        parseFloat(convertBaseToStandard(baseCurrency, props.quote.rate.toString()))) *
+      parseFloat(props.quote.rate.toString())
+  })
 
   const requiresTerms =
     props.order.paymentType === BSPaymentTypes.PAYMENT_CARD ||
@@ -463,16 +472,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                 />
               </IconWrapper>
             </RowIcon>
-            <RowText data-e2e='sbExchangeRate'>
-              {fiatToString({
-                unit: counterCurrency as FiatType,
-                value:
-                  (1 /
-                    parseFloat(props.quote.rate.toString()) /
-                    parseFloat(convertBaseToStandard(baseCurrency, props.quote.rate.toString()))) *
-                  parseFloat(props.quote.rate.toString())
-              })}
-            </RowText>
+            <RowText data-e2e='sbExchangeRate'>{quoteRate}</RowText>
           </TopRow>
           {isActiveCoinTooltip && (
             <ToolTipText>
@@ -625,8 +625,25 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         </RowText>
       </RowItem>
 
+      {props.availableToTradeWithdraw && (
+        <AvailabilityRows depositTerms={props.quote.quote.depositTerms} />
+      )}
+
       <Bottom>
-        {getLockRuleMessaging(showLock, days, props.order.paymentType)}
+        {getLockRuleMessaging({
+          coin: baseCurrencyDisplay,
+          days,
+          paymentAccount: getPaymentMethodDetails({
+            bankAccount,
+            cardDetails,
+            order: props.order
+          }),
+          paymentType: props.order.paymentType,
+          quoteRate,
+          showLockRule: showLock,
+          totalAmount,
+          withdrawalLockDays: props.quote.quote?.depositTerms?.withdrawalLockDays || days
+        })}
 
         {requiresTerms && (
           <Info>
