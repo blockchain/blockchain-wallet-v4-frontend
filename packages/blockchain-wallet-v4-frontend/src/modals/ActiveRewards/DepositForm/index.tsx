@@ -130,7 +130,7 @@ const DepositForm = ({ coin }: PropsType) => {
     })
   }
 
-  const handleMinAmountClicked = () => () => {
+  const handleMinAmountClicked = () => {
     earnActions.handleTransferMinAmountClick({
       amount: displayCoin ? earnDepositLimits.minCoin : earnDepositLimits.minFiat,
       formName: FORM_NAME
