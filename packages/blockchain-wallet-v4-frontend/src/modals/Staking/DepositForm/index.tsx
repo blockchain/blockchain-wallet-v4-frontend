@@ -76,9 +76,7 @@ const DepositForm = ({ coin }: PropsType) => {
   const maxDepositFiat = maxFiat(earnDepositLimits.maxFiat, walletCurrency)
   const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
   const depositAmountError =
-    formErrors.depositAmount &&
-    typeof formErrors.depositAmount === 'string' &&
-    formErrors.depositAmount
+    typeof formErrors.depositAmount === 'string' && formErrors.depositAmount
   const isErc20 = !!coinfig.type.erc20Address
   const insufficientEth =
     payment &&

@@ -74,9 +74,7 @@ const DepositForm = ({ coin }: PropsType) => {
   const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
   const depositAmountFiat: number = amountToFiat(true, depositAmount, coin, walletCurrency, rates)
   const depositAmountError =
-    formErrors.depositAmount &&
-    typeof formErrors.depositAmount === 'string' &&
-    formErrors.depositAmount
+    typeof formErrors.depositAmount === 'string' && formErrors.depositAmount
   const isErc20 = !!coinfig.type.erc20Address
   const insufficientEth =
     payment &&

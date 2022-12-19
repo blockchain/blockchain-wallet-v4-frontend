@@ -126,9 +126,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
 
   const depositAmountError =
-    formErrors.depositAmount &&
-    typeof formErrors.depositAmount === 'string' &&
-    formErrors.depositAmount
+    typeof formErrors.depositAmount === 'string' && formErrors.depositAmount
   const isErc20 = !!window.coins[coin].coinfig.type.erc20Address
   const insufficientEth =
     payment &&
