@@ -6,13 +6,10 @@ import { Badge, Button, Image, Text } from 'blockchain-info-components'
 import CopyClipboard from 'components/Clipboard/CopyClipboard'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { isMobile } from 'services/styles'
+import { getSecret } from 'utils/helpers'
 
 import { BackArrowFormHeader, CenteredColumn, TwoFactorSetupSteps } from '../model'
 import { Props } from '.'
-
-const StyledQrCode = styled(Image)`
-  margin: 24px 0 32px 0;
-`
 
 const AppButtons = styled.footer`
   display: flex;
@@ -47,7 +44,7 @@ const AuthenticatorCode = (props: Props) => {
           <QRCodeWrapper size={150} value={props.googleAuthSecretUrl} />
         )}
         {isMobile() && props.googleAuthSecretUrl && (
-          <CopyClipboard address={props.googleAuthSecretUrl || ''} />
+          <CopyClipboard address={getSecret(props.googleAuthSecretUrl) || ''} />
         )}
         <AppButtons>
           <Badge type='applestore_2fa' />

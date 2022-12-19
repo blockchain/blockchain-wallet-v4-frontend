@@ -43,7 +43,7 @@ const RowValue = styled.div`
 `
 
 const RowText = styled(TitleStyles)`
-  font-weight: 600;
+  font-weight: 500;
 `
 
 const AdditionalText = styled(Text)`

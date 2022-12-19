@@ -692,7 +692,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             customerUrl: paymentSuccessLink
           },
           isAsync: true,
-          redirectUrl: paymentSuccessLink
+          redirectURL: paymentSuccessLink
         }
       } else if (account?.partner === BankPartners.YAPILY) {
         attributes = { callback: `${domains.comRoot}/brokerage-link-success` }
@@ -783,7 +783,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                   state: address.administrativeArea
                 }
               : null,
-            redirectUrl: paymentSuccessLink
+            redirectURL: paymentSuccessLink
           }
         }
 
@@ -901,7 +901,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                   state: address.administrativeArea
                 }
               : null,
-            redirectUrl: paymentSuccessLink
+            redirectURL: paymentSuccessLink
           }
         }
       }
