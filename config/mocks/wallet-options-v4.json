@@ -41,6 +41,7 @@
         "addStripePaymentProvider": false,
         "applePayPaymentMethod": true,
         "appleAndGooglePayPromoBanner": true,
+        "availableToTradeWithdraw": true,
         "createNabuUserAtLogin": false,
         "coinViewV2": false,
         "isCreditCardOptimizationEnabled": true,

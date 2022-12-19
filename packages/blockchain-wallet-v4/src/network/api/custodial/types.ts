@@ -22,10 +22,13 @@ export type BeneficiaryType = {
 export type BeneficiariesType = Array<BeneficiaryType>
 
 export enum ProductTypes {
+  BROKERAGE = 'BROKERAGE',
+  DEPOSIT = 'DEPOSIT',
   SAVINGS = 'SAVINGS',
   SIMPLEBUY = 'SIMPLEBUY',
   STAKING = 'STAKING',
-  SWAP = 'SWAP'
+  SWAP = 'SWAP',
+  WALLET = 'WALLET'
 }
 
 export type NabuCustodialProductType = keyof typeof ProductTypes
@@ -162,7 +165,7 @@ export type CrossBorderLimitsPayload = {
   toAccount: WalletAccountType
 }
 
-type CrossBorderLimitItem = {
+export type CrossBorderLimitItem = {
   currency: FiatType
   value: string
 }
