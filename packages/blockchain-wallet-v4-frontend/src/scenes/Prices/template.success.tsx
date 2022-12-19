@@ -25,6 +25,7 @@ export const TableBodyWrapper = styled.div`
 
 const PricesTable = (props: Props) => {
   const {
+    analyticsActions,
     buySellActions,
     data,
     formActions,
@@ -37,6 +38,7 @@ const PricesTable = (props: Props) => {
 
   const columns = useMemo(
     getTableColumns({
+      analyticsActions,
       buySellActions,
       formActions,
       isCoinViewV2Enabled,

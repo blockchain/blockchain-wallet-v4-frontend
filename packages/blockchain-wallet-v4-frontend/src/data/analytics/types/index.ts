@@ -2,6 +2,7 @@ import {
   Events as AccountRecoveryEvents,
   TrackEventAction as AccountRecoveryTrackEventAction
 } from './accountRecovery'
+import { Events as BuyEvents, TrackEventAction as BuyTrackEventAction } from './buy'
 import {
   Events as CoinViewEvents,
   TrackEventAction as TransactionsTrackEventAction
@@ -69,6 +70,7 @@ type AnalyticsKey =
   | ViewAndClickEvents
   | SwapEvents
   | WalletEarnEvents
+  | BuyEvents
 
 const Analytics = {
   ...AccountRecoveryEvents,
@@ -85,7 +87,8 @@ const Analytics = {
   ...SwapEvents,
   ...TaxCenterEvents,
   ...ViewAndClickEvents,
-  ...WalletEarnEvents
+  ...WalletEarnEvents,
+  ...BuyEvents
 }
 
 // event properties
@@ -112,6 +115,7 @@ type TrackEventAction =
   | ViewAndClickTrackEventAction
   | WalletEarnTrackEventAction
   | CowboysPromoTrackEventAction
+  | BuyTrackEventAction
 
 type AnalyticsTraits = {
   email?: string

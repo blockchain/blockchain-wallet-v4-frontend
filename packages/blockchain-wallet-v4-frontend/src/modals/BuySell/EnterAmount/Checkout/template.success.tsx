@@ -1,4 +1,4 @@
-import React, { ReactChild, useCallback, useState } from 'react'
+import React, { ReactChild, useCallback, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
@@ -19,7 +19,7 @@ import Form from 'components/Form/Form'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { model } from 'data'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
-import { BSCheckoutFormValuesType } from 'data/types'
+import { Analytics, BSCheckoutFormValuesType } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { isNabuError, NabuError } from 'services/errors'
 import { FIAT_DECIMALS, formatTextAmount } from 'services/forms'
@@ -156,6 +156,7 @@ const isLimitError = (code: number | string): boolean => {
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
+    analyticsActions,
     cards,
     crossBorderLimits,
     cryptoCurrency,
@@ -164,6 +165,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     method: selectedMethod,
     products
   } = props
+
+  useEffect(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.BUY_AMOUNT_SCREEN_VIEWED,
+      properties: {}
+    })
+  }, [])
 
   const dispatch = useDispatch()
 
@@ -334,6 +342,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const isFundsMethod = method && method.type === BSPaymentTypes.FUNDS
 
+  const goBack = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.BUY_AMOUNT_SCREEN_BACK_CLICKED,
+      properties: {}
+    })
+
+    props.buySellActions.setStep({
+      // Always reset back to walletCurrency
+      // Otherwise FUNDS currency and Pairs currency can mismatch
+      fiatCurrency: props.fiatCurrency || 'USD',
+      step: 'CRYPTO_SELECTION'
+    })
+  }
+
   const { error } = props
 
   if (isNabuError(error)) {
@@ -353,14 +375,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               color='grey600'
               role='button'
               style={{ marginRight: '8px' }}
-              onClick={() =>
-                props.buySellActions.setStep({
-                  // Always reset back to walletCurrency
-                  // Otherwise FUNDS currency and Pairs currency can mismatch
-                  fiatCurrency: props.fiatCurrency || 'USD',
-                  step: 'CRYPTO_SELECTION'
-                })
-              }
+              onClick={goBack}
             />
             <FormattedMessage id='buttons.buy_now' defaultMessage='Buy Now' />
           </LeftTopCol>

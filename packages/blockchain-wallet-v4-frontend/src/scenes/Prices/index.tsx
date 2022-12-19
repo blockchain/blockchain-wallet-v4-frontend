@@ -109,6 +109,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
@@ -121,6 +122,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 const enhance = compose(reduxForm({ form: 'prices' }), connector)
 
 export type TableColumnsType = {
+  analyticsActions: ReturnType<typeof mapDispatchToProps>['analyticsActions']
   buySellActions: ReturnType<typeof mapDispatchToProps>['buySellActions']
   formActions: ReturnType<typeof mapDispatchToProps>['formActions']
   isCoinViewV2Enabled: boolean

@@ -68,6 +68,16 @@ const Checkout = (props: Props) => {
 
     const method = props.method || props.defaultMethod
 
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_AMOUNT_SCREEN_NEXT_CLICKED,
+      properties: {
+        input_amount: formValues?.amount,
+        input_currency: props.fiatCurrency,
+        output_currency: props.cryptoCurrency,
+        payment_method: method?.type
+      }
+    })
+
     if (isSddFlow) {
       const currentTier = userData?.tiers?.current ?? 0
 
@@ -240,6 +250,7 @@ const Checkout = (props: Props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
