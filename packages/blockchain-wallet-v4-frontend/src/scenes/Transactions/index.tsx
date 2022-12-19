@@ -245,6 +245,11 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       data-e2e='sellCrypto'
                       width='100px'
                       onClick={() => {
+                        this.props.analyticsActions.trackEvent({
+                          key: Analytics.COIN_VIEW_SELL_CLICKED,
+                          properties: {}
+                        })
+
                         this.props.buySellActions.showModal({
                           cryptoCurrency: coin as CoinType,
                           orderType: OrderType.SELL,

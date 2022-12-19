@@ -45,6 +45,12 @@ const TradeContainer = (props: Props) => {
 
   const handleSell = useCallback(() => {
     dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.FAB_SELL_CLICKED,
+        properties: {}
+      })
+    )
+    dispatch(
       actions.components.buySell.showModal({
         cryptoCurrency: 'BTC',
         orderType: OrderType.SELL,
