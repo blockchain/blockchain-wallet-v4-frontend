@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { OrderType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
 import { CellHeaderText } from 'components/Table'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 
 import { TableColumnsType } from '..'
 
@@ -17,6 +17,7 @@ const CellWrapper = styled.div`
 `
 
 export const getActionsColumn = (
+  analyticsActions: TableColumnsType['analyticsActions'],
   modalActions: TableColumnsType['modalActions'],
   buySellActions: TableColumnsType['buySellActions'],
   swapActions: TableColumnsType['swapActions'],
@@ -31,6 +32,10 @@ export const getActionsColumn = (
             height='32px'
             nature='primary'
             onClick={() => {
+              analyticsActions.trackEvent({
+                key: Analytics.PRICES_PAGE_BUY_CLICKED,
+                properties: {}
+              })
               buySellActions.showModal({
                 cryptoCurrency: values.coin,
                 orderType: OrderType.BUY,

@@ -324,7 +324,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             ) : (
               <Text color='black' weight={600} size='14px' style={{ marginTop: '4px' }}>
                 {props.feesR.cata({
-                  Failure: (e) => (
+                  Failure: () => (
                     <CustomBlueCartridge
                       pointer
                       data-e2e='retryFetchFees'
@@ -341,7 +341,11 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
                   ),
                   Loading: () => <SkeletonRectangle height='24px' width='52px' />,
                   NotAsked: () => <SkeletonRectangle height='24px' width='52px' />,
-                  Success: (val) => `${val} ${coinfig?.displaySymbol || coin}`
+                  Success: (val) => (
+                    <>
+                      {val} {coin}
+                    </>
+                  )
                 })}
               </Text>
             )}

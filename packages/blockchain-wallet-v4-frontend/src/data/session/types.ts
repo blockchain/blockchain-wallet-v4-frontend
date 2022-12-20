@@ -1,5 +1,6 @@
 export type SessionStateType = {
   exchange?: AccountSessionType
+  recover?: AccountSessionType
   wallet?: AccountSessionType
 }
 

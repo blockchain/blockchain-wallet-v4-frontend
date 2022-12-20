@@ -1,1 +1,1 @@
-export { default } from './QuoteDetails'
+export { QuoteDetails } from './QuoteDetails'

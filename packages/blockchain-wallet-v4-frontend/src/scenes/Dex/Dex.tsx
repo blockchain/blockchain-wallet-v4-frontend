@@ -1,94 +1,53 @@
-import React, { useEffect, useState } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { reduxForm } from 'redux-form'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
-import { actions, model, selectors } from 'data'
-import { DexScenes, DexSwapForm, DexSwapSteps } from 'data/components/dex/types'
-import { RootState } from 'data/rootReducer'
+import { actions } from 'data'
 import { notReachable } from 'utils/notReachable'
 
-import { FormWrapper, PageWrapper } from './Dex.model'
+import { PageLoading } from './components'
+import { useSceneResolver } from './hooks'
+import { NonEligible } from './NonEligible'
 import { Onboarding } from './Onboarding'
-import ConfirmSwap from './Swap/ConfirmSwap'
-import EnterSwapDetails from './Swap/EnterSwapDetails'
+import { Swap } from './Swap'
 
-const { DEX_INTRO_VIEWED_KEY, DEX_SWAP_FORM } = model.components.dex
+const DEX_INTRO_VIEWED_KEY = 'dexIntroViewed'
 
-const Dex = ({ dexActions, formValues, ratesActions }: Props) => {
+const Dex = () => {
+  const dispatch = useDispatch()
+  const [scene, setScene] = useSceneResolver()
+
+  // clear data on exiting DEX app
   useEffect(() => {
-    dexActions.fetchChains()
-    ratesActions.fetchCoinsRates()
-  }, [dexActions, ratesActions])
-
-  const { step } = formValues
-  const [scene, setScene] = useState<DexScenes>(
-    localStorage.getItem(DEX_INTRO_VIEWED_KEY) ? DexScenes.SWAP : DexScenes.ONBOARDING
-  )
+    return () => {
+      dispatch(actions.components.dex.clearCurrentSwapQuote())
+    }
+  }, [])
 
   const onFinishOnboarding = () => {
     localStorage.setItem(DEX_INTRO_VIEWED_KEY, 'true')
-    setScene(DexScenes.SWAP)
+    setScene('SWAP')
   }
 
   switch (scene) {
-    case DexScenes.ONBOARDING:
-      return (
-        <PageWrapper>
-          <Onboarding onClickStart={onFinishOnboarding} />
-        </PageWrapper>
-      )
+    case 'ERROR':
+      // TODO: Handle error
+      return null
 
-    case DexScenes.SWAP:
-      switch (step) {
-        case DexSwapSteps.ENTER_DETAILS:
-          return (
-            <PageWrapper>
-              <FormWrapper>
-                <EnterSwapDetails />
-              </FormWrapper>
-            </PageWrapper>
-          )
+    case 'LOADING':
+      return <PageLoading />
 
-        case DexSwapSteps.CONFIRM_SWAP:
-          return (
-            <PageWrapper>
-              <FormWrapper>
-                <ConfirmSwap />
-              </FormWrapper>
-            </PageWrapper>
-          )
+    case 'ONBOARDING':
+      return <Onboarding onClickStart={onFinishOnboarding} />
 
-        default:
-          return notReachable(step)
-      }
+    case 'NOT_ELIGIBLE':
+      return <NonEligible />
+
+    case 'SWAP':
+      return <Swap />
 
     default:
       return notReachable(scene)
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  formValues: selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  dexActions: bindActionCreators(actions.components.dex, dispatch),
-  ratesActions: bindActionCreators(actions.core.data.coins, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-const enhance = compose<React.ComponentType>(
-  reduxForm({
-    destroyOnUnmount: false,
-    enableReinitialize: true,
-    form: DEX_SWAP_FORM,
-    initialValues: { step: DexSwapSteps.ENTER_DETAILS }
-  }),
-  connector
-)
-
-type Props = ConnectedProps<typeof connector>
-
-export default enhance(Dex)
+export default Dex

@@ -5,6 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { ExtractSuccess } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
+import { convertStandardToBase } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
 import { BrokerageTxFormValuesType } from 'data/types'
 
@@ -15,6 +16,15 @@ import Success from './template.success'
 const DepositMethods = (props: Props) => {
   useEffect(() => {
     props.sendActions.getLockRule()
+    if (props.formValues?.currency && props.defaultMethod) {
+      props.brokerageActions.fetchDepositTerms({
+        amount: {
+          symbol: props.formValues.currency,
+          value: String(convertStandardToBase('FIAT', props.formValues.amount))
+        },
+        paymentMethodId: props.defaultMethod.id
+      })
+    }
   }, [])
 
   return props.data.cata({
@@ -28,6 +38,9 @@ const DepositMethods = (props: Props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  availableToTradeWithdraw: selectors.core.walletOptions
+    .getFeatureFlagAvailableToTradeWithdraw(state)
+    .getOrElse(false) as boolean,
   data: getData(state),
   defaultMethod: selectors.components.brokerage.getAccount(state),
   fiatCurrency: selectors.core.settings.getCurrency(state),

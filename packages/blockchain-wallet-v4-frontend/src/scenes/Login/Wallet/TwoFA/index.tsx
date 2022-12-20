@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
@@ -13,7 +13,7 @@ import PasswordBox from 'components/Form/PasswordBox'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/auth/types'
-import { ExchangeErrorCodes } from 'data/types'
+import { Analytics, ExchangeErrorCodes } from 'data/types'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { isMobile, media } from 'services/styles'
@@ -23,6 +23,7 @@ import BackArrowHeader from '../../components/BackArrowHeader'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, CenteredColumn, Row, WrapperWithPadding } from '../../model'
+import { getTwoFaType } from '../../utils'
 
 const LoginWrapper = styled(Wrapper)`
   display: flex;
@@ -41,6 +42,7 @@ const ResponsiveRow = styled(Row)`
 
 const TwoFAWallet = (props: Props) => {
   const {
+    analyticsActions,
     authActions,
     authType,
     busy,
@@ -67,6 +69,18 @@ const TwoFAWallet = (props: Props) => {
       product === ProductAuthOptions.EXCHANGE ? formValues?.exchangeEmail : formValues.email
     authActions.resendSmsCode({ email, guid: formValues?.guid })
   }
+
+  useEffect(() => {
+    const twoFAType = getTwoFaType(authType)
+    analyticsActions.trackEvent({
+      key: Analytics.LOGIN_2FA_PAGE_VIEWED,
+      properties: {
+        '2fa_type': twoFAType,
+        device_origin: product,
+        originalTimestamp: new Date().toISOString()
+      }
+    })
+  }, [])
 
   return (
     <LoginWrapper>

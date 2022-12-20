@@ -62,7 +62,7 @@ export const LoaderRow = styled(Row)`
 export const FormWrapper = styled(Wrapper)`
   padding: 24px 32px 32px;
   ${media.mobile`
-  padding: 16px;
+  padding: 24px;
 `}
 `
 
@@ -90,6 +90,15 @@ export const SubCard = styled.div`
 `};
 `
 
+export const TryAnotherMethodRow = styled.div`
+  display: flex;
+  align-items: center;
+  ${media.mobile`
+flex-direction: column;
+align-items: center;
+`}
+`
+// TODO: remove with feature flag
 export const TroubleLoggingInRow = styled.div`
   display: flex;
   align-items: center;
@@ -157,7 +166,7 @@ const EmailAndGuid = styled.div`
 `
 
 export const BackArrowFormHeader = (props: {
-  email: string
+  email?: string
   guid?: string
   handleBackArrowClick: () => void
   product?: ProductAuthOptions
@@ -211,3 +220,27 @@ export const SpinningLoaderCentered = () => {
     </LoaderRow>
   )
 }
+
+const ClickablePanelWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  border: 1px solid ${(props) => props.theme.grey100};
+  border-radius: 0.5rem;
+  padding: 1.5rem 1.125rem;
+  margin: 1.5rem 0 0;
+  cursor: pointer;
+  position: relative;
+  align-items: center;
+`
+export const ButtonPanel = ({ children, ...rest }) => {
+  return <ClickablePanelWrapper {...rest}>{children}</ClickablePanelWrapper>
+}
+
+export const CenteredColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`

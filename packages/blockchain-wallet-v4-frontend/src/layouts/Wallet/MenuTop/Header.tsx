@@ -46,10 +46,14 @@ const Header = (props: OwnProps) => {
   }, [modalActions])
 
   const fabCallback = useCallback(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.FAB_CLICKED,
+      properties: {}
+    })
     modalActions.showModal(ModalName.TRADE_MODAL, {
       origin: 'Header'
     })
-  }, [modalActions])
+  }, [modalActions, analyticsActions])
 
   const trackEventCallback = useCallback(
     (eventName) => {
@@ -122,6 +126,7 @@ const Header = (props: OwnProps) => {
     primaryNavItems.push({
       dest: '/dex',
       e2e: 'dexLink',
+      isNew: true,
       text: <FormattedMessage id='copy.dex' defaultMessage='DEX' />
     })
   }

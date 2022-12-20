@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { Text } from 'blockchain-info-components'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -34,16 +33,7 @@ const UpgradeNowSilver = (props: Props) => {
   return (
     <Flyout {...props} onClose={handleClose} isOpen={show} data-e2e='tradingLimitsModal'>
       <FlyoutChild>
-        {props.data.cata({
-          Failure: (error) => (
-            <Text color='red600' size='14px' weight={400}>
-              {error}
-            </Text>
-          ),
-          Loading: () => null,
-          NotAsked: () => null,
-          Success: (val) => <Success {...val} {...props} handleClose={handleClose} />
-        })}
+        <Success {...props.data} {...props} handleClose={handleClose} />
       </FlyoutChild>
     </Flyout>
   )
@@ -70,7 +60,7 @@ const enhance = compose(
   connector
 )
 
-export type SuccessStateType = ReturnType<typeof getData>['data']
+export type SuccessStateType = ReturnType<typeof getData>
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

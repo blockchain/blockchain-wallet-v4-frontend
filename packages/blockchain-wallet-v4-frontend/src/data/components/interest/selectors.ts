@@ -36,6 +36,11 @@ export const getWalletCurrency = (state: RootState): RemoteDataType<string, Fiat
   return selectors.core.settings.getCurrency(state)
 }
 
+export const getEarnTab = (state: RootState) => state.components.interest.earnTab
+export const getShowAvailableAssets = (state: RootState) =>
+  state.components.interest.showAvailableAssets
+export const getSearchValue = (state: RootState) => state.components.interest.searchValue
+
 export const getAllRates = (state: RootState) => state.dataPath.coins.rates
 // If the user does not have a rewards balance, move the preferredCoins list to the top of the list (even better if this is done by backend)
 // If the user has a rewards balance, move those instruments to the top of the list and merge with the preferredCoins list
@@ -46,13 +51,19 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
   getIsStakingEnabled,
   getAllRates,
   getWalletCurrency,
+  getEarnTab,
+  getSearchValue,
+  getShowAvailableAssets,
   (
     instrumentsR: ReturnType<typeof getEarnInstruments>,
     rewardsBalancesR: ReturnType<typeof getRewardsAccountBalance>,
     stakingBalancesR: ReturnType<typeof getStakingAccountBalance>,
     isStakingEnabledR: ReturnType<typeof getIsStakingEnabled>,
     allRatesR: ReturnType<typeof getAllRates>,
-    walletCurrencyR: ReturnType<typeof getWalletCurrency>
+    walletCurrencyR: ReturnType<typeof getWalletCurrency>,
+    earnTab: ReturnType<typeof getEarnTab>,
+    searchValue: ReturnType<typeof getSearchValue>,
+    showAvailableAssets: ReturnType<typeof getShowAvailableAssets>
   ) => {
     const transform = (
       instruments: ExtractSuccess<typeof instrumentsR>,
@@ -128,12 +139,54 @@ export const getInstrumentsSortedByBalance = createDeepEqualSelector(
         return [...preferredRewardsCoins, ...rewardsInstruments]
       }
 
-      return [
+      const sortedInstruments = [
         ...preferredStakingCoins,
         ...stakingInstruments,
         ...preferredRewardsCoins,
         ...rewardsInstruments
-      ]
+      ].filter(({ coin, product }) => {
+        switch (earnTab) {
+          case 'All':
+            break
+          case 'Rewards':
+            if (product !== earnTab) return false
+            break
+          case 'Staking':
+            if (product !== earnTab) return false
+            break
+
+          default:
+            break
+        }
+
+        if (showAvailableAssets) {
+          const isStaking = product === 'Staking'
+          const account = isStaking
+            ? stakingBalances && stakingBalances[coin]
+            : rewardsBalances && rewardsBalances[coin]
+          const accountBalanceBase = account ? account.balance : 0
+          const hasAccountBalance = accountBalanceBase > 0
+
+          if (!hasAccountBalance) return false
+        }
+
+        const coins = selectors.core.data.coins.getCoins()
+
+        const coinfig = coins[coin]?.coinfig
+
+        if (coinfig) {
+          const { displaySymbol, name, symbol } = coinfig
+          const containsSearchValue = [displaySymbol, name, symbol].some((value) =>
+            value.toLowerCase().includes(searchValue.toLowerCase())
+          )
+
+          if (!containsSearchValue) return false
+        }
+
+        return coinfig
+      })
+
+      return sortedInstruments
     }
 
     return lift(transform)(

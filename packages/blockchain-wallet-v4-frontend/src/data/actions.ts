@@ -8,6 +8,7 @@ import { actions as auth } from './auth/slice'
 import { actions as cache } from './cache/slice'
 import * as components from './components/actions'
 import { actions as custodial } from './custodial/slice'
+import { actions as experiments } from './experiments/slice'
 import * as form from './form/actions'
 import { actions as goals } from './goals/slice'
 import { actions as logs } from './logs/slice'
@@ -32,6 +33,7 @@ export {
   components,
   core,
   custodial,
+  experiments,
   form,
   goals,
   logs,

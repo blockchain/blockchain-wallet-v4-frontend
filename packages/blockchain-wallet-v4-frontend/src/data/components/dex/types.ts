@@ -1,64 +1,29 @@
-import { DexSwapQuoteResponse } from '@core/network/api/dex/types'
+import type { DexChain, DexSwapQuote, DexToken } from '@core/network/api/dex'
 import { CoinType, RemoteDataType } from '@core/types'
 
-export type DexToken = {
-  address: string
-  chainId: number
-  decimals: number
-  name: string
-  symbol: CoinType
-  verifiedBy?: number
-}
-
-export type DexChainTokenList = Array<DexToken>
-
-export type DexChain = {
-  chainId: number
-  name: string
-  nativeCurrency: {
-    address: string
-    chainId: number
-    decimals: number
-    name: string
-    symbol: CoinType
-  }
-}
-
-export type DexChainList = Array<DexChain>
-
+// TODO: Handle errors types when the new BE driven errors will be delivered
 export type DexStateType = {
-  chains: RemoteDataType<string, DexChainList>
+  chains: RemoteDataType<string, DexChain[]>
   currentChain: RemoteDataType<string, DexChain>
-  currentChainTokens: RemoteDataType<string, DexChainTokenList>
-  swapQuote: RemoteDataType<string, DexSwapQuoteResponse>
+  currentChainTokens: RemoteDataType<string, DexToken[]>
+  isUserEligible: RemoteDataType<string, boolean>
+  swapQuote: RemoteDataType<string, DexSwapQuote>
 }
 
-export enum DexSwapSideEnum {
+export type DexSwapSide = 'BASE' | 'COUNTER'
+export type DexScenes = 'ONBOARDING' | 'SWAP' | 'NOT_ELIGIBLE' | 'ERROR' | 'LOADING'
+export type DexSwapSteps = 'CONFIRM_SWAP' | 'ENTER_DETAILS'
+export enum DexSwapSideFields {
   BASE = 'baseToken',
   COUNTER = 'counterToken'
 }
 
-export enum DexScenes {
-  ONBOARDING = 'ONBOARDING',
-  SWAP = 'SWAP'
-}
-
-export enum DexSwapSteps {
-  CONFIRM_SWAP = 'CONFIRM_SWAP',
-  ENTER_DETAILS = 'ENTER_DETAILS'
-}
-
 export type DexSwapForm = {
   baseToken?: CoinType
-  baseTokenAmount?: number | string
+  baseTokenAmount?: number
   counterToken?: CoinType
-  counterTokenAmount?: number | string
-  slippage?: string | null
+  counterTokenAmount?: number
+  isFlipping: boolean
+  slippage: number
   step: DexSwapSteps
-}
-
-export type DexSwapSettingsForm = {
-  activeSlippage?: string | null
-  customSlippage?: string
-  standardSlippage?: string
 }

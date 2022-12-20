@@ -1,1 +1,1 @@
-export { default } from './BaseRateAndFees'
+export { BaseRateAndFees } from './BaseRateAndFees'

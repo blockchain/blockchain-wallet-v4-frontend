@@ -1,11 +1,11 @@
 import { lift } from 'ramda'
 
+import type { DexToken } from '@core/network/api/dex'
 import { ExtractSuccess } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
-import { DexToken } from 'data/types'
 
-export const getData = createDeepEqualSelector(
+export const getDexTokensList = createDeepEqualSelector(
   [selectors.components.dex.getCurrentChainTokens, (state) => state],
   (tokenListR, state) => {
     const transform = (tokenList: ExtractSuccess<typeof tokenListR>) => {
@@ -17,7 +17,7 @@ export const getData = createDeepEqualSelector(
 
         return {
           balance,
-          ...coinfig
+          ...token
         }
       })
     }

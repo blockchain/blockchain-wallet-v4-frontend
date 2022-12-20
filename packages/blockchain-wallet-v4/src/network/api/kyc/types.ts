@@ -76,3 +76,8 @@ export type ExtraQuestionsType = {
   header?: Array<HeaderType>
   nodes: Array<NodeItem>
 }
+
+export type KycFlowsType = {
+  attributes: Object
+  nextFlow: string
+}

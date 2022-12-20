@@ -245,7 +245,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setStep({ step: SendCryptoStepType.STATUS }))
       yield put(A.submitTransactionLoading())
       const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
-      const { amount, fix, selectedAccount, to } = formValues
+      const { amount, fix, memo, selectedAccount, to } = formValues
       coin = selectedAccount.coin
       accountType = selectedAccount.type
       const feesR = S.getWithdrawalFees(yield select(), selectedAccount.coin)
@@ -310,7 +310,7 @@ export default ({ api }: { api: APIType }) => {
 
         const response: ReturnType<typeof api.withdrawBSFunds> = yield call(
           api.withdrawBSFunds,
-          to,
+          memo ? `${to}:${memo}` : to,
           coin,
           finalAmt,
           Number(finalFee)

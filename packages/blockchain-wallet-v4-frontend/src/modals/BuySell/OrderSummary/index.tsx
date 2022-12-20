@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Exchange, Remote } from '@core'
@@ -39,7 +38,6 @@ class OrderSummaryContainer extends PureComponent<Props> {
       this.props.buySellActions.fetchCards(false)
       this.props.sendActions.getLockRule()
       this.props.recurringBuyActions.fetchRegisteredList()
-      this.props.recurringBuyActions.fetchPaymentInfo()
     }
 
     this.props.buySellActions.fetchOrders()
@@ -101,8 +99,12 @@ class OrderSummaryContainer extends PureComponent<Props> {
         })
         const frequencyText =
           recurringBuy && getPeriodForSuccess(recurringBuy.period, recurringBuy.nextPayment)
-
         if (order.state === 'PENDING_DEPOSIT') {
+          if (order.attributes?.needCvv) {
+            this.props.buySellActions.setStep({
+              step: 'UPDATE_SECURITY_CODE'
+            })
+          }
           if (
             (order.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
               order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||

@@ -53,7 +53,7 @@ class SiftScience extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  walletOptions: state.walletOptionsPath
+  walletOptions: state.walletOptions.details
 })
 
 const connector = connect(mapStateToProps)

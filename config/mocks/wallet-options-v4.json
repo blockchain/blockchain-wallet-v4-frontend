@@ -35,11 +35,13 @@
         }
       },
       "featureFlags": {
+        "accountRecoveryV2": true,
         "addCheckoutPaymentProvider": true,
         "addPlaidPaymentProvider": true,
         "addStripePaymentProvider": false,
         "applePayPaymentMethod": true,
         "appleAndGooglePayPromoBanner": true,
+        "availableToTradeWithdraw": true,
         "createNabuUserAtLogin": false,
         "coinViewV2": false,
         "isCreditCardOptimizationEnabled": true,
@@ -49,9 +51,11 @@
         "dex": true,
         "eddInterestFileUpload": true,
         "exchangeMobileDuplicateAccountRedirect": true,
+        "exchangePromo": true,
         "flexiblePricingModel": true,
         "googlePayPaymentMethod": true,
         "institutionalPortal": true,
+        "isActiveRewardsEnabled": true,
         "isReferralEnabled": true,
         "isReferralRetrievalEnabled": true,
         "isStakingEnabled": true,
@@ -60,7 +64,8 @@
         "recurringBuys": true,
         "rewardsFlowUnderSwapEnabled": true,
         "rewardsPromoBanner": true,
-        "secureEmailSmsUpdate": true,
+        "secureEmailSmsUpdate": false,
+        "showEarnAvailableAssetsCheckbox": true,
         "showSilverRevamp": true,
         "showTermsAndConditions": false,
         "stakingPromoBanner": true,
@@ -70,6 +75,7 @@
         "unifiedAccountLogin": true,
         "useLoqateService": true,
         "useNewPaymentProviders": true,
+        "useVgsProvider": false,
         "walletConnect": true,
         "walletDebitCardEnabled": true
       }

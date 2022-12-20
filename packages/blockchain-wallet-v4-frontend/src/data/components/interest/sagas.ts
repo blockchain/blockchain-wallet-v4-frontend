@@ -36,6 +36,7 @@ import * as S from './selectors'
 import { actions as A } from './slice'
 import {
   EarnInstrumentsType,
+  EarnTabsType,
   EarnTransactionType,
   InterestWithdrawalFormType,
   PendingTransactionType,
@@ -262,6 +263,73 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const fetchEarnTransactions = function* ({
+    payload
+  }: ReturnType<typeof A.fetchEarnTransactions>) {
+    const { coin, reset } = payload
+
+    try {
+      const isStakingEnabled = selectors.core.walletOptions
+        .getIsStakingEnabled(yield select())
+        .getOrElse(false) as boolean
+      const rewardsNextPageUrl = !reset ? yield select(S.getRewardsTransactionsNextPage) : undefined
+      const stakingNextPageUrl = !reset ? yield select(S.getStakingTransactionsNextPage) : undefined
+      const earnTab: EarnTabsType = yield select(S.getEarnTab)
+      // check if invoked from continuous scroll
+      if (!reset) {
+        const txList = yield select(S.getEarnTransactions)
+        // return if next page is already being fetched or there is no next page
+        if (Remote.Loading.is(last(txList)) || (!rewardsNextPageUrl && !stakingNextPageUrl)) return
+      }
+      yield put(A.fetchEarnTransactionsLoading({ reset }))
+      let rewardsResponse: EarnTransactionResponseType = { items: [], next: null }
+      let stakingResponse: EarnTransactionResponseType = { items: [], next: null }
+
+      if (rewardsNextPageUrl !== '' && (earnTab === 'All' || earnTab === 'Rewards')) {
+        rewardsResponse = yield call(api.getEarnTransactions, {
+          currency: coin,
+          nextPageUrl: rewardsNextPageUrl,
+          product: 'SAVINGS'
+        })
+      }
+
+      if (
+        stakingNextPageUrl !== '' &&
+        isStakingEnabled &&
+        (earnTab === 'All' || earnTab === 'Staking')
+      ) {
+        stakingResponse = yield call(api.getEarnTransactions, {
+          currency: coin,
+          nextPageUrl: stakingNextPageUrl,
+          product: 'STAKING'
+        })
+      }
+
+      const mapProductToItems = (items, product) => {
+        return items.map((item) => ({ ...item, product }))
+      }
+
+      const transactions: Array<EarnTransactionType> = [
+        ...mapProductToItems(rewardsResponse.items, 'Rewards'),
+        ...mapProductToItems(stakingResponse.items, 'Staking')
+      ]
+
+      if (rewardsResponse.items.length > 0 && stakingResponse.items.length > 0) {
+        transactions.sort((a, b) => {
+          if (!a.insertedAt || !b.insertedAt) return 0
+
+          return getUnixTime(new Date(b.insertedAt)) - getUnixTime(new Date(a.insertedAt))
+        })
+      }
+      yield put(A.fetchEarnTransactionsSuccess({ reset, transactions }))
+      yield put(A.setRewardsTransactionsNextPage({ nextPage: rewardsResponse.next || '' }))
+      yield put(A.setStakingTransactionsNextPage({ nextPage: stakingResponse.next || '' }))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchEarnTransactionsFailure(error))
+    }
+  }
+
   const fetchEarnTransactionsReport = function* () {
     const reportHeaders = [['Date', 'Type', 'Asset', 'Amount', 'Tx Hash', 'Product']]
     const formatRewardsTxData = (d) => [
@@ -285,7 +353,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let nextRewardsPageUrl
     let hasStakingNext = true
     let nextStakingPageUrl
-    const { coin } = yield select(selectors.form.getFormValues('interestHistoryCoin'))
+    const { coin } = yield select(selectors.form.getFormValues('earnHistoryCoin'))
     yield put(A.fetchEarnTransactionsReportLoading())
     try {
       while (hasRewardsNext) {
@@ -323,69 +391,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchEarnTransactionsReportFailure(error))
-    }
-  }
-
-  const fetchEarnTransactions = function* ({
-    payload
-  }: ReturnType<typeof A.fetchEarnTransactions>) {
-    const { coin, reset } = payload
-
-    try {
-      const isStakingEnabled = selectors.core.walletOptions
-        .getIsStakingEnabled(yield select())
-        .getOrElse(false) as boolean
-      const rewardsNextPageUrl = !reset ? yield select(S.getRewardsTransactionsNextPage) : undefined
-      const stakingNextPageUrl = !reset ? yield select(S.getStakingTransactionsNextPage) : undefined
-
-      // check if invoked from continuous scroll
-      if (!reset) {
-        const txList = yield select(S.getEarnTransactions)
-        // return if next page is already being fetched or there is no next page
-        if (Remote.Loading.is(last(txList)) || (!rewardsNextPageUrl && !stakingNextPageUrl)) return
-      }
-      yield put(A.fetchEarnTransactionsLoading({ reset }))
-      let rewardsResponse: EarnTransactionResponseType = { items: [], next: null }
-      let stakingResponse: EarnTransactionResponseType = { items: [], next: null }
-
-      if (rewardsNextPageUrl !== '') {
-        rewardsResponse = yield call(api.getEarnTransactions, {
-          currency: coin,
-          nextPageUrl: rewardsNextPageUrl,
-          product: 'SAVINGS'
-        })
-      }
-
-      if (stakingNextPageUrl !== '' && isStakingEnabled) {
-        stakingResponse = yield call(api.getEarnTransactions, {
-          currency: coin,
-          nextPageUrl: stakingNextPageUrl,
-          product: 'STAKING'
-        })
-      }
-
-      const mapProductToItems = (items, product) => {
-        return items.map((item) => ({ ...item, product }))
-      }
-
-      const transactions: Array<EarnTransactionType> = [
-        ...mapProductToItems(rewardsResponse.items, 'Rewards'),
-        ...mapProductToItems(stakingResponse.items, 'Staking')
-      ]
-
-      if (rewardsResponse.items.length > 0 && stakingResponse.items.length > 0) {
-        transactions.sort((a, b) => {
-          if (!a.insertedAt || !b.insertedAt) return 0
-
-          return getUnixTime(new Date(b.insertedAt)) - getUnixTime(new Date(a.insertedAt))
-        })
-      }
-      yield put(A.fetchEarnTransactionsSuccess({ reset, transactions }))
-      yield put(A.setRewardsTransactionsNextPage({ nextPage: rewardsResponse.next || '' }))
-      yield put(A.setStakingTransactionsNextPage({ nextPage: stakingResponse.next || '' }))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchEarnTransactionsFailure(error))
     }
   }
 

@@ -9,6 +9,7 @@ import debitCard from './debitCard'
 import dex from './dex'
 import earn from './earn'
 import eth from './eth'
+import experiments from './experiments'
 import httpService from './http'
 import kvStore from './kvStore'
 import kyc from './kyc'
@@ -45,6 +46,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     ...custodial({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       nabuUrl,
       ...http
     }),
@@ -58,6 +60,8 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     }),
     ...dex({
       apiUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
       ...http
     }),
     ...earn({
@@ -67,6 +71,10 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       nabuUrl
     }),
     ...eth({ apiUrl, openSeaApi, ...http }),
+    ...experiments({
+      authorizedGet: authorizedHttp.get,
+      nabuUrl
+    }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       authorizedGet: authorizedHttp.get,
@@ -79,6 +87,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     ...networkConfig({ apiUrl, authorizedGet: authorizedHttp.get }),
     ...nfts({ apiUrl, openSeaApi, ...http }),
     ...profile({
+      apiUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,

@@ -25,7 +25,6 @@ import {
   BSPaymentMethodsType,
   BSPaymentMethodType,
   BSPaymentTypes,
-  BSProviderAttributesType,
   BSQuoteType,
   BSTransactionStateType,
   BSTransactionsType,
@@ -36,20 +35,14 @@ import {
   FiatEligibleType,
   GooglePayInfoType,
   NabuAddressType,
+  OrderConfirmAttributesType,
   TradesAccumulatedResponse,
   ValidateApplePayMerchantRequest,
   ValidateApplePayMerchantResponse
 } from './types'
 
-export default ({
-  authorizedDelete,
-  authorizedGet,
-  authorizedPost,
-  authorizedPut,
-  get,
-  nabuUrl
-}) => {
-  const activateBSCard = ({
+export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
+  const activateCard = ({
     cardBeneficiaryId,
     cvv,
     redirectUrl
@@ -78,7 +71,7 @@ export default ({
       url: nabuUrl
     })
 
-  const createBSCard = ({
+  const createCard = ({
     address,
     currency,
     email,
@@ -99,6 +92,18 @@ export default ({
       },
       endPoint: '/payments/cards',
       removeDefaultPostData: true,
+      url: nabuUrl
+    })
+
+  const createAddCardToken = (): {
+    card_token_id: string
+    vgs_public_key: string
+    vgs_vault_id: string
+  } =>
+    authorizedPost({
+      contentType: 'application/json',
+      endPoint: '/payments/cassy/tokenize',
+      ignoreQueryParams: true,
       url: nabuUrl
     })
 
@@ -129,7 +134,7 @@ export default ({
       url: nabuUrl
     })
 
-  const createBSOrder = (
+  const createOrder = (
     pair: BSPairsType,
     action: BSOrderActionType,
     pending: boolean,
@@ -209,7 +214,7 @@ export default ({
     order,
     paymentMethodId
   }: {
-    attributes?: BSProviderAttributesType
+    attributes?: OrderConfirmAttributesType
     order: BSOrderType
     paymentMethodId?: string
   }): BSOrderType =>
@@ -523,15 +528,24 @@ export default ({
       url: nabuUrl
     })
 
+  const updateCardCvv = (data: { cvv: string; paymentId: string }) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data,
+      endPoint: '/payments/cassy/charge/cvv',
+      url: nabuUrl
+    })
+
   return {
-    activateBSCard,
+    activateCard,
     cancelBSOrder,
     checkCardSuccessRate,
     confirmBSOrder,
-    createBSCard,
-    createBSOrder,
+    createAddCardToken,
     createBankAccountLink,
+    createCard,
     createFiatDeposit,
+    createOrder,
     createRecurringBuy,
     deleteRecurringBuy,
     deleteSavedAccount,
@@ -559,6 +573,7 @@ export default ({
     getRBRegisteredList,
     refreshBankAccountLink,
     updateBankAccountLink,
+    updateCardCvv,
     validateApplePayMerchant,
     withdrawBSFunds
   }

@@ -73,8 +73,11 @@ import orderMyCard from './img/debitCard/order-my-card.png'
 import orderSuccess from './img/debitCard/order-success.png'
 import terminateCard from './img/debitCard/terminate-card.png'
 import dexOnboardingSlideFunds from './img/dex-onboarding-slide-funds@2x.png'
+import dexOnboardingSlideNotEligible from './img/dex-onboarding-slide-not-eligible@2x.png'
 import dexOnboardingSlideSwap from './img/dex-onboarding-slide-swap@2x.png'
 import dexOnboardingSlideWelcome from './img/dex-onboarding-slide-welcome@2x.png'
+import earnActivityEmpty from './img/earn/earn-activity-empty.svg'
+import earnEmpty from './img/earn/earn-empty.svg'
 import ethLocked from './img/earn/eth-locked.svg'
 import ethPending from './img/earn/eth-pending.svg'
 import emailError from './img/email-error.svg'
@@ -134,6 +137,8 @@ import recurringBuyGetStarted from './img/recurring-buys-get-started.svg'
 import referralIcon from './img/referral-icon.svg'
 import refresh from './img/refresh.svg'
 import safeConnect from './img/safe-connect.svg'
+import scenario1Graph from './img/scenario-1-graph.svg'
+import scenario2Graph from './img/scenario-2-graph.svg'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import sell from './img/sell.svg'
@@ -242,8 +247,11 @@ const Images = {
   'cryptoad-large': cryptoadlarge,
   'cryptoad-small': cryptoadsmall,
   'dex-onboarding-slide-funds': dexOnboardingSlideFunds,
+  'dex-onboarding-slide-not-eligible': dexOnboardingSlideNotEligible,
   'dex-onboarding-slide-swap': dexOnboardingSlideSwap,
   'dex-onboarding-slide-welcome': dexOnboardingSlideWelcome,
+  'earn-activity-empty': earnActivityEmpty,
+  'earn-empty': earnEmpty,
   'email-error': emailError,
   'email-success': emailSuccess,
   'email-verified': emailVerified,
@@ -300,6 +308,8 @@ const Images = {
   'referral-icon': referralIcon,
   refresh,
   'safe-connect': safeConnect,
+  'scenario-1-graph': scenario1Graph,
+  'scenario-2-graph': scenario2Graph,
   search,
   'select-arrow': selectArrow,
   sell,

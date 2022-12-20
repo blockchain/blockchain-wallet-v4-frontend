@@ -145,28 +145,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case '/login': {
-            const state = store.getState()
-            const { platform } = state?.auth?.getProductAuthMetadata ?? { platform: 'WEB' }
-            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-            const email = state.profile.userData.getOrElse({})?.emailVerified
-              ? state.profile.userData.getOrElse({})?.email
-              : null
-            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-            analytics.push(AnalyticsKey.LOGIN_VIEWED, {
-              properties: {
-                device_origin: platform,
-                originalTimestamp: getOriginalTimestamp()
-              },
-              traits: {
-                email,
-                nabuId,
-                tier
-              }
-            })
-            break
-          }
           case '/settings/addresses/btc': {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -839,31 +817,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.components.buySell.defaultMethodEvent.type:
-      case actions.components.buySell.handleMethodChange.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const { method } = action.payload
-        const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(method.type)
-
-        analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp(),
-            payment_type: paymentType
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
       case actions.components.swap.setStep.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -1290,7 +1243,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const stepName = action.payload.step
 
         switch (stepName) {
-          case 'ENTER_AMOUNT': {
+          case 'ENTER_AMOUNT':
+          case 'SELL_ENTER_AMOUNT': {
             if (action.payload.orderType === Order.BUY) {
               break
             }

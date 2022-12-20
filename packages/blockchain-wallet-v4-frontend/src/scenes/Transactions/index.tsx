@@ -20,6 +20,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
+import { StandardRow } from 'components/Rows'
 import { actions, model, selectors } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
 import { Analytics } from 'data/types'
@@ -200,6 +201,11 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       data-e2e='buyCrypto'
                       width='100px'
                       onClick={() => {
+                        this.props.analyticsActions.trackEvent({
+                          key: Analytics.COIN_VIEW_BUY_CLICKED,
+                          properties: {}
+                        })
+
                         this.props.buySellActions.showModal({
                           cryptoCurrency: coin as CoinType,
                           orderType: OrderType.BUY,

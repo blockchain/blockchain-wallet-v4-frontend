@@ -7,6 +7,7 @@ import { authReducer as auth } from './auth/slice'
 import { cacheReducer as cache } from './cache/slice'
 import components from './components/reducers'
 import { custodialReducer as custodial } from './custodial/slice'
+import { experimentsReducer as experiments } from './experiments/slice'
 import form from './form/reducers'
 import { goalsReducer as goals } from './goals/slice'
 import { logsReducer as logs } from './logs/slice'
@@ -28,6 +29,7 @@ const rootReducer = {
   cache,
   components,
   custodial,
+  experiments,
   form,
   goals,
   logs,
@@ -41,12 +43,12 @@ const rootReducer = {
   securityCenter,
   session,
   signup,
+  transferEth: transferEthReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,
   [paths.settingsPath]: coreReducers.settings,
-  [paths.walletOptionsPath]: coreReducers.walletOptionsReducer,
   [paths.kvStorePath]: coreReducers.kvStore,
-  transferEth: transferEthReducer
+  walletOptions: coreReducers.walletOptionsReducer
 }
 
 const combinedReducer = combineReducers(rootReducer)

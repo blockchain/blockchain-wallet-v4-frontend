@@ -1,29 +1,12 @@
 import React from 'react'
-import { Button, Flex, Padding, Pager } from '@blockchain-com/constellation'
+import { FormattedMessage } from 'react-intl'
+import { Button, Flex, Pager } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { media } from 'services/styles'
+import { SceneCard } from '../../../components'
 
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  width: 568px;
-  height: 512px;
-  padding: 1.5rem;
-
-  border-radius: 24px;
-  border: 1px solid ${({ theme }) => theme.grey100};
-  background-color: ${({ theme }) => theme.white};
-
-  ${media.tablet`
-    width: 100%;
-  `}
-
-  ${media.mobile`
-    padding: 20px;
-  `}
+const Space = styled.div`
+  padding-top: 1.5rem;
 `
 
 type Props = {
@@ -42,13 +25,18 @@ export const StepCard = ({
   totalSteps
 }: Props) => {
   return (
-    <Card>
+    <SceneCard>
       {children}
       <Flex flexDirection='column' alignItems='center'>
         <Pager totalPages={totalSteps} selectedPage={currentStep} onChange={onSwitchStep} />
-        <Padding top={1.5} />
-        <Button width='full' size='default' text='Start trading' onClick={onClickStart} />
+        <Space />
+        <Button
+          width='full'
+          size='default'
+          text={<FormattedMessage id='dex.onboarding.startAction' defaultMessage='Start trading' />}
+          onClick={onClickStart}
+        />
       </Flex>
-    </Card>
+    </SceneCard>
   )
 }

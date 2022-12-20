@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -11,7 +11,7 @@ import FormLabel from 'components/Form/FormLabel'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/auth/types'
-import { ExchangeErrorCodes } from 'data/types'
+import { Analytics, ExchangeErrorCodes } from 'data/types'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { isMobile, media } from 'services/styles'
@@ -21,6 +21,7 @@ import BackArrowHeader from '../../components/BackArrowHeader'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import SignupLink from '../../components/SignupLink'
 import { ActionButton, LinkRow, WrapperWithPadding } from '../../model'
+import { getTwoFaType } from '../../utils'
 
 const LoginWrapper = styled(Wrapper)`
   padding: 32px 0 24px;
@@ -30,6 +31,8 @@ const LoginWrapper = styled(Wrapper)`
 `
 const TwoFAExchange = (props: Props) => {
   const {
+    analyticsActions,
+    authType,
     busy,
     cache,
     exchangeError,
@@ -41,6 +44,18 @@ const TwoFAExchange = (props: Props) => {
     submitting
   } = props
   const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
+
+  useEffect(() => {
+    const twoFAType = getTwoFaType(authType)
+    analyticsActions.trackEvent({
+      key: Analytics.LOGIN_2FA_PAGE_VIEWED,
+      properties: {
+        '2fa_type': twoFAType,
+        device_origin: productAuthMetadata?.product || 'WEB',
+        originalTimestamp: new Date().toISOString()
+      }
+    })
+  }, [])
 
   return (
     <LoginWrapper>

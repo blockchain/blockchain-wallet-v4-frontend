@@ -1,4 +1,10 @@
-import { CountryScopeType, ExtraQuestionsType, SDDEligibleType, SDDVerifiedType } from './types'
+import {
+  CountryScopeType,
+  ExtraQuestionsType,
+  KycFlowsType,
+  SDDEligibleType,
+  SDDVerifiedType
+} from './types'
 
 export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post }) => {
   const getSupportedCountries = (scope: CountryScopeType) =>
@@ -129,8 +135,18 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const fetchKYCFlows = (entryPoint?: string): KycFlowsType =>
+    authorizedGet({
+      contentType: 'application/json',
+      data: { entryPoint },
+      endPoint: '/flows/kyc',
+      ignoreQueryParams: false,
+      url: nabuUrl
+    })
+
   return {
     fetchKYCExtraQuestions,
+    fetchKYCFlows,
     fetchKycAddresses,
     fetchKycConfig,
     fetchPreIdvData,

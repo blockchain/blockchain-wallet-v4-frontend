@@ -9,6 +9,7 @@ import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import {
   AlertsState,
+  Analytics,
   ExchangeErrorCodes,
   LoginFormType,
   LoginSteps,
@@ -16,7 +17,6 @@ import {
   ProductAuthOptions,
   UnifiedAccountRedirectType
 } from 'data/types'
-import Loading from 'layouts/Auth/template.loading'
 
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
@@ -33,11 +33,18 @@ import TwoFAWallet from './Wallet/TwoFA'
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   componentDidMount() {
     this.props.authActions.initializeLogin()
-    if (window?._SardineContext && this.props.isFlowInRiskSettings) {
+    if (window?._SardineContext) {
       window._SardineContext.updateConfig({
         flow: 'LOGIN'
       })
     }
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.LOGIN_VIEWED,
+      properties: {
+        device_origin: this.props?.productAuthMetadata?.platform || 'WEB',
+        originalTimestamp: new Date().toISOString()
+      }
+    })
   }
 
   setStep = (step: LoginSteps) => {
@@ -106,14 +113,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
     const { exchangeError } = exchangeLoginDataR.cata({
       Failure: (val) => ({ busy: false, exchangeError: val }),
-      Loading: () => <Loading />,
+      Loading: () => ({ busy: true, exchangeError: null }),
       NotAsked: () => ({ busy: false, exchangeError: null }),
       Success: () => ({ busy: false, exchangeError: null })
     })
 
     const { busy, walletError } = walletLoginDataR.cata({
       Failure: (val) => ({ busy: false, walletError: val }),
-      Loading: () => <Loading />,
+      Loading: () => ({ busy: true, walletError: null }),
       NotAsked: () => ({ busy: false, walletError: null }),
       Success: () => ({ busy: false, walletError: null })
     })
@@ -197,7 +204,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
   alerts: selectors.alerts.selectAlerts(state) as AlertsState,
-  authType: selectors.auth.getAuthType(state) as Number,
+  authType: selectors.auth.getAuthType(state) as number,
   cache: selectors.cache.getCache(state),
   data: getData(state),
   exchangeLoginDataR: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
@@ -206,7 +213,6 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  isFlowInRiskSettings: selectors.modules.profile.isFlowInRiskSettings(state, 'LOGIN'),
   jwtToken: selectors.auth.getJwtToken(state),
   magicLinkData: selectors.auth.getMagicLinkData(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
@@ -214,6 +220,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
