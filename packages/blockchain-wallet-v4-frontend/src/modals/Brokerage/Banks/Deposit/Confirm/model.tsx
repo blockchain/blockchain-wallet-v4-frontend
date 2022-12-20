@@ -15,9 +15,9 @@ const FormattedBank = (bank) => {
   const { accountNumber, bankAccountType, bankName } = bank.details
 
   return (
-    <LineItemText>
+    <>
       {bankName} {bankAccountType?.toLowerCase() || ''} {accountNumber}
-    </LineItemText>
+    </>
   )
 }
 

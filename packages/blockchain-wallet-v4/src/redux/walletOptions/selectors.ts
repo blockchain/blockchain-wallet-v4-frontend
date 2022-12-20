@@ -54,6 +54,9 @@ export const getFeatureFlagRecurringBuys = (state: RootState) =>
 export const getFeatureFlagUseVgsProvider = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useVgsProvider']))
 
+export const getFeatureFlagAvailableToTradeWithdraw = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'availableToTradeWithdraw']))
+
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
