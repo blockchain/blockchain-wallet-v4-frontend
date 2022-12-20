@@ -24,6 +24,8 @@ export type BeneficiariesType = Array<BeneficiaryType>
 export enum ProductTypes {
   BROKERAGE = 'BROKERAGE',
   DEPOSIT = 'DEPOSIT',
+  // Active Rewards
+  EARN_CC1W = 'EARN_CC1W',
   SAVINGS = 'SAVINGS',
   SIMPLEBUY = 'SIMPLEBUY',
   STAKING = 'STAKING',

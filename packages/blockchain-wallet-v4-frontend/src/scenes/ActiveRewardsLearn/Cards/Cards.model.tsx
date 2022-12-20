@@ -12,7 +12,7 @@ export const cardsData: CardType[] = [
     description: (
       <FormattedMessage
         id='scenes.earn.active-rewards-learn.cards.description-1'
-        defaultMessage='Active Rewards lets you earn yield by subscribing to strategies that forecast the price of crypto. Payouts settle every Monday at 5pm UTC.'
+        defaultMessage='Active Rewards lets you earn rewards by forecasting the price of crypto. Payouts settle every Friday at 8:00AM UTC.'
       />
     ),
     id: 'scenes.earn.active-rewards-learn.cards.title-1',

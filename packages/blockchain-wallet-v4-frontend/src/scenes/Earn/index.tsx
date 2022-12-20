@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps, useSelector } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
@@ -19,12 +19,15 @@ import Learn from './Learn'
 import Message from './Message'
 import Table from './Table'
 
-const Earn = ({ analyticsActions, earnActions }) => {
+const Earn = () => {
   const [isGoldTier, setIsGoldTier] = useState<boolean>(true)
   const earnTab: EarnTabsType = useSelector((state: RootState) => state.components.interest.earnTab)
   const showAvailableAssets: boolean = useSelector(
     (state: RootState) => state.components.interest.showAvailableAssets
   )
+  const dispatch = useDispatch()
+  const analyticsActions = bindActionCreators(actions.analytics, dispatch)
+  const earnActions = bindActionCreators(actions.components.interest, dispatch)
 
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
 
@@ -40,7 +43,7 @@ const Earn = ({ analyticsActions, earnActions }) => {
     })
   }
 
-  const handleTabClick = (tab: string) => {
+  const handleTabClick = (tab: EarnTabsType) => {
     earnActions.setEarnTab({ tab })
   }
 
@@ -53,13 +56,15 @@ const Earn = ({ analyticsActions, earnActions }) => {
   }, 800)
 
   useEffect(() => {
+    // this also calls rates
     earnActions.fetchEarnInstruments()
-    earnActions.fetchInterestRates()
     earnActions.fetchRewardsBalance()
     earnActions.fetchStakingBalance()
+    earnActions.fetchActiveRewardsBalance()
     earnActions.fetchEDDStatus()
     earnActions.fetchInterestEligible()
     earnActions.fetchStakingEligible()
+    earnActions.fetchActiveRewardsEligible()
 
     return () => {
       earnActions.setSearchValue({ value: '' })
@@ -87,9 +92,18 @@ const Earn = ({ analyticsActions, earnActions }) => {
       return <Loading />
     }
 
-    const { earnEDDStatus, interestRates, interestRatesArray, stakingRates, userData } = data
+    const {
+      activeRewardsRates,
+      earnEDDStatus,
+      interestRates,
+      interestRatesArray,
+      stakingRates,
+      userData
+    } = data
+
     return (
       <Table
+        activeRewardsRates={activeRewardsRates}
         earnEDDStatus={earnEDDStatus}
         interestRates={interestRates}
         interestRatesArray={interestRatesArray}
@@ -121,20 +135,4 @@ const Earn = ({ analyticsActions, earnActions }) => {
   )
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  earnActions: bindActionCreators(actions.components.interest, dispatch),
-  idvActions: bindActionCreators(actions.components.identityVerification, dispatch)
-})
-
-const connector = connect(null, mapDispatchToProps)
-
-export type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
-  earnActions: typeof actions.components.interest
-  idvActions: typeof actions.components.identityVerification
-}
-
-export type Props = ConnectedProps<typeof connector>
-
-export default connector(Earn)
+export default Earn

@@ -25,7 +25,7 @@ const Warning = ({ bondingDays, coin, handleClick, handleClose }: OwnProps) => (
           name='close'
           size='20px'
           color='grey600'
-          data-e2e='closeInterest'
+          data-e2e='closeStaking'
         />
       </TopText>
     </FlyoutWrapper>

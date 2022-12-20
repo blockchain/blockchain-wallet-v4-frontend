@@ -20,7 +20,6 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import { StandardRow } from 'components/Rows'
 import { actions, model, selectors } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
 import { Analytics } from 'data/types'
@@ -133,8 +132,10 @@ class TransactionsContainer extends React.PureComponent<Props> {
     )
     this.props.brokerageActions.fetchBankTransferAccounts()
     this.props.recurringBuyActions.fetchRegisteredList()
+    this.props.interestActions.fetchActiveRewardsEligible()
     this.props.interestActions.fetchInterestEligible()
     this.props.interestActions.fetchStakingEligible()
+    this.props.interestActions.fetchActiveRewardsRates()
     this.props.interestActions.fetchInterestRates()
     this.props.interestActions.fetchStakingRates()
   }

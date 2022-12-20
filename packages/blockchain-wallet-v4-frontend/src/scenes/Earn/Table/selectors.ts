@@ -4,9 +4,13 @@ import { ExtractSuccess, FiatType } from '@core/types'
 import { selectors } from 'data'
 
 export const getData = (state) => {
-  const interestAccountBalanceR = selectors.components.interest.getRewardsAccountBalance(state)
+  const activeRewardsAccountBalanceR =
+    selectors.components.interest.getActiveRewardsAccountBalance(state)
+  const passiveRewardsAccountBalanceR =
+    selectors.components.interest.getPassiveRewardsAccountBalance(state)
   const stakingAccountBalanceR = selectors.components.interest.getStakingAccountBalance(state)
   const interestEligibleR = selectors.components.interest.getInterestEligible(state)
+  const activeRewardsEligibleR = selectors.components.interest.getActiveRewardsEligible(state)
   const stakingEligibleR = selectors.components.interest.getStakingEligible(state)
   const showInterestInfoBox = selectors.preferences.getShowInterestInfoBox(state) as boolean
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
@@ -14,15 +18,19 @@ export const getData = (state) => {
 
   return lift(
     (
-      interestAccountBalance: ExtractSuccess<typeof interestAccountBalanceR>,
+      activeRewardsAccountBalance: ExtractSuccess<typeof activeRewardsAccountBalanceR>,
+      passiveRewardsAccountBalance: ExtractSuccess<typeof passiveRewardsAccountBalanceR>,
       sortedInstruments: ExtractSuccess<typeof sortedInstrumentsR>,
       stakingAccountBalance: ExtractSuccess<typeof stakingAccountBalanceR>,
       interestEligible: ExtractSuccess<typeof interestEligibleR>,
+      activeRewardsEligible: ExtractSuccess<typeof activeRewardsEligibleR>,
       stakingEligible: ExtractSuccess<typeof stakingEligibleR>,
       walletCurrency: FiatType
     ) => ({
-      interestAccountBalance,
+      activeRewardsAccountBalance,
+      activeRewardsEligible,
       interestEligible,
+      passiveRewardsAccountBalance,
       showInterestInfoBox,
       sortedInstruments,
       stakingAccountBalance,
@@ -30,10 +38,12 @@ export const getData = (state) => {
       walletCurrency
     })
   )(
-    interestAccountBalanceR,
+    activeRewardsAccountBalanceR,
+    passiveRewardsAccountBalanceR,
     sortedInstrumentsR,
     stakingAccountBalanceR,
     interestEligibleR,
+    activeRewardsEligibleR,
     stakingEligibleR,
     walletCurrencyR
   )
