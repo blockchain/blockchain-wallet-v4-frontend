@@ -15,6 +15,7 @@ const IcoMoon = {
   'arrow-up-circle': '\\e936',
   'arrows-horizontal': '\\e957',
   'bank-filled': '\\e901',
+  'bars-circle': '\\e94d',
   bell: '\\e90c',
   'birthday-cake-light': '\\e986',
   'bitpay-logo': '\\e924',
