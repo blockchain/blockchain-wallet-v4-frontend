@@ -110,6 +110,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const fetchInterestEligible = function* () {
     try {
+      yield call(waitForUserData)
       yield put(A.fetchInterestEligibleLoading())
       const response: ReturnType<typeof api.getInterestEligible> = yield call(
         api.getInterestEligible
