@@ -391,6 +391,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let stakingResponse: EarnTransactionResponseType = { items: [], next: null }
       let activeRewardsResponse: EarnTransactionResponseType = { items: [], next: null }
 
+      // if rewards nextpage is not empty and the filter tab selected either All or Passive in earn/history
       if (rewardsNextPageUrl !== '' && (earnTab === 'All' || earnTab === 'Passive')) {
         rewardsResponse = yield call(api.getEarnTransactions, {
           currency: coin,
@@ -399,6 +400,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       }
 
+      // if staking nextpage is not empty and the filter tab selected either All or Active in earn/history
       if (
         stakingNextPageUrl !== '' &&
         isStakingEnabled &&
@@ -411,6 +413,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       }
 
+      // if active rewards nextpage is not empty and the filter tab selected either All or Active in earn/history
       if (
         activeRewardsNextPageUrl !== '' &&
         isActiveRewardsEnabled &&
@@ -433,11 +436,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         ...mapProductToItems(activeRewardsResponse.items, 'Active')
       ]
 
-      if (
-        rewardsResponse.items.length > 0 &&
-        stakingResponse.items.length > 0 &&
-        activeRewardsResponse.items.length > 0
-      ) {
+      // count how many responses have transactions
+      let counter = 0
+      if (rewardsResponse.items.length > 0) counter += 1
+      if (stakingResponse.items.length > 0) counter += 1
+      if (activeRewardsResponse.items.length > 0) counter += 1
+
+      // check to see if at least 2 of the responses have transactions, if so we want to sort it by date
+      if (counter > 1) {
         transactions.sort((a, b) => {
           if (!a.insertedAt || !b.insertedAt) return 0
 
