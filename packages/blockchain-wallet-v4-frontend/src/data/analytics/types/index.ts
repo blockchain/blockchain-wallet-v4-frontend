@@ -20,6 +20,10 @@ import {
   TrackEventAction as ClientErrorTrackEventAction
 } from './errors'
 import {
+  Events as ExchangePromoEvents,
+  TrackEventAction as ExchangePromoTrackEventAction
+} from './exchangePromo'
+import {
   AnalyticsProperties as InterestClientProperties,
   Events as InterestClientEvents,
   TrackEventAction as InterestClientTrackEventAction
@@ -69,6 +73,7 @@ type AnalyticsKey =
   | ViewAndClickEvents
   | SwapEvents
   | WalletEarnEvents
+  | ExchangePromoEvents
 
 const Analytics = {
   ...AccountRecoveryEvents,
@@ -112,6 +117,7 @@ type TrackEventAction =
   | ViewAndClickTrackEventAction
   | WalletEarnTrackEventAction
   | CowboysPromoTrackEventAction
+  | ExchangePromoTrackEventAction
 
 type AnalyticsTraits = {
   email?: string

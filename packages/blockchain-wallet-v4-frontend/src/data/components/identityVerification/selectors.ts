@@ -1,4 +1,8 @@
+import { KycFlowsType } from '@core/types'
+
 import { RootState } from '../../rootReducer'
+
+const PROVE = 'prove'
 
 export const getVerificationStep = (state: RootState) =>
   state.components.identityVerification.verificationStep
@@ -32,3 +36,14 @@ export const getUserAddresses = (state: RootState) =>
 
 export const getUserRetrieveAddress = (state: RootState) =>
   state.components.identityVerification.userRetrieveAddress
+
+export const getKycFLows = (state: RootState) => state.components.identityVerification.kycFlows
+
+export const isProveFlow = (state: RootState) => {
+  const kycFlows = getKycFLows(state).getOrElse({
+    attributes: {},
+    nextFlow: ''
+  } as KycFlowsType)
+
+  return kycFlows.nextFlow.includes(PROVE)
+}

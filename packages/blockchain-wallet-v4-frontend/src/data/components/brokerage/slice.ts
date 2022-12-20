@@ -2,7 +2,12 @@
 import { createSlice, PayloadAction, PayloadActionCreator } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import { CrossBorderLimits, CrossBorderLimitsPayload, WalletFiatType } from '@core/types'
+import {
+  CrossBorderLimits,
+  CrossBorderLimitsPayload,
+  NabuMoneyFloatType,
+  WalletFiatType
+} from '@core/types'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { ModalNameType } from 'data/modals/types'
 import { BankTransferAccountType } from 'data/types'
@@ -16,6 +21,7 @@ import {
   BrokerageDWStepPayload,
   BrokerageModalOriginType,
   BrokerageState,
+  DepositTerms,
   PlaidAccountType,
   PlaidSettlementErrorReasons,
   YodleeAccountType
@@ -29,6 +35,7 @@ const initialState: BrokerageState = {
   bankStatus: Remote.NotAsked,
   bankTransferAccounts: Remote.NotAsked,
   crossBorderLimits: Remote.NotAsked,
+  depositTerms: Remote.NotAsked,
   dwStep: BankDWStepType.DEPOSIT_METHODS,
   fiatCurrency: undefined,
   isFlow: false,
@@ -79,6 +86,23 @@ const brokerageSlice = createSlice({
     },
     fetchCrossBorderLimitsSuccess: (state, action: PayloadAction<CrossBorderLimits>) => {
       state.crossBorderLimits = Remote.Success(action.payload)
+    },
+
+    fetchDepositTerms: (
+      state,
+      action: PayloadAction<{
+        amount: NabuMoneyFloatType
+        paymentMethodId: string
+      }>
+    ) => {},
+    fetchDepositTermsFailure: (state, action: PayloadAction<string>) => {
+      state.depositTerms = Remote.Failure(action.payload)
+    },
+    fetchDepositTermsLoading: (state) => {
+      state.depositTerms = Remote.Loading
+    },
+    fetchDepositTermsSuccess: (state, action: PayloadAction<DepositTerms>) => {
+      state.depositTerms = Remote.Success(action.payload)
     },
 
     handleDepositFiatClick: (state, action: PayloadAction<WalletFiatType>) => {

@@ -54,6 +54,9 @@ export const getFeatureFlagRecurringBuys = (state: RootState) =>
 export const getFeatureFlagUseVgsProvider = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useVgsProvider']))
 
+export const getFeatureFlagAvailableToTradeWithdraw = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'availableToTradeWithdraw']))
+
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
@@ -146,6 +149,10 @@ export const getReferralEnabled = (state: RootState) =>
 // will take user out of webview into native signin
 export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'exchangeMobileDuplicateAccountRedirect']))
+
+// show exchange promo card
+export const getExchangePromoEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'exchangePromo']))
 
 // secure update endpoint for email and sms
 export const getSecureEmailSmsUpdate = (state: RootState) =>
