@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { SemanticColors } from '@blockchain-com/constellation'
 import { includes } from 'ramda'
 
 import Currencies from '@core/exchange/currencies'
@@ -119,6 +118,11 @@ const AccountSummaryContainer = (props: PropsType) => {
     ? activeRewardsEligible[coin]?.eligible
     : false
   const { rate, triggerPrice } = activeRewardsRates[coin]
+  const formattedTriggerPrice =
+    triggerPrice &&
+    `${triggerPrice.substring(0, triggerPrice.length - 2)}.${triggerPrice.substring(
+      triggerPrice.length - 2
+    )}`
 
   const { percentChange } = priceChange.overallChange
   let priceChangeColor: SemanticColorsType = 'body'
@@ -167,7 +171,7 @@ const AccountSummaryContainer = (props: PropsType) => {
       showSupply={showSupply}
       stepMetadata={stepMetadata}
       totalBondingDeposits={totalBondingDeposits}
-      triggerPrice={triggerPrice}
+      triggerPrice={formattedTriggerPrice}
       walletCurrency={walletCurrency}
     />
   ) : (
