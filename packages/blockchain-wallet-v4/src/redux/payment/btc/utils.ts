@@ -21,6 +21,7 @@ export const isValidAddressOrIndex = curry((wallet, candidate) =>
 // From
 export const ADDRESS_TYPES = {
   ACCOUNT: 'ACCOUNT',
+  ACTIVE: 'ACTIVE',
   ADDRESS: 'ADDRESS',
   CUSTODIAL: 'CUSTODIAL',
   EXTERNAL: 'EXTERNAL',

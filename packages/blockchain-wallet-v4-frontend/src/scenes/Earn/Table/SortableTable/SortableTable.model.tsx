@@ -16,6 +16,9 @@ export const TableContainer = styled(Table)`
     background-color: ${PaletteColors['grey-000']} !important;
   }
 `
+export const ButtonContainer = styled.div`
+  min-width: 76px;
+`
 
 const compareCells = ({ value: valueA }: TextCellProps, { value: valueB }: TextCellProps) => {
   if (typeof valueA === 'string' && typeof valueB === 'string') {

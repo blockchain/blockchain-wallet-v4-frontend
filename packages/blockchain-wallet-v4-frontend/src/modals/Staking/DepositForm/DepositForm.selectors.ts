@@ -1,56 +1,53 @@
 import { lift, pathOr, propOr } from 'ramda'
+import { bindActionCreators } from 'redux'
 
-import {
-  EarnAfterTransactionType,
-  EarnDepositErrorsType,
-  ExtractSuccess,
-  FiatType,
-  RemoteDataType
-} from '@core/types'
-import { selectors } from 'data'
+import { EarnDepositErrorsType, ExtractSuccess, FiatType } from '@core/types'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { RewardsDepositFormType } from 'data/types'
 
 import { FORM_NAME } from './DepositForm.model'
+import { DataType } from './DepositForm.types'
 
-export const getCurrency = (state) => {
-  return selectors.core.settings.getCurrency(state)
+export const getActions = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  earnActions: bindActionCreators(actions.components.interest, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
+})
+
+export const getData = (state: RootState): DataType => {
+  const walletCurrency: FiatType = selectors.core.settings.getCurrency(state).getOrElse('USD')
+  const displayCoin = selectors.components.interest.getIsAmountDisplayedInCrypto(state)
+  const earnDepositLimits = selectors.components.interest.getEarnDepositLimits(state)
+  const formErrors = selectors.form.getFormSyncErrors(FORM_NAME)(state) as EarnDepositErrorsType
+  const underSanctionsMessage = selectors.components.interest.getUnderSanctionsMessage(state)
+  const values = selectors.form.getFormValues(FORM_NAME)(state) as RewardsDepositFormType
+
+  return {
+    displayCoin,
+    earnDepositLimits,
+    formErrors,
+    underSanctionsMessage,
+    values,
+    walletCurrency
+  }
 }
 
-export const getUnderSanctionsMessage = (state) => {
-  return selectors.components.interest.getUnderSanctionsMessage(state)
-}
-
-export const getData = (state: RootState) => {
+export const getRemote = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.components.interest.getRates(state)
-  const formErrors = selectors.form.getFormSyncErrors(FORM_NAME)(state) as EarnDepositErrorsType
   const earnEDDStatusR = selectors.components.interest.getEarnEDDStatus(state)
-  const interestRatesR = selectors.components.interest.getInterestRates(state)
-  const earnDepositLimits = selectors.components.interest.getEarnDepositLimits(state)
-  const ethRatesR = selectors.core.data.misc.getRatesSelector('ETH', state)
-  const displayCoin = selectors.components.interest.getIsAmountDisplayedInCrypto(state)
+  const stakingRatesR = selectors.components.interest.getStakingRates(state)
   const paymentR = selectors.components.interest.getPayment(state)
-  const walletCurrencyR = selectors.core.settings.getCurrency(state) as RemoteDataType<
-    string,
-    FiatType
-  >
   const stakingLimitsR = selectors.components.interest.getStakingLimits(state)
-
-  const afterTransaction = selectors.components.interest
-    .getAfterTransaction(state)
-    .getOrElse({} as EarnAfterTransactionType)
-
-  const prefillAmount = afterTransaction?.show ? afterTransaction.amount : undefined
 
   return lift(
     (
       rates: ExtractSuccess<typeof ratesR>,
-      interestRates: ExtractSuccess<typeof interestRatesR>,
-      ethRates: ExtractSuccess<typeof ethRatesR>,
+      stakingRates: ExtractSuccess<typeof stakingRatesR>,
       payment: ExtractSuccess<typeof paymentR>,
       stakingLimits: ExtractSuccess<typeof stakingLimitsR>,
-      walletCurrency: ExtractSuccess<typeof walletCurrencyR>,
-      earnEDDStatus
+      earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>
     ) => {
       const depositFee =
         coin === 'BCH' || coin === 'BTC'
@@ -59,18 +56,12 @@ export const getData = (state: RootState) => {
 
       return {
         depositFee,
-        displayCoin,
-        earnDepositLimits,
         earnEDDStatus,
-        ethRates,
-        formErrors,
-        interestRates,
         payment,
-        prefillAmount,
         rates,
         stakingLimits,
-        walletCurrency
+        stakingRates
       }
     }
-  )(ratesR, interestRatesR, ethRatesR, paymentR, stakingLimitsR, walletCurrencyR, earnEDDStatusR)
+  )(ratesR, stakingRatesR, paymentR, stakingLimitsR, earnEDDStatusR)
 }

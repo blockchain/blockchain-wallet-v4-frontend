@@ -1,11 +1,12 @@
-import { EarnEDDStatus, RewardsRatesType, StakingRatesType } from '@core/types'
+import { EarnEDDStatus, EarnRatesType, RewardsRatesType } from '@core/types'
 import { UserDataType } from 'data/types'
 
 export type SuccessStateType = {
+  activeRewardsRates: EarnRatesType
   earnEDDStatus: EarnEDDStatus
   interestRates: RewardsRatesType
   interestRatesArray: Array<number>
-  stakingRates: StakingRatesType
+  stakingRates: EarnRatesType
   userData: UserDataType
 }
 
