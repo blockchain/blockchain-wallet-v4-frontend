@@ -112,6 +112,7 @@ export type EarnRatesType = {
     [key in CoinType]: {
       commission: number
       rate: number
+      triggerPrice?: string
     }
   }
 }

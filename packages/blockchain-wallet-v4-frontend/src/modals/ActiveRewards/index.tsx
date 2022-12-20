@@ -9,7 +9,7 @@ import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
-// import AccountSummary from './AccountSummary'
+import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
 import DepositSuccess from './DepositSuccess'
 import Warning from './Warning'
@@ -21,10 +21,6 @@ const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalProp
   const step = useSelector((state: RootState) =>
     selectors.components.interest.getActiveRewardsStep(state)
   )
-  const walletCurrency = useSelector((state: RootState) =>
-    selectors.core.settings.getCurrency(state).getOrElse('USD')
-  )
-
   const [show, setShow] = useState<boolean>(false)
   const [showSupply, setShowSupply] = useState<boolean>(false)
 
@@ -64,17 +60,16 @@ const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalProp
           <DepositSuccess coin={coin} handleClose={handleClose} />
         </FlyoutChild>
       )}
-      {/* {step.name === 'ACCOUNT_SUMMARY' && (
+      {step.name === 'ACCOUNT_SUMMARY' && (
         <FlyoutChild>
           <AccountSummary
             handleClose={handleClose}
             stepMetadata={step.data}
             coin={coin}
-            walletCurrency={walletCurrency}
             showSupply={showSupply}
           />
         </FlyoutChild>
-      )} */}
+      )}
     </Flyout>
   )
 }
