@@ -37,10 +37,11 @@ export const Column = styled.div`
 
 export const TextContainer = styled.div`
   min-width: 85px;
+  padding: 2px 0;
 
   ${media.laptop`
     min-width:60px;
-  `}
+  `};
 `
 
 export const LeftContainer = styled.div<{ showAvailableAssetsEnabled?: boolean }>`
@@ -74,6 +75,10 @@ export const RightContainer = styled.div`
   justify-content: flex-end;
   gap: 8px;
   width: 100%;
+
+  & > div:first-child > div {
+    max-height: 46px;
+  }
 
   ${media.laptopL`
     gap: 16px;
