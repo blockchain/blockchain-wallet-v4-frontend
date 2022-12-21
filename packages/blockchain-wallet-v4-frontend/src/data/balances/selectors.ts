@@ -176,12 +176,14 @@ export const getCoinCustodialBalance = (
     [
       buySellSelectors.getBSBalances,
       interestSelectors.getPassiveRewardsAccountBalance,
-      interestSelectors.getStakingAccountBalance
+      interestSelectors.getStakingAccountBalance,
+      interestSelectors.getActiveRewardsAccountBalance
     ],
     (
       sbBalancesR: RemoteDataType<PartialClientErrorProperties, BSBalancesType>,
       passiveRewardsAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>,
-      stakingAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>
+      stakingAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>,
+      activeRewardsAccountBalanceR: RemoteDataType<string, EarnAccountBalanceResponseType>
     ) => {
       const sbCoinBalance = sbBalancesR.getOrElse({
         [coin]: DEFAULT_BS_BALANCE
@@ -192,13 +194,18 @@ export const getCoinCustodialBalance = (
       const stakingCoinBalance = stakingAccountBalanceR.getOrElse({
         [coin]: { balance: '0' } as EarnAccountBalanceResponseType[typeof coin]
       })[coin]
+      const activeRewardsCoinBalance = activeRewardsAccountBalanceR.getOrElse({
+        [coin]: { balance: '0' } as EarnAccountBalanceResponseType[typeof coin]
+      })[coin]
       const sbBalance = sbCoinBalance ? sbCoinBalance.available : '0'
       const interestBalance = interestCoinBalance ? interestCoinBalance.balance : '0'
       const stakingBalance = stakingCoinBalance ? stakingCoinBalance.balance : '0'
+      const activeRewardsBalance = activeRewardsCoinBalance ? activeRewardsCoinBalance.balance : '0'
       return Remote.of(
         new BigNumber(sbBalance)
           .plus(new BigNumber(interestBalance))
           .plus(new BigNumber(stakingBalance))
+          .plus(new BigNumber(activeRewardsBalance))
           .toNumber()
       )
     }
