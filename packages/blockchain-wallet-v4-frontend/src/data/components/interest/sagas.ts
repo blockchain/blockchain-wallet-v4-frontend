@@ -368,19 +368,31 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const isStakingEnabled = selectors.core.walletOptions
         .getIsStakingEnabled(yield select())
         .getOrElse(false) as boolean
+      const isActiveRewardsEnabled = selectors.core.walletOptions
+        .getActiveRewardsEnabled(yield select())
+        .getOrElse(false) as boolean
       const rewardsNextPageUrl = !reset ? yield select(S.getRewardsTransactionsNextPage) : undefined
       const stakingNextPageUrl = !reset ? yield select(S.getStakingTransactionsNextPage) : undefined
+      const activeRewardsNextPageUrl = !reset
+        ? yield select(S.getActiveRewardsTransactionsNextPage)
+        : undefined
       const earnTab: EarnTabsType = yield select(S.getEarnTab)
       // check if invoked from continuous scroll
       if (!reset) {
         const txList = yield select(S.getEarnTransactions)
         // return if next page is already being fetched or there is no next page
-        if (Remote.Loading.is(last(txList)) || (!rewardsNextPageUrl && !stakingNextPageUrl)) return
+        if (
+          Remote.Loading.is(last(txList)) ||
+          (!rewardsNextPageUrl && !stakingNextPageUrl && !activeRewardsNextPageUrl)
+        )
+          return
       }
       yield put(A.fetchEarnTransactionsLoading({ reset }))
       let rewardsResponse: EarnTransactionResponseType = { items: [], next: null }
       let stakingResponse: EarnTransactionResponseType = { items: [], next: null }
+      let activeRewardsResponse: EarnTransactionResponseType = { items: [], next: null }
 
+      // if rewards nextpage is not empty and the filter tab selected either All or Passive in earn/history
       if (rewardsNextPageUrl !== '' && (earnTab === 'All' || earnTab === 'Passive')) {
         rewardsResponse = yield call(api.getEarnTransactions, {
           currency: coin,
@@ -389,6 +401,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       }
 
+      // if staking nextpage is not empty and the filter tab selected either All or Active in earn/history
       if (
         stakingNextPageUrl !== '' &&
         isStakingEnabled &&
@@ -401,16 +414,37 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       }
 
+      // if active rewards nextpage is not empty and the filter tab selected either All or Active in earn/history
+      if (
+        activeRewardsNextPageUrl !== '' &&
+        isActiveRewardsEnabled &&
+        (earnTab === 'All' || earnTab === 'Active')
+      ) {
+        activeRewardsResponse = yield call(api.getEarnTransactions, {
+          currency: coin,
+          nextPageUrl: activeRewardsNextPageUrl,
+          product: ACTIVE_REWARDS_API_PRODUCT
+        })
+      }
+
       const mapProductToItems = (items, product) => {
         return items.map((item) => ({ ...item, product }))
       }
 
       const transactions: Array<EarnTransactionType> = [
         ...mapProductToItems(rewardsResponse.items, 'Passive'),
-        ...mapProductToItems(stakingResponse.items, 'Staking')
+        ...mapProductToItems(stakingResponse.items, 'Staking'),
+        ...mapProductToItems(activeRewardsResponse.items, 'Active')
       ]
 
-      if (rewardsResponse.items.length > 0 && stakingResponse.items.length > 0) {
+      // count how many responses have transactions
+      let counter = 0
+      if (rewardsResponse.items.length > 0) counter += 1
+      if (stakingResponse.items.length > 0) counter += 1
+      if (activeRewardsResponse.items.length > 0) counter += 1
+
+      // check to see if at least 2 of the responses have transactions, if so we want to sort it by date
+      if (counter > 1) {
         transactions.sort((a, b) => {
           if (!a.insertedAt || !b.insertedAt) return 0
 
@@ -420,6 +454,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchEarnTransactionsSuccess({ reset, transactions }))
       yield put(A.setRewardsTransactionsNextPage({ nextPage: rewardsResponse.next || '' }))
       yield put(A.setStakingTransactionsNextPage({ nextPage: stakingResponse.next || '' }))
+      yield put(
+        A.setActiveRewardsTransactionsNextPage({ nextPage: activeRewardsResponse.next || '' })
+      )
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchEarnTransactionsFailure(error))
@@ -444,11 +481,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       d.txHash,
       'Staking'
     ]
+    const formatActiveRewardsTxData = (d) => [
+      d.insertedAt,
+      d.type,
+      d.amount?.symbol,
+      d.amount?.value,
+      d.txHash,
+      'Staking'
+    ]
     let txList = []
     let hasRewardsNext = true
     let nextRewardsPageUrl
     let hasStakingNext = true
     let nextStakingPageUrl
+    let hasActiveRewardsNext = true
+    let nextActiveRewardsPageUrl
     const { coin } = yield select(selectors.form.getFormValues('earnHistoryCoin'))
     yield put(A.fetchEarnTransactionsReportLoading())
     try {
@@ -471,6 +518,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         txList = concat(txList, items.map(formatStakingTxData))
         hasStakingNext = next
         nextStakingPageUrl = next
+      }
+      while (hasActiveRewardsNext) {
+        const { items, next } = yield call(api.getEarnTransactions, {
+          currency: coin === 'ALL' ? undefined : coin,
+          nextPageUrl: nextActiveRewardsPageUrl,
+          product: ACTIVE_REWARDS_API_PRODUCT
+        })
+        txList = concat(txList, items.map(formatActiveRewardsTxData))
+        hasActiveRewardsNext = next
+        nextActiveRewardsPageUrl = next
       }
       // sort txList by descending date
       txList.sort((a, b) => {

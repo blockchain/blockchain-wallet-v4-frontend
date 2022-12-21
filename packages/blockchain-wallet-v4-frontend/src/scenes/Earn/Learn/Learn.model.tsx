@@ -1,12 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import {
-  IconLockClosed,
-  IconMarketUp,
-  IconRewardsCircle,
-  SemanticColors
-} from '@blockchain-com/constellation'
+import { IconLockClosed, IconRewardsCircle, SemanticColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
+
+import { Image } from 'blockchain-info-components'
 
 import { LearnColumnType } from './Learn.types'
 
@@ -64,7 +61,7 @@ export const learnColumn: LearnColumnType[] = [
         defaultMessage='Weekly rewards for forecasting the market. For advanced users.'
       />
     ),
-    icon: <IconMarketUp color={SemanticColors.primary} size='medium' />,
+    icon: <Image name='bars' width='20px' height='24px' />,
     id: 'scenes.earn.learn.active-rewards.description',
     isActiveRewards: true,
     link: '/earn/active-rewards-learn',

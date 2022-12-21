@@ -45,6 +45,7 @@ const initialState: InterestState = {
     data: {},
     name: 'WARNING'
   },
+  activeRewardsTransactionsNextPage: null,
   afterTransaction: Remote.NotAsked,
   coin: 'BTC',
   earnDepositLimits: {
@@ -551,6 +552,12 @@ const interestSlice = createSlice({
         name
       }
     },
+    setActiveRewardsTransactionsNextPage: (
+      state,
+      action: PayloadAction<{ nextPage?: string | null }>
+    ) => {
+      state.activeRewardsTransactionsNextPage = action.payload.nextPage
+    },
 
     setCoinDisplay: (state, action: PayloadAction<{ isAmountDisplayedInCrypto: boolean }>) => {
       state.isAmountDisplayedInCrypto = action.payload.isAmountDisplayedInCrypto
@@ -623,7 +630,6 @@ const interestSlice = createSlice({
         name
       }
     },
-
     setStakingTransactionsNextPage: (
       state,
       action: PayloadAction<{ nextPage?: string | null }>
@@ -765,6 +771,7 @@ export const {
   requestWithdrawal,
   resetShowInterestCardAfterTransaction,
   routeToTxHash,
+  setActiveRewardsTransactionsNextPage,
   setCoinDisplay,
   setEarnDepositLimits,
   setEarnTab,

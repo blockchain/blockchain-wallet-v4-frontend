@@ -328,6 +328,9 @@ export const getRewardsTransactionsNextPage = (state: RootState) =>
 export const getStakingTransactionsNextPage = (state: RootState) =>
   state.components.interest.stakingTransactionsNextPage
 
+export const getActiveRewardsTransactionsNextPage = (state: RootState) =>
+  state.components.interest.activeRewardsTransactionsNextPage
+
 export const getWithdrawalMinimums = (state: RootState) =>
   state.components.interest.withdrawalMinimums
 

@@ -76,6 +76,7 @@ import dexOnboardingSlideFunds from './img/dex-onboarding-slide-funds@2x.png'
 import dexOnboardingSlideNotEligible from './img/dex-onboarding-slide-not-eligible@2x.png'
 import dexOnboardingSlideSwap from './img/dex-onboarding-slide-swap@2x.png'
 import dexOnboardingSlideWelcome from './img/dex-onboarding-slide-welcome@2x.png'
+import bars from './img/earn/bars.svg'
 import btcClock from './img/earn/btc-clock.svg'
 import btcGraph from './img/earn/btc-graph.svg'
 import earnActivityEmpty from './img/earn/earn-activity-empty.svg'
@@ -209,6 +210,7 @@ const Images = {
   'bank-rejected': bankRejected,
   'bank-success': bankSuccess,
   'bar-chart': barChart,
+  bars,
   'bg-banner-pattern': bgBannerPattern,
   'bg-banner-pattern-lg': bgBannerPatternLg,
   'bg-pattern': bgPattern,

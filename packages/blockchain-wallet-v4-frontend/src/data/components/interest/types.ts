@@ -150,6 +150,7 @@ export interface InterestState {
     data: EarnStepMetaData
     name: ActiveRewardsStep
   }
+  activeRewardsTransactionsNextPage?: string | null
   afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
   coin: CoinType
   earnDepositLimits: EarnMinMaxType
