@@ -69,14 +69,18 @@ const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) =>
         : coinList.reduce((accounts, coin) => {
             const { coinfig } = window.coins[coin]
             const selector = __getSelector(coinfig)
+            console.log('---0.2.0', window.coins, window.coins[coin], coinfig)
+            console.log('---0.2.1', selector)
             // eslint-disable-next-line
             accounts[coin] = coinSelectors[selector]?.getAccounts(state, { coin, ...ownProps })
             return accounts
           }, {})
 
-    console.log('---0.2', accounts)
+    console.log('---0.2.2', accounts)
+    console.log('---0.2.3', coinSelectors)
 
     const isNotLoaded = (coinAccounts) => Remote.Loading.is(coinAccounts)
+    console.log('---0.2.4', isNotLoaded)
     if (any(isNotLoaded, values(accounts))) return Remote.Loading
 
     // @ts-ignore
