@@ -1446,10 +1446,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const { amount, pair, paymentMethod, paymentMethodId } = payload
         const pairReversed = reversePair(pair)
 
-        // paymentMethodId is required when profile=SIMPLEBUY and paymentMethod=BANK_TRANSFER
-        const buyQuotePaymentMethodId =
-          paymentMethod === BSPaymentTypes.BANK_TRANSFER ? paymentMethodId : undefined
-
         const effectivePaymentMethod =
           paymentMethod === BSPaymentTypes.USER_CARD ? BSPaymentTypes.PAYMENT_CARD : paymentMethod
 
@@ -1459,7 +1455,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           'SIMPLEBUY',
           amount,
           effectivePaymentMethod,
-          buyQuotePaymentMethodId
+          paymentMethodId
         )
 
         const refreshConfig = getQuoteRefreshConfig({
