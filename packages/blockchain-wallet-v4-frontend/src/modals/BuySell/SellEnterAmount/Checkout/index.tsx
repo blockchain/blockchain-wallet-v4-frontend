@@ -175,8 +175,6 @@ const Checkout = (props: Props) => {
       orderType: props.orderType,
       pair: props.pair,
       pairs: props.pairs,
-      paymentMethodId: props.method?.id || props.defaultMethod?.id,
-      paymentMethodType: props.method?.type || props.defaultMethod?.type || BSPaymentTypes.FUNDS,
       period
     })
 
@@ -189,7 +187,6 @@ const Checkout = (props: Props) => {
     if (!data) {
       props.buySellActions.fetchSDDEligibility()
       props.brokerageActions.fetchBankTransferAccounts()
-      props.recurringBuyActions.fetchPaymentInfo()
     }
     // we fetch limits as part of home banners logic at that point we had only fiatCurrency
     // here we have to re-fetch for crypto currency and order type

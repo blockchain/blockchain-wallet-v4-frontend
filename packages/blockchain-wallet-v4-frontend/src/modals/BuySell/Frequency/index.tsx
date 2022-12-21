@@ -16,10 +16,6 @@ import getData from './selectors'
 const { FORM_BS_CHECKOUT } = model.components.buySell
 
 class Frequency extends PureComponent<Props> {
-  componentDidMount() {
-    this.props.recurringBuyActions.fetchPaymentInfo()
-  }
-
   handleFrequencySelection = (period: RecurringBuyPeriods) => {
     this.props.formActions.change(FORM_BS_CHECKOUT, 'period', period)
     this.props.backToEnterAmount()

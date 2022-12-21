@@ -66,13 +66,18 @@ export const scenarios: ScenarioType[] = [
           title: <FormattedMessage defaultMessage='Amount' id='copy.amount' />
         },
         {
-          subText: '$1,440',
-          text: '0.08 BTC',
-          title: <FormattedMessage defaultMessage='Reward' id='copy.reward' />
+          subText: '$26.58',
+          text: '0.00147705 BTC',
+          title: (
+            <FormattedMessage
+              defaultMessage='Weekly reward'
+              id='scenes.earn.active-rewards-learn.details.weekly-reward.title'
+            />
+          )
         },
         {
-          subText: '$19,440',
-          text: '1.08 BTC',
+          subText: '$18,026.58',
+          text: '1.00147705 BTC',
           title: <FormattedMessage defaultMessage='Total' id='copy.total' />
         }
       ]
@@ -147,13 +152,18 @@ export const scenarios: ScenarioType[] = [
           title: <FormattedMessage defaultMessage='Amount' id='copy.amount' />
         },
         {
-          subText: '$2,000',
-          text: '0.08 BTC',
-          title: <FormattedMessage defaultMessage='Reward' id='copy.reward' />
+          subText: '$36.92',
+          text: '0.00147705 BTC',
+          title: (
+            <FormattedMessage
+              defaultMessage='Weekly reward'
+              id='scenes.earn.active-rewards-learn.details.weekly-reward.title'
+            />
+          )
         },
         {
-          subText: '$24,000',
-          text: '0.96 BTC',
+          subText: '$22,036.92',
+          text: '0.88147705 BTC',
           title: <FormattedMessage defaultMessage='Total' id='copy.total' />
         }
       ]

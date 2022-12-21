@@ -10,8 +10,8 @@ import {
   Tabs
 } from '@blockchain-com/constellation'
 
-import { Column, TabRow, TextContainer } from './Filter.model'
-import { EarnFilterPropsType } from './Filter.types'
+import { Column, TabRow } from './Filter.model'
+import { FilterPropsType } from './Filter.types'
 
 const MobileFilter = ({
   earnTab,
@@ -20,40 +20,16 @@ const MobileFilter = ({
   handleSearch,
   handleTabClick,
   showAvailableAssets,
-  showAvailableAssetsEnabled
-}: EarnFilterPropsType) => (
+  showAvailableAssetsEnabled,
+  tabs
+}: FilterPropsType) => (
   <TabRow>
     <Column>
       <Tabs
         defaultActiveTab={earnTab}
         onTabChange={handleTabClick}
         size='large'
-        tabs={[
-          {
-            key: 'All',
-            titleContent: (
-              <TextContainer>
-                <FormattedMessage id='copy.all' defaultMessage='All' />
-              </TextContainer>
-            )
-          },
-          {
-            key: 'Rewards',
-            titleContent: (
-              <TextContainer>
-                <FormattedMessage id='copy.rewards' defaultMessage='Rewards' />
-              </TextContainer>
-            )
-          },
-          {
-            key: 'Staking',
-            titleContent: (
-              <TextContainer>
-                <FormattedMessage id='copy.staking' defaultMessage='Staking' />
-              </TextContainer>
-            )
-          }
-        ]}
+        tabs={tabs}
         variant='default'
       />
     </Column>

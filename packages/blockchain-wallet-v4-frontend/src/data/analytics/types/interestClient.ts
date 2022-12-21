@@ -1,5 +1,9 @@
 // Interest Client Events
 export enum Events {
+  ACTIVE_REWARDS_CLIENT_DEPOSIT_AMOUNT_ENTERED = 'Active Rewards Deposit Amount Entered',
+  ACTIVE_REWARDS_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED = 'Active Rewards Deposit Max Amount Clicked',
+  ACTIVE_REWARDS_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED = 'Active Rewards Deposit Min Amount Clicked',
+  ACTIVE_REWARDS_CLIENT_SUBMIT_INFORMATION_CLICKED = 'Active Rewards Submit Information Clicked',
   INTEREST_CLIENT_DEPOSIT_AMOUNT_ENTERED = 'Interest Deposit Amount Entered',
   INTEREST_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED = 'Interest Deposit Max Amount Clicked',
   INTEREST_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED = 'Interest Deposit Min Amount Clicked',
@@ -13,19 +17,24 @@ export enum Events {
 type AccountType = 'TRADING' | 'USERKEY'
 
 type DepositAmountEnteredAction = {
-  key: Events.INTEREST_CLIENT_DEPOSIT_AMOUNT_ENTERED | Events.STAKING_CLIENT_DEPOSIT_AMOUNT_ENTERED
+  key:
+    | Events.ACTIVE_REWARDS_CLIENT_DEPOSIT_AMOUNT_ENTERED
+    | Events.INTEREST_CLIENT_DEPOSIT_AMOUNT_ENTERED
+    | Events.STAKING_CLIENT_DEPOSIT_AMOUNT_ENTERED
   properties: {
     amount: Number
     amount_currency: String
     currency: String
     from_account_type: AccountType
     input_amount: Number
-    interest_rate: Number
-    output_amount: Number
+    interest_rate?: Number
+    output_amount?: Number
+    rate?: number
   }
 }
 type DepositMaxAmountClickedAction = {
   key:
+    | Events.ACTIVE_REWARDS_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
     | Events.INTEREST_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
     | Events.STAKING_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
   properties: {
@@ -36,6 +45,7 @@ type DepositMaxAmountClickedAction = {
 }
 type DepositMinAmountClickedAction = {
   key:
+    | Events.ACTIVE_REWARDS_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
     | Events.INTEREST_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
     | Events.STAKING_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
   properties: {
@@ -46,6 +56,7 @@ type DepositMinAmountClickedAction = {
 }
 type ClientSubmitInformationClickedAction = {
   key:
+    | Events.ACTIVE_REWARDS_CLIENT_SUBMIT_INFORMATION_CLICKED
     | Events.INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED
     | Events.STAKING_CLIENT_SUBMIT_INFORMATION_CLICKED
   properties: {}

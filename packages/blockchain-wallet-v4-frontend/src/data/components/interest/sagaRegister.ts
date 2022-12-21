@@ -12,17 +12,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   return function* interestSaga() {
     yield takeLatest(actions.fetchRewardsBalance.type, interestSagas.fetchRewardsBalance)
+    yield takeLatest(
+      actions.fetchActiveRewardsBalance.type,
+      interestSagas.fetchActiveRewardsBalance
+    )
     yield takeLatest(actions.fetchStakingBalance.type, interestSagas.fetchStakingBalance)
     yield takeLatest(actions.fetchInterestEligible.type, interestSagas.fetchInterestEligible)
     yield takeLatest(actions.fetchEarnInstruments.type, interestSagas.fetchEarnInstruments)
     yield takeLatest(actions.fetchInterestLimits.type, interestSagas.fetchInterestLimits)
     yield takeLatest(actions.fetchStakingLimits.type, interestSagas.fetchStakingLimits)
+    yield takeLatest(actions.fetchActiveRewardsLimits.type, interestSagas.fetchActiveRewardsLimits)
     yield takeLatest(actions.fetchRewardsAccount.type, interestSagas.fetchRewardsAccount)
     yield takeLatest(actions.fetchStakingAccount.type, interestSagas.fetchStakingAccount)
+    yield takeLatest(
+      actions.fetchActiveRewardsAccount.type,
+      interestSagas.fetchActiveRewardsAccount
+    )
     yield takeLatest(actions.fetchInterestRates.type, interestSagas.fetchInterestRates)
     yield takeLatest(actions.fetchStakingRates.type, interestSagas.fetchStakingRates)
+    yield takeLatest(actions.fetchActiveRewardsRates.type, interestSagas.fetchActiveRewardsRates)
     yield takeLatest(actions.fetchStakingEligible.type, interestSagas.fetchStakingEligible)
+    yield takeLatest(
+      actions.fetchActiveRewardsEligible.type,
+      interestSagas.fetchActiveRewardsEligible
+    )
     yield takeLeading(actions.fetchEarnTransactions.type, interestSagas.fetchEarnTransactions)
+    yield takeLeading(
+      actions.fetchPendingActiveRewardsTransactions.type,
+      interestSagas.fetchPendingActiveRewardsTransactions
+    )
     yield takeLeading(
       actions.fetchPendingStakingTransactions.type,
       interestSagas.fetchPendingStakingTransactions
@@ -32,6 +50,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       interestSagas.fetchEarnTransactionsReport
     )
     yield takeLeading(actions.fetchEarnTransactions.type, interestSagas.fetchEarnTransactions)
+    yield takeLatest(
+      actions.initializeActiveRewardsDepositForm.type,
+      interestSagas.initializeActiveRewardsDepositForm
+    )
     yield takeLatest(
       actions.initializeInterestDepositForm.type,
       interestSagas.initializeInterestDepositForm
@@ -44,6 +66,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield takeLatest(actions.routeToTxHash.type, interestSagas.routeToTxHash)
     yield takeLatest(actions.submitDepositForm.type, interestSagas.sendDeposit)
     yield takeLatest(actions.requestWithdrawal.type, interestSagas.requestWithdrawal)
+    yield takeLatest(actions.showActiveRewardsModal.type, interestSagas.showActiveRewardsModal)
     yield takeLatest(actions.showInterestModal.type, interestSagas.showInterestModal)
     yield takeLatest(actions.showStakingModal.type, interestSagas.showStakingModal)
     yield takeLatest(
@@ -71,6 +94,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         actionTypes.modules.profile.SET_API_TOKEN_FAILURE
       ],
       interestSagas.fetchStakingBalance
+    )
+    yield takeLatest(
+      [
+        actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
+        actionTypes.modules.profile.FETCH_USER_DATA_FAILURE,
+        actionTypes.modules.profile.SET_API_TOKEN_FAILURE
+      ],
+      interestSagas.fetchActiveRewardsBalance
     )
     yield takeLatest(
       actions.fetchShowInterestCardAfterTransaction.type,

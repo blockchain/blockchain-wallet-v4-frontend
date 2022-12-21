@@ -35,12 +35,13 @@
         }
       },
       "featureFlags": {
-        "accountRecoveryV2": false,
+        "accountRecoveryV2": true,
         "addCheckoutPaymentProvider": true,
         "addPlaidPaymentProvider": true,
         "addStripePaymentProvider": false,
         "applePayPaymentMethod": true,
         "appleAndGooglePayPromoBanner": true,
+        "availableToTradeWithdraw": true,
         "createNabuUserAtLogin": false,
         "coinViewV2": false,
         "isCreditCardOptimizationEnabled": true,
@@ -50,6 +51,7 @@
         "dex": true,
         "eddInterestFileUpload": true,
         "exchangeMobileDuplicateAccountRedirect": true,
+        "exchangePromo": true,
         "flexiblePricingModel": true,
         "googlePayPaymentMethod": true,
         "institutionalPortal": true,

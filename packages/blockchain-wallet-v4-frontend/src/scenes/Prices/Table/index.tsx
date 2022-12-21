@@ -8,6 +8,7 @@ import { getPriceChangeColumn } from './priceChange.column'
 
 export const getTableColumns =
   ({
+    analyticsActions,
     buySellActions,
     formActions,
     isCoinViewV2Enabled,
@@ -23,5 +24,5 @@ export const getTableColumns =
       getPriceChangeColumn(),
       getMarketCapColumn(walletCurrency),
       getBalanceColumn(),
-      getActionsColumn(modalActions, buySellActions, swapActions, formActions)
+      getActionsColumn(analyticsActions, modalActions, buySellActions, swapActions, formActions)
     ]

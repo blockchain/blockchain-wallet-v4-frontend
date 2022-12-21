@@ -2,9 +2,15 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { EarnEDDStatus, RemoteDataType, RewardsRatesType, StakingRatesType } from '@core/types'
+import {
+  CoinType,
+  EarnEDDStatus,
+  EarnRatesType,
+  RemoteDataType,
+  RewardsRatesType
+} from '@core/types'
 import { actions } from 'data'
-import { Analytics, UserDataType } from 'data/types'
+import { Analytics, EarnProductsType, UserDataType } from 'data/types'
 import { useRemote } from 'hooks'
 import { useMedia } from 'services/styles'
 
@@ -23,35 +29,52 @@ const TableContainer = (props: Props) => {
   if (error) return null
   if (isLoading || isNotAsked || !data) return <Loading />
 
-  const { sortedInstruments, stakingAccountBalance } = data
+  const { activeRewardsAccountBalance, sortedInstruments, stakingAccountBalance } = data
 
-  const handleClick = (coin, isStaking) => {
+  const handleClick = (coin: CoinType, product: EarnProductsType) => {
     const {
+      WALLET_ACTIVE_REWARDS_DETAIL_CLICKED,
+      WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED,
       WALLET_REWARDS_DETAIL_CLICKED,
       WALLET_STAKING_DETAIL_CLICKED,
       WALLET_STAKING_WARNING_CONTINUE_CLICKED
     } = Analytics
-    const balance = stakingAccountBalance[coin]?.balance
-    const hasBalance = balance && Number(balance) > 0
-    analyticsActions.trackEvent({
-      key: isStaking
-        ? hasBalance
-          ? WALLET_STAKING_DETAIL_CLICKED
-          : WALLET_STAKING_WARNING_CONTINUE_CLICKED
-        : WALLET_REWARDS_DETAIL_CLICKED,
-      properties: {
-        currency: coin
-      }
-    })
 
-    if (isStaking) {
-      if (hasBalance) {
-        earnActions.showStakingModal({ coin, step: 'ACCOUNT_SUMMARY' })
-      } else {
-        earnActions.showStakingModal({ coin, step: 'WARNING' })
+    switch (product) {
+      case 'Staking': {
+        const balance = stakingAccountBalance[coin]?.balance
+        const hasBalance = balance && Number(balance) > 0
+        analyticsActions.trackEvent({
+          key: hasBalance ? WALLET_STAKING_DETAIL_CLICKED : WALLET_STAKING_WARNING_CONTINUE_CLICKED,
+          properties: { currency: coin }
+        })
+        earnActions.showStakingModal({ coin, step: hasBalance ? 'ACCOUNT_SUMMARY' : 'WARNING' })
+        break
       }
-    } else {
-      earnActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
+      case 'Active': {
+        const balance = activeRewardsAccountBalance[coin]?.balance
+        const hasBalance = balance && Number(balance) > 0
+        analyticsActions.trackEvent({
+          key: hasBalance
+            ? WALLET_ACTIVE_REWARDS_DETAIL_CLICKED
+            : WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED,
+          properties: { currency: coin }
+        })
+        earnActions.showActiveRewardsModal({
+          coin,
+          step: hasBalance ? 'ACCOUNT_SUMMARY' : 'WARNING'
+        })
+        break
+      }
+      case 'Passive':
+      default: {
+        analyticsActions.trackEvent({
+          key: WALLET_REWARDS_DETAIL_CLICKED,
+          properties: { currency: coin }
+        })
+        earnActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
+        break
+      }
     }
   }
 
@@ -67,7 +90,7 @@ const TableContainer = (props: Props) => {
                 coin={coin}
                 handleClick={handleClick}
                 product={product}
-                key={coin}
+                key={coin + product}
               />
             ) : null
           })}
@@ -89,11 +112,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(null, mapDispatchToProps)
 
 export type OwnPropsType = {
+  activeRewardsRates: EarnRatesType
   earnEDDStatus: EarnEDDStatus
   interestRates: RewardsRatesType
   interestRatesArray: Array<number>
   isGoldTier: boolean
-  stakingRates: StakingRatesType
+  stakingRates: EarnRatesType
   userData: UserDataType
 }
 

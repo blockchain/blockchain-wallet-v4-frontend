@@ -12,6 +12,7 @@ export const getBankTransferAccounts = (state: RootState) =>
 export const getAddBankStep = (state: RootState) => state.components.brokerage.addBankStep
 
 export const getDWStep = (state: RootState) => state.components.brokerage.dwStep
+export const getDepositTerms = (state: RootState) => state.components.brokerage.depositTerms
 
 export const getAccount = (state: RootState) => state.components.brokerage.account
 export const getActiveAccount = createSelector(getAccount, (account) => {

@@ -62,7 +62,6 @@ const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) =>
     const coinList = ownProps?.coins
 
     // dynamically create account selectors via passed in coin list
-    console.log('---0', coinList)
     const accounts =
       isEmpty(coinList) || isNil(coinList)
         ? Remote.of({})

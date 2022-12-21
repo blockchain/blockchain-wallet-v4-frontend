@@ -134,7 +134,7 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
       url: nabuUrl
     })
 
-  const createBSOrder = (
+  const createOrder = (
     pair: BSPairsType,
     action: BSOrderActionType,
     pending: boolean,
@@ -542,10 +542,10 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
     checkCardSuccessRate,
     confirmBSOrder,
     createAddCardToken,
-    createBSOrder,
     createBankAccountLink,
     createCard,
     createFiatDeposit,
+    createOrder,
     createRecurringBuy,
     deleteRecurringBuy,
     deleteSavedAccount,

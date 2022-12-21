@@ -6,12 +6,15 @@ import {
   EarnAccountResponseType,
   EarnAccountType,
   EarnAfterTransactionType,
+  EarnApiProductType,
   EarnBondingDepositsParamType,
   EarnBondingDepositsResponseType,
   EarnDepositLimits,
   EarnEDDDocumentsResponse,
   EarnEDDStatus,
   EarnEligibleType,
+  EarnLimitsResponse,
+  EarnRatesType,
   EarnTransactionParamType,
   EarnTransactionResponseType,
   FileUploadItem,
@@ -19,8 +22,6 @@ import {
   InterestWithdrawalResponseType,
   RewardsRatesType,
   StakingAccountType,
-  StakingLimitsResponse,
-  StakingRatesType,
   UploadDocumentDetails,
   WithdrawalMinimumTypeResponse,
   WithdrawLimits
@@ -48,9 +49,9 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getStakingEligible = (): EarnEligibleType =>
+  const getEarnEligible = (product: EarnApiProductType): EarnEligibleType =>
     authorizedGet({
-      endPoint: '/earn/eligible?product=staking&',
+      endPoint: `/earn/eligible?product=${product}&`,
       url: nabuUrl
     })
 
@@ -95,9 +96,9 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getStakingRates = (): StakingRatesType =>
+  const getEarnRates = (product: EarnApiProductType): EarnRatesType =>
     authorizedGet({
-      endPoint: '/earn/rates-user?product=staking&',
+      endPoint: `/earn/rates-user?product=${product}&`,
       url: nabuUrl
     })
 
@@ -204,9 +205,9 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getStakingLimits = (): StakingLimitsResponse =>
+  const getEarnLimits = (product: EarnApiProductType): EarnLimitsResponse =>
     authorizedGet({
-      endPoint: '/earn/limits?product=staking&',
+      endPoint: `/earn/limits?product=${product}&`,
       url: nabuUrl
     })
 
@@ -215,6 +216,9 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getEarnAccount,
     getEarnAccountBalance,
     getEarnBondingDeposits,
+    getEarnEligible,
+    getEarnLimits,
+    getEarnRates,
     getEarnTransactions,
     getInterestCtaAfterTransaction,
     getInterestEligible,
@@ -224,9 +228,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getSavingsEDDStatus,
     getSavingsEDDWithdrawLimits,
     getStakingAccount,
-    getStakingEligible,
-    getStakingLimits,
-    getStakingRates,
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,
     stopInterestCtaAfterTransaction,

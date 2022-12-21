@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import { coinToString, fiatToString } from '@core/exchange/utils'
 import { BSPaymentTypes, FiatType, MobilePaymentType, WalletFiatType } from '@core/types'
 import { CheckBoxInput, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import AvailabilityRows from 'components/Brokerage/AvailabilityRows'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
@@ -28,6 +29,7 @@ import {
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   AddBankStepType,
+  Analytics,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
@@ -177,8 +179,8 @@ const ButtonWrapper = styled.div`
 
 const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const [acceptTerms, setAcceptTerms] = useState(false)
-  const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
-  const [isActiveFeeTooltip, setFeeToolTip] = useState(true)
+  const [isActiveCoinTooltip, setIsActiveCoinTooltip] = useState(false)
+  const [isActiveFeeTooltip, setIsActiveFeeTooltip] = useState(true)
   const dispatch = useDispatch()
   const [sardineContextIsReady, sardineContext] = useSardineContext('ACH_LINK')
   const [sardineContextIsReadyOB, sardineContextOB] = useSardineContext('OB_LINK')
@@ -191,13 +193,21 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
 
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
-
   const baseCurrency = getBaseCurrency(props.order)
   const baseCurrencyCoinfig = window.coins[baseCurrency]?.coinfig
   const baseCurrencyDisplay = baseCurrencyCoinfig?.displaySymbol || baseCurrency
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order)
   const paymentMethodId = getPaymentMethodId(props.order)
+
+  const quoteRate = fiatToString({
+    unit: counterCurrency as FiatType,
+    value:
+      (1 /
+        parseFloat(props.quote.rate.toString()) /
+        parseFloat(convertBaseToStandard(baseCurrency, props.quote.rate.toString()))) *
+      parseFloat(props.quote.rate.toString())
+  })
 
   const requiresTerms =
     props.order.paymentType === BSPaymentTypes.PAYMENT_CARD ||
@@ -220,6 +230,13 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     unit: counterCurrency as FiatType,
     value: counterAmount
   })
+
+  useEffect(() => {
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_CHECKOUT_SCREEN_VIEWED,
+      properties: {}
+    })
+  }, [])
 
   useEffect(() => {
     if (!requiresTerms) {
@@ -245,12 +262,22 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
 
   const handleCancel = () => {
     props.buySellActions.cancelOrder(props.order)
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_CHECKOUT_SCREEN_BACK_CLICKED,
+      properties: {}
+    })
   }
 
   const clearFormErrors = () => dispatch(clearSubmitErrors(FORM_BS_CHECKOUT_CONFIRM))
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_CHECKOUT_SCREEN_SUBMITTED,
+      properties: {}
+    })
 
     const { bankAccounts, cards, isSddFlow, isUserSddVerified, sbBalances, userData } =
       props.data.getOrElse({
@@ -365,6 +392,24 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     }
   }
 
+  const toggleCoinTooltip = () => {
+    setIsActiveCoinTooltip((prevState) => !prevState)
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_PRICE_TOOLTIP_CLICKED,
+      properties: {}
+    })
+  }
+
+  const toggleFeeTooltip = () => {
+    setIsActiveFeeTooltip((prevState) => !prevState)
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_BLOCKCHAIN_COM_FEE_CLICKED,
+      properties: {}
+    })
+  }
+
   if (isNabuError(props.error)) {
     return <GenericNabuErrorFlyout error={props.error} onDismiss={clearFormErrors} />
   }
@@ -423,20 +468,11 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                   name='question-in-circle-filled'
                   size='16px'
                   color={isActiveCoinTooltip ? 'blue600' : 'grey300'}
-                  onClick={() => setCoinToolTip(!isActiveCoinTooltip)}
+                  onClick={toggleCoinTooltip}
                 />
               </IconWrapper>
             </RowIcon>
-            <RowText data-e2e='sbExchangeRate'>
-              {fiatToString({
-                unit: counterCurrency as FiatType,
-                value:
-                  (1 /
-                    parseFloat(props.quote.rate.toString()) /
-                    parseFloat(convertBaseToStandard(baseCurrency, props.quote.rate.toString()))) *
-                  parseFloat(props.quote.rate.toString())
-              })}
-            </RowText>
+            <RowText data-e2e='sbExchangeRate'>{quoteRate}</RowText>
           </TopRow>
           {isActiveCoinTooltip && (
             <ToolTipText>
@@ -544,7 +580,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                     name='question-in-circle-filled'
                     size='16px'
                     color={isActiveFeeTooltip ? 'blue600' : 'grey300'}
-                    onClick={() => setFeeToolTip(!isActiveFeeTooltip)}
+                    onClick={toggleFeeTooltip}
                   />
                 </IconWrapper>
               </RowIcon>
@@ -589,8 +625,25 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         </RowText>
       </RowItem>
 
+      {props.availableToTradeWithdraw && (
+        <AvailabilityRows depositTerms={props.quote.quote.depositTerms} />
+      )}
+
       <Bottom>
-        {getLockRuleMessaging(showLock, days, props.order.paymentType)}
+        {getLockRuleMessaging({
+          coin: baseCurrencyDisplay,
+          days,
+          paymentAccount: getPaymentMethodDetails({
+            bankAccount,
+            cardDetails,
+            order: props.order
+          }),
+          paymentType: props.order.paymentType,
+          quoteRate,
+          showLockRule: showLock,
+          totalAmount,
+          withdrawalLockDays: props.quote.quote?.depositTerms?.withdrawalLockDays || days
+        })}
 
         {requiresTerms && (
           <Info>

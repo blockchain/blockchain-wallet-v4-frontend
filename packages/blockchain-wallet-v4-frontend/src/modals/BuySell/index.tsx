@@ -55,6 +55,7 @@ import Loading from './template.loading'
 import Pending from './template.pending'
 import ThreeDSHandlerCheckoutDotCom from './ThreeDSHandlerCheckoutDotCom'
 import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
+import ThreeDSHandlerFakeCardAcquirer from './ThreeDSHandlerFakeCardAcquirer'
 import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
 import UpdateSecurityCode from './UpdateSecurityCode'
 import UpgradeToGold from './UpgradeToGold'
@@ -70,10 +71,10 @@ class BuySell extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    /* eslint-disable */
     this.setState({ show: true })
     this.props.custodialActions.fetchProductEligibilityForUser()
-    /* eslint-enable */
+
+    this.props.recurringBuyActions.fetchPaymentInfo()
   }
 
   componentWillUnmount() {
@@ -239,6 +240,11 @@ class BuySell extends PureComponent<Props, State> {
                 <AddCardCheckoutDotCom {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {this.props.step === '3DS_HANDLER_FAKE_CARD_ACQUIRER' && (
+              <FlyoutChild>
+                <ThreeDSHandlerFakeCardAcquirer {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
             {this.props.step === '3DS_HANDLER_EVERYPAY' && (
               <FlyoutChild>
                 <ThreeDSHandlerEverypay {...this.props} handleClose={this.handleClose} />
@@ -369,6 +375,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   preferenceActions: bindActionCreators(actions.preferences, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
@@ -393,6 +400,7 @@ type LinkStatePropsType =
         | '3DS_HANDLER_EVERYPAY'
         | '3DS_HANDLER_CHECKOUTDOTCOM'
         | '3DS_HANDLER_STRIPE'
+        | '3DS_HANDLER_FAKE_CARD_ACQUIRER'
         | 'BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'

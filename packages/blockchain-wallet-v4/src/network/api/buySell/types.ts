@@ -4,6 +4,7 @@ import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/t
 import { ORDER_ERROR_CODE } from 'data/components/buySell/model'
 import {
   BankDetails,
+  DepositTerms,
   PlaidSettlementErrorReasons,
   RecurringBuyFailureReasons,
   RecurringBuyPeriods
@@ -182,7 +183,7 @@ export type CardConfirmAttributesType = {
     customerUrl: string
   }
   isAsync?: boolean
-  redirectUrl: string
+  redirectURL: string
 }
 
 export type ApplePayConfirmAttributesType = CardConfirmAttributesType & {
@@ -248,9 +249,25 @@ export type BSMoneyType = {
 export type BSOrderProperties = {
   attributes?: {
     authorisationUrl?: string
+    cardCassy?: {
+      cardAcquirerAccountCode: string
+      cardAcquirerName: 'CHECKOUTDOTCOM' | 'STRIPE' | 'EVERYPAY' | 'FAKE_CARD_ACQUIRER'
+      clientSecret: string
+      paymentLink: string
+      paymentState:
+        | 'INITIAL'
+        | 'WAITING_FOR_3DS_RESPONSE'
+        | 'CONFIRMED_3DS'
+        | 'SETTLED'
+        | 'VOIDED'
+        | 'ABANDONED'
+        | 'FAILED'
+        | null
+      publishableApiKey: string
+    }
     cardProvider?: {
       cardAcquirerAccountCode: string
-      cardAcquirerName: 'CHECKOUTDOTCOM' | 'STRIPE' | 'EVERYPAY'
+      cardAcquirerName: 'CHECKOUTDOTCOM' | 'STRIPE' | 'EVERYPAY' | 'FAKE_CARD_ACQUIRER'
       clientSecret: string
       paymentLink: string
       paymentState:
@@ -282,6 +299,7 @@ export type BSOrderProperties = {
     paymentId: string
     qrcodeUrl?: string
   }
+  depositPaymentId?: string
   expiresAt: string
   failureReason?: RecurringBuyFailureReasons
   fee?: string
@@ -443,6 +461,7 @@ export type CardAcquirer = {
 }
 
 export type BuyQuoteType = {
+  depositTerms: DepositTerms
   feeDetails: {
     fee: string
     feeFlags: []
