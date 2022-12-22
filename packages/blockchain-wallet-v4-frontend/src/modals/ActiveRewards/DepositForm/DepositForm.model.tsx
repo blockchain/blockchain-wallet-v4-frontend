@@ -1,4 +1,4 @@
-import { PaletteColors } from '@blockchain-com/constellation'
+import { PaletteColors, SemanticColors } from '@blockchain-com/constellation'
 import { BaseFieldProps, Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -72,7 +72,7 @@ export const GreyBlueCartridge = styled(CustomCartridge)`
   min-width: 100px;
 `
 export const TermsContainer = styled.div`
-  margin: -3px 0 24px 0;
+  margin-top: -3px;
 
   & > * {
     display: inline-block;
@@ -127,4 +127,18 @@ export const NetworkFeeContainer = styled.div`
   border-radius: 8px;
   padding: 16px;
   margin-top: 24px;
+`
+export const CheckboxContainer = styled.div`
+  padding: 16px;
+  background-color: ${SemanticColors['background-ultra-light']};
+  border: 1px solid ${SemanticColors.medium};
+  border-radius: 8px;
+
+  & a {
+    color: ${SemanticColors.primary} !important;
+  }
+
+  & a:hover {
+    color: ${PaletteColors['blue-400']} !important;
+  }
 `
