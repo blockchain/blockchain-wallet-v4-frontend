@@ -140,3 +140,16 @@ export const CoinToggleButton = styled.button`
     cursor: pointer;
   }
 `
+export const WarningContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: ${PaletteColors['grey-050']};
+  border-radius: 8px;
+  gap: 16px;
+  margin: 28px 0 10px;
+
+  & > a {
+    width: fit-content;
+  }
+`
