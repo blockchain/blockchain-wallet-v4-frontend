@@ -1,4 +1,3 @@
-import { prop } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
 import { sha256 } from '@core/walletCrypto'
@@ -35,9 +34,32 @@ export default ({ socket }) => {
 
   const onAuth = function* () {}
 
-  const onMessage = function* (action) {}
-
-  const resendMessageSocket = function* (action) {}
+  const onMessage = function* (action) {
+    yield put(
+      actions.core.data.coins.fetchUnifiedBalancesWebService({
+        coin: 'MATIC.MATIC',
+        transactions: action.payload.data.activity.filter((tx) => {
+          return tx.item.leading[0].value.includes('MATIC')
+        })
+      })
+    )
+    yield put(
+      actions.core.data.coins.fetchUnifiedBalancesWebService({
+        coin: 'USDC.MATIC',
+        transactions: action.payload.data.activity.filter((tx) => {
+          return tx.item.leading[0].value.includes('USDC')
+        })
+      })
+    )
+    yield put(
+      actions.core.data.coins.fetchUnifiedBalancesWebService({
+        coin: 'USDT.MATIC',
+        transactions: action.payload.data.activity.filter((tx) => {
+          return tx.item.leading[0].value.includes('USDT')
+        })
+      })
+    )
+  }
 
   const onClose = function* () {
     yield put(
@@ -53,7 +75,6 @@ export default ({ socket }) => {
     onAuth,
     onClose,
     onMessage,
-    onOpen,
-    resendMessageSocket
+    onOpen
   }
 }

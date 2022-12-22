@@ -67,7 +67,7 @@ class TransactionList extends PureComponent<Props> {
               <BuySellListItem key={tx.id} order={tx} />
             ) : 'movements' in tx ? (
               <SelfCustodyTx coin={coin} key={tx.txId} tx={tx} />
-            ) : 'detail' in tx ? (
+            ) : 'item' in tx ? (
               <UnifiedActivityTx tx={tx} coin={coin} />
             ) : (
               <CustodialTxListItem

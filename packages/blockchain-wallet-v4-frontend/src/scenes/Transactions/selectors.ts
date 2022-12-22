@@ -128,21 +128,18 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       selectors.components.interest.getStakingEligible
     ],
     (invitationsR, userSearch, pagesR, currencyR, interestEligibleR, stakingEligibleR) => {
+      const isPolygonCoin = coin === 'MATIC.MATIC' || coin === 'USDC.MATIC'
       const empty = (page) => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
       const sourceType: '' | AddressTypesType = pathOr('', ['source', 'type'], userSearch)
-      const filteredPages =
-        pagesR && !isEmpty(pagesR)
-          ? pagesR.map((pages: typeof pagesR[0]) =>
-              map(filterTransactions(status, search, sourceType), pages)
-            )
-          : []
+
+      const filteredPages = pagesR && !isEmpty(pagesR) ? pagesR : []
 
       return {
         coin,
         currency: currencyR.getOrElse(''),
-        hasTxResults: !all(empty)(filteredPages),
+        hasTxResults: true,
         interestEligible: interestEligibleR.getOrElse({}),
         isGoldTier,
         isInvited: invitationsR
@@ -150,7 +147,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
           .getOrElse({ openBanking: false }) as boolean,
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
-        pages: filteredPages,
+        pages: isPolygonCoin ? [pagesR] : filteredPages,
         sourceType,
         stakingEligible: stakingEligibleR.getOrElse({})
       }

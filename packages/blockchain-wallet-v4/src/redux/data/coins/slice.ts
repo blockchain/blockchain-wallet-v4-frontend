@@ -5,7 +5,6 @@ import {
   TickerResponseType,
   UnifiedBalancesResponseType
 } from '@core/network/api/coins/types'
-import { SwapAccountType } from 'data/types'
 
 import Remote from '../../../remote'
 import { CoinsState } from './types'
@@ -52,8 +51,10 @@ export const coinsSlice = createSlice({
       state.rates = Remote.Success(action.payload.rates)
     },
     fetchTransactionHistory: (
-      state,
-      action: PayloadAction<{ coin: string; reset?: boolean }>
+      // @typescript-eslint/no-unused-vars
+      _state,
+      // @typescript-eslint/no-unused-vars
+      _action: PayloadAction<{ coin: string; reset?: boolean }>
     ) => {},
     fetchTransactionHistoryFailure: (
       state,
@@ -82,7 +83,7 @@ export const coinsSlice = createSlice({
         [action.payload.coin]: Remote.Success(action.payload.transactions)
       }
     },
-    fetchTransactions: (state, action: PayloadAction<{ coin: string; reset?: boolean }>) => {},
+    fetchTransactions: (_state, _action: PayloadAction<{ coin: string; reset?: boolean }>) => {},
     fetchTransactionsFailure: (state, action: PayloadAction<{ coin: string; error: string }>) => {
       state.transactions = {
         ...state.transactions,
@@ -101,7 +102,7 @@ export const coinsSlice = createSlice({
         ...state.transactions,
         [action.payload.coin]: [
           ...state.transactions[action.payload.coin].filter(
-            (tx, i) => i !== state.transactions[action.payload.coin].length - 1
+            (_tx, i) => i !== state.transactions[action.payload.coin].length - 1
           ),
           Remote.Success(action.payload.transactions)
         ]
@@ -119,6 +120,12 @@ export const coinsSlice = createSlice({
       action: PayloadAction<UnifiedBalancesResponseType['currencies']>
     ) => {
       state.unifiedBalances = Remote.Success(action.payload)
+    },
+    fetchUnifiedBalancesWebService: (state, action) => {
+      state.transactions = {
+        ...state.transactions,
+        [action.payload.coin]: Remote.Success(action.payload.transactions)
+      }
     },
     getSubscriptions: () => {},
     getSubscriptionsFailure: () => {},
@@ -140,9 +147,9 @@ export const coinsSlice = createSlice({
       }
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    subscribe: (state, action: PayloadAction<string>) => {},
+    subscribe: (_state, _action: PayloadAction<string>) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    unsubscribe: (state, action: PayloadAction<string>) => {}
+    unsubscribe: (_state, _action: PayloadAction<string>) => {}
   }
 })
 

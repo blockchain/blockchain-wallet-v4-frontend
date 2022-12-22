@@ -40,8 +40,10 @@ const _getFiatCoins = (): Array<string> =>
   Object.keys(_getCoins()).filter((coin) => _getCoins()[coin].coinfig.type.name === 'FIAT')
 
 const _getDynamicSelfCustodyCoins = (): Array<string> =>
-  Object.keys(_getCoins()).filter((coin) =>
-    _getCoins()[coin].coinfig.products.includes('DynamicSelfCustody')
+  Object.keys(_getCoins()).filter(
+    (coin) =>
+      _getCoins()[coin].coinfig.products.includes('DynamicSelfCustody') ||
+      _getCoins()[coin].coinfig.products.includes('PrivateKey')
   )
 
 // util function to ensure we only memoize coin selector functions when coin data exists

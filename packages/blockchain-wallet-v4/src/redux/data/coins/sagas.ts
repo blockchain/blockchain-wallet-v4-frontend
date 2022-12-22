@@ -93,20 +93,22 @@ export default ({ api }: { api: APIType }) => {
     const { payload } = action
     try {
       const { reset } = payload
-      const { guidHash, sharedKeyHash } = yield call(getAuth)
       const pages = S.getTransactions(payload.coin, yield select())
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = S.getTransactionsAtBound(payload.coin, yield select())
       if (Remote.Loading.is(last(pages))) return
       if (transactionsAtBound && !reset) return
+      if (payload.coin === 'MATIC.MATIC') return
+      if (payload.coin === 'USDC.MATIC') return
       yield put(A.fetchTransactionsLoading({ coin: payload.coin, reset }))
+      // @typescript-eslint/no-explicit-any
       const txs: Array<any> = []
+      // @typescript-eslint/no-explicit-any
       const txPage: Array<any> = txs
       const nextBSTransactionsURL = selectors.data.custodial.getNextBSTransactionsURL(
         yield select(),
         payload.coin
       )
-      const fiatCurrency = selectors.settings.getCurrency(yield select()).getOrElse('USD')
       const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
         fetchCustodialOrdersAndTransactions,
         txPage,
@@ -116,18 +118,18 @@ export default ({ api }: { api: APIType }) => {
         reset ? null : nextBSTransactionsURL
       )
       const txList = [txPage, custodialPage.orders]
-      if (window.coins[payload.coin].coinfig.products.includes('DynamicSelfCustody')) {
-        const selfCustodyPage: ReturnType<typeof api.getCoinActivity> = yield call(
-          api.getCoinActivity,
-          {
-            currencies: [{ ticker: payload.coin }],
-            fiatCurrency,
-            guidHash,
-            sharedKeyHash
-          }
-        )
-        txList.push(selfCustodyPage.activity)
-      }
+      // if (window.coins[payload.coin].coinfig.products.includes('DynamicSelfCustody')) {
+      //   const selfCustodyPage: ReturnType<typeof api.getCoinActivity> = yield call(
+      //     api.getCoinActivity,
+      //     {
+      //       currencies: [{ ticker: payload.coin }],
+      //       fiatCurrency,
+      //       guidHash,
+      //       sharedKeyHash
+      //     }
+      //   )
+      //   txList.push(selfCustodyPage.activity)
+      // }
       const newPages = flatten([txList])
       const page = newPages.sort((a, b) => {
         if (a.insertedAt === null) return -1

@@ -20,7 +20,6 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import { StandardRow } from 'components/Rows'
 import { actions, model, selectors } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
 import { Analytics } from 'data/types'
@@ -137,6 +136,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.interestActions.fetchStakingEligible()
     this.props.interestActions.fetchInterestRates()
     this.props.interestActions.fetchStakingRates()
+    this.props.startWebSocket()
   }
 
   componentDidUpdate(prevProps) {
@@ -354,6 +354,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
     interestActions: bindActionCreators(actions.components.interest, dispatch),
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
+    startWebSocket: bindActionCreators(actions.activities.startSocket, dispatch),
     withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
   }
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
