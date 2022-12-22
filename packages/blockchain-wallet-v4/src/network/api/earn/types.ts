@@ -44,12 +44,17 @@ export type EarnBondingDepositsResponseType = {
   bondingDeposits: Array<EarnBondingDepositsType>
   unbondingWithdrawals: Array<null>
 } | null
-export type EarnEligibleType = {
-  [key in CoinType]?: {
-    eligible: boolean
-    ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION' | 'UNSUPPORTED_COUNTRY_OR_STATE' | null
-  }
+
+// If user is eligible it will send {coin: eligibleType} otherwise it will send EligibleType only
+type EligibleType = {
+  eligible: boolean
+  ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION' | 'UNSUPPORTED_COUNTRY_OR_STATE' | null
 }
+export type EarnEligibleType =
+  | {
+      [key in CoinType]?: EligibleType
+    }
+  | EligibleType
 
 export type EarnTransactionParamType = {
   currency?: CoinType

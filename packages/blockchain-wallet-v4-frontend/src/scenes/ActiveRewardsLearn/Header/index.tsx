@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Flex, IconChevronLeft, SemanticColors, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { CoinType } from '@core/types'
+import { CoinType, EarnEligibleType } from '@core/types'
 import { Link } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -16,11 +16,12 @@ const CustomLink = styled(Link)`
 
 const Header = () => {
   const dispatch = useDispatch()
-  const eligible = useSelector((state: RootState) =>
+  const eligible: EarnEligibleType = useSelector((state: RootState) =>
     selectors.components.interest.getActiveRewardsEligible(state).getOrElse({})
   )
   const eligibleCoins: CoinType[] = Object.keys(eligible)
-  const isEligible = eligibleCoins.length > 0
+  const isEligible =
+    eligibleCoins.length > 0 && (eligible.eligible || eligible[eligibleCoins[0]].eligible)
 
   useEffect(() => {
     dispatch(actions.components.interest.fetchActiveRewardsEligible())
