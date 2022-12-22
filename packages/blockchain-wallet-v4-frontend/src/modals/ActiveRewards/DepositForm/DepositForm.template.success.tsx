@@ -83,7 +83,7 @@ const DepositForm: React.FC<
         </Text>
         <Text color={SemanticColors.body} variant='body2'>
           <FormattedMessage
-            id='modals.staking.deposit.sendingsubtitle'
+            id='modals.active-rewards.deposit.sendingsubtitle'
             defaultMessage='Sending {displayName} to your Active Rewards Account'
             values={{ displayName: displaySymbol }}
           />
@@ -248,7 +248,7 @@ const DepositForm: React.FC<
                 <>
                   <Text color={SemanticColors.error} variant='paragraph1'>
                     <FormattedMessage
-                      id='modals.staking.deposit.mintransfer'
+                      id='modals.active-rewards.deposit.mintransfer'
                       defaultMessage='Minimum required: {minFiat} {walletCurrency} ({minCoin} {coin})'
                       values={{
                         coin,
@@ -277,7 +277,7 @@ const DepositForm: React.FC<
           <EDDMessageContainer>
             <Text color={SemanticColors.warning} variant='paragraph2'>
               <FormattedMessage
-                id='modals.staking.deposit.edd_need.title'
+                id='modals.active-rewards.deposit.edd_need.title'
                 defaultMessage='More information needed'
               />
             </Text>
@@ -294,7 +294,7 @@ const DepositForm: React.FC<
             <Text color={SemanticColors.title} variant='paragraph1'>
               <FormattedMessage
                 defaultMessage='Est network fee'
-                id='modals.staking.deposit.networkfee'
+                id='modals.active-rewards.deposit.networkfee'
               />
             </Text>
             <Flex alignItems='flex-end' flexDirection='column' gap={2}>
@@ -358,11 +358,11 @@ const DepositForm: React.FC<
             .
           </TermsContainer>
         </Field>
-        <Field component={CheckBox} hideErrors name='agreement' validate={[required]}>
+        <Field component={CheckBox} hideErrors name='agreement1' validate={[required]}>
           <AgreementContainer>
             <Text color={SemanticColors.title} variant='paragraph1'>
               <FormattedMessage
-                id='modals.staking.deposit.agreement2_1'
+                id='modals.active-rewards.deposit.agreement2'
                 defaultMessage='I agree to transfer {coin} to my Active Rewards Account {privateKeyMessage}. I understand that price movements may result in a reduction of my {coin} balance, and that my transfer will be placed in next week’s strategy.'
                 values={{
                   coin,
@@ -374,6 +374,19 @@ const DepositForm: React.FC<
                   ) : (
                     ''
                   )
+                }}
+              />
+            </Text>
+          </AgreementContainer>
+        </Field>
+        <Field component={CheckBox} hideErrors name='agreement2' validate={[required]}>
+          <AgreementContainer>
+            <Text color={SemanticColors.title} variant='paragraph1'>
+              <FormattedMessage
+                id='modals.active-rewards.deposit.agreement3'
+                defaultMessage="I understand that withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled in approximately mid-January 2023. Until then, {coin} assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
+                values={{
+                  coin
                 }}
               />
             </Text>
