@@ -69,9 +69,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
   }
 
   componentDidMount() {
-    if (this.state.orderType === 'BUY') {
-      this.trackBuyViewed()
-    }
+    this.trackScreenViewed()
   }
 
   shouldComponentUpdate = (nextProps, nextState) =>
@@ -81,8 +79,8 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     prevProps: Readonly<InjectedFormProps<{}, Props> & Props>,
     prevState: Readonly<State>
   ) {
-    if (prevState.orderType !== this.state.orderType && this.state.orderType === 'BUY') {
-      this.trackBuyViewed()
+    if (prevState.orderType !== this.state.orderType) {
+      this.trackScreenViewed()
     }
   }
 
@@ -147,8 +145,13 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
 
   handleSell = (swapAccount: SwapAccountType) => {
     const pair = this.props.pairs.find((value) => getCoinFromPair(value.pair) === swapAccount.coin)
-
     if (!pair) return
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_ASSET_SELECTED,
+      properties: {}
+    })
+
     this.props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: this.props.walletCurrency,
@@ -163,9 +166,12 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     this.props.formActions.change(FORM_BS_CHECKOUT, 'amount', '')
   }
 
-  trackBuyViewed() {
+  trackScreenViewed = () => {
     this.props.analyticsActions.trackEvent({
-      key: Analytics.BUY_ASSET_SCREEN_VIEWED,
+      key:
+        this.state.orderType === 'BUY'
+          ? Analytics.BUY_ASSET_SCREEN_VIEWED
+          : Analytics.SELL_ASSET_SCREEN_VIEWED,
       properties: {}
     })
   }
