@@ -25,7 +25,7 @@ export default ({ api }: { api: APIType }) => {
         })
       )
 
-      const walletAddress = nonCustodialCoinAccounts[token][0].address
+      const walletAddress = nonCustodialCoinAccounts[token]?.[0].address
       if (!walletAddress) {
         yield* put(A.fetchUserEligibilityFailure('No user wallet address'))
       }
