@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Flex, IconChevronLeft, SemanticColors, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
+import { CoinType } from '@core/types'
 import { Link } from 'blockchain-info-components'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 const CustomLink = styled(Link)`
   width: fit-content;
@@ -14,11 +16,21 @@ const CustomLink = styled(Link)`
 
 const Header = () => {
   const dispatch = useDispatch()
+  const eligible = useSelector((state: RootState) =>
+    selectors.components.interest.getActiveRewardsEligible(state).getOrElse({})
+  )
+  const eligibleCoins: CoinType[] = Object.keys(eligible)
+  const isEligible = eligibleCoins.length > 0
+
+  useEffect(() => {
+    dispatch(actions.components.interest.fetchActiveRewardsEligible())
+  }, [])
+
   const handleClick = () => {
     dispatch(actions.router.push('/earn'))
     dispatch(
       actions.components.interest.showActiveRewardsModal({
-        coin: 'BTC',
+        coin: eligibleCoins[0],
         step: 'WARNING'
       })
     )
@@ -43,6 +55,7 @@ const Header = () => {
           />
         </Text>
         <Button
+          disabled={!isEligible}
           onClick={handleClick}
           size='default'
           text={<FormattedMessage id='copy.get-started' defaultMessage='Get Started' />}
