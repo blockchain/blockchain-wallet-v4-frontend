@@ -26,6 +26,7 @@ import {
   AgreementContainer,
   AmountFieldContainer,
   ButtonContainer,
+  CheckboxContainer,
   CustomField,
   CustomForm,
   ErrorText,
@@ -330,68 +331,81 @@ const DepositForm: React.FC<
           justifyContent: 'flex-end'
         }}
       >
-        <Field component={CheckBox} hideErrors name='terms' validate={[required]}>
-          <TermsContainer>
-            <Text color={SemanticColors.title} variant='paragraph1'>
-              <FormattedMessage
-                id='modals.interest.deposit.termsread'
-                defaultMessage='I have read and agreed to the'
-              />
-            </Text>{' '}
-            <Link href='https://www.blockchain.com/legal' target='_blank' size='14px' weight={500}>
-              <FormattedMessage
-                id='modals.interest.deposit.termsservice'
-                defaultMessage='Terms of Service'
-              />
-            </Link>{' '}
-            <Text color={SemanticColors.title} variant='paragraph1'>
-              &
-            </Text>{' '}
-            <Link
-              href='https://www.blockchain.com/legal/privacy'
-              target='_blank'
-              size='14px'
-              weight={500}
-            >
-              <FormattedMessage id='modals.interest.deposit.privacy' defaultMessage='Privacy' />
-            </Link>
-            .
-          </TermsContainer>
-        </Field>
-        <Field component={CheckBox} hideErrors name='agreement1' validate={[required]}>
-          <AgreementContainer>
-            <Text color={SemanticColors.title} variant='paragraph1'>
-              <FormattedMessage
-                id='modals.active-rewards.deposit.agreement2'
-                defaultMessage='I agree to transfer {coin} to my Active Rewards Account {privateKeyMessage}. I understand that price movements may result in a reduction of my {coin} balance, and that my transfer will be placed in next week’s strategy.'
-                values={{
-                  coin,
-                  privateKeyMessage: !isCustodial ? (
-                    <FormattedMessage
-                      defaultMessage='and pay a network fee'
-                      id='modals.active-rewards.deposit.agreement2.privatekey'
-                    />
-                  ) : (
-                    ''
-                  )
-                }}
-              />
-            </Text>
-          </AgreementContainer>
-        </Field>
-        <Field component={CheckBox} hideErrors name='agreement2' validate={[required]}>
-          <AgreementContainer>
-            <Text color={SemanticColors.title} variant='paragraph1'>
-              <FormattedMessage
-                id='modals.active-rewards.deposit.agreement3'
-                defaultMessage="I understand that withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled in approximately mid-January 2023. Until then, {coin} assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
-                values={{
-                  coin
-                }}
-              />
-            </Text>
-          </AgreementContainer>
-        </Field>
+        <Flex flexDirection='column' gap={8} justifyContent='center'>
+          <CheckboxContainer>
+            <Field component={CheckBox} hideErrors name='terms' validate={[required]}>
+              <TermsContainer>
+                <Text color={SemanticColors.title} variant='paragraph1'>
+                  <FormattedMessage
+                    id='modals.interest.deposit.termsread'
+                    defaultMessage='I have read and agreed to the'
+                  />
+                </Text>{' '}
+                <Link
+                  href='https://www.blockchain.com/legal'
+                  target='_blank'
+                  size='14px'
+                  weight={500}
+                >
+                  <FormattedMessage
+                    id='modals.interest.deposit.termsservice'
+                    defaultMessage='Terms of Service'
+                  />
+                </Link>{' '}
+                <Text color={SemanticColors.title} variant='paragraph1'>
+                  &
+                </Text>{' '}
+                <Link
+                  href='https://www.blockchain.com/legal/privacy'
+                  target='_blank'
+                  size='14px'
+                  weight={500}
+                >
+                  <FormattedMessage id='modals.interest.deposit.privacy' defaultMessage='Privacy' />
+                </Link>
+                .
+              </TermsContainer>
+            </Field>
+          </CheckboxContainer>
+          <CheckboxContainer>
+            <Field component={CheckBox} hideErrors name='agreement1' validate={[required]}>
+              <AgreementContainer>
+                <Text color={SemanticColors.title} variant='paragraph1'>
+                  <FormattedMessage
+                    id='modals.active-rewards.deposit.agreement2'
+                    defaultMessage='I agree to transfer {coin} to my Active Rewards Account {privateKeyMessage}. I understand that price movements may result in a reduction of my {coin} balance, and that my transfer will be placed in next week’s strategy.'
+                    values={{
+                      coin,
+                      privateKeyMessage: !isCustodial ? (
+                        <FormattedMessage
+                          defaultMessage='and pay a network fee'
+                          id='modals.active-rewards.deposit.agreement2.privatekey'
+                        />
+                      ) : (
+                        ''
+                      )
+                    }}
+                  />
+                </Text>
+              </AgreementContainer>
+            </Field>
+          </CheckboxContainer>
+          <CheckboxContainer>
+            <Field component={CheckBox} hideErrors name='agreement2' validate={[required]}>
+              <AgreementContainer>
+                <Text color={SemanticColors.title} variant='paragraph1'>
+                  <FormattedMessage
+                    id='modals.active-rewards.deposit.agreement3'
+                    defaultMessage="I understand that withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled in approximately mid-January 2023. Until then, {coin} assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
+                    values={{
+                      coin
+                    }}
+                  />
+                </Text>
+              </AgreementContainer>
+            </Field>
+          </CheckboxContainer>
+        </Flex>
         <ButtonContainer>
           <Button
             data-e2e='interestDepositSubmit'
