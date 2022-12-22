@@ -2,6 +2,8 @@ import { actionTypes } from 'redux-form'
 import { Task } from 'redux-saga'
 import { cancel, fork, take, takeEvery, takeLatest } from 'redux-saga/effects'
 
+import { trackAccountsSelected } from 'data/components/swap/sagas/trackAccountsSelected'
+
 import sagas from './sagas'
 import { actions } from './slice'
 
@@ -29,6 +31,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.handleSwapMaxAmountClick.type, swapSagas.handleSwapMaxAmountClick)
     yield takeLatest(actions.handleSwapMinAmountClick.type, swapSagas.handleSwapMinAmountClick)
     yield takeLatest(actions.fetchCrossBorderLimits.type, swapSagas.fetchCrossBorderLimits)
+    yield takeEvery(actions.setStep.type, trackAccountsSelected)
 
     yield takeLatest(actions.startPollQuote.type, function* () {
       if (pollTask && pollTask.isRunning()) yield cancel(pollTask)
