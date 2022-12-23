@@ -10,6 +10,5 @@ export default ({ activitiesSocket, api }) => {
     yield takeEvery(AT.AUTH_SOCKET, activitiesSocketSagas.onAuth)
     yield takeEvery(AT.MESSAGE_SOCKET, activitiesSocketSagas.onMessage)
     yield takeEvery(AT.CLOSE_SOCKET, activitiesSocketSagas.onClose)
-    yield takeEvery(AT.RESEND_MESSAGE_SOCKET, activitiesSocketSagas.resendMessageSocket)
   }
 }
