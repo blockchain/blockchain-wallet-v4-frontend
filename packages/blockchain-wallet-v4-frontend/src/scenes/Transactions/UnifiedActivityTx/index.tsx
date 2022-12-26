@@ -39,9 +39,9 @@ const UnifiedActivityTx: React.FC<Props> = ({ guid, sharedKey, tx }) => {
   const handleOnClick = () => {
     if (!isToggled) {
       fetchTxDetails()
-    } else {
-      setIsToggled((isToggled) => !isToggled)
     }
+
+    setIsToggled((isToggled) => !isToggled)
   }
 
   return (
