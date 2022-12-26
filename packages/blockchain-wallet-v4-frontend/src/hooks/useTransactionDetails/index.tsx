@@ -7,13 +7,13 @@ const useTransactionDetails = ({ guid, sharedKey, txId }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [txDetails, setData] = useState<any>([])
   const apiUrl = 'https://api.staging.blockchain.info/wallet-pubkey/activityDetail'
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
-  // TODO: add from store
   const guidHash = sha256(guid).toString('hex')
   const sharedKeyHash = sha256(sharedKey).toString('hex')
 
   const fetchTxDetails = async () => {
+    setLoading(true)
     const result = await fetch(apiUrl, {
       body: JSON.stringify({
         auth: {
@@ -21,6 +21,7 @@ const useTransactionDetails = ({ guid, sharedKey, txId }) => {
           sharedKeyHash
         },
         localisation: {
+          // TODO: get i10n locale
           fiatCurrency: 'EUR',
           locales: 'en-GB;q=1.0, en',
           timeZone: 'Europe/London'
