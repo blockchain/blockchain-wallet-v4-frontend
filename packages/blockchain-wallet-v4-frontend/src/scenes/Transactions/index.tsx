@@ -177,6 +177,8 @@ class TransactionsContainer extends React.PureComponent<Props> {
       !isEmpty(stakingEligible) && stakingEligible[coin] && stakingEligible[coin]?.eligible
     const isEarnButtonEnabled = isGoldTier && (interestEligibleCoin || stakingEligibleCoin)
     const isEarnSourceType = sourceType && (sourceType === 'INTEREST' || sourceType === 'STAKING')
+    // check if coins is from MATIC network
+    const isMaticCoin = coinfig.symbol.includes('MATIC')
 
     return (
       <SceneWrapper>
@@ -194,7 +196,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 </Text>
               </CoinTitle>
               <TitleActionContainer>
-                {coinfig.type.name !== 'FIAT' && (
+                {coinfig.type.name !== 'FIAT' && !isMaticCoin && (
                   <>
                     <StyledButton
                       nature='primary'
@@ -239,20 +241,22 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         </StyledButton>
                       </NavLink>
                     )}
-                    <StyledButton
-                      nature='light'
-                      data-e2e='sellCrypto'
-                      width='100px'
-                      onClick={() => {
-                        this.props.buySellActions.showModal({
-                          cryptoCurrency: coin as CoinType,
-                          orderType: OrderType.SELL,
-                          origin: 'TransactionList'
-                        })
-                      }}
-                    >
-                      <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
-                    </StyledButton>
+                    {!isMaticCoin && (
+                      <StyledButton
+                        nature='light'
+                        data-e2e='sellCrypto'
+                        width='100px'
+                        onClick={() => {
+                          this.props.buySellActions.showModal({
+                            cryptoCurrency: coin as CoinType,
+                            orderType: OrderType.SELL,
+                            origin: 'TransactionList'
+                          })
+                        }}
+                      >
+                        <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
+                      </StyledButton>
+                    )}
                   </>
                 )}
                 {coinfig.type.name === 'FIAT' && (
