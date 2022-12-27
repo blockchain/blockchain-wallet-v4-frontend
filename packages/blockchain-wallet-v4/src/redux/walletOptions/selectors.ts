@@ -193,3 +193,7 @@ export const getActiveRewardsEnabled = (state: RootState) =>
 // show earn available assets checkbox
 export const getShowEarnAvailableAssets = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showEarnAvailableAssetsCheckbox']))
+
+// show prove flow
+export const getShowProveFlow = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showProveFlow']))
