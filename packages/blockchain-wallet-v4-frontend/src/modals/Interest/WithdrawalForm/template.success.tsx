@@ -141,8 +141,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     analyticsActions.trackEvent({
       key: Analytics.WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED,
       properties: {
-        amount: withdrawalAmountCrypto,
-        amount_usd: withdrawalAmountFiat,
+        amount: Number(withdrawalAmountCrypto),
+        amount_usd: Number(withdrawalAmountFiat),
         currency: coin,
         type: accountType === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
       }
