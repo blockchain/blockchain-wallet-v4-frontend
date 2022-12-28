@@ -92,6 +92,7 @@ export const coinsSlice = createSlice({
     },
     fetchTransactionsLoading: (state, action: PayloadAction<{ coin: string; reset?: boolean }>) => {
       state.transactions = {
+        ...state.transactions,
         [action.payload.coin]: action.payload.reset
           ? [Remote.Loading]
           : [...state.transactions[action.payload.coin], Remote.Loading]
