@@ -66,6 +66,7 @@
         "rewardsPromoBanner": true,
         "secureEmailSmsUpdate": false,
         "showEarnAvailableAssetsCheckbox": true,
+        "showProveFlow": true,
         "showSilverRevamp": true,
         "showTermsAndConditions": false,
         "stakingPromoBanner": true,
