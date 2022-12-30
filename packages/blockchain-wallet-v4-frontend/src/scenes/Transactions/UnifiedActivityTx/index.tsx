@@ -45,8 +45,8 @@ const UnifiedActivityTx: React.FC<Props> = ({ guid, sharedKey, tx }) => {
   }
 
   return (
-    <TxRowContainer className={isToggled ? 'active' : ''} onClick={handleOnClick}>
-      <TxRow>
+    <TxRowContainer className={isToggled ? 'active' : ''}>
+      <TxRow onClick={handleOnClick}>
         <Col width='5%'>
           <img src={tx.item.leadingImage.main} alt='Transaction type icon' />
         </Col>
