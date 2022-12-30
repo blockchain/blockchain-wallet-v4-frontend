@@ -44,8 +44,8 @@ const useTransactionDetails = ({ guid, sharedKey, txId }) => {
     ]
 
     const reorderedItems = [
-      [txDetailsGrouped[1], txDetailsGrouped[6], txDetailsGrouped[4]],
-      [txDetailsGrouped[2], null, txDetailsGrouped[3]]
+      [txDetailsGrouped[1], txDetailsGrouped[6], null],
+      [txDetailsGrouped[2], txDetailsGrouped[4], txDetailsGrouped[3]]
     ]
 
     setData(reorderedItems)

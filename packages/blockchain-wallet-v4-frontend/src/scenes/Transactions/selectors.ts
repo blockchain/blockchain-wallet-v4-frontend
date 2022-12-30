@@ -128,7 +128,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       selectors.components.interest.getStakingEligible
     ],
     (invitationsR, userSearch, pagesR, currencyR, interestEligibleR, stakingEligibleR) => {
-      const isPolygonCoin = coin === 'MATIC.MATIC' || coin === 'USDC.MATIC'
+      const isPolygonCoin = coin.includes('.MATIC')
       const empty = (page) => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)

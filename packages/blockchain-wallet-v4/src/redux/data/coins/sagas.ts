@@ -98,8 +98,7 @@ export default ({ api }: { api: APIType }) => {
       const transactionsAtBound = S.getTransactionsAtBound(payload.coin, yield select())
       if (Remote.Loading.is(last(pages))) return
       if (transactionsAtBound && !reset) return
-      if (payload.coin === 'MATIC.MATIC') return
-      if (payload.coin === 'USDC.MATIC') return
+      if (payload.coin.includes('.MATIC')) return
       yield put(A.fetchTransactionsLoading({ coin: payload.coin, reset }))
       // @typescript-eslint/no-explicit-any
       const txs: Array<any> = []
