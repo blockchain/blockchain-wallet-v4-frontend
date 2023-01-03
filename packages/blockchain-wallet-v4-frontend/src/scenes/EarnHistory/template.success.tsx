@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { IconMinus, SemanticColors } from '@blockchain-com/constellation'
 import { format } from 'date-fns'
 import { flatten, head, last, map } from 'ramda'
 import styled from 'styled-components'
@@ -80,9 +81,25 @@ function TransactionList(props: Props): ReactElement | null {
           </AmountTableCell>
         </TableHeader>
         {txList.map((tx: EarnTransactionType) => {
-          const { amount, extraAttributes, id, insertedAt, product, state, type } = tx
+          const { amount, extraAttributes, id, insertedAt, state, type } = tx
           const displayName = window.coins[amount.symbol].coinfig.name
           const isCustodial = extraAttributes && extraAttributes.transferType === 'INTERNAL'
+          const value = amount.value.replace('-', '')
+          let { product }: { product: string } = tx
+
+          switch (tx.product) {
+            case 'Active':
+              product = 'Active Rewards'
+              break
+            case 'Staking':
+              product = 'Staking'
+              break
+            default:
+            case 'Passive':
+              product = 'Passive Rewards'
+              break
+          }
+
           return (
             <TableRow key={id}>
               <InterestTableCell width='20%'>
@@ -130,6 +147,19 @@ function TransactionList(props: Props): ReactElement | null {
                     ) : (
                       <></>
                     )}
+                  </>
+                ) : type === 'DEBIT' ? (
+                  <>
+                    <IconBackground color={amount.symbol}>
+                      <IconMinus color={SemanticColors.background} size='small' />
+                    </IconBackground>
+                    <Value data-e2e='debitTx'>
+                      <FormattedMessage
+                        id='modals.interest.symboldebited'
+                        defaultMessage='{symbol} Debited'
+                        values={{ symbol: amount.symbol }}
+                      />
+                    </Value>
                   </>
                 ) : (
                   <>
@@ -221,7 +251,7 @@ function TransactionList(props: Props): ReactElement | null {
                     {Exchange.convertCoinToCoin({
                       baseToStandard: false,
                       coin: amount.symbol,
-                      value: amount.value
+                      value
                     })}
                   </CoinAmountWrapper>
                   <FiatAmountWrapper
@@ -236,7 +266,7 @@ function TransactionList(props: Props): ReactElement | null {
                     {Exchange.convertCoinToCoin({
                       baseToStandard: false,
                       coin: amount.symbol,
-                      value: amount.value
+                      value
                     })}
                   </FiatAmountWrapper>
                   {type === 'DEPOSIT' && !isCustodial && (
