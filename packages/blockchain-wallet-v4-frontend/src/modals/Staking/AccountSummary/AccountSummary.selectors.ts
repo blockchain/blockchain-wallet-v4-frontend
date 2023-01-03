@@ -14,7 +14,7 @@ export const getData = (state: RootState) => {
   const earnEDDStatusR = selectors.components.interest.getEarnEDDStatus(state)
   const stakingEligibleR = selectors.components.interest.getStakingEligible(state)
   const stakingRatesR = selectors.components.interest.getStakingRates(state)
-  const totalBondingDeposits = selectors.components.interest.getTotalBondingDeposits(state)
+  const totalBondingDeposits = selectors.components.interest.getTotalStakingBondingDeposits(state)
 
   return lift(
     (

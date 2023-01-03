@@ -66,7 +66,10 @@ const queueCallback = async (rawEvents: RawEvent[]) => {
 
 const analytics = queuevent<AnalyticsKey, AnalyticsValue>({
   queueCallback,
-  queueName: QUEUE_NAME
+  // Chaging queue name so it won't conflict with the new queue in
+  // packages/blockchain-wallet-v4-frontend/src/data/analytics/analytics.ts
+  // When queues have the same name, one can clear the other
+  queueName: `old-${QUEUE_NAME}`
 })
 
 export default analytics

@@ -8,10 +8,10 @@ import {
   EarnDepositLimits,
   EarnEDDStatus,
   EarnEligibleType,
+  EarnLimitsType,
+  EarnRatesType,
   InterestLimitsType,
   RewardsRatesType,
-  StakingLimitsType,
-  StakingRatesType,
   WithdrawalMinimumTypeResponse,
   WithdrawLimits
 } from '@core/network/api/earn/types'
@@ -19,6 +19,7 @@ import Remote from '@core/remote'
 import { CoinType, FiatType, PaymentValue, WalletFiatType } from '@core/types'
 
 import {
+  ActiveRewardsStep,
   EarnDepositFormType,
   EarnInstrumentsType,
   EarnMinMaxType,
@@ -35,6 +36,16 @@ import {
 } from './types'
 
 const initialState: InterestState = {
+  activeRewardsAccount: Remote.NotAsked,
+  activeRewardsAccountBalance: Remote.NotAsked,
+  activeRewardsEligible: Remote.NotAsked,
+  activeRewardsLimits: Remote.NotAsked,
+  activeRewardsRates: Remote.NotAsked,
+  activeRewardsStep: {
+    data: {},
+    name: 'WARNING'
+  },
+  activeRewardsTransactionsNextPage: null,
   afterTransaction: Remote.NotAsked,
   coin: 'BTC',
   earnDepositLimits: {
@@ -51,10 +62,11 @@ const initialState: InterestState = {
   interestLimits: Remote.NotAsked,
   interestRates: Remote.NotAsked,
   isAmountDisplayedInCrypto: false,
+  passiveRewardsAccountBalance: Remote.NotAsked,
   payment: Remote.NotAsked,
+  pendingActiveRewardsTransactions: Remote.NotAsked,
   pendingStakingTransactions: Remote.NotAsked,
   rewardsAccount: Remote.NotAsked,
-  rewardsAccountBalance: Remote.NotAsked,
   rewardsEDDDepositLimits: Remote.NotAsked,
   rewardsStep: {
     data: {},
@@ -73,7 +85,8 @@ const initialState: InterestState = {
     name: 'WARNING'
   },
   stakingTransactionsNextPage: null,
-  totalBondingDeposits: 0,
+  totalActiveRewardsBondingDeposits: 0,
+  totalStakingBondingDeposits: 0,
   transactions: [],
   transactionsReport: Remote.NotAsked,
   underSanctionsMessage: null,
@@ -85,6 +98,71 @@ const interestSlice = createSlice({
   name: 'brokerage',
   reducers: {
     clearInterestTransactionsReport: () => {},
+    // ACCOUNT
+    fetchActiveRewardsAccount: (state, action: PayloadAction<{ coin: CoinType }>) => {},
+
+    fetchActiveRewardsAccountFailure: (state, action: PayloadAction<string>) => {
+      state.activeRewardsAccount = Remote.Failure(action.payload)
+    },
+
+    fetchActiveRewardsAccountLoading: (state) => {
+      state.activeRewardsAccount = Remote.Loading
+    },
+
+    fetchActiveRewardsAccountSuccess: (state, action: PayloadAction<EarnAccountResponseType>) => {
+      state.activeRewardsAccount = Remote.Success(action.payload)
+    },
+    // BALANCES
+    fetchActiveRewardsBalance: () => {},
+
+    fetchActiveRewardsBalanceFailure: (state, action: PayloadAction<string>) => {
+      state.activeRewardsAccountBalance = Remote.Failure(action.payload)
+    },
+
+    fetchActiveRewardsBalanceLoading: (state) => {
+      state.activeRewardsAccountBalance = Remote.Loading
+    },
+
+    fetchActiveRewardsBalanceSuccess: (
+      state,
+      action: PayloadAction<EarnAccountBalanceResponseType>
+    ) => {
+      state.activeRewardsAccountBalance = Remote.Success(action.payload)
+    },
+    // ActiveRewards ELIGIBLE
+    fetchActiveRewardsEligible: () => {},
+    fetchActiveRewardsEligibleFailure: (state, action: PayloadAction<string>) => {
+      state.activeRewardsEligible = Remote.Failure(action.payload)
+    },
+    fetchActiveRewardsEligibleLoading: (state) => {
+      state.activeRewardsEligible = Remote.Loading
+    },
+    fetchActiveRewardsEligibleSuccess: (state, action: PayloadAction<EarnEligibleType>) => {
+      state.activeRewardsEligible = Remote.Success(action.payload)
+    },
+    // Active Rewards LIMITS
+    fetchActiveRewardsLimits: () => {},
+    fetchActiveRewardsLimitsFailure: (state, action: PayloadAction<string>) => {
+      state.activeRewardsLimits = Remote.Failure(action.payload)
+    },
+    fetchActiveRewardsLimitsLoading: (state) => {
+      state.activeRewardsLimits = Remote.Loading
+    },
+    fetchActiveRewardsLimitsSuccess: (state, action: PayloadAction<EarnLimitsType>) => {
+      state.activeRewardsLimits = Remote.Success(action.payload)
+    },
+
+    // Active Rewards RATES
+    fetchActiveRewardsRates: () => {},
+    fetchActiveRewardsRatesFailure: (state, action: PayloadAction<string>) => {
+      state.activeRewardsRates = Remote.Failure(action.payload)
+    },
+    fetchActiveRewardsRatesLoading: (state) => {
+      state.activeRewardsRates = Remote.Loading
+    },
+    fetchActiveRewardsRatesSuccess: (state, action: PayloadAction<EarnRatesType>) => {
+      state.activeRewardsRates = Remote.Success(action.payload.rates)
+    },
 
     fetchEDDStatus: () => {},
 
@@ -255,6 +333,20 @@ const interestSlice = createSlice({
       state.interestRates = Remote.Success(action.payload.rates)
     },
 
+    fetchPendingActiveRewardsTransactions: (state, action: PayloadAction<{ coin: CoinType }>) => {},
+    fetchPendingActiveRewardsTransactionsFailure: (state, action: PayloadAction<string>) => {
+      state.pendingActiveRewardsTransactions = Remote.Failure(action.payload)
+    },
+    fetchPendingActiveRewardsTransactionsLoading: (state) => {
+      state.pendingActiveRewardsTransactions = Remote.Loading
+    },
+    fetchPendingActiveRewardsTransactionsSuccess: (
+      state,
+      action: PayloadAction<Array<PendingTransactionType>>
+    ) => {
+      state.pendingActiveRewardsTransactions = Remote.Success(action.payload)
+    },
+
     fetchPendingStakingTransactions: (state, action: PayloadAction<{ coin: CoinType }>) => {},
     fetchPendingStakingTransactionsFailure: (state, action: PayloadAction<string>) => {
       state.pendingStakingTransactions = Remote.Failure(action.payload)
@@ -289,15 +381,15 @@ const interestSlice = createSlice({
     fetchRewardsBalance: () => {},
 
     fetchRewardsBalanceFailure: (state, action: PayloadAction<string>) => {
-      state.rewardsAccountBalance = Remote.Failure(action.payload)
+      state.passiveRewardsAccountBalance = Remote.Failure(action.payload)
     },
 
     fetchRewardsBalanceLoading: (state) => {
-      state.rewardsAccountBalance = Remote.Loading
+      state.passiveRewardsAccountBalance = Remote.Loading
     },
 
     fetchRewardsBalanceSuccess: (state, action: PayloadAction<EarnAccountBalanceResponseType>) => {
-      state.rewardsAccountBalance = Remote.Success(action.payload)
+      state.passiveRewardsAccountBalance = Remote.Success(action.payload)
     },
 
     fetchShowInterestCardAfterTransaction: (
@@ -355,7 +447,6 @@ const interestSlice = createSlice({
     fetchStakingBalanceSuccess: (state, action: PayloadAction<EarnAccountBalanceResponseType>) => {
       state.stakingAccountBalance = Remote.Success(action.payload)
     },
-
     // Staking ELIGIBLE
     fetchStakingEligible: () => {},
     fetchStakingEligibleFailure: (state, action: PayloadAction<string>) => {
@@ -376,7 +467,7 @@ const interestSlice = createSlice({
     fetchStakingLimitsLoading: (state) => {
       state.stakingLimits = Remote.Loading
     },
-    fetchStakingLimitsSuccess: (state, action: PayloadAction<StakingLimitsType>) => {
+    fetchStakingLimitsSuccess: (state, action: PayloadAction<EarnLimitsType>) => {
       state.stakingLimits = Remote.Success(action.payload)
     },
 
@@ -388,7 +479,7 @@ const interestSlice = createSlice({
     fetchStakingRatesLoading: (state) => {
       state.stakingRates = Remote.Loading
     },
-    fetchStakingRatesSuccess: (state, action: PayloadAction<StakingRatesType>) => {
+    fetchStakingRatesSuccess: (state, action: PayloadAction<EarnRatesType>) => {
       state.stakingRates = Remote.Success(action.payload.rates)
     },
 
@@ -406,6 +497,13 @@ const interestSlice = createSlice({
     ) => {},
     // eslint-disable-next-line
     handleWithdrawalSupplyInformation: (state, action: PayloadAction<{ origin: string }>) => {},
+
+    initializeActiveRewardsDepositForm: (
+      state,
+      action: PayloadAction<{ coin: CoinType; currency: FiatType }>
+    ) => {
+      state.coin = action.payload.coin
+    },
 
     initializeInterestDepositForm: (
       state,
@@ -443,6 +541,23 @@ const interestSlice = createSlice({
     },
     // eslint-disable-next-line
     routeToTxHash: (state, action: PayloadAction<{ coin: CoinType; txHash?: string }>) => {},
+
+    setActiveRewardsStep: (
+      state,
+      action: PayloadAction<{ data?: EarnStepMetaData; name: ActiveRewardsStep }>
+    ) => {
+      const { data, name } = action.payload
+      state.activeRewardsStep = {
+        data: data || {},
+        name
+      }
+    },
+    setActiveRewardsTransactionsNextPage: (
+      state,
+      action: PayloadAction<{ nextPage?: string | null }>
+    ) => {
+      state.activeRewardsTransactionsNextPage = action.payload.nextPage
+    },
 
     setCoinDisplay: (state, action: PayloadAction<{ isAmountDisplayedInCrypto: boolean }>) => {
       state.isAmountDisplayedInCrypto = action.payload.isAmountDisplayedInCrypto
@@ -515,15 +630,17 @@ const interestSlice = createSlice({
         name
       }
     },
-
     setStakingTransactionsNextPage: (
       state,
       action: PayloadAction<{ nextPage?: string | null }>
     ) => {
       state.stakingTransactionsNextPage = action.payload.nextPage
     },
-    setTotalBondingDeposits: (state, action: PayloadAction<number>) => {
-      state.totalBondingDeposits = action.payload
+    setTotalActiveRewardsBondingDeposits: (state, action: PayloadAction<number>) => {
+      state.totalActiveRewardsBondingDeposits = action.payload
+    },
+    setTotalStakingBondingDeposits: (state, action: PayloadAction<number>) => {
+      state.totalStakingBondingDeposits = action.payload
     },
 
     setUnderSanctions: (state, action: PayloadAction<{ message: string | null }>) => {
@@ -545,6 +662,13 @@ const interestSlice = createSlice({
       )
     },
 
+    showActiveRewardsModal: (
+      state,
+      action: PayloadAction<{ coin: CoinType; step: ActiveRewardsStep }>
+    ) => {
+      state.coin = action.payload.coin
+    },
+
     showInterestModal: (state, action: PayloadAction<{ coin: CoinType; step: InterestStep }>) => {
       state.coin = action.payload.coin
     },
@@ -561,6 +685,14 @@ const interestSlice = createSlice({
 
 export const {
   clearInterestTransactionsReport,
+  fetchActiveRewardsAccount,
+  fetchActiveRewardsAccountFailure,
+  fetchActiveRewardsAccountLoading,
+  fetchActiveRewardsAccountSuccess,
+  fetchActiveRewardsBalance,
+  fetchActiveRewardsBalanceFailure,
+  fetchActiveRewardsBalanceLoading,
+  fetchActiveRewardsBalanceSuccess,
   fetchEDDStatus,
   fetchEDDStatusFailure,
   fetchEDDStatusLoading,
@@ -593,6 +725,10 @@ export const {
   fetchInterestRatesFailure,
   fetchInterestRatesLoading,
   fetchInterestRatesSuccess,
+  fetchPendingActiveRewardsTransactions,
+  fetchPendingActiveRewardsTransactionsFailure,
+  fetchPendingActiveRewardsTransactionsLoading,
+  fetchPendingActiveRewardsTransactionsSuccess,
   fetchPendingStakingTransactions,
   fetchPendingStakingTransactionsFailure,
   fetchPendingStakingTransactionsLoading,
@@ -628,12 +764,14 @@ export const {
   handleTransferMaxAmountClick,
   handleTransferMinAmountClick,
   handleWithdrawalSupplyInformation,
+  initializeActiveRewardsDepositForm,
   initializeInterestDepositForm,
   initializeStakingDepositForm,
   initializeWithdrawalForm,
   requestWithdrawal,
   resetShowInterestCardAfterTransaction,
   routeToTxHash,
+  setActiveRewardsTransactionsNextPage,
   setCoinDisplay,
   setEarnDepositLimits,
   setEarnTab,
@@ -646,10 +784,12 @@ export const {
   setShowAvailableAssets,
   setStakingModal,
   setStakingTransactionsNextPage,
-  setTotalBondingDeposits,
+  setTotalActiveRewardsBondingDeposits,
+  setTotalStakingBondingDeposits,
   setWithdrawalMinimumsFailure,
   setWithdrawalMinimumsLoading,
   setWithdrawalMinimumsSuccess,
+  showActiveRewardsModal,
   showInterestModal,
   showStakingModal,
   stopShowingInterestModal,

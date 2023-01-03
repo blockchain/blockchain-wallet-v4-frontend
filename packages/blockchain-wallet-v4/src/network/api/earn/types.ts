@@ -1,13 +1,13 @@
 import { CoinType, FiatType, NabuMoneyFloatType, WalletFiatType } from '@core/types'
 
-type ProductType = 'staking' | 'savings'
+export type EarnApiProductType = 'staking' | 'savings' | 'EARN_CC1W'
 
-type CapProductType = 'STAKING' | 'SAVINGS'
+type CapProductType = 'STAKING' | 'SAVINGS' | 'EARN_CC1W'
 
 export type EarnAccountBalanceType = {
   ccy?: CoinType
   din?: FiatType
-  product: ProductType
+  product: EarnApiProductType
 }
 
 export type EarnBalanceType = {
@@ -44,12 +44,17 @@ export type EarnBondingDepositsResponseType = {
   bondingDeposits: Array<EarnBondingDepositsType>
   unbondingWithdrawals: Array<null>
 } | null
-export type EarnEligibleType = {
-  [key in CoinType]?: {
-    eligible: boolean
-    ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION' | 'UNSUPPORTED_COUNTRY_OR_STATE' | null
-  }
+
+// If user is eligible it will send {coin: eligibleType} otherwise it will send EligibleType only
+type EligibleType = {
+  eligible: boolean
+  ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION' | 'UNSUPPORTED_COUNTRY_OR_STATE' | null
 }
+export type EarnEligibleType =
+  | {
+      [key in CoinType]?: EligibleType
+    }
+  | EligibleType
 
 export type EarnTransactionParamType = {
   currency?: CoinType
@@ -94,7 +99,7 @@ export type InterestLimitsType = {
 
 export type EarnAccountType = {
   coin: CoinType
-  product: ProductType
+  product: EarnApiProductType
 }
 
 export type EarnAccountResponseType = {
@@ -107,11 +112,12 @@ export type RewardsRatesType = {
   }
 }
 
-export type StakingRatesType = {
+export type EarnRatesType = {
   rates: {
     [key in CoinType]: {
       commission: number
       rate: number
+      triggerPrice?: string
     }
   }
 }
@@ -212,14 +218,21 @@ export type UploadDocumentDetails = {
 export type StakingLimitType = {
   bondingDays: number
   disabledWithdrawals: boolean
-  minDepositValue: number
+  minDepositValue: string
   unbondingDays?: number
 }
 
-export type StakingLimitsType = {
-  [key in CoinType]: StakingLimitType
+export type ActiveRewardsLimitType = {
+  bondingDays: number
+  minDepositValue: string
+  rewardFrequency: string
+  unbondingDays: number
 }
 
-export type StakingLimitsResponse = {
-  limits: StakingLimitsType
+export type EarnLimitsType = {
+  [key in CoinType]: StakingLimitType | ActiveRewardsLimitType
+}
+
+export type EarnLimitsResponse = {
+  limits: EarnLimitsType
 }

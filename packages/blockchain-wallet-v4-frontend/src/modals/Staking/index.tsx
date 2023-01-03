@@ -56,7 +56,7 @@ const Staking = ({
       )}
       {step.name === 'DEPOSIT' && (
         <FlyoutChild>
-          <DepositForm coin={coin} setShowSupply={setShowSupply} walletCurrency={walletCurrency} />
+          <DepositForm coin={coin} />
         </FlyoutChild>
       )}
       {step.name === 'DEPOSIT_SUCCESS' && (

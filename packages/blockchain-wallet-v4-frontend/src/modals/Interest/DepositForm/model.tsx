@@ -6,7 +6,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { CustomCartridge } from 'components/Cartridge'
 import Form from 'components/Form/Form'
 
-export const FORM_NAME = 'rewardsDepositForm'
+export const FORM_NAME = 'passiveRewardsDepositForm'
 
 export const SendingWrapper = styled.div`
   width: 100%;

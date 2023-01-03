@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Flex, Link } from '@blockchain-com/constellation'
+import { Flex, Link, SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { RoundedBadge } from 'components/Badge'
 
@@ -22,14 +22,20 @@ const LearnColumn = ({
       <Flex flexDirection='column' gap={8}>
         <Flex alignItems='center' gap={8}>
           {icon}
-          {title}
+          <Text color={SemanticColors.body} variant='paragraph1'>
+            {title}
+          </Text>
           {isActiveRewards && (
             <RoundedBadge>
               <FormattedMessage defaultMessage='New' id='copy.new' />
             </RoundedBadge>
           )}
         </Flex>
-        <Flex>{description}</Flex>
+        <Flex>
+          <Text color={SemanticColors.title} variant='paragraph1'>
+            {description}
+          </Text>
+        </Flex>
       </Flex>
       {isActiveRewards ? (
         <LinkContainer to={link}>
