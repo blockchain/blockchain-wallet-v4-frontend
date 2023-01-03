@@ -294,7 +294,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='modals.active-rewards.summary.total-earned.tooltip'>
           <FormattedMessage
             id='modals.active-rewards.summary.total-earned.description.tooltip'
-            defaultMessage='Sum of all debits and credits of previous strategies.'
+            defaultMessage='Sum of all rewards and debits of previous strategies.'
           />
         </Tooltip>
         <Tooltip id='modals.active-rewards.summary.annual-rate.tooltip'>
