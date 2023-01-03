@@ -82,9 +82,9 @@ function TransactionList(props: Props): ReactElement | null {
         </TableHeader>
         {txList.map((tx: EarnTransactionType) => {
           const { amount, extraAttributes, id, insertedAt, state, type } = tx
+          const { value } = amount
           const displayName = window.coins[amount.symbol].coinfig.name
           const isCustodial = extraAttributes && extraAttributes.transferType === 'INTERNAL'
-          const value = amount.value.replace('-', '')
           let { product }: { product: string } = tx
 
           switch (tx.product) {
