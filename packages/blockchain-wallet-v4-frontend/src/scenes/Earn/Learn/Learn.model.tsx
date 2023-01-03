@@ -1,13 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import {
-  IconLockClosed,
-  IconMarketUp,
-  IconRewardsCircle,
-  SemanticColors,
-  Text
-} from '@blockchain-com/constellation'
+import { IconLockClosed, IconRewardsCircle, SemanticColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
+
+import { Image } from 'blockchain-info-components'
 
 import { LearnColumnType } from './Learn.types'
 
@@ -20,6 +16,7 @@ export const Wrapper = styled.div`
   padding: 24px;
   border-radius: 8px;
   margin-top: 12px;
+  margin-bottom: 24px;
 
   a {
     padding: 0 !important;
@@ -35,57 +32,39 @@ export const Wrapper = styled.div`
 export const learnColumn: LearnColumnType[] = [
   {
     description: (
-      <Text color={SemanticColors.title} variant='paragraph1'>
-        <FormattedMessage
-          id='scenes.earn.learn.rewards.description'
-          defaultMessage='Monthly rewards for holding crypto with us. For eligible users.'
-        />
-      </Text>
+      <FormattedMessage
+        id='scenes.earn.learn.rewards.description'
+        defaultMessage='Monthly rewards for holding crypto with us. For eligible users.'
+      />
     ),
     icon: <IconRewardsCircle color={SemanticColors.primary} size='medium' />,
     id: 'scenes.earn.learn.rewards.description',
     link: 'https://support.blockchain.com/hc/en-us/sections/4416668318740-Rewards',
-    title: (
-      <Text color={SemanticColors.body}>
-        <FormattedMessage id='copy.rewards' defaultMessage='Rewards' />
-      </Text>
-    )
+    title: <FormattedMessage id='copy.passive-rewards' defaultMessage='Passive Rewards' />
   },
   {
     description: (
-      <Text color={SemanticColors.title} variant='paragraph1'>
-        <FormattedMessage
-          id='scenes.earn.learn.staking.description'
-          defaultMessage='Daily rewards for securing blockchain networks. For intermediate users.'
-        />
-      </Text>
+      <FormattedMessage
+        id='scenes.earn.learn.staking.description'
+        defaultMessage='Daily rewards for securing blockchain networks. For intermediate users.'
+      />
     ),
     icon: <IconLockClosed color={SemanticColors.primary} size='medium' />,
     id: 'scenes.earn.learn.staking.description',
     link: 'https://support.blockchain.com/hc/en-us/sections/5954708914460-Staking',
-    title: (
-      <Text color={SemanticColors.body}>
-        <FormattedMessage id='copy.staking' defaultMessage='Staking' />
-      </Text>
-    )
+    title: <FormattedMessage id='copy.staking-rewards' defaultMessage='Staking Rewards' />
   },
   {
     description: (
-      <Text color={SemanticColors.title} variant='paragraph1'>
-        <FormattedMessage
-          id='scenes.earn.learn.active-rewards.description'
-          defaultMessage='Weekly rewards for forecasting the market. For advanced users.'
-        />
-      </Text>
+      <FormattedMessage
+        id='scenes.earn.learn.active-rewards.description'
+        defaultMessage='Weekly rewards for forecasting the market. For advanced users.'
+      />
     ),
-    icon: <IconMarketUp color={SemanticColors.primary} size='medium' />,
+    icon: <Image name='bars' width='20px' height='24px' />,
     id: 'scenes.earn.learn.active-rewards.description',
     isActiveRewards: true,
     link: '/earn/active-rewards-learn',
-    title: (
-      <Text color={SemanticColors.body}>
-        <FormattedMessage id='copy.active-rewards' defaultMessage='Active Rewards' />
-      </Text>
-    )
+    title: <FormattedMessage id='copy.active-rewards' defaultMessage='Active Rewards' />
   }
 ]

@@ -26,7 +26,7 @@ const Learn = () => {
               isActiveRewards={isActiveRewards}
               key={id}
               link={link}
-              showDivider={i === 0}
+              showDivider={i !== 0}
               title={title}
             />
           )

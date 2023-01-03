@@ -291,6 +291,30 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Rates are determined by each protocol minus a Blockchain.com fee. Users receive the displayed rate.'
           />
         </Tooltip>
+        <Tooltip id='modals.active-rewards.summary.total-earned.tooltip'>
+          <FormattedMessage
+            id='modals.active-rewards.summary.total-earned.description.tooltip'
+            defaultMessage='Sum of all debits and credits of previous strategies.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.active-rewards.summary.annual-rate.tooltip'>
+          <FormattedMessage
+            id='modals.active-rewards.summary.annual-rate.description.tooltip'
+            defaultMessage='Rate perceived by the user if market price is at or lower than the trigger price at the expiration date.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.active-rewards.summary.trigger-price.tooltip'>
+          <FormattedMessage
+            id='modals.active-rewards.summary.trigger-price.description.tooltip'
+            defaultMessage='A price level that results in a debit to your crypto balance if exceeded on the expiration date.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.active-rewards.bonding.pending.tooltip'>
+          <FormattedMessage
+            id='modals.active-rewards.summary.bonding.pending.description.tooltip'
+            defaultMessage='Funds will be added to the subscribed amount once the current strategy finishes.'
+          />
+        </Tooltip>
         <Tooltip id='modals.staking.bonding.pending.tooltip'>
           <FormattedMessage
             id='modals.staking.bonding.pending.description.tooltip'

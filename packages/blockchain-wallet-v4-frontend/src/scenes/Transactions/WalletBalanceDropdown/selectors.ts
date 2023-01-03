@@ -19,9 +19,17 @@ export const getData = (state, ownProps: OwnProps) => {
   let addressDataR
   let balanceDataR
 
+  const isActiveRewardsEnabled = selectors.core.walletOptions
+    .getActiveRewardsEnabled(state)
+    .getOrElse(false) as boolean
+  const isStakingEnabled = selectors.core.walletOptions
+    .getIsStakingEnabled(state)
+    .getOrElse(false) as boolean
+
   switch (coin) {
     case 'BTC':
       addressDataR = getBtcAddressData(state, {
+        includeActiveRewards: isActiveRewardsEnabled,
         includeAll: false,
         includeCustodial: true,
         includeInterest: true
@@ -40,7 +48,7 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = getEthAddressData(state, {
         includeCustodial: true,
         includeInterest: true,
-        includeStaking: true
+        includeStaking: isStakingEnabled
       })
       balanceDataR = selectors.balances.getCoinTotalBalance(coin)(state)
       break

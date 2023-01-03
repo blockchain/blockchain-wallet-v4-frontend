@@ -39,7 +39,7 @@ const InterestTransactions: React.FC<Props> = ({ sourceType }) => {
             <FormattedMessage
               id='scenes.interest.earnAccount'
               defaultMessage='{product} Account'
-              values={{ product: sourceType === 'INTEREST' ? 'Rewards' : 'Staking' }}
+              values={{ product: sourceType === 'INTEREST' ? 'Passive' : 'Staking' }}
             />
           </Text>
           <Content weight={400}>

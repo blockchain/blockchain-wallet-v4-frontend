@@ -954,7 +954,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             asyncOrderConfirmCheck,
             confirmedOrder.id
           )
-
           // check if a nabu error was returned by the backend even if the request was a 200
           if (isNabuError(confirmedOrder)) {
             throw new NabuError(confirmedOrder)
@@ -986,6 +985,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
         yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+      } else if (confirmedOrder.attributes?.needCvv) {
+        yield put(A.confirmOrderSuccess(confirmedOrder))
+
+        yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
+
+        yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+        yield put(A.fetchOrders())
+        return
       } else if (
         confirmedOrder.attributes?.everypay?.paymentState === 'SETTLED' ||
         confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED' ||
@@ -1446,10 +1453,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const { amount, pair, paymentMethod, paymentMethodId } = payload
         const pairReversed = reversePair(pair)
 
-        // paymentMethodId is required when profile=SIMPLEBUY and paymentMethod=BANK_TRANSFER
-        const buyQuotePaymentMethodId =
-          paymentMethod === BSPaymentTypes.BANK_TRANSFER ? paymentMethodId : undefined
-
         const effectivePaymentMethod =
           paymentMethod === BSPaymentTypes.USER_CARD ? BSPaymentTypes.PAYMENT_CARD : paymentMethod
 
@@ -1459,7 +1462,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           'SIMPLEBUY',
           amount,
           effectivePaymentMethod,
-          buyQuotePaymentMethodId
+          paymentMethodId
         )
 
         const refreshConfig = getQuoteRefreshConfig({
@@ -1902,7 +1905,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (order && order.state === 'PENDING_CONFIRMATION') {
           return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
         }
-
         const origin = S.getOrigin(yield select())
 
         if (origin === 'SettingsGeneral') {
@@ -1921,7 +1923,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           } as BSPaymentMethodType
           yield put(A.setMethod(newCardMethod))
         }
-
         return yield put(
           A.createOrder({ paymentMethodId: card.id, paymentType: BSPaymentTypes.PAYMENT_CARD })
         )
@@ -1943,7 +1944,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const pollBSOrder = function* ({ payload }: ReturnType<typeof A.pollOrder>) {
+  const pollOrder = function* ({ payload }: ReturnType<typeof A.pollOrder>) {
     let retryAttempts = 0
     const maxRetryAttempts = 10
 
@@ -2340,8 +2341,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     initializeBillingAddress,
     initializeCheckout,
     pollBSBalances,
-    pollBSOrder,
     pollCard,
+    pollOrder,
     registerCard,
     setStepChange,
     showModal,

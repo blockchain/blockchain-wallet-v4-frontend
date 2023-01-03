@@ -732,35 +732,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
 
-      case actions.components.buySell.createOrder.type: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        const inputCurrency = state.components.buySell.fiatCurrency
-        const inputAmount = Number(state.form.buySellCheckout.values.amount)
-        const inputAMountMax = Number(state.components.buySell.pair.buyMax) / 100
-        const outputCurrency = state.components.buySell.cryptoCurrency
-
-        analytics.push(AnalyticsKey.BUY_AMOUNT_ENTERED, {
-          properties: {
-            input_amount: inputAmount,
-            input_currency: inputCurrency,
-            max_card_limit: inputAMountMax,
-            originalTimestamp: getOriginalTimestamp(),
-            output_currency: outputCurrency
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
       case actions.components.buySell.handleBuyMaxAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
