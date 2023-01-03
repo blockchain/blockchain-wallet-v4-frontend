@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Flex, Padding, SemanticColors, Text } from '@blockchain-com/constellation'
+import { Flex, Link, Padding, SemanticColors, Text } from '@blockchain-com/constellation'
 
-import { faqs } from './Faq.model'
+import { faqs, LinkContainer } from './Faq.model'
 import FaqItem from './FaqItem'
 
 const Faq = () => (
@@ -17,6 +17,19 @@ const Faq = () => (
       {faqs.map(({ answer, id, question }) => (
         <FaqItem answer={answer} key={id} question={question} />
       ))}
+      <LinkContainer>
+        <Link
+          href='https://support.blockchain.com/hc/en-us/sections/6868455075996-Active-Rewards'
+          size='default'
+          target='_blank'
+          text={
+            <FormattedMessage
+              defaultMessage='Go to Support Center'
+              id='scenes.earn.active-rewards-learn.faq.gotosupport'
+            />
+          }
+        />
+      </LinkContainer>
     </Flex>
   </Padding>
 )

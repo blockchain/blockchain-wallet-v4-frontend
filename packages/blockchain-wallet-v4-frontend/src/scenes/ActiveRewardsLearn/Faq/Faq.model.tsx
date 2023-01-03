@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { SemanticColors, Text } from '@blockchain-com/constellation'
+import styled from 'styled-components'
 
 import { Link } from 'blockchain-info-components'
 
@@ -139,3 +140,9 @@ export const faqs: FaqType[] = [
     )
   }
 ]
+
+export const LinkContainer = styled.div`
+  & > a {
+    padding-left: 1rem !important;
+  }
+`
