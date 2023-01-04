@@ -153,9 +153,15 @@ export type RefreshConfig = {
 }
 
 export type BuyQuoteStateType = {
+  amount: string
   fee: string
   pair: string
+  paymentMethod: BSPaymentTypes
+  paymentMethodId?: BSCardType['id']
   quote: BuyQuoteType
+  /**
+   * @deprecated
+   */
   rate: number
   refreshConfig: RefreshConfig
 }

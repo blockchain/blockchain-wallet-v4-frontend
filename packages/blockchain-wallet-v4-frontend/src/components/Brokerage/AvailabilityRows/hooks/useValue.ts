@@ -3,8 +3,13 @@ import { add, format } from 'date-fns'
 
 import { DepositTerms, DisplayMode } from 'data/types'
 
-const useValue = (type: 'Trade' | 'Withdraw', depositTerms: DepositTerms) => {
+const useValue = (type: 'Trade' | 'Withdraw', depositTerms?: DepositTerms) => {
   const { formatMessage } = useIntl()
+
+  if (!depositTerms) {
+    return undefined
+  }
+
   const minutesMax = depositTerms[`availableTo${type}MinutesMax`]
   const minutesMin = depositTerms[`availableTo${type}MinutesMin`]
   const displayMode = depositTerms[`availableTo${type}DisplayMode`]
