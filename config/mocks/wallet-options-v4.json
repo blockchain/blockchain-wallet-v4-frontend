@@ -36,6 +36,7 @@
       },
       "featureFlags": {
         "accountRecoveryV2": true,
+        "activeRewardsPromoBanner": true,
         "addCheckoutPaymentProvider": true,
         "addPlaidPaymentProvider": true,
         "addStripePaymentProvider": false,
