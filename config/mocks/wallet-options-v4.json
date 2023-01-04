@@ -36,6 +36,7 @@
       },
       "featureFlags": {
         "accountRecoveryV2": true,
+        "activeRewardsPromoBanner": true,
         "addCheckoutPaymentProvider": true,
         "addPlaidPaymentProvider": true,
         "addStripePaymentProvider": false,
@@ -58,7 +59,7 @@
         "isActiveRewardsEnabled": true,
         "isReferralEnabled": true,
         "isReferralRetrievalEnabled": true,
-        "isStakingEnabled": true,
+        "isStakingEnabled": false,
         "mergeAndUpgrade": false,
         "nftExplorer": true,
         "recurringBuys": true,
