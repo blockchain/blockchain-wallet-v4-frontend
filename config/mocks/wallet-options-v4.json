@@ -59,7 +59,7 @@
         "isActiveRewardsEnabled": true,
         "isReferralEnabled": true,
         "isReferralRetrievalEnabled": true,
-        "isStakingEnabled": true,
+        "isStakingEnabled": false,
         "mergeAndUpgrade": false,
         "nftExplorer": true,
         "recurringBuys": true,
