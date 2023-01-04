@@ -60,7 +60,7 @@ const IcoMoon = {
   forbidden: '\\e904',
   'hamburger-menu': '\\e91b',
   hardware: '\\e91e',
-  home: '\\e914',
+  home: '\\e94f',
   'id-card': '\\e981',
   info: '\\e902',
   key: '\\e92b',
