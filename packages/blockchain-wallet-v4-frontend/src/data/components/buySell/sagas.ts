@@ -77,6 +77,7 @@ import {
   SDD_TIER
 } from './model'
 import { createBuyQuoteLoopAndWaitForFirstResult } from './sagas/createBuyQuoteLoopAndWaitForFirstResult'
+import { updateCardCvvAndPollOrder } from './sagas/updateCardCvvAndPollOrder'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
@@ -922,6 +923,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         paymentMethodId
       })
 
+      // TODO: Deprecated, delete
       if (confirmedOrder.paymentError) {
         throw new Error(confirmedOrder.paymentError)
       }
@@ -1888,6 +1890,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           step !== 'ADD_CARD_VGS' &&
           step !== '3DS_HANDLER_EVERYPAY' &&
           step !== '3DS_HANDLER_STRIPE' &&
+          step !== '3DS_HANDLER_FAKE_CARD_ACQUIRER' &&
           step !== '3DS_HANDLER_CHECKOUTDOTCOM'
         ) {
           yield cancel()
@@ -1957,8 +1960,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         step = S.getStep(yield select())
         retryAttempts += 1
         if (
+          step !== 'UPDATE_SECURITY_CODE' &&
           step !== '3DS_HANDLER_EVERYPAY' &&
           step !== '3DS_HANDLER_STRIPE' &&
+          step !== '3DS_HANDLER_FAKE_CARD_ACQUIRER' &&
           step !== '3DS_HANDLER_CHECKOUTDOTCOM'
         ) {
           yield cancel()
@@ -2347,6 +2352,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     setStepChange,
     showModal,
     switchFix,
-    updateCardCvv
+    updateCardCvv,
+    updateCardCvvAndPollOrder
   }
 }
