@@ -99,6 +99,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
         })
         const frequencyText =
           recurringBuy && getPeriodForSuccess(recurringBuy.period, recurringBuy.nextPayment)
+
         if (order.state === 'PENDING_DEPOSIT') {
           if (order.attributes?.needCvv) {
             this.props.buySellActions.setStep({
@@ -132,6 +133,15 @@ class OrderSummaryContainer extends PureComponent<Props> {
               step: '3DS_HANDLER_CHECKOUTDOTCOM'
             })
           }
+
+          if (
+            order.attributes?.cardProvider?.cardAcquirerName === 'FAKE_CARD_ACQUIRER' &&
+            order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+          ) {
+            this.props.buySellActions.setStep({
+              step: '3DS_HANDLER_FAKE_CARD_ACQUIRER'
+            })
+          }
         }
 
         const handleCompleteButton = () => {
@@ -153,6 +163,12 @@ class OrderSummaryContainer extends PureComponent<Props> {
           if (order.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
             this.props.buySellActions.setStep({
               step: '3DS_HANDLER_CHECKOUTDOTCOM'
+            })
+          }
+
+          if (order.attributes?.cardProvider?.cardAcquirerName === 'FAKE_CARD_ACQUIRER') {
+            this.props.buySellActions.setStep({
+              step: '3DS_HANDLER_FAKE_CARD_ACQUIRER'
             })
           }
         }

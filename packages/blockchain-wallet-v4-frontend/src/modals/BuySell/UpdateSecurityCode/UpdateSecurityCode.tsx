@@ -44,21 +44,15 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
   const updateCvv = () => {
     const paymentId = order?.attributes?.paymentId || order?.depositPaymentId
     if (cvv && paymentId) {
-      dispatch(actions.components.buySell.updateCardCvv({ cvv, paymentId }))
+      dispatch(actions.components.buySell.updateCardCvvAndPollOrder({ cvv, paymentId }))
     }
   }
 
   useEffect(() => {
-    let timeout
-    if (cvvHasData) {
-      timeout = setTimeout(() => {
-        dispatch(actions.components.buySell.setStep({ step: 'CHECKOUT_CONFIRM' }))
-      }, 500)
-    }
     return () => {
-      clearTimeout(timeout)
+      dispatch(actions.components.buySell.cvvStatusReset())
     }
-  }, [cvvHasData, dispatch])
+  }, [])
 
   if (!method) {
     backToEnterAmount()
