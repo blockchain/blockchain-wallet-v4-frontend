@@ -28,7 +28,7 @@ const postCodeRegex: Map<string, RegExp> = new Map([
   [CountryCode.BN, /^[a-zA-Z]{2}[0-9]{4}$/],
   [CountryCode.BG, /^[0-9]{4}$/],
   [CountryCode.KH, /^[0-9]{5}$/],
-  [CountryCode.CA, /^[ABCEGHJKLMNPRSTVXY]\\d[ABCEGHJ-NPRSTV-Z][\\s\\-]?\\d[ABCEGHJ-NPRSTV-Z]\\d$/],
+  [CountryCode.CA, /^[ABCEGHJ-NPRSTVXY][0-9][ABCEGHJ-NPRSTV-Z][ ]?[0-9][ABCEGHJ-NPRSTV-Z][0-9]$/],
   [CountryCode.CV, /^[0-9]{4}$/],
   [CountryCode.KY, /^KY[0-9]{5}$/],
   [CountryCode.TD, /^[0-9]{5}$/],
