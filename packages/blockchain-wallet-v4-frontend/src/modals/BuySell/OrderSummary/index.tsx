@@ -101,45 +101,51 @@ class OrderSummaryContainer extends PureComponent<Props> {
           recurringBuy && getPeriodForSuccess(recurringBuy.period, recurringBuy.nextPayment)
 
         if (order.state === 'PENDING_DEPOSIT') {
-          if (order.attributes?.needCvv) {
-            this.props.buySellActions.setStep({
-              step: 'UPDATE_SECURITY_CODE'
-            })
-          }
           if (
             (order.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
               order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
-            order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+            order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE' ||
+            (order.attributes?.cardCassy?.cardAcquirerName === 'EVERYPAY' &&
+              order.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
           ) {
             this.props.buySellActions.setStep({
               step: '3DS_HANDLER_EVERYPAY'
             })
-          }
-
-          if (
-            order.attributes?.cardProvider?.cardAcquirerName === 'STRIPE' &&
-            order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+          } else if (
+            (order.attributes?.cardProvider?.cardAcquirerName === 'STRIPE' &&
+              order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+            (order.attributes?.cardCassy?.cardAcquirerName === 'STRIPE' &&
+              order.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
           ) {
             this.props.buySellActions.setStep({
               step: '3DS_HANDLER_STRIPE'
             })
-          }
-
-          if (
-            order.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
-            order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+          } else if (
+            (order.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
+              order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+            (order.attributes?.cardCassy?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
+              order.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
           ) {
             this.props.buySellActions.setStep({
               step: '3DS_HANDLER_CHECKOUTDOTCOM'
             })
-          }
-
-          if (
-            order.attributes?.cardProvider?.cardAcquirerName === 'FAKE_CARD_ACQUIRER' &&
-            order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+          } else if (
+            (order.attributes?.cardProvider?.cardAcquirerName === 'FAKE_CARD_ACQUIRER' &&
+              order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+            (order.attributes?.cardCassy?.cardAcquirerName === 'FAKE_CARD_ACQUIRER' &&
+              order.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
           ) {
             this.props.buySellActions.setStep({
               step: '3DS_HANDLER_FAKE_CARD_ACQUIRER'
+            })
+          } else if (
+            order.attributes?.cardCassy?.paymentState !== 'SETTLED' &&
+            order.attributes?.needCvv
+          ) {
+            // It's possible for needCvv to be true and paymentState to be `WAITING_FOR_3DS_RESPONSE` in which case we
+            // want to do 3DS (because we already did cvv update) so this block needs to stay below the 3DS check blocks above
+            this.props.buySellActions.setStep({
+              step: 'UPDATE_SECURITY_CODE'
             })
           }
         }
