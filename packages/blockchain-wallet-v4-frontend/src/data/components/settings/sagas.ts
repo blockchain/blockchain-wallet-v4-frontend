@@ -1,7 +1,7 @@
 import { equals, includes, path, prop } from 'ramda'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 
-import { Remote } from '@core'
+import { UserDataType } from 'data/types'
 
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
@@ -44,7 +44,18 @@ export default ({ api, coreSagas }) => {
   const fetchLimitsAndDetails = function* () {
     try {
       yield put(A.fetchLimitsAndDetailsLoading())
-      const data = yield call(api.getLimitsAndFeaturesDetails)
+      // get user tier
+      yield put(actions.modules.profile.fetchUser())
+      yield take([
+        actions.modules.profile.fetchUserDataSuccess,
+        actions.modules.profile.fetchUserDataFailure
+      ])
+      const userDataR = selectors.modules.profile.getUserData(yield select())
+      const userData = userDataR.getOrElse({
+        tiers: { current: 0 }
+      } as UserDataType)
+
+      const data = yield call(api.getLimitsAndFeaturesDetails, userData.tiers.current)
       yield put(A.fetchLimitsAndDetailsSuccess(data))
     } catch (e) {
       yield put(A.fetchLimitsAndDetailsFailure(e))
