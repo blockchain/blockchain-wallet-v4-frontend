@@ -125,7 +125,7 @@
     "prop-types": "15.7.2",
     "qr.js": "https://github.com/defunctzombie/qr.js.git",
     "qrcode.react": "1.0.1",
-    "qs": "6.10.1",
+    "qs": "6.10.3",
     "ramda": "0.26.1",
     "react": "16.14.0",
     "react-query": "3.39.0",
