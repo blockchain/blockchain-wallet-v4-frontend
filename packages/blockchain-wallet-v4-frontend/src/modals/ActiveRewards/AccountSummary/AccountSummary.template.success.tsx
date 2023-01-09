@@ -160,8 +160,8 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
                 <Flex alignItems='center' gap={4}>
                   <Text color={SemanticColors.body} variant='paragraph1'>
                     <FormattedMessage
-                      id='modals.active-rewards.totalearned'
-                      defaultMessage='Total Earned'
+                      id='modals.active-rewards.netearnings'
+                      defaultMessage='Net Earnings'
                     />
                   </Text>
                   <TooltipHost id='modals.active-rewards.summary.total-earned.tooltip'>

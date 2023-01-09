@@ -5,7 +5,7 @@ import {
   getDexUserEligibility
 } from './requests'
 
-export type { DexChain, DexSwapQuote, DexToken } from './types'
+export type { DexChain, DexSwapQuote, DexToken, DexTokenWithBalance } from './types'
 
 export default ({ apiUrl, authorizedGet, authorizedPost, get, post }) => {
   return {

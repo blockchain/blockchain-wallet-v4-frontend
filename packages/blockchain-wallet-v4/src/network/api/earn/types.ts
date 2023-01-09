@@ -163,7 +163,7 @@ export type TransactionType = {
     | 'MANUAL_REVIEW'
     | 'CLEARED'
     | 'REFUNDED'
-  type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
+  type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING' | 'DEBIT'
 }
 
 export type EarnTransactionResponseType = {
