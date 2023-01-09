@@ -1,5 +1,7 @@
 // TODO: Split this file into domains
-import { CoinType } from '@core/types'
+import type { BigNumber } from 'bignumber.js'
+
+import type { CoinType } from '@core/types'
 
 // single only is supported now
 export type DexVenueName = 'ZEROX'
@@ -24,6 +26,7 @@ export type DexTokenNotNative = DexTokenCommon & {
 }
 
 export type DexToken = DexTokenNative | DexTokenNotNative
+export type DexTokenWithBalance = DexToken & { balance: number | BigNumber }
 
 export type DexChain = {
   chainId: number
