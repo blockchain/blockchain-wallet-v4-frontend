@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { connect, ConnectedProps, Provider } from 'react-redux'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { ThemeProvider as ConstellationTP } from '@blockchain-com/constellation'
 import { ConnectedRouter } from 'connected-react-router'
 import { Store } from 'redux'
@@ -125,7 +125,7 @@ const App = ({
                     <UrqlProvider value={client}>
                       <ConnectedRouter history={history}>
                         <Suspense fallback={<Loading />}>
-                          <Switch>
+                          <Routes>
                             {/* Unauthenticated Wallet routes */}
                             <Route path='/app-error' component={AppError} />
                             <AuthLayout
@@ -231,9 +231,10 @@ const App = ({
                                 component={NftsAsset}
                               />
                             )}
-                            <Route exact path='/nfts'>
+                            {/* FIXME: handle this */}
+                            {/* <Route exact path='/nfts'>
                               <Redirect to='/nfts/view' />
-                            </Route>
+                            </Route> */}
                             {isNftExplorerEnabled && (
                               <NftsLayout
                                 path='/nfts/view'
@@ -270,8 +271,9 @@ const App = ({
                               center={isCoinViewV2Enabled}
                               removeContentPadding
                             />
-                            {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
-                          </Switch>
+                            {/* FIXME: Figure out what to do when there's no match */}
+                            {/* {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />} */}
+                          </Routes>
                         </Suspense>
                       </ConnectedRouter>
                       <SiftScience userId={userData.id} />
