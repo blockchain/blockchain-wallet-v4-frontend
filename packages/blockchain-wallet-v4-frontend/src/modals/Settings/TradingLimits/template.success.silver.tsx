@@ -6,6 +6,7 @@ import { fiatToString } from '@core/exchange/utils'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContent } from 'components/Flyout/Layout'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Analytics, ModalName } from 'data/types'
 
 import { IconsContainer, Title } from '../../components'
@@ -14,9 +15,7 @@ import { TIER_TYPES } from './model'
 import {
   Disclaimer,
   RowItemSubTitle,
-  RowItemSubTitleWhite,
   RowItemTitle,
-  RowItemTitleWhite,
   RowItemWrapper,
   StatusCartridge,
   StatusCartridgeSuccess,
@@ -24,8 +23,6 @@ import {
   UpgradeRow,
   UpgradeRowWithBorder
 } from './styles'
-
-const SWAP_LIMIT = 2000
 
 const Wrapper = styled.div`
   width: 100%;
@@ -57,7 +54,8 @@ const HeaderWrapper = styled(FlyoutWrapper)`
 type Props = OwnProps & SuccessStateType
 
 const Template: React.FC<Props> = (props) => {
-  const { analyticsActions, handleClose, sddEligible, userData, userTiers } = props
+  const { analyticsActions, handleClose, limitsAndDetails, sddEligible, userData, userTiers } =
+    props
   const userCurrentTier = userData?.tiers?.current ?? 0
 
   const sddCheckTier =
@@ -108,6 +106,8 @@ const Template: React.FC<Props> = (props) => {
   if (!Array.isArray(userTiers)) {
     return null
   }
+
+  const swapCrypto = limitsAndDetails.limits.find((limit) => limit.name === 'SWAP_CRYPTO')
 
   return (
     <Wrapper>
@@ -203,6 +203,7 @@ const Template: React.FC<Props> = (props) => {
                     defaultMessage='Swap Crypto'
                   />
                 </RowItemTitle>
+
                 <RowItemSubTitle>
                   <FormattedMessage
                     id='modals.onboarding.upgrade_now.between_all_wallets_and_accounts'
@@ -301,21 +302,22 @@ const Template: React.FC<Props> = (props) => {
                   />
                 </RowItemTitle>
                 <RowItemSubTitle>
-                  {props.products?.swap?.maxOrdersCap === 1 ? (
+                  {swapCrypto?.limit ? (
                     <FormattedMessage
-                      id='modals.onboarding.upgrade_now.one_time_between_private_key_wallets'
-                      defaultMessage='One-Time Between Private Key Wallets'
+                      id='modals.onboarding.upgrade_now.swap_without_limits_with_period'
+                      defaultMessage='Up to {amount} per {period}'
+                      values={{
+                        amount: fiatToString({
+                          unit: swapCrypto.limit.value.currency,
+                          value: convertBaseToStandard('FIAT', swapCrypto.limit.value.value)
+                        }),
+                        period: swapCrypto.limit.period.toLocaleLowerCase()
+                      }}
                     />
                   ) : (
                     <FormattedMessage
-                      id='modals.onboarding.upgrade_now.swap_without_limits'
-                      defaultMessage='Up to {amount}'
-                      values={{
-                        amount: fiatToString({
-                          unit: props.walletCurrency,
-                          value: SWAP_LIMIT
-                        })
-                      }}
+                      id='modals.onboarding.upgrade_now.one_time_between_private_key_wallets'
+                      defaultMessage='One-Time Between Private Key Wallets'
                     />
                   )}
                 </RowItemSubTitle>

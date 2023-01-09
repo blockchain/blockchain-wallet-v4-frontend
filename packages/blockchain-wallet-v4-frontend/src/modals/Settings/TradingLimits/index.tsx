@@ -30,8 +30,8 @@ class TradingLimits extends PureComponent<Props, State> {
     // fetch user details to obtain most recent state
     this.props.profileActions.fetchUserDataLoading()
     this.props.profileActions.fetchUser()
-    this.props.fetchLimitsAndDetails()
     this.props.custodialActions.fetchProductEligibilityForUser()
+    this.props.fetchLimitsAndDetails()
   }
 
   handleClose = () => {
