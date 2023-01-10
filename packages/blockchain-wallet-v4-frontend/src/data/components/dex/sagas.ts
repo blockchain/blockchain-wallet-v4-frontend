@@ -86,8 +86,8 @@ export default ({ api }: { api: APIType }) => {
           )
           tokenList = yield* call(api.getDexChainTokens, currentChain.chainId, {
             cancelToken: cancelSource.token,
-            search: action.payload.search,
-            type: 'RELOAD' as const
+            offset: 0,
+            search: action.payload.search
           })
           yield* put(
             A.fetchChainTokensSuccess({
@@ -100,8 +100,7 @@ export default ({ api }: { api: APIType }) => {
           tokenList = yield* call(api.getDexChainTokens, currentChain.chainId, {
             cancelToken: undefined,
             offset: currentTokensMeta.count,
-            search: action.payload.search,
-            type: 'LOAD_MORE' as const
+            search: action.payload.search
           })
           yield* put(
             A.fetchChainTokensSuccess({
