@@ -6,7 +6,7 @@ import { IconPresent, IconRefresh, Navigation } from '@blockchain-com/constellat
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
 import { useRemote } from 'hooks'
-import { notReachable } from 'utils/notReachable'
+import { notReachable } from 'utils/helpers'
 
 import { AccountDropdown, NavbarWrapper } from './components'
 import { useIsReferralAvailable, useUserAlias } from './hooks'

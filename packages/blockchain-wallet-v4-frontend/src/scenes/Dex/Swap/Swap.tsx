@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form'
 
 import { model, selectors } from 'data'
 import { DexSwapForm } from 'data/components/dex/types'
-import { notReachable } from 'utils/notReachable'
+import { notReachable } from 'utils/helpers'
 
 import { PageWrapper } from '../components'
 import { ConfirmSwap } from './ConfirmSwap'
@@ -30,7 +30,7 @@ const SwapForm = (form: InjectedFormProps<DexSwapForm>) => {
     ) {
       onGoBack()
     }
-  }, [swapFormValues.step, swapFormValues.baseToken, swapFormValues.counterToken])
+  }, [swapFormValues.step, swapFormValues.baseToken, swapFormValues.counterToken, onGoBack])
 
   switch (swapFormValues.step) {
     case 'ENTER_DETAILS':

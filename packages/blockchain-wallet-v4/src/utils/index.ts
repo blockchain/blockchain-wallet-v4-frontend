@@ -5,6 +5,7 @@ import * as bch from './bch'
 import * as btc from './btc'
 import * as checks from './checks'
 import * as eth from './eth'
+import { notReachable } from './notReachable'
 import * as xlm from './xlm'
 
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, deepEqual)
@@ -48,5 +49,6 @@ export {
   errorHandlerCode,
   eth,
   MISSING_WALLET,
+  notReachable,
   xlm
 }

@@ -1,42 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { FormattedMessage, useIntl } from 'react-intl'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  Flex,
-  IconCloseCircleV2,
-  IconSearch,
-  Input,
-  Padding,
-  PaletteColors,
-  SemanticColors,
-  Text
-} from '@blockchain-com/constellation'
 import { compose } from 'redux'
 
 import type { CoinType } from '@core/types'
 import { Modal } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions, model, selectors } from 'data'
 import { DexSwapForm, DexSwapSide, DexSwapSideFields, ModalName } from 'data/types'
-import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
-import { debounce } from 'utils/helpers'
+import { notReachable } from 'utils/helpers'
 
-import { TokenName, ViewEtherscan } from './components'
-import { getDexTokensList } from './SelectToken.selectors'
-import {
-  CloseIcon,
-  Loading,
-  NoResultsWrapper,
-  SearchIconWrapper,
-  TextFilterWrapper,
-  TokenBalanceColumn,
-  TokenDetails,
-  TokenIcon,
-  TokenList,
-  TokenRow
-} from './styles'
+import { Header, SearchField, TokenList } from './components'
+import { useTokensListData, useTokensListScroll, useTokensListSearch } from './hooks'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
@@ -48,18 +22,41 @@ type Props = {
 
 const DexSelectToken = ({ position, swapSide, total }: Props) => {
   const dispatch = useDispatch()
-  const { formatMessage } = useIntl()
-
-  const [search, setSearch] = useState<string | null>(null)
 
   const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
 
-  const {
-    data: dexTokensList,
-    hasError: isDexTokensListFailed,
-    isLoading: isDexTokensListLoading
-  } = useRemote(getDexTokensList)
+  const tokensListState = useTokensListData()
+
+  const { onSearchChange, search } = useTokensListSearch({
+    onSearch: (s) =>
+      dispatch(actions.components.dex.fetchChainTokens({ search: s, type: 'RELOAD' }))
+  })
+
+  const { onScroll, ref: scrollableRef } = useTokensListScroll({
+    isActive: tokensListState.type === 'LOADED',
+    onScrollEnd: () => {
+      switch (tokensListState.type) {
+        case 'ERROR':
+        case 'IS_EMPTY':
+        case 'LOADING':
+        case 'LOADING_MORE':
+        case 'NO_MORE_TOKENS':
+          break
+        case 'LOADED':
+          dispatch(
+            actions.components.dex.fetchChainTokens({ search: search || '', type: 'LOAD_MORE' })
+          )
+          break
+        default:
+          notReachable(tokensListState)
+      }
+    }
+  })
+
+  const onClose = () => {
+    dispatch(actions.modals.closeModal())
+  }
 
   const onTokenSelect = (token: CoinType) => {
     // set selected token
@@ -71,25 +68,8 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
       dispatch(actions.form.change(DEX_SWAP_FORM, DexSwapSideFields[oppositeSide], undefined))
     }
 
-    dispatch(actions.modals.closeModal())
+    onClose()
   }
-
-  const onClose = () => {
-    dispatch(actions.modals.closeModal())
-  }
-
-  const onSearchTokens = useMemo(
-    () =>
-      debounce((s: string) => {
-        if (s === null) return
-        dispatch(actions.components.dex.fetchChainAllTokens({ search: s || '' }))
-      }, 200),
-    []
-  )
-
-  useEffect(() => {
-    onSearchTokens(search)
-  }, [search])
 
   return (
     <Modal
@@ -98,101 +78,44 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
       position={position}
       style={{ height: '480px', padding: '24px', width: '480px' }}
     >
-      <Flex justifyContent='space-between'>
-        <Text color={SemanticColors.body} variant='title2'>
-          <FormattedMessage id='copy.select_token' defaultMessage='Select Token' />
-        </Text>
-        <CloseIcon onClick={onClose}>
-          <IconCloseCircleV2 label='close' size='medium' color={PaletteColors['grey-400']} />
-        </CloseIcon>
-      </Flex>
-      <TextFilterWrapper>
-        <Input
-          id='dexCoinSearch'
-          state='default'
-          type='text'
-          onChange={(event) => setSearch((event.target as HTMLInputElement).value)}
-          placeholder={formatMessage({
-            defaultMessage: 'Search Symbol or Address',
-            id: 'dex.searCoin.placeholder'
-          })}
-        />
-        <SearchIconWrapper>
-          <IconSearch label='close' size='medium' color={PaletteColors['grey-400']} />
-        </SearchIconWrapper>
-      </TextFilterWrapper>
+      <Header onClickClose={onClose} />
+      <SearchField onChange={onSearchChange} />
 
-      {dexTokensList
-        ? (() => {
-            return dexTokensList.length ? (
-              <TokenList>
-                {dexTokensList.map((token) => (
-                  <TokenRow key={token.symbol} onClick={() => onTokenSelect(token.symbol)}>
-                    <TokenIcon name={token.symbol as CoinType} size='24px' />
-                    <TokenDetails>
-                      <Flex flexDirection='column'>
-                        <TokenName token={token} />
-                        <Flex alignItems='center'>
-                          <Text color={SemanticColors.muted} variant='paragraph1'>
-                            {token.symbol}
-                          </Text>
-                          <Padding left={0.5} />
-                          <ViewEtherscan tokenAddress={token.address} />
-                        </Flex>
-                      </Flex>
-                      <TokenBalanceColumn>
-                        <FiatDisplay
-                          coin={token.symbol}
-                          color='textBlack'
-                          currency={walletCurrency}
-                          cursor='pointer'
-                          data-e2e={`${token.symbol}FiatBalance`}
-                          lineHeight='150%'
-                          loadingHeight='20px'
-                          size='16px'
-                          weight={600}
-                        >
-                          {token.balance}
-                        </FiatDisplay>
-                        <CoinDisplay
-                          coin={token.symbol}
-                          color='grey600'
-                          cursor='pointer'
-                          data-e2e={`${token.symbol}Balance`}
-                          lineHeight='20px'
-                          size='14px'
-                          weight={500}
-                        >
-                          {token.balance}
-                        </CoinDisplay>
-                      </TokenBalanceColumn>
-                    </TokenDetails>
-                  </TokenRow>
-                ))}
-              </TokenList>
-            ) : (
-              <NoResultsWrapper>
-                <Text color={SemanticColors.body} variant='body1'>
-                  <FormattedMessage
-                    id='dex.tokens.notFound'
-                    defaultMessage='No results found for {search}'
-                    values={{ search }}
-                  />
-                </Text>
-              </NoResultsWrapper>
+      {(() => {
+        switch (tokensListState.type) {
+          case 'LOADING':
+            return <TokenList.Loading />
+          case 'IS_EMPTY':
+            return <TokenList.Empty search={search || ''} />
+          case 'ERROR':
+            return <TokenList.Failed />
+          case 'LOADED':
+          case 'NO_MORE_TOKENS':
+            return (
+              <TokenList
+                ref={scrollableRef}
+                walletCurrency={walletCurrency}
+                data={tokensListState.data || []}
+                onTokenSelect={onTokenSelect}
+                onScroll={() => onScroll()}
+              />
             )
-          })()
-        : null}
-
-      {isDexTokensListLoading ? <Loading /> : null}
-
-      {isDexTokensListFailed ? (
-        <NoResultsWrapper>
-          <Text color={SemanticColors.error} variant='body1'>
-            <FormattedMessage id='dex.tokens.failedToLoad' defaultMessage='Unable to get tokens' />
-          </Text>
-        </NoResultsWrapper>
-      ) : null}
+          case 'LOADING_MORE':
+            return (
+              <TokenList
+                ref={scrollableRef}
+                walletCurrency={walletCurrency}
+                data={tokensListState.data || []}
+                onTokenSelect={onTokenSelect}
+                onScroll={() => onScroll()}
+              >
+                <TokenList.LoadingMore />
+              </TokenList>
+            )
+          default:
+            notReachable(tokensListState)
+        }
+      })()}
     </Modal>
   )
 }

@@ -1,9 +1,12 @@
+import { PayloadAction } from '@reduxjs/toolkit'
 import { call, cancelled, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
+import type { DexToken } from '@core/network/api/dex'
 import { cancelRequestSource } from '@core/network/utils'
 import { actions, model, selectors } from 'data'
+import { notReachable } from 'utils/helpers'
 
 import { actions as A } from './slice'
 import type { DexSwapForm } from './types'
@@ -49,33 +52,69 @@ export default ({ api }: { api: APIType }) => {
       // since MVP only supports ETH chain, set as current and then pre-fetch token list
       const ethChain = chainsList.find((chain) => chain.nativeCurrency.name === 'Ethereum')
       if (!ethChain) {
-        yield* put(A.fetchChainAllTokensFailure('Failed to get Ethereum chain'))
+        yield* put(A.fetchChainTokensFailure('Failed to get Ethereum chain'))
         return
       }
 
       yield* put(A.setCurrentChain(ethChain))
-      yield* put(A.fetchChainAllTokens({ search: '' }))
+      yield* put(A.fetchChainTokens({ search: '', type: 'RELOAD' }))
     } catch (e) {
       yield* put(A.fetchChainsFailure(e.toString()))
     }
   }
 
-  const fetchChainAllTokens = function* (action: ReturnType<typeof A.fetchChainAllTokens>) {
+  const fetchChainTokens = function* (
+    action: PayloadAction<{ search: string; type: 'RELOAD' | 'LOAD_MORE' }>
+  ) {
     const cancelSource = cancelRequestSource()
     try {
-      yield* put(A.fetchChainAllTokensLoading())
+      yield* put(A.fetchChainTokensLoading())
+      const currentTokensMeta = selectors.components.dex.getCurrentChainTokensMeta(yield* select())
+
       const currentChain = selectors.components.dex
         .getCurrentChain(yield* select())
         .getOrFail('Unable to get current chain')
-      const tokenList = yield* call(
-        api.getDexChainAllTokens,
-        currentChain.chainId,
-        action.payload.search,
-        cancelSource.token
-      )
-      yield* put(A.fetchChainAllTokensSuccess(tokenList))
+
+      let tokenList: DexToken[] = []
+      switch (action.payload.type) {
+        case 'RELOAD':
+          yield* put(
+            A.fetchChainTokensSuccess({
+              data: [],
+              type: 'RELOAD' as const
+            })
+          )
+          tokenList = yield* call(api.getDexChainTokens, currentChain.chainId, {
+            cancelToken: cancelSource.token,
+            search: action.payload.search,
+            type: 'RELOAD' as const
+          })
+          yield* put(
+            A.fetchChainTokensSuccess({
+              data: tokenList,
+              type: 'RELOAD' as const
+            })
+          )
+          break
+        case 'LOAD_MORE':
+          tokenList = yield* call(api.getDexChainTokens, currentChain.chainId, {
+            cancelToken: undefined,
+            offset: currentTokensMeta.count,
+            search: action.payload.search,
+            type: 'LOAD_MORE' as const
+          })
+          yield* put(
+            A.fetchChainTokensSuccess({
+              data: tokenList,
+              type: 'LOAD_MORE' as const
+            })
+          )
+          break
+        default:
+          notReachable(action.payload.type)
+      }
     } catch (e) {
-      yield* put(A.fetchChainAllTokensFailure(e.toString()))
+      yield* put(A.fetchChainTokensFailure(e.toString()))
     } finally {
       if (yield* cancelled()) {
         yield* call(cancelSource.cancel)
@@ -228,7 +267,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
-    fetchChainAllTokens,
+    fetchChainTokens,
     fetchChains,
     fetchSwapQuote,
     fetchUserEligibility
