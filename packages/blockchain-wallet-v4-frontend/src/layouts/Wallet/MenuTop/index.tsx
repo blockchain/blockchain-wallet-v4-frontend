@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { lift } from 'ramda'
 import { bindActionCreators } from 'redux'
 
@@ -41,4 +40,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector> & { history: { push: (path: string) => void } }
 
-export default withRouter(connector(HeaderContainer))
+export default connector(HeaderContainer)

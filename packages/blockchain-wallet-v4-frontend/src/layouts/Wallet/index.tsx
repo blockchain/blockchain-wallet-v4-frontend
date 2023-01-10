@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Redirect, Route } from 'react-router-dom'
+import { Route, useNavigate } from 'react-router-dom'
 
 import { selectors } from 'data'
 
@@ -18,37 +18,41 @@ const WalletLayoutContainer: FC<Props> = ({
   removeContentPadding,
   ...rest
 }: Props) => {
+  const navigate = useNavigate()
   let isValidRoute = true
   let coin
-
-  document.title = 'Blockchain.com Wallet'
-
   if (path.includes('/transactions')) {
     coin = computedMatch.params.coin
     if (!window.coins[coin]) isValidRoute = false
   }
 
+  useEffect(() => {
+    document.title = 'Blockchain.com Wallet'
+  })
+
+  useEffect(() => {
+    if (!isAuthenticated || !isValidRoute) {
+      navigate('/login')
+    }
+  })
+
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />
 
-  return !isAuthenticated ? (
-    <Redirect to={{ pathname: '/login', state: { from: '' } }} />
-  ) : isValidRoute ? (
-    <Route
-      path={path}
-      render={(props) => (
-        <WalletLayout
-          removeContentPadding={removeContentPadding}
-          hideMenu={hideMenu}
-          center={center}
-          pathname={props.location.pathname}
-        >
-          <Component computedMatch={computedMatch} {...rest} coin={coin} />
-        </WalletLayout>
-      )}
-    />
-  ) : (
-    <Redirect to={{ pathname: '/home', state: { from: '' } }} />
+  return (
+    // <Route
+    //   path={path}
+    //   render={(props) => (
+    //     <WalletLayout
+    //       removeContentPadding={removeContentPadding}
+    //       hideMenu={hideMenu}
+    //       pathname={props.location.pathname}
+    //     >
+    //       <Component computedMatch={computedMatch} {...rest} coin={coin} />
+    //     </WalletLayout>
+    //   )}
+    // />
+    <></>
   )
 }
 

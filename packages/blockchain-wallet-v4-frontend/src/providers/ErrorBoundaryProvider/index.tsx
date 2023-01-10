@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
@@ -68,4 +67,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & { history: { push: (path: string) => void } }
 
-export default withRouter(connector(ErrorBoundary))
+export default connector(ErrorBoundary)

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Redirect, Route } from 'react-router-dom'
+import { Route, useNavigate } from 'react-router-dom'
 
 import { CoinfigType, CoinType } from '@core/types'
 import { actions, selectors } from 'data'
@@ -23,9 +23,12 @@ const DexLayout = (props) => {
   if (pageTitle) document.title = pageTitle
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const isAuthenticated = useSelector(selectors.auth.isAuthenticated)
   const isCoinDataLoaded = useSelector(selectors.core.data.coins.getIsCoinDataLoaded)
+
+  const isValidRoute = ['/dex'].includes(path)
 
   useEffect(() => {
     if (isCoinDataLoaded) {
@@ -33,24 +36,19 @@ const DexLayout = (props) => {
     }
   }, [isCoinDataLoaded])
 
-  const isValidRoute = ['/dex'].includes(path)
+  useEffect(() => {
+    if (!isAuthenticated || !isValidRoute) {
+      navigate('/login')
+    }
+  })
 
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />
 
-  return !isAuthenticated ? (
-    <Redirect to={{ pathname: '/login', state: { from: '' } }} />
-  ) : isValidRoute ? (
-    <Route
-      path={path}
-      render={() => (
-        <DexTemplate {...props}>
-          <Component {...rest} />
-        </DexTemplate>
-      )}
-    />
-  ) : (
-    <Redirect to={{ pathname: '/home', state: { from: '' } }} />
+  return (
+    <DexTemplate {...props}>
+      <Component {...rest} />
+    </DexTemplate>
   )
 }
 

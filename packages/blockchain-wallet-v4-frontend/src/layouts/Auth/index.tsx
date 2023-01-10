@@ -7,7 +7,6 @@ import Alerts from 'components/Alerts'
 import { selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { useDefer3rdPartyScript } from 'hooks'
-import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
 import Modals from '../../modals'
@@ -91,33 +90,23 @@ const AuthLayoutContainer = ({
   // update page title from route
   if (pageTitle) document.title = pageTitle
   return (
-    <Route
-      path={path}
-      exact={exact}
-      render={(matchProps) => (
-        <ErrorBoundary>
-          <Wrapper authProduct={authProduct}>
-            <Alerts />
-            <HeaderContainer>
-              <Header authProduct={authProduct} />
-            </HeaderContainer>
-            <Modals />
-            <ContentContainer>
-              <Component {...matchProps} />
-            </ContentContainer>
-            <FooterContainer>
-              <Footer
-                authProduct={authProduct}
-                formValues={formValues}
-                platform={platform}
-                path={path}
-                unified={unified}
-              />
-            </FooterContainer>
-          </Wrapper>
-        </ErrorBoundary>
-      )}
-    />
+    <Wrapper authProduct={authProduct}>
+      <Alerts />
+      <HeaderContainer>
+        <Header authProduct={authProduct} />
+      </HeaderContainer>
+      <Modals />
+      <ContentContainer>{/* <Component {...matchProps} /> */}</ContentContainer>
+      <FooterContainer>
+        <Footer
+          authProduct={authProduct}
+          formValues={formValues}
+          platform={platform}
+          path={path}
+          unified={unified}
+        />
+      </FooterContainer>
+    </Wrapper>
   )
 }
 

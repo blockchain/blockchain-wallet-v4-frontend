@@ -275,9 +275,6 @@ const Navbar = ({
       name: 'Settings'
     }
   ]
-  const secondaryMobileNavItems = secondaryNavItems.filter(
-    ({ name }) => name !== 'Mobile App' && name !== 'Refresh' && name !== 'Settings'
-  )
 
   return (
     <NavContainer>
@@ -285,7 +282,6 @@ const Navbar = ({
         <MobileNav
           handleClose={closeMobileNavCallback}
           primaryNavItems={primaryNavItems}
-          secondaryNavItems={secondaryMobileNavItems}
           userNavItems={userNavItems({
             isReferralAvailable,
             isReferralRetrievalEnabled,

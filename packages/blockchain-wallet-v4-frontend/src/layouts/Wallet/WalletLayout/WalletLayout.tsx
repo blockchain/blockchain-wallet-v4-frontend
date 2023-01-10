@@ -1,8 +1,8 @@
-import React, { FC, ReactElement } from 'react'
+import React, { FC } from 'react'
 import { useIdleTimer } from 'react-idle-timer'
-import { connect, ConnectedProps } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { redirect, useLocation } from 'react-router-dom'
 import { replace } from 'ramda'
-import { bindActionCreators, Dispatch } from 'redux'
 
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
@@ -11,6 +11,7 @@ import ExchangePromo from 'components/Card/ExchangePromo'
 import { SupportChatForGoldUserOnly } from 'components/SupportChat'
 import Tooltips from 'components/Tooltips'
 import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
@@ -20,15 +21,13 @@ import MenuTop from '../MenuTop'
 import Page from '../Page'
 import { Container, Content, Nav, Wrapper } from './WalletLayout.styles'
 
-const WalletLayout: Props = ({
-  autoLogoutTimeLength,
-  center = false,
-  children,
-  hideMenu = false,
-  modalActions,
-  pathname,
-  removeContentPadding
-}) => {
+const WalletLayout: Props = ({ children, removeContentPadding }) => {
+  const dispatch = useDispatch()
+  const location = useLocation()
+  const autoLogoutTimeLength = useSelector(
+    (state: RootState) => selectors.core.wallet.getAutoLogoutTime(state) as number
+  )
+  const isAuthenticated = useSelector(selectors.auth.isAuthenticated)
   useIdleTimer({
     element: document,
     events: [
@@ -47,13 +46,20 @@ const WalletLayout: Props = ({
     eventsThrottle: 5_000, // throttle event detection to 5 seconds
     onIdle: () => {
       const idleTimeInMinutes = autoLogoutTimeLength / 60_000
-      modalActions.showModal(ModalName.AUTO_DISCONNECTION_MODAL, {
-        duration: idleTimeInMinutes,
-        origin: 'Unknown'
-      })
+      dispatch(
+        actions.modals.showModal(ModalName.AUTO_DISCONNECTION_MODAL, {
+          duration: idleTimeInMinutes,
+          origin: 'Unknown'
+        })
+      )
     },
     timeout: autoLogoutTimeLength
   })
+
+  if (!isAuthenticated) {
+    redirect('/login')
+    return null
+  }
 
   return (
     <Wrapper>
@@ -69,13 +75,12 @@ const WalletLayout: Props = ({
           <Announcements type='static' />
         </Nav>
         <Container>
-          {hideMenu ? null : <MenuLeft />}
+          <MenuLeft />
           <Content
-            center={center}
             removeContentPadding={removeContentPadding}
-            data-e2e={`page${replace(/\//g, '-', pathname)}`}
+            data-e2e={`page${replace(/\//g, '-', location.pathname)}`}
           >
-            <Page center={center}>{children}</Page>
+            <Page>{children}</Page>
           </Content>
         </Container>
         <SupportChatForGoldUserOnly />
@@ -84,24 +89,9 @@ const WalletLayout: Props = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  autoLogoutTimeLength: selectors.core.wallet.getAutoLogoutTime(state) as number
-})
+type Props = FC<{
+  hideMenu?: boolean
+  removeContentPadding?: boolean
+}>
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type Props = FC<
-  {
-    center?: boolean
-    children: ReactElement
-    hideMenu?: boolean
-    pathname: string
-    removeContentPadding?: boolean
-  } & ConnectedProps<typeof connector>
->
-
-export default connector(WalletLayout)
+export default WalletLayout
