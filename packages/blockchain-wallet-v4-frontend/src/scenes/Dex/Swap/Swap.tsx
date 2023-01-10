@@ -30,7 +30,7 @@ const SwapForm = (form: InjectedFormProps<DexSwapForm>) => {
     ) {
       onGoBack()
     }
-  }, [swapFormValues.step, swapFormValues.baseToken, swapFormValues.counterToken, onGoBack])
+  }, [swapFormValues.step, swapFormValues.baseToken, swapFormValues.counterToken])
 
   switch (swapFormValues.step) {
     case 'ENTER_DETAILS':
