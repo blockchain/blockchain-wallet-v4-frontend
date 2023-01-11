@@ -462,7 +462,7 @@ export type CardAcquirer = {
 }
 
 export type BuyQuoteType = {
-  depositTerms: DepositTerms
+  depositTerms?: DepositTerms
   feeDetails: {
     fee: string
     feeFlags: []
