@@ -27,6 +27,15 @@ class CheckoutConfirm extends PureComponent<Props> {
       this.props.buySellActions.fetchSDDVerified()
       this.props.buySellActions.fetchCards(false)
       this.props.brokerageActions.fetchBankTransferAccounts()
+      if (this.props.pendingOrder) {
+        this.props.brokerageActions.fetchDepositTerms({
+          amount: {
+            symbol: this.props.pendingOrder.inputQuantity,
+            value: this.props.pendingOrder.inputCurrency
+          },
+          paymentMethodId: this.props.pendingOrder.id
+        })
+      }
     }
   }
 

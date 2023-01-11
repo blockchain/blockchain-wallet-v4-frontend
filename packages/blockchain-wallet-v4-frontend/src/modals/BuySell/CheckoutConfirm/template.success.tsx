@@ -625,7 +625,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         </RowText>
       </RowItem>
 
-      {props.availableToTradeWithdraw && (
+      {props.pendingOrder && props.availableToTradeWithdraw && (
         <AvailabilityRows depositTerms={props.quote.quote.depositTerms} />
       )}
 
