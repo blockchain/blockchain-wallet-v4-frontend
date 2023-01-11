@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button } from '@blockchain-com/constellation'
+import { Button, Padding } from '@blockchain-com/constellation'
 
 import { actions, model, selectors } from 'data'
 import { DexSwapForm, DexSwapSide, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 
+import { AllowanceCheck } from '../AllowanceCheck'
 import {
   BaseRateAndFees,
   FlipPairButton,
@@ -26,6 +27,7 @@ type Props = {
 
 export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const dispatch = useDispatch()
+  const [isApproved, setIsApproved] = useState(false)
 
   const [pairAnimate, setPairAnimate] = useState(false)
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
@@ -165,11 +167,17 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         ) : null
       ) : null}
 
+      {baseToken && counterToken && quote ? (
+        <Padding vertical={1}>
+          <AllowanceCheck coinSymbol={baseToken} onApprove={() => setIsApproved(true)} />
+        </Padding>
+      ) : null}
+
       <Button
         size='large'
         width='full'
         variant='primary'
-        disabled={!quote}
+        disabled={!quote || !isApproved}
         onClick={onConfirmSwap}
         text={<FormattedMessage id='copy.swap' defaultMessage='Swap' />}
       />
