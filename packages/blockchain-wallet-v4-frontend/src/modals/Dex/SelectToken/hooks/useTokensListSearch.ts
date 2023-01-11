@@ -11,14 +11,14 @@ export const useTokensListSearch = ({ onSearch }: { onSearch: (s: string) => voi
         if (s === null) return
         onSearch(s)
       }, 200),
-    [onSearch]
+    []
   )
 
   useEffect(() => {
     if (search !== undefined) {
       onSearchTokens(search)
     }
-  }, [search, onSearchTokens])
+  }, [search])
 
   return {
     onSearchChange: (s: string) => setSearch(s),

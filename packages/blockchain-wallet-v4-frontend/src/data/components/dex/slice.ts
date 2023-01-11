@@ -25,7 +25,19 @@ const dexSlice = createSlice({
     fetchChainTokens: (
       state,
       action: PayloadAction<{ search: string; type: 'RELOAD' | 'LOAD_MORE' }>
-    ) => {},
+    ) => {
+      switch (action.payload.type) {
+        case 'RELOAD':
+          state.currentChainTokensMeta.status = 'LOADED'
+          state.currentChainTokensMeta.count = 0
+          state.currentChainTokens = Remote.Success([])
+          break
+        case 'LOAD_MORE':
+          break
+        default:
+          notReachable(action.payload.type)
+      }
+    },
     fetchChainTokensFailure: (state, action: PayloadAction<string>) => {
       state.currentChainTokens = Remote.Failure(action.payload)
       state.currentChainTokensMeta.status = 'LOADED'

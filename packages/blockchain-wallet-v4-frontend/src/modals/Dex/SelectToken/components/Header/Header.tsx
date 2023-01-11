@@ -10,9 +10,7 @@ import {
 import styled from 'styled-components'
 
 export const CloseIcon = styled.div`
-  > :first-child {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `
 
 export const Header = ({ onClickClose }: { onClickClose: () => void }) => {

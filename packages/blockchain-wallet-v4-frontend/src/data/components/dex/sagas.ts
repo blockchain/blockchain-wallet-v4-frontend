@@ -1,4 +1,3 @@
-import { PayloadAction } from '@reduxjs/toolkit'
 import { call, cancelled, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
@@ -63,9 +62,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchChainTokens = function* (
-    action: PayloadAction<{ search: string; type: 'RELOAD' | 'LOAD_MORE' }>
-  ) {
+  const fetchChainTokens = function* (action: ReturnType<typeof A.fetchChainTokens>) {
     const cancelSource = cancelRequestSource()
     try {
       yield* put(A.fetchChainTokensLoading())
@@ -78,12 +75,6 @@ export default ({ api }: { api: APIType }) => {
       let tokenList: DexToken[] = []
       switch (action.payload.type) {
         case 'RELOAD':
-          yield* put(
-            A.fetchChainTokensSuccess({
-              data: [],
-              type: 'RELOAD' as const
-            })
-          )
           tokenList = yield* call(api.getDexChainTokens, currentChain.chainId, {
             cancelToken: cancelSource.token,
             offset: 0,
@@ -92,7 +83,7 @@ export default ({ api }: { api: APIType }) => {
           yield* put(
             A.fetchChainTokensSuccess({
               data: tokenList,
-              type: 'RELOAD' as const
+              type: 'RELOAD'
             })
           )
           break
@@ -105,7 +96,7 @@ export default ({ api }: { api: APIType }) => {
           yield* put(
             A.fetchChainTokensSuccess({
               data: tokenList,
-              type: 'LOAD_MORE' as const
+              type: 'LOAD_MORE'
             })
           )
           break
