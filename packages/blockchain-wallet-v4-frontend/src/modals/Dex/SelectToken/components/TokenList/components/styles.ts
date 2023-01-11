@@ -1,30 +1,6 @@
-import React from 'react'
 import styled from 'styled-components'
 
-import { Icon as BcIcon, SpinningLoader } from 'blockchain-info-components'
-
-export const CloseIcon = styled.div`
-  > :first-child {
-    cursor: pointer;
-  }
-`
-
-export const TextFilterWrapper = styled.div`
-  position: relative;
-  display: flex;
-  width: 100%;
-  margin: 16px 0;
-
-  > div:first-child {
-    width: 100%;
-  }
-`
-
-export const SearchIconWrapper = styled.div`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-`
+import { Icon as BcIcon } from 'blockchain-info-components'
 
 export const NoResultsWrapper = styled.div`
   display: flex;
@@ -35,7 +11,7 @@ export const NoResultsWrapper = styled.div`
   margin: 42px 0 20px;
 `
 
-export const TokenList = styled.div`
+export const TokenListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   max-height: 350px;
@@ -71,15 +47,10 @@ export const TokenBalanceColumn = styled.div`
   align-items: flex-end;
 `
 
-const LoadingWrapper = styled.div`
+export const LoadingWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  width: 100%;
   padding: 28px 0;
 `
-
-export const Loading = () => (
-  <LoadingWrapper>
-    <SpinningLoader width='36px' height='36px' borderWidth='4px' />
-  </LoadingWrapper>
-)
