@@ -21,11 +21,13 @@ import { CoinType, FiatType, PaymentValue, WalletFiatType } from '@core/types'
 import {
   ActiveRewardsStep,
   EarnDepositFormType,
+  EarnInitializeWithdrawalType,
   EarnInstrumentsType,
   EarnMinMaxType,
   EarnStepMetaData,
   EarnTabsType,
   EarnTransactionType,
+  EarnWithdrawalType,
   ErrorStringType,
   InterestLimits,
   InterestState,
@@ -523,18 +525,10 @@ const interestSlice = createSlice({
       // eslint-disable-next-line
       state,
       // eslint-disable-next-line
-      action: PayloadAction<{ coin: CoinType; walletCurrency: FiatType }>
+      action: PayloadAction<EarnInitializeWithdrawalType>
     ) => {},
-    requestWithdrawal: (
-      // eslint-disable-next-line
-      state,
-      // eslint-disable-next-line
-      action: PayloadAction<{
-        coin: CoinType
-        withdrawalAmountCrypto: number
-        withdrawalAmountFiat: number
-      }>
-    ) => {},
+    // eslint-disable-next-line
+    requestWithdrawal: (state, action: PayloadAction<EarnWithdrawalType>) => {},
 
     resetShowInterestCardAfterTransaction: (state) => {
       state.afterTransaction = Remote.NotAsked

@@ -48,7 +48,7 @@ import {
 const PASSIVE_REWARDS_DEPOSIT_FORM = 'passiveRewardsDepositForm'
 const STAKING_DEPOSIT_FORM = 'stakingDepositForm'
 const ACTIVE_REWARDS_DEPOSIT_FORM = 'activeRewardsDepositForm'
-const WITHDRAWAL_FORM = 'interestWithdrawalForm'
+const PASSIVE_REWARDS_WITHDRAWAL_FORM = 'passiveRewardsWithdrawalForm'
 const ACTIVE_REWARDS_API_PRODUCT = 'EARN_CC1W'
 const STAKING_API_PRODUCT = 'STAKING'
 export const logLocation = 'components/interest/sagas'
@@ -926,7 +926,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const initializeWithdrawalForm = function* ({
     payload
   }: ReturnType<typeof A.initializeWithdrawalForm>) {
-    const { coin, walletCurrency } = payload
+    const { coin, formName, hidePkWallets, walletCurrency } = payload
     const coins = yield select(selectors.core.data.coins.getCoins)
     const coinfig = coins[coin]?.coinfig
     let defaultAccount
@@ -934,7 +934,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.setWithdrawalMinimumsLoading())
       const withdrawalMinimumsResponse: ReturnType<typeof api.getWithdrawalMinsAndFees> =
         yield call(api.getWithdrawalMinsAndFees)
-      if (coinfig.products.includes('PrivateKey')) {
+      if (coinfig.products.includes('PrivateKey') && !hidePkWallets) {
         defaultAccount = yield call(getDefaultAccountForCoin, coin)
       } else {
         defaultAccount = (yield call(getCustodialAccountForCoin, coin)).getOrFail(
@@ -943,7 +943,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(
-        initialize(WITHDRAWAL_FORM, {
+        initialize(formName, {
           coin,
           currency: walletCurrency,
           earnWithdrawalAccount: defaultAccount
@@ -1164,12 +1164,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const requestWithdrawal = function* ({ payload }: ReturnType<typeof A.requestWithdrawal>) {
-    const { coin, withdrawalAmountCrypto, withdrawalAmountFiat } = payload
+    const { coin, destination, formName, origin, withdrawalAmountCrypto, withdrawalAmountFiat } =
+      payload
     try {
-      yield put(actions.form.startSubmit(WITHDRAWAL_FORM))
+      yield put(actions.form.startSubmit(formName))
 
       const formValues: InterestWithdrawalFormType = yield select(
-        selectors.form.getFormValues(WITHDRAWAL_FORM)
+        selectors.form.getFormValues(formName)
       )
       const isCustodialWithdrawal = prop('type', formValues.earnWithdrawalAccount) === 'CUSTODIAL'
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmountCrypto)
@@ -1178,8 +1179,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(api.initiateCustodialTransfer, {
           amount: withdrawalAmountBase,
           currency: coin,
-          destination: 'SIMPLEBUY',
-          origin: 'SAVINGS'
+          destination,
+          origin
         })
       } else {
         const receiveAddress = yield call(getNextReceiveAddressForCoin, coin)
@@ -1187,7 +1188,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       // notify success
-      yield put(actions.form.stopSubmit(WITHDRAWAL_FORM))
+      yield put(actions.form.stopSubmit(formName))
       yield put(
         A.setRewardsStep({
           data: {
@@ -1202,7 +1203,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchEDDStatus())
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit(WITHDRAWAL_FORM, { _error: error }))
+      yield put(actions.form.stopSubmit(formName, { _error: error }))
       yield put(
         A.setRewardsStep({ data: { error, withdrawSuccess: false }, name: 'ACCOUNT_SUMMARY' })
       )

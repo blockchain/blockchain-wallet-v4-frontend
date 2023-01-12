@@ -48,7 +48,7 @@ import {
 } from './model'
 import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
 
-const FORM_NAME = 'interestWithdrawalForm'
+const FORM_NAME = 'passiveRewardsWithdrawalForm'
 
 // eslint-disable-next-line
 const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
@@ -149,6 +149,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     })
     interestActions.requestWithdrawal({
       coin,
+      destination: 'SIMPLEBUY',
+      formName: FORM_NAME,
+      origin: 'SAVINGS',
       withdrawalAmountCrypto,
       withdrawalAmountFiat
     })

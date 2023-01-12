@@ -12,6 +12,7 @@ import {
   EarnRatesType,
   FiatType,
   InterestLimitsType,
+  NabuCustodialProductType,
   PaymentValue,
   RatesType,
   RemoteDataType,
@@ -135,6 +136,22 @@ export type PendingTransactionType = {
   bondingDays?: number
   date: string
   type: 'BONDING' | 'TRANSACTIONS'
+}
+
+export type EarnInitializeWithdrawalType = {
+  coin: CoinType
+  formName: 'passiveRewardsWithdrawalForm' | 'activeRewardsWithdrawalForm'
+  hidePkWallets?: boolean
+  walletCurrency: FiatType
+}
+
+export type EarnWithdrawalType = {
+  coin: CoinType
+  destination: NabuCustodialProductType
+  formName: 'passiveRewardsWithdrawalForm' | 'activeRewardsWithdrawalForm'
+  origin: NabuCustodialProductType
+  withdrawalAmountCrypto: number
+  withdrawalAmountFiat: number
 }
 
 //
