@@ -72,6 +72,7 @@ export type SwapState = {
 export type SwapStepPayload =
   // added these optional payloads for data science tracking
   | {
+      isSuggestedPair?: boolean
       options?: {
         account?: SwapBaseCounterTypes
         coin?: CoinType

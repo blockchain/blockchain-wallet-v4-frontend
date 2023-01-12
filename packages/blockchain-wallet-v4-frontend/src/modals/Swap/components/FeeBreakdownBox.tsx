@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { convertCoinToFiat } from '@core/exchange'
@@ -9,10 +10,10 @@ import { FiatType, PaymentValue, RatesType, RemoteDataType, SwapQuoteStateType }
 import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
-import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
+import { Analytics, SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
 const Container = styled.div`
   background-color: ${(p) => p.theme.grey000};
@@ -49,6 +50,7 @@ const Footer = styled.div`
   padding: 16px;
 `
 const FeeBreakdownBox = ({
+  analyticsActions,
   base,
   basePayment,
   baseRates,
@@ -89,6 +91,15 @@ const FeeBreakdownBox = ({
     base.type === SwapBaseCounterTypes.CUSTODIAL && counter.type === SwapBaseCounterTypes.CUSTODIAL
   const bothNonCustodial =
     base.type === SwapBaseCounterTypes.ACCOUNT && counter.type === SwapBaseCounterTypes.ACCOUNT
+
+  const toggleFeesView = () => {
+    setToggle((prev) => !prev)
+
+    analyticsActions.trackEvent({
+      key: Analytics.SWAP_CHECKOUT_NETWORK_FEES_CLICKED,
+      properties: {}
+    })
+  }
 
   if (bothCustodial) {
     return (
@@ -136,9 +147,7 @@ const FeeBreakdownBox = ({
                   cursor
                   size='24px'
                   color='blue600'
-                  onClick={() => {
-                    setToggle((prev) => !prev)
-                  }}
+                  onClick={toggleFeesView}
                 />
               </IconWrapper>
             </HorizontalRow>
@@ -292,7 +301,11 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD') as FiatType
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 interface OwnProps {
   base: SwapAccountType

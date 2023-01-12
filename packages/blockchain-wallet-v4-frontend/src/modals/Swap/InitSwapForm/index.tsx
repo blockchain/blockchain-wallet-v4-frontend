@@ -12,6 +12,7 @@ import GetMoreAccess from 'components/Flyout/Banners/GetMoreAccess'
 import CoinAccountListBalance from 'components/Form/CoinAccountListBalance'
 import IdvIntro from 'components/IdentityVerification/IdvIntro'
 import { selectors } from 'data'
+import { Analytics } from 'data/analytics/types'
 import { InitSwapFormValuesType, SwapAccountType, SwapCoinType } from 'data/components/swap/types'
 
 import { Props as BaseProps, SuccessStateType } from '..'
@@ -51,7 +52,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     return accounts[coin].filter((account) => account.type === 'CUSTODIAL')[0]
   }
 
-  handleStepCoinSelection = (accounts: { [key in SwapCoinType]: Array<SwapAccountType> }) => {
+  handleBaseCoinSelection = (accounts: { [key in SwapCoinType]: Array<SwapAccountType> }) => {
     const isAccountZeroBalance = checkAccountZeroBalance(accounts)
 
     if (isAccountZeroBalance) {
@@ -66,6 +67,25 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         step: 'COIN_SELECTION'
       })
     }
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SWAP_FROM_WALLET_PAGE_CLICKED,
+      properties: {}
+    })
+  }
+
+  handleCounterCoinSelection = () => {
+    this.props.swapActions.setStep({
+      options: {
+        side: 'COUNTER'
+      },
+      step: 'COIN_SELECTION'
+    })
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SWAP_RECEIVE_WALLET_PAGE_CLICKED,
+      properties: {}
+    })
   }
 
   render() {
@@ -110,7 +130,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               <Option
                 role='button'
                 data-e2e='selectFromAcct'
-                onClick={() => this.handleStepCoinSelection(accounts)}
+                onClick={() => this.handleBaseCoinSelection(accounts)}
               >
                 {values?.BASE ? (
                   <>
@@ -158,14 +178,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               <Option
                 role='button'
                 data-e2e='selectToAcct'
-                onClick={() =>
-                  this.props.swapActions.setStep({
-                    options: {
-                      side: 'COUNTER'
-                    },
-                    step: 'COIN_SELECTION'
-                  })
-                }
+                onClick={this.handleCounterCoinSelection}
               >
                 {values?.COUNTER ? (
                   <>

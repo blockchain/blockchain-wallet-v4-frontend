@@ -16,7 +16,7 @@ import CoinAccountListOption from 'components/Form/CoinAccountListOption'
 import { selectors } from 'data'
 import { InitSwapFormValuesType, SwapSideType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
-import { SwapAccountType } from 'data/types'
+import { Analytics, SwapAccountType } from 'data/types'
 
 import { Props as BaseProps, SuccessStateType } from '..'
 import { getData } from './selectors'
@@ -24,6 +24,14 @@ import { getData } from './selectors'
 class CoinSelection extends PureComponent<Props> {
   componentDidMount() {
     this.props.swapActions.fetchPairs()
+
+    this.props.analyticsActions.trackEvent({
+      key:
+        this.props.side === 'BASE'
+          ? Analytics.SWAP_FROM_WALLET_PAGE_VIEWED
+          : Analytics.SWAP_RECEIVE_WALLET_PAGE_VIEWED,
+      properties: {}
+    })
   }
 
   checkAccountSelected = (
