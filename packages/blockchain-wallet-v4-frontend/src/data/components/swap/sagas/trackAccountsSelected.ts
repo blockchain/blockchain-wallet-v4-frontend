@@ -5,7 +5,7 @@ import { selectors } from 'data'
 import { trackEvent } from 'data/analytics/slice'
 import { Analytics } from 'data/analytics/types'
 import { InitSwapFormValuesType, SwapBaseCounterTypes } from 'data/components/swap/types'
-import { notReachable } from 'utils/notReachable'
+import { notReachable } from 'utils/helpers'
 
 import { actions } from '../slice'
 
