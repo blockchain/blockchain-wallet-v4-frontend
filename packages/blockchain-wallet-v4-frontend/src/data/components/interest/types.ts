@@ -70,7 +70,8 @@ export enum ActiveRewardsSteps {
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
   'WARNING',
-  'WITHDRAWAL'
+  'WITHDRAWAL',
+  'WITHDRAWAL_SUCCESS'
 }
 
 export type EarnStepMetaData = {
@@ -152,6 +153,11 @@ export type EarnWithdrawalType = {
   origin: NabuCustodialProductType
   withdrawalAmountCrypto: number
   withdrawalAmountFiat: number
+}
+
+export type ActiveRewardsWithdrawalType = {
+  coin: CoinType
+  withdrawalAmountCrypto: number
 }
 
 //

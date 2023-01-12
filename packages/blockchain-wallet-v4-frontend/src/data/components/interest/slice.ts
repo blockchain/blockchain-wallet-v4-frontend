@@ -20,6 +20,7 @@ import { CoinType, FiatType, PaymentValue, WalletFiatType } from '@core/types'
 
 import {
   ActiveRewardsStep,
+  ActiveRewardsWithdrawalType,
   EarnDepositFormType,
   EarnInitializeWithdrawalType,
   EarnInstrumentsType,
@@ -527,6 +528,14 @@ const interestSlice = createSlice({
       // eslint-disable-next-line
       action: PayloadAction<EarnInitializeWithdrawalType>
     ) => {},
+
+    requestActiveRewardsWithdrawal: (
+      // eslint-disable-next-line
+      state,
+      // eslint-disable-next-line
+      action: PayloadAction<ActiveRewardsWithdrawalType>
+    ) => {},
+
     // eslint-disable-next-line
     requestWithdrawal: (state, action: PayloadAction<EarnWithdrawalType>) => {},
 
@@ -762,6 +771,7 @@ export const {
   initializeInterestDepositForm,
   initializeStakingDepositForm,
   initializeWithdrawalForm,
+  requestActiveRewardsWithdrawal,
   requestWithdrawal,
   resetShowInterestCardAfterTransaction,
   routeToTxHash,

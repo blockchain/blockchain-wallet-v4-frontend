@@ -1163,6 +1163,32 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const requestActiveRewardsWithdrawal = function* ({
+    payload
+  }: ReturnType<typeof A.requestActiveRewardsWithdrawal>) {
+    const { coin, withdrawalAmountCrypto } = payload
+    try {
+      const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmountCrypto)
+      yield call(api.initiateCustodialTransfer, {
+        amount: withdrawalAmountBase,
+        currency: coin,
+        destination: 'SIMPLEBUY',
+        origin: 'EARN_CC1W'
+      })
+      yield put(
+        A.setActiveRewardsStep({
+          name: 'WITHDRAWAL_SUCCESS'
+        })
+      )
+      yield delay(3000)
+      yield put(A.fetchRewardsBalance())
+      yield put(A.fetchEDDStatus())
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.setActiveRewardsStep({ name: 'ACCOUNT_SUMMARY' }))
+    }
+  }
+
   const requestWithdrawal = function* ({ payload }: ReturnType<typeof A.requestWithdrawal>) {
     const { coin, destination, formName, origin, withdrawalAmountCrypto, withdrawalAmountFiat } =
       payload
@@ -1352,6 +1378,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     initializeInterestDepositForm,
     initializeStakingDepositForm,
     initializeWithdrawalForm,
+    requestActiveRewardsWithdrawal,
     requestWithdrawal,
     routeToTxHash,
     sendDeposit,
