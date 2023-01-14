@@ -174,6 +174,10 @@ export const createNabuUserAtLogin = (state: RootState) =>
 export const getStakingPromoBannerEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'stakingPromoBanner']))
 
+// Active Rewards Promo banner
+export const getActiveRewardsPromoBannerEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'activeRewardsPromoBanner']))
+
 // Settings theme
 export const getThemeEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'themeEnabled']))
@@ -193,3 +197,7 @@ export const getActiveRewardsEnabled = (state: RootState) =>
 // show earn available assets checkbox
 export const getShowEarnAvailableAssets = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showEarnAvailableAssetsCheckbox']))
+
+// show prove flow
+export const getShowProveFlow = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showProveFlow']))

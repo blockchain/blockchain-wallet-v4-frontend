@@ -1,4 +1,4 @@
-import React, { ReactChild, useCallback, useState } from 'react'
+import React, { ReactChild, useCallback, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
@@ -26,7 +26,7 @@ import Form from 'components/Form/Form'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { model } from 'data'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
-import { BSCheckoutFormValuesType, BSFixType, SwapBaseCounterTypes } from 'data/types'
+import { Analytics, BSCheckoutFormValuesType, BSFixType, SwapBaseCounterTypes } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { isNabuError, NabuError } from 'services/errors'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
@@ -179,6 +179,7 @@ const isLimitError = (code: number | string): boolean => {
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
+    analyticsActions,
     cards,
     crossBorderLimits,
     cryptoCurrency,
@@ -188,6 +189,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     orderType,
     products
   } = props
+
+  useEffect(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.SELL_AMOUNT_SCREEN_VIEWED,
+      properties: {}
+    })
+  }, [])
 
   const dispatch = useDispatch()
 
@@ -410,6 +418,33 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const { error } = props
 
+  const goBack = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.SELL_AMOUNT_SCREEN_BACK_CLICKED,
+      properties: {}
+    })
+
+    props.buySellActions.setStep({
+      // Always reset back to walletCurrency
+      // Otherwise FUNDS currency and Pairs currency can mismatch
+      fiatCurrency: props.fiatCurrency || 'USD',
+      step: 'CRYPTO_SELECTION'
+    })
+  }
+
+  const switchFix = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.SELL_FIAT_CRYPTO_SWITCHER_CLICKED,
+      properties: {}
+    })
+
+    props.buySellActions.switchFix({
+      amount: fix === 'FIAT' ? formatCoin(quoteAmount, 0, CRYPTO_DECIMALS) : quoteAmount, // format crypto amount to 8 digits
+      fix: props.preferences[props.orderType].fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO',
+      orderType: props.orderType
+    })
+  }
+
   if (isNabuError(error)) {
     return <GenericNabuErrorFlyout error={error} onDismiss={clearFormError} />
   }
@@ -427,14 +462,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               color='grey600'
               role='button'
               style={{ marginRight: '8px' }}
-              onClick={() =>
-                props.buySellActions.setStep({
-                  // Always reset back to walletCurrency
-                  // Otherwise FUNDS currency and Pairs currency can mismatch
-                  fiatCurrency: props.fiatCurrency || 'USD',
-                  step: 'CRYPTO_SELECTION'
-                })
-              }
+              onClick={goBack}
             />
             <FormattedMessage
               id='buttons.buy_sell_now'
@@ -517,14 +545,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   color='blue600'
                   cursor
                   name='up-down-chevron'
-                  onClick={() =>
-                    props.buySellActions.switchFix({
-                      amount:
-                        fix === 'FIAT' ? formatCoin(quoteAmount, 0, CRYPTO_DECIMALS) : quoteAmount, // format crypto amount to 8 digits
-                      fix: props.preferences[props.orderType].fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO',
-                      orderType: props.orderType
-                    })
-                  }
+                  onClick={switchFix}
                   role='button'
                   size='24px'
                   data-e2e='sbSwitchIcon'

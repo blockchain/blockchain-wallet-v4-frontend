@@ -72,6 +72,7 @@ export type CustodialFromType = BSBalanceType & {
 export type NabuAddressType = {
   city: string
   country: string
+  countryCode?: string
   line1: string
   line2?: string
   postCode: string
@@ -461,7 +462,7 @@ export type CardAcquirer = {
 }
 
 export type BuyQuoteType = {
-  depositTerms: DepositTerms
+  depositTerms?: DepositTerms
   feeDetails: {
     fee: string
     feeFlags: []

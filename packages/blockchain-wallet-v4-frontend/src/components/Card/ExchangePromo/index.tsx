@@ -47,14 +47,7 @@ const onDismiss = () => {
   }
 }
 
-const mustShow = (
-  hide: boolean,
-  featureFlag,
-  experiments: Experiments,
-  isUnified: boolean | undefined
-): boolean => {
-  if (typeof isUnified === 'undefined') return false
-
+const mustShow = (hide: boolean, featureFlag, experiments: Experiments): boolean => {
   if (hide) return false
 
   if (!featureFlag) return false
@@ -113,7 +106,7 @@ const ExchangePromoContainer = () => {
     onDismiss()
   }
 
-  const showCard = mustShow(hide, featureFlag, experiments, isUnified)
+  const showCard = mustShow(hide, featureFlag, experiments)
 
   useEffect(() => {
     if (showCard) {

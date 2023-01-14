@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { actions } from 'data'
 import { useRemote } from 'hooks'
 
+import ActiveRewardsBanner from './ActiveRewardsBanner'
 import { AppleAndGooglePayBanner } from './AppleAndGooglePayBanner'
 import BSOrderBanner from './BSOrderBanner'
 import BuyCrypto from './BuyCrypto'
@@ -35,6 +36,7 @@ const Banners = (props: Props) => {
     interestActions.fetchInterestEligible()
     interestActions.fetchStakingEligible()
     fetchUnifiedActivityWS.startSocket()
+    interestActions.fetchActiveRewardsEligible()
     if (data && data.userData.tiers?.current > 0) {
       // we need such to distinguish is profile completed
       buySellActions.fetchCards(false)
@@ -54,6 +56,12 @@ const Banners = (props: Props) => {
       return (
         <BannerWrapper>
           <KycResubmit />
+        </BannerWrapper>
+      )
+    case 'activeRewards':
+      return (
+        <BannerWrapper>
+          <ActiveRewardsBanner />
         </BannerWrapper>
       )
     case 'staking':

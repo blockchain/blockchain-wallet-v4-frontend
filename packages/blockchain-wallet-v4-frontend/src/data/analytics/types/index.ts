@@ -37,6 +37,7 @@ import {
   Events as OnboardingAndVerificationEvents,
   TrackEventAction as OnboardingAndVerificationTrackEventAction
 } from './onboardingAndVerification'
+import { Events as SellEvents, TrackEventAction as SellTrackEventAction } from './sell'
 import {
   Events as SendCryptoEvents,
   TrackEventAction as SendCryptoTrackEventAction
@@ -75,6 +76,7 @@ type AnalyticsKey =
   | SwapEvents
   | WalletEarnEvents
   | BuyEvents
+  | SellEvents
   | ExchangePromoEvents
 
 const Analytics = {
@@ -93,7 +95,8 @@ const Analytics = {
   ...TaxCenterEvents,
   ...ViewAndClickEvents,
   ...WalletEarnEvents,
-  ...BuyEvents
+  ...BuyEvents,
+  ...SellEvents
 }
 
 // event properties
@@ -121,6 +124,7 @@ type TrackEventAction =
   | WalletEarnTrackEventAction
   | CowboysPromoTrackEventAction
   | BuyTrackEventAction
+  | SellTrackEventAction
   | ExchangePromoTrackEventAction
 
 type AnalyticsTraits = {

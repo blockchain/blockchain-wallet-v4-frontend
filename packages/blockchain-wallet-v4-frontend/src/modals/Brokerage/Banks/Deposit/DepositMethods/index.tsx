@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { WalletFiatType } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions } from 'data'
-import { RootState } from 'data/rootReducer'
 import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/types'
 import { useRemote } from 'hooks'
 

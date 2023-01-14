@@ -124,9 +124,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
 
   const depositAmountError =
-    formErrors.depositAmount &&
-    typeof formErrors.depositAmount === 'string' &&
-    formErrors.depositAmount
+    typeof formErrors.depositAmount === 'string' && formErrors.depositAmount
   const isErc20 = !!window.coins[coin].coinfig.type.erc20Address
 
   const showEDDDepositLimit =
@@ -135,7 +133,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     !earnEDDStatus?.eddPassed
 
   const handleFormSubmit = () => {
-    interestActions.submitDepositForm({ formName: 'rewardsDepositForm' })
+    interestActions.submitDepositForm({ formName: 'passiveRewardsDepositForm' })
     props.setShowSupply(showEDDDepositLimit)
 
     analyticsActions.trackEvent({
@@ -348,7 +346,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   onClick={() => {
                     interestActions.handleTransferMaxAmountClick({
                       amount: displayCoin ? earnDepositLimits.maxCoin : earnDepositLimits.maxFiat,
-                      formName: 'rewardsDepositForm'
+                      formName: 'passiveRewardsDepositForm'
                     })
 
                     analyticsActions.trackEvent({
@@ -389,7 +387,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                   onClick={() =>
                     interestActions.handleTransferMinAmountClick({
                       amount: displayCoin ? earnDepositLimits.minCoin : earnDepositLimits.minFiat,
-                      formName: 'rewardsDepositForm'
+                      formName: 'passiveRewardsDepositForm'
                     })
                   }
                 >

@@ -1,5 +1,6 @@
 import {
   AccountTypes,
+  BSBalancesType,
   CoinType,
   EarnAccountBalanceResponseType,
   EarnAccountResponseType,
@@ -7,14 +8,14 @@ import {
   EarnDepositLimits,
   EarnEDDStatus,
   EarnEligibleType,
+  EarnLimitsType,
+  EarnRatesType,
   FiatType,
   InterestLimitsType,
   PaymentValue,
   RatesType,
   RemoteDataType,
   RewardsRatesType,
-  StakingLimitsType,
-  StakingRatesType,
   TransactionType,
   WithdrawalMinimumType,
   WithdrawLimits
@@ -63,6 +64,14 @@ export enum StakingSteps {
   'WARNING'
 }
 
+export enum ActiveRewardsSteps {
+  'ACCOUNT_SUMMARY',
+  'DEPOSIT',
+  'DEPOSIT_SUCCESS',
+  'WARNING',
+  'WITHDRAWAL'
+}
+
 export type EarnStepMetaData = {
   depositSuccess?: boolean
   error?: string
@@ -70,11 +79,16 @@ export type EarnStepMetaData = {
   withdrawalAmount?: number
 }
 
-export type EarnDepositFormType = 'rewardsDepositForm' | 'stakingDepositForm'
+export type EarnDepositFormType =
+  | 'passiveRewardsDepositForm'
+  | 'stakingDepositForm'
+  | 'activeRewardsDepositForm'
 
 export type InterestStep = keyof typeof InterestSteps
 
 export type StakingStep = keyof typeof StakingSteps
+
+export type ActiveRewardsStep = keyof typeof ActiveRewardsSteps
 
 export enum StakingStepsType {
   'WARNING',
@@ -91,11 +105,19 @@ export type ErrorStringType = { error: string }
 
 export type InterestLimits = { coin: CoinType; currency: FiatType }
 
-export type EarnTabsType = 'All' | 'Staking' | 'Rewards'
+export type EarnProductsType = 'Staking' | 'Passive' | 'Active'
+
+export type EarnTabsType = 'All' | EarnProductsType | string
+
+export type CreateLimitsParamTypes = {
+  custodialBalances?: BSBalancesType
+  payment?: PaymentValue
+  product: EarnProductsType
+}
 
 export type EarnInstrumentsType = Array<{
   coin: CoinType
-  product: 'Staking' | 'Rewards'
+  product: EarnProductsType
   rate: RatesType
 }>
 
@@ -105,7 +127,7 @@ export type TransferMinMaxAmountType = {
 }
 
 export type EarnTransactionType = TransactionType & {
-  product: 'Staking' | 'Rewards'
+  product: EarnProductsType
 }
 
 export type PendingTransactionType = {
@@ -119,6 +141,16 @@ export type PendingTransactionType = {
 // State
 //
 export interface InterestState {
+  activeRewardsAccount: RemoteDataType<string, EarnAccountResponseType>
+  activeRewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
+  activeRewardsEligible: RemoteDataType<string, EarnEligibleType>
+  activeRewardsLimits: RemoteDataType<string, EarnLimitsType>
+  activeRewardsRates: RemoteDataType<string, EarnRatesType['rates']>
+  activeRewardsStep: {
+    data: EarnStepMetaData
+    name: ActiveRewardsStep
+  }
+  activeRewardsTransactionsNextPage?: string | null
   afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
   coin: CoinType
   earnDepositLimits: EarnMinMaxType
@@ -130,11 +162,12 @@ export interface InterestState {
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRates: RemoteDataType<string, RewardsRatesType['rates']>
   isAmountDisplayedInCrypto: boolean
+  passiveRewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   // make this optional here. places where ts doesnt like it, check, custodial
   payment?: RemoteDataType<string, PaymentValue | undefined>
+  pendingActiveRewardsTransactions: RemoteDataType<string, Array<PendingTransactionType>>
   pendingStakingTransactions: RemoteDataType<string, Array<PendingTransactionType>>
   rewardsAccount: RemoteDataType<string, EarnAccountResponseType>
-  rewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   rewardsEDDDepositLimits: RemoteDataType<string, EarnDepositLimits>
   rewardsStep: {
     data: EarnStepMetaData
@@ -146,14 +179,15 @@ export interface InterestState {
   stakingAccount: RemoteDataType<string, EarnAccountResponseType>
   stakingAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   stakingEligible: RemoteDataType<string, EarnEligibleType>
-  stakingLimits: RemoteDataType<string, StakingLimitsType>
-  stakingRates: RemoteDataType<string, StakingRatesType['rates']>
+  stakingLimits: RemoteDataType<string, EarnLimitsType>
+  stakingRates: RemoteDataType<string, EarnRatesType['rates']>
   stakingStep: {
     data: EarnStepMetaData
     name: StakingStep
   }
   stakingTransactionsNextPage?: string | null
-  totalBondingDeposits: number
+  totalActiveRewardsBondingDeposits: number
+  totalStakingBondingDeposits: number
   transactions: Array<EarnTransactionType>
   transactionsReport: RemoteDataType<string, Array<EarnTransactionType>>
   underSanctionsMessage: string | null

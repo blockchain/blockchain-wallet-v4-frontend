@@ -7,7 +7,7 @@ import CoinFilter from './CoinFilter'
 import DownloadTransactions from './DownloadTransactions'
 import { LeftContainer, MenuRow, RightContainer } from './Filter.model'
 import Tabs from './Tabs'
-import { TabsProps } from './Tabs/Tabs.types'
+import { TabsPropsType } from './Tabs/Tabs.types'
 
 const Filter = ({
   earnTab,
@@ -15,7 +15,7 @@ const Filter = ({
   rates,
   txPages,
   walletCurrency
-}: TabsProps & SuccessStateType) => {
+}: TabsPropsType & SuccessStateType) => {
   const isMobile = useMedia('mobile')
   return (
     <MenuRow>

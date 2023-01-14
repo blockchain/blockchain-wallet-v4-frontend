@@ -60,6 +60,11 @@ const Checkout = (props: Props) => {
   const handleSubmit = () => {
     if (!data) return
 
+    props.analyticsActions.trackEvent({
+      key: Analytics.SELL_AMOUNT_SCREEN_NEXT_CLICKED,
+      properties: {}
+    })
+
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
     const { hasPaymentAccount, isSddFlow, userData } = data
@@ -263,6 +268,7 @@ const Checkout = (props: Props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),

@@ -11,7 +11,7 @@ export const MessageContainer = styled.div<{ $borderColor: string }>`
   gap: 16px;
   justify-content: space-between;
   align-items: center;
-  margin: 24px 0;
+  margin-bottom: 24px;
 `
 export const SubmitButton = styled(Button)`
   border-color: ${SemanticColors.medium};

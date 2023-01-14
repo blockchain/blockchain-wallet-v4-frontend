@@ -1,47 +1,29 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { Tabs } from '@blockchain-com/constellation'
 
-import { TextContainer } from './Tabs.model'
-import { TabsProps } from './Tabs.types'
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
-const Tab = ({ earnTab, handleTabClick }: TabsProps) => (
-  <Tabs
-    defaultActiveTab={earnTab}
-    // @ts-ignore
-    onTabChange={handleTabClick}
-    size='large'
-    tabs={[
-      {
-        key: 'All',
-        titleContent: (
-          <TextContainer>
-            <FormattedMessage
-              id='scenes.earnhistory.tabs.allproducts'
-              defaultMessage='All Products'
-            />
-          </TextContainer>
-        )
-      },
-      {
-        key: 'Rewards',
-        titleContent: (
-          <TextContainer>
-            <FormattedMessage id='copy.rewards' defaultMessage='Rewards' />
-          </TextContainer>
-        )
-      },
-      {
-        key: 'Staking',
-        titleContent: (
-          <TextContainer>
-            <FormattedMessage id='copy.staking' defaultMessage='Staking' />
-          </TextContainer>
-        )
-      }
-    ]}
-    variant='default'
-  />
-)
+import { getTabs } from './Tabs.model'
+import { TabsPropsType, TabType } from './Tabs.types'
+
+const Tab = ({ earnTab, handleTabClick }: TabsPropsType) => {
+  const isActiveRewardsEnabled = useSelector(
+    (state: RootState) =>
+      selectors.core.walletOptions.getActiveRewardsEnabled(state).getOrElse(false) as boolean
+  )
+  const tabs: TabType[] = getTabs(isActiveRewardsEnabled)
+
+  return (
+    <Tabs
+      defaultActiveTab={earnTab}
+      onTabChange={handleTabClick}
+      size='large'
+      tabs={tabs}
+      variant='default'
+    />
+  )
+}
 
 export default Tab

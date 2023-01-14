@@ -44,7 +44,7 @@ export default () => {
       yield put(actions.core.data.eth.fetchData())
       yield put(actions.components.interest.fetchRewardsBalance())
       yield put(actions.components.interest.fetchStakingBalance())
-
+      yield put(actions.components.interest.fetchActiveRewardsBalance())
       yield put(actions.components.buySell.fetchBalance({}))
       yield put(actions.components.buySell.fetchOrders())
       // Prices (new approach)

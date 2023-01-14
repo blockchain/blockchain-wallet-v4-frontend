@@ -23,7 +23,7 @@ export const getUnderSanctionsMessage = (state) => {
 export const getData = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.components.interest.getRates(state)
-  const formErrors = selectors.form.getFormSyncErrors('rewardsDepositForm')(
+  const formErrors = selectors.form.getFormSyncErrors('passiveRewardsDepositForm')(
     state
   ) as EarnDepositErrorsType
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)

@@ -132,7 +132,10 @@ export type PaymentValue = BtcPaymentValue | EthPaymentValue | XlmPaymentValue
 export * from './btc/types'
 
 export enum Product {
+  ACTIVE = 'active',
   REWARDS = 'rewards',
+  // TODO: Remove when refactor every SAVINGS/INTEREST/REWARDS => PASSIVE
+  SAVINGS = 'rewards',
   STAKING = 'staking',
   SWAP = 'swap'
 }

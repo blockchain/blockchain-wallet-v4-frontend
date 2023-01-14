@@ -16,7 +16,7 @@ import {
   CoinType,
   EarnAccountBalanceResponseType,
   EarnEligibleType,
-  StakingRatesType
+  EarnRatesType
 } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -390,7 +390,7 @@ type OwnProps = {
   isTransactionsToggled: boolean
   pendingTransactions: Array<PendingTransactionType>
   stakingEligible: EarnEligibleType
-  stakingRates: StakingRatesType['rates']
+  stakingRates: EarnRatesType['rates']
   stepMetadata: EarnStepMetaData
   totalBondingDeposits: number
 }
