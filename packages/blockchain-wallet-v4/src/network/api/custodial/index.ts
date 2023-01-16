@@ -190,8 +190,11 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getLimitsAndFeaturesDetails = () =>
+  const getLimitsAndFeaturesDetails = (tier?: string) =>
     authorizedGet({
+      data: {
+        tier
+      },
       endPoint: `/limits/overview`,
       url: nabuUrl
     })

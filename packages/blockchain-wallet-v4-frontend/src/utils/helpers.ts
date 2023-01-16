@@ -83,3 +83,7 @@ export const toBase64 = (file: File): Promise<string> => {
     reader.onerror = (error) => reject(error)
   })
 }
+
+export const notReachable = (_: never): never => {
+  throw new Error(`Should not be reached ${_}`)
+}
