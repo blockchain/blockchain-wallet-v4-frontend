@@ -40,6 +40,14 @@ export type StakingDepositFormType = {
   terms: boolean
 }
 
+export type ActiveRewardsDepositFormType = {
+  agreement1: boolean
+  agreement2: boolean
+  depositAmount: string
+  earnDepositAccount: AccountTypes
+  terms: boolean
+}
+
 export type EarnMinMaxType = {
   maxCoin: number
   maxFiat: number
@@ -71,7 +79,7 @@ export enum ActiveRewardsSteps {
   'DEPOSIT_SUCCESS',
   'WARNING',
   'WITHDRAWAL',
-  'WITHDRAWAL_SUCCESS'
+  'WITHDRAWAL_REQUESTED'
 }
 
 export type EarnStepMetaData = {
@@ -157,7 +165,7 @@ export type EarnWithdrawalType = {
 
 export type ActiveRewardsWithdrawalType = {
   coin: CoinType
-  withdrawalAmountCrypto: number
+  withdrawalAmountCrypto: string
 }
 
 //

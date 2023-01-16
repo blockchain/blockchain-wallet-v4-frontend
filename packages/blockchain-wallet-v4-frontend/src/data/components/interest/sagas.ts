@@ -1177,7 +1177,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
       yield put(
         A.setActiveRewardsStep({
-          name: 'WITHDRAWAL_SUCCESS'
+          name: 'WITHDRAWAL_REQUESTED'
         })
       )
       yield delay(3000)
