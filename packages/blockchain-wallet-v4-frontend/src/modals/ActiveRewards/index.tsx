@@ -13,6 +13,8 @@ import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
 import DepositSuccess from './DepositSuccess'
 import Warning from './Warning'
+import Withdrawal from './WithdrawalForm'
+import WithdrawalRequested from './WithdrawalRequested'
 
 const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
   const dispatch = useDispatch()
@@ -68,6 +70,16 @@ const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalProp
             coin={coin}
             showSupply={showSupply}
           />
+        </FlyoutChild>
+      )}
+      {step.name === 'WITHDRAWAL' && (
+        <FlyoutChild>
+          <Withdrawal handleClose={handleClose} />
+        </FlyoutChild>
+      )}
+      {step.name === 'WITHDRAWAL_REQUESTED' && (
+        <FlyoutChild>
+          <WithdrawalRequested coin={coin} handleClose={handleClose} />
         </FlyoutChild>
       )}
     </Flyout>
