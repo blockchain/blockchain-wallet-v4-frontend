@@ -15,7 +15,6 @@ import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
-import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import { Analytics, BSCheckoutFormValuesType, ModalName, RecurringBuyPeriods } from 'data/types'
 import { useRemote } from 'hooks'
@@ -54,9 +53,7 @@ const Checkout = (props: Props) => {
   const handleSubmit = () => {
     if (!data) return
 
-    // if the user is < tier 2 go to kyc but save order info
-    // if the user is tier 2 try to submit order, let BE fail
-    const { hasPaymentAccount, isSddFlow, userData } = data
+    const { hasPaymentAccount, isSddFlow } = data
 
     const buySellGoal = find(propEq('name', 'buySell'), goals)
 
@@ -79,22 +76,7 @@ const Checkout = (props: Props) => {
     })
 
     if (isSddFlow) {
-      const currentTier = userData?.tiers?.current ?? 0
-
-      if (currentTier === 2 || currentTier === 1) {
-        // user in SDD but already completed eligibility check, continue to payment
-        props.buySellActions.createOrder({ paymentType: BSPaymentTypes.PAYMENT_CARD })
-      } else {
-        // user in SDD but needs to confirm KYC and SDD eligibility
-        props.identityVerificationActions.verifyIdentity({
-          checkSddEligibility: true,
-          needMoreInfo: false,
-          onCompletionCallback: () =>
-            props.buySellActions.createOrder({ paymentType: BSPaymentTypes.PAYMENT_CARD }),
-          origin: 'BuySell',
-          tier: 2
-        })
-      }
+      props.buySellActions.createOrder({ paymentType: BSPaymentTypes.PAYMENT_CARD })
     } else if (!method) {
       const nextStep = hasPaymentAccount ? 'LINKED_PAYMENT_ACCOUNTS' : 'PAYMENT_METHODS'
       props.buySellActions.setStep({
@@ -104,8 +86,6 @@ const Checkout = (props: Props) => {
         pair: props.pair,
         step: nextStep
       })
-    } else if (userData.tiers.current < 2) {
-      props.buySellActions.createOrder({ paymentMethodId: getValidPaymentMethod(method.type) })
     } else if (formValues && method) {
       switch (method.type) {
         case BSPaymentTypes.PAYMENT_CARD:
@@ -178,7 +158,6 @@ const Checkout = (props: Props) => {
     }
 
     if (!data) {
-      props.buySellActions.fetchSDDEligibility()
       props.brokerageActions.fetchBankTransferAccounts()
     }
     // we fetch limits as part of home banners logic at that point we had only fiatCurrency

@@ -12,7 +12,6 @@ export const getData = (state) => {
   ) as BSCheckoutFormValuesType
   const emailVerifiedR = selectors.core.settings.getEmailVerified(state)
   const sbOrdersR = selectors.components.buySell.getBSOrders(state)
-  const sddEligibleR = selectors.components.buySell.getSddEligible(state)
   // checks orderType on state for the 'SELL' button on top of activity feed
   const stateOrderType = selectors.components.buySell.getOrderType(state)
   const pairsR = selectors.components.buySell.getBSPairs(state)
@@ -26,7 +25,6 @@ export const getData = (state) => {
       pairs: ExtractSuccess<typeof pairsR>,
       userData: ExtractSuccess<typeof userDataR>,
       sbOrders: ExtractSuccess<typeof sbOrdersR>,
-      sddEligible: ExtractSuccess<typeof sddEligibleR>,
       walletCurrency: FiatType
     ) => ({
       eligibility,
@@ -37,11 +35,10 @@ export const getData = (state) => {
       orderType: formValues ? formValues.orderType : stateOrderType || 'BUY',
       pairs,
       sbOrders,
-      sddEligible,
       userData,
       walletCurrency
     })
-  )(eligibilityR, emailVerifiedR, pairsR, userDataR, sbOrdersR, sddEligibleR, walletCurrencyR)
+  )(eligibilityR, emailVerifiedR, pairsR, userDataR, sbOrdersR, walletCurrencyR)
 }
 
 export default getData
