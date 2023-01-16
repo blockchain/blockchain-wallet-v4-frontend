@@ -47,6 +47,7 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
   handleDepositClick,
   handleEDDSubmitInfo,
   handleTransactionsToggled,
+  handleWithdrawal,
   isBalanceDropdownToggled,
   isCoinDisplayed,
   isDepositEnabled,
@@ -387,6 +388,20 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
             <FormattedMessage id='buttons.add-balance' defaultMessage='Add balance' />
           </Text>
         </Button>
+        <ConstellationButton
+          onClick={handleWithdrawal}
+          size='default'
+          text={
+            <Text color={SemanticColors.background} variant='body2'>
+              <FormattedMessage
+                id='buttons.request-withdrawal'
+                defaultMessage='Request Withdrawal'
+              />
+            </Text>
+          }
+          variant='secondary'
+          width='full'
+        />
       </Bottom>
     )}
   </Wrapper>
