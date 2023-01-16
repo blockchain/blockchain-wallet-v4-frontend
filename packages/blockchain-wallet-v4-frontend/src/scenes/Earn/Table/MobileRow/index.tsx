@@ -64,7 +64,7 @@ const MobileRow = ({
   return (
     <Wrapper
       onClick={() => handleClick(coin, product)}
-      disabled={!isGoldTier || (!hasAccountBalance && isCoinEligible)}
+      disabled={!isGoldTier || (!hasAccountBalance && !isCoinEligible)}
     >
       <Icon name={coin} color={coin} size='32px' />
       <RightContainer>
