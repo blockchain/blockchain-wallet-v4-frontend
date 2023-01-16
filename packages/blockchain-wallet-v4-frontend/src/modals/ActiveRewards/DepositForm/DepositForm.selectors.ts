@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { EarnDepositErrorsType, ExtractSuccess, FiatType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { RewardsDepositFormType } from 'data/types'
+import { ActiveRewardsDepositFormType } from 'data/types'
 
 import { FORM_NAME } from './DepositForm.model'
 import { DataType } from './DepositForm.types'
@@ -21,7 +21,7 @@ export const getData = (state: RootState): DataType => {
   const earnDepositLimits = selectors.components.interest.getEarnDepositLimits(state)
   const formErrors = selectors.form.getFormSyncErrors(FORM_NAME)(state) as EarnDepositErrorsType
   const underSanctionsMessage = selectors.components.interest.getUnderSanctionsMessage(state)
-  const values = selectors.form.getFormValues(FORM_NAME)(state) as RewardsDepositFormType
+  const values = selectors.form.getFormValues(FORM_NAME)(state) as ActiveRewardsDepositFormType
 
   return {
     displayCoin,

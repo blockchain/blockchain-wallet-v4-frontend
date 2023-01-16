@@ -67,12 +67,13 @@ const DepositForm = ({ coin }: PropsType) => {
 
   const { coinfig } = window.coins[coin]
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
-  const depositAmount = (values && values.depositAmount) || 0
+  const depositAmount = (values && values.depositAmount) || '0'
   const isCustodial =
     values && values?.earnDepositAccount && values.earnDepositAccount.type === 'CUSTODIAL'
   const maxDepositFiat = maxFiat(earnDepositLimits.maxFiat, walletCurrency)
   const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
-  const depositAmountFiat: number = amountToFiat(true, depositAmount, coin, walletCurrency, rates)
+  const depositAmountFiat = amountToFiat({ amount: depositAmount, coin, rates, walletCurrency })
+
   const depositAmountError =
     typeof formErrors.depositAmount === 'string' && formErrors.depositAmount
   const isErc20 = !!coinfig.type.erc20Address
