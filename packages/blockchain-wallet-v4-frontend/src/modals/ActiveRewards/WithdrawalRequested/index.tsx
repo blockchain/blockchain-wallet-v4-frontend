@@ -9,7 +9,7 @@ import { Image } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 
-import { Bottom, Middle, TextContainer, Top, Wrapper } from './WithdrawalRequested'
+import { Bottom, Middle, TextContainer, Top, Wrapper } from './WithdrawalRequested.styles'
 
 const WithdrawalRequested = ({ coin, handleClose }: OwnProps) => {
   const dispatch = useDispatch()
