@@ -390,21 +390,6 @@ const DepositForm: React.FC<
               </AgreementContainer>
             </Field>
           </CheckboxContainer>
-          <CheckboxContainer>
-            <Field component={CheckBox} hideErrors name='agreement2' validate={[required]}>
-              <AgreementContainer>
-                <Text color={SemanticColors.title} variant='paragraph1'>
-                  <FormattedMessage
-                    id='modals.active-rewards.deposit.agreement3'
-                    defaultMessage="I understand that withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled in approximately mid-January 2023. Until then, {coin} assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
-                    values={{
-                      coin
-                    }}
-                  />
-                </Text>
-              </AgreementContainer>
-            </Field>
-          </CheckboxContainer>
         </Flex>
         <ButtonContainer>
           <Button

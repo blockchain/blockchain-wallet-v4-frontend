@@ -57,12 +57,6 @@ const Warning = ({ coin, handleClick, handleClose }: OwnProps) => (
         </Text>
         <Text color={SemanticColors.title} variant='caption1'>
           <FormattedMessage
-            defaultMessage="Withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled in approximately mid-January 2023. Until then, BTC assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
-            id='modals.active-rewards.warning.bottom.warning-1'
-          />
-        </Text>
-        <Text color={SemanticColors.title} variant='caption1'>
-          <FormattedMessage
             defaultMessage='Blockchain.com does not assume liability for any losses incurred from price fluctuations. Please trade with caution.'
             id='modals.active-rewards.warning.bottom.warning-2'
           />
