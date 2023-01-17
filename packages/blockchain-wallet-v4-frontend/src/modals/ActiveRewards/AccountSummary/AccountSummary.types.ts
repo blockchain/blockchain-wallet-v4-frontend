@@ -46,6 +46,7 @@ export type SuccessPropsType = {
   handleDepositClick: () => void
   handleEDDSubmitInfo: () => void
   handleTransactionsToggled: () => void
+  handleWithdrawal: () => void
   isBalanceDropdownToggled: boolean
   isCoinDisplayed: boolean
   isDepositEnabled?: boolean

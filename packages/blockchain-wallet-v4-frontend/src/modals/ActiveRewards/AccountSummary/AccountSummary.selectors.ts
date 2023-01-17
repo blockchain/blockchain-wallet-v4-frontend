@@ -1,11 +1,18 @@
 import { lift } from 'ramda'
+import { bindActionCreators } from 'redux'
 
 import { Exchange } from '@core'
 import { ExtractSuccess, FiatType, TimeRange } from '@core/types'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { DataType } from './AccountSummary.types'
+
+export const getActions = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  earnActions: bindActionCreators(actions.components.interest, dispatch),
+  interestUploadActions: bindActionCreators(actions.components.interestUploadDocument, dispatch)
+})
 
 export const getData = (state: RootState): DataType => {
   const walletCurrency: FiatType = selectors.core.settings.getCurrency(state).getOrElse('USD')

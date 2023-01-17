@@ -13,6 +13,10 @@ export enum Events {
   WALLET_ACTIVE_REWARDS_DETAIL_VIEWED = 'Wallet Active Rewards Detail Viewed',
   // Active Rewards Modal: User clicks continue button
   WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED = 'Wallet Active Rewards Warning Continue Clicked',
+  // WITHDRAW: User clicks on transfer on the active rewards withdrawal page.
+  WALLET_ACTIVE_REWARDS_WITHDRAWAL_REQUESTED_VIEWED = 'Wallet Active Rewards Withdrawal Requested Viewed',
+  // WITHDRAW: User clicks on transfer on the active rewards withdrawal page.
+  WALLET_ACTIVE_REWARDS_WITHDRAW_TRANSFER_CLICKED = 'Wallet Active Rewards Withdraw Transfer Clicked',
 
   // BUY: Wallet. The user clicks the buy earn rewards button.
   WALLET_BUY_EARN_REWARDS_CLICKED = 'Wallet Buy Earn Rewards Clicked',
@@ -193,8 +197,8 @@ type WalletRewardsDepositTransferClicked = {
 type WalletActiveRewardsDepositTransferClicked = {
   key: Events.WALLET_ACTIVE_REWARDS_DEPOSIT_TRANSFER_CLICKED
   properties: {
-    amount: number
-    amount_usd: number
+    amount: string
+    amount_usd: string
     currency: string
     type: 'TRADING' | 'USERKEY'
   }
@@ -279,6 +283,23 @@ type WalletRewardsWithdrawTransferClicked = {
   }
 }
 
+type WalletActiveRewardsWithdrawTransferClicked = {
+  key: Events.WALLET_ACTIVE_REWARDS_WITHDRAW_TRANSFER_CLICKED
+  properties: {
+    amount: string
+    amount_usd: string
+    currency: string
+    type: 'TRADING'
+  }
+}
+
+type WalletActiveRewardsWithdrawalRequestedViewed = {
+  key: Events.WALLET_ACTIVE_REWARDS_WITHDRAWAL_REQUESTED_VIEWED
+  properties: {
+    currency: string
+  }
+}
+
 // BUY
 type WalletBuyEarnRewardsClicked = {
   key: Events.WALLET_BUY_EARN_REWARDS_CLICKED
@@ -298,6 +319,8 @@ export type TrackEventAction =
   | WalletActiveRewardsDetailDepositClicked
   | WalletActiveRewardsDetailViewed
   | WalletActiveRewardsWarningContinueClicked
+  | WalletActiveRewardsWithdrawalRequestedViewed
+  | WalletActiveRewardsWithdrawTransferClicked
   | WalletBuyEarnRewardsClicked
   | WalletBuyEarnRewardsViewed
   | WalletRewardsDetailClicked
