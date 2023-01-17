@@ -5,7 +5,7 @@ import { selectors } from 'data'
 
 const getCoinNetworkIfExistsOnMultiple = (
   coinfig: CoinfigType,
-  coins: Record<string, { coinfig: CoinfigType }>,
+  coins: Coins,
   evmCompatibleCoinSymbols: string[]
 ) => {
   // Non-native asset
