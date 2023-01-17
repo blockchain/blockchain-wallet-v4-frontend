@@ -83,14 +83,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const checkValidity = () => {
     if (props.formValues?.firstName && props.formValues?.lastName) {
-      // dispatch(actions.form.clearFields(FORMS_BS_BILLING_ADDRESS, false, false, 'line1'))
       dispatch(
         actions.components.identityVerification.checkIsNameValid({
           firstName: props.formValues.firstName,
           lastName: props.formValues.lastName
         })
       )
-      // setValidNames
     }
   }
 
