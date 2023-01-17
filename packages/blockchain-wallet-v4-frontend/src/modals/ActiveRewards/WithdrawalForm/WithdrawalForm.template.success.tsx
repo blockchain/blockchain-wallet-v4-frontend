@@ -75,6 +75,11 @@ const Withdrawal = ({
         </MessageContainer>
       </Padding>
       <Padding bottom={0.5}>
+        <Text color={SemanticColors.body} variant='paragraph1'>
+          <FormattedMessage defaultMessage='To' id='copy.to' />
+        </Text>
+      </Padding>
+      <Padding bottom={0.5}>
         <CustodialAccount
           coin={coin}
           cryptoAmount={buysellCryptoAmount}
