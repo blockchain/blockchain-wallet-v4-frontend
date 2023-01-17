@@ -91,7 +91,6 @@ export type CountryType = {
 export interface IdentityVerificationState {
   emailStep: EmailSmsStepType
   flowConfig: RemoteDataType<string, any>
-  isNameValid: boolean
   kycExtraQuestions: RemoteDataType<string, ExtraQuestionsType>
   kycFlows: RemoteDataType<string, KycFlowsType>
   preIdvData: RemoteDataType<string, PreIdvDataType>

@@ -629,12 +629,8 @@ export default ({ api, coreSagas, networks }) => {
 
   const checkIsNameValid = function* ({ payload }: ReturnType<typeof A.checkIsNameValid>) {
     try {
-      yield put(A.checkIsNameValidLoading())
       const { firstName, lastName } = payload
-      const personalNameChecked = yield call(api.validatePersonName, firstName, lastName)
-      if (personalNameChecked) {
-        yield put(A.checkIsNameValidSuccess(true))
-      }
+      yield call(api.validatePersonName, firstName, lastName)
     } catch (e) {
       // set error to form
       yield put(
@@ -647,7 +643,6 @@ export default ({ api, coreSagas, networks }) => {
           'INVALID_NAMES'
         )
       )
-      yield put(A.checkIsNameValidFailure(false))
     }
   }
 

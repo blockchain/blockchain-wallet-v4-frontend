@@ -20,7 +20,6 @@ import {
 const initialState: IdentityVerificationState = {
   emailStep: EMAIL_STEPS.edit as EmailSmsStepType,
   flowConfig: Remote.NotAsked,
-  isNameValid: false,
   kycExtraQuestions: Remote.NotAsked,
   kycFlows: Remote.NotAsked,
   preIdvData: Remote.NotAsked,
@@ -40,15 +39,6 @@ const identityVerificationSlice = createSlice({
   name: 'identityVerification',
   reducers: {
     checkIsNameValid: (state, action: PayloadAction<{ firstName: string; lastName: string }>) => {},
-    checkIsNameValidFailure: (state, action: PayloadAction<boolean>) => {
-      state.isNameValid = action.payload
-    },
-    checkIsNameValidLoading: (state) => {
-      state.isNameValid = false
-    },
-    checkIsNameValidSuccess: (state, action: PayloadAction<boolean>) => {
-      state.isNameValid = action.payload
-    },
     checkKycFlow: (state, action) => {},
     claimCampaignClicked: (state, action: PayloadAction<{ campaign: CampaignsType }>) => {},
     createRegisterUserCampaign: (state, action) => {},
