@@ -1,14 +1,17 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { Flex, Padding, SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { Icon } from 'blockchain-info-components'
 
-import { Wrapper } from './CustodialAccount.model'
+import { getData } from './CustodialAccount.selectors'
+import { Wrapper } from './CustodialAccount.styles'
 import { PropsType } from './CustodialAccount.types'
 
 const CustodialAccount = ({ coin, cryptoAmount, fiatAmount, product }: PropsType) => {
-  const { coinfig } = window.coins[coin]
+  const { coins } = useSelector(getData)
+  const { coinfig } = coins[coin]
 
   return (
     <Wrapper>
