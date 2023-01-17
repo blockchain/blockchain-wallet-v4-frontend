@@ -50,6 +50,7 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield takeLatest(actions.saveUserInfoData.type, identityVerificationSagas.saveUserInfoData)
     yield takeLatest(actions.fetchUserAddress.type, identityVerificationSagas.fetchUserAddress)
+    yield takeLatest(actions.checkIsNameValid.type, identityVerificationSagas.checkIsNameValid)
     yield takeLatest(
       actions.retrieveUserAddress.type,
       identityVerificationSagas.retrieveUserAddress

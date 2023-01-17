@@ -37,6 +37,9 @@ export const getUserAddresses = (state: RootState) =>
 export const getUserRetrieveAddress = (state: RootState) =>
   state.components.identityVerification.userRetrieveAddress
 
+export const getIsNameValid = (state: RootState) =>
+  state.components.identityVerification.isNameValid
+
 export const getKycFLows = (state: RootState) => state.components.identityVerification.kycFlows
 
 export const isProveFlow = (state: RootState) => {
