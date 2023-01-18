@@ -11,7 +11,7 @@ import { EarnProductsType } from 'data/types'
 
 import { Props as ParentProps, SuccessStateType } from '..'
 import Tag from '../Tag'
-import { AmountContainer, CoinContainer, RightContainer, Row, Wrapper } from './MobileRow.model'
+import { AmountContainer, CoinContainer, RightContainer, Row, Wrapper } from './MobileRow.styles'
 
 const MobileRow = ({
   activeRewardsAccountBalance,

@@ -27,7 +27,8 @@ import { EarnProductsType } from 'data/types'
 
 import { Props as ParentProps, SuccessStateType } from '..'
 import Tag from '../Tag'
-import { ButtonContainer, sortTextCells, TableContainer } from './SortableTable.model'
+import { sortTextCells } from './SortableTable.model'
+import { ButtonContainer, TableContainer } from './SortableTable.styles'
 
 const SortableTable = ({
   activeRewardsAccountBalance,
