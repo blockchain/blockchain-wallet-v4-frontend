@@ -1,7 +1,7 @@
 import React from 'react'
 import { Flex, Padding } from '@blockchain-com/constellation'
 
-import { TagContainer } from './Tag.model'
+import { TagContainer } from './Tag.styles'
 import { TagPropsType } from './Tag.types'
 
 const Tag = ({ backgroundColor, borderColor, children }: TagPropsType) => (
