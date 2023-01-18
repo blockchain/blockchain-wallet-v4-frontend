@@ -627,7 +627,27 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const checkIsNameValid = function* ({ payload }: ReturnType<typeof A.checkIsNameValid>) {
+    try {
+      const { firstName, lastName } = payload
+      yield call(api.validatePersonName, firstName, lastName)
+    } catch (e) {
+      // set error to form
+      yield put(
+        actions.form.updateSyncErrors(
+          USER_INFO_DETAILS,
+          {
+            firstName: ' ',
+            lastName: ' '
+          },
+          'INVALID_NAMES'
+        )
+      )
+    }
+  }
+
   return {
+    checkIsNameValid,
     checkKycFlow,
     claimCampaignClicked,
     createRegisterUserCampaign,
