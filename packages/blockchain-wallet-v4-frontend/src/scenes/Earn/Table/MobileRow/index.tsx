@@ -35,6 +35,7 @@ const MobileRow = ({
   let earnRate
   let isCoinEligible
   let showNewTag = false
+  let isActiveRewards = false
 
   switch (product) {
     case 'Staking': {
@@ -49,6 +50,7 @@ const MobileRow = ({
       earnRate = activeRewardsRates[coin].rate
       isCoinEligible = activeRewardsEligible[coin]?.eligible
       showNewTag = true
+      isActiveRewards = true
       break
     }
     case 'Passive':
@@ -83,11 +85,19 @@ const MobileRow = ({
             {hasAccountBalance ? (
               <Tag backgroundColor='background-green'>
                 <Text color={SemanticColors.success} variant='caption2'>
-                  <FormattedMessage
-                    defaultMessage='Earning {earnRate}%'
-                    id='scene.earn.earnrate'
-                    values={{ earnRate }}
-                  />
+                  {isActiveRewards ? (
+                    <FormattedMessage
+                      defaultMessage='Earning up to {earnRate}%'
+                      id='scene.earn.earnrate-upto'
+                      values={{ earnRate }}
+                    />
+                  ) : (
+                    <FormattedMessage
+                      defaultMessage='Earning {earnRate}%'
+                      id='scene.earn.earnrate'
+                      values={{ earnRate }}
+                    />
+                  )}
                 </Text>
               </Tag>
             ) : (
