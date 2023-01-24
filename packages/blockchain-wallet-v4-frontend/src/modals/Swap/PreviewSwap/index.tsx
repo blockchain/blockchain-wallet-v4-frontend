@@ -279,7 +279,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
             </Text>
             <Text size='12px' weight={500} color='grey600'>
               <Link
-                href='https://support.blockchain.com/hc/en-us/articles/360061942111'
+                href='https://support.blockchain.com/hc/en-us/articles/4417063009172'
                 size='12px'
                 rel='noopener noreferrer'
                 target='_blank'
