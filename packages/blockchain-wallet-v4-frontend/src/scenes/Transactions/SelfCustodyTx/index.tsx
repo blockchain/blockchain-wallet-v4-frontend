@@ -46,8 +46,8 @@ const SelfCustodyTx: React.FC<Props> = ({ tx }) => {
         </Row>
         <Col width='50%'>
           <Addresses
-            from={tx.type === 'SENT' ? <>{coin} Private Key Wallet</> : <>{tx.from}</>}
-            to={tx.type === 'SENT' ? <>{tx.to}</> : <>{coin} Private Key Wallet</>}
+            from={tx.type === 'SENT' ? <>{coin} DeFi Wallet</> : <>{tx.from}</>}
+            to={tx.type === 'SENT' ? <>{tx.to}</> : <>{coin} DeFi Wallet</>}
           />
         </Col>
         <Col width='20%' style={{ textAlign: 'right' }} data-e2e='orderAmountColumn'>

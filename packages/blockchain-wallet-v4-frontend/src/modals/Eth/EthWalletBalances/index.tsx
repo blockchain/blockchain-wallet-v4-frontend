@@ -169,7 +169,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
                           {window.coins.ETH.coinfig.name}
                         </Text>
                         <Text size='14px' color='grey500' weight={500}>
-                          {window.coins.ETH.coinfig.displaySymbol} Private Key Wallet
+                          {window.coins.ETH.coinfig.displaySymbol} DeFi Wallet
                         </Text>
                       </Flex>
                     </Flex>
@@ -199,7 +199,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
                               {window.coins[tokenSymbol].coinfig.name}
                             </Text>
                             <Text size='14px' color='grey500' weight={500}>
-                              {window.coins[tokenSymbol].coinfig.displaySymbol} Private Key Wallet
+                              {window.coins[tokenSymbol].coinfig.displaySymbol} DeFi Wallet
                             </Text>
                           </Flex>
                         </Flex>

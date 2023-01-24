@@ -142,9 +142,7 @@ const Success: React.FC<Props> = (props) => {
             />
           </Title>
           <Value data-e2e='sbPaymentMethod'>
-            {isInternal
-              ? `${sellBaseCurrency} Trading Account`
-              : `${sellBaseCurrency} Private Key Wallet`}
+            {isInternal ? `${sellBaseCurrency} Trading Account` : `${sellBaseCurrency} DeFi Wallet`}
           </Value>
         </Row>
       </div>

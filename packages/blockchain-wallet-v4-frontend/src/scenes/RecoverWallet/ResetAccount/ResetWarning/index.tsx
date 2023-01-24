@@ -88,7 +88,7 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
         >
           <FormattedMessage
             id='scenes.recovery.reset_warning_bodytext'
-            defaultMessage='To restore your Private Key Wallets, please use your cloud backup or recovery phrase.'
+            defaultMessage='To restore your DeFi Wallets, please use your cloud backup or recovery phrase.'
           />
         </Text>
       </FormBody>

@@ -161,7 +161,7 @@ const RecoveryOptions = (props: Props) => {
                 <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
                   <FormattedMessage
                     id='scenes.login.recovery_options.recovery_phrase'
-                    defaultMessage='Recover your private key wallet + trading accounts.'
+                    defaultMessage='Recover your DeFi wallet + trading accounts.'
                   />
                 </Text>
               </TextStack>

@@ -192,7 +192,7 @@ const Template: React.FC<Props> = (props: Props) => {
               <RowItemSubTitle>
                 <FormattedMessage
                   id='modals.onboarding.upgrade_now.between_private_key_wallets'
-                  defaultMessage='Between Private Key Wallets'
+                  defaultMessage='Between DeFi Wallets'
                 />
               </RowItemSubTitle>
             </RowItemWrapper>
@@ -209,7 +209,7 @@ const Template: React.FC<Props> = (props: Props) => {
               <RowItemSubTitle>
                 <FormattedMessage
                   id='modals.onboarding.upgrade_now.one_time_between_private_key_wallets'
-                  defaultMessage='One-Time Between Private Key Wallets'
+                  defaultMessage='One-Time Between DeFi Wallets'
                 />
               </RowItemSubTitle>
             </RowItemWrapper>
