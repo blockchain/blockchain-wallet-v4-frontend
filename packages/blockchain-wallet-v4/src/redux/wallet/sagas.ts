@@ -342,7 +342,7 @@ export default ({ api, networks }) => {
       for (const [i, acctLabel] of accountLabels.entries()) {
         if (startsWith(legacyWalletName, acctLabel)) {
           // pluck label suffix e.g. " 2"
-          const labelSuffix = last(splitAt(17, acctLabel))
+          const labelSuffix = last(splitAt(legacyWalletName.length, acctLabel))
           const newLabel = `${BTC_ACCT_NAME}${labelSuffix}`
           yield put(A.wallet.setAccountLabel(i, newLabel))
         }
@@ -351,7 +351,7 @@ export default ({ api, networks }) => {
         // character
         if (startsWith(legacyWalletNameV2, acctLabel)) {
           // pluck label suffix e.g. " 2"
-          const labelSuffix = last(splitAt(18, acctLabel))
+          const labelSuffix = last(splitAt(legacyWalletNameV2.length, acctLabel))
           const newLabel = `${BTC_ACCT_NAME}${labelSuffix}`
           yield put(A.wallet.setAccountLabel(i, newLabel))
         }
