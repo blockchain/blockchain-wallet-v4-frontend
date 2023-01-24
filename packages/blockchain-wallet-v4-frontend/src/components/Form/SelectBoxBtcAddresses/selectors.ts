@@ -29,7 +29,7 @@ const allWallets = {
   label: 'All',
   options: [
     {
-      label: 'All BTC Private Key Wallets',
+      label: 'All BTC DeFi Wallets',
       value: 'all'
     }
   ]

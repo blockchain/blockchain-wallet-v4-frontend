@@ -24,7 +24,7 @@ import { BCH, derivationMap } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import * as A from './actions'
 
-const BCH_ACCT_NAME = 'Private Key Wallet'
+const BCH_ACCT_NAME = 'DeFi Wallet'
 
 export default ({ api, networks }) => {
   const createBch = function* (kv, hdAccounts, bchAccounts) {

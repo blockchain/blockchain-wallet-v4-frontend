@@ -38,7 +38,7 @@ import { derivationMap, WALLET_CREDENTIALS } from '../kvStore/config'
 import * as SS from '../selectors'
 import * as S from './selectors'
 
-const BTC_ACCT_NAME = 'Private Key Wallet'
+const BTC_ACCT_NAME = 'DeFi Wallet'
 
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -336,13 +336,22 @@ export default ({ api, networks }) => {
         .getOrFail()
         .map((wallet) => wallet.label)
       const legacyWalletName = 'My Bitcoin Wallet'
-
+      const legacyWalletNameV2 = 'Private Key Wallet'
       // loop over accounts and update labels if user hasnt customized
       // eslint-disable-next-line no-restricted-syntax
       for (const [i, acctLabel] of accountLabels.entries()) {
         if (startsWith(legacyWalletName, acctLabel)) {
           // pluck label suffix e.g. " 2"
           const labelSuffix = last(splitAt(17, acctLabel))
+          const newLabel = `${BTC_ACCT_NAME}${labelSuffix}`
+          yield put(A.wallet.setAccountLabel(i, newLabel))
+        }
+        // separate check for 'Private Key Wallet' label
+        // since we check for the label suffix at a later
+        // character
+        if (startsWith(legacyWalletNameV2, acctLabel)) {
+          // pluck label suffix e.g. " 2"
+          const labelSuffix = last(splitAt(18, acctLabel))
           const newLabel = `${BTC_ACCT_NAME}${labelSuffix}`
           yield put(A.wallet.setAccountLabel(i, newLabel))
         }

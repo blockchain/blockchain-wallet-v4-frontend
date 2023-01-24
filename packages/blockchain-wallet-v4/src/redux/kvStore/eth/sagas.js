@@ -11,7 +11,7 @@ import { derivationMap, ETH } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import * as A from './actions'
 
-const ACCT_NAME = 'Private Key Wallet'
+const ACCT_NAME = 'DeFi Wallet'
 
 export default ({ api, networks } = {}) => {
   const deriveAccount = function* (password) {
