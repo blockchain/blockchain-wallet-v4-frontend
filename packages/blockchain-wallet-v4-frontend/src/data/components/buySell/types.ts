@@ -10,7 +10,7 @@ import type {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
-  BuyQuoteStateType,
+  BuyQuoteType,
   CoinType,
   CrossBorderLimits,
   FiatEligibleType,
@@ -24,10 +24,10 @@ import type {
   SDDEligibleType,
   SDDVerifiedType,
   SwapOrderType,
-  SwapQuoteStateType,
   SwapUserLimitsType,
   TradeAccumulatedItem
 } from '@core/types'
+import { SwapQuoteType } from '@core/types'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
@@ -71,8 +71,10 @@ export enum BuySellStepType {
   '3DS_HANDLER_EVERYPAY',
   '3DS_HANDLER_STRIPE',
   '3DS_HANDLER_CHECKOUTDOTCOM',
+  '3DS_HANDLER_FAKE_CARD_ACQUIRER',
   'DETERMINE_CARD_PROVIDER',
   'ADD_CARD_CHECKOUTDOTCOM',
+  'ADD_CARD_VGS',
   'AUTHORIZE_PAYMENT',
   'BANK_WIRE_DETAILS',
   'BILLING_ADDRESS',
@@ -91,7 +93,9 @@ export enum BuySellStepType {
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
   'FREQUENCY',
-  'VERIFY_EMAIL'
+  'VERIFY_EMAIL',
+  'UPDATE_SECURITY_CODE',
+  'SELL_ENTER_AMOUNT'
 }
 export type BSShowModalOriginType =
   | 'CoinPageHoldings'
@@ -143,6 +147,31 @@ export type BSCardSuccessRateType = {
   isBlocked: boolean
 }
 
+export type RefreshConfig = {
+  date: Date
+  totalMs: number
+}
+
+export type BuyQuoteStateType = {
+  amount: string
+  fee: string
+  pair: string
+  paymentMethod: BSPaymentTypes
+  paymentMethodId?: BSCardType['id']
+  quote: BuyQuoteType
+  /**
+   * @deprecated
+   */
+  rate: number
+  refreshConfig: RefreshConfig
+}
+
+export type SellQuoteStateType = {
+  quote: SwapQuoteType
+  rate: number
+  refreshConfig: RefreshConfig
+}
+
 // State
 export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
@@ -151,23 +180,25 @@ export type BuySellState = {
   applePayInfo?: ApplePayInfoType
   balances: RemoteDataType<PartialClientErrorProperties, BSBalancesType>
   buyQuote: RemoteDataType<PartialClientErrorProperties, BuyQuoteStateType>
-  card: RemoteDataType<string, BSCardType>
+  card: RemoteDataType<string | number | Error, BSCardType>
   cardId?: string
   cardSuccessRate?: BSCardSuccessRateType
+  cardTokenId?: string
   cards: RemoteDataType<PartialClientErrorProperties, Array<BSCardType>>
   checkoutDotComAccountCodes?: Array<string>
   checkoutDotComApiKey?: string
-  crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
+  crossBorderLimits: RemoteDataType<unknown, CrossBorderLimits>
   cryptoCurrency?: CoinType
+  cvvStatus: RemoteDataType<string, boolean>
   displayBack: boolean
   fiatCurrency?: FiatType
-  fiatEligible: RemoteDataType<PartialClientErrorProperties, FiatEligibleType>
+  fiatEligible: RemoteDataType<PartialClientErrorProperties | Error, FiatEligibleType>
   googlePayInfo?: GooglePayInfoType
   limits: RemoteDataType<string, undefined | SwapUserLimitsType>
   method?: BSPaymentMethodType
   methods: RemoteDataType<string, BSPaymentMethodsType>
   mobilePaymentMethod?: MobilePaymentType
-  order: RemoteDataType<string, BSOrderType>
+  order: RemoteDataType<string | number | Error, BSOrderType>
   orderType?: BSOrderActionType
   orders: RemoteDataType<PartialClientErrorProperties, Array<BSOrderType>>
   origin?: BSShowModalOriginType
@@ -176,16 +207,17 @@ export type BuySellState = {
   pairs: RemoteDataType<PartialClientErrorProperties, Array<BSPairType>>
   payment: RemoteDataType<string, undefined | PaymentValue>
   pendingOrder?: BSOrderType
-  providerDetails: RemoteDataType<string, ProviderDetailsType>
+  providerDetails: RemoteDataType<string | Error, ProviderDetailsType>
   quote: RemoteDataType<string, BSQuoteType>
   reason?: PlaidSettlementErrorReasons
   sddEligible: RemoteDataType<PartialClientErrorProperties, SDDEligibleType>
   sddTransactionFinished: boolean
   sddVerified: RemoteDataType<PartialClientErrorProperties, SDDVerifiedType>
   sellOrder?: SwapOrderType
-  sellQuote: RemoteDataType<string, SwapQuoteStateType>
+  sellQuote: RemoteDataType<string, SellQuoteStateType>
   step: keyof typeof BuySellStepType
   swapAccount?: SwapAccountType
+  vgsVaultId?: string
 }
 
 export type InitializeCheckout = {
@@ -196,8 +228,6 @@ export type InitializeCheckout = {
   orderType: BSOrderActionType
   pair?: BSPairType
   pairs: Array<BSPairType>
-  paymentMethodId?: BSPaymentMethodType['id']
-  paymentMethodType: BSPaymentTypes
   period: RecurringBuyPeriods
 }
 
@@ -214,7 +244,7 @@ export type StepActionsPayload =
       order?: BSOrderType
       orderType?: BSOrderActionType
       pair: BSPairType
-      step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
+      step: 'ENTER_AMOUNT' | 'SELL_ENTER_AMOUNT' | 'VERIFY_EMAIL'
       swapAccount?: SwapAccountType
     }
   | {
@@ -246,7 +276,11 @@ export type StepActionsPayload =
     }
   | {
       order?: BSOrderType
-      step: '3DS_HANDLER_EVERYPAY' | '3DS_HANDLER_STRIPE' | '3DS_HANDLER_CHECKOUTDOTCOM'
+      step:
+        | '3DS_HANDLER_EVERYPAY'
+        | '3DS_HANDLER_STRIPE'
+        | '3DS_HANDLER_CHECKOUTDOTCOM'
+        | '3DS_HANDLER_FAKE_CARD_ACQUIRER'
     }
   | {
       sellOrderType?: SwapBaseCounterTypes
@@ -256,6 +290,11 @@ export type StepActionsPayload =
       checkoutDotComAccountCodes: Array<string>
       checkoutDotComApiKey: string
       step: 'ADD_CARD_CHECKOUTDOTCOM'
+    }
+  | {
+      cardTokenId: string
+      step: 'ADD_CARD_VGS'
+      vgsVaultId: string
     }
   | {
       reason: PlaidSettlementErrorReasons
@@ -273,4 +312,5 @@ export type StepActionsPayload =
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
         | 'FREQUENCY'
+        | 'UPDATE_SECURITY_CODE'
     }

@@ -194,6 +194,7 @@ const SelectInput = (props) => {
     hideValue,
     inputValue,
     isLoading,
+    isMulti = false,
     items,
     menuIsOpen,
     menuPlacement,
@@ -210,7 +211,9 @@ const SelectInput = (props) => {
   } = props
   const options = grouped ? items : items.map((item) => ({ label: item.text, value: item.value }))
   const groupedOptions = grouped && flatten(options.map((o) => o.options))
-  const defaultValue = grouped
+  const defaultValue = isMulti
+    ? defaultItem // for multi we just return as we get
+    : grouped
     ? head(filter((x) => equals(x.value, defaultItem), groupedOptions))
     : head(filter((x) => equals(x.value, defaultItem), options))
 
@@ -253,6 +256,7 @@ const SelectInput = (props) => {
         templateDisplay={templateDisplay}
         templateItem={templateItem}
         value={hideValue ? null : defaultValue}
+        isMulti={isMulti}
       />
     </NonceProvider>
   )

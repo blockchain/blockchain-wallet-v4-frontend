@@ -83,7 +83,7 @@ class EnterAmount extends PureComponent<Props> {
     }
   }
 
-  handleStepCoinSelection = (accounts: { [key in SwapCoinType]: Array<SwapAccountType> }) => {
+  handleBaseCoinSelection = (accounts: { [key in SwapCoinType]: Array<SwapAccountType> }) => {
     const isAccountZeroBalance = checkAccountZeroBalance(accounts)
 
     if (isAccountZeroBalance) {
@@ -98,11 +98,43 @@ class EnterAmount extends PureComponent<Props> {
         step: 'COIN_SELECTION'
       })
     }
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SWAP_FROM_WALLET_PAGE_CLICKED,
+      properties: {}
+    })
+  }
+
+  handleCounterCoinSelection = () => {
+    this.props.swapActions.setStep({
+      options: {
+        side: 'COUNTER'
+      },
+      step: 'COIN_SELECTION'
+    })
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SWAP_RECEIVE_WALLET_PAGE_CLICKED,
+      properties: {}
+    })
+  }
+
+  handleGoBackClick = () => {
+    this.props.swapActions.setStep({
+      step: 'INIT_SWAP'
+    })
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SWAP_AMOUNT_SCREEN_BACK_CLICKED,
+      properties: {}
+    })
   }
 
   render() {
     if (!this.props.initSwapFormValues?.BASE || !this.props.initSwapFormValues?.COUNTER) {
-      return this.props.swapActions.setStep({ step: 'INIT_SWAP' })
+      this.props.swapActions.setStep({ step: 'INIT_SWAP' })
+
+      return null
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
@@ -124,11 +156,7 @@ class EnterAmount extends PureComponent<Props> {
                 cursor
                 size='24px'
                 color='grey600'
-                onClick={() =>
-                  this.props.swapActions.setStep({
-                    step: 'INIT_SWAP'
-                  })
-                }
+                onClick={this.handleGoBackClick}
               />{' '}
               <Text size='20px' color='grey900' weight={600} style={{ marginLeft: '16px' }}>
                 <FormattedMessage id='copy.new_swap' defaultMessage='New Swap' />
@@ -158,7 +186,7 @@ class EnterAmount extends PureComponent<Props> {
                   <Option
                     role='button'
                     data-e2e='selectFromAcct'
-                    onClick={() => this.handleStepCoinSelection(val.accounts)}
+                    onClick={() => this.handleBaseCoinSelection(val.accounts)}
                   >
                     <div>
                       <Text color='grey600' weight={500} size='14px'>
@@ -187,14 +215,7 @@ class EnterAmount extends PureComponent<Props> {
                   <Option
                     role='button'
                     data-e2e='selectToAcct'
-                    onClick={() =>
-                      this.props.swapActions.setStep({
-                        options: {
-                          side: 'COUNTER'
-                        },
-                        step: 'COIN_SELECTION'
-                      })
-                    }
+                    onClick={this.handleCounterCoinSelection}
                   >
                     <div>
                       <Text color='grey600' weight={500} size='14px'>

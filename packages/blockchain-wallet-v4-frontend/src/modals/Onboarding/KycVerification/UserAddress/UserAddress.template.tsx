@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { Flex } from '@blockchain-com/constellation'
-import { validate } from 'postal-codes-js'
-// @ts-ignore
-import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
+import { Flex, SpinningLoader } from '@blockchain-com/constellation'
 import { path } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
@@ -24,8 +21,9 @@ import TextBox from 'components/Form/TextBox'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { CountryType, StateType } from 'data/types'
-import { useCountryList, useUSStateList } from 'hooks'
+import { useCountryList, useRemote, useUSStateList } from 'hooks'
 import { countryUsesZipcode, required } from 'services/forms'
+import { postCodeExistsForCountry, postCodeValidator } from 'services/postCodeValidator'
 import { debounce } from 'utils/helpers'
 
 import AddressItem from './AddressItem'
@@ -39,13 +37,9 @@ import {
   SpinnerWrapper
 } from './UserAddress.model'
 
-const countryUsesPostalCode = (countryCode) => {
-  return path([countryCode, 'postalCodeFormat'], postalCodes)
-}
-
 const requiredZipCode = (value, allVals) => {
   const countryCode = (path(['country', 'code'], allVals) || path(['country'], allVals)) as string
-  if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
+  if (!postCodeExistsForCountry(countryCode)) return undefined
   if (!value)
     return (
       <div data-e2e='requiredMessage'>
@@ -53,7 +47,7 @@ const requiredZipCode = (value, allVals) => {
       </div>
     )
 
-  return validate(countryCode, value) === true ? undefined : (
+  return postCodeValidator(countryCode, value) === true ? undefined : (
     <FormattedMessage id='formhelper.requiredzipcode' defaultMessage='Invalid zipcode' />
   )
 }
@@ -83,7 +77,9 @@ const getStateElements = (states: Array<StateType>) => [
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
   const { data: supportedUSStates } = useUSStateList()
-  const userAddresses = useSelector(selectors.components.identityVerification.getUserAddresses)
+  const { data: userAddresses, isLoading } = useRemote(
+    selectors.components.identityVerification.getUserAddresses
+  )
   const userRetrievedAddress = useSelector(
     selectors.components.identityVerification.getUserRetrieveAddress
   )
@@ -99,7 +95,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const canSubmitAddress =
     (!isAddressSelected && enterAddressManually) || (isAddressSelected && !enterAddressManually)
 
-  const disabled = props.invalid || props.submitting || !canSubmitAddress
+  const disabled =
+    props.invalid || props.submitting || (!!useLoqateServiceEnabled && !canSubmitAddress)
 
   useEffect(() => {
     if (userRetrievedAddress && userRetrievedAddress.data?.city) {
@@ -110,9 +107,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           props.updateSelectedAddressDetails(userSelectedAddress)
         }, 200)
       }
-      setIsAddressSelected(true)
     }
-  }, [userRetrievedAddress, props])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userRetrievedAddress])
 
   if (props.submitting || !supportedCountries?.countries || !supportedUSStates?.states) {
     return (
@@ -138,22 +135,28 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const countryIsUS = countryCode === 'US'
   const countryUsesZipOrPostcode =
-    countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)
+    countryUsesZipcode(countryCode) || postCodeExistsForCountry(countryCode)
 
   const defaultCountry = supportedCountries.countries.find(
     (country) => country.code === countryCode
   )
 
   const findUserAddresses = (text: string, id?: string) => {
+    if (text.length < 3) {
+      return
+    }
     dispatch(actions.components.identityVerification.fetchUserAddress({ countryCode, id, text }))
   }
 
   const findUserAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value
-    if (text !== '') {
-      setSearchText(text)
-      findUserAddresses(text)
+    if (text === '') return
+
+    if (isAddressSelected) {
+      setIsAddressSelected(false)
     }
+    setSearchText(text)
+    findUserAddresses(text)
   }
 
   if (defaultCountry && (!props.formValues || (props.formValues && !props.formValues.country))) {
@@ -175,6 +178,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       setSearchText(`${searchText} `)
       findUserAddresses(searchText, address.id)
     } else {
+      setIsAddressSelected(true)
+      props.resetAddressDetails()
       dispatch(actions.components.identityVerification.retrieveUserAddress({ id: address.id }))
     }
   }
@@ -215,13 +220,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     name='homeAddress'
                     placeholder='Start typing to find your home address'
                     component={TextBox}
-                    onChange={debounce(findUserAddress, 200)}
+                    onChange={debounce(findUserAddress, 400)}
                   />
                 </FormItem>
               </FormGroup>
             )}
 
-            {useLoqateServiceEnabled && (
+            {useLoqateServiceEnabled && !isAddressSelected && !enterAddressManually && (
               <LinkButton onClick={() => setEnterAddressManually(true)}>
                 <Text weight={600} size='16px' color='blue600'>
                   <FormattedMessage
@@ -232,11 +237,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </LinkButton>
             )}
 
+            {useLoqateServiceEnabled && isLoading && (
+              <SpinningLoader variant='color' size='small' />
+            )}
+
             {useLoqateServiceEnabled &&
               !isAddressSelected &&
               !enterAddressManually &&
-              userAddresses.data?.addresses?.length > 0 &&
-              userAddresses.data?.addresses.map((address) => (
+              userAddresses &&
+              userAddresses?.addresses?.length > 0 &&
+              userAddresses?.addresses.map((address) => (
                 <AddressItem
                   address={address}
                   key={address.id}
@@ -421,8 +431,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 export type Props = OwnProps &
   SuccessStateType & {
     onCountrySelect: (e, value: CountryType) => void
-    searchForAddress: (text: string) => void
-    updateDefaultCountry: (country: CountryType) => void
+    resetAddressDetails: () => void
+    updateDefaultCountry: (country: string) => void
     updateDefaultState: (state: StateType) => void
     updateSelectedAddressDetails: (addressDetails: RetrieveAddress) => void
   }

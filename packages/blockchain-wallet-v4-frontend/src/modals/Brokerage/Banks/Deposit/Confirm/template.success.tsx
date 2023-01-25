@@ -1,31 +1,24 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { getLockRuleMessaging } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/model'
-import { addDays, format, intervalToDuration } from 'date-fns'
-import styled from 'styled-components'
+import { addDays, format } from 'date-fns'
 
 import { fiatToString } from '@core/exchange/utils'
-import { BSPaymentTypes, FiatType } from '@core/types'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { FiatType } from '@core/types'
+import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import AvailabilityRows from 'components/Brokerage/AvailabilityRows'
 import {
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
-  FlyoutHeader
+  FlyoutHeader,
+  FlyoutSubHeader
 } from 'components/Flyout/Layout'
+import { CheckoutRow } from 'components/Rows'
 import { BankDWStepType, BankPartners } from 'data/types'
 
 import { Props as _P, SuccessStateType as _S } from '.'
-import { FormattedBank, LineItemText } from './model'
+import { FormattedBank } from './model'
 import { getCurrencyName } from './utils'
-
-const BareRow = styled.div`
-  padding: 18px 40px;
-`
-
-const Row = styled(BareRow)`
-  border-bottom: 1px solid ${(p) => p.theme.grey000};
-`
 
 const Success = (props: Props) => {
   const [submitting, setSubmitting] = useState<boolean>(false)
@@ -44,63 +37,49 @@ const Success = (props: Props) => {
   }, [])
 
   const amount = props.formValues?.amount || 0
-  const showLock = (props.withdrawLockCheck && props.withdrawLockCheck.lockTime > 0) || false
-  const days = showLock
-    ? (intervalToDuration({ end: props.withdrawLockCheck?.lockTime || 0, start: 0 }).days as number)
-    : 0
 
   return (
     <FlyoutContainer>
       <FlyoutHeader data-e2e='confirmDepositBackButton' mode='back' onClick={backButtonClick}>
         <FormattedMessage id='modals.brokerage.confirm_deposit' defaultMessage='Confirm Deposit' />
       </FlyoutHeader>
+      <FlyoutSubHeader
+        data-e2e='depositConfirmAmount'
+        title={fiatToString({
+          unit: props.defaultMethod?.currency as FiatType,
+          value: amount
+        })}
+        subTitle=''
+      />
       <FlyoutContent mode='top'>
-        <Row>
-          <Text color='grey800' size='32px' weight={600}>
-            {fiatToString({
-              unit: props.defaultMethod?.currency as FiatType,
-              value: amount
-            })}
-          </Text>
-        </Row>
-        <Row>
-          <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
-            <FormattedMessage id='copy.from' defaultMessage='From' />
-          </Text>
-          {FormattedBank(props.defaultMethod)}
-        </Row>
-        <Row>
-          <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
-            <FormattedMessage id='copy.to' defaultMessage='To' />
-          </Text>
-          <LineItemText>{targetCoinName}</LineItemText>
-        </Row>
+        <CheckoutRow
+          text={FormattedBank(props.defaultMethod)}
+          title={<FormattedMessage id='copy.from' defaultMessage='From' />}
+        />
+        <CheckoutRow
+          text={targetCoinName}
+          title={<FormattedMessage id='copy.to' defaultMessage='To' />}
+        />
         {!isOpenBanking && (
-          <Row>
-            <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
+          <CheckoutRow
+            text={format(addDays(new Date(), 3), 'EEEE, MMM do, yyyy')}
+            title={
               <FormattedMessage
                 id='modals.brokerage.funds_will_arrive'
                 defaultMessage='Funds Will Arrive'
               />
-            </Text>
-            <LineItemText>{format(addDays(new Date(), 3), 'EEEE, MMM do, yyyy')}</LineItemText>
-          </Row>
+            }
+          />
         )}
-        <Row>
-          <Text color='grey600' size='14px' weight={500} lineHeight='21px'>
-            <FormattedMessage id='copy.total' defaultMessage='Total' />
-          </Text>
-          <LineItemText>
-            {fiatToString({
-              digits: 0,
-              unit: props.defaultMethod?.currency || ('USD' as FiatType),
-              value: amount
-            })}
-          </LineItemText>
-        </Row>
-        <div style={{ padding: '20px 40px 0' }}>
-          {getLockRuleMessaging(showLock, days, BSPaymentTypes.BANK_TRANSFER)}
-        </div>
+        <CheckoutRow
+          text={fiatToString({
+            digits: 0,
+            unit: props.defaultMethod?.currency || ('USD' as FiatType),
+            value: amount
+          })}
+          title={<FormattedMessage id='copy.total' defaultMessage='Total' />}
+        />
+        {props.availableToTradeWithdraw && <AvailabilityRows depositTerms={props.depositTerms} />}
       </FlyoutContent>
       <FlyoutFooter collapsed>
         <Button

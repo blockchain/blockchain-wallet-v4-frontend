@@ -25,12 +25,19 @@ import { getFiatFromPair } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
-import { BSCheckoutFormValuesType, SwapAccountType, SwapBaseCounterTypes } from 'data/types'
+import {
+  Analytics,
+  BSCheckoutFormValuesType,
+  SwapAccountType,
+  SwapBaseCounterTypes
+} from 'data/types'
 import { isNabuError } from 'services/errors'
 
 import { Border, TopText } from '../../Swap/components'
 import { ErrorCodeMappings } from '../model'
+import { QuoteCountDown } from '../QuoteCountDown'
 import Loading from '../template.loading'
+import { SellButton } from './SellButton'
 
 const { FORM_BS_CHECKOUT, FORM_BS_PREVIEW_SELL } = model.components.buySell
 
@@ -101,10 +108,14 @@ const IconWrapper = styled.div`
   margin-left: 4px;
 `
 
+const QuoteCountDownWrapper = styled.div`
+  margin-top: 28px;
+`
+
 const Amount = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 40px;
+  margin-top: 8px;
   > div {
     display: flex;
     flex-direction: row;
@@ -150,18 +161,36 @@ class PreviewSell extends PureComponent<
     this.state = { isSetCoinToolTip: false, isSetNetworkFee: false }
   }
 
+  componentDidMount() {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_CHECKOUT_VIEWED,
+      properties: {}
+    })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_CHECKOUT_SCREEN_SUBMITTED,
+      properties: {}
+    })
+
     this.props.buySellActions.createOrder({})
   }
 
   handleOnClickBack = (BASE: string) => {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_CHECKOUT_SCREEN_BACK_CLICKED,
+      properties: {}
+    })
+
     this.props.buySellActions.setStep({
       cryptoCurrency: BASE,
       fiatCurrency: getFiatFromPair(this.props.pair.pair),
       orderType: this.props.orderType,
       pair: this.props.pair,
-      step: 'ENTER_AMOUNT',
+      step: 'SELL_ENTER_AMOUNT',
       swapAccount: this.props.account
     })
   }
@@ -196,12 +225,22 @@ class PreviewSell extends PureComponent<
   }
 
   toggleCoinToolTip = () => {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_PRICE_TOOLTIP_CLICKED,
+      properties: {}
+    })
+
     this.setState((prevState) => ({
       isSetCoinToolTip: !prevState.isSetCoinToolTip
     }))
   }
 
   toggleNetworkFeeToolTip = () => {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_CHECKOUT_NETWORK_FEES_CLICKED,
+      properties: {}
+    })
+
     this.setState((prevState) => ({
       isSetNetworkFee: !prevState.isSetNetworkFee
     }))
@@ -217,7 +256,7 @@ class PreviewSell extends PureComponent<
     return this.props.quoteR.cata({
       Failure: () => null,
       Loading: () => <Loading />,
-      NotAsked: () => null,
+      NotAsked: () => <Loading />,
       Success: (val) => {
         const { account, formValues } = this.props
         if (!formValues) return null
@@ -252,6 +291,9 @@ class PreviewSell extends PureComponent<
                   />
                 </Text>
               </TopText>
+              <QuoteCountDownWrapper>
+                <QuoteCountDown date={val.refreshConfig.date} totalMs={val.refreshConfig.totalMs} />
+              </QuoteCountDownWrapper>
               <Amount data-e2e='sbTotalAmount'>
                 <div>
                   <Text size='32px' weight={600} color='grey800'>
@@ -534,28 +576,10 @@ class PreviewSell extends PureComponent<
             </FlyoutWrapper>
             <Bottom>
               <BottomActions>
-                <Button
-                  nature='primary'
-                  data-e2e='swapBtn'
-                  type='submit'
-                  disabled={this.props.submitting}
-                  fullwidth
-                  height='48px'
-                >
-                  {this.props.submitting ? (
-                    <HeartbeatLoader height='16px' width='16px' color='white' />
-                  ) : (
-                    <Text weight={600} color='white'>
-                      <FormattedMessage
-                        id='buttons.buy_sell_now'
-                        defaultMessage='{orderType} Now'
-                        values={{
-                          orderType: 'Sell'
-                        }}
-                      />
-                    </Text>
-                  )}
-                </Button>
+                <SellButton
+                  isSubmitting={this.props.submitting}
+                  refreshConfig={val.refreshConfig}
+                />
                 <Text
                   size='12px'
                   weight={500}
@@ -604,6 +628,7 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   clearErrors: () => dispatch(clearSubmitErrors(FORM_BS_PREVIEW_SELL))
 })

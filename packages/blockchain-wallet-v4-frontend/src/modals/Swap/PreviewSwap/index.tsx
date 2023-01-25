@@ -20,7 +20,7 @@ import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
+import { Analytics, InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
 import { isNabuError } from 'services/errors'
 
 import { Props as BaseProps, SuccessStateType } from '..'
@@ -78,6 +78,13 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
     }
   }
 
+  componentDidMount() {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SWAP_CHECKOUT_VIEWED,
+      properties: {}
+    })
+  }
+
   componentWillUnmount() {
     this.clearSubmitErrors()
   }
@@ -85,11 +92,32 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.swapActions.createOrder()
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SWAP_CHECKOUT_SCREEN_SUBMITTED,
+      properties: {}
+    })
   }
 
   handleOnClickBack = () => {
     this.props.swapActions.setStep({
       step: 'ENTER_AMOUNT'
+    })
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SWAP_CHECKOUT_SCREEN_BACK_CLICKED,
+      properties: {}
+    })
+  }
+
+  toggleExchangeTooltip = () => {
+    this.setState((prevState) => ({
+      isActiveExchangeToolTip: !prevState.isActiveExchangeToolTip
+    }))
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SWAP_PRICE_TOOLTIP_CLICKED,
+      properties: {}
     })
   }
 
@@ -183,11 +211,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                     name='question-in-circle-filled'
                     size='16px'
                     color={this.state.isActiveExchangeToolTip ? 'blue600' : 'grey300'}
-                    onClick={() =>
-                      this.setState((prevState) => ({
-                        isActiveExchangeToolTip: !prevState.isActiveExchangeToolTip
-                      }))
-                    }
+                    onClick={this.toggleExchangeTooltip}
                   />
                 </IconWrapper>
               </ExchangeRateRow>
@@ -255,7 +279,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
             </Text>
             <Text size='12px' weight={500} color='grey600'>
               <Link
-                href='https://support.blockchain.com/hc/en-us/articles/360061942111'
+                href='https://support.blockchain.com/hc/en-us/articles/4417063009172'
                 size='12px'
                 rel='noopener noreferrer'
                 target='_blank'

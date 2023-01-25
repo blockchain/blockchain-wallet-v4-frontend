@@ -6,6 +6,7 @@ import { Remote } from '@core'
 import { BSOrderActionType, BSPairType, FiatType, RemoteDataType } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions, selectors } from 'data'
+import { getEnterAmountStepType } from 'data/components/buySell/utils'
 import { RootState } from 'data/rootReducer'
 
 import Loading from '../template.loading'
@@ -25,7 +26,7 @@ class PaymentMethods extends PureComponent<Props> {
       cryptoCurrency: 'BTC',
       fiatCurrency: this.props.fiatCurrency || 'USD',
       pair: this.props.pair,
-      step: 'ENTER_AMOUNT'
+      step: getEnterAmountStepType(this.props.orderType)
     })
   }
 
@@ -51,6 +52,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)

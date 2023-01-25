@@ -42,8 +42,12 @@ const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
 const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
+// need to be authed to see this, but uses public layout
+const TwoStepVerification = React.lazy(() => import('./TwoStepVerification'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
+const UploadDocumentsForDebitCards = React.lazy(() => import('./UploadDocumentsForDebitCards'))
 const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Success'))
+const VerifyAccountRecovery = React.lazy(() => import('./RecoverWallet/EmailAuthLanding'))
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
@@ -65,7 +69,8 @@ const CoinPage = React.lazy(() => import('./CoinPage/components/CoinPage'))
 const General = React.lazy(() => import('./Settings/General'))
 const Home = React.lazy(() => import('./Home'))
 const Earn = React.lazy(() => import('./Earn'))
-const InterestHistory = React.lazy(() => import('./InterestHistory'))
+const EarnHistory = React.lazy(() => import('./EarnHistory'))
+const ActiveRewardsLearn = React.lazy(() => import('./ActiveRewardsLearn'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Prices = React.lazy(() => import('./Prices'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
@@ -79,6 +84,7 @@ const BLOCKCHAIN_TITLE = 'Blockchain.com'
 const App = ({
   apiUrl,
   history,
+  isActiveRewardsEnabled,
   isAuthenticated,
   isCoinViewV2Enabled,
   isDebitCardEnabled,
@@ -122,6 +128,11 @@ const App = ({
                           <Switch>
                             {/* Unauthenticated Wallet routes */}
                             <Route path='/app-error' component={AppError} />
+                            <AuthLayout
+                              path='/account-recovery'
+                              component={VerifyAccountRecovery}
+                              pageTitle={`${BLOCKCHAIN_TITLE} | Recovery`}
+                            />
                             <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                             <AuthLayout
                               path='/help'
@@ -165,6 +176,11 @@ const App = ({
                               pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
                             />
                             <AuthLayout
+                              path='/setup-two-factor'
+                              component={TwoStepVerification}
+                              pageTitle={`${BLOCKCHAIN_TITLE} | Setup 2FA`}
+                            />
+                            <AuthLayout
                               path='/signup'
                               component={Signup}
                               pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`}
@@ -182,6 +198,10 @@ const App = ({
                             <AuthLayout
                               path='/upload-document/:token'
                               component={UploadDocuments}
+                            />
+                            <AuthLayout
+                              path='/upload-document-card/:token'
+                              component={UploadDocumentsForDebitCards}
                             />
                             <AuthLayout
                               path='/wallet'
@@ -230,7 +250,13 @@ const App = ({
                             <WalletLayout path='/exchange' component={TheExchange} />
                             <WalletLayout path='/home' component={Home} />
                             <WalletLayout path='/earn' component={Earn} exact />
-                            <WalletLayout path='/earn/history' component={InterestHistory} />
+                            <WalletLayout path='/earn/history' component={EarnHistory} />
+                            {isActiveRewardsEnabled && (
+                              <WalletLayout
+                                path='/earn/active-rewards-learn'
+                                component={ActiveRewardsLearn}
+                              />
+                            )}
                             <WalletLayout path='/security-center' component={SecurityCenter} />
                             <WalletLayout path='/settings/addresses' component={Addresses} />
                             <WalletLayout path='/settings/general' component={General} />
@@ -265,6 +291,9 @@ const mapStateToProps = (state) => ({
   apiUrl: selectors.core.walletOptions.getDomains(state).getOrElse({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
+  isActiveRewardsEnabled: selectors.core.walletOptions
+    .getActiveRewardsEnabled(state)
+    .getOrElse(false) as boolean,
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
   isCoinViewV2Enabled: selectors.core.walletOptions

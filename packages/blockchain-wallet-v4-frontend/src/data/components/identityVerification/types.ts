@@ -1,6 +1,8 @@
 import {
+  ExtraKYCContext,
   ExtraQuestionsType,
   FindAddressResponse,
+  KycFlowsType,
   NabuAddressType,
   RemoteDataType,
   RetrieveAddress
@@ -13,6 +15,8 @@ export const STEPS = {
 
 export type EmailSmsStepType = keyof typeof STEPS
 
+// TODO - this is added only for analytics purpose and we should get rid of it
+// it could be replaced with ModalOriginType from data/modals
 export type VerifyIdentityOriginType =
   | 'DashboardPromo'
   | 'CompleteProfile'
@@ -29,16 +33,21 @@ export type VerifyIdentityOriginType =
   | 'Interest'
   | 'Withdraw'
   | 'DebitCard'
+  | 'UpgradeNowSilver'
 
-export type StepsType =
-  | 'addExtraStep'
-  | 'userDetails'
-  | 'userAddress'
-  | 'personal'
-  | 'moreInfo'
-  | 'mobile'
-  | 'verify'
-  | 'submitted'
+export enum StepsEnum {
+  addExtraStep = 'addExtraStep',
+  additionalInfo = 'additionalInfo',
+  mobile = 'mobile',
+  moreInfo = 'moreInfo',
+  personal = 'personal',
+  submitted = 'submitted',
+  userAddress = 'userAddress',
+  userDetails = 'userDetails',
+  verify = 'verify'
+}
+
+export type StepsType = keyof typeof StepsEnum
 
 export type KycStatesType =
   | 'NONE'
@@ -83,6 +92,7 @@ export interface IdentityVerificationState {
   emailStep: EmailSmsStepType
   flowConfig: RemoteDataType<string, any>
   kycExtraQuestions: RemoteDataType<string, ExtraQuestionsType>
+  kycFlows: RemoteDataType<string, KycFlowsType>
   preIdvData: RemoteDataType<string, PreIdvDataType>
   smsStep: RemoteDataType<string, EmailSmsStepType>
   states: RemoteDataType<string, Array<StateType>>
@@ -114,4 +124,13 @@ export type ExtraKeyFieldsFormValuesType = {
   q3: string
   q4: string
   relationship?: string
+}
+
+export type VerifyIdentityPayload = {
+  checkSddEligibility?: boolean
+  context?: ExtraKYCContext
+  needMoreInfo?: boolean
+  onCompletionCallback?: () => void
+  origin: VerifyIdentityOriginType
+  tier: number
 }

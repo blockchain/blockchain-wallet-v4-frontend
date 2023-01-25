@@ -6,7 +6,7 @@ import Tooltips from 'components/Tooltips'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import Modals from '../../modals'
-import Header, { FIXED_HEADER_HEIGHT } from './DexHeader'
+import { DexHeader } from './DexHeader'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -24,17 +24,17 @@ const Page = styled.div`
   > div:first-child {
     z-index: 1;
     position: relative;
-    top: ${FIXED_HEADER_HEIGHT}px;
+    top: 56px;
     padding: 0 24px;
     border-top: 0;
   }
 `
 
-const DexTemplate: React.FC<any> = (props) => (
+const DexTemplate = (props) => (
   <ErrorBoundary>
     <Wrapper>
       <Alerts />
-      <Header {...props} />
+      <DexHeader selectedTab='dex' />
       <Tooltips />
       <Modals />
       <Page>{props.children}</Page>

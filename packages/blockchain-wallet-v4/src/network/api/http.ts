@@ -5,7 +5,7 @@ import { merge, mergeRight, path, pathOr, prop } from 'ramda'
 axios.defaults.withCredentials = false
 axios.defaults.timeout = Infinity
 
-interface RequestConfig extends AxiosRequestConfig {
+export interface RequestConfig extends AxiosRequestConfig {
   contentType?: string
   endPoint?: string
   ignoreQueryParams?: boolean
@@ -47,7 +47,7 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
     }
     if (sessionToken) headers.Authorization = `Bearer ${sessionToken}`
 
-    const xSessionId = localStorage.getItem('xSessionId')
+    const xSessionId = sessionStorage.getItem('xSessionId')
     if (xSessionId && url?.includes('nabu-gateway')) {
       headers['X-Session-ID'] = xSessionId
     }

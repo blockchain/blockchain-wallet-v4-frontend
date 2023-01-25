@@ -7,8 +7,7 @@ import { RootState } from 'data/rootReducer'
 import { WalletOptionsType } from './types'
 
 // general
-export const getOptions = (state: RootState) =>
-  state.walletOptionsPath as RemoteDataType<string, WalletOptionsType>
+export const getOptions = (state: RootState) => state.walletOptions.details
 export const getDomains = (state) => getOptions(state).map((x) => x.domains)
 export const getWebOptions = (state) =>
   getOptions(state).map(path(['platforms', 'web'])) as RemoteDataType<
@@ -29,6 +28,7 @@ export const getXlmExchangeAddresses = () => Remote.of([])
 // 3rd Party
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
 export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
+export const getWalletHelperDomain = (state) => getDomains(state).map(prop('walletHelper'))
 
 //
 // FEATURE FLAG SELECTORS
@@ -50,6 +50,12 @@ export const getPairingCodeFlag = (state: RootState) =>
 // recurring buys flag
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'recurringBuys']))
+
+export const getFeatureFlagUseVgsProvider = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useVgsProvider']))
+
+export const getFeatureFlagAvailableToTradeWithdraw = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'availableToTradeWithdraw']))
 
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
@@ -144,6 +150,10 @@ export const getReferralEnabled = (state: RootState) =>
 export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'exchangeMobileDuplicateAccountRedirect']))
 
+// show exchange promo card
+export const getExchangePromoEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'exchangePromo']))
+
 // secure update endpoint for email and sms
 export const getSecureEmailSmsUpdate = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'secureEmailSmsUpdate']))
@@ -164,6 +174,10 @@ export const createNabuUserAtLogin = (state: RootState) =>
 export const getStakingPromoBannerEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'stakingPromoBanner']))
 
+// Active Rewards Promo banner
+export const getActiveRewardsPromoBannerEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'activeRewardsPromoBanner']))
+
 // Settings theme
 export const getThemeEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'themeEnabled']))
@@ -171,3 +185,19 @@ export const getThemeEnabled = (state: RootState) =>
 // use Loqate service for address search
 export const useLoqateServiceEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useLoqateService']))
+
+// Account recovery v2
+export const getAccountRecoveryV2 = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'accountRecoveryV2']))
+
+// show active rewards
+export const getActiveRewardsEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isActiveRewardsEnabled']))
+
+// show earn available assets checkbox
+export const getShowEarnAvailableAssets = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showEarnAvailableAssetsCheckbox']))
+
+// show prove flow
+export const getShowProveFlow = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showProveFlow']))

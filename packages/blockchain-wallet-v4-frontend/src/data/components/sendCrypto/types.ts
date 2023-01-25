@@ -4,7 +4,7 @@ import {
   RemoteDataType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
-  WithdrawResponseType
+  WithdrawAmount
 } from '@core/types'
 import { SwapAccountType } from 'data/types'
 
@@ -15,7 +15,12 @@ export type SendCryptoState = {
   prebuildTx: RemoteDataType<string, SharedBuildTxResponseType>
   sendLimits: RemoteDataType<string, CrossBorderLimits>
   step: SendCryptoStepType
-  transaction: RemoteDataType<string, WithdrawResponseType>
+  transaction: RemoteDataType<
+    string,
+    {
+      amount: WithdrawAmount
+    }
+  >
   withdrawLocks: RemoteDataType<string, WithdrawalLockResponseType>
   withdrawalFeesAndMins: RemoteDataType<string, WithdrawalMinsAndFeesResponse>
 }

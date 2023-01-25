@@ -72,8 +72,19 @@ import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
 import orderSuccess from './img/debitCard/order-success.png'
 import terminateCard from './img/debitCard/terminate-card.png'
+import dexOnboardingSlideFunds from './img/dex-onboarding-slide-funds@2x.png'
+import dexOnboardingSlideNotEligible from './img/dex-onboarding-slide-not-eligible@2x.png'
+import dexOnboardingSlideSwap from './img/dex-onboarding-slide-swap@2x.png'
+import dexOnboardingSlideWelcome from './img/dex-onboarding-slide-welcome@2x.png'
+import bars from './img/earn/bars.svg'
+import btcClock from './img/earn/btc-clock.svg'
+import btcGraph from './img/earn/btc-graph.svg'
+import earnActivityEmpty from './img/earn/earn-activity-empty.svg'
+import earnEmpty from './img/earn/earn-empty.svg'
 import ethLocked from './img/earn/eth-locked.svg'
 import ethPending from './img/earn/eth-pending.svg'
+import scenario1Graph from './img/earn/scenario-1-graph.svg'
+import scenario2Graph from './img/earn/scenario-2-graph.svg'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emailVerified from './img/email-verified.svg'
@@ -199,6 +210,7 @@ const Images = {
   'bank-rejected': bankRejected,
   'bank-success': bankSuccess,
   'bar-chart': barChart,
+  bars,
   'bg-banner-pattern': bgBannerPattern,
   'bg-banner-pattern-lg': bgBannerPatternLg,
   'bg-pattern': bgPattern,
@@ -212,6 +224,8 @@ const Images = {
   'blockchain-logo-circle': blockchainLogoCircle,
   'blockchain-silver': blockchainSilver,
   'blue-verified': blueVerified,
+  'btc-clock': btcClock,
+  'btc-graph': btcGraph,
   'buy-blue-circle': buyBlueCircle,
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
@@ -238,6 +252,12 @@ const Images = {
   'cryptoad-4502': cryptoad4502,
   'cryptoad-large': cryptoadlarge,
   'cryptoad-small': cryptoadsmall,
+  'dex-onboarding-slide-funds': dexOnboardingSlideFunds,
+  'dex-onboarding-slide-not-eligible': dexOnboardingSlideNotEligible,
+  'dex-onboarding-slide-swap': dexOnboardingSlideSwap,
+  'dex-onboarding-slide-welcome': dexOnboardingSlideWelcome,
+  'earn-activity-empty': earnActivityEmpty,
+  'earn-empty': earnEmpty,
   'email-error': emailError,
   'email-success': emailSuccess,
   'email-verified': emailVerified,
@@ -294,6 +314,8 @@ const Images = {
   'referral-icon': referralIcon,
   refresh,
   'safe-connect': safeConnect,
+  'scenario-1-graph': scenario1Graph,
+  'scenario-2-graph': scenario2Graph,
   search,
   'select-arrow': selectArrow,
   sell,

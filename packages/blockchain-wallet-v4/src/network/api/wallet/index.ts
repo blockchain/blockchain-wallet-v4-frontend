@@ -1,5 +1,7 @@
 import { concat, mergeRight, prop, propOr } from 'ramda'
 
+import { data as dataActions } from '../../../redux/actions'
+
 export default ({ get, post, rootUrl }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
     post({
@@ -53,6 +55,24 @@ export default ({ get, post, rootUrl }) => {
       endPoint: '/wallet',
       url: rootUrl
     }).then(() => data.checksum)
+
+  const createResetAccountPayload = (email, captchaToken, sessionToken, data) =>
+    post({
+      contentType: 'application/json',
+      data: mergeRight(
+        {
+          captcha: captchaToken,
+          email,
+          siteKey: window.CAPTCHA_KEY
+        },
+        data
+      ),
+      endPoint: '/wallet/recovery/recover-account',
+      sessionToken,
+      url: rootUrl
+    })
+      .then((response) => sessionStorage.setItem('accountRecovery', JSON.stringify(response)))
+      .then(() => data.checksum)
 
   // context => {
   //  addresses: [],
@@ -271,11 +291,34 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
+  const validate2faResponse = (email, code) =>
+    post({
+      contentType: 'application/json',
+      data: {
+        email,
+        response: code
+      },
+      endPoint: `/wallet/recovery/validate-2fa-response`,
+      url: rootUrl
+    })
+
+  const sendTwoFAChallenge = (walletGuid, sessionToken) =>
+    post({
+      contentType: 'application/json',
+      data: {
+        walletGuid
+      },
+      endPoint: `/wallet/recovery/send-2fa-challenge`,
+      sessionToken,
+      url: rootUrl
+    })
+
   return {
     authorizeLogin,
     authorizeVerifyDevice,
     createPayload,
     createPinEntry,
+    createResetAccountPayload,
     deauthorizeBrowser,
     fetchBlockchainData,
     fetchPayloadWithSession,
@@ -292,9 +335,11 @@ export default ({ get, post, rootUrl }) => {
     reset2fa,
     savePayload,
     sendSecureChannel,
+    sendTwoFAChallenge,
     triggerMnemonicViewedAlert,
     triggerNonCustodialSendAlert,
     updateMnemonicBackup,
+    validate2faResponse,
     verifyEmailToken
   }
 }

@@ -22,7 +22,7 @@ export const GetNodeQuestionElements = (node: NodeItem) => {
   ]
 }
 
-export const GetInputPlaceholder = (child) => {
+export const GetInputPlaceholder = (child: NodeItem) => {
   const intl = useIntl()
   return intl.formatMessage({
     defaultMessage: child.text,

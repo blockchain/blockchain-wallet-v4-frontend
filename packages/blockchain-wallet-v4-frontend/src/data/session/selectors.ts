@@ -2,8 +2,6 @@ import { compose, curry, defaultTo, lift, path, prop } from 'ramda'
 
 import { RootState } from 'data/rootReducer'
 
-import { AccountSessionType } from './types'
-
 export const getSession = curry((state, guid, email) => {
   const guidSession = path(['session', guid], state)
   const emailSession = path(['session', email], state)
@@ -30,5 +28,14 @@ export const getWalletSessionId = (state: RootState, guid, email) => {
     email && getWalletSessions(state)?.email?.toLowerCase() === email.toLowerCase()
   if (guidMatches || emailMatches) {
     return getWalletSessions(state)?.id
+  }
+}
+export const getRecoverSessions = (state: RootState) => {
+  return state.session.recover
+}
+
+export const getRecoverSessionId = (state: RootState, email) => {
+  if (getRecoverSessions(state)?.email === email) {
+    return getRecoverSessions(state)?.id
   }
 }

@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/validation'
-import { addSeconds, differenceInMilliseconds } from 'date-fns'
+import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/SellEnterAmount/Checkout/validation'
 import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
@@ -15,7 +14,6 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
-  BuyQuoteStateType,
   CardAcquirer,
   CardSuccessRateResponse,
   ExtraKYCContext,
@@ -23,6 +21,7 @@ import {
   FiatType,
   GooglePayInfoType,
   MobilePaymentType,
+  OrderConfirmAttributesType,
   OrderType,
   ProductTypes,
   SwapOrderType,
@@ -44,7 +43,7 @@ import {
   UserDataType,
   VerifyIdentityOriginType
 } from 'data/types'
-import { isNabuError } from 'services/errors'
+import { isNabuError, NabuError } from 'services/errors'
 import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import { actions as cacheActions } from '../../cache/slice'
@@ -77,10 +76,12 @@ import {
   ORDER_POLLING,
   SDD_TIER
 } from './model'
+import { createBuyQuoteLoopAndWaitForFirstResult } from './sagas/createBuyQuoteLoopAndWaitForFirstResult'
+import { updateCardCvvAndPollOrder } from './sagas/updateCardCvvAndPollOrder'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
-import { getDirection, reversePair } from './utils'
+import { getDirection, getEnterAmountStepType, getQuoteRefreshConfig, reversePair } from './utils'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -191,7 +192,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
+  const registerCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
     try {
       const { cvv, paymentMethodTokens } = payload
       const userDataR = selectors.modules.profile.getUserData(yield select())
@@ -217,6 +218,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // This is for the 0 dollar payment
       yield put(A.activateCard({ card, cvv }))
+
       yield take([A.activateCardSuccess.type, A.activateCardFailure.type])
     } catch (e) {
       // TODO: improve error message here, adding translations and more context
@@ -255,7 +257,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const activateBSCard = function* ({ payload }: ReturnType<typeof A.activateCard>) {
+  const activateCard = function* ({ payload }: ReturnType<typeof A.activateCard>) {
     try {
       const { card, cvv } = payload
 
@@ -267,7 +269,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const redirectUrl = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
 
-      const providerDetails = yield call(api.activateBSCard, {
+      const providerDetails = yield call(api.activateCard, {
         cardBeneficiaryId: card.id,
         cvv,
         redirectUrl
@@ -287,7 +289,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const cancelBSOrder = function* ({ payload }: ReturnType<typeof A.cancelOrder>) {
+  const cancelBuyOrder = function* ({ payload }: ReturnType<typeof A.cancelOrder>) {
     try {
       const { state } = payload
       const fiatCurrency = getFiatFromPair(payload.pair)
@@ -328,7 +330,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const createBSOrder = function* ({
+  const createOrder = function* ({
     payload: { mobilePaymentMethod, paymentMethodId, paymentType }
   }: ReturnType<typeof A.createOrder>) {
     const values: T.BSCheckoutFormValuesType = yield select(
@@ -345,13 +347,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
-      let buyQuote: BuyQuoteStateType | undefined
-      if (orderType === OrderType.SELL) {
-        yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
-      } else {
-        buyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
-        yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
-      }
+      const formName = OrderType.SELL ? FORM_BS_PREVIEW_SELL : FORM_BS_CHECKOUT
+      yield put(actions.form.startSubmit(formName))
 
       const fiat = getFiatFromPair(pair.pair)
       const coin = getCoinFromPair(pair.pair)
@@ -417,6 +414,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       if (!paymentType) throw new Error(BS_ERROR.NO_PAYMENT_TYPE)
+
+      yield call(createBuyQuoteLoopAndWaitForFirstResult, {
+        amount,
+        pair: pair.pair,
+        paymentMethod: paymentType,
+        paymentMethodId
+      })
+
+      const buyQuote = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
 
       if (buyQuote) {
         const { availability, reason } = buyQuote.quote.settlementDetails
@@ -484,7 +490,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
 
         buyOrder = yield call(
-          api.createBSOrder,
+          api.createOrder,
           pair.pair,
           orderType,
           true,
@@ -557,7 +563,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               method,
               orderType: values?.orderType,
               pair,
-              step: 'ENTER_AMOUNT',
+              step: getEnterAmountStepType(values?.orderType),
               swapAccount: from
             })
           )
@@ -594,9 +600,39 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     throw new Error(BS_ERROR.RETRYING_TO_GET_AUTH_URL)
   }
 
+  const asyncOrderConfirmCheck = function* (orderId) {
+    try {
+      // When isAsync is true on the confirm request this call can return the "ux" nabu error but the request is still
+      // techniclly not an http error (ex. 400, 500) and so we need to catch it and manually return the order info "dataFields"
+      const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
+      if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
+        return order
+      }
+
+      // If attributes is populated with any of these `cardAttrs` we want to return the order to be handled
+      // otherwise the order is probably in PENDING_DEPOSIT and so we should retry the fetch again
+      const cardAttrs = ['needCvv', 'everypay', 'cardProvider', 'cardCassy']
+      if (order.attributes) {
+        for (let i = 0; i < cardAttrs.length; i += 1) {
+          if (order.attributes[cardAttrs[i]]) {
+            return order
+          }
+        }
+      }
+    } catch (e) {
+      if (isNabuError(e)) {
+        // FIXME: The api is returning a 200 status code but also including a NABU error (ux)
+        // in the response. So it messes with all of the polling logic we have here. We need to
+        // catch that "error" and manually handle it here.
+        return e
+      }
+    }
+
+    throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
+  }
+
   const orderConfirmCheck = function* (orderId) {
     const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
-
     if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
       return order
     }
@@ -626,14 +662,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const confirmOrder = function* ({ payload }: ReturnType<typeof A.confirmOrder>) {
-    const { mobilePaymentMethod, paymentMethodId } = payload
-
-    const { order } = payload
-
     try {
+      const { mobilePaymentMethod, order, paymentMethodId } = payload
+
       if (!order) throw new Error(BS_ERROR.NO_ORDER_EXISTS)
 
       yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
+      // we should stop polling for a new quote now
+      yield put(A.stopPollBuyQuote())
 
       const account = selectors.components.brokerage.getAccount(yield select())
 
@@ -644,7 +680,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         walletHelper: 'https://wallet-helper.blockchain.com'
       } as WalletOptionsType['domains'])
 
-      let attributes
+      let attributes: OrderConfirmAttributesType | undefined
 
       const paymentSuccessLink = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
 
@@ -656,6 +692,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           everypay: {
             customerUrl: paymentSuccessLink
           },
+          isAsync: true,
           redirectURL: paymentSuccessLink
         }
       } else if (account?.partner === BankPartners.YAPILY) {
@@ -878,12 +915,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(A.confirmOrderLoading())
 
-      const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
+      // Before isAsync this request would throw if the buy was going to fail and show the error UX
+      // to the user. Now with isAsync = true this will no longer throw and we need to poll for FAILED or success state
+      let confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
         attributes,
         order: freshOrder,
         paymentMethodId
       })
 
+      // TODO: Deprecated, delete
       if (confirmedOrder.paymentError) {
         throw new Error(confirmedOrder.paymentError)
       }
@@ -903,25 +943,62 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.confirmOrderSuccess(order))
 
         yield put(A.setStep({ step: 'OPEN_BANKING_CONNECT' }))
-        // Now we need to poll for the order success
 
+        // Now we need to poll for the order success
         yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
+      } else if (attributes && 'isAsync' in attributes) {
+        // If this is an isAsync call then we need to poll the order to wait forattributes or FAIL
+        try {
+          const { RETRY_AMOUNT, SECONDS } = CARD_ORDER_POLLING
+          confirmedOrder = yield retry(
+            RETRY_AMOUNT,
+            SECONDS,
+            asyncOrderConfirmCheck,
+            confirmedOrder.id
+          )
+          // check if a nabu error was returned by the backend even if the request was a 200
+          if (isNabuError(confirmedOrder)) {
+            throw new NabuError(confirmedOrder)
+          }
+        } catch (error) {
+          if (isNabuError(error)) {
+            throw new NabuError(error) // bubble this up to the top level catch in this func
+          }
+
+          yield put(A.confirmOrderSuccess(confirmedOrder))
+
+          yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
+
+          yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+          return // no need to proceed with the rest of this func
+        }
       }
 
       // Refresh recurring buy list to check for new pending RBs for next step
       yield put(actions.components.recurringBuy.fetchRegisteredList())
-
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
+      // Start checking the confirmed order for different states and types to determine
+      // how to continue. ex. if 3DS is required, or it's a BANK_TRANSFER or SETTLED state
+      // we'll need to handle these cases slightly differently
       if (confirmedOrder.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.confirmOrderSuccess(confirmedOrder))
 
         yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
         yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+      } else if (confirmedOrder.attributes?.needCvv) {
+        yield put(A.confirmOrderSuccess(confirmedOrder))
+
+        yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
+
+        yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+        yield put(A.fetchOrders())
+        return
       } else if (
         confirmedOrder.attributes?.everypay?.paymentState === 'SETTLED' ||
-        confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED'
+        confirmedOrder.attributes?.cardProvider?.paymentState === 'SETTLED' ||
+        confirmedOrder.attributes?.cardCassy?.paymentState === 'SETTLED'
       ) {
         // Have to check if the state is "FINISHED", otherwise poll for 1 minute until it is
         if (confirmedOrder.state === 'FINISHED') {
@@ -930,6 +1007,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
           yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+          yield put(A.fetchOrders())
+          return
         }
 
         try {
@@ -946,21 +1025,36 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } else if (
         confirmedOrder.attributes?.everypay ||
         (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
-          confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
+          confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+        (confirmedOrder.attributes?.cardCassy?.cardAcquirerName === 'EVERYPAY' &&
+          confirmedOrder.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
       ) {
         yield put(A.confirmOrderSuccess(confirmedOrder))
 
         yield put(A.setStep({ step: '3DS_HANDLER_EVERYPAY' }))
       } else if (
-        confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'STRIPE' &&
-        confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+        (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'FAKE_CARD_ACQUIRER' &&
+          confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+        (confirmedOrder.attributes?.cardCassy?.cardAcquirerName === 'FAKE_CARD_ACQUIRER' &&
+          confirmedOrder.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
+      ) {
+        yield put(A.confirmOrderSuccess(confirmedOrder))
+
+        yield put(A.setStep({ step: '3DS_HANDLER_FAKE_CARD_ACQUIRER' }))
+      } else if (
+        (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'STRIPE' &&
+          confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+        (confirmedOrder.attributes?.cardCassy?.cardAcquirerName === 'STRIPE' &&
+          confirmedOrder.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
       ) {
         yield put(A.confirmOrderSuccess(confirmedOrder))
 
         yield put(A.setStep({ step: '3DS_HANDLER_STRIPE' }))
       } else if (
-        confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
-        confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+        (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
+          confirmedOrder.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+        (confirmedOrder.attributes?.cardCassy?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
+          confirmedOrder.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
       ) {
         yield put(A.confirmOrderSuccess(confirmedOrder))
 
@@ -1003,13 +1097,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
         order
       })
-      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
+      yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
+
       yield put(A.fetchOrders())
-      yield put(A.confirmOrderSuccess(confirmedOrder))
-
-      yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
-
-      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     } catch (e) {
       if (isNabuError(e)) {
         yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: e }))
@@ -1048,7 +1139,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const createBSCard = function* ({ payload }: ReturnType<typeof A.createCard>) {
+  const createCard = function* ({ payload }: ReturnType<typeof A.createCard>) {
     try {
       yield put(A.createCardLoading())
       const currency = S.getFiatCurrency(yield select())
@@ -1064,7 +1155,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!address) throw new Error(BS_ERROR.NO_ADDRESS)
 
-      const card = yield call(api.createBSCard, {
+      const card = yield call(api.createCard, {
         address,
         currency,
         email: userData.email,
@@ -1358,15 +1449,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.fetchBuyQuote>) {
+  const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.startPollBuyQuote>) {
     while (true) {
       try {
         const { amount, pair, paymentMethod, paymentMethodId } = payload
         const pairReversed = reversePair(pair)
-
-        // paymentMethodId is required when profile=SIMPLEBUY and paymentMethod=BANK_TRANSFER
-        const buyQuotePaymentMethodId =
-          paymentMethod === BSPaymentTypes.BANK_TRANSFER ? paymentMethodId : undefined
 
         const effectivePaymentMethod =
           paymentMethod === BSPaymentTypes.USER_CARD ? BSPaymentTypes.PAYMENT_CARD : paymentMethod
@@ -1377,21 +1464,27 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           'SIMPLEBUY',
           amount,
           effectivePaymentMethod,
-          buyQuotePaymentMethodId
+          paymentMethodId
         )
 
+        const refreshConfig = getQuoteRefreshConfig({
+          currentDate: new Date(),
+          expireDate: new Date(quote.quoteExpiresAt)
+        })
         yield put(
           A.fetchBuyQuoteSuccess({
+            amount,
             fee: quote.feeDetails.fee.toString(),
             pair,
+            paymentMethod,
+            paymentMethodId,
             quote,
-            rate: parseInt(quote.price)
+            rate: parseInt(quote.price),
+            refreshConfig
           })
         )
-        const refresh = Math.abs(
-          differenceInMilliseconds(new Date(quote.quoteExpiresAt), addSeconds(new Date(), 10))
-        )
-        yield delay(refresh)
+
+        yield delay(refreshConfig.totalMs)
       } catch (e) {
         if (isNabuError(e)) {
           yield put(A.fetchBuyQuoteFailure(e))
@@ -1425,8 +1518,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchSellQuote = function* ({ payload }: ReturnType<typeof A.fetchSellQuote>) {
     while (true) {
       try {
-        yield put(A.fetchSellQuoteLoading())
-
         const { pair } = payload
         const direction = getDirection(payload.account)
         const quote: ReturnType<typeof api.getSwapQuote> = yield call(
@@ -1441,11 +1532,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           true
         )
 
-        yield put(A.fetchSellQuoteSuccess({ quote, rate }))
-        const refresh = Math.abs(
-          differenceInMilliseconds(new Date(quote.expiresAt), addSeconds(new Date(), 10))
-        )
-        yield delay(refresh)
+        const refreshConfig = getQuoteRefreshConfig({
+          currentDate: new Date(),
+          expireDate: new Date(quote.expiresAt)
+        })
+        yield put(A.fetchSellQuoteSuccess({ quote, rate, refreshConfig }))
+        yield delay(refreshConfig.totalMs)
       } catch (e) {
         const error = errorHandler(e)
         yield put(A.fetchSellQuoteFailure(error))
@@ -1594,7 +1686,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           // 👇-----------------------------------------------------
           // const methodType =
           //   method.type === BSPaymentTypes.BANK_ACCOUNT ? BSPaymentTypes.FUNDS : method.type
-          // return yield put(A.createBSOrder(undefined, methodType))
+          // return yield put(A.createOrder(undefined, methodType))
           // 👆------------------------------------------------------
 
           return yield put(A.createOrder({ paymentType: method.type }))
@@ -1659,7 +1751,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               mobilePaymentMethod,
               orderType: values?.orderType,
               pair,
-              step: 'ENTER_AMOUNT',
+              step: getEnterAmountStepType(values?.orderType),
               swapAccount
             })
           )
@@ -1678,7 +1770,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             method,
             orderType: values?.orderType,
             pair,
-            step: 'ENTER_AMOUNT',
+            step: getEnterAmountStepType(values?.orderType),
             swapAccount
           })
         )
@@ -1716,16 +1808,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const initializeCheckout = function* ({
-    payload: {
-      account,
-      amount,
-      cryptoAmount,
-      fix,
-      orderType,
-      paymentMethodId,
-      paymentMethodType,
-      period
-    }
+    payload: { account, amount, cryptoAmount, fix, orderType, period }
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(waitForUserData)
@@ -1733,23 +1816,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!fiatCurrency) throw new Error(BS_ERROR.NO_FIAT_CURRENCY)
       const pair = S.getBSPair(yield select())
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
-      // Fetch rates
-      if (orderType === OrderType.BUY) {
-        const fakeQuoteAmount = '1000'
 
-        yield put(
-          A.startPollBuyQuote({
-            amount: fakeQuoteAmount,
-            pair: pair.pair,
-            paymentMethod: paymentMethodType,
-            paymentMethodId
-          })
-        )
-        yield race({
-          failure: take(A.fetchBuyQuoteFailure.type),
-          success: take(A.fetchBuyQuoteSuccess.type)
-        })
-      } else if (orderType === OrderType.SELL) {
+      if (orderType === OrderType.SELL) {
         if (!account) throw new Error(BS_ERROR.NO_ACCOUNT)
         yield put(A.fetchSellQuote({ account, pair: pair.pair }))
         yield put(A.startPollSellQuote({ account, pair: pair.pair }))
@@ -1806,7 +1874,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(A.fetchBalance({ skipLoading }))
   }
 
-  const pollBSCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
+  const pollCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
     let retryAttempts = 0
     const maxRetryAttempts = 10
 
@@ -1822,8 +1890,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         retryAttempts += 1
         step = S.getStep(yield select())
         if (
+          step !== 'ADD_CARD_VGS' &&
           step !== '3DS_HANDLER_EVERYPAY' &&
           step !== '3DS_HANDLER_STRIPE' &&
+          step !== '3DS_HANDLER_FAKE_CARD_ACQUIRER' &&
           step !== '3DS_HANDLER_CHECKOUTDOTCOM'
         ) {
           yield cancel()
@@ -1841,7 +1911,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (order && order.state === 'PENDING_CONFIRMATION') {
           return yield put(A.confirmOrder({ order, paymentMethodId: card.id }))
         }
-
         const origin = S.getOrigin(yield select())
 
         if (origin === 'SettingsGeneral') {
@@ -1860,7 +1929,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           } as BSPaymentMethodType
           yield put(A.setMethod(newCardMethod))
         }
-
         return yield put(
           A.createOrder({ paymentMethodId: card.id, paymentType: BSPaymentTypes.PAYMENT_CARD })
         )
@@ -1882,7 +1950,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const pollBSOrder = function* ({ payload }: ReturnType<typeof A.pollOrder>) {
+  const pollOrder = function* ({ payload }: ReturnType<typeof A.pollOrder>) {
     let retryAttempts = 0
     const maxRetryAttempts = 10
 
@@ -1895,8 +1963,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         step = S.getStep(yield select())
         retryAttempts += 1
         if (
+          step !== 'UPDATE_SECURITY_CODE' &&
           step !== '3DS_HANDLER_EVERYPAY' &&
           step !== '3DS_HANDLER_STRIPE' &&
+          step !== '3DS_HANDLER_FAKE_CARD_ACQUIRER' &&
           step !== '3DS_HANDLER_CHECKOUTDOTCOM'
         ) {
           yield cancel()
@@ -1922,8 +1992,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(pollBSBalances)
       }
     }
+    const useVgsProvider = selectors.core.walletOptions
+      .getFeatureFlagUseVgsProvider(yield select())
+      .getOrElse(false) as boolean
 
-    if (action.payload.step === 'DETERMINE_CARD_PROVIDER') {
+    // If VGS feature flag is on we should go the VGS flow, otherwise go down our
+    // normal checkout.com card add flow
+    if (action.payload.step === 'DETERMINE_CARD_PROVIDER' && !useVgsProvider) {
       const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers)
 
       const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
@@ -1945,6 +2020,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           checkoutDotComAccountCodes,
           checkoutDotComApiKey,
           step: 'ADD_CARD_CHECKOUTDOTCOM'
+        })
+      )
+    } else if (action.payload.step === 'DETERMINE_CARD_PROVIDER' && useVgsProvider) {
+      const vgsDetails: ReturnType<typeof api.createAddCardToken> = yield call(
+        api.createAddCardToken
+      )
+      yield put(
+        A.setStep({
+          cardTokenId: vgsDetails.card_token_id,
+          step: 'ADD_CARD_VGS',
+          vgsVaultId: vgsDetails.vgs_vault_id
         })
       )
     }
@@ -1995,6 +2081,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
+    // FIXME: This call is causing the modal to be very slow, abstract this to somewhere other than here
     yield put(actions.custodial.fetchProductEligibilityForUser())
     yield take([
       custodialActions.fetchProductEligibilityForUserSuccess.type,
@@ -2022,6 +2109,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
+    // FIXME: This call is causing the modal to be very slow, abstract this to somewhere other than here
     const completedKYC = yield call(getExtraKYCCompletedStatus, {
       api,
       context: ExtraKYCContext.TRADING,
@@ -2039,10 +2127,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         products.buy.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.buy.reasonNotEligible.message
           : undefined
+      const sanctionsType = products.buy.reasonNotEligible.type
       yield put(
         actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
           message,
-          origin: 'BuySellInit'
+          origin: 'BuySellInit',
+          sanctionsType
         })
       )
       return
@@ -2053,10 +2143,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         products.sell.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.sell.reasonNotEligible.message
           : undefined
+      const sanctionsType = products.sell.reasonNotEligible.type
       yield put(
         actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
           message,
-          origin: 'BuySellInit'
+          origin: 'BuySellInit',
+          sanctionsType
         })
       )
       return
@@ -2116,7 +2208,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               method,
               mobilePaymentMethod,
               orderType,
-              step: 'ENTER_AMOUNT'
+              step: getEnterAmountStepType(orderType)
             })
           )
           break
@@ -2212,15 +2304,25 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const updateCardCvv = function* ({ payload }: ReturnType<typeof A.updateCardCvv>) {
+    try {
+      yield put(A.cvvStatusLoading())
+      yield call(api.updateCardCvv, payload)
+      yield put(A.cvvStatusSuccess())
+    } catch (e) {
+      yield put(A.cvvStatusFailure())
+    }
+  }
+
   return {
-    activateBSCard,
-    cancelBSOrder,
+    activateCard,
+    cancelBuyOrder,
     checkCardSuccessRate,
     confirmBSFundsOrder,
     confirmOrder,
     confirmOrderPoll,
-    createBSCard,
-    createBSOrder,
+    createCard,
+    createOrder,
     deleteBSCard,
     fetchAccumulatedTrades,
     fetchBSBalances,
@@ -2247,11 +2349,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     initializeBillingAddress,
     initializeCheckout,
     pollBSBalances,
-    pollBSCard,
-    pollBSOrder,
-    registerBSCard,
+    pollCard,
+    pollOrder,
+    registerCard,
     setStepChange,
     showModal,
-    switchFix
+    switchFix,
+    updateCardCvv,
+    updateCardCvvAndPollOrder
   }
 }

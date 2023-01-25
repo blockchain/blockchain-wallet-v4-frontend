@@ -1,168 +1,189 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { IconSettings, PaletteColors } from '@blockchain-com/constellation'
-import { bindActionCreators, Dispatch } from 'redux'
-import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button, Padding } from '@blockchain-com/constellation'
 
-import { Remote } from '@core'
-import { Button, Text } from 'blockchain-info-components'
 import { actions, model, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
-import { DexSwapForm, DexSwapSideEnum, DexSwapSteps, ModalName } from 'data/types'
+import { DexSwapForm, DexSwapSide, ModalName } from 'data/types'
+import { useRemote } from 'hooks'
 
-import BaseRateAndFees from '../components/BaseRateAndFees'
-import FlipPairButton from '../components/FlipPairButton'
-import QuoteDetails from '../components/QuoteDetails'
-import SwapPair from '../components/SwapPair'
+import { AllowanceCheck } from '../AllowanceCheck'
+import {
+  BaseRateAndFees,
+  FlipPairButton,
+  FormWrapper,
+  QuoteDetails,
+  SwapPair,
+  SwapPairWrapper
+} from '../components'
+import { ErrorMessage } from './ErrorMessage'
+import { Header } from './Header'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-`
-const SettingsIcon = styled.div`
-  display: flex;
-  align-items: center;
-  > :first-child {
-    cursor: pointer;
-  }
-`
-const SwapWrapper = styled.div`
-  position: relative;
-  margin-bottom: 20px;
-  > :nth-child(3) {
-    margin-top: 8px;
-  }
-`
-const ErrorText = styled(Text)`
-  margin-top: 24px;
-  font-size: 14px;
-  font-weight: 500;
-  color: ${(props) => props.theme.red600};
-  text-align: center;
-`
+type Props = {
+  walletCurrency: string
+}
 
-const EnterSwapDetails = ({
-  formActions,
-  formValues,
-  isAuthenticated,
-  modalActions,
-  quoteR,
-  walletCurrency
-}: Props) => {
+export const EnterSwapDetails = ({ walletCurrency }: Props) => {
+  const dispatch = useDispatch()
+  const [isApproved, setIsApproved] = useState(false)
+
   const [pairAnimate, setPairAnimate] = useState(false)
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
-  const { baseToken, counterToken, counterTokenAmount } = formValues || {}
-  // TODO: useRemote hook
-  const hasQuote = Remote.Success.is(quoteR)
-  const hasQuoteError = Remote.Failure.is(quoteR)
 
-  // event handlers
+  const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
+  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
+    formValues || {}
+
+  const {
+    data: quote,
+    hasError: hasQuoteError,
+    isLoading: isLoadingQuote
+  } = useRemote(selectors.components.dex.getSwapQuote)
+
+  const baseTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
+  )
+  const counterTokenBalance = useSelector(
+    selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
+  )
+
   const onViewSettings = () => {
-    modalActions.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' })
+    dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))
   }
-  const onFlipPairClick = () => {
-    setPairAnimate(true)
-    // delay form change to assist in smoother animation
-    setTimeout(() => {
-      formActions.initialize(DEX_SWAP_FORM, {
-        baseToken: counterToken,
-        baseTokenAmount: counterTokenAmount,
-        counterToken: baseToken
-      })
-      formActions.change(DEX_SWAP_FORM, 'flipPairs', undefined)
-      setPairAnimate(false)
-    }, 400)
+
+  const onTokenSelect = (swapSide: DexSwapSide) => {
+    dispatch(actions.modals.showModal(ModalName.DEX_TOKEN_SELECT, { origin: 'Dex', swapSide }))
   }
+
   const onDetailsToggle = () => {
     setDetailsExpanded(!isDetailsExpanded)
   }
 
+  const onConfirmSwap = () => {
+    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', 'CONFIRM_SWAP'))
+  }
+
+  const onFlipPairClick = () => {
+    setPairAnimate(true)
+    // delay form change to assist in smoother animation
+    setTimeout(() => {
+      dispatch(actions.form.change(DEX_SWAP_FORM, 'isFlipping', true))
+      dispatch(actions.form.change(DEX_SWAP_FORM, 'baseToken', counterToken))
+      dispatch(actions.form.change(DEX_SWAP_FORM, 'counterToken', baseToken))
+      dispatch(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', baseTokenAmount))
+      dispatch(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', counterTokenAmount))
+      dispatch(actions.form.change(DEX_SWAP_FORM, 'isFlipping', false))
+      setPairAnimate(false)
+    }, 400)
+  }
+
   return (
-    <>
-      <Header>
-        <Text color='textBlack' lineHeight='28px' size='24px' weight={600}>
-          <FormattedMessage id='copy.swap' defaultMessage='Swap' />
-        </Text>
-        <SettingsIcon onClick={onViewSettings}>
-          <IconSettings label='settings' color={PaletteColors['grey-400']} size='medium' />
-        </SettingsIcon>
-      </Header>
-      <SwapWrapper>
-        <SwapPair
-          animate={pairAnimate}
-          coin={formValues?.[DexSwapSideEnum.BASE]}
-          formValues={formValues}
-          swapSide={DexSwapSideEnum.BASE}
-        />
-        <FlipPairButton onFlipPairClick={onFlipPairClick} />
-        <SwapPair
-          animate={pairAnimate}
-          coin={formValues?.[DexSwapSideEnum.COUNTER]}
-          formValues={formValues}
-          swapSide={DexSwapSideEnum.COUNTER}
-        />
-      </SwapWrapper>
-      {hasQuote && (
+    <FormWrapper>
+      <Header onClickSettings={onViewSettings} />
+      <SwapPairWrapper>
+        {formValues.baseToken ? (
+          <SwapPair
+            swapSide='BASE'
+            animate={pairAnimate}
+            isQuoteLocked={false}
+            balance={baseTokenBalance}
+            coin={baseToken}
+            amount={baseTokenAmount || 0}
+            walletCurrency={walletCurrency}
+            onTokenSelect={onTokenSelect}
+          />
+        ) : (
+          <SwapPair
+            swapSide='BASE'
+            animate={pairAnimate}
+            isQuoteLocked={false}
+            walletCurrency={walletCurrency}
+            onTokenSelect={onTokenSelect}
+          />
+        )}
+
+        <FlipPairButton isQuoteLocked={false} onClick={onFlipPairClick} />
+
+        {formValues.counterToken ? (
+          <SwapPair
+            swapSide='COUNTER'
+            animate={pairAnimate}
+            isQuoteLocked={false}
+            balance={counterTokenBalance}
+            coin={counterToken}
+            amount={counterTokenAmount || 0}
+            walletCurrency={walletCurrency}
+            onTokenSelect={onTokenSelect}
+          />
+        ) : (
+          <SwapPair
+            swapSide='COUNTER'
+            animate={pairAnimate}
+            isQuoteLocked={false}
+            walletCurrency={walletCurrency}
+            onTokenSelect={onTokenSelect}
+          />
+        )}
+      </SwapPairWrapper>
+
+      {isLoadingQuote ? (
         <BaseRateAndFees
           handleDetailsToggle={onDetailsToggle}
-          swapDetailsOpen={isDetailsExpanded}
+          isDetailsOpen={isDetailsExpanded}
           walletCurrency={walletCurrency}
-          quoteR={quoteR}
+          isQuoteLoading
         />
-      )}
-      {isDetailsExpanded && (
-        <QuoteDetails
-          handleSettingsClick={onViewSettings}
-          swapDetailsOpen={isDetailsExpanded}
+      ) : quote ? (
+        <BaseRateAndFees
+          handleDetailsToggle={onDetailsToggle}
+          isDetailsOpen={isDetailsExpanded}
           walletCurrency={walletCurrency}
-          quoteR={quoteR}
+          isQuoteLoading={false}
+          isQuoteLocked={false}
+          swapQuote={quote}
         />
-      )}
-      <Button
-        data-e2e='dexInitSwapBtn'
-        disabled={!hasQuote}
-        // disabled={!isAuthenticated || !hasQuote}
-        fullwidth
-        jumbo
-        nature='primary'
-        onClick={() => formActions.change(DEX_SWAP_FORM, 'step', DexSwapSteps.CONFIRM_SWAP)}
-      >
-        {isAuthenticated ? (
-          <FormattedMessage id='copy.swap' defaultMessage='Swap' />
-        ) : (
-          <FormattedMessage id='copy.login_to_swap' defaultMessage='Signin to Continue' />
-        )}
-      </Button>
-      {hasQuoteError && (
-        <ErrorText>
-          <FormattedMessage
-            id='dex.quote_failure'
-            defaultMessage='Failed to obtain quote. Please refresh and try again.'
+      ) : null}
+
+      {isDetailsExpanded ? (
+        isLoadingQuote ? (
+          <QuoteDetails
+            handleSettingsClick={onViewSettings}
+            isDetailsOpen={isDetailsExpanded}
+            walletCurrency={walletCurrency}
+            slippage={slippage}
+            isQuoteLoading
           />
-        </ErrorText>
-      )}
-    </>
+        ) : quote ? (
+          <QuoteDetails
+            handleSettingsClick={onViewSettings}
+            isDetailsOpen={isDetailsExpanded}
+            walletCurrency={walletCurrency}
+            slippage={slippage}
+            isQuoteLoading={false}
+            swapQuote={quote}
+          />
+        ) : null
+      ) : null}
+
+      {baseToken && counterToken && quote ? (
+        <Padding vertical={1}>
+          <AllowanceCheck coinSymbol={baseToken} onApprove={() => setIsApproved(true)} />
+        </Padding>
+      ) : null}
+
+      <Button
+        size='large'
+        width='full'
+        variant='primary'
+        disabled={!quote || !isApproved}
+        onClick={onConfirmSwap}
+        text={<FormattedMessage id='copy.swap' defaultMessage='Swap' />}
+      />
+
+      {/* TODO: Check if we have other errors to display the same way and make it generic */}
+      {hasQuoteError ? <ErrorMessage /> : null}
+    </FormWrapper>
   )
 }
-
-const mapStateToProps = (state: RootState) => ({
-  formValues: selectors.form.getFormValues(DEX_SWAP_FORM)(state) as DexSwapForm,
-  isAuthenticated: selectors.auth.isAuthenticated(state),
-  quoteR: selectors.components.dex.getSwapQuote(state),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type Props = ConnectedProps<typeof connector>
-
-export default connector(EnterSwapDetails)

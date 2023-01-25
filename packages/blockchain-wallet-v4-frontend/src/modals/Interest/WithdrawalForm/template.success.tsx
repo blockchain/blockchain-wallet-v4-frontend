@@ -17,6 +17,7 @@ import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
 import { Analytics } from 'data/types'
+import { useSardineContext } from 'hooks'
 import { required } from 'services/forms'
 
 import { amountToCrypto, amountToFiat } from '../conversions'
@@ -47,10 +48,11 @@ import {
 } from './model'
 import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
 
-const FORM_NAME = 'interestWithdrawalForm'
+const FORM_NAME = 'passiveRewardsWithdrawalForm'
 
 // eslint-disable-next-line
 const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+  const [sardineContextIsReady, sardineContext] = useSardineContext('WITHDRAWAL')
   const {
     accountBalances,
     analyticsActions,
@@ -139,20 +141,23 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     analyticsActions.trackEvent({
       key: Analytics.WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED,
       properties: {
-        amount: withdrawalAmountCrypto,
-        amount_usd: withdrawalAmountFiat,
+        amount: Number(withdrawalAmountCrypto),
+        amount_usd: Number(withdrawalAmountFiat),
         currency: coin,
         type: accountType === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
       }
     })
     interestActions.requestWithdrawal({
       coin,
+      destination: 'SIMPLEBUY',
+      formName: FORM_NAME,
+      origin: 'SAVINGS',
       withdrawalAmountCrypto,
       withdrawalAmountFiat
     })
     props.setShowSupply(showEDDWithdrawLimit)
-    if (window?._SardineContext) {
-      window._SardineContext.updateConfig({
+    if (sardineContextIsReady) {
+      sardineContext.updateConfig({
         flow: 'WITHDRAWAL'
       })
     }

@@ -189,8 +189,13 @@ export default ({ api }: { api: APIType }) => {
     if (form.includes('SEND') && field === 'coin') {
       yield put(actions.modals.closeAllModals())
       if (
-        selectors.core.data.coins.getCustodialCoins().includes(payload) ||
-        selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(payload)
+        (selectors.core.data.coins.getCustodialCoins().includes(payload) ||
+          selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(payload)) &&
+        // TODO - remove this once when we make this dynamic
+        payload !== 'BTC' &&
+        payload !== 'BCH' &&
+        payload !== 'XLM' &&
+        payload !== 'ETH'
       ) {
         // must come before show modal
         yield put(A.setInitialCoin(payload))
@@ -245,7 +250,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setStep({ step: SendCryptoStepType.STATUS }))
       yield put(A.submitTransactionLoading())
       const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
-      const { amount, fix, selectedAccount, to } = formValues
+      const { amount, fix, memo, selectedAccount, to } = formValues
       coin = selectedAccount.coin
       accountType = selectedAccount.type
       const feesR = S.getWithdrawalFees(yield select(), selectedAccount.coin)
@@ -310,7 +315,7 @@ export default ({ api }: { api: APIType }) => {
 
         const response: ReturnType<typeof api.withdrawBSFunds> = yield call(
           api.withdrawBSFunds,
-          to,
+          memo ? `${to}:${memo}` : to,
           coin,
           finalAmt,
           Number(finalFee)

@@ -1,3 +1,4 @@
+import sha256 from 'crypto-js/sha256'
 import { differenceInMilliseconds, subSeconds } from 'date-fns'
 import { compose, equals, prop, sortBy, tail } from 'ramda'
 import { stopSubmit } from 'redux-form'
@@ -231,6 +232,17 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const fetchUserRiskSettings = function* () {
+    try {
+      yield put(A.fetchUserRiskSettingsLoading())
+      yield call(waitForUserData)
+      const userRiskSettings = yield call(api.getUserRiskSettings)
+      yield put(A.fetchUserRiskSettingsSuccess(userRiskSettings))
+    } catch (e) {
+      yield put(A.fetchUserRiskSettingsFailure(e))
+    }
+  }
+
   const clearSession = function* () {
     if (renewSessionTask) {
       // @ts-ignore
@@ -382,6 +394,7 @@ export default ({ api, coreSagas, networks }) => {
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))
+      yield put(actions.auth.exchangeLoginFailure(e?.code))
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.LOGIN_PASSWORD_DENIED,
@@ -391,7 +404,6 @@ export default ({ api, coreSagas, networks }) => {
           }
         })
       )
-
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
@@ -590,10 +602,17 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield put(A.setApiTokenLoading())
 
-      if (window?._SardineContext) {
+      yield put(actions.modules.profile.fetchUserRiskSettings())
+
+      const isFlowInRiskSettings = selectors.modules.profile.isFlowInRiskSettings(
+        yield select(),
+        'ONBOARDING'
+      )
+
+      if (window?._SardineContext && isFlowInRiskSettings) {
         window._SardineContext.updateConfig({
           flow: 'ONBOARDING',
-          userIdHash: unifiedNabuCredentials.nabuUserId
+          userIdHash: sha256(unifiedNabuCredentials.nabuUserId).toString()
         })
       }
 
@@ -671,6 +690,7 @@ export default ({ api, coreSagas, networks }) => {
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,
+    fetchUserRiskSettings,
     generateAuthCredentials,
     generateExchangeAuthCredentials,
     generateRetailToken,

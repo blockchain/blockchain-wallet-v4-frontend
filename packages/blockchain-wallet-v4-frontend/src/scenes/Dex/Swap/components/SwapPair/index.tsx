@@ -1,1 +1,1 @@
-export { default } from './SwapPair'
+export { SwapPair } from './SwapPair'

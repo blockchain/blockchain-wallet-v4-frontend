@@ -27,7 +27,7 @@ import { ActionButton, CenteredColumn, WrapperWithPadding } from '../../model'
 
 const OuterWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   height: 100%;
   ${media.tabletL`
@@ -52,16 +52,16 @@ const FormWrapper = styled(Wrapper)`
   padding: 0 0 16px 0;
 `}
 `
-const MobileAuthSideWrapper = styled(Wrapper)`
+const MobileAuthWrapper = styled(Wrapper)`
+  display: flex;
   position: relative;
   overflow: visible;
-  max-width: 240px;
-  height: 98%;
-  border-radius: 0 8px 8px 0;
+  width: 75%;
+  border-radius: 8px;
   background-color: ${(props) => props.theme.grey000};
   z-index: 0;
-  right: 0.5px;
-  padding: 40px 16px;
+  padding: 16px;
+  bottom: 2px;
 `
 const TextColumn = styled.div`
   display: flex;
@@ -104,7 +104,6 @@ const EnterPasswordWallet = (props: Props) => {
 
   return (
     <OuterWrapper>
-      <SideWrapper />
       <FormWrapper>
         {!settingsRedirect && (
           <ProductTabMenu
@@ -188,46 +187,43 @@ const EnterPasswordWallet = (props: Props) => {
             />
           </CenteredColumn>
         </WrapperWithPadding>
-        <SignupLink platform={magicLinkData?.platform_type} />
       </FormWrapper>
       {!isMobile() && (
-        <SideWrapper>
-          <MobileAuthSideWrapper>
-            <TextColumn>
-              <QRCodeWrapper value={qrData} size={160} showImage />
-              <Text
-                color='grey900'
-                size='14px'
-                weight={600}
-                lineHeight='1.25'
-                style={{ marginBottom: '8px' }}
-              >
-                <FormattedMessage
-                  id='scenes.login.wallet.mobile_app_login.title'
-                  defaultMessage='Log In with Mobile App'
-                />
-              </Text>
-              <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.login.wallet.mobile_login.description'
-                  defaultMessage='Tap the QR code icon at the top right corner of the app.'
-                />
-              </Text>
-              <Text
-                color='grey900'
-                size='12px'
-                weight={500}
-                lineHeight='1.5'
-                style={{ marginTop: '4px' }}
-              >
-                <FormattedMessage
-                  id='scenes.login.wallet.mobile_login.notification'
-                  defaultMessage='Ensure that notifications are enabled for the Blockchain.com app.'
-                />
-              </Text>
-            </TextColumn>
-          </MobileAuthSideWrapper>
-        </SideWrapper>
+        <MobileAuthWrapper>
+          <QRCodeWrapper value={qrData} size={150} showImage />
+          <TextColumn>
+            <Text
+              color='grey900'
+              size='14px'
+              weight={600}
+              lineHeight='1.25'
+              style={{ marginBottom: '8px' }}
+            >
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_app_login.title'
+                defaultMessage='Log In with Mobile App'
+              />
+            </Text>
+            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_login.description'
+                defaultMessage='Tap the QR code icon at the top right corner of the app.'
+              />
+            </Text>
+            <Text
+              color='grey900'
+              size='12px'
+              weight={500}
+              lineHeight='1.5'
+              style={{ marginTop: '4px' }}
+            >
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_login.notification'
+                defaultMessage='Ensure that notifications are enabled for the Blockchain.com app.'
+              />
+            </Text>
+          </TextColumn>
+        </MobileAuthWrapper>
       )}
     </OuterWrapper>
   )

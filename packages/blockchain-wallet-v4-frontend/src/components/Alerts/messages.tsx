@@ -508,7 +508,7 @@ const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.mobile_code_sent_error'
-          defaultMessage='Mobile verification code sent'
+          defaultMessage='Failed to send mobile verification code'
         />
       )
     case C.MOBILE_CODE_SENT_SUCCESS:
@@ -957,6 +957,13 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='2FA has been successfully updated'
         />
       )
+    case C.TWOFA_VERIFIED:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.twofa_verified'
+          defaultMessage='2FA successfully verified'
+        />
+      )
     case C.TWOFA_YUBIKEY_ENABLE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
@@ -1124,6 +1131,20 @@ const getAlertContent = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.kyc_reset_error'
           defaultMessage='Restoring account failed. Please try again.'
+        />
+      )
+    case C.RECOVERY_EMAIL_SENT:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.recovery_email_sent'
+          defaultMessage='Verification email sent. Please check your email.'
+        />
+      )
+    case C.RECOVERY_EMAIL_SENT_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.recovery_email_sent_error_try_again'
+          defaultMessage='Error sending recovery email. Please try again.'
         />
       )
     case C.SAVE_ADDITIONAL_DOCUMENTS_ERROR:

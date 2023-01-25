@@ -53,3 +53,11 @@ export type RetrieveAddress = {
   subBuilding: string
   type: string
 }
+
+type FlowItem = {
+  name: string
+}
+
+export type UserRiskSettings = {
+  flows: Array<FlowItem>
+}

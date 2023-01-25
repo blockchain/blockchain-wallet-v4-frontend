@@ -7,35 +7,19 @@ import { defaultTo, filter, path, prop } from 'ramda'
 import { clearSubmitErrors, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { coinToString, fiatToString } from '@core/exchange/utils'
-import { BSPaymentTypes, FiatType, MobilePaymentType, OrderType, WalletFiatType } from '@core/types'
-import {
-  Button,
-  CheckBoxInput,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { BSPaymentTypes, MobilePaymentType, WalletFiatType } from '@core/types'
+import { CheckBoxInput, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import AvailabilityRows from 'components/Brokerage/AvailabilityRows'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
 import Form from 'components/Form/Form'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { model } from 'data'
-import {
-  getBaseAmount,
-  getBaseCurrency,
-  getCounterAmount,
-  getCounterCurrency,
-  getFiatFromPair,
-  getOrderType,
-  getPaymentMethodId
-} from 'data/components/buySell/model'
-import { convertBaseToStandard } from 'data/components/exchange/services'
+import { getFiatFromPair } from 'data/components/buySell/model'
 import {
   AddBankStepType,
+  Analytics,
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
@@ -43,16 +27,13 @@ import {
   RecurringBuyPeriods,
   UserDataType
 } from 'data/types'
-import { useDefer3rdPartyScript } from 'hooks'
+import { useDefer3rdPartyScript, useSardineContext } from 'hooks'
 import { isNabuError } from 'services/errors'
 
-import {
-  displayFiat,
-  getLockRuleMessaging,
-  getPaymentMethod,
-  getPaymentMethodDetails
-} from '../model'
+import { getLockRuleMessaging, getPaymentMethod, getPaymentMethodDetails } from '../model'
+import { QuoteCountDown } from '../QuoteCountDown'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { ConfirmButton } from './ConfirmButton'
 
 const { FORM_BS_CHECKOUT_CONFIRM } = model.components.buySell
 
@@ -88,14 +69,11 @@ const InfoTerms = styled(Text)`
     display: contents;
   }
 `
+const QuoteCountDownWrapper = styled.div`
+  margin-top: 28px;
+`
 const Amount = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 40px;
-  > div {
-    display: flex;
-    flex-direction: row;
-  }
+  margin-top: 8px;
 `
 const RowItem = styled(Row)`
   display: flex;
@@ -174,11 +152,17 @@ const StickyFooter = styled.div`
   background: ${(props) => props.theme.white};
 `
 
+const ButtonWrapper = styled.div`
+  margin-top: 28px;
+`
+
 const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const [acceptTerms, setAcceptTerms] = useState(false)
-  const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
-  const [isActiveFeeTooltip, setFeeToolTip] = useState(true)
+  const [isActiveCoinTooltip, setIsActiveCoinTooltip] = useState(false)
+  const [isActiveFeeTooltip, setIsActiveFeeTooltip] = useState(true)
   const dispatch = useDispatch()
+  const [sardineContextIsReady, sardineContext] = useSardineContext('ACH_LINK')
+  const [sardineContextIsReadyOB, sardineContextOB] = useSardineContext('OB_LINK')
 
   const [isGooglePayReady] = useDefer3rdPartyScript('https://pay.google.com/gp/p/js/pay.js', {
     attributes: {
@@ -186,19 +170,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     }
   })
 
-  const orderType = getOrderType(props.order)
-  const baseAmount = getBaseAmount(props.order)
-
-  const baseCurrency = getBaseCurrency(props.order)
-  const baseCurrencyCoinfig = window.coins[baseCurrency]?.coinfig
-  const baseCurrencyDisplay = baseCurrencyCoinfig?.displaySymbol || baseCurrency
-  const counterAmount = getCounterAmount(props.order)
-  const counterCurrency = getCounterCurrency(props.order)
-  const paymentMethodId = getPaymentMethodId(props.order)
-
-  const requiresTerms =
-    props.order.paymentType === BSPaymentTypes.PAYMENT_CARD ||
-    props.order.paymentType === BSPaymentTypes.USER_CARD
+  const { paymentMethodId } = props.quoteSummaryViewModel
 
   const [bankAccount] = filter(
     (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === paymentMethodId,
@@ -211,45 +183,41 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     : 0
 
   const cardDetails =
-    (requiresTerms && props.cards.filter((card) => card.id === paymentMethodId)[0]) || null
-
-  const isCardPayment = requiresTerms && cardDetails
-
-  const totalAmount = fiatToString({
-    unit: counterCurrency as FiatType,
-    value: counterAmount
-  })
+    (props.quoteSummaryViewModel.isTermsConsentRequired &&
+      props.cards.filter((card) => card.id === paymentMethodId)[0]) ||
+    null
 
   useEffect(() => {
-    if (!requiresTerms) {
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_CHECKOUT_SCREEN_VIEWED,
+      properties: {}
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!props.quoteSummaryViewModel.isTermsConsentRequired) {
       setAcceptTerms(true)
     }
-  }, [requiresTerms])
-
-  useEffect(() => {
-    props.buySellActions.fetchBuyQuote({
-      amount: props.order.inputQuantity,
-      pair: props.order.pair,
-      paymentMethod:
-        props.order.paymentType === undefined ? BSPaymentTypes.FUNDS : props.order.paymentType,
-      paymentMethodId: props.order.paymentMethodId
-    })
-  }, [
-    props.buySellActions,
-    props.order.inputQuantity,
-    props.order.pair,
-    props.order.paymentMethodId,
-    props.order.paymentType
-  ])
+  }, [props.quoteSummaryViewModel.isTermsConsentRequired])
 
   const handleCancel = () => {
     props.buySellActions.cancelOrder(props.order)
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_CHECKOUT_SCREEN_BACK_CLICKED,
+      properties: {}
+    })
   }
 
   const clearFormErrors = () => dispatch(clearSubmitErrors(FORM_BS_CHECKOUT_CONFIRM))
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_CHECKOUT_SCREEN_SUBMITTED,
+      properties: {}
+    })
 
     const { bankAccounts, cards, isSddFlow, isUserSddVerified, sbBalances, userData } =
       props.data.getOrElse({
@@ -325,15 +293,15 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           defaultTo([])(bankAccounts)
         )
         const paymentPartner = prop('partner', bankAccount)
-        if (window?._SardineContext) {
-          window._SardineContext.updateConfig({
+        if (sardineContextIsReady) {
+          sardineContext.updateConfig({
             flow: 'ACH_LINK'
           })
         }
         // if yapily we need the auth screen before creating the order
         if (paymentPartner === BankPartners.YAPILY) {
-          if (window?._SardineContext) {
-            window._SardineContext.updateConfig({
+          if (sardineContextIsReadyOB) {
+            sardineContextOB.updateConfig({
               flow: 'OB_LINK'
             })
           }
@@ -364,6 +332,24 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     }
   }
 
+  const toggleCoinTooltip = () => {
+    setIsActiveCoinTooltip((prevState) => !prevState)
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_PRICE_TOOLTIP_CLICKED,
+      properties: {}
+    })
+  }
+
+  const toggleFeeTooltip = () => {
+    setIsActiveFeeTooltip((prevState) => !prevState)
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_BLOCKCHAIN_COM_FEE_CLICKED,
+      properties: {}
+    })
+  }
+
   if (isNabuError(props.error)) {
     return <GenericNabuErrorFlyout error={props.error} onDismiss={clearFormErrors} />
   }
@@ -384,17 +370,16 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           />
           <FormattedMessage id='modals.simplebuy.checkoutconfirm' defaultMessage='Checkout' />
         </TopText>
+        <QuoteCountDownWrapper>
+          <QuoteCountDown
+            date={props.quoteSummaryViewModel.refreshConfig.date}
+            totalMs={props.quoteSummaryViewModel.refreshConfig.totalMs}
+          />
+        </QuoteCountDownWrapper>
         <Amount data-e2e='sbTotalAmount'>
-          <div>
-            <Text size='32px' weight={600} color='grey800'>
-              {`${baseAmount} ${baseCurrencyDisplay}`}
-            </Text>
-          </div>
-          <div>
-            <Text size='20px' weight={600} color='grey600' style={{ marginTop: '8px' }}>
-              {totalAmount}
-            </Text>
-          </div>
+          <Text size='32px' weight={600} color='grey800'>
+            {props.quoteSummaryViewModel.totalCryptoText}
+          </Text>
         </Amount>
       </FlyoutWrapper>
 
@@ -407,7 +392,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                   id='modals.simplebuy.confirm.coin_price'
                   defaultMessage='{coin} Price'
                   values={{
-                    coin: baseCurrencyDisplay
+                    coin: props.quoteSummaryViewModel.cryptoDisplaySymbol
                   }}
                 />
               </RowText>
@@ -416,20 +401,11 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                   name='question-in-circle-filled'
                   size='16px'
                   color={isActiveCoinTooltip ? 'blue600' : 'grey300'}
-                  onClick={() => setCoinToolTip(!isActiveCoinTooltip)}
+                  onClick={toggleCoinTooltip}
                 />
               </IconWrapper>
             </RowIcon>
-            <RowText data-e2e='sbExchangeRate'>
-              {fiatToString({
-                unit: counterCurrency as FiatType,
-                value:
-                  (1 /
-                    parseFloat(props.quote.rate.toString()) /
-                    parseFloat(convertBaseToStandard(baseCurrency, props.quote.rate.toString()))) *
-                  parseFloat(props.quote.rate.toString())
-              })}
-            </RowText>
+            <RowText data-e2e='sbExchangeRate'>{props.quoteSummaryViewModel.oneCoinPrice}</RowText>
           </TopRow>
           {isActiveCoinTooltip && (
             <ToolTipText>
@@ -483,15 +459,16 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           <RowTextWrapper>
             {getPaymentMethod({
               bankAccount,
+              fiatCode: props.quoteSummaryViewModel.fiatCode,
               mobilePaymentMethod: props.mobilePaymentMethod,
-              order: props.order
+              paymentType: props.quoteSummaryViewModel.paymentMethod
             })}
             <AdditionalText>
               {!props.mobilePaymentMethod
                 ? getPaymentMethodDetails({
                     bankAccount,
                     cardDetails,
-                    order: props.order
+                    paymentType: props.quoteSummaryViewModel.paymentMethod
                   })
                 : null}
             </AdditionalText>
@@ -504,24 +481,9 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
             <FormattedMessage id='modals.simplebuy.confirm.purchase' defaultMessage='Purchase' />
           </RowText>
           <RowText>
-            <RowTextWrapper data-e2e='sbFee'>
-              {props.order.fee && props.formValues?.fix === 'FIAT'
-                ? displayFiat(
-                    props.order,
-                    (parseInt(props.order.inputQuantity) - parseInt(props.order.fee)).toString()
-                  )
-                : props.order.fee && props.formValues?.fix === 'CRYPTO'
-                ? coinToString({
-                    unit: { symbol: props.order.outputCurrency },
-                    value: convertBaseToStandard(
-                      props.order.outputCurrency,
-                      parseInt(props.order.outputQuantity) - parseInt(props.order.fee)
-                    )
-                  })
-                : `${displayFiat(
-                    props.order,
-                    (parseInt(props.order.inputQuantity) - parseInt(props.quote.fee)).toString()
-                  )} ${props.order.inputCurrency}`}
+            <RowTextWrapper data-e2e='sbPurchase'>
+              {props.quoteSummaryViewModel.fiatMinusExplicitFeeText}
+              <AdditionalText>{props.quoteSummaryViewModel.totalCryptoText}</AdditionalText>
             </RowTextWrapper>
           </RowText>
         </RowItem>
@@ -537,20 +499,11 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                     name='question-in-circle-filled'
                     size='16px'
                     color={isActiveFeeTooltip ? 'blue600' : 'grey300'}
-                    onClick={() => setFeeToolTip(!isActiveFeeTooltip)}
+                    onClick={toggleFeeTooltip}
                   />
                 </IconWrapper>
               </RowIcon>
-              <RowText data-e2e='sbFee'>
-                {props.order.fee && props.formValues?.fix === 'FIAT'
-                  ? displayFiat(props.order, props.order.fee)
-                  : props.order.fee && props.formValues?.fix === 'CRYPTO'
-                  ? coinToString({
-                      unit: { symbol: props.order.inputCurrency },
-                      value: convertBaseToStandard(props.order.inputCurrency, props.order.fee)
-                    })
-                  : `${displayFiat(props.order, props.quote.fee)} ${props.order.inputCurrency}`}
-              </RowText>
+              <RowText data-e2e='sbFee'>{props.quoteSummaryViewModel.feeText}</RowText>
             </TopRow>
             {isActiveFeeTooltip && (
               <ToolTipText>
@@ -576,16 +529,32 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         </RowText>
         <RowText>
           <RowTextWrapper>
-            <div data-e2e='sbFiatBuyAmount'>{totalAmount}</div>
-            <AdditionalText>{`${baseAmount} ${baseCurrencyDisplay}`}</AdditionalText>
+            <div data-e2e='sbFiatBuyAmount'>{props.quoteSummaryViewModel.totalFiatText}</div>
           </RowTextWrapper>
         </RowText>
       </RowItem>
 
-      <Bottom>
-        {getLockRuleMessaging(showLock, days, props.order.paymentType)}
+      {props.availableToTradeWithdraw && (
+        <AvailabilityRows depositTerms={props.quoteSummaryViewModel.depositTerms} />
+      )}
 
-        {requiresTerms && (
+      <Bottom>
+        {getLockRuleMessaging({
+          coin: props.quoteSummaryViewModel.cryptoDisplaySymbol,
+          days,
+          paymentAccount: getPaymentMethodDetails({
+            bankAccount,
+            cardDetails,
+            paymentType: props.quoteSummaryViewModel.paymentMethod
+          }),
+          paymentType: props.quoteSummaryViewModel.paymentMethod,
+          quoteRate: props.quoteSummaryViewModel.oneCoinPrice,
+          showLockRule: showLock,
+          totalAmount: props.quoteSummaryViewModel.totalFiatText,
+          withdrawalLockDays: props.quoteSummaryViewModel.depositTerms?.withdrawalLockDays || days
+        })}
+
+        {props.quoteSummaryViewModel.isTermsConsentRequired && (
           <Info>
             <InfoTerms size='12px' weight={500} color='grey900' data-e2e='sbAcceptTerms'>
               <CheckBoxInput
@@ -616,30 +585,14 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
       </Bottom>
 
       <StickyFooter>
-        <Button
-          fullwidth
-          nature='primary'
-          data-e2e='confirmBSOrder'
-          size='16px'
-          height='48px'
-          type='submit'
-          style={{ marginTop: '28px' }}
-          disabled={
-            props.submitting ||
-            !acceptTerms ||
-            (props.mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY && !isGooglePayReady)
-          }
-        >
-          {props.submitting ? (
-            <HeartbeatLoader height='16px' width='16px' color='white' />
-          ) : (
-            <FormattedMessage
-              id='buttons.buy_sell_now'
-              defaultMessage='{orderType} Now'
-              values={{ orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell' }}
-            />
-          )}
-        </Button>
+        <ButtonWrapper>
+          <ConfirmButton
+            isAcceptedTerms={acceptTerms}
+            isGooglePayReady={isGooglePayReady}
+            isSubmitting={props.submitting}
+            refreshConfig={props.quoteSummaryViewModel.refreshConfig}
+          />
+        </ButtonWrapper>
 
         {props.error && (
           <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>

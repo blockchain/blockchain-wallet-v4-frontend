@@ -1,130 +1,138 @@
-import React from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
-import { bindActionCreators, Dispatch } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { Remote } from '@core'
-import { EarnEDDStatus, RemoteDataType, RewardsRatesType, StakingRatesType } from '@core/types'
-import { TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
-import { Analytics, EarnInstrumentsType, UserDataType } from 'data/types'
+import { RootState } from 'data/rootReducer'
+import { Analytics, EarnTabsType } from 'data/types'
+import { useRemote } from 'hooks'
+import { debounce } from 'utils/helpers'
 
 import Loading from './Earn.loading.template'
-import { CustomSceneWrapper, EarnContainer, Overlay, TabRow } from './Earn.model'
+import { CustomSceneWrapper, EarnContainer, Overlay } from './Earn.model'
 import getData from './Earn.selectors'
 import EarnHeader from './Earn.template.header'
-import EarnTable from './EarnTable'
+import EarnFilter from './Filter'
+import Learn from './Learn'
 import Message from './Message'
+import Table from './Table'
 
-class Earn extends React.PureComponent<Props, StateType> {
-  constructor(props) {
-    super(props)
-    this.state = { isGoldTier: true }
+const Earn = () => {
+  const [isGoldTier, setIsGoldTier] = useState<boolean>(true)
+  const earnTab: EarnTabsType = useSelector((state: RootState) => state.components.interest.earnTab)
+  const showAvailableAssets: boolean = useSelector(
+    (state: RootState) => state.components.interest.showAvailableAssets
+  )
+  const dispatch = useDispatch()
+  const analyticsActions = bindActionCreators(actions.analytics, dispatch)
+  const earnActions = bindActionCreators(actions.components.interest, dispatch)
+
+  const { data, error, isLoading, isNotAsked } = useRemote(getData)
+
+  const checkUserData = () => {
+    const tier = data?.userData?.tiers ? data.userData.tiers.current : 0
+    setIsGoldTier(tier >= 2)
   }
 
-  componentDidMount() {
-    this.props.earnActions.fetchEarnInstruments()
-    this.props.earnActions.fetchInterestRates()
-    this.props.earnActions.fetchRewardsBalance()
-    this.props.earnActions.fetchStakingBalance()
-    this.props.earnActions.fetchEDDStatus()
-    this.props.earnActions.fetchInterestEligible()
-    this.props.earnActions.fetchStakingEligible()
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (!Remote.Success.is(prevProps.data) && Remote.Success.is(this.props.data)) {
-      this.checkUserData()
-    }
-  }
-
-  checkUserData = () => {
-    const data = this.props.data.getOrElse({
-      userData: { tiers: { current: 0 } } as UserDataType
-    } as SuccessStateType)
-    const tier = data.userData.tiers ? data.userData.tiers.current : 0
-    const isGoldTier = tier >= 2
-    this.setState({ isGoldTier })
-  }
-
-  handleHistoryClick = () => {
-    this.props.analyticsActions.trackEvent({
+  const handleHistoryClick = () => {
+    analyticsActions.trackEvent({
       key: Analytics.WALLET_REWARDS_TRANSACTION_HISTORY_CLICKED,
       properties: {}
     })
   }
 
-  render() {
-    const { isGoldTier } = this.state
-    const { data } = this.props
+  const handleTabClick = (tab: EarnTabsType) => {
+    earnActions.setEarnTab({ tab })
+  }
+
+  const handleAssetClick = (status: boolean) => {
+    earnActions.setShowAvailableAssets({ status })
+  }
+
+  const handleSearch = debounce((e: ChangeEvent<HTMLInputElement>) => {
+    earnActions.setSearchValue({ value: e.target.value })
+  }, 800)
+
+  useEffect(() => {
+    // this also calls rates
+    earnActions.fetchEarnInstruments()
+    earnActions.fetchRewardsBalance()
+    earnActions.fetchStakingBalance()
+    earnActions.fetchActiveRewardsBalance()
+    earnActions.fetchEDDStatus()
+    earnActions.fetchInterestEligible()
+    earnActions.fetchStakingEligible()
+    earnActions.fetchActiveRewardsEligible()
+
+    return () => {
+      earnActions.setSearchValue({ value: '' })
+      earnActions.setEarnTab({ tab: 'All' })
+    }
+  }, [])
+
+  useEffect(() => {
+    checkUserData()
+  }, [data])
+
+  const renderComponent = () => {
+    if (error) {
+      return (
+        <Text size='16px' weight={500}>
+          <FormattedMessage
+            id='copy.oops.message'
+            defaultMessage='Oops. Something went wrong. Please refresh and try again.'
+          />
+        </Text>
+      )
+    }
+
+    if (!data || isLoading || isNotAsked) {
+      return <Loading />
+    }
+
+    const {
+      activeRewardsRates,
+      earnEDDStatus,
+      interestRates,
+      interestRatesArray,
+      stakingRates,
+      userData
+    } = data
+
     return (
-      <CustomSceneWrapper $isGoldTier={isGoldTier}>
-        <EarnHeader />
-        <Message isGoldTier={isGoldTier} />
-        <EarnContainer>
-          {!isGoldTier && <Overlay />}
-          <TabRow>
-            <TabMenu>
-              <LinkContainer to='/earn' exact>
-                <TabMenuItem data-e2e='interestTabMenuAccounts' width='130px'>
-                  <FormattedMessage id='copy.all' defaultMessage='All' />
-                </TabMenuItem>
-              </LinkContainer>
-              <LinkContainer to='/earn/history' onClick={this.handleHistoryClick}>
-                <TabMenuItem data-e2e='interestTabMenuHistory' width='130px'>
-                  <FormattedMessage id='copy.history' defaultMessage='History' />
-                </TabMenuItem>
-              </LinkContainer>
-            </TabMenu>
-          </TabRow>
-          {data.cata({
-            Failure: () => (
-              <Text size='16px' weight={500}>
-                Oops. Something went wrong. Please refresh and try again.
-              </Text>
-            ),
-            Loading: () => <Loading />,
-            NotAsked: () => <Loading />,
-            Success: (val) => <EarnTable isGoldTier={isGoldTier} {...val} {...this.props} />
-          })}
-        </EarnContainer>
-      </CustomSceneWrapper>
+      <Table
+        activeRewardsRates={activeRewardsRates}
+        earnEDDStatus={earnEDDStatus}
+        interestRates={interestRates}
+        interestRatesArray={interestRatesArray}
+        isGoldTier={isGoldTier}
+        stakingRates={stakingRates}
+        userData={userData}
+      />
     )
   }
+
+  return (
+    <CustomSceneWrapper $isGoldTier={isGoldTier}>
+      <EarnHeader />
+      <Learn />
+      <Message isGoldTier={isGoldTier} />
+      <EarnContainer>
+        {!isGoldTier && <Overlay />}
+        <EarnFilter
+          earnTab={earnTab}
+          handleAssetClick={handleAssetClick}
+          handleHistoryClick={handleHistoryClick}
+          handleSearch={handleSearch}
+          handleTabClick={handleTabClick}
+          showAvailableAssets={showAvailableAssets}
+        />
+        {renderComponent()}
+      </EarnContainer>
+    </CustomSceneWrapper>
+  )
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
-  data: getData(state)
-})
-
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  earnActions: bindActionCreators(actions.components.interest, dispatch),
-  idvActions: bindActionCreators(actions.components.identityVerification, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type StateType = {
-  isGoldTier: boolean
-}
-export type SuccessStateType = {
-  earnEDDStatus: EarnEDDStatus
-  interestRates: RewardsRatesType
-  interestRatesArray: Array<number>
-  stakingRates: StakingRatesType
-  userData: UserDataType
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-}
-export type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
-  earnActions: typeof actions.components.interest
-  idvActions: typeof actions.components.identityVerification
-}
-
-export type Props = ConnectedProps<typeof connector>
-
-export default connector(Earn)
+export default Earn

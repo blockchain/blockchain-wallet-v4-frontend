@@ -1,0 +1,1 @@
+export { VerificationCheckmark } from './VerificationCheckmark'

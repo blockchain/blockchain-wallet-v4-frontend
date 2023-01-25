@@ -32,6 +32,7 @@ const TerminateCard = React.lazy(() => import('./DebitCard/TerminateCard'))
 const TransactionDetail = React.lazy(() => import('./DebitCard/TransactionDetail'))
 const FundsList = React.lazy(() => import('./DebitCard/FundsList'))
 const CustomizableConfirm = React.lazy(() => import('./CustomizableConfirm'))
+const TransactionList = React.lazy(() => import('./DebitCard/TransactionList'))
 
 // DEX
 const DexSwapSettings = React.lazy(() => import('./Dex/SwapSettings'))
@@ -55,6 +56,12 @@ const SendCrypto = React.lazy(() => import('./SendCrypto'))
 const NftOrder = React.lazy(() => import('./Nfts/NftOrder'))
 const GetFeatured = React.lazy(() => import('./Nfts/components/GetFeatured'))
 
+// EARN
+const Interest = React.lazy(() => import('./Interest'))
+const Staking = React.lazy(() => import('./Staking'))
+const ActiveRewards = React.lazy(() => import('./ActiveRewards'))
+const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
+
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
 const PromptInput = React.lazy(() => import('./Generic/PromptInput'))
@@ -75,6 +82,8 @@ const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 const UpgradeNowSilver = React.lazy(() => import('./Onboarding/UpgradeNowSilver'))
 const VerifyNotice = React.lazy(() => import('./Onboarding/VerifyNotice'))
 const SanctionsInfo = React.lazy(() => import('./Onboarding/SanctionsInfo'))
+// SOLO onboarding
+const KycConsentScreen = React.lazy(() => import('./Onboarding/KycVerification/ConsentScreen'))
 
 // MOBILE
 const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'))
@@ -106,16 +115,16 @@ const ResetAccountFailed = React.lazy(() => import('./Wallet/ResetAccountFailed'
 
 // SOLO
 const FundRecovery = React.lazy(() => import('./FundRecovery'))
-const Interest = React.lazy(() => import('./Interest'))
 const QRCode = React.lazy(() => import('./QRCode'))
+const SkipTwoFAVerificationRecovery = React.lazy(
+  () => import('./Wallet/SkipTwoFAVerificationRecovery')
+)
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const BuySell = React.lazy(() => import('./BuySell'))
-const Staking = React.lazy(() => import('./Staking'))
 const Swap = React.lazy(() => import('./Swap'))
 const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const ReferralLanding = React.lazy(() => import('./ReferralLandingFlyout'))
-const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
 const TermsAndConditions = React.lazy(() => import('./TermsAndConditions'))
 const ViewPrivateKeyWalletFlyout = React.lazy(() => import('./ViewPrivateKeyWalletFlyout'))
@@ -139,6 +148,12 @@ const Modals = (props: Props) => {
   return (
     <Suspense fallback={null}>
       <>
+        {props.modals.find((modal) => modal.type === ModalName.ACTIVE_REWARDS_MODAL) ? (
+          <ActiveRewards />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SIMPLE_BUY_MODAL) ? (
+          <BuySell />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.ADD_BANK_PLAID_MODAL) ? (
           <AddBankPlaid />
         ) : null}
@@ -261,6 +276,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SEND_CRYPTO_MODAL) ? (
           <SendCrypto />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SKIP_TWOFA_CONFIRMATION_WARNING) ? (
+          <SkipTwoFAVerificationRecovery />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.STAKING_MODAL) ? <Staking /> : null}
         {props.modals.find((modal) => modal.type === ModalName.RESET_ACCOUNT_FAILED) ? (
           <ResetAccountFailed />
@@ -284,9 +302,6 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SIGN_MESSAGE_MODAL) ? (
           <SignMessage />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.SIMPLE_BUY_MODAL) ? (
-          <BuySell />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMINATE_CARD) ? (
@@ -294,6 +309,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_DETAIL_MODAL) ? (
           <TransactionDetail />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_LIST_MODAL) ? (
+          <TransactionList />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMS_AND_CONDITIONS_MODAL) ? (
           <TermsAndConditions disableOutsideClose />
@@ -368,6 +386,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.GENERATE_REPORT_MODAL) ? (
           <GenerateReport />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_CONSENT_SCREEN) ? (
+          <KycConsentScreen />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? (
           <NftOrder disableOutsideClose />

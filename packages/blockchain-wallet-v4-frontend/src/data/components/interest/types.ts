@@ -1,5 +1,6 @@
 import {
   AccountTypes,
+  BSBalancesType,
   CoinType,
   EarnAccountBalanceResponseType,
   EarnAccountResponseType,
@@ -7,14 +8,15 @@ import {
   EarnDepositLimits,
   EarnEDDStatus,
   EarnEligibleType,
+  EarnLimitsType,
+  EarnRatesType,
   FiatType,
   InterestLimitsType,
+  NabuCustodialProductType,
   PaymentValue,
   RatesType,
   RemoteDataType,
   RewardsRatesType,
-  StakingLimitsType,
-  StakingRatesType,
   TransactionType,
   WithdrawalMinimumType,
   WithdrawLimits
@@ -34,6 +36,14 @@ export type RewardsDepositFormType = {
 export type StakingDepositFormType = {
   agreement: boolean
   depositAmount: number
+  earnDepositAccount: AccountTypes
+  terms: boolean
+}
+
+export type ActiveRewardsDepositFormType = {
+  agreement1: boolean
+  agreement2: boolean
+  depositAmount: string
   earnDepositAccount: AccountTypes
   terms: boolean
 }
@@ -63,6 +73,15 @@ export enum StakingSteps {
   'WARNING'
 }
 
+export enum ActiveRewardsSteps {
+  'ACCOUNT_SUMMARY',
+  'DEPOSIT',
+  'DEPOSIT_SUCCESS',
+  'WARNING',
+  'WITHDRAWAL',
+  'WITHDRAWAL_REQUESTED'
+}
+
 export type EarnStepMetaData = {
   depositSuccess?: boolean
   error?: string
@@ -70,11 +89,16 @@ export type EarnStepMetaData = {
   withdrawalAmount?: number
 }
 
-export type EarnDepositFormType = 'rewardsDepositForm' | 'stakingDepositForm'
+export type EarnDepositFormType =
+  | 'passiveRewardsDepositForm'
+  | 'stakingDepositForm'
+  | 'activeRewardsDepositForm'
 
 export type InterestStep = keyof typeof InterestSteps
 
 export type StakingStep = keyof typeof StakingSteps
+
+export type ActiveRewardsStep = keyof typeof ActiveRewardsSteps
 
 export enum StakingStepsType {
   'WARNING',
@@ -85,15 +109,25 @@ export enum StakingStepsType {
 
 export type InterestTransactionsReportType = Array<Array<string>>
 
-export type InterestHistoryCoinFormType = { coin: CoinType | 'ALL' }
+export type EarnHistoryCoinFormType = { coin: CoinType | 'ALL' }
 
 export type ErrorStringType = { error: string }
 
 export type InterestLimits = { coin: CoinType; currency: FiatType }
 
+export type EarnProductsType = 'Staking' | 'Passive' | 'Active'
+
+export type EarnTabsType = 'All' | EarnProductsType | string
+
+export type CreateLimitsParamTypes = {
+  custodialBalances?: BSBalancesType
+  payment?: PaymentValue
+  product: EarnProductsType
+}
+
 export type EarnInstrumentsType = Array<{
   coin: CoinType
-  product: 'Staking' | 'Rewards'
+  product: EarnProductsType
   rate: RatesType
 }>
 
@@ -103,7 +137,7 @@ export type TransferMinMaxAmountType = {
 }
 
 export type EarnTransactionType = TransactionType & {
-  product: 'Staking' | 'Rewards'
+  product: EarnProductsType
 }
 
 export type PendingTransactionType = {
@@ -113,42 +147,78 @@ export type PendingTransactionType = {
   type: 'BONDING' | 'TRANSACTIONS'
 }
 
+export type EarnInitializeWithdrawalType = {
+  coin: CoinType
+  formName: 'passiveRewardsWithdrawalForm' | 'activeRewardsWithdrawalForm'
+  hidePkWallets?: boolean
+  walletCurrency: FiatType
+}
+
+export type EarnWithdrawalType = {
+  coin: CoinType
+  destination: NabuCustodialProductType
+  formName: 'passiveRewardsWithdrawalForm' | 'activeRewardsWithdrawalForm'
+  origin: NabuCustodialProductType
+  withdrawalAmountCrypto: number
+  withdrawalAmountFiat: number
+}
+
+export type ActiveRewardsWithdrawalType = {
+  coin: CoinType
+  withdrawalAmountCrypto: string
+}
+
 //
 // State
 //
 export interface InterestState {
+  activeRewardsAccount: RemoteDataType<string, EarnAccountResponseType>
+  activeRewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
+  activeRewardsEligible: RemoteDataType<string, EarnEligibleType>
+  activeRewardsLimits: RemoteDataType<string, EarnLimitsType>
+  activeRewardsRates: RemoteDataType<string, EarnRatesType['rates']>
+  activeRewardsStep: {
+    data: EarnStepMetaData
+    name: ActiveRewardsStep
+  }
+  activeRewardsTransactionsNextPage?: string | null
   afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
   coin: CoinType
   earnDepositLimits: EarnMinMaxType
   earnEDDStatus: RemoteDataType<string, EarnEDDStatus>
   earnEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>
+  earnTab: EarnTabsType
   instruments: RemoteDataType<string, EarnInstrumentsType>
   interestEligible: RemoteDataType<string, EarnEligibleType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRates: RemoteDataType<string, RewardsRatesType['rates']>
   isAmountDisplayedInCrypto: boolean
+  passiveRewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   // make this optional here. places where ts doesnt like it, check, custodial
   payment?: RemoteDataType<string, PaymentValue | undefined>
+  pendingActiveRewardsTransactions: RemoteDataType<string, Array<PendingTransactionType>>
   pendingStakingTransactions: RemoteDataType<string, Array<PendingTransactionType>>
   rewardsAccount: RemoteDataType<string, EarnAccountResponseType>
-  rewardsAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   rewardsEDDDepositLimits: RemoteDataType<string, EarnDepositLimits>
   rewardsStep: {
     data: EarnStepMetaData
     name: InterestStep
   }
   rewardsTransactionsNextPage?: string | null
+  searchValue: string
+  showAvailableAssets: boolean
   stakingAccount: RemoteDataType<string, EarnAccountResponseType>
   stakingAccountBalance: RemoteDataType<string, EarnAccountBalanceResponseType>
   stakingEligible: RemoteDataType<string, EarnEligibleType>
-  stakingLimits: RemoteDataType<string, StakingLimitsType>
-  stakingRates: RemoteDataType<string, StakingRatesType['rates']>
+  stakingLimits: RemoteDataType<string, EarnLimitsType>
+  stakingRates: RemoteDataType<string, EarnRatesType['rates']>
   stakingStep: {
     data: EarnStepMetaData
     name: StakingStep
   }
   stakingTransactionsNextPage?: string | null
-  totalBondingDeposits: number
+  totalActiveRewardsBondingDeposits: number
+  totalStakingBondingDeposits: number
   transactions: Array<EarnTransactionType>
   transactionsReport: RemoteDataType<string, Array<EarnTransactionType>>
   underSanctionsMessage: string | null

@@ -1,6 +1,20 @@
-import { FindAddressResponse, RetrieveAddress, TermsAndConditionType } from './types'
+import {
+  FindAddressResponse,
+  RetrieveAddress,
+  TermsAndConditionType,
+  UserRiskSettings
+} from './types'
 
-export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
+export default ({
+  apiUrl,
+  authorizedGet,
+  authorizedPost,
+  authorizedPut,
+  get,
+  nabuUrl,
+  post,
+  rootUrl
+}) => {
   const exchangeSignIn = (captchaToken, code, password, username) =>
     authorizedPost({
       contentType: 'application/json',
@@ -276,6 +290,41 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       endPoint: `/referral/info`,
       url: nabuUrl
     })
+  // reset account endpoints
+
+  const triggerResetAccountEmail = (captchaToken, email, sessionToken) =>
+    post({
+      contentType: 'application/json',
+      data: {
+        captcha: captchaToken,
+        email,
+        siteKey: window.CAPTCHA_KEY
+      },
+      endPoint: '/auth/request-account-recovery',
+      sessionToken,
+      url: apiUrl
+    })
+
+  const pollForResetApprovalStatus = (sessionToken) =>
+    get({
+      contentType: 'application/json',
+      endPoint: `/wallet/recovery/check-recovery-token`,
+      sessionToken,
+      url: rootUrl
+    })
+
+  const approveAccountReset = (email, sessionToken, token, userId) =>
+    post({
+      contentType: 'application/json',
+      data: {
+        email,
+        token,
+        userId
+      },
+      endPoint: `/wallet/recovery/approve-recovery-token`,
+      sessionToken,
+      url: rootUrl
+    })
 
   // const createReferral = (referralCode: string) =>
   //   authorizedPost({
@@ -301,7 +350,26 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const getUserRiskSettings = (): UserRiskSettings =>
+    authorizedGet({
+      endPoint: '/user/risk/settings',
+      url: nabuUrl
+    })
+
+  const validatePersonName = (firstName: string, lastName: string) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        firstName,
+        lastName
+      },
+      endPoint: '/validation/person-name',
+      url: nabuUrl
+    })
+
   return {
+    approveAccountReset,
+    // checkIsValidReferralCode,
     createExchangeUser,
     createLinkAccountId,
     createOrGetUser,
@@ -317,9 +385,11 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     getUser,
     getUserCampaigns,
     getUserReferralInfo,
+    getUserRiskSettings,
     getUserTermsAndConditions,
     getUserTermsAndConditionsLast,
     linkAccount,
+    pollForResetApprovalStatus,
     recoverUser,
     registerUserCampaign,
     resetUserAccount,
@@ -329,8 +399,10 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     shareWalletDepositAddresses,
     signUserTermsAndConditionsLast,
     syncUserWithWallet,
+    triggerResetAccountEmail,
     updateUser,
     updateUserAddress,
-    userAddressRetrieve
+    userAddressRetrieve,
+    validatePersonName
   }
 }

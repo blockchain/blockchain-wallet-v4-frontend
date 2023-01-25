@@ -9,7 +9,7 @@ export const getCurrency = (state: RootState) => {
 }
 
 export const getData = (state: RootState) => {
-  const accountBalancesR = selectors.components.interest.getRewardsAccountBalance(state)
+  const accountBalancesR = selectors.components.interest.getPassiveRewardsAccountBalance(state)
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
   const interestEligibleR = selectors.components.interest.getInterestEligible(state)
   const interestRatesR = selectors.components.interest.getInterestRates(state)

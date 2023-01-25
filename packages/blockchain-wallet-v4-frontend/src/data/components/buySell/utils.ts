@@ -1,4 +1,6 @@
-import { SwapOrderDirectionType } from '@core/types'
+import { addMilliseconds, addSeconds, differenceInMilliseconds } from 'date-fns'
+
+import { BSOrderActionType, OrderType, SwapOrderDirectionType } from '@core/types'
 
 import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
 
@@ -19,4 +21,29 @@ export const reversePair = (pair: string) => {
   const pairReversed = `${pairArr[1]}-${pairArr[0]}`
 
   return pairReversed
+}
+
+export const getQuoteRefreshConfig = ({
+  currentDate,
+  expireDate
+}: {
+  currentDate: Date
+  expireDate: Date
+}) => {
+  const millisecondsUntilRefresh = Math.abs(
+    differenceInMilliseconds(expireDate, addSeconds(currentDate, 10))
+  )
+
+  return {
+    date: addMilliseconds(currentDate, millisecondsUntilRefresh),
+    totalMs: millisecondsUntilRefresh
+  }
+}
+
+export const getEnterAmountStepType = (orderType?: BSOrderActionType) => {
+  if (!orderType || orderType === OrderType.BUY) {
+    return 'ENTER_AMOUNT'
+  }
+
+  return 'SELL_ENTER_AMOUNT'
 }

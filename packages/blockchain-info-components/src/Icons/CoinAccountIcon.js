@@ -32,6 +32,12 @@ const CoinAccountIcon = (props) => {
     case accountType === 'INTEREST':
       SubIcon = <Icon name='percentage' color={coin} />
       break
+    case accountType === 'STAKING':
+      SubIcon = <Icon name='lock-circle' color={coin} />
+      break
+    case accountType === 'ACTIVE':
+      SubIcon = <Icon name='bars-circle' color={coin} />
+      break
     case accountType === 'ACCOUNT':
     default:
       SubIcon = <Icon name='key-circle' color={coin} />

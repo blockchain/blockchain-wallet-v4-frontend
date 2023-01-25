@@ -15,6 +15,8 @@ import { Image, Text } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutHeader } from 'components/Flyout/Layout'
 import { Padding } from 'components/Padding'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
+import { getEnterAmountStepType } from 'data/components/buySell/utils'
+import { useSardineContext } from 'hooks'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import ApplePay from './ApplePay'
@@ -29,6 +31,7 @@ export type Props = OwnProps & SuccessStateType
 const Methods: React.FC<Props> = (props: Props) => {
   const [isApplePayAvailable, setApplePayAvailable] = useState(false)
   const [isGooglePayAvailable, setGooglePayAvailable] = useState(false)
+  const [sardineContextIsReady, sardineContext] = useSardineContext('MOBILE_WALLET_DEPOSIT')
 
   const getType = (value: BSPaymentMethodType) => {
     switch (value.type) {
@@ -221,7 +224,7 @@ const Methods: React.FC<Props> = (props: Props) => {
             fiatCurrency: getFiatFromPair(props.pair.pair),
             orderType: props.orderType,
             pair: props.pair,
-            step: 'ENTER_AMOUNT'
+            step: getEnterAmountStepType(props.orderType)
           })
         }
         mode='back'
@@ -260,8 +263,8 @@ const Methods: React.FC<Props> = (props: Props) => {
                   method: applePay.value,
                   mobilePaymentMethod: MobilePaymentType.APPLE_PAY
                 })
-                if (window?._SardineContext) {
-                  window._SardineContext.updateConfig({
+                if (sardineContextIsReady) {
+                  sardineContext.updateConfig({
                     flow: 'MOBILE_WALLET_DEPOSIT'
                   })
                 }
@@ -275,8 +278,8 @@ const Methods: React.FC<Props> = (props: Props) => {
                   method: googlePay.value,
                   mobilePaymentMethod: MobilePaymentType.GOOGLE_PAY
                 })
-                if (window?._SardineContext) {
-                  window._SardineContext.updateConfig({
+                if (sardineContextIsReady) {
+                  sardineContext.updateConfig({
                     flow: 'MOBILE_WALLET_DEPOSIT'
                   })
                 }

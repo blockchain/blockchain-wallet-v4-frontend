@@ -44,7 +44,7 @@ export default () => {
       yield put(actions.core.data.eth.fetchData())
       yield put(actions.components.interest.fetchRewardsBalance())
       yield put(actions.components.interest.fetchStakingBalance())
-
+      yield put(actions.components.interest.fetchActiveRewardsBalance())
       yield put(actions.components.buySell.fetchBalance({}))
       yield put(actions.components.buySell.fetchOrders())
       // Prices (new approach)
@@ -94,7 +94,7 @@ export default () => {
           break
         case contains('/debit-card', pathname):
           yield put(actions.components.debitCard.getCurrentCardAccount())
-          yield put(actions.components.debitCard.getCardTransactions())
+          yield put(actions.components.debitCard.getCardTransactions({ limit: 4 }))
           break
         case contains('/settings/general', pathname):
           yield put(actions.components.buySell.fetchCards(true))

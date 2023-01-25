@@ -1,7 +1,8 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 
-import { EarnEDDStatus, RewardsRatesType, StakingRatesType } from '@core/types'
+import { EarnEDDStatus, EarnRatesType, RewardsRatesType } from '@core/types'
 import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { ModalName } from 'data/types'
@@ -20,7 +21,10 @@ const MessageContainer = ({ isGoldTier }: PropTypes) => {
   if (error)
     return (
       <Text size='16px' weight={500}>
-        Oops. Something went wrong. Please refresh and try again.
+        <FormattedMessage
+          id='copy.oops.message'
+          defaultMessage='Oops. Something went wrong. Please refresh and try again.'
+        />
       </Text>
     )
 
@@ -60,7 +64,7 @@ const MessageContainer = ({ isGoldTier }: PropTypes) => {
 type DataType = {
   earnEDDStatus: EarnEDDStatus
   rewardsRates: RewardsRatesType['rates']
-  stakingRates: StakingRatesType['rates']
+  stakingRates: EarnRatesType['rates']
 }
 
 type PropTypes = {

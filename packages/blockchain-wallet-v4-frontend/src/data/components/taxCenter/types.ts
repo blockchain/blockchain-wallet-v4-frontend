@@ -2,7 +2,7 @@ import { RemoteDataType } from '@core/remote/types'
 
 export type TaxCenterState = {
   reportGenerationStatus: RemoteDataType<string, string>
-  reports: RemoteDataType<string, ReportType[]>
+  reports: RemoteDataType<null, ReportType[]>
 }
 
 export type ReportGenerateRequestType = {

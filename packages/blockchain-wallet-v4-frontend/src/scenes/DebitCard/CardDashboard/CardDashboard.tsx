@@ -27,11 +27,11 @@ const CardDashboard = ({
   cards,
   debitCardActions,
   domains,
-  last4,
   lockHandler,
   modalActions,
   userData
 }) => {
+  const card = cards[0]
   const fullName = `${userData.firstName} ${userData.lastName}`
 
   return (
@@ -41,7 +41,7 @@ const CardDashboard = ({
           <CardWrapper>
             <Iframe
               id='marqeta-card-iframe'
-              src={`${domains.walletHelper}/wallet-helper/marqeta-card/#/${cardToken}/${last4}/${fullName}`}
+              src={`${domains.walletHelper}/wallet-helper/marqeta-card/#/?token=${cardToken}&last4=${card.last4}&fullName=${fullName}&cardType=${card.type}`}
             />
             <CardList>
               <CardListHeader>
@@ -59,7 +59,7 @@ const CardDashboard = ({
                     />
                   </CardItemTitle>
 
-                  <Last4Wrapper>***{last4}</Last4Wrapper>
+                  <Last4Wrapper>***{card.last4}</Last4Wrapper>
                 </CardItemBlock>
                 <CardStatus status={cards[0].status} />
               </CardItem>

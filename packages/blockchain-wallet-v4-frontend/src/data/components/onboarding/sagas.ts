@@ -45,6 +45,7 @@ export default () => {
     }
   }
 
+  // This should be removed since we do not have airdrop anymore
   const upgradeForAirdropSubmitClicked = function* ({ payload }) {
     const { campaign } = payload
     try {

@@ -38,6 +38,15 @@ export const checkHasWebcam = () => {
 export const collapse = (text: string | undefined) =>
   text ? (text.length > 30 ? text.replace(/(.{17})..+/, '$1…') : text) : 'N/A'
 
+export const getSecret = (secret) => {
+  const myRegexp = /secret=(.*)/
+  const match = myRegexp.exec(secret)
+  if (match) {
+    return match[1]
+  }
+  return null
+}
+
 export const hexToRgb = (colour) => {
   let r
   let g
@@ -73,4 +82,8 @@ export const toBase64 = (file: File): Promise<string> => {
     reader.onload = () => resolve(reader?.result?.toString())
     reader.onerror = (error) => reject(error)
   })
+}
+
+export const notReachable = (_: never): never => {
+  throw new Error(`Should not be reached ${_}`)
 }

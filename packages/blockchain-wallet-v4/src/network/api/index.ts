@@ -9,10 +9,12 @@ import debitCard from './debitCard'
 import dex from './dex'
 import earn from './earn'
 import eth from './eth'
+import experiments from './experiments'
 import httpService from './http'
 import kvStore from './kvStore'
 import kyc from './kyc'
 import misc from './misc'
+import networkConfig from './networkConfig'
 import nfts from './nfts'
 import profile from './profile'
 import rates from './rates'
@@ -44,6 +46,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     ...custodial({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       nabuUrl,
       ...http
     }),
@@ -57,6 +60,8 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     }),
     ...dex({
       apiUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
       ...http
     }),
     ...earn({
@@ -66,6 +71,10 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       nabuUrl
     }),
     ...eth({ apiUrl, openSeaApi, ...http }),
+    ...experiments({
+      authorizedGet: authorizedHttp.get,
+      nabuUrl
+    }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       authorizedGet: authorizedHttp.get,
@@ -75,8 +84,10 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       ...http
     }),
     ...misc({ apiUrl, ...http }),
+    ...networkConfig({ apiUrl, authorizedGet: authorizedHttp.get }),
     ...nfts({ apiUrl, openSeaApi, ...http }),
     ...profile({
+      apiUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
@@ -130,6 +141,7 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof eth> &
   ReturnType<typeof kyc> &
   ReturnType<typeof misc> &
+  ReturnType<typeof networkConfig> &
   ReturnType<typeof nfts> &
   ReturnType<typeof profile> &
   ReturnType<typeof referral> &

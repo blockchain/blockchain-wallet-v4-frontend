@@ -34,7 +34,7 @@ import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { BankCredentialsType, PlaidAccountType, YodleeAccountType } from './types'
+import { BankCredentialsType, DepositTerms, PlaidAccountType, YodleeAccountType } from './types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
 
@@ -108,21 +108,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // Plaid
     // Yodlee
     return [bankCredentials.id, account]
-    // switch (true) {
-    //   case typeof account === 'string' && bankCredentials:
-    //     // Yapily
-    //     const domainsR = yield select(selectors.core.walletOptions.getDomains)
-    //     const { comRoot } = domainsR.getOrElse({
-    //       comRoot: 'https://www.blockchain.com'
-    //     })
-    //     const callback = `${comRoot}/brokerage-link-success`
-    //     return [bankCredentials.id, { callback, institutionId: account }]
-    //   case typeof account !== 'string':
-    //   default:
-    //     // Plaid
-    //     // Yodlee
-    //     return [bankCredentials.id, account]
-    // }
   }
 
   const fetchBankTransferUpdate = function* ({
@@ -226,6 +211,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
     } catch (error) {
       yield put(actions.components.brokerage.fetchBankLinkCredentialsError(error))
+    }
+  }
+
+  const fetchDepositTerms = function* ({ payload }: ReturnType<typeof A.fetchDepositTerms>) {
+    try {
+      yield put(actions.components.brokerage.fetchDepositTermsLoading())
+      const data: DepositTerms = yield call(
+        api.getDepositTerms,
+        payload.amount,
+        payload.paymentMethodId
+      )
+      yield put(actions.components.brokerage.fetchDepositTermsSuccess(data))
+    } catch (error) {
+      yield put(actions.components.brokerage.fetchDepositTermsFailure(error))
     }
   }
 
@@ -425,10 +424,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         products.depositFiat.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.depositFiat.reasonNotEligible.message
           : undefined
+      const sanctionsType = products.depositFiat.reasonNotEligible.type
       yield put(
         actions.modals.showModal(ModalName.SANCTIONS_INFO_MODAL, {
           message,
-          origin: 'DepositWithdrawalModal'
+          origin: 'DepositWithdrawalModal',
+          sanctionsType
         })
       )
       return
@@ -619,6 +620,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
     fetchCrossBorderLimits,
+    fetchDepositTerms,
     handleDepositFiatClick,
     handleWithdrawClick,
     paymentAccountCheck,

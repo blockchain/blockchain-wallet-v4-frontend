@@ -8,8 +8,9 @@ import { Expanded, Flex } from 'components/Flex'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Padding } from 'components/Padding'
 import { ModalOriginType } from 'data/types'
+import { useSardineContext } from 'hooks'
 
-import { Props as OwnProps, SuccessStateType } from '.'
+import { Props as OwnProps } from '.'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;
@@ -34,13 +35,16 @@ const RawHyperlink = styled.a`
   text-decoration: inherit;
 `
 
-export type Props = OwnProps &
-  SuccessStateType & {
-    domain: string
-    handleClose?: () => void
-    iframeRef: RefObject<HTMLIFrameElement>
-    origin?: ModalOriginType
-  }
+export type Props = {
+  buySellActions: OwnProps['buySellActions']
+  cryptoCurrency?: OwnProps['cryptoCurrency']
+  domain: string
+  fiatCurrency: OwnProps['fiatCurrency']
+  handleClose: OwnProps['handleClose']
+  iframeRef: RefObject<HTMLIFrameElement>
+  origin?: ModalOriginType
+  pair: OwnProps['pair']
+}
 
 const Success = ({
   buySellActions,
@@ -52,8 +56,9 @@ const Success = ({
   origin,
   pair
 }: Props) => {
-  if (window?._SardineContext) {
-    window._SardineContext.updateConfig({
+  const [sardineContextIsReady, sardineContext] = useSardineContext('CARD_LINK')
+  if (sardineContextIsReady) {
+    sardineContext.updateConfig({
       flow: 'CARD_LINK'
     })
   }

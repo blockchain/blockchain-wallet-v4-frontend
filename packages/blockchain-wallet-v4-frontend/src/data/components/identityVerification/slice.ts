@@ -2,12 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import {
-  ExtraKYCContext,
-  ExtraQuestionsType,
-  FindAddressResponse,
-  RetrieveAddress
-} from '@core/types'
+import { ExtraQuestionsType, FindAddressResponse, KycFlowsType, RetrieveAddress } from '@core/types'
 
 import { EMAIL_STEPS } from './model'
 import {
@@ -19,13 +14,14 @@ import {
   PreIdvDataType,
   StateType,
   StepsType,
-  VerifyIdentityOriginType
+  VerifyIdentityPayload
 } from './types'
 
 const initialState: IdentityVerificationState = {
   emailStep: EMAIL_STEPS.edit as EmailSmsStepType,
   flowConfig: Remote.NotAsked,
   kycExtraQuestions: Remote.NotAsked,
+  kycFlows: Remote.NotAsked,
   preIdvData: Remote.NotAsked,
   smsStep: Remote.Loading,
   states: Remote.NotAsked,
@@ -42,9 +38,11 @@ const identityVerificationSlice = createSlice({
   initialState,
   name: 'identityVerification',
   reducers: {
+    checkIsNameValid: (state, action: PayloadAction<{ firstName: string; lastName: string }>) => {},
     checkKycFlow: (state, action) => {},
     claimCampaignClicked: (state, action: PayloadAction<{ campaign: CampaignsType }>) => {},
     createRegisterUserCampaign: (state, action) => {},
+
     fetchExtraKYC: (state, action: PayloadAction<string>) => {},
     fetchExtraKYCFailure: (state, action: PayloadAction<string>) => {
       state.kycExtraQuestions = Remote.Failure(action.payload)
@@ -56,9 +54,21 @@ const identityVerificationSlice = createSlice({
       state.kycExtraQuestions = Remote.Success(action.payload)
     },
 
+    fetchKYCFlows: (state, action: PayloadAction<string>) => {},
+    fetchKYCFlowsFailure: (state, action: PayloadAction<string>) => {
+      state.kycFlows = Remote.Failure(action.payload)
+    },
+    fetchKYCFlowsLoading: (state) => {
+      state.kycFlows = Remote.Loading
+    },
+    fetchKYCFlowsSuccess: (state, action: PayloadAction<KycFlowsType>) => {
+      state.kycFlows = Remote.Success(action.payload)
+    },
+
     fetchStates: () => {},
     fetchSupportedCountries: (state, action: PayloadAction<{ scope?: string }>) => {},
     fetchSupportedDocuments: (state, action: PayloadAction<{ countryCode?: string }>) => {},
+
     fetchUserAddress: (
       state,
       action: PayloadAction<{ countryCode?: string; id?: string; text: string }>
@@ -75,9 +85,9 @@ const identityVerificationSlice = createSlice({
     },
 
     getPreIdvData: () => {},
-
     goToNextStep: () => {},
     goToPrevStep: () => {},
+
     initializeVerification: (
       state,
       action: PayloadAction<{
@@ -87,14 +97,13 @@ const identityVerificationSlice = createSlice({
         tier: number
       }>
     ) => {},
-
     kycModalClosed: () => {},
     preIdvCheckFinished: () => {},
     registerUserCampaign: (state, action: PayloadAction<{ newUser: boolean }>) => {},
-
     resetVerificationStep: (state, action) => {
       state.verificationStep = null
     },
+
     retrieveUserAddress: (state, action: PayloadAction<{ id?: string }>) => {},
     retrieveUserAddressFailure: (state, action: PayloadAction<string>) => {
       state.userRetrieveAddress = Remote.Failure(action.payload)
@@ -153,7 +162,7 @@ const identityVerificationSlice = createSlice({
     setStepsLoading: (state) => {
       state.steps = Remote.Loading
     },
-    setStepsSuccess: (state, action: PayloadAction<Array<string>>) => {
+    setStepsSuccess: (state, action: PayloadAction<Array<StepsType>>) => {
       state.steps = Remote.Success(action.payload)
     },
     setStopFlowAfterLimitedAccessAchieved: (state, action: PayloadAction<boolean>) => {
@@ -185,17 +194,7 @@ const identityVerificationSlice = createSlice({
     updateExtraKYCQuestions: (state, action: PayloadAction<ExtraQuestionsType>) => {
       state.kycExtraQuestions = Remote.Success(action.payload)
     },
-    verifyIdentity: (
-      state,
-      action: PayloadAction<{
-        checkSddEligibility?: boolean
-        context?: ExtraKYCContext
-        needMoreInfo?: boolean
-        onCompletionCallback?: () => void
-        origin: VerifyIdentityOriginType
-        tier: number
-      }>
-    ) => {}
+    verifyIdentity: (state, action: PayloadAction<VerifyIdentityPayload>) => {}
   }
 })
 

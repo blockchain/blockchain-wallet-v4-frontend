@@ -1,7 +1,8 @@
 import { BeneficiariesType, RemoteDataType, SwapOrderType } from '@core/types'
 
 export enum CustodialSanctionsEnum {
-  EU_5_SANCTION = 'EU_5_SANCTION'
+  EU_5_SANCTION = 'EU_5_SANCTION',
+  EU_8_SANCTION = 'EU_8_SANCTION'
 }
 export enum CustodialSanctionsErrorCodeEnum {
   EU_5_SANCTION_ERROR = 165

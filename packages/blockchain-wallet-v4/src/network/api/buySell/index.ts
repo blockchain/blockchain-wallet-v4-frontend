@@ -11,7 +11,7 @@ import {
 
 import { CoinType, FiatCurrenciesType, FiatType, WalletCurrencyType } from '../../../types'
 import { NabuCustodialProductType, ProductTypes, WithdrawResponseType } from '../custodial/types'
-import { SwapOrderStateType, SwapOrderType, SwapUserLimitsType } from '../swap/types'
+import { SwapUserLimitsType } from '../swap/types'
 import {
   ApplePayInfoType,
   BSAccountType,
@@ -25,7 +25,6 @@ import {
   BSPaymentMethodsType,
   BSPaymentMethodType,
   BSPaymentTypes,
-  BSProviderAttributesType,
   BSQuoteType,
   BSTransactionStateType,
   BSTransactionsType,
@@ -36,20 +35,14 @@ import {
   FiatEligibleType,
   GooglePayInfoType,
   NabuAddressType,
+  OrderConfirmAttributesType,
   TradesAccumulatedResponse,
   ValidateApplePayMerchantRequest,
   ValidateApplePayMerchantResponse
 } from './types'
 
-export default ({
-  authorizedDelete,
-  authorizedGet,
-  authorizedPost,
-  authorizedPut,
-  get,
-  nabuUrl
-}) => {
-  const activateBSCard = ({
+export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
+  const activateCard = ({
     cardBeneficiaryId,
     cvv,
     redirectUrl
@@ -78,7 +71,7 @@ export default ({
       url: nabuUrl
     })
 
-  const createBSCard = ({
+  const createCard = ({
     address,
     currency,
     email,
@@ -99,6 +92,18 @@ export default ({
       },
       endPoint: '/payments/cards',
       removeDefaultPostData: true,
+      url: nabuUrl
+    })
+
+  const createAddCardToken = (): {
+    card_token_id: string
+    vgs_public_key: string
+    vgs_vault_id: string
+  } =>
+    authorizedPost({
+      contentType: 'application/json',
+      endPoint: '/payments/cassy/tokenize',
+      ignoreQueryParams: true,
       url: nabuUrl
     })
 
@@ -129,7 +134,7 @@ export default ({
       url: nabuUrl
     })
 
-  const createBSOrder = (
+  const createOrder = (
     pair: BSPairsType,
     action: BSOrderActionType,
     pending: boolean,
@@ -209,7 +214,7 @@ export default ({
     order,
     paymentMethodId
   }: {
-    attributes?: BSProviderAttributesType
+    attributes?: OrderConfirmAttributesType
     order: BSOrderType
     paymentMethodId?: string
   }): BSOrderType =>
@@ -438,27 +443,6 @@ export default ({
           endPoint: '/payments/transactions',
           url: nabuUrl
         })
-  // This is to get unified Sell trades from sellp3 using the swap 2.0 api
-  // Will eventually be used to get all trades, buy/sell/swap included
-  // keeping all the swap types until buy/sell everything else is together
-  const getUnifiedSellTrades = (
-    currency: FiatType,
-    limit?: number,
-    before?: string,
-    after?: string,
-    v2states?: SwapOrderStateType
-  ): Array<SwapOrderType> =>
-    authorizedGet({
-      data: {
-        after,
-        before,
-        currency,
-        limit,
-        states: v2states
-      },
-      endPoint: `/trades/unified`,
-      url: nabuUrl
-    })
 
   const withdrawBSFunds = (
     address: string,
@@ -544,15 +528,24 @@ export default ({
       url: nabuUrl
     })
 
+  const updateCardCvv = (data: { cvv: string; paymentId: string }) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data,
+      endPoint: '/payments/cassy/charge/cvv',
+      url: nabuUrl
+    })
+
   return {
-    activateBSCard,
+    activateCard,
     cancelBSOrder,
     checkCardSuccessRate,
     confirmBSOrder,
-    createBSCard,
-    createBSOrder,
+    createAddCardToken,
     createBankAccountLink,
+    createCard,
     createFiatDeposit,
+    createOrder,
     createRecurringBuy,
     deleteRecurringBuy,
     deleteSavedAccount,
@@ -578,9 +571,9 @@ export default ({
     getPaymentById,
     getRBPaymentInfo,
     getRBRegisteredList,
-    getUnifiedSellTrades,
     refreshBankAccountLink,
     updateBankAccountLink,
+    updateCardCvv,
     validateApplePayMerchant,
     withdrawBSFunds
   }

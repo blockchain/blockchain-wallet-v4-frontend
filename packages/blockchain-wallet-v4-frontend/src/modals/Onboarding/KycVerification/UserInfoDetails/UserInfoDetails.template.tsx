@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
+import { Padding } from '@blockchain-com/constellation'
 // @ts-ignore
 import { defaultTo } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -16,7 +18,7 @@ import DateInputBox from 'components/Form/DateInputBox'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
-import { model } from 'data'
+import { actions, model } from 'data'
 import { useCountryList, useUSStateList } from 'hooks'
 import { ageOverEighteen, required, requiredDOB } from 'services/forms'
 
@@ -51,6 +53,7 @@ const DOBToObject = (value) => {
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+  const dispatch = useDispatch()
   const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
   const { data: supportedUSStates } = useUSStateList()
 
@@ -78,6 +81,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const countryIsUS = countryCode === 'US'
 
+  const checkValidity = () => {
+    if (props.formValues?.firstName && props.formValues?.lastName) {
+      dispatch(
+        actions.components.identityVerification.checkIsNameValid({
+          firstName: props.formValues.firstName,
+          lastName: props.formValues.lastName
+        })
+      )
+    }
+  }
+
   return (
     <FlyoutContainer>
       <CustomForm onSubmit={props.handleSubmit}>
@@ -90,21 +104,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
         <FlyoutContent mode='top'>
           <ContentWrapper>
-            {props.error && (
-              <ErrorTextContainer>
-                <ErrorText>
-                  <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
-                  Error: {props.error}
-                </ErrorText>
-              </ErrorTextContainer>
-            )}
             <FormGroup inline>
               <FormItem>
                 <Label htmlFor='firstName'>
                   <Text weight={500} size='14px' color='grey900'>
                     <FormattedMessage
                       id='identityverification.personal.firstnamerequired'
-                      defaultMessage='First Name *'
+                      defaultMessage='Legal First Name *'
                     />
                   </Text>
                 </Label>
@@ -113,6 +119,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   name='firstName'
                   validate={required}
                   component={TextBox}
+                  onBlur={checkValidity}
                   errorBottom
                 />
               </FormItem>
@@ -121,7 +128,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   <Text weight={500} size='14px' color='grey900'>
                     <FormattedMessage
                       id='identityverification.personal.lastnamerequired'
-                      defaultMessage='Last Name *'
+                      defaultMessage='Legal Last Name *'
                     />
                   </Text>
                 </Label>
@@ -130,6 +137,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   name='lastName'
                   validate={required}
                   component={TextBox}
+                  onBlur={checkValidity}
                   errorBottom
                 />
               </FormItem>
@@ -179,6 +187,23 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         </FlyoutContent>
 
         <FlyoutFooter collapsed>
+          {props.error && (
+            <Padding top={2.5} bottom={2.5}>
+              <ErrorTextContainer>
+                <ErrorText>
+                  <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
+                  {props.error === 'INVALID_NAMES' ? (
+                    <FormattedMessage
+                      id='identityverification.person.invalid_name'
+                      defaultMessage='Make sure your name and last name are correct'
+                    />
+                  ) : (
+                    props.error
+                  )}
+                </ErrorText>
+              </ErrorTextContainer>
+            </Padding>
+          )}
           <Button
             data-e2e='submitUserInfoDetails'
             height='48px'

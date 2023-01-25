@@ -124,19 +124,10 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin),
       selectors.core.settings.getCurrency,
-      selectors.components.recurringBuy.getRegisteredListByCoin(coin),
-      selectors.core.walletOptions.getFeatureFlagRecurringBuys,
-      () => selectors.components.interest.getInterestEligible(state)
+      selectors.components.interest.getInterestEligible,
+      selectors.components.interest.getStakingEligible
     ],
-    (
-      invitationsR,
-      userSearch,
-      pagesR,
-      currencyR,
-      recurringBuys,
-      isRecurringBuyR,
-      interestEligibleR
-    ) => {
+    (invitationsR, userSearch, pagesR, currencyR, interestEligibleR, stakingEligibleR) => {
       const empty = (page) => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
@@ -157,12 +148,11 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
         isInvited: invitationsR
           .map(propOr(false, 'openBanking'))
           .getOrElse({ openBanking: false }) as boolean,
-        isRecurringBuy: isRecurringBuyR.getOrElse(false) as boolean,
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
-        recurringBuys,
-        sourceType
+        sourceType,
+        stakingEligible: stakingEligibleR.getOrElse({})
       }
     }
   )(state)

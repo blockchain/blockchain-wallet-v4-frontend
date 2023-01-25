@@ -8,6 +8,7 @@ import {
 } from '@core/types'
 import {
   BankTransferAccountType,
+  DepositTerms,
   NabuProductType,
   ProductEligibilityResponse,
   WithdrawLimitsResponse
@@ -20,7 +21,9 @@ import {
   CustodialTransferRequestType,
   GetTransactionsHistoryType,
   NabuCustodialProductType,
+  NabuMoneyFloatType,
   PaymentDepositPendingResponseType,
+  ProductTypes,
   WithdrawalFeesProductType,
   WithdrawalLockCheckResponseType,
   WithdrawalLockResponseType,
@@ -28,7 +31,7 @@ import {
   WithdrawResponseType
 } from './types'
 
-export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
+export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
   const getBeneficiaries = (): BeneficiariesType =>
     authorizedGet({
       endPoint: '/payments/beneficiaries',
@@ -61,6 +64,24 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
         txHash
       },
       endPoint: '/payments/deposits/pending',
+      url: nabuUrl
+    })
+
+  const getDepositTerms = (
+    amount: NabuMoneyFloatType,
+    paymentMethodId: string,
+    product = ProductTypes.WALLET,
+    purpose = ProductTypes.DEPOSIT
+  ): DepositTerms =>
+    authorizedPut({
+      contentType: 'application/json',
+      data: {
+        amount,
+        paymentMethodId,
+        product,
+        purpose
+      },
+      endPoint: '/payments/deposit/terms',
       url: nabuUrl
     })
 
@@ -169,8 +190,11 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getLimitsAndFeaturesDetails = () =>
+  const getLimitsAndFeaturesDetails = (tier?: string) =>
     authorizedGet({
+      data: {
+        tier
+      },
       endPoint: `/limits/overview`,
       url: nabuUrl
     })
@@ -189,6 +213,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     fetchProductEligibilityForUser,
     getBeneficiaries,
     getCrossBorderTransactions,
+    getDepositTerms,
     getEligibilityForProduct,
     getLimitsAndFeaturesDetails,
     getTransactionsHistory,

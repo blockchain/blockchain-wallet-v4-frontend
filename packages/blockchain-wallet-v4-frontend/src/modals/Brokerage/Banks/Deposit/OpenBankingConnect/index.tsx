@@ -14,12 +14,12 @@ import Success from './template.success'
 
 const Connect = (props: Props) => {
   const fetchBank = () => {
-    if (props.walletCurrency && !Remote.Success.is(props.data)) {
-      props.brokerageActions.fetchBankLinkCredentials(props.walletCurrency as WalletFiatType)
+    if (props.tradingCurrency && !Remote.Success.is(props.data)) {
+      props.brokerageActions.fetchBankLinkCredentials(props.tradingCurrency)
     }
   }
 
-  useEffect(fetchBank, [props.walletCurrency])
+  useEffect(fetchBank, [props.tradingCurrency])
 
   return props.data.cata({
     Failure: () => <DataError onClick={fetchBank} />,
@@ -35,7 +35,9 @@ const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues('brokerageTx')(state) as {
     order: BSTransactionType
   },
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+  tradingCurrency: selectors.modules.profile
+    .getTradingCurrency(state)
+    .getOrFail('could not get trading currency')
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)

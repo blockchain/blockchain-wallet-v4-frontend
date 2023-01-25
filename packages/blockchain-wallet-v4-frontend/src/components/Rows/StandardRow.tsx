@@ -2,22 +2,20 @@ import React, { memo, MouseEventHandler } from 'react'
 import { IconChevronRight, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import { ClickableArea } from 'components/ClickableArea'
 import { Flex } from 'components/Flex'
 import { Padding } from 'components/Padding'
 
-const LoadingTextDark = styled.div`
-  background-color: ${(props) => props.theme.grey100};
+const LoadingTextDark = styled(SkeletonRectangle)`
   border-radius: 10px;
   width: 75px;
   height: 16px;
   margin-bottom: 3px;
 `
 
-const LoadingTextLight = styled.div`
-  background-color: ${(props) => props.theme.grey000};
-  border-radius: 10px;
+const LoadingTextLight = styled(SkeletonRectangle)`
+  opacity: 0.7;
   width: 50px;
   height: 14px;
   margin-bottom: 3px;
@@ -125,9 +123,9 @@ export type Props = {
   | {
       bottomLeftText: string | React.ReactNode
       bottomRightText?: never
-      icon: React.ReactNode
+      icon?: React.ReactNode
       loading?: never
-      rightAction: true
+      rightAction?: true
       topLeftText: string | React.ReactNode
       topRightText?: never
     }

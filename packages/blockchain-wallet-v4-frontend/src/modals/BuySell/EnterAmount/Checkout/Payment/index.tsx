@@ -13,6 +13,7 @@ import {
   PaymentText,
   SectionTitle
 } from 'components/Flyout/model'
+import { Analytics } from 'data/analytics/types'
 
 import { Props } from '../template.success'
 import { DisplayIcon, DisplayIconAligned } from './Payment.styles'
@@ -35,14 +36,19 @@ const Payment: React.FC<Props> = (props: Props) => {
 
   // ensure only non SDD flow and non empty amount field open the payment selection screen
   const onPaymentMethodClick = () => {
-    return !props.isSddFlow
-      ? props.buySellActions.setStep({
-          cryptoCurrency: props.cryptoCurrency,
-          fiatCurrency: props.fiatCurrency || preferredFiatTradingCurrency,
-          pair: props.pair,
-          step: nextStep
-        })
-      : null
+    props.analyticsActions.trackEvent({
+      key: Analytics.BUY_CHANGE_PAYMENT_METHOD_CLICKED,
+      properties: {}
+    })
+
+    if (!props.isSddFlow) {
+      props.buySellActions.setStep({
+        cryptoCurrency: props.cryptoCurrency,
+        fiatCurrency: props.fiatCurrency || preferredFiatTradingCurrency,
+        pair: props.pair,
+        step: nextStep
+      })
+    }
   }
 
   const isApplePay = props.mobilePaymentMethod === MobilePaymentType.APPLE_PAY
