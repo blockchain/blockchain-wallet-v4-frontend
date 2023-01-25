@@ -21,6 +21,11 @@ import { TableRowPropsType } from './TableRow/TableRow.types'
 const EarnCompare = ({ closeAll }: OwnProps) => {
   const { data } = useRemote(getRemote)
   const { maxActiveRate = '- ', maxPassiveRate = '- ', maxStakingRate = '- ' } = data || {}
+
+  const handleClose = () => {
+    closeAll()
+  }
+
   return (
     <CustomModal size='xlarge'>
       <Padding bottom={1.5} horizontal={1.5}>
@@ -31,7 +36,7 @@ const EarnCompare = ({ closeAll }: OwnProps) => {
               id='modals.earn-compare.title'
             />
           </Text>
-          <IconCloseCircleV2 color={SemanticColors.muted} size='large' />
+          <IconCloseCircleV2 color={SemanticColors.muted} onClick={handleClose} size='large' />
         </Flex>
       </Padding>
       <Padding bottom={1}>
@@ -59,7 +64,7 @@ const EarnCompare = ({ closeAll }: OwnProps) => {
       </Padding>
       <Button
         as='button'
-        onClick={closeAll}
+        onClick={handleClose}
         size='large'
         state='initial'
         text={
