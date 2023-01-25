@@ -12,7 +12,6 @@ import {
 import { useRemote } from 'hooks'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-import Loading from './EarnCompare.loading.template'
 import { tableData } from './EarnCompare.model'
 import { getRemote } from './EarnCompare.selectors'
 import { CustomModal, TableContainer } from './EarnCompare.styles'
@@ -21,8 +20,7 @@ import { TableRowPropsType } from './TableRow/TableRow.types'
 
 const EarnCompare = ({ closeAll }: OwnProps) => {
   const { data } = useRemote(getRemote)
-  if (!data) return <Loading />
-  const { maxActiveRate, maxPassiveRate, maxStakingRate } = data
+  const { maxActiveRate = '- ', maxPassiveRate = '- ', maxStakingRate = '- ' } = data || {}
   return (
     <CustomModal size='xlarge'>
       <Padding bottom={1.5} horizontal={1.5}>
