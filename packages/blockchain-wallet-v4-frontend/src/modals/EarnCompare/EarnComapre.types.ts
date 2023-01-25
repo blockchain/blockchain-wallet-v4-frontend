@@ -1,5 +1,5 @@
 export type TableDataPropsType = {
   maxActiveRate: number | string
-  maxPassiveRate: Number | string
+  maxPassiveRate: number | string
   maxStakingRate: number | string
 }
