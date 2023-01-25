@@ -92,7 +92,7 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
               <Text as='p' variant='body1' textAlign='center' color={SemanticColors.overlay}>
                 <FormattedMessage
                   id='copy.re_enter_security_code'
-                  defaultMessage='Please re-enter the 3 digit CVV code associated with the card below'
+                  defaultMessage='Please re-enter the CVV code associated with the card below'
                 />
               </Text>
             </Padding>
