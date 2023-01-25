@@ -29,7 +29,7 @@ export const Wrapper = styled.div`
   }
 `
 
-export const learnColumn: LearnColumnType[] = [
+export const learnColumns = ({ handleCompareClick }): LearnColumnType[] => [
   {
     description: (
       <FormattedMessage
@@ -66,5 +66,18 @@ export const learnColumn: LearnColumnType[] = [
     isActiveRewards: true,
     link: '/earn/active-rewards-learn',
     title: <FormattedMessage id='copy.active-rewards' defaultMessage='Active Rewards' />
+  },
+  {
+    description: (
+      <FormattedMessage
+        id='scenes.earn.learn.compare-products.description'
+        defaultMessage='Compare Earn products to see what suits you best.'
+      />
+    ),
+    handleClick: handleCompareClick,
+    id: 'scenes.earn.learn.compare-products.description',
+    title: (
+      <FormattedMessage id='scenes.earn.learn.compare-products' defaultMessage='Compare products' />
+    )
   }
 ]
