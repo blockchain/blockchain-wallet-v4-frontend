@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
+import { IngestedSelfCustodyType } from '@core/network/api/coins/types'
 import { Text } from 'blockchain-info-components'
 import { GreyCartridge } from 'components/Cartridge'
 

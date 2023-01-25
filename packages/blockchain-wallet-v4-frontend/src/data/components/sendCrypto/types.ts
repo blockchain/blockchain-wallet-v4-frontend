@@ -1,4 +1,4 @@
-import { BuildTxResponseType } from '@core/network/api/coin/types'
+import { BuildTxResponseType } from '@core/network/api/coins/types'
 import {
   CrossBorderLimits,
   RemoteDataType,

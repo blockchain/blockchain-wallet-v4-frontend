@@ -4,7 +4,9 @@ import { startSubmit, stopSubmit } from 'redux-form'
 import { all, call, fork, put, select, take } from 'redux-saga/effects'
 
 import { coreSelectors } from '@core'
+import { APIType } from '@core/network/api'
 import { CountryScope, WalletOptionsType } from '@core/types'
+import { sha256 } from '@core/walletCrypto'
 import { actions, actionTypes, selectors } from 'data'
 import { ClientErrorProperties } from 'data/analytics/types/errors'
 import { fetchBalances } from 'data/balances/sagas'
@@ -42,7 +44,7 @@ import {
   ProductAuthOptions
 } from './types'
 
-export default ({ api, coreSagas, networks }) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const logLocation = 'auth/sagas'
   const { createExchangeUser, createUser } = profileSagas({
     api,
@@ -242,6 +244,35 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const authWalletPubkeyService = function* ({
+    guid,
+    sharedKey
+  }: {
+    guid: string
+    sharedKey: string
+  }) {
+    try {
+      const sharedKeyHash = sha256(sharedKey).toString('hex')
+      const response = yield call(api.authWalletPubkeyService, { guid, sharedKeyHash })
+      return response.success
+    } catch (e) {
+      return false
+    }
+  }
+
+  const subscribeToUnifiedBalances = function* () {
+    const guid = yield select(selectors.core.wallet.getGuid)
+    const sharedKey = yield select(selectors.core.wallet.getSharedKey)
+
+    const guidHash = sha256(guid).toString('hex')
+    const sharedKeyHash = sha256(sharedKey).toString('hex')
+
+    const auth = yield call(authWalletPubkeyService, { guid, sharedKey })
+    if (!auth) return
+
+    const subscriptions = yield call(api.getSubscriptions, { guidHash, sharedKeyHash })
+  }
+
   const checkWalletDerivationsLegitimacy = function* () {
     const accounts = yield call(coreSagas.wallet.getAccountsWithIncompleteDerivations)
 
@@ -334,7 +365,7 @@ export default ({ api, coreSagas, networks }) => {
         )
       }
       const guid = yield select(selectors.core.wallet.getGuid)
-      if (firstLogin && !isAccountReset && !recovery) {
+      if (firstLogin && !isAccountReset && !recovery && country) {
         // create nabu user
         yield call(createUser)
         yield call(api.setUserInitialAddress, country, state)
@@ -390,6 +421,7 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.router.push('/home'))
       }
+      yield call(subscribeToUnifiedBalances)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
       // We run goals in accountResetSaga in this case

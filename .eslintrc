@@ -24,6 +24,7 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-empty-function": "off",
     "consistent-return": "off",
+    "class-methods-use-this": "off",
     "func-names": "off",
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "no-param-reassign": "off",

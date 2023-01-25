@@ -314,7 +314,7 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
       url: nabuUrl
     })
 
-  const getBSPaymentAccount = (currency: keyof FiatCurrenciesType): BSAccountType =>
+  const getBSPaymentAccount = (currency: string): BSAccountType =>
     authorizedPut({
       contentType: 'application/json',
       data: {

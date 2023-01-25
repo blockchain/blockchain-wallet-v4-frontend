@@ -143,3 +143,17 @@ export type IngestedSelfCustodyType = SelfCustodyTxType & {
   to: string
   type: 'SENT' | 'RECEIVED'
 }
+
+export type PubkeyServiceAuthenticationRequestType = {
+  guid: string
+  sharedKeyHash: string
+}
+
+export type PubkeyServiceAuthenticationInRequestType = {
+  guidHash: string
+  sharedKeyHash: string
+}
+
+export type PubkeyServiceSubscriptions = {
+  currencies: { ticker: string }[]
+}

@@ -2,6 +2,7 @@ import { call, CallEffect, put, PutEffect, SelectEffect } from 'redux-saga/effec
 
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
+import { CoinAccountTypeEnum } from 'data/coins/accountTypes/accountTypes.classes'
 
 import coinSagas from '../../coins/sagas'
 import profileSagas from '../../modules/profile/sagas'
@@ -23,33 +24,25 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     action: ReturnType<typeof A.getNextAddress>
   ): Generator<CallEffect | PutEffect | SelectEffect, void, any> {
     const key = generateKey(action.payload.account)
+    yield call(waitForUserData)
     try {
       yield put(A.getNextAddressLoading(key))
       let address
-      const extras: RequestExtrasType = {}
+      let extras: RequestExtrasType = {}
       const { account } = action.payload
 
       switch (account.type) {
         case SwapBaseCounterTypes.ACCOUNT:
-          const { accountIndex, coin } = account
-          address = yield call(getNextReceiveAddressForCoin, coin, accountIndex)
-          break
         case SwapBaseCounterTypes.CUSTODIAL:
-          yield call(waitForUserData)
-          const custodial: ReturnType<typeof api.getBSPaymentAccount> = yield call(
-            // @ts-ignore
-            api.getBSPaymentAccount,
-            account.coin
-          )
-          address = custodial.address
-          if (window.coins[account.coin].coinfig.type.isMemoBased && address.split(':')[1]) {
-            // eslint-disable-next-line prefer-destructuring
-            extras.Memo = address.split(':')[1]
-            // eslint-disable-next-line prefer-destructuring
-            address = address.split(':')[0]
-          }
+          const { accountIndex, coin } = account
+          const accountType =
+            account.type === SwapBaseCounterTypes.ACCOUNT
+              ? CoinAccountTypeEnum.NON_CUSTODIAL
+              : CoinAccountTypeEnum.CUSTODIAL
+          const response = yield call(getNextReceiveAddressForCoin, coin, accountType, accountIndex)
+          address = response.address
+          extras = response.extras
           break
-        // SwapAccountType only supports ACCOUNT and CUSTODIAL?
         // @ts-ignore
         case 'LEGACY':
           address = account.address

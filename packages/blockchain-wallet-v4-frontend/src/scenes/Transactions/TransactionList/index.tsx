@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
+import { IngestedSelfCustodyType } from '@core/network/api/coins/types'
 import {
   BSOrderType,
   BSTransactionType,
