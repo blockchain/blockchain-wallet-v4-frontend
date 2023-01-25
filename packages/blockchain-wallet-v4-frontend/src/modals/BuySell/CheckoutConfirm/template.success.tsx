@@ -73,13 +73,7 @@ const QuoteCountDownWrapper = styled.div`
   margin-top: 28px;
 `
 const Amount = styled.div`
-  display: flex;
-  flex-direction: column;
   margin-top: 8px;
-  > div {
-    display: flex;
-    flex-direction: row;
-  }
 `
 const RowItem = styled(Row)`
   display: flex;
@@ -383,16 +377,9 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           />
         </QuoteCountDownWrapper>
         <Amount data-e2e='sbTotalAmount'>
-          <div>
-            <Text size='32px' weight={600} color='grey800'>
-              {props.quoteSummaryViewModel.totalCryptoText}
-            </Text>
-          </div>
-          <div>
-            <Text size='20px' weight={600} color='grey600' style={{ marginTop: '8px' }}>
-              {props.quoteSummaryViewModel.totalFiatText}
-            </Text>
-          </div>
+          <Text size='32px' weight={600} color='grey800'>
+            {props.quoteSummaryViewModel.totalCryptoText}
+          </Text>
         </Amount>
       </FlyoutWrapper>
 
@@ -496,6 +483,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           <RowText>
             <RowTextWrapper data-e2e='sbPurchase'>
               {props.quoteSummaryViewModel.fiatMinusExplicitFeeText}
+              <AdditionalText>{props.quoteSummaryViewModel.totalCryptoText}</AdditionalText>
             </RowTextWrapper>
           </RowText>
         </RowItem>
@@ -542,7 +530,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         <RowText>
           <RowTextWrapper>
             <div data-e2e='sbFiatBuyAmount'>{props.quoteSummaryViewModel.totalFiatText}</div>
-            <AdditionalText>{props.quoteSummaryViewModel.totalCryptoText}</AdditionalText>
           </RowTextWrapper>
         </RowText>
       </RowItem>

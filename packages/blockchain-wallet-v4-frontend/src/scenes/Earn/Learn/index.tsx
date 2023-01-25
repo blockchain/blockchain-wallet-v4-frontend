@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { Analytics } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 
-import { learnColumn, Wrapper } from './Learn.model'
+import { learnColumns, Wrapper } from './Learn.model'
 import { LearnColumnType } from './Learn.types'
 import LearnColumn from './LearnColumn'
 
@@ -15,6 +15,7 @@ const Learn = () => {
     (state: RootState) =>
       selectors.core.walletOptions.getActiveRewardsEnabled(state).getOrElse(false) as boolean
   )
+
   const handleActiveRewards = () => {
     dispatch(
       actions.analytics.trackEvent({
@@ -24,9 +25,13 @@ const Learn = () => {
     )
   }
 
+  const handleCompareClick = () => {
+    dispatch(actions.modals.showModal(ModalName.EARN_COMPARE, { origin: 'EarnPage' }))
+  }
+
   return (
     <Wrapper>
-      {learnColumn({ handleActiveRewards }).map(
+      {learnColumns({ handleActiveRewards, handleCompareClick }).map(
         (
           { description, handleClick, icon, id, isActiveRewards, link, title }: LearnColumnType,
           i: number

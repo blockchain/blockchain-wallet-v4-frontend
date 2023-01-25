@@ -32,7 +32,8 @@ export {
   submit,
   touch,
   unregisterField,
-  untouch
+  untouch,
+  updateSyncErrors
 } from 'redux-form'
 
 export const change2 = (form, field, value) => ({

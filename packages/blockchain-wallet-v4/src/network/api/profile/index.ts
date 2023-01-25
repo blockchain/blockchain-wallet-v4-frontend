@@ -356,6 +356,17 @@ export default ({
       url: nabuUrl
     })
 
+  const validatePersonName = (firstName: string, lastName: string) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        firstName,
+        lastName
+      },
+      endPoint: '/validation/person-name',
+      url: nabuUrl
+    })
+
   return {
     approveAccountReset,
     // checkIsValidReferralCode,
@@ -391,6 +402,7 @@ export default ({
     triggerResetAccountEmail,
     updateUser,
     updateUserAddress,
-    userAddressRetrieve
+    userAddressRetrieve,
+    validatePersonName
   }
 }
