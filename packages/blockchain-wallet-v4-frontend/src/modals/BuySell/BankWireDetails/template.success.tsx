@@ -107,7 +107,6 @@ const Success: React.FC<Props> = (props) => {
                   props.buySellActions.setStep({
                     cryptoCurrency: props.cryptoCurrency || 'BTC',
                     fiatCurrency: props.account.currency || 'USD',
-                    order: props.order,
                     pair: props.pair,
                     step: 'PAYMENT_METHODS'
                   })
