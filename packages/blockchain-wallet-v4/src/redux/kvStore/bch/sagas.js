@@ -89,7 +89,7 @@ export default ({ api, networks }) => {
         // check if legacy format is used
         if (startsWith(legacyWalletName, account.label)) {
           // pluck label suffix e.g. " 2"
-          const labelSuffix = last(splitAt(22, account.label))
+          const labelSuffix = last(splitAt(legacyWalletName.length, account.label))
           account.label = `${BCH_ACCT_NAME}${labelSuffix}`
         } else if (
           // check if legacy v2 format is used
