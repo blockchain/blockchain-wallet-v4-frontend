@@ -23,6 +23,12 @@ const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalProp
   const step = useSelector((state: RootState) =>
     selectors.components.interest.getActiveRewardsStep(state)
   )
+  const isActiveRewardsWithdrawalEnabled = useSelector(
+    (state: RootState) =>
+      selectors.core.walletOptions
+        .getActiveRewardsWithdrawalEnabled(state)
+        .getOrElse(false) as boolean
+  )
   const [show, setShow] = useState<boolean>(false)
   const [showSupply, setShowSupply] = useState<boolean>(false)
 
@@ -72,12 +78,12 @@ const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalProp
           />
         </FlyoutChild>
       )}
-      {step.name === 'WITHDRAWAL' && (
+      {step.name === 'WITHDRAWAL' && isActiveRewardsWithdrawalEnabled && (
         <FlyoutChild>
           <Withdrawal handleClose={handleClose} />
         </FlyoutChild>
       )}
-      {step.name === 'WITHDRAWAL_REQUESTED' && (
+      {step.name === 'WITHDRAWAL_REQUESTED' && isActiveRewardsWithdrawalEnabled && (
         <FlyoutChild>
           <WithdrawalRequested coin={coin} handleClose={handleClose} />
         </FlyoutChild>
