@@ -106,6 +106,7 @@ const AccountSummaryContainer = (props: PropsType) => {
     activeRewardsRates,
     currentPrice,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
+    isActiveRewardsWithdrawalEnabled,
     pendingTransactions,
     priceChange
   }: RemoteType = data
@@ -159,6 +160,7 @@ const AccountSummaryContainer = (props: PropsType) => {
       handleEDDSubmitInfo={handleEDDSubmitInfo}
       handleTransactionsToggled={handleTransactionsToggled}
       handleWithdrawal={handleWithdrawal}
+      isActiveRewardsWithdrawalEnabled={isActiveRewardsWithdrawalEnabled}
       isBalanceDropdownToggled={isBalanceDropdownToggled}
       isCoinDisplayed={isCoinDisplayed}
       isDepositEnabled={isDepositEnabled}

@@ -6,7 +6,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ActiveRewardsDepositFormType } from 'data/types'
 
-import { FORM_NAME } from './DepositForm.model'
+import { FORM_NAME } from './DepositForm.constants'
 import { DataType } from './DepositForm.types'
 
 export const getActions = (dispatch) => ({
@@ -39,12 +39,16 @@ export const getRemote = (state: RootState) => {
   const activeRewardsRatesR = selectors.components.interest.getActiveRewardsRates(state)
   const earnEDDStatusR = selectors.components.interest.getEarnEDDStatus(state)
   const paymentR = selectors.components.interest.getPayment(state)
+  const isActiveRewardsWithdrawalEnabledR =
+    selectors.core.walletOptions.getActiveRewardsWithdrawalEnabled(state)
+
   return lift(
     (
       activeRewardsRates: ExtractSuccess<typeof activeRewardsRatesR>,
-      rates: ExtractSuccess<typeof ratesR>,
+      earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>,
+      isActiveRewardsWithdrawalEnabled: boolean,
       payment: ExtractSuccess<typeof paymentR>,
-      earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>
+      rates: ExtractSuccess<typeof ratesR>
     ) => {
       const depositFee =
         coin === 'BCH' || coin === 'BTC'
@@ -54,9 +58,10 @@ export const getRemote = (state: RootState) => {
         activeRewardsRates,
         depositFee,
         earnEDDStatus,
+        isActiveRewardsWithdrawalEnabled,
         payment,
         rates
       }
     }
-  )(activeRewardsRatesR, ratesR, paymentR, earnEDDStatusR)
+  )(activeRewardsRatesR, earnEDDStatusR, isActiveRewardsWithdrawalEnabledR, paymentR, ratesR)
 }
