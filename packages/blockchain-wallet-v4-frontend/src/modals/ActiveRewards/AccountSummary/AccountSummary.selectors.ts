@@ -29,7 +29,7 @@ export const getRemote = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.core.data.coins.getRates(coin, state)
   const walletCurrency = selectors.core.settings.getCurrency(state).getOrElse('USD')
-  const priceChangeR = selectors.core.data.misc.getPriceChange(coin, TimeRange.MONTH, state)
+  const priceChangeR = selectors.core.data.misc.getPriceChange(coin, TimeRange.DAY, state)
   const accountBalancesR = selectors.components.interest.getActiveRewardsAccountBalance(state)
   const pendingTransactionsR =
     selectors.components.interest.getPendingActiveRewardsTransactions(state)

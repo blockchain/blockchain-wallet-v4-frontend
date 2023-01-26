@@ -51,8 +51,8 @@ export const OnHold = (props: Props) => {
           </TooltipHost>
           <Tooltip id='onhold_tooltip' place='bottom'>
             <FormattedMessage
-              id='modals.brokerage.withdraw_holding_period'
-              defaultMessage='Newly added funds are subject to a holding period. You can transfer between your Trading, Rewards, Staking, and Exchange accounts in the meantime.'
+              id='modals.brokerage.withdraw_holding_period_1'
+              defaultMessage='Newly added funds are subject to a holding period. You can transfer between your Trading, Earn, and Exchange accounts in the meantime.'
             />
           </Tooltip>
         </InnerSpacedRow>

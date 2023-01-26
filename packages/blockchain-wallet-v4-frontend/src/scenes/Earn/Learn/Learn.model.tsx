@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { Image } from 'blockchain-info-components'
 
-import { LearnColumnType } from './Learn.types'
+import { LearnColumnArgTypes, LearnColumnType } from './Learn.types'
 
 export const Wrapper = styled.div`
   display: flex;
@@ -29,7 +29,10 @@ export const Wrapper = styled.div`
   }
 `
 
-export const learnColumns = ({ handleCompareClick }): LearnColumnType[] => [
+export const learnColumns = ({
+  handleActiveRewards,
+  handleCompareClick
+}: LearnColumnArgTypes): LearnColumnType[] => [
   {
     description: (
       <FormattedMessage
@@ -61,6 +64,7 @@ export const learnColumns = ({ handleCompareClick }): LearnColumnType[] => [
         defaultMessage='Weekly rewards for forecasting the market. For advanced users.'
       />
     ),
+    handleClick: handleActiveRewards,
     icon: <Image name='bars' width='20px' height='24px' />,
     id: 'scenes.earn.learn.active-rewards.description',
     isActiveRewards: true,
