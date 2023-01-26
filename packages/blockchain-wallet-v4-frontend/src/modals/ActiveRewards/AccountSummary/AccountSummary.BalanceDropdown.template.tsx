@@ -7,7 +7,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { useOnClickOutside } from 'services/misc'
 
-import { BalanceDropdownContainer, CoinToggleButton } from './AccountSummary.model'
+import { BalanceDropdownContainer, CoinToggleButton } from './AccountSummary.styles'
 
 const BalanceDropdown = ({
   activeRewardsBalance,

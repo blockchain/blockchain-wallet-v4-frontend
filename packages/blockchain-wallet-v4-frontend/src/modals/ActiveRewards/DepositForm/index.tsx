@@ -8,7 +8,7 @@ import { useRemote } from 'hooks'
 
 import Loading from '../ActiveRewards.template.loading'
 import { amountToFiat, maxFiat } from '../conversions'
-import { FORM_NAME } from './DepositForm.model'
+import { FORM_NAME } from './DepositForm.constants'
 import { getActions, getData, getRemote } from './DepositForm.selectors'
 import Success from './DepositForm.template.success'
 import { DataType, PropsType, RemoteType } from './DepositForm.types'
@@ -61,18 +61,20 @@ const DepositForm = ({ coin }: PropsType) => {
     activeRewardsRates,
     depositFee,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
+    isActiveRewardsWithdrawalEnabled,
     payment,
     rates
   }: RemoteType = data
 
   const { coinfig } = window.coins[coin]
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
-  const depositAmount = (values && values.depositAmount) || 0
+  const depositAmount = (values && values.depositAmount) || '0'
   const isCustodial =
     values && values?.earnDepositAccount && values.earnDepositAccount.type === 'CUSTODIAL'
   const maxDepositFiat = maxFiat(earnDepositLimits.maxFiat, walletCurrency)
   const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
-  const depositAmountFiat: number = amountToFiat(true, depositAmount, coin, walletCurrency, rates)
+  const depositAmountFiat = amountToFiat({ amount: depositAmount, coin, rates, walletCurrency })
+
   const depositAmountError =
     typeof formErrors.depositAmount === 'string' && formErrors.depositAmount
   const isErc20 = !!coinfig.type.erc20Address
@@ -175,6 +177,7 @@ const DepositForm = ({ coin }: PropsType) => {
       handleMaxAmountClicked={handleMaxAmountClicked}
       handleMinAmountClicked={handleMinAmountClicked}
       insufficientEth={insufficientEth}
+      isActiveRewardsWithdrawalEnabled={isActiveRewardsWithdrawalEnabled}
       isCustodial={isCustodial}
       isEDDRequired={isEDDRequired}
       isErc20={isErc20}

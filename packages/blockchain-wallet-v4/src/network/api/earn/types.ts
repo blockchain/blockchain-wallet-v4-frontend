@@ -12,6 +12,7 @@ export type EarnAccountBalanceType = {
 
 export type EarnBalanceType = {
   balance: string
+  earningBalance: string
   fiatAmount: string | null
   locked: string
   pendingDeposit: string

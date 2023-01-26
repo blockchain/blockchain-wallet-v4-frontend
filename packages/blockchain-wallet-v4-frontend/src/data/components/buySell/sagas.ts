@@ -1449,7 +1449,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.fetchBuyQuote>) {
+  const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.startPollBuyQuote>) {
     while (true) {
       try {
         const { amount, pair, paymentMethod, paymentMethodId } = payload
@@ -1473,8 +1473,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
         yield put(
           A.fetchBuyQuoteSuccess({
+            amount,
             fee: quote.feeDetails.fee.toString(),
             pair,
+            paymentMethod,
+            paymentMethodId,
             quote,
             rate: parseInt(quote.price),
             refreshConfig

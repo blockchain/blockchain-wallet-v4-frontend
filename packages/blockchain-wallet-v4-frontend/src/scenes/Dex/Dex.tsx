@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { actions } from 'data'
-import { notReachable } from 'utils/notReachable'
+import { notReachable } from 'utils/helpers'
 
 import { PageLoading } from './components'
 import { useSceneResolver } from './hooks'

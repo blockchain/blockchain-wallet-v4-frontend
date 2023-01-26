@@ -3,7 +3,7 @@ import { Flex, SemanticColors, Text } from '@blockchain-com/constellation'
 import type { BigNumber } from 'bignumber.js'
 
 import type { DexToken } from '@core/network/api/dex'
-import { notReachable } from 'utils/notReachable'
+import { notReachable } from 'utils/helpers'
 
 import { VerificationCheckmark } from '../VerificationCheckmark'
 

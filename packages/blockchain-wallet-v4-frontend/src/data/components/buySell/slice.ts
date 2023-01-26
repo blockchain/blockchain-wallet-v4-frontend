@@ -214,15 +214,6 @@ const buySellSlice = createSlice({
     fetchBalanceSuccess: (state, action: PayloadAction<BSBalancesType>) => {
       state.balances = Remote.Success(action.payload)
     },
-    fetchBuyQuote: (
-      state,
-      action: PayloadAction<{
-        amount: string
-        pair: BSPairsType
-        paymentMethod: BSPaymentTypes
-        paymentMethodId?: BSCardType['id']
-      }>
-    ) => {},
     fetchBuyQuoteFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.buyQuote = Remote.Failure(action.payload)
     },

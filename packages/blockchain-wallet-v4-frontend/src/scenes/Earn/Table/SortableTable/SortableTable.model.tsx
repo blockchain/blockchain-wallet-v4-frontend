@@ -1,24 +1,7 @@
-import {
-  PaletteColors,
-  TableContainer as Table,
-  TextCellProps
-} from '@blockchain-com/constellation'
+import { TextCellProps } from '@blockchain-com/constellation'
 import { Row as ReactTableRowType } from '@tanstack/react-table'
-import styled from 'styled-components'
 
 import { RowType } from './SortableTable.types'
-
-export const TableContainer = styled(Table)`
-  width: 100%;
-  border-color: ${PaletteColors['grey-000']} !important;
-
-  & > thead > tr {
-    background-color: ${PaletteColors['grey-000']} !important;
-  }
-`
-export const ButtonContainer = styled.div`
-  min-width: 76px;
-`
 
 const compareCells = ({ value: valueA }: TextCellProps, { value: valueB }: TextCellProps) => {
   if (typeof valueA === 'string' && typeof valueB === 'string') {

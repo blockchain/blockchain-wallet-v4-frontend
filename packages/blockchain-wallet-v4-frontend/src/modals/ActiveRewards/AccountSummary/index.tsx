@@ -4,12 +4,11 @@ import { includes } from 'ramda'
 
 import Currencies from '@core/exchange/currencies'
 import DataError from 'components/DataError'
-import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
 import Loading from '../ActiveRewards.template.loading'
-import { getData, getRemote } from './AccountSummary.selectors'
+import { getActions, getData, getRemote } from './AccountSummary.selectors'
 import AccountSummary from './AccountSummary.template.success'
 import Unsupported from './AccountSummary.template.unsupported'
 import {
@@ -30,24 +29,23 @@ const AccountSummaryContainer = (props: PropsType) => {
   const { totalBondingDeposits, walletCurrency }: DataType = useSelector(getData)
   const { data, error, isLoading, isNotAsked } = useRemote(getRemote)
   const dispatch = useDispatch()
+  const { analyticsActions, earnActions, interestUploadActions } = getActions(dispatch)
   const unsupportedCurrencies = [Currencies.TWD.code, Currencies.CLP.code]
   const isFiatCurrencySupported = !includes(walletCurrency, unsupportedCurrencies)
 
   useEffect(() => {
-    dispatch(actions.components.interest.fetchActiveRewardsLimits())
-    dispatch(actions.components.interest.fetchPendingActiveRewardsTransactions({ coin }))
+    earnActions.fetchActiveRewardsLimits()
+    earnActions.fetchPendingActiveRewardsTransactions({ coin })
   }, [])
 
   useEffect(() => {
     if (isFiatCurrencySupported) {
-      dispatch(
-        actions.analytics.trackEvent({
-          key: Analytics.WALLET_STAKING_DETAIL_VIEWED,
-          properties: {
-            currency: coin
-          }
-        })
-      )
+      analyticsActions.trackEvent({
+        key: Analytics.WALLET_STAKING_DETAIL_VIEWED,
+        properties: {
+          currency: coin
+        }
+      })
     }
   }, [coin, isFiatCurrencySupported])
 
@@ -65,23 +63,21 @@ const AccountSummaryContainer = (props: PropsType) => {
   }, [data?.pendingTransactions])
 
   const handleDepositClick = () => {
-    dispatch(
-      actions.analytics.trackEvent({
-        key: Analytics.WALLET_STAKING_DETAIL_DEPOSIT_CLICKED,
-        properties: {
-          currency: coin
-        }
-      })
-    )
-    dispatch(actions.components.interest.showActiveRewardsModal({ coin, step: 'DEPOSIT' }))
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_STAKING_DETAIL_DEPOSIT_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
+    earnActions.showActiveRewardsModal({ coin, step: 'DEPOSIT' })
   }
 
   const handleEDDSubmitInfo = () => {
-    dispatch(actions.components.interestUploadDocument.showModal({ origin: 'EarnPage' }))
+    interestUploadActions.showModal({ origin: 'EarnPage' })
   }
 
   const handleRefresh = () => {
-    dispatch(actions.components.interest.showActiveRewardsModal({ coin, step: 'ACCOUNT_SUMMARY' }))
+    earnActions.showActiveRewardsModal({ coin, step: 'ACCOUNT_SUMMARY' })
   }
 
   const handleTransactionsToggled = () => {
@@ -96,6 +92,10 @@ const AccountSummaryContainer = (props: PropsType) => {
     setIsBalanceDropdownToggled(!isBalanceDropdownToggled)
   }
 
+  const handleWithdrawal = () => {
+    earnActions.showActiveRewardsModal({ coin, step: 'WITHDRAWAL' })
+  }
+
   if (error) return <DataError onClick={handleRefresh} />
 
   if (!data || isLoading || isNotAsked) return <Loading />
@@ -106,6 +106,7 @@ const AccountSummaryContainer = (props: PropsType) => {
     activeRewardsRates,
     currentPrice,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
+    isActiveRewardsWithdrawalEnabled,
     pendingTransactions,
     priceChange
   }: RemoteType = data
@@ -158,6 +159,8 @@ const AccountSummaryContainer = (props: PropsType) => {
       handleDepositClick={handleDepositClick}
       handleEDDSubmitInfo={handleEDDSubmitInfo}
       handleTransactionsToggled={handleTransactionsToggled}
+      handleWithdrawal={handleWithdrawal}
+      isActiveRewardsWithdrawalEnabled={isActiveRewardsWithdrawalEnabled}
       isBalanceDropdownToggled={isBalanceDropdownToggled}
       isCoinDisplayed={isCoinDisplayed}
       isDepositEnabled={isDepositEnabled}

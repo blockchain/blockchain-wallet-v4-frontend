@@ -63,7 +63,14 @@ const Actions = ({
         data-e2e='swapButton'
         height='42px'
         nature='empty-secondary'
-        onClick={() => swapActions.showModal({ origin: 'PriceChart' })}
+        onClick={() => {
+          analyticsActions.trackEvent({
+            key: Analytics.PRICE_GRAPH_SWAP_CLICKED,
+            properties: {}
+          })
+
+          swapActions.showModal({ origin: 'PriceChart' })
+        }}
       >
         <Text color='blue600' size='16px' lineHeight='24px' weight={600}>
           <FormattedMessage

@@ -13,7 +13,7 @@ import {
   MobilePaymentType
 } from '@core/types'
 import { Link, TextGroup } from 'blockchain-info-components'
-import { getBaseCurrency, getCounterCurrency, getOrderType } from 'data/components/buySell/model'
+import { getCounterCurrency } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankTransferAccountType } from 'data/types'
 
@@ -146,22 +146,16 @@ export const BuyOrSell = (props: {
   )
 }
 
-export const getOrderDestination = (order: BSOrderType) => {
-  const orderType = getOrderType(order)
-  const baseCurrency = getBaseCurrency(order)
-  const counterCurrency = getCounterCurrency(order)
-
-  return orderType === 'BUY' ? `${baseCurrency} Trading Account` : `${counterCurrency} Account`
-}
-
 export const getPaymentMethod = ({
   bankAccount,
+  fiatCode,
   mobilePaymentMethod,
-  order
+  paymentType
 }: {
   bankAccount: BankTransferAccountType
+  fiatCode: string
   mobilePaymentMethod?: MobilePaymentType
-  order: BSOrderType
+  paymentType: BSPaymentTypes | undefined
 }) => {
   if (mobilePaymentMethod === MobilePaymentType.APPLE_PAY) {
     return <FormattedMessage id='buttons.apple_pay' defaultMessage='Apple Pay' />
@@ -171,30 +165,13 @@ export const getPaymentMethod = ({
     return <FormattedMessage id='buttons.google_pay' defaultMessage='Google Pay' />
   }
 
-  const baseCurrency = getBaseCurrency(order)
-  const counterCurrency = getCounterCurrency(order)
-  const orderType = getOrderType(order)
-
-  switch (order.paymentType) {
+  switch (paymentType) {
     case BSPaymentTypes.PAYMENT_CARD:
       return (
         <FormattedMessage id='modals.simplebuy.confirm.payment_card' defaultMessage='Credit Card' />
       )
     case BSPaymentTypes.FUNDS:
-      if (orderType === 'BUY') {
-        return window.coins[counterCurrency]?.coinfig.name ?? counterCurrency
-      }
-      const coinName = window.coins[baseCurrency]?.coinfig.name ?? baseCurrency
-
-      return (
-        <FormattedMessage
-          id='modals.simplebuy.confirm.funds_trading_account'
-          defaultMessage='{coin} Trading Account'
-          values={{
-            coin: coinName
-          }}
-        />
-      )
+      return window.coins[fiatCode]?.coinfig.name ?? fiatCode
 
     case BSPaymentTypes.BANK_TRANSFER:
       const effectiveBankAccount = (bankAccount && bankAccount.details) || defaultBankInfo
@@ -222,13 +199,13 @@ export const displayFiat = (order: BSOrderType, amt: string) => {
 export const getPaymentMethodDetails = ({
   bankAccount,
   cardDetails,
-  order
+  paymentType
 }: {
   bankAccount: BankTransferAccountType
   cardDetails: BSCardType | null
-  order: BSOrderType
+  paymentType: BSPaymentTypes | undefined
 }) => {
-  switch (order.paymentType) {
+  switch (paymentType) {
     case BSPaymentTypes.PAYMENT_CARD:
       return `${cardDetails?.card?.type || ''} ***${cardDetails?.card?.number || ''}`
     case BSPaymentTypes.BANK_TRANSFER:

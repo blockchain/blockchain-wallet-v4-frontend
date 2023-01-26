@@ -57,6 +57,7 @@
         "googlePayPaymentMethod": true,
         "institutionalPortal": true,
         "isActiveRewardsEnabled": true,
+        "isActiveRewardsWithdrawalEnabled": false,
         "isReferralEnabled": true,
         "isReferralRetrievalEnabled": true,
         "isStakingEnabled": false,

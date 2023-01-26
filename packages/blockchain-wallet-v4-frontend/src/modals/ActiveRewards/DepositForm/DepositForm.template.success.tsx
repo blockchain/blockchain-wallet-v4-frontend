@@ -22,6 +22,7 @@ import { required } from 'services/forms'
 import { debounce } from 'utils/helpers'
 
 import { EDDMessageContainer } from '../ActiveRewards.model'
+import { FORM_NAME } from './DepositForm.constants'
 import {
   AgreementContainer,
   AmountFieldContainer,
@@ -31,7 +32,6 @@ import {
   CustomForm,
   ErrorText,
   FiatMaxContainer,
-  FORM_NAME,
   GreyBlueCartridge,
   InfoText,
   NetworkFeeContainer,
@@ -42,7 +42,7 @@ import {
   ToggleCoinText,
   ToggleFiatText,
   TopText
-} from './DepositForm.model'
+} from './DepositForm.styles'
 import { SuccessPropsType } from './DepositForm.types'
 import { maxDepositAmount, minDepositAmount } from './DepositForm.validation'
 
@@ -64,6 +64,7 @@ const DepositForm: React.FC<
   handleMinAmountClicked,
   insufficientEth,
   invalid,
+  isActiveRewardsWithdrawalEnabled,
   isCustodial,
   isEDDRequired,
   isErc20,
@@ -390,21 +391,23 @@ const DepositForm: React.FC<
               </AgreementContainer>
             </Field>
           </CheckboxContainer>
-          <CheckboxContainer>
-            <Field component={CheckBox} hideErrors name='agreement2' validate={[required]}>
-              <AgreementContainer>
-                <Text color={SemanticColors.title} variant='paragraph1'>
-                  <FormattedMessage
-                    id='modals.active-rewards.deposit.agreement3'
-                    defaultMessage="I understand that withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled in approximately mid-January 2023. Until then, {coin} assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
-                    values={{
-                      coin
-                    }}
-                  />
-                </Text>
-              </AgreementContainer>
-            </Field>
-          </CheckboxContainer>
+          {!isActiveRewardsWithdrawalEnabled && (
+            <CheckboxContainer>
+              <Field component={CheckBox} hideErrors name='agreement2' validate={[required]}>
+                <AgreementContainer>
+                  <Text color={SemanticColors.title} variant='paragraph1'>
+                    <FormattedMessage
+                      id='modals.active-rewards.deposit.agreement3'
+                      defaultMessage="I understand that withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled approximately end of January 2023. Until then, {coin} assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
+                      values={{
+                        coin
+                      }}
+                    />
+                  </Text>
+                </AgreementContainer>
+              </Field>
+            </CheckboxContainer>
+          )}
         </Flex>
         <ButtonContainer>
           <Button

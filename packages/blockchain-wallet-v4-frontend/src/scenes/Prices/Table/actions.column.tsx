@@ -69,6 +69,10 @@ export const getActionsColumn = (
               height='32px'
               nature='empty-blue'
               onClick={() => {
+                analyticsActions.trackEvent({
+                  key: Analytics.PRICES_PAGE_SWAP_CLICKED,
+                  properties: {}
+                })
                 formActions.destroy('initSwap')
                 modalActions.showModal(ModalName.SWAP_MODAL, {
                   origin: 'Prices'
