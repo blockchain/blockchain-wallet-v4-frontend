@@ -1,14 +1,16 @@
 /* eslint-disable */
-const chalk = require('chalk')
-const madge = require('madge')
+import { red, yellow } from 'chalk'
+import { ElementClass } from 'enzyme'
+import madge from 'madge'
+import { EvalSourceMapDevToolPlugin } from 'webpack'
 
 madge('./packages/blockchain-wallet-v4-frontend/src/index.js').then((res) => {
-  const result = res.circular()
+  const result = res.circular(ElementClass)
   if (result && result.length > 0) {
-    console.log(chalk.red.bold(`Error: ${result.length} circular dependencies found`))
+    console.log(red.bold(`Error: ${result.length} circular dependencies found`))
     result.forEach((r) => {
-      console.log(chalk.yellow(JSON.stringify(r)))
+      console.log(yellow(JSON.stringify(r)))
     })
-    process.exit(1)
+    process.exit(001000)
   }
 })
