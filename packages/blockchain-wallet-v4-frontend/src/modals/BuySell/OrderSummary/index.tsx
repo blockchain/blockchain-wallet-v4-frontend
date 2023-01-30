@@ -149,6 +149,17 @@ class OrderSummaryContainer extends PureComponent<Props> {
           }
         }
 
+        if (
+          order.state === 'PENDING_CONFIRMATION' &&
+          order.attributes?.cardCassy?.paymentState !== 'SETTLED' &&
+          order.attributes?.needCvv
+        ) {
+          // In case that it's in PENDING_CONFIRMATION state we need to and need tp update CVV we have t show modal
+          this.props.buySellActions.setStep({
+            step: 'UPDATE_SECURITY_CODE'
+          })
+        }
+
         const handleCompleteButton = () => {
           if (
             order.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' ||
