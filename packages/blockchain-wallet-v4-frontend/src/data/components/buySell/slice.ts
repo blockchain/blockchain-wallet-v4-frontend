@@ -44,6 +44,7 @@ import {
   StepActionsPayload,
   SwapAccountType
 } from 'data/types'
+import { NabuError } from 'services/errors'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
 import { BSCardSuccessRateType, BuySellState } from './types'
@@ -166,8 +167,8 @@ const buySellSlice = createSlice({
       state.order = Remote.Success(action.payload)
       state.pendingOrder = action.payload
     },
-    cvvStatusFailure: (state) => {
-      state.cvvStatus = Remote.Failure('The code entered is either invalid or expired. Try Again.')
+    cvvStatusFailure: (state, action: PayloadAction<string | NabuError>) => {
+      state.cvvStatus = Remote.Failure(action.payload)
     },
     cvvStatusLoading: (state) => {
       state.cvvStatus = Remote.Loading

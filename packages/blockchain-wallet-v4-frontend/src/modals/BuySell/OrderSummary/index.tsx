@@ -92,7 +92,6 @@ class OrderSummaryContainer extends PureComponent<Props> {
       NotAsked: () => <Loading />,
       Success: (val) => {
         const { interestEligible, interestRates, order } = val
-        const { state } = order
         const currencySymbol = getSymbol(getCounterCurrency(order))
         const [recurringBuy] = val.recurringBuyList.filter((rb) => {
           return rb.id === order.recurringBuyId
@@ -179,7 +178,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
           }
         }
 
-        return state === 'FAILED' || state === 'CANCELED' || !order.paymentType ? (
+        return order.state === 'FAILED' || order.state === 'CANCELED' || !order.paymentType ? (
           <BaseError
             code='INTERNAL_SERVER_ERROR'
             handleRetry={this.handleErrorAction}
@@ -203,7 +202,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
             interestEligible={interestEligible}
             interestRates={interestRates}
             lockTime={val.lockTime}
-            orderState={state}
+            orderState={order.state}
             orderType={getOrderType(order) as OrderType}
             outputCurrency={order.outputCurrency}
             paymentState={order.attributes?.everypay?.paymentState || null}

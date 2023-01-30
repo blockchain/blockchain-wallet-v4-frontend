@@ -2309,8 +2309,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.cvvStatusLoading())
       yield call(api.updateCardCvv, payload)
       yield put(A.cvvStatusSuccess())
-    } catch (e) {
-      yield put(A.cvvStatusFailure())
+    } catch (error) {
+      yield put(A.cvvStatusFailure(error))
     }
   }
 
