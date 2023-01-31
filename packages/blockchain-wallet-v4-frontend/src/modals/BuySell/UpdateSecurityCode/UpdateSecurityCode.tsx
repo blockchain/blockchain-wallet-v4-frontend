@@ -18,15 +18,18 @@ import {
 } from '@blockchain-com/constellation'
 
 import { Card } from 'components/Card'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import {
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
   FlyoutHeader
 } from 'components/Flyout/Layout'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { StandardRow } from 'components/Rows'
 import { actions, selectors } from 'data'
 import { useRemote } from 'hooks'
+import { isNabuError } from 'services/errors'
 
 import { UpdateSecurityCodeComponent } from './types'
 
@@ -35,6 +38,7 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
   const [cvv, setCvv] = useState<string | null>(null)
   const { data: order } = useRemote(selectors.components.buySell.getBSOrder)
   const {
+    error,
     hasData: cvvHasData,
     hasError: cvvHasError,
     isLoading: cvvLoading
@@ -43,9 +47,13 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
 
   const updateCvv = () => {
     const paymentId = order?.attributes?.paymentId || order?.depositPaymentId
-    if (cvv && paymentId) {
+    if (cvv && paymentId && !cvvHasData) {
       dispatch(actions.components.buySell.updateCardCvvAndPollOrder({ cvv, paymentId }))
     }
+  }
+
+  const errorCallback = () => {
+    backToEnterAmount()
   }
 
   useEffect(() => {
@@ -53,6 +61,20 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
       dispatch(actions.components.buySell.cvvStatusReset())
     }
   }, [])
+
+  if (error) {
+    if (isNabuError(error)) {
+      return <GenericNabuErrorFlyout error={error} onDismiss={errorCallback} />
+    }
+
+    return (
+      <FlyoutOopsError
+        action='retry'
+        data-e2e='sbUpdateSecurityCodeSectionAgain'
+        handler={errorCallback}
+      />
+    )
+  }
 
   if (!method) {
     backToEnterAmount()
@@ -92,7 +114,7 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
               <Text as='p' variant='body1' textAlign='center' color={SemanticColors.overlay}>
                 <FormattedMessage
                   id='copy.re_enter_security_code'
-                  defaultMessage='Please re-enter the 3 digit CVV code associated with the card below'
+                  defaultMessage='Please re-enter the CVV code associated with the card below'
                 />
               </Text>
             </Padding>
@@ -116,16 +138,6 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
                     )
                   }
                   onChange={(e) => setCvv(e.currentTarget.value)}
-                  helperText={
-                    cvvHasError ? (
-                      <FormattedMessage
-                        id='copy.invalid_cvv_code'
-                        defaultMessage='The code entered is either invalid or expired. Try Again.'
-                      />
-                    ) : (
-                      <></>
-                    )
-                  }
                 />
               </div>
             </Padding>
@@ -151,7 +163,9 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
           as='button'
           disabled={!cvv || cvv.length < 3}
           icon={
-            cvvLoading && <SpinningLoader borderWidth='xsmall' size='small' variant='monotone' />
+            (cvvLoading || cvvHasData) && (
+              <SpinningLoader borderWidth='xsmall' size='small' variant='monotone' />
+            )
           }
           size='default'
           state='initial'

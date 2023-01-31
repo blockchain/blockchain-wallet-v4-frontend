@@ -602,8 +602,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const asyncOrderConfirmCheck = function* (orderId) {
     try {
-      // When isAsync is true on the confirm request this call can return the "ux" nabu error but the request is still
-      // techniclly not an http error (ex. 400, 500) and so we need to catch it and manually return the order info "dataFields"
+      // When isAsync is true on the confirm request this call can return the "ux" NABU error but the request is still
+      // technically not an http error (ex. 400, 500) and so we need to catch it and manually return the order info "dataFields"
       const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
       if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
         return order
@@ -631,12 +631,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
   }
 
-  const orderConfirmCheck = function* (orderId) {
-    const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
-    if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
-      return order
-    }
+  const orderConfirmCheck = function* (orderId: string) {
+    try {
+      const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
 
+      if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
+        return order
+      }
+    } catch (e) {
+      return {
+        error: e,
+        type: BS_ERROR.ORDER_VERIFICATION_UNEXPECTED_ERROR
+      }
+    }
     throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
   }
 
@@ -649,6 +656,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   ) {
     const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS, orderConfirmCheck, payload.id)
     yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
+    if (confirmedOrder.type === BS_ERROR.ORDER_VERIFICATION_UNEXPECTED_ERROR) {
+      throw confirmedOrder.error
+    }
 
     if (confirmedOrder.paymentError) {
       throw new Error(confirmedOrder.paymentError)
@@ -1012,15 +1023,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
 
         try {
-          // Inside the polling, if the order is finished, we set the order success and set the step to ORDER_SUMMARY
           yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder), CARD_ORDER_POLLING)
         } catch (e) {
-          // Exhausted the retry attempts, so just show the order summary with the order we have
-          yield put(A.confirmOrderSuccess(confirmedOrder))
+          if (e === BS_ERROR.ORDER_VERIFICATION_TIMED_OUT) {
+            yield put(A.confirmOrderSuccess(confirmedOrder))
 
-          yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
+            yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
-          yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+            yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+          } else {
+            throw e
+          }
         }
       } else if (
         confirmedOrder.attributes?.everypay ||
@@ -1983,6 +1996,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } else {
         yield put(A.createOrderFailure(ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
       }
+      // return back to ORDER_SUMMARY and show the error
+      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     }
   }
 
@@ -2309,8 +2324,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.cvvStatusLoading())
       yield call(api.updateCardCvv, payload)
       yield put(A.cvvStatusSuccess())
-    } catch (e) {
-      yield put(A.cvvStatusFailure())
+    } catch (error) {
+      const errorPayload = isNabuError(error) ? error : ORDER_ERROR_CODE.ORDER_CVV_UPDATE_ERROR
+      yield put(A.cvvStatusFailure(errorPayload))
     }
   }
 
