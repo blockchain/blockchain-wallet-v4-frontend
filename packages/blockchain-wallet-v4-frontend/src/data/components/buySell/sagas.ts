@@ -1022,14 +1022,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           return
         }
 
-        yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder), CARD_ORDER_POLLING)
+        try {
+          yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder), CARD_ORDER_POLLING)
+        } catch (e) {
+          if (e === BS_ERROR.ORDER_VERIFICATION_TIMED_OUT) {
+            yield put(A.confirmOrderSuccess(confirmedOrder))
 
-        // Exhausted the retry attempts, so just show the order summary with the order we have
-        yield put(A.confirmOrderSuccess(confirmedOrder))
+            yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
-        yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
-
-        yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+            yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+          } else {
+            throw e
+          }
+        }
       } else if (
         confirmedOrder.attributes?.everypay ||
         (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
