@@ -72,7 +72,6 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
         action='retry'
         data-e2e='sbUpdateSecurityCodeSectionAgain'
         handler={errorCallback}
-        errorMessage={error}
       />
     )
   }

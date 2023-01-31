@@ -602,8 +602,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const asyncOrderConfirmCheck = function* (orderId) {
     try {
-      // When isAsync is true on the confirm request this call can return the "ux" nabu error but the request is still
-      // techniclly not an http error (ex. 400, 500) and so we need to catch it and manually return the order info "dataFields"
+      // When isAsync is true on the confirm request this call can return the "ux" NABU error but the request is still
+      // technically not an http error (ex. 400, 500) and so we need to catch it and manually return the order info "dataFields"
       const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
       if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
         return order
@@ -632,12 +632,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const orderConfirmCheck = function* (orderId: string) {
-    const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
+    try {
+      const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
 
-    if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
-      return order
+      if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
+        return order
+      }
+    } catch (e) {
+      return {
+        error: e,
+        type: BS_ERROR.ORDER_VERIFICATION_UNEXPECTED_ERROR
+      }
     }
-
     throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
   }
 
@@ -650,6 +656,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   ) {
     const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS, orderConfirmCheck, payload.id)
     yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
+
+    if (confirmedOrder.type === BS_ERROR.ORDER_VERIFICATION_UNEXPECTED_ERROR) {
+      throw confirmedOrder.error
+    }
 
     if (confirmedOrder.paymentError) {
       throw new Error(confirmedOrder.paymentError)
@@ -2310,7 +2320,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield call(api.updateCardCvv, payload)
       yield put(A.cvvStatusSuccess())
     } catch (error) {
-      yield put(A.cvvStatusFailure(error))
+      const errorPayload = isNabuError(error) ? error : ORDER_ERROR_CODE.ORDER_CVV_UPDATE_ERROR
+      yield put(A.cvvStatusFailure(errorPayload))
     }
   }
 
