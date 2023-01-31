@@ -632,21 +632,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const orderConfirmCheck = function* (orderId: string) {
-    // we have to surround this with try/catch since we use interceptor and if there is a error in response
-    // we have to catch it up
-    try {
-      const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
+    const order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
 
-      if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
-        return order
-      }
-    } catch (e) {
-      if (isNabuError(e)) {
-        yield put(A.confirmOrderFailure(e))
-      } else {
-        yield put(A.confirmOrderFailure(errorHandlerCode(e)))
-      }
-      return false
+    if (order.state === 'FINISHED' || order.state === 'FAILED' || order.state === 'CANCELED') {
+      return order
     }
 
     throw new Error(BS_ERROR.ORDER_VERIFICATION_TIMED_OUT)
@@ -661,12 +650,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   ) {
     const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS, orderConfirmCheck, payload.id)
     yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
-
-    if (!confirmedOrder) {
-      // error occurred in orderConfirmCheck and we already show it
-      // so here we just return
-      return
-    }
 
     if (confirmedOrder.paymentError) {
       throw new Error(confirmedOrder.paymentError)
@@ -1029,17 +1012,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           return
         }
 
-        try {
-          // Inside the polling, if the order is finished, we set the order success and set the step to ORDER_SUMMARY
-          yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder), CARD_ORDER_POLLING)
-        } catch (e) {
-          // Exhausted the retry attempts, so just show the order summary with the order we have
-          yield put(A.confirmOrderSuccess(confirmedOrder))
+        yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder), CARD_ORDER_POLLING)
 
-          yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
+        // Exhausted the retry attempts, so just show the order summary with the order we have
+        yield put(A.confirmOrderSuccess(confirmedOrder))
 
-          yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
-        }
+        yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
+
+        yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       } else if (
         confirmedOrder.attributes?.everypay ||
         (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
@@ -2001,6 +1981,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } else {
         yield put(A.createOrderFailure(ORDER_ERROR_CODE.ORDER_FAILED_AFTER_POLL))
       }
+      // return back to ORDER_SUMMARY and show the error
+      yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
     }
   }
 
