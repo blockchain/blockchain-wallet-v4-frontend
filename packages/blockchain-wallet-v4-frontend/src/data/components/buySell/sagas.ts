@@ -1025,7 +1025,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         try {
           yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder), CARD_ORDER_POLLING)
         } catch (e) {
-          if (e === BS_ERROR.ORDER_VERIFICATION_TIMED_OUT) {
+          const error = errorHandler(e)
+          if (error === BS_ERROR.ORDER_VERIFICATION_TIMED_OUT) {
             yield put(A.confirmOrderSuccess(confirmedOrder))
 
             yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
@@ -1983,6 +1984,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           step !== '3DS_HANDLER_CHECKOUTDOTCOM'
         ) {
           yield cancel()
+        }
+
+        // In case that transaction is pending and waiting for 3DS response we do not need to poll to the end of poll cycle
+        if (order.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE') {
+          break
         }
         yield delay(2000)
       }

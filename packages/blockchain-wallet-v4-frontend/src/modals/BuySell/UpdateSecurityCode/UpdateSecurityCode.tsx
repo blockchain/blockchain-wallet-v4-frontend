@@ -31,6 +31,7 @@ import { actions, selectors } from 'data'
 import { useRemote } from 'hooks'
 import { isNabuError } from 'services/errors'
 
+import Loading from '../template.loading'
 import { UpdateSecurityCodeComponent } from './types'
 
 const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) => {
@@ -79,6 +80,10 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
   if (!method) {
     backToEnterAmount()
     return null
+  }
+
+  if (cvvHasData) {
+    return <Loading />
   }
 
   return (
@@ -130,13 +135,7 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
                   autoComplete='cc-csc'
                   aria-label='Card Security Code'
                   aria-placeholder='CVC'
-                  postfix={
-                    cvvHasData ? (
-                      <IconCheckCircle color={SemanticColors.success} size='medium' />
-                    ) : (
-                      <IconLockClosed color={SemanticColors.muted} size='medium' />
-                    )
-                  }
+                  postfix={<IconLockClosed color={SemanticColors.muted} size='medium' />}
                   onChange={(e) => setCvv(e.currentTarget.value)}
                 />
               </div>
@@ -163,9 +162,7 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
           as='button'
           disabled={!cvv || cvv.length < 3}
           icon={
-            (cvvLoading || cvvHasData) && (
-              <SpinningLoader borderWidth='xsmall' size='small' variant='monotone' />
-            )
+            cvvLoading && <SpinningLoader borderWidth='xsmall' size='small' variant='monotone' />
           }
           size='default'
           state='initial'
