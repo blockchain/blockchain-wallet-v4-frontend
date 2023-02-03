@@ -48,12 +48,12 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
   handleEDDSubmitInfo,
   handleTransactionsToggled,
   handleWithdrawal,
-  isActiveRewardsWithdrawalEnabled,
   isBalanceDropdownToggled,
   isCoinDisplayed,
   isDepositEnabled,
   isEDDRequired,
   isTransactionsToggled,
+  isWithdrawalEnabled,
   pendingTransactions,
   percentChange,
   priceChangeColor,
@@ -366,7 +366,7 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
     </Top>
     {!showSupply && (
       <Bottom>
-        {!isActiveRewardsWithdrawalEnabled && (
+        {!isWithdrawalEnabled && (
           <WarningContainer>
             <Text color={SemanticColors.title} variant='paragraph2'>
               <FormattedMessage defaultMessage='Important' id='copy.important' />
@@ -391,7 +391,7 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
             <FormattedMessage id='buttons.add-balance' defaultMessage='Add balance' />
           </Text>
         </Button>
-        {isActiveRewardsWithdrawalEnabled && (
+        {isWithdrawalEnabled && (
           <ConstellationButton
             onClick={handleWithdrawal}
             size='default'
