@@ -24,8 +24,7 @@ import {
   BankTransferAccountType,
   BrokerageModalOriginType,
   ModalName,
-  RecurringBuyPeriods,
-  UserDataType
+  RecurringBuyPeriods
 } from 'data/types'
 import { useDefer3rdPartyScript, useSardineContext } from 'hooks'
 import { isNabuError } from 'services/errors'
@@ -192,6 +191,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
       key: Analytics.BUY_CHECKOUT_SCREEN_VIEWED,
       properties: {}
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -219,37 +219,24 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
       properties: {}
     })
 
-    const { bankAccounts, cards, isSddFlow, isUserSddVerified, sbBalances, userData } =
-      props.data.getOrElse({
-        isSddFlow: false,
-        userData: { tiers: { current: 0 } } as UserDataType
-      } as SuccessStateType)
+    const { bankAccounts, cards, isSddFlow, sbBalances } = props.data.getOrElse({
+      isSddFlow: false
+    } as SuccessStateType)
 
-    const userTier = userData?.tiers?.current
     const inputCurrency = props.order.inputCurrency as WalletFiatType
-    // check for SDD flow and direct to add card
-    if (isSddFlow && props.order.paymentType === BSPaymentTypes.PAYMENT_CARD) {
-      if (isUserSddVerified) {
-        // user has to have at least one active card
-        if (cards && cards.length > 0 && cards[0].state === 'ACTIVE') {
-          const card = cards[0]
-          return props.buySellActions.confirmOrder({
-            order: props.order,
-            paymentMethodId: card.id
-          })
-        }
-        return props.buySellActions.setStep({
-          step: 'DETERMINE_CARD_PROVIDER'
+
+    if (isSddFlow) {
+      // user has to have at least one active card
+      if (cards && cards.length > 0 && cards[0].state === 'ACTIVE') {
+        const card = cards[0]
+        return props.buySellActions.confirmOrder({
+          order: props.order,
+          paymentMethodId: card.id
         })
       }
-      return props.buySellActions.setStep({
-        step: 'KYC_REQUIRED'
-      })
-    }
 
-    if (userTier < 2) {
       return props.buySellActions.setStep({
-        step: 'KYC_REQUIRED'
+        step: 'DETERMINE_CARD_PROVIDER'
       })
     }
 

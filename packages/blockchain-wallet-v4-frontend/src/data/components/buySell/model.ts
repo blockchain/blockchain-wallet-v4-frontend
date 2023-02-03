@@ -40,8 +40,6 @@ export const CARD_ORDER_POLLING = {
 export const LIMIT = { max: '10000', min: '500' } as Limits
 export const LIMIT_FACTOR = 100 // we get 10000 from API
 
-export const SDD_TIER = 3
-
 export enum BS_ERROR {
   APPLE_PAY_INFO_NOT_FOUND = 'APPLE_PAY_INFO_NOT_FOUND',
   APPLE_PAY_SESSION_NOT_SUPPORTED = 'APPLE_PAY_SESSION_NOT_SUPPORTED',

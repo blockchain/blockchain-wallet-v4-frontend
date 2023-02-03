@@ -73,15 +73,16 @@ import {
   GOOGLE_PAY_MERCHANT_ID,
   isFiatCurrencySupported,
   ORDER_ERROR_CODE,
-  ORDER_POLLING,
-  SDD_TIER
+  ORDER_POLLING
 } from './model'
 import { createBuyQuoteLoopAndWaitForFirstResult } from './sagas/createBuyQuoteLoopAndWaitForFirstResult'
 import { updateCardCvvAndPollOrder } from './sagas/updateCardCvvAndPollOrder'
 import * as S from './selectors'
+import { getIsSddFlow } from './selectors/getIsSddFlow'
 import { actions as A } from './slice'
 import * as T from './types'
 import { getDirection, getEnterAmountStepType, getQuoteRefreshConfig, reversePair } from './utils'
+import * as SddFlow from './utils/sddFlow'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -1220,12 +1221,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield call(waitForUserData)
 
-      yield call(fetchSDDVerified)
-      const isUserTier2 = yield call(isTier2)
-      const sddVerified = S.isUserSddVerified(yield select()).getOrElse(false)
-      const loadCards = isUserTier2 || sddVerified
-
-      if (!loadCards) return yield put(A.fetchCardsSuccess([]))
       if (!payload) yield put(A.fetchCardsLoading())
 
       useNewPaymentProviders = (yield select(
@@ -1404,28 +1399,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         S.getFiatCurrency(yield select()) ||
         (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
-      const userSDDTierR = S.getUserSddEligibleTier(yield select())
-      if (!Remote.Success.is(userSDDTierR)) {
-        yield call(fetchSDDEligible)
-      }
       const state = yield select()
       const currentUserTier = selectors.modules.profile
         .getCurrentTier(state)
         .getOrFail('User has no tier')
-      const userSDDEligibleTier = S.getUserSddEligibleTier(state).getOrElse(1)
-      // only fetch non-eligible payment methods if user is not tier 2
-      const includeNonEligibleMethods = currentUserTier === 2
-      // if user is SDD tier 3 eligible, fetch limits for tier 3
-      // else let endpoint return default current tier limits for current tier of user
-      // double check if user is tier 2 and in case user is ignore this property
-      const includeTierLimits =
-        userSDDEligibleTier === SDD_TIER && currentUserTier !== 2 ? SDD_TIER : undefined
+
+      // Present all possible (but necessarily eligible) payment methods to SDD users
+      const includeEligibleOnlyPaymentMethods = currentUserTier === 2
 
       let paymentMethods = yield call(
         api.getBSPaymentMethods,
         payload || fallbackFiatCurrency,
-        includeNonEligibleMethods,
-        includeTierLimits
+        includeEligibleOnlyPaymentMethods
       )
 
       // 🚨👋 temporarily remove ACH from user payment methods if they are not t2
@@ -1679,37 +1664,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const pair = S.getBSPair(yield select())
     const swapAccount = S.getSwapAccount(yield select())
     if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
-    const isUserTier2 = yield call(isTier2)
 
-    if (!isUserTier2) {
-      switch (method.type) {
-        // https://blockc.slack.com/archives/GT1JZ1ZN2/p1596546978351100?thread_ts=1596541628.345800&cid=GT1JZ1ZN2
-        // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
-        // 👇--------------------------------------------------------
-        case BSPaymentTypes.BANK_ACCOUNT:
-        case BSPaymentTypes.USER_CARD:
-          return yield put(
-            A.setStep({
-              step: 'KYC_REQUIRED'
-            })
-          )
-        // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
-        // 👆--------------------------------------------------------
-        case BSPaymentTypes.PAYMENT_CARD:
-          // ADD THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
-          // 👇-----------------------------------------------------
-          // const methodType =
-          //   method.type === BSPaymentTypes.BANK_ACCOUNT ? BSPaymentTypes.FUNDS : method.type
-          // return yield put(A.createOrder(undefined, methodType))
-          // 👆------------------------------------------------------
-
-          return yield put(A.createOrder({ paymentType: method.type }))
-        default:
-          return
-      }
+    const isSddFlow = getIsSddFlow(yield select()).getOrElse(false)
+    const isAllowedPaymentType = SddFlow.isAllowedPaymentType(method, mobilePaymentMethod)
+    if (isSddFlow && !isAllowedPaymentType) {
+      return yield put(
+        A.setStep({
+          step: 'KYC_REQUIRED'
+        })
+      )
     }
 
-    // User is Tier 2
     switch (method.type) {
       case BSPaymentTypes.BANK_ACCOUNT:
         return yield put(

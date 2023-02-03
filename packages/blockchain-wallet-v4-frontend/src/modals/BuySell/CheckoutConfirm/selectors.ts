@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 
 import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
+import { getIsSddFlow } from 'data/components/buySell/selectors/getIsSddFlow'
 import { RootState } from 'data/rootReducer'
 
 import * as QuoteSummaryViewModel from './models/quoteSummaryViewModel'
@@ -17,12 +18,8 @@ export const getData = (state: RootState) => {
 
   const quoteSummaryViewModelR = selectQuoteSummaryViewModel(state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
-  const sddEligibleR = selectors.components.buySell.getSddEligible(state)
-  const userSDDTierR = selectors.components.buySell.getUserSddEligibleTier(state)
-  const isUserSddVerifiedR = selectors.components.buySell.isUserSddVerified(state)
   const cardsR = selectors.components.buySell.getBSCards(state)
-
-  const userDataR = selectors.modules.profile.getUserData(state)
+  const isSddFlowR = getIsSddFlow(state)
 
   const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
 
@@ -33,34 +30,26 @@ export const getData = (state: RootState) => {
       bankAccounts: ExtractSuccess<typeof bankAccountsR>,
       quoteSummaryViewModel: ExtractSuccess<typeof quoteSummaryViewModelR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
-      userData: ExtractSuccess<typeof userDataR>,
       withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>,
-      sddEligible: ExtractSuccess<typeof sddEligibleR>,
-      userSDDTier: ExtractSuccess<typeof userSDDTierR>,
-      isUserSddVerified: ExtractSuccess<typeof isUserSddVerifiedR>,
       cards: ExtractSuccess<typeof cardsR>,
-      order: ExtractSuccess<typeof orderR>
+      order: ExtractSuccess<typeof orderR>,
+      isSddFlow: ExtractSuccess<typeof isSddFlowR>
     ) => ({
       bankAccounts,
       cards,
-      isSddFlow: sddEligible.eligible || userSDDTier === 3,
-      isUserSddVerified,
+      isSddFlow,
       order,
       quoteSummaryViewModel,
       sbBalances,
-      userData,
       withdrawLockCheck
     })
   )(
     bankAccountsR,
     quoteSummaryViewModelR,
     sbBalancesR,
-    userDataR,
     withdrawLockCheckR,
-    sddEligibleR,
-    userSDDTierR,
-    isUserSddVerifiedR,
     cardsR,
-    orderR
+    orderR,
+    isSddFlowR
   )
 }
