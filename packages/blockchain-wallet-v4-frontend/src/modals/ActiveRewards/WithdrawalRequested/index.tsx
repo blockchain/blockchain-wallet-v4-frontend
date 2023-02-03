@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import { Button, IconCloseCircle, SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { CoinType } from '@core/types'
@@ -71,23 +70,6 @@ const WithdrawalRequested = ({ coin, handleClose }: OwnProps) => {
           variant='primary'
           width='full'
         />
-        <LinkContainer to='/earn/history'>
-          <Button
-            size='default'
-            state='initial'
-            text={
-              <Text color={SemanticColors.primary} variant='body2'>
-                <FormattedMessage
-                  id='modals.active-rewards.withdrawalrequested.historybutton'
-                  defaultMessage='See Transfer Details'
-                />
-              </Text>
-            }
-            type='button'
-            variant='minimal'
-            width='full'
-          />
-        </LinkContainer>
       </Bottom>
     </Wrapper>
   )

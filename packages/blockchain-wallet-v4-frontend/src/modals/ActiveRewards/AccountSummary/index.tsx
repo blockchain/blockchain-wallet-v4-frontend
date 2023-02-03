@@ -113,11 +113,12 @@ const AccountSummaryContainer = (props: PropsType) => {
 
   const isEDDRequired = eddNeeded && !eddSubmitted && !eddPassed
   const account = accountBalances && accountBalances[coin]
-  const accountBalanceBase = account && account.balance
+  const accountBalanceBase = account?.balance
   const activeRewardsBalanceBase = account && account.totalRewards
   const isDepositEnabled = activeRewardsEligible[coin]
     ? activeRewardsEligible[coin]?.eligible
     : false
+  const isWithdrawalEnabled = isActiveRewardsWithdrawalEnabled && account?.earningBalance !== '0'
   const { rate, triggerPrice } = activeRewardsRates[coin]
   const formattedTriggerPrice =
     triggerPrice &&
@@ -160,12 +161,12 @@ const AccountSummaryContainer = (props: PropsType) => {
       handleEDDSubmitInfo={handleEDDSubmitInfo}
       handleTransactionsToggled={handleTransactionsToggled}
       handleWithdrawal={handleWithdrawal}
-      isActiveRewardsWithdrawalEnabled={isActiveRewardsWithdrawalEnabled}
       isBalanceDropdownToggled={isBalanceDropdownToggled}
       isCoinDisplayed={isCoinDisplayed}
       isDepositEnabled={isDepositEnabled}
       isEDDRequired={isEDDRequired}
       isTransactionsToggled={isTransactionsToggled}
+      isWithdrawalEnabled={isWithdrawalEnabled}
       pendingTransactions={pendingTransactions}
       percentChange={percentChange}
       priceChangeColor={priceChangeColor}
