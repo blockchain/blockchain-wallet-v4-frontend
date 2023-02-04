@@ -1,7 +1,8 @@
 import { head, keys, lift, map, path, prop, toUpper } from 'ramda'
 
 import Remote from '../../../remote'
-import { getAddresses, getErc20Balance } from '../../data/eth/selectors'
+import { getCoinUnifiedBalance } from '../../data/coins/selectors'
+import { getAddresses } from '../../data/eth/selectors'
 import { getAccounts } from '../../kvStore/eth/selectors'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
@@ -57,5 +58,5 @@ export const getErc20AccountBalances = (state, token) => {
       }
     ]
   }
-  return lift(digest)(getAddresses(state), getErc20Balance(state, token))
+  return lift(digest)(getAddresses(state), getCoinUnifiedBalance(token)(state))
 }

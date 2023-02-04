@@ -3,7 +3,7 @@ import { selectors } from 'data'
 
 export const getData = (state, props) => {
   const accountId = selectors.core.kvStore.xlm.getDefaultAccountId(state).getOrElse('')
-  const amount = selectors.core.data.xlm.getAccountBalance(accountId, state).getOrElse(0)
+  const amount = selectors.core.data.coins.getCoinUnifiedBalance('XLM')(state).getOrElse(0)
 
   return {
     addressInfo: {

@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { toLower } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { CoinType, ExtractSuccess } from '@core/types'
@@ -13,14 +12,7 @@ import Success from './template.success'
 
 class Balance extends React.PureComponent<Props> {
   handleRefresh = () => {
-    const { coin } = this.props
-    const { coinfig } = window.coins[coin]
-    if (coinfig.type.erc20Address) {
-      this.props.ethActions.fetchErc20Data(coin)
-    } else {
-      const coinLower = toLower(coin)
-      this.props[`${coinLower}Actions`].fetchData()
-    }
+    this.props.coinsActions.fetchUnifiedBalances()
   }
 
   render() {
@@ -49,11 +41,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  bchActions: bindActionCreators(actions.core.data.bch, dispatch),
-  btcActions: bindActionCreators(actions.core.data.btc, dispatch),
-  ethActions: bindActionCreators(actions.core.data.eth, dispatch),
-  stxActions: bindActionCreators(actions.core.data.stx, dispatch),
-  xlmActions: bindActionCreators(actions.core.data.xlm, dispatch)
+  coinsActions: bindActionCreators(actions.core.data.coins, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

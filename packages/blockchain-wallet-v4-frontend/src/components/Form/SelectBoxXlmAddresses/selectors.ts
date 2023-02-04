@@ -28,7 +28,7 @@ export const getData = (
     if (has('balance', wallet)) {
       const xlmDisplay = Exchange.displayCoinToCoin({
         coin: 'XLM',
-        value: wallet.balnace
+        value: wallet.balance
       })
       return `${wallet.label} (${xlmDisplay})`
     }

@@ -27,6 +27,7 @@ import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { SwapBaseCounterTypes } from 'data/types'
+import { useCoinConfig } from 'hooks'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { media } from 'services/styles'
 import { hexToRgb } from 'utils/helpers'
@@ -107,6 +108,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
   const { amount, fix, selectedAccount, to } = formValues
   const { coin, type } = selectedAccount
   const isAccount = type === SwapBaseCounterTypes.ACCOUNT
+  const { data: coinfig } = useCoinConfig({ coin })
 
   const max = Number(convertCoinToCoin({ coin, value: selectedAccount.balance }))
   const min = minR.getOrElse(0)
@@ -180,7 +182,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           <Text size='14px' color='grey600' weight={600}>
             <FormattedMessage defaultMessage='From' id='copy.from' />
             {': '}
-            {selectedAccount.label} ({max} {coin})
+            {selectedAccount.label} ({max} {coinfig?.displaySymbol || coin})
           </Text>
           <Text size='16px' color='grey900' weight={600} style={{ marginTop: '6px' }}>
             <FormattedMessage defaultMessage='To:' id='copy.to:' />{' '}
@@ -286,7 +288,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               size='14px'
               style={{ marginTop: '4px', textAlign: 'right' }}
             >
-              {isAccount ? max : maxMinusFee} {coin}
+              {isAccount ? max : maxMinusFee} {coinfig?.displaySymbol}
             </Text>
           </Text>
           <div style={{ width: '30%' }}>
@@ -418,7 +420,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
                 defaultMessage='The max you can send from this wallet is {coin} {amount}. Buy {coin} {amount} now to send this amount.'
                 values={{
                   amount: max,
-                  coin
+                  coin: coinfig?.displaySymbol || coin
                 }}
               />
             </Text>
@@ -433,7 +435,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
                 amount:
                   fix === 'FIAT'
                     ? `${Currencies[walletCurrency].units[walletCurrency].symbol}${min}`
-                    : `${coin}${min}`
+                    : `${coinfig?.displaySymbol || coin}${min}`
               }}
             />
           </AlertButton>
@@ -452,7 +454,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
                 origin: 'Send'
               })
             }
-            buyAmount={`${coin} ${amount}`}
+            buyAmount={`${coinfig?.displaySymbol || coin} ${amount}`}
             coin={coin}
           />
         )}

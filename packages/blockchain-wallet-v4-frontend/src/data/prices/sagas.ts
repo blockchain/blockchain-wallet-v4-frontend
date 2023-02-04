@@ -2,7 +2,7 @@ import { getUnixTime, subDays } from 'date-fns'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
-import { IndexMultiResponseType } from '@core/network/api/coin/types'
+import { IndexMultiResponseType } from '@core/network/api/coins/types'
 import { errorCodeAndMessage } from '@core/utils'
 import { selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'

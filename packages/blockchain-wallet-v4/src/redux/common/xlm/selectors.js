@@ -1,8 +1,8 @@
 import { assoc, compose, curry, map, prop } from 'ramda'
 
-import { getBalance } from '../../data/xlm/selectors'
 import { getAccounts } from '../../kvStore/xlm/selectors'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
+import * as selectors from '../../selectors'
 
 const digest =
   (type) =>
@@ -13,7 +13,7 @@ const digest =
     type
   })
 const addBalance = curry((state, account) =>
-  assoc('balance', getBalance(state, account.address).getOrElse(0), account)
+  assoc('balance', selectors.data.coins.getCoinUnifiedBalance('XLM')(state).getOrElse(0), account)
 )
 
 export const getAccountBalances = (state) =>

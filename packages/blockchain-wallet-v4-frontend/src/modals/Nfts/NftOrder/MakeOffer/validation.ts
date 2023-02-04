@@ -1,9 +1,11 @@
+import BigNumber from 'bignumber.js'
+
 import { convertCoinToCoin } from '@core/exchange'
 
 import { NftMakeOfferFormValues, Props } from '.'
 
 export const validate = (formValues: NftMakeOfferFormValues, props: Props) => {
-  const erc20Balance = props.erc20BalanceR.getOrElse(0)
+  const erc20Balance = props.erc20BalanceR.getOrElse(new BigNumber(0))
   const [selfCustodyBalance] = props.ethBalancesR.getOrElse([0, 0])
 
   // let index.tsx handle this
@@ -16,7 +18,11 @@ export const validate = (formValues: NftMakeOfferFormValues, props: Props) => {
   if (formValues.amount) {
     const standardAmt = Number(formValues.amount)
     const standardBalance = Number(
-      convertCoinToCoin({ baseToStandard: true, coin: formValues.coin, value: erc20Balance })
+      convertCoinToCoin({
+        baseToStandard: true,
+        coin: formValues.coin,
+        value: erc20Balance.toString()
+      })
     )
 
     if (standardAmt > standardBalance) {

@@ -44,7 +44,6 @@ import {
   CustomField,
   CustomForm,
   CustomFormLabel,
-  ErrorText,
   FiatMaxContainer,
   FORM_NAME,
   GreyBlueCartridge,
@@ -95,7 +94,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     interestLimits,
     interestRates,
     invalid,
-    payment,
     rates,
     rewardsEDDDepositLimits,
     submitting,
@@ -128,12 +126,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const depositAmountError =
     typeof formErrors.depositAmount === 'string' && formErrors.depositAmount
   const isErc20 = !!window.coins[coin].coinfig.type.erc20Address
-  const insufficientEth =
-    payment &&
-    isErc20 &&
-    !!window.coins[coin].coinfig.type.erc20Address &&
-    // @ts-ignore
-    !payment.isSufficientEthForErc20
 
   const showEDDDepositLimit =
     checkIsAmountUnderDepositLimit(rewardsEDDDepositLimits, coin, depositAmountFiat) &&
@@ -230,58 +222,46 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                 rate: interestRates[coin]
               }}
             />{' '}
-            {!insufficientEth && (
-              <>
-                <FormattedMessage
-                  id='modals.interest.deposit.youcantransfer'
-                  defaultMessage='You can transfer up to'
-                  values={{
-                    coin
-                  }}
-                />{' '}
-                <FiatMaxContainer
-                  onClick={() =>
-                    formActions.change(
-                      FORM_NAME,
-                      'depositAmount',
-                      displayCoin ? earnDepositLimits.maxCoin : earnDepositLimits.maxFiat
-                    )
-                  }
-                >
-                  {displayCoin ? (
-                    <Text color='blue600' size='14px' weight={500}>
-                      {earnDepositLimits.maxCoin}{' '}
-                    </Text>
-                  ) : (
-                    <Text color='blue600' size='14px' weight={500}>
-                      {maxDepositFiat}{' '}
-                    </Text>
-                  )}
-                </FiatMaxContainer>{' '}
-                <FormattedMessage
-                  id='modals.interest.deposit.uptoamount2'
-                  defaultMessage='of {coin} from this wallet.'
-                  values={{
-                    coin: coinfig.displaySymbol
-                  }}
-                />
-                <TooltipHost id='modals.interest.depositmax.tooltip'>
-                  <TooltipIcon name='info' size='12px' />
-                </TooltipHost>
-              </>
-            )}
+            <>
+              <FormattedMessage
+                id='modals.interest.deposit.youcantransfer'
+                defaultMessage='You can transfer up to'
+                values={{
+                  coin
+                }}
+              />{' '}
+              <FiatMaxContainer
+                onClick={() =>
+                  formActions.change(
+                    FORM_NAME,
+                    'depositAmount',
+                    displayCoin ? earnDepositLimits.maxCoin : earnDepositLimits.maxFiat
+                  )
+                }
+              >
+                {displayCoin ? (
+                  <Text color='blue600' size='14px' weight={500}>
+                    {earnDepositLimits.maxCoin}{' '}
+                  </Text>
+                ) : (
+                  <Text color='blue600' size='14px' weight={500}>
+                    {maxDepositFiat}{' '}
+                  </Text>
+                )}
+              </FiatMaxContainer>{' '}
+              <FormattedMessage
+                id='modals.interest.deposit.uptoamount2'
+                defaultMessage='of {coin} from this wallet.'
+                values={{
+                  coin: coinfig.displaySymbol
+                }}
+              />
+              <TooltipHost id='modals.interest.depositmax.tooltip'>
+                <TooltipIcon name='info' size='12px' />
+              </TooltipHost>
+            </>
           </Text>
         </InfoText>
-        {isErc20 && insufficientEth && (
-          <ErrorText>
-            <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
-            <FormattedMessage
-              id='modals.interest.deposit.notenougheth'
-              defaultMessage='ETH is required to send {coinTicker}. You do not have enough ETH to perform a transaction.'
-              values={{ coinTicker: coin }}
-            />
-          </ErrorText>
-        )}
         <CoinBalanceDropdown
           {...props}
           includeCustodial
@@ -319,8 +299,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             coin={coin}
             component={NumberBox}
             data-e2e='depositAmount'
-            // @ts-ignore
-            disabled={insufficientEth}
             displayCoin={displayCoin}
             name='depositAmount'
             validate={[required, minDepositAmount, maxDepositAmount]}
@@ -620,7 +598,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
         <ButtonContainer>
           <Button
             data-e2e='interestDepositSubmit'
-            disabled={invalid || insufficientEth}
+            disabled={invalid}
             fullwidth
             height='48px'
             nature='primary'

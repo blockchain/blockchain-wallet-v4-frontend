@@ -138,6 +138,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.interestActions.fetchActiveRewardsRates()
     this.props.interestActions.fetchInterestRates()
     this.props.interestActions.fetchStakingRates()
+    this.props.startWebSocket()
   }
 
   componentDidUpdate(prevProps) {
@@ -178,6 +179,8 @@ class TransactionsContainer extends React.PureComponent<Props> {
       !isEmpty(stakingEligible) && stakingEligible[coin] && stakingEligible[coin]?.eligible
     const isEarnButtonEnabled = isGoldTier && (interestEligibleCoin || stakingEligibleCoin)
     const isEarnSourceType = sourceType && (sourceType === 'INTEREST' || sourceType === 'STAKING')
+    // check if coins is from MATIC network
+    const isMaticCoin = coinfig.symbol.includes('MATIC')
 
     return (
       <SceneWrapper>
@@ -195,7 +198,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 </Text>
               </CoinTitle>
               <TitleActionContainer>
-                {coinfig.type.name !== 'FIAT' && (
+                {coinfig.type.name !== 'FIAT' && !isMaticCoin && (
                   <>
                     <StyledButton
                       nature='primary'
@@ -240,25 +243,22 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         </StyledButton>
                       </NavLink>
                     )}
-                    <StyledButton
-                      nature='light'
-                      data-e2e='sellCrypto'
-                      width='100px'
-                      onClick={() => {
-                        this.props.analyticsActions.trackEvent({
-                          key: Analytics.COIN_VIEW_SELL_CLICKED,
-                          properties: {}
-                        })
-
-                        this.props.buySellActions.showModal({
-                          cryptoCurrency: coin as CoinType,
-                          orderType: OrderType.SELL,
-                          origin: 'TransactionList'
-                        })
-                      }}
-                    >
-                      <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
-                    </StyledButton>
+                    {!isMaticCoin && (
+                      <StyledButton
+                        nature='light'
+                        data-e2e='sellCrypto'
+                        width='100px'
+                        onClick={() => {
+                          this.props.buySellActions.showModal({
+                            cryptoCurrency: coin as CoinType,
+                            orderType: OrderType.SELL,
+                            origin: 'TransactionList'
+                          })
+                        }}
+                      >
+                        <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
+                      </StyledButton>
+                    )}
                   </>
                 )}
                 {coinfig.type.name === 'FIAT' && (
@@ -360,12 +360,13 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
     interestActions: bindActionCreators(actions.components.interest, dispatch),
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
+    startWebSocket: bindActionCreators(actions.activities.startSocket, dispatch),
     withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
   }
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return {
       ...baseActions,
-      fetchData: () => dispatch(actions.core.data.eth.fetchErc20Data(coin)),
+      fetchData: () => dispatch(actions.core.data.coins.fetchUnifiedBalances()),
       initTxs: () => dispatch(actions.components.ethTransactions.initializedErc20(coin)),
       loadMoreTxs: () => dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
     }
@@ -394,7 +395,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   }
   return {
     ...baseActions,
-    fetchData: () => dispatch(actions.core.data[toLower(coin)].fetchData()),
+    fetchData: () => dispatch(actions.core.data.coins.fetchUnifiedBalances()),
     initTxs: () => dispatch(actions.components[`${toLower(coin)}Transactions`].initialized()),
     loadMoreTxs: () => dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
     setAddressArchived: (address) => dispatch(actions.core.wallet.setAddressArchived(address, true))

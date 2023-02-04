@@ -2,15 +2,12 @@ import { Remote } from '@core'
 
 import { XLM } from '../../kvStore/config'
 import { dataPath, kvStorePath } from '../../paths'
-import { getBalance, getContext, getTotalBalance } from './selectors'
+import { getContext } from './selectors'
 
 const id1 = 'GDXM5GK655MW2LGM6RV5DAYPO6U6RQ5KHR5Z43KBZAE265WGZGNFCD75'
 const id2 = 'GAIVP73R2Z7F6XIAUH7L6M2U4BCOMHILYNPAJYQBJYA5K87LQIJD6DSP'
-const id3 = 'GAIVP73R2Z7F6XIAUH7L6M2U4BCOMHILYNPAJYQBJYA5K87LQIJD6DSL'
 const balance1 = '2.9999999'
-const balance1Stroops = '29999999'
 const balance2 = '2.0000001'
-const totalBalanceStroopsNumber = 29999999
 const state = {
   [dataPath]: {
     xlm: {
@@ -50,21 +47,6 @@ const state = {
     })
   }
 }
-
-describe('getBalance', () => {
-  it('should get xlm account native balance in stroops by id', () => {
-    expect(getBalance(state)(id1)).toEqual(Remote.of(balance1Stroops))
-  })
-  it('should return Remote.NotAsked if account was not found', () => {
-    expect(getBalance(state)(id3)).toEqual(Remote.NotAsked)
-  })
-})
-
-describe('getTotalBalance', () => {
-  it('should get sum balance for all unique accounts in stroops as number', () => {
-    expect(getTotalBalance(state)).toEqual(Remote.of(totalBalanceStroopsNumber))
-  })
-})
 
 describe('getContext', () => {
   it('should get all unique wallet accounts', () => {

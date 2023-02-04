@@ -1,12 +1,15 @@
-import { call, CallEffect, put, PutEffect, SelectEffect } from 'redux-saga/effects'
+import { call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
+import { actions } from 'data'
+import { CoinAccountTypeEnum } from 'data/coins/accountTypes/accountTypes.classes'
 
 import coinSagas from '../../coins/sagas'
 import profileSagas from '../../modules/profile/sagas'
 import { SwapBaseCounterTypes } from '../swap/types'
 import * as A from './actions'
+import * as S from './selectors'
 import { RequestExtrasType } from './types'
 import { generateKey } from './utils'
 
@@ -23,33 +26,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     action: ReturnType<typeof A.getNextAddress>
   ): Generator<CallEffect | PutEffect | SelectEffect, void, any> {
     const key = generateKey(action.payload.account)
+    yield call(waitForUserData)
     try {
       yield put(A.getNextAddressLoading(key))
       let address
-      const extras: RequestExtrasType = {}
+      let extras: RequestExtrasType = {}
       const { account } = action.payload
+      const { coinfig } = window.coins[account.coin]
 
+      const subscriptions = S.getSubscriptions(yield select())
+      const isSubscribed = subscriptions.data.currencies.some((c) => c.ticker === account.baseCoin)
+      if (!isSubscribed) {
+        yield put(actions.core.data.coins.subscribe(account.baseCoin))
+      }
       switch (account.type) {
         case SwapBaseCounterTypes.ACCOUNT:
-          const { accountIndex, coin } = account
-          address = yield call(getNextReceiveAddressForCoin, coin, accountIndex)
-          break
         case SwapBaseCounterTypes.CUSTODIAL:
-          yield call(waitForUserData)
-          const custodial: ReturnType<typeof api.getBSPaymentAccount> = yield call(
-            // @ts-ignore
-            api.getBSPaymentAccount,
-            account.coin
-          )
-          address = custodial.address
-          if (window.coins[account.coin].coinfig.type.isMemoBased && address.split(':')[1]) {
-            // eslint-disable-next-line prefer-destructuring
-            extras.Memo = address.split(':')[1]
-            // eslint-disable-next-line prefer-destructuring
-            address = address.split(':')[0]
-          }
+          const { accountIndex, coin } = account
+          const accountType =
+            account.type === SwapBaseCounterTypes.ACCOUNT
+              ? coinfig.products.includes('DynamicSelfCustody')
+                ? CoinAccountTypeEnum.DYNAMIC_SELF_CUSTODY
+                : coinfig.type.name === 'ERC20'
+                ? CoinAccountTypeEnum.ERC20
+                : CoinAccountTypeEnum.NON_CUSTODIAL
+              : CoinAccountTypeEnum.CUSTODIAL
+          const response = yield call(getNextReceiveAddressForCoin, coin, accountType, accountIndex)
+          address = response.address
+          extras = response.extras
           break
-        // SwapAccountType only supports ACCOUNT and CUSTODIAL?
         // @ts-ignore
         case 'LEGACY':
           address = account.address

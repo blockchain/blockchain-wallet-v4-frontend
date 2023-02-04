@@ -1,5 +1,3 @@
-import { AccountTokensBalancesResponseType } from '@core/types'
-
 import * as AT from './actionTypes'
 
 //
@@ -135,26 +133,6 @@ export const checkLowEthBalanceSuccess = (payload) => ({
 // ERC20
 //
 
-// DATA
-export const fetchErc20Data = (coin?: string) => ({
-  payload: {
-    coin
-  },
-  type: AT.FETCH_ERC20_TOKEN_DATA
-})
-export const fetchErc20DataLoading = (token) => ({
-  payload: { token },
-  type: AT.FETCH_ERC20_TOKEN_DATA_LOADING
-})
-export const fetchErc20DataSuccess = (token, data) => ({
-  payload: { data, token },
-  type: AT.FETCH_ERC20_TOKEN_DATA_SUCCESS
-})
-export const fetchErc20DataFailure = (token, error) => ({
-  payload: { error, token },
-  type: AT.FETCH_ERC20_TOKEN_DATA_FAILURE
-})
-
 // TX FEES
 export const fetchErc20TxFee = (hash, token) => ({
   payload: { hash, token },
@@ -233,22 +211,4 @@ export const fetchErc20TransactionHistoryFailure = (error, token) => ({
 export const clearErc20TransactionHistory = (token) => ({
   payload: { token },
   type: AT.CLEAR_ERC20_TRANSACTION_HISTORY
-})
-
-// ERC20s w/ BALANCE
-export const fetchErc20AccountTokenBalances = () => ({
-  type: AT.FETCH_ERC20_ACCOUNT_TOKEN_BALANCES
-})
-export const fetchErc20AccountTokenBalancesLoading = () => ({
-  type: AT.FETCH_ERC20_ACCOUNT_TOKEN_BALANCES_LOADING
-})
-export const fetchErc20AccountTokenBalancesSuccess = (
-  data: AccountTokensBalancesResponseType['tokenAccounts']
-) => ({
-  payload: { data },
-  type: AT.FETCH_ERC20_ACCOUNT_TOKEN_BALANCES_SUCCESS
-})
-export const fetchErc20AccountTokenBalancesFailure = (error) => ({
-  payload: { error },
-  type: AT.FETCH_ERC20_ACCOUNT_TOKEN_BALANCES_FAILURE
 })

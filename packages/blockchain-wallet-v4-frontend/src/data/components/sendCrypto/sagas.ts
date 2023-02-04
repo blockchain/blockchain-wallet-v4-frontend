@@ -1,11 +1,13 @@
 import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
+import * as ethers from 'ethers'
 import { call, delay, put, select } from 'redux-saga/effects'
 import secp256k1 from 'secp256k1'
 
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { BuildTxIntentType, BuildTxResponseType } from '@core/network/api/coin/types'
+import { BuildTxIntentType, BuildTxResponseType } from '@core/network/api/coins/types'
+import { getCoinNetworksAndTypes } from '@core/redux/data/coins/selectors'
 import { getPrivKey, getPubKey } from '@core/redux/data/self-custody/sagas'
 import { FiatType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -19,6 +21,14 @@ import { promptForSecondPassword } from 'services/sagas'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { SendCryptoStepType } from './types'
+
+const getNetwork = (coin: string) => {
+  if (coin.includes('.')) {
+    return coin.split('.')[1]
+  }
+
+  return coin
+}
 
 export default ({ api }: { api: APIType }) => {
   const initializeSend = function* () {
@@ -44,18 +54,18 @@ export default ({ api }: { api: APIType }) => {
 
       if (account.type === SwapBaseCounterTypes.ACCOUNT) {
         const password = yield call(promptForSecondPassword)
-        const pubKey = yield call(getPubKey, password)
+        const pubKey = yield call(getPubKey, coin, password)
         const guid = yield select(selectors.core.wallet.getGuid)
         const [uuid] = yield call(api.generateUUIDs, 1)
 
-        const tx: ReturnType<typeof api.buildTx> = yield call(api.buildTx, {
+        const tx: ReturnType<typeof api.buildTx> = yield call(api.buildTx, coin, {
           id: {
             guid,
             uuid
           },
           intent: {
             amount: baseCryptoAmt,
-            currency: coin,
+            currency: 'native',
             destination,
             extraData: {
               memo
@@ -69,7 +79,8 @@ export default ({ api }: { api: APIType }) => {
               }
             ],
             type: 'PAYMENT'
-          } as BuildTxIntentType
+          } as BuildTxIntentType,
+          network: getNetwork(coin)
         })
 
         yield put(A.buildTxSuccess(tx))
@@ -202,8 +213,8 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const signTx = function* (prebuildTx: BuildTxResponseType, password: string) {
-    const privateKey = yield call(getPrivKey, password)
+  const signTx = function* (coin: string, prebuildTx: BuildTxResponseType, password: string) {
+    const privateKey = yield call(getPrivKey, coin, password)
 
     if (!privateKey) throw new Error('Could not derive private key')
 
@@ -211,7 +222,10 @@ export default ({ api }: { api: APIType }) => {
     const signedPreImages = prebuildTx.preImages.map((preImage) => {
       // @ts-ignore
       const { recovery, signature } = secp256k1.sign(
-        Buffer.from(preImage.preImage, 'hex'),
+        Buffer.from(
+          preImage.preImage.startsWith('0x') ? preImage.preImage.substr(2) : preImage.preImage,
+          'hex'
+        ),
         Buffer.from(privateKey, 'hex')
       )
 
@@ -255,7 +269,7 @@ export default ({ api }: { api: APIType }) => {
           'No prebuildTx'
         ) as BuildTxResponseType
         prebuildTxFee = prebuildTx.summary.absoluteFeeEstimate
-        const signedTx: BuildTxResponseType = yield call(signTx, prebuildTx, password)
+        const signedTx: BuildTxResponseType = yield call(signTx, coin, prebuildTx, password)
         const pushedTx: ReturnType<typeof api.pushTx> = yield call(
           api.pushTx,
           coin,
@@ -264,7 +278,8 @@ export default ({ api }: { api: APIType }) => {
           {
             guid,
             uuid
-          }
+          },
+          getNetwork(coin)
         )
 
         const value = convertCoinToCoin({
@@ -280,7 +295,7 @@ export default ({ api }: { api: APIType }) => {
             })
           )
           yield delay(2000)
-          yield put(actions.core.data.coins.fetchTransactions(coin, true))
+          yield put(actions.core.data.coins.fetchTransactions({ coin, reset: true }))
         } else {
           throw new Error('Failed to submit transaction.')
         }

@@ -8,7 +8,13 @@ import { Padding } from 'components/Padding'
 
 import { HoldingsCardComponent } from './types'
 
-export const HoldingsCard: HoldingsCardComponent = ({ actions, coinCode, coinTotal, total }) => {
+export const HoldingsCard: HoldingsCardComponent = ({
+  actions,
+  coinCode,
+  coinTotal,
+  coinfig,
+  total
+}) => {
   return (
     <Card borderWidth={1} borderRadius='md'>
       <Padding all={16}>
@@ -18,7 +24,7 @@ export const HoldingsCard: HoldingsCardComponent = ({ actions, coinCode, coinTot
               id='scenes.coin.holdings_card.total'
               defaultMessage='Your Total {coinCode}'
               values={{
-                coinCode
+                coinCode: coinfig?.displaySymbol || coinCode
               }}
             />
           </Text>
