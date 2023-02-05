@@ -113,8 +113,16 @@ const Success = ({
 
         <CheckoutRow
           title={<FormattedMessage id='checkout.payment_method' defaultMessage='Payment Method' />}
-          text={getPaymentMethod({ bankAccount: {} as BankTransferAccountType, order })}
-          additionalText={getPaymentMethodDetails({ bankAccount, cardDetails, order })}
+          text={getPaymentMethod({
+            bankAccount: {} as BankTransferAccountType,
+            fiatCode: getCounterCurrency(order),
+            paymentType: order.paymentType
+          })}
+          additionalText={getPaymentMethodDetails({
+            bankAccount,
+            cardDetails,
+            paymentType: order.paymentType
+          })}
         />
 
         <CheckoutRow

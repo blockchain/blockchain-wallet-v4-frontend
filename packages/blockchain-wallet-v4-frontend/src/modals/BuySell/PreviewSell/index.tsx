@@ -25,7 +25,12 @@ import { getFiatFromPair } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
-import { BSCheckoutFormValuesType, SwapAccountType, SwapBaseCounterTypes } from 'data/types'
+import {
+  Analytics,
+  BSCheckoutFormValuesType,
+  SwapAccountType,
+  SwapBaseCounterTypes
+} from 'data/types'
 import { isNabuError } from 'services/errors'
 
 import { Border, TopText } from '../../Swap/components'
@@ -156,12 +161,30 @@ class PreviewSell extends PureComponent<
     this.state = { isSetCoinToolTip: false, isSetNetworkFee: false }
   }
 
+  componentDidMount() {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_CHECKOUT_VIEWED,
+      properties: {}
+    })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_CHECKOUT_SCREEN_SUBMITTED,
+      properties: {}
+    })
+
     this.props.buySellActions.createOrder({})
   }
 
   handleOnClickBack = (BASE: string) => {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_CHECKOUT_SCREEN_BACK_CLICKED,
+      properties: {}
+    })
+
     this.props.buySellActions.setStep({
       cryptoCurrency: BASE,
       fiatCurrency: getFiatFromPair(this.props.pair.pair),
@@ -202,12 +225,22 @@ class PreviewSell extends PureComponent<
   }
 
   toggleCoinToolTip = () => {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_PRICE_TOOLTIP_CLICKED,
+      properties: {}
+    })
+
     this.setState((prevState) => ({
       isSetCoinToolTip: !prevState.isSetCoinToolTip
     }))
   }
 
   toggleNetworkFeeToolTip = () => {
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_CHECKOUT_NETWORK_FEES_CLICKED,
+      properties: {}
+    })
+
     this.setState((prevState) => ({
       isSetNetworkFee: !prevState.isSetNetworkFee
     }))
@@ -595,6 +628,7 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   clearErrors: () => dispatch(clearSubmitErrors(FORM_BS_PREVIEW_SELL))
 })

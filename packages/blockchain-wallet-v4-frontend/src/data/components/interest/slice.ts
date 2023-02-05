@@ -20,12 +20,15 @@ import { CoinType, FiatType, PaymentValue, WalletFiatType } from '@core/types'
 
 import {
   ActiveRewardsStep,
+  ActiveRewardsWithdrawalType,
   EarnDepositFormType,
+  EarnInitializeWithdrawalType,
   EarnInstrumentsType,
   EarnMinMaxType,
   EarnStepMetaData,
   EarnTabsType,
   EarnTransactionType,
+  EarnWithdrawalType,
   ErrorStringType,
   InterestLimits,
   InterestState,
@@ -45,6 +48,7 @@ const initialState: InterestState = {
     data: {},
     name: 'WARNING'
   },
+  activeRewardsTransactionsNextPage: null,
   afterTransaction: Remote.NotAsked,
   coin: 'BTC',
   earnDepositLimits: {
@@ -522,18 +526,18 @@ const interestSlice = createSlice({
       // eslint-disable-next-line
       state,
       // eslint-disable-next-line
-      action: PayloadAction<{ coin: CoinType; walletCurrency: FiatType }>
+      action: PayloadAction<EarnInitializeWithdrawalType>
     ) => {},
-    requestWithdrawal: (
+
+    requestActiveRewardsWithdrawal: (
       // eslint-disable-next-line
       state,
       // eslint-disable-next-line
-      action: PayloadAction<{
-        coin: CoinType
-        withdrawalAmountCrypto: number
-        withdrawalAmountFiat: number
-      }>
+      action: PayloadAction<ActiveRewardsWithdrawalType>
     ) => {},
+
+    // eslint-disable-next-line
+    requestWithdrawal: (state, action: PayloadAction<EarnWithdrawalType>) => {},
 
     resetShowInterestCardAfterTransaction: (state) => {
       state.afterTransaction = Remote.NotAsked
@@ -550,6 +554,12 @@ const interestSlice = createSlice({
         data: data || {},
         name
       }
+    },
+    setActiveRewardsTransactionsNextPage: (
+      state,
+      action: PayloadAction<{ nextPage?: string | null }>
+    ) => {
+      state.activeRewardsTransactionsNextPage = action.payload.nextPage
     },
 
     setCoinDisplay: (state, action: PayloadAction<{ isAmountDisplayedInCrypto: boolean }>) => {
@@ -623,7 +633,6 @@ const interestSlice = createSlice({
         name
       }
     },
-
     setStakingTransactionsNextPage: (
       state,
       action: PayloadAction<{ nextPage?: string | null }>
@@ -762,9 +771,11 @@ export const {
   initializeInterestDepositForm,
   initializeStakingDepositForm,
   initializeWithdrawalForm,
+  requestActiveRewardsWithdrawal,
   requestWithdrawal,
   resetShowInterestCardAfterTransaction,
   routeToTxHash,
+  setActiveRewardsTransactionsNextPage,
   setCoinDisplay,
   setEarnDepositLimits,
   setEarnTab,

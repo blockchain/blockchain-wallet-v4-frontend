@@ -38,6 +38,9 @@ const TransactionList = React.lazy(() => import('./DebitCard/TransactionList'))
 const DexSwapSettings = React.lazy(() => import('./Dex/SwapSettings'))
 const DexSelectToken = React.lazy(() => import('./Dex/SelectToken'))
 
+// Earn Compare
+const EarnCompare = React.lazy(() => import('./EarnCompare'))
+
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
@@ -82,6 +85,8 @@ const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 const UpgradeNowSilver = React.lazy(() => import('./Onboarding/UpgradeNowSilver'))
 const VerifyNotice = React.lazy(() => import('./Onboarding/VerifyNotice'))
 const SanctionsInfo = React.lazy(() => import('./Onboarding/SanctionsInfo'))
+// SOLO onboarding
+const KycConsentScreen = React.lazy(() => import('./Onboarding/KycVerification/ConsentScreen'))
 
 // MOBILE
 const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'))
@@ -208,6 +213,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_REPORT_MODAL) ? (
           <DownloadTransactions />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.EARN_COMPARE) ? (
+          <EarnCompare />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.EDIT_TX_DESCRIPTION_MODAL) ? (
           <EditTxDescription />
@@ -384,6 +392,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.GENERATE_REPORT_MODAL) ? (
           <GenerateReport />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_CONSENT_SCREEN) ? (
+          <KycConsentScreen />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? (
           <NftOrder disableOutsideClose />

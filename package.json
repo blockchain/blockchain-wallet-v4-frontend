@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.79.4",
+  "version": "4.82.3",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -197,7 +197,7 @@
     "react-refresh-typescript": "2.0.3",
     "redux-mock-store": "1.5.4",
     "redux-saga-test-plan": "4.0.3",
-    "release-it": "12.4.1",
+    "release-it": "13.7.2",
     "rimraf": "3.0.2",
     "staged-git-files": "1.2.0",
     "storybook-dark-mode": "1.0.8",

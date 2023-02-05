@@ -54,6 +54,9 @@ export const getFeatureFlagRecurringBuys = (state: RootState) =>
 export const getFeatureFlagUseVgsProvider = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useVgsProvider']))
 
+export const getFeatureFlagAvailableToTradeWithdraw = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'availableToTradeWithdraw']))
+
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
@@ -171,6 +174,10 @@ export const createNabuUserAtLogin = (state: RootState) =>
 export const getStakingPromoBannerEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'stakingPromoBanner']))
 
+// Active Rewards Promo banner
+export const getActiveRewardsPromoBannerEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'activeRewardsPromoBanner']))
+
 // Settings theme
 export const getThemeEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'themeEnabled']))
@@ -187,6 +194,14 @@ export const getAccountRecoveryV2 = (state: RootState) =>
 export const getActiveRewardsEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isActiveRewardsEnabled']))
 
+// show active rewards withdrawal
+export const getActiveRewardsWithdrawalEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isActiveRewardsWithdrawalEnabled']))
+
 // show earn available assets checkbox
 export const getShowEarnAvailableAssets = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showEarnAvailableAssetsCheckbox']))
+
+// show prove flow
+export const getShowProveFlow = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showProveFlow']))

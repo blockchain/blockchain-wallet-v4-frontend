@@ -63,6 +63,7 @@ export const getData = (
     exclude = [],
     excludeHDWallets,
     excludeImported,
+    includeActiveRewards,
     includeAll = true,
     includeCustodial,
     includeExchangeAddress,
@@ -121,8 +122,22 @@ export const getData = (
             label: buildInterestDisplay(x),
             value: {
               ...x,
-              label: 'Rewards Account',
+              label: 'Passive Rewards Account',
               type: ADDRESS_TYPES.INTEREST
+            }
+          }
+        ]
+      : []
+
+  const toActiveRewardsDropdown = (x) =>
+    x
+      ? [
+          {
+            label: buildInterestDisplay(x),
+            value: {
+              ...x,
+              label: 'Active Rewards Account',
+              type: ADDRESS_TYPES.ACTIVE
             }
           }
         ]
@@ -162,7 +177,14 @@ export const getData = (
             .getPassiveRewardsAccountBalance(state)
             .map((x) => x.BTC)
             .map(toInterestDropdown)
-            .map(toGroup('Rewards Account'))
+            .map(toGroup('Passive Rewards Account'))
+        : Remote.of([]),
+      includeActiveRewards
+        ? selectors.components.interest
+            .getActiveRewardsAccountBalance(state)
+            .map((x) => x.BTC)
+            .map(toActiveRewardsDropdown)
+            .map(toGroup('Active Rewards Account'))
         : Remote.of([]),
       excludeImported
         ? Remote.of([])
@@ -182,8 +204,8 @@ export const getData = (
                 x
               )
             )
-    ]).map(([b1, b2, b3, b4, b5]) => {
-      const orderArray = forceCustodialFirst ? [b3, b1, b2, b4, b5] : [b1, b2, b3, b4, b5]
+    ]).map(([b1, b2, b3, b4, b5, b6]) => {
+      const orderArray = forceCustodialFirst ? [b3, b1, b2, b4, b5, b6] : [b1, b2, b3, b4, b5, b6]
       // @ts-ignore
       const data = reduce(concat, [], orderArray) as array
 

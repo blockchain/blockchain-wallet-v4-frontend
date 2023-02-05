@@ -10,6 +10,8 @@ import getData from './selectors'
 import Loading from './template.loading'
 import WithdrawalForm from './template.success'
 
+const PASSIVE_REWARDS_FORM_NAME = 'passiveRewardsWithdrawalForm'
+
 class WithdrawalFormContainer extends PureComponent<Props> {
   componentDidMount() {
     const { walletCurrency } = this.props
@@ -22,13 +24,17 @@ class WithdrawalFormContainer extends PureComponent<Props> {
       displayCoin: false
     } as SuccessStateType)
     if (isCoin === displayCoin) return
-    this.props.formActions.clearFields('interestWithdrawalForm', false, false, 'withdrawalAmount')
+    this.props.formActions.clearFields(PASSIVE_REWARDS_FORM_NAME, false, false, 'withdrawalAmount')
     this.props.interestActions.setCoinDisplay({ isAmountDisplayedInCrypto: isCoin })
   }
 
   handleRefresh = () => {
     const { coin, interestActions, walletCurrency } = this.props
-    interestActions.initializeWithdrawalForm({ coin, walletCurrency })
+    interestActions.initializeWithdrawalForm({
+      coin,
+      formName: PASSIVE_REWARDS_FORM_NAME,
+      walletCurrency
+    })
   }
 
   render() {

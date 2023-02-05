@@ -9,7 +9,8 @@ import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-compone
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
-import { ModalName, SwapAccountType } from 'data/types'
+import * as SddFlow from 'data/components/buySell/utils/sddFlow'
+import { Analytics, ModalName, SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
@@ -68,8 +69,21 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     this.state = { orderType: this.props.orderType }
   }
 
+  componentDidMount() {
+    this.trackScreenViewed()
+  }
+
   shouldComponentUpdate = (nextProps, nextState) =>
     !equals(this.props, nextProps) || !equals(this.state, nextState)
+
+  componentDidUpdate(
+    prevProps: Readonly<InjectedFormProps<{}, Props> & Props>,
+    prevState: Readonly<State>
+  ) {
+    if (prevState.orderType !== this.state.orderType) {
+      this.trackScreenViewed()
+    }
+  }
 
   setOrderType = (orderType: OrderType) => {
     if (orderType === OrderType.SELL) {
@@ -88,21 +102,13 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
   }
 
   handleBuy = (pair: BSPairType) => {
-    const currentTier = this.props.userData?.tiers?.current ?? 0
-
-    // if first time user, send to verify email step which is required future SDD check
-    if (!this.props.emailVerified && currentTier !== 2 && currentTier !== 1) {
-      return this.props.buySellActions.setStep({
-        cryptoCurrency: getCoinFromPair(pair.pair),
-        fiatCurrency: getFiatFromPair(pair.pair),
-        orderType: this.state.orderType,
-        pair,
-        step: 'VERIFY_EMAIL'
-      })
-    }
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.BUY_ASSET_SELECTED,
+      properties: {}
+    })
 
     // if SDD user has already placed on order, force them to Gold upgrade
-    if (currentTier === 3 && this.props.sbOrders?.length > 0) {
+    if (SddFlow.isSddUser(this.props.userData) && this.props.sbOrders?.length > 0) {
       return this.props.buySellActions.setStep({
         step: 'UPGRADE_TO_GOLD'
       })
@@ -127,8 +133,13 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
 
   handleSell = (swapAccount: SwapAccountType) => {
     const pair = this.props.pairs.find((value) => getCoinFromPair(value.pair) === swapAccount.coin)
-
     if (!pair) return
+
+    this.props.analyticsActions.trackEvent({
+      key: Analytics.SELL_ASSET_SELECTED,
+      properties: {}
+    })
+
     this.props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: this.props.walletCurrency,
@@ -141,6 +152,16 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     // if user changes wallet/coin
 
     this.props.formActions.change(FORM_BS_CHECKOUT, 'amount', '')
+  }
+
+  trackScreenViewed = () => {
+    this.props.analyticsActions.trackEvent({
+      key:
+        this.state.orderType === 'BUY'
+          ? Analytics.BUY_ASSET_SCREEN_VIEWED
+          : Analytics.SELL_ASSET_SCREEN_VIEWED,
+      properties: {}
+    })
   }
 
   render() {

@@ -11,7 +11,7 @@ import { EarnProductsType } from 'data/types'
 
 import { Props as ParentProps, SuccessStateType } from '..'
 import Tag from '../Tag'
-import { AmountContainer, CoinContainer, RightContainer, Row, Wrapper } from './MobileRow.model'
+import { AmountContainer, CoinContainer, RightContainer, Row, Wrapper } from './MobileRow.styles'
 
 const MobileRow = ({
   activeRewardsAccountBalance,
@@ -35,6 +35,7 @@ const MobileRow = ({
   let earnRate
   let isCoinEligible
   let showNewTag = false
+  let isActiveRewards = false
 
   switch (product) {
     case 'Staking': {
@@ -49,6 +50,7 @@ const MobileRow = ({
       earnRate = activeRewardsRates[coin].rate
       isCoinEligible = activeRewardsEligible[coin]?.eligible
       showNewTag = true
+      isActiveRewards = true
       break
     }
     case 'Passive':
@@ -64,7 +66,7 @@ const MobileRow = ({
   return (
     <Wrapper
       onClick={() => handleClick(coin, product)}
-      disabled={!isGoldTier || (!hasAccountBalance && isCoinEligible)}
+      disabled={!isGoldTier || (!hasAccountBalance && !isCoinEligible)}
     >
       <Icon name={coin} color={coin} size='32px' />
       <RightContainer>
@@ -83,11 +85,19 @@ const MobileRow = ({
             {hasAccountBalance ? (
               <Tag backgroundColor='background-green'>
                 <Text color={SemanticColors.success} variant='caption2'>
-                  <FormattedMessage
-                    defaultMessage='Earning {earnRate}%'
-                    id='scene.earn.earnrate'
-                    values={{ earnRate }}
-                  />
+                  {isActiveRewards ? (
+                    <FormattedMessage
+                      defaultMessage='Earning up to {earnRate}%'
+                      id='scene.earn.earnrate-upto'
+                      values={{ earnRate }}
+                    />
+                  ) : (
+                    <FormattedMessage
+                      defaultMessage='Earning {earnRate}%'
+                      id='scene.earn.earnrate'
+                      values={{ earnRate }}
+                    />
+                  )}
                 </Text>
               </Tag>
             ) : (

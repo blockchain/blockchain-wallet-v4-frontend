@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { SemanticColors, Text } from '@blockchain-com/constellation'
+import styled from 'styled-components'
 
 import { Link } from 'blockchain-info-components'
 
@@ -15,7 +16,11 @@ export const faqs: FaqType[] = [
         values={{
           link: (
             <Text color={SemanticColors.primary} variant='paragraph1'>
-              <Link href='#' size='14px' target='_blank'>
+              <Link
+                href='https://support.blockchain.com/hc/en-us/articles/6868798964508-Who-is-eligible-for-Active-Rewards'
+                size='14px'
+                target='_blank'
+              >
                 <FormattedMessage
                   defaultMessage='Learn more about eligibility here'
                   id='scenes.earn.active-rewards-learn.faq.eligible.link'
@@ -139,3 +144,9 @@ export const faqs: FaqType[] = [
     )
   }
 ]
+
+export const LinkContainer = styled.div`
+  & > a {
+    padding-left: 1rem !important;
+  }
+`

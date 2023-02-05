@@ -44,12 +44,13 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.initializeCheckout.type, buySellSagas.initializeCheckout)
     yield takeLatest(actions.pollBalances.type, buySellSagas.pollBSBalances)
     yield takeLatest(actions.pollCard.type, buySellSagas.pollCard)
-    yield takeLatest(actions.pollOrder.type, buySellSagas.pollBSOrder)
+    yield takeLatest(actions.pollOrder.type, buySellSagas.pollOrder)
     yield takeLatest(actions.showModal.type, buySellSagas.showModal)
     yield takeLatest(actions.switchFix.type, buySellSagas.switchFix)
     yield takeLatest(actions.fetchCrossBorderLimits.type, buySellSagas.fetchCrossBorderLimits)
     yield takeLatest(actions.fetchAccumulatedTrades.type, buySellSagas.fetchAccumulatedTrades)
     yield takeLatest(actions.updateCardCvv.type, buySellSagas.updateCardCvv)
+    yield takeLatest(actions.updateCardCvvAndPollOrder.type, buySellSagas.updateCardCvvAndPollOrder)
 
     // Fetch balances when profile/user is fetched
     yield takeLatest(

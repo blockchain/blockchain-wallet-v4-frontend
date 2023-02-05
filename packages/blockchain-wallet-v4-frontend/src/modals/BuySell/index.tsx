@@ -31,7 +31,6 @@ import {
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
-import Rejected from '../components/Rejected'
 import { ModalPropsType } from '../types'
 import AddCardCheckoutDotCom from './AddCardCheckoutDotCom'
 import AddCardVgs from './AddCardVgs'
@@ -52,14 +51,12 @@ import getData from './selectors'
 import SellEnterAmount from './SellEnterAmount'
 import SellOrderSummary from './SellOrderSummary'
 import Loading from './template.loading'
-import Pending from './template.pending'
 import ThreeDSHandlerCheckoutDotCom from './ThreeDSHandlerCheckoutDotCom'
 import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
 import ThreeDSHandlerFakeCardAcquirer from './ThreeDSHandlerFakeCardAcquirer'
 import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
 import UpdateSecurityCode from './UpdateSecurityCode'
 import UpgradeToGold from './UpgradeToGold'
-import VerifyEmail from './VerifyEmail'
 
 const { FORM_BS_CHECKOUT, FORMS_BS_BILLING_ADDRESS } = model.components.buySell
 
@@ -71,10 +68,10 @@ class BuySell extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    /* eslint-disable */
     this.setState({ show: true })
     this.props.custodialActions.fetchProductEligibilityForUser()
-    /* eslint-enable */
+
+    this.props.recurringBuyActions.fetchPaymentInfo()
   }
 
   componentWillUnmount() {
@@ -155,196 +152,160 @@ class BuySell extends PureComponent<Props, State> {
           <Loading />
         </Flyout>
       ),
-      Success: (val) => {
-        const { userData } = val
-        const { kycState } = userData
-        const isUserRejectedOrExpired = kycState === 'REJECTED' || kycState === 'EXPIRED'
-        const isUserPending = kycState === 'UNDER_REVIEW' || kycState === 'PENDING'
-
-        return isUserRejectedOrExpired ? (
-          <Flyout
-            {...this.props}
-            onClose={this.handleClose}
-            isOpen={this.state.show}
-            data-e2e='buySellModal'
-          >
-            <Rejected handleClose={this.handleClose} />
-          </Flyout>
-        ) : isUserPending ? (
-          <Flyout
-            {...this.props}
-            onClose={this.handleClose}
-            isOpen={this.state.show}
-            data-e2e='buySellModal'
-          >
-            <Pending
-              handleClose={this.handleClose}
-              handleRefresh={() => {
-                this.props.profileActions.fetchUserDataLoading()
-                this.props.profileActions.fetchUser()
-              }}
-            />
-          </Flyout>
-        ) : (
-          <Flyout
-            {...this.props}
-            onClose={this.handleClose}
-            isOpen={this.state.show}
-            data-e2e='buySellModal'
-          >
-            {this.props.step === 'ENTER_AMOUNT' && (
-              <FlyoutChild>
-                <EnterAmount {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'SELL_ENTER_AMOUNT' && (
-              <FlyoutChild>
-                <SellEnterAmount {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'UPDATE_SECURITY_CODE' && (
-              <FlyoutChild>
-                <UpdateSecurityCode
-                  backToEnterAmount={this.backToEnterAmount}
-                  handleClose={this.handleClose}
-                />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'CRYPTO_SELECTION' && (
-              <FlyoutChild>
-                <CryptoSelection {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'PAYMENT_METHODS' && (
-              <FlyoutChild>
-                <PaymentMethods {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'LINKED_PAYMENT_ACCOUNTS' && (
-              <FlyoutChild>
-                <LinkedPaymentAccounts {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'DETERMINE_CARD_PROVIDER' && (
-              <FlyoutChild>
-                <Loading />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'ADD_CARD_VGS' && (
-              <FlyoutChild>
-                <AddCardVgs handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'ADD_CARD_CHECKOUTDOTCOM' && (
-              <FlyoutChild>
-                <AddCardCheckoutDotCom {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === '3DS_HANDLER_FAKE_CARD_ACQUIRER' && (
-              <FlyoutChild>
-                <ThreeDSHandlerFakeCardAcquirer {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === '3DS_HANDLER_EVERYPAY' && (
-              <FlyoutChild>
-                <ThreeDSHandlerEverypay {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === '3DS_HANDLER_CHECKOUTDOTCOM' && (
-              <FlyoutChild>
-                <ThreeDSHandlerCheckoutDotCom {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === '3DS_HANDLER_STRIPE' && (
-              <FlyoutChild>
-                <ThreeDSHandlerStripe {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'BILLING_ADDRESS' && (
-              <FlyoutChild>
-                <BillingAddress {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'AUTHORIZE_PAYMENT' && (
-              <FlyoutChild>
-                <Authorize {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'CHECKOUT_CONFIRM' && (
-              <FlyoutChild>
-                <CheckoutConfirm {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'ORDER_SUMMARY' && (
-              <FlyoutChild>
-                <OrderSummary {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {/*
+      Success: () => (
+        <Flyout
+          {...this.props}
+          onClose={this.handleClose}
+          isOpen={this.state.show}
+          data-e2e='buySellModal'
+        >
+          {this.props.step === 'ENTER_AMOUNT' && (
+            <FlyoutChild>
+              <EnterAmount {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'SELL_ENTER_AMOUNT' && (
+            <FlyoutChild>
+              <SellEnterAmount {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'UPDATE_SECURITY_CODE' && (
+            <FlyoutChild>
+              <UpdateSecurityCode
+                backToEnterAmount={this.backToEnterAmount}
+                handleClose={this.handleClose}
+              />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'CRYPTO_SELECTION' && (
+            <FlyoutChild>
+              <CryptoSelection {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'PAYMENT_METHODS' && (
+            <FlyoutChild>
+              <PaymentMethods {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'LINKED_PAYMENT_ACCOUNTS' && (
+            <FlyoutChild>
+              <LinkedPaymentAccounts {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'DETERMINE_CARD_PROVIDER' && (
+            <FlyoutChild>
+              <Loading />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'ADD_CARD_VGS' && (
+            <FlyoutChild>
+              <AddCardVgs handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'ADD_CARD_CHECKOUTDOTCOM' && (
+            <FlyoutChild>
+              <AddCardCheckoutDotCom {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === '3DS_HANDLER_FAKE_CARD_ACQUIRER' && (
+            <FlyoutChild>
+              <ThreeDSHandlerFakeCardAcquirer {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === '3DS_HANDLER_EVERYPAY' && (
+            <FlyoutChild>
+              <ThreeDSHandlerEverypay {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === '3DS_HANDLER_CHECKOUTDOTCOM' && (
+            <FlyoutChild>
+              <ThreeDSHandlerCheckoutDotCom {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === '3DS_HANDLER_STRIPE' && (
+            <FlyoutChild>
+              <ThreeDSHandlerStripe {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'BILLING_ADDRESS' && (
+            <FlyoutChild>
+              <BillingAddress {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'AUTHORIZE_PAYMENT' && (
+            <FlyoutChild>
+              <Authorize {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'CHECKOUT_CONFIRM' && (
+            <FlyoutChild>
+              <CheckoutConfirm {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'ORDER_SUMMARY' && (
+            <FlyoutChild>
+              <OrderSummary {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {/*
                 used for sell only now, eventually buy as well
                 TODO: use swap2 quote for buy AND sell
             */}
-            {this.props.step === 'PREVIEW_SELL' && (
-              <FlyoutChild>
-                <PreviewSell {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'SELL_ORDER_SUMMARY' && (
-              <FlyoutChild>
-                <SellOrderSummary {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'BANK_WIRE_DETAILS' && (
-              <FlyoutChild>
-                <BankWireDetails {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'OPEN_BANKING_CONNECT' && (
-              <FlyoutChild>
-                <OpenBankingConnect {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'KYC_REQUIRED' && (
-              <FlyoutChild>
-                <KycRequired {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'VERIFY_EMAIL' && (
-              <FlyoutChild>
-                <VerifyEmail {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'UPGRADE_TO_GOLD' && (
-              <FlyoutChild>
-                <UpgradeToGold {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'FREQUENCY' && (
-              <FlyoutChild>
-                <Frequency
-                  {...this.props}
-                  backToEnterAmount={this.backToEnterAmount}
-                  handleClose={this.handleClose}
-                />
-              </FlyoutChild>
-            )}
-            {this.props.step === 'LOADING' && (
-              <FlyoutChild>
-                <StdLoading text={LoadingTextEnum.GETTING_READY} />
-              </FlyoutChild>
-            )}
-            {/** Only Plaid errors for now */}
-            {this.props.step === 'PAYMENT_ACCOUNT_ERROR' && (
-              <FlyoutChild>
-                <PaymentAccountError
-                  reason={this.props.reason}
-                  buttonHandler={this.paymentErrorHandler}
-                />
-              </FlyoutChild>
-            )}
-          </Flyout>
-        )
-      }
+          {this.props.step === 'PREVIEW_SELL' && (
+            <FlyoutChild>
+              <PreviewSell {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'SELL_ORDER_SUMMARY' && (
+            <FlyoutChild>
+              <SellOrderSummary {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'BANK_WIRE_DETAILS' && (
+            <FlyoutChild>
+              <BankWireDetails {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'OPEN_BANKING_CONNECT' && (
+            <FlyoutChild>
+              <OpenBankingConnect {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'KYC_REQUIRED' && (
+            <FlyoutChild>
+              <KycRequired {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'UPGRADE_TO_GOLD' && (
+            <FlyoutChild>
+              <UpgradeToGold {...this.props} handleClose={this.handleClose} />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'FREQUENCY' && (
+            <FlyoutChild>
+              <Frequency
+                {...this.props}
+                backToEnterAmount={this.backToEnterAmount}
+                handleClose={this.handleClose}
+              />
+            </FlyoutChild>
+          )}
+          {this.props.step === 'LOADING' && (
+            <FlyoutChild>
+              <StdLoading text={LoadingTextEnum.GETTING_READY} />
+            </FlyoutChild>
+          )}
+          {/** Only Plaid errors for now */}
+          {this.props.step === 'PAYMENT_ACCOUNT_ERROR' && (
+            <FlyoutChild>
+              <PaymentAccountError
+                reason={this.props.reason}
+                buttonHandler={this.paymentErrorHandler}
+              />
+            </FlyoutChild>
+          )}
+        </Flyout>
+      )
     })
   }
 }
@@ -375,6 +336,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   preferenceActions: bindActionCreators(actions.preferences, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
@@ -455,7 +417,7 @@ type LinkStatePropsType =
       order?: BSOrderType
       orderType: BSOrderActionType
       pair: BSPairType
-      step: 'ENTER_AMOUNT' | 'SELL_ENTER_AMOUNT' | 'VERIFY_EMAIL'
+      step: 'ENTER_AMOUNT' | 'SELL_ENTER_AMOUNT'
     }
   | {
       orderType: BSOrderActionType

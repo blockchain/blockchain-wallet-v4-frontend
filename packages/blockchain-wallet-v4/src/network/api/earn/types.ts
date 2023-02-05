@@ -12,6 +12,7 @@ export type EarnAccountBalanceType = {
 
 export type EarnBalanceType = {
   balance: string
+  earningBalance: string
   fiatAmount: string | null
   locked: string
   pendingDeposit: string
@@ -44,12 +45,17 @@ export type EarnBondingDepositsResponseType = {
   bondingDeposits: Array<EarnBondingDepositsType>
   unbondingWithdrawals: Array<null>
 } | null
-export type EarnEligibleType = {
-  [key in CoinType]?: {
-    eligible: boolean
-    ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION' | 'UNSUPPORTED_COUNTRY_OR_STATE' | null
-  }
+
+// If user is eligible it will send {coin: eligibleType} otherwise it will send EligibleType only
+type EligibleType = {
+  eligible: boolean
+  ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION' | 'UNSUPPORTED_COUNTRY_OR_STATE' | null
 }
+export type EarnEligibleType =
+  | {
+      [key in CoinType]?: EligibleType
+    }
+  | EligibleType
 
 export type EarnTransactionParamType = {
   currency?: CoinType
@@ -112,6 +118,7 @@ export type EarnRatesType = {
     [key in CoinType]: {
       commission: number
       rate: number
+      triggerPrice?: string
     }
   }
 }
@@ -157,7 +164,7 @@ export type TransactionType = {
     | 'MANUAL_REVIEW'
     | 'CLEARED'
     | 'REFUNDED'
-  type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
+  type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING' | 'DEBIT'
 }
 
 export type EarnTransactionResponseType = {

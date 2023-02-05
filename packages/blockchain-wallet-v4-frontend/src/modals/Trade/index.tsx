@@ -7,7 +7,7 @@ import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { Trade } from 'components/Flyout/Brokerage'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const TradeContainer = (props: Props) => {
@@ -30,6 +30,12 @@ const TradeContainer = (props: Props) => {
 
   const handleBuy = useCallback(() => {
     dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.FAB_BUY_CLICKED,
+        properties: {}
+      })
+    )
+    dispatch(
       actions.components.buySell.showModal({
         origin: 'Trade'
       })
@@ -38,6 +44,12 @@ const TradeContainer = (props: Props) => {
   }, [])
 
   const handleSell = useCallback(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.FAB_SELL_CLICKED,
+        properties: {}
+      })
+    )
     dispatch(
       actions.components.buySell.showModal({
         cryptoCurrency: 'BTC',
@@ -49,6 +61,12 @@ const TradeContainer = (props: Props) => {
   }, [])
 
   const handleSwap = useCallback(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.FAB_SWAP_CLICKED,
+        properties: {}
+      })
+    )
     dispatch(actions.components.swap.showModal({ origin: 'Trade' }))
     closeTradeModal()
   }, [])

@@ -48,7 +48,7 @@ import {
 const PASSIVE_REWARDS_DEPOSIT_FORM = 'passiveRewardsDepositForm'
 const STAKING_DEPOSIT_FORM = 'stakingDepositForm'
 const ACTIVE_REWARDS_DEPOSIT_FORM = 'activeRewardsDepositForm'
-const WITHDRAWAL_FORM = 'interestWithdrawalForm'
+const PASSIVE_REWARDS_WITHDRAWAL_FORM = 'passiveRewardsWithdrawalForm'
 const ACTIVE_REWARDS_API_PRODUCT = 'EARN_CC1W'
 const STAKING_API_PRODUCT = 'STAKING'
 export const logLocation = 'components/interest/sagas'
@@ -126,6 +126,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const fetchInterestEligible = function* () {
     try {
+      yield call(waitForUserData)
       yield put(A.fetchInterestEligibleLoading())
       const response: ReturnType<typeof api.getInterestEligible> = yield call(
         api.getInterestEligible
@@ -367,19 +368,31 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const isStakingEnabled = selectors.core.walletOptions
         .getIsStakingEnabled(yield select())
         .getOrElse(false) as boolean
+      const isActiveRewardsEnabled = selectors.core.walletOptions
+        .getActiveRewardsEnabled(yield select())
+        .getOrElse(false) as boolean
       const rewardsNextPageUrl = !reset ? yield select(S.getRewardsTransactionsNextPage) : undefined
       const stakingNextPageUrl = !reset ? yield select(S.getStakingTransactionsNextPage) : undefined
+      const activeRewardsNextPageUrl = !reset
+        ? yield select(S.getActiveRewardsTransactionsNextPage)
+        : undefined
       const earnTab: EarnTabsType = yield select(S.getEarnTab)
       // check if invoked from continuous scroll
       if (!reset) {
         const txList = yield select(S.getEarnTransactions)
         // return if next page is already being fetched or there is no next page
-        if (Remote.Loading.is(last(txList)) || (!rewardsNextPageUrl && !stakingNextPageUrl)) return
+        if (
+          Remote.Loading.is(last(txList)) ||
+          (!rewardsNextPageUrl && !stakingNextPageUrl && !activeRewardsNextPageUrl)
+        )
+          return
       }
       yield put(A.fetchEarnTransactionsLoading({ reset }))
       let rewardsResponse: EarnTransactionResponseType = { items: [], next: null }
       let stakingResponse: EarnTransactionResponseType = { items: [], next: null }
+      let activeRewardsResponse: EarnTransactionResponseType = { items: [], next: null }
 
+      // if rewards nextpage is not empty and the filter tab selected either All or Passive in earn/history
       if (rewardsNextPageUrl !== '' && (earnTab === 'All' || earnTab === 'Passive')) {
         rewardsResponse = yield call(api.getEarnTransactions, {
           currency: coin,
@@ -388,6 +401,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       }
 
+      // if staking nextpage is not empty and the filter tab selected either All or Active in earn/history
       if (
         stakingNextPageUrl !== '' &&
         isStakingEnabled &&
@@ -400,16 +414,37 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       }
 
+      // if active rewards nextpage is not empty and the filter tab selected either All or Active in earn/history
+      if (
+        activeRewardsNextPageUrl !== '' &&
+        isActiveRewardsEnabled &&
+        (earnTab === 'All' || earnTab === 'Active')
+      ) {
+        activeRewardsResponse = yield call(api.getEarnTransactions, {
+          currency: coin,
+          nextPageUrl: activeRewardsNextPageUrl,
+          product: ACTIVE_REWARDS_API_PRODUCT
+        })
+      }
+
       const mapProductToItems = (items, product) => {
         return items.map((item) => ({ ...item, product }))
       }
 
       const transactions: Array<EarnTransactionType> = [
         ...mapProductToItems(rewardsResponse.items, 'Passive'),
-        ...mapProductToItems(stakingResponse.items, 'Staking')
+        ...mapProductToItems(stakingResponse.items, 'Staking'),
+        ...mapProductToItems(activeRewardsResponse.items, 'Active')
       ]
 
-      if (rewardsResponse.items.length > 0 && stakingResponse.items.length > 0) {
+      // count how many responses have transactions
+      let counter = 0
+      if (rewardsResponse.items.length > 0) counter += 1
+      if (stakingResponse.items.length > 0) counter += 1
+      if (activeRewardsResponse.items.length > 0) counter += 1
+
+      // check to see if at least 2 of the responses have transactions, if so we want to sort it by date
+      if (counter > 1) {
         transactions.sort((a, b) => {
           if (!a.insertedAt || !b.insertedAt) return 0
 
@@ -419,6 +454,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchEarnTransactionsSuccess({ reset, transactions }))
       yield put(A.setRewardsTransactionsNextPage({ nextPage: rewardsResponse.next || '' }))
       yield put(A.setStakingTransactionsNextPage({ nextPage: stakingResponse.next || '' }))
+      yield put(
+        A.setActiveRewardsTransactionsNextPage({ nextPage: activeRewardsResponse.next || '' })
+      )
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchEarnTransactionsFailure(error))
@@ -443,11 +481,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       d.txHash,
       'Staking'
     ]
+    const formatActiveRewardsTxData = (d) => [
+      d.insertedAt,
+      d.type,
+      d.amount?.symbol,
+      d.amount?.value,
+      d.txHash,
+      'Staking'
+    ]
     let txList = []
     let hasRewardsNext = true
     let nextRewardsPageUrl
     let hasStakingNext = true
     let nextStakingPageUrl
+    let hasActiveRewardsNext = true
+    let nextActiveRewardsPageUrl
     const { coin } = yield select(selectors.form.getFormValues('earnHistoryCoin'))
     yield put(A.fetchEarnTransactionsReportLoading())
     try {
@@ -470,6 +518,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         txList = concat(txList, items.map(formatStakingTxData))
         hasStakingNext = next
         nextStakingPageUrl = next
+      }
+      while (hasActiveRewardsNext) {
+        const { items, next } = yield call(api.getEarnTransactions, {
+          currency: coin === 'ALL' ? undefined : coin,
+          nextPageUrl: nextActiveRewardsPageUrl,
+          product: ACTIVE_REWARDS_API_PRODUCT
+        })
+        txList = concat(txList, items.map(formatActiveRewardsTxData))
+        hasActiveRewardsNext = next
+        nextActiveRewardsPageUrl = next
       }
       // sort txList by descending date
       txList.sort((a, b) => {
@@ -868,7 +926,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const initializeWithdrawalForm = function* ({
     payload
   }: ReturnType<typeof A.initializeWithdrawalForm>) {
-    const { coin, walletCurrency } = payload
+    const { coin, formName, hidePkWallets, walletCurrency } = payload
     const coins = yield select(selectors.core.data.coins.getCoins)
     const coinfig = coins[coin]?.coinfig
     let defaultAccount
@@ -876,7 +934,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.setWithdrawalMinimumsLoading())
       const withdrawalMinimumsResponse: ReturnType<typeof api.getWithdrawalMinsAndFees> =
         yield call(api.getWithdrawalMinsAndFees)
-      if (coinfig.products.includes('PrivateKey')) {
+      if (coinfig.products.includes('PrivateKey') && !hidePkWallets) {
         defaultAccount = yield call(getDefaultAccountForCoin, coin)
       } else {
         defaultAccount = (yield call(getCustodialAccountForCoin, coin)).getOrFail(
@@ -885,7 +943,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(
-        initialize(WITHDRAWAL_FORM, {
+        initialize(formName, {
           coin,
           currency: walletCurrency,
           earnWithdrawalAccount: defaultAccount
@@ -1105,13 +1163,45 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const requestWithdrawal = function* ({ payload }: ReturnType<typeof A.requestWithdrawal>) {
-    const { coin, withdrawalAmountCrypto, withdrawalAmountFiat } = payload
+  const requestActiveRewardsWithdrawal = function* ({
+    payload
+  }: ReturnType<typeof A.requestActiveRewardsWithdrawal>) {
+    const { coin, withdrawalAmountCrypto } = payload
+    const isActiveRewardsWithdrawalEnabled = selectors.core.walletOptions
+      .getActiveRewardsWithdrawalEnabled(yield select())
+      .getOrElse(false) as boolean
+
+    if (!isActiveRewardsWithdrawalEnabled) return
     try {
-      yield put(actions.form.startSubmit(WITHDRAWAL_FORM))
+      const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmountCrypto)
+      yield call(api.initiateCustodialTransfer, {
+        amount: withdrawalAmountBase,
+        currency: coin,
+        destination: 'SIMPLEBUY',
+        origin: 'EARN_CC1W'
+      })
+      yield put(
+        A.setActiveRewardsStep({
+          name: 'WITHDRAWAL_REQUESTED'
+        })
+      )
+      yield delay(3000)
+      yield put(A.fetchRewardsBalance())
+      yield put(A.fetchEDDStatus())
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.setActiveRewardsStep({ name: 'ACCOUNT_SUMMARY' }))
+    }
+  }
+
+  const requestWithdrawal = function* ({ payload }: ReturnType<typeof A.requestWithdrawal>) {
+    const { coin, destination, formName, origin, withdrawalAmountCrypto, withdrawalAmountFiat } =
+      payload
+    try {
+      yield put(actions.form.startSubmit(formName))
 
       const formValues: InterestWithdrawalFormType = yield select(
-        selectors.form.getFormValues(WITHDRAWAL_FORM)
+        selectors.form.getFormValues(formName)
       )
       const isCustodialWithdrawal = prop('type', formValues.earnWithdrawalAccount) === 'CUSTODIAL'
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmountCrypto)
@@ -1120,8 +1210,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(api.initiateCustodialTransfer, {
           amount: withdrawalAmountBase,
           currency: coin,
-          destination: 'SIMPLEBUY',
-          origin: 'SAVINGS'
+          destination,
+          origin
         })
       } else {
         const receiveAddress = yield call(getNextReceiveAddressForCoin, coin)
@@ -1129,7 +1219,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       // notify success
-      yield put(actions.form.stopSubmit(WITHDRAWAL_FORM))
+      yield put(actions.form.stopSubmit(formName))
       yield put(
         A.setRewardsStep({
           data: {
@@ -1144,7 +1234,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchEDDStatus())
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit(WITHDRAWAL_FORM, { _error: error }))
+      yield put(actions.form.stopSubmit(formName, { _error: error }))
       yield put(
         A.setRewardsStep({ data: { error, withdrawSuccess: false }, name: 'ACCOUNT_SUMMARY' })
       )
@@ -1293,6 +1383,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     initializeInterestDepositForm,
     initializeStakingDepositForm,
     initializeWithdrawalForm,
+    requestActiveRewardsWithdrawal,
     requestWithdrawal,
     routeToTxHash,
     sendDeposit,

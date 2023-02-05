@@ -37,8 +37,14 @@ const AddCardVgs: VgsComponent = ({ handleClose }) => {
       if (eventData.provider !== 'VGS') return
 
       if (eventData.action === IFRAME_ACTION.REQUEST_BILLING_ADDRESS) {
+        const address = formValues || data?.userData.address
+        // FIXME: due to a recent change on the backend `country` is no longer supported in favor of `countryCode`
+        //        but not supported everywhere yet so need to keep `country` for now.
+        address.countryCode = address.country
+        address.state = address.state || ''
+
         ref.current?.contentWindow?.postMessage(
-          { messageData: formValues || data?.userData.address, method: 'billingAddress' },
+          { messageData: address, method: 'billingAddress' },
           '*'
         )
       }

@@ -46,10 +46,14 @@ const Header = (props: OwnProps) => {
   }, [modalActions])
 
   const fabCallback = useCallback(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.FAB_CLICKED,
+      properties: {}
+    })
     modalActions.showModal(ModalName.TRADE_MODAL, {
       origin: 'Header'
     })
-  }, [modalActions])
+  }, [modalActions, analyticsActions])
 
   const trackEventCallback = useCallback(
     (eventName) => {

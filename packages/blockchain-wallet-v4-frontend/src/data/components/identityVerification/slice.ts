@@ -38,9 +38,11 @@ const identityVerificationSlice = createSlice({
   initialState,
   name: 'identityVerification',
   reducers: {
+    checkIsNameValid: (state, action: PayloadAction<{ firstName: string; lastName: string }>) => {},
     checkKycFlow: (state, action) => {},
     claimCampaignClicked: (state, action: PayloadAction<{ campaign: CampaignsType }>) => {},
     createRegisterUserCampaign: (state, action) => {},
+
     fetchExtraKYC: (state, action: PayloadAction<string>) => {},
     fetchExtraKYCFailure: (state, action: PayloadAction<string>) => {
       state.kycExtraQuestions = Remote.Failure(action.payload)
@@ -66,6 +68,7 @@ const identityVerificationSlice = createSlice({
     fetchStates: () => {},
     fetchSupportedCountries: (state, action: PayloadAction<{ scope?: string }>) => {},
     fetchSupportedDocuments: (state, action: PayloadAction<{ countryCode?: string }>) => {},
+
     fetchUserAddress: (
       state,
       action: PayloadAction<{ countryCode?: string; id?: string; text: string }>
@@ -82,9 +85,9 @@ const identityVerificationSlice = createSlice({
     },
 
     getPreIdvData: () => {},
-
     goToNextStep: () => {},
     goToPrevStep: () => {},
+
     initializeVerification: (
       state,
       action: PayloadAction<{
@@ -94,14 +97,13 @@ const identityVerificationSlice = createSlice({
         tier: number
       }>
     ) => {},
-
     kycModalClosed: () => {},
     preIdvCheckFinished: () => {},
     registerUserCampaign: (state, action: PayloadAction<{ newUser: boolean }>) => {},
-
     resetVerificationStep: (state, action) => {
       state.verificationStep = null
     },
+
     retrieveUserAddress: (state, action: PayloadAction<{ id?: string }>) => {},
     retrieveUserAddressFailure: (state, action: PayloadAction<string>) => {
       state.userRetrieveAddress = Remote.Failure(action.payload)

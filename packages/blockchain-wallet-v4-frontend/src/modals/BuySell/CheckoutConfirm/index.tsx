@@ -23,8 +23,6 @@ class CheckoutConfirm extends PureComponent<Props> {
   componentDidMount() {
     this.props.sendActions.getLockRule()
     if (!Remote.Success.is(this.props.data)) {
-      this.props.buySellActions.fetchSDDEligibility()
-      this.props.buySellActions.fetchSDDVerified()
       this.props.buySellActions.fetchCards(false)
       this.props.brokerageActions.fetchBankTransferAccounts()
     }
@@ -105,6 +103,9 @@ class CheckoutConfirm extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   applePayInfo: selectors.components.buySell.getApplePayInfo(state),
+  availableToTradeWithdraw: selectors.core.walletOptions
+    .getFeatureFlagAvailableToTradeWithdraw(state)
+    .getOrElse(false) as boolean,
   data: getData(state),
   formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
   googlePayInfo: selectors.components.buySell.getGooglePayInfo(state),

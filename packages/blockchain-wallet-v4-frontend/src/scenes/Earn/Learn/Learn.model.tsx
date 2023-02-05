@@ -1,14 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import {
-  IconLockClosed,
-  IconMarketUp,
-  IconRewardsCircle,
-  SemanticColors
-} from '@blockchain-com/constellation'
+import { IconLockClosed, IconRewardsCircle, SemanticColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { LearnColumnType } from './Learn.types'
+import { Image } from 'blockchain-info-components'
+
+import { LearnColumnArgTypes, LearnColumnType } from './Learn.types'
 
 export const Wrapper = styled.div`
   display: flex;
@@ -32,7 +29,10 @@ export const Wrapper = styled.div`
   }
 `
 
-export const learnColumn: LearnColumnType[] = [
+export const learnColumns = ({
+  handleActiveRewards,
+  handleCompareClick
+}: LearnColumnArgTypes): LearnColumnType[] => [
   {
     description: (
       <FormattedMessage
@@ -64,10 +64,24 @@ export const learnColumn: LearnColumnType[] = [
         defaultMessage='Weekly rewards for forecasting the market. For advanced users.'
       />
     ),
-    icon: <IconMarketUp color={SemanticColors.primary} size='medium' />,
+    handleClick: handleActiveRewards,
+    icon: <Image name='bars' width='20px' height='24px' />,
     id: 'scenes.earn.learn.active-rewards.description',
     isActiveRewards: true,
     link: '/earn/active-rewards-learn',
     title: <FormattedMessage id='copy.active-rewards' defaultMessage='Active Rewards' />
+  },
+  {
+    description: (
+      <FormattedMessage
+        id='scenes.earn.learn.compare-products.description'
+        defaultMessage='Compare Earn products to see what suits you best.'
+      />
+    ),
+    handleClick: handleCompareClick,
+    id: 'scenes.earn.learn.compare-products.description',
+    title: (
+      <FormattedMessage id='scenes.earn.learn.compare-products' defaultMessage='Compare products' />
+    )
   }
 ]

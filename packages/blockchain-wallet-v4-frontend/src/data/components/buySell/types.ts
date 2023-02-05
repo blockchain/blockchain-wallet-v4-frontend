@@ -32,6 +32,7 @@ import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
 import type { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
+import { NabuError } from 'services/errors'
 
 import { BankDWStepType, PlaidSettlementErrorReasons } from '../brokerage/types'
 
@@ -153,9 +154,15 @@ export type RefreshConfig = {
 }
 
 export type BuyQuoteStateType = {
+  amount: string
   fee: string
   pair: string
+  paymentMethod: BSPaymentTypes
+  paymentMethodId?: BSCardType['id']
   quote: BuyQuoteType
+  /**
+   * @deprecated
+   */
   rate: number
   refreshConfig: RefreshConfig
 }
@@ -183,7 +190,7 @@ export type BuySellState = {
   checkoutDotComApiKey?: string
   crossBorderLimits: RemoteDataType<unknown, CrossBorderLimits>
   cryptoCurrency?: CoinType
-  cvvStatus: RemoteDataType<string, boolean>
+  cvvStatus: RemoteDataType<string | NabuError, boolean>
   displayBack: boolean
   fiatCurrency?: FiatType
   fiatEligible: RemoteDataType<PartialClientErrorProperties | Error, FiatEligibleType>
@@ -222,8 +229,6 @@ export type InitializeCheckout = {
   orderType: BSOrderActionType
   pair?: BSPairType
   pairs: Array<BSPairType>
-  paymentMethodId?: BSPaymentMethodType['id']
-  paymentMethodType: BSPaymentTypes
   period: RecurringBuyPeriods
 }
 

@@ -1,11 +1,17 @@
 import type { DexChain, DexSwapQuote, DexToken } from '@core/network/api/dex'
 import { CoinType, RemoteDataType } from '@core/types'
 
+type CurrentChainTokensMeta = {
+  count: number
+  status: 'LOADING_MORE' | 'LOADED' | 'NO_MORE_TOKENS'
+}
+
 // TODO: Handle errors types when the new BE driven errors will be delivered
 export type DexStateType = {
   chains: RemoteDataType<string, DexChain[]>
   currentChain: RemoteDataType<string, DexChain>
   currentChainTokens: RemoteDataType<string, DexToken[]>
+  currentChainTokensMeta: CurrentChainTokensMeta
   isUserEligible: RemoteDataType<string, boolean>
   swapQuote: RemoteDataType<string, DexSwapQuote>
 }

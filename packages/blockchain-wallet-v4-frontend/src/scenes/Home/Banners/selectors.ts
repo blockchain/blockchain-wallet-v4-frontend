@@ -32,6 +32,7 @@ export type BannerType =
   | 'earnRewards'
   | 'appleAndGooglePay'
   | 'staking'
+  | 'activeRewards'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
@@ -44,6 +45,7 @@ export const getBuyCryptoAnnouncement = () => `buy-crypto-homepage`
 export const getRecurringBuyAnnouncement = () => `recurring-buys-homepage`
 export const getEarnRewardsAnnouncement = () => `earn-rewards-homepage`
 export const getStakingAnnouncement = () => `staking-homepage`
+export const getActiveRewardsAnnouncement = () => `active-rewards-homepage`
 export const getServicePriceUnavailableAnnouncement = () => `service-price-unavailable-homepage`
 export const getKYCFinishAnnouncement = () => `kyc-finish-homepage`
 export const getContinueToGoldAnnouncement = () => `continue-to-gold-homepage`
@@ -238,6 +240,24 @@ export const getData = (state: RootState) => {
     announcementState
   )
 
+  // active rewards
+  const getActiveRewardsAnnouncement = getStakingAnnouncement()
+  const activeRewardsEligible = selectors.components.interest
+    .getActiveRewardsEligible(state)
+    .getOrElse({})
+  const isUserActiveRewardsEligible =
+    !isEmpty(activeRewardsEligible) &&
+    Object.values(activeRewardsEligible).some((obj) => !!obj?.eligible)
+  const isActiveRewardsPromoBannerFeatureFlagEnabled = selectors.core.walletOptions
+    .getActiveRewardsPromoBannerEnabled(state)
+    .getOrElse(false) as boolean
+
+  const showActiveRewardsBanner = showBanner(
+    isActiveRewardsPromoBannerFeatureFlagEnabled && isUserActiveRewardsEligible,
+    getActiveRewardsAnnouncement,
+    announcementState
+  )
+
   // Continue to Gold
   const continueToGold =
     (userData?.tiers?.current === TIER_TYPES.SILVER ||
@@ -257,6 +277,7 @@ export const getData = (state: RootState) => {
   const showKYCFinishBanner = showBanner(showFinishKYC, kycFinishAnnouncement, announcementState)
 
   const stakingEligibleR = selectors.components.interest.getStakingEligible(state)
+  const activeRewardsEligibleR = selectors.components.interest.getActiveRewardsEligible(state)
   const fiatCurrencyR = selectors.core.settings.getCurrency(state)
 
   let bannerToShow: BannerType = null
@@ -272,6 +293,8 @@ export const getData = (state: RootState) => {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
+  } else if (showActiveRewardsBanner) {
+    bannerToShow = 'activeRewards'
   } else if (showStakingBanner) {
     bannerToShow = 'staking'
   } else if (showAppleAndGooglePayBanner) {
@@ -298,14 +321,16 @@ export const getData = (state: RootState) => {
 
   return lift(
     (
+      activeRewardsEligible: ExtractSuccess<typeof activeRewardsEligibleR>,
       fiatCurrency: FiatType,
       stakingEligible: ExtractSuccess<typeof stakingEligibleR>,
       userData: ExtractSuccess<typeof userDataR>
     ) => ({
+      activeRewardsEligible,
       bannerToShow,
       fiatCurrency,
       stakingEligible,
       userData
     })
-  )(fiatCurrencyR, stakingEligibleR, userDataR)
+  )(activeRewardsEligibleR, fiatCurrencyR, stakingEligibleR, userDataR)
 }

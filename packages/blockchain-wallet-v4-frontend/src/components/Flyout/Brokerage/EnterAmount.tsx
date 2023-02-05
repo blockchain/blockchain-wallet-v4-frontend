@@ -100,8 +100,8 @@ const LimitSection = ({ fee = '0', fiatCurrency, limitAmount, orderType }: Limit
             <TextGroup inline>
               <Text color='grey600' size='14px' weight={500}>
                 <FormattedMessage
-                  id='modals.brokerage.withdraw_holding_period'
-                  defaultMessage='Newly added funds are subject to a holding period. You can transfer between your Trading, Rewards, Staking, and Exchange accounts in the meantime.'
+                  id='modals.brokerage.withdraw_holding_period_1'
+                  defaultMessage='Newly added funds are subject to a holding period. You can transfer between your Trading, Earn, and Exchange accounts in the meantime.'
                 />
               </Text>
               <Link
