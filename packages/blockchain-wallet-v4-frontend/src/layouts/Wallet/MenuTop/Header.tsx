@@ -103,6 +103,16 @@ const Header = (props: OwnProps) => {
       e2e: 'earnLink',
       isNew: true,
       text: <FormattedMessage id='copy.earn' defaultMessage='Earn' />
+    },
+    {
+      dest: '/defi',
+      e2e: 'defiTest',
+      text: <FormattedMessage id='copy.defi_test' defaultMessage='Defi Test' />
+    },
+    {
+      dest: '/accounts',
+      e2e: 'accountsTest',
+      text: <FormattedMessage id='copy.account_test' defaultMessage='Account Test' />
     }
   ]
 

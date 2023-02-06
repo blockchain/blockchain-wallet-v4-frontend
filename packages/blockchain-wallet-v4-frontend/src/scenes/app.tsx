@@ -79,6 +79,10 @@ const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
 const DebitCard = React.lazy(() => import('./DebitCard'))
 
+// TEMP SuperApp Prelim
+const DeFi = React.lazy(() => import('./TestDefiBalances'))
+const Accounts = React.lazy(() => import('./TestAccountBalances'))
+
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const App = ({
@@ -247,6 +251,10 @@ const App = ({
                               <WalletLayout path='/debit-card' component={DebitCard} />
                             )}
                             <WalletLayout path='/airdrops' component={Airdrops} />
+                            {/* TEST PAGES FOR SUPERAPP */}
+                            <WalletLayout path='/defi' component={DeFi} />
+                            <WalletLayout path='/accounts' component={Accounts} />
+                            {/* TEST PAGES FOR SUPERAPP */}
                             <WalletLayout path='/exchange' component={TheExchange} />
                             <WalletLayout path='/home' component={Home} />
                             <WalletLayout path='/earn' component={Earn} exact />

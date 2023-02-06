@@ -444,7 +444,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.startLogoutTimer())
       yield call(startCoinWebsockets)
-
+      // TODO: temp, do we want this here?
+      yield put(actions.activities.startSocket())
       // store guid and email in cache for future login
       yield put(actions.cache.guidEntered(guid))
       if (email) {
