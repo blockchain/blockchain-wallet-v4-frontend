@@ -121,7 +121,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const changeTrendingPair = function* ({ payload }: ReturnType<typeof A.changeTrendingPair>) {
     yield put(actions.form.change('initSwap', 'BASE', payload.baseAccount))
     yield put(actions.form.change('initSwap', 'COUNTER', payload.counterAccount))
-    yield put(A.setStep({ step: 'ENTER_AMOUNT' }))
+    yield put(A.setStep({ isSuggestedPair: true, step: 'ENTER_AMOUNT' }))
   }
 
   const calculateProvisionalPayment = function* (

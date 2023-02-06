@@ -462,24 +462,25 @@ export type CardAcquirer = {
 }
 
 export type BuyQuoteType = {
-  depositTerms: DepositTerms
+  depositTerms?: DepositTerms
   feeDetails: {
     fee: string
     feeFlags: []
     feeWithoutPromo: string
   }
-  networkFee: null
+  networkFee: string | null
   price: string
   quoteCreatedAt: string
   quoteExpiresAt: string
   quoteId: string
   quoteMarginPercent: number
+  resultAmount: string
   sampleDepositAddress: null
   settlementDetails: {
     availability: string
     reason: PlaidSettlementErrorReasons
   }
-  staticFee: null
+  staticFee: string | null
 }
 
 export enum TermType {

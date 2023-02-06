@@ -7,9 +7,14 @@ import { CoinType } from '@core/types'
 import { Icon, Image } from 'blockchain-info-components'
 import { FlyoutWrapper as Header } from 'components/Flyout'
 
-import { Bottom, Top, WarningContainer, Wrapper } from './Warning.model'
+import { Bottom, Top, WarningContainer, Wrapper } from './Warning.styles'
 
-const Warning = ({ coin, handleClick, handleClose }: OwnProps) => (
+const Warning = ({
+  coin,
+  handleClick,
+  handleClose,
+  isActiveRewardsWithdrawalEnabled
+}: OwnProps) => (
   <Wrapper>
     <Header>
       <Flex alignItems='center' justifyContent='space-between'>
@@ -55,12 +60,14 @@ const Warning = ({ coin, handleClick, handleClose }: OwnProps) => (
         <Text color={SemanticColors.title} variant='paragraph2'>
           <FormattedMessage defaultMessage='Important' id='copy.important' />
         </Text>
-        <Text color={SemanticColors.title} variant='caption1'>
-          <FormattedMessage
-            defaultMessage="Withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled in approximately mid-January 2023. Until then, BTC assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
-            id='modals.active-rewards.warning.bottom.warning-1'
-          />
-        </Text>
+        {!isActiveRewardsWithdrawalEnabled && (
+          <Text color={SemanticColors.title} variant='caption1'>
+            <FormattedMessage
+              defaultMessage="Withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled approximately end of January 2023. Until then, BTC assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
+              id='modals.active-rewards.warning.bottom.warning-1'
+            />
+          </Text>
+        )}
         <Text color={SemanticColors.title} variant='caption1'>
           <FormattedMessage
             defaultMessage='Blockchain.com does not assume liability for any losses incurred from price fluctuations. Please trade with caution.'
@@ -93,6 +100,7 @@ type OwnProps = {
   coin: CoinType
   handleClick: () => void
   handleClose: () => void
+  isActiveRewardsWithdrawalEnabled: boolean
 }
 
 export default Warning

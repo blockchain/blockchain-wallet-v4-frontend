@@ -4,7 +4,6 @@ import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import {
-  BSPaymentTypes,
   CrossBorderLimitsPayload,
   ExtractSuccess,
   FiatType,
@@ -15,7 +14,6 @@ import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
-import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import {
   Analytics,
@@ -65,97 +63,16 @@ const Checkout = (props: Props) => {
       properties: {}
     })
 
-    // if the user is < tier 2 go to kyc but save order info
-    // if the user is tier 2 try to submit order, let BE fail
-    const { hasPaymentAccount, isSddFlow, userData } = data
-
     const buySellGoal = find(propEq('name', 'buySell'), goals)
-
     const id = propOr('', 'id', buySellGoal)
-
     if (!isEmpty(id)) {
       props.deleteGoal(String(id))
     }
 
-    const method = props.method || props.defaultMethod
-
-    // TODO: sell
-    // need to do kyc check
-    // SELL
-    if (formValues?.orderType === OrderType.SELL) {
-      return props.buySellActions.setStep({
-        sellOrderType: props.swapAccount?.type,
-        step: 'PREVIEW_SELL'
-      })
-    }
-
-    // BUY
-    if (isSddFlow) {
-      const currentTier = userData?.tiers?.current ?? 0
-
-      if (currentTier === 2 || currentTier === 1) {
-        // user in SDD but already completed eligibility check, continue to payment
-        props.buySellActions.createOrder({ paymentType: BSPaymentTypes.PAYMENT_CARD })
-      } else {
-        // user in SDD but needs to confirm KYC and SDD eligibility
-        props.identityVerificationActions.verifyIdentity({
-          checkSddEligibility: true,
-          needMoreInfo: false,
-          onCompletionCallback: () =>
-            props.buySellActions.createOrder({ paymentType: BSPaymentTypes.PAYMENT_CARD }),
-          origin: 'BuySell',
-          tier: 2
-        })
-      }
-    } else if (!method) {
-      const nextStep = hasPaymentAccount ? 'LINKED_PAYMENT_ACCOUNTS' : 'PAYMENT_METHODS'
-      props.buySellActions.setStep({
-        cryptoCurrency: props.cryptoCurrency,
-        fiatCurrency: props.fiatCurrency,
-        order: props.order,
-        pair: props.pair,
-        step: nextStep
-      })
-    } else if (userData.tiers.current < 2) {
-      props.buySellActions.createOrder({ paymentMethodId: getValidPaymentMethod(method.type) })
-    } else if (formValues && method) {
-      switch (method.type) {
-        case BSPaymentTypes.PAYMENT_CARD:
-          if (props.mobilePaymentMethod) {
-            props.buySellActions.createOrder({
-              mobilePaymentMethod: props.mobilePaymentMethod,
-              paymentMethodId: method.id,
-              paymentType: BSPaymentTypes.PAYMENT_CARD
-            })
-
-            break
-          }
-
-          props.buySellActions.setStep({
-            step: 'DETERMINE_CARD_PROVIDER'
-          })
-          break
-        case BSPaymentTypes.USER_CARD:
-          props.buySellActions.createOrder({
-            paymentMethodId: method.id,
-            paymentType: BSPaymentTypes.PAYMENT_CARD
-          })
-          break
-        case BSPaymentTypes.FUNDS:
-          props.buySellActions.createOrder({ paymentType: BSPaymentTypes.FUNDS })
-          break
-        case BSPaymentTypes.BANK_TRANSFER:
-          props.buySellActions.createOrder({
-            paymentMethodId: method.id,
-            paymentType: BSPaymentTypes.BANK_TRANSFER
-          })
-          break
-        case BSPaymentTypes.BANK_ACCOUNT:
-          break
-        default:
-          break
-      }
-    }
+    return props.buySellActions.setStep({
+      sellOrderType: props.swapAccount?.type,
+      step: 'PREVIEW_SELL'
+    })
   }
 
   const errorCallback = () => {
@@ -190,7 +107,6 @@ const Checkout = (props: Props) => {
     }
 
     if (!data) {
-      props.buySellActions.fetchSDDEligibility()
       props.brokerageActions.fetchBankTransferAccounts()
     }
     // we fetch limits as part of home banners logic at that point we had only fiatCurrency

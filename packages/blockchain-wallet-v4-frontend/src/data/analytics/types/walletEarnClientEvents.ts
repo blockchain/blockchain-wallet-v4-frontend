@@ -11,8 +11,18 @@ export enum Events {
   WALLET_ACTIVE_REWARDS_DETAIL_DEPOSIT_CLICKED = 'Wallet Active Rewards Detail Deposit Clicked',
   // DETAIL: User visualises the detail of a specific token’s staking account. Balance, accruals, and CTA are shown here.
   WALLET_ACTIVE_REWARDS_DETAIL_VIEWED = 'Wallet Active Rewards Detail Viewed',
+  // LEARNING: User clicks to go to active rewards learning page.
+  WALLET_ACTIVE_REWARDS_LEARNING_PAGE_CLICKED = 'Wallet Active Rewards Learning Page Clicked',
+  // LEARNING: User clicks on get started on active rewards learning page.
+  WALLET_ACTIVE_REWARDS_LEARNING_PAGE_GET_STARTED_CLICKED = 'Wallet Active Rewards Warning Continue Viewed',
+  // LEARNING: User view active rewards learning page.
+  WALLET_ACTIVE_REWARDS_LEARNING_PAGE_VIEWED = 'Wallet Active Rewards Warning Continue Viewed',
   // Active Rewards Modal: User clicks continue button
   WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED = 'Wallet Active Rewards Warning Continue Clicked',
+  // WITHDRAW: User clicks on transfer on the active rewards withdrawal page.
+  WALLET_ACTIVE_REWARDS_WITHDRAWAL_REQUESTED_VIEWED = 'Wallet Active Rewards Withdrawal Requested Viewed',
+  // WITHDRAW: User clicks on transfer on the active rewards withdrawal page.
+  WALLET_ACTIVE_REWARDS_WITHDRAW_TRANSFER_CLICKED = 'Wallet Active Rewards Withdraw Transfer Clicked',
 
   // BUY: Wallet. The user clicks the buy earn rewards button.
   WALLET_BUY_EARN_REWARDS_CLICKED = 'Wallet Buy Earn Rewards Clicked',
@@ -165,6 +175,23 @@ type WalletActiveRewardsDetailViewed = {
   }
 }
 
+type WalletActiveRewardsLearningClicked = {
+  key: Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_CLICKED
+  properties: {}
+}
+
+type WalletActiveRewardsLearningGetStartedClicked = {
+  key: Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_GET_STARTED_CLICKED
+  properties: {
+    currency: string
+  }
+}
+
+type WalletActiveRewardsLearningViewed = {
+  key: Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_VIEWED
+  properties: {}
+}
+
 type WalletActiveRewardsDepositSuccessViewed = {
   key: Events.WALLET_ACTIVE_REWARDS_DEPOSIT_SUCCESS_VIEWED
   properties: {
@@ -193,8 +220,8 @@ type WalletRewardsDepositTransferClicked = {
 type WalletActiveRewardsDepositTransferClicked = {
   key: Events.WALLET_ACTIVE_REWARDS_DEPOSIT_TRANSFER_CLICKED
   properties: {
-    amount: number
-    amount_usd: number
+    amount: string
+    amount_usd: string
     currency: string
     type: 'TRADING' | 'USERKEY'
   }
@@ -279,6 +306,23 @@ type WalletRewardsWithdrawTransferClicked = {
   }
 }
 
+type WalletActiveRewardsWithdrawTransferClicked = {
+  key: Events.WALLET_ACTIVE_REWARDS_WITHDRAW_TRANSFER_CLICKED
+  properties: {
+    amount: string
+    amount_usd: string
+    currency: string
+    type: 'TRADING'
+  }
+}
+
+type WalletActiveRewardsWithdrawalRequestedViewed = {
+  key: Events.WALLET_ACTIVE_REWARDS_WITHDRAWAL_REQUESTED_VIEWED
+  properties: {
+    currency: string
+  }
+}
+
 // BUY
 type WalletBuyEarnRewardsClicked = {
   key: Events.WALLET_BUY_EARN_REWARDS_CLICKED
@@ -297,7 +341,12 @@ export type TrackEventAction =
   | WalletActiveRewardsDetailClicked
   | WalletActiveRewardsDetailDepositClicked
   | WalletActiveRewardsDetailViewed
+  | WalletActiveRewardsLearningClicked
+  | WalletActiveRewardsLearningGetStartedClicked
+  | WalletActiveRewardsLearningViewed
   | WalletActiveRewardsWarningContinueClicked
+  | WalletActiveRewardsWithdrawalRequestedViewed
+  | WalletActiveRewardsWithdrawTransferClicked
   | WalletBuyEarnRewardsClicked
   | WalletBuyEarnRewardsViewed
   | WalletRewardsDetailClicked

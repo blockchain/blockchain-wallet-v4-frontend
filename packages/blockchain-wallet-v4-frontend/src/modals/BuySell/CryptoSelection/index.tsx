@@ -28,7 +28,6 @@ const CryptoSelection: React.FC<Props> = memo((props) => {
         (currentCurrencyIsInSupportedFiat ? props.walletCurrency : 'USD')
       props.buySellActions.fetchPairs({ currency })
       props.buySellActions.fetchFiatEligible(props.walletCurrency)
-      props.buySellActions.fetchSDDEligibility()
       props.buySellActions.fetchBSOrders()
     }
   }, [])

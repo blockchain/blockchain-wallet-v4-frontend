@@ -89,7 +89,7 @@ const ThreeDSHandlerEverypay = (props: Props) => {
   )
 
   if (order.hasError && order.error) {
-    renderError(order.error)
+    return renderError(order.error)
   }
 
   if (order.isLoading) {
@@ -115,7 +115,7 @@ const ThreeDSHandlerEverypay = (props: Props) => {
   }
 
   if (!paymentLink) {
-    renderError(CARD_ERROR_CODE.CREATE_FAILED)
+    return renderError(CARD_ERROR_CODE.CREATE_FAILED)
   }
 
   return (

@@ -23,8 +23,6 @@ class CheckoutConfirm extends PureComponent<Props> {
   componentDidMount() {
     this.props.sendActions.getLockRule()
     if (!Remote.Success.is(this.props.data)) {
-      this.props.buySellActions.fetchSDDEligibility()
-      this.props.buySellActions.fetchSDDVerified()
       this.props.buySellActions.fetchCards(false)
       this.props.brokerageActions.fetchBankTransferAccounts()
     }

@@ -1,6 +1,12 @@
 import { CoinfigType } from '@core/types'
 
 declare global {
+  type Coins = {
+    [key in string]: {
+      coinfig: CoinfigType // all coin configs for app
+    }
+  }
+
   interface Window {
     APP_VERSION: string // build injected app version
     ApplePaySession?: ApplePaySession
@@ -12,11 +18,7 @@ declare global {
     SARDINE_ENVIRONMENT: string // sardine environment sandbox or production
     _Sardine: any // Sardine integration
     _SardineContext: any // Sardine integration
-    coins: {
-      [key in string]: {
-        coinfig: CoinfigType // all coin configs for app
-      }
-    }
+    coins: Coins
     grecaptcha: any // google recaptcha sets this on window
     history?: {
       pushState: any

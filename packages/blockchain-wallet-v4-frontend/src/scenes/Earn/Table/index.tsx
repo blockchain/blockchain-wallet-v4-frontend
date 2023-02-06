@@ -19,7 +19,7 @@ import EmptyState from './EmptyState'
 import MobileRow from './MobileRow'
 import { getData } from './selectors'
 import SortableTable from './SortableTable'
-import { Wrapper } from './Table.model'
+import { Wrapper } from './Table.styles'
 
 const TableContainer = (props: Props) => {
   const { analyticsActions, earnActions } = props

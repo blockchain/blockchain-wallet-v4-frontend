@@ -38,6 +38,9 @@ const TransactionList = React.lazy(() => import('./DebitCard/TransactionList'))
 const DexSwapSettings = React.lazy(() => import('./Dex/SwapSettings'))
 const DexSelectToken = React.lazy(() => import('./Dex/SelectToken'))
 
+// Earn Compare
+const EarnCompare = React.lazy(() => import('./EarnCompare'))
+
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
@@ -210,6 +213,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_REPORT_MODAL) ? (
           <DownloadTransactions />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.EARN_COMPARE) ? (
+          <EarnCompare />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.EDIT_TX_DESCRIPTION_MODAL) ? (
           <EditTxDescription />

@@ -23,6 +23,7 @@ export type RemoteType = {
   activeRewardsRates: EarnRatesType['rates']
   currentPrice: string
   earnEDDStatus: EarnEDDStatus
+  isActiveRewardsWithdrawalEnabled: boolean
   pendingTransactions: PendingTransactionType[]
   priceChange: PriceChangeType
 }
@@ -46,11 +47,13 @@ export type SuccessPropsType = {
   handleDepositClick: () => void
   handleEDDSubmitInfo: () => void
   handleTransactionsToggled: () => void
+  handleWithdrawal: () => void
   isBalanceDropdownToggled: boolean
   isCoinDisplayed: boolean
   isDepositEnabled?: boolean
   isEDDRequired: boolean
   isTransactionsToggled: boolean
+  isWithdrawalEnabled: boolean
   pendingTransactions: Array<PendingTransactionType>
   percentChange: string
   priceChangeColor: SemanticColorsType

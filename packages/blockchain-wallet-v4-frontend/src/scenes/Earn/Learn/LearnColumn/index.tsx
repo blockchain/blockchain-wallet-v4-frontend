@@ -5,11 +5,12 @@ import { Flex, Link, SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { RoundedBadge } from 'components/Badge'
 
-import { VerticalDivider } from './LearnColumn.model'
+import { VerticalDivider } from './LearnColumn.styles'
 import { LearnColumnPropsType } from './LearnColumn.types'
 
 const LearnColumn = ({
   description,
+  handleClick,
   icon,
   isActiveRewards,
   link,
@@ -41,11 +42,18 @@ const LearnColumn = ({
         <LinkContainer to={link}>
           <a>
             <Link
+              onClick={handleClick}
               size='small'
               text={<FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />}
             />
           </a>
         </LinkContainer>
+      ) : handleClick ? (
+        <Link
+          onClick={handleClick}
+          size='small'
+          text={<FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />}
+        />
       ) : (
         <Link
           href={link}

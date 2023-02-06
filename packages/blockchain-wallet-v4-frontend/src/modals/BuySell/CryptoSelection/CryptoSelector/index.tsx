@@ -9,6 +9,7 @@ import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-compone
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
+import * as SddFlow from 'data/components/buySell/utils/sddFlow'
 import { Analytics, ModalName, SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
@@ -101,26 +102,13 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
   }
 
   handleBuy = (pair: BSPairType) => {
-    const currentTier = this.props.userData?.tiers?.current ?? 0
-
     this.props.analyticsActions.trackEvent({
       key: Analytics.BUY_ASSET_SELECTED,
       properties: {}
     })
 
-    // if first time user, send to verify email step which is required future SDD check
-    if (!this.props.emailVerified && currentTier !== 2 && currentTier !== 1) {
-      return this.props.buySellActions.setStep({
-        cryptoCurrency: getCoinFromPair(pair.pair),
-        fiatCurrency: getFiatFromPair(pair.pair),
-        orderType: this.state.orderType,
-        pair,
-        step: 'VERIFY_EMAIL'
-      })
-    }
-
     // if SDD user has already placed on order, force them to Gold upgrade
-    if (currentTier === 3 && this.props.sbOrders?.length > 0) {
+    if (SddFlow.isSddUser(this.props.userData) && this.props.sbOrders?.length > 0) {
       return this.props.buySellActions.setStep({
         step: 'UPGRADE_TO_GOLD'
       })

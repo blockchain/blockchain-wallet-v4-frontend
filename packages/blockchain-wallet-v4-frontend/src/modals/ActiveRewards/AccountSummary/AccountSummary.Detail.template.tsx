@@ -3,7 +3,7 @@ import { Flex, IconInformation, SemanticColors, Text } from '@blockchain-com/con
 
 import { TooltipHost } from 'blockchain-info-components'
 
-import { DetailsContainer } from './AccountSummary.model'
+import { DetailsContainer } from './AccountSummary.styles'
 
 const Details = ({
   handleClick,

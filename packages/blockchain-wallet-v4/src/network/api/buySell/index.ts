@@ -326,14 +326,14 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
 
   const getBSPaymentMethods = (
     currency: FiatType | undefined,
-    includeNonEligibleMethods?: boolean,
+    includeEligibleOnlyPaymentMethods?: boolean,
     includeTierLimits?: number
   ): BSPaymentMethodsType =>
     authorizedGet({
       contentType: 'application/json',
       data: {
         currency,
-        eligibleOnly: includeNonEligibleMethods,
+        eligibleOnly: includeEligibleOnlyPaymentMethods,
         tier: includeTierLimits
       },
       endPoint: '/eligible/payment-methods',
