@@ -1,4 +1,4 @@
-import { BuildTxFeeType } from '@core/network/api/coin/types'
+import { BuildTxFeeType } from '@core/network/api/coins/types'
 import { SwapAccountType } from 'data/types'
 
 export type SendFormType = {

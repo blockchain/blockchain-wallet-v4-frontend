@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { BuildTxFeeType, BuildTxResponseType } from '@core/network/api/coin/types'
+import { BuildTxFeeType, BuildTxResponseType } from '@core/network/api/coins/types'
 import Remote from '@core/remote'
 import {
   CrossBorderLimits,

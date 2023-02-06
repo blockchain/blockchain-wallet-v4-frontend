@@ -80,7 +80,6 @@ const FirstStep = (props) => {
     isContractChecked,
     isMnemonicVerified,
     isRetryAttempt,
-    isSufficientEthForErc20,
     minFeeRequiredForRetry,
     priorityFee,
     pristine,
@@ -91,7 +90,6 @@ const FirstStep = (props) => {
     verifyIdentity
   } = props
   const isFromCustody = from && from.type === 'CUSTODIAL'
-  const disableDueToLowEth = coin !== 'ETH' && !isSufficientEthForErc20 && !isFromCustody
   const disableRetryAttempt =
     isRetryAttempt && new BigNumber(fee).isLessThanOrEqualTo(minFeeRequiredForRetry)
   const disableCustodySend = isFromCustody && !isMnemonicVerified
@@ -285,7 +283,6 @@ const FirstStep = (props) => {
         </CustomFeeAlertBanner>
       ) : null}
       {disableRetryAttempt && <MinFeeForRetryInvalid />}
-      {disableDueToLowEth && <LowEthWarningForErc20 coin={coin} />}
       {isFromCustody && !isMnemonicVerified ? <MnemonicRequiredForCustodySend /> : null}
       {isFromCustody &&
       !isEmpty(sendLimits) &&
@@ -304,7 +301,6 @@ const FirstStep = (props) => {
             invalid ||
             !amount ||
             !isContractChecked ||
-            disableDueToLowEth ||
             disableRetryAttempt ||
             disableCustodySend ||
             Remote.Loading.is(balanceStatus)

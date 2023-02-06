@@ -1,58 +1,37 @@
 import { any, isEmpty, isNil, map, values } from 'ramda'
 
 import { Remote } from '@core'
-import { CoinfigType, CoinType, InvitationsType, RemoteDataType } from '@core/types'
+import { CoinType, InvitationsType, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 
-import * as ARS from './coins/ars'
-import * as BCH from './coins/bch'
-import * as BTC from './coins/btc'
-import * as CUSTODIAL from './coins/custodial'
-import * as DYNAMIC_SELF_CUSTODY from './coins/dynamic-self-custody'
-import * as ERC20 from './coins/erc20'
-import * as ETH from './coins/eth'
-import * as EUR from './coins/eur'
-import * as GBP from './coins/gbp'
-import * as USD from './coins/usd'
-import * as XLM from './coins/xlm'
+import { CustodialAccountType } from './accountTypes/accountTypes.custodial'
+import { DynamicSelfCustodyAccountType } from './accountTypes/accountTypes.dynamicSelfCustody'
+import { ERC20AccountType } from './accountTypes/accountTypes.erc20'
+import { NonCustodialAccountType } from './accountTypes/accountTypes.nonCustodial'
 
-// create a function map of all coins
-const coinSelectors = {
-  ARS,
-  BCH,
-  BTC,
-  CUSTODIAL,
-  DYNAMIC_SELF_CUSTODY,
-  ERC20,
-  ETH,
-  EUR,
-  GBP,
-  USD,
-  XLM
-}
-
-// internal util get locate correct selectors
-const __getSelector = (coinfig: CoinfigType) => {
-  if (selectors.core.data.coins.getErc20Coins().includes(coinfig.symbol)) {
+export const getKey = (coin: CoinType) => {
+  if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return 'ERC20'
   }
-  if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coinfig.symbol)) {
+  if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
     return 'DYNAMIC_SELF_CUSTODY'
   }
-  if (selectors.core.data.coins.getCustodialCoins().includes(coinfig.symbol)) {
-    return 'CUSTODIAL'
-  }
-  return coinfig.symbol
+  return 'NON_CUSTODIAL'
 }
 
 // retrieves introduction text for coin on its transaction page
 const getIntroductionText = (coin: string) => {
-  const { coinfig } = window.coins[coin]
-  const selector = __getSelector(coinfig)
-  return coinSelectors[selector]?.getTransactionPageHeaderText(coinfig.symbol)
+  return ''
+}
+
+const accountTypes = {
+  CUSTODIAL: new CustodialAccountType({} as any, {} as any),
+  DYNAMIC_SELF_CUSTODY: new DynamicSelfCustodyAccountType({} as any, {} as any),
+  ERC20: new ERC20AccountType({} as any, {} as any),
+  NON_CUSTODIAL: new NonCustodialAccountType({} as any, {} as any)
 }
 
 // generic selector that should be used by all features to request their desired
@@ -66,10 +45,8 @@ const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) =>
       isEmpty(coinList) || isNil(coinList)
         ? Remote.of({})
         : coinList.reduce((accounts, coin) => {
-            const { coinfig } = window.coins[coin]
-            const selector = __getSelector(coinfig)
-            // eslint-disable-next-line
-          accounts[coin] = coinSelectors[selector]?.getAccounts(state, { coin, ...ownProps })
+            const accountType = getKey(coin)
+            accounts[coin] = accountTypes[accountType].getAccounts(state, { coin, ...ownProps })
             return accounts
           }, {})
 

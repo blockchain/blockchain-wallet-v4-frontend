@@ -48,9 +48,7 @@ class EthWalletBalance extends PureComponent<Props, State> {
   }
 
   refresh = () => {
-    this.props.fetchErc20Balances()
-    this.props.ethActions.fetchDataLoading()
-    this.props.ethActions.fetchData()
+    this.props.coinsActions.fetchUnifiedBalances()
   }
 
   render() {
@@ -188,35 +186,30 @@ class EthWalletBalance extends PureComponent<Props, State> {
                   </Flex>
                 </Row>
                 {erc20Balances
-                  .filter(({ tokenSymbol }) => !!window.coins[tokenSymbol])
-                  .map(({ balance, tokenSymbol }) => (
-                    <Row key={tokenSymbol}>
+                  .filter(({ ticker }) => !!window.coins[ticker])
+                  .map(({ amount, ticker }) => (
+                    <Row key={ticker}>
                       <Flex justifyContent='space-between' alignItems='center'>
                         <Flex gap={16} alignItems='center'>
-                          <BlockchainIcon size='24px' name={tokenSymbol} />
+                          <BlockchainIcon size='24px' name={ticker} />
                           <Flex gap={2} flexDirection='column'>
                             <Text color='black' weight={600}>
-                              {window.coins[tokenSymbol].coinfig.name}
+                              {window.coins[ticker].coinfig.name}
                             </Text>
                             <Text size='14px' color='grey500' weight={500}>
-                              {window.coins[tokenSymbol].coinfig.displaySymbol} Private Key Wallet
+                              {window.coins[ticker].coinfig.displaySymbol} Private Key Wallet
                             </Text>
                           </Flex>
                         </Flex>
                         <Flex gap={2} flexDirection='column'>
                           <Flex justifyContent='flex-end'>
-                            <FiatDisplay coin={tokenSymbol} color='black' weight={600}>
-                              {balance}
+                            <FiatDisplay coin={ticker} color='black' weight={600}>
+                              {amount}
                             </FiatDisplay>
                           </Flex>
                           <Flex justifyContent='flex-end'>
-                            <CoinDisplay
-                              coin={tokenSymbol}
-                              size='14px'
-                              color='grey500'
-                              weight={500}
-                            >
-                              {balance}
+                            <CoinDisplay coin={ticker} size='14px' color='grey500' weight={500}>
+                              {amount}
                             </CoinDisplay>
                           </Flex>
                         </Flex>
@@ -257,8 +250,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  ethActions: bindActionCreators(actions.core.data.eth, dispatch),
-  fetchErc20Balances: bindActionCreators(actions.core.data.eth.fetchErc20Data, dispatch)
+  coinsActions: bindActionCreators(actions.core.data.coins, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

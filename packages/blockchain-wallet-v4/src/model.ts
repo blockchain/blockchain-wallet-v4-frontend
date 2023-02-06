@@ -1,2 +1,2 @@
-export * from './network/api/coin/model'
+export * from './network/api/coins/model'
 export * from './redux/settings/model'

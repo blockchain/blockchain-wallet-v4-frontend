@@ -2,11 +2,13 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { IconRefresh } from '@blockchain-com/icons'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { ExtractSuccess } from '@core/remote/types'
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Icon, Link, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
+import { Flex } from 'components/Flex'
 import { StandardRow } from 'components/Rows'
 import { actions, selectors } from 'data'
 import { media } from 'services/styles'
@@ -65,10 +67,31 @@ const HoldingsTableContainer = (props: Props) => (
       </LinkContainer>
     </TitleWrapper>
     {props.data.cata({
-      Failure: (e) => (
-        <Text size='16px' weight={500} color='grey400' capitalize>
-          {e?.toString() || 'Failed to load balances'}
-        </Text>
+      Failure: () => (
+        <>
+          <Flex alignItems='flex-end'>
+            <Text size='14px' weight={500} color='red600' capitalize>
+              <FormattedMessage
+                id='copy.failed_to_load_balances'
+                defaultMessage='Failed to load balances.'
+              />
+            </Text>{' '}
+            <Text
+              style={{ alignItems: 'center', display: 'flex', gap: '2px' }}
+              onClick={() => props.actions.refreshClicked()}
+              cursor='pointer'
+              color='blue600'
+              size='14px'
+              weight={600}
+              // @ts-ignore
+              role='button'
+            >
+              <FormattedMessage id='copy.try_again' defaultMessage='Try Again' />
+              <IconRefresh />
+            </Text>
+          </Flex>
+          <Loading />
+        </>
       ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,

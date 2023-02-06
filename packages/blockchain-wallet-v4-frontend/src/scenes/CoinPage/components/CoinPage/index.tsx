@@ -49,7 +49,7 @@ const CoinPageContainer: FC<RouteComponentProps> = ({ computedMatch }) => {
       chartTabs={tabsNode}
       about={acoutSection}
       chart={chart}
-      header={<CoinHeader coinCode={coin} coinDescription='' coinName={coinfig?.name ?? ''} />}
+      header={<CoinHeader coinfig={coinfig} coinCode={coin} coinDescription='' />}
       chartBalancePanel={chartBalancePanel}
       recurringBuys={recurringBuyPanel}
       holdings={holdingsCard}

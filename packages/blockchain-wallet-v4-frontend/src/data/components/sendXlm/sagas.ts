@@ -315,7 +315,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } else {
         payment = yield call(payment.publish)
       }
-      yield put(actions.core.data.xlm.fetchData())
       yield put(A.paymentUpdatedSuccess(value))
       const { description } = value
       if (description) yield put(actions.core.kvStore.xlm.setTxNotesXlm(value.txId, description))

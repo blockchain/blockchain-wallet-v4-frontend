@@ -365,7 +365,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return {
       ...baseActions,
-      fetchData: () => dispatch(actions.core.data.eth.fetchErc20Data(coin)),
+      fetchData: () => dispatch(actions.core.data.coins.fetchUnifiedBalances()),
       initTxs: () => dispatch(actions.components.ethTransactions.initializedErc20(coin)),
       loadMoreTxs: () => dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
     }
@@ -394,7 +394,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   }
   return {
     ...baseActions,
-    fetchData: () => dispatch(actions.core.data[toLower(coin)].fetchData()),
+    fetchData: () => dispatch(actions.core.data.coins.fetchUnifiedBalances()),
     initTxs: () => dispatch(actions.components[`${toLower(coin)}Transactions`].initialized()),
     loadMoreTxs: () => dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
     setAddressArchived: (address) => dispatch(actions.core.wallet.setAddressArchived(address, true))

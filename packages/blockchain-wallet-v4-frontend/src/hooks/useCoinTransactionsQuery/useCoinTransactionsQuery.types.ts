@@ -1,4 +1,4 @@
-import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
+import { ActivityResponseType, IngestedSelfCustodyType } from '@core/network/api/coins/types'
 import {
   BSOrderType,
   BSTransactionType,
@@ -15,6 +15,7 @@ type TransactionItem =
   | ProcessedTxType
   | FiatBSAndSwapTransactionType
   | IngestedSelfCustodyType
+  | ActivityResponseType['activity'][0]
 
 type CoinTransactionsQueryHookProps = {
   coin: CoinType

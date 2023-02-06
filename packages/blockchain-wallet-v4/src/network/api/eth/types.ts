@@ -60,17 +60,4 @@ type EthRawPendingTxType = {
   value: string
 }
 
-export type AccountTokensBalancesResponseType = {
-  tokenAccounts: {
-    accountHash: string
-    balance: string
-    decimals: number
-    tokenHash: string
-    tokenSymbol: string
-    totalReceived: string
-    totalSent: string
-    transferCount: string
-  }[]
-}
-
 export type EthRawTxType = EthRawConfirmedTxType | EthRawPendingTxType

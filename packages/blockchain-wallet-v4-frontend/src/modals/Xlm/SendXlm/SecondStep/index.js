@@ -17,7 +17,7 @@ class SecondStepContainer extends React.PureComponent {
   render() {
     const { actions, data } = this.props
     return data.cata({
-      Failure: (message) => <Error>{message}</Error>,
+      Failure: (message) => <Error>{JSON.stringify(message)}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (value) => (

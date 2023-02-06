@@ -85,7 +85,7 @@ const MakeOffer: React.FC<Props> = (props) => {
   const wrapFees = wrapEthFees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
   const offerFees = fees.getOrElse({ gasPrice: 0, totalFees: 0 } as GasDataI)
   const ethBalance = new BigNumber(selfCustodyBalance)
-  const erc20Balance = erc20BalanceR.getOrElse(0)
+  const erc20Balance = erc20BalanceR.getOrElse(new BigNumber(0))
   const maxWrapPossible = ethBalance
     .minus(wrapFees.totalFees * wrapFees.gasPrice)
     .minus(offerFees.totalFees * offerFees.gasPrice)
@@ -97,7 +97,7 @@ const MakeOffer: React.FC<Props> = (props) => {
   // Standard Values
   const standardErc20Balance = convertCoinToCoin({
     coin: formValues.coin || 'WETH',
-    value: erc20Balance
+    value: erc20Balance.toString()
   })
   const standardMaxWrapPossible = convertCoinToCoin({
     coin: 'ETH',
@@ -288,7 +288,9 @@ const mapStateToProps = (state) => {
   const formValues = selectors.form.getFormValues('nftMakeOffer')(state) as NftMakeOfferFormValues
 
   return {
-    erc20BalanceR: selectors.core.data.eth.getErc20Balance(state, formValues?.coin || 'WETH'),
+    erc20BalanceR: selectors.core.data.coins.getCoinUnifiedBalance(formValues?.coin || 'WETH')(
+      state
+    ),
     ethBalancesR: selectors.balances.getCoinBalancesTypeSeparated('ETH')(state),
     formErrors: selectors.form.getFormSyncErrors('nftMakeOffer')(state) as { amount: boolean },
     formValues,

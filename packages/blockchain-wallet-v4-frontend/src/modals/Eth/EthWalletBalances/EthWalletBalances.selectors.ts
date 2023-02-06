@@ -1,51 +1,31 @@
 import { lift } from 'ramda'
 
 import { convertCoinToFiat } from '@core/exchange'
-import { AccountTokensBalancesResponseType } from '@core/types'
+import { ExtractSuccess, RatesType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
-import { RootState } from 'data/rootReducer'
 
 export const getData = createDeepEqualSelector(
-  [
-    selectors.balances.getCoinNonCustodialBalance('ETH'),
-    selectors.core.settings.getCurrency,
-    selectors.core.data.eth.getErc20AccountTokenBalances,
-    // @ts-ignore
-    (state) => selectors.core.data.coins.getRates('ETH', state),
-    (state) => state
-  ],
-  (ethBalanceR, currencyR, erc20BalancesR, ethRatesR, state: RootState) => {
-    const transform = (
-      ethBalance,
-      currency,
-      ethRates,
-      erc20Balances: AccountTokensBalancesResponseType['tokenAccounts']
-    ) => {
+  [selectors.core.data.coins.getUnifiedBalances, selectors.core.settings.getCurrency],
+  (unifiedBalancesR, currencyR) => {
+    const transform = (unifiedBalances: ExtractSuccess<typeof unifiedBalancesR>, currency) => {
+      const ethBalance = unifiedBalances.find(({ ticker }) => ticker === 'ETH')
+      const ethBalanceAmt = ethBalance?.amount?.amount || 0
+      const ethRates: RatesType = { price: ethBalance?.price || 0, timestamp: 0, volume24h: 0 }
       let total = Number(
-        convertCoinToFiat({ coin: 'ETH', currency, rates: ethRates, value: ethBalance })
+        convertCoinToFiat({ coin: 'ETH', currency, rates: ethRates, value: ethBalanceAmt })
       )
-      erc20Balances
-        .filter((curr) => !!window.coins[curr.tokenSymbol])
-        .map((curr) => {
-          const symbol = Object.keys(window.coins).find(
-            (coin) =>
-              window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
-              curr.tokenHash.toLowerCase()
-          )
-          if (!symbol) return
-
-          const transform2 = (rates) => {
-            if (!rates.price) return 0
-
-            total += Number(
-              convertCoinToFiat({ coin: symbol, currency, rates, value: curr.balance })
-            )
-          }
-
-          const ratesR = selectors.core.data.coins.getRates(symbol, state)
-          return lift(transform2)(ratesR)
+      const erc20Balances = unifiedBalances
+        .filter((balance) => {
+          return !!window.coins[balance.ticker]
         })
+        .filter((balance) => !!window.coins[balance.ticker].coinfig.type.erc20Address)
+
+      erc20Balances.forEach((erc20Balance) => {
+        const value = erc20Balance.amount?.amount || 0
+        const rates: RatesType = { price: erc20Balance.price, timestamp: 0, volume24h: 0 }
+        total += Number(convertCoinToFiat({ coin: erc20Balance.ticker, currency, rates, value }))
+      })
 
       return {
         currency,
@@ -55,6 +35,6 @@ export const getData = createDeepEqualSelector(
       }
     }
 
-    return lift(transform)(ethBalanceR, currencyR, ethRatesR, erc20BalancesR)
+    return lift(transform)(unifiedBalancesR, currencyR)
   }
 )
