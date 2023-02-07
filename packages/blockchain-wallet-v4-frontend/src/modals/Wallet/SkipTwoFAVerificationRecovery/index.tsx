@@ -1,17 +1,21 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { Button } from '@blockchain-com/constellation'
 import { bindActionCreators, compose } from 'redux'
 
 import { Modal, ModalBody, Text } from 'blockchain-info-components'
 import { actions } from 'data'
-import { RecoverSteps } from 'data/types'
+import { Analytics, RecoverSteps } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-const TwoFASkipWarning = (props) => {
+const TwoFASkipWarning = (props: Props) => {
   const skip = () => {
     props.closeAll()
+    props.analyticsActions.trackEvent({
+      key: Analytics.ACCOUNT_RECOVERY_2FA_DISMISSED,
+      properties: {}
+    })
     props.formActions.change('recover', 'step', RecoverSteps.NEW_PASSWORD)
   }
   return (
@@ -67,12 +71,20 @@ const TwoFASkipWarning = (props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
+const connector = connect(null, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector> & {
+  closeAll: () => void
+}
+
 const enhance = compose<React.ComponentType>(
+  connect(null, mapDispatchToProps),
   modalEnhancer('SKIP_TWOFA_CONFIRMATION_WARNING'),
-  connect(null, mapDispatchToProps)
+  connector
 )
 
 export default enhance(TwoFASkipWarning)

@@ -1,6 +1,9 @@
 // Account Recovery Events
 export enum Events {
   ACCOUNT_RECOVERY_2FA_ACTIVATION = 'Account Recovery 2FA Activation',
+  ACCOUNT_RECOVERY_2FA_CONFIRMED = 'Account Recovery 2FA Confirmed',
+  ACCOUNT_RECOVERY_2FA_DISMISSED = 'Account Recovery 2FA Dismissed',
+  ACCOUNT_RECOVERY_2FA_PROMPTED = 'Account Recovery 2FA Prompted',
   ACCOUNT_RECOVERY_EMAIL_CLICKED = 'Account Recovery Email Clicked',
   ACCOUNT_RECOVERY_EMAIL_SENT = 'Account Recovery Email Sent',
   ACCOUNT_RECOVERY_FORGOT_PASSWORD_VIEWED = 'Account Recovery Forgot Password Viewed',
@@ -21,6 +24,9 @@ export enum Events {
 type AccountRecoveryActions = {
   key:
     | Events.ACCOUNT_RECOVERY_2FA_ACTIVATION
+    | Events.ACCOUNT_RECOVERY_2FA_PROMPTED
+    | Events.ACCOUNT_RECOVERY_2FA_DISMISSED
+    | Events.ACCOUNT_RECOVERY_2FA_CONFIRMED
     | Events.ACCOUNT_RECOVERY_EMAIL_CLICKED
     | Events.ACCOUNT_RECOVERY_EMAIL_SENT
     | Events.ACCOUNT_RECOVERY_FORGOT_PASSWORD_VIEWED

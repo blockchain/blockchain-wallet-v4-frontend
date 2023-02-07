@@ -14,7 +14,7 @@ const NeedHelpLink = ({ analyticsActions, origin, platform, product, unified }: 
     to={product === ProductAuthOptions.WALLET || unified ? '/recover' : '/help-exchange'}
     onClick={() => {
       analyticsActions.trackEvent({
-        key: Analytics.LOGIN_HELP_CLICKED,
+        key: Analytics.LOGIN_FORGOT_PASSWORD_CLICKED,
         properties: {
           device_origin: platform,
           origin,
