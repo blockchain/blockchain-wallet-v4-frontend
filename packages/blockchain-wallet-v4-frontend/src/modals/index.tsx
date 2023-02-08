@@ -85,6 +85,7 @@ const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 const UpgradeNowSilver = React.lazy(() => import('./Onboarding/UpgradeNowSilver'))
 const VerifyNotice = React.lazy(() => import('./Onboarding/VerifyNotice'))
 const SanctionsInfo = React.lazy(() => import('./Onboarding/SanctionsInfo'))
+const EarnOnboarding = React.lazy(() => import('./Onboarding/Earn'))
 // SOLO onboarding
 const KycConsentScreen = React.lazy(() => import('./Onboarding/KycVerification/ConsentScreen'))
 
@@ -365,6 +366,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SANCTIONS_INFO_MODAL) ? (
           <SanctionsInfo />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.EARN_ONBOARDING) ? (
+          <EarnOnboarding />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.CUSTODY_WITHDRAW_MODAL) ? (
           <Withdraw />
