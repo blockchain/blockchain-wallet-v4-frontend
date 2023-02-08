@@ -9,13 +9,17 @@ declare module 'daggy' {
   }
 
   interface _RemoteSuccess {
-    is: (data: any) => boolean
+    is: <A>(data: A) => data is RemoteSuccess<A>
     <A>(data: A): RemoteSuccess<A>
   }
 
   interface _RemoteFailure {
-    is: (data: any) => boolean
+    is: <E>(data: E) => data is RemoteFailure<E>
     <E>(error: E): RemoteFailure<E>
+  }
+
+  interface _RemoteLoading extends RemoteLoading {
+    is: (data: any) => data is RemoteLoading
   }
 
   interface DaggyRemoteI {
@@ -27,7 +31,7 @@ declare module 'daggy' {
 
     Failure: _RemoteFailure
 
-    Loading: DaggyRemoteI & RemoteLoading
+    Loading: _RemoteLoading
 
     NotAsked: DaggyRemoteI & RemoteNotAsked
 

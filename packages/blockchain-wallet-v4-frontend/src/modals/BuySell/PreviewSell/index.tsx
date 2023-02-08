@@ -176,7 +176,7 @@ class PreviewSell extends PureComponent<
       properties: {}
     })
 
-    this.props.buySellActions.createOrder({})
+    this.props.buySellActions.createSellOrder()
   }
 
   handleOnClickBack = (BASE: string) => {

@@ -348,12 +348,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       properties: {}
     })
 
-    props.buySellActions.setStep({
-      // Always reset back to walletCurrency
-      // Otherwise FUNDS currency and Pairs currency can mismatch
-      fiatCurrency: props.fiatCurrency || 'USD',
-      step: 'CRYPTO_SELECTION'
-    })
+    props.buySellActions.returnToCryptoSelection()
   }
 
   const { error } = props
