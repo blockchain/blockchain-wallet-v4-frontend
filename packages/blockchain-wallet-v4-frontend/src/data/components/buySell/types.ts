@@ -96,7 +96,8 @@ export enum BuySellStepType {
   'FREQUENCY',
   'VERIFY_EMAIL',
   'UPDATE_SECURITY_CODE',
-  'SELL_ENTER_AMOUNT'
+  'SELL_ENTER_AMOUNT',
+  'CONFIRMING_BUY_ORDER'
 }
 export type BSShowModalOriginType =
   | 'CoinPageHoldings'
@@ -156,7 +157,11 @@ export type RefreshConfig = {
 export type BuyQuoteStateType = {
   amount: string
   fee: string
+  /**
+   * @deprecated Use `pairObject` instead.
+   */
   pair: string
+  pairObject: BSPairType
   paymentMethod: BSPaymentTypes
   paymentMethodId?: BSCardType['id']
   quote: BuyQuoteType
@@ -180,7 +185,7 @@ export type BuySellState = {
   addBank?: boolean
   applePayInfo?: ApplePayInfoType
   balances: RemoteDataType<PartialClientErrorProperties, BSBalancesType>
-  buyQuote: RemoteDataType<PartialClientErrorProperties, BuyQuoteStateType>
+  buyQuote: RemoteDataType<string | Error, BuyQuoteStateType>
   card: RemoteDataType<string | number | Error, BSCardType>
   cardId?: string
   cardSuccessRate?: BSCardSuccessRateType
@@ -264,7 +269,6 @@ export type StepActionsPayload =
   | {
       cryptoCurrency: CoinType
       fiatCurrency: FiatType
-      order?: BSOrderType
       pair: BSPairType
       step: 'PAYMENT_METHODS'
     }
@@ -314,4 +318,5 @@ export type StepActionsPayload =
         | 'LOADING'
         | 'FREQUENCY'
         | 'UPDATE_SECURITY_CODE'
+        | 'CONFIRMING_BUY_ORDER'
     }

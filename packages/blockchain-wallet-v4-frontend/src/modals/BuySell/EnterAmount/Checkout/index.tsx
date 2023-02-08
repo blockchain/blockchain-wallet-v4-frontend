@@ -76,7 +76,9 @@ const Checkout = (props: Props) => {
     })
 
     if (isSddFlow) {
-      props.buySellActions.createOrder({ paymentType: BSPaymentTypes.PAYMENT_CARD })
+      props.buySellActions.proceedToBuyConfirmation({
+        paymentType: BSPaymentTypes.PAYMENT_CARD
+      })
     } else if (!method) {
       const nextStep = hasPaymentAccount ? 'LINKED_PAYMENT_ACCOUNTS' : 'PAYMENT_METHODS'
       props.buySellActions.setStep({
@@ -90,7 +92,7 @@ const Checkout = (props: Props) => {
       switch (method.type) {
         case BSPaymentTypes.PAYMENT_CARD:
           if (props.mobilePaymentMethod) {
-            props.buySellActions.createOrder({
+            props.buySellActions.proceedToBuyConfirmation({
               mobilePaymentMethod: props.mobilePaymentMethod,
               paymentMethodId: method.id,
               paymentType: BSPaymentTypes.PAYMENT_CARD
@@ -104,16 +106,18 @@ const Checkout = (props: Props) => {
           })
           break
         case BSPaymentTypes.USER_CARD:
-          props.buySellActions.createOrder({
+          props.buySellActions.proceedToBuyConfirmation({
             paymentMethodId: method.id,
             paymentType: BSPaymentTypes.PAYMENT_CARD
           })
           break
         case BSPaymentTypes.FUNDS:
-          props.buySellActions.createOrder({ paymentType: BSPaymentTypes.FUNDS })
+          props.buySellActions.proceedToBuyConfirmation({
+            paymentType: BSPaymentTypes.FUNDS
+          })
           break
         case BSPaymentTypes.BANK_TRANSFER:
-          props.buySellActions.createOrder({
+          props.buySellActions.proceedToBuyConfirmation({
             paymentMethodId: method.id,
             paymentType: BSPaymentTypes.BANK_TRANSFER
           })
@@ -127,10 +131,7 @@ const Checkout = (props: Props) => {
   }
 
   const errorCallback = () => {
-    props.buySellActions.setStep({
-      fiatCurrency: props.fiatCurrency,
-      step: 'CRYPTO_SELECTION'
-    })
+    props.buySellActions.returnToCryptoSelection()
   }
 
   useEffect(() => {

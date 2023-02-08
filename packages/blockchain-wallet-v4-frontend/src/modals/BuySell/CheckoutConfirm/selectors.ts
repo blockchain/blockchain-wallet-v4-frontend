@@ -9,7 +9,7 @@ import { RootState } from 'data/rootReducer'
 import * as QuoteSummaryViewModel from './models/quoteSummaryViewModel'
 
 const selectQuoteSummaryViewModel = createSelector(
-  [selectors.components.buySell.getBuyQuoteMemoizedByOrder, selectors.core.data.coins.getCoins],
+  [selectors.components.buySell.getBuyQuote, selectors.core.data.coins.getCoins],
   (quoteR, coins) => quoteR.map((quoteState) => QuoteSummaryViewModel.make(quoteState, coins))
 )
 
@@ -23,8 +23,6 @@ export const getData = (state: RootState) => {
 
   const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
 
-  const orderR = selectors.components.buySell.getBSOrder(state)
-
   return lift(
     (
       bankAccounts: ExtractSuccess<typeof bankAccountsR>,
@@ -32,24 +30,14 @@ export const getData = (state: RootState) => {
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>,
       cards: ExtractSuccess<typeof cardsR>,
-      order: ExtractSuccess<typeof orderR>,
       isSddFlow: ExtractSuccess<typeof isSddFlowR>
     ) => ({
       bankAccounts,
       cards,
       isSddFlow,
-      order,
       quoteSummaryViewModel,
       sbBalances,
       withdrawLockCheck
     })
-  )(
-    bankAccountsR,
-    quoteSummaryViewModelR,
-    sbBalancesR,
-    withdrawLockCheckR,
-    cardsR,
-    orderR,
-    isSddFlowR
-  )
+  )(bankAccountsR, quoteSummaryViewModelR, sbBalancesR, withdrawLockCheckR, cardsR, isSddFlowR)
 }
