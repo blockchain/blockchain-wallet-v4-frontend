@@ -136,11 +136,8 @@ const Template: React.FC<Props> = (props) => {
               origin: 'BuySell',
               tier: 2
             })
-            if (props.order) {
-              props.buySellActions.setStep({
-                step: 'CHECKOUT_CONFIRM'
-              })
-            }
+
+            props.buySellActions.destroyCheckout()
           }}
           style={{ marginTop: '16px' }}
           type='button'

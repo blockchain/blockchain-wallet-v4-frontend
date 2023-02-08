@@ -1167,6 +1167,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payload
   }: ReturnType<typeof A.requestActiveRewardsWithdrawal>) {
     const { coin, withdrawalAmountCrypto } = payload
+    const isActiveRewardsWithdrawalEnabled = selectors.core.walletOptions
+      .getActiveRewardsWithdrawalEnabled(yield select())
+      .getOrElse(false) as boolean
+
+    if (!isActiveRewardsWithdrawalEnabled) return
     try {
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmountCrypto)
       yield call(api.initiateCustodialTransfer, {

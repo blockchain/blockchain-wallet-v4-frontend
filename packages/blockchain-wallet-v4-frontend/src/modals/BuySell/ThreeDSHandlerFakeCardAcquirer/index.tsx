@@ -3,7 +3,7 @@ import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { clearSubmitErrors } from 'redux-form'
 
-import { BSOrderType, BSPaymentTypes, WalletOptionsType } from '@core/types'
+import { BSOrderType, WalletOptionsType } from '@core/types'
 import BaseError from 'components/BuySell/Error'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
@@ -34,17 +34,11 @@ const ThreeDSHandlerFakeCardAcquirer = (props: Props) => {
 
   const handleBack = useCallback(() => {
     if (order.data) {
-      props.buySellActions.createOrder({
+      return props.buySellActions.proceedToBuyConfirmation({
         mobilePaymentMethod: props.mobilePaymentMethod,
         paymentMethodId: order.data.paymentMethodId,
-        paymentType:
-          order.data.paymentType !== BSPaymentTypes.USER_CARD &&
-          order.data.paymentType !== BSPaymentTypes.BANK_ACCOUNT
-            ? order.data.paymentType
-            : undefined
+        paymentType: order.data.paymentType
       })
-
-      return
     }
 
     props.buySellActions.setStep({
@@ -89,7 +83,7 @@ const ThreeDSHandlerFakeCardAcquirer = (props: Props) => {
   )
 
   if (order.hasError && order.error) {
-    renderError(order.error)
+    return renderError(order.error)
   }
 
   if (order.isLoading) {
@@ -115,7 +109,7 @@ const ThreeDSHandlerFakeCardAcquirer = (props: Props) => {
   }
 
   if (!paymentLink) {
-    renderError(CARD_ERROR_CODE.CREATE_FAILED)
+    return renderError(CARD_ERROR_CODE.CREATE_FAILED)
   }
 
   return (

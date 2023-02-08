@@ -106,17 +106,19 @@ const AccountSummaryContainer = (props: PropsType) => {
     activeRewardsRates,
     currentPrice,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
+    isActiveRewardsWithdrawalEnabled,
     pendingTransactions,
     priceChange
   }: RemoteType = data
 
   const isEDDRequired = eddNeeded && !eddSubmitted && !eddPassed
   const account = accountBalances && accountBalances[coin]
-  const accountBalanceBase = account && account.balance
+  const accountBalanceBase = account?.balance
   const activeRewardsBalanceBase = account && account.totalRewards
   const isDepositEnabled = activeRewardsEligible[coin]
     ? activeRewardsEligible[coin]?.eligible
     : false
+  const isWithdrawalEnabled = isActiveRewardsWithdrawalEnabled && account?.earningBalance !== '0'
   const { rate, triggerPrice } = activeRewardsRates[coin]
   const formattedTriggerPrice =
     triggerPrice &&
@@ -164,6 +166,7 @@ const AccountSummaryContainer = (props: PropsType) => {
       isDepositEnabled={isDepositEnabled}
       isEDDRequired={isEDDRequired}
       isTransactionsToggled={isTransactionsToggled}
+      isWithdrawalEnabled={isWithdrawalEnabled}
       pendingTransactions={pendingTransactions}
       percentChange={percentChange}
       priceChangeColor={priceChangeColor}

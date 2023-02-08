@@ -38,30 +38,29 @@ const LearnColumn = ({
           </Text>
         </Flex>
       </Flex>
-      {link &&
-        (isActiveRewards ? (
-          <LinkContainer to={link}>
-            <a>
-              <Link
-                size='small'
-                text={<FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />}
-              />
-            </a>
-          </LinkContainer>
-        ) : (
-          <Link
-            href={link}
-            target='_blank'
-            size='small'
-            text={<FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />}
-          />
-        ))}
-      {handleClick && (
+      {isActiveRewards ? (
+        <LinkContainer to={link}>
+          <a>
+            <Link
+              onClick={handleClick}
+              size='small'
+              text={<FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />}
+            />
+          </a>
+        </LinkContainer>
+      ) : handleClick ? (
         <Button
           onClick={handleClick}
           size='small'
           text={<FormattedMessage id='button.compare' defaultMessage='Compare' />}
           variant='minimal'
+        />
+      ) : (
+        <Link
+          href={link}
+          target='_blank'
+          size='small'
+          text={<FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />}
         />
       )}
     </Flex>

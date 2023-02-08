@@ -29,21 +29,24 @@ export const getRemote = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.core.data.coins.getRates(coin, state)
   const walletCurrency = selectors.core.settings.getCurrency(state).getOrElse('USD')
-  const priceChangeR = selectors.core.data.misc.getPriceChange(coin, TimeRange.MONTH, state)
+  const priceChangeR = selectors.core.data.misc.getPriceChange(coin, TimeRange.DAY, state)
   const accountBalancesR = selectors.components.interest.getActiveRewardsAccountBalance(state)
   const pendingTransactionsR =
     selectors.components.interest.getPendingActiveRewardsTransactions(state)
   const earnEDDStatusR = selectors.components.interest.getEarnEDDStatus(state)
   const activeRewardsEligibleR = selectors.components.interest.getActiveRewardsEligible(state)
   const activeRewardsRatesR = selectors.components.interest.getActiveRewardsRates(state)
+  const isActiveRewardsWithdrawalEnabledR =
+    selectors.core.walletOptions.getActiveRewardsWithdrawalEnabled(state)
 
   return lift(
     (
       accountBalances: ExtractSuccess<typeof accountBalancesR>,
-      earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>,
-      pendingTransactions: ExtractSuccess<typeof pendingTransactionsR>,
       activeRewardsRates: ExtractSuccess<typeof activeRewardsRatesR>,
       activeRewardsEligible: ExtractSuccess<typeof activeRewardsEligibleR>,
+      earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>,
+      isActiveRewardsWithdrawalEnabled: boolean,
+      pendingTransactions: ExtractSuccess<typeof pendingTransactionsR>,
       priceChange: ExtractSuccess<typeof priceChangeR>,
       rates: ExtractSuccess<typeof ratesR>
     ) => ({
@@ -56,15 +59,17 @@ export const getRemote = (state: RootState) => {
         value: 1
       }),
       earnEDDStatus,
+      isActiveRewardsWithdrawalEnabled,
       pendingTransactions,
       priceChange
     })
   )(
     accountBalancesR,
-    earnEDDStatusR,
-    pendingTransactionsR,
     activeRewardsRatesR,
     activeRewardsEligibleR,
+    earnEDDStatusR,
+    isActiveRewardsWithdrawalEnabledR,
+    pendingTransactionsR,
     priceChangeR,
     ratesR
   )

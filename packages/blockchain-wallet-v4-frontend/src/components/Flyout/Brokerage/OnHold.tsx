@@ -25,8 +25,8 @@ const OnHold = ({ fiatCurrency, handleHeaderClick, locks, totalLockedAmount }: P
           <TextGroup inline>
             <Text weight={400} lineHeight='24px' size='14px' color='grey600'>
               <FormattedMessage
-                id='modals.brokerage.withdraw_holding_period'
-                defaultMessage='Newly added funds are subject to a holding period. You can transfer between your Trading, Rewards, Staking, and Exchange accounts in the meantime.'
+                id='modals.brokerage.withdraw_holding_period_1'
+                defaultMessage='Newly added funds are subject to a holding period. You can transfer between your Trading, Earn, and Exchange accounts in the meantime.'
               />
             </Text>
             <Link

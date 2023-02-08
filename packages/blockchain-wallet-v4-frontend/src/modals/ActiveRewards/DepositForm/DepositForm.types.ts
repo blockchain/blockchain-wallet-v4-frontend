@@ -27,6 +27,7 @@ export type RemoteType = {
   activeRewardsRates: EarnRatesType['rates']
   depositFee: number
   earnEDDStatus: EarnEDDStatus
+  isActiveRewardsWithdrawalEnabled: boolean
   payment?: PaymentValue
   rates: RatesType
 }
@@ -47,6 +48,7 @@ export type SuccessPropsType = {
   handleMinAmountClicked: () => void
   insufficientEth?: boolean
   invalid?: boolean
+  isActiveRewardsWithdrawalEnabled: boolean
   isCustodial: boolean
   isEDDRequired: boolean
   isErc20: boolean

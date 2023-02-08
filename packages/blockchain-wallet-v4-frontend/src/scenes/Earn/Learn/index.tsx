@@ -15,6 +15,16 @@ const Learn = () => {
     (state: RootState) =>
       selectors.core.walletOptions.getActiveRewardsEnabled(state).getOrElse(false) as boolean
   )
+
+  const handleActiveRewards = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_CLICKED,
+        properties: {}
+      })
+    )
+  }
+
   const handleCompareClick = () => {
     dispatch(actions.modals.showModal(ModalName.EARN_COMPARE, { origin: 'EarnPage' }))
     dispatch(
@@ -27,7 +37,7 @@ const Learn = () => {
 
   return (
     <Wrapper>
-      {learnColumns({ handleCompareClick }).map(
+      {learnColumns({ handleActiveRewards, handleCompareClick }).map(
         (
           { description, handleClick, icon, id, isActiveRewards, link, title }: LearnColumnType,
           i: number

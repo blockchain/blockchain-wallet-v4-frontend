@@ -8,7 +8,7 @@ import { useRemote } from 'hooks'
 
 import Loading from '../ActiveRewards.template.loading'
 import { amountToFiat, maxFiat } from '../conversions'
-import { FORM_NAME } from './DepositForm.model'
+import { FORM_NAME } from './DepositForm.constants'
 import { getActions, getData, getRemote } from './DepositForm.selectors'
 import Success from './DepositForm.template.success'
 import { DataType, PropsType, RemoteType } from './DepositForm.types'
@@ -61,6 +61,7 @@ const DepositForm = ({ coin }: PropsType) => {
     activeRewardsRates,
     depositFee,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
+    isActiveRewardsWithdrawalEnabled,
     payment,
     rates
   }: RemoteType = data
@@ -176,6 +177,7 @@ const DepositForm = ({ coin }: PropsType) => {
       handleMaxAmountClicked={handleMaxAmountClicked}
       handleMinAmountClicked={handleMinAmountClicked}
       insufficientEth={insufficientEth}
+      isActiveRewardsWithdrawalEnabled={isActiveRewardsWithdrawalEnabled}
       isCustodial={isCustodial}
       isEDDRequired={isEDDRequired}
       isErc20={isErc20}

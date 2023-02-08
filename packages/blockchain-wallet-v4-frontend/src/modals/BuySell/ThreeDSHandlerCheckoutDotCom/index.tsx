@@ -3,7 +3,7 @@ import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { clearSubmitErrors } from 'redux-form'
 
-import { BSOrderType, BSPaymentTypes, ProviderDetailsType, WalletOptionsType } from '@core/types'
+import { BSOrderType, ProviderDetailsType, WalletOptionsType } from '@core/types'
 import BaseError from 'components/BuySell/Error'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
@@ -36,17 +36,11 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
 
   const handleBack = useCallback(() => {
     if (order.data) {
-      props.buySellActions.createOrder({
+      return props.buySellActions.proceedToBuyConfirmation({
         mobilePaymentMethod: props.mobilePaymentMethod,
         paymentMethodId: order.data.paymentMethodId,
-        paymentType:
-          order.data.paymentType !== BSPaymentTypes.USER_CARD &&
-          order.data.paymentType !== BSPaymentTypes.BANK_ACCOUNT
-            ? order.data.paymentType
-            : undefined
+        paymentType: order.data.paymentType
       })
-
-      return
     }
 
     props.buySellActions.setStep({
