@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 
 import { learnColumns, Wrapper } from './Learn.model'
 import { LearnColumnType } from './Learn.types'
@@ -17,6 +17,12 @@ const Learn = () => {
   )
   const handleCompareClick = () => {
     dispatch(actions.modals.showModal(ModalName.EARN_COMPARE, { origin: 'EarnPage' }))
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.WALLET_EARN_COMPARE_PRODUCTS_CLICKED,
+        properties: {}
+      })
+    )
   }
 
   return (
