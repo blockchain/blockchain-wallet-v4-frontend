@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import {
   Button,
@@ -24,8 +24,12 @@ const EARN_INTRO_VIEWED = 'earnIntroViewed'
 const EarnOnboarding = ({ closeAll }: OwnProps) => {
   const { data } = useRemote(getRemote)
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const handleFinishOnboarding = () => {
+
+  useEffect(() => {
     localStorage.setItem(EARN_INTRO_VIEWED, 'true')
+  }, [])
+
+  const handleClose = () => {
     closeAll()
   }
 
@@ -47,7 +51,7 @@ const EarnOnboarding = ({ closeAll }: OwnProps) => {
               <CloseContainer>
                 <IconCloseCircleV2
                   color={SemanticColors.muted}
-                  onClick={handleFinishOnboarding}
+                  onClick={handleClose}
                   size='medium'
                 />
               </CloseContainer>
@@ -57,7 +61,7 @@ const EarnOnboarding = ({ closeAll }: OwnProps) => {
           <Pager totalPages={slides.length} selectedPage={currentStep} onChange={setCurrentStep} />
           <Button
             as='button'
-            onClick={handleFinishOnboarding}
+            onClick={handleClose}
             size='default'
             state='initial'
             text={
