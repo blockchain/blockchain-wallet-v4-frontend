@@ -13,20 +13,20 @@ export const getSlides = ({
     {
       description: maxPercentage ? (
         <FormattedMessage
-          defaultMessage='Deposit crypto and earn up to {maxPercentage}%.'
+          defaultMessage='Get the most out of your crypto. Deposit and earn up to |{maxPercentage}|%.'
           id='modals.onboarding.earn.onboarding.description-maxpercentage'
           values={{ maxPercentage }}
         />
       ) : (
         <FormattedMessage
-          defaultMessage='Deposit crypto and start earning'
+          defaultMessage='Get the most out of your crypto. Deposit crypto and start earning'
           id='modals.onboarding.earn.onboarding.description'
         />
       ),
       image: 'onboarding-earn',
       title: (
         <FormattedMessage
-          defaultMessage='Welcome to Earn'
+          defaultMessage='A new way to Earn'
           id='modals.onboarding.earn.onboarding.title'
         />
       )
@@ -41,11 +41,9 @@ export const getSlides = ({
       />
     ),
     image: 'onboarding-active-rewards',
-    isActiveRewards: true,
-    link: '/earn/active-rewards-learn',
     title: (
       <FormattedMessage
-        defaultMessage='Get rewarded by forecasting the market'
+        defaultMessage='Active Rewards'
         id='modals.onboarding.earn.onboarding.active.title'
       />
     )
@@ -59,10 +57,9 @@ export const getSlides = ({
       />
     ),
     image: 'onboarding-passive-rewards',
-    link: 'https://support.blockchain.com/hc/en-us/sections/4416668318740-Rewards',
     title: (
       <FormattedMessage
-        defaultMessage='Earn passive rewards on your crypto'
+        defaultMessage='Passive Rewards'
         id='modals.onboarding.earn.onboarding.passive.title'
       />
     )
@@ -76,10 +73,9 @@ export const getSlides = ({
       />
     ),
     image: 'onboarding-staking-rewards',
-    link: 'https://support.blockchain.com/hc/en-us/sections/5954708914460-Staking',
     title: (
       <FormattedMessage
-        defaultMessage='Unlock the power of staking'
+        defaultMessage='Staking Rewards'
         id='modals.onboarding.earn.onboarding.stakingtitle'
       />
     )
