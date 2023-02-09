@@ -5,8 +5,6 @@ export type SlidePropsType = {
     | 'onboarding-earn'
     | 'onboarding-passive-rewards'
     | 'onboarding-staking-rewards'
-  isActiveRewards?: boolean
-  link?: string
   title: JSX.Element
 }
 
