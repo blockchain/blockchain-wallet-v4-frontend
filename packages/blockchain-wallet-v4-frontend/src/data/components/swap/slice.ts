@@ -9,7 +9,8 @@ import {
   PaymentValue,
   SwapOrderType,
   SwapQuoteStateType,
-  SwapUserLimitsType
+  SwapUserLimitsType,
+  WalletAccountSuperAppType
 } from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
 
@@ -149,6 +150,7 @@ const swapSlice = createSlice({
       action: PayloadAction<{
         baseCurrency?: CoinType
         counterCurrency?: CoinType
+        fromType?: WalletAccountSuperAppType
         origin: ModalOriginType
       }>
     ) => {},

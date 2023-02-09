@@ -467,11 +467,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   }
 
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
-    const { baseCurrency, counterCurrency, origin } = payload
+    const { baseCurrency, counterCurrency, fromType, origin } = payload
     yield put(
       actions.modals.showModal(ModalName.SWAP_MODAL, {
         baseCurrency,
         counterCurrency,
+        fromType,
         origin
       })
     )

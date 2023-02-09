@@ -100,13 +100,21 @@ export type BtcAccountType = {
   type: 'ACCOUNT' | 'CUSTODIAL'
   xpub: string
 }
-
+// TODO: change all this from to defi/account
 export enum WalletAccountEnum {
   CUSTODIAL = 'CUSTODIAL',
   NON_CUSTODIAL = 'NON_CUSTODIAL'
 }
 
 export type WalletAccountType = keyof typeof WalletAccountEnum
+
+// TODO: Placeholder account types, we'll change above
+export enum WalletAccountSuperAppEnum {
+  ACCOUNT = 'ACCOUNT',
+  DEFI = 'DEFI'
+}
+
+export type WalletAccountSuperAppType = keyof typeof WalletAccountEnum
 
 export type HDDerivationType = 'bech32' | 'legacy'
 
