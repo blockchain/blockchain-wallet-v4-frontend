@@ -153,9 +153,15 @@ export type RefreshConfig = {
 }
 
 export type BuyQuoteStateType = {
+  amount: string
   fee: string
   pair: string
+  paymentMethod: BSPaymentTypes
+  paymentMethodId?: BSCardType['id']
   quote: BuyQuoteType
+  /**
+   * @deprecated
+   */
   rate: number
   refreshConfig: RefreshConfig
 }
@@ -222,8 +228,6 @@ export type InitializeCheckout = {
   orderType: BSOrderActionType
   pair?: BSPairType
   pairs: Array<BSPairType>
-  paymentMethodId?: BSPaymentMethodType['id']
-  paymentMethodType: BSPaymentTypes
   period: RecurringBuyPeriods
 }
 

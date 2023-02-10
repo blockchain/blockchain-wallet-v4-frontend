@@ -32,7 +32,7 @@ import {
   TopText,
   WarningContainer,
   Wrapper
-} from './AccountSummary.model'
+} from './AccountSummary.styles'
 import { SuccessPropsType } from './AccountSummary.types'
 
 const AccountSummary: React.FC<SuccessPropsType> = ({
@@ -47,11 +47,13 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
   handleDepositClick,
   handleEDDSubmitInfo,
   handleTransactionsToggled,
+  handleWithdrawal,
   isBalanceDropdownToggled,
   isCoinDisplayed,
   isDepositEnabled,
   isEDDRequired,
   isTransactionsToggled,
+  isWithdrawalEnabled,
   pendingTransactions,
   percentChange,
   priceChangeColor,
@@ -160,8 +162,8 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
                 <Flex alignItems='center' gap={4}>
                   <Text color={SemanticColors.body} variant='paragraph1'>
                     <FormattedMessage
-                      id='modals.active-rewards.totalearned'
-                      defaultMessage='Total Earned'
+                      id='modals.active-rewards.netearnings'
+                      defaultMessage='Net Earnings'
                     />
                   </Text>
                   <TooltipHost id='modals.active-rewards.summary.total-earned.tooltip'>
@@ -364,17 +366,19 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
     </Top>
     {!showSupply && (
       <Bottom>
-        <WarningContainer>
-          <Text color={SemanticColors.title} variant='paragraph2'>
-            <FormattedMessage defaultMessage='Important' id='copy.important' />
-          </Text>
-          <Text color={SemanticColors.title} variant='caption1'>
-            <FormattedMessage
-              defaultMessage="Withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled in approximately mid-January 2023. Until then, BTC assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
-              id='modals.active-rewards.account-summary.withdrawals-warning'
-            />
-          </Text>
-        </WarningContainer>
+        {!isWithdrawalEnabled && (
+          <WarningContainer>
+            <Text color={SemanticColors.title} variant='paragraph2'>
+              <FormattedMessage defaultMessage='Important' id='copy.important' />
+            </Text>
+            <Text color={SemanticColors.title} variant='caption1'>
+              <FormattedMessage
+                defaultMessage="Withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled in approximately end of January 2023. Until then, BTC assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
+                id='modals.active-rewards.account-summary.withdrawals-warning'
+              />
+            </Text>
+          </WarningContainer>
+        )}
         <Button
           disabled={!isDepositEnabled}
           data-e2e='activeRewardsDeposit'
@@ -387,6 +391,22 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
             <FormattedMessage id='buttons.add-balance' defaultMessage='Add balance' />
           </Text>
         </Button>
+        {isWithdrawalEnabled && (
+          <ConstellationButton
+            onClick={handleWithdrawal}
+            size='default'
+            text={
+              <Text color={SemanticColors.background} variant='body2'>
+                <FormattedMessage
+                  id='buttons.request-withdrawal'
+                  defaultMessage='Request Withdrawal'
+                />
+              </Text>
+            }
+            variant='secondary'
+            width='full'
+          />
+        )}
       </Bottom>
     )}
   </Wrapper>

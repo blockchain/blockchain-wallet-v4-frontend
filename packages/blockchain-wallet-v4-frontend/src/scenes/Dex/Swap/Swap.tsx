@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form'
 
 import { model, selectors } from 'data'
 import { DexSwapForm } from 'data/components/dex/types'
-import { notReachable } from 'utils/notReachable'
+import { notReachable } from 'utils/helpers'
 
 import { PageWrapper } from '../components'
 import { ConfirmSwap } from './ConfirmSwap'

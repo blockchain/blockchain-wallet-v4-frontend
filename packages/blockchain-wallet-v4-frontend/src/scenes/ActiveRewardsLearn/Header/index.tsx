@@ -9,6 +9,7 @@ import { CoinType, EarnEligibleType } from '@core/types'
 import { Link } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { Analytics } from 'data/types'
 
 const CustomLink = styled(Link)`
   width: fit-content;
@@ -28,11 +29,18 @@ const Header = () => {
   }, [])
 
   const handleClick = () => {
+    const coin = eligibleCoins[0]
     dispatch(actions.router.push('/earn'))
     dispatch(
       actions.components.interest.showActiveRewardsModal({
-        coin: eligibleCoins[0],
+        coin,
         step: 'WARNING'
+      })
+    )
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_GET_STARTED_CLICKED,
+        properties: { currency: coin }
       })
     )
   }

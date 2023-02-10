@@ -12,6 +12,7 @@ export type EarnAccountBalanceType = {
 
 export type EarnBalanceType = {
   balance: string
+  earningBalance: string
   fiatAmount: string | null
   locked: string
   pendingDeposit: string
@@ -163,7 +164,7 @@ export type TransactionType = {
     | 'MANUAL_REVIEW'
     | 'CLEARED'
     | 'REFUNDED'
-  type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
+  type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING' | 'DEBIT'
 }
 
 export type EarnTransactionResponseType = {

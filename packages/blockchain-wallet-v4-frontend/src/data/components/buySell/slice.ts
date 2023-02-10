@@ -172,6 +172,9 @@ const buySellSlice = createSlice({
     cvvStatusLoading: (state) => {
       state.cvvStatus = Remote.Loading
     },
+    cvvStatusReset: (state) => {
+      state.cvvStatus = Remote.NotAsked
+    },
     cvvStatusSuccess: (state) => {
       state.cvvStatus = Remote.Success(true)
     },
@@ -211,15 +214,6 @@ const buySellSlice = createSlice({
     fetchBalanceSuccess: (state, action: PayloadAction<BSBalancesType>) => {
       state.balances = Remote.Success(action.payload)
     },
-    fetchBuyQuote: (
-      state,
-      action: PayloadAction<{
-        amount: string
-        pair: BSPairsType
-        paymentMethod: BSPaymentTypes
-        paymentMethodId?: BSCardType['id']
-      }>
-    ) => {},
     fetchBuyQuoteFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
       state.buyQuote = Remote.Failure(action.payload)
     },
@@ -559,6 +553,10 @@ const buySellSlice = createSlice({
       }>
     ) => {},
     updateCardCvv: (state, action: PayloadAction<{ cvv: string; paymentId: string }>) => {},
+    updateCardCvvAndPollOrder: (
+      state,
+      action: PayloadAction<{ cvv: string; paymentId: string }>
+    ) => {},
     updatePaymentFailure: (state, action: PayloadAction<string>) => {
       state.payment = Remote.Failure(action.payload)
     },

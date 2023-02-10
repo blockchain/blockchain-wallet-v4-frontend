@@ -12,6 +12,7 @@ import {
   EarnRatesType,
   FiatType,
   InterestLimitsType,
+  NabuCustodialProductType,
   PaymentValue,
   RatesType,
   RemoteDataType,
@@ -35,6 +36,14 @@ export type RewardsDepositFormType = {
 export type StakingDepositFormType = {
   agreement: boolean
   depositAmount: number
+  earnDepositAccount: AccountTypes
+  terms: boolean
+}
+
+export type ActiveRewardsDepositFormType = {
+  agreement1: boolean
+  agreement2: boolean
+  depositAmount: string
   earnDepositAccount: AccountTypes
   terms: boolean
 }
@@ -69,7 +78,8 @@ export enum ActiveRewardsSteps {
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
   'WARNING',
-  'WITHDRAWAL'
+  'WITHDRAWAL',
+  'WITHDRAWAL_REQUESTED'
 }
 
 export type EarnStepMetaData = {
@@ -135,6 +145,27 @@ export type PendingTransactionType = {
   bondingDays?: number
   date: string
   type: 'BONDING' | 'TRANSACTIONS'
+}
+
+export type EarnInitializeWithdrawalType = {
+  coin: CoinType
+  formName: 'passiveRewardsWithdrawalForm' | 'activeRewardsWithdrawalForm'
+  hidePkWallets?: boolean
+  walletCurrency: FiatType
+}
+
+export type EarnWithdrawalType = {
+  coin: CoinType
+  destination: NabuCustodialProductType
+  formName: 'passiveRewardsWithdrawalForm' | 'activeRewardsWithdrawalForm'
+  origin: NabuCustodialProductType
+  withdrawalAmountCrypto: number
+  withdrawalAmountFiat: number
+}
+
+export type ActiveRewardsWithdrawalType = {
+  coin: CoinType
+  withdrawalAmountCrypto: string
 }
 
 //

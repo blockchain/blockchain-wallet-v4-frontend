@@ -121,6 +121,13 @@ const Success: React.FC<Props> = ({
         step: '3DS_HANDLER_CHECKOUTDOTCOM'
       })
     }
+
+    if (order.attributes?.cardProvider?.cardAcquirerName === 'FAKE_CARD_ACQUIRER') {
+      buySellActions.setStep({
+        order,
+        step: '3DS_HANDLER_FAKE_CARD_ACQUIRER'
+      })
+    }
   }
 
   const handleCancel = () => {

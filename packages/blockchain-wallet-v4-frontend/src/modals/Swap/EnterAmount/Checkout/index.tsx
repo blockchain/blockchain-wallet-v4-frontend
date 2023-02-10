@@ -15,7 +15,7 @@ import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import TransactionsLeft from 'components/Flyout/Banners/TransactionsLeft'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
+import { Analytics, SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { formatTextAmount } from 'services/forms'
 import { media } from 'services/styles'
@@ -203,6 +203,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
     props.swapActions.setStep({
       options: {
         baseAccountType: BASE.type,
@@ -211,6 +212,23 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         counterCoin: COUNTER.coin
       },
       step: 'PREVIEW_SWAP'
+    })
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.SWAP_AMOUNT_SCREEN_NEXT_CLICKED,
+      properties: {}
+    })
+  }
+
+  const toggleFix = () => {
+    props.swapActions.switchFix({
+      amount: quoteAmount,
+      fix: fix === 'FIAT' ? 'CRYPTO' : 'FIAT'
+    })
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.SWAP_FIAT_CRYPTO_CLICKED,
+      properties: {}
     })
   }
 
@@ -286,12 +304,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             color='blue600'
             cursor
             name='up-down-chevron'
-            onClick={() =>
-              props.swapActions.switchFix({
-                amount: quoteAmount,
-                fix: fix === 'FIAT' ? 'CRYPTO' : 'FIAT'
-              })
-            }
+            onClick={toggleFix}
             role='button'
             size='24px'
             data-e2e='swapSwitchIcon'

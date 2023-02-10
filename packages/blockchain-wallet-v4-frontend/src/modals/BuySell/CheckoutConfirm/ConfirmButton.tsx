@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { MobilePaymentType, OrderType } from '@core/types'
+import { MobilePaymentType } from '@core/types'
 import { Button, HeartbeatLoader } from 'blockchain-info-components'
 import { RefreshConfig } from 'data/types'
 
@@ -12,7 +12,6 @@ export type Props = {
   isGooglePayReady: boolean
   isSubmitting: boolean
   mobilePaymentMethod?: MobilePaymentType
-  orderType: keyof typeof OrderType
   refreshConfig: RefreshConfig
 }
 
@@ -37,11 +36,7 @@ export const ConfirmButton = (props: Props) => {
       {props.isSubmitting || isCompletingSoon ? (
         <HeartbeatLoader height='16px' width='16px' color='white' />
       ) : (
-        <FormattedMessage
-          id='buttons.buy_sell_now'
-          defaultMessage='{orderType} Now'
-          values={{ orderType: props.orderType === OrderType.BUY ? 'Buy' : 'Sell' }}
-        />
+        <FormattedMessage id='buttons.buy_now' defaultMessage='Buy Now' />
       )}
     </Button>
   )

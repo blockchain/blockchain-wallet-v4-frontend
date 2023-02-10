@@ -60,6 +60,11 @@ const Checkout = (props: Props) => {
   const handleSubmit = () => {
     if (!data) return
 
+    props.analyticsActions.trackEvent({
+      key: Analytics.SELL_AMOUNT_SCREEN_NEXT_CLICKED,
+      properties: {}
+    })
+
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
     const { hasPaymentAccount, isSddFlow, userData } = data
@@ -175,8 +180,6 @@ const Checkout = (props: Props) => {
       orderType: props.orderType,
       pair: props.pair,
       pairs: props.pairs,
-      paymentMethodId: props.method?.id || props.defaultMethod?.id,
-      paymentMethodType: props.method?.type || props.defaultMethod?.type || BSPaymentTypes.FUNDS,
       period
     })
 
@@ -189,7 +192,6 @@ const Checkout = (props: Props) => {
     if (!data) {
       props.buySellActions.fetchSDDEligibility()
       props.brokerageActions.fetchBankTransferAccounts()
-      props.recurringBuyActions.fetchPaymentInfo()
     }
     // we fetch limits as part of home banners logic at that point we had only fiatCurrency
     // here we have to re-fetch for crypto currency and order type
@@ -266,6 +268,7 @@ const Checkout = (props: Props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),

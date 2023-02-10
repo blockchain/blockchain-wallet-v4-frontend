@@ -57,6 +57,7 @@
         "googlePayPaymentMethod": true,
         "institutionalPortal": true,
         "isActiveRewardsEnabled": true,
+        "isActiveRewardsWithdrawalEnabled": true,
         "isReferralEnabled": true,
         "isReferralRetrievalEnabled": true,
         "isStakingEnabled": false,
@@ -67,6 +68,7 @@
         "rewardsPromoBanner": true,
         "secureEmailSmsUpdate": false,
         "showEarnAvailableAssetsCheckbox": true,
+        "showProveFlow": true,
         "showSilverRevamp": true,
         "showTermsAndConditions": false,
         "stakingPromoBanner": true,
@@ -76,7 +78,7 @@
         "unifiedAccountLogin": true,
         "useLoqateService": true,
         "useNewPaymentProviders": true,
-        "useVgsProvider": false,
+        "useVgsProvider": true,
         "walletConnect": true,
         "walletDebitCardEnabled": true
       }

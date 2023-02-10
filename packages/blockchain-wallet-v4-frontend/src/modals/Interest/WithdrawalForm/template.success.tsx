@@ -48,7 +48,7 @@ import {
 } from './model'
 import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
 
-const FORM_NAME = 'interestWithdrawalForm'
+const FORM_NAME = 'passiveRewardsWithdrawalForm'
 
 // eslint-disable-next-line
 const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
@@ -141,14 +141,17 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     analyticsActions.trackEvent({
       key: Analytics.WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED,
       properties: {
-        amount: withdrawalAmountCrypto,
-        amount_usd: withdrawalAmountFiat,
+        amount: Number(withdrawalAmountCrypto),
+        amount_usd: Number(withdrawalAmountFiat),
         currency: coin,
         type: accountType === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
       }
     })
     interestActions.requestWithdrawal({
       coin,
+      destination: 'SIMPLEBUY',
+      formName: FORM_NAME,
+      origin: 'SAVINGS',
       withdrawalAmountCrypto,
       withdrawalAmountFiat
     })

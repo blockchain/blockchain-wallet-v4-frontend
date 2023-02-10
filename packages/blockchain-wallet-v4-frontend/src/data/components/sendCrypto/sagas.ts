@@ -178,8 +178,13 @@ export default ({ api }: { api: APIType }) => {
     if (form.includes('SEND') && field === 'coin') {
       yield put(actions.modals.closeAllModals())
       if (
-        selectors.core.data.coins.getCustodialCoins().includes(payload) ||
-        selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(payload)
+        (selectors.core.data.coins.getCustodialCoins().includes(payload) ||
+          selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(payload)) &&
+        // TODO - remove this once when we make this dynamic
+        payload !== 'BTC' &&
+        payload !== 'BCH' &&
+        payload !== 'XLM' &&
+        payload !== 'ETH'
       ) {
         // must come before show modal
         yield put(A.setInitialCoin(payload))

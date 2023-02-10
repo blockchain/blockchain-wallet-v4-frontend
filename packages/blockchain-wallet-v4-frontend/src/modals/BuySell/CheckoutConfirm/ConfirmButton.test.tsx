@@ -3,7 +3,7 @@ import { IntlProvider } from 'react-intl'
 import { render, screen } from '@testing-library/react'
 import { ThemeProvider } from 'styled-components'
 
-import { MobilePaymentType, OrderType } from '@core/network/api/buySell/types'
+import { MobilePaymentType } from '@core/network/api/buySell/types'
 import { Palette } from 'blockchain-info-components'
 
 import { useCountDown } from '../hooks/useCountDown'
@@ -19,7 +19,6 @@ const makeDefaultProps = (): Props => ({
   isAcceptedTerms: true,
   isGooglePayReady: false,
   isSubmitting: false,
-  orderType: OrderType.BUY,
   refreshConfig: {
     date: new Date(1653436800000),
     totalMs: 23000
@@ -35,7 +34,7 @@ const setup = (props: Props) =>
     </IntlProvider>
   )
 
-const getBuyButton = () =>
+const getBuyButton = (): HTMLButtonElement =>
   screen.getByRole('button', {
     name: 'Buy Now'
   })
@@ -46,7 +45,7 @@ describe('ConfirmButton', () => {
   it('should display submit button', () => {
     setup(makeDefaultProps())
 
-    const button = getButton()
+    const button = getBuyButton()
 
     expect(button).toBeVisible()
     expect(button).toBeEnabled()
@@ -58,34 +57,6 @@ describe('ConfirmButton', () => {
     setup(props)
 
     expect(useCountDown).toHaveBeenCalledWith(props.refreshConfig.date, props.refreshConfig.totalMs)
-  })
-
-  describe('when orderType is buy', () => {
-    it('should display buy button', () => {
-      setup({
-        ...makeDefaultProps(),
-        orderType: OrderType.BUY
-      })
-
-      const button = getBuyButton()
-
-      expect(button).toBeVisible()
-    })
-  })
-
-  describe('when orderType is sell', () => {
-    it('should display sell button', () => {
-      setup({
-        ...makeDefaultProps(),
-        orderType: OrderType.SELL
-      })
-
-      const button = screen.getByRole('button', {
-        name: 'Sell Now'
-      })
-
-      expect(button).toBeVisible()
-    })
   })
 
   describe('when isSubmitting is true', () => {
