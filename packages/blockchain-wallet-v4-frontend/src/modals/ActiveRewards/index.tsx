@@ -40,7 +40,7 @@ const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalProp
   const handleClose = () => {
     setShow(false)
     setTimeout(() => {
-      close(ModalName.STAKING_MODAL)
+      close(ModalName.ACTIVE_REWARDS_MODAL)
     }, duration)
   }
 
