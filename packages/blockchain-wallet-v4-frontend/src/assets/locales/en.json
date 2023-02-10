@@ -1016,7 +1016,6 @@
   "modals.active-rewards.withdrawal.total-balance-message": "Requesting a withdrawal from your Active Rewards Account will send your total balance to your Bitcoin Trading Account.",
   "modals.active-rewards.withdrawalrequested.activerewardsbutton": "Go to {coin} Active Rewards",
   "modals.active-rewards.withdrawalrequested.description": "Your withdrawal will be executed once this week's strategy is complete.",
-  "modals.active-rewards.withdrawalrequested.historybutton": "See Transfer Details",
   "modals.active-rewards.withdrawalrequested.title": "Withdrawal Requested",
   "modals.activeRewards.balancedropdown.button": "Show in {currency}",
   "modals.addbitcoinwallet.button": "Create New Bitcoin Wallet",
