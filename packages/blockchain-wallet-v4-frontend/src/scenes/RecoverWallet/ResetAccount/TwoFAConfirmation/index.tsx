@@ -13,7 +13,7 @@ import PasswordBox from 'components/Form/PasswordBox'
 import TextBox from 'components/Form/TextBox'
 import { selectors } from 'data'
 import { ModalName } from 'data/modals/types'
-import { RecoverSteps } from 'data/types'
+import { Analytics, RecoverSteps } from 'data/types'
 import { useRemote } from 'hooks'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
@@ -33,9 +33,23 @@ const ResponsiveRow = styled(Row)`
 `
 
 const TwoFAConfirmation = (props: Props) => {
+  const {
+    accountRecoveryData,
+    analyticsActions,
+    busy,
+    formValues,
+    invalid,
+    setStep,
+    signupActions,
+    submitting
+  } = props
+  useEffect(() => {
+    analyticsActions.trackEvent({
+      key: Analytics.ACCOUNT_RECOVERY_2FA_PROMPTED,
+      properties: {}
+    })
+  }, [])
   const { hasError } = useRemote(selectors.signup.getRecoveryTwoFAVerification)
-  const { accountRecoveryData, busy, formValues, invalid, setStep, signupActions, submitting } =
-    props
   const authType = accountRecoveryData && accountRecoveryData?.two_fa_type
   const placeholder = authType === 4 ? '_ _ _  _ _ _' : authType === 5 ? '_ _ _ _ _' : null
   // authType 5 is mobile sms code, 5 characters
