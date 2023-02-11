@@ -1,6 +1,6 @@
 import { uniq } from 'ramda'
 
-import { CoinType } from '@core/types'
+import { CoinType, WalletAccountSuperAppEnum } from '@core/types'
 import { selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
@@ -14,7 +14,7 @@ import { RootState } from 'data/rootReducer'
 
 import { OwnProps } from '.'
 
-export const getData = (state: RootState, { side }: OwnProps) => {
+export const getData = (state: RootState, { fromType, side }: OwnProps) => {
   const coins = selectors.components.swap.getCoins()
   const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   const pairs = selectors.components.swap.getPairs(state).getOrElse([])
@@ -60,6 +60,20 @@ export const getData = (state: RootState, { side }: OwnProps) => {
     return !(account.type === SwapBaseCounterTypes.CUSTODIAL && !custodialEligibility)
   }
 
+  // TODO temp placeholder name
+  const _checkFromTypeSuperApp = (account: SwapAccountType) => {
+    if (side === 'BASE') {
+      if (fromType === WalletAccountSuperAppEnum.DEFI) {
+        return account.type === SwapBaseCounterTypes.ACCOUNT
+      }
+      if (fromType === WalletAccountSuperAppEnum.ACCOUNT) {
+        return account.type === SwapBaseCounterTypes.CUSTODIAL
+      }
+    } else {
+      return true
+    }
+  }
+
   const sideF = side === 'BASE' ? getInputFromPair : getOutputFromPair
   let coinsForSide = uniq(pairs.map(sideF))
 
@@ -92,9 +106,19 @@ export const getData = (state: RootState, { side }: OwnProps) => {
     const hideCustodialToAccount = _checkBaseCustodial(account)
     const isBaseAccountZero = _checkBaseAccountZero(account)
     const isCustodialEligible = _checkCustodialEligibility(account)
+    const showDefiOrAccount = _checkFromTypeSuperApp(account)
 
-    return !isBaseAccountZero && !isCoinSelected && !hideCustodialToAccount && isCustodialEligible
+    return (
+      !isBaseAccountZero &&
+      !isCoinSelected &&
+      !hideCustodialToAccount &&
+      isCustodialEligible &&
+      showDefiOrAccount
+    )
   })
 
-  return { accounts: accountsForSide, filteredAccounts }
+  return {
+    accounts: accountsForSide,
+    filteredAccounts
+  }
 }

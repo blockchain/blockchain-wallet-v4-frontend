@@ -5,6 +5,7 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList as List } from 'react-window'
 import { equals } from 'ramda'
 
+import { WalletAccountSuperAppType } from '@core/types'
 import { Text } from 'blockchain-info-components'
 import {
   FlyoutContainer,
@@ -149,6 +150,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 const connector = connect(mapStateToProps)
 
 export type OwnProps = BaseProps & {
+  fromType?: WalletAccountSuperAppType
   handleClose: () => void
   side: 'BASE' | 'COUNTER'
 }

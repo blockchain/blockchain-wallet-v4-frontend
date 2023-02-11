@@ -5,8 +5,10 @@ import BigNumber from 'bignumber.js'
 import { CoinType } from '@core/types'
 import { selectors } from 'data'
 
+import CustodialTestBalances from './template'
+
 const AccountTestBalances: React.FC<Props> = (props: Props) => {
-  return <></>
+  return <CustodialTestBalances />
   //   return props.data.cata({
   //     Failure: () => <>Failure</>,
   //     Loading: () => <>Loading</>,

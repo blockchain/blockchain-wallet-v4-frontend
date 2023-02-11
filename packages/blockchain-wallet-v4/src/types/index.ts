@@ -114,7 +114,7 @@ export enum WalletAccountSuperAppEnum {
   DEFI = 'DEFI'
 }
 
-export type WalletAccountSuperAppType = keyof typeof WalletAccountEnum
+export type WalletAccountSuperAppType = keyof typeof WalletAccountSuperAppEnum
 
 export type HDDerivationType = 'bech32' | 'legacy'
 

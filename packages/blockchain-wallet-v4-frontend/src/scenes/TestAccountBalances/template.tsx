@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { WalletAccountSuperAppEnum } from '@core/types'
 import { actions, selectors } from 'data'
 
-const NonCustodialTestBalances = (props) => {
+const CustodialTestBalances = (props) => {
   //   console.log(props, 'ncTestBalanceProps')
   const dispatch = useDispatch()
 
@@ -17,7 +17,7 @@ const NonCustodialTestBalances = (props) => {
         onClick={() =>
           dispatch(
             actions.components.swap.showModal({
-              fromType: WalletAccountSuperAppEnum.DEFI,
+              fromType: WalletAccountSuperAppEnum.ACCOUNT,
               origin: 'Trade'
             })
           )
@@ -29,4 +29,4 @@ const NonCustodialTestBalances = (props) => {
   )
 }
 
-export default NonCustodialTestBalances
+export default CustodialTestBalances
