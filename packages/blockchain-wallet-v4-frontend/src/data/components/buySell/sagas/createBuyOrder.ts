@@ -8,22 +8,22 @@ import { getBsCheckoutFormValues } from '../selectors'
 import { actions } from '../slice'
 import { assembleBuyOrderInputDto } from '../utils/assembleBuyOrderInputDto'
 
-type FundsOrderPayload = {
+type FundsOrMobilePaymentPayload = {
   quoteState: BuyQuoteStateType
 }
 
-type OtherPaymentOrderPayload = {
+type OtherPaymentTypePayload = {
   paymentMethodId: BSCardType['id']
   quoteState: BuyQuoteStateType
 }
 
-type Payload = FundsOrderPayload | OtherPaymentOrderPayload
+type Payload = FundsOrMobilePaymentPayload | OtherPaymentTypePayload
 
 const stopQuoteRefresh = function* () {
   yield* put(actions.stopPollBuyQuote())
 }
 
-const isOtherPaymentPayload = (payload: Payload): payload is OtherPaymentOrderPayload =>
+const isOtherPaymentPayload = (payload: Payload): payload is OtherPaymentTypePayload =>
   'paymentMethodId' in payload && payload.paymentMethodId !== undefined
 
 export const createOrder = function* (payload: Payload) {
