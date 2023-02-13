@@ -76,7 +76,7 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
           <FormattedMessage
             id='scenes.recovery.reset_warning_titletext'
             defaultMessage='This method only restores your 
-            Trading and Rewards Accounts'
+            Trading and Earn Accounts'
           />
         </Text>
         <Text
@@ -88,7 +88,7 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
         >
           <FormattedMessage
             id='scenes.recovery.reset_warning_bodytext'
-            defaultMessage='To restore your Private Key Wallets, please use your cloud backup or recovery phrase.'
+            defaultMessage='To restore your Private Key Wallet (DeFi Wallet), please use your cloud backup or recovery phrase.'
           />
         </Text>
       </FormBody>
