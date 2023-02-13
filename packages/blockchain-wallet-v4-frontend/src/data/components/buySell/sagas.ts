@@ -535,7 +535,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       )
 
-      const { mobilePaymentMethod, quoteState } = payload
+      const { mobilePaymentMethod, paymentMethodId, quoteState } = payload
+
+      const isMobilePaymentOrder = mobilePaymentMethod !== undefined
+      const order = yield* createBuyOrder(
+        isMobilePaymentOrder
+          ? {
+              quoteState
+            }
+          : {
+              paymentMethodId: payload.paymentMethodId,
+              quoteState
+            }
+      )
 
       const account = selectors.components.brokerage.getAccount(yield select())
 
@@ -550,7 +562,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const paymentSuccessLink = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
 
-      if (quoteState.paymentMethod === BSPaymentTypes.PAYMENT_CARD) {
+      if (order.paymentType === BSPaymentTypes.PAYMENT_CARD) {
         attributes = {
           everypay: {
             customerUrl: paymentSuccessLink
@@ -605,11 +617,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           }
 
           // inputAmount is in cents, but amount has to be in decimals
-          const amount = parseInt(quoteState.amount, 10) / 100
+          const amount = parseInt(order.inputQuantity, 10) / 100
 
           const paymentRequest: ApplePayJS.ApplePayPaymentRequest = {
             countryCode: applePayInfo.merchantBankCountryCode,
-            currencyCode: getFiatFromPair(quoteState.pairObject.pair),
+            currencyCode: order.inputCurrency,
             merchantCapabilities,
             requiredBillingContactFields,
             supportedCountries,
@@ -691,7 +703,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           }
 
           // inputAmount is in cents, but amount has to be in decimals
-          const amount = parseInt(quoteState.amount, 10) / 100
+          const amount = parseInt(order.inputQuantity, 10) / 100
 
           let parameters: google.payments.api.PaymentGatewayTokenizationParameters | null = null
 
@@ -732,7 +744,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             shippingAddressRequired: false,
             transactionInfo: {
               countryCode: googlePayInfo.merchantBankCountry,
-              currencyCode: getFiatFromPair(quoteState.pairObject.pair),
+              currencyCode: order.inputCurrency,
               totalPrice: `${amount}`,
               totalPriceStatus: 'FINAL' as const
             }
@@ -770,17 +782,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       }
 
-      const order = yield* createBuyOrder({
-        paymentMethodId: payload.paymentMethodId,
-        quoteState: payload.quoteState
-      })
-
       // Before isAsync this request would throw if the buy was going to fail and show the error UX
       // to the user. Now with isAsync = true this will no longer throw and we need to poll for FAILED or success state
       let confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
         attributes,
         order,
-        paymentMethodId: order.paymentMethodId
+        paymentMethodId
       })
 
       // TODO: Deprecated, delete
