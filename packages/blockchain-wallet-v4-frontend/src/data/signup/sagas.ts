@@ -476,6 +476,12 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change(RECOVER_FORM, 'step', ResetFormSteps.NEW_PASSWORD))
         yield put(actions.alerts.displaySuccess(C.TWOFA_VERIFIED))
         yield put(actions.signup.verifyTwoFaForRecoverySuccess(true))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.ACCOUNT_RECOVERY_2FA_CONFIRMED,
+            properties: {}
+          })
+        )
       }
       if (!verified) {
         yield put(actions.signup.verifyTwoFaForRecoveryFailure(true))

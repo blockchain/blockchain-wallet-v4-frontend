@@ -3,6 +3,7 @@ export enum Events {
   LOGIN_2FA_PAGE_VIEWED = '2fa Page Viewed',
   LOGIN_CLICKED = 'Login Clicked',
   LOGIN_DEVICE_VERIFIED = 'Device Verified',
+  LOGIN_FORGOT_PASSWORD_CLICKED = 'Forgot Your Password Clicked',
   LOGIN_HELP_CLICKED = 'Login Help Clicked',
   LOGIN_IDENTIFIER_ENTERED = 'Login Identifier Entered',
   LOGIN_IDENTIFIER_FAILED = 'Login Identifier Failed',
@@ -32,6 +33,7 @@ type LoginActions = {
     | Events.LOGIN_RECOVERY_OPTION_SELECTED
     | Events.LOGIN_PASSWORD_DENIED
     | Events.LOGIN_HELP_CLICKED
+    | Events.LOGIN_FORGOT_PASSWORD_CLICKED
     | Events.LOGIN_DEVICE_VERIFIED
     | Events.LOGIN_IDENTIFIER_ENTERED
     | Events.LOGIN_IDENTIFIER_FAILED

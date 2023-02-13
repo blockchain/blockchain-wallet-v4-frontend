@@ -48,12 +48,12 @@ export type SuccessPropsType = {
   handleEDDSubmitInfo: () => void
   handleTransactionsToggled: () => void
   handleWithdrawal: () => void
-  isActiveRewardsWithdrawalEnabled: boolean
   isBalanceDropdownToggled: boolean
   isCoinDisplayed: boolean
   isDepositEnabled?: boolean
   isEDDRequired: boolean
   isTransactionsToggled: boolean
+  isWithdrawalEnabled: boolean
   pendingTransactions: Array<PendingTransactionType>
   percentChange: string
   priceChangeColor: SemanticColorsType
