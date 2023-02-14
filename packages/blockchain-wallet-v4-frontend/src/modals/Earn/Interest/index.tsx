@@ -9,7 +9,7 @@ import { RootState } from 'data/rootReducer'
 import { EarnStepMetaData, InterestStep, ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-import { ModalPropsType } from '../types'
+import { ModalPropsType } from '../../types'
 import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
 import WithdrawalForm from './WithdrawalForm'

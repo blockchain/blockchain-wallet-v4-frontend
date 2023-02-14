@@ -1,46 +1,42 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 
+import { CoinType, FiatType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName } from 'data/types'
+import { EarnStepMetaData, ModalName, StakingStep } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-import { ModalPropsType } from '../types'
+import { ModalPropsType } from '../../types'
 import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
 import DepositSuccess from './DepositSuccess'
 import Warning from './Warning'
-import Withdrawal from './WithdrawalForm'
-import WithdrawalRequested from './WithdrawalRequested'
 
-const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
-  const dispatch = useDispatch()
-  const earnActions = bindActionCreators(actions.components.interest, dispatch)
-  const coin = useSelector((state: RootState) => selectors.components.interest.getCoinType(state))
-  const step = useSelector((state: RootState) =>
-    selectors.components.interest.getActiveRewardsStep(state)
-  )
-  const isActiveRewardsWithdrawalEnabled = useSelector(
-    (state: RootState) =>
-      selectors.core.walletOptions
-        .getActiveRewardsWithdrawalEnabled(state)
-        .getOrElse(false) as boolean
-  )
+const Staking = ({
+  close,
+  coin,
+  fetchEarnEDDStatus,
+  position,
+  step,
+  total,
+  userClickedOutside,
+  walletCurrency
+}: Props) => {
   const [show, setShow] = useState<boolean>(false)
   const [showSupply, setShowSupply] = useState<boolean>(false)
 
   useEffect(() => {
     setShow(true)
-    earnActions.fetchEDDStatus()
+    fetchEarnEDDStatus()
   }, [])
 
   const handleClose = () => {
     setShow(false)
     setTimeout(() => {
-      close(ModalName.ACTIVE_REWARDS_MODAL)
+      close(ModalName.STAKING_MODAL)
     }, duration)
   }
 
@@ -50,7 +46,7 @@ const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalProp
       isOpen={show}
       userClickedOutside={userClickedOutside}
       onClose={handleClose}
-      data-e2e='activeRewardsModal'
+      data-e2e='interestModal'
       total={total}
     >
       {step.name === 'WARNING' && (
@@ -74,24 +70,40 @@ const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalProp
             handleClose={handleClose}
             stepMetadata={step.data}
             coin={coin}
+            walletCurrency={walletCurrency}
             showSupply={showSupply}
           />
-        </FlyoutChild>
-      )}
-      {step.name === 'WITHDRAWAL' && isActiveRewardsWithdrawalEnabled && (
-        <FlyoutChild>
-          <Withdrawal handleClose={handleClose} />
-        </FlyoutChild>
-      )}
-      {step.name === 'WITHDRAWAL_REQUESTED' && isActiveRewardsWithdrawalEnabled && (
-        <FlyoutChild>
-          <WithdrawalRequested coin={coin} handleClose={handleClose} />
         </FlyoutChild>
       )}
     </Flyout>
   )
 }
 
-const enhance = modalEnhancer(ModalName.ACTIVE_REWARDS_MODAL, { transition: duration })
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  coin: selectors.components.interest.getCoinType(state),
+  step: selectors.components.interest.getStakingStep(state),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+})
 
-export default enhance(ActiveRewards)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  fetchEarnEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type OwnProps = ModalPropsType
+type LinkStatePropsType = {
+  coin: CoinType
+  step: {
+    data: EarnStepMetaData
+    name: StakingStep
+  }
+  walletCurrency: FiatType
+}
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+const enhance = compose(modalEnhancer(ModalName.STAKING_MODAL, { transition: duration }), connector)
+
+export default enhance(Staking)

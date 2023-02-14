@@ -60,9 +60,9 @@ const NftOrder = React.lazy(() => import('./Nfts/NftOrder'))
 const GetFeatured = React.lazy(() => import('./Nfts/components/GetFeatured'))
 
 // EARN
-const Interest = React.lazy(() => import('./Interest'))
-const Staking = React.lazy(() => import('./Staking'))
-const ActiveRewards = React.lazy(() => import('./ActiveRewards'))
+const Interest = React.lazy(() => import('./Earn/Interest'))
+const Staking = React.lazy(() => import('./Earn/Staking'))
+const ActiveRewards = React.lazy(() => import('./Earn/ActiveRewards'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 
 // GENERIC

@@ -42,8 +42,8 @@ export const getRemote = (state: RootState) => {
   return lift(
     (
       accountBalances: ExtractSuccess<typeof accountBalancesR>,
-      activeRewardsRates: ExtractSuccess<typeof activeRewardsRatesR>,
       activeRewardsEligible: ExtractSuccess<typeof activeRewardsEligibleR>,
+      activeRewardsRates: ExtractSuccess<typeof activeRewardsRatesR>,
       earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>,
       isActiveRewardsWithdrawalEnabled: boolean,
       pendingTransactions: ExtractSuccess<typeof pendingTransactionsR>,
@@ -65,8 +65,8 @@ export const getRemote = (state: RootState) => {
     })
   )(
     accountBalancesR,
-    activeRewardsRatesR,
     activeRewardsEligibleR,
+    activeRewardsRatesR,
     earnEDDStatusR,
     isActiveRewardsWithdrawalEnabledR,
     pendingTransactionsR,
