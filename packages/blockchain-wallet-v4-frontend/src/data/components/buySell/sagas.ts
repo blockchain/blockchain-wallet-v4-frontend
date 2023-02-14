@@ -535,7 +535,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         })
       )
 
-      const { mobilePaymentMethod, quoteState } = payload
+      const { mobilePaymentMethod, paymentMethodId, quoteState } = payload
 
       const account = selectors.components.brokerage.getAccount(yield select())
 
@@ -770,17 +770,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       }
 
-      const order = yield* createBuyOrder({
-        paymentMethodId: payload.paymentMethodId,
-        quoteState: payload.quoteState
-      })
+      const maybeUpdatedQuoteState = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
+
+      const isMobilePaymentOrder = mobilePaymentMethod !== undefined
+      const order = yield* createBuyOrder(
+        isMobilePaymentOrder
+          ? {
+              quoteState: maybeUpdatedQuoteState
+            }
+          : {
+              paymentMethodId,
+              quoteState: maybeUpdatedQuoteState
+            }
+      )
 
       // Before isAsync this request would throw if the buy was going to fail and show the error UX
       // to the user. Now with isAsync = true this will no longer throw and we need to poll for FAILED or success state
       let confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, {
         attributes,
         order,
-        paymentMethodId: order.paymentMethodId
+        paymentMethodId
       })
 
       // TODO: Deprecated, delete
