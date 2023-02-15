@@ -10,6 +10,7 @@ import { EarnStepMetaData, ModalName, StakingStep } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
+import NoBalance from '../NoBalance'
 import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
 import DepositSuccess from './DepositSuccess'
@@ -52,6 +53,11 @@ const Staking = ({
       {step.name === 'WARNING' && (
         <FlyoutChild>
           <Warning handleClose={handleClose} coin={coin} />
+        </FlyoutChild>
+      )}
+      {step.name === 'NO_BALANCE' && (
+        <FlyoutChild>
+          <NoBalance handleClose={handleClose} walletCurrency={walletCurrency} />
         </FlyoutChild>
       )}
       {step.name === 'DEPOSIT' && (

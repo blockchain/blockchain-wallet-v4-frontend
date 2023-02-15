@@ -10,6 +10,7 @@ import { EarnStepMetaData, InterestStep, ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
+import NoBalance from '../NoBalance'
 import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
 import WithdrawalForm from './WithdrawalForm'
@@ -63,6 +64,11 @@ class Interest extends PureComponent<Props, State> {
         data-e2e='interestModal'
         total={total}
       >
+        {step.name === 'NO_BALANCE' && (
+          <FlyoutChild>
+            <NoBalance handleClose={this.handleClose} walletCurrency={walletCurrency} />
+          </FlyoutChild>
+        )}
         {step.name === 'ACCOUNT_SUMMARY' && (
           <FlyoutChild>
             <AccountSummary
