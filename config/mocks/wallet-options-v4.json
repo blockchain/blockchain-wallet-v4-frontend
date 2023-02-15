@@ -60,7 +60,7 @@
         "isActiveRewardsWithdrawalEnabled": true,
         "isReferralEnabled": true,
         "isReferralRetrievalEnabled": true,
-        "isStakingEnabled": false,
+        "isStakingEnabled": true,
         "mergeAndUpgrade": false,
         "nftExplorer": true,
         "recurringBuys": true,
