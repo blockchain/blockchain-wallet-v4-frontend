@@ -62,16 +62,6 @@ const AccountSummaryContainer = (props: PropsType) => {
     }
   }, [data?.pendingTransactions])
 
-  const handleDepositClick = () => {
-    analyticsActions.trackEvent({
-      key: Analytics.WALLET_STAKING_DETAIL_DEPOSIT_CLICKED,
-      properties: {
-        currency: coin
-      }
-    })
-    earnActions.showActiveRewardsModal({ coin, step: 'DEPOSIT' })
-  }
-
   const handleEDDSubmitInfo = () => {
     interestUploadActions.showModal({ origin: 'EarnPage' })
   }
@@ -106,10 +96,21 @@ const AccountSummaryContainer = (props: PropsType) => {
     activeRewardsRates,
     currentPrice,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
+    hasBalance,
     isActiveRewardsWithdrawalEnabled,
     pendingTransactions,
     priceChange
   }: RemoteType = data
+
+  const handleDepositClick = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_STAKING_DETAIL_DEPOSIT_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
+    earnActions.showActiveRewardsModal({ coin, step: hasBalance ? 'DEPOSIT' : 'NO_BALANCE' })
+  }
 
   const isEDDRequired = eddNeeded && !eddSubmitted && !eddPassed
   const account = accountBalances && accountBalances[coin]
