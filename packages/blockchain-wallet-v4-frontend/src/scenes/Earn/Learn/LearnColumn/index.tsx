@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Flex, Link, SemanticColors, Text } from '@blockchain-com/constellation'
+import { Button, Flex, Link, SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { RoundedBadge } from 'components/Badge'
 
@@ -49,10 +49,11 @@ const LearnColumn = ({
           </a>
         </LinkContainer>
       ) : handleClick ? (
-        <Link
+        <Button
           onClick={handleClick}
           size='small'
-          text={<FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />}
+          text={<FormattedMessage id='button.compare' defaultMessage='Compare' />}
+          variant='minimal'
         />
       ) : (
         <Link
