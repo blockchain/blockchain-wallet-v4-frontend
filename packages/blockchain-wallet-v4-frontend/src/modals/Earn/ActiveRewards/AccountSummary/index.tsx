@@ -119,7 +119,7 @@ const AccountSummaryContainer = (props: PropsType) => {
   const isDepositEnabled = activeRewardsEligible[coin]
     ? activeRewardsEligible[coin]?.eligible
     : false
-  const isWithdrawalEnabled = isActiveRewardsWithdrawalEnabled && account?.earningBalance !== '0'
+  const isWithdrawalEnabled = isActiveRewardsWithdrawalEnabled && account?.balance !== '0'
   const { rate, triggerPrice } = activeRewardsRates[coin]
   const formattedTriggerPrice =
     triggerPrice &&

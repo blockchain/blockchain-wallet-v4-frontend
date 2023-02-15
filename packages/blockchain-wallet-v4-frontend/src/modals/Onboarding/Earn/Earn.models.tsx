@@ -13,7 +13,7 @@ export const getSlides = ({
     {
       description: maxPercentage ? (
         <FormattedMessage
-          defaultMessage='Get the most out of your crypto. Deposit and earn up to |{maxPercentage}|%.'
+          defaultMessage='Get the most out of your crypto. Deposit and earn up to {maxPercentage}%.'
           id='modals.onboarding.earn.onboarding.description-maxpercentage'
           values={{ maxPercentage }}
         />
