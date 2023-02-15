@@ -4,12 +4,26 @@ import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-export const getData = (state: RootState) => {
-  const stakingLimitsR = selectors.components.interest.getStakingLimits(state)
+import { getAddressDataR, getHasNonCustodialBalance } from '../../Earn.utils'
 
-  return lift((stakingLimits: ExtractSuccess<typeof stakingLimitsR>) => {
-    return {
-      stakingLimits
+export const getData = (state: RootState) => {
+  const coin = selectors.components.interest.getCoinType(state)
+  const stakingLimitsR = selectors.components.interest.getStakingLimits(state)
+  const buySellBalanceR = selectors.components.buySell.getBSBalances(state)
+  const addressDataR = getAddressDataR(state, coin)
+
+  return lift(
+    (
+      addressData,
+      buySellBalance: ExtractSuccess<typeof buySellBalanceR>,
+      stakingLimits: ExtractSuccess<typeof stakingLimitsR>
+    ) => {
+      const hasNonCustodialBalance = getHasNonCustodialBalance(addressData)
+      const hasBuySellBalance = !!buySellBalance[coin]?.available
+      return {
+        hasBalance: hasNonCustodialBalance || hasBuySellBalance,
+        stakingLimits
+      }
     }
-  })(stakingLimitsR)
+  )(addressDataR, buySellBalanceR, stakingLimitsR)
 }

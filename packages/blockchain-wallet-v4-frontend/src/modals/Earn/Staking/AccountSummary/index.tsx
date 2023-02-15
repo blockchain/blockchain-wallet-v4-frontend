@@ -57,18 +57,6 @@ const AccountSummaryContainer = (props: OwnProps) => {
     }
   }, [data?.pendingTransactions])
 
-  const handleDepositClick = () => {
-    dispatch(
-      actions.analytics.trackEvent({
-        key: Analytics.WALLET_STAKING_DETAIL_DEPOSIT_CLICKED,
-        properties: {
-          currency: coin
-        }
-      })
-    )
-    dispatch(actions.components.interest.showStakingModal({ coin, step: 'DEPOSIT' }))
-  }
-
   const handleEDDSubmitInfo = () => {
     dispatch(actions.components.interestUploadDocument.showModal({ origin: 'EarnPage' }))
   }
@@ -95,11 +83,29 @@ const AccountSummaryContainer = (props: OwnProps) => {
   const {
     accountBalances,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
+    hasBalance,
     pendingTransactions,
     stakingEligible,
     stakingRates,
     totalBondingDeposits
   } = data
+
+  const handleDepositClick = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.WALLET_STAKING_DETAIL_DEPOSIT_CLICKED,
+        properties: {
+          currency: coin
+        }
+      })
+    )
+    dispatch(
+      actions.components.interest.showStakingModal({
+        coin,
+        step: hasBalance ? 'DEPOSIT' : 'NO_BALANCE'
+      })
+    )
+  }
 
   const isEDDRequired = eddNeeded && !eddSubmitted && !eddPassed
 
