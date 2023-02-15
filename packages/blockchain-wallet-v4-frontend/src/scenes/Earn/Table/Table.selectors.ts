@@ -19,11 +19,11 @@ export const getData = (state) => {
   return lift(
     (
       activeRewardsAccountBalance: ExtractSuccess<typeof activeRewardsAccountBalanceR>,
+      activeRewardsEligible: ExtractSuccess<typeof activeRewardsEligibleR>,
+      interestEligible: ExtractSuccess<typeof interestEligibleR>,
       passiveRewardsAccountBalance: ExtractSuccess<typeof passiveRewardsAccountBalanceR>,
       sortedInstruments: ExtractSuccess<typeof sortedInstrumentsR>,
       stakingAccountBalance: ExtractSuccess<typeof stakingAccountBalanceR>,
-      interestEligible: ExtractSuccess<typeof interestEligibleR>,
-      activeRewardsEligible: ExtractSuccess<typeof activeRewardsEligibleR>,
       stakingEligible: ExtractSuccess<typeof stakingEligibleR>,
       walletCurrency: FiatType
     ) => ({
@@ -39,11 +39,11 @@ export const getData = (state) => {
     })
   )(
     activeRewardsAccountBalanceR,
+    activeRewardsEligibleR,
+    interestEligibleR,
     passiveRewardsAccountBalanceR,
     sortedInstrumentsR,
     stakingAccountBalanceR,
-    interestEligibleR,
-    activeRewardsEligibleR,
     stakingEligibleR,
     walletCurrencyR
   )
