@@ -19,6 +19,11 @@ const WarningContainer = ({ coin, handleClose }: OwnProps) => {
     dispatch(actions.components.interest.fetchStakingLimits())
   }, [])
 
+  if (error) return <DataError />
+  if (!data || isLoading || isNotAsked) return <Loading />
+  const { hasBalance, stakingLimits } = data
+  const { bondingDays } = stakingLimits[coin]
+
   const handleClick = () => {
     dispatch(
       actions.analytics.trackEvent({
@@ -28,13 +33,13 @@ const WarningContainer = ({ coin, handleClose }: OwnProps) => {
         }
       })
     )
-    dispatch(actions.components.interest.showStakingModal({ coin, step: 'DEPOSIT' }))
+    dispatch(
+      actions.components.interest.showStakingModal({
+        coin,
+        step: hasBalance ? 'DEPOSIT' : 'NO_BALANCE'
+      })
+    )
   }
-
-  if (error) return <DataError />
-  if (!data || isLoading || isNotAsked) return <Loading />
-  const { bondingDays } = data.stakingLimits[coin]
-
   return (
     <Warning
       bondingDays={bondingDays}

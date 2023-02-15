@@ -39,7 +39,7 @@ const AccountSummary: React.FC<Props> = (props) => {
     flagEDDInterestFileUpload,
     handleBSClick,
     handleClose,
-    handleDepositClick,
+    hasBalance,
     interestActions,
     interestEligible,
     interestLimits,
@@ -75,6 +75,16 @@ const AccountSummary: React.FC<Props> = (props) => {
     })
     handleBSClick(coin)
   }, [coin])
+
+  const handleDepositClick = () => {
+    analyticsActions.trackEvent({
+      key: Analytics.WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED,
+      properties: {
+        currency: coin
+      }
+    })
+    interestActions.showInterestModal({ coin, step: hasBalance ? 'DEPOSIT' : 'NO_BALANCE' })
+  }
 
   useEffect(() => {
     analyticsActions.trackEvent({
@@ -506,7 +516,6 @@ const AccountSummary: React.FC<Props> = (props) => {
 type ParentProps = {
   coin: CoinType
   handleBSClick: (string) => void
-  handleDepositClick: () => void
   stepMetadata: EarnStepMetaData
   walletCurrency: FiatType
 }

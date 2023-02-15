@@ -20,17 +20,6 @@ class AccountSummaryContainer extends PureComponent<Props> {
     this.handleFetchInterestLimits()
   }
 
-  handleDepositClick = () => {
-    const { analyticsActions, coin, interestActions } = this.props
-    analyticsActions.trackEvent({
-      key: Analytics.WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED,
-      properties: {
-        currency: coin
-      }
-    })
-    interestActions.showInterestModal({ coin, step: 'DEPOSIT' })
-  }
-
   handleFetchInterestLimits = () => {
     const { coin, interestActions, walletCurrency } = this.props
     interestActions.fetchInterestLimits({ coin, currency: walletCurrency })
@@ -53,12 +42,7 @@ class AccountSummaryContainer extends PureComponent<Props> {
         includes(walletCurrency, unsupportedCurrencies) ? (
           <Unsupported {...val} {...this.props} walletCurrency={walletCurrency} />
         ) : (
-          <AccountSummary
-            {...val}
-            {...this.props}
-            handleDepositClick={this.handleDepositClick}
-            walletCurrency={walletCurrency}
-          />
+          <AccountSummary {...val} {...this.props} walletCurrency={walletCurrency} />
         )
     })
   }

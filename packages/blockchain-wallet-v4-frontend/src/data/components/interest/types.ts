@@ -63,6 +63,7 @@ export enum InterestSteps {
   'ACCOUNT_SUMMARY',
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
+  'NO_BALANCE',
   'WITHDRAWAL'
 }
 
@@ -70,6 +71,7 @@ export enum StakingSteps {
   'ACCOUNT_SUMMARY',
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
+  'NO_BALANCE',
   'WARNING'
 }
 
@@ -77,6 +79,7 @@ export enum ActiveRewardsSteps {
   'ACCOUNT_SUMMARY',
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
+  'NO_BALANCE',
   'WARNING',
   'WITHDRAWAL',
   'WITHDRAWAL_REQUESTED'

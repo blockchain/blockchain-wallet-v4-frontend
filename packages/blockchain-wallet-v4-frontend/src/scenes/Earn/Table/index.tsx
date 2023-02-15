@@ -17,8 +17,8 @@ import { useMedia } from 'services/styles'
 import Loading from '../Earn.loading.template'
 import EmptyState from './EmptyState'
 import MobileRow from './MobileRow'
-import { getData } from './selectors'
 import SortableTable from './SortableTable'
+import { getData } from './Table.selectors'
 import { Wrapper } from './Table.styles'
 
 const TableContainer = (props: Props) => {

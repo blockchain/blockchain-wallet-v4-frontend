@@ -6,6 +6,7 @@ import { ExtractSuccess, FiatType, TimeRange } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+import { getAddressDataR, getHasNonCustodialBalance } from '../../Earn.utils'
 import { DataType } from './AccountSummary.types'
 
 export const getActions = (dispatch) => ({
@@ -38,35 +39,49 @@ export const getRemote = (state: RootState) => {
   const activeRewardsRatesR = selectors.components.interest.getActiveRewardsRates(state)
   const isActiveRewardsWithdrawalEnabledR =
     selectors.core.walletOptions.getActiveRewardsWithdrawalEnabled(state)
+  const buySellBalanceR = selectors.components.buySell.getBSBalances(state)
+  const addressDataR = getAddressDataR(state, coin)
 
   return lift(
     (
       accountBalances: ExtractSuccess<typeof accountBalancesR>,
-      activeRewardsRates: ExtractSuccess<typeof activeRewardsRatesR>,
       activeRewardsEligible: ExtractSuccess<typeof activeRewardsEligibleR>,
+      activeRewardsRates: ExtractSuccess<typeof activeRewardsRatesR>,
+      addressData,
+      buySellBalance: ExtractSuccess<typeof buySellBalanceR>,
       earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>,
       isActiveRewardsWithdrawalEnabled: boolean,
       pendingTransactions: ExtractSuccess<typeof pendingTransactionsR>,
       priceChange: ExtractSuccess<typeof priceChangeR>,
       rates: ExtractSuccess<typeof ratesR>
-    ) => ({
-      accountBalances,
-      activeRewardsEligible,
-      activeRewardsRates,
-      currentPrice: Exchange.displayCoinToFiat({
-        rates,
-        toCurrency: walletCurrency,
-        value: 1
-      }),
-      earnEDDStatus,
-      isActiveRewardsWithdrawalEnabled,
-      pendingTransactions,
-      priceChange
-    })
+    ) => {
+      const hasNonCustodialBalance = getHasNonCustodialBalance(addressData)
+      const hasBuySellBalance = !!buySellBalance[coin]?.available
+
+      return {
+        accountBalances,
+        activeRewardsEligible,
+        activeRewardsRates,
+        addressData,
+        buySellBalance,
+        currentPrice: Exchange.displayCoinToFiat({
+          rates,
+          toCurrency: walletCurrency,
+          value: 1
+        }),
+        earnEDDStatus,
+        hasBalance: hasNonCustodialBalance || hasBuySellBalance,
+        isActiveRewardsWithdrawalEnabled,
+        pendingTransactions,
+        priceChange
+      }
+    }
   )(
     accountBalancesR,
-    activeRewardsRatesR,
     activeRewardsEligibleR,
+    activeRewardsRatesR,
+    addressDataR,
+    buySellBalanceR,
     earnEDDStatusR,
     isActiveRewardsWithdrawalEnabledR,
     pendingTransactionsR,

@@ -1,27 +1,25 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { CoinType } from '@core/types'
-import { selectors } from 'data'
-import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
+import { useRemote } from 'hooks'
 
-import { getActions } from './Warning.selectors'
+import Loading from '../ActiveRewards.template.loading'
+import { getActions, getRemote } from './Warning.selectors'
 import Warning from './Warning.template'
 
 const WarningContainer = ({ coin, handleClose }: OwnProps) => {
   const dispatch = useDispatch()
-  const isActiveRewardsWithdrawalEnabled = useSelector(
-    (state: RootState) =>
-      selectors.core.walletOptions
-        .getActiveRewardsWithdrawalEnabled(state)
-        .getOrElse(false) as boolean
-  )
+  const { data, isLoading, isNotAsked } = useRemote(getRemote)
   const { analyticsActions, earnActions } = getActions(dispatch)
 
   useEffect(() => {
     earnActions.fetchActiveRewardsLimits()
   }, [])
+
+  if (!data || isLoading || isNotAsked) return <Loading />
+  const { hasBalance, isActiveRewardsWithdrawalEnabled } = data || {}
 
   const handleClick = () => {
     analyticsActions.trackEvent({
@@ -31,7 +29,7 @@ const WarningContainer = ({ coin, handleClose }: OwnProps) => {
       }
     })
 
-    earnActions.showActiveRewardsModal({ coin, step: 'DEPOSIT' })
+    earnActions.showActiveRewardsModal({ coin, step: hasBalance ? 'DEPOSIT' : 'NO_BALANCE' })
   }
 
   return (

@@ -23,6 +23,7 @@ export type RemoteType = {
   activeRewardsRates: EarnRatesType['rates']
   currentPrice: string
   earnEDDStatus: EarnEDDStatus
+  hasBalance: boolean
   isActiveRewardsWithdrawalEnabled: boolean
   pendingTransactions: PendingTransactionType[]
   priceChange: PriceChangeType
