@@ -20,7 +20,7 @@ const NoBalanceContainer = ({ handleClose, walletCurrency }: PropsType) => {
 
   if (!data || isLoading || isNotAsked) return <Loading />
 
-  const { coin, isBuySellEligible } = data
+  const { coin, displaySymbol, isBuySellEligible } = data
 
   const handleBuyClick = () => {
     buySellActions.showModal({ cryptoCurrency: coin, orderType: 'BUY', origin: 'EarnPage' })
@@ -33,6 +33,7 @@ const NoBalanceContainer = ({ handleClose, walletCurrency }: PropsType) => {
   return (
     <NoBalance
       coin={coin}
+      displaySymbol={displaySymbol}
       handleBuyClick={handleBuyClick}
       handleClose={handleClose}
       handleReceiveClick={handleReceiveClick}

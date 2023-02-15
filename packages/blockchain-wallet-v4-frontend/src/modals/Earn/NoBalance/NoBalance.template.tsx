@@ -23,6 +23,7 @@ import { OwnProps } from './NoBalance.types'
 
 const NoBalance = ({
   coin,
+  displaySymbol,
   handleBuyClick,
   handleClose,
   handleReceiveClick,
@@ -52,14 +53,14 @@ const NoBalance = ({
             <FormattedMessage
               defaultMessage='You don’t have any {coin}'
               id='modals.earn.no-balance.content.title'
-              values={{ coin }}
+              values={{ coin: displaySymbol }}
             />
           </Text>
           <Text color={SemanticColors.body} variant='body1'>
             <FormattedMessage
               defaultMessage='Buy or receive {coin} to start earning.'
               id='modals.earn.no-balance.content.subtitle'
-              values={{ coin }}
+              values={{ coin: displaySymbol }}
             />
           </Text>
         </Flex>
@@ -74,7 +75,7 @@ const NoBalance = ({
             <FormattedMessage
               defaultMessage='Buy {coin}'
               id='modals.earn.no-balance.buy-button'
-              values={{ coin }}
+              values={{ coin: displaySymbol }}
             />
           }
           type='button'
@@ -89,7 +90,7 @@ const NoBalance = ({
           <FormattedMessage
             defaultMessage='Receive {coin}'
             id='modals.earn.no-balance.receive-button'
-            values={{ coin }}
+            values={{ coin: displaySymbol }}
           />
         }
         type='button'

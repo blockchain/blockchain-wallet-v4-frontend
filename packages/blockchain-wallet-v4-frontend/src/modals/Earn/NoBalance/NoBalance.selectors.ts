@@ -13,9 +13,13 @@ export const getActions = (dispatch) => ({
 export const getRemote = (state: RootState) => {
   const coin = selectors.components.interest.getCoinType(state)
   const buySellEligibilityR = selectors.components.buySell.getBSFiatEligible(state)
+  const {
+    coinfig: { displaySymbol }
+  } = selectors.core.data.coins.getCoins()[coin]
 
   return lift((buySellEligibility: ExtractSuccess<typeof buySellEligibilityR>) => ({
     coin,
+    displaySymbol,
     isBuySellEligible: buySellEligibility.eligible
   }))(buySellEligibilityR)
 }

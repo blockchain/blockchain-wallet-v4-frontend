@@ -7,6 +7,7 @@ export type PropsType = {
 
 export type OwnProps = {
   coin: CoinType
+  displaySymbol: string
   handleBuyClick: () => void
   handleClose: () => void
   handleReceiveClick: () => void
