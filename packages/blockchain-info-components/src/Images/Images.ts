@@ -89,6 +89,7 @@ import onboardingPassiveRewards from './img/earn/onboarding-passive-rewards.svg'
 import onboardingStakingRewards from './img/earn/onboarding-staking-rewards.svg'
 import scenario1Graph from './img/earn/scenario-1-graph.svg'
 import scenario2Graph from './img/earn/scenario-2-graph.svg'
+import vortex from './img/earn/vortex.svg'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emailVerified from './img/email-verified.svg'
@@ -343,6 +344,7 @@ const Images = {
   'user-success': userSuccess,
   'verify-notice': verifyNotice,
   'visa-logo': visaLogo,
+  vortex,
   wallet,
   'wallet-grayscale': walletGrayscale,
   'wallet-no-background': walletNoBackground,
