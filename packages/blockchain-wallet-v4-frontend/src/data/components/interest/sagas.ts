@@ -945,8 +945,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         initialize(formName, {
           coin,
-          currency: walletCurrency,
-          earnWithdrawalAccount: defaultAccount
+          currency: walletCurrency
         })
       )
       yield put(A.setWithdrawalMinimumsSuccess({ withdrawalMinimumsResponse }))
@@ -1203,20 +1202,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const formValues: InterestWithdrawalFormType = yield select(
         selectors.form.getFormValues(formName)
       )
-      const isCustodialWithdrawal = prop('type', formValues.earnWithdrawalAccount) === 'CUSTODIAL'
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmountCrypto)
 
-      if (isCustodialWithdrawal) {
-        yield call(api.initiateCustodialTransfer, {
-          amount: withdrawalAmountBase,
-          currency: coin,
-          destination,
-          origin
-        })
-      } else {
-        const receiveAddress = yield call(getNextReceiveAddressForCoin, coin)
-        yield call(api.initiateInterestWithdrawal, withdrawalAmountBase, coin, receiveAddress)
-      }
+      yield call(api.initiateCustodialTransfer, {
+        amount: withdrawalAmountBase,
+        currency: coin,
+        destination,
+        origin
+      })
 
       // notify success
       yield put(actions.form.stopSubmit(formName))

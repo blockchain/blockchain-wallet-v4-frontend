@@ -7,8 +7,8 @@ export type PropsType = {
 export type SuccessPropsType = {
   activeRewardsCryptoAmount: string
   activeRewardsFiatAmount: string
-  buysellCryptoAmount: string
-  buysellFiatAmount: string
+  buySellCryptoAmount: string
+  buySellFiatAmount: string
   coin: CoinType
   handleClose: () => void
   handleWithdrawal: () => void

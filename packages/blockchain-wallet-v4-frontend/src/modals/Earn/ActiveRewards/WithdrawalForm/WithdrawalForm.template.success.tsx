@@ -4,15 +4,15 @@ import { Button, Flex, Padding, SemanticColors, Text } from '@blockchain-com/con
 
 import { Icon } from 'blockchain-info-components'
 
-import CustodialAccount from './CustodialAccount'
+import CustodialAccount from '../../CustodialAccount'
 import { Bottom, MessageContainer, Top, Wrapper } from './WithdrawalForm.styles'
 import { SuccessPropsType } from './WithdrawalForm.types'
 
 const Withdrawal = ({
   activeRewardsCryptoAmount,
   activeRewardsFiatAmount,
-  buysellCryptoAmount,
-  buysellFiatAmount,
+  buySellCryptoAmount,
+  buySellFiatAmount,
   coin,
   handleClose,
   handleWithdrawal
@@ -82,8 +82,8 @@ const Withdrawal = ({
       <Padding bottom={0.5}>
         <CustodialAccount
           coin={coin}
-          cryptoAmount={buysellCryptoAmount}
-          fiatAmount={buysellFiatAmount}
+          cryptoAmount={buySellCryptoAmount}
+          fiatAmount={buySellFiatAmount}
           product='Trading'
         />
       </Padding>

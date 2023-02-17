@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { calcBasicInterest } from 'blockchain-wallet-v4-frontend/src/modals/Earn/Interest/conversions'
+import { calcBasicInterest } from 'blockchain-wallet-v4-frontend/src/modals/Earn/Earn.utils'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'

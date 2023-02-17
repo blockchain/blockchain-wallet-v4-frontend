@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { lift } from 'ramda'
 
+import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 
 const getData = (state) => {
@@ -12,6 +13,7 @@ const getData = (state) => {
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
   const earnEDDStatusR = selectors.components.interest.getEarnEDDStatus(state)
   const earnEDDWithdrawLimitsR = selectors.components.interest.getEarnEDDWithdrawLimits(state)
+  const buySellAccountBalancesR = selectors.components.buySell.getBSBalances(state)
 
   const flagEDDInterestFileUpload = selectors.core.walletOptions
     .getEDDInterestFileUpload(state)
@@ -19,17 +21,20 @@ const getData = (state) => {
 
   return lift(
     (
-      accountBalances,
-      interestLimits,
-      rates,
-      withdrawalMinimums,
-      earnEDDStatus,
-      earnEDDWithdrawLimits
+      accountBalances: ExtractSuccess<typeof accountBalancesR>,
+      buySellAccountBalances: ExtractSuccess<typeof buySellAccountBalancesR>,
+      earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>,
+      earnEDDWithdrawLimits: ExtractSuccess<typeof earnEDDWithdrawLimitsR>,
+      interestLimits: ExtractSuccess<typeof interestLimitsR>,
+      rates: ExtractSuccess<typeof ratesR>,
+      withdrawalMinimums: ExtractSuccess<typeof withdrawalMinimumsR>
     ) => ({
       accountBalances,
-      availToWithdraw: new BigNumber(Number(accountBalances[coin].balance)).minus(
-        accountBalances[coin].locked
+      availToWithdraw: new BigNumber(Number(accountBalances[coin]?.balance)).minus(
+        // @ts-ignore
+        accountBalances[coin]?.locked
       ),
+      buySellBalance: buySellAccountBalances[coin]?.available || '0',
       coin,
       displayCoin,
       earnEDDStatus,
@@ -41,11 +46,12 @@ const getData = (state) => {
     })
   )(
     accountBalancesR,
+    buySellAccountBalancesR,
+    earnEDDStatusR,
+    earnEDDWithdrawLimitsR,
     interestLimitsR,
     ratesR,
-    withdrawalMinimumsR,
-    earnEDDStatusR,
-    earnEDDWithdrawLimitsR
+    withdrawalMinimumsR
   )
 }
 

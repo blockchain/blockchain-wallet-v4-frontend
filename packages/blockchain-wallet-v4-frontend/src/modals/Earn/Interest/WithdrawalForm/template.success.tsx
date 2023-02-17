@@ -10,7 +10,6 @@ import { fiatToString, formatFiat } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import CoinBalanceDropdown from 'components/Form/CoinBalanceDropdown'
 import NumberBox from 'components/Form/NumberBox'
 import Spacer from 'components/Spacer'
 import { selectors } from 'data'
@@ -20,7 +19,8 @@ import { Analytics } from 'data/types'
 import { useSardineContext } from 'hooks'
 import { required } from 'services/forms'
 
-import { amountToCrypto, amountToFiat } from '../conversions'
+import CustodialAccount from '../../CustodialAccount'
+import { amountToCrypto, amountToFiat } from '../../Earn.utils'
 import { LinkDispatchPropsType, SuccessStateType } from '.'
 import {
   AmountAvailContainer,
@@ -57,6 +57,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     accountBalances,
     analyticsActions,
     availToWithdraw,
+    buySellBalance,
     coin,
     displayCoin,
     earnEDDStatus,
@@ -72,7 +73,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     walletCurrency
   } = props
 
-  const accountType = values?.earnWithdrawalAccount.type
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const { coinfig } = window.coins[coin]
   const coinTicker = coinfig.displaySymbol
@@ -105,6 +105,17 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     walletCurrency,
     rates
   )
+
+  const buySellCryptoAmount = Exchange.convertCoinToCoin({
+    coin,
+    value: buySellBalance
+  })
+
+  const buySellFiatAmount = Exchange.displayCoinToFiat({
+    rates,
+    toCurrency: walletCurrency,
+    value: buySellCryptoAmount
+  })
 
   const handleOnClickCryptoAmount = useCallback(() => {
     analyticsActions.trackEvent({
@@ -144,7 +155,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
         amount: Number(withdrawalAmountCrypto),
         amount_usd: Number(withdrawalAmountFiat),
         currency: coin,
-        type: accountType === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+        type: 'TRADING'
       }
     })
     interestActions.requestWithdrawal({
@@ -269,13 +280,12 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             )}
           </Text>
         </MaxAmountContainer>
-        <CoinBalanceDropdown
-          {...props}
-          includeCustodial
-          fiatCurrency={walletCurrency}
-          name='earnWithdrawalAccount'
+        <CustodialAccount
+          coin={coin}
+          cryptoAmount={buySellCryptoAmount}
+          fiatAmount={buySellFiatAmount}
+          product='Trading'
         />
-
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage

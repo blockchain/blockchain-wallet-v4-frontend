@@ -28,7 +28,7 @@ import { useSardineContext } from 'hooks'
 import { required } from 'services/forms'
 import { debounce } from 'utils/helpers'
 
-import { amountToCrypto, amountToFiat, calcCompoundInterest, maxFiat } from '../conversions'
+import { amountToCrypto, amountToFiat, calcCompoundInterest, maxFiat } from '../../Earn.utils'
 import { CustomOrangeCartridge } from '../WithdrawalForm/model'
 import { CurrencySuccessStateType, DataSuccessStateType, OwnProps as ParentOwnProps } from '.'
 import {
