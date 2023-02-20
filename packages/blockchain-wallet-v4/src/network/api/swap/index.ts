@@ -1,16 +1,17 @@
-import { CoinType, FiatType, SwapDirection, SwapPaymentMethod } from '@core/types'
+import { CoinType, FiatType, SwapPaymentMethod, SwapProfile } from '@core/types'
 
 import {
   SwapNewQuoteType,
   SwapOrderDirectionType,
   SwapOrderStateType,
   SwapOrderType,
+  SwapPaymentAccount,
   SwapQuotePriceType,
   SwapQuoteType,
   SwapUserLimitsType
 } from './types'
 
-export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
+export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
   const cancelSwapOrder = (id: string): SwapOrderType =>
     authorizedPost({
       contentType: 'application/json',
@@ -48,9 +49,8 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
-  // TODO: we should be calling another endpoint
   const createSwapOrder = (
-    direction: SwapDirection,
+    direction: SwapOrderDirectionType,
     quoteId: string,
     volume: string,
     ccy: FiatType,
@@ -160,7 +160,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     pair: string,
     amount: string,
     paymentMethod: SwapPaymentMethod,
-    orderProfileName: SwapDirection
+    orderProfileName: SwapProfile
   ): SwapQuotePriceType =>
     authorizedGet({
       contentType: 'application/json',
@@ -176,7 +176,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
   const getSwapQuote = (
     pair: string,
-    profile: SwapDirection,
+    profile: SwapProfile,
     inputValue: string,
     paymentMethod: SwapPaymentMethod,
     paymentMethodId?: string
@@ -194,10 +194,21 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getPaymentAccount = (currency: CoinType): SwapPaymentAccount =>
+    authorizedPut({
+      contentType: 'application/json',
+      data: {
+        currency
+      },
+      endPoint: '/payments/accounts/swap',
+      url: nabuUrl
+    })
+
   return {
     cancelSwapOrder,
     createSwapOrder,
     createSwapOrder_DEPRECATED,
+    getPaymentAccount,
     getSwapLimits,
     getSwapPairs,
     getSwapQuote,

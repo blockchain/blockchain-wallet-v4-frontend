@@ -5,7 +5,14 @@ import { call, delay, put, select, take } from 'redux-saga/effects'
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import Remote from '@core/remote'
-import { CoinType, PaymentType, PaymentValue, Product, SwapDirection } from '@core/types'
+import {
+  CoinType,
+  PaymentType,
+  PaymentValue,
+  Product,
+  SwapOrderDirectionEnum,
+  SwapPaymentAccount
+} from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
@@ -34,7 +41,7 @@ import {
   SwapAmountFormValues,
   SwapBaseCounterTypes
 } from './types'
-import { getDirection, getPair, getPaymentMethod, isValidInputAmount } from './utils'
+import { getDirection, getPair, getPaymentMethod, getProfile, isValidInputAmount } from './utils'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; networks }) => {
   const { buildAndPublishPayment, paymentGetOrElse } = sendSagas({
@@ -129,7 +136,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     source: SwapAccountType,
     amount,
     fee: MempoolFeeType = 'priority'
-  ): Generator<any, PaymentValue | { coin: CoinType; effectiveBalance: number }, PaymentType> {
+  ) {
     try {
       const { coin } = source
       const addressOrIndex = source.address
@@ -146,9 +153,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
       const paymentAmount = generateProvisionalPaymentAmount(coin, amount)
       payment = yield payment.amount(paymentAmount)
+
       // TODO, add isMemoBased check
-      const sampleAddr = '' // TODO: make request for address instead
-      return (yield payment.chain().to(sampleAddr, 'ADDRESS').build().done()).value()
+      const paymentAccount: ReturnType<typeof api.getPaymentAccount> = yield call(
+        api.getPaymentAccount,
+        coin
+      )
+
+      return (yield payment.chain().to(paymentAccount.address, 'ADDRESS').build().done()).value()
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
@@ -181,9 +193,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
       const direction = getDirection(BASE, COUNTER)
       onChain =
-        direction === SwapDirection.SWAP_ON_CHAIN || direction === SwapDirection.SWAP_FROM_USERKEY
+        direction === SwapOrderDirectionEnum.ON_CHAIN ||
+        direction === SwapOrderDirectionEnum.FROM_USERKEY
       toChain =
-        direction === SwapDirection.SWAP_ON_CHAIN || direction === SwapDirection.SWAP_TO_USERKEY
+        direction === SwapOrderDirectionEnum.ON_CHAIN ||
+        direction === SwapOrderDirectionEnum.TO_USERKEY
 
       const amount = convertStandardToBase(BASE.coin, swapAmountFormValues.cryptoAmount)
 
@@ -300,13 +314,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         yield put(A.fetchQuoteLoading())
 
         const pair = getPair(base, counter)
-        const direction = getDirection(base, counter)
-        const paymentMethod = getPaymentMethod(direction)
+        const profile = getProfile(base, counter)
+        const paymentMethod = getPaymentMethod(profile)
 
         const quote: ReturnType<typeof api.getSwapQuote> = yield call(
           api.getSwapQuote,
           pair,
-          direction,
+          profile,
           amount,
           paymentMethod
         )
@@ -345,15 +359,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         yield put(A.fetchQuotePriceLoading())
 
         const pair = getPair(base, counter)
-        const direction = getDirection(base, counter)
-        const paymentMethod = getPaymentMethod(direction)
+        const profile = getProfile(base, counter)
+        const paymentMethod = getPaymentMethod(profile)
 
         const quotePrice: ReturnType<typeof api.getSwapQuotePrice> = yield call(
           api.getSwapQuotePrice,
           pair,
           amountOrDefault,
           paymentMethod,
-          direction
+          profile
         )
 
         yield put(

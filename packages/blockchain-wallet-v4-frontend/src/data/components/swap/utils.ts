@@ -1,41 +1,69 @@
 import BigNumber from 'bignumber.js'
 
-import { CoinType, SwapDirection, SwapPaymentMethod, SwapQuoteType } from '@core/types'
+import {
+  CoinType,
+  SwapOrderDirectionEnum,
+  SwapPaymentMethod,
+  SwapProfile,
+  SwapQuoteType
+} from '@core/types'
 import { errorHandler } from '@core/utils'
 import { notReachable } from 'utils/helpers'
 
 import { convertBaseToStandard } from '../exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from './types'
 
-export const getDirection = (BASE: SwapAccountType, COUNTER: SwapAccountType): SwapDirection => {
+export const getDirection = (
+  BASE: SwapAccountType,
+  COUNTER: SwapAccountType
+): SwapOrderDirectionEnum => {
   switch (true) {
     case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
       COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
-      return SwapDirection.SWAP_INTERNAL
+      return SwapOrderDirectionEnum.INTERNAL
     case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
       COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
-      return SwapDirection.SWAP_ON_CHAIN
+      return SwapOrderDirectionEnum.ON_CHAIN
     case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
       COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
-      return SwapDirection.SWAP_FROM_USERKEY
+      return SwapOrderDirectionEnum.FROM_USERKEY
     case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
       COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
-      return SwapDirection.SWAP_TO_USERKEY
+      return SwapOrderDirectionEnum.TO_USERKEY
     default:
-      return SwapDirection.SWAP_INTERNAL
+      return SwapOrderDirectionEnum.INTERNAL
   }
 }
 
-export const getPaymentMethod = (direction: SwapDirection): SwapPaymentMethod => {
-  switch (direction) {
-    case SwapDirection.SWAP_ON_CHAIN:
-    case SwapDirection.SWAP_FROM_USERKEY:
-    case SwapDirection.SWAP_TO_USERKEY:
+export const getProfile = (BASE: SwapAccountType, COUNTER: SwapAccountType): SwapProfile => {
+  switch (true) {
+    case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
+      COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
+      return SwapProfile.SWAP_INTERNAL
+    case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
+      COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
+      return SwapProfile.SWAP_ON_CHAIN
+    case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
+      COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
+      return SwapProfile.SWAP_FROM_USERKEY
+    case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
+      COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
+      return SwapProfile.SWAP_TO_USERKEY
+    default:
+      return SwapProfile.SWAP_INTERNAL
+  }
+}
+
+export const getPaymentMethod = (profile: SwapProfile): SwapPaymentMethod => {
+  switch (profile) {
+    case SwapProfile.SWAP_ON_CHAIN:
+    case SwapProfile.SWAP_FROM_USERKEY:
+    case SwapProfile.SWAP_TO_USERKEY:
       return SwapPaymentMethod.Deposit
-    case SwapDirection.SWAP_INTERNAL:
+    case SwapProfile.SWAP_INTERNAL:
       return SwapPaymentMethod.Funds
     default:
-      return notReachable(direction)
+      return notReachable(profile)
   }
 }
 

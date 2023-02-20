@@ -1,4 +1,4 @@
-import { BSPaymentTypes, FiatType } from '@core/types'
+import { BSPaymentTypes, CoinType, FiatType } from '@core/types'
 import { PlaidSettlementErrorReasons } from 'data/types'
 
 export type SwapOrderType = {
@@ -43,10 +43,17 @@ export type ProcessedSwapOrderType = SwapOrderType & {
 
 export type PairType = string
 
+export enum SwapOrderDirectionEnum {
+  FROM_USERKEY = 'FROM_USERKEY',
+  INTERNAL = 'INTERNAL',
+  ON_CHAIN = 'ON_CHAIN',
+  TO_USERKEY = 'TO_USERKEY'
+}
+
 /**
  * @deprecated
  */
-export type SwapOrderDirectionType = 'INTERNAL' | 'ON_CHAIN' | 'FROM_USERKEY' | 'TO_USERKEY'
+export type SwapOrderDirectionType = keyof typeof SwapOrderDirectionEnum
 
 export type SwapOrderStateType =
   | 'PENDING_EXECUTION'
@@ -106,7 +113,11 @@ export type SwapQuoteType = {
 
 export type SwapQuoteStateType = { quote: SwapQuoteType; rate: number }
 
-export enum SwapDirection {
+export enum SwapProfile {
+  // TODO bring those back
+  // RB_SIMPLEBUY = 'RB_SIMPLEBUY',
+  // SIMPLEBUY = 'SIMPLEBUY',
+  // SIMPLETRADE = 'SIMPLETRADE',
   SWAP_FROM_USERKEY = 'SWAP_FROM_USERKEY',
   SWAP_INTERNAL = 'SWAP_INTERNAL',
   SWAP_ON_CHAIN = 'SWAP_ON_CHAIN',
@@ -118,7 +129,7 @@ export type SwapQuotePriceType = {
   currencyPair: PairType
   dynamicFee: string // USD
   networkFee: string
-  orderProfileName: SwapDirection
+  orderProfileName: SwapProfile
   paymentMethod: BSPaymentTypes
   price: string
   resultAmount: string // BTC f=(amount-dynamicFee)*price - networkFee
@@ -154,4 +165,17 @@ export type SwapNewQuoteStateType = SwapNewQuoteType & {
 export enum SwapPaymentMethod {
   Deposit = 'DEPOSIT',
   Funds = 'FUNDS'
+}
+
+type AgentType = {
+  main?: string
+}
+
+export type SwapPaymentAccount = {
+  address: string
+  agent: AgentType
+  currency: CoinType
+  id: string
+  partner: string
+  state: string
 }

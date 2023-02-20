@@ -1,6 +1,10 @@
 import BigNumber from 'bignumber.js'
 
-import { SwapDirection, SwapPaymentMethod } from '@core/network/api/swap/types'
+import {
+  SwapOrderDirectionEnum,
+  SwapPaymentMethod,
+  SwapProfile
+} from '@core/network/api/swap/types'
 import { makeAccount } from 'data/components/swap/test-utils/makeAccount'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
 
@@ -76,41 +80,40 @@ describe('getDirection', () => {
     type: SwapBaseCounterTypes.CUSTODIAL
   })
 
-  it('should return SWAP_INTERNAL direction when both accounts are custodial', () => {
+  it('should return INTERNAL profile when both accounts are custodial', () => {
     expect(getDirection(makeCustodialAccount(), makeCustodialAccount())).toBe(
-      SwapDirection.SWAP_INTERNAL
+      SwapOrderDirectionEnum.INTERNAL
     )
   })
 
-  it('should return SWAP_ON_CHAIN direction when both accounts are non-custodial', () => {
+  it('should return ON_CHAIN profile when both accounts are non-custodial', () => {
     expect(getDirection(makeNonCustodialAccount(), makeNonCustodialAccount())).toBe(
-      SwapDirection.SWAP_ON_CHAIN
+      SwapOrderDirectionEnum.ON_CHAIN
     )
   })
 
-  it('should return SWAP_FROM_USERKEY direction when base is non-custodial and counter is custodial', () => {
+  it('should return FROM_USERKEY profile when base is non-custodial and counter is custodial', () => {
     expect(getDirection(makeNonCustodialAccount(), makeCustodialAccount())).toBe(
-      SwapDirection.SWAP_FROM_USERKEY
+      SwapOrderDirectionEnum.FROM_USERKEY
     )
   })
 
-  it('should return SWAP_TO_USERKEY direction when base is custodial and counter is non-custodial', () => {
+  it('should return TO_USERKEY profile when base is custodial and counter is non-custodial', () => {
     expect(getDirection(makeCustodialAccount(), makeNonCustodialAccount())).toBe(
-      SwapDirection.SWAP_TO_USERKEY
+      SwapOrderDirectionEnum.TO_USERKEY
     )
   })
 })
 
 describe('getPaymentMethod', () => {
-  it.each([
-    SwapDirection.SWAP_ON_CHAIN,
-    SwapDirection.SWAP_FROM_USERKEY,
-    SwapDirection.SWAP_TO_USERKEY
-  ])('should return DEPOSIT for all non-custodial directions', (direction) => {
-    expect(getPaymentMethod(direction)).toBe(SwapPaymentMethod.Deposit)
-  })
+  it.each([SwapProfile.SWAP_ON_CHAIN, SwapProfile.SWAP_FROM_USERKEY, SwapProfile.SWAP_TO_USERKEY])(
+    'should return DEPOSIT for all non-custodial profiles',
+    (direction) => {
+      expect(getPaymentMethod(direction)).toBe(SwapPaymentMethod.Deposit)
+    }
+  )
 
-  it('should return FUNDS for custodial direction', () => {
-    expect(getPaymentMethod(SwapDirection.SWAP_INTERNAL)).toBe(SwapPaymentMethod.Funds)
+  it('should return FUNDS for custodial profile', () => {
+    expect(getPaymentMethod(SwapProfile.SWAP_INTERNAL)).toBe(SwapPaymentMethod.Funds)
   })
 })
