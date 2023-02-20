@@ -188,6 +188,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const amount = convertStandardToBase(BASE.coin, swapAmountFormValues.cryptoAmount)
 
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
+
       const refundAddr = onChain
         ? yield call(selectReceiveAddress, BASE, networks, api, coreSagas)
         : undefined
@@ -197,7 +198,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const order: ReturnType<typeof api.createSwapOrder> = yield call(
         api.createSwapOrder,
         direction,
-        quote.id,
+        quote.quoteId,
         amount,
         ccy,
         destinationAddr,
@@ -339,6 +340,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       try {
         const { amount, base, counter } = payload
         const isValidAmount = isValidInputAmount(amount)
+        // TODO(Milan) - return 0 once when it's updated on BE
         const amountOrDefault = isValidAmount ? amount : '10'
         yield put(A.fetchQuotePriceLoading())
 
@@ -416,6 +418,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           })
     yield put(actions.form.change('swapAmount', 'cryptoAmount', amountFieldValue))
 
+    // TODO(Milan) - should we stop previous poll here
     const amount = convertStandardToBase(BASE.coin, amountFieldValue)
     yield put(A.startPollQuotePrice({ amount, base: BASE, counter: COUNTER }))
 

@@ -1,6 +1,5 @@
 import { put } from 'typed-redux-saga'
 
-import { BSPaymentTypes } from '@core/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 
 import { actions } from '../slice'

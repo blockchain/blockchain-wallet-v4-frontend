@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   Button,
   Flex,
-  IconCheckCircle,
   IconCreditCard,
   IconLockClosed,
   IconShield,
