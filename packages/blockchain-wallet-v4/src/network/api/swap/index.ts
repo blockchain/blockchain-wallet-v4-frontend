@@ -1,4 +1,4 @@
-import { BSPaymentTypes, CoinType, FiatType, SwapDirection, SwapPaymentMethod } from '@core/types'
+import { CoinType, FiatType, SwapDirection, SwapPaymentMethod } from '@core/types'
 
 import {
   SwapNewQuoteType,

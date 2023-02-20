@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
+import { GenericNabuError } from 'components/GenericNabuError'
+import { isNabuError } from 'services/errors'
 
 import { Props as OwnProps } from '.'
 
@@ -18,6 +20,11 @@ const Wrapper = styled.div`
 `
 
 const Failure: React.FC<Props> = (props) => {
+  const errorCallback = () => props.swapActions.setStep({ step: 'INIT_SWAP' })
+  if (isNabuError(props.error)) {
+    return <GenericNabuError error={props.error} onDismiss={errorCallback} />
+  }
+
   return (
     <>
       <FlyoutWrapper>
@@ -36,7 +43,7 @@ const Failure: React.FC<Props> = (props) => {
                 fullwidth
                 data-e2e='retrySwap'
                 nature='primary'
-                onClick={() => props.swapActions.setStep({ step: 'INIT_SWAP' })}
+                onClick={errorCallback}
                 style={{ marginTop: '16px' }}
               >
                 <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
