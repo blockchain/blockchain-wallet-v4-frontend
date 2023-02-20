@@ -485,7 +485,7 @@ const enhance = compose(
 export type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     formErrors: {
-      amount?: 'ABOVE_MAX' | 'ABOVE_MAX_LIMIT' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | boolean
+      amount?: 'ABOVE_MAX' | 'ABOVE_MAX_LIMIT' | 'BELOW_MIN' | boolean
     }
   }
 

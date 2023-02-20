@@ -366,7 +366,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           ? yield call(selectReceiveAddress, from, networks, api, coreSagas)
           : undefined
       const sellOrder: SwapOrderType = yield call(
-        api.createSwapOrder,
+        api.createSwapOrder_DEPRECATED,
         direction,
         quote.quote.id,
         cryptoAmt,
@@ -1356,8 +1356,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       try {
         const { pair } = payload
         const direction = getDirection(payload.account)
-        const quote: ReturnType<typeof api.getSwapQuote> = yield call(
-          api.getSwapQuote,
+        const quote: ReturnType<typeof api.getSwapQuote_DEPRECATED> = yield call(
+          api.getSwapQuote_DEPRECATED,
           pair,
           direction
         )
@@ -1641,7 +1641,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           failure: take(A.fetchSellQuoteFailure.type),
           success: take(A.fetchSellQuoteSuccess.type)
         })
-        const quote = S.getSellQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
 
         if (account.type === SwapBaseCounterTypes.ACCOUNT) {
           const formValues = selectors.form.getFormValues(FORM_BS_CHECKOUT)(
@@ -1650,7 +1649,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const payment = yield call(
             calculateProvisionalPayment,
             account,
-            quote.quote,
             formValues ? formValues.cryptoAmount : 0
           )
           yield put(A.updatePaymentSuccess(payment))

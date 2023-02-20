@@ -3,17 +3,24 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from '@core/remote'
 import {
+  BSPaymentTypes,
   CoinType,
   CrossBorderLimits,
   CrossBorderLimitsPayload,
   PaymentValue,
+  SwapNewQuoteStateType,
   SwapOrderType,
-  SwapQuoteStateType,
   SwapUserLimitsType
 } from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
 
-import { SwapAccountType, SwapCheckoutFixType, SwapState, SwapStepPayload } from './types'
+import {
+  QuotePrice,
+  SwapAccountType,
+  SwapCheckoutFixType,
+  SwapState,
+  SwapStepPayload
+} from './types'
 
 const initialState: SwapState = {
   crossBorderLimits: Remote.NotAsked,
@@ -24,6 +31,7 @@ const initialState: SwapState = {
   pairs: Remote.NotAsked,
   payment: Remote.NotAsked,
   quote: Remote.NotAsked,
+  quotePrice: Remote.NotAsked,
   side: 'BASE',
   step: 'INIT_SWAP',
   trades: {
@@ -91,13 +99,40 @@ const swapSlice = createSlice({
     },
 
     fetchQuote: () => {},
-    fetchQuoteFailure: (state, action: PayloadAction<string>) => {
+    fetchQuoteFailure: (state, action: PayloadAction<string | Error>) => {
       state.quote = Remote.Failure(action.payload)
     },
     fetchQuoteLoading: (state) => {
       state.quote = Remote.Loading
     },
-    fetchQuoteSuccess: (state, action: PayloadAction<SwapQuoteStateType>) => {
+    fetchQuotePrice: () => {},
+    fetchQuotePriceFailure: (state, action: PayloadAction<string | Error>) => {
+      state.quotePrice = Remote.Success.is(state.quotePrice)
+        ? state.quotePrice
+        : Remote.Failure(action.payload)
+    },
+    fetchQuotePriceLoading: (state) => {
+      state.quotePrice = Remote.Success.is(state.quotePrice)
+        ? Remote.Success({
+            ...state.quotePrice.data,
+            isRefreshing: true
+          })
+        : Remote.Loading
+    },
+    fetchQuotePriceSuccess: (
+      state,
+      action: PayloadAction<{
+        data: QuotePrice['data']
+        isPlaceholder: boolean
+      }>
+    ) => {
+      state.quotePrice = Remote.Success({
+        data: action.payload.data,
+        isPlaceholder: action.payload.isPlaceholder,
+        isRefreshing: false
+      })
+    },
+    fetchQuoteSuccess: (state, action: PayloadAction<SwapNewQuoteStateType>) => {
       state.quote = Remote.Success(action.payload)
     },
     fetchTrades: () => {},
@@ -123,7 +158,16 @@ const swapSlice = createSlice({
     handleSwapMaxAmountClick: (state, action: PayloadAction<{ amount: string | undefined }>) => {},
     handleSwapMinAmountClick: (state, action: PayloadAction<{ amount: string | undefined }>) => {},
     initAmountForm: () => {},
+    proceedToSwapConfirmation: (
+      state,
+      action: PayloadAction<{
+        amount: string
+        base: SwapAccountType
+        counter: SwapAccountType
+      }>
+    ) => {},
     refreshAccounts: () => {},
+    returnToInitSwap: () => {},
     setCheckoutFix: (state, action: PayloadAction<SwapCheckoutFixType>) => {
       state.fix = action.payload
     },
@@ -152,11 +196,31 @@ const swapSlice = createSlice({
         origin: ModalOriginType
       }>
     ) => {},
-    startPollQuote: () => {},
+    startPollQuote: (
+      state,
+      action: PayloadAction<{
+        amount: string
+        base: SwapAccountType
+        counter: SwapAccountType
+      }>
+    ) => {},
+    startPollQuotePrice: (
+      state,
+      action: PayloadAction<{
+        amount?: string
+        base: SwapAccountType
+        counter: SwapAccountType
+      }>
+    ) => {},
     stopPollQuote: () => {},
+    stopPollQuotePrice: (state, action: PayloadAction<{ shouldNotResetState?: boolean }>) => {
+      if (!action.payload.shouldNotResetState) {
+        state.quotePrice = Remote.NotAsked
+      }
+    },
     switchFix: (state, action: PayloadAction<{ amount: string; fix: SwapCheckoutFixType }>) => {},
-    toggleBaseAndCounter: () => {},
 
+    toggleBaseAndCounter: () => {},
     updatePayment: () => {},
     updatePaymentFailure: (state, action: PayloadAction<string>) => {
       state.payment = Remote.Failure(action.payload)

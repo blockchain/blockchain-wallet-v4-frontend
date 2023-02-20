@@ -4,7 +4,7 @@ import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Inte
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Exchange, Remote } from '@core'
+import { Exchange } from '@core'
 import Currencies from '@core/exchange/currencies'
 import { coinToString, fiatToString, formatFiat } from '@core/exchange/utils'
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -23,13 +23,7 @@ import { media } from 'services/styles'
 import { AlertButton } from '../../../components'
 import { StyledForm } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '..'
-import {
-  checkCrossBorderLimit,
-  getMaxMin,
-  incomingAmountNonZero,
-  maximumAmount,
-  minimumAmount
-} from './validation'
+import { checkCrossBorderLimit, getMaxMin, maximumAmount, minimumAmount } from './validation'
 
 export const Cell = styled.div<{ center?: boolean; size?: 'small' }>`
   display: flex;
@@ -123,7 +117,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     formValues,
     limits,
     payment,
-    quote,
+    quotePrice,
     userData,
     walletCurrency
   } = props
@@ -141,7 +135,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       : amountRowNode.children[amountRowNode.children.length - 1]
     currencyNode.style.fontSize = `${fontSizeNumber * fontRatio}px`
   }
-  const max = getMaxMin('max', limits, baseRates, payment, quote, BASE, COUNTER)
+  const max = getMaxMin('max', limits, baseRates, payment, quotePrice, BASE)
 
   const fiatMax = Exchange.convertCoinToFiat({
     coin: BASE.coin,
@@ -150,7 +144,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     rates: baseRates,
     value: max
   })
-  const min = getMaxMin('min', limits, baseRates, payment, quote, BASE, COUNTER)
+  const min = getMaxMin('min', limits, baseRates, payment, quotePrice, BASE)
 
   const fiatMin = Exchange.convertCoinToFiat({
     coin: BASE.coin,
@@ -196,7 +190,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       props.swapActions.handleSwapMinAmountClick({ amount: fix === 'FIAT' ? fiatMin : min })
     }
 
-    if (amountError === 'ABOVE_MAX' || amountError === 'NEGATIVE_INCOMING_AMT') {
+    if (amountError === 'ABOVE_MAX') {
       props.swapActions.handleSwapMinAmountClick({ amount: fix === 'FIAT' ? fiatMax : max })
     }
   }
@@ -204,14 +198,14 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    props.swapActions.setStep({
-      options: {
-        baseAccountType: BASE.type,
-        baseCoin: BASE.coin,
-        counterAccountType: COUNTER.type,
-        counterCoin: COUNTER.coin
-      },
-      step: 'PREVIEW_SWAP'
+    if (typeof formValues?.cryptoAmount === 'undefined') {
+      return
+    }
+
+    props.swapActions.proceedToSwapConfirmation({
+      amount: formValues.cryptoAmount,
+      base: BASE,
+      counter: COUNTER
     })
 
     props.analyticsActions.trackEvent({
@@ -233,7 +227,6 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   }
 
   const balanceBelowMinimum = Number(max) < Number(min)
-  const isQuoteFailed = Remote.Failure.is(props.quoteR)
   const { coinfig: baseCoinfig } = window.coins[BASE.coin]
   // if user is attempting to send NC ERC20, ensure they have sufficient
   // ETH balance else warn user and disable trade
@@ -268,7 +261,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             data-e2e='swapAmountInput'
             name='amount'
             component={AmountTextBox}
-            validate={[maximumAmount, minimumAmount, incomingAmountNonZero, checkCrossBorderLimit]}
+            validate={[maximumAmount, minimumAmount, checkCrossBorderLimit]}
             normalize={normalizeAmount}
             props={{ disabled: balanceBelowMinimum }}
             // eslint-disable-next-line react/jsx-no-bind
@@ -367,13 +360,6 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   </Button>
                 </ButtonsRow>
               </UpgradePrompt>
-            ) : amountError === 'NEGATIVE_INCOMING_AMT' ? (
-              <CustomErrorCartridge data-e2e='swapBelowZero'>
-                <FormattedMessage
-                  id='copy.negative_incoming_swap'
-                  defaultMessage='Amount is below withdrawal fee.'
-                />
-              </CustomErrorCartridge>
             ) : (
               <CustomErrorCartridge onClick={handleMinMaxClick} role='button' data-e2e='swapMax'>
                 <FormattedMessage
@@ -454,7 +440,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             jumbo
             fullwidth
             style={{ marginTop: '24px' }}
-            disabled={props.invalid || isQuoteFailed || disableInsufficientEth}
+            disabled={props.invalid || disableInsufficientEth}
           >
             <FormattedMessage id='buttons.preview_swap' defaultMessage='Preview Swap' />
           </Button>
@@ -604,17 +590,6 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </ButtonContainer>
         )}
 
-        {isQuoteFailed && (
-          <ErrorCartridge style={{ marginTop: '16px' }}>
-            Error:{' '}
-            {props.quoteR.cata({
-              Failure: (e) => e,
-              Loading: () => null,
-              NotAsked: () => null,
-              Success: () => null
-            })}
-          </ErrorCartridge>
-        )}
         {disableInsufficientEth && (
           <ErrorCartridge style={{ marginTop: '16px' }}>
             <FormattedMessage

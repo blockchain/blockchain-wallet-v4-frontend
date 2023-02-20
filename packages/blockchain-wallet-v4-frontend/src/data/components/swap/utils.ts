@@ -1,32 +1,41 @@
 import BigNumber from 'bignumber.js'
 
-import { CoinType, SwapOrderDirectionType, SwapQuoteType } from '@core/types'
+import { CoinType, SwapDirection, SwapPaymentMethod, SwapQuoteType } from '@core/types'
 import { errorHandler } from '@core/utils'
+import { notReachable } from 'utils/helpers'
 
 import { convertBaseToStandard } from '../exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from './types'
 
-export const NO_QUOTE = 'No quote found.'
-
-export const getDirection = (
-  BASE: SwapAccountType,
-  COUNTER: SwapAccountType
-): SwapOrderDirectionType => {
+export const getDirection = (BASE: SwapAccountType, COUNTER: SwapAccountType): SwapDirection => {
   switch (true) {
     case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
       COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
-      return 'INTERNAL'
+      return SwapDirection.SWAP_INTERNAL
     case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
       COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
-      return 'ON_CHAIN'
+      return SwapDirection.SWAP_ON_CHAIN
     case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
       COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
-      return 'FROM_USERKEY'
+      return SwapDirection.SWAP_FROM_USERKEY
     case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
       COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
-      return 'TO_USERKEY'
+      return SwapDirection.SWAP_TO_USERKEY
     default:
-      return 'INTERNAL'
+      return SwapDirection.SWAP_INTERNAL
+  }
+}
+
+export const getPaymentMethod = (direction: SwapDirection): SwapPaymentMethod => {
+  switch (direction) {
+    case SwapDirection.SWAP_ON_CHAIN:
+    case SwapDirection.SWAP_FROM_USERKEY:
+    case SwapDirection.SWAP_TO_USERKEY:
+      return SwapPaymentMethod.Deposit
+    case SwapDirection.SWAP_INTERNAL:
+      return SwapPaymentMethod.Funds
+    default:
+      return notReachable(direction)
   }
 }
 
@@ -89,4 +98,18 @@ export const getRate = (
   } catch (e) {
     throw Error(errorHandler(e))
   }
+}
+
+export const isValidInputAmount = (amount?: string): amount is string => {
+  if (amount === undefined) {
+    return false
+  }
+
+  const parsedAmount = parseFloat(amount)
+
+  if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
+    return false
+  }
+
+  return true
 }

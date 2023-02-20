@@ -171,7 +171,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
         </FromToLogoLeft>
 
         {this.props.incomingAmountR.cata({
-          Failure: (e) => e,
+          Failure: (e) => <>{e}</>,
           Loading: () => (
             <Row>
               <SkeletonRectangle height='44px' width='400px' />
@@ -227,7 +227,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                 NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
                 Success: (val) => (
                   <Text weight={400} color='grey900'>
-                    1 {baseCoinDisplaySymbol} = {formatCoin(val.rate)} {counterCoinDisplaySymbol}
+                    1 {baseCoinDisplaySymbol} = {formatCoin(val.price)} {counterCoinDisplaySymbol}
                   </Text>
                 )
               })}
