@@ -21,6 +21,7 @@ import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
 import { BalanceRow, Border, Option, OptionTitle, OptionValue, TopText } from '../components'
 import { checkAccountZeroBalance } from '../model'
 import Checkout from './Checkout'
+import { ResultAmount } from './ResultAmount'
 import getData from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
@@ -120,9 +121,7 @@ class EnterAmount extends PureComponent<Props> {
   }
 
   handleGoBackClick = () => {
-    this.props.swapActions.setStep({
-      step: 'INIT_SWAP'
-    })
+    this.props.swapActions.returnToInitSwap()
 
     this.props.analyticsActions.trackEvent({
       key: Analytics.SWAP_AMOUNT_SCREEN_BACK_CLICKED,
@@ -162,13 +161,13 @@ class EnterAmount extends PureComponent<Props> {
                 <FormattedMessage id='copy.new_swap' defaultMessage='New Swap' />
               </Text>
             </SubTopText>
-            {this.props.quoteR.cata({
-              Failure: () => null,
+            {this.props.quotePriceR.cata({
+              Failure: () => <></>,
               Loading: () => <SpinningLoader borderWidth='4px' height='14px' width='14px' />,
               NotAsked: () => <SpinningLoader borderWidth='4px' height='14px' width='14px' />,
               Success: (val) => (
                 <Text size='14px' color='grey900' weight={500}>
-                  1 {baseCoinfig.displaySymbol} = {formatCoin(val.rate)}{' '}
+                  1 {baseCoinfig.displaySymbol} = {formatCoin(val.data.price)}{' '}
                   {counterCoinfig.displaySymbol}
                 </Text>
               )
@@ -227,11 +226,10 @@ class EnterAmount extends PureComponent<Props> {
                       <OptionTitle>{COUNTER.label}</OptionTitle>
                       <OptionValue>
                         <BalanceRow>
-                          {val.formValues?.amount
-                            ? `${formatCoin(val.incomingAmount.amt)} ${
-                                counterCoinfig.displaySymbol
-                              }`
-                            : `0 ${counterCoinfig.displaySymbol}`}
+                          <ResultAmount
+                            isRefreshing={val.resultAmountViewModel.isRefreshing}
+                            text={val.resultAmountViewModel.text}
+                          />
                         </BalanceRow>
                       </OptionValue>
                     </div>
@@ -257,7 +255,7 @@ const mapStateToProps = (state: RootState) => {
     data: getData(state),
     initSwapFormValues: selectors.form.getFormValues('initSwap')(state) as InitSwapFormValuesType,
     isPristine: selectors.form.isPristine('swapAmount')(state),
-    quoteR: selectors.components.swap.getQuote(state)
+    quotePriceR: selectors.components.swap.getQuotePrice(state)
   }
 }
 
@@ -287,13 +285,7 @@ type OwnProps = BaseProps & { handleClose: () => void }
 export type Props = OwnProps & SuccessType & ConnectedProps<typeof connector>
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
   formErrors: {
-    amount?:
-      | 'ABOVE_MAX'
-      | 'BELOW_MIN'
-      | 'NEGATIVE_INCOMING_AMT'
-      | 'ABOVE_MAX_LIMIT'
-      | 'ABOVE_BALANCE'
-      | boolean
+    amount?: 'ABOVE_MAX' | 'BELOW_MIN' | 'ABOVE_MAX_LIMIT' | 'ABOVE_BALANCE' | boolean
   }
 }
 
