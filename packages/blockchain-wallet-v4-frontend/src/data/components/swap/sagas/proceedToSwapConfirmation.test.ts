@@ -8,7 +8,7 @@ import { base, counter } from '../test-utils/makeAccountStub'
 import { proceedToSwapConfirmation } from './proceedToSwapConfirmation'
 
 const sampleAmount = '100'
-const sampleAmountAfterProcess = '100000000000000000000'
+const sampleAmountAfterProcess = '10000000000'
 const stepAfterProcess = 'PREVIEW_SWAP'
 
 describe('proceedToSwapConfirmation', () => {
