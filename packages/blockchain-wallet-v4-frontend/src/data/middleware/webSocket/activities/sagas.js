@@ -20,6 +20,7 @@ export default ({ socket }) => {
       },
       channel: 'activity',
       params: {
+        // remove hardcoding timezone here??
         acceptLanguage: 'en-GB;q=1.0, en',
         fiatCurrency: 'GBP',
         timezoneIana: 'Europe/London'
@@ -35,7 +36,12 @@ export default ({ socket }) => {
 
   const onAuth = function* () {}
 
-  const onMessage = function* (action) {}
+  const onMessage = function* (action) {
+    // let pubkeyData = []
+    // pubkeyData.push(action.payload.data)
+    // console.log(action.payload.data.pubKey, action.payload.data.network)
+    // console.log(pubkeyData)
+  }
 
   const resendMessageSocket = function* (action) {}
 

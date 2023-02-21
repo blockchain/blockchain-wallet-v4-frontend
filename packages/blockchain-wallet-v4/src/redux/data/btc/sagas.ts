@@ -39,6 +39,8 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchDataFailure(errorHandler(e)))
     }
   }
+
+  // download csv of coin transactions
   const fetchTransactionHistory = function* ({ payload }) {
     const { address, end, start } = payload
     const bech32Address = Array.isArray(address)
