@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { addMilliseconds, addSeconds, differenceInMilliseconds } from 'date-fns'
 
 import {
   CoinType,
@@ -140,4 +141,21 @@ export const isValidInputAmount = (amount?: string): amount is string => {
   }
 
   return true
+}
+
+export const getQuoteRefreshConfig = ({
+  currentDate,
+  expireDate
+}: {
+  currentDate: Date
+  expireDate: Date
+}) => {
+  const millisecondsUntilRefresh = Math.abs(
+    differenceInMilliseconds(expireDate, addSeconds(currentDate, 10))
+  )
+
+  return {
+    date: addMilliseconds(currentDate, millisecondsUntilRefresh),
+    totalMs: millisecondsUntilRefresh
+  }
 }

@@ -6,10 +6,10 @@ import { ThemeProvider } from 'styled-components'
 import { MobilePaymentType } from '@core/network/api/buySell/types'
 import { Palette } from 'blockchain-info-components'
 
-import { useCountDown } from '../hooks/useCountDown'
+import { useCountDown } from '../../hooks/useCountDown'
 import { ConfirmButton, Props } from './ConfirmButton'
 
-jest.mock('../hooks/useCountDown', () => ({
+jest.mock('../../hooks/useCountDown', () => ({
   useCountDown: jest.fn(() => ({
     isCompletingSoon: false
   }))

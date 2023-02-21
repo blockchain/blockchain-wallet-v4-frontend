@@ -8,15 +8,7 @@ import styled from 'styled-components'
 import { Exchange } from '@core'
 import { coinToString, formatFiat } from '@core/exchange/utils'
 import { BSOrderActionType, BSPairType, CoinType, PaymentValue, RatesType } from '@core/types'
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  SkeletonRectangle,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
@@ -33,9 +25,9 @@ import {
 } from 'data/types'
 import { isNabuError } from 'services/errors'
 
+import { QuoteCountDown } from '../../components/QuoteCountDown'
 import { Border, TopText } from '../../Swap/components'
 import { ErrorCodeMappings } from '../model'
-import { QuoteCountDown } from '../QuoteCountDown'
 import Loading from '../template.loading'
 import { SellButton } from './SellButton'
 

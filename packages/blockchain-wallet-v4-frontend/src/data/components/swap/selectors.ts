@@ -5,9 +5,7 @@ import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
-import { InitSwapFormValuesType, SwapAmountFormValues } from './types'
-import { getRate } from './utils'
+import { IncomingAmount, InitSwapFormValuesType } from './types'
 
 export const getCustodialEligibility = (state: RootState) =>
   state.components.swap.custodialEligibility
@@ -66,7 +64,7 @@ export const getRates = (state: RootState) => {
 }
 
 export const getIncomingAmount = (state: RootState) => {
-  return getQuote(state).map((quote) => {
+  return getQuote(state).map((quote): IncomingAmount => {
     const amt = quote.resultAmount
     const isNegative = new BigNumber(amt).isLessThanOrEqualTo(0)
 

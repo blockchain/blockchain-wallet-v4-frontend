@@ -20,6 +20,7 @@ import type {
   NabuAddressType,
   PaymentValue,
   ProviderDetailsType,
+  RefreshConfig,
   RemoteDataType,
   SDDEligibleType,
   SDDVerifiedType,
@@ -147,11 +148,6 @@ export type BSCardSuccessRateType = {
     title: string
   }
   isBlocked: boolean
-}
-
-export type RefreshConfig = {
-  date: Date
-  totalMs: number
 }
 
 export type BuyQuoteStateType = {

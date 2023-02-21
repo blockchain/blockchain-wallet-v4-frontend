@@ -126,3 +126,8 @@ export type SwapStepPayload =
       options?: never
       step: 'NO_HOLDINGS'
     }
+
+export type IncomingAmount = {
+  amt: string | number
+  isNegative: boolean
+}

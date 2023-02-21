@@ -5,14 +5,7 @@ import { call, delay, put, select, take } from 'redux-saga/effects'
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import Remote from '@core/remote'
-import {
-  CoinType,
-  PaymentType,
-  PaymentValue,
-  Product,
-  SwapOrderDirectionEnum,
-  SwapPaymentAccount
-} from '@core/types'
+import { PaymentType, Product, SwapOrderDirectionEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
@@ -41,7 +34,14 @@ import {
   SwapAmountFormValues,
   SwapBaseCounterTypes
 } from './types'
-import { getDirection, getPair, getPaymentMethod, getProfile, isValidInputAmount } from './utils'
+import {
+  getDirection,
+  getPair,
+  getPaymentMethod,
+  getProfile,
+  getQuoteRefreshConfig,
+  isValidInputAmount
+} from './utils'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; networks }) => {
   const { buildAndPublishPayment, paymentGetOrElse } = sendSagas({
@@ -325,10 +325,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           paymentMethod
         )
 
+        const refreshConfig = getQuoteRefreshConfig({
+          currentDate: new Date(),
+          expireDate: new Date(quote.quoteExpiresAt)
+        })
+
         yield put(
           A.fetchQuoteSuccess({
             ...quote,
             price: convertBaseToStandard(counter.coin, quote.price),
+            refreshConfig,
             resultAmount: convertBaseToStandard(counter.coin, quote.resultAmount)
           })
         )

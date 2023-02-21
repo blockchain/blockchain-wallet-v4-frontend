@@ -114,10 +114,6 @@ export type SwapQuoteType = {
 export type SwapQuoteStateType = { quote: SwapQuoteType; rate: number }
 
 export enum SwapProfile {
-  // TODO bring those back
-  // RB_SIMPLEBUY = 'RB_SIMPLEBUY',
-  // SIMPLEBUY = 'SIMPLEBUY',
-  // SIMPLETRADE = 'SIMPLETRADE',
   SWAP_FROM_USERKEY = 'SWAP_FROM_USERKEY',
   SWAP_INTERNAL = 'SWAP_INTERNAL',
   SWAP_ON_CHAIN = 'SWAP_ON_CHAIN',
@@ -157,8 +153,14 @@ export type SwapNewQuoteType = {
   staticFee: string | null
 }
 
+export type RefreshConfig = {
+  date: Date
+  totalMs: number
+}
+
 export type SwapNewQuoteStateType = SwapNewQuoteType & {
   price: StandardNumericString
+  refreshConfig: RefreshConfig
   resultAmount: StandardNumericString
 }
 
