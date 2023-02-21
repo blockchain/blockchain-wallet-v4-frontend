@@ -27,7 +27,7 @@ class TransferEthContainer extends React.PureComponent<Props> {
 
   componentDidUpdate() {
     if (Remote.Success.is(this.props.data)) {
-      const { ethBalance, txFee } = this.props.data.getOrElse(DEFAULTS)
+      const { ethBalance, txFee } = this.props.data.data
       if (parseFloat(txFee) > parseFloat(ethBalance)) {
         this.props.modalActions.closeAllModals()
       }

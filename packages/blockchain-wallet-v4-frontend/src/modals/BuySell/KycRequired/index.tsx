@@ -2,8 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
+import { actions } from 'data'
 
 import Template from './template'
 
@@ -18,16 +17,12 @@ class KycRequired extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  order: selectors.components.buySell.getBSOrder(state)
-})
-
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(null, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void

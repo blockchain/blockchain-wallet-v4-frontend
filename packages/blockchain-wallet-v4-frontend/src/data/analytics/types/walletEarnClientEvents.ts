@@ -29,6 +29,9 @@ export enum Events {
   // BUY: Wallet. What the user sees after the wallet clicks the Buy Earn Rewards Button
   WALLET_BUY_EARN_REWARDS_VIEWED = 'Wallet Buy Earn Rewards Viewed',
 
+  // EARN: The user clicks compare on Earn page
+  WALLET_EARN_COMPARE_PRODUCTS_CLICKED = 'Wallet Earn Compare Products Clicked',
+
   // ADD: User changes the wallet on the interest deposit page.
   WALLET_REWARDS_DEPOSIT_CHANGE_WALLET_CLICKED = 'Wallet Rewards Deposit Change Wallet Clicked',
   // ADD: User clicks on transfer on the deposit page.
@@ -334,6 +337,11 @@ type WalletBuyEarnRewardsViewed = {
   properties: {}
 }
 
+type WalletEarnCompareProductsClicked = {
+  key: Events.WALLET_EARN_COMPARE_PRODUCTS_CLICKED
+  properties: {}
+}
+
 export type TrackEventAction =
   | WalletActiveRewardsDepositSuccessViewed
   | WalletActiveRewardsDepositTransferClicked
@@ -349,6 +357,7 @@ export type TrackEventAction =
   | WalletActiveRewardsWithdrawTransferClicked
   | WalletBuyEarnRewardsClicked
   | WalletBuyEarnRewardsViewed
+  | WalletEarnCompareProductsClicked
   | WalletRewardsDetailClicked
   | WalletRewardsTransactionHistoryClicked
   | WalletRewardsTransactionHistoryDownloadClicked

@@ -16,7 +16,6 @@ import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/mod
 import Form from 'components/Form/Form'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { model } from 'data'
-import { getFiatFromPair } from 'data/components/buySell/model'
 import {
   AddBankStepType,
   Analytics,
@@ -201,7 +200,9 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   }, [props.quoteSummaryViewModel.isTermsConsentRequired])
 
   const handleCancel = () => {
-    props.buySellActions.cancelOrder(props.order)
+    props.buySellActions.returnToBuyEnterAmount({
+      pair: props.quoteSummaryViewModel.quoteState.pairObject
+    })
 
     props.analyticsActions.trackEvent({
       key: Analytics.BUY_CHECKOUT_SCREEN_BACK_CLICKED,
@@ -223,15 +224,15 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
       isSddFlow: false
     } as SuccessStateType)
 
-    const inputCurrency = props.order.inputCurrency as WalletFiatType
+    const inputCurrency = props.quoteSummaryViewModel.fiatCode as WalletFiatType
 
     if (isSddFlow) {
       // user has to have at least one active card
       if (cards && cards.length > 0 && cards[0].state === 'ACTIVE') {
         const card = cards[0]
         return props.buySellActions.confirmOrder({
-          order: props.order,
-          paymentMethodId: card.id
+          paymentMethodId: card.id,
+          quoteState: props.quoteSummaryViewModel.quoteState
         })
       }
 
@@ -240,11 +241,17 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
       })
     }
 
-    switch (props.order.paymentType) {
+    switch (props.quoteSummaryViewModel.paymentMethod) {
       case BSPaymentTypes.FUNDS:
         const available = sbBalances[inputCurrency]?.available || '0'
-        if (new BigNumber(available).isGreaterThanOrEqualTo(props.order.inputQuantity)) {
-          return props.buySellActions.confirmFundsOrder()
+        if (
+          new BigNumber(available).isGreaterThanOrEqualTo(
+            props.quoteSummaryViewModel.fiatAmountBase
+          )
+        ) {
+          return props.buySellActions.confirmFundsOrder({
+            quoteState: props.quoteSummaryViewModel.quoteState
+          })
         }
         return props.buySellActions.setStep({
           displayBack: false,
@@ -253,21 +260,11 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         })
 
       case BSPaymentTypes.PAYMENT_CARD:
-        let { paymentMethodId } = props.order
-
-        if (props.mobilePaymentMethod === MobilePaymentType.APPLE_PAY && props.applePayInfo) {
-          paymentMethodId = props.applePayInfo.beneficiaryID
-        }
-
-        if (props.mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY && props.googlePayInfo) {
-          paymentMethodId = props.googlePayInfo.beneficiaryID
-        }
-
-        if (paymentMethodId) {
+        if (props.quoteSummaryViewModel.paymentMethodId) {
           return props.buySellActions.confirmOrder({
             mobilePaymentMethod: props.mobilePaymentMethod,
-            order: props.order,
-            paymentMethodId
+            paymentMethodId: props.quoteSummaryViewModel.paymentMethodId,
+            quoteState: props.quoteSummaryViewModel.quoteState
           })
         }
 
@@ -276,7 +273,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
       case BSPaymentTypes.BANK_TRANSFER:
         const [bankAccount] = filter(
           (b: BankTransferAccountType) =>
-            b.state === 'ACTIVE' && b.id === props.order.paymentMethodId,
+            b.state === 'ACTIVE' && b.id === props.quoteSummaryViewModel.paymentMethodId,
           defaultTo([])(bankAccounts)
         )
         const paymentPartner = prop('partner', bankAccount)
@@ -296,10 +293,10 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
             step: 'AUTHORIZE_PAYMENT'
           })
         }
-        if (props.order.paymentMethodId) {
+        if (props.quoteSummaryViewModel.paymentMethodId) {
           return props.buySellActions.confirmOrder({
-            order: props.order,
-            paymentMethodId: props.order.paymentMethodId
+            paymentMethodId: props.quoteSummaryViewModel.paymentMethodId,
+            quoteState: props.quoteSummaryViewModel.quoteState
           })
         }
         props.brokerageActions.showModal({
@@ -311,11 +308,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         })
 
       default:
-        // Not a valid payment method type, go back to CRYPTO_SELECTION
-        return props.buySellActions.setStep({
-          fiatCurrency: getFiatFromPair(props.order.pair),
-          step: 'CRYPTO_SELECTION'
-        })
+        return props.buySellActions.returnToCryptoSelection()
     }
   }
 

@@ -79,9 +79,9 @@ const configuredStore = async function () {
     manuallyRouteToErrorPage('unsupportedBrowser')
   }
 
-  // initialize router and saga middleware
+  // initialize router
   const history = createHashHistory()
-  const sagaMiddleware = createSagaMiddleware()
+
   const { isAuthenticated } = selectors.auth
   const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon
@@ -120,6 +120,13 @@ const configuredStore = async function () {
     networks,
     options,
     reauthenticate
+  })
+
+  // initialise saga middleware
+  const sagaMiddleware = createSagaMiddleware({
+    context: {
+      api
+    }
   })
 
   const persistWhitelist = ['session', 'preferences', 'cache']

@@ -38,6 +38,7 @@ import Authorize from './Authorize'
 import BankWireDetails from './BankWireDetails'
 import BillingAddress from './BillingAddress'
 import CheckoutConfirm from './CheckoutConfirm'
+import { ConfirmingBuyOrder } from './ConfirmingBuyOrder'
 import CryptoSelection from './CryptoSelection'
 import EnterAmount from './EnterAmount'
 import Frequency from './Frequency'
@@ -304,6 +305,11 @@ class BuySell extends PureComponent<Props, State> {
               />
             </FlyoutChild>
           )}
+          {this.props.step === 'CONFIRMING_BUY_ORDER' && (
+            <FlyoutChild>
+              <ConfirmingBuyOrder />
+            </FlyoutChild>
+          )}
         </Flyout>
       )
     })
@@ -368,11 +374,15 @@ type LinkStatePropsType =
         | 'LOADING'
         | 'FREQUENCY'
         | 'SELL_ORDER_SUMMARY'
-        | 'CHECKOUT_CONFIRM'
         | 'ORDER_SUMMARY'
         | 'OPEN_BANKING_CONNECT'
         | 'AUTHORIZE_PAYMENT'
         | 'UPDATE_SECURITY_CODE'
+        | 'CONFIRMING_BUY_ORDER'
+    }
+  | {
+      pair: BSPairType
+      step: 'CHECKOUT_CONFIRM'
     }
   | {
       orderType: BSOrderActionType

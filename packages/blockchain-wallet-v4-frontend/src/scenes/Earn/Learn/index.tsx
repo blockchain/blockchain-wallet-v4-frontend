@@ -27,6 +27,12 @@ const Learn = () => {
 
   const handleCompareClick = () => {
     dispatch(actions.modals.showModal(ModalName.EARN_COMPARE, { origin: 'EarnPage' }))
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.WALLET_EARN_COMPARE_PRODUCTS_CLICKED,
+        properties: {}
+      })
+    )
   }
 
   return (

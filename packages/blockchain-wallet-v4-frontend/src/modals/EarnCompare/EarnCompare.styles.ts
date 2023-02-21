@@ -15,3 +15,6 @@ export const TableContainer = styled.div`
   border-radius: 16px;
   box-shadow: 0px 4px 16px rgba(5, 24, 61, 0.08);
 `
+export const CloseContainer = styled.div`
+  cursor: pointer;
+`

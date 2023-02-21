@@ -1,5 +1,5 @@
 import React from 'react'
-import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
+import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Earn/Interest/DepositForm/model'
 import styled from 'styled-components'
 
 import { Tooltip, TooltipHost } from 'blockchain-info-components'

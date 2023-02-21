@@ -4,6 +4,9 @@ import { cancel, fork, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { actionTypes } from 'data'
 
 import sagas from './sagas'
+import { proceedToBuyConfirmation } from './sagas/proceedToBuyConfirmation'
+import { returnToBuyEnterAmount } from './sagas/returnToBuyEnterAmount'
+import { returnToCryptoSelection } from './sagas/returnToCryptoSelection'
 import { actions } from './slice'
 
 let buyPollTask: Task
@@ -16,7 +19,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeEvery(actionTypes.form.CHANGE, buySellSagas.formChanged)
     yield takeLatest(actions.registerCard, buySellSagas.registerCard)
     yield takeLatest(actions.activateCard.type, buySellSagas.activateCard)
-    yield takeLatest(actions.createOrder.type, buySellSagas.createOrder)
+    yield takeLatest(actions.createSellOrder.type, buySellSagas.createSellOrder)
     yield takeLatest(actions.cancelOrder.type, buySellSagas.cancelBuyOrder)
     yield takeLatest(actions.confirmFundsOrder.type, buySellSagas.confirmBSFundsOrder)
     yield takeLatest(actions.confirmOrderPoll.type, buySellSagas.confirmOrderPoll)
@@ -51,6 +54,9 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.fetchAccumulatedTrades.type, buySellSagas.fetchAccumulatedTrades)
     yield takeLatest(actions.updateCardCvv.type, buySellSagas.updateCardCvv)
     yield takeLatest(actions.updateCardCvvAndPollOrder.type, buySellSagas.updateCardCvvAndPollOrder)
+    yield takeLatest(actions.proceedToBuyConfirmation.type, proceedToBuyConfirmation)
+    yield takeLatest(actions.returnToCryptoSelection.type, returnToCryptoSelection)
+    yield takeLatest(actions.returnToBuyEnterAmount.type, returnToBuyEnterAmount)
 
     // Fetch balances when profile/user is fetched
     yield takeLatest(

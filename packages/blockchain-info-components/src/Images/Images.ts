@@ -83,8 +83,13 @@ import earnActivityEmpty from './img/earn/earn-activity-empty.svg'
 import earnEmpty from './img/earn/earn-empty.svg'
 import ethLocked from './img/earn/eth-locked.svg'
 import ethPending from './img/earn/eth-pending.svg'
+import onboardingActiveRewards from './img/earn/onboarding-active-rewards.svg'
+import onboardingEarn from './img/earn/onboarding-earn.svg'
+import onboardingPassiveRewards from './img/earn/onboarding-passive-rewards.svg'
+import onboardingStakingRewards from './img/earn/onboarding-staking-rewards.svg'
 import scenario1Graph from './img/earn/scenario-1-graph.svg'
 import scenario2Graph from './img/earn/scenario-2-graph.svg'
+import vortex from './img/earn/vortex.svg'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emailVerified from './img/email-verified.svg'
@@ -298,6 +303,10 @@ const Images = {
   'nft-nouns': nftnouns,
   'nft-paint-hyperlink': nftpainthyperlink,
   'nft-purchase': nftPurchase,
+  'onboarding-active-rewards': onboardingActiveRewards,
+  'onboarding-earn': onboardingEarn,
+  'onboarding-passive-rewards': onboardingPassiveRewards,
+  'onboarding-staking-rewards': onboardingStakingRewards,
   opensea,
   'order-failed': orderFailed,
   'order-my-card': orderMyCard,
@@ -335,6 +344,7 @@ const Images = {
   'user-success': userSuccess,
   'verify-notice': verifyNotice,
   'visa-logo': visaLogo,
+  vortex,
   wallet,
   'wallet-grayscale': walletGrayscale,
   'wallet-no-background': walletNoBackground,

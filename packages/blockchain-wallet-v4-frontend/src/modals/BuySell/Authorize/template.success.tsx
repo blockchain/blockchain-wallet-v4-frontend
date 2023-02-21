@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { defaultTo, filter, path, prop } from 'ramda'
+import { defaultTo, filter, path } from 'ramda'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { getCounterAmount, getCounterCurrency } from 'data/components/buySell/model'
+import { getFiatFromPair } from 'data/components/buySell/model'
 import { BankTransferAccountType } from 'data/types'
 
 import { Props as _P, SuccessStateType } from '.'
@@ -91,11 +91,11 @@ const DropdownItem = ({ bodyText, isPaymentInformation, titleText }) => {
 }
 
 const Success = (props: Props) => {
-  const { bankAccounts, buySellActions, order } = props
-  const counterAmount = getCounterAmount(props.order)
-  const counterCurrency = getCounterCurrency(props.order)
+  const { bankAccounts, buySellActions, quote } = props
+  const counterAmount = props.quote.amount
+  const counterCurrency = getFiatFromPair(props.quote.pair)
   const [bankAccount] = filter(
-    (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === prop('paymentMethodId', order),
+    (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === quote.paymentMethodId,
     defaultTo([])(bankAccounts)
   )
   const entity = path(['attributes', 'entity'], bankAccount)
@@ -305,7 +305,10 @@ const Success = (props: Props) => {
           fullwidth
           height='48px'
           onClick={() => {
-            buySellActions.confirmOrder({ order, paymentMethodId: order.paymentMethodId as string })
+            buySellActions.confirmOrder({
+              paymentMethodId: bankAccount.id,
+              quoteState: quote
+            })
           }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />

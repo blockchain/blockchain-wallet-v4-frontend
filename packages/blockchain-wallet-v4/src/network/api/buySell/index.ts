@@ -4,12 +4,17 @@ import {
   BankCredentialsType,
   BankTransferAccountType,
   RecurringBuyNextPayment,
-  RecurringBuyPeriods,
   RecurringBuyRegisteredList,
   UserDataType
 } from 'data/types'
 
-import { CoinType, FiatCurrenciesType, FiatType, WalletCurrencyType } from '../../../types'
+import {
+  BuyOrderInputDto,
+  CoinType,
+  FiatCurrenciesType,
+  FiatType,
+  WalletCurrencyType
+} from '../../../types'
 import { NabuCustodialProductType, ProductTypes, WithdrawResponseType } from '../custodial/types'
 import { SwapUserLimitsType } from '../swap/types'
 import {
@@ -17,13 +22,11 @@ import {
   BSAccountType,
   BSBalancesType,
   BSCardType,
-  BSMoneyType,
   BSOrderActionType,
   BSOrderType,
   BSPairsType,
   BSPairType,
   BSPaymentMethodsType,
-  BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
   BSTransactionStateType,
@@ -134,17 +137,17 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
       url: nabuUrl
     })
 
-  const createOrder = (
-    pair: BSPairsType,
-    action: BSOrderActionType,
-    pending: boolean,
-    input: BSMoneyType,
-    output: BSMoneyType,
-    paymentType: BSPaymentMethodType['type'],
-    period?: RecurringBuyPeriods,
-    paymentMethodId?: BSCardType['id'],
-    quoteId?: string
-  ): BSOrderType =>
+  const createOrder = ({
+    action,
+    input,
+    output,
+    pair,
+    paymentMethodId,
+    paymentType,
+    pending,
+    period,
+    quoteId
+  }: BuyOrderInputDto): BSOrderType =>
     authorizedPost({
       contentType: 'application/json',
       data: {

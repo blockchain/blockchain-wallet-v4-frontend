@@ -1,7 +1,7 @@
 import React, { ReactChild, useCallback, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
-import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
+import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Earn/Interest/DepositForm/model'
 import { clearSubmitErrors, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -348,12 +348,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       properties: {}
     })
 
-    props.buySellActions.setStep({
-      // Always reset back to walletCurrency
-      // Otherwise FUNDS currency and Pairs currency can mismatch
-      fiatCurrency: props.fiatCurrency || 'USD',
-      step: 'CRYPTO_SELECTION'
-    })
+    props.buySellActions.returnToCryptoSelection()
   }
 
   const { error } = props
