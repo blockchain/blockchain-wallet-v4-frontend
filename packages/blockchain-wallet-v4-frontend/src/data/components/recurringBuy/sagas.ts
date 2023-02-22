@@ -58,6 +58,7 @@ export default ({ api }: { api: APIType }) => {
         destinationCurrency: string
         inputCurrency: string
         inputValue: string
+        orderId: string
         paymentMethod: string
         paymentMethodId?: string
         period: string
@@ -65,6 +66,7 @@ export default ({ api }: { api: APIType }) => {
         destinationCurrency: '',
         inputCurrency: '',
         inputValue: '',
+        orderId: '',
         paymentMethod: '',
         period: ''
       }
@@ -74,7 +76,8 @@ export default ({ api }: { api: APIType }) => {
 
       // if (!order) throw new Error('To make a recurring buy, more information is needed')
 
-      const { inputCurrency, inputQuantity, outputCurrency, paymentMethodId, paymentType } = order
+      const { id, inputCurrency, inputQuantity, outputCurrency, paymentMethodId, paymentType } =
+        order
       const period = selectors.components.recurringBuy.getPeriod(yield select())
       if (inputQuantity && inputCurrency && outputCurrency && paymentType && period) {
         body.inputValue = inputQuantity
@@ -83,6 +86,7 @@ export default ({ api }: { api: APIType }) => {
         body.period = period
         body.paymentMethod = paymentType
         body.paymentMethodId = paymentMethodId
+        body.orderId = id
       } else {
         throw new Error(RB_ERROR.ORDER_INCOMPLETE)
       }
