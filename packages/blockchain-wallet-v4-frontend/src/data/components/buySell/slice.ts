@@ -362,6 +362,7 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{
         account: SwapAccountType
+        amount: string
         pair: BSPairsType
       }>
     ) => {},
@@ -423,12 +424,19 @@ const buySellSlice = createSlice({
         >
       }>
     ) => {},
+    proceedToSellConfirmation: (
+      state,
+      action: PayloadAction<{
+        account: SwapAccountType
+      }>
+    ) => {},
     registerCard: (
       state,
       action: PayloadAction<{ cvv: string; paymentMethodTokens: { [key: string]: string } }>
     ) => {},
     returnToBuyEnterAmount: (state, action: PayloadAction<{ pair: BSPairType }>) => {},
     returnToCryptoSelection: () => {},
+    returnToSellEnterAmount: (state, action: PayloadAction<{ pair: BSPairType }>) => {},
     setApplePayInfo: (state, action: PayloadAction<ApplePayInfoType>) => {
       state.applePayInfo = action.payload
     },
@@ -555,6 +563,7 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{
         account: SwapAccountType
+        amount: string
         pair: BSPairsType
       }>
     ) => {},

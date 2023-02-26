@@ -5,8 +5,10 @@ import { actionTypes } from 'data'
 
 import sagas from './sagas'
 import { proceedToBuyConfirmation } from './sagas/proceedToBuyConfirmation'
+import { proceedToSellConfirmation } from './sagas/proceedToSellConfirmation'
 import { returnToBuyEnterAmount } from './sagas/returnToBuyEnterAmount'
 import { returnToCryptoSelection } from './sagas/returnToCryptoSelection'
+import { returnToSellEnterAmount } from './sagas/returnToSellEnterAmount'
 import { actions } from './slice'
 
 let buyPollTask: Task
@@ -55,8 +57,10 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.updateCardCvv.type, buySellSagas.updateCardCvv)
     yield takeLatest(actions.updateCardCvvAndPollOrder.type, buySellSagas.updateCardCvvAndPollOrder)
     yield takeLatest(actions.proceedToBuyConfirmation.type, proceedToBuyConfirmation)
+    yield takeLatest(actions.proceedToSellConfirmation.type, proceedToSellConfirmation)
     yield takeLatest(actions.returnToCryptoSelection.type, returnToCryptoSelection)
     yield takeLatest(actions.returnToBuyEnterAmount.type, returnToBuyEnterAmount)
+    yield takeLatest(actions.returnToSellEnterAmount.type, returnToSellEnterAmount)
 
     // Fetch balances when profile/user is fetched
     yield takeLatest(

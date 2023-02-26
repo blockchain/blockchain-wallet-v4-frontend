@@ -253,8 +253,8 @@ class PreviewSell extends PureComponent<
         const { account, formValues } = this.props
         if (!formValues) return null
         if (!account) return null
-        const BASE = getInputFromPair(val.quote.pair)
-        const COUNTER = getOutputFromPair(val.quote.pair)
+        const BASE = getInputFromPair(this.props.pair.pair)
+        const COUNTER = getOutputFromPair(this.props.pair.pair)
         const feeInFiat = this.getFeeInFiat(account, BASE, COUNTER)
         const counterCoinTicker = COUNTER
         const baseCoinTicker = BASE

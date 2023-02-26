@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/SellEnterAmount/Checkout/validation'
 import { head, isEmpty, isNil, lift } from 'ramda'
 import { createSelector } from 'reselect'
 
@@ -16,9 +15,7 @@ import { getFormValues } from 'data/form/selectors'
 import { components } from 'data/model'
 import { RootState } from 'data/rootReducer'
 
-import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
-import { getInputFromPair, getOutputFromPair } from '../swap/model'
-import { getRate } from '../swap/utils'
+import { IncomingAmount } from '../swap/types'
 import { LIMIT } from './model'
 import { BSCardStateEnum, BSCheckoutFormValuesType } from './types'
 
@@ -234,37 +231,18 @@ export const getSwapAccount = (state: RootState) => state.components.buySell.swa
 export const getOriginalFiatCurrency = (state: RootState) =>
   state.components.buySell.originalFiatCurrency
 
-// Sell specific (for now!)
-// used for sell only now, eventually buy as well
-// TODO: use swap2 quote for buy AND sell
 export const getPayment = (state: RootState) => state.components.buySell.payment
 
 export const getIncomingAmount = (state: RootState) => {
-  const quoteR = getSellQuote(state)
-  const values = (getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType) || {
-    amount: '0',
-    fix: 'CRYPTO'
-  }
-
-  return lift(({ quote, rate }: ExtractSuccess<typeof quoteR>) => {
-    const fromCoin = getInputFromPair(quote.pair)
-    const toCoin = getOutputFromPair(quote.pair)
-    const amount =
-      values.fix === 'CRYPTO'
-        ? values.amount
-        : getQuote(quote.pair, rate, values.fix, values.amount)
-    const amtMinor = convertStandardToBase(fromCoin, amount)
-    const exRate = new BigNumber(getRate(quote.quote.priceTiers, toCoin, new BigNumber(amtMinor)))
-    const feeMajor = convertBaseToStandard(toCoin, quote.networkFee)
-
-    const amt = exRate.times(amount).minus(feeMajor)
-    const isNegative = amt.isLessThanOrEqualTo(0)
+  return getSellQuote(state).map((quote): IncomingAmount => {
+    const amt = quote.quote.resultAmount
+    const isNegative = new BigNumber(amt).isLessThanOrEqualTo(0)
 
     return {
       amt: isNegative ? 0 : amt,
       isNegative
     }
-  })(quoteR)
+  })
 }
 
 export const getSddEligible = (state: RootState) => state.components.buySell.sddEligible

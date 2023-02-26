@@ -9,3 +9,17 @@ export const makeAccount = (): SwapAccountType => ({
   label: 'Trading Wallet',
   type: SwapBaseCounterTypes.ACCOUNT
 })
+export const makeBaseAccount = (): SwapAccountType => ({
+  balance: '200000',
+  baseCoin: 'BTC',
+  coin: 'BTC' as CoinType,
+  label: 'Trading Wallet',
+  type: SwapBaseCounterTypes.ACCOUNT
+})
+export const makeCounterAccount = (): SwapAccountType => ({
+  balance: '200000',
+  baseCoin: 'ETH',
+  coin: 'ETH' as CoinType,
+  label: 'Trading Wallet',
+  type: SwapBaseCounterTypes.ACCOUNT
+})

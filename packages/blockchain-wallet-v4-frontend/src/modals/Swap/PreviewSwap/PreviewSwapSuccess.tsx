@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { Form } from 'redux-form'
-import styled from 'styled-components'
 
 import { formatCoin } from '@core/exchange/utils'
 import Remote from '@core/remote'
@@ -16,56 +15,15 @@ import { Analytics, IncomingAmount, InitSwapFormValuesType, SwapAmountFormValues
 import { isNabuError } from 'services/errors'
 
 import { QuoteCountDown } from '../../components/QuoteCountDown'
+import { useCountDown } from '../../hooks/useCountDown'
 import { FeeBreakdownBox, FromToLogoLeft, TopText } from '../components'
-
-const StyledRow = styled(Row)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding-top: 30px;
-  padding-bottom: 24px;
-
-  & > div:first-child {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-`
-const ToolTipText = styled.div`
-  display: flex;
-  flex-direction: row;
-  border-radius: 8px;
-  margin-top: 8px;
-  padding: 16px;
-  background-color: ${(props) => props.theme.grey000};
-
-  animation: fadeIn 0.3s ease-in-out;
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-`
-
-const ExchangeRateRow = styled.div`
-  display: flex;
-`
-const IconWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  cursor: pointer;
-  margin-left: 4px;
-`
-
-const QuoteCountDownWrapper = styled.div`
-  margin-top: 28px;
-`
+import {
+  ExchangeRateRow,
+  IconWrapper,
+  QuoteCountDownWrapper,
+  StyledRow,
+  ToolTipText
+} from './styles'
 
 type Props = {
   error?: any
@@ -81,6 +39,10 @@ type Props = {
 export const PreviewSwapSuccess = (props: Props) => {
   const [isActiveExchangeToolTip, setIsActiveExchangeToolTip] = useState(false)
   const dispatch = useDispatch()
+  const { isCompletingSoon } = useCountDown(
+    props.quote.refreshConfig.date,
+    props.quote.refreshConfig.totalMs
+  )
 
   const clearSubmitErrors = () => {
     dispatch(actions.form.clearSubmitErrors('previewSwap'))
@@ -267,7 +229,7 @@ export const PreviewSwapSuccess = (props: Props) => {
             fullwidth
             height='48px'
           >
-            {props.submitting ? (
+            {props.submitting || isCompletingSoon ? (
               <HeartbeatLoader height='16px' width='16px' color='white' />
             ) : (
               <FormattedMessage id='buttons.swap_now' defaultMessage='Swap Now' />

@@ -1,17 +1,10 @@
 import BigNumber from 'bignumber.js'
 import { addMilliseconds, addSeconds, differenceInMilliseconds } from 'date-fns'
 
-import {
-  CoinType,
-  SwapOrderDirectionEnum,
-  SwapPaymentMethod,
-  SwapProfile,
-  SwapQuoteType
-} from '@core/types'
+import { SwapOrderDirectionEnum, SwapPaymentMethod, SwapProfile } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { notReachable } from 'utils/helpers'
 
-import { convertBaseToStandard } from '../exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from './types'
 
 export const getDirection = (
@@ -87,45 +80,6 @@ export const interpolatePrice = (
       .toNumber()
   } catch (e) {
     return errorHandler(e)
-  }
-}
-
-export const getRate = (
-  priceTiers: SwapQuoteType['quote']['priceTiers'],
-  coin: CoinType,
-  amount: BigNumber,
-  minor?: boolean
-): number => {
-  try {
-    for (let index = 0; index <= priceTiers.length; index += 1) {
-      const priceTier = priceTiers[index]
-      if (index === priceTiers.length - 1)
-        return minor
-          ? Number(priceTier.price)
-          : new BigNumber(convertBaseToStandard(coin, priceTier.price)).toNumber()
-
-      const nextTier = priceTiers[index + 1]
-      const thisVol = new BigNumber(priceTier.volume)
-      const nextVol = new BigNumber(nextTier.volume)
-
-      if (thisVol.isLessThan(amount) && amount.isLessThanOrEqualTo(nextVol)) {
-        const price = interpolatePrice(
-          new BigNumber(priceTier.volume),
-          new BigNumber(priceTier.price),
-          new BigNumber(nextTier.volume),
-          new BigNumber(nextTier.price),
-          amount
-        )
-
-        if (typeof price === 'string') throw price
-
-        return minor ? price : new BigNumber(convertBaseToStandard(coin, price)).toNumber()
-      }
-    }
-
-    return 0
-  } catch (e) {
-    throw Error(errorHandler(e))
   }
 }
 

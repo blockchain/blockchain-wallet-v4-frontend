@@ -360,8 +360,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       try {
         const { amount, base, counter } = payload
         const isValidAmount = isValidInputAmount(amount)
-        // TODO(Milan) - return 0 once when it's updated on BE
-        const amountOrDefault = isValidAmount ? amount : '10'
+        const amountOrDefault = isValidAmount ? amount : '0'
         yield put(A.fetchQuotePriceLoading())
 
         const pair = getPair(base, counter)
@@ -438,7 +437,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           })
     yield put(actions.form.change('swapAmount', 'cryptoAmount', amountFieldValue))
 
-    // TODO(Milan) - should we stop previous poll here
     const amount = convertStandardToBase(BASE.coin, amountFieldValue)
     yield put(A.startPollQuotePrice({ amount, base: BASE, counter: COUNTER }))
 

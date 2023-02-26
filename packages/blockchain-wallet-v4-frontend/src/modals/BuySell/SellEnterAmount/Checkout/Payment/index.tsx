@@ -35,14 +35,13 @@ const Payment: React.FC<Props> = (props: Props) => {
 
   // ensure only non SDD flow and non empty amount field open the payment selection screen
   const onPaymentMethodClick = () => {
-    return !props.isSddFlow
-      ? props.buySellActions.setStep({
-          cryptoCurrency: props.cryptoCurrency,
-          fiatCurrency: props.fiatCurrency || preferredFiatTradingCurrency,
-          pair: props.pair,
-          step: nextStep
-        })
-      : null
+    return
+    props.buySellActions.setStep({
+      cryptoCurrency: props.cryptoCurrency,
+      fiatCurrency: props.fiatCurrency || preferredFiatTradingCurrency,
+      pair: props.pair,
+      step: nextStep
+    })
   }
 
   const isApplePay = props.mobilePaymentMethod === MobilePaymentType.APPLE_PAY
@@ -58,7 +57,7 @@ const Payment: React.FC<Props> = (props: Props) => {
       return <Image name='google-pay' height='18px' />
     }
 
-    return getIcon(props.method, props.isSddFlow)
+    return getIcon(props.method, false)
   }
 
   const renderText = () => {
@@ -78,7 +77,7 @@ const Payment: React.FC<Props> = (props: Props) => {
       )
     }
 
-    return getText(props.method, props.sbBalances, props.isSddFlow)
+    return getText(props.method, props.sbBalances, false)
   }
 
   return (
@@ -95,7 +94,6 @@ const Payment: React.FC<Props> = (props: Props) => {
         role='button'
         data-e2e='paymentMethodSelect'
         onClick={onPaymentMethodClick}
-        disabled={props.isSddFlow}
         style={{ alignItems: 'flex-start' }}
       >
         <DisplayIcon>
@@ -106,13 +104,11 @@ const Payment: React.FC<Props> = (props: Props) => {
           {renderText()}
         </PaymentText>
 
-        {!props.isSddFlow && (
-          <DisplayIconAligned>
-            <PaymentArrowContainer>
-              <RightArrowIcon cursor name='arrow-back' size='20px' color='grey600' />
-            </PaymentArrowContainer>
-          </DisplayIconAligned>
-        )}
+        <DisplayIconAligned>
+          <PaymentArrowContainer>
+            <RightArrowIcon cursor name='arrow-back' size='20px' color='grey600' />
+          </PaymentArrowContainer>
+        </DisplayIconAligned>
       </Box>
     </>
   )

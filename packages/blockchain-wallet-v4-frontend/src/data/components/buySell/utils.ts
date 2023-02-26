@@ -47,3 +47,17 @@ export const getEnterAmountStepType = (orderType?: BSOrderActionType) => {
 
   return 'SELL_ENTER_AMOUNT'
 }
+
+export const isValidInputAmount = (amount?: string): amount is string => {
+  if (amount === undefined) {
+    return false
+  }
+
+  const parsedAmount = parseFloat(amount)
+
+  if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
+    return false
+  }
+
+  return true
+}

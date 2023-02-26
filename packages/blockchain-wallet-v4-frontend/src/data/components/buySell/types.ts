@@ -24,11 +24,11 @@ import type {
   RemoteDataType,
   SDDEligibleType,
   SDDVerifiedType,
+  SwapNewQuoteType,
   SwapOrderType,
   SwapUserLimitsType,
   TradeAccumulatedItem
 } from '@core/types'
-import { SwapQuoteType } from '@core/types'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
@@ -169,7 +169,7 @@ export type BuyQuoteStateType = {
 }
 
 export type SellQuoteStateType = {
-  quote: SwapQuoteType
+  quote: SwapNewQuoteType
   rate: number
   refreshConfig: RefreshConfig
 }

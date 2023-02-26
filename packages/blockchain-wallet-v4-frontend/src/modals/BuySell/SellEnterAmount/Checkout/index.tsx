@@ -40,7 +40,7 @@ const Checkout = (props: Props) => {
     string | PartialClientErrorProperties | undefined,
     ExtractSuccess<ReturnType<typeof getData>>,
     RootState
-  >((state) => getData(state, props))
+  >((state) => getData(state))
 
   const formValues = useSelector((state: RootState) =>
     selectors.form.getFormValues(FORM_BS_CHECKOUT)(state)
@@ -56,7 +56,7 @@ const Checkout = (props: Props) => {
   const methodRef = useRef<string>()
 
   const handleSubmit = () => {
-    if (!data) return
+    if (!data || !props.swapAccount) return
 
     props.analyticsActions.trackEvent({
       key: Analytics.SELL_AMOUNT_SCREEN_NEXT_CLICKED,
@@ -69,9 +69,8 @@ const Checkout = (props: Props) => {
       props.deleteGoal(String(id))
     }
 
-    return props.buySellActions.setStep({
-      sellOrderType: props.swapAccount?.type,
-      step: 'PREVIEW_SELL'
+    return props.buySellActions.proceedToSellConfirmation({
+      account: props.swapAccount
     })
   }
 
