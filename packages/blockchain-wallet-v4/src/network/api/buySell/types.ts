@@ -310,7 +310,10 @@ export type BSOrderProperties = {
   outputQuantity: string
   paymentError?: ORDER_ERROR_CODE
   paymentMethodId?: string
-  paymentType?: BSPaymentMethodType['type']
+  paymentType: Exclude<
+    BSPaymentMethodType['type'],
+    BSPaymentTypes.USER_CARD | BSPaymentTypes.BANK_ACCOUNT
+  >
   period?: RecurringBuyPeriods
   price?: string
   recurringBuyId?: string
@@ -552,4 +555,16 @@ export type CardSuccessRateResponse = {
     message: string
     title: string
   }
+}
+
+export type BuyOrderInputDto = {
+  action: BSOrderActionType
+  input: BSMoneyType
+  output: BSMoneyType
+  pair: BSPairsType
+  paymentMethodId?: BSCardType['id']
+  paymentType: BSPaymentMethodType['type']
+  pending: boolean
+  period?: RecurringBuyPeriods
+  quoteId?: string
 }

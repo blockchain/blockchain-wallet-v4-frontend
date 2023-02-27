@@ -32,6 +32,7 @@ import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
 import type { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
+import { NabuError } from 'services/errors'
 
 import { BankDWStepType, PlaidSettlementErrorReasons } from '../brokerage/types'
 
@@ -95,7 +96,8 @@ export enum BuySellStepType {
   'FREQUENCY',
   'VERIFY_EMAIL',
   'UPDATE_SECURITY_CODE',
-  'SELL_ENTER_AMOUNT'
+  'SELL_ENTER_AMOUNT',
+  'CONFIRMING_BUY_ORDER'
 }
 export type BSShowModalOriginType =
   | 'CoinPageHoldings'
@@ -155,7 +157,11 @@ export type RefreshConfig = {
 export type BuyQuoteStateType = {
   amount: string
   fee: string
+  /**
+   * @deprecated Use `pairObject` instead.
+   */
   pair: string
+  pairObject: BSPairType
   paymentMethod: BSPaymentTypes
   paymentMethodId?: BSCardType['id']
   quote: BuyQuoteType
@@ -179,7 +185,7 @@ export type BuySellState = {
   addBank?: boolean
   applePayInfo?: ApplePayInfoType
   balances: RemoteDataType<PartialClientErrorProperties, BSBalancesType>
-  buyQuote: RemoteDataType<PartialClientErrorProperties, BuyQuoteStateType>
+  buyQuote: RemoteDataType<string | Error, BuyQuoteStateType>
   card: RemoteDataType<string | number | Error, BSCardType>
   cardId?: string
   cardSuccessRate?: BSCardSuccessRateType
@@ -189,7 +195,7 @@ export type BuySellState = {
   checkoutDotComApiKey?: string
   crossBorderLimits: RemoteDataType<unknown, CrossBorderLimits>
   cryptoCurrency?: CoinType
-  cvvStatus: RemoteDataType<string, boolean>
+  cvvStatus: RemoteDataType<string | NabuError, boolean>
   displayBack: boolean
   fiatCurrency?: FiatType
   fiatEligible: RemoteDataType<PartialClientErrorProperties | Error, FiatEligibleType>
@@ -263,7 +269,6 @@ export type StepActionsPayload =
   | {
       cryptoCurrency: CoinType
       fiatCurrency: FiatType
-      order?: BSOrderType
       pair: BSPairType
       step: 'PAYMENT_METHODS'
     }
@@ -313,4 +318,5 @@ export type StepActionsPayload =
         | 'LOADING'
         | 'FREQUENCY'
         | 'UPDATE_SECURITY_CODE'
+        | 'CONFIRMING_BUY_ORDER'
     }

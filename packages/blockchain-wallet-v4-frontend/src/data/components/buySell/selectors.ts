@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/SellEnterAmount/Checkout/validation'
-import memoize from 'fast-memoize'
 import { head, isEmpty, isNil, lift } from 'ramda'
 import { createSelector } from 'reselect'
 
@@ -117,7 +116,6 @@ export const getDefaultPaymentMethod = createSelector(
       const method = head(methodsOfType)
 
       switch (lastOrder.paymentType) {
-        case BSPaymentTypes.USER_CARD:
         case BSPaymentTypes.PAYMENT_CARD:
           if (!method) return
           let card = cards.find(
@@ -159,9 +157,6 @@ export const getDefaultPaymentMethod = createSelector(
               type: lastOrder.paymentType as BSPaymentTypes
             }
           }
-          return undefined
-        case BSPaymentTypes.BANK_ACCOUNT:
-        case undefined:
           return undefined
         default:
           break
@@ -225,23 +220,6 @@ export const getVgsAddCardInfo = createSelector(
 )
 
 export const getBuyQuote = (state: RootState) => state.components.buySell.buyQuote
-
-const makeGetBuyQuoteMemoizedByOrder = memoize(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (_: ReturnType<typeof getBSOrder>, state: RootState) => {
-    return getBuyQuote(state)
-  },
-  {
-    serializer: (args) => JSON.stringify(args[0]) // Use only first argument as memoization key
-  }
-)
-
-/**
- * @returns Up to date quote only if order was also updated. Otherwise, previous cached quote.
- */
-export const getBuyQuoteMemoizedByOrder = (state: RootState) => {
-  return makeGetBuyQuoteMemoizedByOrder(getBSOrder(state), state)
-}
 
 export const getSellQuote = (state: RootState) => state.components.buySell.sellQuote
 
@@ -340,3 +318,6 @@ export const getCheckoutApiKey = (state: RootState) => state.components.buySell.
 export const getAccumulatedTrades = (state: RootState) => state.components.buySell.accumulatedTrades
 
 export const getCardSuccessRate = (state: RootState) => state.components.buySell.cardSuccessRate
+
+export const getBsCheckoutFormValues = (state: RootState) =>
+  getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType

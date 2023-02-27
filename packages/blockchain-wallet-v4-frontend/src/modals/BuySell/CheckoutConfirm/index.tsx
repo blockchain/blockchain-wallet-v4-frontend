@@ -4,11 +4,11 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { clearSubmitErrors } from 'redux-form'
 
 import { Remote } from '@core'
-import { BSPaymentTypes, ExtractSuccess } from '@core/types'
-import BaseError from 'components/BuySell/Error'
+import { BSPairType, ExtractSuccess } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
-import { ClientErrorProperties, PartialClientErrorProperties } from 'data/analytics/types/errors'
+import { ClientErrorProperties } from 'data/analytics/types/errors'
 import { RootState } from 'data/rootReducer'
 import { Analytics, BSCheckoutFormValuesType } from 'data/types'
 import { isNabuError } from 'services/errors'
@@ -23,54 +23,25 @@ class CheckoutConfirm extends PureComponent<Props> {
   componentDidMount() {
     this.props.sendActions.getLockRule()
     if (!Remote.Success.is(this.props.data)) {
-      this.props.buySellActions.fetchSDDEligibility()
-      this.props.buySellActions.fetchSDDVerified()
       this.props.buySellActions.fetchCards(false)
       this.props.brokerageActions.fetchBankTransferAccounts()
     }
   }
 
   handleBack = () => {
-    if (!this.props.pendingOrder) {
-      this.props.buySellActions.destroyCheckout()
-
-      return
-    }
-
-    this.props.buySellActions.cancelOrder(this.props.pendingOrder)
-  }
-
-  handleReset = () => {
-    this.props.buySellActions.destroyCheckout()
-  }
-
-  handleRetry = () => {
-    if (!this.props.pendingOrder) {
-      this.props.buySellActions.destroyCheckout()
-
-      return
-    }
-
-    this.props.buySellActions.createOrder({
-      mobilePaymentMethod: this.props.mobilePaymentMethod,
-      paymentMethodId: this.props.pendingOrder.paymentMethodId,
-      paymentType:
-        this.props.pendingOrder.paymentType !== BSPaymentTypes.USER_CARD &&
-        this.props.pendingOrder.paymentType !== BSPaymentTypes.BANK_ACCOUNT
-          ? this.props.pendingOrder.paymentType
-          : undefined
+    this.props.buySellActions.returnToBuyEnterAmount({
+      pair: this.props.pair
     })
   }
 
-  trackError = (error: PartialClientErrorProperties | string) => {
+  trackError = (error: Error | string) => {
     // not every remote type has been converted to a client error type so handle the string case
-    if (typeof error === 'string') {
-      error = { network_error_description: error }
-    }
+    const errorPayload = typeof error === 'string' ? { network_error_description: error } : error
+
     this.props.analyticsActions.trackEvent({
       key: Analytics.CLIENT_ERROR,
       properties: {
-        ...error,
+        ...errorPayload,
         action: 'CheckoutConfirm',
         error: 'OOPS_ERROR',
         title: 'Oops! Something went wrong'
@@ -88,11 +59,11 @@ class CheckoutConfirm extends PureComponent<Props> {
         }
 
         return (
-          <BaseError
-            code={e}
-            handleRetry={this.handleRetry}
-            handleReset={this.handleReset}
-            handleBack={this.handleBack}
+          <FlyoutOopsError
+            action='retry'
+            data-e2e='sbCheckoutConfirmFailure'
+            handler={this.handleBack}
+            errorMessage={e}
           />
         )
       },
@@ -131,6 +102,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   handleClose: () => void
+  pair: BSPairType
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
