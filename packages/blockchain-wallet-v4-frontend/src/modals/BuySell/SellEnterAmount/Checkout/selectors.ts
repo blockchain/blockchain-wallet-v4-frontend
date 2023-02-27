@@ -29,8 +29,6 @@ const getData = (state: RootState) => {
     .getCrossBorderLimits(state)
     .getOrElse({} as CrossBorderLimits)
 
-  const productsR = selectors.custodial.getProductEligibilityForUser(state)
-
   return lift(
     (
       cards: ExtractSuccess<typeof cardsR>,
@@ -38,8 +36,7 @@ const getData = (state: RootState) => {
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
-      sddLimit: ExtractSuccess<typeof sddLimitR>,
-      products: ExtractSuccess<typeof productsR>
+      sddLimit: ExtractSuccess<typeof sddLimitR>
     ) => ({
       bankTransferAccounts,
       cards,
@@ -50,14 +47,13 @@ const getData = (state: RootState) => {
       isRecurringBuy,
       limits: limitsR.getOrElse(undefined),
       payment: paymentR.getOrElse(undefined),
-      products,
       quote,
       rates,
       sbBalances,
       sddLimit,
       userData
     })
-  )(cardsR, quoteR, ratesR, sbBalancesR, userDataR, sddLimitR, productsR)
+  )(cardsR, quoteR, ratesR, sbBalancesR, userDataR, sddLimitR)
 }
 
 export default getData

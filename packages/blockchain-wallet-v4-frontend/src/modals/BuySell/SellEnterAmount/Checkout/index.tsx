@@ -122,10 +122,9 @@ const Checkout = (props: Props) => {
         : WalletAccountEnum.CUSTODIAL
     // fetch cross border limits
     props.buySellActions.fetchCrossBorderLimits({
-      fromAccount:
-        props.orderType === OrderType.BUY ? WalletAccountEnum.CUSTODIAL : swapFromAccount,
-      inputCurrency: props.orderType === OrderType.BUY ? props.fiatCurrency : props.cryptoCurrency,
-      outputCurrency: props.orderType === OrderType.BUY ? props.cryptoCurrency : props.fiatCurrency,
+      fromAccount: swapFromAccount,
+      inputCurrency: props.cryptoCurrency,
+      outputCurrency: props.fiatCurrency,
       toAccount: WalletAccountEnum.CUSTODIAL
     } as CrossBorderLimitsPayload)
 

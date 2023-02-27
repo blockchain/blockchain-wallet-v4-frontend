@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { addMilliseconds, addSeconds, differenceInMilliseconds } from 'date-fns'
 
-import { SwapOrderDirectionEnum, SwapPaymentMethod, SwapProfile } from '@core/types'
+import { SwapOrderDirection, SwapPaymentMethod, SwapProfile } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { notReachable } from 'utils/helpers'
 
@@ -10,22 +10,22 @@ import { SwapAccountType, SwapBaseCounterTypes } from './types'
 export const getDirection = (
   BASE: SwapAccountType,
   COUNTER: SwapAccountType
-): SwapOrderDirectionEnum => {
+): SwapOrderDirection => {
   switch (true) {
     case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
       COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
-      return SwapOrderDirectionEnum.INTERNAL
+      return SwapOrderDirection.INTERNAL
     case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
       COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
-      return SwapOrderDirectionEnum.ON_CHAIN
+      return SwapOrderDirection.ON_CHAIN
     case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
       COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
-      return SwapOrderDirectionEnum.FROM_USERKEY
+      return SwapOrderDirection.FROM_USERKEY
     case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
       COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
-      return SwapOrderDirectionEnum.TO_USERKEY
+      return SwapOrderDirection.TO_USERKEY
     default:
-      return SwapOrderDirectionEnum.INTERNAL
+      return SwapOrderDirection.INTERNAL
   }
 }
 

@@ -1,10 +1,6 @@
 import BigNumber from 'bignumber.js'
 
-import {
-  SwapOrderDirectionEnum,
-  SwapPaymentMethod,
-  SwapProfile
-} from '@core/network/api/swap/types'
+import { SwapOrderDirection, SwapPaymentMethod, SwapProfile } from '@core/network/api/swap/types'
 import { makeAccount } from 'data/components/swap/test-utils/makeAccount'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
 
@@ -82,25 +78,25 @@ describe('getDirection', () => {
 
   it('should return INTERNAL profile when both accounts are custodial', () => {
     expect(getDirection(makeCustodialAccount(), makeCustodialAccount())).toBe(
-      SwapOrderDirectionEnum.INTERNAL
+      SwapOrderDirection.INTERNAL
     )
   })
 
   it('should return ON_CHAIN profile when both accounts are non-custodial', () => {
     expect(getDirection(makeNonCustodialAccount(), makeNonCustodialAccount())).toBe(
-      SwapOrderDirectionEnum.ON_CHAIN
+      SwapOrderDirection.ON_CHAIN
     )
   })
 
   it('should return FROM_USERKEY profile when base is non-custodial and counter is custodial', () => {
     expect(getDirection(makeNonCustodialAccount(), makeCustodialAccount())).toBe(
-      SwapOrderDirectionEnum.FROM_USERKEY
+      SwapOrderDirection.FROM_USERKEY
     )
   })
 
   it('should return TO_USERKEY profile when base is custodial and counter is non-custodial', () => {
     expect(getDirection(makeCustodialAccount(), makeNonCustodialAccount())).toBe(
-      SwapOrderDirectionEnum.TO_USERKEY
+      SwapOrderDirection.TO_USERKEY
     )
   })
 })

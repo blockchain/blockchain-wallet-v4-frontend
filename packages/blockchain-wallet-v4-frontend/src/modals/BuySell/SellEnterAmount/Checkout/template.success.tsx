@@ -1,9 +1,8 @@
-import React, { ReactChild, useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Earn/Interest/DepositForm/model'
 import { clearSubmitErrors, Field, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { coinToString, fiatToString, formatCoin, formatFiat } from '@core/exchange/utils'
@@ -18,10 +17,7 @@ import {
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
-import TransactionsLeft from 'components/Flyout/Banners/TransactionsLeft'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
-import { getPeriodTitleText } from 'components/Flyout/model'
-import Form from 'components/Form/Form'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { model } from 'data'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
@@ -31,14 +27,28 @@ import { isNabuError, NabuError } from 'services/errors'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
 import { AlertButton } from '../../../components'
-import Scheduler from '../../../RecurringBuys/Scheduler'
-import { Row } from '../../../Swap/EnterAmount/Checkout'
 import { ErrorCodeMappings } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
 import BaseQuote from './BaseQuote'
 import { useBlockedPayments } from './hooks'
 import Payment from './Payment'
+import {
+  ActionsItem,
+  AmountRow,
+  Amounts,
+  AnchoredActions,
+  ButtonContainer,
+  Cartridge,
+  CartridgeWrapper,
+  CustomForm,
+  LeftTopCol,
+  LiftedActions,
+  MaxAvailableWrapper,
+  QuoteActionContainer,
+  QuoteRow,
+  TopText
+} from './styles'
 import {
   checkCrossBorderLimit,
   formatQuote,
@@ -49,86 +59,6 @@ import {
 } from './validation'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
-
-const AmountRow = styled(Row)<{ isError: boolean }>`
-  position: relative;
-  padding: 24px;
-  justify-content: center;
-  border: 0;
-  > input {
-    color: ${(props) => (props.isError ? 'red400' : 'textBlack')};
-  }
-`
-const LiftedActions = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1;
-`
-const AnchoredActions = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-`
-const CustomForm = styled(Form)`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`
-const TopText = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-`
-const LeftTopCol = styled.div`
-  display: flex;
-  align-items: center;
-`
-const Amounts = styled.div`
-  margin: 0 0 24px 0;
-  display: flex;
-  justify-content: center;
-`
-const QuoteActionContainer = styled.div`
-  height: 32px;
-`
-const QuoteRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-const ActionsItem = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const MaxAvailableWrapper = styled.div<{ orderType: BSOrderActionType }>`
-  width: 100%;
-  display: flex;
-  justify-content: ${({ orderType }) => (orderType === OrderType.BUY ? 'center' : 'space-between')};
-  align-items: center;
-`
-
-const CartridgeWrapper = styled.div`
-  display: flex;
-`
-
-export const ButtonContainer = styled.div`
-  margin-top: 24px;
-`
-
-const Cartridge = ({ children, error }: { children: ReactChild; error: boolean }) => {
-  return (
-    <GreyBlueCartridge
-      style={{ marginLeft: 0 }}
-      role='button'
-      data-e2e={error ? 'sbEnterAmountMaxError' : 'sbEnterAmountMax'}
-    >
-      {children}
-    </GreyBlueCartridge>
-  )
-}
 
 const normalizeAmount = (value, prevValue, allValues: BSCheckoutFormValuesType) => {
   if (Number.isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
@@ -173,8 +103,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     defaultMethod,
     fiatCurrency,
     method: selectedMethod,
-    orderType,
-    products
+    orderType
   } = props
 
   useEffect(() => {
@@ -187,9 +116,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const dispatch = useDispatch()
 
   const [fontRatio, setFontRatio] = useState(1)
-  const setOrderFrequency = useCallback(() => {
-    props.buySellActions.setStep({ step: 'FREQUENCY' })
-  }, [props.buySellActions])
 
   const clearFormError = useCallback(() => {
     dispatch(clearSubmitErrors(props.form))
@@ -281,29 +207,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     (typeof props.formErrors.amount === 'string' && props.formErrors.amount) || errorMinMax
 
   const showError = !props.isPristine && amountError
-
-  const handleMinMaxClick = () => {
-    const prop = amountError === 'BELOW_MIN' ? 'min' : 'max'
-    const maxMin: string = getMaxMin(
-      prop,
-      props.sbBalances,
-      props.orderType,
-      props.quote.rate,
-      props.pair,
-      props.payment,
-      props.formValues,
-      method,
-      props.swapAccount
-    )[fix]
-    const value = convertStandardToBase(conversionCoinType, maxMin)
-    if (prop === 'min') {
-      props.buySellActions.handleSellMinAmountClick({ amount: value, coin: conversionCoinType })
-    }
-
-    if (prop === 'max') {
-      props.buySellActions.handleSellMaxAmountClick({ amount: value, coin: conversionCoinType })
-    }
-  }
 
   const handleMaxClick = () => {
     const maxMin: string = getMaxMin(
@@ -413,11 +316,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               style={{ marginRight: '8px' }}
               onClick={goBack}
             />
-            <FormattedMessage
-              id='buttons.buy_sell_now'
-              defaultMessage='{orderType} Now'
-              values={{ orderType: props.orderType === OrderType.BUY ? 'Buy' : 'Sell' }}
-            />
+            <FormattedMessage id='buttons.sell_now' defaultMessage='Sell Now' />
           </LeftTopCol>
         </TopText>
       </FlyoutWrapper>
@@ -489,15 +388,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </QuoteActionContainer>
         </LiftedActions>
         <AnchoredActions>
-          {props.isRecurringBuy && props.formValues.period && props.orderType === OrderType.BUY && (
-            <Scheduler
-              onClick={setOrderFrequency}
-              period={props.formValues.period}
-              method={method || props.defaultMethod}
-            >
-              {getPeriodTitleText(props.formValues.period)}
-            </Scheduler>
-          )}
           {props.pair && (
             <Amounts>
               <MaxAvailableWrapper orderType={orderType}>
@@ -512,27 +402,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   </ActionsItem>
                 )}
 
-                <CartridgeWrapper onClick={handleMinMaxClick}>
+                <CartridgeWrapper onClick={handleMaxClick}>
                   <Cartridge error={amountError === 'ABOVE_MAX'}>
-                    {/* If amount is 0 or below min show the min amount button before the max sell button */}
-                    {amountError === 'BELOW_MIN' ? (
-                      <FormattedMessage
-                        id='modals.simplebuy.checkout.belowmin'
-                        defaultMessage='{value} Minimum {orderType}'
-                        values={{
-                          orderType: props.orderType === OrderType.BUY ? 'Buy' : 'Sell',
-                          value: getValue(min)
-                        }}
-                      />
-                    ) : (
-                      <FormattedMessage
-                        id='modals.simplebuy.checkout.maxbuysell'
-                        defaultMessage='{orderType} Max'
-                        values={{
-                          orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
-                        }}
-                      />
-                    )}
+                    <FormattedMessage
+                      id='modals.simplebuy.checkout.maxsell'
+                      defaultMessage='Sell Max'
+                    />
                   </Cartridge>
                 </CartridgeWrapper>
               </MaxAvailableWrapper>
@@ -582,78 +457,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             />
           )}
           {paymentErrorButton}
-          {props.orderType === OrderType.BUY && products?.buy?.maxOrdersLeft > 0 && (
-            <TransactionsLeft remaining={products.buy.maxOrdersLeft} />
-          )}
           {!showLimitError && showError && (
             <ButtonContainer>
-              {props.orderType === OrderType.BUY ? (
-                amountError === 'BELOW_MIN' ? (
-                  <AlertButton onClick={handleMinMaxClick}>
-                    <FormattedMessage
-                      id='copy.below_min'
-                      defaultMessage='{amount} Minimum'
-                      values={{
-                        amount:
-                          fix === 'FIAT'
-                            ? fiatToString({ unit: props.fiatCurrency, value: min })
-                            : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
-                      }}
-                    />
-                  </AlertButton>
-                ) : amountError === 'ABOVE_LIMIT' ||
-                  (amountError === 'ABOVE_BALANCE' && !isFundsMethod) ? (
-                  <AlertButton onClick={handleMaxClick}>
-                    <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
-                  </AlertButton>
-                ) : amountError === 'ABOVE_BALANCE' && isFundsMethod ? (
-                  <AlertButton onClick={handleMaxClick}>
-                    <FormattedMessage
-                      id='copy.not_enough_coin'
-                      defaultMessage='Not Enough {coin}'
-                      values={{
-                        coin: props.fiatCurrency
-                      }}
-                    />
-                  </AlertButton>
-                ) : (
-                  <AlertButton onClick={handleMaxClick}>
-                    <FormattedMessage
-                      id='copy.above_max'
-                      defaultMessage='{amount} Maximum'
-                      values={{
-                        amount:
-                          fix === 'FIAT'
-                            ? fiatToString({ unit: props.fiatCurrency, value: max })
-                            : `${max} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
-                      }}
-                    />
-                  </AlertButton>
-                )
-              ) : null}
-
-              {props.orderType === OrderType.SELL &&
-                (amountError === 'BELOW_MIN' ? (
-                  <AlertButton onClick={handleMinMaxClick}>
-                    <FormattedMessage
-                      id='copy.below_min'
-                      defaultMessage='{amount} Minimum'
-                      values={{
-                        amount: `${getValue(min)} ${cryptoCurrency}`
-                      }}
-                    />
-                  </AlertButton>
-                ) : (
-                  <AlertButton onClick={handleMaxClick}>
-                    <FormattedMessage
-                      id='copy.not_enough_coin'
-                      defaultMessage='Not Enough {coin}'
-                      values={{
-                        coin: cryptoCurrency
-                      }}
-                    />
-                  </AlertButton>
-                ))}
+              <AlertButton onClick={handleMaxClick}>
+                <FormattedMessage
+                  id='copy.not_enough_coin'
+                  defaultMessage='Not Enough {coin}'
+                  values={{
+                    coin: cryptoCurrency
+                  }}
+                />
+              </AlertButton>
 
               <Text
                 size='14px'
@@ -661,60 +475,33 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 weight={500}
                 style={{ marginTop: '24px', textAlign: 'center' }}
               >
-                {amountError === 'BELOW_MIN' &&
-                  (props.orderType === OrderType.BUY ? (
-                    <FormattedMessage
-                      id='modals.simplebuy.checkout.buy.belowmin'
-                      defaultMessage='To offset fees and market volatility, the minimum amount for any buy is {amount} {currency}.'
-                      values={{
-                        amount:
-                          fix === 'FIAT'
-                            ? fiatToString({ unit: props.fiatCurrency, value: min })
-                            : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`,
-                        currency: fiatCurrency
-                      }}
-                    />
-                  ) : (
-                    <FormattedMessage
-                      id='modals.simplebuy.checkout.sell.belowmin'
-                      defaultMessage='To offset fees and market volatility, the minimum amount for any sell is {amount} {currency}.'
-                      values={{
-                        amount:
-                          fix === 'FIAT'
-                            ? fiatToString({ unit: props.fiatCurrency, value: min })
-                            : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`,
-                        currency: fiatCurrency
-                      }}
-                    />
-                  ))}
+                {amountError === 'BELOW_MIN' && (
+                  <FormattedMessage
+                    id='modals.simplebuy.checkout.sell.belowmin'
+                    defaultMessage='To offset fees and market volatility, the minimum amount for any sell is {amount} {currency}.'
+                    values={{
+                      amount:
+                        fix === 'FIAT'
+                          ? fiatToString({ unit: props.fiatCurrency, value: min })
+                          : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`,
+                      currency: fiatCurrency
+                    }}
+                  />
+                )}
 
-                {amountError === 'ABOVE_MAX' &&
-                  (props.orderType === OrderType.BUY ? (
-                    <FormattedMessage
-                      id='modals.simplebuy.checkout.buy.abovemax'
-                      defaultMessage='The maximum amount of {coin} you can buy with your {currency} {amount}'
-                      values={{
-                        amount:
-                          fix === 'FIAT'
-                            ? fiatToString({ unit: props.fiatCurrency, value: max })
-                            : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`,
-                        coin: cryptoCurrency,
-                        currency: fiatCurrency
-                      }}
-                    />
-                  ) : (
-                    <FormattedMessage
-                      id='modals.simplebuy.checkout.sell.abovemax'
-                      defaultMessage='The maximum amount of {coin} you can sell from this account is {amount}.'
-                      values={{
-                        amount:
-                          fix === 'FIAT'
-                            ? fiatToString({ unit: props.fiatCurrency, value: max })
-                            : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`,
-                        coin: cryptoCurrency
-                      }}
-                    />
-                  ))}
+                {amountError === 'ABOVE_MAX' && (
+                  <FormattedMessage
+                    id='modals.simplebuy.checkout.sell.abovemax'
+                    defaultMessage='The maximum amount of {coin} you can sell from this account is {amount}.'
+                    values={{
+                      amount:
+                        fix === 'FIAT'
+                          ? fiatToString({ unit: props.fiatCurrency, value: max })
+                          : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`,
+                      coin: cryptoCurrency
+                    }}
+                  />
+                )}
 
                 {amountError === 'ABOVE_BALANCE' && effectiveLimit && (
                   <FormattedMessage
@@ -764,51 +551,29 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </Text>
             </ButtonContainer>
           )}
-          {showLimitError &&
-            effectiveLimit &&
-            (props.orderType === OrderType.BUY ? (
-              <>
-                <AlertButton
-                  onClick={() => {
-                    handleCustomMinMaxClick(effectiveLimit.limit.value.toString())
-                  }}
-                >
-                  <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
-                </AlertButton>
+          {showLimitError && effectiveLimit && (
+            <>
+              <AlertButton
+                onClick={() => {
+                  handleCustomMinMaxClick(effectiveLimit.limit.value.toString())
+                }}
+              >
                 <FormattedMessage
-                  id='modals.simplebuy.checkout.max_buy_upgrade'
-                  defaultMessage='You can buy up to {amount} per transaction. Upgrade to Gold & buy larger amounts with your bank or card.'
-                  values={{
-                    amount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0)
-                  }}
+                  id='copy.not_enough_coin'
+                  defaultMessage='Not Enough {coin}'
+                  values={{ coin: cryptoCurrency }}
                 />
-              </>
-            ) : (
-              <>
-                <AlertButton
-                  onClick={() => {
-                    handleCustomMinMaxClick(effectiveLimit.limit.value.toString())
-                  }}
-                >
-                  <FormattedMessage
-                    id='copy.not_enough_coin'
-                    defaultMessage='Not Enough {coin}'
-                    values={{ coin: cryptoCurrency }}
-                  />
-                </AlertButton>
-                <FormattedMessage
-                  id='modals.simplebuy.checkout.sell_max_amount'
-                  defaultMessage='You can buy up to {amount} per transaction. Get full access & buy larger amounts with your bank or card.'
-                  values={{
-                    amount: formatFiat(
-                      convertBaseToStandard('FIAT', effectiveLimit.limit.value),
-                      0
-                    ),
-                    coin: cryptoCurrency
-                  }}
-                />
-              </>
-            ))}
+              </AlertButton>
+              <FormattedMessage
+                id='modals.simplebuy.checkout.sell_max_amount'
+                defaultMessage='You can buy up to {amount} per transaction. Get full access & buy larger amounts with your bank or card.'
+                values={{
+                  amount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
+                  coin: cryptoCurrency
+                }}
+              />
+            </>
+          )}
           {isDailyLimitExceeded && (
             <Amounts>
               <GreyBlueCartridge role='button' data-e2e='sbEnterAmountDailyLimitExceeded'>

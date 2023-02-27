@@ -43,6 +43,34 @@ const PreviewSwap = (props: Props) => {
     )
   }
 
+  const trackExchangeTooltip = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SWAP_PRICE_TOOLTIP_CLICKED,
+        properties: {}
+      })
+    )
+  }
+
+  const createOrder = () => {
+    dispatch(actions.components.swap.createOrder())
+
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SWAP_CHECKOUT_SCREEN_SUBMITTED,
+        properties: {}
+      })
+    )
+  }
+
+  const clearErrors = () => {
+    dispatch(actions.form.clearSubmitErrors('previewSwap'))
+  }
+
+  const returnToInitSwap = () => {
+    dispatch(actions.components.swap.returnToInitSwap())
+  }
+
   return data.cata({
     Failure: (e) => {
       if (isNabuError(e)) {
@@ -61,7 +89,15 @@ const PreviewSwap = (props: Props) => {
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => (
-      <PreviewSwapSuccess {...val} onClickBack={onClickBack} submitting={props.submitting} />
+      <PreviewSwapSuccess
+        {...val}
+        onClickBack={onClickBack}
+        submitting={props.submitting}
+        trackExchangeTooltip={trackExchangeTooltip}
+        createOrder={createOrder}
+        clearErrors={clearErrors}
+        returnToInitSwap={returnToInitSwap}
+      />
     )
   })
 }

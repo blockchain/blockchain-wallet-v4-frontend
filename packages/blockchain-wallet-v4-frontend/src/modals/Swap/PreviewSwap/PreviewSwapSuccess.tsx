@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
 import { Form } from 'redux-form'
 
 import { formatCoin } from '@core/exchange/utils'
@@ -10,8 +9,7 @@ import { Button, HeartbeatLoader, Icon, Link, Text, TextGroup } from 'blockchain
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
-import { actions } from 'data'
-import { Analytics, IncomingAmount, InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
+import { IncomingAmount, InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
 import { isNabuError } from 'services/errors'
 
 import { QuoteCountDown } from '../../components/QuoteCountDown'
@@ -26,26 +24,29 @@ import {
 } from './styles'
 
 type Props = {
+  clearErrors: () => void
+  createOrder: () => void
   error?: any
   incomingAmount: IncomingAmount
   initSwapFormValues: InitSwapFormValuesType
   onClickBack: () => void
   payment: PaymentValue | undefined
   quote: SwapNewQuoteStateType
+  returnToInitSwap: () => void
   submitting: boolean
   swapAmountFormValues: SwapAmountFormValues
+  trackExchangeTooltip: () => void
 }
 
 export const PreviewSwapSuccess = (props: Props) => {
   const [isActiveExchangeToolTip, setIsActiveExchangeToolTip] = useState(false)
-  const dispatch = useDispatch()
   const { isCompletingSoon } = useCountDown(
     props.quote.refreshConfig.date,
     props.quote.refreshConfig.totalMs
   )
 
   const clearSubmitErrors = () => {
-    dispatch(actions.form.clearSubmitErrors('previewSwap'))
+    props.clearErrors()
   }
 
   useEffect(() => {
@@ -56,29 +57,17 @@ export const PreviewSwapSuccess = (props: Props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(actions.components.swap.createOrder())
-
-    dispatch(
-      actions.analytics.trackEvent({
-        key: Analytics.SWAP_CHECKOUT_SCREEN_SUBMITTED,
-        properties: {}
-      })
-    )
+    props.createOrder()
   }
 
   const toggleExchangeTooltip = () => {
     setIsActiveExchangeToolTip((prevState) => !prevState)
 
-    dispatch(
-      actions.analytics.trackEvent({
-        key: Analytics.SWAP_PRICE_TOOLTIP_CLICKED,
-        properties: {}
-      })
-    )
+    props.trackExchangeTooltip()
   }
 
   if (!props.initSwapFormValues?.BASE || !props.initSwapFormValues?.COUNTER) {
-    dispatch(actions.components.swap.setStep({ step: 'INIT_SWAP' }))
+    props.returnToInitSwap()
     return null
   }
 

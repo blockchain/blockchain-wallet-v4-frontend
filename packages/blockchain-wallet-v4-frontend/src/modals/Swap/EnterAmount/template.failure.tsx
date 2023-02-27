@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `
 
 const Failure: React.FC<Props> = (props) => {
-  const errorCallback = () => props.swapActions.setStep({ step: 'INIT_SWAP' })
+  const errorCallback = () => props.swapActions.returnToInitSwap()
   if (isNabuError(props.error)) {
     return <GenericNabuError error={props.error} onDismiss={errorCallback} />
   }

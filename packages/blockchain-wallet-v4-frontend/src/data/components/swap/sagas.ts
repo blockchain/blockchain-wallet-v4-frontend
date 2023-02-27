@@ -5,7 +5,7 @@ import { call, delay, put, select, take } from 'redux-saga/effects'
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import Remote from '@core/remote'
-import { PaymentType, Product, SwapOrderDirectionEnum } from '@core/types'
+import { PaymentType, Product, SwapOrderDirection } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
@@ -193,11 +193,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
       const direction = getDirection(BASE, COUNTER)
       onChain =
-        direction === SwapOrderDirectionEnum.ON_CHAIN ||
-        direction === SwapOrderDirectionEnum.FROM_USERKEY
+        direction === SwapOrderDirection.ON_CHAIN || direction === SwapOrderDirection.FROM_USERKEY
       toChain =
-        direction === SwapOrderDirectionEnum.ON_CHAIN ||
-        direction === SwapOrderDirectionEnum.TO_USERKEY
+        direction === SwapOrderDirection.ON_CHAIN || direction === SwapOrderDirection.TO_USERKEY
 
       const amount = convertStandardToBase(BASE.coin, swapAmountFormValues.cryptoAmount)
 

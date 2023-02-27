@@ -43,7 +43,7 @@ export type ProcessedSwapOrderType = SwapOrderType & {
 
 export type PairType = string
 
-export enum SwapOrderDirectionEnum {
+export enum SwapOrderDirection {
   FROM_USERKEY = 'FROM_USERKEY',
   INTERNAL = 'INTERNAL',
   ON_CHAIN = 'ON_CHAIN',
@@ -53,7 +53,7 @@ export enum SwapOrderDirectionEnum {
 /**
  * @deprecated
  */
-export type SwapOrderDirectionType = keyof typeof SwapOrderDirectionEnum
+export type SwapOrderDirectionType = keyof typeof SwapOrderDirection
 
 export type SwapOrderStateType =
   | 'PENDING_EXECUTION'
