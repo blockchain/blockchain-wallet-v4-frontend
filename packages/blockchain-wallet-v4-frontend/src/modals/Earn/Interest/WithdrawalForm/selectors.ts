@@ -31,8 +31,7 @@ const getData = (state) => {
     ) => ({
       accountBalances,
       availToWithdraw: new BigNumber(Number(accountBalances[coin]?.balance)).minus(
-        // @ts-ignore
-        accountBalances[coin]?.locked
+        accountBalances[coin]?.locked || '0'
       ),
       buySellBalance: buySellAccountBalances[coin]?.available || '0',
       coin,
