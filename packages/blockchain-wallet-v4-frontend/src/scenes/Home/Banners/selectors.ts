@@ -241,7 +241,7 @@ export const getData = (state: RootState) => {
   )
 
   // active rewards
-  const getActiveRewardsAnnouncement = getStakingAnnouncement()
+  const activeRewardsAnnouncement = getActiveRewardsAnnouncement()
   const activeRewardsEligible = selectors.components.interest
     .getActiveRewardsEligible(state)
     .getOrElse({})
@@ -254,7 +254,7 @@ export const getData = (state: RootState) => {
 
   const showActiveRewardsBanner = showBanner(
     isActiveRewardsPromoBannerFeatureFlagEnabled && isUserActiveRewardsEligible,
-    getActiveRewardsAnnouncement,
+    activeRewardsAnnouncement,
     announcementState
   )
 
