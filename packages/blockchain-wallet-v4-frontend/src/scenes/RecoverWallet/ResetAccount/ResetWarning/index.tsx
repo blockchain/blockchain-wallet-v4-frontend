@@ -103,7 +103,7 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
       >
         <FormattedMessage
           id='buttons.reset_trading_account'
-          defaultMessage='Restore Trading and Rewards Account'
+          defaultMessage='Restore Trading and Earn Account'
         />
       </ActionButton>
       <SubCard>
