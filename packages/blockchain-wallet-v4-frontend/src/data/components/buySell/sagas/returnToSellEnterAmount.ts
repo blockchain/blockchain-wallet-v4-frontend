@@ -17,7 +17,7 @@ export const returnToSellEnterAmount = function* ({
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),
       method: paymentMethod,
-      orderType: OrderType.BUY,
+      orderType: OrderType.SELL,
       pair,
       step: 'SELL_ENTER_AMOUNT'
     })

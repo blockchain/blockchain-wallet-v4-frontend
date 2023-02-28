@@ -82,12 +82,10 @@ const Payment: React.FC<Props> = (props: Props) => {
   return (
     <>
       <SectionTitle color='grey900' size='14px' weight={500}>
-        {props.orderType === 'SELL' && (
-          <FormattedMessage
-            id='modals.simplebuy.checkout.receive'
-            defaultMessage='Recipient Account'
-          />
-        )}
+        <FormattedMessage
+          id='modals.simplebuy.checkout.receive'
+          defaultMessage='Recipient Account'
+        />
       </SectionTitle>
       <Box
         role='button'

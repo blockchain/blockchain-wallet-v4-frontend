@@ -15,7 +15,6 @@ const getData = (state: RootState) => {
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const sddLimitR = selectors.components.buySell.getUserLimit(state, BSPaymentTypes.PAYMENT_CARD)
-  const cardsR = selectors.components.buySell.getBSCards(state) || []
   const bankTransferAccounts = selectors.components.brokerage
     .getBankTransferAccounts(state)
     .getOrElse([])
@@ -31,7 +30,6 @@ const getData = (state: RootState) => {
 
   return lift(
     (
-      cards: ExtractSuccess<typeof cardsR>,
       quote: ExtractSuccess<typeof quoteR>,
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
@@ -39,11 +37,10 @@ const getData = (state: RootState) => {
       sddLimit: ExtractSuccess<typeof sddLimitR>
     ) => ({
       bankTransferAccounts,
-      cards,
       crossBorderLimits,
       formErrors,
       hasFiatBalance,
-      hasPaymentAccount: hasFiatBalance || cards.length > 0 || bankTransferAccounts.length > 0,
+      hasPaymentAccount: hasFiatBalance || bankTransferAccounts.length > 0,
       isRecurringBuy,
       limits: limitsR.getOrElse(undefined),
       payment: paymentR.getOrElse(undefined),
@@ -53,7 +50,7 @@ const getData = (state: RootState) => {
       sddLimit,
       userData
     })
-  )(cardsR, quoteR, ratesR, sbBalancesR, userDataR, sddLimitR)
+  )(quoteR, ratesR, sbBalancesR, userDataR, sddLimitR)
 }
 
 export default getData

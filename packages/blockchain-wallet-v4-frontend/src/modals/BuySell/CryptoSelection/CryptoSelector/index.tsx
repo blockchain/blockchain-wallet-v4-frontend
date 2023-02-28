@@ -143,14 +143,13 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     this.props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: this.props.walletCurrency,
-      orderType: this.state.orderType,
+      orderType: OrderType.SELL,
       pair,
       step: 'SELL_ENTER_AMOUNT',
       swapAccount
     })
     // reset form values so order doesn't hold values
     // if user changes wallet/coin
-
     this.props.formActions.change(FORM_BS_CHECKOUT, 'amount', '')
   }
 

@@ -7,7 +7,14 @@ import styled from 'styled-components'
 
 import { Exchange } from '@core'
 import { coinToString, formatFiat } from '@core/exchange/utils'
-import { BSOrderActionType, BSPairType, CoinType, PaymentValue, RatesType } from '@core/types'
+import {
+  BSOrderActionType,
+  BSPairType,
+  CoinType,
+  OrderType,
+  PaymentValue,
+  RatesType
+} from '@core/types'
 import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
@@ -180,7 +187,7 @@ class PreviewSell extends PureComponent<
     this.props.buySellActions.setStep({
       cryptoCurrency: BASE,
       fiatCurrency: getFiatFromPair(this.props.pair.pair),
-      orderType: this.props.orderType,
+      orderType: OrderType.SELL,
       pair: this.props.pair,
       step: 'SELL_ENTER_AMOUNT',
       swapAccount: this.props.account

@@ -28,7 +28,7 @@ describe('returnToSellEnterAmount', () => {
           cryptoCurrency: 'BTC',
           fiatCurrency: 'USD',
           method: paymentMethodStub,
-          orderType: OrderType.BUY,
+          orderType: OrderType.SELL,
           pair: pairStub,
           step: 'SELL_ENTER_AMOUNT'
         })
