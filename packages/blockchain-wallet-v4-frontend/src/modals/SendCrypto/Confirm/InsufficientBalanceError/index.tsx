@@ -34,7 +34,7 @@ const InsufficientBalanceError: React.FC<Props> = ({ handleMax, tryAgain }) => {
           data-e2e='sendMax'
           nature='primary'
         >
-          Send Max
+          <FormattedMessage id='copy.send_max' defaultMessage='Send Max' />
         </Button>
         <Text style={{ marginTop: '8px' }} size='12px' weight={500}>
           <FormattedMessage defaultMessage='or' id='copy.or' />

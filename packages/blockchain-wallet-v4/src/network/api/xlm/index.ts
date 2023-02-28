@@ -3,12 +3,6 @@ import { Server } from 'stellar-sdk'
 
 export default ({ apiUrl, get, horizonUrl }) => {
   const server = new Server(horizonUrl)
-  const createXlmAccount = (publicKey) =>
-    get({
-      data: { addr: publicKey },
-      endPoint: '',
-      url: `https://friendbot.stellar.org`
-    })
 
   const getXlmAccount = (publicKey) => server.loadAccount(publicKey)
 
@@ -58,7 +52,6 @@ export default ({ apiUrl, get, horizonUrl }) => {
       )
 
   return {
-    createXlmAccount,
     getLatestLedgerDetails,
     getTimebounds,
     getXlmAccount,

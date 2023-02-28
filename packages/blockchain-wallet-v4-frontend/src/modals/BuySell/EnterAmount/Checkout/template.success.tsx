@@ -536,7 +536,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           {!showLimitError && !showError && !isPaymentMethodBlocked && (
             <ActionButton
               {...props}
-              isSufficientEthForErc20={false}
               isDailyLimitExceeded={isDailyLimitExceeded || false}
               isAmountInBounds={amountInBounds}
             />

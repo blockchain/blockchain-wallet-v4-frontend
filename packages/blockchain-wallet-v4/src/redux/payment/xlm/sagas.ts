@@ -98,30 +98,32 @@ export default ({ api }) => {
   }
 
   const getReserve = function* (accountId) {
-    const baseReserve = (yield select(S.data.xlm.getBaseReserve)).getOrFail(
-      new Error(NO_LEDGER_ERROR)
-    )
-    const entriesNumber = (yield select(S.data.xlm.getNumberOfEntries(accountId))).getOrFail(
-      new Error(NO_ACCOUNT_ERROR)
-    )
-    return yield call(calculateReserve, baseReserve, entriesNumber)
+    try {
+      const baseReserve = (yield select(S.data.xlm.getBaseReserve)).getOrFail(
+        new Error(NO_LEDGER_ERROR)
+      )
+      const account = yield call(api.getXlmAccount, accountId)
+      const entriesNumber = account.subentry_count
+      return yield call(calculateReserve, baseReserve, entriesNumber)
+    } catch (e) {
+      throw new Error(NO_ACCOUNT_ERROR)
+    }
   }
 
   const getEffectiveBalance = function* (accountId, fee, reserve) {
-    const balance = (yield select(S.data.xlm.getBalance))(accountId).getOrFail(
-      new Error(NO_ACCOUNT_ERROR)
-    )
+    const balance = S.data.coins
+      .getCoinUnifiedBalance('XLM')(yield select())
+      .getOrFail(new Error(NO_ACCOUNT_ERROR))
 
     return calculateEffectiveBalance(balance, fee, reserve)
   }
 
   // Required when *build is called more than once on a payment
-  const getAccountAndSequenceNumber = function* (account) {
+  const getAccountAndSequenceNumber = function* (accountId: string) {
     try {
-      const { id } = account
-      const data = yield call(api.getXlmAccount, id)
+      const data = yield call(api.getXlmAccount, accountId)
       const { sequence } = data
-      return new Account(id, sequence)
+      return new Account(accountId, sequence)
     } catch (e) {
       throw new Error(e)
     }
@@ -142,18 +144,17 @@ export default ({ api }) => {
 
       *build() {
         const fromData = prop('from', p)
+        const address = prop('address', fromData)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
         const fee = prop('fee', p)
         const destinationAccountExists = prop('destinationAccountExists', p)
         const memo = prop('memo', p)
         const memoType = prop('memoType', p)
-        let account = prop('account', fromData)
         if (fromData.type === 'CUSTODIAL') return makePayment(p)
-        if (!account) throw new Error(NO_SOURCE_ERROR)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
-        account = yield call(getAccountAndSequenceNumber, account)
+        const account = yield call(getAccountAndSequenceNumber, address)
         const timeout = (yield select(S.walletOptions.getXlmSendTimeOutSeconds)).getOrElse(300)
         const timebounds = yield call(api.getTimebounds, timeout)
         const txBuilder = new TransactionBuilder(account, {
@@ -236,15 +237,11 @@ export default ({ api }) => {
           (yield select(S.kvStore.xlm.getDefaultAccountId)).getOrFail(
             new Error(NO_DEFAULT_ACCOUNT_ERROR)
           )
-        const account = (yield select(S.data.xlm.getAccount(accountId))).getOrFail(
-          new Error(NO_ACCOUNT_ERROR)
-        )
         const fromType = type || ADDRESS_TYPES.ACCOUNT
 
         if (!contains(fromType, values(ADDRESS_TYPES))) throw new Error(INVALID_ADDRESS_TYPE_ERROR)
 
         from = {
-          account,
           address: accountId,
           type: fromType
         }

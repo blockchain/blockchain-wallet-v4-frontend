@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { format, fromUnixTime, getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
-import { Contract } from 'ethers'
 import {
   addIndex,
   equals,
@@ -13,10 +12,9 @@ import {
   path,
   pluck,
   prop,
-  toLower,
   toUpper
 } from 'ramda'
-import { all, call, put, select, take } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { EthRawTxType } from '@core/network/api/eth/types'
@@ -33,7 +31,6 @@ import custodialSagas from '../custodial/sagas'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { constructDefaultErc20Data } from './utils'
 
 const { transformErc20Tx, transformTx } = transactions.eth
 const TX_PER_PAGE = 50
@@ -42,25 +39,6 @@ const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
-
-  //
-  // ETH
-  //
-  const checkForLowEthBalance = function* () {
-    // TODO: ERC20 check for any erc20 balance in future
-    const erc20Balance = (yield select(S.getErc20Balance, 'PAX')).getOrElse(0)
-    const weiBalance = (yield select(S.getBalance)).getOrFail()
-    const ethRates = selectors.data.coins.getRates('ETH', yield select()).getOrFail('No rates')
-    const ethBalance = Exchange.convertCoinToFiat({
-      coin: 'ETH',
-      currency: 'USD',
-      rates: ethRates,
-      value: weiBalance
-    })
-    // less than $1 eth and has PAX, set warning flag to true
-    const showWarning = parseInt(ethBalance) < 1 && erc20Balance > 0
-    yield put(A.checkLowEthBalanceSuccess(showWarning))
-  }
 
   const fetchData = function* () {
     try {
@@ -88,12 +66,6 @@ export default ({ api }: { api: APIType }) => {
       }
 
       yield put(A.fetchDataSuccess(ethData))
-      // eslint-disable-next-line
-      try {
-        yield call(checkForLowEthBalance)
-      } catch (e) {
-        // do nothing
-      }
     } catch (e) {
       yield put(A.fetchDataFailure(errorHandler(e)))
     }
@@ -299,93 +271,6 @@ export default ({ api }: { api: APIType }) => {
   //
   // ERC20
   //
-  const fetchErc20Data = function* (action: ReturnType<typeof A.fetchErc20Data>) {
-    const { coin } = action.payload
-    try {
-      const ethAddr = (yield select(kvStoreSelectors.getDefaultAddress)).getOrFail(
-        'No Default ETH Address.'
-      )
-      const data: ReturnType<typeof api.getAccountTokensBalances> = yield call(
-        api.getAccountTokensBalances,
-        ethAddr
-      )
-      yield all(
-        data.tokenAccounts.map(function* (val) {
-          const symbol = Object.keys(window.coins).find(
-            (coin: string) =>
-              window.coins[coin].coinfig.type?.erc20Address?.toLowerCase() ===
-              toLower(val.tokenHash)
-          )
-          if (!symbol) return
-          if (symbol === 'WETH') return
-          const { coinfig } = window.coins[symbol]
-          const contract = coinfig.type.erc20Address
-          const tokenData = data.tokenAccounts.find(
-            ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
-          )
-          if (!contract) return
-
-          yield put(
-            A.fetchErc20DataSuccess(
-              symbol,
-              tokenData || constructDefaultErc20Data(ethAddr, contract, symbol)
-            )
-          )
-        })
-      )
-
-      yield put(
-        A.fetchErc20AccountTokenBalancesSuccess(
-          [...data.tokenAccounts.filter(({ tokenSymbol }) => tokenSymbol !== 'WETH')].sort((a, b) =>
-            a.balance < b.balance ? -1 : 1
-          )
-        )
-      )
-
-      try {
-        // Because there is a discrepancy between /eth/v2/<addr>/tokens
-        // and on chain data
-        const wethAddr = window.coins.WETH.coinfig.type.erc20Address || ''
-        const wethAbi = [
-          {
-            constant: true,
-            inputs: [
-              {
-                name: '_owner',
-                type: 'address'
-              }
-            ],
-            name: 'balanceOf',
-            outputs: [
-              {
-                name: 'balance',
-                type: 'uint256'
-              }
-            ],
-            payable: false,
-            type: 'function'
-          }
-        ]
-        const contract = new Contract(wethAddr, wethAbi, api.ethProvider)
-        const balance = yield call(contract.balanceOf, ethAddr)
-        const balanceString = balance.toString()
-        const wethTokenData = constructDefaultErc20Data(ethAddr, wethAddr, 'WETH', balanceString)
-        yield put(A.fetchErc20DataSuccess('WETH', wethTokenData))
-        yield put(
-          A.fetchErc20AccountTokenBalancesSuccess(
-            [
-              ...data.tokenAccounts.filter(({ tokenSymbol }) => tokenSymbol !== 'WETH'),
-              wethTokenData
-            ].sort((a, b) => (a.balance < b.balance ? -1 : 1))
-          )
-        )
-      } catch (e) {
-        // maybe an issue with rpc call, don't throw so balances still load
-      }
-    } catch (e) {
-      yield put(A.fetchErc20DataFailure(coin, prop('message', e)))
-    }
-  }
 
   const watchErc20Transactions = function* () {
     while (true) {
@@ -623,9 +508,7 @@ export default ({ api }: { api: APIType }) => {
   return {
     __processErc20Txs,
     __processTxs,
-    checkForLowEthBalance,
     fetchData,
-    fetchErc20Data,
     fetchErc20TransactionFee,
     fetchErc20TransactionHistory,
     fetchErc20Transactions,

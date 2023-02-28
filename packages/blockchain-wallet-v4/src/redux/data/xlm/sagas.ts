@@ -16,10 +16,9 @@ import {
   prop,
   reduce,
   takeLast,
-  unnest,
-  values
+  unnest
 } from 'ramda'
-import { all, call, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { XlmTxType } from '@core/transactions/types'
@@ -46,14 +45,6 @@ export const sumBigNumbers = reduce(
   '0'
 )
 
-const sumBalance = compose(
-  sumBigNumbers,
-  // @ts-ignore
-  map((account) => account.map(S.selectBalanceFromAccount).getOrElse('0')),
-  // @ts-ignore
-  values
-)
-
 export default ({ api, networks }: { api: APIType; networks: any }) => {
   const { fetchCustodialOrdersAndTransactions } = buySellSagas({ api })
 
@@ -64,36 +55,6 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       yield put(A.setLedgerDetailsSuccess(ledger))
     } catch (e) {
       yield put(A.setLedgerDetailsFailure(e))
-    }
-  }
-
-  const fetchAccount = function* (id) {
-    try {
-      yield put(A.fetchAccountLoading(id))
-      const account = yield call(api.getXlmAccount, id)
-      yield put(A.fetchAccountSuccess(id, account))
-    } catch (e) {
-      yield put(A.fetchAccountFailure(id, e))
-    }
-  }
-
-  const fetchData = function* () {
-    const accountIds = yield select(S.getContext)
-    yield all(accountIds.map((id) => call(fetchAccount, id)))
-    const accounts = yield select(S.getAccounts)
-    // @ts-ignore
-    const data = { info: { final_balance: sumBalance(accounts) } }
-    yield put(A.fetchDataSuccess(data))
-  }
-
-  const createAccounts = function* () {
-    if (networks.xlm !== 'testnet') return
-    try {
-      const accountIds = yield select(S.getContext)
-      yield all(accountIds.map((id) => call(api.createXlmAccount, id)))
-      yield call(fetchData)
-    } catch (e) {
-      // some catch
     }
   }
 
@@ -279,8 +240,6 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
 
   return {
     __processTxs,
-    createAccounts,
-    fetchData,
     fetchLedgerDetails,
     fetchTransactionHistory,
     fetchTransactions

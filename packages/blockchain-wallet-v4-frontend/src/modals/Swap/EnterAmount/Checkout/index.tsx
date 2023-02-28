@@ -454,7 +454,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             jumbo
             fullwidth
             style={{ marginTop: '24px' }}
-            disabled={props.invalid || isQuoteFailed || disableInsufficientEth}
+            disabled={props.invalid || isQuoteFailed}
           >
             <FormattedMessage id='buttons.preview_swap' defaultMessage='Preview Swap' />
           </Button>
@@ -613,17 +613,6 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               NotAsked: () => null,
               Success: () => null
             })}
-          </ErrorCartridge>
-        )}
-        {disableInsufficientEth && (
-          <ErrorCartridge style={{ marginTop: '16px' }}>
-            <FormattedMessage
-              id='copy.not_enough_eth1'
-              defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
-              values={{
-                coin: baseCoinfig.displaySymbol
-              }}
-            />
           </ErrorCartridge>
         )}
       </StyledForm>

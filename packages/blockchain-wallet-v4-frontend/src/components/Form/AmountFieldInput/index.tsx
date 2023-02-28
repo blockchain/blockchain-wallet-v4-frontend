@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import Currencies from '@core/exchange/currencies'
 import { Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
+import { useCoinConfig } from 'hooks'
 import { formatTextAmount } from 'services/forms'
 
 const AmountContainer = styled.div`
@@ -63,6 +64,8 @@ const AmountFieldInput: React.FC<Props> = ({
     return formatTextAmount(value, allValues && allValues.fix === 'FIAT')
   }
 
+  const { coinfig } = window.coins[coin || 'BTC']
+
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
     if (Number(fontSizeRatio) > 0) {
       setRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
@@ -118,7 +121,7 @@ const AmountFieldInput: React.FC<Props> = ({
 
           {fix === 'CRYPTO' && (
             <Text size='56px' color={amountError ? 'red400' : 'textBlack'} weight={500}>
-              {coin}
+              {coinfig.displaySymbol}
             </Text>
           )}
           {showToggle ? (
@@ -144,7 +147,7 @@ const AmountFieldInput: React.FC<Props> = ({
               weight={500}
               data-e2e='sendQuoteAmount'
             >
-              {fix === 'FIAT' && coin} {quote} {fix === 'CRYPTO' && fiatCurrency}
+              {fix === 'FIAT' && coinfig.displaySymbol} {quote} {fix === 'CRYPTO' && fiatCurrency}
             </Text>
           </>
         ) : null}

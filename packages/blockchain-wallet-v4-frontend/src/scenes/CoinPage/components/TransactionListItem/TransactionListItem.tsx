@@ -1,6 +1,6 @@
 import React from 'react'
+import UnifiedActivityTx from 'blockchain-wallet-v4-frontend/src/scenes/Transactions/UnifiedActivityTx'
 
-import { Remote } from '@core'
 import { FiatBSAndSwapTransactionType } from '@core/types'
 import { useCoinConfig, useCurrency } from 'hooks'
 
@@ -33,7 +33,9 @@ const TransactionListItem: TransactionListItemComponent = ({ coin, transaction }
   ) : 'pair' in transaction ? (
     <BuySellListItem key={transaction.id} order={transaction} />
   ) : 'movements' in transaction ? (
-    <SelfCustodyTx key={transaction.txId} tx={transaction} />
+    <SelfCustodyTx coin={coin} key={transaction.txId} tx={transaction} />
+  ) : 'detail' in transaction ? (
+    <UnifiedActivityTx tx={transaction} coin={coin} />
   ) : (
     <CustodialTxListItem
       key={transaction.id}

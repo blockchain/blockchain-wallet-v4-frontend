@@ -1,4 +1,4 @@
-import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
+import { IngestedSelfCustodyType } from '@core/network/api/coins/types'
 import {
   BSOrderType,
   BSTransactionType,

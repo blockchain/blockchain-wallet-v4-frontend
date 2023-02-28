@@ -16,7 +16,7 @@ const getData = createDeepEqualSelector(
     (state, coin) => {
       const { coinfig } = window.coins[coin]
       return coinfig.type.erc20Address
-        ? selectors.core.data.eth.getErc20CurrentBalance(state, coin)
+        ? selectors.core.data.coins.getCoinUnifiedBalance(coin)(state)
         : selectors.core.data.eth.getCurrentBalance(state)
     },
     (state) => selectors.core.common.eth.getErc20AccountBalances(state, 'PAX').map(head),
@@ -46,7 +46,6 @@ const getData = createDeepEqualSelector(
       const priorityFee = path(['fees', 'priority'], payment)
       const minFee = path(['fees', 'limits', 'min'], payment)
       const maxFee = path(['fees', 'limits', 'max'], payment)
-      const isSufficientEthForErc20 = path(['isSufficientEthForErc20'], payment)
       const isRetryAttempt = path(['isRetryAttempt'], payment)
       const minFeeRequiredForRetry = path(['minFeeRequiredForRetry'], payment)
       const isContractChecked = Remote.Success.is(isContractR)
@@ -88,7 +87,6 @@ const getData = createDeepEqualSelector(
         isContractChecked,
         isMnemonicVerified,
         isRetryAttempt,
-        isSufficientEthForErc20,
         maxFee,
         minFee,
         minFeeRequiredForRetry,

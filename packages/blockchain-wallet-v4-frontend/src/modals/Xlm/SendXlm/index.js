@@ -44,7 +44,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendXlm, dispatch),
-  fetchData: bindActionCreators(actions.core.data.xlm.fetchData, dispatch)
+  fetchData: () => {}
 })
 
 const enhance = compose(

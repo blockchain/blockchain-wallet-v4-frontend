@@ -41,7 +41,11 @@ export const CoinPage: CoinPageComponent = ({
           {activity}
         </Flex>
 
-        <Flex flexDirection='column' gap={24}>
+        <Flex
+          flexDirection='column'
+          gap={24}
+          style={{ height: 'fit-content', position: 'sticky', top: '30px' }}
+        >
           {alertCard} {holdings} {wallets} {recurringBuys} {promoCard}
         </Flex>
       </Grid>

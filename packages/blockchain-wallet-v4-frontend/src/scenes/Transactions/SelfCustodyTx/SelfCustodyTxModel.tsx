@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { IngestedSelfCustodyType } from '@core/network/api/coin/types'
+import { IngestedSelfCustodyType } from '@core/network/api/coins/types'
 
 export const TransactionType = ({
   txType
