@@ -47,7 +47,7 @@ import {
 import { NabuError } from 'services/errors'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
-import { BSCardSuccessRateType, BuySellState } from './types'
+import { BSCardSuccessRateType, BuySellState, PollOrder } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
@@ -411,7 +411,7 @@ const buySellSlice = createSlice({
     },
     pollBalances: () => {},
     pollCard: (state, action: PayloadAction<BSCardType['id']>) => {},
-    pollOrder: (state, action: PayloadAction<string>) => {},
+    pollOrder: (state, action: PayloadAction<PollOrder>) => {},
     proceedToBuyConfirmation: (
       state,
       action: PayloadAction<{

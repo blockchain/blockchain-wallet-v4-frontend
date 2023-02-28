@@ -31,7 +31,7 @@ const Success = ({ buySellActions, domains, order }: Props) => {
     }
 
     if (data.status === 'SUCCESS') {
-      await buySellActions.pollOrder(order.id)
+      await buySellActions.pollOrder({ orderId: order.id, waitUntilSettled: true })
     }
   }
 
