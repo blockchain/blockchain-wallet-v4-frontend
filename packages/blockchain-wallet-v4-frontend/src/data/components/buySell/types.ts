@@ -320,3 +320,8 @@ export type StepActionsPayload =
         | 'UPDATE_SECURITY_CODE'
         | 'CONFIRMING_BUY_ORDER'
     }
+
+export type PollOrder = {
+  orderId: string
+  waitUntilSettled?: boolean // this will help us to keep track did user already been on 3DS page
+}

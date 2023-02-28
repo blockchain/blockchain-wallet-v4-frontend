@@ -1782,11 +1782,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const maxRetryAttempts = 10
 
     try {
-      let order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, payload)
+      const { orderId, waitUntilSettled } = payload
+      let order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, orderId)
       let step = S.getStep(yield select())
 
       while (order.state === 'PENDING_DEPOSIT' && retryAttempts < maxRetryAttempts) {
-        order = yield call(api.getBSOrder, payload)
+        order = yield call(api.getBSOrder, orderId)
         step = S.getStep(yield select())
         retryAttempts += 1
         if (
@@ -1799,8 +1800,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield cancel()
         }
 
-        // In case that transaction is pending and waiting for 3DS response we do not need to poll to the end of poll cycle
-        if (order.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE') {
+        // In case that transaction is settled we do not need to wait for finishing full cycle
+        if (
+          order.attributes?.cardCassy?.paymentState === 'SETTLED' ||
+          (!waitUntilSettled &&
+            order.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
+        ) {
           break
         }
         yield delay(2000)

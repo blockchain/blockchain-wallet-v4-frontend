@@ -28,7 +28,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     setPolling(true)
 
     if (order.hasData && order.data) {
-      props.buySellActions.pollOrder(order.data.id)
+      props.buySellActions.pollOrder({ orderId: order.data.id, waitUntilSettled: true })
     } else if (card.hasData && card.data) {
       props.buySellActions.pollCard(card.data.id)
     }

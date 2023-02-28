@@ -14,5 +14,5 @@ export const updateCardCvvAndPollOrder = function* ({
 
   if (!cvvUpdateResult.success) return undefined
 
-  yield* put(A.pollOrder(payload.paymentId))
+  yield* put(A.pollOrder({ orderId: payload.paymentId }))
 }

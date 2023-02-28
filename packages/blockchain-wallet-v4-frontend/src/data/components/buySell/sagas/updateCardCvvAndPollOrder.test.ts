@@ -43,7 +43,7 @@ describe('updateCardCvvAndPollOrder', () => {
             },
             race: () => ({ success: true })
           })
-          .put(A.pollOrder(PAYLOAD.paymentId))
+          .put(A.pollOrder({ orderId: PAYLOAD.paymentId }))
           .silentRun()
       })
     })
