@@ -23,32 +23,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  /**
-   * @deprecated
-   */
-  const createSwapOrder_DEPRECATED = (
-    direction: SwapOrderDirectionType,
-    quoteId: string,
-    volume: string,
-    ccy: FiatType,
-    destinationAddress?: string,
-    refundAddress?: string
-  ): SwapOrderType =>
-    authorizedPost({
-      contentType: 'application/json',
-      data: {
-        ccy,
-        destinationAddress,
-        direction,
-        quoteId,
-        refundAddress,
-        volume
-      },
-      endPoint: '/custodial/trades',
-      removeDefaultPostData: true,
-      url: nabuUrl
-    })
-
   const createSwapOrder = (
     direction: SwapOrderDirectionType,
     quoteId: string,
@@ -207,7 +181,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
   return {
     cancelSwapOrder,
     createSwapOrder,
-    createSwapOrder_DEPRECATED,
     getPaymentAccount,
     getSwapLimits,
     getSwapPairs,

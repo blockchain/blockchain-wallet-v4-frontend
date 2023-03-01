@@ -220,6 +220,8 @@ export const getBuyQuote = (state: RootState) => state.components.buySell.buyQuo
 
 export const getSellQuote = (state: RootState) => state.components.buySell.sellQuote
 
+export const getSellQuotePrice = (state: RootState) => state.components.buySell.sellQuotePrice
+
 export const getSellOrder = (state: RootState) => state.components.buySell.sellOrder
 
 export const getReason = (state: RootState) => state.components.buySell.reason

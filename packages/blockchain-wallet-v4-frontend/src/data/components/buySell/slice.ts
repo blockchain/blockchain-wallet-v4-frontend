@@ -90,6 +90,7 @@ const initialState: BuySellState = {
   sddVerified: Remote.NotAsked,
   sellOrder: undefined,
   sellQuote: Remote.NotAsked,
+  sellQuotePrice: Remote.NotAsked,
   step: 'CRYPTO_SELECTION',
   swapAccount: undefined,
   vgsVaultId: undefined
@@ -369,6 +370,40 @@ const buySellSlice = createSlice({
     fetchSellQuoteFailure: (state, action: PayloadAction<string>) => {
       state.sellQuote = Remote.Failure(action.payload)
     },
+    fetchSellQuotePrice: (
+      state,
+      action: PayloadAction<{
+        account: SwapAccountType
+        amount: string
+        pair: BSPairsType
+      }>
+    ) => {},
+    fetchSellQuotePriceFailure: (state, action: PayloadAction<string | Error>) => {
+      state.sellQuotePrice = Remote.Success.is(state.sellQuotePrice)
+        ? state.sellQuotePrice
+        : Remote.Failure(action.payload)
+    },
+    fetchSellQuotePriceLoading: (state) => {
+      state.sellQuotePrice = Remote.Success.is(state.sellQuotePrice)
+        ? Remote.Success({
+            ...state.sellQuotePrice.data,
+            isRefreshing: true
+          })
+        : Remote.Loading
+    },
+    fetchSellQuotePriceSuccess: (
+      state,
+      action: PayloadAction<{
+        isPlaceholder: boolean
+        rate: number
+      }>
+    ) => {
+      state.sellQuotePrice = Remote.Success({
+        isPlaceholder: action.payload.isPlaceholder,
+        isRefreshing: false,
+        rate: action.payload.rate
+      })
+    },
     fetchSellQuoteSuccess: (state, action: PayloadAction<SellQuoteStateType>) => {
       state.sellQuote = Remote.Success(action.payload)
     },
@@ -567,8 +602,21 @@ const buySellSlice = createSlice({
         pair: BSPairsType
       }>
     ) => {},
+    startPollSellQuotePrice: (
+      state,
+      action: PayloadAction<{
+        account: SwapAccountType
+        amount: string
+        pair: BSPairsType
+      }>
+    ) => {},
     stopPollBuyQuote: () => {},
     stopPollSellQuote: () => {},
+    stopPollSellQuotePrice: (state, action: PayloadAction<{ shouldNotResetState?: boolean }>) => {
+      if (!action.payload.shouldNotResetState) {
+        state.sellQuotePrice = Remote.NotAsked
+      }
+    },
     switchFix: (
       state,
       action: PayloadAction<{

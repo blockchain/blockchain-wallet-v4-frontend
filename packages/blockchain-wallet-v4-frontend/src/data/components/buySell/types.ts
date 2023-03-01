@@ -217,6 +217,7 @@ export type BuySellState = {
   sddVerified: RemoteDataType<PartialClientErrorProperties, SDDVerifiedType>
   sellOrder?: SwapOrderType
   sellQuote: RemoteDataType<string, SellQuoteStateType>
+  sellQuotePrice: RemoteDataType<string | Error, SellQuotePrice>
   step: keyof typeof BuySellStepType
   swapAccount?: SwapAccountType
   vgsVaultId?: string
@@ -320,4 +321,10 @@ export type StepActionsPayload =
 export type PollOrder = {
   orderId: string
   waitUntilSettled?: boolean // this will help us to keep track did user already been on 3DS page
+}
+
+export type SellQuotePrice = {
+  isPlaceholder: boolean
+  isRefreshing: boolean
+  rate: number
 }

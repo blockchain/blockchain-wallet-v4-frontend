@@ -50,9 +50,6 @@ export enum SwapOrderDirection {
   TO_USERKEY = 'TO_USERKEY'
 }
 
-/**
- * @deprecated
- */
 export type SwapOrderDirectionType = keyof typeof SwapOrderDirection
 
 export type SwapOrderStateType =

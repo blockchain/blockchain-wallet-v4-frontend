@@ -10,7 +10,7 @@ const getData = (state: RootState) => {
   const coin = selectors.components.buySell.getCryptoCurrency(state) || 'BTC'
   const formErrors = selectors.form.getFormSyncErrors(FORM_BS_CHECKOUT)(state)
   const paymentR = selectors.components.buySell.getPayment(state)
-  const quoteR = selectors.components.buySell.getSellQuote(state)
+  const quoteR = selectors.components.buySell.getSellQuotePrice(state)
   const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)

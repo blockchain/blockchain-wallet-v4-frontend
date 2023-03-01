@@ -12,6 +12,8 @@ export const returnToSellEnterAmount = function* ({
   const { pair } = payload
   const paymentMethod = yield* select(getBSPaymentMethod)
 
+  yield* put(actions.stopPollSellQuote())
+
   yield* put(
     actions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),

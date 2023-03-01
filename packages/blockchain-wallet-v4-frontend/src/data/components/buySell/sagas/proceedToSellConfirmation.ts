@@ -52,6 +52,7 @@ export const proceedToSellConfirmation = function* ({
       pair: pairObject.pair
     }
 
+    yield* put(actions.stopPollSellQuotePrice({}))
     yield* put(actions.startPollSellQuote(sellQuoteInputPayload))
   } catch (e) {
     yield* reportFailure(e)

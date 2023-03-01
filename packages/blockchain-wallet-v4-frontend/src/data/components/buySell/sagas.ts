@@ -373,9 +373,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           ? yield call(selectReceiveAddress, from, networks, api, coreSagas)
           : undefined
       const sellOrder: SwapOrderType = yield call(
-        api.createSwapOrder_DEPRECATED,
+        api.createSwapOrder,
         direction,
-        quote.quote.id,
+        quote.quote.quoteId,
         cryptoAmt,
         getFiatFromPair(pair.pair),
         undefined,
@@ -1393,6 +1393,49 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const fetchSellQuotePrice = function* ({
+    payload
+  }: ReturnType<typeof A.startPollSellQuotePrice>) {
+    const shouldDebounce = !Remote.NotAsked.is(yield select(S.getSellQuotePrice))
+
+    if (shouldDebounce) {
+      yield delay(300)
+    }
+
+    while (true) {
+      try {
+        const { amount, pair } = payload
+        const isValidAmount = isValidInputAmount(amount)
+        const amountOrDefault = isValidAmount ? amount : '0'
+        yield put(A.fetchSellQuotePriceLoading())
+
+        const quotePrice: ReturnType<typeof api.getSwapQuotePrice> = yield call(
+          api.getSwapQuotePrice,
+          pair,
+          amountOrDefault,
+          SwapPaymentMethod.Funds,
+          SwapProfile.SWAP_INTERNAL
+        )
+
+        yield put(
+          A.fetchSellQuotePriceSuccess({
+            isPlaceholder: !isValidAmount,
+            rate: parseInt(quotePrice.price)
+          })
+        )
+
+        yield delay(FALLBACK_DELAY)
+      } catch (e) {
+        yield put(A.fetchSellQuotePriceFailure(isNabuError(e) ? e : errorHandler(e)))
+        yield put(
+          A.stopPollSellQuotePrice({
+            shouldNotResetState: true
+          })
+        )
+      }
+    }
+  }
+
   const formChanged = function* (action) {
     try {
       if (action.meta.form !== FORM_BS_CHECKOUT) return
@@ -1408,7 +1451,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!pair) return
 
       const paymentR = S.getPayment(yield select())
-      const quoteR = S.getSellQuote(yield select())
+      const quoteR = S.getSellQuotePrice(yield select())
       const quote = quoteR.getOrFail(BS_ERROR.NO_QUOTE)
 
       const amt = getQuote(pair.pair, quote.rate, formValues.fix, formValues.amount)
@@ -1419,7 +1462,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (formValues.orderType === OrderType.SELL && isValidInputAmount(formValues.amount)) {
         const coin = getCoinFromPair(pair.pair)
         yield put(
-          A.startPollSellQuote({
+          A.startPollSellQuotePrice({
             account,
             amount: convertStandardToBase(coin, formValues.amount),
             pair: pair.pair
@@ -1660,11 +1703,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const coin = getCoinFromPair(pair.pair)
         const isValidAmount = isValidInputAmount(cryptoAmount)
         const amountOrDefault = isValidAmount ? convertStandardToBase(coin, cryptoAmount) : '0'
-        yield put(A.fetchSellQuote({ account, amount: amountOrDefault, pair: pair.pair }))
-        yield put(A.startPollSellQuote({ account, amount: amountOrDefault, pair: pair.pair }))
+        yield put(A.fetchSellQuotePrice({ account, amount: amountOrDefault, pair: pair.pair }))
+        yield put(A.startPollSellQuotePrice({ account, amount: amountOrDefault, pair: pair.pair }))
         yield race({
-          failure: take(A.fetchSellQuoteFailure.type),
-          success: take(A.fetchSellQuoteSuccess.type)
+          failure: take(A.fetchSellQuotePriceFailure.type),
+          success: take(A.fetchSellQuotePriceSuccess.type)
         })
 
         if (account.type === SwapBaseCounterTypes.ACCOUNT) {
@@ -2191,6 +2234,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchSDDEligible,
     fetchSDDVerified,
     fetchSellQuote,
+    fetchSellQuotePrice,
     formChanged,
     handleBSDepositFiatClick,
     handleBuyMaxAmountClick,

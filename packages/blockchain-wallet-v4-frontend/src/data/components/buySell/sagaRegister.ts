@@ -13,6 +13,7 @@ import { actions } from './slice'
 
 let buyPollTask: Task
 let sellPollTask: Task
+let pollTaskPrice: Task
 
 export default ({ api, coreSagas, networks }) => {
   const buySellSagas = sagas({ api, coreSagas, networks })
@@ -80,8 +81,16 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.fetchBSOrders.type, buySellSagas.fetchBSOrders)
     yield takeLatest(actions.fetchOrders.type, buySellSagas.fetchBSOrders)
 
-    // used for sell only now, eventually buy as well
-    // TODO: use swap2 quote for buy AND sell
+    yield takeLatest(
+      actions.startPollSellQuotePrice.type,
+      function* (payload: ReturnType<typeof actions.startPollSellQuotePrice>) {
+        if (pollTaskPrice?.isRunning()) yield cancel(pollTaskPrice)
+        pollTaskPrice = yield fork(buySellSagas.fetchSellQuotePrice, payload)
+        yield take(actions.stopPollSellQuotePrice)
+        yield cancel(pollTaskPrice)
+      }
+    )
+
     yield takeLatest(
       actions.startPollSellQuote.type,
       function* (payload: ReturnType<typeof actions.startPollSellQuote>) {
