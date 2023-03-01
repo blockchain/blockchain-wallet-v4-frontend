@@ -1369,11 +1369,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
     while (true) {
       try {
-        const { amount, pair } = payload
+        const { account, amount, pair } = payload
         const quote: ReturnType<typeof api.getSwapQuote> = yield call(
           api.getSwapQuote,
           pair,
-          SwapProfile.SWAP_INTERNAL,
+          account.type === SwapBaseCounterTypes.CUSTODIAL
+            ? SwapProfile.SWAP_INTERNAL
+            : SwapProfile.SWAP_ON_CHAIN,
           amount,
           SwapPaymentMethod.Funds
         )
@@ -1404,7 +1406,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     while (true) {
       try {
-        const { amount, pair } = payload
+        const { account, amount, pair } = payload
         const isValidAmount = isValidInputAmount(amount)
         const amountOrDefault = isValidAmount ? amount : '0'
         yield put(A.fetchSellQuotePriceLoading())
@@ -1414,7 +1416,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           pair,
           amountOrDefault,
           SwapPaymentMethod.Funds,
-          SwapProfile.SWAP_INTERNAL
+          account.type === SwapBaseCounterTypes.CUSTODIAL
+            ? SwapProfile.SWAP_INTERNAL
+            : SwapProfile.SWAP_ON_CHAIN
         )
 
         yield put(
@@ -1464,7 +1468,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(
           A.startPollSellQuotePrice({
             account,
-            amount: convertStandardToBase(coin, formValues.amount),
+            amount: convertStandardToBase(coin, formValues.cryptoAmount),
             pair: pair.pair
           })
         )

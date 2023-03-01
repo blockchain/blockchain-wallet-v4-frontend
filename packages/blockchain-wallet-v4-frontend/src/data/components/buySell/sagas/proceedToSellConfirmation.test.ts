@@ -18,10 +18,11 @@ import { proceedToSellConfirmation } from './proceedToSellConfirmation'
 const pairStub = makePairStub()
 const accountStub = makeAccountStub()
 const valuesStub = {
-  amount: '100'
+  amount: '100',
+  cryptoAmount: '100'
 }
 
-describe('proceedToBuyConfirmation', () => {
+describe('proceedToSellConfirmation', () => {
   describe('when there are no pair', () => {
     it('should navigate to crypto selection', () => {
       return expectSaga(

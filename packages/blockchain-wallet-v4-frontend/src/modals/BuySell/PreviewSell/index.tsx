@@ -7,14 +7,7 @@ import styled from 'styled-components'
 
 import { Exchange } from '@core'
 import { coinToString, formatFiat } from '@core/exchange/utils'
-import {
-  BSOrderActionType,
-  BSPairType,
-  CoinType,
-  OrderType,
-  PaymentValue,
-  RatesType
-} from '@core/types'
+import { BSOrderActionType, BSPairType, CoinType, PaymentValue, RatesType } from '@core/types'
 import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
@@ -187,7 +180,7 @@ class PreviewSell extends PureComponent<
     this.props.buySellActions.setStep({
       cryptoCurrency: BASE,
       fiatCurrency: getFiatFromPair(this.props.pair.pair),
-      orderType: OrderType.SELL,
+      orderType: this.props.orderType,
       pair: this.props.pair,
       step: 'SELL_ENTER_AMOUNT',
       swapAccount: this.props.account
@@ -317,7 +310,7 @@ class PreviewSell extends PureComponent<
                           <>
                             {counterCoinTicker}
                             &nbsp;
-                            {formatFiat(Number(success.amt) + Number(feeInFiat))}
+                            {formatFiat(convertBaseToStandard('FIAT', Number(success.amt)))}
                           </>
                         )
                       }
@@ -422,7 +415,7 @@ class PreviewSell extends PureComponent<
                         Loading: () => <SkeletonRectangle height='18px' width='70px' />,
                         NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
                         Success: (success) => {
-                          const saleAmount = formatFiat(Number(success.amt))
+                          const saleAmount = formatFiat(convertBaseToStandard('FIAT', success.amt))
                           const saleInCoin = Exchange.convertFiatToCoin({
                             coin: BASE,
                             currency: fiatCurrency,
@@ -542,7 +535,7 @@ class PreviewSell extends PureComponent<
                           <>
                             {counterCoinTicker}
                             &nbsp;
-                            {formatFiat(Number(success.amt) + Number(feeInFiat))}
+                            {formatFiat(convertBaseToStandard('FIAT', Number(success.amt)))}
                           </>
                         )
                       }

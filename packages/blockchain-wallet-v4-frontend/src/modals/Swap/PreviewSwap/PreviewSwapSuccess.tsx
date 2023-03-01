@@ -15,13 +15,14 @@ import { isNabuError } from 'services/errors'
 import { QuoteCountDown } from '../../components/QuoteCountDown'
 import { useCountDown } from '../../hooks/useCountDown'
 import { FeeBreakdownBox, FromToLogoLeft, TopText } from '../components'
+import { PreviewSwapButton } from './PreviewSwapButton'
 import {
   ExchangeRateRow,
   IconWrapper,
   QuoteCountDownWrapper,
   StyledRow,
   ToolTipText
-} from './styles'
+} from './PreviewSwapSuccess.styles'
 
 type Props = {
   clearErrors: () => void
@@ -40,10 +41,6 @@ type Props = {
 
 export const PreviewSwapSuccess = (props: Props) => {
   const [isActiveExchangeToolTip, setIsActiveExchangeToolTip] = useState(false)
-  const { isCompletingSoon } = useCountDown(
-    props.quote.refreshConfig.date,
-    props.quote.refreshConfig.totalMs
-  )
 
   const clearSubmitErrors = () => {
     props.clearErrors()
@@ -210,20 +207,10 @@ export const PreviewSwapSuccess = (props: Props) => {
       </Row>
       <FlyoutWrapper>
         <Form onSubmit={handleSubmit}>
-          <Button
-            nature='primary'
-            data-e2e='swapBtn'
-            type='submit'
-            disabled={props.submitting}
-            fullwidth
-            height='48px'
-          >
-            {props.submitting || isCompletingSoon ? (
-              <HeartbeatLoader height='16px' width='16px' color='white' />
-            ) : (
-              <FormattedMessage id='buttons.swap_now' defaultMessage='Swap Now' />
-            )}
-          </Button>
+          <PreviewSwapButton
+            isSubmitting={props.submitting}
+            refreshConfig={props.quote.refreshConfig}
+          />
           {props.error && (
             <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>
               <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />

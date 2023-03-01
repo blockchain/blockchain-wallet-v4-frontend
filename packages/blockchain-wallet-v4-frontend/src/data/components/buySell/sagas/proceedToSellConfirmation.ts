@@ -48,7 +48,7 @@ export const proceedToSellConfirmation = function* ({
   try {
     const sellQuoteInputPayload = {
       account,
-      amount: convertStandardToBase(coin, values.amount),
+      amount: convertStandardToBase(coin, values.cryptoAmount),
       pair: pairObject.pair
     }
 
