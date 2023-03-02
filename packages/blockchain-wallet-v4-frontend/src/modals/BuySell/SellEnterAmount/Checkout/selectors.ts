@@ -18,8 +18,6 @@ const getData = (state: RootState) => {
   const bankTransferAccounts = selectors.components.brokerage
     .getBankTransferAccounts(state)
     .getOrElse([])
-
-  const baseRatesR = selectors.core.data.misc.getRatesSelector(coin, state)
   const limitsR = selectors.components.buySell.getLimits(state)
   const hasFiatBalance = selectors.components.buySell.hasFiatBalances(state)
 
@@ -36,11 +34,9 @@ const getData = (state: RootState) => {
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
-      sddLimit: ExtractSuccess<typeof sddLimitR>,
-      baseRates: ExtractSuccess<typeof baseRatesR>
+      sddLimit: ExtractSuccess<typeof sddLimitR>
     ) => ({
       bankTransferAccounts,
-      baseRates,
       crossBorderLimits,
       formErrors,
       hasFiatBalance,
@@ -54,7 +50,7 @@ const getData = (state: RootState) => {
       sddLimit,
       userData
     })
-  )(quoteR, ratesR, sbBalancesR, userDataR, sddLimitR, baseRatesR)
+  )(quoteR, ratesR, sbBalancesR, userDataR, sddLimitR)
 }
 
 export default getData

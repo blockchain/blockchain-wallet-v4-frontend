@@ -4,9 +4,8 @@ import { useDispatch } from 'react-redux'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Earn/Interest/DepositForm/model'
 import { clearSubmitErrors, Field, InjectedFormProps, reduxForm } from 'redux-form'
 
-import { Exchange } from '@core'
 import Currencies from '@core/exchange/currencies'
-import { coinToString, fiatToString, formatCoin, formatFiat } from '@core/exchange/utils'
+import { coinToString, fiatToString, formatFiat } from '@core/exchange/utils'
 import { BSOrderActionType, BSPaymentTypes, CoinType, FiatType, OrderType } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
@@ -43,14 +42,7 @@ import {
   QuoteRow,
   TopText
 } from './styles'
-import {
-  checkCrossBorderLimit,
-  formatQuote,
-  getMaxMin,
-  getQuote,
-  maximumAmount,
-  minimumAmount
-} from './validation'
+import { checkCrossBorderLimit, getMaxMin, maximumAmount, minimumAmount } from './validation'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
 
@@ -91,7 +83,6 @@ const isLimitError = (code: number | string): boolean => {
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     analyticsActions,
-    baseRates,
     crossBorderLimits,
     cryptoCurrency,
     defaultMethod,
@@ -132,21 +123,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency
   const conversionCoinType: 'FIAT' | CoinType = fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
-  const quoteAmount =
-    fix === 'FIAT'
-      ? Exchange.convertFiatToCoin({
-          coin: cryptoCurrency,
-          currency: fiatCurrency,
-          rates: baseRates,
-          value: props.formValues?.amount || 0
-        })
-      : Exchange.convertCoinToFiat({
-          coin: cryptoCurrency,
-          currency: fiatCurrency,
-          isStandard: true,
-          rates: baseRates,
-          value: props.formValues?.amount || 0
-        })
+  const quoteAmount = fix === 'FIAT' ? props.quote.data.amount : props.quote.data.resultAmount
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
@@ -290,7 +267,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     })
 
     props.buySellActions.switchFix({
-      amount: fix === 'FIAT' ? formatCoin(quoteAmount, 0, CRYPTO_DECIMALS) : quoteAmount, // format crypto amount to 8 digits
+      amount: fix === 'FIAT' ? props.quote.data.amount : props.quote.data.resultAmount,
       fix: props.preferences[props.orderType].fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO',
       orderType: props.orderType
     })

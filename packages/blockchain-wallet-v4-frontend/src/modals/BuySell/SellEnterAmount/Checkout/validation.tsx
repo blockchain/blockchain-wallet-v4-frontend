@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 
 import { UnitType } from '@core/exchange'
 import Currencies from '@core/exchange/currencies'
-import { coinToString, fiatToString } from '@core/exchange/utils'
 import {
   BSBalancesType,
   BSOrderActionType,
@@ -33,19 +32,6 @@ export const getQuote = (
   const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
   const standardRate = convertBaseToStandard('FIAT', rate)
   return new BigNumber(baseAmount || '0').times(standardRate).toFixed(decimals)
-}
-
-export const formatQuote = (amt: string, pair: string, fix: BSFixType): string => {
-  if (fix === 'FIAT') {
-    return coinToString({
-      unit: { symbol: getCoinFromPair(pair) },
-      value: amt
-    })
-  }
-  return fiatToString({
-    unit: getFiatFromPair(pair),
-    value: amt
-  })
 }
 
 export const getMaxMin = (

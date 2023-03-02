@@ -1,11 +1,14 @@
 import { put } from 'typed-redux-saga'
 
-import { actions } from '../slice'
+import { actions } from 'data'
+
+import { actions as swapActions } from '../slice'
 
 export const returnToInitSwap = function* () {
-  yield* put(actions.stopPollQuotePrice({}))
+  yield* put(swapActions.stopPollQuotePrice({}))
+  yield* put(actions.form.change('swapAmount', 'cryptoAmount', '0'))
   yield* put(
-    actions.setStep({
+    swapActions.setStep({
       step: 'INIT_SWAP'
     })
   )

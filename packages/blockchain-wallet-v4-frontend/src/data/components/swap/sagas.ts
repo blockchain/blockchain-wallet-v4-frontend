@@ -6,7 +6,7 @@ import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import Remote from '@core/remote'
 import { PaymentType, Product, SwapOrderDirection } from '@core/types'
-import { errorHandler } from '@core/utils'
+import { Coin, errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
@@ -425,7 +425,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       .getOrFail('Failed to get rates')
 
     const amountFieldValue =
-      fix === 'CRYPTO'
+      fix === Coin.CRYPTO
         ? action.payload
         : Exchange.convertFiatToCoin({
             coin: BASE.coin,

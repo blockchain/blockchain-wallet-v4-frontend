@@ -325,6 +325,7 @@ export type PollOrder = {
 
 export type SellQuotePrice = {
   data: {
+    amount: StandardNumericString
     networkFee: StandardNumericString
     price: StandardNumericString
     resultAmount: StandardNumericString
