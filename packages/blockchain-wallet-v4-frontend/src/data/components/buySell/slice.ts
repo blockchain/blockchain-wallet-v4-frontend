@@ -47,7 +47,7 @@ import {
 import { NabuError } from 'services/errors'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
-import { BSCardSuccessRateType, BuySellState, PollOrder } from './types'
+import { BSCardSuccessRateType, BuySellState, PollOrder, SellQuotePrice } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
@@ -394,11 +394,13 @@ const buySellSlice = createSlice({
     fetchSellQuotePriceSuccess: (
       state,
       action: PayloadAction<{
+        data: SellQuotePrice['data']
         isPlaceholder: boolean
         rate: number
       }>
     ) => {
       state.sellQuotePrice = Remote.Success({
+        data: action.payload.data,
         isPlaceholder: action.payload.isPlaceholder,
         isRefreshing: false,
         rate: action.payload.rate

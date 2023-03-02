@@ -324,6 +324,11 @@ export type PollOrder = {
 }
 
 export type SellQuotePrice = {
+  data: {
+    networkFee: StandardNumericString
+    price: StandardNumericString
+    resultAmount: StandardNumericString
+  }
   isPlaceholder: boolean
   isRefreshing: boolean
   rate: number

@@ -3,7 +3,7 @@ import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/SellE
 import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
-import { Remote } from '@core'
+import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
 import {
   ApplePayInfoType,
@@ -1421,8 +1421,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             : SwapProfile.SWAP_ON_CHAIN
         )
 
+        const coin = getCoinFromPair(pair)
+
         yield put(
           A.fetchSellQuotePriceSuccess({
+            data: {
+              networkFee: convertBaseToStandard(coin, quotePrice.networkFee),
+              price: convertBaseToStandard(coin, quotePrice.price),
+              resultAmount: convertBaseToStandard(coin, quotePrice.resultAmount)
+            },
             isPlaceholder: !isValidAmount,
             rate: parseInt(quotePrice.price)
           })
@@ -1461,14 +1468,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const amt = getQuote(pair.pair, quote.rate, formValues.fix, formValues.amount)
 
       const cryptoAmt = formValues.fix === 'CRYPTO' ? formValues.amount : amt
-      yield put(actions.form.change(FORM_BS_CHECKOUT, 'cryptoAmount', cryptoAmt))
 
-      if (formValues.orderType === OrderType.SELL && isValidInputAmount(formValues.amount)) {
+      if (formValues.orderType === OrderType.BUY) {
+        yield put(actions.form.change(FORM_BS_CHECKOUT, 'cryptoAmount', cryptoAmt))
+      }
+
+      if (formValues.orderType === OrderType.SELL) {
         const coin = getCoinFromPair(pair.pair)
+        const userCurrency = selectors.core.settings.getCurrency(yield select()).getOrElse('USD')
+
+        const rates = selectors.core.data.misc
+          .getRatesSelector(coin, yield select())
+          .getOrFail('Failed to get rates')
+        const amountFieldValue =
+          formValues.fix === 'CRYPTO'
+            ? action.payload
+            : Exchange.convertFiatToCoin({
+                coin,
+                currency: userCurrency,
+                rates,
+                value: action.payload
+              })
+
+        yield put(actions.form.change(FORM_BS_CHECKOUT, 'cryptoAmount', amountFieldValue))
+        const amount = convertStandardToBase(coin, amountFieldValue)
+
         yield put(
           A.startPollSellQuotePrice({
             account,
-            amount: convertStandardToBase(coin, formValues.cryptoAmount),
+            amount,
             pair: pair.pair
           })
         )
@@ -1704,9 +1732,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (orderType === OrderType.SELL) {
         if (!account) throw new Error(BS_ERROR.NO_ACCOUNT)
 
-        const coin = getCoinFromPair(pair.pair)
-        const isValidAmount = isValidInputAmount(cryptoAmount)
-        const amountOrDefault = isValidAmount ? convertStandardToBase(coin, cryptoAmount) : '0'
+        const isValidAmount = isValidInputAmount(amount)
+        const amountOrDefault = isValidAmount ? amount : '0'
         yield put(A.fetchSellQuotePrice({ account, amount: amountOrDefault, pair: pair.pair }))
         yield put(A.startPollSellQuotePrice({ account, amount: amountOrDefault, pair: pair.pair }))
         yield race({

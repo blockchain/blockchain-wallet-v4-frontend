@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Earn/Interest/DepositForm/model'
 import { clearSubmitErrors, Field, InjectedFormProps, reduxForm } from 'redux-form'
 
+import { Exchange } from '@core'
 import Currencies from '@core/exchange/currencies'
 import { coinToString, fiatToString, formatCoin, formatFiat } from '@core/exchange/utils'
 import { BSOrderActionType, BSPaymentTypes, CoinType, FiatType, OrderType } from '@core/types'
@@ -90,6 +91,7 @@ const isLimitError = (code: number | string): boolean => {
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     analyticsActions,
+    baseRates,
     crossBorderLimits,
     cryptoCurrency,
     defaultMethod,
@@ -130,7 +132,21 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency
   const conversionCoinType: 'FIAT' | CoinType = fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
-  const quoteAmount = getQuote(props.pair.pair, props.quote.rate, fix, props.formValues?.amount)
+  const quoteAmount =
+    fix === 'FIAT'
+      ? Exchange.convertFiatToCoin({
+          coin: cryptoCurrency,
+          currency: fiatCurrency,
+          rates: baseRates,
+          value: props.formValues?.amount || 0
+        })
+      : Exchange.convertCoinToFiat({
+          coin: cryptoCurrency,
+          currency: fiatCurrency,
+          isStandard: true,
+          rates: baseRates,
+          value: props.formValues?.amount || 0
+        })
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
@@ -235,6 +251,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           unit: { symbol: cryptoCurrency },
           value
         })
+
+  const quoteAmountString =
+    fix === 'FIAT'
+      ? coinToString({
+          unit: { symbol: cryptoCurrency },
+          value: quoteAmount
+        })
+      : fiatToString({ unit: fiatCurrency, value: quoteAmount })
 
   const effectiveLimit = getEffectiveLimit(crossBorderLimits)
   const effectivePeriod = getEffectivePeriod(crossBorderLimits)
@@ -348,7 +372,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 weight={500}
                 data-e2e='sbQuoteAmount'
               >
-                {formatQuote(quoteAmount, props.pair.pair, fix)}
+                {quoteAmountString}
               </Text>
               <Icon
                 color='blue600'
