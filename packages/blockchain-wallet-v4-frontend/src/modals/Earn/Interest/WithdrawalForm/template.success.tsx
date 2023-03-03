@@ -83,7 +83,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
   const interestBalanceStandard = convertBaseToStandard(coin, interestBalanceBase)
   const availToWithdrawCrypto = convertBaseToStandard(coin, availToWithdraw)
-  const withdrawalAmount = (values && values.withdrawalAmount) || 0
+  const withdrawalAmount = (values && values.withdrawalAmount) || '0'
   const availToWithdrawFiat = convertCoinToFiat({
     coin,
     currency: walletCurrency,
@@ -152,8 +152,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     analyticsActions.trackEvent({
       key: Analytics.WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED,
       properties: {
-        amount: Number(withdrawalAmountCrypto),
-        amount_usd: Number(withdrawalAmountFiat),
+        amount: withdrawalAmountCrypto,
+        amount_usd: withdrawalAmountFiat,
         currency: coin,
         type: 'TRADING'
       }

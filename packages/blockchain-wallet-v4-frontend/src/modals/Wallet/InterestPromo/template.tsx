@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { calcBasicInterest } from 'blockchain-wallet-v4-frontend/src/modals/Earn/Earn.utils'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -9,6 +8,7 @@ import { Button, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-in
 import { BlueCartridge } from 'components/Cartridge'
 
 import { Props as OwnProps, SuccessStateType } from './index'
+import { calcBasicInterest } from './InterestPromo.utils'
 
 const ModalHeaderBorderless = styled(ModalHeader)`
   border-bottom: none;

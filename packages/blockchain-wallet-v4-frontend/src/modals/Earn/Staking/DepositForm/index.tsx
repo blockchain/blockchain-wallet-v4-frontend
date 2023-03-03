@@ -6,7 +6,7 @@ import DataError from 'components/DataError'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
-import { amountToFiat, maxFiat } from '../conversions'
+import { amountToFiat, maxFiat } from '../../Earn.utils'
 import Loading from '../Staking.template.loading'
 import { FORM_NAME } from './DepositForm.model'
 import { getActions, getData, getRemote } from './DepositForm.selectors'
@@ -69,10 +69,10 @@ const DepositForm = ({ coin }: PropsType) => {
   const { coinfig } = window.coins[coin]
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const { bondingDays } = stakingLimits[coin]
-  const depositAmount = (values && values.depositAmount) || 0
+  const depositAmount = (values && values.depositAmount) || '0'
   const isCustodial =
     values && values?.earnDepositAccount && values.earnDepositAccount.type === 'CUSTODIAL'
-  const depositAmountFiat: number = amountToFiat(true, depositAmount, coin, walletCurrency, rates)
+  const depositAmountFiat = amountToFiat(true, depositAmount, coin, walletCurrency, rates)
   const maxDepositFiat = maxFiat(earnDepositLimits.maxFiat, walletCurrency)
   const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
   const depositAmountError =
