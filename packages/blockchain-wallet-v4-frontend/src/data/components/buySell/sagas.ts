@@ -1768,7 +1768,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(
         actions.form.initialize(FORM_BS_CHECKOUT, {
-          amount: amount || (fix === Coin.FIAT && lastUnusedAmount) ? lastUnusedAmount : '0',
+          amount: amount || (fix === Coin.FIAT && lastUnusedAmount) ? lastUnusedAmount : undefined,
           cryptoAmount,
           fix,
           orderType,
