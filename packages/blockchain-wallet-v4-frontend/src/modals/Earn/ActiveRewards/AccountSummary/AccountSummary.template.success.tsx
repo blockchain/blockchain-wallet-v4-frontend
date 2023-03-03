@@ -245,7 +245,7 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
             }
             textTooltipId='modals.active-rewards.summary.trigger-price.tooltip'
             value={
-              <FiatDisplay color='grey900' size='14px' weight={500} coin={walletCurrency}>
+              <FiatDisplay color='grey900' size='14px' weight={500} coin='USD'>
                 {triggerPrice}
               </FiatDisplay>
             }

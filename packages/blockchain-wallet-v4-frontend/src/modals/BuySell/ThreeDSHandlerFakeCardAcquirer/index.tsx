@@ -29,7 +29,7 @@ const ThreeDSHandlerFakeCardAcquirer = (props: Props) => {
       throw new Error('ORDER_NOT_FOUND')
     }
 
-    props.buySellActions.pollOrder(order.data.id)
+    props.buySellActions.pollOrder({ orderId: order.data.id, waitUntilSettled: true })
   }
 
   const handleBack = useCallback(() => {
