@@ -200,3 +200,48 @@ export type CrossBorderLimits = {
     yearly?: CrossBorderLimitSuggestedItem
   }
 }
+
+export type CustodialToNonCustodialMaxWithdrawalFeesType = {
+  currency: CoinType
+  fiatCurrency: FiatType
+  paymentMethod: 'BANK_TRANSFER' | 'EASY_TRANSFER' | 'CARD_PAYMENT' | 'CRYPTO_TRANSFER'
+}
+
+export type CustodialToNonCustodialWithdrawalFeesType = {
+  amount: string
+  currency: CoinType
+  fiatCurrency: FiatType
+  paymentMethod: 'BANK_TRANSFER' | 'EASY_TRANSFER' | 'CARD_PAYMENT' | 'CRYPTO_TRANSFER'
+}
+
+export type CustodialToNonCustodialWithdrawalFeesAmountType = {
+  currency: CoinType
+  value: string
+}
+
+export type CustodialToNonCustodialWithdrawalFeesFiatAmountType = {
+  currency: FiatType
+  value: string
+}
+
+export type CustodialToNonCustodialWithdrawalFeeType = {
+  amount: CustodialToNonCustodialWithdrawalFeesAmountType
+  fiat: CustodialToNonCustodialWithdrawalFeesFiatAmountType
+  type: 'NETWORK' | 'PROCESSING'
+}
+
+export type CustodialToNonCustodialWithdrawalFeesResponseType = {
+  fees: CustodialToNonCustodialWithdrawalFeeType[]
+  minAmount: {
+    amount: CustodialToNonCustodialWithdrawalFeesAmountType
+    fiat: CustodialToNonCustodialWithdrawalFeesFiatAmountType
+  }
+  sendAmount: {
+    amount: CustodialToNonCustodialWithdrawalFeesAmountType
+    fiat: CustodialToNonCustodialWithdrawalFeesFiatAmountType
+  }
+  totalFees: {
+    amount: CustodialToNonCustodialWithdrawalFeesAmountType
+    fiat: CustodialToNonCustodialWithdrawalFeesFiatAmountType
+  }
+}

@@ -18,6 +18,8 @@ import { BSTransactionsType } from '../buySell/types'
 import {
   BeneficiariesType,
   BeneficiaryType,
+  CustodialToNonCustodialWithdrawalFeesResponseType,
+  CustodialToNonCustodialWithdrawalFeesType,
   CustodialTransferRequestType,
   GetTransactionsHistoryType,
   NabuCustodialProductType,
@@ -117,6 +119,31 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getCustodialToNonCustodialMaxWithdrawalFees = ({
+    currency,
+    fiatCurrency,
+    paymentMethod
+  }: CustodialToNonCustodialWithdrawalFeesType): CustodialToNonCustodialWithdrawalFeesResponseType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/withdrawals/fees?product=WALLET&max=true&currency=${currency}&fiatCurrency=${fiatCurrency}&paymentMethod=${paymentMethod}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
+  const getCustodialToNonCustodialWithdrawalFees = ({
+    amount,
+    currency,
+    fiatCurrency,
+    paymentMethod
+  }: CustodialToNonCustodialWithdrawalFeesType): CustodialToNonCustodialWithdrawalFeesResponseType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/withdrawals/fees?product=WALLET&amount=${amount}&currency=${currency}&fiatCurrency=${fiatCurrency}&paymentMethod=${paymentMethod}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
   const checkWithdrawalLocks = (
     paymentMethod: BSPaymentTypes,
     currency: WalletFiatType
@@ -213,6 +240,8 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     fetchProductEligibilityForUser,
     getBeneficiaries,
     getCrossBorderTransactions,
+    getCustodialToNonCustodialMaxWithdrawalFees,
+    getCustodialToNonCustodialWithdrawalFees,
     getDepositTerms,
     getEligibilityForProduct,
     getLimitsAndFeaturesDetails,
