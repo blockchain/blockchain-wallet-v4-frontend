@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/SellEnterAmount/Checkout/validation'
 import { defaultTo, filter, prop } from 'ramda'
-import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
+import { call, cancel, delay, fork, put, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
@@ -1752,9 +1752,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         .getFeatureFlagRecurringBuys(yield select())
         .getOrElse(false) as boolean
 
+      const lastUnusedAmounts = selectors.cache.getLastUnusedAmounts(yield select())
+
+      const lastUnusedAmount = lastUnusedAmounts ? lastUnusedAmounts[pair.pair] : null
+
       yield put(
         actions.form.initialize(FORM_BS_CHECKOUT, {
-          amount: undefined,
+          amount: amount || (fix === Coin.FIAT && lastUnusedAmount) ? lastUnusedAmount : undefined,
           cryptoAmount,
           fix,
           orderType,

@@ -6,6 +6,7 @@ import { actionTypes } from 'data'
 import sagas from './sagas'
 import { proceedToBuyConfirmation } from './sagas/proceedToBuyConfirmation'
 import { proceedToSellConfirmation } from './sagas/proceedToSellConfirmation'
+import { proceedToSellEnterAmount } from './sagas/proceedToSellEnterAmount'
 import { returnToBuyEnterAmount } from './sagas/returnToBuyEnterAmount'
 import { returnToCryptoSelection } from './sagas/returnToCryptoSelection'
 import { returnToSellEnterAmount } from './sagas/returnToSellEnterAmount'
@@ -59,6 +60,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.updateCardCvvAndPollOrder.type, buySellSagas.updateCardCvvAndPollOrder)
     yield takeLatest(actions.proceedToBuyConfirmation.type, proceedToBuyConfirmation)
     yield takeLatest(actions.proceedToSellConfirmation.type, proceedToSellConfirmation)
+    yield takeLatest(actions.proceedToSellEnterAmount.type, proceedToSellEnterAmount)
     yield takeLatest(actions.returnToCryptoSelection.type, returnToCryptoSelection)
     yield takeLatest(actions.returnToBuyEnterAmount.type, returnToBuyEnterAmount)
     yield takeLatest(actions.returnToSellEnterAmount.type, returnToSellEnterAmount)

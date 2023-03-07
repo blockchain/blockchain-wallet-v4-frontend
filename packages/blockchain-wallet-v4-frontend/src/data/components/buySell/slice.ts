@@ -471,6 +471,10 @@ const buySellSlice = createSlice({
         account: SwapAccountType
       }>
     ) => {},
+    proceedToSellEnterAmount: (
+      state,
+      action: PayloadAction<{ account: SwapAccountType; pair: BSPairType }>
+    ) => {},
     registerCard: (
       state,
       action: PayloadAction<{ cvv: string; paymentMethodTokens: { [key: string]: string } }>

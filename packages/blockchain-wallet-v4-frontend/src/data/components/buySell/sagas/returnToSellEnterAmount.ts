@@ -8,7 +8,7 @@ import { actions } from '../slice'
 
 export const returnToSellEnterAmount = function* ({
   payload
-}: ReturnType<typeof actions.returnToBuyEnterAmount>) {
+}: ReturnType<typeof actions.returnToSellEnterAmount>) {
   const { pair } = payload
   const paymentMethod = yield* select(getBSPaymentMethod)
 
