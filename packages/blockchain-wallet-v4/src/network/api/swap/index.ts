@@ -62,25 +62,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  /**
-   * @deprecated
-   */
-  const getSwapQuote_DEPRECATED = (
-    pair: string,
-    direction: SwapOrderDirectionType,
-    product = 'BROKERAGE'
-  ): SwapQuoteType =>
-    authorizedPost({
-      contentType: 'application/json',
-      data: {
-        direction,
-        pair,
-        product
-      },
-      endPoint: `/custodial/quote`,
-      url: nabuUrl
-    })
-
   const getSwapTrades = (
     limit?: number,
     offset?: number,
@@ -186,7 +167,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getSwapPairs,
     getSwapQuote,
     getSwapQuotePrice,
-    getSwapQuote_DEPRECATED,
     getSwapTrades,
     getUnifiedSwapTrades,
     updateSwapOrder

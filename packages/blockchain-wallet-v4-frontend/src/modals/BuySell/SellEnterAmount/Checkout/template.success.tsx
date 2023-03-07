@@ -349,7 +349,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 weight={500}
                 data-e2e='sbQuoteAmount'
               >
-                {quoteAmountString}
+                {!props.quote.isFailed && quoteAmountString}
               </Text>
               <Icon
                 color='blue600'

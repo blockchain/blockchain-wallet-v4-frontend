@@ -14,9 +14,6 @@ import {
   isValidInputAmount
 } from 'data/components/swap/utils'
 
-// https://github.com/blockchain/service-trading-backend/blob/master/client-quote/src/test/kotlin/info/blockchain/albert/client/interpolate/LinearInterpolationTest.kt
-// assertEquals(7.5, interpolator.interpolate(50.0, 5.0, 100.0, 10.0, 75.0), 0.0)
-
 const BASE = makeAccount()
 const COUNTER = { ...makeAccount(), baseCoin: 'ETH', coin: 'ETH' as CoinType }
 
@@ -106,6 +103,9 @@ describe('swap utils', () => {
       expect(getPaymentMethod(SwapProfile.SWAP_INTERNAL)).toBe(SwapPaymentMethod.Funds)
     })
   })
+
+  // https://github.com/blockchain/service-trading-backend/blob/master/client-quote/src/test/kotlin/info/blockchain/albert/client/interpolate/LinearInterpolationTest.kt
+  // assertEquals(7.5, interpolator.interpolate(50.0, 5.0, 100.0, 10.0, 75.0), 0.0)
 
   describe('interpolatePrice', () => {
     it('should calculate price correctly', () => {

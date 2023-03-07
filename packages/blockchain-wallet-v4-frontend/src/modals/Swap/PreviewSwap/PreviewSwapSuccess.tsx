@@ -5,7 +5,7 @@ import { Form } from 'redux-form'
 import { formatCoin } from '@core/exchange/utils'
 import Remote from '@core/remote'
 import { PaymentValue, SwapNewQuoteStateType } from '@core/types'
-import { Button, HeartbeatLoader, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
@@ -13,7 +13,6 @@ import { IncomingAmount, InitSwapFormValuesType, SwapAmountFormValues } from 'da
 import { isNabuError } from 'services/errors'
 
 import { QuoteCountDown } from '../../components/QuoteCountDown'
-import { useCountDown } from '../../hooks/useCountDown'
 import { FeeBreakdownBox, FromToLogoLeft, TopText } from '../components'
 import { PreviewSwapButton } from './PreviewSwapButton'
 import {

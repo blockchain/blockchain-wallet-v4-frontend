@@ -1363,11 +1363,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const fetchSellQuote = function* ({ payload }: ReturnType<typeof A.fetchSellQuote>) {
-    const shouldDebounce = !Remote.NotAsked.is(yield select(S.getSellQuote))
-
-    if (shouldDebounce) {
-      yield delay(300)
-    }
     while (true) {
       try {
         const { account, amount, pair } = payload
@@ -1735,12 +1730,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             ? convertStandardToBase(coin, amount)
             : convertStandardToBase(coin, cryptoAmount)
           : '0'
-        yield put(A.fetchSellQuotePrice({ account, amount: amountOrDefault, pair: pair.pair }))
         yield put(A.startPollSellQuotePrice({ account, amount: amountOrDefault, pair: pair.pair }))
-        yield race({
-          failure: take(A.fetchSellQuotePriceFailure.type),
-          success: take(A.fetchSellQuotePriceSuccess.type)
-        })
 
         if (account.type === SwapBaseCounterTypes.ACCOUNT) {
           const formValues = selectors.form.getFormValues(FORM_BS_CHECKOUT)(
@@ -1762,13 +1752,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         .getFeatureFlagRecurringBuys(yield select())
         .getOrElse(false) as boolean
 
-      const lastUnusedAmounts = selectors.cache.getLastUnusedAmounts(yield select())
-
-      const lastUnusedAmount = lastUnusedAmounts ? lastUnusedAmounts[pair.pair] : null
-
       yield put(
         actions.form.initialize(FORM_BS_CHECKOUT, {
-          amount: amount || (fix === Coin.FIAT && lastUnusedAmount) ? lastUnusedAmount : undefined,
+          amount: undefined,
           cryptoAmount,
           fix,
           orderType,

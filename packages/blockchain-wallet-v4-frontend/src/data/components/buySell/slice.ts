@@ -380,7 +380,10 @@ const buySellSlice = createSlice({
     ) => {},
     fetchSellQuotePriceFailure: (state, action: PayloadAction<string | Error>) => {
       state.sellQuotePrice = Remote.Success.is(state.sellQuotePrice)
-        ? state.sellQuotePrice
+        ? Remote.Success({
+            ...state.sellQuotePrice.data,
+            isFailed: true
+          })
         : Remote.Failure(action.payload)
     },
     fetchSellQuotePriceLoading: (state) => {
@@ -401,6 +404,7 @@ const buySellSlice = createSlice({
     ) => {
       state.sellQuotePrice = Remote.Success({
         data: action.payload.data,
+        isFailed: false,
         isPlaceholder: action.payload.isPlaceholder,
         isRefreshing: false,
         rate: action.payload.rate

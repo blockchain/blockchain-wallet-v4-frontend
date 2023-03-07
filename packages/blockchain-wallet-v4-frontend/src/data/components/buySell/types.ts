@@ -330,6 +330,7 @@ export type SellQuotePrice = {
     price: StandardNumericString
     resultAmount: StandardNumericString
   }
+  isFailed: boolean
   isPlaceholder: boolean
   isRefreshing: boolean
   rate: number
