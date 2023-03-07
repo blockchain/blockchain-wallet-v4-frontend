@@ -17,6 +17,7 @@ import modules from './modules/sagaRegister'
 import networkConfig from './networkConfig/sagaRegister'
 import preferences from './preferences/sagaRegister'
 import prices from './prices/sagaRegister'
+import { remoteConfigSaga } from './remoteConfig'
 import router from './router/sagaRegister'
 import session from './session/sagaRegister'
 import signup from './signup/sagaRegister'
@@ -48,6 +49,7 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
     fork(router()),
     fork(session({ api })),
     fork(signup({ api, coreSagas, networks })),
+    fork(remoteConfigSaga),
     call(initAppLanguage)
   ])
 }
