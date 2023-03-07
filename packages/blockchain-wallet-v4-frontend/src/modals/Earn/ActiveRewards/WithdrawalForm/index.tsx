@@ -1,11 +1,11 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { Exchange } from '@core'
 import DataError from 'components/DataError'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
-import { amountToCrypto, amountToFiat } from '../conversions'
 import { getActions, getData, getRemote } from './WithdrawalForm.selectors'
 import Loading from './WithdrawalForm.template.loading'
 import WithdrawalForm from './WithdrawalForm.template.success'
@@ -22,25 +22,26 @@ const WithdrawalFormContainer = ({ handleClose }: PropsType) => {
 
   const { activeRewardsBalance, buySellBalance, rates } = data
 
-  const activeRewardsCryptoAmount = amountToCrypto({
-    amount: activeRewardsBalance,
-    coin
-  })
-  const activeRewardsFiatAmount = amountToFiat({
-    amount: activeRewardsBalance,
+  const activeRewardsCryptoAmount = Exchange.convertCoinToCoin({
     coin,
+    value: activeRewardsBalance
+  })
+
+  const activeRewardsFiatAmount = Exchange.displayCoinToFiat({
     rates,
-    walletCurrency
+    toCurrency: walletCurrency,
+    value: activeRewardsCryptoAmount
   })
-  const buysellCryptoAmount = amountToCrypto({
-    amount: buySellBalance,
-    coin
-  })
-  const buysellFiatAmount = amountToFiat({
-    amount: buySellBalance,
+
+  const buySellCryptoAmount = Exchange.convertCoinToCoin({
     coin,
+    value: buySellBalance
+  })
+
+  const buySellFiatAmount = Exchange.displayCoinToFiat({
     rates,
-    walletCurrency
+    toCurrency: walletCurrency,
+    value: buySellCryptoAmount
   })
 
   const handleWithdrawal = () => {
@@ -63,8 +64,8 @@ const WithdrawalFormContainer = ({ handleClose }: PropsType) => {
     <WithdrawalForm
       activeRewardsCryptoAmount={activeRewardsCryptoAmount}
       activeRewardsFiatAmount={activeRewardsFiatAmount}
-      buysellCryptoAmount={buysellCryptoAmount}
-      buysellFiatAmount={buysellFiatAmount}
+      buySellCryptoAmount={buySellCryptoAmount}
+      buySellFiatAmount={buySellFiatAmount}
       coin={coin}
       handleClose={handleClose}
       handleWithdrawal={handleWithdrawal}

@@ -6,8 +6,8 @@ import DataError from 'components/DataError'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
+import { amountToFiat, maxFiat } from '../../Earn.utils'
 import Loading from '../ActiveRewards.template.loading'
-import { amountToFiat, maxFiat } from '../conversions'
 import { FORM_NAME } from './DepositForm.constants'
 import { getActions, getData, getRemote } from './DepositForm.selectors'
 import Success from './DepositForm.template.success'
@@ -73,7 +73,7 @@ const DepositForm = ({ coin }: PropsType) => {
     values && values?.earnDepositAccount && values.earnDepositAccount.type === 'CUSTODIAL'
   const maxDepositFiat = maxFiat(earnDepositLimits.maxFiat, walletCurrency)
   const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
-  const depositAmountFiat = amountToFiat({ amount: depositAmount, coin, rates, walletCurrency })
+  const depositAmountFiat = amountToFiat(displayCoin, depositAmount, coin, walletCurrency, rates)
 
   const depositAmountError =
     typeof formErrors.depositAmount === 'string' && formErrors.depositAmount

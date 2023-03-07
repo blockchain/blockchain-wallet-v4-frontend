@@ -233,8 +233,8 @@ type WalletActiveRewardsDepositTransferClicked = {
 type WalletStakingDepositTransferClicked = {
   key: Events.WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED
   properties: {
-    amount: number
-    amount_usd: number
+    amount: string
+    amount_usd: string
     currency: string
     type: 'TRADING' | 'USERKEY'
   }
@@ -302,8 +302,8 @@ type WalletRewardsWithdrawMaxAmountClicked = {
 type WalletRewardsWithdrawTransferClicked = {
   key: Events.WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED
   properties: {
-    amount: number
-    amount_usd: number
+    amount: string
+    amount_usd: string
     currency: string
     type: 'TRADING' | 'USERKEY'
   }

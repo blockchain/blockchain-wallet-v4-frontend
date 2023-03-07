@@ -157,11 +157,13 @@ export const getData = (
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
         : Remote.of([]),
-      selectors.core.common.btc
-        .getActiveAccountsBalances(state)
-        .map(excluded)
-        .map(toDropdown)
-        .map(toGroup('Wallet')),
+      excludeHDWallets
+        ? Remote.of([])
+        : selectors.core.common.btc
+            .getActiveAccountsBalances(state)
+            .map(excluded)
+            .map(toDropdown)
+            .map(toGroup('Wallet')),
       showCustodial || showCustodialWithAddress
         ? selectors.components.buySell
             .getBSBalances(state)

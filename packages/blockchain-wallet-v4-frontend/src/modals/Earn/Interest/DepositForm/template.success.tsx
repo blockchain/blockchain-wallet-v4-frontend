@@ -28,7 +28,7 @@ import { useSardineContext } from 'hooks'
 import { required } from 'services/forms'
 import { debounce } from 'utils/helpers'
 
-import { amountToCrypto, amountToFiat, calcCompoundInterest, maxFiat } from '../conversions'
+import { amountToCrypto, amountToFiat, calcCompoundInterest, maxFiat } from '../../Earn.utils'
 import { CustomOrangeCartridge } from '../WithdrawalForm/model'
 import { CurrencySuccessStateType, DataSuccessStateType, OwnProps as ParentOwnProps } from '.'
 import {
@@ -122,7 +122,6 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
   const lockUpDuration = interestLimits[coin]?.lockUpDuration || 7200
   const lockupPeriod = lockUpDuration / 86400
   const maxDepositFiat = maxFiat(earnDepositLimits.maxFiat, walletCurrency)
-
   const fromAccountType = isCustodial ? 'TRADING' : 'USERKEY'
 
   const depositAmountError =
@@ -136,7 +135,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     !payment.isSufficientEthForErc20
 
   const showEDDDepositLimit =
-    checkIsAmountUnderDepositLimit(rewardsEDDDepositLimits, coin, depositAmountFiat) &&
+    checkIsAmountUnderDepositLimit(rewardsEDDDepositLimits, coin, 'depositAmountFiat') &&
     !earnEDDStatus?.eddSubmitted &&
     !earnEDDStatus?.eddPassed
 
