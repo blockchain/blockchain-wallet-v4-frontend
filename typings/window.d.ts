@@ -7,6 +7,11 @@ declare global {
     }
   }
 
+  /**
+   * Number in standard form stored as a string.
+   */
+  type StandardNumericString = string
+
   interface Window {
     APP_VERSION: string // build injected app version
     ApplePaySession?: ApplePaySession

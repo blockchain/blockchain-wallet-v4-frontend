@@ -3,8 +3,8 @@ import {
   CrossBorderLimits,
   PaymentValue,
   RemoteDataType,
+  SwapNewQuoteStateType,
   SwapOrderType,
-  SwapQuoteStateType,
   SwapUserLimitsType
 } from '@core/types'
 
@@ -51,6 +51,16 @@ export enum SwapStepType {
 export type SwapSideType = 'BASE' | 'COUNTER'
 export type SwapCheckoutFixType = 'CRYPTO' | 'FIAT'
 
+export type QuotePrice = {
+  data: {
+    networkFee: StandardNumericString
+    price: StandardNumericString
+    resultAmount: StandardNumericString
+  }
+  isPlaceholder: boolean
+  isRefreshing: boolean
+}
+
 // state
 export type SwapState = {
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
@@ -60,7 +70,8 @@ export type SwapState = {
   order?: SwapOrderType
   pairs: RemoteDataType<string, Array<string>>
   payment: RemoteDataType<string, undefined | PaymentValue>
-  quote: RemoteDataType<string, SwapQuoteStateType>
+  quote: RemoteDataType<string | Error, SwapNewQuoteStateType>
+  quotePrice: RemoteDataType<string | Error, QuotePrice>
   side: SwapSideType
   step: keyof typeof SwapStepType
   trades: {
@@ -115,3 +126,8 @@ export type SwapStepPayload =
       options?: never
       step: 'NO_HOLDINGS'
     }
+
+export type IncomingAmount = {
+  amt: string | number
+  isNegative: boolean
+}

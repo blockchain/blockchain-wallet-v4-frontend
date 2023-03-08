@@ -5,12 +5,16 @@ import { actionTypes } from 'data'
 
 import sagas from './sagas'
 import { proceedToBuyConfirmation } from './sagas/proceedToBuyConfirmation'
+import { proceedToSellConfirmation } from './sagas/proceedToSellConfirmation'
+import { proceedToSellEnterAmount } from './sagas/proceedToSellEnterAmount'
 import { returnToBuyEnterAmount } from './sagas/returnToBuyEnterAmount'
 import { returnToCryptoSelection } from './sagas/returnToCryptoSelection'
+import { returnToSellEnterAmount } from './sagas/returnToSellEnterAmount'
 import { actions } from './slice'
 
 let buyPollTask: Task
 let sellPollTask: Task
+let pollTaskPrice: Task
 
 export default ({ api, coreSagas, networks }) => {
   const buySellSagas = sagas({ api, coreSagas, networks })
@@ -55,8 +59,11 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.updateCardCvv.type, buySellSagas.updateCardCvv)
     yield takeLatest(actions.updateCardCvvAndPollOrder.type, buySellSagas.updateCardCvvAndPollOrder)
     yield takeLatest(actions.proceedToBuyConfirmation.type, proceedToBuyConfirmation)
+    yield takeLatest(actions.proceedToSellConfirmation.type, proceedToSellConfirmation)
+    yield takeLatest(actions.proceedToSellEnterAmount.type, proceedToSellEnterAmount)
     yield takeLatest(actions.returnToCryptoSelection.type, returnToCryptoSelection)
     yield takeLatest(actions.returnToBuyEnterAmount.type, returnToBuyEnterAmount)
+    yield takeLatest(actions.returnToSellEnterAmount.type, returnToSellEnterAmount)
 
     // Fetch balances when profile/user is fetched
     yield takeLatest(
@@ -76,8 +83,16 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.fetchBSOrders.type, buySellSagas.fetchBSOrders)
     yield takeLatest(actions.fetchOrders.type, buySellSagas.fetchBSOrders)
 
-    // used for sell only now, eventually buy as well
-    // TODO: use swap2 quote for buy AND sell
+    yield takeLatest(
+      actions.startPollSellQuotePrice.type,
+      function* (payload: ReturnType<typeof actions.startPollSellQuotePrice>) {
+        if (pollTaskPrice?.isRunning()) yield cancel(pollTaskPrice)
+        pollTaskPrice = yield fork(buySellSagas.fetchSellQuotePrice, payload)
+        yield take(actions.stopPollSellQuotePrice)
+        yield cancel(pollTaskPrice)
+      }
+    )
+
     yield takeLatest(
       actions.startPollSellQuote.type,
       function* (payload: ReturnType<typeof actions.startPollSellQuote>) {

@@ -17,6 +17,7 @@ import { Limits } from './types'
 
 const { LIMIT } = components.buySell
 
+// TODO remove not used properties
 export const getMaxMin = (
   minOrMax: 'min' | 'max',
   sbBalances: BSBalancesType,
