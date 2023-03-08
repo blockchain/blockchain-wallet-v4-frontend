@@ -1,3 +1,4 @@
+import { defineMessage } from 'react-intl'
 import { any, isEmpty, isNil, map, values } from 'ramda'
 
 import { Remote } from '@core'
@@ -32,7 +33,53 @@ export const getKey = (coin: CoinType) => {
 
 // retrieves introduction text for coin on its transaction page
 const getIntroductionText = (coin: string) => {
-  return ''
+  switch (coin) {
+    case 'ARS':
+      return defineMessage({
+        defaultMessage: 'Store Argentine peso in your wallet and use it to Buy crypto.',
+        id: 'coins.ars.intro'
+      })
+    case 'BCH':
+      return defineMessage({
+        defaultMessage: 'Bitcoin Cash (BCH) is a fork of Bitcoin built for everyday transactions.',
+        id: 'coins.bch.intro'
+      })
+    case 'BTC':
+      return defineMessage({
+        defaultMessage:
+          'Bitcoin (BTC) is the original crypto and the internet’s premier digital currency.',
+        id: 'coins.btc.intro'
+      })
+    case 'ETH':
+      return defineMessage({
+        defaultMessage:
+          'Ethereum (ETH) is a currency and platform for execution of decentralized smart contracts.',
+        id: 'coins.eth.intro'
+      })
+    case 'EUR':
+      return defineMessage({
+        defaultMessage: 'Store Euros in your wallet and use it to Buy crypto.',
+        id: 'coins.eur.intro'
+      })
+    case 'GBP':
+      return defineMessage({
+        defaultMessage: 'Store British pounds in your wallet and use it to Buy crypto.',
+        id: 'coins.gbp.intro'
+      })
+    case 'USD':
+      return defineMessage({
+        defaultMessage: 'Store U.S. dollars in your wallet and use it to Buy crypto.',
+        id: 'coins.usd.intro'
+      })
+    case 'XLM':
+      return defineMessage({
+        defaultMessage:
+          'Stellar (XLM) connects banks, payments and you to the Stellar Payment network.',
+        id: 'coins.xlm.intro'
+      })
+    default:
+      return null
+  }
 }
 
 const accountTypes = {

@@ -178,6 +178,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       !isEmpty(stakingEligible) && stakingEligible[coin] && stakingEligible[coin]?.eligible
     const isEarnButtonEnabled = isGoldTier && (interestEligibleCoin || stakingEligibleCoin)
     const isEarnSourceType = sourceType && (sourceType === 'INTEREST' || sourceType === 'STAKING')
+    const introductionText = getIntroductionText(coin)
 
     return (
       <SceneWrapper>
@@ -304,7 +305,14 @@ class TransactionsContainer extends React.PureComponent<Props> {
               </TitleActionContainer>
             </PageTitle>
             <ExplainerWrapper>
-              <ExplainerText>{getIntroductionText(coin)}</ExplainerText>
+              <ExplainerText>
+                {introductionText && (
+                  <FormattedMessage
+                    id={introductionText.id}
+                    defaultMessage={introductionText.defaultMessage}
+                  />
+                )}
+              </ExplainerText>
             </ExplainerWrapper>
             <StatsContainer>
               <WalletBalanceDropdown key={coin} coin={coin} />
