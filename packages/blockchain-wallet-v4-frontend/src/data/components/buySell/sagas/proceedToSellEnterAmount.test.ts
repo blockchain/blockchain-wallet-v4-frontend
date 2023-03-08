@@ -4,6 +4,7 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 
 import { BSPaymentMethodType, BSPaymentTypes, OrderType } from '@core/types'
 import { actions } from 'data'
+import { actions as cacheActions } from 'data/cache/slice'
 
 import { FORM_BS_CHECKOUT } from '../model'
 import { getBSPaymentMethod } from '../selectors'
@@ -32,6 +33,18 @@ describe('proceedToSellEnterAmount', () => {
       )
         .provide([[matchers.select(getBSPaymentMethod), paymentMethodStub]])
         .put(actions.form.change(FORM_BS_CHECKOUT, 'amount', ''))
+        .silentRun()
+    })
+  })
+
+  describe('when reset last user account', () => {
+    it('should update cache', () => {
+      return expectSaga(
+        proceedToSellEnterAmount,
+        buySellActions.proceedToSellEnterAmount({ account: accountStub, pair: pairStub })
+      )
+        .provide([[matchers.select(getBSPaymentMethod), paymentMethodStub]])
+        .put(cacheActions.removeLastUsedAmount({ pair: pairStub.pair }))
         .silentRun()
     })
   })
