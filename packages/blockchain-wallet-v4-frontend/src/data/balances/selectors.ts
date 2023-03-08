@@ -345,20 +345,15 @@ export const getCoinNonCustodialBalance = (
   return (state: RootState) => {
     return createDeepEqualSelector(
       [selectors.core.data.coins.getUnifiedBalances],
-      (unifiedBalancesR) => {
-        let balance = new BigNumber(0)
-        const transform = (unifiedBalances: ExtractSuccess<typeof unifiedBalancesR>) => {
+      (unifiedBalancesR) =>
+        unifiedBalancesR.map((unifiedBalances) =>
           unifiedBalances
             .filter(({ ticker }) => ticker === coin)
-            .forEach(({ amount }) => {
-              balance = balance.plus(amount ? amount.amount : 0)
-            })
-
-          return balance
-        }
-
-        return lift(transform)(unifiedBalancesR)
-      }
+            .reduce(
+              (balance, { amount }) => balance.plus(amount ? amount.amount : 0),
+              new BigNumber(0)
+            )
+        )
     )(state)
   }
 }
