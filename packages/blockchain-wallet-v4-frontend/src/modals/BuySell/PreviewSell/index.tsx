@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import BigNumber from 'bignumber.js'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { clearSubmitErrors, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -203,9 +204,9 @@ class PreviewSell extends PureComponent<
       unit: {
         symbol: account.coin
       },
-      value:
-        Number(formValues?.cryptoAmount) +
-        Number(convertBaseToStandard(account.baseCoin, this.networkFee(payment)))
+      value: new BigNumber(formValues?.cryptoAmount).plus(
+        new BigNumber(convertBaseToStandard(account.baseCoin, this.networkFee(payment))).toString()
+      )
     })
   }
 
@@ -319,7 +320,9 @@ class PreviewSell extends PureComponent<
                           <>
                             {counterCoinTicker}
                             &nbsp;
-                            {formatFiat(convertBaseToStandard('FIAT', Number(success.amt)))}
+                            {formatFiat(
+                              convertBaseToStandard('FIAT', new BigNumber(success.amt).toString())
+                            )}
                           </>
                         )
                       }
@@ -496,8 +499,11 @@ class PreviewSell extends PureComponent<
                             {counterCoinTicker}
                             &nbsp;
                             {formatFiat(
-                              Number(convertBaseToStandard('FIAT', Number(success.amt))) +
-                                Number(feeInFiat)
+                              new BigNumber(
+                                convertBaseToStandard('FIAT', new BigNumber(success.amt).toString())
+                              )
+                                .plus(new BigNumber(feeInFiat).toString())
+                                .toString()
                             )}
                           </>
                         )
