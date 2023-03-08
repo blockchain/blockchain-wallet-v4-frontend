@@ -1,5 +1,5 @@
-import { call, select } from '@redux-saga/core/effects'
 import { lift } from 'ramda'
+import { call, select } from 'typed-redux-saga'
 
 import { APIType } from '@core/network/api'
 import { getPubKey } from '@core/redux/data/self-custody/sagas'
@@ -24,18 +24,14 @@ export class DynamicSelfCustodyAccountType implements AccountTypeClass {
 
   *getNextReceiveAddress(coin: CoinType) {
     if (coin === 'STX') {
-      const password = yield call(promptForSecondPassword)
-      const pubKeys = yield call(getPubKey, coin, password)
-      const { results }: ReturnType<typeof this.api.deriveAddress> = yield call(
-        this.api.deriveAddress,
-        coin,
-        pubKeys
-      )
+      const password = (yield* call(promptForSecondPassword)) as string
+      const pubKeys = yield* call(getPubKey, coin, password)
+      const { results } = yield* call(this.api.deriveAddress, coin, pubKeys)
       const result = results.find(({ default: isDefault }) => isDefault)
       return { address: result?.address }
     }
-    const address = selectors.core.kvStore.eth
-      .getDefaultAddress(yield select())
+    const address: string | undefined = selectors.core.kvStore.eth
+      .getDefaultAddress(yield* select())
       .getOrFail(`Failed to get ETH receive address`)
 
     return { address }

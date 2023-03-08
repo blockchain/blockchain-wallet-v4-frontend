@@ -1,5 +1,6 @@
+import { call } from 'typed-redux-saga'
+
 import { CoinType, PaymentValue, RemoteDataType } from '@core/types'
-import { RequestExtrasType } from 'data/types'
 
 import {
   CoinAccountTypeEnum,
@@ -34,9 +35,8 @@ export default ({ api, coreSagas, networks }) => {
     coin: CoinType,
     coinAccountType: CoinAccountTypeEnum,
     index?: number
-    // @ts-ignore
-  ): { address: string; extras?: RequestExtrasType } {
-    return yield accounts[coinAccountType].getNextReceiveAddress(coin, index)
+  ) {
+    return yield* call(accounts[coinAccountType].getNextReceiveAddress, coin, index)
   }
 
   // gets or updates a provisional payment for a coin

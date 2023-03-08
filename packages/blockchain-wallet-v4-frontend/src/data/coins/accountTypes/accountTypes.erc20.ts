@@ -22,7 +22,7 @@ export class ERC20AccountType implements NonCustodialAccountTypeClass {
   }
 
   *getNextReceiveAddress(coin: string) {
-    const address = selectors.core.kvStore.eth
+    const address: string | undefined = selectors.core.kvStore.eth
       .getDefaultAddress(yield select())
       .getOrFail(`Failed to get ${coin} receive address.`)
 
