@@ -3,43 +3,58 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 
 import { BSPaymentMethodType, BSPaymentTypes, OrderType } from '@core/types'
+import { actions } from 'data'
 
+import { FORM_BS_CHECKOUT } from '../model'
 import { getBSPaymentMethod } from '../selectors'
-import { actions } from '../slice'
+import { actions as buySellActions } from '../slice'
 import { makeAccountStub } from '../test-utils/makeAccountStub'
 import { makePairStub } from '../test-utils/makePairStub'
 import { proceedToSellEnterAmount } from './proceedToSellEnterAmount'
 
 const accountStub = makeAccountStub()
 
+const pairStub = makePairStub()
+const paymentMethodStub: BSPaymentMethodType = {
+  currency: 'USD',
+  limits: {
+    max: '',
+    min: ''
+  },
+  type: BSPaymentTypes.PAYMENT_CARD
+}
 describe('proceedToSellEnterAmount', () => {
-  it('should dispatch setStep with payload', () => {
-    const pairStub = makePairStub()
-    const paymentMethodStub: BSPaymentMethodType = {
-      currency: 'USD',
-      limits: {
-        max: '',
-        min: ''
-      },
-      type: BSPaymentTypes.PAYMENT_CARD
-    }
-
-    return expectSaga(
-      proceedToSellEnterAmount,
-      actions.proceedToSellEnterAmount({ account: accountStub, pair: pairStub })
-    )
-      .provide([[matchers.select(getBSPaymentMethod), paymentMethodStub]])
-      .put(
-        actions.setStep({
-          cryptoCurrency: 'BTC',
-          fiatCurrency: 'USD',
-          method: paymentMethodStub,
-          orderType: OrderType.SELL,
-          pair: pairStub,
-          step: 'SELL_ENTER_AMOUNT',
-          swapAccount: accountStub
-        })
+  describe('when reset form value', () => {
+    it('should dispatch form change', () => {
+      return expectSaga(
+        proceedToSellEnterAmount,
+        buySellActions.proceedToSellEnterAmount({ account: accountStub, pair: pairStub })
       )
-      .silentRun()
+        .provide([[matchers.select(getBSPaymentMethod), paymentMethodStub]])
+        .put(actions.form.change(FORM_BS_CHECKOUT, 'amount', ''))
+        .silentRun()
+    })
+  })
+
+  describe('when reset is done and we navigate', () => {
+    it('should dispatch setStep with payload', () => {
+      return expectSaga(
+        proceedToSellEnterAmount,
+        buySellActions.proceedToSellEnterAmount({ account: accountStub, pair: pairStub })
+      )
+        .provide([[matchers.select(getBSPaymentMethod), paymentMethodStub]])
+        .put(
+          buySellActions.setStep({
+            cryptoCurrency: 'BTC',
+            fiatCurrency: 'USD',
+            method: paymentMethodStub,
+            orderType: OrderType.SELL,
+            pair: pairStub,
+            step: 'SELL_ENTER_AMOUNT',
+            swapAccount: accountStub
+          })
+        )
+        .silentRun()
+    })
   })
 })
