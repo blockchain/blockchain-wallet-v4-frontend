@@ -2,17 +2,11 @@ import * as ethers from 'ethers'
 import { equals, is, prop } from 'ramda'
 import { call } from 'redux-saga/effects'
 
-import { CoinAccountTypeEnum } from 'data/coins/accountTypes/accountTypes.classes'
+import { AccountType } from 'data/coins/accountTypes/accountTypes'
 
-import coinSagas from '../../coins/sagas'
+import { sagas as nonCustodialCoinSagas } from '../../coins/accountTypes/nonCustodial'
 
-export const selectReceiveAddress = function* (source, networks, api, coreSagas) {
-  const { getNextReceiveAddressForCoin } = coinSagas({
-    api,
-    coreSagas,
-    networks
-  })
-
+export const selectReceiveAddress = function* (source) {
   const coin = prop('coin', source)
   const address = prop('address', source)
   const { coinfig } = window.coins[coin]
@@ -22,9 +16,9 @@ export const selectReceiveAddress = function* (source, networks, api, coreSagas)
   }
 
   try {
-    const address: ReturnType<typeof getNextReceiveAddressForCoin> = yield call(
-      getNextReceiveAddressForCoin,
-      CoinAccountTypeEnum.NON_CUSTODIAL,
+    const address = yield call(
+      nonCustodialCoinSagas.getNextReceiveAddress,
+      AccountType.NON_CUSTODIAL,
       coin
     )
     return address.address

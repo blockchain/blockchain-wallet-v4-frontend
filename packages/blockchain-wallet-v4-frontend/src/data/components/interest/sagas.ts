@@ -3,6 +3,7 @@ import { getUnixTime } from 'date-fns'
 import { concat, isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { all, call, delay, put, select, take } from 'redux-saga/effects'
+import { call as callTyped } from 'typed-redux-saga'
 
 import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
@@ -25,7 +26,7 @@ import {
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
-import { CoinAccountTypeEnum } from 'data/coins/accountTypes/accountTypes.classes'
+import { sagas as nonCustodialCoinSagas } from 'data/coins/accountTypes/nonCustodial'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import profileSagas from 'data/modules/profile/sagas'
@@ -49,7 +50,6 @@ import {
 const PASSIVE_REWARDS_DEPOSIT_FORM = 'passiveRewardsDepositForm'
 const STAKING_DEPOSIT_FORM = 'stakingDepositForm'
 const ACTIVE_REWARDS_DEPOSIT_FORM = 'activeRewardsDepositForm'
-const PASSIVE_REWARDS_WITHDRAWAL_FORM = 'passiveRewardsWithdrawalForm'
 const ACTIVE_REWARDS_API_PRODUCT = 'EARN_CC1W'
 const STAKING_API_PRODUCT = 'STAKING'
 export const logLocation = 'components/interest/sagas'
@@ -63,14 +63,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   )
 
-  const {
-    getDefaultAccountForCoin,
-    getNextReceiveAddressForCoin,
-    getOrUpdateProvisionalPaymentForCoin
-  } = coinSagas({
-    api,
-    coreSagas,
-    networks
+  const { getDefaultAccountForCoin, getOrUpdateProvisionalPaymentForCoin } = coinSagas({
+    coreSagas
   })
 
   const getAccountIndexOrAccount = (coin: CoinType, account: AccountTypes) => {
@@ -1215,11 +1209,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           origin
         })
       } else {
-        const receiveAddress: ReturnType<typeof getNextReceiveAddressForCoin> = yield call(
-          getNextReceiveAddressForCoin,
-          coin,
-          CoinAccountTypeEnum.NON_CUSTODIAL
-        )
+        const receiveAddress = yield* callTyped(nonCustodialCoinSagas.getNextReceiveAddress, coin)
         yield call(
           api.initiateInterestWithdrawal,
           withdrawalAmountBase,

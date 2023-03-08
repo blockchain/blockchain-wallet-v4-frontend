@@ -7,10 +7,18 @@ import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 
-import { CustodialAccountType } from './accountTypes/accountTypes.custodial'
-import { DynamicSelfCustodyAccountType } from './accountTypes/accountTypes.dynamicSelfCustody'
-import { ERC20AccountType } from './accountTypes/accountTypes.erc20'
-import { NonCustodialAccountType } from './accountTypes/accountTypes.nonCustodial'
+import { selectors as custodialSelectors } from './accountTypes/custodial'
+import { selectors as dynamicSelfCustodySelectors } from './accountTypes/dynamicSelfCustody'
+import { selectors as erc20Selectors } from './accountTypes/erc20'
+import { selectors as nonCustodialSelectors } from './accountTypes/nonCustodial'
+
+export const getNonCustodialKey = (coin: CoinType) => {
+  if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
+    return 'ERC20'
+  }
+
+  return 'NON_CUSTODIAL'
+}
 
 export const getKey = (coin: CoinType) => {
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
@@ -28,10 +36,10 @@ const getIntroductionText = (coin: string) => {
 }
 
 const accountTypes = {
-  CUSTODIAL: new CustodialAccountType({} as any, {} as any),
-  DYNAMIC_SELF_CUSTODY: new DynamicSelfCustodyAccountType({} as any, {} as any),
-  ERC20: new ERC20AccountType({} as any, {} as any),
-  NON_CUSTODIAL: new NonCustodialAccountType({} as any, {} as any)
+  CUSTODIAL: custodialSelectors,
+  DYNAMIC_SELF_CUSTODY: dynamicSelfCustodySelectors,
+  ERC20: erc20Selectors,
+  NON_CUSTODIAL: nonCustodialSelectors
 }
 
 // generic selector that should be used by all features to request their desired

@@ -3,7 +3,7 @@ import { call, CallEffect, put, PutEffect, select, SelectEffect } from 'redux-sa
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
 import { actions } from 'data'
-import { CoinAccountTypeEnum } from 'data/coins/accountTypes/accountTypes.classes'
+import { AccountType } from 'data/coins/accountTypes/accountTypes'
 
 import coinSagas from '../../coins/sagas'
 import profileSagas from '../../modules/profile/sagas'
@@ -17,9 +17,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   // const logLocation = 'components/request/sagas'
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
   const { getNextReceiveAddressForCoin } = coinSagas({
-    api,
-    coreSagas,
-    networks
+    coreSagas
   })
 
   const getNextAddress = function* (
@@ -46,11 +44,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const accountType =
             account.type === SwapBaseCounterTypes.ACCOUNT
               ? coinfig.products.includes('DynamicSelfCustody')
-                ? CoinAccountTypeEnum.DYNAMIC_SELF_CUSTODY
+                ? AccountType.DYNAMIC_SELF_CUSTODY
                 : coinfig.type.name === 'ERC20'
-                ? CoinAccountTypeEnum.ERC20
-                : CoinAccountTypeEnum.NON_CUSTODIAL
-              : CoinAccountTypeEnum.CUSTODIAL
+                ? AccountType.ERC20
+                : AccountType.NON_CUSTODIAL
+              : AccountType.CUSTODIAL
           const response = yield call(getNextReceiveAddressForCoin, coin, accountType, accountIndex)
           address = response.address
           extras = response.extras

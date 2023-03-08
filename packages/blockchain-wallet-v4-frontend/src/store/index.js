@@ -1,6 +1,4 @@
 /* eslint-disable */
-import BitcoinCash from 'bitcoinforksjs-lib'
-import * as Bitcoin from 'bitcoinjs-lib'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createHashHistory } from 'history'
 import { persistCombineReducers, persistStore } from 'redux-persist'
@@ -23,7 +21,14 @@ import {
 } from 'services/errors/NabuError'
 import axios from 'axios'
 
-import { analyticsMiddleware, streamingXlm, webSocketCoins, webSocketRates, webSocketActivities } from '../middleware'
+import {
+  analyticsMiddleware,
+  streamingXlm,
+  webSocketCoins,
+  webSocketRates,
+  webSocketActivities
+} from '../middleware'
+import { makeNetworks } from '../api/networks'
 
 const manuallyRouteToErrorPage = (error) => {
   if (window.history.replaceState) {
@@ -103,12 +108,7 @@ const configuredStore = async function () {
   })
   const getAuthCredentials = () => selectors.modules.profile.getAuthCredentials(store.getState())
   const reauthenticate = () => store.dispatch(actions.modules.profile.signIn())
-  const networks = {
-    bch: BitcoinCash.networks.bitcoin,
-    btc: Bitcoin.networks.bitcoin,
-    eth: 1,
-    xlm: 'public'
-  }
+  const networks = makeNetworks()
   axios.interceptors.response.use(
     createNabuErrorFulfilledInterceptor(),
     createNabuErrorRejectedInterceptor()
@@ -125,7 +125,8 @@ const configuredStore = async function () {
   // initialise saga middleware
   const sagaMiddleware = createSagaMiddleware({
     context: {
-      api
+      api,
+      networks
     }
   })
 

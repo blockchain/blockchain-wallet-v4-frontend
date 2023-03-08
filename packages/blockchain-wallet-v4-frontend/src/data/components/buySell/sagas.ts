@@ -362,9 +362,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               getQuote(pair.pair, convertStandardToBase(Coin.FIAT, quote.rate), fix, amount)
             )
       const refundAddr =
-        direction === 'FROM_USERKEY'
-          ? yield call(selectReceiveAddress, from, networks, api, coreSagas)
-          : undefined
+        direction === 'FROM_USERKEY' ? yield call(selectReceiveAddress, from) : undefined
       const sellOrder: SwapOrderType = yield call(
         api.createSwapOrder,
         direction,

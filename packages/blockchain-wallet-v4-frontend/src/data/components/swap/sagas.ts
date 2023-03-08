@@ -186,12 +186,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const amount = convertStandardToBase(BASE.coin, swapAmountFormValues.cryptoAmount)
 
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
-      const refundAddr = onChain
-        ? yield call(selectReceiveAddress, BASE, networks, api, coreSagas)
-        : undefined
-      const destinationAddr = toChain
-        ? yield call(selectReceiveAddress, COUNTER, networks, api, coreSagas)
-        : undefined
+      const refundAddr = onChain ? yield call(selectReceiveAddress, BASE) : undefined
+      const destinationAddr = toChain ? yield call(selectReceiveAddress, COUNTER) : undefined
       const order: ReturnType<typeof api.createSwapOrder> = yield call(
         api.createSwapOrder,
         direction,

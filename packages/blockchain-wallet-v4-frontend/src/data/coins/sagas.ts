@@ -2,29 +2,24 @@ import { call } from 'typed-redux-saga'
 
 import { CoinType, PaymentValue, RemoteDataType } from '@core/types'
 
-import {
-  CoinAccountTypeEnum,
-  NonCustodialAccountTypeClass
-} from './accountTypes/accountTypes.classes'
-import { CustodialAccountType } from './accountTypes/accountTypes.custodial'
-import { DynamicSelfCustodyAccountType } from './accountTypes/accountTypes.dynamicSelfCustody'
-import { ERC20AccountType } from './accountTypes/accountTypes.erc20'
-import { NonCustodialAccountType } from './accountTypes/accountTypes.nonCustodial'
-import { getKey } from './selectors'
+import { AccountType } from './accountTypes/accountTypes'
+import { sagas as custodialSagas } from './accountTypes/custodial'
+import { sagas as dynamicSelfCustodySagas } from './accountTypes/dynamicSelfCustody'
+import { sagas as erc20Sagas } from './accountTypes/erc20'
+import { sagas as nonCustodialSagas } from './accountTypes/nonCustodial'
+import { getNonCustodialKey } from './selectors'
 
-export default ({ api, coreSagas, networks }) => {
+export default ({ coreSagas }) => {
   const accounts = {
-    CUSTODIAL: new CustodialAccountType(api, networks),
-    DYNAMIC_SELF_CUSTODY: new DynamicSelfCustodyAccountType(api, networks),
-    ERC20: new ERC20AccountType(api, networks),
-    NON_CUSTODIAL: new NonCustodialAccountType(api, networks)
+    [AccountType.CUSTODIAL]: custodialSagas,
+    [AccountType.DYNAMIC_SELF_CUSTODY]: dynamicSelfCustodySagas,
+    [AccountType.ERC20]: erc20Sagas,
+    [AccountType.NON_CUSTODIAL]: nonCustodialSagas
   }
   // gets the default account/address for requested coin
   const getDefaultAccountForCoin = function* (coin: CoinType) {
-    const accountType = getKey(coin)
-    const defaultAccountR = yield (
-      accounts[accountType] as NonCustodialAccountTypeClass
-    ).getDefaultAccount(coin)
+    const accountType = getNonCustodialKey(coin)
+    const defaultAccountR = yield accounts[accountType].getDefaultAccount(coin)
 
     return defaultAccountR.getOrFail('Failed to find default account')
   }
@@ -33,7 +28,7 @@ export default ({ api, coreSagas, networks }) => {
   // account based currencies will just return the account address
   const getNextReceiveAddressForCoin = function* (
     coin: CoinType,
-    coinAccountType: CoinAccountTypeEnum,
+    coinAccountType: AccountType,
     index?: number
   ) {
     return yield* call(accounts[coinAccountType].getNextReceiveAddress, coin, index)
@@ -46,10 +41,8 @@ export default ({ api, coreSagas, networks }) => {
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
   ) {
-    const accountType = getKey(coin)
-    return yield (
-      accounts[accountType] as NonCustodialAccountTypeClass
-    ).getOrUpdateProvisionalPayment(coreSagas, paymentR, coin)
+    const accountType = getNonCustodialKey(coin)
+    return yield accounts[accountType].getOrUpdateProvisionalPayment(coreSagas, paymentR, coin)
   }
 
   return {
