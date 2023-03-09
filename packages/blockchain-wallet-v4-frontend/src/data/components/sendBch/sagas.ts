@@ -332,7 +332,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         value: effectiveBalance
       })
       const fiat = Exchange.convertCoinToFiat({
-        coin: coinAmount,
+        coin,
         currency,
         rates: bchRates,
         value: effectiveBalance
