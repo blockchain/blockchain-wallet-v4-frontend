@@ -201,7 +201,7 @@ export type CrossBorderLimits = {
   }
 }
 
-export type CustodialToNonCustodialMaxWithdrawalFeesType = {
+export type MaxCustodialWithdrawalFeeType = {
   currency: CoinType
   fiatCurrency: FiatType
   paymentMethod: 'BANK_TRANSFER' | 'EASY_TRANSFER' | 'CARD_PAYMENT' | 'CRYPTO_TRANSFER'

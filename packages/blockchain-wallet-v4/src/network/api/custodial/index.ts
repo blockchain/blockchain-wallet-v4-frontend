@@ -22,6 +22,7 @@ import {
   CustodialToNonCustodialWithdrawalFeesType,
   CustodialTransferRequestType,
   GetTransactionsHistoryType,
+  MaxCustodialWithdrawalFeeType,
   NabuCustodialProductType,
   NabuMoneyFloatType,
   PaymentDepositPendingResponseType,
@@ -119,11 +120,11 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getCustodialToNonCustodialMaxWithdrawalFees = ({
+  const getMaxCustodialWithdrawalFee = ({
     currency,
     fiatCurrency,
     paymentMethod
-  }: CustodialToNonCustodialWithdrawalFeesType): CustodialToNonCustodialWithdrawalFeesResponseType =>
+  }: MaxCustodialWithdrawalFeeType): CustodialToNonCustodialWithdrawalFeesResponseType =>
     authorizedGet({
       contentType: 'application/json',
       endPoint: `/withdrawals/fees?product=WALLET&max=true&currency=${currency}&fiatCurrency=${fiatCurrency}&paymentMethod=${paymentMethod}`,
@@ -240,11 +241,11 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     fetchProductEligibilityForUser,
     getBeneficiaries,
     getCrossBorderTransactions,
-    getCustodialToNonCustodialMaxWithdrawalFees,
     getCustodialToNonCustodialWithdrawalFees,
     getDepositTerms,
     getEligibilityForProduct,
     getLimitsAndFeaturesDetails,
+    getMaxCustodialWithdrawalFee,
     getTransactionsHistory,
     getWithdrawalFees,
     getWithdrawalLimits,
