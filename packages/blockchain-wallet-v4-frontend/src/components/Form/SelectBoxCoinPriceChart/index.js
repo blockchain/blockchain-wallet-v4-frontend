@@ -44,10 +44,10 @@ const SelectBoxCoin = styled(SelectBox)`
 `
 
 const renderItem = (props) => {
-  const { text, value, ...rest } = props
+  const { text, value } = props
   const coinValue = value || 'BTC'
   return (
-    <HeaderWrapper {...rest}>
+    <HeaderWrapper>
       <ItemIcon name={coinValue} color={coinValue} size='22px' weight={400} />
       <Text size='14px' weight={400} cursor='pointer' data-e2e=''>
         {text}
@@ -75,6 +75,7 @@ class SelectBoxCoinPriceChart extends React.PureComponent {
   render() {
     const { coins, ...rest } = this.props
     const elements = [{ group: '', items: coins }]
+
     return (
       <SelectBoxCoin
         elements={elements}

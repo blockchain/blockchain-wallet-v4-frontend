@@ -65,7 +65,4 @@ export const EditSlippageText = styled(Text)`
   }
 `
 
-export const LoadingBox = styled(SkeletonRectangle)`
-  height: 39px;
-  width: 75px;
-`
+export const LoadingBox = styled(SkeletonRectangle)``

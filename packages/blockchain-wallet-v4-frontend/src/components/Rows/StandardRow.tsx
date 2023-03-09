@@ -9,15 +9,11 @@ import { Padding } from 'components/Padding'
 
 const LoadingTextDark = styled(SkeletonRectangle)`
   border-radius: 10px;
-  width: 75px;
-  height: 16px;
   margin-bottom: 3px;
 `
 
 const LoadingTextLight = styled(SkeletonRectangle)`
   opacity: 0.7;
-  width: 50px;
-  height: 14px;
   margin-bottom: 3px;
 `
 
@@ -40,10 +36,10 @@ const StandardRow = memo<Props>(
     topRightText
   }) => {
     if (loading) {
-      bottomLeftText = <LoadingTextLight />
-      bottomRightText = <LoadingTextLight />
-      topLeftText = <LoadingTextDark />
-      topRightText = <LoadingTextDark />
+      bottomLeftText = <LoadingTextLight width='50px' height='14px' />
+      bottomRightText = <LoadingTextLight width='50px' height='14px' />
+      topLeftText = <LoadingTextDark width='75px' height='16px' />
+      topRightText = <LoadingTextDark width='75px' height='16px' />
       icon = <LoadingIcon />
     }
 

@@ -20,8 +20,6 @@ const Circle = styled(SkeletonCircle)`
 
 const LoadingTextDark = styled(SkeletonRectangle)`
   border-radius: 10px;
-  width: 75px;
-  height: 16px;
 `
 
 const Loading: React.FC<Props> = () => {
@@ -30,7 +28,7 @@ const Loading: React.FC<Props> = () => {
       {[1, 2, 3].map((i) => (
         <Wrapper key={i}>
           <Circle height='24px' width='24px' bgColor='grey200' />
-          <LoadingTextDark />
+          <LoadingTextDark width='75px' height='16px' />
         </Wrapper>
       ))}
     </>

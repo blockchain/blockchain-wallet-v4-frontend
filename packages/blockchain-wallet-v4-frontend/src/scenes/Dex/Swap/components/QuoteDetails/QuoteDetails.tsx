@@ -60,7 +60,7 @@ export const QuoteDetails = ({
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
-            <LoadingBox bgColor='white' />
+            <LoadingBox bgColor='white' height='39px' width='75px' />
           ) : (
             <>
               <ValueText>
@@ -100,7 +100,7 @@ export const QuoteDetails = ({
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
-            <LoadingBox bgColor='white' />
+            <LoadingBox bgColor='white' height='39px' width='75px' />
           ) : (
             <>
               <FiatDisplay
@@ -138,7 +138,7 @@ export const QuoteDetails = ({
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
-            <LoadingBox bgColor='white' />
+            <LoadingBox bgColor='white' height='39px' width='75px' />
           ) : (
             <>
               <FiatDisplay
@@ -171,7 +171,7 @@ export const QuoteDetails = ({
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
-            <LoadingBox bgColor='white' />
+            <LoadingBox bgColor='white' height='39px' width='75px' />
           ) : (
             <>
               <FiatDisplay
