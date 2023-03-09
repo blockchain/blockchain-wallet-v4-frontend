@@ -8,6 +8,7 @@ import { SendEthState } from './types'
 const INITIAL_STATE: SendEthState = {
   feeToggled: false,
   isContract: Remote.NotAsked,
+  maxCustodialWithdrawalFee: Remote.NotAsked,
   payment: Remote.NotAsked,
   sendLimits: Remote.NotAsked,
   step: 1
@@ -29,6 +30,18 @@ export function sendEthReducer(state = INITIAL_STATE, action) {
     }
     case AT.SEND_ETH_PAYMENT_UPDATED_FAILURE: {
       return assoc('payment', Remote.Failure(payload), state)
+    }
+    case AT.SEND_ETH_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_SUCCESS: {
+      return assoc('maxCustodialWithdrawalFee', Remote.Success(action.payload), state)
+    }
+    case AT.SEND_ETH_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_LOADING: {
+      return assoc('maxCustodialWithdrawalFee', Remote.Loading, state)
+    }
+    case AT.SEND_ETH_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_FAILURE: {
+      return assoc('maxCustodialWithdrawalFee', Remote.Failure(action.payload), state)
+    }
+    case AT.CLEAR_SEND_ETH_MAX_CUSTODIAL_WITHDRAWAL_FEE: {
+      return assoc('maxCustodialWithdrawalFee', Remote.NotAsked, state)
     }
     case AT.SEND_ETH_CHECK_IS_CONTRACT_LOADING: {
       return assoc('isContract', Remote.Loading, state)

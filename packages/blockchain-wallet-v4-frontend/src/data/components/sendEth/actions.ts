@@ -22,6 +22,21 @@ export const sendEthPaymentUpdatedFailure = (e) => ({
   payload: e,
   type: AT.SEND_ETH_PAYMENT_UPDATED_FAILURE
 })
+export const clearSendEthMaxCustodialWithdrawalFee = () => ({
+  type: AT.CLEAR_SEND_ETH_MAX_CUSTODIAL_WITHDRAWAL_FEE
+})
+
+export const sendEthFetchMaxCustodialWithdrawalFeeSuccess = (fee: string) => ({
+  payload: fee,
+  type: AT.SEND_ETH_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_SUCCESS
+})
+export const sendEthFetchMaxCustodialWithdrawalFeeLoading = () => ({
+  type: AT.SEND_ETH_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_LOADING
+})
+export const sendEthFetchMaxCustodialWithdrawalFeeFailure = (err) => ({
+  payload: err,
+  type: AT.SEND_ETH_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_FAILURE
+})
 export const sendEthFirstStepMaximumAmountClicked = (coinCode) => ({
   payload: coinCode,
   type: AT.SEND_ETH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED

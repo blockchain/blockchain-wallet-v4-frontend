@@ -18,6 +18,23 @@ export const paymentUpdatedFailure = (e) => ({
   payload: e,
   type: AT.SEND_XLM_PAYMENT_UPDATED_FAILURE
 })
+
+export const clearSendXlmMaxCustodialWithdrawalFee = () => ({
+  type: AT.CLEAR_SEND_XLM_MAX_CUSTODIAL_WITHDRAWAL_FEE
+})
+
+export const sendXlmFetchMaxCustodialWithdrawalFeeSuccess = (fee: string) => ({
+  payload: fee,
+  type: AT.SEND_XLM_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_SUCCESS
+})
+export const sendXlmFetchMaxCustodialWithdrawalFeeLoading = () => ({
+  type: AT.SEND_XLM_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_LOADING
+})
+export const sendXlmFetchMaxCustodialWithdrawalFeeFailure = (err) => ({
+  payload: err,
+  type: AT.SEND_XLM_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_FAILURE
+})
+
 export const firstStepMaximumAmountClicked = () => ({
   type: AT.SEND_XLM_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED
 })
