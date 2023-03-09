@@ -1,5 +1,7 @@
-import { path } from 'ramda'
+import { RootState } from 'data/rootReducer'
 
-export const getStep = path(['components', 'sendBch', 'step'])
-export const getPayment = path(['components', 'sendBch', 'payment'])
-export const getSendLimits = path(['components', 'sendBch', 'sendLimits'])
+export const getStep = (state: RootState) => state.components.sendBch.step
+export const getPayment = (state: RootState) => state.components.sendBch.payment
+export const getSendLimits = (state: RootState) => state.components.sendBch.sendLimits
+export const getMaxCustodialWithdrawalFee = (state: RootState) =>
+  state.components.sendBch.maxCustodialWithdrawalFee
