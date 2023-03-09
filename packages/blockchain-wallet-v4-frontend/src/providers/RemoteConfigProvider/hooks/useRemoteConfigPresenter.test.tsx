@@ -49,4 +49,15 @@ describe('useRemoteConfigPresenter', () => {
       await waitFor(() => expect(apiStub.fetchAndCacheRemoteConfig).toHaveBeenCalled())
     })
   })
+
+  it('should not wait for the next config before setting activated values', async () => {
+    const { apiStub, getState, initialize } = setup()
+    apiStub.fetchAndCacheRemoteConfig.mockImplementationOnce(() => new Promise(() => {}))
+
+    initialize()
+
+    await waitFor(() =>
+      expect(selectors.getConfigValue(getState(), RemoteConfigKey.WebFfSuperApp)).toBe(true)
+    )
+  })
 })
