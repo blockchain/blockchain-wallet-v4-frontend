@@ -3,6 +3,7 @@ import { BtcFromType, CoinType, CrossBorderLimits, PaymentValue, RemoteDataType 
 // State
 export type SendBtcState = {
   feePerByteToggled: boolean
+  maxCustodialWithdrawalFee: RemoteDataType<string, string>
   payment: RemoteDataType<string, PaymentValue>
   sendLimits: RemoteDataType<string, CrossBorderLimits>
   step: 1 | 2

@@ -103,6 +103,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const destroyed = function* () {
+    yield put(A.clearSendBtcMaxCustodialWithdrawalFee())
     yield put(actions.form.destroy(FORM))
   }
 
@@ -158,6 +159,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const formChanged = function* (action) {
     const formValues: SendBtcFormValues = yield select(selectors.form.getFormValues(SEND_BTC_FORM))
+    const maxWithdrawalFee = (yield select(S.getMaxCustodialWithdrawalFee)).getOrElse('')
     const fiatCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
     const fromAccount = formValues?.from
     const amount = formValues?.amount?.coin || '0'
@@ -198,6 +200,28 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       }
 
+      const setMaxWithdrawalFee = function* () {
+        const response: ReturnType<typeof api.getMaxCustodialWithdrawalFee> = yield call(
+          api.getMaxCustodialWithdrawalFee,
+          {
+            currency: 'BTC',
+            fiatCurrency,
+            paymentMethod: 'CRYPTO_TRANSFER'
+          }
+        )
+        const fee = response.totalFees.amount.value
+        if (fromAccount && fromAccount.type === 'CUSTODIAL') {
+          payment = yield payment.from(
+            fromAccount.label,
+            fromAccount.type,
+            new BigNumber(fromAccount.withdrawable).minus(fee).toString()
+          )
+          payment = yield payment.fee(new BigNumber(fee).toNumber())
+        }
+        yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+        yield put(A.sendBtcFetchMaxCustodialWithdrawalFeeSuccess(response.totalFees.amount.value))
+      }
+
       switch (field) {
         case 'from':
           const payloadT = payload as BtcFromType
@@ -212,6 +236,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               yield put(change(FORM, 'to', null))
               break
             case 'CUSTODIAL':
+              if (amount === '0' && maxWithdrawalFee === '') {
+                yield call(setMaxWithdrawalFee)
+              }
               yield call(setWithdrawalFee)
               yield put(change(FORM, 'to', null))
               break
@@ -281,12 +308,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           break
         case 'amount':
           const btcAmount = prop('coin', payload)
-          yield call(setWithdrawalFee)
           const satAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
             coin,
             value: btcAmount
           })
+          if (fromAccount?.type === 'CUSTODIAL') {
+            yield call(
+              satAmount > fromAccount.withdrawable ? setMaxWithdrawalFee : setWithdrawalFee
+            )
+          }
           payment = yield payment.amount(parseInt(satAmount))
           break
         case 'description':
