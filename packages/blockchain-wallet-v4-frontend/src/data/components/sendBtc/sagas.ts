@@ -236,10 +236,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               yield put(change(FORM, 'to', null))
               break
             case 'CUSTODIAL':
-              if (amount === '0' && maxWithdrawalFee === '') {
-                yield call(setMaxWithdrawalFee)
-              }
-              yield call(setWithdrawalFee)
+              yield call(
+                amount === '0' && maxWithdrawalFee === '' ? setMaxWithdrawalFee : setWithdrawalFee
+              )
+
               yield put(change(FORM, 'to', null))
               break
             default:
@@ -315,7 +315,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           })
           if (fromAccount?.type === 'CUSTODIAL') {
             yield call(
-              satAmount > fromAccount.withdrawable ? setMaxWithdrawalFee : setWithdrawalFee
+              new BigNumber(satAmount).isGreaterThan(new BigNumber(fromAccount?.withdrawable))
+                ? setMaxWithdrawalFee
+                : setWithdrawalFee
             )
           }
           payment = yield payment.amount(parseInt(satAmount))
