@@ -70,7 +70,6 @@ const FirstStep = (props) => {
   } = props
   const isPayPro = !!payPro
   const isFromCustody = from && from.type === 'CUSTODIAL'
-  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -233,7 +232,7 @@ const FirstStep = (props) => {
           nature='primary'
           height='56px'
           size='18px'
-          disabled={submitting || invalid || disableCustodySend || (!isPayPro && pristine)}
+          disabled={submitting || invalid || (!isPayPro && pristine)}
           data-e2e='bchSendContinue'
         >
           <FormattedMessage id='buttons.continue' defaultMessage='Continue' />

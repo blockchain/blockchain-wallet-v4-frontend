@@ -94,7 +94,6 @@ const FirstStep = (props) => {
   const disableDueToLowEth = coin !== 'ETH' && !isSufficientEthForErc20 && !isFromCustody
   const disableRetryAttempt =
     isRetryAttempt && new BigNumber(fee).isLessThanOrEqualTo(minFeeRequiredForRetry)
-  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -306,7 +305,6 @@ const FirstStep = (props) => {
             !isContractChecked ||
             disableDueToLowEth ||
             disableRetryAttempt ||
-            disableCustodySend ||
             Remote.Loading.is(balanceStatus)
           }
           data-e2e={`${coin}SendContinue`}

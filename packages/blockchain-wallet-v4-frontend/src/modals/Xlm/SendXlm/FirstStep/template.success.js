@@ -89,7 +89,6 @@ const FirstStep = (props) => {
   } = props
   const amountActive = activeField === 'amount'
   const isFromCustody = from && from.type === 'CUSTODIAL'
-  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -275,7 +274,6 @@ const FirstStep = (props) => {
                 pristine ||
                 submitting ||
                 invalid ||
-                disableCustodySend ||
                 !isDestinationChecked ||
                 Remote.Loading.is(balanceStatus)
               }
