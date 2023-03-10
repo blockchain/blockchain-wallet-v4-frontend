@@ -30,12 +30,13 @@ const minimumAmount = (amount: string, min: number) => {
 }
 
 export const validate = (formValues: SendFormType, props: Props) => {
-  const { feesR, minR, rates, sendLimits, walletCurrency: currency } = props
+  const { custodialFeesR, minR, rates, sendLimits, walletCurrency: currency } = props
   const { amount, fix, selectedAccount } = formValues
   const { coin } = selectedAccount
 
-  const fee = selectedAccount.type === SwapBaseCounterTypes.ACCOUNT ? 0 : feesR.getOrElse(0) || 0
-  const min = minR.getOrElse(0) || 0
+  const fee =
+    selectedAccount.type === SwapBaseCounterTypes.ACCOUNT ? 0 : custodialFeesR.getOrElse('0') || '0'
+  const min = minR.getOrElse('0') || '0'
 
   const cryptoStandardAmt =
     fix === 'FIAT'
@@ -58,7 +59,7 @@ export const validate = (formValues: SendFormType, props: Props) => {
     value: fee
   })
 
-  const isBelowMin = minimumAmount(cryptoStandardAmt, min)
+  const isBelowMin = minimumAmount(cryptoStandardAmt, Number(min))
   let isAboveMax = maximumAmount(cryptoBaseAmt, selectedAccount.balance, feeBaseAmt)
 
   // do this only for seamless limits and if amount is below current balance

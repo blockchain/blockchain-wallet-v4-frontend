@@ -274,7 +274,6 @@ const mapStateToProps = (state, ownProps: OwnProps) => {
   const ratesSelector = getRatesSelector(coin, state)
 
   return {
-    feesR: selectors.components.sendCrypto.getWithdrawalFees(state, coin),
     prebuildTxR: selectors.components.sendCrypto.getPrebuildTx(state),
     rates: ratesSelector.getOrElse({} as RatesType)
   }

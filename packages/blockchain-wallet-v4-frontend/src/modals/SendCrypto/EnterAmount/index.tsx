@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { compose } from 'redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Field } from 'redux-form'
 import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
 import styled from 'styled-components'
@@ -23,10 +23,11 @@ import AmountFieldInput from 'components/Form/AmountFieldInput'
 import Form from 'components/Form/Form'
 import SelectBox from 'components/Form/SelectBox'
 import { Padding } from 'components/Padding'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { SwapBaseCounterTypes } from 'data/types'
+import { useDebounce } from 'hooks'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { media } from 'services/styles'
 import { hexToRgb } from 'utils/helpers'
@@ -93,6 +94,7 @@ const QuoteActionContainer = styled.div`
 const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     buySellActions,
+    custodialFeesR,
     formActions,
     formErrors,
     formValues,
@@ -103,20 +105,30 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
     verifyIdentity,
     walletCurrency
   } = props
+  const [inputAmount, setInputAmount] = useState('0')
+  const debouncedAmount = useDebounce(inputAmount, 500)
+  useEffect(() => {
+    sendCryptoActions.fetchWithdrawalFees({})
+  }, [debouncedAmount])
+
   const amountError = typeof formErrors.amount === 'string' && formErrors.amount
   const { amount, fix, selectedAccount, to } = formValues
   const { coin, type } = selectedAccount
   const isAccount = type === SwapBaseCounterTypes.ACCOUNT
 
   const max = Number(convertCoinToCoin({ coin, value: selectedAccount.balance }))
-  const min = minR.getOrElse(0)
+  const min = minR.getOrElse('0')
   const maxMinusFee = Number(
     convertCoinToCoin({
       coin,
       value:
         Number(selectedAccount.balance) -
         Number(
-          convertCoinToCoin({ baseToStandard: false, coin, value: props.feesR.getOrElse(0) || 0 })
+          convertCoinToCoin({
+            baseToStandard: false,
+            coin,
+            value: custodialFeesR.getOrElse('0') || '0'
+          })
         )
     })
   )
@@ -155,6 +167,10 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
       formActions.change(SEND_FORM, 'fix', 'CRYPTO')
       formActions.change(SEND_FORM, 'amount', maxMinusFee)
     }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputAmount(e.target.value)
   }
 
   return (
@@ -218,6 +234,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           data-e2e='sendAmountInput'
           fix={fix}
           name='amount'
+          onChange={handleChange}
           showCounter
           showToggle
           onToggleFix={() => {
@@ -321,16 +338,12 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               </Field>
             ) : (
               <Text color='black' weight={600} size='14px' style={{ marginTop: '4px' }}>
-                {props.feesR.cata({
+                {custodialFeesR.cata({
                   Failure: () => (
                     <CustomBlueCartridge
                       pointer
                       data-e2e='retryFetchFees'
-                      onClick={() =>
-                        props.sendCryptoActions.fetchWithdrawalFees({
-                          account: props.formValues.selectedAccount
-                        })
-                      }
+                      onClick={() => props.sendCryptoActions.getCustodialWithdrawalFee()}
                     >
                       <Text size='10px' color='blue600' weight={600}>
                         <FormattedMessage id='copy.retry' defaultMessage='Retry' />
@@ -466,13 +479,17 @@ const mapStateToProps = (state, ownProps: OwnProps) => {
 
   const ratesSelector = getRatesSelector(coin, state)
   return {
-    feesR: selectors.components.sendCrypto.getWithdrawalFees(state, coin),
-    minR: selectors.components.sendCrypto.getWithdrawalMin(state, coin),
+    custodialFeesR: selectors.components.sendCrypto.getCustodialWithdrawalFee(state),
+    minR: selectors.components.sendCrypto.getWithdrawalMin(state),
     rates: ratesSelector.getOrElse({} as RatesType)
   }
 }
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  sendCryptoActions: bindActionCreators(actions.components.sendCrypto, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 const enhance = compose(
   connector,
   reduxForm<{}, Props>({

@@ -219,7 +219,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           payment = yield payment.fee(new BigNumber(fee).toNumber())
         }
         yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
-        yield put(A.sendBtcFetchMaxCustodialWithdrawalFeeSuccess(response.totalFees.amount.value))
+        yield put(A.sendBtcFetchMaxCustodialWithdrawalFeeSuccess(fee))
       }
 
       switch (field) {
