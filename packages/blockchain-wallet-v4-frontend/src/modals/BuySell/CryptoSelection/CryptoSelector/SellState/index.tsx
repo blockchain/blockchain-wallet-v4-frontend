@@ -61,7 +61,7 @@ class SellState extends React.Component<Props> {
               account.balance !== '0' &&
               account.balance !== 0 && (
                 <CoinAccountListOption
-                  key={`${account.baseCoin}-${account.index}`}
+                  key={`${account.baseCoin}-${account.index}-${account.balance}-${account.coin}`}
                   account={account}
                   coin={account.coin}
                   isAccountSelected={false}

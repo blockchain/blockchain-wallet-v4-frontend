@@ -5,10 +5,10 @@ import { ThemeProvider } from 'styled-components'
 
 import { Palette } from 'blockchain-info-components'
 
-import { useCountDown } from '../hooks/useCountDown'
+import { useCountDown } from '../../hooks/useCountDown'
 import { QuoteCountDown } from './QuoteCountDown'
 
-jest.mock('../hooks/useCountDown', () => ({
+jest.mock('../../hooks/useCountDown', () => ({
   useCountDown: jest.fn(() => ({}))
 }))
 

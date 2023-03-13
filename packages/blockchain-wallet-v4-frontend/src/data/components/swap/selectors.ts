@@ -5,9 +5,7 @@ import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
-import { InitSwapFormValuesType, SwapAmountFormValues } from './types'
-import { getRate } from './utils'
+import { IncomingAmount, InitSwapFormValuesType } from './types'
 
 export const getCustodialEligibility = (state: RootState) =>
   state.components.swap.custodialEligibility
@@ -25,6 +23,8 @@ export const getPairs = (state: RootState) => state.components.swap.pairs
 export const getPayment = (state: RootState) => state.components.swap.payment
 
 export const getQuote = (state: RootState) => state.components.swap.quote
+
+export const getQuotePrice = (state: RootState) => state.components.swap.quotePrice
 
 export const getFix = (state: RootState) => state.components.swap.fix
 
@@ -64,30 +64,15 @@ export const getRates = (state: RootState) => {
 }
 
 export const getIncomingAmount = (state: RootState) => {
-  const quoteR = getQuote(state)
-  const initSwapFormValues = selectors.form.getFormValues('initSwap')(
-    state
-  ) as InitSwapFormValuesType
-  const swapAmountFormValues = selectors.form.getFormValues('swapAmount')(
-    state
-  ) as SwapAmountFormValues
-  const amount = swapAmountFormValues?.cryptoAmount || 0
-  const fromCoin = initSwapFormValues?.BASE?.coin || 'BTC'
-  const toCoin = initSwapFormValues?.COUNTER?.coin || 'BTC'
-
-  return lift(({ quote }: ExtractSuccess<typeof quoteR>) => {
-    const amtMinor = convertStandardToBase(fromCoin, amount)
-    const exRate = new BigNumber(getRate(quote.quote.priceTiers, toCoin, new BigNumber(amtMinor)))
-    const feeMajor = convertBaseToStandard(toCoin, quote.networkFee)
-
-    const amt = exRate.times(amount).minus(feeMajor)
-    const isNegative = amt.isLessThanOrEqualTo(0)
+  return getQuote(state).map((quote): IncomingAmount => {
+    const amt = quote.resultAmount
+    const isNegative = new BigNumber(amt).isLessThanOrEqualTo(0)
 
     return {
       amt: isNegative ? 0 : amt,
       isNegative
     }
-  })(quoteR)
+  })
 }
 
 export const getCoins = () =>

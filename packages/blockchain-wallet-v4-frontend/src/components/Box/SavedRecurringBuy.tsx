@@ -53,15 +53,11 @@ const SyncIconWrapper = styled.div<{ coin: string }>`
 
 const LoadingTextDark = styled(SkeletonRectangle)`
   border-radius: 10px;
-  width: 75px;
-  height: 16px;
   margin-bottom: 3px;
 `
 
 const LoadingTextLight = styled(SkeletonRectangle)`
   opacity: 0.7;
-  width: 50px;
-  height: 14px;
   margin-bottom: 3px;
 `
 
@@ -87,8 +83,8 @@ const SavedRecurringBuy = ({
         <MetaContainer>
           <LoadingIcon />
           <TextGroup>
-            <LoadingTextDark />
-            <LoadingTextLight />
+            <LoadingTextDark height='16px' width='75px' />
+            <LoadingTextLight height='14px' width='50px' />
           </TextGroup>
         </MetaContainer>
       </StyledBox>

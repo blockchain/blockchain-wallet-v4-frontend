@@ -47,7 +47,7 @@ const Icon = (props) => {
   if (window.coins && window.coins[name]) {
     if (window.coins[name].coinfig.type.logoPngUrl) {
       return (
-        <BaseIcon {...props}>
+        <BaseIcon {...rest}>
           <BaseImage
             height={props.height || props.size || '32px'}
             src={window.coins[name].coinfig.type.logoPngUrl}
@@ -58,7 +58,7 @@ const Icon = (props) => {
     }
     if (window.coins[name].coinfig.type.name === 'FIAT') {
       return (
-        <BaseIcon {...props}>
+        <BaseIcon {...rest}>
           <Image
             height={props.height || props.size || '32px'}
             name={name.toLowerCase()}

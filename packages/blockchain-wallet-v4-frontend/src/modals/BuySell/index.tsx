@@ -77,6 +77,7 @@ class BuySell extends PureComponent<Props, State> {
 
   componentWillUnmount() {
     this.props.buySellActions.pollBalances()
+    this.props.buySellActions.stopPollSellQuotePrice({})
     this.props.buySellActions.destroyCheckout()
     this.props.formActions.destroy(FORM_BS_CHECKOUT)
     this.props.formActions.destroy(FORMS_BS_BILLING_ADDRESS)

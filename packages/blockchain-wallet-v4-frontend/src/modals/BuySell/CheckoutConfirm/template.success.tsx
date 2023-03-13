@@ -28,8 +28,8 @@ import {
 import { useDefer3rdPartyScript, useSardineContext } from 'hooks'
 import { isNabuError } from 'services/errors'
 
+import { QuoteCountDown } from '../../components/QuoteCountDown'
 import { getLockRuleMessaging, getPaymentMethod, getPaymentMethodDetails } from '../model'
-import { QuoteCountDown } from '../QuoteCountDown'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { ConfirmButton } from './ConfirmButton'
 

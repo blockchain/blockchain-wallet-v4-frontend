@@ -14,14 +14,12 @@ const Success = (props: Props) => {
     )
 
   // Check to see if user can sell into their wallet's preferred currency
-  // Handles the case where we support credit card buy for the currency but not sell, i.e. CAD
   const sellCurrencyAvailable =
-    props.orderType === OrderType.BUY ||
-    (props.orderType === OrderType.SELL &&
-      props.paymentMethods.methods
-        .filter((method) => method.type === BSPaymentTypes.FUNDS)
-        .map((method) => method.currency)
-        .includes(props.tradingCurrency))
+    props.orderType === OrderType.SELL &&
+    props.paymentMethods.methods
+      .filter((method) => method.type === BSPaymentTypes.FUNDS)
+      .map((method) => method.currency)
+      .includes(props.tradingCurrency)
 
   return isUserEligible && sellCurrencyAvailable ? (
     <Checkout {...props} />

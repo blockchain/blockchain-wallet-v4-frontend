@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/SellEnterAmount/Checkout/validation'
 import { defaultTo, filter, prop } from 'ramda'
-import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
+import { call, cancel, delay, fork, put, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
@@ -22,6 +22,8 @@ import {
   OrderType,
   ProductTypes,
   SwapOrderType,
+  SwapPaymentMethod,
+  SwapProfile,
   WalletOptionsType
 } from '@core/types'
 import { Coin, errorCodeAndMessage, errorHandler, errorHandlerCode } from '@core/utils'
@@ -49,10 +51,9 @@ import profileSagas from '../../modules/profile/sagas'
 import brokerageSagas from '../brokerage/sagas'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
 import sendSagas from '../send/sagas'
-import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
+import { FALLBACK_DELAY } from '../swap/model'
 import swapSagas from '../swap/sagas'
 import { SwapBaseCounterTypes } from '../swap/types'
-import { getRate } from '../swap/utils'
 import { selectReceiveAddress } from '../utils/sagas'
 import {
   BS_ERROR,
@@ -78,7 +79,14 @@ import * as S from './selectors'
 import { getIsSddFlow } from './selectors/getIsSddFlow'
 import { actions as A } from './slice'
 import * as T from './types'
-import { getDirection, getEnterAmountStepType, getQuoteRefreshConfig, reversePair } from './utils'
+import {
+  getDirection,
+  getEnterAmountStepType,
+  getFormattedCoinAmount,
+  getQuoteRefreshConfig,
+  isValidInputAmount,
+  reversePair
+} from './utils'
 import * as SddFlow from './utils/sddFlow'
 
 export const logLocation = 'components/buySell/sagas'
@@ -355,7 +363,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const direction = getDirection(from)
       const cryptoAmt =
-        fix === 'CRYPTO'
+        fix === Coin.CRYPTO
           ? amount
           : convertStandardToBase(
               from.coin,
@@ -368,7 +376,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const sellOrder: SwapOrderType = yield call(
         api.createSwapOrder,
         direction,
-        quote.quote.id,
+        quote.quote.quoteId,
         cryptoAmt,
         getFiatFromPair(pair.pair),
         undefined,
@@ -1354,40 +1362,88 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  // new sell quote fetch
-  // Copied from swap and hopefully eventually
-  // shared between the 2 UIs and 3 methods (buy, sell, swap)
-
-  // used for sell only now, eventually buy as well
-  // TODO: use swap2 quote for buy AND sell
   const fetchSellQuote = function* ({ payload }: ReturnType<typeof A.fetchSellQuote>) {
     while (true) {
       try {
-        const { pair } = payload
-        const direction = getDirection(payload.account)
+        const { account, amount, pair } = payload
         const quote: ReturnType<typeof api.getSwapQuote> = yield call(
           api.getSwapQuote,
           pair,
-          direction
-        )
-        const rate = getRate(
-          quote.quote.priceTiers,
-          getOutputFromPair(pair),
-          new BigNumber(convertStandardToBase(payload.account.coin, 1)),
-          true
+          account.type === SwapBaseCounterTypes.CUSTODIAL
+            ? SwapProfile.SWAP_INTERNAL
+            : SwapProfile.SWAP_FROM_USERKEY,
+          amount,
+          account.type === SwapBaseCounterTypes.CUSTODIAL
+            ? SwapPaymentMethod.Funds
+            : SwapPaymentMethod.Deposit
         )
 
         const refreshConfig = getQuoteRefreshConfig({
           currentDate: new Date(),
-          expireDate: new Date(quote.expiresAt)
+          expireDate: new Date(quote.quoteExpiresAt)
         })
-        yield put(A.fetchSellQuoteSuccess({ quote, rate, refreshConfig }))
+        yield put(A.fetchSellQuoteSuccess({ quote, rate: parseInt(quote.price), refreshConfig }))
         yield delay(refreshConfig.totalMs)
       } catch (e) {
         const error = errorHandler(e)
         yield put(A.fetchSellQuoteFailure(error))
         yield delay(FALLBACK_DELAY)
         yield put(A.startPollSellQuote(payload))
+      }
+    }
+  }
+
+  const fetchSellQuotePrice = function* ({
+    payload
+  }: ReturnType<typeof A.startPollSellQuotePrice>) {
+    const shouldDebounce = !Remote.NotAsked.is(yield select(S.getSellQuotePrice))
+
+    if (shouldDebounce) {
+      yield delay(300)
+    }
+
+    while (true) {
+      try {
+        const { account, amount, pair } = payload
+        const isValidAmount = isValidInputAmount(amount)
+        const amountOrDefault = isValidAmount ? amount : '0'
+        yield put(A.fetchSellQuotePriceLoading())
+
+        const quotePrice: ReturnType<typeof api.getSwapQuotePrice> = yield call(
+          api.getSwapQuotePrice,
+          pair,
+          amountOrDefault,
+          account.type === SwapBaseCounterTypes.CUSTODIAL
+            ? SwapPaymentMethod.Funds
+            : SwapPaymentMethod.Deposit,
+          account.type === SwapBaseCounterTypes.CUSTODIAL
+            ? SwapProfile.SWAP_INTERNAL
+            : SwapProfile.SWAP_FROM_USERKEY
+        )
+
+        const coin = getCoinFromPair(pair)
+
+        yield put(
+          A.fetchSellQuotePriceSuccess({
+            data: {
+              amount: convertBaseToStandard(coin, quotePrice.amount),
+              networkFee: convertBaseToStandard(coin, quotePrice.networkFee),
+              price: convertBaseToStandard(Coin.FIAT, quotePrice.price),
+              resultAmount: convertBaseToStandard(Coin.FIAT, quotePrice.resultAmount) // since this is sell this amount is always in FIAT
+            },
+            isPlaceholder: !isValidAmount,
+            rate: parseInt(quotePrice.price)
+          })
+        )
+
+        yield delay(FALLBACK_DELAY)
+      } catch (e) {
+        yield put(A.fetchSellQuotePriceFailure(isNabuError(e) ? e : errorHandler(e)))
+        yield put(
+          A.stopPollSellQuotePrice({
+            shouldNotResetState: true
+          })
+        )
       }
     }
   }
@@ -1407,13 +1463,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!pair) return
 
       const paymentR = S.getPayment(yield select())
-      const quoteR = S.getSellQuote(yield select())
+      const quoteR = S.getSellQuotePrice(yield select())
       const quote = quoteR.getOrFail(BS_ERROR.NO_QUOTE)
 
       const amt = getQuote(pair.pair, quote.rate, formValues.fix, formValues.amount)
 
-      const cryptoAmt = formValues.fix === 'CRYPTO' ? formValues.amount : amt
-      yield put(actions.form.change(FORM_BS_CHECKOUT, 'cryptoAmount', cryptoAmt))
+      const cryptoAmt = formValues.fix === Coin.CRYPTO ? formValues.amount : amt
+
+      if (formValues.orderType === OrderType.BUY) {
+        yield put(actions.form.change(FORM_BS_CHECKOUT, 'cryptoAmount', cryptoAmt))
+      }
+
+      if (formValues.orderType === OrderType.SELL) {
+        const coin = getCoinFromPair(pair.pair)
+        const amountFieldValue =
+          formValues.fix === Coin.CRYPTO
+            ? action.payload
+            : getFormattedCoinAmount(coin, quote.data.price, action.payload)
+
+        yield put(actions.form.change(FORM_BS_CHECKOUT, 'cryptoAmount', amountFieldValue))
+        const amount = convertStandardToBase(coin, amountFieldValue)
+
+        yield put(
+          A.startPollSellQuotePrice({
+            account,
+            amount,
+            pair: pair.pair
+          })
+        )
+      }
       if (account.type === SwapBaseCounterTypes.CUSTODIAL) return
       // @ts-ignore
       let payment = paymentGetOrElse(account.coin, paymentR)
@@ -1644,13 +1722,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (orderType === OrderType.SELL) {
         if (!account) throw new Error(BS_ERROR.NO_ACCOUNT)
-        yield put(A.fetchSellQuote({ account, pair: pair.pair }))
-        yield put(A.startPollSellQuote({ account, pair: pair.pair }))
-        yield race({
-          failure: take(A.fetchSellQuoteFailure.type),
-          success: take(A.fetchSellQuoteSuccess.type)
-        })
-        const quote = S.getSellQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
+
+        const coin = getCoinFromPair(pair.pair)
+        const isValidAmount = isValidInputAmount(amount)
+        const amountOrDefault = isValidAmount
+          ? fix === Coin.CRYPTO
+            ? convertStandardToBase(coin, amount)
+            : convertStandardToBase(coin, cryptoAmount)
+          : '0'
+        yield put(A.startPollSellQuotePrice({ account, amount: amountOrDefault, pair: pair.pair }))
 
         if (account.type === SwapBaseCounterTypes.ACCOUNT) {
           const formValues = selectors.form.getFormValues(FORM_BS_CHECKOUT)(
@@ -1659,7 +1739,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const payment = yield call(
             calculateProvisionalPayment,
             account,
-            quote.quote,
             formValues ? formValues.cryptoAmount : 0
           )
           yield put(A.updatePaymentSuccess(payment))
@@ -1679,7 +1758,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(
         actions.form.initialize(FORM_BS_CHECKOUT, {
-          amount: amount || (fix === Coin.FIAT && lastUnusedAmount) ? lastUnusedAmount : '0',
+          amount: amount || (fix === Coin.FIAT && lastUnusedAmount) ? lastUnusedAmount : undefined,
           cryptoAmount,
           fix,
           orderType,
@@ -2177,6 +2256,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchSDDEligible,
     fetchSDDVerified,
     fetchSellQuote,
+    fetchSellQuotePrice,
     formChanged,
     handleBSDepositFiatClick,
     handleBuyMaxAmountClick,

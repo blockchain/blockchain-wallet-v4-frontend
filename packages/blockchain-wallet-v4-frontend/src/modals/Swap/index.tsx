@@ -38,6 +38,7 @@ class Swap extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
+    this.props.swapActions.stopPollQuotePrice({})
     this.props.swapActions.stopPollQuote()
   }
 

@@ -4,7 +4,7 @@ import { DefaultTheme, withTheme } from 'styled-components'
 
 import CircularProgressBar from 'components/CircularProgressBar'
 
-import { useCountDown } from '../hooks/useCountDown'
+import { useCountDown } from '../../hooks/useCountDown'
 import { Highlight, ProgressWrapper, Root, Text } from './QuoteCountDown.model'
 
 type Props = {
@@ -30,13 +30,9 @@ export const QuoteCountDown = withTheme(({ date, theme, totalMs }: Props) => {
       </ProgressWrapper>
 
       <Text>
-        <FormattedMessage id='modals.simplebuy.quote.countdown' defaultMessage='New quote in:' />{' '}
+        <FormattedMessage id='modals.quote.countdown' defaultMessage='New quote in:' />{' '}
         <Highlight isHighlighted={isCompletingSoon}>
-          {isCompleted ? (
-            <FormattedMessage id='modals.simplebuy.quote.soon' defaultMessage='soon' />
-          ) : (
-            timer
-          )}
+          {isCompleted ? <FormattedMessage id='modals.quote.soon' defaultMessage='soon' /> : timer}
         </Highlight>
       </Text>
     </Root>
