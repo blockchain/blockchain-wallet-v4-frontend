@@ -18,7 +18,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     ownProps.fiatCurrency,
     state
   )
-  let defaultMethodR = selectors.components.brokerage.getAccount(state) as
+  let defaultMethod = selectors.components.brokerage.getAccount(state) as
     | BankTransferAccountType
     | undefined
   let bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
@@ -28,8 +28,13 @@ const getData = (state: RootState, ownProps: OwnProps) => {
   } as InvitationsType)
 
   if (!invitations.openBanking && ownProps.fiatCurrency !== 'USD') {
-    defaultMethodR = undefined
+    defaultMethod = undefined
     bankTransferAccountsR = Remote.Success([])
+  }
+
+  // do not show in case of disabled
+  if (defaultMethod?.capabilities?.withdrawal?.enabled === false) {
+    defaultMethod = undefined
   }
   const paymentMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
 
@@ -62,7 +67,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
       bankTransferAccounts,
       crossBorderLimits,
       defaultBeneficiary,
-      defaultMethod: defaultMethodR,
+      defaultMethod,
       fees,
       formErrors,
       minAmount,

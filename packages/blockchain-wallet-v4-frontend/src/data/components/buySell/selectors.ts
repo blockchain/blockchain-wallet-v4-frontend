@@ -147,9 +147,12 @@ export const getDefaultPaymentMethod = createSelector(
           if (!method) return
           const bankAccount = bankAccounts.find((acct) => acct.id === lastOrder.paymentMethodId)
           if (bankAccount && bankAccount.state === 'ACTIVE') {
+            // TODO BE is inconsistent in such if they fix it we can update it here
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { capabilities, ...bankAccountRest } = bankAccount
             return {
               ...method,
-              ...bankAccount,
+              ...bankAccountRest,
               state: 'ACTIVE',
               type: lastOrder.paymentType as BSPaymentTypes
             }

@@ -6,6 +6,7 @@ import {
   WalletFiatType
 } from '@core/types'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
+import { NabuError } from 'services/errors'
 
 export enum BankPartners {
   PLAID = 'PLAID',
@@ -165,6 +166,16 @@ interface BankTransferAccountAttrs {
 export type BankTransferAccountType = {
   addedAt: string
   attributes: BankTransferAccountAttrs
+  capabilities?: {
+    deposit: {
+      enabled: boolean
+      ux?: NabuError
+    }
+    withdrawal: {
+      enabled: boolean
+      ux?: NabuError
+    }
+  }
   currency: FiatType
   details: BankDetails
   id: string
