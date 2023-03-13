@@ -9,7 +9,6 @@ export type ConverterValueType = {
 }
 
 export type ConverterContainerPropsType = {
-  className?: string
   coinTicker?: CoinType
   currency: FiatType
   'data-e2e'?: string
@@ -26,7 +25,6 @@ export type ConverterContainerPropsType = {
 }
 
 export type ConverterPropsType = {
-  className?: string
   coin: string
   coinTicker?: CoinType
   currency: FiatType

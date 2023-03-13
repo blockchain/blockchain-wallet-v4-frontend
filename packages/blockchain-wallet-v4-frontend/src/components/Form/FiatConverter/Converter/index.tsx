@@ -8,7 +8,6 @@ import { ConverterContainerPropsType, ConverterValueType } from './Converter.typ
 import { convertCoinToFiat, convertFiatToCoin } from './Converter.utils'
 
 const ConverterContainer: React.FC<ConverterContainerPropsType> = ({
-  className,
   coinTicker,
   currency,
   'data-e2e': dataE2E,
@@ -63,7 +62,6 @@ const ConverterContainer: React.FC<ConverterContainerPropsType> = ({
     <Converter
       coin={coin}
       coinTicker={coinTicker}
-      className={className}
       currency={currency}
       data-e2e={dataE2E}
       disabled={disabled}

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-export const Wrapper = styled.div<{ className?: string; showError?: boolean }>`
+export const Wrapper = styled.div<{ showError?: boolean }>`
   width: 100%;
   height: 40px;
   display: flex;
@@ -43,7 +43,6 @@ export const Equals = styled(Text)`
   margin: 0 8px;
 `
 export const Error = styled(Text)<{
-  className?: string
   errorBottom?: boolean
   showError?: boolean
 }>`

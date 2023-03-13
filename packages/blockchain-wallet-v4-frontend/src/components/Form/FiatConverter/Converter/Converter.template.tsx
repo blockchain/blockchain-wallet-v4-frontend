@@ -10,7 +10,6 @@ import { getErrorState } from './Converter.utils'
 
 const Converter: React.FC<ConverterPropsType> = (props) => {
   const {
-    className,
     coin,
     coinTicker,
     currency,
@@ -28,7 +27,7 @@ const Converter: React.FC<ConverterPropsType> = (props) => {
 
   const showError = !!(meta.touched && meta.error)
   return (
-    <Wrapper className={className} showError={showError}>
+    <Wrapper showError={showError}>
       <FiatConverterInput marginTop={marginTop}>
         <Container>
           <TextInput
@@ -66,7 +65,6 @@ const Converter: React.FC<ConverterPropsType> = (props) => {
           size='13px'
           weight={400}
           color='error'
-          className='error'
           data-e2e='fiatConverterError'
           showError={showError}
         >
