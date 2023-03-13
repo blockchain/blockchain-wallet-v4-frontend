@@ -176,7 +176,7 @@ export type SellQuoteStateType = {
 
 // State
 export type BuySellState = {
-  account: RemoteDataType<string, BSAccountType>
+  account: RemoteDataType<string | Error, BSAccountType>
   accumulatedTrades: RemoteDataType<string, Array<TradeAccumulatedItem>>
   addBank?: boolean
   applePayInfo?: ApplePayInfoType

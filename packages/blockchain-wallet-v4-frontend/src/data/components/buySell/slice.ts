@@ -303,7 +303,7 @@ const buySellSlice = createSlice({
       state.pairs = Remote.Success(action.payload.pairs)
     },
     fetchPaymentAccount: () => {},
-    fetchPaymentAccountFailure: (state, action: PayloadAction<string>) => {
+    fetchPaymentAccountFailure: (state, action: PayloadAction<string | Error>) => {
       state.account = Remote.Failure(action.payload)
     },
     fetchPaymentAccountLoading: (state) => {

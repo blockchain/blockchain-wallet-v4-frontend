@@ -363,12 +363,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const direction = getDirection(from)
       const cryptoAmt =
-        fix === Coin.CRYPTO
-          ? amount
-          : convertStandardToBase(
-              from.coin,
-              getQuote(pair.pair, convertStandardToBase(Coin.FIAT, quote.rate), fix, amount)
-            )
+        fix === Coin.CRYPTO ? amount : convertStandardToBase(from.coin, values.cryptoAmount)
+
       const refundAddr =
         direction === 'FROM_USERKEY'
           ? yield call(selectReceiveAddress, from, networks, api, coreSagas)
@@ -1224,9 +1220,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const account: BSAccountType = yield call(api.getBSPaymentAccount, fiatCurrency)
       yield put(A.fetchPaymentAccountSuccess(account))
     } catch (e) {
-      // TODO: adding error handling with different error types and messages
-      const error = errorHandler(e)
-      yield put(A.fetchPaymentAccountFailure(error))
+      const errorPayload = isNabuError(e) ? e : errorHandler(e)
+      yield put(A.fetchPaymentAccountFailure(errorPayload))
     }
   }
 
