@@ -202,10 +202,11 @@ const FirstStep = (props) => {
       <FormGroup inline margin={isPayPro ? '10px' : '30px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage
-              id='modals.sendBch.firststep.networkfee'
-              defaultMessage='Network Fee'
-            />
+            {isFromCustody ? (
+              <FormattedMessage id='copy.processing-fee' defaultMessage='Processing Fee:' />
+            ) : (
+              <FormattedMessage id='copy.network-fee' defaultMessage='Network Fee:' />
+            )}
           </FormLabel>
           <ComboDisplay size='13px' coin='BCH' weight={500}>
             {totalFee}
