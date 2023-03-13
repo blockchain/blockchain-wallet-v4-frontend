@@ -19,6 +19,7 @@ import { AmountWrapper, StepHeader } from 'components/Flyout/SendRequestCrypto'
 import Form from 'components/Form/Form'
 import { selectors } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
+import { SwapBaseCounterTypes } from 'data/types'
 
 import { Props as OwnProps } from '..'
 import { SEND_FORM } from '../model'
@@ -60,7 +61,8 @@ const isInsufficientBalance = (e: string) => {
 const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { formValues, rates, sendCryptoActions, walletCurrency } = props
   const { amount, fee, fix, memo, selectedAccount, selectedAccount: account, to } = formValues
-  const { coin } = selectedAccount
+  const { coin, type } = selectedAccount
+  const isAccount = type === SwapBaseCounterTypes.ACCOUNT
 
   const isMax = amount === 'MAX'
   const standardCryptoAmt =
@@ -200,7 +202,11 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               <CustomRow>
                 <div>
                   <Text size='16px' weight={500} color='black'>
-                    <FormattedMessage id='copy.fee' defaultMessage='Fee' />
+                    {isAccount ? (
+                      <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
+                    ) : (
+                      <FormattedMessage id='copy.processing_fee' defaultMessage='Processing Fee' />
+                    )}
                   </Text>
                 </div>
                 <div>

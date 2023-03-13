@@ -308,7 +308,11 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           </Text>
           <div style={{ width: '30%' }}>
             <Text color='blue600' weight={600} size='12px'>
-              <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
+              {isAccount ? (
+                <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
+              ) : (
+                <FormattedMessage id='copy.processing_fee' defaultMessage='Processing Fee' />
+              )}
             </Text>
             {isAccount ? (
               <Field

@@ -207,10 +207,7 @@ const FirstStep = (props) => {
           <ColLeft>
             <FeeFormContainer toggled={feeToggled}>
               <FeeFormLabel>
-                <FormattedMessage
-                  id='modals.sendeth.firststep.networkfee'
-                  defaultMessage='Network Fee'
-                />
+                <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
                 <span>&nbsp;</span>
                 {!feeToggled && <Field name='fee' component={SelectBox} elements={feeElements} />}
                 {feeToggled && (

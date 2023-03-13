@@ -240,10 +240,7 @@ const FirstStep = (props) => {
             <ColLeft>
               <FeeFormContainer toggled={feePerByteToggled}>
                 <FeeFormLabel>
-                  <FormattedMessage
-                    id='modals.sendbtc.firststep.networkfee'
-                    defaultMessage='Network Fee'
-                  />
+                  <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
                   <span>&nbsp;</span>
                   {!feePerByteToggled && (
                     <Field name='feePerByte' component={SelectBox} elements={feePerByteElements} />
