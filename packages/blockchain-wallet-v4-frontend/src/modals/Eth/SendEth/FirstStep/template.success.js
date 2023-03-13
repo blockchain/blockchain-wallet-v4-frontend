@@ -263,10 +263,7 @@ const FirstStep = (props) => {
       ) : (
         <FeeFormGroup margin='10px'>
           <FormLabel>
-            <FormattedMessage
-              id='modals.sendeth.firststep.networkfee'
-              defaultMessage='Network Fee'
-            />
+            <FormattedMessage id='copy.processing-fee' defaultMessage='Processing Fee' />
           </FormLabel>
           <ComboDisplay size='13px' weight={600} coin={coin}>
             {fee}
