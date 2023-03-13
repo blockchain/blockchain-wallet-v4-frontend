@@ -52,7 +52,7 @@ export const getData = (state) => {
       description: payment.description,
       fee: payment.selection ? payment.selection.fee : 0,
       fromAddress: fromLabel,
-      fromType: payment.fromType,
+      isCustodial: payment.fromType === ADDRESS_TYPES.CUSTODIAL,
       submitting: isSubmitting(state),
       toAddress: toLabel,
       total: payment.selection ? payment.selection.fee + payment.amount[0] : payment.amount[0]

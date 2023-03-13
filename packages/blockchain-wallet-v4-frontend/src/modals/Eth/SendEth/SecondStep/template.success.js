@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -50,9 +49,9 @@ const Success = (props) => {
     description,
     fee,
     fromAddress,
-    fromType,
     handleBack,
     handleSubmit,
+    isCustodial,
     submitting,
     toAddress,
     totalCrypto,
@@ -108,7 +107,7 @@ const Success = (props) => {
         </LargeTableRow>
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            {fromType === ADDRESS_TYPES.CUSTODIAL ? (
+            {isCustodial ? (
               <FormattedMessage id='copy.processing-fee' defaultMessage='Processing Fee:' />
             ) : (
               <FormattedMessage id='copy.network-fee' defaultMessage='Network Fee:' />
@@ -116,12 +115,12 @@ const Success = (props) => {
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
-              <FiatDisplay size='16px' weight={500} coin={fromType === 'CUSTODIAL' ? coin : 'ETH'}>
+              <FiatDisplay size='16px' weight={500} coin={isCustodial ? coin : 'ETH'}>
                 {fee}
               </FiatDisplay>
             </SummaryExchangeAmount>
             <SummarySubExchangeAmount>
-              <CoinDisplay size='14px' weight={300} coin={fromType === 'CUSTODIAL' ? coin : 'ETH'}>
+              <CoinDisplay size='14px' weight={300} coin={isCustodial ? coin : 'ETH'}>
                 {fee}
               </CoinDisplay>
             </SummarySubExchangeAmount>
