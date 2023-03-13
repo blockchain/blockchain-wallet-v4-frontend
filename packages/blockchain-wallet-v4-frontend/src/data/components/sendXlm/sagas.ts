@@ -125,12 +125,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const payload = prop('payload', action)
       let payment: XlmPaymentType = (yield select(S.getPayment)).getOrElse({})
       payment = yield call(coreSagas.payment.xlm.create, { payment })
+
       const setWithdrawalFee = function* () {
         const withdrawalAmount = Exchange.convertCoinToCoin({
           baseToStandard: false,
           coin: 'XLM',
           value: amount
         })
+
         const response: ReturnType<typeof api.getCustodialToNonCustodialWithdrawalFees> =
           yield call(api.getCustodialToNonCustodialWithdrawalFees, {
             amount: withdrawalAmount,
@@ -140,8 +142,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           })
 
         const fee = response.totalFees.amount.value
-        if (fromAccount && fromAccount.type === 'CUSTODIAL') {
-          payment = yield call(setFrom, payment, payload, fromAccount.type, fee)
+        if (fromAccount?.type === 'CUSTODIAL') {
+          payment = yield call(setFrom, payment, fromAccount, fromAccount.type, fee)
           payment = yield payment.fee(fee)
         }
         yield put(A.paymentUpdatedSuccess(payment.value()))
@@ -158,7 +160,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
         const fee = response.totalFees.amount.value
         if (fromAccount && fromAccount.type === 'CUSTODIAL') {
-          payment = yield call(setFrom, payment, payload, fromAccount.type, fee)
+          payment = yield call(setFrom, payment, fromAccount, fromAccount.type, fee)
           payment = yield payment.fee(fee)
         }
         yield put(A.paymentUpdatedSuccess(payment.value()))
