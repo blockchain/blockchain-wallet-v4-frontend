@@ -169,10 +169,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const source = prop('address', payload) || payload
           const fromType = prop('type', payload)
           if (fromType === 'CUSTODIAL') {
-            if (amount === '0' && maxWithdrawalFee === '') {
-              yield call(setMaxWithdrawalFee)
-            }
-            yield call(setWithdrawalFee)
+            yield call(
+              amount === '0' && maxWithdrawalFee === '' ? setMaxWithdrawalFee : setWithdrawalFee
+            )
             yield put(change(FORM, 'to', null))
           } else {
             payment = yield call(setFrom, payment, source, fromType)
@@ -228,12 +227,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const xlmAmount = prop('coin', payload)
           const stroopAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
-            coin,
+            coin: 'XLM',
             value: xlmAmount
           })
           if (fromAccount?.type === 'CUSTODIAL') {
             yield call(
-              stroopAmount > fromAccount.withdrawable ? setMaxWithdrawalFee : setWithdrawalFee
+              new BigNumber(stroopAmount).isGreaterThan(new BigNumber(fromAccount?.withdrawable))
+                ? setMaxWithdrawalFee
+                : setWithdrawalFee
             )
           }
           payment = yield call(payment.amount, stroopAmount)

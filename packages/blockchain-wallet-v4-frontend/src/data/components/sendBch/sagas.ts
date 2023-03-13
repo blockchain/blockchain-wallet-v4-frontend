@@ -222,10 +222,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               payment = yield payment.from(payloadT.index, fromType)
               break
             case 'CUSTODIAL':
-              if (amount === '0' && maxWithdrawalFee === '') {
-                yield call(setMaxWithdrawalFee)
-              }
-              yield call(setWithdrawalFee)
+              yield call(
+                amount === '0' && maxWithdrawalFee === '' ? setMaxWithdrawalFee : setWithdrawalFee
+              )
               yield put(change(FORM, 'to', null))
               break
             default:
@@ -289,12 +288,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const bchAmount = prop('coin', payload)
           const satAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
-            coin,
+            coin: 'BCH',
             value: bchAmount
           })
           if (fromAccount?.type === 'CUSTODIAL') {
             yield call(
-              satAmount > fromAccount.withdrawable ? setMaxWithdrawalFee : setWithdrawalFee
+              new BigNumber(satAmount).isGreaterThan(new BigNumber(fromAccount?.withdrawable))
+                ? setMaxWithdrawalFee
+                : setWithdrawalFee
             )
           }
           payment = yield payment.amount(parseInt(satAmount))

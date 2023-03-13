@@ -175,10 +175,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
               yield put(A.initialized(coin))
               break
             case 'CUSTODIAL':
-              if (amount === '0' && maxWithdrawalFee === '') {
-                yield call(setMaxWithdrawalFee)
-              }
-              yield call(setWithdrawalFee)
+              yield call(
+                amount === '0' && maxWithdrawalFee === '' ? setMaxWithdrawalFee : setWithdrawalFee
+              )
               yield put(change(FORM, 'to', null))
               break
             default:
@@ -231,15 +230,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           return
         case 'amount':
           const amountPayload = payload as SendEthFormAmountActionType['payload']
-          const coinCode = prop('coinCode', amountPayload)
           const weiAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
-            coin: coinCode,
+            coin: 'ETH',
             value: amountPayload.coin
           })
           if (fromAccount?.type === 'CUSTODIAL') {
             yield call(
-              weiAmount > fromAccount.withdrawable ? setMaxWithdrawalFee : setWithdrawalFee
+              new BigNumber(weiAmount).isGreaterThan(new BigNumber(fromAccount?.withdrawable))
+                ? setMaxWithdrawalFee
+                : setWithdrawalFee
             )
           }
           payment = yield payment.amount(weiAmount)
