@@ -242,10 +242,11 @@ const FirstStep = (props) => {
           <FormGroup inline margin='10px'>
             <FormItem>
               <Text size='16px' weight={500}>
-                <FormattedMessage
-                  id='modals.sendxlm.firststep.fee'
-                  defaultMessage='Transaction Fee:'
-                />
+                {isFromCustody ? (
+                  <FormattedMessage id='copy.processing-fee' defaultMessage='Processing Fee:' />
+                ) : (
+                  <FormattedMessage id='copy.network-fee' defaultMessage='Network Fee:' />
+                )}
               </Text>
               <Text>
                 <ComboDisplay size='13px' coin='XLM' weight={500}>

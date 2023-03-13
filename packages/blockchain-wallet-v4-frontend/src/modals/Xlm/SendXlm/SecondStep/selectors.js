@@ -30,6 +30,7 @@ export const getData = (state) => {
       description: payment.description,
       fee: payment.fee,
       fromAddress: fromLabel,
+      fromType: payment.from,
       memo: payment.memo,
       memoType: payment.memoType,
       submitting: isSubmitting(state),

@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -48,6 +49,7 @@ const Success = (props) => {
     description,
     fee,
     fromAddress,
+    fromType,
     handleBack,
     handleSubmit,
     memo,
@@ -115,7 +117,11 @@ const Success = (props) => {
         </LargeTableRow>
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage id='modals.sendxlm.secondstep.fee' defaultMessage='Fee:' />
+            {fromType === ADDRESS_TYPES.CUSTODIAL ? (
+              <FormattedMessage id='copy.processing-fee' defaultMessage='Processing Fee:' />
+            ) : (
+              <FormattedMessage id='copy.network-fee' defaultMessage='Network Fee:' />
+            )}
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
