@@ -7,6 +7,7 @@ export type SendFormType = {
   fee: BuildTxFeeType
   fix: 'CRYPTO' | 'FIAT'
   memo?: string
+  payPro?: any
   selectedAccount: SwapAccountType
   to: string
 }

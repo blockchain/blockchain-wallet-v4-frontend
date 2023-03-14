@@ -43,6 +43,8 @@ const StatusIcon = styled.div`
 `
 
 const Status: React.FC<Props> = (props) => {
+  const { coinfig } = window.coins[props.formValues.selectedAccount.coin]
+
   const icon = props.transaction.cata({
     Failure: () => <Icon name='close-circle' size='24px' color='red600' />,
     Loading: () => <SpinningLoader height='14px' width='14px' />,
@@ -64,11 +66,33 @@ const Status: React.FC<Props> = (props) => {
       </>
     )
   })
+  const subMsg = props.transaction.cata({
+    Failure: () => null,
+    Loading: () => null,
+    NotAsked: () => null,
+    Success: () => (
+      <>
+        <FormattedMessage
+          id='modals.sendcrypto.status.subMessage'
+          defaultMessage='Your transaction is being confirmed on the {network} Network right now.'
+          values={{
+            network: coinfig.name
+          }}
+        />
+      </>
+    )
+  })
 
   return (
     <CustomFlyout>
       <CloseWrapper>
-        <Icon onClick={props.close} cursor name='close-circle' size='20px' color='grey400' />
+        <Icon
+          onClick={() => props.close()}
+          cursor
+          name='close-circle'
+          size='20px'
+          color='grey400'
+        />
       </CloseWrapper>
       <IconWrapper>
         <IconBox>
@@ -77,6 +101,9 @@ const Status: React.FC<Props> = (props) => {
         </IconBox>
         <Text style={{ marginTop: '32px' }} size='20px' weight={600} color='grey800'>
           {msg}
+        </Text>
+        <Text style={{ textAlign: 'center' }} size='14px' weight={500} color='grey600'>
+          {subMsg}
         </Text>
       </IconWrapper>
       {props.transaction.cata({
@@ -99,7 +126,11 @@ const Status: React.FC<Props> = (props) => {
             data-e2e='viewDetails'
             fullwidth
             jumbo
-            onClick={() => props.routerActions.push(`/coins/${val.amount.symbol}`)}
+            onClick={() =>
+              props.showNewSendFlow
+                ? props.sendCryptoActions.setStep({ step: SendCryptoStepType.TX_OVERVIEW })
+                : props.routerActions.push(`/coins/${val.amount.symbol}`)
+            }
           >
             <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
           </Button>

@@ -1,13 +1,18 @@
+import BigNumber from 'bignumber.js'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
+import { nth } from 'ramda'
 import { call, delay, put, select } from 'redux-saga/effects'
 import secp256k1 from 'secp256k1'
 
+import { Exchange, utils } from '@core'
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { BuildTxIntentType, BuildTxResponseType } from '@core/network/api/coin/types'
 import { getPrivKey, getPubKey } from '@core/redux/data/self-custody/sagas'
-import { FiatType, WalletAccountEnum } from '@core/types'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
+import { BtcPaymentType, FiatType, PaymentValue, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
@@ -16,11 +21,33 @@ import { Analytics } from 'data/types'
 import { AccountType } from 'middleware/analyticsMiddleware/types'
 import { promptForSecondPassword } from 'services/sagas'
 
+import coinSagas from '../../coins/sagas'
+import sendSagas from '../send/sagas'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { SendCryptoStepType } from './types'
 
-export default ({ api }: { api: APIType }) => {
+const nonMigratedCoins = [
+  'BTC',
+  'ETH'
+  // , 'BCH', 'ETH', 'XLM'
+]
+
+export const logLocation = 'components/sendCrypto/sagas'
+
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
+  const { showWithdrawalLockAlert } = sendSagas({
+    api,
+    coreSagas,
+    networks
+  })
+
+  const { getNextReceiveAddressForCoin } = coinSagas({
+    api,
+    coreSagas,
+    networks
+  })
+
   const initializeSend = function* () {
     const totalBalanceR = yield select(selectors.balances.getTotalWalletBalanceNotFormatted)
     const totalBalance = totalBalanceR.getOrElse({ total: 0 })
@@ -32,6 +59,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  // TODO add a new if case for trading accounts BTC
   const buildTx = function* (action: ReturnType<typeof A.buildTx>) {
     let coin
     let fee
@@ -48,6 +76,73 @@ export default ({ api }: { api: APIType }) => {
         const guid = yield select(selectors.core.wallet.getGuid)
         const [uuid] = yield call(api.generateUUIDs, 1)
 
+        if (nonMigratedCoins.includes(coin)) {
+          // TODO simulate buildTx logic for non migrated coins
+          // only PK accounts will go here
+          // return
+
+          // console.log('all details', { account, baseCryptoAmt, destination, fee, memo })
+          const accountsR = yield select(selectors.core.common.btc.getAccountsBalances)
+          // const txS = yield select(selectors.core.common.btc.getWalletTransactions)
+          // console.log('txS', txS)
+          if (account.accountIndex !== undefined) {
+            // const defaultAccount = accountsR.map(nth(account?.accountIndex)).getOrElse({})
+            // console.log('defaultAccountR', defaultAccount)
+            // const pubb = Bitcoin.payments.p2pkh({
+            //   pubkey: Bitcoin.bip32.fromBase58(defaultAccount.xpub).derive(0).derive(1).publicKey
+            // })
+            // const addressDefault = yield call(getNextReceiveAddressForCoin, coin)
+            // console.log('addresst', pubb.address)
+            // console.log('address6', addressDefault)
+            // const addresst = utils.btc.keyPairToAddress(defaultAccount.xpub)
+            // console.log('addresst', addresst)
+            // const defaultAccount = allAccount[account.accountIndex]
+            // console.log('defaultAccount', defaultAccount)
+          }
+
+          // console.log('defaultAccount', defaultAccount)
+
+          const tx = {} as BuildTxResponseType
+
+          if (coin === 'BTC') {
+            // const txBTC = new Bitcoin.TransactionBuilder()
+
+            let payment = coreSagas.payment.btc.create({
+              network: networks.btc
+            })
+            payment = yield payment.init()
+
+            payment = yield payment.from(account.accountIndex, ADDRESS_TYPES.ACCOUNT)
+
+            // console.log('payment', payment)
+
+            // from
+            payment = yield payment.from(account.index, account.type)
+            // to
+            payment = yield payment.to(destination, account.type)
+            // amount
+            const satAmount = Exchange.convertCoinToCoin({
+              baseToStandard: false,
+              coin,
+              value: baseCryptoAmt
+            })
+            payment = yield payment.amount(parseInt(satAmount))
+
+            // build transaction
+            try {
+              payment = yield payment.build()
+
+              // console.log('payment ready', payment.value())
+            } catch (e) {
+              yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
+            }
+            // console.log('pubKey', pubKey)
+            // console.log('txBTC', txBTC)
+          }
+
+          yield put(A.buildTxSuccess(tx))
+          return
+        }
         const tx: ReturnType<typeof api.buildTx> = yield call(api.buildTx, {
           id: {
             guid,
@@ -124,6 +219,120 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  // helper function to send BTC amount
+  const submitBTCTransaction = function* () {
+    // TODO double check do we need initial part since here we already know a few things
+
+    const p = S.getPayment(yield select())?.getOrElse({} as PaymentValue)
+    let payment: BtcPaymentType = coreSagas.payment.btc.create({
+      network: networks.btc,
+      payment: p || ({} as PaymentValue)
+    })
+
+    const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
+    const { amount, coin, fix, payPro, selectedAccount, to } = formValues
+    const { fromType } = payment.value()
+    try {
+      // Sign payment
+      let password
+      if (fromType !== ADDRESS_TYPES.WATCH_ONLY) {
+        password = yield call(promptForSecondPassword)
+      }
+      if (fromType !== ADDRESS_TYPES.CUSTODIAL) {
+        payment = yield payment.sign(password)
+      }
+      // Publish payment
+      if (payPro) {
+        // @ts-ignore
+        const { txHex, weightedSize } = payment.value()
+        const invoiceId = payPro.paymentUrl.split('/i/')[1]
+        yield call(
+          // @ts-ignore
+          api.verifyPaymentRequest,
+          invoiceId,
+          txHex,
+          weightedSize,
+          coin
+        )
+        yield delay(3000)
+        yield call(
+          // @ts-ignore
+          api.submitPaymentRequest,
+          invoiceId,
+          txHex,
+          weightedSize,
+          coin
+        )
+      } else if (fromType === ADDRESS_TYPES.CUSTODIAL) {
+        const value = payment.value()
+        if (!value.to) return
+        if (!value.amount) return
+        if (!value.selection) return
+
+        yield call(
+          api.withdrawBSFunds,
+          value.to[0].address,
+          coin,
+          new BigNumber(value.amount[0]).toString(),
+          value.selection.fee
+        )
+      } else {
+        const value = payment.value()
+        // notify backend of incoming non-custodial deposit
+        if (value.to && value.to[0].type === 'CUSTODIAL') {
+          yield put(
+            actions.components.send.notifyNonCustodialToCustodialTransfer(value, 'SIMPLEBUY')
+          )
+        }
+        payment = yield payment.publish()
+      }
+
+      yield put(actions.core.data.btc.fetchData())
+      // yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+      // Set tx note
+      // if (path(['description', 'length'], payment.value())) {
+      //   yield put(
+      //     actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description)
+      //   )
+      // }
+      // Redirect to tx list, display success
+      // yield put(actions.router.push('/coins/BTC'))
+      // yield put(
+      //   actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+      //     coinName: 'Bitcoin'
+      //   })
+      // )
+
+      const amt = payment.value().amount || [0]
+      const coinAmount = Exchange.convertCoinToCoin({
+        coin,
+        value: amt.reduce((a, b) => a + b, 0)
+      })
+
+      // triggers email notification to user that
+      // non-custodial funds were sent from the wallet
+      if (fromType === ADDRESS_TYPES.ACCOUNT) {
+        yield put(actions.core.wallet.triggerNonCustodialSendAlert(coin, coinAmount))
+      }
+
+      // yield put(destroy(FORM))
+    } catch (e) {
+      // yield put(stopSubmit(FORM))
+      // Set errors
+      const error = errorHandler(e)
+
+      if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
+        if (error === 'Pending withdrawal locks') {
+          yield call(showWithdrawalLockAlert)
+        } else {
+          yield put(actions.alerts.displayError(error))
+        }
+      } else {
+        yield put(A.submitTransactionFailure(error))
+      }
+    }
+  }
+
   const fetchFeesAndMins = function* ({ payload }: ReturnType<typeof A.fetchWithdrawalFees>) {
     yield put(A.fetchWithdrawalFeesLoading())
     try {
@@ -177,6 +386,7 @@ export default ({ api }: { api: APIType }) => {
 
     if (form.includes('SEND') && field === 'coin') {
       yield put(actions.modals.closeAllModals())
+
       if (
         (selectors.core.data.coins.getCustodialCoins().includes(payload) ||
           selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(payload)) &&
@@ -199,6 +409,12 @@ export default ({ api }: { api: APIType }) => {
           })
         )
       }
+    }
+
+    const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
+    if (formValues && nonMigratedCoins.includes(formValues?.selectedAccount?.coin)) {
+      const { coin } = formValues.selectedAccount
+      // TODO add part for checking for change based on coin
     }
   }
 
@@ -255,6 +471,15 @@ export default ({ api }: { api: APIType }) => {
           'No prebuildTx'
         ) as BuildTxResponseType
         prebuildTxFee = prebuildTx.summary.absoluteFeeEstimate
+
+        // check is selected account with coin in non migrated coins list and process it
+        if (nonMigratedCoins.includes(coin)) {
+          if (coin === 'BTC') {
+            call(submitBTCTransaction)
+            return
+          }
+        }
+
         const signedTx: BuildTxResponseType = yield call(signTx, prebuildTx, password)
         const pushedTx: ReturnType<typeof api.pushTx> = yield call(
           api.pushTx,

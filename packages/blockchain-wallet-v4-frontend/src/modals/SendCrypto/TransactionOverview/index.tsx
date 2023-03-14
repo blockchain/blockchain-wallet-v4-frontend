@@ -1,30 +1,22 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
-import { compose } from 'redux'
-import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
 import styled from 'styled-components'
 
-import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
-import { getRatesSelector } from '@core/redux/data/misc/selectors'
-import { RatesType } from '@core/types'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import CollapseText from 'components/CollapseText'
 import DataError from 'components/DataError'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { AmountWrapper, StepHeader } from 'components/Flyout/SendRequestCrypto'
-import Form from 'components/Form/Form'
 import { selectors } from 'data'
-import { SendCryptoStepType } from 'data/components/sendCrypto/types'
+import { RootState } from 'data/rootReducer'
 
 import { Props as OwnProps } from '..'
-import { SEND_FORM } from '../model'
-import InsufficientBalanceError from './InsufficientBalanceError'
 
-const Wrapper = styled(Form)`
+const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -41,109 +33,22 @@ const CustomRow = styled(Row)`
   }
 `
 
-const isInsufficientBalance = (e: string) => {
-  try {
-    const error = JSON.parse(e)
-    if (
-      error.errorKey === 'INSUFFICIENT_BALANCE' &&
-      error.error === 'Insufficient balance for transaction'
-    ) {
-      return true
-    }
-
-    return false
-  } catch (e) {
-    return false
-  }
-}
-
-const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  const { formValues, rates, sendCryptoActions, showNewSendFlow, walletCurrency } = props
-  const { amount, fee, fix, memo, selectedAccount, selectedAccount: account, to } = formValues
+const TransactionOverview = (props: Props) => {
+  const { formValues, showNewSendFlow } = props
+  const { selectedAccount, to } = formValues
   const { coin } = selectedAccount
 
-  const isMax = amount === 'MAX'
-  const standardCryptoAmt =
-    fix === 'FIAT'
-      ? convertFiatToCoin({
-          coin,
-          currency: walletCurrency,
-          rates,
-          value: amount
-        })
-      : amount
-  const baseCryptoAmt = isMax
-    ? 'MAX'
-    : convertCoinToCoin({ baseToStandard: false, coin, value: standardCryptoAmt })
-
-  useEffect(() => {
-    sendCryptoActions.buildTx({
-      account,
-      baseCryptoAmt,
-      destination: to,
-      fee,
-      fix,
-      memo,
-      rates,
-      walletCurrency
-    })
-  }, [])
-
   return (
-    <Wrapper
-      onSubmit={(e) => {
-        e.preventDefault()
-        sendCryptoActions.submitTransaction()
-      }}
-    >
+    <Wrapper>
       <FlyoutWrapper>
         <StepHeader>
-          <Icon
-            cursor
-            onClick={() => {
-              if (isMax) {
-                props.formActions.change(SEND_FORM, 'amount', '0')
-              }
-              sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_AMOUNT })
-            }}
-            name='arrow-back'
-            role='button'
-            color='grey600'
-            size='24px'
-            style={{ marginRight: '20px' }}
-          />
           <Text size='24px' color='grey800' weight={600}>
-            {showNewSendFlow ? (
-              <FormattedMessage id='modals.sendcrypto.confirm.title' defaultMessage='Confirm' />
-            ) : (
-              <FormattedMessage id='modals.sendcrypto.enteramount.title' defaultMessage='Send' />
-            )}
+            <FormattedMessage id='modals.sendcrypto.enteramount.title' defaultMessage='Send' />
           </Text>
         </StepHeader>
       </FlyoutWrapper>
       {props.prebuildTxR.cata({
-        Failure: (e) =>
-          isInsufficientBalance(e) ? (
-            <InsufficientBalanceError
-              tryAgain={() =>
-                props.sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_AMOUNT })
-              }
-              handleMax={() =>
-                sendCryptoActions.buildTx({
-                  account,
-                  baseCryptoAmt: 'MAX',
-                  destination: to,
-                  fee,
-                  fix,
-                  memo,
-                  rates,
-                  walletCurrency
-                })
-              }
-            />
-          ) : (
-            <DataError message={{ message: e }} />
-          ),
+        Failure: (e) => <DataError message={{ message: e }} />,
         Loading: () => (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <SpinningLoader width='14px' height='14px' borderWidth='3px' />
@@ -196,9 +101,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </div>
               <div>
                 <Text size='16px' weight={500} color='black'>
-                  {to && (
-                    <CollapseText text={to} size='16px' color='black' weight={500} place='left' />
-                  )}
+                  <CollapseText text={to} size='16px' color='black' weight={500} place='left' />
                 </Text>
               </div>
             </CustomRow>
@@ -276,27 +179,13 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   )
 }
 
-const mapStateToProps = (state, ownProps: OwnProps) => {
-  const { coin } = ownProps.formValues.selectedAccount
-
-  const ratesSelector = getRatesSelector(coin, state)
-
-  return {
-    feesR: selectors.components.sendCrypto.getWithdrawalFees(state, coin),
-    prebuildTxR: selectors.components.sendCrypto.getPrebuildTx(state),
-    rates: ratesSelector.getOrElse({} as RatesType)
-  }
-}
+const mapStateToProps = (state: RootState) => ({
+  prebuildTxR: selectors.components.sendCrypto.getPrebuildTx(state),
+  transaction: selectors.components.sendCrypto.getTransaction(state)
+})
 
 const connector = connect(mapStateToProps)
-const enhance = compose(
-  connector,
-  reduxForm<{}, Props>({
-    destroyOnUnmount: false,
-    form: SEND_FORM
-  })
-)
 
 type Props = ConnectedProps<typeof connector> & OwnProps
 
-export default enhance(Confirm) as React.ComponentType<OwnProps>
+export default connector(TransactionOverview)

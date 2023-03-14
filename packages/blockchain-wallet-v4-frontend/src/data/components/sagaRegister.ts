@@ -66,7 +66,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(recurringBuy({ api }))
     yield fork(resetWallet2fa({ api }))
     yield fork(send({ api, coreSagas, networks }))
-    yield fork(sendCrypto({ api }))
+    yield fork(sendCrypto({ api, coreSagas, networks }))
     yield fork(sendBch({ api, coreSagas, networks }))
     yield fork(sendBtc({ api, coreSagas, networks }))
     yield fork(sendEth({ api, coreSagas, networks }))

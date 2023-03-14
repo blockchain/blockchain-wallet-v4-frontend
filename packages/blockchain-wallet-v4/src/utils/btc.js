@@ -11,6 +11,8 @@ import { compose, dropLast, equals, head, last, or, propOr } from 'ramda'
 import { selectAll } from '../coinSelection'
 import * as Exchange from '../exchange'
 
+export const keyPairToAddress = (key) => payments.p2pkh({ pubkey: key.publicKey }).address
+
 export const isValidBtcAddress = (value, network) => {
   try {
     const addr = address.fromBase58Check(value)
@@ -222,6 +224,7 @@ export const getWifAddress = (key, compressed = true) => {
 }
 
 export const compressPublicKey = (publicKey) => {
+  // eslint-disable-next-line
   const prefix = (publicKey[64] & 1) !== 0 ? 0x03 : 0x02
   const prefixBuffer = Buffer.alloc(1)
   prefixBuffer[0] = prefix
@@ -230,6 +233,7 @@ export const compressPublicKey = (publicKey) => {
 
 export const fingerprint = (publickey) => {
   const pkh = compose(crypto.ripemd160, crypto.sha256)(publickey)
+  // eslint-disable-next-line
   return ((pkh[0] << 24) | (pkh[1] << 16) | (pkh[2] << 8) | pkh[3]) >>> 0
 }
 
@@ -250,5 +254,3 @@ export const createXpubFromChildAndParent = (path, child, parent) => {
 
   return hdnode.neutered().toBase58()
 }
-
-export const keyPairToAddress = (key) => payments.p2pkh({ pubkey: key.publicKey }).address
