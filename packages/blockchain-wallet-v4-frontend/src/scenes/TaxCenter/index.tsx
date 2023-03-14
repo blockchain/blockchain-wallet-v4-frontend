@@ -37,10 +37,10 @@ const TaxCenterContainer = ({
 
   const handleChange = (value) => setOption(value)
 
-  const handlePartnerClick = () => {
+  const handlePartnerClick = (partner: string) => {
     analyticsActions.trackEvent({
       key: Analytics.TAX_CENTER_PARTNER_CLICKED,
-      properties: { partner: 'COIN_TRACKER' }
+      properties: { partner }
     })
   }
 
