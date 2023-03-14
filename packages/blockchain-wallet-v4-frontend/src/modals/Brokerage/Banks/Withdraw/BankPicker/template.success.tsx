@@ -7,7 +7,7 @@ import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Bank, BankWire } from 'components/Flyout/model'
-import { BankTransferAccountType, WithdrawStepEnum } from 'data/types'
+import { WithdrawStepEnum } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -37,12 +37,9 @@ const Success = (props: Props) => {
   } = props
   const [showAlert, setShowAlert] = useState(false)
 
-  let withdrawalDisabled: BankTransferAccountType | undefined
-  bankTransferAccounts.forEach((account) => {
-    if (account.capabilities?.withdrawal?.enabled === false) {
-      withdrawalDisabled = account
-    }
-  })
+  const withdrawalDisabled = bankTransferAccounts.find(
+    (account) => account.capabilities?.withdrawal?.enabled === false
+  )
 
   return (
     <div>
