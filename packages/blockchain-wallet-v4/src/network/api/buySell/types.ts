@@ -143,6 +143,8 @@ export enum CardFundSourceType {
   PREPAID = 'PREPAID'
 }
 
+type Capabilities = 'DEPOSIT' | 'WITHDRAWAL' | 'BROKERAGE'
+
 export type BSPaymentMethodType = {
   addedAt?: string
   address?: null | NabuAddressType
@@ -150,6 +152,7 @@ export type BSPaymentMethodType = {
     requiresRefresh?: true
   }
   block?: boolean
+  capabilities?: Capabilities[]
   card?: BSCard
   cardFundSources?: CardFundSourceType[]
   currency: FiatType

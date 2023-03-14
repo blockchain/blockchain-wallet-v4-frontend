@@ -866,15 +866,17 @@ type BankProps = {
   bankDetails: BankDetails
   icon: ReactElement
   isActive: boolean
+  isDisabled?: boolean
   onClick: () => void
   text: string
 }
 
-const Bank = ({ bankDetails, icon, isActive, onClick, text }: BankProps) => (
+const Bank = ({ bankDetails, icon, isActive, isDisabled = false, onClick, text }: BankProps) => (
   <DisplayContainer
     data-e2e={`sb${bankDetails?.bankAccountType?.toLowerCase()}Banks`}
     role='button'
-    onClick={onClick}
+    onClick={!isDisabled ? onClick : undefined}
+    isDisabled
   >
     <DisplayIcon>{icon}</DisplayIcon>
     <MultiRowContainer>
