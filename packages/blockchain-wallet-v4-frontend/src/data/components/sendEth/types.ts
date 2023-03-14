@@ -1,5 +1,6 @@
-import { EthAccountFromType } from '@core/redux/payment/eth/types'
+import { EthAccountFromType, EthFromType } from '@core/redux/payment/eth/types'
 import {
+  CoinType,
   CrossBorderLimits,
   CustodialFromType,
   Erc20CoinType,
@@ -10,10 +11,27 @@ import {
 export type SendEthState = {
   feeToggled: boolean
   isContract: RemoteDataType<string, boolean>
+  maxCustodialWithdrawalFee: RemoteDataType<string, string>
   payment: RemoteDataType<string, ReturnType<EthPaymentType['value']>>
   sendLimits: RemoteDataType<string, CrossBorderLimits>
   step: 1 | 2
 }
+
+export type SendEthFormValue =
+  | {
+      amount?: {
+        coin?: string
+        coinCode?: string
+        fiat?: string
+      }
+      coin?: CoinType
+      description?: string
+      feePerByte?: number
+      from?: EthFromType
+      payPro?: string
+      to?: null | EthFromType
+    }
+  | undefined
 
 export type ISendEthFormChangeActionType = {
   meta: {

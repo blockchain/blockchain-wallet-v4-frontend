@@ -18,6 +18,7 @@ import {
 import { SwapAccountType } from '../swap/types'
 import {
   FetchSendLimitsPayload,
+  GetMaxWithdrawalFeeType,
   SendCryptoState,
   SendCryptoStepPayload,
   SendCryptoStepType,
@@ -25,14 +26,17 @@ import {
 } from './types'
 
 const initialState: SendCryptoState = {
+  custodialWithdrawalFee: Remote.NotAsked,
   initialCoin: undefined,
   isValidAddress: Remote.NotAsked,
+  maxCustodialWithdrawalFee: Remote.NotAsked,
   prebuildTx: Remote.NotAsked,
   sendLimits: Remote.NotAsked,
   step: SendCryptoStepType.COIN_SELECTION,
   transaction: Remote.NotAsked,
   withdrawLocks: Remote.NotAsked,
-  withdrawalFeesAndMins: Remote.NotAsked
+  withdrawalFeesAndMins: Remote.NotAsked,
+  withdrawalMin: Remote.NotAsked
 }
 
 const sendCryptoSlice = createSlice({
@@ -60,6 +64,20 @@ const sendCryptoSlice = createSlice({
     },
     buildTxSuccess: (state, action: PayloadAction<SharedBuildTxResponseType>) => {
       state.prebuildTx = Remote.Success(action.payload)
+    },
+    clearCustodialWithdrawal: (state) => {
+      state.custodialWithdrawalFee = Remote.NotAsked
+      state.withdrawalMin = Remote.NotAsked
+      state.maxCustodialWithdrawalFee = Remote.NotAsked
+    },
+    fetchCustodialWithdrawalFeeFailure: (state, action: PayloadAction<string>) => {
+      state.custodialWithdrawalFee = Remote.Failure(action.payload)
+    },
+    fetchCustodialWithdrawalFeeLoading: (state) => {
+      state.custodialWithdrawalFee = Remote.Loading
+    },
+    fetchCustodialWithdrawalFeeSuccess: (state, action: PayloadAction<string>) => {
+      state.custodialWithdrawalFee = Remote.Success(action.payload)
     },
     fetchSendLimits: (state, action: PayloadAction<FetchSendLimitsPayload>) => {},
     fetchSendLimitsFailure: (state, action: PayloadAction<string>) => {
@@ -91,12 +109,26 @@ const sendCryptoSlice = createSlice({
     fetchWithdrawalLocksSuccess: (state, action: PayloadAction<WithdrawalLockResponseType>) => {
       state.withdrawLocks = Remote.Success(action.payload)
     },
+    getCustodialWithdrawalFee: (state) => {},
+    getMaxWithdrawalFee: (state, payload: PayloadAction<GetMaxWithdrawalFeeType>) => {},
     initializeSend: (state) => {},
+    sendCryptoMaxCustodialWithdrawalFeeFailure: (state, action: PayloadAction<string>) => {
+      state.maxCustodialWithdrawalFee = Remote.Failure(action.payload)
+    },
+    sendCryptoMaxCustodialWithdrawalFeeLoading: (state) => {
+      state.maxCustodialWithdrawalFee = Remote.Loading
+    },
+    sendCryptoMaxCustodialWithdrawalFeeSuccess: (state, action: PayloadAction<string>) => {
+      state.maxCustodialWithdrawalFee = Remote.Success(action.payload)
+    },
     setInitialCoin: (state, action: PayloadAction<string>) => {
       state.initialCoin = action.payload
     },
     setStep: (state, action: PayloadAction<SendCryptoStepPayload>) => {
       state.step = action.payload.step
+    },
+    setWithdrawalMin: (state, action: PayloadAction<string>) => {
+      state.withdrawalMin = Remote.Success(action.payload)
     },
     submitTransaction: () => {},
     submitTransactionFailure: (state, action: PayloadAction<string>) => {

@@ -89,7 +89,6 @@ const FirstStep = (props) => {
   } = props
   const amountActive = activeField === 'amount'
   const isFromCustody = from && from.type === 'CUSTODIAL'
-  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -243,10 +242,11 @@ const FirstStep = (props) => {
           <FormGroup inline margin='10px'>
             <FormItem>
               <Text size='16px' weight={500}>
-                <FormattedMessage
-                  id='modals.sendxlm.firststep.fee'
-                  defaultMessage='Transaction Fee:'
-                />
+                {isFromCustody ? (
+                  <FormattedMessage id='copy.processing-fee' defaultMessage='Processing Fee:' />
+                ) : (
+                  <FormattedMessage id='copy.network-fee' defaultMessage='Network Fee:' />
+                )}
               </Text>
               <Text>
                 <ComboDisplay size='13px' coin='XLM' weight={500}>
@@ -275,7 +275,6 @@ const FirstStep = (props) => {
                 pristine ||
                 submitting ||
                 invalid ||
-                disableCustodySend ||
                 !isDestinationChecked ||
                 Remote.Loading.is(balanceStatus)
               }

@@ -72,7 +72,7 @@ export const getData = (state, coin) => {
       description: payment.description,
       fee: payment.fee,
       fromAddress: fromLabel,
-      fromType: payment.from.type,
+      isCustodial: payment.from.type === ADDRESS_TYPES.CUSTODIAL,
       submitting: isSubmitting(state),
       toAddress: payment.to.label || payment.to.address,
       // @ts-ignore

@@ -61,6 +61,7 @@ export const getData = (state) => {
       description: payment.description,
       fee: payment.selection ? payment.selection.fee : 0,
       fromAddress: fromLabel,
+      isCustodial: payment.fromType === ADDRESS_TYPES.CUSTODIAL,
       isLegacy,
       submitting: isSubmitting(state),
       toAddress: toLabel,

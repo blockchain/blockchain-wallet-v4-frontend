@@ -159,7 +159,7 @@ export type Props = {
   fiatCurrency: string
   fix: 'FIAT' | 'CRYPTO'
   name: string
-  onChange?: () => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 } & (
   | // FIAT <=> COIN TOGGLE
   {

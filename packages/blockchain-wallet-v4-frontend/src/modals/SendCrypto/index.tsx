@@ -40,6 +40,7 @@ class SendCrypto extends PureComponent<Props, State> {
 
   componentWillUnmount() {
     // this.props.sendCryptoActions.setStep({ step: SendCryptoStepType.COIN_SELECTION })
+    this.props.sendCryptoActions.clearCustodialWithdrawal()
   }
 
   handleClose = () => {

@@ -7,6 +7,22 @@ export const initialized = (payload) => ({
   type: AT.SEND_BCH_INITIALIZED
 })
 export const destroyed = () => ({ type: AT.SEND_BCH_DESTROYED })
+
+export const clearSendBchMaxCustodialWithdrawalFee = () => ({
+  type: AT.CLEAR_SEND_BCH_MAX_CUSTODIAL_WITHDRAWAL_FEE
+})
+export const sendBchFetchMaxCustodialWithdrawalFeeSuccess = (fee: string) => ({
+  payload: fee,
+  type: AT.SEND_BCH_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_SUCCESS
+})
+export const sendBchFetchMaxCustodialWithdrawalFeeLoading = () => ({
+  type: AT.SEND_BCH_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_LOADING
+})
+export const sendBchFetchMaxCustodialWithdrawalFeeFailure = (err) => ({
+  payload: err,
+  type: AT.SEND_BCH_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_FAILURE
+})
+
 export const sendBchPaymentUpdatedLoading = () => ({
   type: AT.SEND_BCH_PAYMENT_UPDATED_LOADING
 })
