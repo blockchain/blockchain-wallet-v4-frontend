@@ -25891,17 +25891,10 @@ underscore.deferred@^0.4.0:
   resolved "https://registry.yarnpkg.com/underscore.deferred/-/underscore.deferred-0.4.0.tgz#2753de633b9ff7db601a2f3fa2af92b3dd290e6c"
   integrity sha1-J1PeYzuf99tgGi8/oq+Ss90pDmw=
 
-undici@^5.0.0:
-  version "5.12.0"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-5.12.0.tgz#c758ffa704fbcd40d506e4948860ccaf4099f531"
-  integrity sha512-zMLamCG62PGjd9HHMpo05bSLvvwWOZgGeiWlN/vlqu3+lRo3elxktVGEyLMX+IO7c2eflLjcW74AlkhEZm15mg==
-  dependencies:
-    busboy "^1.6.0"
-
-undici@^5.12.0:
-  version "5.14.0"
-  resolved "https://registry.yarnpkg.com/undici/-/undici-5.14.0.tgz#1169d0cdee06a4ffdd30810f6228d57998884d00"
-  integrity sha512-yJlHYw6yXPPsuOH0x2Ib1Km61vu4hLiRRQoafs+WUgX1vO64vgnxiCEN9dpIrhZyHFsai3F0AEj4P9zy19enEQ==
+undici@^5.0.0, undici@^5.12.0:
+  version "5.21.0"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-5.21.0.tgz#b00dfc381f202565ab7f52023222ab862bb2494f"
+  integrity sha512-HOjK8l6a57b2ZGXOcUsI5NLfoTrfmbOl90ixJDl0AEFG4wgHNDQxtZy15/ZQp7HhjkpaGlp/eneMgtsu1dIlUA==
   dependencies:
     busboy "^1.6.0"
 
