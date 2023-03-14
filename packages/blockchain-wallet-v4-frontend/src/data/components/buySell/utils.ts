@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { addMilliseconds, addSeconds, differenceInMilliseconds } from 'date-fns'
 
 import { BSOrderActionType, OrderType, SwapOrderDirectionType } from '@core/types'
@@ -46,4 +47,24 @@ export const getEnterAmountStepType = (orderType?: BSOrderActionType) => {
   }
 
   return 'SELL_ENTER_AMOUNT'
+}
+
+export const isValidInputAmount = (amount?: string): amount is string => {
+  if (amount === undefined) {
+    return false
+  }
+
+  const parsedAmount = parseFloat(amount)
+
+  if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
+    return false
+  }
+
+  return true
+}
+
+export const getFormattedCoinAmount = (coin: string, price: string, value: string): string => {
+  const { coinfig } = window.coins[coin]
+
+  return !value ? '0' : new BigNumber(value).dividedBy(price).toFixed(coinfig.precision)
 }

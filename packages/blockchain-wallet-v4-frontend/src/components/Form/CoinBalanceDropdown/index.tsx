@@ -147,10 +147,12 @@ const connector = connect(mapStateToProps)
 
 export type OwnProps = {
   coin: string
+  excludeHDWallets?: boolean
   fiatCurrency?: string
+  forceCustodialFirst?: boolean
   includeCustodial: boolean
   includeInterest?: boolean
-  name: 'earnDepositAccount' | 'earnWithdrawalAccount'
+  name: 'earnDepositAccount'
   rates: RatesType
 }
 

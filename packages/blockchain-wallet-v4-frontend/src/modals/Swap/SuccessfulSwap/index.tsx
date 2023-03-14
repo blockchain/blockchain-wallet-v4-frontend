@@ -47,6 +47,7 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
   const {
     analyticsActions,
     close,
+    formActions,
     handleClose,
     interestEligible,
     interestRates,
@@ -103,7 +104,12 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
         }
       })
     }
-  }, [isRewardsFullyEnabled, swappedCurrency])
+  }, [isRewardsFullyEnabled, swappedCurrency, analyticsActions])
+
+  const onDoneClick = useCallback(() => {
+    formActions.destroy('initSwap')
+    handleClose()
+  }, [])
 
   return (
     <Wrapper>
@@ -172,7 +178,7 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
             nature='white-blue'
             fullwidth
             jumbo
-            onClick={handleClose}
+            onClick={onDoneClick}
           >
             <FormattedMessage id='buttons.done' defaultMessage='Done' />
           </StyledDoneButton>

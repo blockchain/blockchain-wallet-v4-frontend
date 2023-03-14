@@ -47,7 +47,7 @@ import {
 import { NabuError } from 'services/errors'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
-import { BSCardSuccessRateType, BuySellState } from './types'
+import { BSCardSuccessRateType, BuySellState, PollOrder, SellQuotePrice } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
@@ -90,6 +90,7 @@ const initialState: BuySellState = {
   sddVerified: Remote.NotAsked,
   sellOrder: undefined,
   sellQuote: Remote.NotAsked,
+  sellQuotePrice: Remote.NotAsked,
   step: 'CRYPTO_SELECTION',
   swapAccount: undefined,
   vgsVaultId: undefined
@@ -302,7 +303,7 @@ const buySellSlice = createSlice({
       state.pairs = Remote.Success(action.payload.pairs)
     },
     fetchPaymentAccount: () => {},
-    fetchPaymentAccountFailure: (state, action: PayloadAction<string>) => {
+    fetchPaymentAccountFailure: (state, action: PayloadAction<string | Error>) => {
       state.account = Remote.Failure(action.payload)
     },
     fetchPaymentAccountLoading: (state) => {
@@ -362,11 +363,52 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{
         account: SwapAccountType
+        amount: string
         pair: BSPairsType
       }>
     ) => {},
     fetchSellQuoteFailure: (state, action: PayloadAction<string>) => {
       state.sellQuote = Remote.Failure(action.payload)
+    },
+    fetchSellQuotePrice: (
+      state,
+      action: PayloadAction<{
+        account: SwapAccountType
+        amount: string
+        pair: BSPairsType
+      }>
+    ) => {},
+    fetchSellQuotePriceFailure: (state, action: PayloadAction<string | Error>) => {
+      state.sellQuotePrice = Remote.Success.is(state.sellQuotePrice)
+        ? Remote.Success({
+            ...state.sellQuotePrice.data,
+            isFailed: true
+          })
+        : Remote.Failure(action.payload)
+    },
+    fetchSellQuotePriceLoading: (state) => {
+      state.sellQuotePrice = Remote.Success.is(state.sellQuotePrice)
+        ? Remote.Success({
+            ...state.sellQuotePrice.data,
+            isRefreshing: true
+          })
+        : Remote.Loading
+    },
+    fetchSellQuotePriceSuccess: (
+      state,
+      action: PayloadAction<{
+        data: SellQuotePrice['data']
+        isPlaceholder: boolean
+        rate: number
+      }>
+    ) => {
+      state.sellQuotePrice = Remote.Success({
+        data: action.payload.data,
+        isFailed: false,
+        isPlaceholder: action.payload.isPlaceholder,
+        isRefreshing: false,
+        rate: action.payload.rate
+      })
     },
     fetchSellQuoteSuccess: (state, action: PayloadAction<SellQuoteStateType>) => {
       state.sellQuote = Remote.Success(action.payload)
@@ -411,7 +453,7 @@ const buySellSlice = createSlice({
     },
     pollBalances: () => {},
     pollCard: (state, action: PayloadAction<BSCardType['id']>) => {},
-    pollOrder: (state, action: PayloadAction<string>) => {},
+    pollOrder: (state, action: PayloadAction<PollOrder>) => {},
     proceedToBuyConfirmation: (
       state,
       action: PayloadAction<{
@@ -423,12 +465,23 @@ const buySellSlice = createSlice({
         >
       }>
     ) => {},
+    proceedToSellConfirmation: (
+      state,
+      action: PayloadAction<{
+        account: SwapAccountType
+      }>
+    ) => {},
+    proceedToSellEnterAmount: (
+      state,
+      action: PayloadAction<{ account: SwapAccountType; pair: BSPairType }>
+    ) => {},
     registerCard: (
       state,
       action: PayloadAction<{ cvv: string; paymentMethodTokens: { [key: string]: string } }>
     ) => {},
     returnToBuyEnterAmount: (state, action: PayloadAction<{ pair: BSPairType }>) => {},
     returnToCryptoSelection: () => {},
+    returnToSellEnterAmount: (state, action: PayloadAction<{ pair: BSPairType }>) => {},
     setApplePayInfo: (state, action: PayloadAction<ApplePayInfoType>) => {
       state.applePayInfo = action.payload
     },
@@ -555,11 +608,25 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{
         account: SwapAccountType
+        amount: string
+        pair: BSPairsType
+      }>
+    ) => {},
+    startPollSellQuotePrice: (
+      state,
+      action: PayloadAction<{
+        account: SwapAccountType
+        amount: string
         pair: BSPairsType
       }>
     ) => {},
     stopPollBuyQuote: () => {},
     stopPollSellQuote: () => {},
+    stopPollSellQuotePrice: (state, action: PayloadAction<{ shouldNotResetState?: boolean }>) => {
+      if (!action.payload.shouldNotResetState) {
+        state.sellQuotePrice = Remote.NotAsked
+      }
+    },
     switchFix: (
       state,
       action: PayloadAction<{

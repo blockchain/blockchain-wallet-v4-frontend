@@ -4,6 +4,7 @@ import styled from 'styled-components'
 export const TableContainer = styled(Table)`
   width: 100%;
   border-color: ${PaletteColors['grey-000']} !important;
+  margin-bottom: 40px !important;
 
   & > thead > tr {
     background-color: ${PaletteColors['grey-000']} !important;

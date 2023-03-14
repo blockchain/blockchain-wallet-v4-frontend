@@ -14,7 +14,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 import { tableData } from './EarnCompare.model'
 import { getRemote } from './EarnCompare.selectors'
-import { CustomModal, TableContainer } from './EarnCompare.styles'
+import { CloseContainer, CustomModal, TableContainer } from './EarnCompare.styles'
 import TableRow from './TableRow'
 import { TableRowPropsType } from './TableRow/TableRow.types'
 
@@ -36,7 +36,9 @@ const EarnCompare = ({ closeAll }: OwnProps) => {
               id='modals.earn-compare.title'
             />
           </Text>
-          <IconCloseCircleV2 color={SemanticColors.muted} onClick={handleClose} size='large' />
+          <CloseContainer>
+            <IconCloseCircleV2 color={SemanticColors.muted} onClick={handleClose} size='large' />
+          </CloseContainer>
         </Flex>
       </Padding>
       <Padding bottom={1}>

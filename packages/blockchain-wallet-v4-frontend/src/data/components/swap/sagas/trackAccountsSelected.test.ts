@@ -1,3 +1,4 @@
+/* eslint-disable jest/expect-expect */
 import { expectSaga } from 'redux-saga-test-plan'
 
 import { trackEvent } from 'data/analytics/slice'

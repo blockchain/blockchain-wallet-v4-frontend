@@ -27,7 +27,7 @@ import {
 //
 export type RewardsDepositFormType = {
   agreement: boolean
-  depositAmount: number
+  depositAmount: string
   earnDepositAccount: AccountTypes
   loanTimeFrame: 'long' | 'short'
   terms: boolean
@@ -56,13 +56,14 @@ export type EarnMinMaxType = {
 }
 export type InterestWithdrawalFormType = {
   earnWithdrawalAccount: AccountTypes
-  withdrawalAmount: number
+  withdrawalAmount: string
 }
 
 export enum InterestSteps {
   'ACCOUNT_SUMMARY',
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
+  'NO_BALANCE',
   'WITHDRAWAL'
 }
 
@@ -70,6 +71,7 @@ export enum StakingSteps {
   'ACCOUNT_SUMMARY',
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
+  'NO_BALANCE',
   'WARNING'
 }
 
@@ -77,6 +79,7 @@ export enum ActiveRewardsSteps {
   'ACCOUNT_SUMMARY',
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
+  'NO_BALANCE',
   'WARNING',
   'WITHDRAWAL',
   'WITHDRAWAL_REQUESTED'
@@ -86,7 +89,7 @@ export type EarnStepMetaData = {
   depositSuccess?: boolean
   error?: string
   withdrawSuccess?: boolean
-  withdrawalAmount?: number
+  withdrawalAmount?: string
 }
 
 export type EarnDepositFormType =
@@ -159,8 +162,8 @@ export type EarnWithdrawalType = {
   destination: NabuCustodialProductType
   formName: 'passiveRewardsWithdrawalForm' | 'activeRewardsWithdrawalForm'
   origin: NabuCustodialProductType
-  withdrawalAmountCrypto: number
-  withdrawalAmountFiat: number
+  withdrawalAmountCrypto: string
+  withdrawalAmountFiat: string
 }
 
 export type ActiveRewardsWithdrawalType = {

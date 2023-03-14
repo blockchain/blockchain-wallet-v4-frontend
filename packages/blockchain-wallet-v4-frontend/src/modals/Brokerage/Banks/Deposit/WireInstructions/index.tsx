@@ -4,9 +4,11 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { BSAccountType, FiatType, RemoteDataType } from '@core/types'
 import DataError from 'components/DataError'
+import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
+import { isNabuError } from 'services/errors'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -21,7 +23,12 @@ const WireInstructions = (props) => {
   }, [props.buySellActions, props.fiatCurrency])
 
   return props.data.cata({
-    Failure: (e) => <DataError message={{ message: e }} />,
+    Failure: (e) => {
+      if (isNabuError(e)) {
+        return <GenericNabuErrorFlyout error={e} onDismiss={props.handleClose} />
+      }
+      return <DataError message={{ message: e }} />
+    },
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => <Success {...val} {...props} />

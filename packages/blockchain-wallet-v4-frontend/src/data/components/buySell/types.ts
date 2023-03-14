@@ -20,14 +20,15 @@ import type {
   NabuAddressType,
   PaymentValue,
   ProviderDetailsType,
+  RefreshConfig,
   RemoteDataType,
   SDDEligibleType,
   SDDVerifiedType,
+  SwapNewQuoteType,
   SwapOrderType,
   SwapUserLimitsType,
   TradeAccumulatedItem
 } from '@core/types'
-import { SwapQuoteType } from '@core/types'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
@@ -149,11 +150,6 @@ export type BSCardSuccessRateType = {
   isBlocked: boolean
 }
 
-export type RefreshConfig = {
-  date: Date
-  totalMs: number
-}
-
 export type BuyQuoteStateType = {
   amount: string
   fee: string
@@ -173,14 +169,14 @@ export type BuyQuoteStateType = {
 }
 
 export type SellQuoteStateType = {
-  quote: SwapQuoteType
+  quote: SwapNewQuoteType
   rate: number
   refreshConfig: RefreshConfig
 }
 
 // State
 export type BuySellState = {
-  account: RemoteDataType<string, BSAccountType>
+  account: RemoteDataType<string | Error, BSAccountType>
   accumulatedTrades: RemoteDataType<string, Array<TradeAccumulatedItem>>
   addBank?: boolean
   applePayInfo?: ApplePayInfoType
@@ -221,6 +217,7 @@ export type BuySellState = {
   sddVerified: RemoteDataType<PartialClientErrorProperties, SDDVerifiedType>
   sellOrder?: SwapOrderType
   sellQuote: RemoteDataType<string, SellQuoteStateType>
+  sellQuotePrice: RemoteDataType<string | Error, SellQuotePrice>
   step: keyof typeof BuySellStepType
   swapAccount?: SwapAccountType
   vgsVaultId?: string
@@ -320,3 +317,21 @@ export type StepActionsPayload =
         | 'UPDATE_SECURITY_CODE'
         | 'CONFIRMING_BUY_ORDER'
     }
+
+export type PollOrder = {
+  orderId: string
+  waitUntilSettled?: boolean // this will help us to keep track did user already been on 3DS page
+}
+
+export type SellQuotePrice = {
+  data: {
+    amount: StandardNumericString
+    networkFee: StandardNumericString
+    price: StandardNumericString
+    resultAmount: StandardNumericString
+  }
+  isFailed: boolean
+  isPlaceholder: boolean
+  isRefreshing: boolean
+  rate: number
+}

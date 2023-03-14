@@ -7,16 +7,28 @@ import { getCoinAccounts } from 'data/coins/selectors'
 import { RootState } from 'data/rootReducer'
 import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
 
+import * as ResultAmountViewModel from './models/resultAmountViewModel'
+
+const selectResultAmountViewModel = (state: RootState) => {
+  const quotePrice = selectors.components.swap.getQuotePrice(state)
+  const initSwapFormValues = selectors.form.getFormValues('initSwap')(
+    state
+  ) as InitSwapFormValuesType
+  const coins = selectors.core.data.coins.getCoins()
+  const { coinfig } = coins[initSwapFormValues?.COUNTER?.coin || 'BTC']
+
+  return ResultAmountViewModel.make(quotePrice, coinfig)
+}
+
 const getData = (state: RootState) => {
   const formErrors = selectors.form.getFormSyncErrors('swapAmount')(state)
   const formValues = selectors.form.getFormValues('swapAmount')(state) as SwapAmountFormValues
   const initSwapFormValues = selectors.form.getFormValues('initSwap')(
     state
   ) as InitSwapFormValuesType
-  const incomingAmountR = selectors.components.swap.getIncomingAmount(state)
   const limitsR = selectors.components.swap.getLimits(state)
   const paymentR = selectors.components.swap.getPayment(state)
-  const quoteR = selectors.components.swap.getQuote(state)
+  const quotePriceR = selectors.components.swap.getQuotePrice(state)
   const baseRatesR = selectors.core.data.misc.getRatesSelector(
     initSwapFormValues?.BASE?.coin || 'BTC',
     state
@@ -27,26 +39,26 @@ const getData = (state: RootState) => {
   const crossBorderLimits = selectors.components.swap
     .getCrossBorderLimits(state)
     .getOrElse({} as CrossBorderLimits)
+  const resultAmountViewModel = selectResultAmountViewModel(state)
   return lift(
     (
-      incomingAmount: ExtractSuccess<typeof incomingAmountR>,
       limits: ExtractSuccess<typeof limitsR>,
-      quote: ExtractSuccess<typeof quoteR>,
       baseRates: ExtractSuccess<typeof baseRatesR>,
-      walletCurrency: FiatType
+      walletCurrency: FiatType,
+      quotePrice: ExtractSuccess<typeof quotePriceR>
     ) => ({
       accounts,
       baseRates,
       crossBorderLimits,
       formErrors,
       formValues,
-      incomingAmount,
       limits,
       payment: paymentR.getOrElse(undefined),
-      quote,
+      quotePrice,
+      resultAmountViewModel,
       walletCurrency
     })
-  )(incomingAmountR, limitsR, quoteR, baseRatesR, walletCurrencyR)
+  )(limitsR, baseRatesR, walletCurrencyR, quotePriceR)
 }
 
 export default getData

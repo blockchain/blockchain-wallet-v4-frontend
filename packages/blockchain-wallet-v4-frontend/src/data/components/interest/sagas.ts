@@ -39,7 +39,6 @@ import {
   EarnProductsType,
   EarnTabsType,
   EarnTransactionType,
-  InterestWithdrawalFormType,
   PendingTransactionType,
   RewardsDepositFormType,
   StakingDepositFormType
@@ -48,7 +47,6 @@ import {
 const PASSIVE_REWARDS_DEPOSIT_FORM = 'passiveRewardsDepositForm'
 const STAKING_DEPOSIT_FORM = 'stakingDepositForm'
 const ACTIVE_REWARDS_DEPOSIT_FORM = 'activeRewardsDepositForm'
-const PASSIVE_REWARDS_WITHDRAWAL_FORM = 'passiveRewardsWithdrawalForm'
 const ACTIVE_REWARDS_API_PRODUCT = 'EARN_CC1W'
 const STAKING_API_PRODUCT = 'STAKING'
 export const logLocation = 'components/interest/sagas'
@@ -945,8 +943,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         initialize(formName, {
           coin,
-          currency: walletCurrency,
-          earnWithdrawalAccount: defaultAccount
+          currency: walletCurrency
         })
       )
       yield put(A.setWithdrawalMinimumsSuccess({ withdrawalMinimumsResponse }))
@@ -1199,24 +1196,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       payload
     try {
       yield put(actions.form.startSubmit(formName))
-
-      const formValues: InterestWithdrawalFormType = yield select(
-        selectors.form.getFormValues(formName)
-      )
-      const isCustodialWithdrawal = prop('type', formValues.earnWithdrawalAccount) === 'CUSTODIAL'
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmountCrypto)
 
-      if (isCustodialWithdrawal) {
-        yield call(api.initiateCustodialTransfer, {
-          amount: withdrawalAmountBase,
-          currency: coin,
-          destination,
-          origin
-        })
-      } else {
-        const receiveAddress = yield call(getNextReceiveAddressForCoin, coin)
-        yield call(api.initiateInterestWithdrawal, withdrawalAmountBase, coin, receiveAddress)
-      }
+      yield call(api.initiateCustodialTransfer, {
+        amount: withdrawalAmountBase,
+        currency: coin,
+        destination,
+        origin
+      })
 
       // notify success
       yield put(actions.form.stopSubmit(formName))
