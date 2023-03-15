@@ -165,9 +165,7 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
           }
           size='default'
           state='initial'
-          text={
-            !cvvLoading && <FormattedMessage id='copy.update_card' defaultMessage='Update Card' />
-          }
+          text={!cvvLoading && <FormattedMessage id='copy.next' defaultMessage='Next' />}
           type='submit'
           variant='primary'
           width='full'
