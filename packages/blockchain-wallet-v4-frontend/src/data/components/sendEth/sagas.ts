@@ -121,13 +121,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const setWithdrawalFee = function* () {
         const withdrawalAmount = Exchange.convertCoinToCoin({
           baseToStandard: false,
-          coin: 'ETH',
+          coin,
           value: amount
         })
         const response: ReturnType<typeof api.getCustodialToNonCustodialWithdrawalFees> =
           yield call(api.getCustodialToNonCustodialWithdrawalFees, {
             amount: withdrawalAmount,
-            currency: 'ETH',
+            currency: coin,
             fiatCurrency,
             paymentMethod: 'CRYPTO_TRANSFER'
           })
@@ -148,7 +148,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         const response: ReturnType<typeof api.getMaxCustodialWithdrawalFee> = yield call(
           api.getMaxCustodialWithdrawalFee,
           {
-            currency: 'ETH',
+            currency: coin,
             fiatCurrency,
             paymentMethod: 'CRYPTO_TRANSFER'
           }
@@ -232,7 +232,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           const amountPayload = payload as SendEthFormAmountActionType['payload']
           const weiAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
-            coin: 'ETH',
+            coin,
             value: amountPayload.coin
           })
           if (fromAccount?.type === 'CUSTODIAL') {
