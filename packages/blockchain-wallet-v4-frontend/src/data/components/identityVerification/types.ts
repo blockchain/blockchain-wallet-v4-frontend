@@ -97,7 +97,6 @@ export interface IdentityVerificationState {
   smsStep: RemoteDataType<string, EmailSmsStepType>
   states: RemoteDataType<string, Array<StateType>>
   steps: RemoteDataType<string, Array<StepsType>>
-  stopFlowAfterLimitedAccessAchieved: boolean
   supportedCountries: RemoteDataType<string, Array<CountryType>>
   supportedDocuments: RemoteDataType<string, Array<DocumentType>>
   userAddresses: RemoteDataType<string, FindAddressResponse>

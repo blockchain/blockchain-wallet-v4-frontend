@@ -2,11 +2,9 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { fiatToString } from '@core/exchange/utils'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContent } from 'components/Flyout/Layout'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Analytics, ModalName } from 'data/types'
 
 import { IconsContainer, Title } from '../../components'
@@ -17,7 +15,6 @@ import {
   RowItemSubTitle,
   RowItemTitle,
   RowItemWrapper,
-  StatusCartridge,
   StatusCartridgeSuccess,
   UpgradeContainer,
   UpgradeRow,
@@ -54,8 +51,7 @@ const HeaderWrapper = styled(FlyoutWrapper)`
 type Props = OwnProps & SuccessStateType
 
 const Template: React.FC<Props> = (props) => {
-  const { analyticsActions, handleClose, limitsAndDetails, sddEligible, userData, userTiers } =
-    props
+  const { analyticsActions, handleClose, sddEligible, userData, userTiers } = props
   const userCurrentTier = userData?.tiers?.current ?? 0
 
   const sddCheckTier =
@@ -106,8 +102,6 @@ const Template: React.FC<Props> = (props) => {
   if (!Array.isArray(userTiers)) {
     return null
   }
-
-  const swapCrypto = limitsAndDetails.limits.find((limit) => limit.name === 'SWAP_CRYPTO')
 
   return (
     <Wrapper>
@@ -252,102 +246,6 @@ const Template: React.FC<Props> = (props) => {
               <Image name='check-empty-white' size='20px' />
             </UpgradeRow>
           </UpgradeContainer>
-          <UpgradeContainer>
-            <UpgradeRowWithBorder>
-              <Image name='grey-verified' size='20px' />
-              <RowItemTitle>
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.limited_access'
-                  defaultMessage='Limited Access'
-                />
-              </RowItemTitle>
-              <StatusCartridge>
-                <Text color='grey900' size='12px' weight={500}>
-                  {isUserTierZero ? (
-                    <FormattedMessage
-                      id='modals.onboarding.upgrade_now.apply_now'
-                      defaultMessage='Apply Now'
-                    />
-                  ) : (
-                    <FormattedMessage id='copy.active' defaultMessage='Active' />
-                  )}
-                </Text>
-              </StatusCartridge>
-            </UpgradeRowWithBorder>
-            <UpgradeRowWithBorder>
-              <Image name='send' size='20px' />
-              <RowItemWrapper>
-                <RowItemTitle>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.send_and_receive_crypto'
-                    defaultMessage='Send & Receive Crypto'
-                  />
-                </RowItemTitle>
-                <RowItemSubTitle>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.between_private_key_wallets'
-                    defaultMessage='Between Private Key Wallets'
-                  />
-                </RowItemSubTitle>
-              </RowItemWrapper>
-              <Image name='check-empty-blue' size='20px' />
-            </UpgradeRowWithBorder>
-            <UpgradeRow>
-              <Image name='swap-blue' size='20px' />
-              <RowItemWrapper>
-                <RowItemTitle>
-                  <FormattedMessage
-                    id='modals.tradinglimits.swap_crypto'
-                    defaultMessage='Swap Crypto'
-                  />
-                </RowItemTitle>
-                <RowItemSubTitle>
-                  {swapCrypto?.limit ? (
-                    <FormattedMessage
-                      id='modals.onboarding.upgrade_now.swap_without_limits_with_period'
-                      defaultMessage='Up to {amount} per {period}'
-                      values={{
-                        amount: fiatToString({
-                          unit: swapCrypto.limit.value.currency,
-                          value: convertBaseToStandard('FIAT', swapCrypto.limit.value.value)
-                        }),
-                        period: swapCrypto.limit.period.toLocaleLowerCase()
-                      }}
-                    />
-                  ) : (
-                    <FormattedMessage
-                      id='modals.onboarding.upgrade_now.one_time_between_private_key_wallets'
-                      defaultMessage='One-Time Between Private Key Wallets'
-                    />
-                  )}
-                </RowItemSubTitle>
-              </RowItemWrapper>
-              <Image name='check-empty-blue' size='20px' />
-            </UpgradeRow>
-            {isUserTierZero && (
-              <div style={{ padding: '25px' }}>
-                <Button
-                  fullwidth
-                  size='16px'
-                  height='48px'
-                  nature='empty-secondary'
-                  data-e2e='getBasicUpdate'
-                  type='button'
-                  onClick={() => {
-                    // set user clicked on get limited access
-                    props.identityVerificationActions.setStopFlowAfterLimitedAccessAchieved(true)
-                    startVerification()
-                  }}
-                >
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.get_limited_access'
-                    defaultMessage='Get Limited Access'
-                  />
-                </Button>
-              </div>
-            )}
-          </UpgradeContainer>
-
           <Disclaimer>
             <RowItemSubTitle>
               <FormattedMessage
