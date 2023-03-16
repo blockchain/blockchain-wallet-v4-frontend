@@ -6,7 +6,6 @@ import React, {
   useMemo
 } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -18,7 +17,6 @@ import { Flex } from 'components/Flex'
 import { Title, Value } from 'components/Flyout'
 import { Padding } from 'components/Padding'
 import { Tag } from 'components/Tag'
-import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { NabuError } from 'services/errors'
 
@@ -36,18 +34,22 @@ const StyledTitle = styled(Title)`
 
 type Props = {
   icon: ReactElement
-  onClick: (string) => void
+  isBlocked: boolean
+  onClick: () => void
   onClickNabuErrorInfo?: (error: NabuError) => void
   text: string
   value: BSPaymentMethodType
 }
 
-const Card: React.FC<Props> = ({ icon, onClick, onClickNabuErrorInfo, text, value }) => {
+const Card: React.FC<Props> = ({
+  icon,
+  isBlocked = false,
+  onClick,
+  onClickNabuErrorInfo,
+  text,
+  value
+}) => {
   const { block, card, currency, limits, type, ux } = value
-
-  const isCreditCardOptimizationEnabled = useSelector(
-    selectors.core.walletOptions.getIsCreditCardOptimizationEnabled
-  ).data
 
   const nabuError = useMemo(() => {
     if (!ux) return
@@ -88,8 +90,24 @@ const Card: React.FC<Props> = ({ icon, onClick, onClickNabuErrorInfo, text, valu
     [nabuError, onClickNabuErrorInfo]
   )
 
+  const handleClickOnCard: MouseEventHandler<HTMLDivElement> = useCallback(
+    (event) => {
+      event.preventDefault()
+      event.stopPropagation()
+
+      if (isBlocked) return
+
+      onClick()
+    },
+    [onClick, isBlocked]
+  )
+
   return (
-    <DisplayContainer data-e2e={`sb${type.toLowerCase()}Cards`} role='button' onClick={onClick}>
+    <DisplayContainer
+      data-e2e={`sb${type.toLowerCase()}Cards`}
+      role='button'
+      onClick={handleClickOnCard}
+    >
       <DisplayIcon>{icon}</DisplayIcon>
       <MultiRowContainer style={{ minWidth: 0 }}>
         <Flex justifyContent='space-between'>
@@ -124,7 +142,7 @@ const Card: React.FC<Props> = ({ icon, onClick, onClickNabuErrorInfo, text, valu
             </StyledTitle>
           )}
         </Flex>
-        {!!nabuError && !!isCreditCardOptimizationEnabled && (
+        {!!nabuError && (
           <Padding top={8}>
             <Flex gap={8} alignItems='center'>
               <Tag variant={block ? 'error' : 'warning'}>{nabuError.title}</Tag>
