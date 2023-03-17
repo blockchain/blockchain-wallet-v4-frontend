@@ -51,16 +51,9 @@ const HeaderWrapper = styled(FlyoutWrapper)`
 type Props = OwnProps & SuccessStateType
 
 const Template: React.FC<Props> = (props) => {
-  const { analyticsActions, handleClose, sddEligible, userData, userTiers } = props
+  const { analyticsActions, handleClose, userData, userTiers } = props
   const userCurrentTier = userData?.tiers?.current ?? 0
-
-  const sddCheckTier =
-    sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
-      ? TIER_TYPES.SILVER_PLUS
-      : userCurrentTier
-  const currentTier: number | undefined =
-    userCurrentTier === TIER_TYPES.NONE ? userCurrentTier : sddCheckTier
-  const isUserTierZero = currentTier === TIER_TYPES.NONE
+  const isUserTierZero = userCurrentTier === TIER_TYPES.NONE
 
   const onCloseModal = useCallback(() => {
     handleClose()

@@ -1,9 +1,3 @@
-export type SDDEligibleType = {
-  eligible: boolean
-  ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION'
-  tier: 0 | 1 | 2 | 3 | 4
-}
-
 export enum CountryScope {
   KYC = 'KYC',
   MERCURY = 'MERCURY',
@@ -26,7 +20,7 @@ export enum NodeItemTypes {
   SINGLE_SELECTION = 'SINGLE_SELECTION'
 }
 
-export type SDDVerifiedType = {
+export type VerifiedType = {
   taskComplete?: boolean
   verified: boolean
 }

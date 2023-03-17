@@ -27,7 +27,6 @@ import { isNabuError } from 'services/errors'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
-import SuccessSdd from './template.sdd.success'
 
 const { getSymbol } = Exchange
 const { FORM_BS_CHECKOUT } = model.components.buySell
@@ -196,8 +195,6 @@ class OrderSummaryContainer extends PureComponent<Props> {
             handleReset={this.handleErrorAction}
             handleBack={this.handleErrorAction}
           />
-        ) : val.userData?.tiers?.current !== 2 ? (
-          <SuccessSdd {...val} {...this.props} />
         ) : (
           <OrderSummary
             analyticsActions={this.props.analyticsActions}

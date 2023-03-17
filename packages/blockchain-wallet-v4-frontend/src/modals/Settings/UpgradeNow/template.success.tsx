@@ -76,14 +76,7 @@ const UpgradeDescription = styled(Text)`
 type Props = OwnProps & SuccessStateType
 
 const Template: React.FC<Props> = (props) => {
-  const {
-    earnEDDStatus,
-    identityVerificationActions,
-    modalActions,
-    sddEligible,
-    userData,
-    userTiers
-  } = props
+  const { earnEDDStatus, identityVerificationActions, modalActions, userData, userTiers } = props
   const startVerification = useCallback(
     (tier: TIER_TYPES) => () => {
       modalActions.closeModal(ModalName.TRADING_LIMITS_MODAL)
@@ -103,15 +96,9 @@ const Template: React.FC<Props> = (props) => {
   const goldTier = userTiers.find((userTier) => userTier.index === TIER_TYPES.GOLD)
 
   const userCurrentTier = (path(['tiers', 'current'], userData) as number) ?? 0
-  const sddCheckTier =
-    sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
-      ? TIER_TYPES.SILVER_PLUS
-      : userCurrentTier
-  const currentTier: number | undefined =
-    userCurrentTier === TIER_TYPES.NONE ? userCurrentTier : sddCheckTier
   const isUserTierZero = userCurrentTier === TIER_TYPES.NONE
   const isUserTierSilver =
-    currentTier === TIER_TYPES.SILVER || currentTier === TIER_TYPES.SILVER_PLUS
+    userCurrentTier === TIER_TYPES.SILVER || userCurrentTier === TIER_TYPES.SILVER_PLUS
 
   const isGoldInReview = goldTier.state === 'under_review' || goldTier.state === 'pending'
 
