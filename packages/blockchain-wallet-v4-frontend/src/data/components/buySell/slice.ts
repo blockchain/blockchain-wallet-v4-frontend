@@ -25,8 +25,6 @@ import {
   PaymentValue,
   ProductTypes,
   ProviderDetailsType,
-  SDDEligibleType,
-  SDDVerifiedType,
   SwapUserLimitsType,
   TradeAccumulatedItem
 } from '@core/types'
@@ -85,9 +83,7 @@ const initialState: BuySellState = {
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
   reason: undefined,
-  sddEligible: Remote.NotAsked,
-  sddTransactionFinished: false,
-  sddVerified: Remote.NotAsked,
+
   sellOrder: undefined,
   sellQuote: Remote.NotAsked,
   sellQuotePrice: Remote.NotAsked,
@@ -338,26 +334,6 @@ const buySellSlice = createSlice({
     },
     fetchQuoteSuccess: (state, action: PayloadAction<BSQuoteType>) => {
       state.quote = Remote.Success(action.payload)
-    },
-    fetchSDDEligibility: () => {},
-    fetchSDDEligibleFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
-      state.sddEligible = Remote.Failure(action.payload)
-    },
-    fetchSDDEligibleLoading: (state) => {
-      state.sddEligible = Remote.Loading
-    },
-    fetchSDDEligibleSuccess: (state, action: PayloadAction<SDDEligibleType>) => {
-      state.sddEligible = Remote.Success(action.payload)
-    },
-    fetchSDDVerified: () => {},
-    fetchSDDVerifiedFailure: (state, action: PayloadAction<PartialClientErrorProperties>) => {
-      state.sddVerified = Remote.Failure(action.payload)
-    },
-    fetchSDDVerifiedLoading: (state) => {
-      state.sddVerified = Remote.Loading
-    },
-    fetchSDDVerifiedSuccess: (state, action: PayloadAction<SDDVerifiedType>) => {
-      state.sddVerified = Remote.Success(action.payload)
     },
     fetchSellQuote: (
       state,
@@ -648,9 +624,6 @@ const buySellSlice = createSlice({
     },
     updatePaymentSuccess: (state, action: PayloadAction<PaymentValue | undefined>) => {
       state.payment = Remote.Success(action.payload)
-    },
-    updateSddTransactionFinished: (state) => {
-      state.sddTransactionFinished = true
     }
   }
 })

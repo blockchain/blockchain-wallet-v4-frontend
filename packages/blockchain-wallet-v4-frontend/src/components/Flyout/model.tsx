@@ -710,12 +710,8 @@ const renderFund = (value: BSPaymentMethodType, sbBalances: BSBalancesType) => {
   )
 }
 
-const getIcon = (
-  method: BSPaymentMethodType | undefined,
-  isSddFlow = false,
-  disabled?: boolean
-): ReactElement => {
-  if (isSddFlow && !method) {
+const getIcon = (method: BSPaymentMethodType | undefined, disabled?: boolean): ReactElement => {
+  if (!method) {
     return <DisablableIcon disabled={disabled} size='18px' color='blue600' name='credit-card-sb' />
   }
   if (!method) {
@@ -769,10 +765,9 @@ const getBankText = (method?: BSPaymentMethodType | BankTransferAccountType | Be
 
 const getText = (
   method: BSPaymentMethodType | undefined,
-  sbBalances: BSBalancesType,
-  isSddFlow = false
+  sbBalances: BSBalancesType
 ): ReactElement => {
-  if (isSddFlow && !method) {
+  if (!method) {
     return (
       <Text weight={600} color='grey900' style={{ paddingBottom: '3px', paddingTop: '4px' }}>
         <FormattedMessage

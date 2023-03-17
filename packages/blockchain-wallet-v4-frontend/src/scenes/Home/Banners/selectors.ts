@@ -115,7 +115,6 @@ export const getData = (state: RootState) => {
     userData.kycState === KYC_STATES.PENDING ||
     userData.kycState === KYC_STATES.UNDER_REVIEW ||
     userData.kycState === KYC_STATES.VERIFIED
-  const sddEligibleTier = selectors.components.buySell.getUserSddEligibleTier(state).getOrElse(1)
 
   if (isKycPendingOrVerified) {
     isVerifiedId = true
@@ -148,8 +147,6 @@ export const getData = (state: RootState) => {
   const coinRename = selectors.core.walletOptions.getCoinRename(state).getOrElse('')
   const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
   const showRenameBanner = showBanner(!!coinRename, coinRenameAnnouncement, announcementState)
-
-  const isTier3SDD = sddEligibleTier === 3
 
   // servicePriceUnavailable
   const isServicePriceUnavailable = selectors.core.data.coins.getIsServicePriceDown(state)
@@ -187,7 +184,7 @@ export const getData = (state: RootState) => {
 
   // buy crypto
   const buyCryptoAnnouncement = getBuyCryptoAnnouncement()
-  const buyCryptoBannerCondition = userData?.tiers?.current < 2 || isKycStateNone
+  const buyCryptoBannerCondition = userData?.tiers?.current !== 2 || isKycStateNone
   const showBuyCryptoBanner = showBanner(
     buyCryptoBannerCondition,
     buyCryptoAnnouncement,
@@ -273,7 +270,7 @@ export const getData = (state: RootState) => {
 
   // KYC finish banner
   const kycFinishAnnouncement = getKYCFinishAnnouncement()
-  const showFinishKYC = isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD
+  const showFinishKYC = isKycStateNone && isUserActive && !isFirstLogin
   const showKYCFinishBanner = showBanner(showFinishKYC, kycFinishAnnouncement, announcementState)
 
   const stakingEligibleR = selectors.components.interest.getStakingEligible(state)

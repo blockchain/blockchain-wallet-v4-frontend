@@ -9,14 +9,13 @@ import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-compone
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
-import * as SddFlow from 'data/components/buySell/utils/sddFlow'
 import { Analytics, ModalName, SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
 import SellState from './SellState'
 
-const { FORM_BS_CHECKOUT, FORM_BS_CRYPTO_SELECTION } = model.components.buySell
+const { FORM_BS_CRYPTO_SELECTION } = model.components.buySell
 
 const Wrapper = styled.div`
   display: flex;
@@ -107,13 +106,6 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
       properties: {}
     })
 
-    // if SDD user has already placed on order, force them to Gold upgrade
-    if (SddFlow.isSddUser(this.props.userData) && this.props.sbOrders?.length > 0) {
-      return this.props.buySellActions.setStep({
-        step: 'UPGRADE_TO_GOLD'
-      })
-    }
-
     // in case of not directly supported fiat currency lend user to select trading currency from list
     const { preferredFiatTradingCurrency } = this.props.userData.currencies
     const fiatCurrency =
@@ -154,7 +146,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
   }
 
   render() {
-    const showWelcome = this.props.isFirstLogin && !this.props.sddTransactionFinished
+    const showWelcome = this.props.isFirstLogin
 
     return (
       <Wrapper>

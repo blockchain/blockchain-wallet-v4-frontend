@@ -220,26 +220,9 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
       properties: {}
     })
 
-    const { bankAccounts, cards, isSddFlow, sbBalances } = props.data.getOrElse({
-      isSddFlow: false
-    } as SuccessStateType)
+    const { bankAccounts, cards, sbBalances } = props.data.getOrElse({} as SuccessStateType)
 
     const inputCurrency = props.quoteSummaryViewModel.fiatCode as WalletFiatType
-
-    if (isSddFlow) {
-      // user has to have at least one active card
-      if (cards && cards.length > 0 && cards[0].state === 'ACTIVE') {
-        const card = cards[0]
-        return props.buySellActions.confirmOrder({
-          paymentMethodId: card.id,
-          quoteState: props.quoteSummaryViewModel.quoteState
-        })
-      }
-
-      return props.buySellActions.setStep({
-        step: 'DETERMINE_CARD_PROVIDER'
-      })
-    }
 
     switch (props.quoteSummaryViewModel.paymentMethod) {
       case BSPaymentTypes.FUNDS:

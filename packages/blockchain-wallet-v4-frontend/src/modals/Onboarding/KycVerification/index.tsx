@@ -84,13 +84,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
     }
 
     if (step === STEPS.userAddress) {
-      return (
-        <UserAddress
-          checkSddEligibility={this.props.checkSddEligibility}
-          onClose={this.handleClose}
-          onCompletionCallback={this.props.onCompletionCallback}
-        />
-      )
+      return <UserAddress onClose={this.handleClose} />
     }
 
     if (step === STEPS.moreInfo) {

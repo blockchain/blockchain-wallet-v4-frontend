@@ -115,10 +115,7 @@ const identityVerificationSlice = createSlice({
     },
     saveKYCExtraQuestions: () => {},
     saveUserInfoData: (state) => {},
-    saveUserResidentialData: (
-      state,
-      action: PayloadAction<{ checkSddEligibility?: boolean; onCompletionCallback?: () => void }>
-    ) => {},
+    saveUserResidentialData: () => {},
     sendDeepLink: () => {},
     sendEmailVerification: (state, action: PayloadAction<{ email: string }>) => {},
     setAllContextQuestionsAnswered: () => {},

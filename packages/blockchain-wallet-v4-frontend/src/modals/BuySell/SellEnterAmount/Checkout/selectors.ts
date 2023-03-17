@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { BSPaymentTypes, CrossBorderLimits, ExtractSuccess } from '@core/types'
+import { CrossBorderLimits, ExtractSuccess } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -14,7 +14,6 @@ const getData = (state: RootState) => {
   const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
-  const sddLimitR = selectors.components.buySell.getUserLimit(state, BSPaymentTypes.PAYMENT_CARD)
   const bankTransferAccounts = selectors.components.brokerage
     .getBankTransferAccounts(state)
     .getOrElse([])
@@ -33,8 +32,7 @@ const getData = (state: RootState) => {
       quote: ExtractSuccess<typeof quoteR>,
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
-      userData: ExtractSuccess<typeof userDataR>,
-      sddLimit: ExtractSuccess<typeof sddLimitR>
+      userData: ExtractSuccess<typeof userDataR>
     ) => ({
       bankTransferAccounts,
       crossBorderLimits,
@@ -47,10 +45,9 @@ const getData = (state: RootState) => {
       quote,
       rates,
       sbBalances,
-      sddLimit,
       userData
     })
-  )(quoteR, ratesR, sbBalancesR, userDataR, sddLimitR)
+  )(quoteR, ratesR, sbBalancesR, userDataR)
 }
 
 export default getData

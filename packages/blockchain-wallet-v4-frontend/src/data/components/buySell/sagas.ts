@@ -76,7 +76,6 @@ import {
 import { createBuyOrder } from './sagas/createBuyOrder'
 import { updateCardCvvAndPollOrder } from './sagas/updateCardCvvAndPollOrder'
 import * as S from './selectors'
-import { getIsSddFlow } from './selectors/getIsSddFlow'
 import { actions as A } from './slice'
 import * as T from './types'
 import {
@@ -87,7 +86,6 @@ import {
   isValidInputAmount,
   reversePair
 } from './utils'
-import * as SddFlow from './utils/sddFlow'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -1042,33 +1040,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchSDDVerified = function* () {
-    try {
-      const isSddVerified = S.getSddVerified(yield select()).getOrElse({
-        verified: false
-      })
-      const { nabuUserId } = (yield select(
-        selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
-      )).getOrElse({ nabuUserId: null })
-
-      if (!isSddVerified.verified && nabuUserId) {
-        yield put(A.fetchSDDVerifiedLoading())
-        const sddEligible = yield call(api.fetchSDDVerified)
-        yield put(A.fetchSDDVerifiedSuccess(sddEligible))
-      }
-    } catch (e) {
-      const { code: network_error_code, message: network_error_description } =
-        errorCodeAndMessage(e)
-      const error: PartialClientErrorProperties = {
-        network_endpoint: '/sdd/verified',
-        network_error_code,
-        network_error_description,
-        source: 'NABU'
-      }
-      yield put(A.fetchSDDVerifiedFailure(error))
-    }
-  }
-
   const fetchBSCards = function* ({ payload }: ReturnType<typeof A.fetchCards>) {
     let useNewPaymentProviders = false
     try {
@@ -1131,37 +1102,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.fetchFiatEligibleFailure(error))
-    }
-  }
-
-  const fetchSDDEligible = function* () {
-    try {
-      yield put(A.fetchSDDEligibleLoading())
-      // check if user is already tier 2
-      if (!(yield call(isTier2))) {
-        // user not tier 2, call for sdd eligibility
-        const sddEligible = yield call(api.fetchSDDEligible)
-        yield put(A.fetchSDDEligibleSuccess(sddEligible))
-      } else {
-        // user is already tier 2, manually set as ineligible
-        yield put(
-          A.fetchSDDEligibleSuccess({
-            eligible: false,
-            ineligibilityReason: 'KYC_TIER',
-            tier: 2
-          })
-        )
-      }
-    } catch (e) {
-      const { code: network_error_code, message: network_error_description } =
-        errorCodeAndMessage(e)
-      const error: PartialClientErrorProperties = {
-        network_endpoint: '/sdd/eligible',
-        network_error_code,
-        network_error_description,
-        source: 'NABU'
-      }
-      yield put(A.fetchSDDEligibleFailure(error))
     }
   }
 
@@ -1583,16 +1523,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const pair = S.getBSPair(yield select())
     const swapAccount = S.getSwapAccount(yield select())
     if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
-
-    const isSddFlow = getIsSddFlow(yield select()).getOrElse(false)
-    const isAllowedPaymentType = SddFlow.isAllowedPaymentType(method, mobilePaymentMethod)
-    if (isSddFlow && !isAllowedPaymentType) {
-      return yield put(
-        A.setStep({
-          step: 'KYC_REQUIRED'
-        })
-      )
-    }
 
     switch (method.type) {
       case BSPaymentTypes.BANK_ACCOUNT:
@@ -2248,8 +2178,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchPairs,
     fetchPaymentAccount,
     fetchPaymentMethods,
-    fetchSDDEligible,
-    fetchSDDVerified,
     fetchSellQuote,
     fetchSellQuotePrice,
     formChanged,

@@ -53,7 +53,7 @@ const Checkout = (props: Props) => {
   const handleSubmit = () => {
     if (!data) return
 
-    const { hasPaymentAccount, isSddFlow } = data
+    const { hasPaymentAccount } = data
 
     const buySellGoal = find(propEq('name', 'buySell'), goals)
 
@@ -75,11 +75,7 @@ const Checkout = (props: Props) => {
       }
     })
 
-    if (isSddFlow) {
-      props.buySellActions.proceedToBuyConfirmation({
-        paymentType: BSPaymentTypes.PAYMENT_CARD
-      })
-    } else if (!method) {
+    if (!method) {
       const nextStep = hasPaymentAccount ? 'LINKED_PAYMENT_ACCOUNTS' : 'PAYMENT_METHODS'
       props.buySellActions.setStep({
         cryptoCurrency: props.cryptoCurrency,

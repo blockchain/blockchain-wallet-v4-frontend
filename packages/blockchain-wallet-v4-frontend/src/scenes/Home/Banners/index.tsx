@@ -32,7 +32,6 @@ const Banners = (props: Props) => {
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
 
   useEffect(() => {
-    buySellActions.fetchSDDEligibility()
     interestActions.fetchInterestEligible()
     interestActions.fetchStakingEligible()
     interestActions.fetchActiveRewardsEligible()

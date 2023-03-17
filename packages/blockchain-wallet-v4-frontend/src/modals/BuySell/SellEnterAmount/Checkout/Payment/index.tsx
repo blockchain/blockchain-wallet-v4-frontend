@@ -75,7 +75,7 @@ const Payment: React.FC<Props> = (props: Props) => {
       )
     }
 
-    return getText(props.method, props.sbBalances, false)
+    return getText(props.method, props.sbBalances)
   }
 
   return (
