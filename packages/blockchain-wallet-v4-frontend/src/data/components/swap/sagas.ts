@@ -558,8 +558,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       }
     }
 
-    // show sanctions for sell
+    // show sanctions for swap
     if (products?.swap?.reasonNotEligible) {
+      // tier 2 required
+      if (products.swap.reasonNotEligible.reason === 'TIER_2_REQUIRED') {
+        yield put(
+          actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+            origin: 'BuySellInit'
+          })
+        )
+        yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))
+        return
+      }
+
       const message =
         products.swap.reasonNotEligible.reason !== CustodialSanctionsEnum.EU_5_SANCTION
           ? products.swap.reasonNotEligible.message
