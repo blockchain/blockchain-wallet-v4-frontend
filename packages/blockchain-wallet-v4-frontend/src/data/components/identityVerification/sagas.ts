@@ -2,10 +2,11 @@ import { isEmpty, prop, toUpper } from 'ramda'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
 import { Types } from '@core'
-import { ExtraKYCContext, ExtraQuestionsType, RemoteDataType, SDDVerifiedType } from '@core/types'
+import { ExtraKYCContext, ExtraQuestionsType, RemoteDataType } from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName, ModalParamPropsType } from 'data/modals/types'
-import { Analytics, KycStateType, UserDataType } from 'data/types'
+import { KycStateType, UserDataType } from 'data/types'
 import * as C from 'services/alerts'
 
 import profileSagas from '../../modules/profile/sagas'
@@ -415,15 +416,12 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const saveUserResidentialData = function* ({
-    payload
-  }: ReturnType<typeof A.saveUserResidentialData>) {
+  const saveUserResidentialData = function* () {
     try {
       yield put(actions.form.startSubmit(RESIDENTIAL_FORM))
       const { city, country, line1, line2, postCode, state } = yield select(
         selectors.form.getFormValues(RESIDENTIAL_FORM)
       )
-      const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
 
       const address = {
         city,
@@ -438,102 +436,7 @@ export default ({ api, coreSagas, networks }) => {
         payload: { address }
       })
 
-      // if user clicked on Get Limited Access we stop the flow at this point
-      const stopAfterLimitedAccess =
-        selectors.components.identityVerification.getStopFlowAfterLimitedAccessAchieved(
-          yield select()
-        )
-
-      if (stopAfterLimitedAccess) {
-        yield put(actions.form.stopSubmit(RESIDENTIAL_FORM))
-        yield put(actions.modules.profile.fetchUser())
-        yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
-      }
-
-      if (payload.checkSddEligibility) {
-        const POLL_SDD_DELAY = 3000
-        let sddVerified: SDDVerifiedType
-        let callCount = 0
-
-        // poll for SDD verified check to complete
-        // 10 call max * 3 second intervals = 30 second wait before forcing gold flow
-        while (true) {
-          callCount += 1
-          if (callCount >= 10) {
-            sddVerified = { taskComplete: true, verified: false }
-            break
-          }
-          sddVerified = yield call(api.fetchSDDVerified)
-          if (sddVerified?.taskComplete) {
-            yield put(actions.components.buySell.fetchSDDVerifiedSuccess(sddVerified))
-            // Info confirmed, record cowboys events only
-            if (hasCowboysTag) {
-              yield put(
-                actions.analytics.trackEvent({
-                  key: Analytics.COWBOYS_PERSONAL_INFO_CONFIRMED,
-                  properties: {}
-                })
-              )
-              yield put(
-                actions.analytics.trackEvent({
-                  key: Analytics.COWBOYS_ADDRESS_CONFIRMED,
-                  properties: {}
-                })
-              )
-            }
-            break
-          }
-          yield delay(POLL_SDD_DELAY)
-        }
-
-        if (sddVerified.verified) {
-          if (hasCowboysTag) {
-            const kycExtraSteps = selectors.components.identityVerification
-              .getKYCExtraSteps(yield select())
-              .getOrElse({} as ExtraQuestionsType)
-            const showExtraKycSteps = kycExtraSteps?.nodes?.length > 0
-            if (!showExtraKycSteps) {
-              yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
-              yield put(
-                actions.modals.showModal(ModalName.COWBOYS_PROMO, {
-                  origin: 'CowboysCard',
-                  step: 'raffleEntered'
-                })
-              )
-            } else {
-              // go immediately to extra KYC step
-              yield put(actions.form.stopSubmit(RESIDENTIAL_FORM))
-              yield call(goToNextStep)
-              return
-            }
-          }
-          // SDD verified, refetch user profile
-          yield put(actions.modules.profile.fetchUser())
-          // run callback to get back to BS flow
-          if (payload.onCompletionCallback) {
-            payload.onCompletionCallback()
-          }
-
-          // wait for BS create to finish
-          yield take([
-            actions.components.buySell.fetchOrdersSuccess.type,
-            actions.components.buySell.fetchOrdersFailure.type
-          ])
-
-          // close KYC modal
-          yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
-        } else {
-          // SDD denied, continue to veriff
-          yield call(goToNextStep)
-          // create BS order in background in case user drops out of veriff flow
-          if (payload.onCompletionCallback) {
-            payload.onCompletionCallback()
-          }
-        }
-      } else {
-        yield call(goToNextStep)
-      }
-
+      yield call(goToNextStep)
       yield put(actions.form.stopSubmit(RESIDENTIAL_FORM))
       yield put(actions.modules.profile.fetchUser())
 
@@ -590,9 +493,10 @@ export default ({ api, coreSagas, networks }) => {
       // return to KYC
       yield call(goToNextStep)
     } catch (e) {
+      const error = errorHandler(e)
       yield put(
         actions.form.stopSubmit(KYC_EXTRA_QUESTIONS_FORM, {
-          _error: typeof e === 'string' ? e : e.description
+          _error: error
         })
       )
       yield put(

@@ -250,19 +250,6 @@ export const getIncomingAmount = (state: RootState) => {
   })
 }
 
-export const getSddEligible = (state: RootState) => state.components.buySell.sddEligible
-
-export const isUserSddEligible = (state: RootState) => {
-  const sddEligibleR = getSddEligible(state)
-  return lift((sddEligible: ExtractSuccess<typeof sddEligibleR>) => !sddEligible.eligible)(
-    sddEligibleR
-  )
-}
-export const getUserSddEligibleTier = (state: RootState) => {
-  const sddEligibleR = getSddEligible(state)
-  return lift((sddEligible: ExtractSuccess<typeof sddEligibleR>) => sddEligible.tier)(sddEligibleR)
-}
-
 export const getMethodByType = (state: RootState, type: BSPaymentTypes) => {
   const sbMethodsR = getBSPaymentMethods(state)
   return lift((sbMethods: ExtractSuccess<typeof sbMethodsR>) => {
@@ -279,19 +266,7 @@ export const getUserLimit = (state: RootState, type: BSPaymentTypes) => {
   })(sbMethodsR)
 }
 
-export const getSddVerified = (state: RootState) => state.components.buySell.sddVerified
-
-export const isUserSddVerified = (state: RootState) => {
-  const sddVerifiedR = getSddVerified(state)
-  return lift(
-    (sddVerified: ExtractSuccess<typeof sddVerifiedR>) =>
-      sddVerified.taskComplete && sddVerified.verified
-  )(sddVerifiedR)
-}
 export const getLimits = (state: RootState) => state.components.buySell.limits
-
-export const getSddTransactionFinished = (state: RootState) =>
-  state.components.buySell.sddTransactionFinished
 
 export const getCheckoutAccountCodes = (state: RootState) =>
   state.components.buySell.checkoutDotComAccountCodes

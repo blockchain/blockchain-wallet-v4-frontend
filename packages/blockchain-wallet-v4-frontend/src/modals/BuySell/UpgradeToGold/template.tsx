@@ -4,7 +4,7 @@ import { PaletteColors } from '@blockchain-com/constellation'
 import styled, { css } from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { BlueCartridge, GreyCartridge } from 'components/Cartridge'
+import { BlueCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContainer } from 'components/Flyout/Layout'
 
@@ -55,14 +55,6 @@ const RowItemTitleWhite = styled(RowItemTitle)`
 const RowItemSubTitleWhite = styled(RowItemSubTitle)`
   color: rgba(255, 255, 255, 0.72);
 `
-
-const StatusCartridge = styled(GreyCartridge)`
-  display: flex;
-  flex-direction: row;
-  > span {
-    padding: 3px 8px;
-  }
-`
 const StatusCartridgeBlue = styled(BlueCartridge)`
   display: flex;
   flex-direction: row;
@@ -95,9 +87,6 @@ const Disclaimer = styled.div`
 const UpgradeRow = styled.div`
   display: flex;
   padding: 16px 24px;
-`
-const UpgradeRowWithBorder = styled(UpgradeRow)`
-  border-bottom: 1px solid ${PaletteColors['grey-000']};
 `
 const UpgradeRowWithBlueBorder = styled(UpgradeRow)`
   border-bottom: 1px solid ${PaletteColors['blue-400']};
@@ -165,57 +154,6 @@ const Template: React.FC<Props> = (props: Props) => {
       </HeaderWrapper>
 
       <div>
-        <UpgradeContainer>
-          <UpgradeRowWithBorder>
-            <Image name='grey-verified' size='20px' />
-            <RowItemTitle>
-              <FormattedMessage
-                id='modals.onboarding.upgrade_now.limited_access'
-                defaultMessage='Limited Access'
-              />
-            </RowItemTitle>
-            <StatusCartridge>
-              <Text color='grey900' size='12px' weight={500}>
-                <FormattedMessage id='copy.active' defaultMessage='Active' />
-              </Text>
-            </StatusCartridge>
-          </UpgradeRowWithBorder>
-          <UpgradeRowWithBorder>
-            <Image name='send' size='20px' />
-            <RowItemWrapper>
-              <RowItemTitle>
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.send_and_receive_crypto'
-                  defaultMessage='Send & Receive Crypto'
-                />
-              </RowItemTitle>
-              <RowItemSubTitle>
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.between_private_key_wallets'
-                  defaultMessage='Between Private Key Wallets'
-                />
-              </RowItemSubTitle>
-            </RowItemWrapper>
-          </UpgradeRowWithBorder>
-          <UpgradeRow>
-            <Image name='swap-blue' size='20px' />
-            <RowItemWrapper>
-              <RowItemTitle>
-                <FormattedMessage
-                  id='modals.tradinglimits.swap_crypto'
-                  defaultMessage='Swap Crypto'
-                />
-              </RowItemTitle>
-              <RowItemSubTitle>
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.one_time_between_private_key_wallets'
-                  defaultMessage='One-Time Between Private Key Wallets'
-                />
-              </RowItemSubTitle>
-            </RowItemWrapper>
-          </UpgradeRow>
-        </UpgradeContainer>
-
         <UpgradeContainer second>
           <UpgradeRowWithBlueBorder>
             <Image name='white-verified' size='20px' />

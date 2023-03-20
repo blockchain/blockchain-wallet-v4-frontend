@@ -30,17 +30,9 @@ const UserAddress = (props: Props) => {
   }, [])
 
   const handleSubmit = () => {
-    const {
-      analyticsActions,
-      checkSddEligibility,
-      identityVerificationActions,
-      onCompletionCallback
-    } = props
+    const { analyticsActions, identityVerificationActions } = props
 
-    identityVerificationActions.saveUserResidentialData({
-      checkSddEligibility,
-      onCompletionCallback
-    })
+    identityVerificationActions.saveUserResidentialData()
 
     analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_PERSONAL_INFORMATION_ENTERED,
@@ -118,9 +110,7 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  checkSddEligibility?: boolean
   onClose: () => void
-  onCompletionCallback?: () => void
 }
 
 export type SuccessStateType = ReturnType<typeof getData>['data']
