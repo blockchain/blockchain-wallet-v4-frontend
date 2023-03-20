@@ -204,7 +204,7 @@ const TaxCenter = ({
         <Text size='12px' weight={500} color='grey700'>
           <FormattedMessage
             id='scenes.tax.center.card.service.turboTax.description2'
-            defaultMessage='If you’re new to crypto and don’t have much crypto activity, TurboTax helps navigate the complexity of crypto taxes. Blockchain.com users can save $15 on TurboTax Premier products'
+            defaultMessage='If you’re new to crypto and don’t have much crypto activity, TurboTax helps navigate the complexity of crypto taxes.'
           />
         </Text>
 
