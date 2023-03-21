@@ -1,6 +1,7 @@
 import React, { FC, ReactElement } from 'react'
 import { useIdleTimer } from 'react-idle-timer'
 import { connect, ConnectedProps } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { replace } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
@@ -25,6 +26,7 @@ const WalletLayout: Props = ({
   center = false,
   children,
   hideMenu = false,
+
   modalActions,
   pathname,
   removeContentPadding
@@ -54,10 +56,11 @@ const WalletLayout: Props = ({
     },
     timeout: autoLogoutTimeLength
   })
+  const history = useHistory()
 
   return (
     <Wrapper>
-      <ErrorBoundary>
+      <ErrorBoundary history={history}>
         <Alerts />
         <Tooltips />
         <Modals />

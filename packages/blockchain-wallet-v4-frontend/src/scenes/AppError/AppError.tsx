@@ -91,7 +91,7 @@ const AppError: FunctionComponent<Props> = ({ error }) => {
 }
 
 type Props = {
-  error: 'errorAssetsApi' | 'unsupportedBrowser' | 'errorWalletOptionsApi'
+  error?: 'errorAssetsApi' | 'unsupportedBrowser' | 'errorWalletOptionsApi'
 }
 
 export default AppError

@@ -101,7 +101,6 @@ const MenuTop = () => (
 )
 
 const enhance = compose(
-  withRouter,
   reduxForm({
     form: WALLET_TX_SEARCH
   })

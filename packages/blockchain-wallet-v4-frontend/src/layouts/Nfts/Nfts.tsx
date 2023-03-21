@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Redirect, Route, withRouter } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
 import { CoinfigType, CoinType } from '@core/types'
@@ -99,4 +99,4 @@ export type Props = ConnectedProps<typeof connector> & {
   path: string
 }
 
-export default withRouter(connector(NftsContainer))
+export default connector(NftsContainer)

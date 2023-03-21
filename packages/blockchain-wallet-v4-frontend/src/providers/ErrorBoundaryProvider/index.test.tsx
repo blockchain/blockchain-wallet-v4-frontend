@@ -21,6 +21,7 @@ const setup = (children: React.ReactNode) => {
       <IntlProvider locale='en' messages={{}}>
         <ThemeProvider theme={Palette('default')}>
           <Provider store={store}>
+            {/* @ts-ignore */}
             <ErrorBoundary>{children}</ErrorBoundary>
           </Provider>
         </ThemeProvider>

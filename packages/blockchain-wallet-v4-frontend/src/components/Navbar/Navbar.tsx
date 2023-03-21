@@ -286,6 +286,7 @@ const Navbar = ({
           handleClose={closeMobileNavCallback}
           primaryNavItems={primaryNavItems}
           secondaryNavItems={secondaryMobileNavItems}
+          // @ts-ignore
           userNavItems={userNavItems({
             isReferralAvailable,
             isReferralRetrievalEnabled,

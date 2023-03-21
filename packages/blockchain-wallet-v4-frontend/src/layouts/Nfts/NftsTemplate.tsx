@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
@@ -21,8 +22,9 @@ const Page = styled.div`
 `
 
 const NftsTemplate: React.FC<any> = (props) => {
+  const history = useHistory()
   return (
-    <ErrorBoundary>
+    <ErrorBoundary history={history}>
       <Wrapper>
         <Alerts />
         <Nav>

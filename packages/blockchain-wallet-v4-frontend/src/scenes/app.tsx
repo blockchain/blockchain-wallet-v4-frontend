@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { connect, ConnectedProps, Provider } from 'react-redux'
-import { Redirect, Route, Switch } from 'react-router-dom'
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom'
 import { ThemeProvider as ConstellationTP } from '@blockchain-com/constellation'
 import { ConnectedRouter } from 'connected-react-router'
 import { Store } from 'redux'
@@ -114,6 +114,8 @@ const App = ({
     url: `${apiUrl}/nft-market-api/graphql/`
   })
 
+  const location = useLocation()
+
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
@@ -129,92 +131,103 @@ const App = ({
                           <Suspense fallback={<Loading />}>
                             <Switch>
                               {/* Unauthenticated Wallet routes */}
-                              <Route path='/app-error' component={AppError} />
+                              <Route path='/app-error'>
+                                <AppError />
+                              </Route>
                               <AuthLayout
                                 path='/account-recovery'
-                                component={VerifyAccountRecovery}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Recovery`}
-                              />
-                              <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
-                              <AuthLayout
-                                path='/help'
-                                component={Help}
-                                pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
-                              />
+                              >
+                                <VerifyAccountRecovery />
+                              </AuthLayout>
+                              <AuthLayout path='/authorize-approve'>
+                                <AuthorizeLogin location={location} />
+                              </AuthLayout>
+                              <AuthLayout path='/help' pageTitle={`${BLOCKCHAIN_TITLE} | Help`}>
+                                <Help />
+                              </AuthLayout>
                               <AuthLayout
                                 path='/help-exchange'
-                                component={HelpExchange}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
-                              />
-                              <AuthLayout
-                                path='/login'
-                                component={Login}
-                                pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
-                              />
-                              <AuthLayout path='/logout' component={Logout} />
+                              >
+                                <HelpExchange />
+                              </AuthLayout>
+                              <AuthLayout path='/login' pageTitle={`${BLOCKCHAIN_TITLE} | Login`}>
+                                <Login />
+                              </AuthLayout>
+                              <AuthLayout path='/logout'>
+                                <Logout />
+                              </AuthLayout>
                               <AuthLayout
                                 path='/select-product'
-                                component={ProductPicker}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Product Select`}
-                              />
+                              >
+                                <ProductPicker />
+                              </AuthLayout>
                               <AuthLayout
                                 path='/mobile-login'
-                                component={MobileLogin}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
-                              />
+                              >
+                                <MobileLogin />
+                              </AuthLayout>
                               <AuthLayout
                                 path='/recover'
-                                component={RecoverWallet}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
-                              />
+                              >
+                                <RecoverWallet />
+                              </AuthLayout>
                               <AuthLayout
                                 path='/reset-2fa'
-                                component={ResetWallet2fa}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
-                              />
+                              >
+                                <ResetWallet2fa />
+                              </AuthLayout>
                               <AuthLayout
                                 path='/reset-two-factor'
-                                component={ResetWallet2faToken}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
-                              />
+                              >
+                                <ResetWallet2faToken />
+                              </AuthLayout>
                               <AuthLayout
                                 path='/setup-two-factor'
-                                component={TwoStepVerification}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Setup 2FA`}
-                              />
+                              >
+                                <TwoStepVerification />
+                              </AuthLayout>
+                              {/* leaving this one with component
+                              until upgrading to react router 6 */}
                               <AuthLayout
                                 path='/signup'
-                                component={Signup}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`}
-                              />
+                              >
+                                {/* @ts-ignore */}
+                                <Signup />
+                              </AuthLayout>
+
                               <AuthLayout
                                 path='/verify-email'
-                                component={VerifyEmailToken}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
-                              />
-                              <AuthLayout
-                                path='/upload-document/success'
-                                component={UploadDocumentsSuccess}
-                                exact
-                              />
-                              <AuthLayout
-                                path='/upload-document/:token'
-                                component={UploadDocuments}
-                              />
-                              <AuthLayout
-                                path='/upload-document-card/:token'
-                                component={UploadDocumentsForDebitCards}
-                              />
-                              <AuthLayout
-                                path='/wallet'
-                                component={Login}
-                                pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
-                              />
+                              >
+                                <VerifyEmailToken location={location} />
+                              </AuthLayout>
+                              <AuthLayout path='/upload-document/success' exact>
+                                <UploadDocumentsSuccess />
+                              </AuthLayout>
+                              <AuthLayout path='/upload-document/:token'>
+                                <UploadDocuments />
+                              </AuthLayout>
+                              <AuthLayout path='/upload-document-card/:token'>
+                                <UploadDocumentsForDebitCards />
+                              </AuthLayout>
+                              <AuthLayout path='/wallet' pageTitle={`${BLOCKCHAIN_TITLE} | Login`}>
+                                <Login />
+                              </AuthLayout>
                               <AuthLayout
                                 path='/verify-email-step'
-                                component={VerifyEmail}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
-                              />
+                              >
+                                <VerifyEmail />
+                              </AuthLayout>
 
                               {/* DEX routes */}
                               {isDexEnabled && (

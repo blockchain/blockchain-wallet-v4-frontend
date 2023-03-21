@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
@@ -30,16 +31,19 @@ const Page = styled.div`
   }
 `
 
-const DexTemplate = (props) => (
-  <ErrorBoundary>
-    <Wrapper>
-      <Alerts />
-      <DexHeader selectedTab='dex' />
-      <Tooltips />
-      <Modals />
-      <Page>{props.children}</Page>
-    </Wrapper>
-  </ErrorBoundary>
-)
+const DexTemplate = (props) => {
+  const history = useHistory()
+  return (
+    <ErrorBoundary history={history}>
+      <Wrapper>
+        <Alerts />
+        <DexHeader selectedTab='dex' />
+        <Tooltips />
+        <Modals />
+        <Page>{props.children}</Page>
+      </Wrapper>
+    </ErrorBoundary>
+  )
+}
 
 export default DexTemplate

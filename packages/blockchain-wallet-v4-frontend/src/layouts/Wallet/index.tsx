@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, useLocation } from 'react-router-dom'
 
 import { selectors } from 'data'
 
@@ -28,25 +28,24 @@ const WalletLayoutContainer: FC<Props> = ({
     if (!window.coins[coin]) isValidRoute = false
   }
 
+  const location = useLocation()
+
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />
 
   return !isAuthenticated ? (
     <Redirect to={{ pathname: '/login', state: { from: '' } }} />
   ) : isValidRoute ? (
-    <Route
-      path={path}
-      render={(props) => (
-        <WalletLayout
-          removeContentPadding={removeContentPadding}
-          hideMenu={hideMenu}
-          center={center}
-          pathname={props.location.pathname}
-        >
-          <Component computedMatch={computedMatch} {...rest} coin={coin} />
-        </WalletLayout>
-      )}
-    />
+    <Route path={path}>
+      <WalletLayout
+        removeContentPadding={removeContentPadding}
+        hideMenu={hideMenu}
+        center={center}
+        pathname={location.pathname}
+      >
+        <Component computedMatch={computedMatch} {...rest} coin={coin} />
+      </WalletLayout>
+    </Route>
   ) : (
     <Redirect to={{ pathname: '/home', state: { from: '' } }} />
   )

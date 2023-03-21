@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { lift } from 'ramda'
 import { bindActionCreators } from 'redux'
 
@@ -10,7 +10,10 @@ import { RootState } from 'data/rootReducer'
 
 import Header from './Header'
 
-const HeaderContainer = (props: Props) => <Header {...props} />
+const HeaderContainer = (props: Props) => {
+  const history = useHistory()
+  return <Header {...props} history={history} />
+}
 
 const mapStateToProps = (state: RootState) => ({
   currenTier: lift(
@@ -39,6 +42,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type Props = ConnectedProps<typeof connector> & { history: { push: (path: string) => void } }
+export type Props = ConnectedProps<typeof connector>
 
-export default withRouter(connector(HeaderContainer))
+export default connector(HeaderContainer)

@@ -1,6 +1,6 @@
-import React, { ComponentType } from 'react'
+import React, { ComponentType, ReactNode } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Route } from 'react-router-dom'
+import { Route, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
@@ -70,6 +70,7 @@ const ContentContainer = styled.div`
 
 const AuthLayoutContainer = ({
   authProduct,
+  children,
   component: Component,
   exact = false,
   formValues,
@@ -88,36 +89,32 @@ const AuthLayoutContainer = ({
     }
   )
 
+  const history = useHistory()
+
   // update page title from route
   if (pageTitle) document.title = pageTitle
   return (
-    <Route
-      path={path}
-      exact={exact}
-      render={(matchProps) => (
-        <ErrorBoundary>
-          <Wrapper authProduct={authProduct}>
-            <Alerts />
-            <HeaderContainer>
-              <Header authProduct={authProduct} />
-            </HeaderContainer>
-            <Modals />
-            <ContentContainer>
-              <Component {...matchProps} />
-            </ContentContainer>
-            <FooterContainer>
-              <Footer
-                authProduct={authProduct}
-                formValues={formValues}
-                platform={platform}
-                path={path}
-                unified={unified}
-              />
-            </FooterContainer>
-          </Wrapper>
-        </ErrorBoundary>
-      )}
-    />
+    <Route path={path} exact={exact}>
+      <ErrorBoundary history={history}>
+        <Wrapper authProduct={authProduct}>
+          <Alerts />
+          <HeaderContainer>
+            <Header authProduct={authProduct} />
+          </HeaderContainer>
+          <Modals />
+          <ContentContainer>{children}</ContentContainer>
+          <FooterContainer>
+            <Footer
+              authProduct={authProduct}
+              formValues={formValues}
+              platform={platform}
+              path={path}
+              unified={unified}
+            />
+          </FooterContainer>
+        </Wrapper>
+      </ErrorBoundary>
+    </Route>
   )
 }
 
@@ -131,7 +128,8 @@ const mapStateToProps = (state) => ({
 const connector = connect(mapStateToProps)
 
 type Props = ConnectedProps<typeof connector> & {
-  component: ComponentType<any>
+  children?: ReactNode
+  component?: ComponentType<any>
   exact?: boolean
   pageTitle?: string
   path: string

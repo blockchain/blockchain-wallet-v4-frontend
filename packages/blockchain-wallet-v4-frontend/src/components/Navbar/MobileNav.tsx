@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { NavLink, withRouter } from 'react-router-dom'
+import { NavLink, useLocation, withRouter } from 'react-router-dom'
 import { IconCheckCircle, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
@@ -43,7 +43,7 @@ const StyledNavLink = styled(NavLink)`
   justify-content: space-between;
 `
 
-const MobileNav = ({ handleClose, location, primaryNavItems, userNavItems }: Props) => {
+const MobileNav = ({ handleClose, primaryNavItems, userNavItems }: Props) => {
   const clickAndClose = (clickHandler: () => void = () => {}) => {
     return () => {
       clickHandler()
@@ -51,6 +51,7 @@ const MobileNav = ({ handleClose, location, primaryNavItems, userNavItems }: Pro
     }
   }
   const logoutInfo = userNavItems.pop()
+  const location = useLocation()
   return (
     <div
       style={{
@@ -141,22 +142,23 @@ const MobileNav = ({ handleClose, location, primaryNavItems, userNavItems }: Pro
 
 type Props = {
   handleClose: () => void
-  location: { pathname: string; search: string }
   primaryNavItems: PrimaryNavItem[]
   userNavItems: (
     | {
-        clickHandler: () => void
+        clickHandler?: () => void
         copy: React.ReactNode
         'data-e2e': string
+        isHidden?: boolean
         to?: never
       }
     | {
         clickHandler?: never
         copy: React.ReactNode
         'data-e2e': string
+        isHidden?: boolean
         to: string
       }
   )[]
 }
 
-export default withRouter(MobileNav)
+export default MobileNav
