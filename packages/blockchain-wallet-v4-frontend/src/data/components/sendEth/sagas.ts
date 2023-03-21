@@ -315,7 +315,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         const value = payment.value()
         if (!value.to) throw new Error('missing_to_from_custodial')
         if (!value.amount) throw new Error('missing_amount_from_custodial')
-        yield call(api.withdrawBSFunds, value.to.address, coin, value.amount)
+        if (!value.fee) throw new Error('missing_fee_from_custodial')
+        yield call(api.withdrawBSFunds, value.to.address, coin, value.amount, value.fee)
       } else {
         payment = yield payment.publish()
       }
