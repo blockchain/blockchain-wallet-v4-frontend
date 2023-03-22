@@ -28,7 +28,7 @@ const Error = (props) => {
           size='16px'
           weight={500}
           cursor='pointer'
-          onClick={props.previousStep}
+          onClick={props.setRecoveryPhraseStep2}
         >
           <FormattedMessage id='scenes.exchange.exchangeform.tryagain' defaultMessage='Try Again' />
         </Text>

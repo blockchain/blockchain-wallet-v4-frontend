@@ -22,7 +22,7 @@ const YubiKeySetup = (props: Props) => {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <>
       <BackArrowFormHeader
         handleBackArrowClick={() => props.setFormStep(TwoFactorSetupSteps.CHOOSE_TWOFA)}
       />
@@ -71,7 +71,7 @@ const YubiKeySetup = (props: Props) => {
           <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </Button>
       </CenteredColumn>
-    </Form>
+    </>
   )
 }
 
