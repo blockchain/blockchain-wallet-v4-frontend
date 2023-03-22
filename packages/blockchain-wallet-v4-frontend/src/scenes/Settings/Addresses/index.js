@@ -51,4 +51,4 @@ class AddressesContainer extends React.PureComponent {
   }
 }
 
-export default withRouter(AddressesContainer)
+export default AddressesContainer
