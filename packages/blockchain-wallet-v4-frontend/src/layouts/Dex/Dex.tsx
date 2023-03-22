@@ -41,14 +41,11 @@ const DexLayout = (props) => {
   return !isAuthenticated ? (
     <Redirect to={{ pathname: '/login', state: { from: '' } }} />
   ) : isValidRoute ? (
-    <Route
-      path={path}
-      render={() => (
-        <DexTemplate {...props}>
-          <Component {...rest} />
-        </DexTemplate>
-      )}
-    />
+    <Route path={path}>
+      <DexTemplate {...props}>
+        <Component {...rest} />
+      </DexTemplate>
+    </Route>
   ) : (
     <Redirect to={{ pathname: '/home', state: { from: '' } }} />
   )

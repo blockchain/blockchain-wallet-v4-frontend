@@ -54,14 +54,11 @@ const NftsContainer = (props) => {
   return !isAuthenticated ? (
     <Redirect to={{ pathname: '/login', state: { from: '' } }} />
   ) : isValidRoute ? (
-    <Route
-      path={path}
-      render={(props) => (
-        <NftsTemplate {...props}>
-          <Component computedMatch={rest.computedMatch} {...rest} />
-        </NftsTemplate>
-      )}
-    />
+    <Route path={path}>
+      <NftsTemplate {...props}>
+        <Component computedMatch={rest.computedMatch} {...rest} />
+      </NftsTemplate>
+    </Route>
   ) : (
     <Redirect to={{ pathname: '/home', state: { from: '' } }} />
   )

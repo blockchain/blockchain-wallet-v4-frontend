@@ -35,9 +35,16 @@ class SecurityCenterContainer extends React.PureComponent {
           Success: (progress) => (
             <SecurityCenter progress={progress} {...this.props}>
               <Switch>
-                <Route path='/security-center/basic' component={BasicSecurity} />
-                <Route path='/security-center/advanced' component={AdvancedSecurity} />
-                <Redirect from='/security-center' to='/security-center/basic' />
+                <Route path='/security-center/basic'>
+                  <BasicSecurity />
+                </Route>
+                <Route path='/security-center/advanced'>
+                  <AdvancedSecurity />
+                </Route>
+                <Route
+                  path='/security-center'
+                  render={() => <Redirect to='/security-center/basic' />}
+                />
               </Switch>
             </SecurityCenter>
           )

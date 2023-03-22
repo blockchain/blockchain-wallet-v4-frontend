@@ -25,12 +25,25 @@ class AddressesContainer extends React.PureComponent {
         <Menu />
         <ContentWrapper>
           <Switch>
-            <Route component={BtcManage} path='/settings/addresses/btc/:walletIndex/:derivation' />
-            <Route component={Btc} exact path='/settings/addresses/btc' />
-            <Route component={Bch} exact path='/settings/addresses/bch' />
-            <Route component={Eth} exact path='/settings/addresses/eth' />
-            <Route component={Xlm} exact path='/settings/addresses/xlm' />
-            <Redirect from='/settings/addresses' to='/settings/addresses/btc' />
+            <Route path='/settings/addresses/btc/:walletIndex/:derivation'>
+              <BtcManage />
+            </Route>
+            <Route exact path='/settings/addresses/btc'>
+              <Btc />
+            </Route>
+            <Route exact path='/settings/addresses/bch'>
+              <Bch />
+            </Route>
+            <Route exact path='/settings/addresses/eth'>
+              <Eth />
+            </Route>
+            <Route exact path='/settings/addresses/xlm'>
+              <Xlm />
+            </Route>
+            <Route
+              path='/settings/addresses'
+              render={() => <Redirect to='/settings/addresses/btc' />}
+            />
           </Switch>
         </ContentWrapper>
       </Wrapper>
