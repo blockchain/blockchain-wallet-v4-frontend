@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { NavLink, useLocation, withRouter } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { IconCheckCircle, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 

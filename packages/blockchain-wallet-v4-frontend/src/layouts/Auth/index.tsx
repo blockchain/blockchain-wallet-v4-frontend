@@ -1,6 +1,6 @@
 import React, { ComponentType, ReactNode } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { Route, useHistory } from 'react-router-dom'
+import { Route, useHistory, useRouteMatch } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'

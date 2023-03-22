@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -62,4 +62,4 @@ const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SecurityCenterContainer))
+export default connect(mapStateToProps, mapDispatchToProps)(SecurityCenterContainer)
