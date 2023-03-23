@@ -456,8 +456,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
     return (
       <FormGroup>
-        <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
-        <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
+        <QuestionTitle>
+          {nodeTranslation.title !== '' ? nodeTranslation.title : node.text}
+        </QuestionTitle>
+        <QuestionDescription>
+          {nodeTranslation.instructions !== '' ? nodeTranslation.instructions : node.instructions}
+        </QuestionDescription>
         <FormItem>
           {node.type === NodeItemTypes.MULTIPLE_SELECTION ? (
             <Field
