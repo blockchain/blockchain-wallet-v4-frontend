@@ -193,40 +193,6 @@ const TaxCenter = ({
       }
     >
       <>
-        <Padding bottom={0.5}>
-          <Text size='12px' weight={500} color='grey700'>
-            <FormattedMessage
-              id='scenes.tax.center.card.service.turboTax.description1'
-              defaultMessage='We have partnered with TurboTax and Cointracker to simplify your tax reporting.'
-            />
-          </Text>
-        </Padding>
-        <Text size='12px' weight={500} color='grey700'>
-          <FormattedMessage
-            id='scenes.tax.center.card.service.turboTax.description2'
-            defaultMessage='If you’re new to crypto and don’t have much crypto activity, TurboTax helps navigate the complexity of crypto taxes.'
-          />
-        </Text>
-
-        <Padding bottom={1}>
-          <VisitButton
-            nature='empty-blue'
-            data-e2e='visitButton'
-            type='button'
-            onClick={() => onPartnerClick('TURBO_TAX')}
-          >
-            <Link
-              href='https://turbotax.intuit.com/microsite/home.htm?priorityCode=5775000000&cid=all_blockchain_aff_5775000000 '
-              target='_blank'
-            >
-              <FormattedMessage
-                id='scenes.tax.center.card.service.turboTax.button'
-                defaultMessage='Visit TurboTax'
-              />
-            </Link>
-          </VisitButton>
-        </Padding>
-
         <Text size='12px' weight={500} color='grey700'>
           <FormattedMessage
             id='scenes.tax.center.card.service.description'
