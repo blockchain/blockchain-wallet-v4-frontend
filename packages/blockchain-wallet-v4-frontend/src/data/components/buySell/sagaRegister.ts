@@ -34,8 +34,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.createCard.type, buySellSagas.createCard)
     yield takeLatest(actions.fetchCards.type, buySellSagas.fetchBSCards)
     yield takeLatest(actions.fetchFiatEligible.type, buySellSagas.fetchFiatEligible)
-    yield takeLatest(actions.fetchSDDEligibility.type, buySellSagas.fetchSDDEligible)
-    yield takeLatest(actions.fetchSDDVerified.type, buySellSagas.fetchSDDVerified)
     yield takeLatest(actions.fetchLimits.type, buySellSagas.fetchLimits)
     yield takeLatest(actions.fetchPairs.type, buySellSagas.fetchPairs)
     yield takeLatest(actions.fetchPaymentAccount.type, buySellSagas.fetchPaymentAccount)

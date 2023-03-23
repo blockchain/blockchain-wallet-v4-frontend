@@ -1,10 +1,4 @@
-import {
-  CountryScopeType,
-  ExtraQuestionsType,
-  KycFlowsType,
-  SDDEligibleType,
-  SDDVerifiedType
-} from './types'
+import { CountryScopeType, ExtraQuestionsType, KycFlowsType, VerifiedType } from './types'
 
 export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post }) => {
   const getSupportedCountries = (scope: CountryScopeType) =>
@@ -37,13 +31,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
   const fetchUploadData = (token) =>
     get({
       endPoint: `/upload/data/${token}`,
-      url: nabuUrl
-    })
-
-  const fetchSDDEligible = (): SDDEligibleType =>
-    get({
-      endPoint: `/sdd/eligible`,
-      ignoreQueryParams: true,
       url: nabuUrl
     })
 
@@ -109,14 +96,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
-  const fetchSDDVerified = (): SDDVerifiedType =>
-    authorizedGet({
-      contentType: 'application/json',
-      endPoint: `/sdd/verified`,
-      ignoreQueryParams: true,
-      url: nabuUrl
-    })
-
   const fetchKYCExtraQuestions = (context): ExtraQuestionsType =>
     authorizedGet({
       contentType: 'application/json',
@@ -126,7 +105,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
-  const updateKYCExtraQuestions = (extraQuestions: ExtraQuestionsType): SDDVerifiedType =>
+  const updateKYCExtraQuestions = (extraQuestions: ExtraQuestionsType): VerifiedType =>
     authorizedPut({
       contentType: 'application/json',
       data: { context: extraQuestions.context, nodes: extraQuestions.nodes },
@@ -150,8 +129,6 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     fetchKycAddresses,
     fetchKycConfig,
     fetchPreIdvData,
-    fetchSDDEligible,
-    fetchSDDVerified,
     fetchTiers,
     fetchUploadData,
     fetchVeriffUrl,

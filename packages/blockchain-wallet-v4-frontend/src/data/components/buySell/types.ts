@@ -22,8 +22,6 @@ import type {
   ProviderDetailsType,
   RefreshConfig,
   RemoteDataType,
-  SDDEligibleType,
-  SDDVerifiedType,
   SwapNewQuoteType,
   SwapOrderType,
   SwapUserLimitsType,
@@ -212,9 +210,6 @@ export type BuySellState = {
   providerDetails: RemoteDataType<string | Error, ProviderDetailsType>
   quote: RemoteDataType<string, BSQuoteType>
   reason?: PlaidSettlementErrorReasons
-  sddEligible: RemoteDataType<PartialClientErrorProperties, SDDEligibleType>
-  sddTransactionFinished: boolean
-  sddVerified: RemoteDataType<PartialClientErrorProperties, SDDVerifiedType>
   sellOrder?: SwapOrderType
   sellQuote: RemoteDataType<string, SellQuoteStateType>
   sellQuotePrice: RemoteDataType<string | Error, SellQuotePrice>

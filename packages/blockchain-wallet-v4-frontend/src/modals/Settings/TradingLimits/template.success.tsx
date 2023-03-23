@@ -318,8 +318,7 @@ const renderStatus = (limit: SettingsItem) => {
 }
 
 const Template: React.FC<Props> = (props) => {
-  const { analyticsActions, limitsAndDetails, modalActions, sddEligible, userData, userTiers } =
-    props
+  const { analyticsActions, limitsAndDetails, modalActions, userData, userTiers } = props
   const userCurrentTier = userData?.tiers?.current ?? 0
   useEffect(() => {
     analyticsActions.trackEvent({
@@ -340,16 +339,10 @@ const Template: React.FC<Props> = (props) => {
     return null
   }
 
-  const sddCheckTier =
-    sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
-      ? TIER_TYPES.SILVER_PLUS
-      : userCurrentTier
-  const currentTier: number | undefined =
-    userCurrentTier === TIER_TYPES.NONE ? userCurrentTier : sddCheckTier
-  const isUserTierZero = currentTier === TIER_TYPES.NONE
-  const isUserGold = currentTier === TIER_TYPES.GOLD
+  const isUserTierZero = userCurrentTier === TIER_TYPES.NONE
+  const isUserGold = userCurrentTier === TIER_TYPES.GOLD
   const isUserTierSilver =
-    currentTier === TIER_TYPES.SILVER || currentTier === TIER_TYPES.SILVER_PLUS
+    userCurrentTier === TIER_TYPES.SILVER || userCurrentTier === TIER_TYPES.SILVER_PLUS
 
   // show silver/silver+ settings
   if (isUserTierSilver || isUserTierZero) {
@@ -411,7 +404,7 @@ const Template: React.FC<Props> = (props) => {
       </HeaderWrapper>
 
       <MainContent>
-        {upgradeWallet(currentTier, showUpgradeModal)}
+        {upgradeWallet(userCurrentTier, showUpgradeModal)}
 
         <HeadlineWrapper>
           <Headline>
