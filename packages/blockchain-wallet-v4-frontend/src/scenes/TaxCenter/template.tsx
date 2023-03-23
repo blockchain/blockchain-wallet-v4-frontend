@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { IconAlert, Padding, SemanticColors } from '@blockchain-com/constellation'
+import { IconAlert, SemanticColors } from '@blockchain-com/constellation'
 
 import { RemoteDataType } from '@core/types'
 import { Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
