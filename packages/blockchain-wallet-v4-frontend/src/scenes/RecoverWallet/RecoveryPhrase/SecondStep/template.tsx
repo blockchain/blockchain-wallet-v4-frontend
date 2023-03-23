@@ -4,7 +4,6 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Text, TextGroup } from 'blockchain-info-components'
-import Form from 'components/Form/Form'
 import FormGroup from 'components/Form/FormGroup'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'

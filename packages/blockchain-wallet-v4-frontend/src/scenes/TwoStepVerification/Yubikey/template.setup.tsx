@@ -3,7 +3,6 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import { Field } from 'redux-form'
 
 import { Button, Text } from 'blockchain-info-components'
-import Form from 'components/Form/Form'
 import PasswordBox from 'components/Form/PasswordBox'
 import { Analytics } from 'data/types'
 import { required } from 'services/forms'

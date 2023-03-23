@@ -24,16 +24,11 @@ class RecoverContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    const { kycReset, metadataRestore, restoringR, setRecoveryPhraseStep2 } = this.props
+    const { kycReset, metadataRestore, restoringR } = this.props
     const isRestoring = Remote.Loading.is(restoringR)
 
     return metadataRestore.cata({
-      Failure: () =>
-        kycReset === false ? (
-          <Error setRecoveryPhraseStep2={setRecoveryPhraseStep2} />
-        ) : (
-          <Recover {...this.props} />
-        ),
+      Failure: () => (kycReset === false ? <Error {...this.props} /> : <Recover {...this.props} />),
       Loading: () => <SpinningLoaderCentered />,
       NotAsked: () => <SpinningLoaderCentered />,
       Success: (val) => (
