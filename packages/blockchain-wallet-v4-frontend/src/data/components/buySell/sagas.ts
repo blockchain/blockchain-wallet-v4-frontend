@@ -1804,10 +1804,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield cancel()
         }
 
-        if (
-          !waitUntilSettled &&
-          order.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
-        ) {
+        if (!waitUntilSettled) {
           break
         }
         yield delay(2000)
