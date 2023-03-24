@@ -112,6 +112,8 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
 
   if (order.data?.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
     paymentLink = encodeURIComponent(order.data?.attributes?.cardProvider.paymentLink)
+  } else if (order.data?.attributes?.cardCassy?.cardAcquirerName === 'CHECKOUTDOTCOM') {
+    paymentLink = encodeURIComponent(order.data?.attributes?.cardCassy.paymentLink)
   } else if (providerDetails.data) {
     paymentLink = encodeURIComponent(providerDetails.data.cardProvider.paymentLink)
   } else if (!providerDetails.isLoading && !order.isLoading) {
