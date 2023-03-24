@@ -818,7 +818,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // Now we need to poll for the order success
         yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       } else if (attributes && 'isAsync' in attributes) {
-        // If this is an isAsync call then we need to poll the order to wait forattributes or FAIL
+        // If this is an isAsync call then we need to poll the order to wait for attributes or FAIL
         try {
           const { RETRY_AMOUNT, SECONDS } = CARD_ORDER_POLLING
           confirmedOrder = yield retry(
@@ -1804,11 +1804,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield cancel()
         }
 
-        // In case that transaction is settled we do not need to wait for finishing full cycle
         if (
-          order.attributes?.cardCassy?.paymentState === 'SETTLED' ||
-          (!waitUntilSettled &&
-            order.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
+          !waitUntilSettled &&
+          order.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
         ) {
           break
         }
