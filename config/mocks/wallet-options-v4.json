@@ -45,7 +45,6 @@
         "availableToTradeWithdraw": true,
         "createNabuUserAtLogin": false,
         "coinViewV2": false,
-        "isCreditCardOptimizationEnabled": true,
         "completeYourProfile": true,
         "createExchangeUserOnSignupOrLogin": true,
         "developerMobilePairing": true,
