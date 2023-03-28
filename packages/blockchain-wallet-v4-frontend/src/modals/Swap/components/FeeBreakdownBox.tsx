@@ -69,6 +69,16 @@ const FeeBreakdownBox = ({
 }: Props): React.ReactElement => {
   const [toggle, setToggle] = useState(false)
   const networkFee = (value: PaymentValue | undefined) => {
+    if (base.type === SwapBaseCounterTypes.ACCOUNT) {
+      if (base?.coin === 'STX') {
+        return '50000'
+      }
+
+      if (base?.coin === 'SOL') {
+        return '5000000'
+      }
+    }
+
     return value
       ? value.coin === 'BTC' || value.coin === 'BCH'
         ? value.selection?.fee
