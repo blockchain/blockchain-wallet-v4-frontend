@@ -21,6 +21,8 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
 import { Analytics, SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
+import { COINS_WITH_CUSTOM_FEE, SOL_FEE, STX_FEE } from '../../constants'
+
 const Container = styled.div`
   background-color: ${(p) => p.theme.grey000};
   border-radius: 8px;
@@ -70,17 +72,17 @@ const FeeBreakdownBox = ({
   const [toggle, setToggle] = useState(false)
   const networkFee = (value: PaymentValue | undefined) => {
     if (base.type === SwapBaseCounterTypes.ACCOUNT) {
-      if (base?.coin === 'STX') {
-        return '50000'
+      if (base?.coin === COINS_WITH_CUSTOM_FEE.STX) {
+        return STX_FEE
       }
 
-      if (base?.coin === 'SOL') {
-        return '5000000'
+      if (base?.coin === COINS_WITH_CUSTOM_FEE.SOL) {
+        return SOL_FEE
       }
     }
 
     return value
-      ? value.coin === 'BTC' || value.coin === 'BCH'
+      ? value.coin === COINS_WITH_CUSTOM_FEE.BTC || value.coin === COINS_WITH_CUSTOM_FEE.BCH
         ? value.selection?.fee
         : value.fee
       : 0

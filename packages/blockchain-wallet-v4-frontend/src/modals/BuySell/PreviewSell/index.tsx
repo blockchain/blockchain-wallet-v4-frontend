@@ -27,6 +27,7 @@ import {
 import { isNabuError } from 'services/errors'
 
 import { QuoteCountDown } from '../../components/QuoteCountDown'
+import { COINS_WITH_CUSTOM_FEE, SOL_FEE, STX_FEE } from '../../constants'
 import { Border, TopText } from '../../Swap/components'
 import { ErrorCodeMappings } from '../model'
 import Loading from '../template.loading'
@@ -143,7 +144,9 @@ const DisclaimerText = styled(Text)`
 `
 
 const getNetworkValue = (value: PaymentValue) =>
-  value.coin === 'BTC' || value.coin === 'BCH' ? value.selection?.fee : value.fee
+  value.coin === COINS_WITH_CUSTOM_FEE.BTC || value.coin === COINS_WITH_CUSTOM_FEE.BCH
+    ? value.selection?.fee
+    : value.fee
 
 class PreviewSell extends PureComponent<
   InjectedFormProps<{ destroyOnUnmount: boolean; form: string }, Props> & Props,
@@ -190,12 +193,12 @@ class PreviewSell extends PureComponent<
 
   networkFee = (value: PaymentValue | undefined, account: SwapAccountType | undefined) => {
     if (account?.type === SwapBaseCounterTypes.ACCOUNT) {
-      if (account?.coin === 'STX') {
-        return '50000'
+      if (account?.coin === COINS_WITH_CUSTOM_FEE.STX) {
+        return STX_FEE
       }
 
-      if (account?.coin === 'SOL') {
-        return '5000000'
+      if (account?.coin === COINS_WITH_CUSTOM_FEE.SOL) {
+        return SOL_FEE
       }
     }
     return value ? getNetworkValue(value) : 0
