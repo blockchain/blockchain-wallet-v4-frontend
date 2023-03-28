@@ -1734,17 +1734,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const skipLoading = true
         yield put(A.fetchCards(skipLoading))
         const cardMethodR = S.getMethodByType(yield select(), BSPaymentTypes.PAYMENT_CARD)
-        const quote = S.getBuyQuote(yield select())
-
-        if (Remote.Success.is(quote)) {
-          return yield put(A.confirmOrder({ paymentMethodId: card.id, quoteState: quote.data }))
-        }
         const origin = S.getOrigin(yield select())
 
         if (origin === 'SettingsGeneral') {
           yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
 
           yield put(actions.alerts.displaySuccess('Card Added.'))
+        } else {
+          const quote = S.getBuyQuote(yield select())
+
+          if (Remote.Success.is(quote)) {
+            return yield put(A.confirmOrder({ paymentMethodId: card.id, quoteState: quote.data }))
+          }
         }
 
         // Sets the payment method to the newly created card in the enter amount form
