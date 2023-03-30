@@ -35,7 +35,7 @@ const Success = (props: Props) => {
     fiatCurrency,
     withdrawActions
   } = props
-  const [showAlert, setShowAlert] = useState(false)
+  const [showAlert, setShowAlert] = useState(true)
 
   const withdrawalDisabled = bankTransferAccounts.find(
     (account) => account.capabilities?.withdrawal?.enabled === false
