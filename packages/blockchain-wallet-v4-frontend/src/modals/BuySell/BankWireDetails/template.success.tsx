@@ -446,39 +446,6 @@ const Success: React.FC<Props> = (props) => {
           </BottomRow>
           <BottomRow>
             <DisplayIcon>
-              <Icon size='18px' color='grey800' name='bank-filled' />
-            </DisplayIcon>
-            <BottomMultiRowContainer>
-              <DisplayTitle>
-                {props.account.currency === 'USD' ? (
-                  <FormattedMessage
-                    id='modals.simplebuy.deposit.important_transfer_only'
-                    defaultMessage='Important Transfer Information'
-                  />
-                ) : (
-                  <FormattedMessage
-                    id='modals.simplebuy.deposit.bank_transfer_only'
-                    defaultMessage='Bank Transfers Only'
-                  />
-                )}
-              </DisplayTitle>
-              <DisplaySubTitle>
-                {props.account.currency === 'USD' ? (
-                  <FormattedMessage
-                    id='modals.simplebuy.deposit.important_transfer_only_description'
-                    defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected. <b>Be sure to include your Reference ID.</b>'
-                  />
-                ) : (
-                  <FormattedMessage
-                    id='modals.simplebuy.deposit.bank_transfer_only_description'
-                    defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'
-                  />
-                )}
-              </DisplaySubTitle>
-            </BottomMultiRowContainer>
-          </BottomRow>
-          <BottomRow>
-            <DisplayIcon>
               <Icon size='18px' color='grey800' name='pending' />
             </DisplayIcon>
             <BottomMultiRowContainer>
