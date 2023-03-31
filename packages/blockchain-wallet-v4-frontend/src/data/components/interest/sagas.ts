@@ -890,9 +890,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payload
   }: ReturnType<typeof A.initializeActiveRewardsDepositForm>) {
     const { coin, currency } = payload
-    const coins = yield select(selectors.core.data.coins.getCoins)
-    const coinfig = coins[coin]?.coinfig
-    let initialAccount
 
     try {
       yield put(A.fetchActiveRewardsAccount({ coin }))
@@ -902,11 +899,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield take([A.fetchActiveRewardsLimitsSuccess.type, A.fetchActiveRewardsLimitsFailure.type])
 
       // initialize the form depending upon account types for coin
-      if (coinfig.products.includes('PrivateKey')) {
-        initialAccount = yield call(initializeNonCustodialAccountForm, { coin, product: 'Active' })
-      } else {
-        initialAccount = yield call(initializeCustodialAccountForm, { coin, product: 'Active' })
-      }
+      const initialAccount = yield call(initializeCustodialAccountForm, {
+        coin,
+        product: 'Active'
+      })
 
       // finally, initialize the form
       yield put(
