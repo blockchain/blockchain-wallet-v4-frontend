@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { AlertCard } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
@@ -54,6 +55,11 @@ const BottomRow = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 16px;
+
+  > div.constellation {
+    width: 100%;
+    background: ${(props) => props.theme.grey100} !important;
+  }
 `
 const BottomMultiRowContainer = styled.div`
   position: relative;
@@ -355,44 +361,79 @@ const LayoutDefault: React.FC<Props> = (props) => {
         )}
         {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] &&
           transferType === TransferType.INTERNATIONAL && (
-            <RowCopy>
-              <div>
-                <Title>
-                  <FormattedMessage
-                    id='modals.simplebuy.transferdetails.recipientAddress'
-                    defaultMessage='Recipient Address'
-                  />
-                </Title>
-                <Value data-e2e='sbRecipientAddress'>{agent.recipientAddress}</Value>
-              </div>
-              <Copy>
-                <CopyClipboardButton textToCopy={agent.recipientAddress} />
-              </Copy>
-            </RowCopy>
+            <>
+              <RowCopy>
+                <div>
+                  <Title>
+                    <FormattedMessage
+                      id='modals.simplebuy.transferdetails.recipientAddress'
+                      defaultMessage='Recipient Address'
+                    />
+                  </Title>
+                  <Value data-e2e='sbRecipientAddress'>{agent.recipientAddress}</Value>
+                </div>
+                <Copy>
+                  <CopyClipboardButton textToCopy={agent.recipientAddress} />
+                </Copy>
+              </RowCopy>
+              {agent.intermediaryName && (
+                <RowCopy>
+                  <div>
+                    <Title>
+                      <FormattedMessage
+                        id='modals.simplebuy.transferdetails.intermediaryName'
+                        defaultMessage='Intermediary Name'
+                      />
+                    </Title>
+                    <Value data-e2e='sbintermediaryName'>{agent.intermediaryName}</Value>
+                  </div>
+                  <Copy>
+                    <CopyClipboardButton textToCopy={agent.intermediaryName} />
+                  </Copy>
+                </RowCopy>
+              )}
+              {agent.intermediaryAddress && (
+                <RowCopy>
+                  <div>
+                    <Title>
+                      <FormattedMessage
+                        id='modals.simplebuy.transferdetails.intermediaryAddress'
+                        defaultMessage='Intermediary Address'
+                      />
+                    </Title>
+                    <Value data-e2e='sbintermediaryAddress'>{agent.intermediaryAddress}</Value>
+                  </div>
+                  <Copy>
+                    <CopyClipboardButton textToCopy={agent.intermediaryAddress} />
+                  </Copy>
+                </RowCopy>
+              )}
+              {agent.intermediarySwiftCode && (
+                <RowCopy>
+                  <div>
+                    <Title>
+                      <FormattedMessage
+                        id='modals.simplebuy.transferdetails.intermediarySwiftCode'
+                        defaultMessage='Intermediary Swift Code'
+                      />
+                    </Title>
+                    <Value data-e2e='sbintermediarySwiftCode'>{agent.intermediarySwiftCode}</Value>
+                  </div>
+                  <Copy>
+                    <CopyClipboardButton textToCopy={agent.intermediarySwiftCode} />
+                  </Copy>
+                </RowCopy>
+              )}
+            </>
           )}
       </div>
       <Bottom>
         <BottomInfoContainer>
           <BottomRow>
-            <DisplayIcon>
-              <Icon size='18px' color='grey800' name='bank-filled' />
-            </DisplayIcon>
-            <BottomMultiRowContainer>
-              <DisplayTitle>
-                {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] ? (
-                  <FormattedMessage
-                    id='modals.simplebuy.deposit.important_transfer_only'
-                    defaultMessage='Important Transfer Information'
-                  />
-                ) : (
-                  <FormattedMessage
-                    id='modals.simplebuy.deposit.bank_transfer_only'
-                    defaultMessage='Bank Transfers Only'
-                  />
-                )}
-              </DisplayTitle>
-              <DisplaySubTitle>
-                {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] ? (
+            <AlertCard
+              variant='warning'
+              content={
+                props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] ? (
                   <FormattedMessage
                     id='modals.simplebuy.deposit.important_transfer_only_description'
                     defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected. <b>Be sure to include your Reference ID.</b>'
@@ -402,9 +443,22 @@ const LayoutDefault: React.FC<Props> = (props) => {
                     id='modals.simplebuy.deposit.bank_transfer_only_description'
                     defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'
                   />
-                )}
-              </DisplaySubTitle>
-            </BottomMultiRowContainer>
+                )
+              }
+              title={
+                props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] ? (
+                  <FormattedMessage
+                    id='modals.simplebuy.deposit.important_transfer_only'
+                    defaultMessage='Important Transfer Information'
+                  />
+                ) : (
+                  <FormattedMessage
+                    id='modals.simplebuy.deposit.bank_transfer_only'
+                    defaultMessage='Bank Transfers Only'
+                  />
+                )
+              }
+            />
           </BottomRow>
           <BottomRow>
             <DisplayIcon>
