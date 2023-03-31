@@ -154,7 +154,6 @@ export type OwnProps = {
   includeInterest?: boolean
   name: 'earnDepositAccount'
   rates: RatesType
-  showCustodialFirst?: boolean
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>

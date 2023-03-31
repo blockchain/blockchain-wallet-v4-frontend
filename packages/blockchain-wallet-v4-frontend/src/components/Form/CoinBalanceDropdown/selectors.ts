@@ -19,8 +19,7 @@ const getData = (state, ownProps: OwnProps) => {
     excludeHDWallets,
     forceCustodialFirst,
     includeCustodial,
-    includeInterest = false,
-    showCustodialFirst
+    includeInterest = false
   } = ownProps
   let addressDataR
 
@@ -41,8 +40,7 @@ const getData = (state, ownProps: OwnProps) => {
         forceCustodialFirst,
         includeAll: false,
         includeCustodial,
-        includeInterest,
-        showCustodialFirst
+        includeInterest
       })
       break
     case 'ETH':

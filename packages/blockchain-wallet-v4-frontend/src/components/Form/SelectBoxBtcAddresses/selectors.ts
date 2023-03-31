@@ -209,7 +209,7 @@ export const getData = (
               )
             )
     ]).map(([b1, b2, b3, b4, b5, b6]) => {
-      const orderArray = showCustodialFirst ? [b3, b1, b2, b4, b5, b6] : [b1, b2, b3, b4, b5, b6]
+      const orderArray = forceCustodialFirst ? [b3, b1, b2, b4, b5, b6] : [b1, b2, b3, b4, b5, b6]
       // @ts-ignore
       const data = reduce(concat, [], orderArray) as array
 
