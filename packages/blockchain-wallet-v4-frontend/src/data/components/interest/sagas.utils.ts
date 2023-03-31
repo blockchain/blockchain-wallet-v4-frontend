@@ -161,18 +161,22 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   }
 
   const getCustodialAccountForCoin = function* (coin: CoinType) {
-    const state = yield select()
-
     yield put(actions.components.send.fetchPaymentsTradingAccount(coin))
     yield take([
       actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_SUCCESS,
       actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_FAILURE
     ])
 
+    const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+      coin,
+      yield select()
+    )
+
     const custodialAccount = selectors.components.buySell
-      .getBSBalances(state)
+      .getBSBalances(yield select())
       .map((balances) => ({
-        ...balances[coin]
+        ...balances[coin],
+        address: accountAddress ? accountAddress.data : null
       }))
       .map(toCustodialDropdown)
 

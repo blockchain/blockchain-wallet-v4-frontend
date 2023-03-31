@@ -155,11 +155,10 @@ const DepositForm: React.FC<
         <CoinBalanceDropdown
           coin={coin}
           fiatCurrency={walletCurrency}
-          forceCustodialFirst
           includeCustodial
-          excludeHDWallets
           name='earnDepositAccount'
           rates={rates}
+          showCustodialFirst
         />
         <Padding top={1.5} bottom={0.625}>
           <Flex justifyContent='space-between'>
