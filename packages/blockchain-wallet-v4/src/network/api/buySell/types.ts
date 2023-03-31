@@ -30,6 +30,9 @@ export type AgentType = AgentSimple & {
   bankName: string
   country: string
   holderDocument: string
+  intermediaryAddress: string
+  intermediaryName: string
+  intermediarySwiftCode: string
   label: string
   recipientAddress: string
   routingNumber: string

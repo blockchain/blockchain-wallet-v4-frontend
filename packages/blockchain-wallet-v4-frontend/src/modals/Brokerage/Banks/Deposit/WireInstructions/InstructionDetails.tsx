@@ -355,20 +355,65 @@ const LayoutDefault: React.FC<Props> = (props) => {
         )}
         {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] &&
           transferType === TransferType.INTERNATIONAL && (
-            <RowCopy>
-              <div>
-                <Title>
-                  <FormattedMessage
-                    id='modals.simplebuy.transferdetails.recipientAddress'
-                    defaultMessage='Recipient Address'
-                  />
-                </Title>
-                <Value data-e2e='sbRecipientAddress'>{agent.recipientAddress}</Value>
-              </div>
-              <Copy>
-                <CopyClipboardButton textToCopy={agent.recipientAddress} />
-              </Copy>
-            </RowCopy>
+            <>
+              <RowCopy>
+                <div>
+                  <Title>
+                    <FormattedMessage
+                      id='modals.simplebuy.transferdetails.recipientAddress'
+                      defaultMessage='Recipient Address'
+                    />
+                  </Title>
+                  <Value data-e2e='sbRecipientAddress'>{agent.recipientAddress}</Value>
+                </div>
+                <Copy>
+                  <CopyClipboardButton textToCopy={agent.recipientAddress} />
+                </Copy>
+              </RowCopy>
+
+              <RowCopy>
+                <div>
+                  <Title>
+                    <FormattedMessage
+                      id='modals.simplebuy.transferdetails.intermediaryName'
+                      defaultMessage='Intermediary Name'
+                    />
+                  </Title>
+                  <Value data-e2e='sbintermediaryName'>{agent.intermediaryName}</Value>
+                </div>
+                <Copy>
+                  <CopyClipboardButton textToCopy={agent.intermediaryName} />
+                </Copy>
+              </RowCopy>
+              <RowCopy>
+                <div>
+                  <Title>
+                    <FormattedMessage
+                      id='modals.simplebuy.transferdetails.intermediaryAddress'
+                      defaultMessage='Intermediary Address'
+                    />
+                  </Title>
+                  <Value data-e2e='sbintermediaryAddress'>{agent.intermediaryAddress}</Value>
+                </div>
+                <Copy>
+                  <CopyClipboardButton textToCopy={agent.intermediaryAddress} />
+                </Copy>
+              </RowCopy>
+              <RowCopy>
+                <div>
+                  <Title>
+                    <FormattedMessage
+                      id='modals.simplebuy.transferdetails.intermediarySwiftCode'
+                      defaultMessage='Intermediary Swift Code'
+                    />
+                  </Title>
+                  <Value data-e2e='sbintermediarySwiftCode'>{agent.intermediarySwiftCode}</Value>
+                </div>
+                <Copy>
+                  <CopyClipboardButton textToCopy={agent.intermediarySwiftCode} />
+                </Copy>
+              </RowCopy>
+            </>
           )}
       </div>
       <Bottom>
