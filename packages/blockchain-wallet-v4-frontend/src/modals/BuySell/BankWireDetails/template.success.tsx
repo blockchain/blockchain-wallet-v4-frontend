@@ -395,20 +395,76 @@ const Success: React.FC<Props> = (props) => {
           </RowCopy>
         )}
         {props.account.currency === 'USD' && transferType === TransferType.INTERNATIONAL && (
-          <RowCopy>
-            <div>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.recipientAddress'
-                  defaultMessage='Recipient Address'
-                />
-              </Title>
-              <Value data-e2e='sbRecipientAddress'>{props.account.agent.recipientAddress}</Value>
-            </div>
-            <Copy>
-              <CopyClipboardButton textToCopy={props.account.agent.recipientAddress} />
-            </Copy>
-          </RowCopy>
+          <>
+            <RowCopy>
+              <div>
+                <Title>
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.recipientAddress'
+                    defaultMessage='Recipient Address'
+                  />
+                </Title>
+                <Value data-e2e='sbRecipientAddress'>{props.account.agent.recipientAddress}</Value>
+              </div>
+              <Copy>
+                <CopyClipboardButton textToCopy={props.account.agent.recipientAddress} />
+              </Copy>
+            </RowCopy>
+            {props.account.agent.intermediaryName && (
+              <RowCopy>
+                <div>
+                  <Title>
+                    <FormattedMessage
+                      id='modals.simplebuy.transferdetails.intermediaryName'
+                      defaultMessage='Intermediary Name'
+                    />
+                  </Title>
+                  <Value data-e2e='sbintermediaryName'>
+                    {props.account.agent.intermediaryName}
+                  </Value>
+                </div>
+                <Copy>
+                  <CopyClipboardButton textToCopy={props.account.agent.intermediaryName} />
+                </Copy>
+              </RowCopy>
+            )}
+            {props.account.agent.intermediaryAddress && (
+              <RowCopy>
+                <div>
+                  <Title>
+                    <FormattedMessage
+                      id='modals.simplebuy.transferdetails.intermediaryAddress'
+                      defaultMessage='Intermediary Address'
+                    />
+                  </Title>
+                  <Value data-e2e='sbintermediaryAddress'>
+                    {props.account.agent.intermediaryAddress}
+                  </Value>
+                </div>
+                <Copy>
+                  <CopyClipboardButton textToCopy={props.account.agent.intermediaryAddress} />
+                </Copy>
+              </RowCopy>
+            )}
+            {props.account.agent.intermediarySwiftCode && (
+              <RowCopy>
+                <div>
+                  <Title>
+                    <FormattedMessage
+                      id='modals.simplebuy.transferdetails.intermediarySwiftCode'
+                      defaultMessage='Intermediary Swift Code'
+                    />
+                  </Title>
+                  <Value data-e2e='sbintermediarySwiftCode'>
+                    {props.account.agent.intermediarySwiftCode}
+                  </Value>
+                </div>
+                <Copy>
+                  <CopyClipboardButton textToCopy={props.account.agent.intermediarySwiftCode} />
+                </Copy>
+              </RowCopy>
+            )}
+          </>
         )}
       </div>
       <Bottom>
