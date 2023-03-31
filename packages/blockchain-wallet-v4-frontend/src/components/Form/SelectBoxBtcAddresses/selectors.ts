@@ -69,8 +69,7 @@ export const getData = (
     includeAll = true,
     includeCustodial,
     includeExchangeAddress,
-    includeInterest,
-    showCustodialFirst
+    includeInterest
   } = ownProps
 
   const buildDisplay = (wallet) => {

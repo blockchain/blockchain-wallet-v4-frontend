@@ -176,7 +176,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       .getBSBalances(yield select())
       .map((balances) => ({
         ...balances[coin],
-        address: accountAddress ? accountAddress.data : null
+        address: accountAddress ? accountAddress.data : null // add address to custodial account to match the dropdown value
       }))
       .map(toCustodialDropdown)
 
