@@ -17,7 +17,7 @@ const getData = (state, ownProps: OwnProps) => {
   const {
     coin,
     excludeHDWallets,
-    forceCustodialFirst,
+    forceCustodialFirst, // make custodial first item in dropdown
     includeCustodial,
     includeInterest = false
   } = ownProps

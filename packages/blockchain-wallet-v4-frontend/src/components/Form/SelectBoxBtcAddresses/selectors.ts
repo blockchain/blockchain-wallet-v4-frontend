@@ -57,18 +57,19 @@ export const getData = (
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
     includeInterest?: boolean
+    showCustodialFirst?: boolean
   }
 ) => {
   const {
     exclude = [],
     excludeHDWallets,
     excludeImported,
+    forceCustodialFirst,
     includeActiveRewards,
     includeAll = true,
     includeCustodial,
     includeExchangeAddress,
-    includeInterest,
-    forceCustodialFirst
+    includeInterest
   } = ownProps
 
   const buildDisplay = (wallet) => {
