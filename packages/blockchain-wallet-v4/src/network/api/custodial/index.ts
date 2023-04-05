@@ -10,6 +10,7 @@ import {
   BankTransferAccountType,
   DepositTerms,
   NabuProductType,
+  ProductEligibilityForUser,
   ProductEligibilityResponse,
   WithdrawLimitsResponse
 } from 'data/types'
@@ -227,7 +228,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const fetchProductEligibilityForUser = () =>
+  const fetchProductEligibilityForUser = (): ProductEligibilityForUser =>
     authorizedGet({
       data: {
         product: 'SIMPLEBUY'

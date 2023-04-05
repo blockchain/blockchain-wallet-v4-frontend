@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -6,7 +6,12 @@ import { Remote } from '@core'
 import { RemoteDataType } from '@core/types'
 import { SpinningLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
-import { ExchangeAuthOriginType, PlatformTypes, ProductSignupMetadata } from 'data/types'
+import {
+  ExchangeAuthOriginType,
+  PlatformTypes,
+  ProductEligibilityForUser,
+  ProductSignupMetadata
+} from 'data/types'
 
 import ProductPicker from './template'
 import Error from './template.error'
@@ -15,6 +20,10 @@ import ExchangeMobileUserConflict from './template.error.exchangeMobile'
 
 const ProductPickerContainer: React.FC<Props> = (props) => {
   const [showExchangeUserConflict, setExchangeUserConflict] = useState(false)
+
+  useEffect(() => {
+    props.custodialActions.fetchProductEligibilityForUser()
+  }, [])
 
   const isExchangeMobileSignup =
     props.signupMetadata?.platform === PlatformTypes.ANDROID ||
@@ -37,6 +46,10 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
     }
   }
   const isMetadataRecovery = Remote.Success.is(props.isMetadataRecoveryR)
+
+  if (!props.products.exchange.enabled) {
+    props.routerActions.push('/home')
+  }
 
   return props.walletLoginData.cata({
     Failure: (error) =>
@@ -72,6 +85,9 @@ const mapStateToProps = (state) => ({
   exchangeUserConflict: selectors.auth.getExchangeConflictStatus(state) as boolean,
   isAccountReset: selectors.signup.getAccountReset(state) as boolean,
   isMetadataRecoveryR: selectors.signup.getMetadataRestore(state),
+  products: selectors.custodial.getProductEligibilityForUser(state).getOrElse({
+    notifications: []
+  } as ProductEligibilityForUser),
   showExchangeLoginButton: selectors.core.walletOptions
     .getExchangeMobileDuplicateAccountRedirect(state)
     .getOrElse(false) as boolean,
@@ -81,6 +97,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
+  custodialActions: bindActionCreators(actions.custodial, dispatch),
   miscActions: bindActionCreators(actions.core.data.misc, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),

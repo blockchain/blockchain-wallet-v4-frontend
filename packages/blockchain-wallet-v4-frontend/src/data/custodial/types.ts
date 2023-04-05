@@ -51,14 +51,25 @@ export type ProductEligibilityForUser = {
     id: 'DEPOSIT_INTEREST'
     reasonNotEligible?: NotEligibleReason
   }
-  exchange?: {
-    canDepositCrypto: boolean
-    canDepositFiat: boolean
-    canTrade: boolean
-    canWithdrawCrypto: boolean
-    canWithdrawFiat: boolean
-    enabled: boolean
+  exchange: {
+    canDepositCrypto: false
+    canDepositFiat: false
+    canTrade: false
+    canWithdrawCrypto: false
+    canWithdrawFiat: false
+    enabled: false
     id: 'EXCHANGE'
+    suggestedUpgrade: {
+      requiredTier: number
+    }
+  }
+  kycVerification: {
+    enabled: false
+    reasonNotEligible: {
+      message: string
+      reason: string
+      type: string
+    }
   }
   notifications: Array<NotificationItem> | []
   sell: {
