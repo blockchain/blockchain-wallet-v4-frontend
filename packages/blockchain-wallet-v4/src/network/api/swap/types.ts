@@ -170,6 +170,7 @@ export enum SwapPaymentMethod {
 }
 
 type AgentType = {
+  address?: string
   main?: string
 }
 

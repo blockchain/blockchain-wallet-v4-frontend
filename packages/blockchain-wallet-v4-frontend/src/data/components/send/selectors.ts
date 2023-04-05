@@ -8,7 +8,12 @@ export const getPaymentsAccountExchange = curry((currency: string, state: RootSt
 })
 
 export const getPaymentsTradingAccountAddress = curry((currency: string, state: RootState) => {
-  return state.components.send.tradingPaymentsAccount[currency]?.map((x) => x.address)
+  return state.components.send.tradingPaymentsAccount[currency]?.map((x) => {
+    if (x.agent?.address) {
+      return x.agent.address
+    }
+    return x.address
+  })
 })
 
 export const getUnstoppableDomainResults = (state: RootState) =>
