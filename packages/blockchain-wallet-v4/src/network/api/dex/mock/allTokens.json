@@ -1,0 +1,33 @@
+[
+  {
+    "chainId": 5,
+    "symbol": "ETH",
+    "name": "Ethereum",
+    "address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "decimals": 18
+  },
+  {
+    "chainId": 5,
+    "symbol": "DAI",
+    "name": "Dai Stablecoin",
+    "address": "0xdc31ee1784292379fbb2964b3b9c4124d8f89c60",
+    "decimals": 18,
+    "verifiedBy": 1
+  },
+  {
+    "chainId": 5,
+    "symbol": "UNI",
+    "name": "Uniswap",
+    "address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+    "decimals": 18,
+    "verifiedBy": 1
+  },
+  {
+    "chainId": 5,
+    "symbol": "WETH",
+    "name": "Wrapped Ether",
+    "address": "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6",
+    "decimals": 18,
+    "verifiedBy": 1
+  }
+]
