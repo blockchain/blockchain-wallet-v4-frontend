@@ -392,10 +392,10 @@ export default ({ api, coreSagas, networks }) => {
             const products = selectors.custodial
               .getProductEligibilityForUser(yield select())
               .getOrElse({
-                exchange: { enabled: false }
+                exchange: { hideExchangeOption: false }
               } as ProductEligibilityForUser)
 
-            if (products?.exchange?.enabled) {
+            if (products?.exchange?.hideExchangeOption) {
               yield put(actions.router.push('/select-product'))
             }
           }
