@@ -307,7 +307,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       title: getFormattedMessageComponent(node.id)
     }
     // BE will provide id to contains OPTIONAL in any children
-    const isOptional = node.children && node.children.some((item) => item.id.includes('OPTIONAL'))
+    const isOptional = node.children && node.children.some((item) => item.id.includes('UNDEFINED'))
 
     return (
       <>
@@ -458,7 +458,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     }
 
     // BE will provide id to contains OPTIONAL in any children
-    const isOptional = node.children && node.children.some((item) => item.id.includes('OPTIONAL'))
+    const isOptional = node.children && node.children.some((item) => item.id.includes('UNDEFINED'))
 
     return (
       <FormGroup>
