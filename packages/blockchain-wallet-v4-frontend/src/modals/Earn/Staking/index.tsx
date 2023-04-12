@@ -15,6 +15,7 @@ import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
 import DepositSuccess from './DepositSuccess'
 import Warning from './Warning'
+import WithdrawalForm from './WithdrawalForm'
 
 const Staking = ({
   close,
@@ -79,6 +80,11 @@ const Staking = ({
             walletCurrency={walletCurrency}
             showSupply={showSupply}
           />
+        </FlyoutChild>
+      )}
+      {step.name === 'WTIHDRAWAL' && (
+        <FlyoutChild>
+          <WithdrawalForm />
         </FlyoutChild>
       )}
     </Flyout>

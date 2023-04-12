@@ -59,6 +59,10 @@ export type InterestWithdrawalFormType = {
   withdrawalAmount: string
 }
 
+export type StakingWithdrawalFormType = {
+  withdrawalAmount: string
+}
+
 export enum InterestSteps {
   'ACCOUNT_SUMMARY',
   'DEPOSIT',
@@ -72,7 +76,9 @@ export enum StakingSteps {
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
   'NO_BALANCE',
-  'WARNING'
+  'WARNING',
+  'WTIHDRAWAL',
+  'WITHDRAWAL_STATUS'
 }
 
 export enum ActiveRewardsSteps {
@@ -108,7 +114,8 @@ export enum StakingStepsType {
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
   'ACCOUNT_SUMMARY',
-  'WITHDRAW'
+  'WITHDRAW',
+  'WITHDRAW_STATUS'
 }
 
 export type InterestTransactionsReportType = Array<Array<string>>

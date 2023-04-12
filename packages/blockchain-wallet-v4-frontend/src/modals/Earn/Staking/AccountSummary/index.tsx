@@ -107,7 +107,14 @@ const AccountSummaryContainer = (props: OwnProps) => {
     )
   }
 
-  const handleWithdrawClick = () => {}
+  const handleWithdrawClick = () => {
+    dispatch(
+      actions.components.interest.showStakingModal({
+        coin,
+        step: 'WTIHDRAWAL'
+      })
+    )
+  }
 
   const isEDDRequired = eddNeeded && !eddSubmitted && !eddPassed
 

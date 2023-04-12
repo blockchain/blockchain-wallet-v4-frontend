@@ -13,12 +13,9 @@ export const getActions = (dispatch) => ({
 
 export const getData = (state) => {
   const coin = selectors.components.interest.getCoinType(state)
-  const flagEDDInterestFileUpload = selectors.core.walletOptions
-    .getEDDInterestFileUpload(state)
-    .getOrElse(false)
   const walletCurrency: FiatType = selectors.core.settings.getCurrency(state).getOrElse('USD')
 
-  return { coin, flagEDDInterestFileUpload, walletCurrency }
+  return { coin, walletCurrency }
 }
 
 export const getRemote = (state: RootState) => {
