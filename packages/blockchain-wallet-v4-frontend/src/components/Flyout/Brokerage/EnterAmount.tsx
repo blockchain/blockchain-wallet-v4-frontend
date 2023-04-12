@@ -264,7 +264,7 @@ const Account = ({
       isMethod={!!paymentAccount}
     >
       <DisplayPaymentIcon showBackground={!paymentAccount}>
-        {getIcon({ ...paymentMethod, ...paymentAccount } as BSPaymentMethodType, false, invalid)}
+        {getIcon({ ...paymentMethod, ...paymentAccount } as BSPaymentMethodType, invalid)}
       </DisplayPaymentIcon>
       <PaymentText isMethod={!!paymentAccount}>{getBankText(paymentAccount)}</PaymentText>
       <PaymentArrowContainer>

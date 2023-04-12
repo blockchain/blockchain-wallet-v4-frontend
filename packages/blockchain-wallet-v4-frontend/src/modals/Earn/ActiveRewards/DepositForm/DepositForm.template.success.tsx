@@ -157,7 +157,6 @@ const DepositForm: React.FC<
           fiatCurrency={walletCurrency}
           forceCustodialFirst
           includeCustodial
-          excludeHDWallets
           name='earnDepositAccount'
           rates={rates}
         />

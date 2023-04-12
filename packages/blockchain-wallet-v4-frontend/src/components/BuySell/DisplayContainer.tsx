@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components'
 
-const DisplayContainer = styled.div`
+const DisplayContainer = styled('div')<{
+  isDisabled?: boolean
+}>`
   display: flex;
   width: 100%;
   align-items: center;
@@ -9,6 +11,7 @@ const DisplayContainer = styled.div`
   flex-direction: row;
   border-bottom: 1px solid ${(props) => props.theme.grey000};
   transition: background-color 0.3s;
+  opacity: ${(props) => (props.isDisabled ? '0.5' : '1')};
   ${(props) =>
     props.onClick &&
     css`

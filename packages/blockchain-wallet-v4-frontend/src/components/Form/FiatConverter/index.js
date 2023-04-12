@@ -9,7 +9,7 @@ import Loading from './template.loading'
 
 class FiatConverterContainer extends React.PureComponent {
   render() {
-    const { className, data, disabled, errorBottom, input, marginTop, meta } = this.props
+    const { data, disabled, errorBottom, input, marginTop, meta } = this.props
 
     return data.cata({
       Failure: () => <SkeletonRectangle height='40px' width='100%' />,
@@ -18,7 +18,6 @@ class FiatConverterContainer extends React.PureComponent {
       Success: (value) => (
         <Converter
           {...value}
-          className={className}
           meta={meta}
           errorBottom={errorBottom}
           value={input.value}

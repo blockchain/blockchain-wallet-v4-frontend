@@ -1,25 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
 
 import { Button, Image } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import { GenericNabuErrorCard } from 'components/GenericNabuErrorCard'
-import { selectors } from 'data'
 import { NabuError } from 'services/errors'
 
 import { BlockedPaymentsHook } from './useBlockedPayments.types'
 
 export const useBlockedPayments: BlockedPaymentsHook = (selectedMethod) => {
   const [isCardVisible, setCardVisibility] = useState<boolean>(false)
-  const isFeatureEnabled = useSelector(
-    selectors.core.walletOptions.getIsCreditCardOptimizationEnabled
-  ).data
 
   const isPaymentMethodBlocked = useMemo(() => {
-    if (!selectedMethod || !isFeatureEnabled) return false
+    if (!selectedMethod) return false
 
     return !!selectedMethod.block
-  }, [selectedMethod, isFeatureEnabled])
+  }, [selectedMethod])
 
   const nabuError = useMemo(() => {
     if (!selectedMethod || !selectedMethod.ux) return

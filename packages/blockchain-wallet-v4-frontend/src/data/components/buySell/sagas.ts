@@ -76,7 +76,6 @@ import {
 import { createBuyOrder } from './sagas/createBuyOrder'
 import { updateCardCvvAndPollOrder } from './sagas/updateCardCvvAndPollOrder'
 import * as S from './selectors'
-import { getIsSddFlow } from './selectors/getIsSddFlow'
 import { actions as A } from './slice'
 import * as T from './types'
 import {
@@ -87,7 +86,6 @@ import {
   isValidInputAmount,
   reversePair
 } from './utils'
-import * as SddFlow from './utils/sddFlow'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -820,7 +818,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // Now we need to poll for the order success
         yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       } else if (attributes && 'isAsync' in attributes) {
-        // If this is an isAsync call then we need to poll the order to wait forattributes or FAIL
+        // If this is an isAsync call then we need to poll the order to wait for attributes or FAIL
         try {
           const { RETRY_AMOUNT, SECONDS } = CARD_ORDER_POLLING
           confirmedOrder = yield retry(
@@ -1042,33 +1040,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchSDDVerified = function* () {
-    try {
-      const isSddVerified = S.getSddVerified(yield select()).getOrElse({
-        verified: false
-      })
-      const { nabuUserId } = (yield select(
-        selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
-      )).getOrElse({ nabuUserId: null })
-
-      if (!isSddVerified.verified && nabuUserId) {
-        yield put(A.fetchSDDVerifiedLoading())
-        const sddEligible = yield call(api.fetchSDDVerified)
-        yield put(A.fetchSDDVerifiedSuccess(sddEligible))
-      }
-    } catch (e) {
-      const { code: network_error_code, message: network_error_description } =
-        errorCodeAndMessage(e)
-      const error: PartialClientErrorProperties = {
-        network_endpoint: '/sdd/verified',
-        network_error_code,
-        network_error_description,
-        source: 'NABU'
-      }
-      yield put(A.fetchSDDVerifiedFailure(error))
-    }
-  }
-
   const fetchBSCards = function* ({ payload }: ReturnType<typeof A.fetchCards>) {
     let useNewPaymentProviders = false
     try {
@@ -1131,37 +1102,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.fetchFiatEligibleFailure(error))
-    }
-  }
-
-  const fetchSDDEligible = function* () {
-    try {
-      yield put(A.fetchSDDEligibleLoading())
-      // check if user is already tier 2
-      if (!(yield call(isTier2))) {
-        // user not tier 2, call for sdd eligibility
-        const sddEligible = yield call(api.fetchSDDEligible)
-        yield put(A.fetchSDDEligibleSuccess(sddEligible))
-      } else {
-        // user is already tier 2, manually set as ineligible
-        yield put(
-          A.fetchSDDEligibleSuccess({
-            eligible: false,
-            ineligibilityReason: 'KYC_TIER',
-            tier: 2
-          })
-        )
-      }
-    } catch (e) {
-      const { code: network_error_code, message: network_error_description } =
-        errorCodeAndMessage(e)
-      const error: PartialClientErrorProperties = {
-        network_endpoint: '/sdd/eligible',
-        network_error_code,
-        network_error_description,
-        source: 'NABU'
-      }
-      yield put(A.fetchSDDEligibleFailure(error))
     }
   }
 
@@ -1584,16 +1524,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const swapAccount = S.getSwapAccount(yield select())
     if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
 
-    const isSddFlow = getIsSddFlow(yield select()).getOrElse(false)
-    const isAllowedPaymentType = SddFlow.isAllowedPaymentType(method, mobilePaymentMethod)
-    if (isSddFlow && !isAllowedPaymentType) {
-      return yield put(
-        A.setStep({
-          step: 'KYC_REQUIRED'
-        })
-      )
-    }
-
     switch (method.type) {
       case BSPaymentTypes.BANK_ACCOUNT:
         return yield put(
@@ -1804,17 +1734,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const skipLoading = true
         yield put(A.fetchCards(skipLoading))
         const cardMethodR = S.getMethodByType(yield select(), BSPaymentTypes.PAYMENT_CARD)
-        const quote = S.getBuyQuote(yield select())
-
-        if (Remote.Success.is(quote)) {
-          return yield put(A.confirmOrder({ paymentMethodId: card.id, quoteState: quote.data }))
-        }
         const origin = S.getOrigin(yield select())
 
         if (origin === 'SettingsGeneral') {
           yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
 
           yield put(actions.alerts.displaySuccess('Card Added.'))
+        } else {
+          const quote = S.getBuyQuote(yield select())
+
+          if (Remote.Success.is(quote)) {
+            return yield put(A.confirmOrder({ paymentMethodId: card.id, quoteState: quote.data }))
+          }
         }
 
         // Sets the payment method to the newly created card in the enter amount form
@@ -1874,12 +1805,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield cancel()
         }
 
-        // In case that transaction is settled we do not need to wait for finishing full cycle
-        if (
-          order.attributes?.cardCassy?.paymentState === 'SETTLED' ||
-          (!waitUntilSettled &&
-            order.attributes?.cardCassy?.paymentState === 'WAITING_FOR_3DS_RESPONSE')
-        ) {
+        if (!waitUntilSettled) {
           break
         }
         yield delay(2000)
@@ -2248,8 +2174,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchPairs,
     fetchPaymentAccount,
     fetchPaymentMethods,
-    fetchSDDEligible,
-    fetchSDDVerified,
     fetchSellQuote,
     fetchSellQuotePrice,
     formChanged,

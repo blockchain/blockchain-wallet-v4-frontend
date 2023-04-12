@@ -101,7 +101,6 @@ const FirstStep = (props) => {
   } = rest
   const isPayPro = !!payPro
   const isFromCustody = from && from.type === 'CUSTODIAL'
-  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -241,10 +240,7 @@ const FirstStep = (props) => {
             <ColLeft>
               <FeeFormContainer toggled={feePerByteToggled}>
                 <FeeFormLabel>
-                  <FormattedMessage
-                    id='modals.sendbtc.firststep.networkfee'
-                    defaultMessage='Network Fee'
-                  />
+                  <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
                   <span>&nbsp;</span>
                   {!feePerByteToggled && (
                     <Field name='feePerByte' component={SelectBox} elements={feePerByteElements} />
@@ -309,10 +305,7 @@ const FirstStep = (props) => {
       ) : (
         <FeeFormGroup margin='10px'>
           <FormLabel>
-            <FormattedMessage
-              id='modals.sendbtc.firststep.networkfee'
-              defaultMessage='Network Fee'
-            />
+            <FormattedMessage id='copy.processing-fee' defaultMessage='Processing Fee:' />
           </FormLabel>
           <ComboDisplay size='13px' weight={600} coin='BTC'>
             {totalFee}
@@ -357,9 +350,7 @@ const FirstStep = (props) => {
           height='56px'
           size='18px'
           data-e2e='sendBtcContinue'
-          disabled={
-            submitting || invalid || disableCustodySend || (!isPayPro && pristine && !autofilled)
-          }
+          disabled={submitting || invalid || (!isPayPro && pristine && !autofilled)}
         >
           <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>

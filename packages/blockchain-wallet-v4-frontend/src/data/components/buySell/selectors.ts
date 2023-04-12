@@ -147,9 +147,12 @@ export const getDefaultPaymentMethod = createSelector(
           if (!method) return
           const bankAccount = bankAccounts.find((acct) => acct.id === lastOrder.paymentMethodId)
           if (bankAccount && bankAccount.state === 'ACTIVE') {
+            // TODO BE is inconsistent in such if they fix it we can update it here
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { capabilities, ...bankAccountRest } = bankAccount
             return {
               ...method,
-              ...bankAccount,
+              ...bankAccountRest,
               state: 'ACTIVE',
               type: lastOrder.paymentType as BSPaymentTypes
             }
@@ -247,19 +250,6 @@ export const getIncomingAmount = (state: RootState) => {
   })
 }
 
-export const getSddEligible = (state: RootState) => state.components.buySell.sddEligible
-
-export const isUserSddEligible = (state: RootState) => {
-  const sddEligibleR = getSddEligible(state)
-  return lift((sddEligible: ExtractSuccess<typeof sddEligibleR>) => !sddEligible.eligible)(
-    sddEligibleR
-  )
-}
-export const getUserSddEligibleTier = (state: RootState) => {
-  const sddEligibleR = getSddEligible(state)
-  return lift((sddEligible: ExtractSuccess<typeof sddEligibleR>) => sddEligible.tier)(sddEligibleR)
-}
-
 export const getMethodByType = (state: RootState, type: BSPaymentTypes) => {
   const sbMethodsR = getBSPaymentMethods(state)
   return lift((sbMethods: ExtractSuccess<typeof sbMethodsR>) => {
@@ -276,19 +266,7 @@ export const getUserLimit = (state: RootState, type: BSPaymentTypes) => {
   })(sbMethodsR)
 }
 
-export const getSddVerified = (state: RootState) => state.components.buySell.sddVerified
-
-export const isUserSddVerified = (state: RootState) => {
-  const sddVerifiedR = getSddVerified(state)
-  return lift(
-    (sddVerified: ExtractSuccess<typeof sddVerifiedR>) =>
-      sddVerified.taskComplete && sddVerified.verified
-  )(sddVerifiedR)
-}
 export const getLimits = (state: RootState) => state.components.buySell.limits
-
-export const getSddTransactionFinished = (state: RootState) =>
-  state.components.buySell.sddTransactionFinished
 
 export const getCheckoutAccountCodes = (state: RootState) =>
   state.components.buySell.checkoutDotComAccountCodes

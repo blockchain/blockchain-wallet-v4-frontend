@@ -1,8 +1,10 @@
+import BigNumber from 'bignumber.js'
 import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
 import { call, delay, put, select } from 'redux-saga/effects'
 import secp256k1 from 'secp256k1'
 
+import { Exchange } from '@core'
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { BuildTxIntentType, BuildTxResponseType } from '@core/network/api/coin/types'
@@ -18,7 +20,9 @@ import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { SendCryptoStepType } from './types'
+import { SendCryptoFormType, SendCryptoStepType } from './types'
+
+const SEND_CRYPTO = '@SEND_CRYPTO'
 
 export default ({ api }: { api: APIType }) => {
   const initializeSend = function* () {
@@ -40,7 +44,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.buildTxLoading())
       const { account, baseCryptoAmt, destination, fee, memo } = action.payload
       const { coin } = account
-      const feesR = S.getWithdrawalFees(yield select(), coin)
+      const feesR = yield select(S.getCustodialWithdrawalFee)
 
       if (account.type === SwapBaseCounterTypes.ACCOUNT) {
         const password = yield call(promptForSecondPassword)
@@ -124,6 +128,80 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const getCustodialWithdrawalFee = function* () {
+    try {
+      const formValues: SendCryptoFormType = yield select(selectors.form.getFormValues(SEND_CRYPTO))
+      if (!formValues?.coin) throw new Error('Form coin not defined')
+
+      const fiatCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
+      const withdrawalMin: string = (yield select(S.getWithdrawalMin)).getOrElse('0')
+
+      yield put(A.fetchCustodialWithdrawalFeeLoading())
+
+      let fee = ''
+      if (
+        !formValues?.amount ||
+        new BigNumber(formValues.amount).isLessThan(new BigNumber(withdrawalMin))
+      ) {
+        const maxWithdrawalFee = yield select(S.getMaxCustodialWithdrawalFee)
+        fee = Exchange.convertCoinToCoin({
+          coin: formValues.coin,
+          value: maxWithdrawalFee.getOrElse('0')
+        })
+      } else {
+        const withdrawalAmount = Exchange.convertCoinToCoin({
+          baseToStandard: false,
+          coin: formValues.coin,
+          value: formValues.amount
+        })
+
+        const response: ReturnType<typeof api.getCustodialToNonCustodialWithdrawalFees> =
+          yield call(api.getCustodialToNonCustodialWithdrawalFees, {
+            amount: new BigNumber(withdrawalAmount).isLessThan(new BigNumber(withdrawalMin))
+              ? withdrawalMin
+              : withdrawalAmount,
+            currency: formValues.coin,
+            fiatCurrency,
+            paymentMethod: 'CRYPTO_TRANSFER'
+          })
+        fee = Exchange.convertCoinToCoin({
+          coin: formValues.coin,
+          value: response.totalFees.amount.value
+        })
+      }
+
+      yield put(A.fetchCustodialWithdrawalFeeSuccess(fee))
+    } catch (e) {
+      yield put(A.fetchCustodialWithdrawalFeeFailure(e))
+    }
+  }
+
+  const getMaxWithdrawalFee = function* ({ payload }: ReturnType<typeof A.getMaxWithdrawalFee>) {
+    const { coin } = payload
+    const fiatCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
+    try {
+      yield put(A.fetchCustodialWithdrawalFeeLoading())
+      const response: ReturnType<typeof api.getMaxCustodialWithdrawalFee> = yield call(
+        api.getMaxCustodialWithdrawalFee,
+        {
+          currency: coin,
+          fiatCurrency,
+          paymentMethod: 'CRYPTO_TRANSFER'
+        }
+      )
+      const fee = response.totalFees.amount.value
+      const minAmount = Exchange.convertCoinToCoin({
+        coin,
+        value: response.minAmount.amount.value
+      })
+      yield put(A.setWithdrawalMin(minAmount))
+      yield put(A.fetchCustodialWithdrawalFeeSuccess(fee))
+      yield put(A.sendCryptoMaxCustodialWithdrawalFeeSuccess(fee))
+    } catch (e) {
+      yield put(A.sendCryptoMaxCustodialWithdrawalFeeFailure(e))
+    }
+  }
+
   const fetchFeesAndMins = function* ({ payload }: ReturnType<typeof A.fetchWithdrawalFees>) {
     yield put(A.fetchWithdrawalFeesLoading())
     try {
@@ -136,16 +214,10 @@ export default ({ api }: { api: APIType }) => {
           })
         )
       } else {
-        const withdrawalFees: ReturnType<typeof api.getWithdrawalFees> = yield call(
-          api.getWithdrawalFees,
-          'simplebuy'
-        )
-
-        yield put(A.fetchWithdrawalFeesSuccess(withdrawalFees))
+        yield call(getCustodialWithdrawalFee)
       }
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchWithdrawalFeesFailure(error))
     }
   }
 
@@ -190,6 +262,7 @@ export default ({ api }: { api: APIType }) => {
         yield put(A.setInitialCoin(payload))
         // must come after setInitialCoin
         yield put(actions.modals.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Send' }))
+        yield put(A.getMaxWithdrawalFee({ coin: payload }))
       } else {
         const coin = window.coins[payload].coinfig.type.erc20Address ? 'ETH' : payload
         yield put(
@@ -239,7 +312,7 @@ export default ({ api }: { api: APIType }) => {
       const { amount, fix, memo, selectedAccount, to } = formValues
       coin = selectedAccount.coin
       accountType = selectedAccount.type
-      const feesR = S.getWithdrawalFees(yield select(), selectedAccount.coin)
+      const feesR = yield select(S.getCustodialWithdrawalFee)
       const fee = feesR.getOrElse(undefined)
       const walletCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
@@ -391,6 +464,8 @@ export default ({ api }: { api: APIType }) => {
     fetchFeesAndMins,
     fetchLocks,
     fetchSendLimits,
+    getCustodialWithdrawalFee,
+    getMaxWithdrawalFee,
     initializeSend,
     onFormChange,
     // fetchTransactionDetails,

@@ -15,8 +15,6 @@ import { BSCheckoutFormValuesType, SwapAccountType } from 'data/types'
 import { Props } from './template.success'
 import { Limits } from './types'
 
-const { LIMIT } = components.buySell
-
 // TODO remove not used properties
 export const getMaxMin = (
   minOrMax: 'min' | 'max',
@@ -26,8 +24,6 @@ export const getMaxMin = (
   allValues?: BSCheckoutFormValuesType,
   method?: BSPaymentMethodType,
   account?: SwapAccountType,
-  isSddFlow = false,
-  sddLimit = LIMIT,
   limits?: SwapUserLimitsType
 ): { type?: Limits; value: string } => {
   let limitType = Limits.ABOVE_MAX
@@ -42,7 +38,7 @@ export const getMaxMin = (
         const maxOrderBase = convertBaseToStandard('FIAT', limits.maxOrder, false)
 
         const baseMaxLimitAmount = Number(maxOrderBase)
-        if (baseMaxLimitAmount < buyMaxItem && !isSddFlow) {
+        if (baseMaxLimitAmount < buyMaxItem) {
           limitMaxAmount = baseMaxLimitAmount
           limitMaxChanged = true
         }
@@ -50,9 +46,7 @@ export const getMaxMin = (
 
       const defaultMax = {
         type: limitType,
-        value: isSddFlow
-          ? convertBaseToStandard('FIAT', Number(sddLimit.max))
-          : convertBaseToStandard('FIAT', pair.buyMax)
+        value: convertBaseToStandard('FIAT', pair.buyMax)
       }
 
       // we have to convert in case that this amount is from maxOrder
@@ -67,11 +61,7 @@ export const getMaxMin = (
       if (!allValues) return defaultMax
       if (!method) return defaultMax
 
-      let max = BigNumber.minimum(
-        method.limits.max,
-        isSddFlow ? sddLimit.max : pair.buyMax,
-        isSddFlow ? sddLimit.max : limitMaxAmount
-      ).toString()
+      let max = BigNumber.minimum(method.limits.max, pair.buyMax, limitMaxAmount).toString()
 
       let fundsChangedMax = false
       if (method.type === BSPaymentTypes.FUNDS && sbBalances && limits?.maxPossibleOrder) {
@@ -106,16 +96,14 @@ export const getMaxMin = (
       if (limits?.minOrder) {
         const minOrderBase = convertBaseToStandard('FIAT', limits.minOrder, false)
         const baseMinLimitAmount = Number(minOrderBase)
-        if (baseMinLimitAmount > limitMinAmount && !isSddFlow) {
+        if (baseMinLimitAmount > limitMinAmount) {
           limitMinAmount = baseMinLimitAmount
           limitMinChanged = true
         }
       }
 
       const defaultMin = {
-        value: isSddFlow
-          ? convertBaseToStandard('FIAT', Number(sddLimit.min))
-          : convertBaseToStandard('FIAT', pair.buyMin)
+        value: convertBaseToStandard('FIAT', pair.buyMin)
       }
 
       const defaultMinCompare = limitMinChanged
@@ -128,11 +116,7 @@ export const getMaxMin = (
       if (!allValues) return defaultMin
       if (!method) return defaultMin
 
-      const min = BigNumber.maximum(
-        method.limits.min,
-        pair.buyMin,
-        isSddFlow ? method.limits.min : limitMinAmount
-      ).toString()
+      const min = BigNumber.maximum(method.limits.min, pair.buyMin, limitMinAmount).toString()
 
       const minFiat = convertBaseToStandard('FIAT', min)
 
@@ -151,13 +135,11 @@ export const maximumAmount = (
 
   const {
     defaultMethod,
-    isSddFlow,
     limits,
     method: selectedMethod,
     pair,
     payment,
     sbBalances,
-    sddLimit,
     swapAccount
   } = restProps
 
@@ -172,8 +154,6 @@ export const maximumAmount = (
     allValues,
     method,
     swapAccount,
-    isSddFlow,
-    sddLimit,
     limits
   )
   const errorType = maxMinAmount.type || Limits.ABOVE_MAX
@@ -189,31 +169,20 @@ export const minimumAmount = (
 
   const {
     defaultMethod,
-    isSddFlow,
     limits,
     method: selectedMethod,
     pair,
     payment,
     sbBalances,
-    sddLimit,
     swapAccount
   } = restProps
   const method = selectedMethod || defaultMethod
   if (!allValues) return false
   return Number(value) <
     Number(
-      getMaxMin(
-        'min',
-        sbBalances,
-        pair,
-        payment,
-        allValues,
-        method,
-        swapAccount,
-        isSddFlow,
-        sddLimit,
-        limits
-      )[allValues.fix]
+      getMaxMin('min', sbBalances, pair, payment, allValues, method, swapAccount, limits)[
+        allValues.fix
+      ]
     )
     ? 'BELOW_MIN'
     : false

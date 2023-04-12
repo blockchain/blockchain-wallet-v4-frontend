@@ -94,7 +94,6 @@ const FirstStep = (props) => {
   const disableDueToLowEth = coin !== 'ETH' && !isSufficientEthForErc20 && !isFromCustody
   const disableRetryAttempt =
     isRetryAttempt && new BigNumber(fee).isLessThanOrEqualTo(minFeeRequiredForRetry)
-  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -208,10 +207,7 @@ const FirstStep = (props) => {
           <ColLeft>
             <FeeFormContainer toggled={feeToggled}>
               <FeeFormLabel>
-                <FormattedMessage
-                  id='modals.sendeth.firststep.networkfee'
-                  defaultMessage='Network Fee'
-                />
+                <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
                 <span>&nbsp;</span>
                 {!feeToggled && <Field name='fee' component={SelectBox} elements={feeElements} />}
                 {feeToggled && (
@@ -264,10 +260,7 @@ const FirstStep = (props) => {
       ) : (
         <FeeFormGroup margin='10px'>
           <FormLabel>
-            <FormattedMessage
-              id='modals.sendeth.firststep.networkfee'
-              defaultMessage='Network Fee'
-            />
+            <FormattedMessage id='copy.processing-fee' defaultMessage='Processing Fee' />
           </FormLabel>
           <ComboDisplay size='13px' weight={600} coin={coin}>
             {fee}
@@ -306,7 +299,6 @@ const FirstStep = (props) => {
             !isContractChecked ||
             disableDueToLowEth ||
             disableRetryAttempt ||
-            disableCustodySend ||
             Remote.Loading.is(balanceStatus)
           }
           data-e2e={`${coin}SendContinue`}

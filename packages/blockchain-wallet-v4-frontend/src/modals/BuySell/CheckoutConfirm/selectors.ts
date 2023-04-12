@@ -3,7 +3,6 @@ import { createSelector } from 'reselect'
 
 import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
-import { getIsSddFlow } from 'data/components/buySell/selectors/getIsSddFlow'
 import { RootState } from 'data/rootReducer'
 
 import * as QuoteSummaryViewModel from './models/quoteSummaryViewModel'
@@ -19,7 +18,6 @@ export const getData = (state: RootState) => {
   const quoteSummaryViewModelR = selectQuoteSummaryViewModel(state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const cardsR = selectors.components.buySell.getBSCards(state)
-  const isSddFlowR = getIsSddFlow(state)
 
   const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
 
@@ -29,15 +27,13 @@ export const getData = (state: RootState) => {
       quoteSummaryViewModel: ExtractSuccess<typeof quoteSummaryViewModelR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>,
-      cards: ExtractSuccess<typeof cardsR>,
-      isSddFlow: ExtractSuccess<typeof isSddFlowR>
+      cards: ExtractSuccess<typeof cardsR>
     ) => ({
       bankAccounts,
       cards,
-      isSddFlow,
       quoteSummaryViewModel,
       sbBalances,
       withdrawLockCheck
     })
-  )(bankAccountsR, quoteSummaryViewModelR, sbBalancesR, withdrawLockCheckR, cardsR, isSddFlowR)
+  )(bankAccountsR, quoteSummaryViewModelR, sbBalancesR, withdrawLockCheckR, cardsR)
 }

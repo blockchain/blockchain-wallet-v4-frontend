@@ -55,11 +55,6 @@ const CowboysCardComponent = () => {
     isLoading: cowboysLoading
   } = useRemote(selectors.modules.profile.getCowboysTag)
   const {
-    data: isSDDVerified,
-    hasError: hasSDDVerifiedError,
-    isLoading: isSDDVerifiedLoading
-  } = useRemote(selectors.components.buySell.isUserSddVerified)
-  const {
     data: isGoldVerified,
     hasError: isGoldVerifiedError,
     isLoading: isGoldVerifiedLoading
@@ -72,7 +67,7 @@ const CowboysCardComponent = () => {
 
   const buttonAction = useCallback(() => {
     let step: CowboysPromoStepsType = 'signup' // level 1
-    if (!isGoldVerified && (isSDDVerified || currentTier === 1)) {
+    if (!isGoldVerified && currentTier === 1) {
       // level 2
       step = 'verifyId'
       dispatch(
@@ -105,19 +100,17 @@ const CowboysCardComponent = () => {
     }
 
     dispatch(actions.modals.showModal(ModalName.COWBOYS_PROMO, { origin: 'CowboysCard', step }))
-  }, [currentTier, dispatch, isSDDVerified, isGoldVerified])
+  }, [currentTier, dispatch, isGoldVerified])
 
-  if (cowboysLoading || isSDDVerifiedLoading || isGoldVerifiedLoading || isCurrentTierLoading)
-    return null
-  if (cowboysHasError || hasSDDVerifiedError || isGoldVerifiedError || isCurrentTierError)
-    return null
+  if (cowboysLoading || isGoldVerifiedLoading || isCurrentTierLoading) return null
+  if (cowboysHasError || isGoldVerifiedError || isCurrentTierError) return null
   if (!cowboysData || !show) return null
 
   const titleText = (
     <FormattedMessage id='copy.cowboys.cowboys_promo' defaultMessage='Cowboys Promo' />
   )
   const descText =
-    !isGoldVerified && (isSDDVerified || currentTier === 1) ? ( // level 2
+    !isGoldVerified && currentTier === 1 ? ( // level 2
       <Text color='white' size='16px' weight={700} lineHeight='24px'>
         <FormattedMessage
           id='copy.cowboys.verify_your_id'
@@ -141,7 +134,7 @@ const CowboysCardComponent = () => {
       </Text>
     )
   const actionText =
-    !isGoldVerified && (isSDDVerified || currentTier === 1) ? ( // level 2
+    !isGoldVerified && currentTier === 1 ? ( // level 2
       <FormattedMessage id='buttons.verify_now' defaultMessage='Verify Now' />
     ) : isGoldVerified ? ( // level 3
       <FormattedMessage id='buttons.signup_now' defaultMessage='Invite Now' />

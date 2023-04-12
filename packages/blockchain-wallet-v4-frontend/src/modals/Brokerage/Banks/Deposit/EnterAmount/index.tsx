@@ -27,7 +27,6 @@ const EnterAmountContainer = ({
     if (fiatCurrency && !Remote.Success.is(data)) {
       buySellActions.fetchFiatEligible(fiatCurrency)
       brokerageActions.fetchBankTransferAccounts()
-      buySellActions.fetchSDDEligibility()
     }
 
     buySellActions.fetchPaymentMethods(fiatCurrency)

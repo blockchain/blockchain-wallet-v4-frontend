@@ -30,27 +30,52 @@ export type AgentType = AgentSimple & {
   bankName: string
   country: string
   holderDocument: string
+  intermediaryAddress: string
+  intermediaryName: string
+  intermediarySwiftCode: string
   label: string
   recipientAddress: string
   routingNumber: string
   swiftCode: string
 }
 
+type BSAccountContent = {
+  footers: Array<{
+    icon?: string
+    id: string
+    isImportant?: boolean
+    message: string
+    title: string
+  }>
+  sections: Array<{
+    entries: Array<{
+      id: string
+      message: string
+      title: string
+    }>
+    name: string
+  }>
+}
+
 export type BSAccountType =
   | (IBSAccountType & {
       agent: AgentType
+      content: BSAccountContent
       currency: 'USD'
     })
   | (IBSAccountType & {
       agent: AgentSimple
+      content: BSAccountContent
       currency: 'EUR'
     })
   | (IBSAccountType & {
       agent: AgentSimple
+      content: BSAccountContent
       currency: 'GBP'
     })
   | (IBSAccountType & {
       agent: AgentType
+      content: BSAccountContent
       currency: 'ARS'
     })
 
@@ -143,6 +168,8 @@ export enum CardFundSourceType {
   PREPAID = 'PREPAID'
 }
 
+type Capabilities = 'DEPOSIT' | 'WITHDRAWAL' | 'BROKERAGE'
+
 export type BSPaymentMethodType = {
   addedAt?: string
   address?: null | NabuAddressType
@@ -150,6 +177,7 @@ export type BSPaymentMethodType = {
     requiresRefresh?: true
   }
   block?: boolean
+  capabilities?: Capabilities[]
   card?: BSCard
   cardFundSources?: CardFundSourceType[]
   currency: FiatType

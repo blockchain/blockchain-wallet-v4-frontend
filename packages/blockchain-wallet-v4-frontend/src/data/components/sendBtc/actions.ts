@@ -27,6 +27,22 @@ export const sendBtcPaymentUpdatedFailure = (err) => ({
   type: AT.SEND_BTC_PAYMENT_UPDATED_FAILURE
 })
 
+export const clearSendBtcMaxCustodialWithdrawalFee = () => ({
+  type: AT.CLEAR_SEND_BTC_MAX_CUSTODIAL_WITHDRAWAL_FEE
+})
+
+export const sendBtcFetchMaxCustodialWithdrawalFeeSuccess = (fee: string) => ({
+  payload: fee,
+  type: AT.SEND_BTC_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_SUCCESS
+})
+export const sendBtcFetchMaxCustodialWithdrawalFeeLoading = () => ({
+  type: AT.SEND_BTC_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_LOADING
+})
+export const sendBtcFetchMaxCustodialWithdrawalFeeFailure = (err) => ({
+  payload: err,
+  type: AT.SEND_BTC_FETCH_MAX_CUSTODIAL_WITHDRAWAL_FEE_FAILURE
+})
+
 export const sendBtcFirstStepFeePerByteToggled = () => ({
   type: AT.SEND_BTC_FIRST_STEP_FEEPERBYTE_TOGGLED
 })

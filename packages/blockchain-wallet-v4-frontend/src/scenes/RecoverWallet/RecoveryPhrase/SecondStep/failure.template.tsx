@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 
+import { Props } from '.'
+
 const Body = styled.div`
   display: flex;
   text-align: center;
@@ -12,7 +14,8 @@ const Body = styled.div`
   flex-direction: column;
 `
 
-const Error = (props) => {
+const Error = (props: Props) => {
+  const { setRecoveryPhraseStep2 } = props
   return (
     <Wrapper>
       <Body>
@@ -28,7 +31,7 @@ const Error = (props) => {
           size='16px'
           weight={500}
           cursor='pointer'
-          onClick={props.previousStep}
+          onClick={setRecoveryPhraseStep2}
         >
           <FormattedMessage id='scenes.exchange.exchangeform.tryagain' defaultMessage='Try Again' />
         </Text>
