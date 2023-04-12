@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import { AlertCard } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { WalletFiatEnum } from '@core/types'
 import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import { DisplayIcon, DisplaySubTitle, DisplayTitle } from 'components/BuySell'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
@@ -12,29 +11,35 @@ import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Header } from './Header'
 
-const RowCopy = styled(Row)`
+const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-`
-const Copy = styled.div`
-  display: flex;
+  flex-direction: column;
+  height: 100%;
 `
 
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   padding-top: 24px;
   flex-direction: column;
+  height: 100%;
 `
-
 const LegalWrapper = styled(TextGroup)`
   margin-top: 20px;
 `
+
+const RowCopy = styled(Row)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+
 const BottomInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 41px;
 `
+
 const BottomRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -45,6 +50,7 @@ const BottomRow = styled.div`
     background: ${(props) => props.theme.grey100} !important;
   }
 `
+
 const BottomMultiRowContainer = styled.div`
   position: relative;
   display: flex;
@@ -53,26 +59,30 @@ const BottomMultiRowContainer = styled.div`
   margin-left: 16px;
 `
 
+const Copy = styled.div`
+  display: flex;
+`
+
 type Props = OwnProps &
   SuccessStateType & {
     onClickBack: () => void
   }
 
-export const InstructionDetails: React.FC<Props> = (props) => {
-  const formatIbanAddress = (): string => {
-    const EVERY_FOUR_CHARS = /(.{4})(?!$)/g
-    return props.account.address.replace(EVERY_FOUR_CHARS, `$1 `)
-  }
-
+export const BankWireDetails: React.FC<Props> = (props) => {
   const recipientName = `${props.userData.firstName} ${props.userData.lastName}`
 
   return (
-    <div>
-      <FlyoutWrapper>
-        <Header currency={props.account.currency} onClickBack={props.onClickBack} />
-      </FlyoutWrapper>
-
+    <Wrapper>
       <div>
+        <FlyoutWrapper>
+          <Header
+            currency={props.account.currency}
+            displayBack={props.displayBack}
+            handleClose={props.handleClose}
+            onClickBack={props.onClickBack}
+          />
+        </FlyoutWrapper>
+
         <RowCopy>
           <div>
             <Title>
@@ -87,7 +97,7 @@ export const InstructionDetails: React.FC<Props> = (props) => {
             <CopyClipboardButton textToCopy={recipientName} />
           </Copy>
         </RowCopy>
-        {props.account.currency === WalletFiatEnum[WalletFiatEnum.EUR] && (
+        {props.account.currency === 'EUR' && (
           <RowCopy>
             <div>
               <Title>
@@ -103,7 +113,7 @@ export const InstructionDetails: React.FC<Props> = (props) => {
             </Copy>
           </RowCopy>
         )}
-        {props.account.currency === WalletFiatEnum[WalletFiatEnum.EUR] && (
+        {props.account.currency === 'EUR' && (
           <RowCopy>
             <div>
               <Title>
@@ -112,31 +122,30 @@ export const InstructionDetails: React.FC<Props> = (props) => {
                   defaultMessage='IBAN'
                 />
               </Title>
-              <Value data-e2e='sbIbanAddress'>{formatIbanAddress()}</Value>
+              <Value data-e2e='sbIbanAddress'>{props.account.address}</Value>
             </div>
             <Copy>
               <CopyClipboardButton textToCopy={props.account.address} />
             </Copy>
           </RowCopy>
         )}
-        {props.account.currency === WalletFiatEnum[WalletFiatEnum.GBP] &&
-          !!props.account.agent.account && (
-            <RowCopy>
-              <div>
-                <Title>
-                  <FormattedMessage
-                    id='modals.simplebuy.transferdetails.account'
-                    defaultMessage='Account Number'
-                  />
-                </Title>
-                <Value data-e2e='sbAccountNumber'>{props.account.agent.account}</Value>
-              </div>
-              <Copy>
-                <CopyClipboardButton textToCopy={props.account.agent.account} />
-              </Copy>
-            </RowCopy>
-          )}
-        {props.account.currency === WalletFiatEnum[WalletFiatEnum.GBP] && (
+        {props.account.currency === 'GBP' && !!props.account.agent.account && (
+          <RowCopy>
+            <div>
+              <Title>
+                <FormattedMessage
+                  id='modals.simplebuy.transferdetails.account'
+                  defaultMessage='Account Number'
+                />
+              </Title>
+              <Value data-e2e='sbAccountNumber'>{props.account.agent.account}</Value>
+            </div>
+            <Copy>
+              <CopyClipboardButton textToCopy={props.account.agent.account} />
+            </Copy>
+          </RowCopy>
+        )}
+        {props.account.currency === 'GBP' && (
           <RowCopy>
             <div>
               <Title>
@@ -152,7 +161,7 @@ export const InstructionDetails: React.FC<Props> = (props) => {
             </Copy>
           </RowCopy>
         )}
-        {props.account.currency === WalletFiatEnum[WalletFiatEnum.EUR] && (
+        {props.account.currency === 'EUR' && (
           <RowCopy>
             <div>
               <Title>
@@ -200,13 +209,13 @@ export const InstructionDetails: React.FC<Props> = (props) => {
                 />
               </DisplayTitle>
               <DisplaySubTitle>
-                {props.account.currency === WalletFiatEnum[WalletFiatEnum.GBP] && (
+                {props.account.currency === 'GBP' && (
                   <FormattedMessage
                     id='modals.simplebuy.deposit.processing_time.info.gbp1'
                     defaultMessage='Funds will be credited to your GBP Account as soon as we receive them. In the UK Faster Payments Network, this can take a couple of hours.'
                   />
                 )}
-                {props.account.currency === WalletFiatEnum[WalletFiatEnum.EUR] && (
+                {props.account.currency === 'EUR' && (
                   <FormattedMessage
                     id='modals.simplebuy.deposit.processing_time.info.eur1'
                     defaultMessage='Funds will be credited to your EUR Account as soon as we receive them. SEPA transfers usually take around 1 business day to reach us.'
@@ -216,7 +225,7 @@ export const InstructionDetails: React.FC<Props> = (props) => {
             </BottomMultiRowContainer>
           </BottomRow>
 
-          {props.account.currency === WalletFiatEnum[WalletFiatEnum.GBP] && (
+          {props.account.currency === 'GBP' && (
             <LegalWrapper inline>
               <Text size='12px' weight={500} color='grey600'>
                 <FormattedMessage
@@ -244,6 +253,6 @@ export const InstructionDetails: React.FC<Props> = (props) => {
           )}
         </BottomInfoContainer>
       </Bottom>
-    </div>
+    </Wrapper>
   )
 }
