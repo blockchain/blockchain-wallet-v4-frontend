@@ -50,6 +50,7 @@ const AccountSummary: React.FC<Props> = (props) => {
     handleDepositClick,
     handleEDDSubmitInfo,
     handleTransactionsToggled,
+    handleWithdrawClick,
     isBalanceDropdownToggled,
     isCoinDisplayed,
     isEDDRequired,
@@ -362,12 +363,19 @@ const AccountSummary: React.FC<Props> = (props) => {
             onClick={handleDepositClick}
           >
             <Text color='white' size='16px' weight={600}>
-              <FormattedMessage id='buttons.stake' defaultMessage='Stake' />
+              <FormattedMessage id='buttons.add' defaultMessage='Add' />
             </Text>
           </Button>
-          <Button disabled data-e2e='stakingWithdrawal' fullwidth height='48px' nature='grey800'>
+          {/* TODO check when it should be disabled */}
+          <Button
+            data-e2e='stakingWithdrawal'
+            fullwidth
+            height='48px'
+            nature='grey800'
+            onClick={handleWithdrawClick}
+          >
             <Text color='white' size='16px' weight={600}>
-              <FormattedMessage id='buttons.unstake' defaultMessage='Unstake' />
+              <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
             </Text>
           </Button>
         </Bottom>
@@ -384,6 +392,7 @@ type OwnProps = {
   handleDepositClick: () => void
   handleEDDSubmitInfo: () => void
   handleTransactionsToggled: () => void
+  handleWithdrawClick: () => void
   isBalanceDropdownToggled: boolean
   isCoinDisplayed: boolean
   isEDDRequired: boolean

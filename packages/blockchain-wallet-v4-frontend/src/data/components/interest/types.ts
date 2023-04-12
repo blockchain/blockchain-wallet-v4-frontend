@@ -107,7 +107,8 @@ export enum StakingStepsType {
   'WARNING',
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
-  'ACCOUNT_SUMMARY'
+  'ACCOUNT_SUMMARY',
+  'WITHDRAW'
 }
 
 export type InterestTransactionsReportType = Array<Array<string>>

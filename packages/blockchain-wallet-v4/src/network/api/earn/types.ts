@@ -220,7 +220,7 @@ export type StakingLimitType = {
   bondingDays: number
   disabledWithdrawals: boolean
   minDepositValue: string
-  unbondingDays?: number
+  unbondingDays: number
 }
 
 export type ActiveRewardsLimitType = {

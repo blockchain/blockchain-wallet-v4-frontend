@@ -107,6 +107,8 @@ const AccountSummaryContainer = (props: OwnProps) => {
     )
   }
 
+  const handleWithdrawClick = () => {}
+
   const isEDDRequired = eddNeeded && !eddSubmitted && !eddPassed
 
   return isFiatCurrencySupported ? (
@@ -119,6 +121,7 @@ const AccountSummaryContainer = (props: OwnProps) => {
       handleDepositClick={handleDepositClick}
       handleEDDSubmitInfo={handleEDDSubmitInfo}
       handleTransactionsToggled={handleTransactionsToggled}
+      handleWithdrawClick={handleWithdrawClick}
       isBalanceDropdownToggled={isBalanceDropdownToggled}
       isCoinDisplayed={isCoinDisplayed}
       isEDDRequired={isEDDRequired}
