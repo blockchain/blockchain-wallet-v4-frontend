@@ -1,8 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { WalletFiatEnum } from '@core/types'
+import { BankDWStepType } from 'data/components/brokerage/types'
+
 import { Props as OwnProps, SuccessStateType } from '.'
-import InstructionDetails from './InstructionDetails'
+import { InstructionDetails } from './InstructionDetails'
+import { InstructionDetailsUsd } from './InstructionDetailsUsd'
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,9 +16,19 @@ const Wrapper = styled.div`
 `
 
 const Success = (props: Props) => {
+  const onClickBack = () => {
+    props.brokerageActions.setDWStep({
+      dwStep: BankDWStepType.DEPOSIT_METHODS
+    })
+  }
+
   return (
     <Wrapper>
-      <InstructionDetails {...props} />
+      {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] ? (
+        <InstructionDetailsUsd onClickBack={onClickBack} {...props} />
+      ) : (
+        <InstructionDetails onClickBack={onClickBack} {...props} />
+      )}
     </Wrapper>
   )
 }
