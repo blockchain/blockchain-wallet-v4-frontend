@@ -160,7 +160,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         coin
       )
 
-      return (yield payment.chain().to(paymentAccount.address, 'ADDRESS').build().done()).value()
+      const addressForPAyment = paymentAccount.agent?.address
+        ? paymentAccount.agent.address
+        : paymentAccount.address
+
+      return (yield payment.chain().to(addressForPAyment, 'ADDRESS').build().done()).value()
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)

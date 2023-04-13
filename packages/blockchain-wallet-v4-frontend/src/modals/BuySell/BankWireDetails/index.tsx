@@ -9,7 +9,7 @@ import { RootState } from 'data/rootReducer'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
-import Success from './template.success'
+import { Success } from './template.success'
 
 class BankWireDetails extends PureComponent<Props> {
   componentDidMount() {

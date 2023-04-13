@@ -16,17 +16,18 @@ const CustomBlueCartridge = styled(BlueCartridge)`
   ${customCartridge}
 `
 
-const LockTime = ({ withdrawalLocks }: Props) => (
-  <CustomBlueCartridge>
-    {withdrawalLocks && (
+const LockTime = ({ withdrawalLocks }: Props) =>
+  withdrawalLocks.totalLocked.amount !== '0' ? (
+    <CustomBlueCartridge>
+      (
       <WithdrawalLockHold
         amount={withdrawalLocks.totalLocked.amount}
         currency={withdrawalLocks.totalLocked.currency}
         mode='tooltip'
       />
-    )}
-  </CustomBlueCartridge>
-)
+      )
+    </CustomBlueCartridge>
+  ) : null
 
 type Props = {
   withdrawalLocks: WithdrawalLockResponseType
