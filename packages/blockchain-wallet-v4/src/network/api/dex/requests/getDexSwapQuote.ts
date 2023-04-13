@@ -39,7 +39,6 @@ export const getDexSwapQuote =
   (data: Data, params: Params): Promise<DexSwapQuote> =>
     authorizedPost({
       contentType: 'application/json',
-      data,
       endPoint: `${DEX_NABU_GATEWAY_PREFIX}/quote`,
       params: { ...params, product: 'DEX' },
       removeDefaultPostData: true,
