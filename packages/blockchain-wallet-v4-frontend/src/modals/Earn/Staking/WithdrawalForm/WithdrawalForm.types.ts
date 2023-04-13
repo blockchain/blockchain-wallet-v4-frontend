@@ -22,6 +22,7 @@ export type PropsType = {
 }
 
 export type RemoteType = {
-  coin: CoinType
+  accountBalance: string
+  buySellBalance: string
   rates: RatesType
 }

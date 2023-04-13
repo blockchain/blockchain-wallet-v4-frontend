@@ -72,7 +72,6 @@ const AccountSummary: React.FC<Props> = (props) => {
   const stakingBalanceBase = account && account.totalRewards
   const isDepositEnabled = stakingEligible[coin] ? stakingEligible[coin]?.eligible : false
   const { rate } = stakingRates[coin]
-
   return (
     <Wrapper>
       <Top>

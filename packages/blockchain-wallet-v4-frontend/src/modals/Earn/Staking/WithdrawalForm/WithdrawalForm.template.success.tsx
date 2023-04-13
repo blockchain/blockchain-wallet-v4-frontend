@@ -14,8 +14,10 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Exchange } from '@core'
 import { convertCoinToFiat } from '@core/exchange'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
-import { CoinType, FiatType } from '@core/types'
+import { CoinType, EarnAccountBalanceResponseType, FiatType } from '@core/types'
 import { Button, Icon, SpinningLoader } from 'blockchain-info-components'
+
+import AmountFieldInput from 'components/Form/AmountFieldInput'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import NumberBox from 'components/Form/NumberBox'
 import Spacer from 'components/Spacer'
@@ -76,7 +78,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     coin,
     handleClose,
     invalid,
-
+    stakingCryptoAmount,
+    stakingFiatAmount,
     submitting,
 
     walletCurrency
@@ -221,7 +224,12 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           </Text>
         </Padding>
         <Padding bottom={3.5}>
-          <CustodialAccount coin={coin} cryptoAmount='1' fiatAmount='1' product='Active Rewards' />
+          <CustodialAccount
+            coin={coin}
+            cryptoAmount={stakingCryptoAmount}
+            fiatAmount={stakingFiatAmount}
+            product='Staking'
+          />
         </Padding>
         <MaxAmountContainer>
           <Text color={SemanticColors.body} variant='paragraph1'>
@@ -380,8 +388,11 @@ const mapStateToProps = (state) => ({
 // }
 
 type OwnProps = {
+  accountBalances: EarnAccountBalanceResponseType
   coin: CoinType
   handleClose: () => void
+  stakingCryptoAmount: string
+  stakingFiatAmount: string
   walletCurrency: FiatType
 }
 
