@@ -11,7 +11,7 @@ import Loading from '../Staking.template.loading'
 import { FORM_NAME } from './WithdrawalForm.model'
 import { getActions, getData, getRemote } from './WithdrawalForm.selectors'
 import Success from './WithdrawalForm.template.success'
-import { DataType, PropsType, RemoteType } from './WithdrawalForm.types'
+import { DataType, PropsType } from './WithdrawalForm.types'
 
 const WithdrawalForm = (props: OwnProps) => {
   const dispatch = useDispatch()
@@ -20,7 +20,7 @@ const WithdrawalForm = (props: OwnProps) => {
   const { coin, walletCurrency } = useSelector(getData)
   const { handleClose } = props
 
-  //   const { rates }: RemoteType = data
+  // const { accountBalances, buySellAccountBalances, rates } = data
 
   return <Success coin={coin} walletCurrency={walletCurrency} handleClose={handleClose} />
 }

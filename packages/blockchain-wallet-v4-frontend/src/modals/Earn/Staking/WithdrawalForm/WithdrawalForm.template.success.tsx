@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import {
   IconCloseCircleV2,
+  Padding,
   PaletteColors,
   SemanticColors,
   Text
@@ -214,53 +215,14 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             <IconCloseCircleV2 color={SemanticColors.muted} onClick={handleClose} size='medium' />
           </CloseIconContainer>
         </TopText>
-        <BalanceWrapper>
-          <BalanceItem>
-            <Text color={SemanticColors.body} variant='paragraph1'>
-              <FormattedMessage
-                id='modals.interest.withdrawal.balance2'
-                defaultMessage='Your Rewards Balance'
-              />
-            </Text>
-
-            {/* <Text color='grey800' size='18px' style={{ marginTop: '8px' }} weight={600}>
-              {accountBalanceStandard} {coinTicker}
-            </Text> */}
-
-            {/* <FiatDisplay
-              coin={coin}
-              color='grey600'
-              size='14px'
-              style={{ marginTop: '5px' }}
-              weight={500}
-            >
-              {account.balance}
-            </FiatDisplay> */}
-          </BalanceItem>
-          <Spacer />
-          <BalanceItem>
-            <Text color={SemanticColors.body} variant='paragraph1'>
-              <FormattedMessage
-                id='modals.interest.withdrawal.totalinterest'
-                defaultMessage='Total Rewards Earned'
-              />
-            </Text>
-
-            {/* <Text color='grey800' size='18px' style={{ marginTop: '8px' }} weight={600}>
-              {interestBalanceStandard} {coinTicker}
-            </Text> */}
-            {/* 
-            <FiatDisplay
-              coin={coin}
-              color='grey600'
-              size='14px'
-              style={{ marginTop: '5px' }}
-              weight={600}
-            >
-              {account.totalInterest}
-            </FiatDisplay> */}
-          </BalanceItem>
-        </BalanceWrapper>
+        <Padding bottom={0.5}>
+          <Text color={SemanticColors.body} variant='paragraph1'>
+            <FormattedMessage defaultMessage='From' id='copy.from' />
+          </Text>
+        </Padding>
+        <Padding bottom={3.5}>
+          <CustodialAccount coin={coin} cryptoAmount='1' fiatAmount='1' product='Active Rewards' />
+        </Padding>
         <MaxAmountContainer>
           <Text color={SemanticColors.body} variant='paragraph1'>
             <FormattedMessage
