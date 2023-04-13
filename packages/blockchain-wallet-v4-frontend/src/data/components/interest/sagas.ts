@@ -247,6 +247,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const fetchStakingWithdrawals = function* () {
+    try {
+      yield put(A.fetchStakingWithdrawalsLoading())
+      const response: ReturnType<typeof api.getEarnWithdrawalRequests> = yield call(
+        api.getEarnWithdrawalRequests,
+        'staking'
+      )
+      yield put(A.fetchStakingWithdrawalsSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchStakingWithdrawalsFailure(error))
+    }
+  }
+
   const fetchActiveRewardsLimits = function* () {
     try {
       yield put(A.fetchActiveRewardsLimitsLoading())
@@ -1359,6 +1373,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchStakingEligible,
     fetchStakingLimits,
     fetchStakingRates,
+    fetchStakingWithdrawals,
     formChanged,
     handleTransferMaxAmountClick,
     handleTransferMinAmountClick,

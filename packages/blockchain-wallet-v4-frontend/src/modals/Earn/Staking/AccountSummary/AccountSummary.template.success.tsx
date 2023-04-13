@@ -5,6 +5,7 @@ import {
   Flex,
   IconChevronDownV2,
   IconChevronUpV2,
+  IconCloseCircleV2,
   IconTriangleDown,
   IconTriangleUp,
   PaletteColors,
@@ -29,6 +30,7 @@ import BalanceDropdown from './AccountSummary.BalanceDropdown.template'
 import Detail from './AccountSummary.Detail.template'
 import {
   Bottom,
+  CloseIconContainer,
   Container,
   DetailsWrapper,
   Row,
@@ -83,14 +85,9 @@ const AccountSummary: React.FC<Props> = (props) => {
               values={{ displayName: coinfig.name }}
             />
           </Row>
-          <Icon
-            onClick={handleClose}
-            cursor
-            name='close'
-            size='20px'
-            color='grey600'
-            data-e2e='closeInterest'
-          />
+          <CloseIconContainer>
+            <IconCloseCircleV2 color={SemanticColors.muted} onClick={handleClose} size='medium' />
+          </CloseIconContainer>
         </TopText>
         {!showSupply && (
           <>

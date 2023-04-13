@@ -102,6 +102,12 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getEarnWithdrawalRequests = (product: EarnApiProductType) =>
+    authorizedGet({
+      endPoint: `/earn/withdrawal-requests?product=${product}&`,
+      url: nabuUrl
+    })
+
   const getEarnAccount = ({ coin, product }: EarnAccountType): EarnAccountResponseType =>
     authorizedGet({
       endPoint: `/payments/accounts/${product}?ccy=${coin}`,
@@ -220,6 +226,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getEarnLimits,
     getEarnRates,
     getEarnTransactions,
+    getEarnWithdrawalRequests,
     getInterestCtaAfterTransaction,
     getInterestEligible,
     getInterestLimits,

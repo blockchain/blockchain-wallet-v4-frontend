@@ -13,15 +13,20 @@ import { getActions, getData, getRemote } from './WithdrawalForm.selectors'
 import Success from './WithdrawalForm.template.success'
 import { DataType, PropsType, RemoteType } from './WithdrawalForm.types'
 
-const WithdrawalForm = () => {
+const WithdrawalForm = (props: OwnProps) => {
   const dispatch = useDispatch()
   const { analyticsActions, earnActions, formActions } = getActions(dispatch)
   const { data, error, isLoading, isNotAsked } = useRemote(getRemote)
   const { coin, walletCurrency } = useSelector(getData)
+  const { handleClose } = props
 
   //   const { rates }: RemoteType = data
 
-  return <Success coin={coin} walletCurrency={walletCurrency} />
+  return <Success coin={coin} walletCurrency={walletCurrency} handleClose={handleClose} />
+}
+
+export type OwnProps = {
+  handleClose: () => void
 }
 
 export default WithdrawalForm

@@ -1,6 +1,12 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import {
+  IconCloseCircleV2,
+  PaletteColors,
+  SemanticColors,
+  Text
+} from '@blockchain-com/constellation'
 import { compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
@@ -8,7 +14,7 @@ import { Exchange } from '@core'
 import { convertCoinToFiat } from '@core/exchange'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
 import { CoinType, FiatType } from '@core/types'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon, SpinningLoader } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import NumberBox from 'components/Form/NumberBox'
 import Spacer from 'components/Spacer'
@@ -21,6 +27,7 @@ import { required } from 'services/forms'
 
 import CustodialAccount from '../../CustodialAccount'
 import { amountToCrypto, amountToFiat } from '../../Earn.utils'
+import { OwnProps as ParentProps } from '.'
 // import { LinkDispatchPropsType, SuccessStateType } from '.'
 // import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './WithdrawalForm.validation'
 import {
@@ -33,6 +40,7 @@ import {
   Bottom,
   ButtonContainer,
   CartrigeText,
+  CloseIconContainer,
   CustomField,
   CustomForm,
   CustomFormLabel,
@@ -46,6 +54,7 @@ import {
   ToggleCoinText,
   ToggleFiatText,
   Top,
+  TopText,
   Wrapper
 } from './WithdrawalForm.model'
 
@@ -64,6 +73,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     // flagEDDInterestFileUpload,
     // formActions,
     coin,
+    handleClose,
     invalid,
 
     submitting,
@@ -176,13 +186,13 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
-      <Text weight={600} color='grey800' size='20px' style={{ marginTop: '24px' }}>
+      <Text variant='subheading' color={SemanticColors.title} style={{ marginTop: '24px' }}>
         <FormattedMessage
           id='modals.interest.withdrawal.progress'
           defaultMessage='In Progress...'
         />
       </Text>
-      <Text weight={600} color='grey600' size='16px' style={{ marginTop: '24px' }}>
+      <Text variant='paragraph1' color={SemanticColors.body} style={{ marginTop: '24px' }}>
         <FormattedMessage
           id='modals.interest.withdrawal.progressmsg'
           defaultMessage='Requesting a withdrawal from your Rewards Account'
@@ -192,18 +202,21 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   ) : (
     <CustomForm onSubmit={handleSubmitPlaceholder}>
       <Top>
-        <Wrapper>
-          <Text color='grey800' size='20px' weight={600}>
+        <TopText>
+          <Text color={SemanticColors.title} variant='subheading'>
             <FormattedMessage
-              id='buttons.withdraw_value'
-              defaultMessage='Withdraw {value}'
+              id='copy.unstake_coin'
+              defaultMessage='Unstake {value}'
               values={{ value: displayName }}
             />
           </Text>
-        </Wrapper>
+          <CloseIconContainer>
+            <IconCloseCircleV2 color={SemanticColors.muted} onClick={handleClose} size='medium' />
+          </CloseIconContainer>
+        </TopText>
         <BalanceWrapper>
           <BalanceItem>
-            <Text color='grey600' weight={500} size='14px'>
+            <Text color={SemanticColors.body} variant='paragraph1'>
               <FormattedMessage
                 id='modals.interest.withdrawal.balance2'
                 defaultMessage='Your Rewards Balance'
@@ -226,7 +239,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           </BalanceItem>
           <Spacer />
           <BalanceItem>
-            <Text color='grey600' weight={500} size='14px'>
+            <Text color={SemanticColors.body} variant='paragraph1'>
               <FormattedMessage
                 id='modals.interest.withdrawal.totalinterest'
                 defaultMessage='Total Rewards Earned'
@@ -249,7 +262,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           </BalanceItem>
         </BalanceWrapper>
         <MaxAmountContainer>
-          <Text color='grey600' weight={500} size='14px'>
+          <Text color={SemanticColors.body} variant='paragraph1'>
             <FormattedMessage
               id='modals.interest.withdrawal.accountAmount'
               defaultMessage='Select the account you would like to withdraw your Rewards Account funds to. You can withdraw up to'
@@ -279,7 +292,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           product='Trading'
         /> */}
         <CustomFormLabel>
-          <Text color='grey600' weight={500} size='14px'>
+          <Text color={SemanticColors.body} variant='paragraph1'>
             <FormattedMessage
               id='modals.interest.withdrawal.enteramount'
               defaultMessage='Enter withdrawal amount'
@@ -355,7 +368,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
       </Top>
       <Bottom>
         <NetworkFee>
-          <Text color='grey600' weight={500} size='14px'>
+          <Text color={SemanticColors.body} variant='paragraph1'>
             Withdrawal Text
             {/* <FormattedMessage
               id='modals.interest.withdrawal.recap'
@@ -367,7 +380,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             /> */}
           </Text>
           <Availability>
-            <Text color='grey600' weight={500} size='14px'>
+            <Text color={SemanticColors.body} variant='paragraph1'>
               <FormattedMessage
                 id='modals.interest.withdrawal.available'
                 defaultMessage='A small network fee will be applied, and your {coinTicker} will be available in your {coinTicker} Wallet within 2 days.'
@@ -386,7 +399,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             nature='primary'
             type='submit'
           >
-            <Text size='16px' weight={600} color='white'>
+            <Text color={SemanticColors.background} variant='paragraph1'>
               <FormattedMessage id='buttons.confirm_withdraw' defaultMessage='Confirm Withdraw' />
             </Text>
           </Button>
@@ -406,6 +419,7 @@ const mapStateToProps = (state) => ({
 
 type OwnProps = {
   coin: CoinType
+  handleClose: () => void
   walletCurrency: FiatType
 }
 

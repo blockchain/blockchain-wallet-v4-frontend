@@ -84,7 +84,7 @@ const Staking = ({
       )}
       {step.name === 'WTIHDRAWAL' && (
         <FlyoutChild>
-          <WithdrawalForm />
+          <WithdrawalForm handleClose={handleClose} />
         </FlyoutChild>
       )}
     </Flyout>

@@ -127,3 +127,12 @@ export const CustomOrangeCartridge = styled(OrangeCartridge)`
 export const CartrigeText = styled.div`
   margin-top: 16px;
 `
+export const CloseIconContainer = styled.div`
+  cursor: pointer;
+`
+export const TopText = styled(Text)`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`

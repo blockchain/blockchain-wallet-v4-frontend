@@ -32,6 +32,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield takeLatest(actions.fetchStakingRates.type, interestSagas.fetchStakingRates)
     yield takeLatest(actions.fetchActiveRewardsRates.type, interestSagas.fetchActiveRewardsRates)
     yield takeLatest(actions.fetchStakingEligible.type, interestSagas.fetchStakingEligible)
+    yield takeLatest(actions.fetchStakingWithdrawals.type, interestSagas.fetchStakingWithdrawals)
     yield takeLatest(
       actions.fetchActiveRewardsEligible.type,
       interestSagas.fetchActiveRewardsEligible

@@ -150,3 +150,7 @@ export const CoinToggleButton = styled.button`
     cursor: pointer;
   }
 `
+
+export const CloseIconContainer = styled.div`
+  cursor: pointer;
+`

@@ -88,6 +88,7 @@ const initialState: InterestState = {
     name: 'WARNING'
   },
   stakingTransactionsNextPage: null,
+  stakingWithdrawals: Remote.NotAsked,
   totalActiveRewardsBondingDeposits: 0,
   totalStakingBondingDeposits: 0,
   transactions: [],
@@ -484,6 +485,19 @@ const interestSlice = createSlice({
     },
     fetchStakingRatesSuccess: (state, action: PayloadAction<EarnRatesType>) => {
       state.stakingRates = Remote.Success(action.payload.rates)
+    },
+
+    // STAKING WITHDRAWALS
+    fetchStakingWithdrawals: () => {},
+    fetchStakingWithdrawalsFailure: (state, action: PayloadAction<string>) => {
+      state.stakingWithdrawals = Remote.Failure(action.payload)
+    },
+    fetchStakingWithdrawalsLoading: (state) => {
+      state.stakingWithdrawals = Remote.Loading
+    },
+    // TODO: figure out what goes here
+    fetchStakingWithdrawalsSuccess: (state, action: PayloadAction<any>) => {
+      state.stakingWithdrawals = Remote.Success(action.payload.rates)
     },
 
     handleTransferMaxAmountClick: (
