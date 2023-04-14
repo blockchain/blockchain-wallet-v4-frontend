@@ -29,8 +29,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
   const tokensListState = useTokensListData()
 
   const { onSearchChange, search } = useTokensListSearch({
-    onSearch: (s) =>
-      dispatch(actions.components.dex.fetchChainTokens({ search: s, type: 'RELOAD' }))
+    onSearch: (s) => dispatch(actions.components.dex.fetchSearchedTokens({ search: s }))
   })
 
   const { onScroll, ref: scrollableRef } = useTokensListScroll({
@@ -95,7 +94,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
               <TokenList
                 ref={scrollableRef}
                 walletCurrency={walletCurrency}
-                data={tokensListState.data || []}
+                data={tokensListState.data}
                 onTokenSelect={onTokenSelect}
                 onScroll={() => onScroll()}
               />

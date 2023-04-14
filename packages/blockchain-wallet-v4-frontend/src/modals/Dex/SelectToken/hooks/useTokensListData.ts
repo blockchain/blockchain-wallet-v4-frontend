@@ -6,7 +6,7 @@ import type { RootState } from 'data/rootReducer'
 import { useRemote } from 'hooks'
 import { notReachable } from 'utils/helpers'
 
-import { getDexTokensList } from '../SelectToken.selectors'
+import { getRemote } from '../SelectToken.selectors'
 
 export const useTokensListData = ():
   | { type: 'ERROR' }
@@ -18,7 +18,8 @@ export const useTokensListData = ():
   | { data: DexTokenWithBalance[]; type: 'NO_MORE_TOKENS' } => {
   const { status } = useSelector(selectors.components.dex.getCurrentChainTokensMeta)
   const { data, hasError, isLoading } = useRemote<string, DexTokenWithBalance[], RootState>(
-    getDexTokensList
+    // @ts-ignore
+    getRemote
   )
 
   if (isLoading) return { type: 'LOADING' }
