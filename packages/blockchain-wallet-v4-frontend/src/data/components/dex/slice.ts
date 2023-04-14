@@ -12,6 +12,7 @@ const initialState: DexStateType = {
   currentChainTokens: Remote.NotAsked,
   currentChainTokensMeta: { count: 0, status: 'LOADED' },
   isUserEligible: Remote.NotAsked,
+  searchedTokens: Remote.NotAsked,
   swapQuote: Remote.NotAsked
 }
 
@@ -81,6 +82,18 @@ const dexSlice = createSlice({
     },
     fetchChainsSuccess: (state, action: PayloadAction<DexChain[]>) => {
       state.chains = Remote.Success(action.payload)
+    },
+    fetchSearchedTokens: (state, action: PayloadAction<{ search: string }>) => {},
+    fetchSearchedTokensFailure: (state, action: PayloadAction<string>) => {
+      state.searchedTokens = Remote.Failure(action.payload)
+    },
+    fetchSearchedTokensLoading: (state) => {
+      state.searchedTokens = Remote.Loading
+    },
+    fetchSearchedTokensSuccess: (state, action: PayloadAction<DexToken[]>) => {
+      state.currentChainTokensMeta.status = 'NO_MORE_TOKENS'
+      state.currentChainTokensMeta.count = 0
+      state.searchedTokens = Remote.Success(action.payload)
     },
     fetchSwapQuoteFailure: (state, action: PayloadAction<string>) => {
       state.swapQuote = Remote.Failure(action.payload)

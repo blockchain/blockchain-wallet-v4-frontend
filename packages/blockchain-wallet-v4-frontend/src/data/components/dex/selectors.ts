@@ -9,6 +9,7 @@ export const getChains = (state: RootState) => state.components.dex.chains
 export const getCurrentChain = (state: RootState) => state.components.dex.currentChain
 
 export const getCurrentChainTokens = (state: RootState) => state.components.dex.currentChainTokens
+export const getSearchedTokens = (state: RootState) => state.components.dex.searchedTokens
 export const getCurrentChainTokensMeta = (state: RootState) =>
   state.components.dex.currentChainTokensMeta
 

@@ -7,6 +7,7 @@ import { cancelRequestSource } from '@core/network/utils'
 import { actions, model, selectors } from 'data'
 import { notReachable } from 'utils/helpers'
 
+import * as S from './selectors'
 import { actions as A } from './slice'
 import type { DexSwapForm } from './types'
 import { getValidSwapAmount } from './utils'
@@ -49,7 +50,10 @@ export default ({ api }: { api: APIType }) => {
       yield* put(A.fetchChainsSuccess(chainsList))
 
       // since MVP only supports ETH chain, set as current and then pre-fetch token list
-      const ethChain = chainsList.find((chain) => chain.nativeCurrency.name === 'Ethereum')
+      // const ethChain = chainsList.find((chain) => chain.nativeCurrency.name === 'Ethereum')
+
+      // temp use testnet
+      const ethChain = chainsList.find((chain) => chain.name === 'Ethereum Testnet Goerli')
       if (!ethChain) {
         yield* put(A.fetchChainTokensFailure('Failed to get Ethereum chain'))
         return
@@ -105,6 +109,31 @@ export default ({ api }: { api: APIType }) => {
       }
     } catch (e) {
       yield* put(A.fetchChainTokensFailure(e.toString()))
+    } finally {
+      if (yield* cancelled()) {
+        yield* call(cancelSource.cancel)
+      }
+    }
+  }
+
+  const fetchSearchedTokens = function* (action: ReturnType<typeof A.fetchSearchedTokens>) {
+    const cancelSource = cancelRequestSource()
+    try {
+      yield put(A.fetchSearchedTokensLoading())
+
+      const currentChain = S.getCurrentChain(yield select()).getOrFail(
+        'Unable to get current chain'
+      )
+
+      const tokenList: DexToken[] = yield call(api.searchDexTokens, {
+        cancelToken: cancelSource.token,
+        chainId: currentChain.chainId,
+        search: action.payload.search
+      })
+
+      yield put(A.fetchSearchedTokensSuccess(tokenList))
+    } catch (e) {
+      yield* put(A.fetchSearchedTokensFailure(e.toString()))
     } finally {
       if (yield* cancelled()) {
         yield* call(cancelSource.cancel)
@@ -259,6 +288,7 @@ export default ({ api }: { api: APIType }) => {
   return {
     fetchChainTokens,
     fetchChains,
+    fetchSearchedTokens,
     fetchSwapQuote,
     fetchUserEligibility
   }
