@@ -26,7 +26,6 @@ export const getData = createDeepEqualSelector(
       (coin) =>
         map((acct: any) => {
           if (acct.coin === selectedCoin) {
-            if (selectedCoin === 'STX' && acct.label === 'Private Key Wallet') return
             prunedAccounts.push(acct)
           }
         }, coin),
