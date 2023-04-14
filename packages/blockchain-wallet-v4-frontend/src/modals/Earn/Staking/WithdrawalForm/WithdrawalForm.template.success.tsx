@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import {
   IconCloseCircleV2,
   Padding,
@@ -16,21 +16,19 @@ import { convertCoinToFiat } from '@core/exchange'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
 import { CoinType, EarnAccountBalanceResponseType, FiatType } from '@core/types'
 import { Button, Icon, SpinningLoader } from 'blockchain-info-components'
-
-import AmountFieldInput from 'components/Form/AmountFieldInput'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import AmountFieldInput from 'components/Form/AmountFieldInput'
 import NumberBox from 'components/Form/NumberBox'
 import Spacer from 'components/Spacer'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
-import { Analytics } from 'data/types'
+import { Analytics, StakingWithdrawalFormType } from 'data/types'
 import { useSardineContext } from 'hooks'
 import { required } from 'services/forms'
 
 import CustodialAccount from '../../CustodialAccount'
 import { amountToCrypto, amountToFiat } from '../../Earn.utils'
-import { OwnProps as ParentProps } from '.'
 // import { LinkDispatchPropsType, SuccessStateType } from '.'
 // import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './WithdrawalForm.validation'
 import {
@@ -61,7 +59,6 @@ import {
   Wrapper
 } from './WithdrawalForm.model'
 
-// eslint-disable-next-line
 const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [sardineContextIsReady, sardineContext] = useSardineContext('WITHDRAWAL')
   const {
@@ -76,12 +73,13 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     // flagEDDInterestFileUpload,
     // formActions,
     coin,
+    formValues,
+
     handleClose,
     invalid,
     stakingCryptoAmount,
     stakingFiatAmount,
     submitting,
-
     walletCurrency
   } = props
 
@@ -90,102 +88,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   const coinTicker = coinfig.displaySymbol
   const displayName = coinfig.name
   const handleSubmitPlaceholder = () => {}
-  //   const account = accountBalances[coin]
-  //   const accountBalanceBase = account && account.balance
-  //   const interestBalanceBase = account && account.totalInterest
-  //   const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
-  //   const interestBalanceStandard = convertBaseToStandard(coin, interestBalanceBase)
-  //   //   const availToWithdrawCrypto = convertBaseToStandard(coin, availToWithdraw)
-  //   const withdrawalAmount = (values && values.withdrawalAmount) || '0'
-  //   const availToWithdrawFiat = convertCoinToFiat({
-  //     coin,
-  //     currency: walletCurrency,
-  //     isStandard: true,
-  //     rates,
-  //     value: availToWithdrawCrypto
-  //   })
-  //   const withdrawalAmountFiat = amountToFiat(
-  //     displayCoin,
-  //     withdrawalAmount,
-  //     coin,
-  //     walletCurrency,
-  //     rates
-  //   )
-  //   const withdrawalAmountCrypto = amountToCrypto(
-  //     displayCoin,
-  //     withdrawalAmount,
-  //     coin,
-  //     walletCurrency,
-  //     rates
-  //   )
 
-  //   const buySellCryptoAmount = Exchange.convertCoinToCoin({
-  //     coin,
-  //     value: buySellBalance
-  //   })
-
-  //   const buySellFiatAmount = Exchange.displayCoinToFiat({
-  //     rates,
-  //     toCurrency: walletCurrency,
-  //     value: buySellCryptoAmount
-  //   })
-
-  //   const handleOnClickCryptoAmount = useCallback(() => {
-  //     analyticsActions.trackEvent({
-  //       key: Analytics.WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED,
-  //       properties: {
-  //         currency: coin
-  //       }
-  //     })
-  //     formActions.change(FORM_NAME, 'withdrawalAmount', availToWithdrawCrypto)
-  //   }, [coin])
-
-  //   const handleOnClickFiatAmount = useCallback(() => {
-  //     analyticsActions.trackEvent({
-  //       key: Analytics.WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED,
-  //       properties: {
-  //         currency: coin
-  //       }
-  //     })
-  //     formActions.touch(FORM_NAME, 'withdrawalAmount')
-  //     formActions.change(FORM_NAME, 'withdrawalAmount', availToWithdrawFiat)
-  //   }, [coin])
-
-  //   if (!account) return null
-
-  //   const showEDDWithdrawLimit =
-  //     (earnEDDWithdrawLimits?.withdrawLimits
-  //       ? Number(withdrawalAmountFiat) > Number(earnEDDWithdrawLimits?.withdrawLimits.amount)
-  //       : false) &&
-  //     !earnEDDStatus?.eddSubmitted &&
-  //     !earnEDDStatus?.eddPassed
-
-  //   const handleFormSubmit = (e: React.SyntheticEvent) => {
-  //     e.preventDefault()
-  //     analyticsActions.trackEvent({
-  //       key: Analytics.WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED,
-  //       properties: {
-  //         amount: withdrawalAmountCrypto,
-  //         amount_usd: withdrawalAmountFiat,
-  //         currency: coin,
-  //         type: 'TRADING'
-  //       }
-  //     })
-  //     interestActions.requestWithdrawal({
-  //       coin,
-  //       destination: 'SIMPLEBUY',
-  //       formName: FORM_NAME,
-  //       origin: 'SAVINGS',
-  //       withdrawalAmountCrypto,
-  //       withdrawalAmountFiat
-  //     })
-  //     props.setShowSupply(showEDDWithdrawLimit)
-  //     if (sardineContextIsReady) {
-  //       sardineContext.updateConfig({
-  //         flow: 'WITHDRAWAL'
-  //       })
-  //     }
-  //   }
+  const { fix } = formValues
 
   return submitting ? (
     <SendingWrapper>
@@ -231,6 +135,16 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             product='Staking'
           />
         </Padding>
+        {/* @ts-ignore */}
+        <AmountFieldInput
+          amountError={false}
+          coin={coin}
+          fiatCurrency={walletCurrency}
+          name='withdrawalAmount'
+          showToggle
+          data-e2e='stakingWithdrawalAmountFied'
+          fix='CRYPTO'
+        />
         <MaxAmountContainer>
           <Text color={SemanticColors.body} variant='paragraph1'>
             <FormattedMessage
@@ -379,29 +293,16 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   )
 }
 
-const mapStateToProps = (state) => ({
-  values: selectors.form.getFormValues(FORM_NAME)(state)
-})
+const enhance = compose(reduxForm<{}, Props>({ form: FORM_NAME }))
 
-// type LinkStatePropsType = {
-//   values?: InterestWithdrawalFormType
-// }
-
-type OwnProps = {
+type Props = {
   accountBalances: EarnAccountBalanceResponseType
   coin: CoinType
+  formValues: StakingWithdrawalFormType
   handleClose: () => void
   stakingCryptoAmount: string
   stakingFiatAmount: string
   walletCurrency: FiatType
 }
 
-export type Props = OwnProps
-
-// @ts-ignore
-const enhance = compose(
-  reduxForm<{ form: string }, Props>({ form: FORM_NAME }),
-  connect(mapStateToProps)
-)
-
-export default enhance(WithdrawalForm) as React.FunctionComponent<Props>
+export default enhance(WithdrawalForm)

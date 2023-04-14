@@ -17,7 +17,7 @@ const WithdrawalForm = (props: OwnProps) => {
   const dispatch = useDispatch()
   const { analyticsActions, earnActions, formActions } = getActions(dispatch)
   const { data, error, isLoading, isNotAsked } = useRemote(getRemote)
-  const { coin, walletCurrency } = useSelector(getData)
+  const { coin, formValues, walletCurrency } = useSelector(getData)
   const { handleClose } = props
 
   // @ts-ignore
@@ -38,6 +38,7 @@ const WithdrawalForm = (props: OwnProps) => {
     <Success
       accountBalances={accountBalances}
       coin={coin}
+      formValues={formValues}
       walletCurrency={walletCurrency}
       handleClose={handleClose}
       stakingCryptoAmount={stakingCryptoAmount}
