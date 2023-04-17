@@ -3,6 +3,7 @@ import { Flex, Padding, SemanticColors, Text } from '@blockchain-com/constellati
 
 import type { DexTokenWithBalance } from '@core/network/api/dex'
 import type { CoinType } from '@core/types'
+import { Image, TooltipHost } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
@@ -37,6 +38,10 @@ export const TokenList = ({ children, data, onTokenSelect, walletCurrency }: Pro
                 </Text>
                 <Padding left={0.5} />
                 <ViewEtherscan tokenAddress={token.address} />
+                <Padding left={0.5} />
+                <TooltipHost id='tooltip.dex.verification-checkmark' value='5'>
+                  <Image name='dex-verification-check' size='15px' />
+                </TooltipHost>
               </Flex>
             </Flex>
             <TokenBalanceColumn>
