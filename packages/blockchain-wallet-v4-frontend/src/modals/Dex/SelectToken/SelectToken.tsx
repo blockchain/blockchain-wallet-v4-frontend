@@ -7,10 +7,9 @@ import { Modal } from 'blockchain-info-components'
 import { actions, model, selectors } from 'data'
 import { DexSwapForm, DexSwapSide, DexSwapSideFields, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
-import { notReachable } from 'utils/helpers'
 
 import { Header, SearchField, TokenList } from './components'
-import { useTokensListData, useTokensListScroll, useTokensListSearch } from './hooks'
+import { useTokensListData, useTokensListSearch } from './hooks'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
@@ -30,27 +29,6 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
 
   const { onSearchChange, search } = useTokensListSearch({
     onSearch: (s) => dispatch(actions.components.dex.fetchSearchedTokens({ search: s }))
-  })
-
-  const { onScroll, ref: scrollableRef } = useTokensListScroll({
-    isActive: tokensListState.type === 'LOADED',
-    onScrollEnd: () => {
-      switch (tokensListState.type) {
-        case 'ERROR':
-        case 'IS_EMPTY':
-        case 'LOADING':
-        case 'LOADING_MORE':
-        case 'NO_MORE_TOKENS':
-          break
-        case 'LOADED':
-          dispatch(
-            actions.components.dex.fetchChainTokens({ search: search || '', type: 'LOAD_MORE' })
-          )
-          break
-        default:
-          notReachable(tokensListState)
-      }
-    }
   })
 
   const onClose = () => {
@@ -84,35 +62,20 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
         switch (tokensListState.type) {
           case 'LOADING':
             return <TokenList.Loading />
-          case 'IS_EMPTY':
-            return <TokenList.Empty search={search || ''} />
           case 'ERROR':
             return <TokenList.Failed />
-          case 'LOADED':
-          case 'NO_MORE_TOKENS':
+          case 'SUCCESS':
             return (
               <TokenList
-                ref={scrollableRef}
                 walletCurrency={walletCurrency}
                 data={tokensListState.data}
                 onTokenSelect={onTokenSelect}
-                onScroll={() => onScroll()}
               />
             )
-          case 'LOADING_MORE':
-            return (
-              <TokenList
-                ref={scrollableRef}
-                walletCurrency={walletCurrency}
-                data={tokensListState.data || []}
-                onTokenSelect={onTokenSelect}
-                onScroll={() => onScroll()}
-              >
-                <TokenList.LoadingMore />
-              </TokenList>
-            )
+
+          case 'IS_EMPTY':
           default:
-            notReachable(tokensListState)
+            return <TokenList.Empty search={search || ''} />
         }
       })()}
     </Modal>

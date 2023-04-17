@@ -10,8 +10,6 @@ export const getCurrentChain = (state: RootState) => state.components.dex.curren
 
 export const getCurrentChainTokens = (state: RootState) => state.components.dex.currentChainTokens
 export const getSearchedTokens = (state: RootState) => state.components.dex.searchedTokens
-export const getCurrentChainTokensMeta = (state: RootState) =>
-  state.components.dex.currentChainTokensMeta
 
 export const getChainTokenInfo = (state: RootState, coinSymbol: CoinType) =>
   getCurrentChainTokens(state).map((tokenList) => tokenList.find((x) => x.symbol === coinSymbol))
