@@ -60,6 +60,7 @@ export type InterestWithdrawalFormType = {
 }
 
 export type StakingWithdrawalFormType = {
+  amount: string
   coin: CoinType
   destination: NabuCustodialProductType
   fix: 'CRYPTO' | 'FIAT'

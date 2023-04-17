@@ -34,11 +34,25 @@ const WithdrawalForm = (props: OwnProps) => {
     value: stakingCryptoAmount
   })
 
+  const buySellCryptoAmount = Exchange.convertCoinToCoin({
+    coin,
+    value: buySellBalance
+  })
+
+  const buySellFiatAmount = Exchange.displayCoinToFiat({
+    rates,
+    toCurrency: walletCurrency,
+    value: buySellCryptoAmount
+  })
+
   return (
     <Success
       accountBalances={accountBalances}
+      buySellCryptoAmount={buySellCryptoAmount}
+      buySellFiatAmount={buySellFiatAmount}
       coin={coin}
       formValues={formValues}
+      rates={rates}
       walletCurrency={walletCurrency}
       handleClose={handleClose}
       stakingCryptoAmount={stakingCryptoAmount}

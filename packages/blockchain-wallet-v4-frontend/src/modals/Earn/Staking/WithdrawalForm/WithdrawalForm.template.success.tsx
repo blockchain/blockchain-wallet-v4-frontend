@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import {
   IconCloseCircleV2,
   Padding,
@@ -12,25 +12,18 @@ import { compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
-import { convertCoinToFiat } from '@core/exchange'
+import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
-import { CoinType, EarnAccountBalanceResponseType, FiatType } from '@core/types'
+import { CoinType, EarnAccountBalanceResponseType, FiatType, RatesType } from '@core/types'
 import { Button, Icon, SpinningLoader } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
-import NumberBox from 'components/Form/NumberBox'
-import Spacer from 'components/Spacer'
-import { selectors } from 'data'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { InterestWithdrawalFormType } from 'data/components/interest/types'
 import { Analytics, StakingWithdrawalFormType } from 'data/types'
 import { useSardineContext } from 'hooks'
 import { required } from 'services/forms'
 
 import CustodialAccount from '../../CustodialAccount'
 import { amountToCrypto, amountToFiat } from '../../Earn.utils'
-// import { LinkDispatchPropsType, SuccessStateType } from '.'
-// import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './WithdrawalForm.validation'
 import {
   AmountAvailContainer,
   AmountFieldContainer,
@@ -58,25 +51,27 @@ import {
   TopText,
   Wrapper
 } from './WithdrawalForm.model'
+import { getActions } from './WithdrawalForm.selectors'
 
 const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  const [sardineContextIsReady, sardineContext] = useSardineContext('WITHDRAWAL')
+  const dispatch = useDispatch()
+  const { analyticsActions, earnActions, formActions } = getActions(dispatch)
   const {
     // accountBalances,
     // analyticsActions,
-
-    // buySellBalance,
-    // coin,
+    buySellCryptoAmount,
+    buySellFiatAmount,
     // displayCoin,
     // earnEDDStatus,
     // earnEDDWithdrawLimits,
     // flagEDDInterestFileUpload,
-    // formActions,
+
     coin,
     formValues,
 
     handleClose,
     invalid,
+    rates,
     stakingCryptoAmount,
     stakingFiatAmount,
     submitting,
@@ -89,7 +84,30 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   const displayName = coinfig.name
   const handleSubmitPlaceholder = () => {}
 
-  const { fix } = formValues
+  const { amount, fix } = formValues
+  // console.log(rates, 'rates')
+  // console.log(amount, 'amount')
+
+  const withdrawalAmountCrypto =
+    fix === 'FIAT'
+      ? convertFiatToCoin({
+          coin,
+          currency: walletCurrency,
+          maxPrecision: 8,
+          rates,
+          value: amount
+        })
+      : amount
+  const withdrawalAmountFiat =
+    fix === 'CRYPTO'
+      ? Exchange.displayCoinToFiat({
+          rates,
+          toCurrency: walletCurrency,
+          value: amount || 0
+        })
+      : amount
+
+  const quote = fix === 'CRYPTO' ? withdrawalAmountFiat : withdrawalAmountCrypto
 
   return submitting ? (
     <SendingWrapper>
@@ -135,143 +153,51 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             product='Staking'
           />
         </Padding>
-        {/* @ts-ignore */}
         <AmountFieldInput
           amountError={false}
           coin={coin}
           fiatCurrency={walletCurrency}
+          quote={quote}
           name='withdrawalAmount'
+          showCounter
           showToggle
+          onToggleFix={() => {
+            formActions.change(FORM_NAME, 'fix', fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO')
+            formActions.change(
+              FORM_NAME,
+              'amount',
+              fix === 'CRYPTO' ? withdrawalAmountFiat : withdrawalAmountCrypto
+            )
+          }}
           data-e2e='stakingWithdrawalAmountFied'
-          fix='CRYPTO'
+          fix={fix}
         />
-        <MaxAmountContainer>
+        <Padding bottom={0.5}>
           <Text color={SemanticColors.body} variant='paragraph1'>
-            <FormattedMessage
-              id='modals.interest.withdrawal.accountAmount'
-              defaultMessage='Select the account you would like to withdraw your Rewards Account funds to. You can withdraw up to'
-            />{' '}
-            {/* {displayCoin ? (
-              <AmountAvailContainer onClick={handleOnClickCryptoAmount}>
-                <Text color='blue600' size='14px' weight={500}>
-                  {availToWithdrawCrypto} {coinTicker}
-                </Text>
-              </AmountAvailContainer>
-            ) : (
-              <AmountAvailContainer onClick={handleOnClickFiatAmount}>
-                <Text color='blue600' size='14px' weight={500}>
-                  {fiatToString({
-                    unit: walletCurrency,
-                    value: availToWithdrawFiat
-                  })}
-                </Text>
-              </AmountAvailContainer>
-            )} */}
+            <FormattedMessage defaultMessage='To' id='copy.to' />
           </Text>
-        </MaxAmountContainer>
-        {/* <CustodialAccount
+        </Padding>
+        <CustodialAccount
           coin={coin}
           cryptoAmount={buySellCryptoAmount}
           fiatAmount={buySellFiatAmount}
           product='Trading'
-        /> */}
-        <CustomFormLabel>
-          <Text color={SemanticColors.body} variant='paragraph1'>
-            <FormattedMessage
-              id='modals.interest.withdrawal.enteramount'
-              defaultMessage='Enter withdrawal amount'
-            />
-          </Text>
-          {/* <ToggleCoinFiat>
-            <ToggleFiatText
-              displayCoin={displayCoin}
-              onClick={() => handleDisplayToggle(false)}
-              data-e2e='toggleFiat'
-            >
-              {walletCurrency}
-            </ToggleFiatText>
-            |{' '}
-            <ToggleCoinText
-              displayCoin={displayCoin}
-              onClick={() => handleDisplayToggle(true)}
-              data-e2e='toggleCoin'
-            >
-              {coinTicker}
-            </ToggleCoinText>
-          </ToggleCoinFiat> */}
-        </CustomFormLabel>
-        <AmountFieldContainer>
-          {/* <CustomField
-            coin={coin}
-            component={NumberBox}
-            data-e2e='withdrawalAmount'
-            displayCoin={displayCoin}
-            name='withdrawalAmount'
-            validate={[required, maximumWithdrawalAmount, minimumWithdrawalAmount]}
-            {...{
-              errorBottom: true,
-              errorIcon: 'alert-filled',
-              errorLeft: true
-            }} */}
-          {/* /> */}
-          {/* <PrincipalCcyAbsolute>
-            {displayCoin ? (
-              <Text color='grey800' size='14px' weight={600}>
-                {coinTicker}
-              </Text>
-            ) : (
-              <Text color='grey800' size='14px' weight={600}>
-                {currencySymbol}
-              </Text>
-            )}
-          </PrincipalCcyAbsolute> */}
-        </AmountFieldContainer>
-        {/* 
-        {showEDDWithdrawLimit && flagEDDInterestFileUpload && (
-          <CartrigeText>
-            <Text color='orange600' size='14px' weight={500}>
-              <FormattedMessage
-                id='modals.interest.withdrawal.edd_need_further_information'
-                defaultMessage='We will need to further verify your identity to make this withdrawal.'
-              />
-            </Text>
-          </CartrigeText>
-        )}
-
-        {showEDDWithdrawLimit && !flagEDDInterestFileUpload && (
-          <CustomOrangeCartridge>
-            <Icon name='info' color='orange600' size='18px' style={{ marginRight: '12px' }} />
-            <CartrigeText>
-              <FormattedMessage
-                id='modals.interest.withdrawal.edd_need'
-                defaultMessage='This amount requires further information. Confirm the withdrawal and follow the instructions on the next screen.'
-              />
-            </CartrigeText>
-          </CustomOrangeCartridge>
-        )} */}
+        />
       </Top>
+
       <Bottom>
         <NetworkFee>
           <Text color={SemanticColors.body} variant='paragraph1'>
-            Withdrawal Text
-            {/* <FormattedMessage
-              id='modals.interest.withdrawal.recap'
-              defaultMessage='You are requesting to withdraw <b>{withdrawalAmountFiat}</b> ({withdrawalAmountCrypto}) from your Rewards Account. After confirming this withdrawal, you will not continue to earn rewards on the amount withdrawn.'
+            <FormattedMessage
+              id='modals.staking.withdrawal.recap'
+              defaultMessage='You are requesting to withdraw <b>{withdrawalAmountFiat}</b> ({withdrawalAmountCrypto})from your Staking Account. This balance will be available in your Trading Account after {unbondingDays} days. After confirming this withdrawal, you will not continue to earn staking rewards on the amount withdrawn.'
               values={{
+                unbondingDays: 'placeholder days',
                 withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}`,
                 withdrawalAmountFiat: `${currencySymbol}${formatFiat(withdrawalAmountFiat)}`
               }}
-            /> */}
+            />
           </Text>
-          <Availability>
-            <Text color={SemanticColors.body} variant='paragraph1'>
-              <FormattedMessage
-                id='modals.interest.withdrawal.available'
-                defaultMessage='A small network fee will be applied, and your {coinTicker} will be available in your {coinTicker} Wallet within 2 days.'
-                values={{ coinTicker }}
-              />
-            </Text>
-          </Availability>
         </NetworkFee>
 
         <ButtonContainer>
@@ -293,13 +219,18 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   )
 }
 
-const enhance = compose(reduxForm<{}, Props>({ form: FORM_NAME }))
+const enhance = compose(
+  reduxForm<{}, Props>({ form: FORM_NAME, initialValues: { amount: '0', fix: 'CRYPTO' } })
+)
 
 type Props = {
   accountBalances: EarnAccountBalanceResponseType
+  buySellCryptoAmount: string
+  buySellFiatAmount: string
   coin: CoinType
   formValues: StakingWithdrawalFormType
   handleClose: () => void
+  rates: RatesType
   stakingCryptoAmount: string
   stakingFiatAmount: string
   walletCurrency: FiatType
