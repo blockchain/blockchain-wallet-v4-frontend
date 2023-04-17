@@ -73,12 +73,12 @@ export default ({ api }: { api: APIType }) => {
       const currentChain = selectors.components.dex
         .getCurrentChain(yield* select())
         .getOrFail('Unable to get current chain')
-
       const tokenList: DexToken[] = yield* call(api.getDexChainTokens, currentChain.chainId, {
         cancelToken: cancelSource.token,
         offset: 0,
         search: action.payload.search
       })
+
       yield* put(
         A.fetchChainTokensSuccess({
           data: tokenList
@@ -95,6 +95,8 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchSearchedTokens = function* (action: ReturnType<typeof A.fetchSearchedTokens>) {
     const cancelSource = cancelRequestSource()
+    const { search } = action.payload
+    if (search === '') return yield put(A.fetchSearchedTokensSuccess([]))
     try {
       yield put(A.fetchSearchedTokensLoading())
 
@@ -105,7 +107,7 @@ export default ({ api }: { api: APIType }) => {
       const tokenList: DexToken[] = yield call(api.searchDexTokens, {
         cancelToken: cancelSource.token,
         chainId: currentChain.chainId,
-        search: action.payload.search
+        search
       })
 
       yield put(A.fetchSearchedTokensSuccess(tokenList))

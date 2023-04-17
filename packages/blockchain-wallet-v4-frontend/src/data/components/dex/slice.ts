@@ -11,7 +11,8 @@ const initialState: DexStateType = {
   currentChain: Remote.NotAsked, // TODO: might not need Remote type
   currentChainTokens: Remote.NotAsked,
   isUserEligible: Remote.NotAsked,
-  searchedTokens: Remote.NotAsked,
+  search: '',
+  searchedTokens: Remote.Success([]),
   swapQuote: Remote.NotAsked
 }
 
@@ -86,6 +87,9 @@ const dexSlice = createSlice({
     },
     setCurrentChain: (state, action: PayloadAction<DexChain>) => {
       state.currentChain = Remote.Success(action.payload)
+    },
+    setSearch: (state, action: PayloadAction<string>) => {
+      state.search = action.payload
     }
   }
 })
