@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import {
+  Flex,
   IconCloseCircleV2,
   Padding,
   PaletteColors,
@@ -25,31 +26,16 @@ import { required } from 'services/forms'
 import CustodialAccount from '../../CustodialAccount'
 import { amountToCrypto, amountToFiat } from '../../Earn.utils'
 import {
-  AmountAvailContainer,
-  AmountFieldContainer,
-  ArrowIcon,
-  Availability,
-  BalanceItem,
-  BalanceWrapper,
   Bottom,
   ButtonContainer,
-  CartrigeText,
   CloseIconContainer,
-  CustomField,
   CustomForm,
-  CustomFormLabel,
-  CustomOrangeCartridge,
   FORM_NAME,
-  MaxAmountContainer,
   NetworkFee,
-  PrincipalCcyAbsolute,
+  PercentageButton,
   SendingWrapper,
-  ToggleCoinFiat,
-  ToggleCoinText,
-  ToggleFiatText,
   Top,
-  TopText,
-  Wrapper
+  TopText
 } from './WithdrawalForm.model'
 import { getActions } from './WithdrawalForm.selectors'
 
@@ -77,7 +63,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     submitting,
     walletCurrency
   } = props
-  const { amount, fix } = formValues
+
+  const [percentageOfBalance, setPercentageOfBalance] = useState(0)
+  const { amount, fix } = formValues || { amount: '0', fix: 'CRYPTO' }
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const { coinfig } = window.coins[coin]
   const coinTicker = coinfig.displaySymbol
@@ -170,6 +158,40 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           data-e2e='stakingWithdrawalAmountFied'
           fix={fix}
         />
+        <Flex justifyContent='space-between'>
+          <PercentageButton
+            onClick={() => setPercentageOfBalance(0.25)}
+            selected={percentageOfBalance === 0.25}
+          >
+            <Text color={SemanticColors.primary} variant='body2'>
+              25%
+            </Text>
+          </PercentageButton>
+          <PercentageButton
+            onClick={() => setPercentageOfBalance(0.5)}
+            selected={percentageOfBalance === 0.5}
+          >
+            <Text color={SemanticColors.primary} variant='body2'>
+              50%
+            </Text>
+          </PercentageButton>
+          <PercentageButton
+            onClick={() => setPercentageOfBalance(0.75)}
+            selected={percentageOfBalance === 0.75}
+          >
+            <Text color={SemanticColors.primary} variant='body2'>
+              75%
+            </Text>
+          </PercentageButton>
+          <PercentageButton
+            onClick={() => setPercentageOfBalance(1)}
+            selected={percentageOfBalance === 1}
+          >
+            <Text color={SemanticColors.primary} variant='body2'>
+              Max
+            </Text>
+          </PercentageButton>
+        </Flex>
         <Padding bottom={0.5}>
           <Text color={SemanticColors.body} variant='paragraph1'>
             <FormattedMessage defaultMessage='To' id='copy.to' />
@@ -188,7 +210,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           <Text color={SemanticColors.body} variant='paragraph1'>
             <FormattedMessage
               id='modals.staking.withdrawal.recap'
-              defaultMessage='You are requesting to withdraw <b>{withdrawalAmountFiat}</b> ({withdrawalAmountCrypto})from your Staking Account. This balance will be available in your Trading Account after {unbondingDays} days. After confirming this withdrawal, you will not continue to earn staking rewards on the amount withdrawn.'
+              defaultMessage='You are requesting to withdraw <b>{withdrawalAmountFiat}</b> ({withdrawalAmountCrypto}) from your Staking Account. This balance will be available in your Trading Account after {unbondingDays} days. After confirming this withdrawal, you will not continue to earn staking rewards on the amount withdrawn.'
               values={{
                 unbondingDays: 'placeholder days',
                 withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}`,

@@ -1,9 +1,6 @@
-import { BaseFieldProps, Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { CoinType } from '@core/types'
-import { Icon, Text } from 'blockchain-info-components'
-import { OrangeCartridge } from 'components/Cartridge'
+import { Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import Form from 'components/Form/Form'
 
@@ -25,36 +22,7 @@ export const CustomForm = styled(Form)`
 export const Top = styled(FlyoutWrapper)`
   padding-bottom: 0;
 `
-export const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-`
-export const ArrowIcon = styled(Icon)`
-  margin-right: 20px;
-`
-export const BalanceWrapper = styled.div`
-  display: flex;
-  margin-top: 40px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid ${(props) => props.theme.grey000};
-`
-export const BalanceItem = styled.div`
-  width: 100%;
-  &:last-child {
-    margin-left: 32px;
-  }
-`
-export const MaxAmountContainer = styled.div`
-  display: flex;
-  margin: 24px 0 8px;
-`
-export const AmountAvailContainer = styled.div`
-  cursor: pointer;
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 20px;
-  background-color: ${(props) => props.theme.grey000};
-`
+
 export const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
@@ -68,27 +36,11 @@ export const CustomFormLabel = styled.div`
   margin-bottom: 10px;
 `
 
-export const CustomField = styled(Field)<BaseFieldProps & { coin: CoinType; displayCoin: boolean }>`
-  > input {
-    padding-left: ${(props) => `${props.coin.length * (props.displayCoin ? 18 : 14)}px`};
-  }
-`
-export const AmountFieldContainer = styled.div`
-  display: flex;
-  position: relative;
-`
-export const PrincipalCcyAbsolute = styled.div`
-  position: absolute;
-  top: 16px;
-  left: 16px;
-`
 export const NetworkFee = styled.div`
   display: flex;
   flex-direction: column;
 `
-export const Availability = styled.div`
-  margin-top: 24px;
-`
+
 export const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   display: flex;
   justify-content: space-between;
@@ -98,35 +50,7 @@ export const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
     padding: 15px !important;
   }
 `
-export const ToggleCoinFiat = styled.div`
-  display: inline;
-`
-export const ToggleFiatText = styled(Text)<{ displayCoin: boolean }>`
-  font-size: 14px;
-  font-weight: 500;
-  padding-right: 5px;
-  cursor: pointer;
-  display: inline;
-  color: ${(props) => (props.displayCoin ? props.theme.grey800 : props.theme.blue600)};
-`
 
-export const ToggleCoinText = styled(Text)<{ displayCoin: boolean }>`
-  font-size: 14px;
-  font-weight: 500;
-  padding-left: 5px;
-  cursor: pointer;
-  display: inline;
-  color: ${(props) => (props.displayCoin ? props.theme.blue600 : props.theme.grey800)};
-`
-export const CustomOrangeCartridge = styled(OrangeCartridge)`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  margin-top: 24px;
-`
-export const CartrigeText = styled.div`
-  margin-top: 16px;
-`
 export const CloseIconContainer = styled.div`
   cursor: pointer;
 `
@@ -135,4 +59,17 @@ export const TopText = styled(Text)`
   width: 100%;
   justify-content: space-between;
   align-items: center;
+`
+export const PercentageButton = styled.div<{ selected?: boolean }>`
+  border: 1px solid #dfe3eb;
+  border-radius: 42px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  width: 20%;
+  margin: 4px;
+  cursor: pointer;
+  background-color: ${(props) => (props.selected ? props.theme.blue000 : null)};
 `
