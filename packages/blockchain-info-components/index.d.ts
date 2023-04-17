@@ -275,7 +275,7 @@ export const Tooltip: FunctionComponent<{
   maxWidth?: string
   place?: 'top' | 'right' | 'bottom' | 'left'
 }>
-export const TooltipHost: FunctionComponent<{ id: string }>
+export const TooltipHost: FunctionComponent<{ id: string; value?: string }>
 export const TooltipIcon: FunctionComponent<{
   color?: keyof DefaultTheme
   name: keyof IcoMoonType | AllCoinsType

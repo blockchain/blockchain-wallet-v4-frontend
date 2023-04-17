@@ -366,6 +366,25 @@ class Tooltips extends React.PureComponent {
             defaultMessage='You can still make an offer using an ERC20 like WETH.'
           />
         </Tooltip>
+        <Tooltip id='tooltip.dex.verification-checkmark'>
+          <FormattedMessage
+            id='dex.verification-checkmark'
+            defaultMessage='Verified by {link}'
+            values={{
+              link: (
+                <Link
+                  color='white'
+                  href='https://tokenlists.org/'
+                  size='11px'
+                  target='_blank'
+                  weight={400}
+                >
+                  https://tokenlists.org/
+                </Link>
+              )
+            }}
+          />
+        </Tooltip>
       </TooltipWrapper>
     )
   }
