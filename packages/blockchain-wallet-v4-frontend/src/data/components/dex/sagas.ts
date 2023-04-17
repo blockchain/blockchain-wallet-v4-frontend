@@ -5,7 +5,6 @@ import { APIType } from '@core/network/api'
 import type { DexToken } from '@core/network/api/dex'
 import { cancelRequestSource } from '@core/network/utils'
 import { actions, model, selectors } from 'data'
-import { notReachable } from 'utils/helpers'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
@@ -70,43 +69,21 @@ export default ({ api }: { api: APIType }) => {
     const cancelSource = cancelRequestSource()
     try {
       yield* put(A.fetchChainTokensLoading())
-      const currentTokensMeta = selectors.components.dex.getCurrentChainTokensMeta(yield* select())
 
       const currentChain = selectors.components.dex
         .getCurrentChain(yield* select())
         .getOrFail('Unable to get current chain')
+      const tokenList: DexToken[] = yield* call(api.getDexChainTokens, currentChain.chainId, {
+        cancelToken: cancelSource.token,
+        offset: 0,
+        search: action.payload.search
+      })
 
-      let tokenList: DexToken[] = []
-      switch (action.payload.type) {
-        case 'RELOAD':
-          tokenList = yield* call(api.getDexChainTokens, currentChain.chainId, {
-            cancelToken: cancelSource.token,
-            offset: 0,
-            search: action.payload.search
-          })
-          yield* put(
-            A.fetchChainTokensSuccess({
-              data: tokenList,
-              type: 'RELOAD'
-            })
-          )
-          break
-        case 'LOAD_MORE':
-          tokenList = yield* call(api.getDexChainTokens, currentChain.chainId, {
-            cancelToken: undefined,
-            offset: currentTokensMeta.count,
-            search: action.payload.search
-          })
-          yield* put(
-            A.fetchChainTokensSuccess({
-              data: tokenList,
-              type: 'LOAD_MORE'
-            })
-          )
-          break
-        default:
-          notReachable(action.payload.type)
-      }
+      yield* put(
+        A.fetchChainTokensSuccess({
+          data: tokenList
+        })
+      )
     } catch (e) {
       yield* put(A.fetchChainTokensFailure(e.toString()))
     } finally {
@@ -118,6 +95,8 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchSearchedTokens = function* (action: ReturnType<typeof A.fetchSearchedTokens>) {
     const cancelSource = cancelRequestSource()
+    const { search } = action.payload
+    if (search === '') return yield put(A.fetchSearchedTokensSuccess([]))
     try {
       yield put(A.fetchSearchedTokensLoading())
 
@@ -128,7 +107,7 @@ export default ({ api }: { api: APIType }) => {
       const tokenList: DexToken[] = yield call(api.searchDexTokens, {
         cancelToken: cancelSource.token,
         chainId: currentChain.chainId,
-        search: action.payload.search
+        search
       })
 
       yield put(A.fetchSearchedTokensSuccess(tokenList))
