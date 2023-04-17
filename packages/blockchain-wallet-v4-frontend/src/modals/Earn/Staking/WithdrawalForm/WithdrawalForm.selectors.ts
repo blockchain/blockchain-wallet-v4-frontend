@@ -27,16 +27,20 @@ export const getRemote = (state: RootState) => {
   const accountBalancesR = selectors.components.interest.getStakingAccountBalance(state)
   const ratesR = selectors.components.interest.getRates(state)
   const buySellAccountBalancesR = selectors.components.buySell.getBSBalances(state)
+  const stakingLimitsR = selectors.components.interest.getStakingLimits(state)
 
   return lift(
     (
       accountBalances: ExtractSuccess<typeof accountBalancesR>,
       buySellAccountBalances: ExtractSuccess<typeof buySellAccountBalancesR>,
-      rates: ExtractSuccess<typeof ratesR>
+
+      rates: ExtractSuccess<typeof ratesR>,
+      stakingLimits: ExtractSuccess<typeof stakingLimitsR>
     ) => ({
       accountBalances: accountBalances[coin] || '0',
       buySellBalance: buySellAccountBalances[coin]?.available || '0',
-      rates
+      rates,
+      stakingLimits
     })
-  )(accountBalancesR, buySellAccountBalancesR, ratesR)
+  )(accountBalancesR, buySellAccountBalancesR, ratesR, stakingLimitsR)
 }

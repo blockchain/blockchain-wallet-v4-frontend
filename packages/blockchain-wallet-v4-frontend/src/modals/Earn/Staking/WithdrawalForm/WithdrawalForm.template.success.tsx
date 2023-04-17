@@ -61,6 +61,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     stakingCryptoAmount,
     stakingFiatAmount,
     submitting,
+    unbondingDays,
     walletCurrency
   } = props
 
@@ -224,9 +225,10 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           <Text color={SemanticColors.body} variant='paragraph1'>
             <FormattedMessage
               id='modals.staking.withdrawal.recap'
-              defaultMessage='You are requesting to withdraw <b>{withdrawalAmountFiat}</b> ({withdrawalAmountCrypto}) from your Staking Account. This balance will be available in your Trading Account after {unbondingDays} days. After confirming this withdrawal, you will not continue to earn staking rewards on the amount withdrawn.'
+              defaultMessage='You are requesting to withdraw <b>{withdrawalAmountFiat}</b> ({withdrawalAmountCrypto}) from your Staking Account. This balance will be available in your Trading Account after {unbondingDays}. After confirming this withdrawal, you will not continue to earn staking rewards on the amount withdrawn.'
               values={{
-                unbondingDays: 'placeholder days',
+                unbondingDays:
+                  unbondingDays === 1 ? `${unbondingDays} day` : `${unbondingDays} days`,
                 withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}`,
                 withdrawalAmountFiat: `${currencySymbol}${formatFiat(withdrawalAmountFiat)}`
               }}
@@ -265,6 +267,7 @@ type Props = {
   rates: RatesType
   stakingCryptoAmount: string
   stakingFiatAmount: string
+  unbondingDays: number
   walletCurrency: FiatType
 }
 

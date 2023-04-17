@@ -21,7 +21,7 @@ const WithdrawalForm = (props: OwnProps) => {
   const { handleClose } = props
 
   // @ts-ignore
-  const { accountBalances, buySellBalance, rates }: RemoteType = data
+  const { accountBalances, buySellBalance, rates, stakingLimits }: RemoteType = data
 
   const stakingCryptoAmount = Exchange.convertCoinToCoin({
     coin,
@@ -45,6 +45,8 @@ const WithdrawalForm = (props: OwnProps) => {
     value: buySellCryptoAmount
   })
 
+  const { unbondingDays } = stakingLimits[coin]
+
   return (
     <Success
       accountBalances={accountBalances}
@@ -57,6 +59,7 @@ const WithdrawalForm = (props: OwnProps) => {
       handleClose={handleClose}
       stakingCryptoAmount={stakingCryptoAmount}
       stakingFiatAmount={stakingFiatAmount}
+      unbondingDays={unbondingDays}
     />
   )
 }
