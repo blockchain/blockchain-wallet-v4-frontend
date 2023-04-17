@@ -72,6 +72,19 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   const displayName = coinfig.name
   const handleSubmitPlaceholder = () => {}
 
+  const handlePercentBalanceClick = (percent) => {
+    setPercentageOfBalance(percent)
+    const cryptoAmount = (Number(stakingCryptoAmount) * percent).toString()
+    const fiatAmount = convertCoinToFiat({
+      coin,
+      currency: walletCurrency,
+      isStandard: true,
+      rates,
+      value: cryptoAmount || 0
+    })
+    formActions.change(FORM_NAME, 'amount', fix === 'CRYPTO' ? cryptoAmount : fiatAmount)
+  }
+
   const withdrawalAmountCrypto =
     fix === 'FIAT'
       ? convertFiatToCoin({
@@ -157,10 +170,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           }}
           data-e2e='stakingWithdrawalAmountFied'
           fix={fix}
+          onChange={() => setPercentageOfBalance(0)}
         />
         <Flex justifyContent='space-between'>
           <PercentageButton
-            onClick={() => setPercentageOfBalance(0.25)}
+            onClick={() => handlePercentBalanceClick(0.25)}
             selected={percentageOfBalance === 0.25}
           >
             <Text color={SemanticColors.primary} variant='body2'>
@@ -168,7 +182,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             </Text>
           </PercentageButton>
           <PercentageButton
-            onClick={() => setPercentageOfBalance(0.5)}
+            onClick={() => handlePercentBalanceClick(0.5)}
             selected={percentageOfBalance === 0.5}
           >
             <Text color={SemanticColors.primary} variant='body2'>
@@ -176,7 +190,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             </Text>
           </PercentageButton>
           <PercentageButton
-            onClick={() => setPercentageOfBalance(0.75)}
+            onClick={() => handlePercentBalanceClick(0.75)}
             selected={percentageOfBalance === 0.75}
           >
             <Text color={SemanticColors.primary} variant='body2'>
@@ -184,7 +198,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             </Text>
           </PercentageButton>
           <PercentageButton
-            onClick={() => setPercentageOfBalance(1)}
+            onClick={() => handlePercentBalanceClick(1)}
             selected={percentageOfBalance === 1}
           >
             <Text color={SemanticColors.primary} variant='body2'>
