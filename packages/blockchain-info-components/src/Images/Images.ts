@@ -72,10 +72,11 @@ import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
 import orderSuccess from './img/debitCard/order-success.png'
 import terminateCard from './img/debitCard/terminate-card.png'
-import dexOnboardingSlideFunds from './img/dex-onboarding-slide-funds@2x.png'
-import dexOnboardingSlideNotEligible from './img/dex-onboarding-slide-not-eligible@2x.png'
-import dexOnboardingSlideSwap from './img/dex-onboarding-slide-swap@2x.png'
-import dexOnboardingSlideWelcome from './img/dex-onboarding-slide-welcome@2x.png'
+import dexOnboardingSlideFunds from './img/dex/onboarding-slide-funds@2x.png'
+import dexOnboardingSlideNotEligible from './img/dex/onboarding-slide-not-eligible@2x.png'
+import dexOnboardingSlideSwap from './img/dex/onboarding-slide-swap@2x.png'
+import dexOnboardingSlideWelcome from './img/dex/onboarding-slide-welcome@2x.png'
+import dexVerificationCheck from './img/dex/verification-check.svg'
 import bars from './img/earn/bars.svg'
 import btcClock from './img/earn/btc-clock.svg'
 import btcGraph from './img/earn/btc-graph.svg'
@@ -261,6 +262,7 @@ const Images = {
   'dex-onboarding-slide-not-eligible': dexOnboardingSlideNotEligible,
   'dex-onboarding-slide-swap': dexOnboardingSlideSwap,
   'dex-onboarding-slide-welcome': dexOnboardingSlideWelcome,
+  'dex-verification-check': dexVerificationCheck,
   'earn-activity-empty': earnActivityEmpty,
   'earn-empty': earnEmpty,
   'email-error': emailError,
