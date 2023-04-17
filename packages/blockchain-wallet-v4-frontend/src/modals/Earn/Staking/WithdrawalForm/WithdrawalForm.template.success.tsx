@@ -38,12 +38,12 @@ import {
   TopText
 } from './WithdrawalForm.model'
 import { getActions } from './WithdrawalForm.selectors'
+import { maxWithdrawalAmount } from './WithdrawalForm.validation'
 
 const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const dispatch = useDispatch()
   const { analyticsActions, earnActions, formActions } = getActions(dispatch)
   const {
-    // accountBalances,
     // analyticsActions,
     buySellCryptoAmount,
     buySellFiatAmount,
@@ -229,8 +229,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
               values={{
                 unbondingDays:
                   unbondingDays === 1 ? `${unbondingDays} day` : `${unbondingDays} days`,
-                withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}`,
-                withdrawalAmountFiat: `${currencySymbol}${formatFiat(withdrawalAmountFiat)}`
+                withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}` || 0,
+                withdrawalAmountFiat: `${currencySymbol}${formatFiat(withdrawalAmountFiat)}` || 0
               }}
             />
           </Text>
@@ -258,7 +258,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
 const enhance = compose(reduxForm<{}, Props>({ form: FORM_NAME, initialValues: { fix: 'CRYPTO' } }))
 
 type Props = {
-  accountBalances: EarnAccountBalanceResponseType
   buySellCryptoAmount: string
   buySellFiatAmount: string
   coin: CoinType

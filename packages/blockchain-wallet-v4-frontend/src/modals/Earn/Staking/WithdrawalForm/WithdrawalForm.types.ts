@@ -1,5 +1,8 @@
 import {
+  BSBalancesType,
   CoinType,
+  EarnAccountBalanceResponseType,
+  EarnBalanceType,
   EarnDepositErrorsType,
   EarnEDDStatus,
   EarnLimitsType,
@@ -21,8 +24,9 @@ export type PropsType = {
   coin: CoinType
 }
 
-export type RemoteType = {
-  accountBalance: string
+export type RemotePropsType = {
+  accountBalance: EarnBalanceType
   buySellBalance: string
   rates: RatesType
+  stakingLimits: EarnLimitsType
 }

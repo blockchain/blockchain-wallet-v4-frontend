@@ -37,7 +37,7 @@ export const getRemote = (state: RootState) => {
       rates: ExtractSuccess<typeof ratesR>,
       stakingLimits: ExtractSuccess<typeof stakingLimitsR>
     ) => ({
-      accountBalances: accountBalances[coin] || '0',
+      accountBalance: accountBalances[coin] || '0',
       buySellBalance: buySellAccountBalances[coin]?.available || '0',
       rates,
       stakingLimits
