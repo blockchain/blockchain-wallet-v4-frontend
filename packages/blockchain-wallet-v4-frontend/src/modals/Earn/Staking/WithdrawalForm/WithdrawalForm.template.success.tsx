@@ -77,16 +77,12 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     submitting,
     walletCurrency
   } = props
-
+  const { amount, fix } = formValues
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const { coinfig } = window.coins[coin]
   const coinTicker = coinfig.displaySymbol
   const displayName = coinfig.name
   const handleSubmitPlaceholder = () => {}
-
-  const { amount, fix } = formValues
-  // console.log(rates, 'rates')
-  // console.log(amount, 'amount')
 
   const withdrawalAmountCrypto =
     fix === 'FIAT'
@@ -100,9 +96,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
       : amount
   const withdrawalAmountFiat =
     fix === 'CRYPTO'
-      ? Exchange.displayCoinToFiat({
+      ? convertCoinToFiat({
+          coin,
+          currency: walletCurrency,
+          isStandard: true,
           rates,
-          toCurrency: walletCurrency,
           value: amount || 0
         })
       : amount
@@ -158,7 +156,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           coin={coin}
           fiatCurrency={walletCurrency}
           quote={quote}
-          name='withdrawalAmount'
+          name='amount'
           showCounter
           showToggle
           onToggleFix={() => {
@@ -219,9 +217,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   )
 }
 
-const enhance = compose(
-  reduxForm<{}, Props>({ form: FORM_NAME, initialValues: { amount: '0', fix: 'CRYPTO' } })
-)
+const enhance = compose(reduxForm<{}, Props>({ form: FORM_NAME, initialValues: { fix: 'CRYPTO' } }))
 
 type Props = {
   accountBalances: EarnAccountBalanceResponseType
