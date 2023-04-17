@@ -7,17 +7,20 @@ import type { DexToken } from '../types'
 
 type Params = {
   cancelToken: CancelToken | undefined
-  offset: number
+  chainId: number
+  search: string
 }
 
-export const getDexChainTokens =
+export const searchDexTokens =
   ({ apiUrl, get }: { apiUrl: string; get: (config: RequestConfig) => Promise<unknown> }) =>
-  (chainId: number, params: Params): Promise<DexToken[]> => {
+  (params: Params): Promise<DexToken[]> => {
+    const { cancelToken, chainId, search }: Params = params
+
     return get({
       // TODO: Migrate to AbortController after axios upgrade > 0.22.0
-      cancelToken: params.cancelToken,
+      cancelToken,
       contentType: 'application/json',
-      endPoint: `${DEX_GATEWAY_PREFIX}/tokens?chainId=${chainId}&queryBy=ALL&offset=${params.offset}&limit=50`,
+      endPoint: `${DEX_GATEWAY_PREFIX}/tokens?chainId=${chainId}&queryBy=SYMBOL&query=${search}`,
       ignoreQueryParams: true,
       removeDefaultPostData: true,
       url: apiUrl

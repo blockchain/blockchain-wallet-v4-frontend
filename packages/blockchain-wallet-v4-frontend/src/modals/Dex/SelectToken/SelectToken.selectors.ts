@@ -2,16 +2,20 @@ import { lift } from 'ramda'
 
 import type { DexToken, DexTokenWithBalance } from '@core/network/api/dex'
 import { ExtractSuccess } from '@core/types'
-import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
-export const getDexTokensList = createDeepEqualSelector(
-  [selectors.components.dex.getCurrentChainTokens, (state) => state],
-  (tokenListR, state) => {
-    const transform = (
+export const getRemote = (state: RootState) => {
+  const searchedTokensR = selectors.components.dex.getSearchedTokens(state)
+  const tokenListR = selectors.components.dex.getCurrentChainTokens(state)
+
+  return lift(
+    (
+      searchedTokens: ExtractSuccess<typeof searchedTokensR>,
       tokenList: ExtractSuccess<typeof tokenListR>
     ): (DexTokenWithBalance | null)[] => {
-      return tokenList.map((token: DexToken) => {
+      const list = searchedTokens.length > 0 ? searchedTokens : []
+      return list.map((token: DexToken) => {
         const coin = window.coins[token.symbol]
         if (!coin) return null
 
@@ -25,7 +29,5 @@ export const getDexTokensList = createDeepEqualSelector(
         }
       })
     }
-
-    return lift((list) => transform(list).filter((t): t is DexTokenWithBalance => !!t))(tokenListR)
-  }
-)
+  )(searchedTokensR, tokenListR)
+}

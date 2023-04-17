@@ -13,6 +13,7 @@ export type DexStateType = {
   currentChainTokens: RemoteDataType<string, DexToken[]>
   currentChainTokensMeta: CurrentChainTokensMeta
   isUserEligible: RemoteDataType<string, boolean>
+  searchedTokens: RemoteDataType<string, DexToken[]>
   swapQuote: RemoteDataType<string, DexSwapQuote>
 }
 
