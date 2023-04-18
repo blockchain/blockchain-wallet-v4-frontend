@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { IconAlert, SemanticColors } from '@blockchain-com/constellation'
+import { IconAlert, Padding, SemanticColors } from '@blockchain-com/constellation'
 
 import { RemoteDataType } from '@core/types'
 import { Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
@@ -193,13 +193,50 @@ const TaxCenter = ({
       }
     >
       <>
-        <Text size='12px' weight={500} color='grey700'>
+        <Padding bottom={1}>
+          <Text size='16px' weight={600} color='grey700'>
+            <FormattedMessage
+              id='scenes.tax.center.card.service.turboTax.description1'
+              defaultMessage='We have partnered with TurboTax and Cointracker to simplify your tax reporting.'
+            />
+          </Text>
+        </Padding>
+        <Text size='14px' weight={500} color='grey700'>
           <FormattedMessage
-            id='scenes.tax.center.card.service.description'
-            defaultMessage='We have partnered with CoinTracker to simplify your tax reporting. Cointracker is fully supported in the US, Australia, UK, Canada and also provides capital gains reports for users around the World. Get free tax reports for up to 500 transactions with CoinTracker or use a service provider of your choosing.'
+            id='scenes.tax.center.card.service.turboTax.description2'
+            defaultMessage='If you’re new to crypto and don’t have much crypto activity, TurboTax helps navigate the complexity of crypto taxes. Save time by auto-importing crypto activity, plus specialized experts are available year round and can even do your taxes for you, start to finish.'
+          />
+        </Text>
+
+        <Padding bottom={1}>
+          <VisitButton
+            height='24px'
+            nature='empty-blue'
+            data-e2e='visitButton'
+            type='button'
+            onClick={() => onPartnerClick('TURBO_TAX')}
+          >
+            <Link
+              href='https://turbotax.intuit.com/microsite/home.htm?priorityCode=5775000000&cid=all_blockchain-dcntr_aff_5775000000'
+              target='_blank'
+            >
+              <FormattedMessage
+                id='scenes.tax.center.card.service.turboTax.button'
+                defaultMessage='Visit TurboTax'
+              />
+            </Link>
+          </VisitButton>
+        </Padding>
+
+        <Text size='14px' weight={500} color='grey700'>
+          <FormattedMessage
+            id='scenes.tax.center.card.service.cointracker.description'
+            defaultMessage='If your crypto activity is high and you have multiple wallets beyond Blockchain.com, Cointracker is fully supported in the US, Australia, UK, Canada and also provides capital gains reports for users around the World. Blockchain.com users get free tax reports for up to 500 transactions with CoinTracker.
+            '
           />
         </Text>
         <VisitButton
+          height='24px'
           nature='empty-blue'
           data-e2e='visitButton'
           type='button'

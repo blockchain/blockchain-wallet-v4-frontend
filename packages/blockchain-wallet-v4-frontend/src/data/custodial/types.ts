@@ -38,31 +38,43 @@ export type ProductEligibilityForUser = {
     id: 'CUSTODIAL_WALLET'
   }
   depositCrypto?: {
-    enabled: true
+    enabled: boolean
     id: 'DEPOSIT_CRYPTO'
   }
   depositFiat?: {
-    enabled: false
+    enabled: boolean
     id: 'DEPOSIT_FIAT'
     reasonNotEligible?: NotEligibleReason
   }
   depositInterest?: {
-    enabled: false
+    enabled: boolean
     id: 'DEPOSIT_INTEREST'
     reasonNotEligible?: NotEligibleReason
   }
-  exchange?: {
+  exchange: {
     canDepositCrypto: boolean
     canDepositFiat: boolean
     canTrade: boolean
     canWithdrawCrypto: boolean
     canWithdrawFiat: boolean
     enabled: boolean
+    hideExchangeOption: boolean
     id: 'EXCHANGE'
+    suggestedUpgrade: {
+      requiredTier: number
+    }
+  }
+  kycVerification: {
+    enabled: boolean
+    reasonNotEligible: {
+      message: string
+      reason: string
+      type: string
+    }
   }
   notifications: Array<NotificationItem> | []
   sell: {
-    enabled: true
+    enabled: boolean
     id: 'SELL'
     maxOrdersCap?: number // optional (null if there's no max)
     maxOrdersLeft?: number // optional (null if there's no max)
@@ -77,12 +89,12 @@ export type ProductEligibilityForUser = {
     reasonNotEligible?: NotEligibleReason
   }
   trade?: {
-    enabled: false
+    enabled: boolean
     id: 'TRADE'
     reasonNotEligible?: NotEligibleReason
   }
   withdrawFiat?: {
-    enabled: false
+    enabled: boolean
     id: 'WITHDRAW_FIAT'
     reasonNotEligible?: NotEligibleReason
   }

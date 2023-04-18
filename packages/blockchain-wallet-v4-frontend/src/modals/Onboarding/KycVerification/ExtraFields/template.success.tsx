@@ -306,6 +306,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       instructions: getFormattedMessageComponent(`${node.id}_instructions`),
       title: getFormattedMessageComponent(node.id)
     }
+    // BE will provide id to contains OPTIONAL in any children
+    const isOptional = node.children && node.children.some((item) => item.id.includes('UNDEFINED'))
+
     return (
       <>
         <FormGroup>
@@ -329,7 +332,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                           name={node.id}
                           id={child.id}
                           value={child.id}
-                          validate={required}
+                          validate={isOptional ? null : required}
                           onChange={() => updateItem(node.id, child.id)}
                         />
                       </CenterField>
@@ -361,7 +364,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                         <Field
                           name={item.id}
                           errorBottom
-                          validate={required}
+                          validate={isOptional ? null : required}
                           component={TextBox}
                           placeholder={GetInputPlaceholder(item)}
                           onChange={onChangeInput}
@@ -454,6 +457,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       title: getFormattedMessageComponent(node.id)
     }
 
+    // BE will provide id to contains OPTIONAL in any children
+    const isOptional = node.children && node.children.some((item) => item.id.includes('UNDEFINED'))
+
     return (
       <FormGroup>
         <QuestionTitle>
@@ -467,7 +473,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <Field
               data-e2e={`sourceOfFundsDropDown_${node.id}`}
               name={node.id}
-              validate={required}
+              validate={isOptional ? null : required}
               elements={questionElements}
               component={SelectBox}
               menuPlacement='auto'
@@ -478,7 +484,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <Field
               data-e2e={`sourceOfFundsDropDown_${node.id}`}
               name={node.id}
-              validate={required}
+              validate={isOptional ? null : required}
               elements={questionElements}
               component={SelectBox}
               menuPlacement='auto'
@@ -513,7 +519,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                           key={item.id}
                           name={item.id}
                           errorBottom
-                          validate={required}
+                          validate={isOptional ? null : required}
                           component={TextBox}
                           onChange={onChangeInput}
                           data-testId='text-box'
