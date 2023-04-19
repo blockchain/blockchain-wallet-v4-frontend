@@ -498,7 +498,7 @@ const interestSlice = createSlice({
     },
     // TODO: figure out what goes here
     fetchStakingWithdrawalsSuccess: (state, action: PayloadAction<any>) => {
-      state.stakingWithdrawals = Remote.Success(action.payload.rates)
+      state.stakingWithdrawals = Remote.Success(action.payload)
     },
 
     handleTransferMaxAmountClick: (

@@ -22,7 +22,7 @@ import {
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { EarnStepMetaData, PendingTransactionType } from 'data/types'
+import { EarnStepMetaData, PendingTransactionType, PendingWithdrawalsType } from 'data/types'
 
 import { EDDMessageContainer } from '../Staking.model'
 import { OwnProps as ParentProps } from '.'
@@ -61,6 +61,7 @@ const AccountSummary: React.FC<Props> = (props) => {
     showSupply,
     stakingEligible,
     stakingRates,
+    stakingWithdrawals,
     stepMetadata,
     totalBondingDeposits,
     walletCurrency
@@ -72,6 +73,7 @@ const AccountSummary: React.FC<Props> = (props) => {
   const stakingBalanceBase = account && account.totalRewards
   const isDepositEnabled = stakingEligible[coin] ? stakingEligible[coin]?.eligible : false
   const { rate } = stakingRates[coin]
+
   return (
     <Wrapper>
       <Top>
@@ -396,6 +398,7 @@ type OwnProps = {
   pendingTransactions: Array<PendingTransactionType>
   stakingEligible: EarnEligibleType
   stakingRates: EarnRatesType['rates']
+  stakingWithdrawals: Array<PendingWithdrawalsType>
   stepMetadata: EarnStepMetaData
   totalBondingDeposits: number
 }

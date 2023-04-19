@@ -1,6 +1,7 @@
 import {
   AccountTypes,
   BSBalancesType,
+  CapProductType,
   CoinType,
   EarnAccountBalanceResponseType,
   EarnAccountResponseType,
@@ -162,6 +163,15 @@ export type PendingTransactionType = {
   bondingDays?: number
   date: string
   type: 'BONDING' | 'TRANSACTIONS'
+}
+
+export type PendingWithdrawalsType = {
+  amount: string
+  currency: CoinType
+  maxRequested: boolean
+  product: CapProductType
+  unbondingExpiry: string
+  unbondingStartDate: string
 }
 
 export type EarnInitializeWithdrawalType = {

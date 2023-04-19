@@ -306,6 +306,9 @@ export const getTotalActiveRewardsBondingDeposits = (state: RootState) =>
 export const getTotalStakingBondingDeposits = (state: RootState) =>
   state.components.interest.totalStakingBondingDeposits
 
+export const getStakingWithdrawals = (state: RootState) =>
+  state.components.interest.stakingWithdrawals
+
 export const getEarnDepositLimits = (state: RootState) =>
   state.components.interest.earnDepositLimits
 

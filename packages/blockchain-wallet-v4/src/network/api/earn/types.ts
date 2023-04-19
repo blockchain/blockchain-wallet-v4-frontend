@@ -2,7 +2,7 @@ import { CoinType, FiatType, NabuMoneyFloatType, WalletFiatType } from '@core/ty
 
 export type EarnApiProductType = 'staking' | 'savings' | 'EARN_CC1W'
 
-type CapProductType = 'STAKING' | 'SAVINGS' | 'EARN_CC1W'
+export type CapProductType = 'STAKING' | 'SAVINGS' | 'EARN_CC1W'
 
 export type EarnAccountBalanceType = {
   ccy?: CoinType
