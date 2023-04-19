@@ -990,10 +990,10 @@ export default ({ api, coreSagas, networks }) => {
     ])
 
     const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
-      exchange: { hideExchangeOption: false }
+      kycVerification: { enabled: false }
     } as ProductEligibilityForUser)
 
-    if (current < 2 && !hasCowboysTag && !products?.exchange?.hideExchangeOption) {
+    if (current < 2 && !hasCowboysTag && products?.kycVerification?.enabled) {
       yield put(
         actions.goals.addInitialModal({
           data: { origin },

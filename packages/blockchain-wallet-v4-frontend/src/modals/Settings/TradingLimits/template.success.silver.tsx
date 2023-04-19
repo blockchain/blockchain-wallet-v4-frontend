@@ -51,7 +51,7 @@ const HeaderWrapper = styled(FlyoutWrapper)`
 type Props = OwnProps & SuccessStateType
 
 const Template: React.FC<Props> = (props) => {
-  const { analyticsActions, handleClose, userData, userTiers } = props
+  const { analyticsActions, handleClose, products, userData, userTiers } = props
   const userCurrentTier = userData?.tiers?.current ?? 0
   const isUserTierZero = userCurrentTier === TIER_TYPES.NONE
 
@@ -147,39 +147,44 @@ const Template: React.FC<Props> = (props) => {
       <FlyoutContent mode='top'>
         <div>
           <UpgradeContainer>
-            <UpgradeRow>
-              <Image name='grey-verified' size='20px' />
-              <RowItemTitle>
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.full_access'
-                  defaultMessage='Full Access'
-                />
-              </RowItemTitle>
-              <StatusCartridgeSuccess>
-                <Text color='white' size='12px' weight={500}>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.apply_now'
-                    defaultMessage='Apply Now'
-                  />
-                </Text>
-              </StatusCartridgeSuccess>
-            </UpgradeRow>
-            <UpgradeRowWithBorder style={{ padding: '25px' }}>
-              <Button
-                fullwidth
-                size='16px'
-                height='48px'
-                nature='primary'
-                data-e2e='upgradeNowUnlockSilverLimits'
-                type='button'
-                onClick={startVerification}
-              >
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.get_full_access'
-                  defaultMessage='Get Full Access'
-                />
-              </Button>
-            </UpgradeRowWithBorder>
+            {products?.kycVerification?.enabled && (
+              <>
+                <UpgradeRow>
+                  <Image name='grey-verified' size='20px' />
+                  <RowItemTitle>
+                    <FormattedMessage
+                      id='modals.onboarding.upgrade_now.full_access'
+                      defaultMessage='Full Access'
+                    />
+                  </RowItemTitle>
+                  <StatusCartridgeSuccess>
+                    <Text color='white' size='12px' weight={500}>
+                      <FormattedMessage
+                        id='modals.onboarding.upgrade_now.apply_now'
+                        defaultMessage='Apply Now'
+                      />
+                    </Text>
+                  </StatusCartridgeSuccess>
+                </UpgradeRow>
+
+                <UpgradeRowWithBorder style={{ padding: '25px' }}>
+                  <Button
+                    fullwidth
+                    size='16px'
+                    height='48px'
+                    nature='primary'
+                    data-e2e='upgradeNowUnlockSilverLimits'
+                    type='button'
+                    onClick={startVerification}
+                  >
+                    <FormattedMessage
+                      id='modals.onboarding.upgrade_now.get_full_access'
+                      defaultMessage='Get Full Access'
+                    />
+                  </Button>
+                </UpgradeRowWithBorder>
+              </>
+            )}
 
             <UpgradeRowWithBorder>
               <Image name='swap-white' size='20px' />
