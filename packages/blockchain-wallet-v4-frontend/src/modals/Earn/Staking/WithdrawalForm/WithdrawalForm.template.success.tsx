@@ -69,6 +69,7 @@ const WithdrawalForm: React.FC<Props & InjectedFormProps<{}, Props>> = (props) =
     formValues,
 
     handleClose,
+    handleWithdrawal,
     invalid,
     rates,
     stakingCryptoAmount,
@@ -289,6 +290,7 @@ const WithdrawalForm: React.FC<Props & InjectedFormProps<{}, Props>> = (props) =
             height='48px'
             nature='primary'
             type='submit'
+            onClick={() => handleWithdrawal(amount)}
           >
             <Text color={SemanticColors.background} variant='paragraph1'>
               <FormattedMessage id='buttons.confirm_withdraw' defaultMessage='Confirm Withdraw' />
@@ -309,6 +311,7 @@ export type Props = {
 
   formValues: StakingWithdrawalFormType
   handleClose: () => void
+  handleWithdrawal: (amount: string) => void
   rates: RatesType
   stakingCryptoAmount: string
   stakingFiatAmount: string

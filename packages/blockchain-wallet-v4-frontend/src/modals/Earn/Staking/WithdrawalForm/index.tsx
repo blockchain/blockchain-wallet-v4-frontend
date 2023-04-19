@@ -47,6 +47,18 @@ const WithdrawalForm = (props: Props) => {
 
   const { unbondingDays } = stakingLimits[coin]
 
+  const handleWithdrawal = (amount) => {
+    // do we want an analytics actions here
+    const withdrawalAmountBase = Exchange.convertCoinToCoin({
+      coin,
+      value: amount
+    })
+    earnActions.requestStakingWithdrawal({
+      coin,
+      withdrawalAmountCrypto: withdrawalAmountBase
+    })
+  }
+
   return (
     <Success
       accountBalance={accountBalance}
@@ -59,6 +71,7 @@ const WithdrawalForm = (props: Props) => {
       rates={rates}
       walletCurrency={walletCurrency}
       handleClose={handleClose}
+      handleWithdrawal={handleWithdrawal}
       stakingCryptoAmount={stakingCryptoAmount}
       stakingFiatAmount={stakingFiatAmount}
       unbondingDays={unbondingDays}

@@ -84,7 +84,7 @@ export enum StakingSteps {
   'NO_BALANCE',
   'WARNING',
   'WTIHDRAWAL',
-  'WITHDRAWAL_STATUS'
+  'WITHDRAWAL_REQUESTED'
 }
 
 export enum ActiveRewardsSteps {
@@ -121,7 +121,7 @@ export enum StakingStepsType {
   'DEPOSIT_SUCCESS',
   'ACCOUNT_SUMMARY',
   'WITHDRAW',
-  'WITHDRAW_STATUS'
+  'WITHDRAWAL_REQUESTED'
 }
 
 export type InterestTransactionsReportType = Array<Array<string>>
@@ -181,6 +181,11 @@ export type EarnWithdrawalType = {
 }
 
 export type ActiveRewardsWithdrawalType = {
+  coin: CoinType
+  withdrawalAmountCrypto: string
+}
+
+export type StakingWithdrawalType = {
   coin: CoinType
   withdrawalAmountCrypto: string
 }

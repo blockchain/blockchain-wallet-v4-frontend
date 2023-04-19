@@ -70,6 +70,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       actions.requestActiveRewardsWithdrawal.type,
       interestSagas.requestActiveRewardsWithdrawal
     )
+    yield takeLatest(actions.requestStakingWithdrawal.type, interestSagas.requestStakingWithdrawal)
     yield takeLatest(actions.requestWithdrawal.type, interestSagas.requestWithdrawal)
     yield takeLatest(actions.showActiveRewardsModal.type, interestSagas.showActiveRewardsModal)
     yield takeLatest(actions.showInterestModal.type, interestSagas.showInterestModal)

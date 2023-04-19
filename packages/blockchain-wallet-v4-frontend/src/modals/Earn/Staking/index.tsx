@@ -16,6 +16,7 @@ import DepositForm from './DepositForm'
 import DepositSuccess from './DepositSuccess'
 import Warning from './Warning'
 import WithdrawalForm from './WithdrawalForm'
+import WithdrawalRequested from './WithdrawalRequested'
 
 const Staking = ({
   close,
@@ -85,6 +86,11 @@ const Staking = ({
       {step.name === 'WTIHDRAWAL' && (
         <FlyoutChild>
           <WithdrawalForm handleClose={handleClose} />
+        </FlyoutChild>
+      )}
+      {step.name === 'WITHDRAWAL_REQUESTED' && (
+        <FlyoutChild>
+          <WithdrawalRequested coin={coin} handleClose={handleClose} />
         </FlyoutChild>
       )}
     </Flyout>

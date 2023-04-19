@@ -35,6 +35,7 @@ import {
   InterestStep,
   PendingTransactionType,
   StakingStep,
+  StakingWithdrawalType,
   TransferMinMaxAmountType
 } from './types'
 
@@ -548,6 +549,13 @@ const interestSlice = createSlice({
       state,
       // eslint-disable-next-line
       action: PayloadAction<ActiveRewardsWithdrawalType>
+    ) => {},
+
+    requestStakingWithdrawal: (
+      // eslint-disable-next-line
+      state,
+      // eslint-disable-next-line
+      action: PayloadAction<StakingWithdrawalType>
     ) => {},
 
     // eslint-disable-next-line
