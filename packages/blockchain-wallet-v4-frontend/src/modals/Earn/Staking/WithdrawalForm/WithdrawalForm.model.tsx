@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import Form from 'components/Form/Form'
 
@@ -72,4 +73,10 @@ export const PercentageButton = styled.div<{ selected?: boolean }>`
   margin: 4px;
   cursor: pointer;
   background-color: ${(props) => (props.selected ? props.theme.blue000 : null)};
+`
+export const CustomErrorCartridge = styled(ErrorCartridge)`
+  cursor: pointer;
+`
+export const QuoteActionContainer = styled.div`
+  height: 32px;
 `

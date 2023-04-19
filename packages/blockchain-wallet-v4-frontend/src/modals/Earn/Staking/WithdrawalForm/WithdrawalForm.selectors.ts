@@ -7,6 +7,7 @@ import { RootState } from 'data/rootReducer'
 import { StakingWithdrawalFormType } from 'data/types'
 
 import { FORM_NAME } from './WithdrawalForm.model'
+import { FormErrorsType } from './WithdrawalForm.types'
 
 export const getActions = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
@@ -16,10 +17,12 @@ export const getActions = (dispatch) => ({
 
 export const getData = (state) => {
   const coin = selectors.components.interest.getCoinType(state)
+  const displayCoin = selectors.components.interest.getIsAmountDisplayedInCrypto(state)
+  const formErrors = selectors.form.getFormSyncErrors(FORM_NAME)(state) as FormErrorsType
   const formValues = selectors.form.getFormValues(FORM_NAME)(state) as StakingWithdrawalFormType
   const walletCurrency: FiatType = selectors.core.settings.getCurrency(state).getOrElse('USD')
 
-  return { coin, formValues, walletCurrency }
+  return { coin, displayCoin, formErrors, formValues, walletCurrency }
 }
 
 export const getRemote = (state: RootState) => {

@@ -30,3 +30,7 @@ export type RemotePropsType = {
   rates: RatesType
   stakingLimits: EarnLimitsType
 }
+
+export type FormErrorsType = {
+  amount?: 'ABOVE_MAX' | 'ABOVE_MAX_LIMIT' | 'BELOW_MIN' | boolean
+}

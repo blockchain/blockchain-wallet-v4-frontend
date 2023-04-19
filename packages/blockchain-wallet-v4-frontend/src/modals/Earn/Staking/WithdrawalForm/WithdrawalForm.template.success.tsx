@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import {
@@ -15,10 +15,17 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Exchange } from '@core'
 import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
-import { CoinType, EarnAccountBalanceResponseType, FiatType, RatesType } from '@core/types'
+import {
+  CoinType,
+  EarnAccountBalanceResponseType,
+  EarnBalanceType,
+  FiatType,
+  RatesType
+} from '@core/types'
 import { Button, Icon, SpinningLoader } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Analytics, StakingWithdrawalFormType } from 'data/types'
 import { useSardineContext } from 'hooks'
 import { required } from 'services/forms'
@@ -29,20 +36,25 @@ import {
   Bottom,
   ButtonContainer,
   CloseIconContainer,
+  CustomErrorCartridge,
   CustomForm,
   FORM_NAME,
   NetworkFee,
   PercentageButton,
+  QuoteActionContainer,
   SendingWrapper,
   Top,
   TopText
 } from './WithdrawalForm.model'
 import { getActions } from './WithdrawalForm.selectors'
-import { maxWithdrawalAmount } from './WithdrawalForm.validation'
+import { FormErrorsType } from './WithdrawalForm.types'
+import { validate } from './WithdrawalForm.validation'
 
-const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+const WithdrawalForm: React.FC<Props & InjectedFormProps<{}, Props>> = (props) => {
   const dispatch = useDispatch()
   const { analyticsActions, earnActions, formActions } = getActions(dispatch)
+  const [percentageOfBalance, setPercentageOfBalance] = useState(0)
+
   const {
     // analyticsActions,
     buySellCryptoAmount,
@@ -53,6 +65,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     // flagEDDInterestFileUpload,
 
     coin,
+    formErrors,
     formValues,
 
     handleClose,
@@ -65,8 +78,10 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     walletCurrency
   } = props
 
-  const [percentageOfBalance, setPercentageOfBalance] = useState(0)
   const { amount, fix } = formValues || { amount: '0', fix: 'CRYPTO' }
+  useEffect(() => {
+    earnActions.setCoinDisplay({ isAmountDisplayedInCrypto: fix === 'CRYPTO' })
+  }, [])
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const { coinfig } = window.coins[coin]
   const coinTicker = coinfig.displaySymbol
@@ -91,11 +106,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
       ? convertFiatToCoin({
           coin,
           currency: walletCurrency,
-          maxPrecision: 8,
+          maxPrecision: 18,
           rates,
           value: amount
         })
-      : amount
+      : amount || '0'
   const withdrawalAmountFiat =
     fix === 'CRYPTO'
       ? convertCoinToFiat({
@@ -103,11 +118,21 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           currency: walletCurrency,
           isStandard: true,
           rates,
-          value: amount || 0
+          value: amount || '0'
         })
       : amount
 
   const quote = fix === 'CRYPTO' ? withdrawalAmountFiat : withdrawalAmountCrypto
+  const handleAmountInputToggle = () => {
+    formActions.change(FORM_NAME, 'fix', fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO')
+    formActions.change(
+      FORM_NAME,
+      'amount',
+      fix === 'CRYPTO' ? withdrawalAmountFiat : withdrawalAmountCrypto
+    )
+    earnActions.setCoinDisplay({ isAmountDisplayedInCrypto: fix === 'CRYPTO' })
+  }
+  const amountError = typeof formErrors.amount === 'string' && formErrors.amount
 
   return submitting ? (
     <SendingWrapper>
@@ -154,25 +179,45 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           />
         </Padding>
         <AmountFieldInput
-          amountError={false}
+          amountError={amountError}
           coin={coin}
           fiatCurrency={walletCurrency}
           quote={quote}
           name='amount'
           showCounter
           showToggle
-          onToggleFix={() => {
-            formActions.change(FORM_NAME, 'fix', fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO')
-            formActions.change(
-              FORM_NAME,
-              'amount',
-              fix === 'CRYPTO' ? withdrawalAmountFiat : withdrawalAmountCrypto
-            )
-          }}
+          onToggleFix={handleAmountInputToggle}
           data-e2e='stakingWithdrawalAmountFied'
           fix={fix}
           onChange={() => setPercentageOfBalance(0)}
         />
+        <QuoteActionContainer>
+          {amountError ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: '12px',
+                width: '100%'
+              }}
+            >
+              <CustomErrorCartridge>
+                {amountError === 'ABOVE_MAX' && (
+                  <FormattedMessage
+                    id='copy.above_max_amount'
+                    defaultMessage='Amount is above Max'
+                  />
+                )}
+                {amountError === 'BELOW_MIN' && (
+                  <FormattedMessage
+                    id='copy.below_min_amount'
+                    defaultMessage='Amount is below Min'
+                  />
+                )}
+              </CustomErrorCartridge>
+            </div>
+          ) : null}
+        </QuoteActionContainer>
         <Flex justifyContent='space-between'>
           <PercentageButton
             onClick={() => handlePercentBalanceClick(0.25)}
@@ -229,7 +274,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
               values={{
                 unbondingDays:
                   unbondingDays === 1 ? `${unbondingDays} day` : `${unbondingDays} days`,
-                withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}` || 0,
+                withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}`,
                 withdrawalAmountFiat: `${currencySymbol}${formatFiat(withdrawalAmountFiat)}` || 0
               }}
             />
@@ -255,12 +300,13 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   )
 }
 
-const enhance = compose(reduxForm<{}, Props>({ form: FORM_NAME, initialValues: { fix: 'CRYPTO' } }))
-
-type Props = {
+export type Props = {
+  accountBalance: EarnBalanceType
   buySellCryptoAmount: string
   buySellFiatAmount: string
   coin: CoinType
+  displayCoin: boolean
+
   formValues: StakingWithdrawalFormType
   handleClose: () => void
   rates: RatesType
@@ -268,6 +314,18 @@ type Props = {
   stakingFiatAmount: string
   unbondingDays: number
   walletCurrency: FiatType
+} & {
+  formErrors: {
+    amount?: 'ABOVE_MAX' | 'ABOVE_MAX_LIMIT' | 'BELOW_MIN' | boolean
+  }
 }
+
+const enhance = compose(
+  reduxForm<{}, Props>({
+    form: FORM_NAME,
+    initialValues: { fix: 'CRYPTO' },
+    validate
+  })
+)
 
 export default enhance(WithdrawalForm)

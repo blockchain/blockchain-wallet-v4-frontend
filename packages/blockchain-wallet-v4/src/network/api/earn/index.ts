@@ -122,9 +122,9 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getWithdrawalMinsAndFees = (): WithdrawalMinimumTypeResponse =>
+  const getWithdrawalMinsAndFees = (product: EarnApiProductType): WithdrawalMinimumTypeResponse =>
     authorizedGet({
-      endPoint: '/payments/withdrawals/fees?product=SAVINGS',
+      endPoint: `/payments/withdrawals/fees?product=${product}`,
       ignoreQueryParams: true,
       url: nabuUrl
     })

@@ -3,21 +3,22 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Exchange } from '@core'
 import DataError from 'components/DataError'
-import { Analytics } from 'data/types'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Analytics, StakingWithdrawalFormType } from 'data/types'
 import { useRemote } from 'hooks'
 
-import { amountToFiat, maxFiat } from '../../Earn.utils'
+import { amountToCrypto, amountToFiat, maxFiat } from '../../Earn.utils'
 import Loading from '../Staking.template.loading'
 import { FORM_NAME } from './WithdrawalForm.model'
 import { getActions, getData, getRemote } from './WithdrawalForm.selectors'
 import Success from './WithdrawalForm.template.success'
 import { DataType, PropsType, RemotePropsType } from './WithdrawalForm.types'
 
-const WithdrawalForm = (props: OwnProps) => {
+const WithdrawalForm = (props: Props) => {
   const dispatch = useDispatch()
   const { analyticsActions, earnActions, formActions } = getActions(dispatch)
   const { data, error, isLoading, isNotAsked } = useRemote(getRemote)
-  const { coin, formValues, walletCurrency } = useSelector(getData)
+  const { coin, displayCoin, formErrors, formValues, walletCurrency } = useSelector(getData)
   const { handleClose } = props
   // @ts-ignore
   const { accountBalance, buySellBalance, rates, stakingLimits }: RemotePropsType = data
@@ -48,9 +49,12 @@ const WithdrawalForm = (props: OwnProps) => {
 
   return (
     <Success
+      accountBalance={accountBalance}
       buySellCryptoAmount={buySellCryptoAmount}
       buySellFiatAmount={buySellFiatAmount}
       coin={coin}
+      displayCoin={displayCoin}
+      formErrors={formErrors}
       formValues={formValues}
       rates={rates}
       walletCurrency={walletCurrency}
@@ -62,7 +66,7 @@ const WithdrawalForm = (props: OwnProps) => {
   )
 }
 
-export type OwnProps = {
+export type Props = {
   handleClose: () => void
 }
 
