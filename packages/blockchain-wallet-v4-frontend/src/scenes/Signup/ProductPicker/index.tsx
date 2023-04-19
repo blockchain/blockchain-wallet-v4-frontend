@@ -47,7 +47,7 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
   }
   const isMetadataRecovery = Remote.Success.is(props.isMetadataRecoveryR)
 
-  if (!props.products.exchange.hideExchangeOption) {
+  if (props.products.exchange.hideExchangeOption) {
     props.routerActions.push('/home')
   }
 

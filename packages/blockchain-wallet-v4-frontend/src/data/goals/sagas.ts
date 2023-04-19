@@ -980,10 +980,20 @@ export default ({ api, coreSagas, networks }) => {
     const { current } = (yield select(selectors.modules.profile.getUserTiers)).getOrElse({
       current: 0
     }) || { current: 0 }
-    // If the user is tagged with the COWBOYS_2022 promo tag don't show them the typical verify notic modal
+    // If the user is tagged with the COWBOYS_2022 promo tag don't show them the typical verify notice modal
     const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
 
-    if (current < 2 && !hasCowboysTag) {
+    yield put(actions.custodial.fetchProductEligibilityForUser())
+    yield take([
+      actions.custodial.fetchProductEligibilityForUserSuccess.type,
+      actions.custodial.fetchProductEligibilityForUserFailure.type
+    ])
+
+    const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
+      exchange: { hideExchangeOption: false }
+    } as ProductEligibilityForUser)
+
+    if (current < 2 && !hasCowboysTag && !products?.exchange?.hideExchangeOption) {
       yield put(
         actions.goals.addInitialModal({
           data: { origin },

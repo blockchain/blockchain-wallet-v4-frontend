@@ -395,7 +395,7 @@ export default ({ api, coreSagas, networks }) => {
                 exchange: { hideExchangeOption: false }
               } as ProductEligibilityForUser)
 
-            if (products?.exchange?.hideExchangeOption) {
+            if (!products?.exchange?.hideExchangeOption) {
               yield put(actions.router.push('/select-product'))
             }
           }
