@@ -1212,17 +1212,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (!isStakingWithdrawalEnabled) return
     try {
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmountCrypto)
-      yield call(api.initiateCustodialTransfer, {
-        amount: withdrawalAmountBase,
-        currency: coin,
-        destination: 'SIMPLEBUY',
-        origin: 'STAKING'
-      })
-      yield put(
-        A.setActiveRewardsStep({
-          name: 'WITHDRAWAL_REQUESTED'
-        })
-      )
+      // yield call(api.initiateCustodialTransfer, {
+      //   amount: withdrawalAmountBase,
+      //   currency: coin,
+      //   destination: 'SIMPLEBUY',
+      //   origin: 'STAKING'
+      // })
+      yield put(A.setStakingStep({ name: 'WITHDRAWAL_REQUESTED' }))
       yield delay(3000)
       // yield put(A.fetchRewardsBalance())
       // yield put(A.fetchEDDStatus())
