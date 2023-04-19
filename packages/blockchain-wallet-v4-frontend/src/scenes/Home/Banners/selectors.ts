@@ -285,7 +285,8 @@ export const getData = (state: RootState) => {
     showCompleteYourProfileBanner &&
     !isProfileCompleted &&
     userData?.tiers?.current !== TIER_TYPES.GOLD &&
-    isUserDataLoaded
+    isUserDataLoaded &&
+    products?.kycVerification?.enabled
   ) {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
