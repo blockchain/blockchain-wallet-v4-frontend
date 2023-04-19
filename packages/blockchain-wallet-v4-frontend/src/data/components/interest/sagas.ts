@@ -41,7 +41,8 @@ import {
   EarnTransactionType,
   PendingTransactionType,
   RewardsDepositFormType,
-  StakingDepositFormType
+  StakingDepositFormType,
+  StakingWithdrawalFormType
 } from './types'
 
 const PASSIVE_REWARDS_DEPOSIT_FORM = 'passiveRewardsDepositForm'
@@ -1204,20 +1205,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const requestStakingWithdrawal = function* ({
     payload
   }: ReturnType<typeof A.requestStakingWithdrawal>) {
-    const { coin, withdrawalAmountCrypto } = payload
+    const { coin, formName, withdrawalAmountCrypto } = payload
     const isStakingWithdrawalEnabled = selectors.core.walletOptions
       .getStakingWithdrawalEnabled(yield select())
       .getOrElse(false) as boolean
 
     if (!isStakingWithdrawalEnabled) return
     try {
+      yield put(actions.form.startSubmit(formName))
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmountCrypto)
-      // yield call(api.initiateCustodialTransfer, {
-      //   amount: withdrawalAmountBase,
-      //   currency: coin,
-      //   destination: 'SIMPLEBUY',
-      //   origin: 'STAKING'
-      // })
+      yield call(api.initiateCustodialTransfer, {
+        amount: withdrawalAmountBase,
+        currency: coin,
+        destination: 'SIMPLEBUY',
+        origin: 'STAKING'
+      })
       yield put(A.setStakingStep({ name: 'WITHDRAWAL_REQUESTED' }))
       yield delay(3000)
       // yield put(A.fetchRewardsBalance())

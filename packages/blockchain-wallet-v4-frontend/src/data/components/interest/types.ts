@@ -187,6 +187,7 @@ export type ActiveRewardsWithdrawalType = {
 
 export type StakingWithdrawalType = {
   coin: CoinType
+  formName: string
   withdrawalAmountCrypto: string
 }
 

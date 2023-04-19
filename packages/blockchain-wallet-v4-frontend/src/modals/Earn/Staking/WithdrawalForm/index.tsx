@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Exchange } from '@core'
+import { convertFiatToCoin } from '@core/exchange'
 import DataError from 'components/DataError'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Analytics, StakingWithdrawalFormType } from 'data/types'
@@ -47,15 +48,23 @@ const WithdrawalForm = (props: Props) => {
 
   const { unbondingDays } = stakingLimits[coin]
 
-  const handleWithdrawal = (amount) => {
+  const handleWithdrawal = () => {
+    const { amount, fix } = formValues
     // do we want an analytics actions here
-    const withdrawalAmountBase = Exchange.convertCoinToCoin({
-      coin,
-      value: amount
-    })
+    const withdrawalAmountCrypto =
+      fix === 'FIAT'
+        ? convertFiatToCoin({
+            coin,
+            currency: walletCurrency,
+            maxPrecision: 18,
+            rates,
+            value: amount
+          })
+        : amount
     earnActions.requestStakingWithdrawal({
       coin,
-      withdrawalAmountCrypto: withdrawalAmountBase
+      formName: FORM_NAME,
+      withdrawalAmountCrypto
     })
   }
 
