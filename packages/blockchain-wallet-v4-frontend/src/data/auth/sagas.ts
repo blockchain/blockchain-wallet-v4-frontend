@@ -17,7 +17,8 @@ import {
   CaptchaActionName,
   ExchangeAuthOriginType,
   ExchangeErrorCodes,
-  LoginRoutinePayloadType
+  LoginRoutinePayloadType,
+  ProductEligibilityForUser
 } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
@@ -382,7 +383,21 @@ export default ({ api, coreSagas, networks }) => {
           if (!verifiedTwoFa) {
             yield put(actions.router.push('/setup-two-factor'))
           } else {
-            yield put(actions.router.push('/select-product'))
+            yield put(actions.custodial.fetchProductEligibilityForUser())
+            yield take([
+              actions.custodial.fetchProductEligibilityForUserSuccess.type,
+              actions.custodial.fetchProductEligibilityForUserFailure.type
+            ])
+
+            const products = selectors.custodial
+              .getProductEligibilityForUser(yield select())
+              .getOrElse({
+                exchange: { hideExchangeOption: false }
+              } as ProductEligibilityForUser)
+
+            if (!products?.exchange?.hideExchangeOption) {
+              yield put(actions.router.push('/select-product'))
+            }
           }
         } else {
           yield put(actions.router.push('/verify-email-step'))

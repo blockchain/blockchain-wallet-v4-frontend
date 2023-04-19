@@ -26,15 +26,22 @@ const getData = (state: RootState) => {
 
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
+  const productsR = selectors.custodial.getProductEligibilityForUser(state)
+
   return lift(
-    (limitsAndDetails: ExtractSuccess<typeof limitsAndDetailsR>, walletCurrency: FiatType) => ({
+    (
+      limitsAndDetails: ExtractSuccess<typeof limitsAndDetailsR>,
+      products: ExtractSuccess<typeof productsR>,
+      walletCurrency: FiatType
+    ) => ({
       earnEDDStatus,
       limitsAndDetails,
+      products,
       userData,
       userTiers,
       walletCurrency
     })
-  )(limitsAndDetailsR, walletCurrencyR)
+  )(limitsAndDetailsR, productsR, walletCurrencyR)
 }
 
 export default getData
