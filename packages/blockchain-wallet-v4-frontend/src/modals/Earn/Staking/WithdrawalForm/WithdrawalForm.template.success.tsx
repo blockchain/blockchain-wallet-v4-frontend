@@ -285,7 +285,7 @@ const WithdrawalForm: React.FC<Props & InjectedFormProps<{}, Props>> = (props) =
         <ButtonContainer>
           <Button
             data-e2e='interestWithdrawalSubmit'
-            disabled={invalid}
+            disabled={!amount || !!formErrors.amount}
             fullwidth
             height='48px'
             nature='primary'
