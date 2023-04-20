@@ -41,9 +41,22 @@ export type EarnBondingDepositsType = {
   product: string
   userId: string
 }
+
+export type EarnUnbondingWithdrawalsType = {
+  amount: string
+  currency: CoinType
+  insertedAt: string
+  paymentRef: string
+  product: string
+  unbondingDays: number
+  unbondingExpiryDate: string
+  unbondingStartDate: string
+  userId: string
+}
+
 export type EarnBondingDepositsResponseType = {
   bondingDeposits: Array<EarnBondingDepositsType>
-  unbondingWithdrawals: Array<null>
+  unbondingWithdrawals: Array<EarnUnbondingWithdrawalsType>
 } | null
 
 // If user is eligible it will send {coin: eligibleType} otherwise it will send EligibleType only

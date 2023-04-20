@@ -16,6 +16,7 @@ import {
   EarnBondingDepositsResponseType,
   EarnBondingDepositsType,
   EarnTransactionResponseType,
+  EarnUnbondingWithdrawalsType,
   NabuCustodialProductType,
   PaymentValue,
   Product,
@@ -564,7 +565,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payload
   }: ReturnType<typeof A.fetchPendingStakingTransactions>) {
     const { coin } = payload
-
     try {
       yield put(A.fetchPendingStakingTransactionsLoading())
       const transactionResponse: EarnTransactionResponseType = yield call(api.getEarnTransactions, {
@@ -581,6 +581,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
 
       const bondingDeposits: EarnBondingDepositsType[] = earnBondingResponse?.bondingDeposits || []
+
+      const unbondingWithdrawals: EarnUnbondingWithdrawalsType[] =
+        earnBondingResponse?.unbondingWithdrawals || []
 
       const filteredTransactions: TransactionType[] =
         transactionResponse?.items.filter(({ state }) => state.includes('PENDING')) || []
@@ -601,6 +604,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       bondingDeposits.forEach(({ amount, bondingDays, bondingStartDate }) => {
         totalBondingAmount += Number(amount)
         pendingTransactions.push({ amount, bondingDays, date: bondingStartDate, type: 'BONDING' })
+      })
+
+      unbondingWithdrawals.forEach(({ amount, unbondingDays, unbondingStartDate }) => {
+        pendingTransactions.push({
+          amount,
+          date: unbondingStartDate,
+          type: 'UNBONDING',
+          unbondingDays
+        })
       })
 
       if (totalBondingAmount > 0) yield put(A.setTotalStakingBondingDeposits(totalBondingAmount))

@@ -243,6 +243,7 @@ const AccountSummary: React.FC<Props> = (props) => {
               {isTransactionsToggled &&
                 pendingTransactions.map(({ amount, bondingDays, date, type }) => {
                   const isBonding = type === 'BONDING'
+                  const isUnbonding = type === 'UNBONDING'
 
                   return (
                     <Detail
@@ -250,6 +251,8 @@ const AccountSummary: React.FC<Props> = (props) => {
                       subText={
                         isBonding ? (
                           <FormattedMessage defaultMessage='Bonding' id='copy.bonding' />
+                        ) : isUnbonding ? (
+                          <FormattedMessage defaultMessage='Unbonding' id='copy.unbonding' />
                         ) : (
                           <FormattedMessage defaultMessage='Pending' id='copy.pending' />
                         )
@@ -281,6 +284,8 @@ const AccountSummary: React.FC<Props> = (props) => {
                         <Flex gap={4}>
                           {isBonding ? (
                             <FormattedMessage defaultMessage='Stake' id='copy.stake' />
+                          ) : isUnbonding ? (
+                            <FormattedMessage defaultMessage='Withdrawal' id='copy.withdrawal' />
                           ) : (
                             <FormattedMessage defaultMessage='Transfer' id='copy.transfer' />
                           )}

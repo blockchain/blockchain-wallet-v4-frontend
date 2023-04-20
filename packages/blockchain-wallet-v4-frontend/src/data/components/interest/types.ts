@@ -162,7 +162,8 @@ export type PendingTransactionType = {
   amount: string
   bondingDays?: number
   date: string
-  type: 'BONDING' | 'TRANSACTIONS'
+  type: 'BONDING' | 'TRANSACTIONS' | 'UNBONDING'
+  unbondingDays?: number
 }
 
 export type PendingWithdrawalsType = {
