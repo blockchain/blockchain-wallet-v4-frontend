@@ -369,6 +369,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                 defaultMessage='Unstaking and withdrawing ETH can take up to {unbondingDays} {days} depending on the network queue'
                 id='modals.staking.bottom.warningbox'
                 values={{
+                  // placeholder until I can figure out why limits selector not working
                   days:
                     5 > 1 ? (
                       <FormattedMessage

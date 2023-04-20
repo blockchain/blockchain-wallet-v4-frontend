@@ -34,6 +34,7 @@ import {
   InterestState,
   InterestStep,
   PendingTransactionType,
+  PendingWithdrawalsType,
   StakingStep,
   StakingWithdrawalType,
   TransferMinMaxAmountType
@@ -496,8 +497,7 @@ const interestSlice = createSlice({
     fetchStakingWithdrawalsLoading: (state) => {
       state.stakingWithdrawals = Remote.Loading
     },
-    // TODO: figure out what goes here
-    fetchStakingWithdrawalsSuccess: (state, action: PayloadAction<any>) => {
+    fetchStakingWithdrawalsSuccess: (state, action: PayloadAction<PendingWithdrawalsType>) => {
       state.stakingWithdrawals = Remote.Success(action.payload)
     },
 
