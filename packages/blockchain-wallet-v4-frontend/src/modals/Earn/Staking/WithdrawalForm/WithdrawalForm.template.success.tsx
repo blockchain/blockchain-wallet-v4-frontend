@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   Flex,
   IconCloseCircleV2,
   Padding,
-  PaletteColors,
   SemanticColors,
   Text
 } from '@blockchain-com/constellation'
@@ -13,8 +12,8 @@ import { compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
-import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
-import { fiatToString, formatFiat } from '@core/exchange/utils'
+import { convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
+import { formatFiat } from '@core/exchange/utils'
 import {
   CoinType,
   EarnAccountBalanceResponseType,
@@ -22,16 +21,11 @@ import {
   FiatType,
   RatesType
 } from '@core/types'
-import { Button, Icon, SpinningLoader } from 'blockchain-info-components'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import { Button, SpinningLoader } from 'blockchain-info-components'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Analytics, StakingWithdrawalFormType } from 'data/types'
-import { useSardineContext } from 'hooks'
-import { required } from 'services/forms'
+import { StakingWithdrawalFormType } from 'data/types'
 
 import CustodialAccount from '../../CustodialAccount'
-import { amountToCrypto, amountToFiat } from '../../Earn.utils'
 import {
   Bottom,
   ButtonContainer,
@@ -47,7 +41,6 @@ import {
   TopText
 } from './WithdrawalForm.model'
 import { getActions } from './WithdrawalForm.selectors'
-import { FormErrorsType } from './WithdrawalForm.types'
 import { validate } from './WithdrawalForm.validation'
 
 const WithdrawalForm: React.FC<Props & InjectedFormProps<{}, Props>> = (props) => {
@@ -56,21 +49,13 @@ const WithdrawalForm: React.FC<Props & InjectedFormProps<{}, Props>> = (props) =
   const [percentageOfBalance, setPercentageOfBalance] = useState(0)
 
   const {
-    // analyticsActions,
     buySellCryptoAmount,
     buySellFiatAmount,
-    // displayCoin,
-    // earnEDDStatus,
-    // earnEDDWithdrawLimits,
-    // flagEDDInterestFileUpload,
-
     coin,
     formErrors,
     formValues,
-
     handleClose,
     handleWithdrawal,
-    invalid,
     rates,
     stakingCryptoAmount,
     stakingFiatAmount,

@@ -17,6 +17,7 @@ import {
   CoinType,
   EarnAccountBalanceResponseType,
   EarnEligibleType,
+  EarnLimitsType,
   EarnRatesType
 } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
@@ -61,8 +62,8 @@ const AccountSummary: React.FC<Props> = (props) => {
     pendingTransactions,
     showSupply,
     stakingEligible,
+    stakingLimits,
     stakingRates,
-    stakingWithdrawals,
     stepMetadata,
     totalBondingDeposits,
     walletCurrency
@@ -243,10 +244,9 @@ const AccountSummary: React.FC<Props> = (props) => {
                 }
               />
               {isTransactionsToggled &&
-                pendingTransactions.map(({ amount, bondingDays, date, type }) => {
+                pendingTransactions.map(({ amount, bondingDays, date, type, unbondingDays }) => {
                   const isBonding = type === 'BONDING'
                   const isUnbonding = type === 'UNBONDING'
-
                   return (
                     <Detail
                       key={date}
@@ -280,14 +280,34 @@ const AccountSummary: React.FC<Props> = (props) => {
                                 )
                             }}
                           />
+                        ) : unbondingDays ? (
+                          <FormattedMessage
+                            defaultMessage='Unbonding Period: {unbondingDays} {days}'
+                            id='modals.staking.accountsummary.unbondingperiod'
+                            values={{
+                              days:
+                                unbondingDays > 1 ? (
+                                  <FormattedMessage
+                                    defaultMessage='days'
+                                    id='modals.staking.warning.content.subtitle.days'
+                                  />
+                                ) : (
+                                  <FormattedMessage
+                                    defaultMessage='day'
+                                    id='modals.staking.warning.content.subtitle.day'
+                                  />
+                                ),
+                              unbondingDays
+                            }}
+                          />
                         ) : null
                       }
                       text={
                         <Flex gap={4}>
                           {isBonding ? (
-                            <FormattedMessage defaultMessage='Stake' id='copy.stake' />
+                            <FormattedMessage defaultMessage='Staked' id='copy.staked' />
                           ) : isUnbonding ? (
-                            <FormattedMessage defaultMessage='Withdrawal' id='copy.withdrawal' />
+                            <FormattedMessage defaultMessage='Withdrew' id='copy.withdrawal' />
                           ) : (
                             <FormattedMessage defaultMessage='Transfer' id='copy.transfer' />
                           )}
@@ -297,7 +317,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                             cursor='inherit'
                             size='14px'
                             weight={600}
-                            data-e2e={`${coin}BondingDepositAmount`}
+                            data-e2e={`${coin}BondingorUnbondingAmount`}
                           >
                             {amount}
                           </CoinDisplay>
@@ -346,8 +366,23 @@ const AccountSummary: React.FC<Props> = (props) => {
           <WarningContainer>
             <Text color='grey900' size='12px' weight={500}>
               <FormattedMessage
-                defaultMessage='Once staked, ETH assets can’t be unstaked or transferred for an unknown period of time.'
-                id='modals.staking.bottom.warning'
+                defaultMessage='Unstaking and withdrawing ETH can take up to {unbondingDays} {days} depending on the network queue'
+                id='modals.staking.bottom.warningbox'
+                values={{
+                  days:
+                    5 > 1 ? (
+                      <FormattedMessage
+                        defaultMessage='days'
+                        id='modals.staking.warning.content.subtitle.days'
+                      />
+                    ) : (
+                      <FormattedMessage
+                        defaultMessage='day'
+                        id='modals.staking.warning.content.subtitle.day'
+                      />
+                    ),
+                  unbondingDays: 5
+                }}
               />
             </Text>
             <Link href='https://ethereum.org/en/staking/' target='_blank'>
@@ -406,8 +441,8 @@ type OwnProps = {
   isTransactionsToggled: boolean
   pendingTransactions: Array<PendingTransactionType>
   stakingEligible: EarnEligibleType
+  stakingLimits: EarnLimitsType
   stakingRates: EarnRatesType['rates']
-  stakingWithdrawals: Array<PendingWithdrawalsType>
   stepMetadata: EarnStepMetaData
   totalBondingDeposits: number
 }

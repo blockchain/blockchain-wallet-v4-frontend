@@ -29,7 +29,6 @@ const AccountSummaryContainer = (props: OwnProps) => {
   useEffect(() => {
     dispatch(actions.components.interest.fetchStakingLimits())
     dispatch(actions.components.interest.fetchPendingStakingTransactions({ coin }))
-    dispatch(actions.components.interest.fetchStakingWithdrawals())
   }, [])
 
   useEffect(() => {
@@ -88,8 +87,8 @@ const AccountSummaryContainer = (props: OwnProps) => {
     isStakingWithdrawalEnabled,
     pendingTransactions,
     stakingEligible,
+    stakingLimits,
     stakingRates,
-    stakingWithdrawals,
     totalBondingDeposits
   } = data
 
@@ -139,8 +138,8 @@ const AccountSummaryContainer = (props: OwnProps) => {
       isTransactionsToggled={isTransactionsToggled}
       pendingTransactions={pendingTransactions}
       stakingEligible={stakingEligible}
+      stakingLimits={stakingLimits}
       stakingRates={stakingRates}
-      stakingWithdrawals={stakingWithdrawals}
       showSupply={showSupply}
       stepMetadata={stepMetadata}
       totalBondingDeposits={totalBondingDeposits}

@@ -80,3 +80,15 @@ export const CustomErrorCartridge = styled(ErrorCartridge)`
 export const QuoteActionContainer = styled.div`
   height: 32px;
 `
+
+export const emptyEarnBalanceObject = {
+  balance: '0',
+  earningBalance: '0',
+  fiatAmount: '0',
+  locked: '0',
+  pendingDeposit: '0',
+  pendingInterest: '0',
+  pendingWithdrawal: '0',
+  totalInterest: '0',
+  totalRewards: '0'
+}

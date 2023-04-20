@@ -1,6 +1,4 @@
-import BigNumber from 'bignumber.js'
-
-import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
+import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { StakingWithdrawalFormType } from 'data/types'
 

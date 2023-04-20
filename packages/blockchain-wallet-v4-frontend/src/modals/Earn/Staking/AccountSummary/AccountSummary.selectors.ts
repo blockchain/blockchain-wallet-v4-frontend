@@ -18,13 +18,12 @@ export const getData = (state: RootState) => {
   const stakingEligibleR = selectors.components.interest.getStakingEligible(state)
   const stakingRatesR = selectors.components.interest.getStakingRates(state)
   const totalBondingDeposits = selectors.components.interest.getTotalStakingBondingDeposits(state)
-  const stakingWithdrawalsR = selectors.components.interest.getStakingWithdrawals(state)
   const buySellBalanceR = selectors.components.buySell.getBSBalances(state)
   const isStakingWithdrawalEnabled = selectors.core.walletOptions
     .getStakingWithdrawalEnabled(state)
     .getOrElse(false) as boolean
-
   const addressDataR = getAddressDataR(state, coin)
+  const stakingLimitsR = selectors.components.interest.getStakingLimits(state)
 
   return lift(
     (
@@ -33,9 +32,9 @@ export const getData = (state: RootState) => {
       buySellBalance: ExtractSuccess<typeof buySellBalanceR>,
       earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>,
       pendingTransactions: ExtractSuccess<typeof pendingTransactionsR>,
+      stakingLimits: ExtractSuccess<typeof stakingLimitsR>,
       stakingRates: ExtractSuccess<typeof stakingRatesR>,
-      stakingEligible: ExtractSuccess<typeof stakingEligibleR>,
-      stakingWithdrawals: ExtractSuccess<typeof stakingWithdrawalsR>
+      stakingEligible: ExtractSuccess<typeof stakingEligibleR>
     ) => {
       const hasNonCustodialBalance: boolean = getHasNonCustodialBalance(addressData)
       const hasBuySellBalance = !!buySellBalance[coin]?.available
@@ -47,8 +46,8 @@ export const getData = (state: RootState) => {
         isStakingWithdrawalEnabled,
         pendingTransactions,
         stakingEligible,
+        stakingLimits,
         stakingRates,
-        stakingWithdrawals,
         totalBondingDeposits
       }
     }
@@ -59,7 +58,7 @@ export const getData = (state: RootState) => {
     earnEDDStatusR,
     pendingTransactionsR,
     stakingRatesR,
-    stakingEligibleR,
-    stakingWithdrawalsR
+    stakingLimitsR,
+    stakingEligibleR
   )
 }

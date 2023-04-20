@@ -1234,8 +1234,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
       yield put(A.setStakingStep({ name: 'WITHDRAWAL_REQUESTED' }))
       yield delay(3000)
-      // yield put(A.fetchRewardsBalance())
-      // yield put(A.fetchEDDStatus())
+      yield put(A.fetchStakingBalance())
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.setActiveRewardsStep({ name: 'ACCOUNT_SUMMARY' }))

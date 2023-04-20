@@ -1,19 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Exchange } from '@core'
 import { convertFiatToCoin } from '@core/exchange'
 import DataError from 'components/DataError'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Analytics, StakingWithdrawalFormType } from 'data/types'
 import { useRemote } from 'hooks'
 
-import { amountToCrypto, amountToFiat, maxFiat } from '../../Earn.utils'
 import Loading from '../Staking.template.loading'
 import { FORM_NAME } from './WithdrawalForm.model'
 import { getActions, getData, getRemote } from './WithdrawalForm.selectors'
 import Success from './WithdrawalForm.template.success'
-import { DataType, PropsType, RemotePropsType } from './WithdrawalForm.types'
+import { RemotePropsType } from './WithdrawalForm.types'
 
 const WithdrawalForm = (props: Props) => {
   const dispatch = useDispatch()
@@ -21,12 +18,19 @@ const WithdrawalForm = (props: Props) => {
   const { data, error, isLoading, isNotAsked } = useRemote(getRemote)
   const { coin, displayCoin, formErrors, formValues, walletCurrency } = useSelector(getData)
   const { handleClose } = props
-  // @ts-ignore
+
+  if (!data || isLoading || isNotAsked) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <DataError />
+  }
   const { accountBalance, buySellBalance, rates, stakingLimits }: RemotePropsType = data
 
   const stakingCryptoAmount = Exchange.convertCoinToCoin({
     coin,
-    value: accountBalance.earningBalance || '0'
+    value: accountBalance.earningBalance
   })
 
   const stakingFiatAmount = Exchange.displayCoinToFiat({
@@ -37,7 +41,7 @@ const WithdrawalForm = (props: Props) => {
 
   const buySellCryptoAmount = Exchange.convertCoinToCoin({
     coin,
-    value: buySellBalance
+    value: buySellBalance || '0'
   })
 
   const buySellFiatAmount = Exchange.displayCoinToFiat({
@@ -50,7 +54,6 @@ const WithdrawalForm = (props: Props) => {
 
   const handleWithdrawal = () => {
     const { amount, fix } = formValues
-    // do we want an analytics actions here
     const withdrawalAmountCrypto =
       fix === 'FIAT'
         ? convertFiatToCoin({

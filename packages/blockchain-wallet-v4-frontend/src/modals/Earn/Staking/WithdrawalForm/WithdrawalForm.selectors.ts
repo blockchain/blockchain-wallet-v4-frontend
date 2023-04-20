@@ -6,7 +6,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { StakingWithdrawalFormType } from 'data/types'
 
-import { FORM_NAME } from './WithdrawalForm.model'
+import { emptyEarnBalanceObject, FORM_NAME } from './WithdrawalForm.model'
 import { FormErrorsType } from './WithdrawalForm.types'
 
 export const getActions = (dispatch) => ({
@@ -40,7 +40,7 @@ export const getRemote = (state: RootState) => {
       rates: ExtractSuccess<typeof ratesR>,
       stakingLimits: ExtractSuccess<typeof stakingLimitsR>
     ) => ({
-      accountBalance: accountBalances[coin] || '0',
+      accountBalance: accountBalances[coin] || emptyEarnBalanceObject,
       buySellBalance: buySellAccountBalances[coin]?.available || '0',
       rates,
       stakingLimits

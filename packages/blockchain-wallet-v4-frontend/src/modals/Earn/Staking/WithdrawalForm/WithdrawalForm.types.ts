@@ -1,16 +1,4 @@
-import {
-  BSBalancesType,
-  CoinType,
-  EarnAccountBalanceResponseType,
-  EarnBalanceType,
-  EarnDepositErrorsType,
-  EarnEDDStatus,
-  EarnLimitsType,
-  EarnRatesType,
-  FiatType,
-  PaymentValue,
-  RatesType
-} from '@core/types'
+import { CoinType, EarnBalanceType, EarnLimitsType, FiatType, RatesType } from '@core/types'
 import { StakingWithdrawalFormType } from 'data/types'
 
 export type DataType = {
