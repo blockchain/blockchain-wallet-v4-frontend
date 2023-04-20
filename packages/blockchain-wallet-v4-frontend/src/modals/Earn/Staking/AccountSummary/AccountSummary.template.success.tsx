@@ -56,6 +56,7 @@ const AccountSummary: React.FC<Props> = (props) => {
     isBalanceDropdownToggled,
     isCoinDisplayed,
     isEDDRequired,
+    isStakingWithdrawalEnabled,
     isTransactionsToggled,
     pendingTransactions,
     showSupply,
@@ -72,6 +73,7 @@ const AccountSummary: React.FC<Props> = (props) => {
   const accountBalanceBase = account && account.balance
   const stakingBalanceBase = account && account.totalRewards
   const isDepositEnabled = stakingEligible[coin] ? stakingEligible[coin]?.eligible : false
+  const hasEarningBalance = Number(account?.earningBalance) > 0
   const { rate } = stakingRates[coin]
 
   return (
@@ -372,6 +374,7 @@ const AccountSummary: React.FC<Props> = (props) => {
           {/* TODO check when it should be disabled */}
           <Button
             data-e2e='stakingWithdrawal'
+            disabled={!isStakingWithdrawalEnabled && !hasEarningBalance}
             fullwidth
             height='48px'
             nature='grey800'
@@ -399,6 +402,7 @@ type OwnProps = {
   isBalanceDropdownToggled: boolean
   isCoinDisplayed: boolean
   isEDDRequired: boolean
+  isStakingWithdrawalEnabled: boolean
   isTransactionsToggled: boolean
   pendingTransactions: Array<PendingTransactionType>
   stakingEligible: EarnEligibleType

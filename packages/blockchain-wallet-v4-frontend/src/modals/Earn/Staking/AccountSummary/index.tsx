@@ -85,6 +85,7 @@ const AccountSummaryContainer = (props: OwnProps) => {
     accountBalances,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
     hasBalance,
+    isStakingWithdrawalEnabled,
     pendingTransactions,
     stakingEligible,
     stakingRates,
@@ -134,6 +135,7 @@ const AccountSummaryContainer = (props: OwnProps) => {
       isBalanceDropdownToggled={isBalanceDropdownToggled}
       isCoinDisplayed={isCoinDisplayed}
       isEDDRequired={isEDDRequired}
+      isStakingWithdrawalEnabled={isStakingWithdrawalEnabled}
       isTransactionsToggled={isTransactionsToggled}
       pendingTransactions={pendingTransactions}
       stakingEligible={stakingEligible}

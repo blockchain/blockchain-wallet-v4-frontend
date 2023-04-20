@@ -193,7 +193,7 @@ export const getActiveRewardsEnabled = (state: RootState) =>
 
 // show active rewards withdrawal
 export const getActiveRewardsWithdrawalEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'isStakingWithdrawalEnabled']))
+  getWebOptions(state).map(path(['featureFlags', 'isActiveRewardsWithdrawalEnabled']))
 
 // show staking withdrawal
 export const getStakingWithdrawalEnabled = (state: RootState) =>
