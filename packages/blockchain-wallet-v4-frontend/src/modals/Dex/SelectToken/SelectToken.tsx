@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { compose } from 'redux'
 
@@ -21,6 +21,12 @@ type Props = {
 
 const DexSelectToken = ({ position, swapSide, total }: Props) => {
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    return () => {
+      dispatch(actions.components.dex.fetchSearchedTokens({ search: '' }))
+    }
+  }, [])
 
   const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
