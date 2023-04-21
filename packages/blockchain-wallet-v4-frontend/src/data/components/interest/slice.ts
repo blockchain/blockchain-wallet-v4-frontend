@@ -34,7 +34,9 @@ import {
   InterestState,
   InterestStep,
   PendingTransactionType,
+  PendingWithdrawalsType,
   StakingStep,
+  StakingWithdrawalType,
   TransferMinMaxAmountType
 } from './types'
 
@@ -88,6 +90,7 @@ const initialState: InterestState = {
     name: 'WARNING'
   },
   stakingTransactionsNextPage: null,
+  stakingWithdrawals: Remote.NotAsked,
   totalActiveRewardsBondingDeposits: 0,
   totalStakingBondingDeposits: 0,
   transactions: [],
@@ -486,6 +489,18 @@ const interestSlice = createSlice({
       state.stakingRates = Remote.Success(action.payload.rates)
     },
 
+    // STAKING WITHDRAWALS
+    fetchStakingWithdrawals: () => {},
+    fetchStakingWithdrawalsFailure: (state, action: PayloadAction<string>) => {
+      state.stakingWithdrawals = Remote.Failure(action.payload)
+    },
+    fetchStakingWithdrawalsLoading: (state) => {
+      state.stakingWithdrawals = Remote.Loading
+    },
+    fetchStakingWithdrawalsSuccess: (state, action: PayloadAction<PendingWithdrawalsType>) => {
+      state.stakingWithdrawals = Remote.Success(action.payload)
+    },
+
     handleTransferMaxAmountClick: (
       // eslint-disable-next-line
       state,
@@ -534,6 +549,13 @@ const interestSlice = createSlice({
       state,
       // eslint-disable-next-line
       action: PayloadAction<ActiveRewardsWithdrawalType>
+    ) => {},
+
+    requestStakingWithdrawal: (
+      // eslint-disable-next-line
+      state,
+      // eslint-disable-next-line
+      action: PayloadAction<StakingWithdrawalType>
     ) => {},
 
     // eslint-disable-next-line

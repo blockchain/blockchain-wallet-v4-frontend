@@ -8,7 +8,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 
 import { Bottom, Container, Row, Top, TopText, WarningContainer, Wrapper } from './Warning.model'
 
-const Warning = ({ bondingDays, coin, handleClick, handleClose }: OwnProps) => (
+const Warning = ({ coin, handleClick, handleClose, unbondingDays }: OwnProps) => (
   <Wrapper>
     <FlyoutWrapper>
       <TopText color='grey800' size='20px' weight={600}>
@@ -40,14 +40,13 @@ const Warning = ({ bondingDays, coin, handleClick, handleClose }: OwnProps) => (
         </Text>
         <Text color='grey600' size='16px' weight={500}>
           <FormattedMessage
-            defaultMessage='Once staked, {coin} funds can’t be unstaked or transferred for an unknown period of time. {br}{br} This may be up 6 to 12 months away, but could be even longer. {br}{br} Your {coin} will also be subject to a bonding period of {bondingDays} {days} before it generates rewards.'
-            id='modals.staking.warning.content.subtitle'
+            defaultMessage='Your staked {coin} will start generating rewards after an initial bonding period. {br}{br} Unstaking and withdrawing {coin} can take up to {unbondingDays} {days} depending on the network queue.'
+            id='modals.staking.warning.content.subtitles'
             values={{
-              bondingDays,
               br: <br />,
               coin,
               days:
-                bondingDays > 1 ? (
+                unbondingDays > 1 ? (
                   <FormattedMessage
                     defaultMessage='days'
                     id='modals.staking.warning.content.subtitle.days'
@@ -57,7 +56,8 @@ const Warning = ({ bondingDays, coin, handleClick, handleClose }: OwnProps) => (
                     defaultMessage='day'
                     id='modals.staking.warning.content.subtitle.day'
                   />
-                )
+                ),
+              unbondingDays
             }}
           />
         </Text>
@@ -93,10 +93,10 @@ const Warning = ({ bondingDays, coin, handleClick, handleClose }: OwnProps) => (
 )
 
 type OwnProps = {
-  bondingDays: number
   coin: CoinType
   handleClick: () => void
   handleClose: () => void
+  unbondingDays: number
 }
 
 export default Warning

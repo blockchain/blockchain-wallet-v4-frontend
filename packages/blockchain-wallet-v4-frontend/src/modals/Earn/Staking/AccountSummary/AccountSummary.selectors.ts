@@ -19,8 +19,11 @@ export const getData = (state: RootState) => {
   const stakingRatesR = selectors.components.interest.getStakingRates(state)
   const totalBondingDeposits = selectors.components.interest.getTotalStakingBondingDeposits(state)
   const buySellBalanceR = selectors.components.buySell.getBSBalances(state)
-
+  const isStakingWithdrawalEnabled = selectors.core.walletOptions
+    .getStakingWithdrawalEnabled(state)
+    .getOrElse(false) as boolean
   const addressDataR = getAddressDataR(state, coin)
+  const stakingLimitsR = selectors.components.interest.getStakingLimits(state)
 
   return lift(
     (
@@ -29,6 +32,7 @@ export const getData = (state: RootState) => {
       buySellBalance: ExtractSuccess<typeof buySellBalanceR>,
       earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>,
       pendingTransactions: ExtractSuccess<typeof pendingTransactionsR>,
+      stakingLimits: ExtractSuccess<typeof stakingLimitsR>,
       stakingRates: ExtractSuccess<typeof stakingRatesR>,
       stakingEligible: ExtractSuccess<typeof stakingEligibleR>
     ) => {
@@ -39,8 +43,10 @@ export const getData = (state: RootState) => {
         accountBalances,
         earnEDDStatus,
         hasBalance: hasNonCustodialBalance || hasBuySellBalance,
+        isStakingWithdrawalEnabled,
         pendingTransactions,
         stakingEligible,
+        stakingLimits,
         stakingRates,
         totalBondingDeposits
       }
@@ -52,6 +58,7 @@ export const getData = (state: RootState) => {
     earnEDDStatusR,
     pendingTransactionsR,
     stakingRatesR,
+    stakingLimitsR,
     stakingEligibleR
   )
 }
