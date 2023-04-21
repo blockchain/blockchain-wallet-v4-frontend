@@ -28,11 +28,11 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
   const tokensListState = useTokensListData()
 
   const { onSearchChange, search } = useTokensListSearch({
-    onSearch: (s) => dispatch(actions.components.dex.fetchSearchedTokens({ search: s })),
-    setReduxSearch: (s) => dispatch(actions.components.dex.setSearch(s))
+    onSearch: (s) => dispatch(actions.components.dex.fetchSearchedTokens({ search: s }))
   })
 
   const onClose = () => {
+    dispatch(actions.components.dex.fetchSearchedTokens({ search: '' }))
     dispatch(actions.modals.closeModal())
   }
 

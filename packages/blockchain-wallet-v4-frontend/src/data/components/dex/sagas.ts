@@ -96,6 +96,7 @@ export default ({ api }: { api: APIType }) => {
   const fetchSearchedTokens = function* (action: ReturnType<typeof A.fetchSearchedTokens>) {
     const cancelSource = cancelRequestSource()
     const { search } = action.payload
+    yield put(A.setSearch(search))
     if (search === '') return yield put(A.fetchSearchedTokensSuccess([]))
     try {
       yield put(A.fetchSearchedTokensLoading())
