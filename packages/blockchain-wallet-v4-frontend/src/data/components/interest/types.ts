@@ -198,8 +198,10 @@ export type ActiveRewardsWithdrawalType = {
 
 export type StakingWithdrawalType = {
   coin: CoinType
+  fix: 'CRYPTO' | 'FIAT'
   formName: string
-  withdrawalAmountCrypto: string
+  walletCurrency: FiatType
+  withdrawalAmount: string
 }
 
 //

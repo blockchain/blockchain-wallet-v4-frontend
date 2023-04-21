@@ -1217,15 +1217,30 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const requestStakingWithdrawal = function* ({
     payload
   }: ReturnType<typeof A.requestStakingWithdrawal>) {
-    const { coin, formName, withdrawalAmountCrypto } = payload
+    const { coin, fix, formName, walletCurrency, withdrawalAmount } = payload
     const isStakingWithdrawalEnabled = selectors.core.walletOptions
       .getStakingWithdrawalEnabled(yield select())
       .getOrElse(false) as boolean
+    const rates = S.getRates(yield select()).getOrElse({} as RatesType)
 
     if (!isStakingWithdrawalEnabled) return
     try {
       yield put(actions.form.startSubmit(formName))
-      const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmountCrypto)
+      const withdrawalAmountCrypto =
+        fix === 'FIAT'
+          ? Exchange.convertFiatToCoin({
+              coin,
+              currency: walletCurrency,
+              maxPrecision: 18,
+              rates,
+              value: new BigNumber(withdrawalAmount).toNumber()
+            })
+          : new BigNumber(withdrawalAmount).toNumber()
+      const withdrawalAmountBase = new BigNumber(
+        convertStandardToBase(coin, withdrawalAmountCrypto)
+      )
+        .integerValue(BigNumber.ROUND_DOWN)
+        .toFixed()
       yield call(api.initiateCustodialTransfer, {
         amount: withdrawalAmountBase,
         currency: coin,
