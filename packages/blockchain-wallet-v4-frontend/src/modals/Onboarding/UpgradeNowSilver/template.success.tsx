@@ -4,7 +4,7 @@ import { SemanticColors } from '@blockchain-com/constellation'
 import styled, { css } from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { GreyCartridge, SuccessCartridge } from 'components/Cartridge'
+import { SuccessCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContainer, FlyoutContent } from 'components/Flyout/Layout'
 import { Analytics, ModalName } from 'data/types'
@@ -49,13 +49,6 @@ const RowItemSubTitle = styled(Text)`
   flex: 1;
 `
 
-const StatusCartridge = styled(GreyCartridge)`
-  display: flex;
-  flex-direction: row;
-  > span {
-    padding: 3px 8px;
-  }
-`
 const StatusCartridgeSuccess = styled(SuccessCartridge)`
   display: flex;
   flex-direction: row;
@@ -129,6 +122,7 @@ const Template = (props: Props) => {
     handleClose,
     identityVerificationActions,
     modalActions,
+    products,
     userData,
     userTiers
   } = props
@@ -164,8 +158,6 @@ const Template = (props: Props) => {
   if (!Array.isArray(userTiers)) {
     return null
   }
-
-  const isUserTierZero = userCurrentTier === TIER_TYPES.NONE
 
   return (
     <FlyoutContainer>
@@ -212,40 +204,44 @@ const Template = (props: Props) => {
       <FlyoutContent mode='top'>
         <div>
           <UpgradeContainer>
-            <UpgradeRow>
-              <Image name='blue-verified' size='20px' />
-              <RowItemTitle>
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.full_access'
-                  defaultMessage='Full Access'
-                />
-              </RowItemTitle>
-              <StatusCartridgeSuccess>
-                <Text color='white' size='12px' weight={500}>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.apply_now'
-                    defaultMessage='Apply Now'
-                  />
-                </Text>
-              </StatusCartridgeSuccess>
-            </UpgradeRow>
+            {products?.kycVerification?.enabled && (
+              <>
+                <UpgradeRow>
+                  <Image name='blue-verified' size='20px' />
+                  <RowItemTitle>
+                    <FormattedMessage
+                      id='modals.onboarding.upgrade_now.full_access'
+                      defaultMessage='Full Access'
+                    />
+                  </RowItemTitle>
+                  <StatusCartridgeSuccess>
+                    <Text color='white' size='12px' weight={500}>
+                      <FormattedMessage
+                        id='modals.onboarding.upgrade_now.apply_now'
+                        defaultMessage='Apply Now'
+                      />
+                    </Text>
+                  </StatusCartridgeSuccess>
+                </UpgradeRow>
 
-            <UpgradeRowWithBorder style={{ padding: '25px' }}>
-              <Button
-                fullwidth
-                size='16px'
-                height='48px'
-                nature='primary'
-                data-e2e='upgradeNowUnlockSilverLimits'
-                type='button'
-                onClick={startVerification}
-              >
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.upgrade_and_unlock'
-                  defaultMessage='Upgrade & Unlock'
-                />
-              </Button>
-            </UpgradeRowWithBorder>
+                <UpgradeRowWithBorder style={{ padding: '25px' }}>
+                  <Button
+                    fullwidth
+                    size='16px'
+                    height='48px'
+                    nature='primary'
+                    data-e2e='upgradeNowUnlockSilverLimits'
+                    type='button'
+                    onClick={startVerification}
+                  >
+                    <FormattedMessage
+                      id='modals.onboarding.upgrade_now.upgrade_and_unlock'
+                      defaultMessage='Upgrade & Unlock'
+                    />
+                  </Button>
+                </UpgradeRowWithBorder>
+              </>
+            )}
 
             <UpgradeRowWithBorder>
               <Image name='swap-white' size='20px' />
