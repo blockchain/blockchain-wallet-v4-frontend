@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
+import { Text } from 'blockchain-info-components'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -10,6 +11,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
 import getData from './selectors'
+import Loading from './template.loading'
 import Success from './template.success'
 
 export type OwnProps = {
@@ -21,6 +23,7 @@ const UpgradeNowSilver = (props: Props) => {
 
   useEffect(() => {
     props.fetchEarnEDDStatus()
+    props.custodialActions.fetchProductEligibilityForUser()
   }, [])
 
   const handleClose = () => {
@@ -33,7 +36,16 @@ const UpgradeNowSilver = (props: Props) => {
   return (
     <Flyout {...props} onClose={handleClose} isOpen={show} data-e2e='tradingLimitsModal'>
       <FlyoutChild>
-        <Success {...props.data} {...props} handleClose={handleClose} />
+        {props.data.cata({
+          Failure: (error) => (
+            <Text color='red600' size='14px' weight={400}>
+              {error}
+            </Text>
+          ),
+          Loading: () => null,
+          NotAsked: () => null,
+          Success: (val) => <Success {...val} {...props} handleClose={handleClose} />
+        })}
       </FlyoutChild>
     </Flyout>
   )
@@ -41,6 +53,7 @@ const UpgradeNowSilver = (props: Props) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  custodialActions: bindActionCreators(actions.custodial, dispatch),
   fetchEarnEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
@@ -60,7 +73,7 @@ const enhance = compose(
   connector
 )
 
-export type SuccessStateType = ReturnType<typeof getData>
+export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
