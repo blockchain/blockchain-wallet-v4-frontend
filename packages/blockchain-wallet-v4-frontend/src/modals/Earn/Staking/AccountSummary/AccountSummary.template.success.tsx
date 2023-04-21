@@ -407,10 +407,9 @@ const AccountSummary: React.FC<Props> = (props) => {
               <FormattedMessage id='buttons.add' defaultMessage='Add' />
             </Text>
           </Button>
-          {/* TODO check when it should be disabled */}
           <Button
             data-e2e='stakingWithdrawal'
-            disabled={!isStakingWithdrawalEnabled && !hasEarningBalance}
+            disabled={!isStakingWithdrawalEnabled || !hasEarningBalance}
             fullwidth
             height='48px'
             nature='grey800'
