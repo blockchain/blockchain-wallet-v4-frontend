@@ -22,7 +22,7 @@ const WarningContainer = ({ coin, handleClose }: OwnProps) => {
   if (error) return <DataError />
   if (!data || isLoading || isNotAsked) return <Loading />
   const { hasBalance, stakingLimits } = data
-  const { bondingDays } = stakingLimits[coin]
+  const { unbondingDays } = stakingLimits[coin]
 
   const handleClick = () => {
     dispatch(
@@ -42,10 +42,10 @@ const WarningContainer = ({ coin, handleClose }: OwnProps) => {
   }
   return (
     <Warning
-      bondingDays={bondingDays}
       coin={coin}
       handleClick={handleClick}
       handleClose={handleClose}
+      unbondingDays={unbondingDays}
     />
   )
 }

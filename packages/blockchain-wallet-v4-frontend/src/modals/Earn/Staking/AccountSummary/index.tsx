@@ -84,8 +84,10 @@ const AccountSummaryContainer = (props: OwnProps) => {
     accountBalances,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
     hasBalance,
+    isStakingWithdrawalEnabled,
     pendingTransactions,
     stakingEligible,
+    stakingLimits,
     stakingRates,
     totalBondingDeposits
   } = data
@@ -107,6 +109,15 @@ const AccountSummaryContainer = (props: OwnProps) => {
     )
   }
 
+  const handleWithdrawClick = () => {
+    dispatch(
+      actions.components.interest.showStakingModal({
+        coin,
+        step: 'WTIHDRAWAL'
+      })
+    )
+  }
+
   const isEDDRequired = eddNeeded && !eddSubmitted && !eddPassed
 
   return isFiatCurrencySupported ? (
@@ -119,12 +130,15 @@ const AccountSummaryContainer = (props: OwnProps) => {
       handleDepositClick={handleDepositClick}
       handleEDDSubmitInfo={handleEDDSubmitInfo}
       handleTransactionsToggled={handleTransactionsToggled}
+      handleWithdrawClick={handleWithdrawClick}
       isBalanceDropdownToggled={isBalanceDropdownToggled}
       isCoinDisplayed={isCoinDisplayed}
       isEDDRequired={isEDDRequired}
+      isStakingWithdrawalEnabled={isStakingWithdrawalEnabled}
       isTransactionsToggled={isTransactionsToggled}
       pendingTransactions={pendingTransactions}
       stakingEligible={stakingEligible}
+      stakingLimits={stakingLimits}
       stakingRates={stakingRates}
       showSupply={showSupply}
       stepMetadata={stepMetadata}
