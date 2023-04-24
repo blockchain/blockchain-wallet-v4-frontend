@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from './Dropdown'
 import { DropdownNavLink, NavButton } from './Navbar'
 
 export const userNavItems = ({
+  isKycVerificationEnabled,
   isReferralAvailable,
   isReferralRetrievalEnabled,
   limitsClickHandler,
@@ -35,7 +36,8 @@ export const userNavItems = ({
     copy: (
       <FormattedMessage id='layouts.wallet.header.tradinglimits' defaultMessage='Trading Limits' />
     ),
-    'data-e2e': 'settings_profileLink'
+    'data-e2e': 'settings_profileLink',
+    isHidden: !isKycVerificationEnabled
   },
   {
     clickHandler: () => {
@@ -119,6 +121,7 @@ const UserNavDropdown: React.FC<Props> = (props) => {
 }
 
 type Props = {
+  isKycVerificationEnabled: boolean
   isReferralAvailable?: boolean
   isReferralRetrievalEnabled?: boolean
   limitsClickHandler: () => void

@@ -96,7 +96,7 @@ const ExchangeNavItem = (props) => (
 )
 
 const Navigation = (props: OwnProps & Props) => {
-  const { coinList, ...rest } = props
+  const { coinList, isKycVerificationEnabled, ...rest } = props
 
   return (
     <Wrapper {...rest}>
@@ -158,14 +158,16 @@ const Navigation = (props: OwnProps & Props) => {
           {/* </NewCartridge> */}
         </MenuItem>
       </LinkContainer>
-      <ExchangeMenuItem
-        data-e2e='exchangeLink'
-        onClick={() =>
-          props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.SideMenu)
-        }
-      >
-        <ExchangeNavItem {...props} />
-      </ExchangeMenuItem>
+      {isKycVerificationEnabled && (
+        <ExchangeMenuItem
+          data-e2e='exchangeLink'
+          onClick={() =>
+            props.profileActions.authAndRouteToExchangeAction(ExchangeAuthOriginType.SideMenu)
+          }
+        >
+          <ExchangeNavItem {...props} />
+        </ExchangeMenuItem>
+      )}
     </Wrapper>
   )
 }
