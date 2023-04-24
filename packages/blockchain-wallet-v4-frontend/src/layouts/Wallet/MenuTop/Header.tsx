@@ -20,10 +20,10 @@ const Header = (props: OwnProps) => {
     featureFlags,
     history,
     invitations,
+    isKycVerificationEnabled,
     isReferralAvailable,
     isReferralEnabled,
     modalActions,
-    nftsEnabled,
     refreshActions,
     sessionActions,
     settingsActions,
@@ -140,7 +140,7 @@ const Header = (props: OwnProps) => {
       limitsClickHandler={limitsCallback}
       referAFriendHandler={referAFriendCallback}
       logoutClickHandler={logoutCallback}
-      nftsEnabled={nftsEnabled}
+      isKycVerificationEnabled={isKycVerificationEnabled}
       receiveClickHandler={receiveCallback}
       refreshClickHandler={refreshCallback}
       sendClickHandler={sendCallback}

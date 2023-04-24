@@ -23,7 +23,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
-  coinList: selectors.balances.getTotalWalletBalancesSorted(state)
+  coinList: selectors.balances.getTotalWalletBalancesSorted(state),
+  isKycVerificationEnabled: selectors.custodial.isKycVerificationEnabled(state)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
