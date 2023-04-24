@@ -39,8 +39,12 @@ export type AgentType = AgentSimple & {
   swiftCode: string
 }
 
-type BSAccountContent = {
+export type BSAccountContent = {
   footers: Array<{
+    actions?: Array<{
+      title: string
+      url: string
+    }>
     icon?: string
     id: string
     isImportant?: boolean
@@ -57,27 +61,11 @@ type BSAccountContent = {
   }>
 }
 
-export type BSAccountType =
-  | (IBSAccountType & {
-      agent: AgentType
-      content: BSAccountContent
-      currency: 'USD'
-    })
-  | (IBSAccountType & {
-      agent: AgentSimple
-      content: BSAccountContent
-      currency: 'EUR'
-    })
-  | (IBSAccountType & {
-      agent: AgentSimple
-      content: BSAccountContent
-      currency: 'GBP'
-    })
-  | (IBSAccountType & {
-      agent: AgentType
-      content: BSAccountContent
-      currency: 'ARS'
-    })
+export type BSAccountType = IBSAccountType & {
+  agent: AgentType
+  content: BSAccountContent
+  currency: 'USD' | 'EUR' | 'GBP' | 'ARS'
+}
 
 export type BSBalanceType = {
   available: string
