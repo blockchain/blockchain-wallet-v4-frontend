@@ -32,9 +32,9 @@ export const getData = (state: RootState) => {
       buySellBalance: ExtractSuccess<typeof buySellBalanceR>,
       earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>,
       pendingTransactions: ExtractSuccess<typeof pendingTransactionsR>,
-      stakingLimits: ExtractSuccess<typeof stakingLimitsR>,
       stakingRates: ExtractSuccess<typeof stakingRatesR>,
-      stakingEligible: ExtractSuccess<typeof stakingEligibleR>
+      stakingEligible: ExtractSuccess<typeof stakingEligibleR>,
+      stakingLimits: ExtractSuccess<typeof stakingLimitsR>
     ) => {
       const hasNonCustodialBalance: boolean = getHasNonCustodialBalance(addressData)
       const hasBuySellBalance = !!buySellBalance[coin]?.available
@@ -58,7 +58,7 @@ export const getData = (state: RootState) => {
     earnEDDStatusR,
     pendingTransactionsR,
     stakingRatesR,
-    stakingLimitsR,
-    stakingEligibleR
+    stakingEligibleR,
+    stakingLimitsR
   )
 }

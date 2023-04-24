@@ -76,6 +76,7 @@ const AccountSummary: React.FC<Props> = (props) => {
   const isDepositEnabled = stakingEligible[coin] ? stakingEligible[coin]?.eligible : false
   const hasEarningBalance = Number(account?.earningBalance) > 0
   const { rate } = stakingRates[coin]
+  const { unbondingDays } = stakingLimits[coin]
 
   return (
     <Wrapper>
@@ -369,20 +370,19 @@ const AccountSummary: React.FC<Props> = (props) => {
                 defaultMessage='Unstaking and withdrawing ETH can take up to {unbondingDays} {days} depending on the network queue'
                 id='modals.staking.bottom.warningbox'
                 values={{
-                  // placeholder until I can figure out why limits selector not working
                   days:
-                    5 > 1 ? (
-                      <FormattedMessage
-                        defaultMessage='days'
-                        id='modals.staking.warning.content.subtitle.days'
-                      />
-                    ) : (
+                    unbondingDays === 1 ? (
                       <FormattedMessage
                         defaultMessage='day'
                         id='modals.staking.warning.content.subtitle.day'
                       />
+                    ) : (
+                      <FormattedMessage
+                        defaultMessage='days'
+                        id='modals.staking.warning.content.subtitle.days'
+                      />
                     ),
-                  unbondingDays: 5
+                  unbondingDays
                 }}
               />
             </Text>
@@ -407,10 +407,9 @@ const AccountSummary: React.FC<Props> = (props) => {
               <FormattedMessage id='buttons.add' defaultMessage='Add' />
             </Text>
           </Button>
-          {/* TODO check when it should be disabled */}
           <Button
             data-e2e='stakingWithdrawal'
-            disabled={!isStakingWithdrawalEnabled && !hasEarningBalance}
+            disabled={!isStakingWithdrawalEnabled || !hasEarningBalance}
             fullwidth
             height='48px'
             nature='grey800'
