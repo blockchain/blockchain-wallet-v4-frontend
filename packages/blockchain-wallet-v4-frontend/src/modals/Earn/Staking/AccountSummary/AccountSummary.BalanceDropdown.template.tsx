@@ -11,20 +11,23 @@ import { BalanceDropdownContainer, CoinToggleButton } from './AccountSummary.mod
 
 const BalanceDropdown = ({
   coin,
+  earningBalance,
   handleBalanceDropdown,
   handleCoinToggled,
   isCoinDisplayed,
-  stakingBalance,
   totalBondingDeposits,
+  totalUnbondingDeposits,
   walletCurrency
 }: OwnProps) => {
   const ref = useRef(null)
   useOnClickOutside(ref, handleBalanceDropdown)
-  const renderRows = (balance: number, isStaking: boolean) => (
+  const renderRows = (balance: string, isStaking: boolean, isUnbonding: boolean) => (
     <Flex justifyContent='space-between' gap={8}>
       <Text as='p' color={SemanticColors.title} variant='paragraph2'>
         {isStaking ? (
-          <FormattedMessage defaultMessage='Staked' id='copy.staked' />
+          <FormattedMessage defaultMessage='Active' id='copy.active' />
+        ) : isUnbonding ? (
+          <FormattedMessage defaultMessage='Unbonding' id='copy.unbonding' />
         ) : (
           <FormattedMessage defaultMessage='Bonding' id='copy.bonding' />
         )}
@@ -51,8 +54,9 @@ const BalanceDropdown = ({
   )
   return (
     <BalanceDropdownContainer ref={ref}>
-      {renderRows(Number(stakingBalance) - totalBondingDeposits, true)}
-      {renderRows(totalBondingDeposits, false)}
+      {renderRows(totalBondingDeposits, false, false)}
+      {renderRows(earningBalance, true, false)}
+      {renderRows(totalUnbondingDeposits, false, true)}
       <CoinToggleButton onClick={handleCoinToggled}>
         <FormattedMessage
           defaultMessage='Show in {currency}'
@@ -70,10 +74,11 @@ export default BalanceDropdown
 
 type OwnProps = {
   coin: CoinType
+  earningBalance: string
   handleBalanceDropdown: () => void
   handleCoinToggled: () => void
   isCoinDisplayed: boolean
-  stakingBalance: string
-  totalBondingDeposits: number
+  totalBondingDeposits: string
+  totalUnbondingDeposits: string
   walletCurrency: FiatType
 }

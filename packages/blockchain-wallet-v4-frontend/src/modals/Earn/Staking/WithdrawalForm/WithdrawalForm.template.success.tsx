@@ -131,8 +131,8 @@ const WithdrawalForm: React.FC<Props & InjectedFormProps<{}, Props>> = (props) =
       </Text>
       <Text variant='paragraph1' color={SemanticColors.body} style={{ marginTop: '24px' }}>
         <FormattedMessage
-          id='modals.interest.withdrawal.progressmsg'
-          defaultMessage='Requesting a withdrawal from your Rewards Account'
+          id='modals.interest.withdrawal.staking.progressmsg'
+          defaultMessage='Requesting a withdrawal from your Staking Account'
         />
       </Text>
     </SendingWrapper>

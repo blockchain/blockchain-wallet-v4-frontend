@@ -104,8 +104,9 @@ const AccountSummary: React.FC<Props> = (props) => {
                     handleBalanceDropdown={handleBalanceDropdown}
                     handleCoinToggled={handleCoinToggled}
                     isCoinDisplayed={isCoinDisplayed}
-                    stakingBalance={account?.balance || '0'}
-                    totalBondingDeposits={totalBondingDeposits}
+                    earningBalance={account?.earningBalance || '0'}
+                    totalBondingDeposits={account?.bondingDeposits || '0'}
+                    totalUnbondingDeposits={account?.unbondingWithdrawals || '0'}
                     walletCurrency={walletCurrency}
                   />
                 )}

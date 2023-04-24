@@ -83,6 +83,7 @@ export const QuoteActionContainer = styled.div`
 
 export const emptyEarnBalanceObject = {
   balance: '0',
+  bondingDeposits: '0',
   earningBalance: '0',
   fiatAmount: '0',
   locked: '0',
@@ -90,5 +91,6 @@ export const emptyEarnBalanceObject = {
   pendingInterest: '0',
   pendingWithdrawal: '0',
   totalInterest: '0',
-  totalRewards: '0'
+  totalRewards: '0',
+  unbondingWithdrawals: '0'
 }
