@@ -373,15 +373,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
               }}
             />
           </Text>
-          <Availability>
-            <Text color='grey600' weight={500} size='14px'>
-              <FormattedMessage
-                id='modals.interest.withdrawal.available'
-                defaultMessage='A small network fee will be applied, and your {coinTicker} will be available in your {coinTicker} Wallet within 2 days.'
-                values={{ coinTicker }}
-              />
-            </Text>
-          </Availability>
         </NetworkFee>
 
         <ButtonContainer>
