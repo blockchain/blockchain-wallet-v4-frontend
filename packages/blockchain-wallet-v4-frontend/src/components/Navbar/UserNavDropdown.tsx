@@ -37,7 +37,7 @@ export const userNavItems = ({
       <FormattedMessage id='layouts.wallet.header.tradinglimits' defaultMessage='Trading Limits' />
     ),
     'data-e2e': 'settings_profileLink',
-    isHidden: isKycVerificationEnabled === false
+    isHidden: !isKycVerificationEnabled
   },
   {
     clickHandler: () => {

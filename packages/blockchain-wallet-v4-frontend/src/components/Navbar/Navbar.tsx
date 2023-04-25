@@ -277,9 +277,12 @@ const Navbar = ({
     }
   ]
 
-  const navigationFiltered = secondaryNavItems.filter(({ name }) =>
-    isKycVerificationEnabled === false ? name !== 'Trade' : true
-  )
+  const navigationFiltered = secondaryNavItems.filter(({ name }) => {
+    if (!isKycVerificationEnabled) {
+      return name !== 'Trade'
+    }
+    return true
+  })
 
   const secondaryMobileNavItems = navigationFiltered.filter(
     ({ name }) => name !== 'Mobile App' && name !== 'Refresh' && name !== 'Settings'
