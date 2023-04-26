@@ -1929,8 +1929,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
       buy: { enabled: false, maxOrdersLeft: 0, reasonNotEligible: undefined },
+      kycVerification: {
+        enabled: true
+      },
       sell: { reasonNotEligible: undefined }
     } as ProductEligibilityForUser)
+
+    // show unsupported region message
+    if (!products?.kycVerification.enabled) {
+      yield put(
+        actions.modals.showModal(ModalName.UNSUPPORTED_REGION, {
+          origin: 'BuySellInit'
+        })
+      )
+      return
+    }
 
     // check is user eligible to do sell/buy
     // we skip this for gold users
