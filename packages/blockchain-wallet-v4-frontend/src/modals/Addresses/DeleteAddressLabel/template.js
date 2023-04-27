@@ -22,11 +22,11 @@ const TitleGroup = styled(TextGroup)`
 `
 
 const DeleteAdresssLabel = (props) => {
-  const { close, onDeleteConfirm } = props
+  const { closeAll, onDeleteConfirm } = props
 
   return (
     <Modal size='large'>
-      <ModalHeader onClose={close}>
+      <ModalHeader onClose={closeAll}>
         <TitleGroup inline>
           <Icon name='alert-filled' size='32px' color='brand-yellow' />
           <Text weight={400} size='22px' style={{ paddingLeft: '8px' }}>
@@ -45,7 +45,7 @@ const DeleteAdresssLabel = (props) => {
         </TextGroup>
       </ModalBody>
       <ModalFooter align='right'>
-        <Link size='13px' weight={400} onClick={close} data-e2e='cancelAddressDeleteLink'>
+        <Link size='13px' weight={400} onClick={closeAll} data-e2e='cancelAddressDeleteLink'>
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Link>
         <Button
