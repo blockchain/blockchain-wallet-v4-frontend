@@ -87,6 +87,7 @@ const VerifyNotice = React.lazy(() => import('./Onboarding/VerifyNotice'))
 const SanctionsInfo = React.lazy(() => import('./Onboarding/SanctionsInfo'))
 const EarnOnboarding = React.lazy(() => import('./Onboarding/Earn'))
 // SOLO onboarding
+const UnsupportedRegion = React.lazy(() => import('./Onboarding/UnsupportedRegion'))
 const KycConsentScreen = React.lazy(() => import('./Onboarding/KycVerification/ConsentScreen'))
 
 // MOBILE
@@ -366,6 +367,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SANCTIONS_INFO_MODAL) ? (
           <SanctionsInfo />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.UNSUPPORTED_REGION) ? (
+          <UnsupportedRegion />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.EARN_ONBOARDING) ? (
           <EarnOnboarding />
