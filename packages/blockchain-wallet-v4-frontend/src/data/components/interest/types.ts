@@ -218,6 +218,7 @@ export interface InterestState {
     name: ActiveRewardsStep
   }
   activeRewardsTransactionsNextPage?: string | null
+  activeRewardsWithdrawals: RemoteDataType<string, PendingWithdrawalsType>
   afterTransaction: RemoteDataType<string, EarnAfterTransactionType>
   coin: CoinType
   earnDepositLimits: EarnMinMaxType
@@ -254,7 +255,7 @@ export interface InterestState {
   }
   stakingTransactionsNextPage?: string | null
   // figure out what type is here
-  stakingWithdrawals: RemoteDataType<string, any>
+  stakingWithdrawals: RemoteDataType<string, PendingWithdrawalsType>
   totalActiveRewardsBondingDeposits: number
   totalStakingBondingDeposits: number
   transactions: Array<EarnTransactionType>

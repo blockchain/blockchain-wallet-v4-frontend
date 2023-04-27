@@ -51,6 +51,7 @@ const initialState: InterestState = {
     name: 'WARNING'
   },
   activeRewardsTransactionsNextPage: null,
+  activeRewardsWithdrawals: Remote.NotAsked,
   afterTransaction: Remote.NotAsked,
   coin: 'BTC',
   earnDepositLimits: {
@@ -168,6 +169,22 @@ const interestSlice = createSlice({
     },
     fetchActiveRewardsRatesSuccess: (state, action: PayloadAction<EarnRatesType>) => {
       state.activeRewardsRates = Remote.Success(action.payload.rates)
+    },
+
+    // Active Rewards Withdrawals
+
+    fetchActiveRewardsWithdrawals: () => {},
+    fetchActiveRewardsWithdrawalsFailure: (state, action: PayloadAction<string>) => {
+      state.activeRewardsWithdrawals = Remote.Failure(action.payload)
+    },
+    fetchActiveRewardsWithdrawalsLoading: (state) => {
+      state.activeRewardsWithdrawals = Remote.Loading
+    },
+    fetchActiveRewardsWithdrawalsSuccess: (
+      state,
+      action: PayloadAction<PendingWithdrawalsType>
+    ) => {
+      state.activeRewardsWithdrawals = Remote.Success(action.payload)
     },
 
     fetchEDDStatus: () => {},

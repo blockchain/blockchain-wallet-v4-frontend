@@ -277,6 +277,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const fetchActiveRewardsWithdrawals = function* () {
+    try {
+      yield put(A.fetchActiveRewardsWithdrawalsLoading())
+      const response: ReturnType<typeof api.getEarnWithdrawalRequests> = yield call(
+        api.getEarnWithdrawalRequests,
+        ACTIVE_REWARDS_API_PRODUCT
+      )
+      yield put(A.fetchActiveRewardsWithdrawalsSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchActiveRewardsWithdrawalsFailure(error))
+    }
+  }
+
   const fetchRewardsAccount = function* ({ payload }: ReturnType<typeof A.fetchRewardsAccount>) {
     const { coin } = payload
     try {
@@ -1409,6 +1423,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchActiveRewardsEligible,
     fetchActiveRewardsLimits,
     fetchActiveRewardsRates,
+    fetchActiveRewardsWithdrawals,
     fetchEDDDepositLimits,
     fetchEDDStatus,
     fetchEDDWithdrawLimits,

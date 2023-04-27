@@ -36,6 +36,7 @@ const AccountSummaryContainer = (props: PropsType) => {
   useEffect(() => {
     earnActions.fetchActiveRewardsLimits()
     earnActions.fetchPendingActiveRewardsTransactions({ coin })
+    earnActions.fetchActiveRewardsWithdrawals()
   }, [])
 
   useEffect(() => {
