@@ -59,6 +59,7 @@ const NavLinkButton = styled(NavLink)`
 const NftsHeader: React.FC<Props> = ({
   ethAddress,
   isAuthenticated,
+  isKycVerificationEnabled,
   modalActions,
   pathname,
   ...rest
@@ -160,6 +161,7 @@ const NftsHeader: React.FC<Props> = ({
                     limitsClickHandler={limitsCallback}
                     trackEventCallback={trackEventCallback}
                     taxCenterClickHandler={taxCenterCallback}
+                    isKycVerificationEnabled={isKycVerificationEnabled}
                     logoutClickHandler={logoutCallback}
                     referAFriendHandler={referAFriendCallback}
                   />

@@ -279,6 +279,8 @@ export const getData = (state: RootState) => {
 
   let bannerToShow: BannerType = null
 
+  const isKycEnabled = products?.kycVerification?.enabled
+
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
   } else if (
@@ -286,32 +288,32 @@ export const getData = (state: RootState) => {
     !isProfileCompleted &&
     userData?.tiers?.current !== TIER_TYPES.GOLD &&
     isUserDataLoaded &&
-    products?.kycVerification?.enabled
+    isKycEnabled
   ) {
     bannerToShow = 'completeYourProfile'
-  } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
+  } else if (showDocResubmitBanner && !isKycPendingOrVerified && isKycEnabled) {
     bannerToShow = 'resubmit'
-  } else if (showActiveRewardsBanner) {
+  } else if (showActiveRewardsBanner && isKycEnabled) {
     bannerToShow = 'activeRewards'
-  } else if (showStakingBanner) {
+  } else if (showStakingBanner && isKycEnabled) {
     bannerToShow = 'staking'
-  } else if (showAppleAndGooglePayBanner) {
+  } else if (showAppleAndGooglePayBanner && isKycEnabled) {
     bannerToShow = 'appleAndGooglePay'
-  } else if (showServicePriceUnavailableBanner) {
+  } else if (showServicePriceUnavailableBanner && isKycEnabled) {
     bannerToShow = 'servicePriceUnavailable'
-  } else if (showKYCFinishBanner) {
+  } else if (showKYCFinishBanner && isKycEnabled) {
     bannerToShow = 'finishKyc'
-  } else if (showBuyCryptoBanner) {
+  } else if (showBuyCryptoBanner && isKycEnabled) {
     bannerToShow = 'buyCrypto'
-  } else if (showContinueToGoldBanner) {
+  } else if (showContinueToGoldBanner && isKycEnabled) {
     bannerToShow = 'continueToGold'
   } else if (isNewCurrency) {
-    bannerToShow = 'newCurrency'
+    bannerToShow = 'newCurrency' // Show even KYC is disabled
   } else if (showRenameBanner) {
-    bannerToShow = 'coinRename'
-  } else if (showEarnRewardsBanner) {
+    bannerToShow = 'coinRename' // Show even KYC is disabled
+  } else if (showEarnRewardsBanner && isKycEnabled) {
     bannerToShow = 'earnRewards'
-  } else if (showRecurringBuyBanner) {
+  } else if (showRecurringBuyBanner && isKycEnabled) {
     bannerToShow = 'recurringBuys'
   } else {
     bannerToShow = null
