@@ -25,14 +25,14 @@ const AccountSummaryContainer = (props: PropsType) => {
   const [isTransactionsToggled, setIsTransactionsToggled] = useState<boolean>(false)
   const [isCoinDisplayed, setIsCoinDisplayed] = useState<boolean>(true)
   const [isBalanceDropdownToggled, setIsBalanceDropdownToggled] = useState<boolean>(false)
-  const { coin, handleClose, showSupply, stepMetadata } = props
+  const { coin, handleClose, isActiveRewardsWithdrawalEnabled, showSupply, stepMetadata } = props
   const { totalBondingDeposits, walletCurrency }: DataType = useSelector(getData)
   const { data, error, isLoading, isNotAsked } = useRemote(getRemote)
   const dispatch = useDispatch()
   const { analyticsActions, earnActions, interestUploadActions } = getActions(dispatch)
+
   const unsupportedCurrencies = [Currencies.TWD.code, Currencies.CLP.code]
   const isFiatCurrencySupported = !includes(walletCurrency, unsupportedCurrencies)
-
   useEffect(() => {
     earnActions.fetchActiveRewardsLimits()
     earnActions.fetchPendingActiveRewardsTransactions({ coin })
@@ -94,11 +94,11 @@ const AccountSummaryContainer = (props: PropsType) => {
   const {
     accountBalances,
     activeRewardsEligible,
+    activeRewardsPendingWithdrawals,
     activeRewardsRates,
     currentPrice,
     earnEDDStatus: { eddNeeded, eddPassed, eddSubmitted },
     hasBalance,
-    isActiveRewardsWithdrawalEnabled,
     pendingTransactions,
     priceChange
   }: RemoteType = data

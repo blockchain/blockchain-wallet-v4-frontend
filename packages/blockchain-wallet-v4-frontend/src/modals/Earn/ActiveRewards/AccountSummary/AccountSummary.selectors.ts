@@ -37,20 +37,20 @@ export const getRemote = (state: RootState) => {
   const earnEDDStatusR = selectors.components.interest.getEarnEDDStatus(state)
   const activeRewardsEligibleR = selectors.components.interest.getActiveRewardsEligible(state)
   const activeRewardsRatesR = selectors.components.interest.getActiveRewardsRates(state)
-  const isActiveRewardsWithdrawalEnabledR =
-    selectors.core.walletOptions.getActiveRewardsWithdrawalEnabled(state)
   const buySellBalanceR = selectors.components.buySell.getBSBalances(state)
   const addressDataR = getAddressDataR(state, coin)
+  const activeRewardsPendingWithdrawalsR =
+    selectors.components.interest.getActiveRewardsPendingWithdrawals(state)
 
   return lift(
     (
       accountBalances: ExtractSuccess<typeof accountBalancesR>,
       activeRewardsEligible: ExtractSuccess<typeof activeRewardsEligibleR>,
+      activeRewardsPendingWithdrawals: ExtractSuccess<typeof activeRewardsPendingWithdrawalsR>,
       activeRewardsRates: ExtractSuccess<typeof activeRewardsRatesR>,
       addressData,
       buySellBalance: ExtractSuccess<typeof buySellBalanceR>,
       earnEDDStatus: ExtractSuccess<typeof earnEDDStatusR>,
-      isActiveRewardsWithdrawalEnabled: boolean,
       pendingTransactions: ExtractSuccess<typeof pendingTransactionsR>,
       priceChange: ExtractSuccess<typeof priceChangeR>,
       rates: ExtractSuccess<typeof ratesR>
@@ -61,6 +61,7 @@ export const getRemote = (state: RootState) => {
       return {
         accountBalances,
         activeRewardsEligible,
+        activeRewardsPendingWithdrawals,
         activeRewardsRates,
         addressData,
         buySellBalance,
@@ -71,7 +72,6 @@ export const getRemote = (state: RootState) => {
         }),
         earnEDDStatus,
         hasBalance: hasNonCustodialBalance || hasBuySellBalance,
-        isActiveRewardsWithdrawalEnabled,
         pendingTransactions,
         priceChange
       }
@@ -79,11 +79,11 @@ export const getRemote = (state: RootState) => {
   )(
     accountBalancesR,
     activeRewardsEligibleR,
+    activeRewardsPendingWithdrawalsR,
     activeRewardsRatesR,
     addressDataR,
     buySellBalanceR,
     earnEDDStatusR,
-    isActiveRewardsWithdrawalEnabledR,
     pendingTransactionsR,
     priceChangeR,
     ratesR

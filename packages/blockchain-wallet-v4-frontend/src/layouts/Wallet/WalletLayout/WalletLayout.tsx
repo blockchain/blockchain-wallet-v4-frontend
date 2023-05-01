@@ -78,7 +78,7 @@ const WalletLayout: Props = ({
             <Page center={center}>{children}</Page>
           </Content>
         </Container>
-        <SupportChatForGoldUserOnly />
+        {/* <SupportChatForGoldUserOnly /> */}
       </ErrorBoundary>
     </Wrapper>
   )

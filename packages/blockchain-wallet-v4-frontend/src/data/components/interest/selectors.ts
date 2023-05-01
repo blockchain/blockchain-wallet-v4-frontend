@@ -282,6 +282,9 @@ export const getActiveRewardsDepositAddress = (state: RootState) => {
   return account.accountRef
 }
 
+export const getActiveRewardsPendingWithdrawals = (state: RootState) =>
+  state.components.interest.activeRewardsWithdrawals
+
 export const getInterestRates = (state: RootState) => state.components.interest.interestRates
 
 export const getStakingRates = (state: RootState) => state.components.interest.stakingRates

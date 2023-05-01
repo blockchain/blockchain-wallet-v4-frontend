@@ -1209,7 +1209,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmountCrypto)
       yield call(api.initiateCustodialTransfer, {
-        amount: withdrawalAmountBase,
+        amount: '100000000',
         currency: coin,
         destination: 'SIMPLEBUY',
         origin: 'EARN_CC1W'

@@ -81,6 +81,7 @@ const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalProp
       {step.name === 'ACCOUNT_SUMMARY' && (
         <FlyoutChild>
           <AccountSummary
+            isActiveRewardsWithdrawalEnabled={isActiveRewardsWithdrawalEnabled}
             handleClose={handleClose}
             stepMetadata={step.data}
             coin={coin}

@@ -10,7 +10,7 @@ import {
   FiatType,
   PriceChangeType
 } from '@core/types'
-import { EarnStepMetaData, PendingTransactionType } from 'data/types'
+import { EarnStepMetaData, PendingTransactionType, PendingWithdrawalsType } from 'data/types'
 
 export type DataType = {
   totalBondingDeposits: number
@@ -20,11 +20,12 @@ export type DataType = {
 export type RemoteType = {
   accountBalances: EarnAccountBalanceResponseType
   activeRewardsEligible: EarnEligibleType
+  activeRewardsPendingWithdrawals: PendingWithdrawalsType
   activeRewardsRates: EarnRatesType['rates']
   currentPrice: string
   earnEDDStatus: EarnEDDStatus
   hasBalance: boolean
-  isActiveRewardsWithdrawalEnabled: boolean
+
   pendingTransactions: PendingTransactionType[]
   priceChange: PriceChangeType
 }
@@ -32,6 +33,7 @@ export type RemoteType = {
 export type PropsType = {
   coin: CoinType
   handleClose: () => void
+  isActiveRewardsWithdrawalEnabled: boolean
   showSupply: boolean
   stepMetadata: EarnStepMetaData
 }
