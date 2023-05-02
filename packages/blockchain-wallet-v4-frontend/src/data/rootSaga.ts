@@ -23,7 +23,14 @@ import session from './session/sagaRegister'
 import signup from './signup/sagaRegister'
 import wallet from './wallet/sagaRegister'
 
-export default function* rootSaga({ api, coinsSocket, networks, options, ratesSocket }) {
+export default function* rootSaga({
+  activitiesSocket,
+  api,
+  coinsSocket,
+  networks,
+  options,
+  ratesSocket
+}) {
   const coreSagas = coreSagasFactory({ api, networks, options })
   const { initAppLanguage, logAppConsoleWarning } = miscSagas()
 
@@ -44,7 +51,7 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
     fork(prices({ api })),
     fork(goals({ api, coreSagas, networks })),
     fork(wallet({ coreSagas })),
-    fork(middleware({ api, coinsSocket, ratesSocket })),
+    fork(middleware({ activitiesSocket, api, coinsSocket, ratesSocket })),
     fork(coreRootSagaFactory({ api, networks, options })),
     fork(router()),
     fork(session({ api })),

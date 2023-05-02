@@ -13,6 +13,7 @@ import * as form from './form/actions'
 import { actions as goals } from './goals/slice'
 import { actions as logs } from './logs/slice'
 import * as middleware from './middleware/actions'
+import * as activities from './middleware/webSocket/activities/actions'
 import * as ws from './middleware/webSocket/coins/actions'
 import { actions as misc } from './misc/slice'
 import { actions as modals } from './modals/slice'
@@ -24,6 +25,7 @@ import { actions as signup } from './signup/slice'
 import * as wallet from './wallet/actions'
 
 export {
+  activities,
   alerts,
   analytics,
   auth,
