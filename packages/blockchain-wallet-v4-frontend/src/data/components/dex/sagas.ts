@@ -49,10 +49,8 @@ export default ({ api }: { api: APIType }) => {
       yield* put(A.fetchChainsSuccess(chainsList))
 
       // since MVP only supports ETH chain, set as current and then pre-fetch token list
-      // const ethChain = chainsList.find((chain) => chain.nativeCurrency.name === 'Ethereum')
+      const ethChain = chainsList.find((chain) => chain.nativeCurrency.name === 'Ethereum')
 
-      // temp use testnet
-      const ethChain = chainsList.find((chain) => chain.name === 'Ethereum Testnet Goerli')
       if (!ethChain) {
         yield* put(A.fetchChainTokensFailure('Failed to get Ethereum chain'))
         return
@@ -148,6 +146,10 @@ export default ({ api }: { api: APIType }) => {
 
     const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } = formValues
 
+    // check if base && counter token are selected.
+    // Also look for when the user changes the value of either base or counter token amount
+    // if form change based on user input then we forcibly change the other form.
+
     // only fetch/update swap quote if we have a valid pair and a base amount
     if (
       baseToken &&
@@ -196,38 +198,32 @@ export default ({ api }: { api: APIType }) => {
           return
         }
 
-        const quoteResponse = yield* call(
-          api.getDexSwapQuote,
-          {
-            fromCurrency: {
-              address: baseTokenInfo.address,
-              amount: baseAmountGwei,
-              chainId: currentChain.chainId,
-              symbol: baseToken
-            },
-            params: {
-              slippage: `${slippage}`
-            },
-
-            // User always has a private wallet setup automatically on sign up but should go through a security phrase
-            // in order to receive funds. If he didn't do it he has 0 balance and just nothing to swap. We don't need
-            // any additional checks here to make sure user can use a wallet
-            // TODO: Pass selected wallet not the first one when we have more than 1 wallet
-            takerAddress: `${nonCustodialAddress}`,
-
-            toCurrency: {
-              address: counterTokenInfo.address,
-              chainId: currentChain.chainId,
-              symbol: counterToken
-            },
-
-            // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
-            venue: 'ZEROX' as const
+        const quoteResponse = yield* call(api.getDexSwapQuote, {
+          fromCurrency: {
+            address: baseTokenInfo.address,
+            amount: baseAmountGwei,
+            chainId: currentChain.chainId,
+            symbol: baseToken
           },
-          {
-            ccy: 'ETH'
-          }
-        )
+          params: {
+            slippage: `${slippage}`
+          },
+
+          // User always has a private wallet setup automatically on sign up but should go through a security phrase
+          // in order to receive funds. If he didn't do it he has 0 balance and just nothing to swap. We don't need
+          // any additional checks here to make sure user can use a wallet
+          // TODO: Pass selected wallet not the first one when we have more than 1 wallet
+          takerAddress: `${nonCustodialAddress}`,
+
+          toCurrency: {
+            address: counterTokenInfo.address,
+            chainId: currentChain.chainId,
+            symbol: counterToken
+          },
+
+          // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
+          venue: 'ZEROX' as const
+        })
 
         yield* put(A.fetchSwapQuoteSuccess(quoteResponse))
 
