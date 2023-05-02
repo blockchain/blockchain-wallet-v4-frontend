@@ -1,12 +1,29 @@
 import {
+  ActivityRequestAuthenticationInRequestType,
+  ActivityResponseType,
   BalanceResponseType,
   BuildTxIntentType,
   BuildTxResponseType,
   DeriveAddressResponseType,
   IndexMultiResponseType,
+  PubkeyServiceAuthenticationInRequestType,
+  PubkeyServiceAuthenticationRequestType,
+  PubkeyServiceSubscriptions,
+  SubscribeRequestType,
   TickerResponseType,
-  TxHistoryResponseType
+  TxHistoryAuthInRequestType,
+  TxHistoryResponseType,
+  UnifiedBalancesResponseType
 } from './types'
+
+const getUrlPath = (coin) => {
+  if (coin.includes('MATIC')) {
+    return 'evm'
+  }
+  if (coin === 'STX') {
+    return 'stx'
+  }
+}
 
 export default ({ apiUrl, get, post }) => {
   const deriveAddress = (coin: string, pubKey: string): DeriveAddressResponseType => {
@@ -70,6 +87,21 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  const authWalletPubkeyService = ({
+    guid,
+    sharedKeyHash
+  }: PubkeyServiceAuthenticationRequestType) =>
+    post({
+      contentType: 'application/json',
+      data: {
+        guid,
+        sharedKeyHash
+      },
+      endPoint: '/wallet-pubkey/auth',
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+
   const balance = (
     pubKeys: { descriptor: 'default' | 'legacy'; pubKey: string; style: 'SINGLE' }[]
   ): BalanceResponseType => {
@@ -100,6 +132,132 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  const subscribe = (data: SubscribeRequestType): { success: boolean } =>
+    post({
+      contentType: 'application/json',
+      data,
+      endPoint: '/wallet-pubkey/subscribe',
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+
+  const getSubscriptions = ({
+    guidHash,
+    sharedKeyHash
+  }: PubkeyServiceAuthenticationInRequestType): PubkeyServiceSubscriptions =>
+    post({
+      contentType: 'application/json',
+      data: {
+        auth: {
+          guidHash,
+          sharedKeyHash
+        }
+      },
+      endPoint: '/wallet-pubkey/subscriptions',
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+
+  const getCoinTxHistory = ({
+    currency,
+    guidHash,
+    sharedKeyHash
+  }: TxHistoryAuthInRequestType): TxHistoryResponseType => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        auth: {
+          guidHash,
+          sharedKeyHash
+        },
+        currency
+      },
+      endPoint: `/wallet-pubkey/tx-history`,
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+  }
+
+  const getCoinActivity = ({
+    currencies,
+    fiatCurrency,
+    guidHash,
+    sharedKeyHash
+  }: ActivityRequestAuthenticationInRequestType): ActivityResponseType => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        auth: {
+          guidHash,
+          sharedKeyHash
+        },
+        currencies,
+        fiatCurrency
+      },
+      endPoint: `/wallet-pubkey/activity`,
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+  }
+
+  const getUnifiedActivity = ({
+    fiatCurrency,
+    guidHash,
+    sharedKeyHash
+  }: PubkeyServiceAuthenticationInRequestType & { fiatCurrency: string }) => {
+    post({
+      contentType: 'application/json',
+      data: {
+        auth: {
+          guidHash,
+          sharedKeyHash
+        },
+        fiatCurrency
+      },
+      endPoint: '/wallet-pubkey/activity',
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+  }
+
+  const fetchUnifiedBalances = ({
+    fiatCurrency,
+    guidHash,
+    sharedKeyHash
+  }: PubkeyServiceAuthenticationInRequestType & {
+    fiatCurrency: string
+  }): UnifiedBalancesResponseType =>
+    post({
+      contentType: 'application/json',
+      data: {
+        auth: {
+          guidHash,
+          sharedKeyHash
+        },
+        fiatCurrency
+      },
+      endPoint: '/wallet-pubkey/balance',
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+
+  const unsubscribe = ({
+    currency,
+    guidHash,
+    sharedKeyHash
+  }: PubkeyServiceAuthenticationInRequestType & { currency: string }) => {
+    post({
+      contentType: 'application/json',
+      data: {
+        auth: { guidHash, sharedKeyHash },
+        currency
+      },
+      endPoint: '/wallet-pubkey/unsubscribe',
+      removeDefaultPostData: true,
+      url: apiUrl
+    })
+  }
+
   const getCoinPrices = (
     coins: { base: string; quote: string }[],
     timestamp?: number
@@ -122,13 +280,20 @@ export default ({ apiUrl, get, post }) => {
     })
 
   return {
+    authWalletPubkeyService,
     balance,
     buildTx,
     deriveAddress,
     getBtcTicker,
+    getCoinActivity,
     getCoinPrices,
+    getCoinTxHistory,
+    getSubscriptions,
+    getUnifiedActivity,
     pushTx,
+    subscribe,
     txHistory,
+    unsubscribe,
     validateAddress
   }
 }
