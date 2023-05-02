@@ -69,7 +69,7 @@ const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) =>
             const { coinfig } = window.coins[coin]
             const selector = __getSelector(coinfig)
             // eslint-disable-next-line
-          accounts[coin] = coinSelectors[selector]?.getAccounts(state, { coin, ...ownProps })
+            accounts[coin] = coinSelectors[selector]?.getAccounts(state, { coin, ...ownProps })
             return accounts
           }, {})
 
