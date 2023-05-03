@@ -1,8 +1,10 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   Flex,
   IconChevronDown,
   IconChevronUp,
+  Padding,
   PaletteColors,
   SemanticColors,
   Text
@@ -10,12 +12,12 @@ import {
 import BigNumber from 'bignumber.js'
 
 import type { DexSwapQuote } from '@core/network/api/dex'
-import { Image, SkeletonRectangle } from 'blockchain-info-components'
+import { Image, SpinningLoader } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { selectors } from 'data'
 import { useRemote } from 'hooks'
 
-import { GasFeeWrapper, ShowDetailsWrapper, Wrapper } from './styles'
+import { GasFeeWrapper, HorizontalLine, ShowDetailsWrapper, Wrapper } from './styles'
 
 type OwnProps = {
   handleDetailsToggle: () => void
@@ -43,8 +45,36 @@ export const BaseRateAndFees = ({
   if (props.isQuoteLoading) {
     return (
       <Wrapper>
-        <SkeletonRectangle width='250px' height='28px' />
-        <SkeletonRectangle width='70px' height='28px' />
+        <Flex alignItems='center'>
+          <SpinningLoader borderWidth='4px' height='20px' width='20px' />
+          <Padding left={1} />
+          <Text color={SemanticColors.title} variant='paragraph2'>
+            <FormattedMessage defaultMessage='Fetching price...' id='copy.fetching-price' />
+          </Text>
+        </Flex>
+        <Flex alignItems='center'>
+          <GasFeeWrapper>
+            <Image name='gas-icon' width='16px' height='16px' />
+            <HorizontalLine />
+          </GasFeeWrapper>
+          <ShowDetailsWrapper>
+            {isDetailsOpen ? (
+              <IconChevronUp
+                size='medium'
+                label='hide swap details'
+                color={PaletteColors['grey-400']}
+                onClick={handleDetailsToggle}
+              />
+            ) : (
+              <IconChevronDown
+                size='medium'
+                label='show swap details'
+                color={PaletteColors['grey-400']}
+                onClick={handleDetailsToggle}
+              />
+            )}
+          </ShowDetailsWrapper>
+        </Flex>
       </Wrapper>
     )
   }

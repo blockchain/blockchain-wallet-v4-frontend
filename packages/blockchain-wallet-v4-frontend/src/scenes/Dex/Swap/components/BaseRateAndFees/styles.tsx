@@ -34,3 +34,9 @@ export const ShowDetailsWrapper = styled.div`
     cursor: pointer;
   }
 `
+
+export const HorizontalLine = styled.div`
+  width: 24px;
+  height: 1px;
+  background-color: ${(props) => props.theme.grey900};
+`
