@@ -141,7 +141,7 @@ export default ({ api, coreSagas, networks }) => {
           key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
           properties: {
             country,
-            country_state: `${country}-${state}`,
+            country_state: state,
             device_origin: platform
           }
         })
