@@ -20,7 +20,6 @@ import { add, curry, flatten, lift, map, pathOr, reduce, reject } from 'ramda'
 
 import { coreSelectors, Exchange, Remote } from '@core'
 import { fiatToString } from '@core/exchange/utils'
-import { getBalance } from '@core/redux/data/coins/selectors'
 import {
   BSBalancesType,
   BSBalanceType,
@@ -36,6 +35,7 @@ import {
   WalletFiatType
 } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
+import { selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { DEFAULT_BS_BALANCE } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -231,8 +231,8 @@ export const getCoinTotalBalance = (
       return getFiatCurrencyBalance(coin)
     default:
       switch (true) {
-        case coreSelectors.data.coins.getDynamicSelfCustodyCoins().includes(coin):
-          return __getDynamicSelfCustodyTotalBalance(coin)
+        // case coreSelectors.data.coins.getDynamicSelfCustodyCoins().includes(coin):
+        //   return __getDynamicSelfCustodyTotalBalance(coin)
         case coreSelectors.data.coins.getCustodialCoins().includes(coin):
           return getCoinCustodialBalance(coin)
         case !!window.coins[coin].coinfig.type.erc20Address:
@@ -477,14 +477,14 @@ const __getXlmTotalBalance = createDeepEqualSelector(
 )
 
 // given a dynamic self custody coin, returns its total balances
-const __getDynamicSelfCustodyTotalBalance = (coin: CoinType) =>
-  createDeepEqualSelector(
-    [getBalance(coin), getCoinCustodialBalance(coin)],
-    (balanceR, custodialBalanceR) => {
-      const custodialBalance = custodialBalanceR.getOrElse(0)
+// const __getDynamicSelfCustodyTotalBalance = (coin: CoinType) =>
+//   createDeepEqualSelector(
+//     [getBalance(coin), getCoinCustodialBalance(coin)],
+//     (balanceR, custodialBalanceR) => {
+//       const custodialBalance = custodialBalanceR.getOrElse(0)
 
-      return Remote.of(
-        new BigNumber(balanceR.getOrElse(new BigNumber(0))).plus(custodialBalance).toNumber()
-      )
-    }
-  )
+//       return Remote.of(
+//         new BigNumber(balanceR.getOrElse(new BigNumber(0))).plus(custodialBalance).toNumber()
+//       )
+//     }
+//   )

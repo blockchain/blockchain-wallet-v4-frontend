@@ -353,7 +353,7 @@ export default ({ api }: { api: APIType }) => {
             })
           )
           yield delay(2000)
-          yield put(actions.core.data.coins.fetchTransactions(coin, true))
+          yield put(actions.core.data.coins.fetchTransactions({ coin, reset: true }))
         } else {
           throw new Error('Failed to submit transaction.')
         }

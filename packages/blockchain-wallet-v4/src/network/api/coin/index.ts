@@ -284,6 +284,7 @@ export default ({ apiUrl, get, post }) => {
     balance,
     buildTx,
     deriveAddress,
+    fetchUnifiedBalances,
     getBtcTicker,
     getCoinActivity,
     getCoinPrices,

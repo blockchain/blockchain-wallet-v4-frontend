@@ -11,7 +11,7 @@ import * as ARS from './coins/ars'
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'
 import * as CUSTODIAL from './coins/custodial'
-import * as DYNAMIC_SELF_CUSTODY from './coins/dynamic-self-custody'
+// import * as DYNAMIC_SELF_CUSTODY from './coins/dynamic-self-custody'
 import * as ERC20 from './coins/erc20'
 import * as ETH from './coins/eth'
 import * as EUR from './coins/eur'
@@ -25,7 +25,7 @@ const coinSelectors = {
   BCH,
   BTC,
   CUSTODIAL,
-  DYNAMIC_SELF_CUSTODY,
+  // DYNAMIC_SELF_CUSTODY,
   ERC20,
   ETH,
   EUR,
@@ -69,7 +69,7 @@ const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorType) =>
             const { coinfig } = window.coins[coin]
             const selector = __getSelector(coinfig)
             // eslint-disable-next-line
-          accounts[coin] = coinSelectors[selector]?.getAccounts(state, { coin, ...ownProps })
+            accounts[coin] = coinSelectors[selector]?.getAccounts(state, { coin, ...ownProps })
             return accounts
           }, {})
 

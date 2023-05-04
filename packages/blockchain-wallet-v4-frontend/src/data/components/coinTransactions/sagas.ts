@@ -9,7 +9,9 @@ export const logLocation = 'components/coinTransactions/sagas'
 export default () => {
   const initialized = function* (action: ReturnType<typeof A.initialized>) {
     try {
-      yield put(actions.core.data.coins.fetchTransactions(action.payload.coin, true))
+      yield put(
+        actions.core.data.coins.fetchTransactions({ coin: action.payload.coin, reset: true })
+      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
@@ -17,7 +19,7 @@ export default () => {
 
   const loadMore = function* (action: ReturnType<typeof A.loadMore>) {
     try {
-      yield put(actions.core.data.coins.fetchTransactions(action.payload.coin))
+      yield put(actions.core.data.coins.fetchTransactions({ coin: action.payload.coin }))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
     }

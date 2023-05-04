@@ -18,7 +18,7 @@ class CoinBalance extends React.PureComponent<Props> {
     const { coin } = this.props
     const { coinfig } = window.coins[coin]
     if (selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
-      this.props.coinActions.fetchData('', [coin])
+      // this.props.coinActions.fetchData('', [coin])
     } else if (coinfig.type.erc20Address) {
       this.props.ethActions.fetchErc20Data(coin)
     } else {

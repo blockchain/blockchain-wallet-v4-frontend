@@ -23,7 +23,7 @@ export default () => {
   }
 
   const refreshCoinTransactions = function* (coin) {
-    yield put(actions.core.data.coins.fetchTransactions(coin, true))
+    yield put(actions.core.data.coins.fetchTransactions({ coin, reset: true }))
   }
 
   const refreshXlmTransactions = function* () {
@@ -51,9 +51,9 @@ export default () => {
       yield put(actions.components.buySell.fetchOrders())
       // TODO: SELF_CUSTODY, remove
       const stxEligibility = selectors.coins.getStxSelfCustodyAvailability(yield select())
-      if (stxEligibility) {
-        yield put(actions.core.data.coins.fetchData())
-      }
+      // if (stxEligibility) {
+      //   yield put(actions.core.data.coins.fetchData())
+      // }
       // Prices (new approach)
       yield put(actions.prices.fetchCoinPrices())
       // Rates

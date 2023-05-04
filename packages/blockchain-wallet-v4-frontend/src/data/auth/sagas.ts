@@ -4,7 +4,9 @@ import { startSubmit, stopSubmit } from 'redux-form'
 import { all, call, fork, put, select, take } from 'redux-saga/effects'
 
 import { coreSelectors } from '@core'
+import { APIType } from '@core/network/api'
 import { CountryScope, WalletOptionsType } from '@core/types'
+import { sha256 } from '@core/walletCrypto'
 import { actions, actionTypes, selectors } from 'data'
 import { ClientErrorProperties } from 'data/analytics/types/errors'
 import { fetchBalances } from 'data/balances/sagas'
@@ -43,7 +45,7 @@ import {
   ProductAuthOptions
 } from './types'
 
-export default ({ api, coreSagas, networks }) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const logLocation = 'auth/sagas'
   const { createExchangeUser, createUser } = profileSagas({
     api,
@@ -243,6 +245,46 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const authWalletPubkeyService = function* ({
+    guid,
+    sharedKey
+  }: {
+    guid: string
+    sharedKey: string
+  }) {
+    try {
+      const sharedKeyHash = sha256(sharedKey).toString('hex')
+      const response = yield call(api.authWalletPubkeyService, { guid, sharedKeyHash })
+      return response.success
+    } catch (e) {
+      return false
+    }
+  }
+
+  const subscribeToUnifiedBalances = function* () {
+    // const guid = yield select(selectors.core.wallet.getGuid)
+    // const sharedKey = yield select(selectors.core.wallet.getSharedKey)
+    // const guidHash = sha256(guid).toString('hex')
+    // const sharedKeyHash = sha256(sharedKey).toString('hex')
+    // const auth = yield call(authWalletPubkeyService, { guid, sharedKey })
+    // if (!auth) return
+    // try {
+    //   yield put(actions.core.data.coins.getSubscriptionsLoading())
+    //   const subscriptions: ReturnType<typeof api.getSubscriptions> = yield call(
+    //     api.getSubscriptions,
+    //     { guidHash, sharedKeyHash }
+    //   )
+    //   yield put(actions.core.data.coins.getSubscriptionsSuccess(subscriptions))
+    //   if (subscriptions.currencies.length === 0) {
+    //     yield put(actions.core.data.coins.initializeSubscriptions())
+    //   } else {
+    //     yield put(actions.core.data.coins.fetchUnifiedBalances())
+    //   }
+    // } catch (e) {
+    //   yield put(actions.core.data.coins.getSubscriptionsFailure())
+    // }
+  }
+
   const checkWalletDerivationsLegitimacy = function* () {
     const accounts = yield call(coreSagas.wallet.getAccountsWithIncompleteDerivations)
 
@@ -338,6 +380,7 @@ export default ({ api, coreSagas, networks }) => {
       if (firstLogin && !isAccountReset && !recovery) {
         // create nabu user
         yield call(createUser)
+        // @ts-ignore
         yield call(api.setUserInitialAddress, country, state)
         yield call(coreSagas.settings.fetchSettings)
       }
@@ -405,6 +448,7 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.router.push('/home'))
       }
+      yield call(subscribeToUnifiedBalances)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
       // We run goals in accountResetSaga in this case
@@ -415,7 +459,8 @@ export default ({ api, coreSagas, networks }) => {
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.startLogoutTimer())
       yield call(startCoinWebsockets)
-
+      // TODO: temp, do we want this here?
+      yield put(actions.activities.startSocket())
       // store guid and email in cache for future login
       yield put(actions.cache.guidEntered(guid))
       if (email) {
