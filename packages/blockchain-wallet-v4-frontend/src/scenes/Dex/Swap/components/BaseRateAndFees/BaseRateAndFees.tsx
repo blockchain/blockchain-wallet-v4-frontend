@@ -82,7 +82,7 @@ export const BaseRateAndFees = ({
   const { isQuoteLocked, swapQuote } = props
   return props.swapQuote ? (
     <Wrapper>
-      <Text variant='paragraph-mono' color={SemanticColors.body}>
+      <Text variant='paragraph2' color={SemanticColors.title}>
         1 {swapQuote.quote.sellAmount.symbol} = ~{swapQuote.quote.price.toFixed(8)}{' '}
         {swapQuote.quote.buyAmount.symbol}
       </Text>
@@ -91,6 +91,7 @@ export const BaseRateAndFees = ({
           <GasFeeWrapper>
             <Image name='gas-icon' width='16px' height='16px' />
             <FiatDisplay
+              color={SemanticColors.title}
               size='12px'
               weight={600}
               coin={currentChain.nativeCurrency.symbol}
