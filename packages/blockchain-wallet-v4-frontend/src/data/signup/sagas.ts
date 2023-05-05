@@ -26,6 +26,7 @@ import { askSecondPasswordEnhancer } from 'services/sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
+  const SIGNUP_FORM = 'register'
   const { createExchangeUser, createUser, generateRetailToken, setSession } = profileSagas({
     api,
     coreSagas,
@@ -80,6 +81,12 @@ export default ({ api, coreSagas, networks }) => {
 
   const register = function* (action) {
     const { country, email, language, password, referral, sessionToken, state } = action.payload
+    // pulling this separately to perhaps
+    // solve for 'none' value being seen in amplitude
+    // for country code
+    const { country: countryFromFormValues } = yield select(
+      selectors.form.getFormValues(SIGNUP_FORM)
+    )
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
     const accountRecoveryV2: boolean = selectors.core.walletOptions
       .getAccountRecoveryV2(yield select())
@@ -140,8 +147,8 @@ export default ({ api, coreSagas, networks }) => {
         actions.analytics.trackEvent({
           key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
           properties: {
-            country,
-            country_state: `${country}-${state}`,
+            country: country || countryFromFormValues,
+            country_state: state,
             device_origin: platform
           }
         })
