@@ -1,5 +1,3 @@
-import React from 'react'
-import { Flex } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
