@@ -33,9 +33,10 @@ export default ({ api }: { api: APIType }) => {
       }
 
       yield put(A.fetchUserEligibilityLoading())
-      const userEligibility = yield* call(api.getDexUserEligibility, {
-        walletAddress: `${walletAddress}`
-      })
+      // const userEligibility = yield* call(api.getDexUserEligibility, {
+      //   walletAddress: `${walletAddress}`
+      // })
+      const userEligibility = true
       yield* put(A.fetchUserEligibilitySuccess(userEligibility))
     } catch (e) {
       yield* put(A.fetchUserEligibilityFailure(e.toString()))
@@ -119,12 +120,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchSwapQuote = function* (action) {
-    const {
-      meta: { field, form }
-    } = action
-    // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
-    if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
+  const fetchSwapQuote = function* () {
     const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
 
     // do not request quote on automatic form flip
@@ -132,25 +128,11 @@ export default ({ api }: { api: APIType }) => {
     if (formValues.isFlipping) return
     if (formValues.baseToken === formValues.counterToken) return
 
-    // if one of the values is 0 set another one to 0 and clear a quote
-    if (field === 'baseTokenAmount' && getValidSwapAmount(formValues.baseTokenAmount) === 0) {
-      yield* put(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', ''))
-      yield* put(A.clearCurrentSwapQuote())
-      return
-    }
-    if (field === 'counterTokenAmount' && getValidSwapAmount(formValues.counterTokenAmount) === 0) {
-      yield* put(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', ''))
-      yield* put(A.clearCurrentSwapQuote())
-      return
-    }
-
     const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } = formValues
 
     // check if base && counter token are selected.
-    // Also look for when the user changes the value of either base or counter token amount
-    // if form change based on user input then we forcibly change the other form.
-
     // only fetch/update swap quote if we have a valid pair and a base amount
+
     if (
       baseToken &&
       counterToken &&
@@ -261,11 +243,33 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchSwapQuoteOnChange = function* (action) {
+    const { field, form } = action?.meta
+    // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
+    if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
+    const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
+
+    // if one of the values is 0 set another one to 0 and clear a quote
+    if (field === 'baseTokenAmount' && getValidSwapAmount(formValues.baseTokenAmount) === 0) {
+      yield* put(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', ''))
+      yield* put(A.clearCurrentSwapQuote())
+      return
+    }
+    if (field === 'counterTokenAmount' && getValidSwapAmount(formValues.counterTokenAmount) === 0) {
+      yield* put(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', ''))
+      yield* put(A.clearCurrentSwapQuote())
+      return
+    }
+
+    yield call(fetchSwapQuote)
+  }
+
   return {
     fetchChainTokens,
     fetchChains,
     fetchSearchedTokens,
     fetchSwapQuote,
+    fetchSwapQuoteOnChange,
     fetchUserEligibility
   }
 }

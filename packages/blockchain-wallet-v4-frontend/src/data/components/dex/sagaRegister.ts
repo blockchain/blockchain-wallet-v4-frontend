@@ -9,7 +9,8 @@ export default ({ api }) => {
   const dexSagas = sagas({ api })
 
   return function* dexSaga() {
-    yield takeEvery(actionTypes.form.CHANGE, dexSagas.fetchSwapQuote)
+    yield takeEvery(actionTypes.form.CHANGE, dexSagas.fetchSwapQuoteOnChange)
+    yield takeLatest(actions.fetchSwapQuote, dexSagas.fetchSwapQuote)
     yield takeLatest(actions.fetchChains.type, dexSagas.fetchChains)
     yield takeLatest(actions.fetchChainTokens.type, dexSagas.fetchChainTokens)
     yield takeLatest(actions.fetchSearchedTokens.type, dexSagas.fetchSearchedTokens)
