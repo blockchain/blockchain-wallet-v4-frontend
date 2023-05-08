@@ -126,7 +126,7 @@ const Earn = () => {
     <CustomSceneWrapper $isGoldTier={isGoldTier}>
       <EarnHeader />
       <Learn />
-      <Message isGoldTier={isGoldTier} />
+      <Message />
       <EarnContainer>
         {!isGoldTier && <Overlay />}
         <EarnFilter
