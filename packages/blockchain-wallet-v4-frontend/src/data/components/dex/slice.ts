@@ -91,7 +91,8 @@ const dexSlice = createSlice({
     },
     setSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload
-    }
+    },
+    stopPollSwapQuote: () => {}
   }
 })
 

@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Padding } from '@blockchain-com/constellation'
 
-import { DexSwapQuote } from '@core/network/api/dex'
 import { actions, model, selectors } from 'data'
 import { DexSwapForm, DexSwapSide, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
@@ -32,8 +31,6 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
 
   const [pairAnimate, setPairAnimate] = useState(false)
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
-  const quoteRef = useRef<DexSwapQuote>()
-  const quoteIntervalRef = useRef<number>()
 
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
@@ -51,25 +48,6 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const counterTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
   )
-
-  useEffect(() => {
-    // fetch quote if we have a base and counter token and base has a value
-    if (typeof quoteRef.current === 'undefined' && quote) {
-      quoteIntervalRef.current = setInterval(() => {
-        dispatch(actions.components.dex.fetchSwapQuote())
-      }, 30000) as any as number
-    }
-
-    // clear interval if quote is undefined and we are not loading a quote
-    if (typeof quote === 'undefined' && isLoadingQuote === false) {
-      clearInterval(quoteIntervalRef.current)
-    }
-    quoteRef.current = quote
-
-    return () => {
-      clearInterval(quoteIntervalRef.current)
-    }
-  }, [quote])
 
   const onViewSettings = () => {
     dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))

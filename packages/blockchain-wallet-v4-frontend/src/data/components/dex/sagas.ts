@@ -1,4 +1,4 @@
-import { call, cancelled, put, select } from 'typed-redux-saga'
+import { call, cancelled, delay, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
@@ -12,6 +12,8 @@ import type { DexSwapForm } from './types'
 import { getValidSwapAmount } from './utils'
 
 const { DEX_SWAP_FORM } = model.components.dex
+
+const SWAP_QUOTE_REFRESH_INTERVAL = 30000
 
 export default ({ api }: { api: APIType }) => {
   const fetchUserEligibility = function* () {
@@ -121,130 +123,138 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const fetchSwapQuote = function* () {
-    const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
+    yield delay(300)
 
-    // do not request quote on automatic form flip
-    if (!formValues) return
-    if (formValues.isFlipping) return
-    if (formValues.baseToken === formValues.counterToken) return
-
-    const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } = formValues
-
-    // check if base && counter token are selected.
-    // only fetch/update swap quote if we have a valid pair and a base amount
-
-    if (
-      baseToken &&
-      counterToken &&
-      (getValidSwapAmount(baseTokenAmount) || getValidSwapAmount(counterTokenAmount))
-    ) {
+    while (true) {
       try {
-        yield* put(A.fetchSwapQuoteLoading())
+        const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(
+          yield* select()
+        ) as DexSwapForm
 
-        const currentChain = selectors.components.dex
-          .getCurrentChain(yield* select())
-          .getOrFail('Unable to get current chain')
+        // do not request quote on automatic form flip
+        if (!formValues) throw Error('No form values')
+        if (formValues.isFlipping) throw Error('Flipping base token and counter token')
+        if (formValues.baseToken === formValues.counterToken)
+          throw Error('Base Tokens and Counter Tokens are the same')
 
-        const baseTokenInfo = selectors.components.dex
-          .getChainTokenInfo(yield* select(), baseToken)
-          .getOrFail('Unable to get base token info')
+        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
+          formValues
 
-        if (!baseTokenInfo) {
-          yield* put(A.fetchSwapQuoteFailure('No base token'))
-          return
-        }
+        if (baseToken && counterToken && getValidSwapAmount(baseTokenAmount)) {
+          yield* put(A.fetchSwapQuoteLoading())
 
-        const baseAmountGwei = Exchange.convertCoinToCoin({
-          baseToStandard: false,
-          coin: currentChain.nativeCurrency.symbol,
-          value: baseTokenAmount || 0
-        })
+          const currentChain = selectors.components.dex
+            .getCurrentChain(yield* select())
+            .getOrFail('Unable to get current chain')
 
-        const counterTokenInfo = selectors.components.dex
-          .getChainTokenInfo(yield* select(), counterToken)
-          .getOrFail('Unable to get counter token info')
+          const baseTokenInfo = selectors.components.dex
+            .getChainTokenInfo(yield* select(), baseToken)
+            .getOrFail('Unable to get base token info')
 
-        if (!counterTokenInfo) {
-          yield* put(A.fetchSwapQuoteFailure('No counter token'))
-          return
-        }
+          // Throw Error if no base token
+          if (!baseTokenInfo) {
+            throw Error('No base token')
+          }
 
-        const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
-          coins: [baseToken],
-          nonCustodialAccounts: true
-        })
+          const baseAmountGwei = Exchange.convertCoinToCoin({
+            baseToStandard: false,
+            coin: currentChain.nativeCurrency.symbol,
+            value: baseTokenAmount || 0
+          })
 
-        const nonCustodialAddress = nonCustodialCoinAccounts[baseToken][0].address
-        if (!nonCustodialAddress) {
-          yield* put(A.fetchSwapQuoteFailure('No user wallet address'))
-          return
-        }
+          const counterTokenInfo = selectors.components.dex
+            .getChainTokenInfo(yield* select(), counterToken)
+            .getOrFail('Unable to get counter token info')
 
-        const quoteResponse = yield* call(api.getDexSwapQuote, {
-          fromCurrency: {
-            address: baseTokenInfo.address,
-            amount: baseAmountGwei,
-            chainId: currentChain.chainId,
-            symbol: baseToken
-          },
-          params: {
-            slippage: `${slippage}`
-          },
+          // Throw Error if no counter token
+          if (!counterTokenInfo) {
+            throw Error('No counter token')
+          }
 
-          // User always has a private wallet setup automatically on sign up but should go through a security phrase
-          // in order to receive funds. If he didn't do it he has 0 balance and just nothing to swap. We don't need
-          // any additional checks here to make sure user can use a wallet
-          // TODO: Pass selected wallet not the first one when we have more than 1 wallet
-          takerAddress: `${nonCustodialAddress}`,
+          const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
+            coins: [baseToken],
+            nonCustodialAccounts: true
+          })
 
-          toCurrency: {
-            address: counterTokenInfo.address,
-            chainId: currentChain.chainId,
-            symbol: counterToken
-          },
+          const nonCustodialAddress = nonCustodialCoinAccounts[baseToken][0].address
 
-          // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
-          venue: 'ZEROX' as const
-        })
+          // Throw Error if no user wallet address
+          if (!nonCustodialAddress) {
+            throw Error('No user wallet address')
+          }
 
-        yield* put(A.fetchSwapQuoteSuccess(quoteResponse))
+          const quoteResponse = yield* call(api.getDexSwapQuote, {
+            fromCurrency: {
+              address: baseTokenInfo.address,
+              amount: baseAmountGwei,
+              chainId: currentChain.chainId,
+              symbol: baseToken
+            },
+            params: {
+              slippage: `${slippage}`
+            },
 
-        // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
-        // Also we consider to return to the FE only one quote in that case
-        const { quote } = quoteResponse
+            // User always has a private wallet setup automatically on sign up but should go through a security phrase
+            // in order to receive funds. If he didn't do it he has 0 balance and just nothing to swap. We don't need
+            // any additional checks here to make sure user can use a wallet
+            // TODO: Pass selected wallet not the first one when we have more than 1 wallet
+            takerAddress: `${nonCustodialAddress}`,
 
-        if (quote) {
-          yield* put(
-            actions.form.change(
-              DEX_SWAP_FORM,
-              'baseTokenAmount',
-              Exchange.convertCoinToCoin({
-                baseToStandard: true,
-                coin: quote.sellAmount.symbol,
-                value: quote.sellAmount.amount
-              })
+            toCurrency: {
+              address: counterTokenInfo.address,
+              chainId: currentChain.chainId,
+              symbol: counterToken
+            },
+
+            // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
+            venue: 'ZEROX' as const
+          })
+          yield* put(A.fetchSwapQuoteSuccess(quoteResponse))
+
+          // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
+          // Also we consider to return to the FE only one quote in that case
+          const { quote } = quoteResponse
+
+          if (quote) {
+            yield* put(
+              actions.form.change(
+                DEX_SWAP_FORM,
+                'baseTokenAmount',
+                Exchange.convertCoinToCoin({
+                  baseToStandard: true,
+                  coin: quote.sellAmount.symbol,
+                  value: quote.sellAmount.amount
+                })
+              )
             )
-          )
-          yield* put(
-            actions.form.change(
-              DEX_SWAP_FORM,
-              'counterTokenAmount',
-              Exchange.convertCoinToCoin({
-                baseToStandard: true,
-                coin: quote.buyAmount.symbol,
-                value: quote.buyAmount.amount
-              })
+            yield* put(
+              actions.form.change(
+                DEX_SWAP_FORM,
+                'counterTokenAmount',
+                Exchange.convertCoinToCoin({
+                  baseToStandard: true,
+                  coin: quote.buyAmount.symbol,
+                  value: quote.buyAmount.amount
+                })
+              )
             )
-          )
+          }
+
+          yield delay(SWAP_QUOTE_REFRESH_INTERVAL)
         }
       } catch (e) {
-        yield* put(A.fetchSwapQuoteFailure(e))
+        yield put(A.fetchSwapQuoteFailure(e))
+        yield put(A.stopPollSwapQuote())
       }
     }
   }
 
   const fetchSwapQuoteOnChange = function* (action) {
     const { field, form } = action?.meta
+
+    // exit whenever the counterTokenAmount changes, to avoid infinitely calling fetchSwapQuote
+    if (field === 'counterTokenAmount') return
+
     // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
     if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
     const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
@@ -255,13 +265,8 @@ export default ({ api }: { api: APIType }) => {
       yield* put(A.clearCurrentSwapQuote())
       return
     }
-    if (field === 'counterTokenAmount' && getValidSwapAmount(formValues.counterTokenAmount) === 0) {
-      yield* put(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', ''))
-      yield* put(A.clearCurrentSwapQuote())
-      return
-    }
 
-    yield call(fetchSwapQuote)
+    yield put(A.fetchSwapQuote())
   }
 
   return {
