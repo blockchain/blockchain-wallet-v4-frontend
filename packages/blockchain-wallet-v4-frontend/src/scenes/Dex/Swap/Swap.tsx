@@ -53,7 +53,7 @@ const SwapForm = (form: InjectedFormProps<DexSwapForm>) => {
 }
 
 export const Swap = reduxForm<DexSwapForm>({
-  destroyOnUnmount: false,
+  destroyOnUnmount: true,
   enableReinitialize: true,
   form: DEX_SWAP_FORM,
   initialValues: { slippage: DEFAULT_SLIPPAGE, step: 'ENTER_DETAILS' }
