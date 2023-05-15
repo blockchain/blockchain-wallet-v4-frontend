@@ -4,7 +4,6 @@ import { Flex } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 
 import { Exchange } from '@core'
-import type { DexSwapQuote } from '@core/network/api/dex'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import {
@@ -16,21 +15,7 @@ import {
   ValueSubText,
   ValueText
 } from './styles'
-
-type Props = {
-  handleSettingsClick: () => void
-  isDetailsOpen: boolean
-  slippage: number
-  walletCurrency: string
-} & (
-  | {
-      isQuoteLoading: true
-    }
-  | {
-      isQuoteLoading: false
-      swapQuote: DexSwapQuote
-    }
-)
+import { QuoteDetailsProps } from './types'
 
 // TODO: ETH is hardcoded in some spots, should be from current chain data
 // TODO: hardcoded for only single-leg swaps
@@ -40,7 +25,7 @@ export const QuoteDetails = ({
   slippage,
   walletCurrency,
   ...props
-}: Props) => {
+}: QuoteDetailsProps) => {
   return (
     <QuoteWrapper animate={isDetailsOpen}>
       <RowDetails>
@@ -56,7 +41,7 @@ export const QuoteDetails = ({
       </RowDetails>
       <RowDetails>
         <RowTitle>
-          <FormattedMessage id='copy.minimum_received' defaultMessage='Minimum Received' />
+          <FormattedMessage id='copy.expected_amount' defaultMessage='Expected amount' />
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
@@ -96,7 +81,7 @@ export const QuoteDetails = ({
       </RowDetails>
       <RowDetails>
         <RowTitle>
-          <FormattedMessage id='copy.send_amount' defaultMessage='Send Amount' />
+          <FormattedMessage id='copy.minimum_amount' defaultMessage='Minimum Amount' />
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
@@ -141,19 +126,22 @@ export const QuoteDetails = ({
             <LoadingBox bgColor='white' height='39px' width='75px' />
           ) : (
             <>
-              <FiatDisplay
-                coin={props.swapQuote.quote.sellAmount.symbol}
-                currency={walletCurrency}
-                color='textBlack'
-                lineHeight='150%'
-                loadingHeight='14px'
-                size='14px'
-                weight={600}
-              >
-                {new BigNumber(props.swapQuote.transaction.gasPrice)
-                  .multipliedBy(props.swapQuote.transaction.gasLimit)
-                  .toString()}
-              </FiatDisplay>
+              <Flex>
+                ~
+                <FiatDisplay
+                  coin={props.swapQuote.quote.sellAmount.symbol}
+                  currency={walletCurrency}
+                  color='textBlack'
+                  lineHeight='150%'
+                  loadingHeight='14px'
+                  size='14px'
+                  weight={600}
+                >
+                  {new BigNumber(props.swapQuote.transaction.gasPrice)
+                    .multipliedBy(props.swapQuote.transaction.gasLimit)
+                    .toString()}
+                </FiatDisplay>
+              </Flex>
               <ValueSubText>
                 {Exchange.convertCoinToCoin({
                   coin: 'ETH',
@@ -174,24 +162,27 @@ export const QuoteDetails = ({
             <LoadingBox bgColor='white' height='39px' width='75px' />
           ) : (
             <>
-              <FiatDisplay
-                coin={props.swapQuote.quote.sellAmount.symbol}
-                currency={walletCurrency}
-                color='textBlack'
-                lineHeight='150%'
-                loadingHeight='14px'
-                size='14px'
-                weight={600}
-              >
-                {Exchange.convertCoinToCoin({
-                  baseToStandard: false,
-                  coin: props.swapQuote.quote.sellAmount.symbol,
-                  value: Exchange.convertCoinToCoin({
+              <Flex>
+                ~
+                <FiatDisplay
+                  coin={props.swapQuote.quote.sellAmount.symbol}
+                  currency={walletCurrency}
+                  color='textBlack'
+                  lineHeight='150%'
+                  loadingHeight='14px'
+                  size='14px'
+                  weight={600}
+                >
+                  {Exchange.convertCoinToCoin({
+                    baseToStandard: false,
                     coin: props.swapQuote.quote.sellAmount.symbol,
-                    value: (props.swapQuote.quote.sellAmount.amount / 100) * 0.9
-                  })
-                })}
-              </FiatDisplay>
+                    value: Exchange.convertCoinToCoin({
+                      coin: props.swapQuote.quote.sellAmount.symbol,
+                      value: (props.swapQuote.quote.sellAmount.amount / 100) * 0.9
+                    })
+                  })}
+                </FiatDisplay>
+              </Flex>
               <ValueSubText>
                 {Exchange.convertCoinToCoin({
                   coin: props.swapQuote.quote.sellAmount.symbol,

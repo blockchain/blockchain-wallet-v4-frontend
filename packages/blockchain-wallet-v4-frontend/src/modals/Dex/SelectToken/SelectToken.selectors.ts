@@ -16,19 +16,21 @@ export const getRemote = (state: RootState) => {
       tokenList: ExtractSuccess<typeof tokenListR>
     ): (DexTokenWithBalance | null)[] => {
       const list = search.length > 0 ? searchedTokens : tokenList
-      return list.map((token: DexToken) => {
-        const coin = window.coins[token.symbol]
-        if (!coin) return null
+      return list
+        .map((token: DexToken) => {
+          const coin = window.coins[token.symbol]
+          if (!coin) return null
 
-        const balance = selectors.balances
-          .getCoinNonCustodialBalance(coin.coinfig.symbol)(state)
-          .getOrElse(0)
+          const balance = selectors.balances
+            .getCoinNonCustodialBalance(coin.coinfig.symbol)(state)
+            .getOrElse(0)
 
-        return {
-          balance,
-          ...token
-        }
-      })
+          return {
+            balance,
+            ...token
+          }
+        })
+        .filter((token) => token !== null)
     }
   )(searchedTokensR, tokenListR)
 }

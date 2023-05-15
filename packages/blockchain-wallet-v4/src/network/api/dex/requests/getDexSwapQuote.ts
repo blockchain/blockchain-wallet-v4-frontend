@@ -5,10 +5,6 @@ import { DEX_NABU_GATEWAY_PREFIX } from '../constants'
 import { DexSwapQuoteSchema } from '../schemas'
 import type { DexSwapQuote } from '../types'
 
-type Params = {
-  ccy: CoinType
-}
-
 type Data = {
   fromCurrency: {
     address: string
@@ -36,11 +32,12 @@ export const getDexSwapQuote =
     apiUrl: string
     authorizedPost: (config: RequestConfig) => Promise<unknown>
   }) =>
-  (data: Data, params: Params): Promise<DexSwapQuote> =>
+  (data: Data): Promise<DexSwapQuote> =>
     authorizedPost({
       contentType: 'application/json',
+      data,
       endPoint: `${DEX_NABU_GATEWAY_PREFIX}/quote`,
-      params: { ...params, product: 'DEX' },
+      params: { product: 'DEX' },
       removeDefaultPostData: true,
       url: apiUrl
     }).then((data) => {

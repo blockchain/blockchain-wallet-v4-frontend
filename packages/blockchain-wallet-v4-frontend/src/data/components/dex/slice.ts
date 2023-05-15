@@ -66,6 +66,7 @@ const dexSlice = createSlice({
     fetchSearchedTokensSuccess: (state, action: PayloadAction<DexToken[]>) => {
       state.searchedTokens = Remote.Success(action.payload)
     },
+    fetchSwapQuote: () => {},
     fetchSwapQuoteFailure: (state, action: PayloadAction<string>) => {
       state.swapQuote = Remote.Failure(action.payload)
     },
@@ -90,7 +91,8 @@ const dexSlice = createSlice({
     },
     setSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload
-    }
+    },
+    stopPollSwapQuote: () => {}
   }
 })
 
