@@ -76,6 +76,7 @@ import dexOnboardingSlideFunds from './img/dex/onboarding-slide-funds@2x.png'
 import dexOnboardingSlideNotEligible from './img/dex/onboarding-slide-not-eligible@2x.png'
 import dexOnboardingSlideSwap from './img/dex/onboarding-slide-swap@2x.png'
 import dexOnboardingSlideWelcome from './img/dex/onboarding-slide-welcome@2x.png'
+import dexTokenAllowance from './img/dex/token-allowance.svg'
 import dexVerificationCheck from './img/dex/verification-check.svg'
 import bars from './img/earn/bars.svg'
 import btcClock from './img/earn/btc-clock.svg'
@@ -262,6 +263,7 @@ const Images = {
   'dex-onboarding-slide-not-eligible': dexOnboardingSlideNotEligible,
   'dex-onboarding-slide-swap': dexOnboardingSlideSwap,
   'dex-onboarding-slide-welcome': dexOnboardingSlideWelcome,
+  'dex-token-allowance': dexTokenAllowance,
   'dex-verification-check': dexVerificationCheck,
   'earn-activity-empty': earnActivityEmpty,
   'earn-empty': earnEmpty,

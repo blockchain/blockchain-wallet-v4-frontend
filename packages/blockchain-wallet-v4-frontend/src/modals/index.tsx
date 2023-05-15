@@ -35,6 +35,7 @@ const CustomizableConfirm = React.lazy(() => import('./CustomizableConfirm'))
 const TransactionList = React.lazy(() => import('./DebitCard/TransactionList'))
 
 // DEX
+const DexTokenAllowance = React.lazy(() => import('./Dex/TokenAllowance'))
 const DexSwapSettings = React.lazy(() => import('./Dex/SwapSettings'))
 const DexSelectToken = React.lazy(() => import('./Dex/SelectToken'))
 
@@ -208,6 +209,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DEX_SWAP_SETTINGS) ? (
           <DexSwapSettings />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.DEX_TOKEN_ALLOWANCE) ? (
+          <DexTokenAllowance />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DEX_TOKEN_SELECT) ? (
           <DexSelectToken />
