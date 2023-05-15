@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Padding } from '@blockchain-com/constellation'
@@ -51,6 +51,10 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
 
   const onViewSettings = () => {
     dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))
+  }
+
+  const onViewTokenAllowance = () => {
+    dispatch(actions.modals.showModal(ModalName.DEX_TOKEN_ALLOWANCE, { origin: 'Dex' }))
   }
 
   const onTokenSelect = (swapSide: DexSwapSide) => {
@@ -167,9 +171,9 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         ) : null
       ) : null}
 
-      {baseToken && counterToken && quote ? (
+      {baseToken ? (
         <Padding vertical={1}>
-          <AllowanceCheck coinSymbol={baseToken} onApprove={() => setIsApproved(true)} />
+          <AllowanceCheck coinSymbol={baseToken} onApprove={onViewTokenAllowance} />
         </Padding>
       ) : null}
 
