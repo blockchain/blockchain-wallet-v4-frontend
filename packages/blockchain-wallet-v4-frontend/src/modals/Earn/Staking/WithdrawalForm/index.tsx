@@ -54,20 +54,12 @@ const WithdrawalForm = (props: Props) => {
 
   const handleWithdrawal = () => {
     const { amount, fix } = formValues
-    const withdrawalAmountCrypto =
-      fix === 'FIAT'
-        ? convertFiatToCoin({
-            coin,
-            currency: walletCurrency,
-            maxPrecision: 18,
-            rates,
-            value: amount
-          })
-        : amount
     earnActions.requestStakingWithdrawal({
       coin,
+      fix,
       formName: FORM_NAME,
-      withdrawalAmountCrypto
+      walletCurrency,
+      withdrawalAmount: amount
     })
   }
 

@@ -177,11 +177,11 @@ export const NavButton = styled(Button)`
 
 const Navbar = ({
   fabClickHandler,
+  isKycVerificationEnabled,
   isReferralAvailable,
   isReferralRetrievalEnabled,
   limitsClickHandler,
   logoutClickHandler,
-  nftsEnabled,
   primaryNavItems,
   receiveClickHandler,
   referAFriendHandler,
@@ -264,6 +264,7 @@ const Navbar = ({
       component: () => (
         <UserNavDropdown
           isReferralAvailable={isReferralAvailable}
+          isKycVerificationEnabled={isKycVerificationEnabled}
           isReferralRetrievalEnabled={isReferralRetrievalEnabled}
           limitsClickHandler={limitsClickHandler}
           referAFriendHandler={referAFriendHandler}
@@ -275,7 +276,15 @@ const Navbar = ({
       name: 'Settings'
     }
   ]
-  const secondaryMobileNavItems = secondaryNavItems.filter(
+
+  const navigationFiltered = secondaryNavItems.filter(({ name }) => {
+    if (!isKycVerificationEnabled) {
+      return name !== 'Trade'
+    }
+    return true
+  })
+
+  const secondaryMobileNavItems = navigationFiltered.filter(
     ({ name }) => name !== 'Mobile App' && name !== 'Refresh' && name !== 'Settings'
   )
 
@@ -287,6 +296,7 @@ const Navbar = ({
           primaryNavItems={primaryNavItems}
           secondaryNavItems={secondaryMobileNavItems}
           userNavItems={userNavItems({
+            isKycVerificationEnabled,
             isReferralAvailable,
             isReferralRetrievalEnabled,
             limitsClickHandler,
@@ -371,7 +381,7 @@ const Navbar = ({
             </>
           ) : (
             <>
-              {secondaryNavItems.map((item) => (
+              {navigationFiltered.map((item) => (
                 <li key={item.name} className={item.name.toLowerCase()}>
                   {item.component()}
                 </li>
@@ -386,11 +396,11 @@ const Navbar = ({
 
 type Props = {
   fabClickHandler: () => void
+  isKycVerificationEnabled: boolean
   isReferralAvailable: boolean
   isReferralRetrievalEnabled: boolean
   limitsClickHandler: () => void
   logoutClickHandler: () => void
-  nftsEnabled: boolean
   primaryNavItems: Array<PrimaryNavItem>
   receiveClickHandler: () => void
   referAFriendHandler: () => void
