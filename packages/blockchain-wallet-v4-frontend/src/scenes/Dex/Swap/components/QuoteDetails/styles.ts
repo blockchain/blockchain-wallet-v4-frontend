@@ -48,13 +48,6 @@ export const ValueText = styled(Text)`
   color: ${(props) => props.theme.textBlack};
 `
 
-export const ValueSubText = styled(Text)`
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 150%;
-  color: ${(props) => props.theme.grey600};
-`
-
 export const EditSlippageText = styled(Text)`
   font-weight: 500;
   font-size: 12px;
