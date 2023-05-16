@@ -8,6 +8,7 @@ import type {
   DexSwapQuote,
   DexSwapQuoteType,
   DexToken,
+  DexTokenAllowance,
   DexTokenNative,
   DexTokenNotNative,
   DexTransaction,
@@ -118,3 +119,10 @@ export const DexUserEligibilitySchema: z.ZodSchema<boolean, z.ZodTypeDef, unknow
     eligible: z.boolean()
   })
   .transform(({ eligible }) => eligible)
+
+export const DexTokenAllowanceSchema: z.ZodSchema<DexTokenAllowance, z.ZodTypeDef, unknown> =
+  z.object({
+    result: z.object({
+      allowance: z.string()
+    })
+  })

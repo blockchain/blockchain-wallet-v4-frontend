@@ -77,3 +77,44 @@ export type DexSwapQuote = {
   type: DexSwapQuoteType
   venueType: DexVenueType
 }
+
+export type DexTokenAllowance = {
+  result: {
+    allowance: string
+  }
+}
+
+export type DexTokenAllowanceTxResponse = {
+  preImages: {
+    descriptor: 'legacy'
+    preImage: string
+    signatureAlgorithm: 'secp256k1'
+    signingKey: string
+  }[]
+  rawTx: {
+    payload: {
+      chainId: number
+      data: string
+      gasLimit: {
+        hex: string
+        type: 'BigNumber'
+      }
+      gasPrice: {
+        hex: string
+        type: 'BigNumber'
+      }
+      nonce: number
+      to: string
+      value: {
+        hex: string
+        type: 'BigNumber'
+      }
+    }
+    version: number
+  }
+  summary: {
+    absoluteFeeEstimate: string
+    absoluteFeeMaximum: string
+    relativeFee: string
+  }
+}
