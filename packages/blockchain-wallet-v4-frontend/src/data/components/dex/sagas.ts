@@ -269,12 +269,44 @@ export default ({ api }: { api: APIType }) => {
     yield put(A.fetchSwapQuote())
   }
 
+  const fetchTokenAllowance = function* (action: ReturnType<typeof A.fetchTokenAllowance>) {
+    const { baseToken } = action.payload
+    try {
+      yield put(A.fetchTokenAllowanceLoading())
+      const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
+        coins: [baseToken],
+        nonCustodialAccounts: true
+      })
+
+      let nonCustodialAddress: string | number | undefined =
+        nonCustodialCoinAccounts[baseToken][0].address
+
+      // Throw Error if no user wallet address
+      if (!nonCustodialAddress) throw Error('No user wallet address')
+
+      if (typeof nonCustodialAddress === 'number') {
+        nonCustodialAddress = nonCustodialAddress.toString()
+      }
+
+      const response = yield call(api.getDexTokenAllowance, {
+        addressOwner: nonCustodialAddress,
+        currency: baseToken,
+        network: 'ETH',
+        spender: 'ZEROX_EXCHANGE'
+      })
+      yield put(A.fetchTokenAllowanceSuccess(response))
+    } catch (e) {
+      yield put(A.fetchTokenAllowanceFailure(e))
+    }
+  }
+
   return {
     fetchChainTokens,
     fetchChains,
     fetchSearchedTokens,
     fetchSwapQuote,
     fetchSwapQuoteOnChange,
+    fetchTokenAllowance,
     fetchUserEligibility
   }
 }

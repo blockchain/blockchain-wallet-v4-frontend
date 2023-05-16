@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import type { DexChain, DexSwapQuote, DexToken } from '@core/network/api/dex'
 import Remote from '@core/remote'
+import { CoinType } from '@core/types'
 import { notReachable } from 'utils/helpers'
 
 import type { DexStateType } from './types'
@@ -10,6 +11,7 @@ const initialState: DexStateType = {
   chains: Remote.NotAsked,
   currentChain: Remote.NotAsked, // TODO: might not need Remote type
   currentChainTokens: Remote.NotAsked,
+  isTokenAllowed: Remote.NotAsked,
   isUserEligible: Remote.NotAsked,
   search: '',
   searchedTokens: Remote.Success([]),
@@ -75,6 +77,16 @@ const dexSlice = createSlice({
     },
     fetchSwapQuoteSuccess: (state, action: PayloadAction<DexSwapQuote>) => {
       state.swapQuote = Remote.Success(action.payload)
+    },
+    fetchTokenAllowance: (state, action: PayloadAction<{ baseToken: CoinType }>) => {},
+    fetchTokenAllowanceFailure: (state, action: PayloadAction<string>) => {
+      state.isTokenAllowed = Remote.Failure(action.payload)
+    },
+    fetchTokenAllowanceLoading: (state) => {
+      state.isTokenAllowed = Remote.Loading
+    },
+    fetchTokenAllowanceSuccess: (state, action: PayloadAction<boolean>) => {
+      state.isTokenAllowed = Remote.Success(action.payload)
     },
     fetchUserEligibility: () => {},
     fetchUserEligibilityFailure: (state, action: PayloadAction<string>) => {
