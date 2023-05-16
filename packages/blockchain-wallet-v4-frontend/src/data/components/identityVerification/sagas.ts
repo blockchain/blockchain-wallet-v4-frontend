@@ -148,7 +148,7 @@ export default ({ api, coreSagas, networks }) => {
         string,
         KycStateType
       >
-    ).getOrElse('NONE')
+    ).getOrElse(KYC_STATES.NONE)
 
     // Case where user recovers their wallet with mnemonic
     // and we reset their KYC. We have to force next and
