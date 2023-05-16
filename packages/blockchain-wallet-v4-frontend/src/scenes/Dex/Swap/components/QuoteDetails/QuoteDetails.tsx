@@ -68,7 +68,7 @@ export const QuoteDetails = ({
                   coin: props.swapQuote.quote.buyAmount.symbol,
                   value: Exchange.convertCoinToCoin({
                     coin: props.swapQuote.quote.buyAmount.symbol,
-                    value: props.swapQuote.quote.buyAmount.amount
+                    value: props.swapQuote.quote.buyAmount.minAmount
                   })
                 })}
               </FiatDisplay>
