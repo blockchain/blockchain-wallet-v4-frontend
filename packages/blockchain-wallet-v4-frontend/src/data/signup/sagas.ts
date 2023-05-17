@@ -81,16 +81,21 @@ export default ({ api, coreSagas, networks }) => {
 
   const register = function* (action) {
     const { country, email, language, password, referral, sessionToken, state } = action.payload
-    // pulling this separately to perhaps
-    // solve for 'none' value being seen in amplitude
-    // for country code
-    const { country: countryFromFormValues } = yield select(
-      selectors.form.getFormValues(SIGNUP_FORM)
-    )
+
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
     const accountRecoveryV2: boolean = selectors.core.walletOptions
       .getAccountRecoveryV2(yield select())
       .getOrElse(false) as boolean
+
+    // pulling this separately to perhaps
+    // solve for 'none' value being seen in amplitude
+    // for country code
+    let countryFromFormValues
+    if (!isAccountReset) {
+      const { country } = yield select(selectors.form.getFormValues(SIGNUP_FORM))
+      countryFromFormValues = country
+    }
+
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
     const isExchangeMobileSignup =
       product === ProductAuthOptions.EXCHANGE &&
