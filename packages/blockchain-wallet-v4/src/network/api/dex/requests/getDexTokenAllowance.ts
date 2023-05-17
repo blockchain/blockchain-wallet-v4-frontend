@@ -11,18 +11,12 @@ type Data = {
 }
 
 export const getDexTokenAllowance =
-  ({
-    apiUrl,
-    authorizedPost
-  }: {
-    apiUrl: string
-    authorizedPost: (config: RequestConfig) => Promise<unknown>
-  }) =>
+  ({ apiUrl, post }: { apiUrl: string; post: (config: RequestConfig) => Promise<unknown> }) =>
   (data: Data): Promise<DexTokenAllowance> =>
-    authorizedPost({
+    post({
       contentType: 'application/json',
       data,
-      endPoint: `${DEX_NABU_GATEWAY_PREFIX}/currency/evm/buildTx`,
+      endPoint: `/currency/evm/allowance`,
       removeDefaultPostData: true,
       url: apiUrl
     }).then((data) => {

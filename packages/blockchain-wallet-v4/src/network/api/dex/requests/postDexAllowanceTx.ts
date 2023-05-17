@@ -37,7 +37,7 @@ export const postDexTokenAllowanceTx =
     authorizedPost({
       contentType: 'application/json',
       data,
-      endPoint: `${DEX_NABU_GATEWAY_PREFIX}/currency/evm/buildTx`,
+      endPoint: `/currency/evm/buildTx`,
       removeDefaultPostData: true,
       url: apiUrl
     })
