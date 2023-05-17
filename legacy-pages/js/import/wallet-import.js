@@ -2,7 +2,7 @@
     //Save the javascript wallet to the remote server
     function reallyInsertWallet(guid, sharedKey, password, successcallback) {
         // Executing google recaptcha
-        initCaptcha()
+        var captcha = generateCaptchaToken();
         var _errorcallback = function(e) {
             MyWallet.makeNotice('error', 'misc-error', 'Error Saving Wallet: ' + e, 10000);
             throw e;
@@ -31,7 +31,7 @@
                         { 
                             length: crypted.length, 
                             payload: crypted, 
-                            captcha: window.NEWRECAPCHA,
+                            captcha: captcha,
                             checksum: new_checksum, 
                             method : 'insert', 
                             format : 'plain', 
@@ -250,20 +250,50 @@
         evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
     }
 
-    function initCaptcha() {
-        if (!window.grecaptcha || !window.grecaptcha.enterprise) return
-        window.grecaptcha.enterprise.ready(() => {
-            window.grecaptcha.enterprise
-                .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
-                .then((captchaToken) => {
-                    console.log('Captcha success', captchaToken)
-                    window.NEWRECAPCHA = captchaToken
-                })
-                .catch((e) => {
-                    console.error('Captcha error: ', e)
-                })
-        })
+    // function initCaptcha() {
+    //     if (!window.grecaptcha || !window.grecaptcha.enterprise) return
+    //     window.grecaptcha.enterprise.ready(() => {
+    //         window.grecaptcha.enterprise
+    //             .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
+    //             .then((captchaToken) => {
+    //                 console.log('Captcha success', captchaToken)
+    //                 window.NEWRECAPCHA = captchaToken
+    //             })
+    //             .catch((e) => {
+    //                 console.error('Captcha error: ', e)
+    //             })
+    //     })
+    // }
+
+    function generateCaptchaToken() {
+        let pollCount = 0
+
+    // wait up to 10 seconds for captcha library to load
+    while (true) {
+      pollCount += 1
+
+      if (pollCount >= 50) {
+        console.error('Captcha: window.grecaptcha not found')
+        break
+      }
+      if (window.grecaptcha && window.grecaptcha.enterprise) {
+        break
+      }
+
+      yield delay(200)
     }
+    const getToken = () =>
+      window.grecaptcha.enterprise
+        .execute(window.CAPTCHA_KEY, { action: actionName })
+        .then((token) => token)
+        .catch((e) => {
+          console.error('Captcha: ', e)
+        })
+
+    const captchaToken = getToken()
+    return captchaToken
+  }
+    
 
     $(document).ready(function() {
         $('body').ajaxStart(function() {
