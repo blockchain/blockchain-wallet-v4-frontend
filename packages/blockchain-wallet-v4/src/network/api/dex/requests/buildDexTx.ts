@@ -1,16 +1,9 @@
 import type { RequestConfig } from '../../http'
 import { DEX_NABU_GATEWAY_PREFIX } from '../constants'
-import { DexTokenAllowanceSchema } from '../schemas'
-import type { DexTokenAllowance } from '../types'
+import { BuildDexTxSchema } from '../schemas'
+import type { BuildDexTx, BuildDexTxParams } from '../types'
 
-type Data = {
-  addressOwner: string
-  currency: string
-  network: string
-  spender: string
-}
-
-export const getDexTokenAllowance =
+export const buildDexTx =
   ({
     apiUrl,
     authorizedPost
@@ -18,7 +11,7 @@ export const getDexTokenAllowance =
     apiUrl: string
     authorizedPost: (config: RequestConfig) => Promise<unknown>
   }) =>
-  (data: Data): Promise<DexTokenAllowance> =>
+  (data: BuildDexTxParams): Promise<BuildDexTx> =>
     authorizedPost({
       contentType: 'application/json',
       data,
@@ -27,7 +20,7 @@ export const getDexTokenAllowance =
       url: apiUrl
     }).then((data) => {
       try {
-        return DexTokenAllowanceSchema.parse(data)
+        return BuildDexTxSchema.parse(data)
       } catch (e) {
         console.error(e)
         throw e

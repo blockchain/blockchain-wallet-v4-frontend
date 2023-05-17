@@ -7,6 +7,12 @@ import type { CoinType } from '@core/types'
 export type DexVenueName = 'ZEROX'
 export type DexVenueType = 'AGGREGATOR'
 export type DexSwapQuoteType = 'SINGLE'
+export type DexSpenderType = 'ZEROX_EXCHANGE'
+export type DexTxType = 'TOKEN_APPROVAL'
+export type DexNetworkType = 'ETH'
+export type DexFeeType = 'NORMAL'
+export type DexSignatureAlgorithmType = 'secp256k1'
+export type DexSourceDescriptor = 'legacy'
 
 type DexTokenCommon = {
   address: string
@@ -84,37 +90,72 @@ export type DexTokenAllowance = {
   }
 }
 
-export type DexTokenAllowanceTxResponse = {
-  preImages: {
-    descriptor: 'legacy'
-    preImage: string
-    signatureAlgorithm: 'secp256k1'
-    signingKey: string
-  }[]
-  rawTx: {
-    payload: {
-      chainId: number
-      data: string
-      gasLimit: {
-        hex: string
-        type: 'BigNumber'
-      }
-      gasPrice: {
-        hex: string
-        type: 'BigNumber'
-      }
-      nonce: number
-      to: string
-      value: {
-        hex: string
-        type: 'BigNumber'
-      }
+export type BuildDexTxPreImage = {
+  descriptor: DexSourceDescriptor
+  preImage: string
+  signatureAlgorithm: DexSignatureAlgorithmType
+  signingKey: string
+}
+
+export type BuildDexTxRawTx = {
+  payload: {
+    chainId: number
+    data: string
+    gasLimit: {
+      hex: string
+      type: 'BigNumber'
     }
-    version: number
+    gasPrice: {
+      hex: string
+      type: 'BigNumber'
+    }
+    nonce: number
+    to: string
+    value: {
+      hex: string
+      type: 'BigNumber'
+    }
   }
-  summary: {
-    absoluteFeeEstimate: string
-    absoluteFeeMaximum: string
-    relativeFee: string
-  }
+  version: number
+}
+
+export type BuildDexTxSummary = {
+  absoluteFeeEstimate: string
+  absoluteFeeMaximum: string
+  relativeFee: string
+}
+
+export type BuildDexTx = {
+  preImages: BuildDexTxPreImage[]
+  rawTx: BuildDexTxRawTx
+  summary: BuildDexTxSummary
+}
+
+type SwapTx = {
+  data: string
+  gasLimit: string
+  value: string
+}
+
+type IntentType = {
+  destination: string
+  fee: string
+  maxVerificationVersion: number
+  sources: [
+    {
+      descriptor: DexSourceDescriptor
+      pubKey: string
+      style: DexSwapQuoteType
+    }
+  ]
+  type: DexTxType
+}
+
+type GetIntentType = IntentType & { amount: string; spender: DexSpenderType }
+
+type PostIntentType = IntentType & { swapTx: SwapTx }
+
+export type BuildDexTxParams = {
+  intent: GetIntentType | PostIntentType
+  network: DexNetworkType
 }
