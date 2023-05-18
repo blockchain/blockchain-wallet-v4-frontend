@@ -14,6 +14,7 @@ import { getValidSwapAmount } from './utils'
 const { DEX_SWAP_FORM } = model.components.dex
 
 const SWAP_QUOTE_REFRESH_INTERVAL = 30000
+const TOKEN_ALLOWANCE_POLL_INTERVAL = 1000
 
 export default ({ api }: { api: APIType }) => {
   const fetchUserEligibility = function* () {
@@ -281,6 +282,11 @@ export default ({ api }: { api: APIType }) => {
       let nonCustodialAddress: string | number | undefined =
         nonCustodialCoinAccounts[baseToken][0].address
 
+      const baseTokenInfo = selectors.components.dex
+        .getChainTokenInfo(yield* select(), baseToken)
+        .getOrFail('Unable to get base token info')
+      const tokenAddress = baseTokenInfo?.address || ''
+
       // Throw Error if no user wallet address
       if (!nonCustodialAddress) throw Error('No user wallet address')
 
@@ -290,13 +296,62 @@ export default ({ api }: { api: APIType }) => {
 
       const response = yield call(api.getDexTokenAllowance, {
         addressOwner: nonCustodialAddress,
-        currency: baseToken,
+        currency: tokenAddress,
         network: 'ETH',
         spender: 'ZEROX_EXCHANGE'
       })
-      yield put(A.fetchTokenAllowanceSuccess(response))
+      const isTokenAllowed = response?.result.allowance !== '0'
+      yield put(A.fetchTokenAllowanceSuccess(isTokenAllowed))
     } catch (e) {
       yield put(A.fetchTokenAllowanceFailure(e))
+    }
+  }
+
+  const pollTokenAllowance = function* (action: ReturnType<typeof A.pollTokenAllowance>) {
+    const { baseToken } = action.payload
+    try {
+      A.pollTokenAllowanceLoading()
+      const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
+        coins: [baseToken],
+        nonCustodialAccounts: true
+      })
+
+      let nonCustodialAddress: string | number | undefined =
+        nonCustodialCoinAccounts[baseToken][0].address
+
+      const baseTokenInfo = selectors.components.dex
+        .getChainTokenInfo(yield* select(), baseToken)
+        .getOrFail('Unable to get base token info')
+      const tokenAddress = baseTokenInfo?.address || ''
+
+      // Throw Error if no user wallet address
+      if (!nonCustodialAddress) throw Error('No user wallet address')
+
+      if (typeof nonCustodialAddress === 'number') {
+        nonCustodialAddress = nonCustodialAddress.toString()
+      }
+
+      // keep polling until api comes back true.
+      while (true) {
+        yield delay(300)
+        const response = yield call(api.getDexTokenAllowance, {
+          addressOwner: nonCustodialAddress,
+          currency: tokenAddress,
+          network: 'ETH',
+          spender: 'ZEROX_EXCHANGE'
+        })
+        const isTokenAllowed = response?.result.allowance !== '0'
+
+        if (isTokenAllowed) {
+          yield put(A.pollTokenAllowanceSuccess(isTokenAllowed))
+          yield put(A.stopPollTokenAllowance())
+        }
+
+        yield delay(TOKEN_ALLOWANCE_POLL_INTERVAL)
+      }
+    } catch (e) {
+      yield put(A.pollTokenAllowanceFailure(e))
+      yield put(A.stopPollTokenAllowance())
     }
   }
 
@@ -307,6 +362,7 @@ export default ({ api }: { api: APIType }) => {
     fetchSwapQuote,
     fetchSwapQuoteOnChange,
     fetchTokenAllowance,
-    fetchUserEligibility
+    fetchUserEligibility,
+    pollTokenAllowance
   }
 }

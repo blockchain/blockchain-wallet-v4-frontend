@@ -12,6 +12,7 @@ const initialState: DexStateType = {
   currentChain: Remote.NotAsked, // TODO: might not need Remote type
   currentChainTokens: Remote.NotAsked,
   isTokenAllowed: Remote.NotAsked,
+  isTokenAllowedAfterPolling: Remote.NotAsked,
   isUserEligible: Remote.NotAsked,
   search: '',
   searchedTokens: Remote.Success([]),
@@ -98,13 +99,24 @@ const dexSlice = createSlice({
     fetchUserEligibilitySuccess: (state, action: PayloadAction<boolean>) => {
       state.isUserEligible = Remote.Success(action.payload)
     },
+    pollTokenAllowance: (state, action: PayloadAction<{ baseToken: CoinType }>) => {},
+    pollTokenAllowanceFailure: (state, action: PayloadAction<string>) => {
+      state.isTokenAllowedAfterPolling = Remote.Failure(action.payload)
+    },
+    pollTokenAllowanceLoading: (state) => {
+      state.isTokenAllowedAfterPolling = Remote.Loading
+    },
+    pollTokenAllowanceSuccess: (state, action: PayloadAction<boolean>) => {
+      state.isTokenAllowedAfterPolling = Remote.Success(action.payload)
+    },
     setCurrentChain: (state, action: PayloadAction<DexChain>) => {
       state.currentChain = Remote.Success(action.payload)
     },
     setSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload
     },
-    stopPollSwapQuote: () => {}
+    stopPollSwapQuote: () => {},
+    stopPollTokenAllowance: () => {}
   }
 })
 

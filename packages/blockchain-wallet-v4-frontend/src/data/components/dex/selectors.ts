@@ -25,4 +25,7 @@ export const getDexCoinBalanceToDisplay =
     return balance ? balance.getOrElse(0) : 0
   }
 
-export const getIsTokenAllowed = (state: RootState) => state.components.dex.isTokenAllowed
+export const getTokenAllowanceStatus = (state: RootState) => state.components.dex.isTokenAllowed
+
+export const getTokenAllowanceStatusAfterPolling = (state: RootState) =>
+  state.components.dex.isTokenAllowedAfterPolling

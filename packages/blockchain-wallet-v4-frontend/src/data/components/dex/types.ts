@@ -7,6 +7,7 @@ export type DexStateType = {
   currentChain: RemoteDataType<string, DexChain>
   currentChainTokens: RemoteDataType<string, DexToken[]>
   isTokenAllowed: RemoteDataType<string, boolean>
+  isTokenAllowedAfterPolling: RemoteDataType<string, boolean>
   isUserEligible: RemoteDataType<string, boolean>
   search: string
   searchedTokens: RemoteDataType<string, DexToken[]>
