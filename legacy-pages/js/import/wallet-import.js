@@ -316,7 +316,7 @@
     }
     const getToken = () =>
       window.grecaptcha.enterprise
-        .execute(window.CAPTCHA_KEY, { action: actionName })
+        .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
         .then((token) => token)
         .catch((e) => {
           console.error('Captcha: ', e)
