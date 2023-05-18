@@ -8,7 +8,6 @@ export type DexVenueName = 'ZEROX'
 export type DexVenueType = 'AGGREGATOR'
 export type DexSwapQuoteType = 'SINGLE'
 export type DexSpenderType = 'ZEROX_EXCHANGE'
-export type DexTxType = 'TOKEN_APPROVAL'
 export type DexNetworkType = 'ETH'
 export type DexFeeType = 'NORMAL'
 export type DexSignatureAlgorithmType = 'secp256k1'
@@ -137,7 +136,7 @@ type SwapTx = {
   value: string
 }
 
-type IntentType = {
+type Intent = {
   destination: string
   fee: string
   maxVerificationVersion: number
@@ -148,14 +147,17 @@ type IntentType = {
       style: DexSwapQuoteType
     }
   ]
-  type: DexTxType
 }
 
-type GetIntentType = IntentType & { amount: string; spender: DexSpenderType }
+type TokenAllowanceIntent = Intent & {
+  amount: string
+  spender: DexSpenderType
+  type: 'TOKEN_APPROVAL'
+}
 
-type PostIntentType = IntentType & { swapTx: SwapTx }
+type SwapIntent = Intent & { swapTx: SwapTx; type: 'SWAP' }
 
 export type BuildDexTxParams = {
-  intent: GetIntentType | PostIntentType
+  intent: TokenAllowanceIntent | SwapIntent
   network: DexNetworkType
 }

@@ -1,3 +1,4 @@
+export * from './buildDexTx'
 export * from './getDexChains'
 export * from './getDexChainTokens'
 export * from './getDexSwapQuote'

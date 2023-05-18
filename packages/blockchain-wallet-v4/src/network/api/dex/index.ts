@@ -1,4 +1,5 @@
 import {
+  buildDexTx,
   getDexChains,
   getDexChainTokens,
   getDexSwapQuote,
@@ -11,6 +12,7 @@ export type { DexChain, DexSwapQuote, DexToken, DexTokenWithBalance } from './ty
 
 export default ({ apiUrl, authorizedGet, authorizedPost, get, post }) => {
   return {
+    buildDexTx: buildDexTx({ apiUrl, authorizedPost }),
     getDexChainTokens: getDexChainTokens({ apiUrl, get }), // can't get this to work
     getDexChains: getDexChains({ apiUrl, get }),
     getDexSwapQuote: getDexSwapQuote({ apiUrl, authorizedPost }),
