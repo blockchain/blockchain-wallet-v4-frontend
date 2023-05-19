@@ -2,7 +2,7 @@
   //Save the javascript wallet to the remote server
   function reallyInsertWallet(guid, sharedKey, password, successcallback) {
     // Executing google recaptcha
-    initCaptcha()
+    var captcha = initCaptcha()
     var _errorcallback = function (e) {
       MyWallet.makeNotice('error', 'misc-error', 'Error Saving Wallet: ' + e, 10000)
       throw e
@@ -28,14 +28,14 @@
             var new_checksum = Crypto.util.bytesToHex(Crypto.SHA256(crypted, { asBytes: true }))
 
             MyWallet.setLoadingText('Saving wallet')
-            console.log('window recaptcha', window.NEWRECAPCHA)
+            console.log('new captcha', captcha)
 
             MyWallet.securePost(
               'wallet',
               {
                 length: crypted.length,
                 payload: crypted,
-                captcha: window.NEWRECAPCHA,
+                captcha,
                 checksum: new_checksum,
                 method: 'insert',
                 format: 'plain',
@@ -292,11 +292,12 @@
         .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
         .then((captchaToken) => {
           console.log('Captcha success', captchaToken)
-          window.NEWRECAPCHA = captchaToken
+          captchaToken
         })
         .catch((e) => {
           console.error('Captcha error: ', e)
         })
+      return captchaToken
     })
   }
 
