@@ -2,7 +2,7 @@
   //Save the javascript wallet to the remote server
   function reallyInsertWallet(guid, sharedKey, password, successcallback) {
     // Executing google recaptcha
-    var captcha = initCaptcha()
+    initCaptcha()
     var _errorcallback = function (e) {
       MyWallet.makeNotice('error', 'misc-error', 'Error Saving Wallet: ' + e, 10000)
       throw e
