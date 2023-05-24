@@ -1796,7 +1796,6 @@
   "modals.simplebuy.confirm.by_placing_this_order": "By placing this order, you authorize Blockchain.com, Inc. to debit {totalAmount} from your bank account for a {coin} purchase at a quoted price of {quoteRate}.",
   "modals.simplebuy.confirm.coin_price": "{coin} Price",
   "modals.simplebuy.confirm.coin_tooltip": "Blockchain.com provides the best market price we receive and applies a spread.",
-  "modals.simplebuy.confirm.credit_or_debit": "Credit or Debit Card",
   "modals.simplebuy.confirm.jump_to_payment": "Add Payment Method",
   "modals.simplebuy.confirm.learn_more_about_fees": "Learn more about fees",
   "modals.simplebuy.confirm.network_fees": "Network fees are set by the {coin} network.",
