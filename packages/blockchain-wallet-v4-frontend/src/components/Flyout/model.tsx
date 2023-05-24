@@ -712,9 +712,6 @@ const renderFund = (value: BSPaymentMethodType, sbBalances: BSBalancesType) => {
 
 const getIcon = (method: BSPaymentMethodType | undefined, disabled?: boolean): ReactElement => {
   if (!method) {
-    return <DisablableIcon disabled={disabled} size='18px' color='blue600' name='credit-card-sb' />
-  }
-  if (!method) {
     return (
       <DisablableIcon
         cursor
@@ -767,16 +764,6 @@ const getText = (
   method: BSPaymentMethodType | undefined,
   sbBalances: BSBalancesType
 ): ReactElement => {
-  if (!method) {
-    return (
-      <Text weight={600} color='grey900' style={{ paddingBottom: '3px', paddingTop: '4px' }}>
-        <FormattedMessage
-          id='modals.simplebuy.confirm.credit_or_debit'
-          defaultMessage='Credit or Debit Card'
-        />
-      </Text>
-    )
-  }
   if (!method) {
     return (
       <Text weight={600} color='grey900' style={{ paddingBottom: '3px', paddingTop: '4px' }}>
