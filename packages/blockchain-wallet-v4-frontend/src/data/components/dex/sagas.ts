@@ -341,8 +341,9 @@ export default ({ api }: { api: APIType }) => {
         nonCustodialAddress = nonCustodialAddress.toString()
       }
 
-      // keep polling until api comes back true.
-      while (true) {
+      // poll until api comes back true or 10mins pass (assuming TOKEN_ALLOWANCE_POLL_INTERVAL = 5000)
+      let i = 0
+      while (i < 120) {
         yield delay(300)
         const response = yield call(api.getDexTokenAllowance, {
           addressOwner: nonCustodialAddress,
@@ -358,7 +359,9 @@ export default ({ api }: { api: APIType }) => {
         }
 
         yield delay(TOKEN_ALLOWANCE_POLL_INTERVAL)
+        i += 1
       }
+      throw Error('Token allowance polling timed out')
     } catch (e) {
       yield put(A.pollTokenAllowanceFailure(e))
       yield put(A.stopPollTokenAllowance())
@@ -371,8 +374,7 @@ export default ({ api }: { api: APIType }) => {
     const mnemonicT = yield select(getMnemonic)
     const mnemonic = yield call(() => taskToPromise(mnemonicT))
     const privateKey = getPrivateKey(mnemonic)
-    const wallet = new ethers.Wallet(privateKey, provider)
-    return wallet
+    return new ethers.Wallet(privateKey, provider)
   }
 
   const pollTokenAllowanceTx = function* (action: ReturnType<typeof A.pollTokenAllowanceTx>) {

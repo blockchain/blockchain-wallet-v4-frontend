@@ -20,6 +20,7 @@ import { ErrorMessage } from './ErrorMessage'
 import { Header } from './Header'
 
 const { DEX_SWAP_FORM } = model.components.dex
+const NETWORK_TOKEN = 'ETH'
 
 type Props = {
   walletCurrency: string
@@ -105,7 +106,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
 
   const showAllowanceCheck =
     baseToken &&
-    baseToken !== 'ETH' &&
+    baseToken !== NETWORK_TOKEN &&
     !isTokenAllowed &&
     !isTokenAllowanceNotAsked &&
     !isTokenAllowedLoading
