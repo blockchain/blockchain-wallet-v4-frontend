@@ -34,8 +34,23 @@ export class Coin extends Type {
   // Can be used to sort an Array of Coin ascending (direct use)
   // or descending (switch parameters order).
   compare(coin) {
-    if (this.confirmations == 0 && coin.confirmations != 0) {
-       return -1
+    return this.value - coin.value
+  }
+
+  // Option 1
+  // descent: sort((a, b) => a.descentCompareWeighted(b), coins)
+  descentCompareWeighted(coin) {
+    if (this.confirmations === 0 && coin.confirmations !== 0) {
+      return 1
+    }
+    return coin.value - this.value
+  }
+
+  // Option 1
+  // ascent: sort((a, b) => a.ascentCompareWeighted(b), coins)
+  ascentCompareWeighted(coin) {
+    if (this.confirmations === 0 && coin.confirmations !== 0) {
+      return 1
     }
     return this.value - coin.value
   }
@@ -70,27 +85,27 @@ export class Coin extends Type {
         addr = Bitcoin.payments.p2pkh({ output }).address
         type = 'P2PKH'
         // eslint-disable-next-line
-      } catch (e) {}
+      } catch (e) { }
       try {
         // eslint-disable-next-line
         addr = Bitcoin.payments.p2sh({ output }).address
         type = 'P2SH'
         // eslint-disable-next-line
-      } catch (e) {}
+      } catch (e) { }
       try {
         // eslint-disable-next-line
         addr = Bitcoin.payments.p2wpkh({ output }).address
         type = 'P2WPKH'
         // eslint-disable-next-line
-      } catch (e) {}
+      } catch (e) { }
       try {
         // eslint-disable-next-line
         addr = Bitcoin.payments.p2wsh({ output }).address
         type = 'P2WSH'
         // eslint-disable-next-line
-      } catch (e) {}
+      } catch (e) { }
       // eslint-disable-next-line
-    } catch (e) {}
+    } catch (e) { }
 
     return type
   }
@@ -120,8 +135,8 @@ export const selectConfirmations = view(confirmations)
 export const fromJS = (o, network) => {
   return new Coin({
     address: o.address ? o.address : scriptToAddress(o.script, network),
-    confirmations: o.confirmations,
     change: o.change || false,
+    confirmations: o.confirmations,
     index: o.tx_output_n,
     path: o.path,
     priv: o.priv,
