@@ -140,11 +140,13 @@ export default ({ api }: { api: APIType }) => {
           yield* select()
         ) as DexSwapForm
 
-        // do not request quote on automatic form flip
-        if (!formValues) throw Error('No form values')
-        if (formValues.isFlipping) throw Error('Flipping base token and counter token')
-        if (formValues.baseToken === formValues.counterToken)
-          throw Error('Base Tokens and Counter Tokens are the same')
+        if (
+          !formValues ||
+          formValues.isFlipping ||
+          formValues.baseToken === formValues.counterToken
+        ) {
+          return yield put(A.stopPollSwapQuote())
+        }
 
         const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
           formValues
