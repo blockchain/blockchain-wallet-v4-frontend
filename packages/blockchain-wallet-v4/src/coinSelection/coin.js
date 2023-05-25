@@ -34,6 +34,9 @@ export class Coin extends Type {
   // Can be used to sort an Array of Coin ascending (direct use)
   // or descending (switch parameters order).
   compare(coin) {
+    if (this.confirmations == 0 && coin.confirmations != 0) {
+       return -1
+    }
     return this.value - coin.value
   }
 
@@ -102,6 +105,7 @@ export const address = Coin.define('address')
 export const priv = Coin.define('priv')
 export const change = Coin.define('change')
 export const path = Coin.define('path')
+export const confirmations = Coin.define('confirmations')
 
 export const selectValue = view(value)
 export const selectScript = view(script)
@@ -111,10 +115,12 @@ export const selectAddress = view(address)
 export const selectPriv = view(priv)
 export const selectChange = view(change)
 export const selectPath = view(path)
+export const selectConfirmations = view(confirmations)
 
 export const fromJS = (o, network) => {
   return new Coin({
     address: o.address ? o.address : scriptToAddress(o.script, network),
+    confirmations: o.confirmations,
     change: o.change || false,
     index: o.tx_output_n,
     path: o.path,

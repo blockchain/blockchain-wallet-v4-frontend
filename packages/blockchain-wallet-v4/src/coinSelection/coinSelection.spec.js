@@ -269,6 +269,27 @@ describe('Coin Selection', () => {
       //          300000 - 100000 - 12430 = 187570
       expect(selection.outputs.map((x) => x.value)).toEqual([100000, 187570])
     })
+    it('should demote unconfirmed coins', () => {
+      const inputs = map(Coin.fromJS, [
+        { value: 1, confirmations: 1 },
+        { value: 20000, confirmations: 1 },
+        { value: 0, confirmations: 1 },
+        { value: 0, confirmations: 1 },
+        { value: 300000, confirmations: 0 },
+        { value: 50000, confirmations: 1 },
+        { value: 30000, confirmations: 1 }
+      ])
+      const targets = map(Coin.fromJS, [{ value: 1000 }])
+      const selection = cs.descentDraw(targets, 55, inputs, 'change-address')
+      expect(selection.inputs.map((x) => x.value)).toEqual([50000])
+
+      // (overhead + inputs + outputs) * feePerByte
+      // (10 + (1 * 148) + (2 * 34)) * 55 = 12430
+      expect(selection.fee).toEqual(12430)
+      // change = inputs - outputs - fee
+      //          50000 - 1000 - 12430 = 36570
+      expect(selection.outputs.map((x) => x.value)).toEqual([1000, 36570])
+    })
   })
 
   describe('ascentDraw', () => {
