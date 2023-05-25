@@ -18,7 +18,8 @@ export const getDexTokenAllowance =
       data,
       endPoint: `/currency/evm/allowance`,
       removeDefaultPostData: true,
-      url: apiUrl
+      // url: apiUrl
+      url: 'https://api.blockchain.info'
     }).then((data) => {
       try {
         return DexTokenAllowanceSchema.parse(data)
