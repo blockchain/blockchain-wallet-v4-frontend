@@ -15,7 +15,8 @@ export const getDexUserEligibility =
       contentType: 'application/json',
       endPoint: `${DEX_NABU_GATEWAY_PREFIX}/eligible`,
       params: { product: 'DEX', walletAddress },
-      url: apiUrl
+      // url: apiUrl
+      url: 'https://api.blockchain.info'
     }).then((data) => {
       try {
         return DexUserEligibilitySchema.parse(data)

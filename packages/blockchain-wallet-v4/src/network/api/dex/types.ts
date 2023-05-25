@@ -7,6 +7,11 @@ import type { CoinType } from '@core/types'
 export type DexVenueName = 'ZEROX'
 export type DexVenueType = 'AGGREGATOR'
 export type DexSwapQuoteType = 'SINGLE'
+export type DexSpenderType = 'ZEROX_EXCHANGE'
+export type DexNetworkType = 'ETH'
+export type DexFeeType = 'NORMAL'
+export type DexSignatureAlgorithmType = 'secp256k1'
+export type DexSourceDescriptor = 'legacy'
 
 type DexTokenCommon = {
   address: string
@@ -76,4 +81,83 @@ export type DexSwapQuote = {
   transaction: DexTransaction
   type: DexSwapQuoteType
   venueType: DexVenueType
+}
+
+export type DexTokenAllowance = {
+  result: {
+    allowance: string
+  }
+}
+
+export type BuildDexTxPreImage = {
+  descriptor: DexSourceDescriptor
+  preImage: string
+  signatureAlgorithm: DexSignatureAlgorithmType
+  signingKey: string
+}
+
+export type BuildDexTxRawTx = {
+  payload: {
+    chainId: number
+    data: string
+    gasLimit: {
+      hex: string
+      type: 'BigNumber'
+    }
+    gasPrice: {
+      hex: string
+      type: 'BigNumber'
+    }
+    nonce: number
+    to: string
+    value: {
+      hex: string
+      type: 'BigNumber'
+    }
+  }
+  version: number
+}
+
+export type BuildDexTxSummary = {
+  absoluteFeeEstimate: string
+  absoluteFeeMaximum: string
+  relativeFee: string
+}
+
+export type BuildDexTx = {
+  preImages: BuildDexTxPreImage[]
+  rawTx: BuildDexTxRawTx
+  summary: BuildDexTxSummary
+}
+
+type SwapTx = {
+  data: string
+  gasLimit: string
+  value: string
+}
+
+type Intent = {
+  destination: string
+  fee: string
+  maxVerificationVersion: number
+  sources: [
+    {
+      descriptor: DexSourceDescriptor
+      pubKey: string
+      style: DexSwapQuoteType
+    }
+  ]
+}
+
+type TokenAllowanceIntent = Intent & {
+  amount: string
+  spender: DexSpenderType
+  type: 'TOKEN_APPROVAL'
+}
+
+type SwapIntent = Intent & { swapTx: SwapTx; type: 'SWAP' }
+
+export type BuildDexTxParams = {
+  intent: TokenAllowanceIntent | SwapIntent
+  network: DexNetworkType
 }

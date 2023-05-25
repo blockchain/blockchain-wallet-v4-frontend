@@ -39,7 +39,8 @@ export const getDexSwapQuote =
       endPoint: `${DEX_NABU_GATEWAY_PREFIX}/quote`,
       params: { product: 'DEX' },
       removeDefaultPostData: true,
-      url: apiUrl
+      // url: apiUrl
+      url: 'https://api.blockchain.info'
     }).then((data) => {
       try {
         return DexSwapQuoteSchema.parse(data)

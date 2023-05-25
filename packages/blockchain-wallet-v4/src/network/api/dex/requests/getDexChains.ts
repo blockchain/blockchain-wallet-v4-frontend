@@ -9,7 +9,8 @@ export const getDexChains =
     get({
       contentType: 'application/json',
       endPoint: `${DEX_GATEWAY_PREFIX}/chains`,
-      url: apiUrl
+      // url: apiUrl
+      url: 'https://api.blockchain.info'
     }).then((data) => {
       try {
         return listSchema(DexChainSchema).parse(data)

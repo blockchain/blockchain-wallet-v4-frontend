@@ -2,18 +2,23 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import type { DexChain, DexSwapQuote, DexToken } from '@core/network/api/dex'
 import Remote from '@core/remote'
+import { CoinType } from '@core/types'
 import { notReachable } from 'utils/helpers'
 
-import type { DexStateType } from './types'
+import type { DexStateType, ParsedTx } from './types'
 
 const initialState: DexStateType = {
   chains: Remote.NotAsked,
   currentChain: Remote.NotAsked, // TODO: might not need Remote type
   currentChainTokens: Remote.NotAsked,
+  isTokenAllowed: Remote.NotAsked,
+  isTokenAllowedAfterPolling: Remote.NotAsked,
   isUserEligible: Remote.NotAsked,
   search: '',
   searchedTokens: Remote.Success([]),
-  swapQuote: Remote.NotAsked
+  swapQuote: Remote.NotAsked,
+  tokenAllowanceGasEstimate: '',
+  tokenAllowanceTx: Remote.NotAsked
 }
 
 const dexSlice = createSlice({
@@ -76,6 +81,16 @@ const dexSlice = createSlice({
     fetchSwapQuoteSuccess: (state, action: PayloadAction<DexSwapQuote>) => {
       state.swapQuote = Remote.Success(action.payload)
     },
+    fetchTokenAllowance: (state, action: PayloadAction<{ baseToken: CoinType }>) => {},
+    fetchTokenAllowanceFailure: (state, action: PayloadAction<string>) => {
+      state.isTokenAllowed = Remote.Failure(action.payload)
+    },
+    fetchTokenAllowanceLoading: (state) => {
+      state.isTokenAllowed = Remote.Loading
+    },
+    fetchTokenAllowanceSuccess: (state, action: PayloadAction<boolean>) => {
+      state.isTokenAllowed = Remote.Success(action.payload)
+    },
     fetchUserEligibility: () => {},
     fetchUserEligibilityFailure: (state, action: PayloadAction<string>) => {
       state.isUserEligible = Remote.Failure(action.payload)
@@ -86,13 +101,48 @@ const dexSlice = createSlice({
     fetchUserEligibilitySuccess: (state, action: PayloadAction<boolean>) => {
       state.isUserEligible = Remote.Success(action.payload)
     },
+    pollTokenAllowance: (state, action: PayloadAction<{ baseToken: CoinType }>) => {},
+    pollTokenAllowanceFailure: (state, action: PayloadAction<string>) => {
+      state.isTokenAllowedAfterPolling = Remote.Failure(action.payload)
+    },
+    pollTokenAllowanceLoading: (state) => {
+      state.isTokenAllowedAfterPolling = Remote.Loading
+    },
+    pollTokenAllowanceSuccess: (state, action: PayloadAction<boolean>) => {
+      state.isTokenAllowedAfterPolling = Remote.Success(action.payload)
+    },
+    pollTokenAllowanceTx: (state, action: PayloadAction<{ baseToken: string }>) => {},
+    pollTokenAllowanceTxFailure: (state, action: PayloadAction<string>) => {
+      state.tokenAllowanceTx = Remote.Failure(action.payload)
+    },
+    pollTokenAllowanceTxLoading: (state) => {
+      state.tokenAllowanceTx = Remote.Loading
+    },
+    pollTokenAllowanceTxSuccess: (state, action: PayloadAction<ParsedTx>) => {
+      state.tokenAllowanceTx = Remote.Success(action.payload)
+    },
+    resetTokenAllowance: (state) => {
+      state.isTokenAllowed = Remote.NotAsked
+      state.isTokenAllowedAfterPolling = Remote.NotAsked
+      state.tokenAllowanceGasEstimate = ''
+      state.tokenAllowanceTx = Remote.NotAsked
+    },
+    sendTokenAllowanceTx: (state, action: PayloadAction<{ baseToken: string }>) => {},
+    sendTokenAllowanceTxFailure: (state, action: PayloadAction<string>) => {
+      state.isTokenAllowedAfterPolling = Remote.Failure(action.payload)
+    },
     setCurrentChain: (state, action: PayloadAction<DexChain>) => {
       state.currentChain = Remote.Success(action.payload)
     },
     setSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload
     },
-    stopPollSwapQuote: () => {}
+    setTokenAllowanceGasEstimate: (state, action: PayloadAction<string>) => {
+      state.tokenAllowanceGasEstimate = action.payload
+    },
+    stopPollSwapQuote: () => {},
+    stopPollTokenAllowance: () => {},
+    stopPollTokenAllowanceTx: () => {}
   }
 })
 

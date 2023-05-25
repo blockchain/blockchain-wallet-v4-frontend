@@ -20,6 +20,7 @@ import { ErrorMessage } from './ErrorMessage'
 import { Header } from './Header'
 
 const { DEX_SWAP_FORM } = model.components.dex
+const NETWORK_TOKEN = 'ETH'
 
 type Props = {
   walletCurrency: string
@@ -41,6 +42,26 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     hasError: hasQuoteError,
     isLoading: isLoadingQuote
   } = useRemote(selectors.components.dex.getSwapQuote)
+
+  const {
+    data: isTokenAllowed,
+    isLoading: isTokenAllowedLoading,
+    isNotAsked: isTokenAllowanceNotAsked
+  } = useRemote(selectors.components.dex.getTokenAllowanceStatus)
+
+  const { isNotAsked: isTokenAllowanceTxNotAsked } = useRemote(
+    selectors.components.dex.getTokenAllowanceTx
+  )
+
+  useEffect(() => {
+    // resets token allowance state when user changes base token and only if token allowance tx has been called before
+    if (!isTokenAllowanceTxNotAsked) dispatch(actions.components.dex.resetTokenAllowance())
+  }, [baseToken, isTokenAllowanceTxNotAsked])
+
+  useEffect(() => {
+    if (baseToken && baseToken !== 'ETH')
+      dispatch(actions.components.dex.fetchTokenAllowance({ baseToken }))
+  }, [baseToken])
 
   const baseTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
@@ -82,6 +103,13 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
       setPairAnimate(false)
     }, 400)
   }
+
+  const showAllowanceCheck =
+    baseToken &&
+    baseToken !== NETWORK_TOKEN &&
+    !isTokenAllowed &&
+    !isTokenAllowanceNotAsked &&
+    !isTokenAllowedLoading
 
   return (
     <FormWrapper>
@@ -171,9 +199,9 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         ) : null
       ) : null}
 
-      {baseToken ? (
+      {showAllowanceCheck ? (
         <Padding vertical={1}>
-          <AllowanceCheck coinSymbol={baseToken} onApprove={onViewTokenAllowance} />
+          <AllowanceCheck baseToken={baseToken} onApprove={onViewTokenAllowance} />
         </Padding>
       ) : null}
 

@@ -20,7 +20,8 @@ export const getDexChainTokens =
       endPoint: `${DEX_GATEWAY_PREFIX}/tokens?chainId=${chainId}&queryBy=ALL&offset=${params.offset}&limit=50`,
       ignoreQueryParams: true,
       removeDefaultPostData: true,
-      url: apiUrl
+      // url: apiUrl
+      url: 'https://api.blockchain.info'
     }).then((data) => {
       try {
         return listSchema(DexTokenSchema).parse(data)

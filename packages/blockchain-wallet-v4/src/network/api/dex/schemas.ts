@@ -1,6 +1,10 @@
 import z from 'zod'
 
 import type {
+  BuildDexTx,
+  BuildDexTxPreImage,
+  BuildDexTxRawTx,
+  BuildDexTxSummary,
   DexBuyAmount,
   DexChain,
   DexQuote,
@@ -8,6 +12,7 @@ import type {
   DexSwapQuote,
   DexSwapQuoteType,
   DexToken,
+  DexTokenAllowance,
   DexTokenNative,
   DexTokenNotNative,
   DexTransaction,
@@ -100,6 +105,41 @@ const DexTransactionSchema: z.ZodSchema<DexTransaction, z.ZodTypeDef, unknown> =
   value: stringToPositiveFloat
 })
 
+const DexPreImageSchema: z.ZodSchema<BuildDexTxPreImage, z.ZodTypeDef, unknown> = z.object({
+  descriptor: z.literal('legacy'),
+  preImage: z.string(),
+  signatureAlgorithm: z.literal('secp256k1'),
+  signingKey: z.string()
+})
+
+const DexBuildRawTxSchema: z.ZodSchema<BuildDexTxRawTx, z.ZodTypeDef, unknown> = z.object({
+  payload: z.object({
+    chainId: z.number(),
+    data: z.string(),
+    gasLimit: z.object({
+      hex: z.string(),
+      type: z.literal('BigNumber')
+    }),
+    gasPrice: z.object({
+      hex: z.string(),
+      type: z.literal('BigNumber')
+    }),
+    nonce: z.number(),
+    to: z.string(),
+    value: z.object({
+      hex: z.string(),
+      type: z.literal('BigNumber')
+    })
+  }),
+  version: z.number()
+})
+
+const BuildDexTxSummarySchema: z.ZodSchema<BuildDexTxSummary, z.ZodTypeDef, unknown> = z.object({
+  absoluteFeeEstimate: z.string(),
+  absoluteFeeMaximum: z.string(),
+  relativeFee: z.string()
+})
+
 export const DexSwapQuoteSchema: z.ZodSchema<DexSwapQuote, z.ZodTypeDef, unknown> = z
   .object({
     legs: z.literal(1),
@@ -118,3 +158,16 @@ export const DexUserEligibilitySchema: z.ZodSchema<boolean, z.ZodTypeDef, unknow
     eligible: z.boolean()
   })
   .transform(({ eligible }) => eligible)
+
+export const DexTokenAllowanceSchema: z.ZodSchema<DexTokenAllowance, z.ZodTypeDef, unknown> =
+  z.object({
+    result: z.object({
+      allowance: z.string()
+    })
+  })
+
+export const BuildDexTxSchema: z.ZodSchema<BuildDexTx, z.ZodTypeDef, unknown> = z.object({
+  preImages: DexPreImageSchema.array(),
+  rawTx: DexBuildRawTxSchema,
+  summary: BuildDexTxSummarySchema
+})
