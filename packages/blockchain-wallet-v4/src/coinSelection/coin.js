@@ -43,6 +43,9 @@ export class Coin extends Type {
     if (this.confirmations === 0 && coin.confirmations !== 0) {
       return 1
     }
+    if (this.confirmations !== 0 && coin.confirmations === 0) {
+      return -1
+    }
     return coin.value - this.value
   }
 
@@ -85,27 +88,27 @@ export class Coin extends Type {
         addr = Bitcoin.payments.p2pkh({ output }).address
         type = 'P2PKH'
         // eslint-disable-next-line
-      } catch (e) { }
+      } catch (e) {}
       try {
         // eslint-disable-next-line
         addr = Bitcoin.payments.p2sh({ output }).address
         type = 'P2SH'
         // eslint-disable-next-line
-      } catch (e) { }
+      } catch (e) {}
       try {
         // eslint-disable-next-line
         addr = Bitcoin.payments.p2wpkh({ output }).address
         type = 'P2WPKH'
         // eslint-disable-next-line
-      } catch (e) { }
+      } catch (e) {}
       try {
         // eslint-disable-next-line
         addr = Bitcoin.payments.p2wsh({ output }).address
         type = 'P2WSH'
         // eslint-disable-next-line
-      } catch (e) { }
+      } catch (e) {}
       // eslint-disable-next-line
-    } catch (e) { }
+    } catch (e) {}
 
     return type
   }
