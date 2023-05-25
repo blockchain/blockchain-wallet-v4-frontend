@@ -121,6 +121,12 @@ const dexSlice = createSlice({
     pollTokenAllowanceTxSuccess: (state, action: PayloadAction<ParsedTx>) => {
       state.tokenAllowanceTx = Remote.Success(action.payload)
     },
+    resetTokenAllowance: (state) => {
+      state.isTokenAllowed = Remote.NotAsked
+      state.isTokenAllowedAfterPolling = Remote.NotAsked
+      state.tokenAllowanceGasEstimate = ''
+      state.tokenAllowanceTx = Remote.NotAsked
+    },
     sendTokenAllowanceTx: (state, action: PayloadAction<{ baseToken: string }>) => {},
     sendTokenAllowanceTxFailure: (state, action: PayloadAction<string>) => {
       state.isTokenAllowedAfterPolling = Remote.Failure(action.payload)

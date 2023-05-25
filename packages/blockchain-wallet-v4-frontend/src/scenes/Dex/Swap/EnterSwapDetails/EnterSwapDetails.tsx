@@ -48,6 +48,15 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     isNotAsked: isTokenAllowanceNotAsked
   } = useRemote(selectors.components.dex.getTokenAllowanceStatus)
 
+  const { isNotAsked: isTokenAllowanceTxNotAsked } = useRemote(
+    selectors.components.dex.getTokenAllowanceTx
+  )
+
+  useEffect(() => {
+    // resets token allowance state when user changes base token and only if token allowance tx has been called before
+    if (!isTokenAllowanceTxNotAsked) dispatch(actions.components.dex.resetTokenAllowance())
+  }, [baseToken, isTokenAllowanceTxNotAsked])
+
   useEffect(() => {
     if (baseToken && baseToken !== 'ETH')
       dispatch(actions.components.dex.fetchTokenAllowance({ baseToken }))
