@@ -1,20 +1,28 @@
+import Task from 'data.task'
+import * as ethers from 'ethers'
 import { call, cancelled, delay, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
-import type { DexToken } from '@core/network/api/dex'
+import { BuildDexTxParams, DexToken } from '@core/network/api/dex/types'
 import { cancelRequestSource } from '@core/network/utils'
+import { getPrivateKey } from '@core/utils/eth'
 import { actions, model, selectors } from 'data'
+import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
 import type { DexSwapForm } from './types'
 import { getValidSwapAmount } from './utils'
+import { parseRawTx } from './utils/parseRawTx'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
-const SWAP_QUOTE_REFRESH_INTERVAL = 30000
-const TOKEN_ALLOWANCE_POLL_INTERVAL = 1000
+const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
+
+const REFRESH_INTERVAL = 30000
+const TOKEN_ALLOWANCE_POLL_INTERVAL = 5000
+const provider = ethers.providers.getDefaultProvider(`https://api.blockchain.info/eth/nodes/rpc`)
 
 export default ({ api }: { api: APIType }) => {
   const fetchUserEligibility = function* () {
@@ -241,7 +249,7 @@ export default ({ api }: { api: APIType }) => {
             )
           }
 
-          yield delay(SWAP_QUOTE_REFRESH_INTERVAL)
+          yield delay(REFRESH_INTERVAL)
         }
       } catch (e) {
         yield put(A.fetchSwapQuoteFailure(e))
@@ -310,7 +318,7 @@ export default ({ api }: { api: APIType }) => {
   const pollTokenAllowance = function* (action: ReturnType<typeof A.pollTokenAllowance>) {
     const { baseToken } = action.payload
     try {
-      A.pollTokenAllowanceLoading()
+      yield put(A.pollTokenAllowanceLoading())
       const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
         coins: [baseToken],
         nonCustodialAccounts: true
@@ -355,6 +363,78 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const getWallet = function* () {
+    const password = yield call(promptForSecondPassword)
+    const getMnemonic = (state) => selectors.core.wallet.getMnemonic(state, password)
+    const mnemonicT = yield select(getMnemonic)
+    const mnemonic = yield call(() => taskToPromise(mnemonicT))
+    const privateKey = getPrivateKey(mnemonic)
+    const wallet = new ethers.Wallet(privateKey, provider)
+    return wallet
+  }
+
+  const pollTokenAllowanceTx = function* (action: ReturnType<typeof A.pollTokenAllowanceTx>) {
+    const { baseToken } = action.payload
+    try {
+      yield put(A.pollTokenAllowanceTxLoading())
+      const baseTokenInfo = selectors.components.dex
+        .getChainTokenInfo(yield* select(), baseToken)
+        .getOrFail('Unable to get base token info')
+      const tokenAddress = baseTokenInfo?.address || ''
+      const wallet = yield call(getWallet)
+
+      const source = {
+        descriptor: 'legacy',
+        pubKey: wallet.publicKey,
+        style: 'SINGLE'
+      }
+      const tokenAllowanceParams = {
+        intent: {
+          amount: 'MAX',
+          destination: tokenAddress,
+          fee: 'NORMAL',
+          maxVerificationVersion: 1,
+          sources: [source],
+          spender: 'ZEROX_EXCHANGE',
+          type: 'TOKEN_APPROVAL'
+        },
+        network: 'ETH'
+      } as BuildDexTxParams
+
+      while (true) {
+        yield delay(300)
+        yield put(A.pollTokenAllowanceTxLoading())
+        const response = yield call(api.buildDexTx, tokenAllowanceParams)
+        const parsedTx = parseRawTx(response)
+        const { gasLimit, gasPrice } = response.rawTx.payload
+        const gasLimitBn = ethers.BigNumber.from(gasLimit.hex)
+        const gasPriceBn = ethers.BigNumber.from(gasPrice.hex)
+        const weiGasEstimate = gasLimitBn.mul(gasPriceBn).toString()
+        yield put(A.pollTokenAllowanceTxSuccess(parsedTx))
+        yield put(A.setTokenAllowanceGasEstimate(weiGasEstimate))
+
+        yield delay(REFRESH_INTERVAL)
+      }
+    } catch (e) {
+      yield put(A.pollTokenAllowanceTxFailure(e))
+      yield put(A.stopPollTokenAllowanceTx())
+    }
+  }
+
+  const sendTokenAllowanceTx = function* (action) {
+    const { baseToken } = action.payload
+
+    try {
+      const wallet = yield call(getWallet)
+      const tx = S.getTokenAllowanceTx(yield select()).getOrElse(null)
+      const signedTx = yield call(() => taskToPromise(Task.of(wallet.signTransaction(tx))))
+      yield call(() => taskToPromise(Task.of(provider.sendTransaction(signedTx))))
+      yield put(A.pollTokenAllowance({ baseToken }))
+    } catch (e) {
+      yield put(A.sendTokenAllowanceTxFailure(e))
+    }
+  }
+
   return {
     fetchChainTokens,
     fetchChains,
@@ -363,6 +443,8 @@ export default ({ api }: { api: APIType }) => {
     fetchSwapQuoteOnChange,
     fetchTokenAllowance,
     fetchUserEligibility,
-    pollTokenAllowance
+    pollTokenAllowance,
+    pollTokenAllowanceTx,
+    sendTokenAllowanceTx
   }
 }

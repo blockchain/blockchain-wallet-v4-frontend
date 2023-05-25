@@ -5,7 +5,7 @@ import Remote from '@core/remote'
 import { CoinType } from '@core/types'
 import { notReachable } from 'utils/helpers'
 
-import type { DexStateType } from './types'
+import type { DexStateType, ParsedTx } from './types'
 
 const initialState: DexStateType = {
   chains: Remote.NotAsked,
@@ -16,7 +16,9 @@ const initialState: DexStateType = {
   isUserEligible: Remote.NotAsked,
   search: '',
   searchedTokens: Remote.Success([]),
-  swapQuote: Remote.NotAsked
+  swapQuote: Remote.NotAsked,
+  tokenAllowanceGasEstimate: '',
+  tokenAllowanceTx: Remote.NotAsked
 }
 
 const dexSlice = createSlice({
@@ -109,14 +111,32 @@ const dexSlice = createSlice({
     pollTokenAllowanceSuccess: (state, action: PayloadAction<boolean>) => {
       state.isTokenAllowedAfterPolling = Remote.Success(action.payload)
     },
+    pollTokenAllowanceTx: (state, action: PayloadAction<{ baseToken: string }>) => {},
+    pollTokenAllowanceTxFailure: (state, action: PayloadAction<string>) => {
+      state.tokenAllowanceTx = Remote.Failure(action.payload)
+    },
+    pollTokenAllowanceTxLoading: (state) => {
+      state.tokenAllowanceTx = Remote.Loading
+    },
+    pollTokenAllowanceTxSuccess: (state, action: PayloadAction<ParsedTx>) => {
+      state.tokenAllowanceTx = Remote.Success(action.payload)
+    },
+    sendTokenAllowanceTx: (state, action: PayloadAction<{ baseToken: string }>) => {},
+    sendTokenAllowanceTxFailure: (state, action: PayloadAction<string>) => {
+      state.isTokenAllowedAfterPolling = Remote.Failure(action.payload)
+    },
     setCurrentChain: (state, action: PayloadAction<DexChain>) => {
       state.currentChain = Remote.Success(action.payload)
     },
     setSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload
     },
+    setTokenAllowanceGasEstimate: (state, action: PayloadAction<string>) => {
+      state.tokenAllowanceGasEstimate = action.payload
+    },
     stopPollSwapQuote: () => {},
-    stopPollTokenAllowance: () => {}
+    stopPollTokenAllowance: () => {},
+    stopPollTokenAllowanceTx: () => {}
   }
 })
 

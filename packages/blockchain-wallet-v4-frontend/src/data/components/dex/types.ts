@@ -1,6 +1,16 @@
 import type { DexChain, DexSwapQuote, DexToken } from '@core/network/api/dex'
 import { CoinType, RemoteDataType } from '@core/types'
 
+export type ParsedTx = {
+  chainId: number
+  data: string
+  gasLimit: string
+  gasPrice: string
+  nonce: number
+  to: string
+  value: string
+}
+
 // TODO: Handle errors types when the new BE driven errors will be delivered
 export type DexStateType = {
   chains: RemoteDataType<string, DexChain[]>
@@ -12,6 +22,8 @@ export type DexStateType = {
   search: string
   searchedTokens: RemoteDataType<string, DexToken[]>
   swapQuote: RemoteDataType<string, DexSwapQuote>
+  tokenAllowanceGasEstimate: string
+  tokenAllowanceTx: RemoteDataType<string, ParsedTx>
 }
 
 export type DexSwapSide = 'BASE' | 'COUNTER'

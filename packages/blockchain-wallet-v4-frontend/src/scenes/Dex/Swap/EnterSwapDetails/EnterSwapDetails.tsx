@@ -42,6 +42,17 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     isLoading: isLoadingQuote
   } = useRemote(selectors.components.dex.getSwapQuote)
 
+  const {
+    data: isTokenAllowed,
+    isLoading: isTokenAllowedLoading,
+    isNotAsked: isTokenAllowanceNotAsked
+  } = useRemote(selectors.components.dex.getTokenAllowanceStatus)
+
+  useEffect(() => {
+    if (baseToken && baseToken !== 'ETH')
+      dispatch(actions.components.dex.fetchTokenAllowance({ baseToken }))
+  }, [baseToken])
+
   const baseTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
   )
@@ -82,6 +93,13 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
       setPairAnimate(false)
     }, 400)
   }
+
+  const showAllowanceCheck =
+    baseToken &&
+    baseToken !== 'ETH' &&
+    !isTokenAllowed &&
+    !isTokenAllowanceNotAsked &&
+    !isTokenAllowedLoading
 
   return (
     <FormWrapper>
@@ -171,9 +189,9 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         ) : null
       ) : null}
 
-      {baseToken ? (
+      {showAllowanceCheck ? (
         <Padding vertical={1}>
-          <AllowanceCheck coinSymbol={baseToken} onApprove={onViewTokenAllowance} />
+          <AllowanceCheck baseToken={baseToken} onApprove={onViewTokenAllowance} />
         </Padding>
       ) : null}
 

@@ -8,6 +8,7 @@ import { actions } from './slice'
 
 let pollQuoteTask: Task
 let pollTokenAllowanceTask: Task
+let pollTokenAllowanceTxTask: Task
 
 export default ({ api }) => {
   const dexSagas = sagas({ api })
@@ -29,10 +30,20 @@ export default ({ api }) => {
         yield cancel(pollTokenAllowanceTask)
       }
     )
+    yield takeLatest(
+      actions.pollTokenAllowanceTx.type,
+      function* (action: ReturnType<typeof actions.pollTokenAllowance>) {
+        if (pollTokenAllowanceTxTask?.isRunning()) yield cancel(pollTokenAllowanceTxTask)
+        pollTokenAllowanceTxTask = yield fork(dexSagas.pollTokenAllowanceTx, action)
+        yield take(actions.stopPollTokenAllowanceTx)
+        yield cancel(pollTokenAllowanceTxTask)
+      }
+    )
     yield takeLatest(actions.fetchTokenAllowance.type, dexSagas.fetchTokenAllowance)
     yield takeLatest(actions.fetchChains.type, dexSagas.fetchChains)
     yield takeLatest(actions.fetchChainTokens.type, dexSagas.fetchChainTokens)
     yield takeLatest(actions.fetchSearchedTokens.type, dexSagas.fetchSearchedTokens)
     yield takeLatest(actions.fetchUserEligibility.type, dexSagas.fetchUserEligibility)
+    yield takeLatest(actions.sendTokenAllowanceTx.type, dexSagas.sendTokenAllowanceTx)
   }
 }
