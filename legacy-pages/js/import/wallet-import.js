@@ -28,14 +28,13 @@
             var new_checksum = Crypto.util.bytesToHex(Crypto.SHA256(crypted, { asBytes: true }))
 
             MyWallet.setLoadingText('Saving wallet')
-            console.log('new captcha', captcha)
-
+            console.log('new captcha', window.NEW_CAPTCHA_TOKEN)
             MyWallet.securePost(
               'wallet',
               {
                 length: crypted.length,
                 payload: crypted,
-                captcha,
+                captcha: window.NEW_CAPTCHA_TOKEN,
                 checksum: new_checksum,
                 method: 'insert',
                 format: 'plain',
@@ -292,41 +291,14 @@
         .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
         .then((captchaToken) => {
           console.log('Captcha success', captchaToken)
-          captchaToken
+          window.NEW_CAPTCHA_TOKEN = captchaToken
         })
         .catch((e) => {
           console.error('Captcha error: ', e)
         })
-      return captchaToken
+      console.log(window.NEW_CAPTCHA_TOKEN, 'new captcha token')
     })
   }
-
-  // function generateCaptchaToken() {
-  //   let pollCount = 0
-
-  //   // wait up to 10 seconds for captcha library to load
-  //   while (true) {
-  //     pollCount += 1
-
-  //     if (pollCount >= 50) {
-  //       console.error('Captcha: window.grecaptcha not found')
-  //       break
-  //     }
-  //     if (window.grecaptcha && window.grecaptcha.enterprise) {
-  //       break
-  //     }
-  //   }
-  //   const getToken = () =>
-  //     window.grecaptcha.enterprise
-  //       .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
-  //       .then((token) => token)
-  //       .catch((e) => {
-  //         console.error('Captcha: ', e)
-  //       })
-
-  //   const captchaToken = getToken()
-  //   return captchaToken
-  // }
 
   $(document).ready(function () {
     $('body').ajaxStart(function () {
