@@ -20,11 +20,11 @@ export const searchDexTokens =
       // TODO: Migrate to AbortController after axios upgrade > 0.22.0
       cancelToken,
       contentType: 'application/json',
-      endPoint: `${DEX_GATEWAY_PREFIX}/assets?chainId=${chainId}&queryBy=SYMBOL&query=${search}`,
+      endPoint: `${DEX_GATEWAY_PREFIX}/tokens?chainId=${chainId}&queryBy=SYMBOL&query=${search}`,
       ignoreQueryParams: true,
       removeDefaultPostData: true,
-      url: apiUrl
-      // url: 'https://api.blockchain.info'
+      // url: apiUrl
+      url: 'https://api.blockchain.info'
     }).then((data) => {
       try {
         return listSchema(DexTokenSchema).parse(data)

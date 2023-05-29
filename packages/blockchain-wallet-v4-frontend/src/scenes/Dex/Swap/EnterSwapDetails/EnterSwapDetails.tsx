@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Padding } from '@blockchain-com/constellation'
 
 import { actions, model, selectors } from 'data'
 import { DexSwapForm, DexSwapSide, ModalName } from 'data/types'
-import { useRemote } from 'hooks'
+import { usePrevious, useRemote } from 'hooks'
 
 import { AllowanceCheck } from '../AllowanceCheck'
 import {
@@ -28,7 +28,6 @@ type Props = {
 
 export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const dispatch = useDispatch()
-  const [isApproved, setIsApproved] = useState(false)
 
   const [pairAnimate, setPairAnimate] = useState(false)
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
@@ -36,6 +35,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
     formValues || {}
+  const previousBaseToken = usePrevious(baseToken)
 
   const {
     data: quote,
@@ -55,12 +55,16 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
 
   useEffect(() => {
     // resets token allowance state when user changes base token and only if token allowance tx has been called before
-    if (!isTokenAllowanceTxNotAsked) dispatch(actions.components.dex.resetTokenAllowance())
-  }, [baseToken, isTokenAllowanceTxNotAsked])
+    if (previousBaseToken !== baseToken && !isTokenAllowanceTxNotAsked) {
+      dispatch(actions.components.dex.resetTokenAllowance())
+    }
+  }, [baseToken, isTokenAllowanceTxNotAsked, previousBaseToken])
 
   useEffect(() => {
-    if (baseToken && baseToken !== 'ETH')
+    // if baseToken exists and baseToken is not ETH, fetch token allowance
+    if (baseToken && baseToken !== 'ETH') {
       dispatch(actions.components.dex.fetchTokenAllowance({ baseToken }))
+    }
   }, [baseToken])
 
   const baseTokenBalance = useSelector(
@@ -108,8 +112,8 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     baseToken &&
     baseToken !== NETWORK_TOKEN &&
     !isTokenAllowed &&
-    !isTokenAllowanceNotAsked &&
-    !isTokenAllowedLoading
+    !isTokenAllowedLoading &&
+    !isTokenAllowanceNotAsked
 
   return (
     <FormWrapper>
@@ -209,7 +213,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         size='large'
         width='full'
         variant='primary'
-        disabled={!quote || !isApproved}
+        disabled={!quote || !isTokenAllowed}
         onClick={onConfirmSwap}
         text={<FormattedMessage id='copy.swap' defaultMessage='Swap' />}
       />
