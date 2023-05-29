@@ -32,15 +32,14 @@ export const getDexSwapQuote =
     apiUrl: string
     authorizedPost: (config: RequestConfig) => Promise<unknown>
   }) =>
-  (data: Data): Promise<DexSwapQuote> =>
-    authorizedPost({
+  (data: Data): Promise<DexSwapQuote> => {
+    return authorizedPost({
       contentType: 'application/json',
       data,
       endPoint: `${DEX_NABU_GATEWAY_PREFIX}/quote`,
       params: { product: 'DEX' },
       removeDefaultPostData: true,
-      // url: apiUrl
-      url: 'https://api.blockchain.info'
+      url: apiUrl
     }).then((data) => {
       try {
         return DexSwapQuoteSchema.parse(data)
@@ -49,3 +48,4 @@ export const getDexSwapQuote =
         throw e
       }
     })
+  }
