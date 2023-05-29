@@ -43,9 +43,11 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     isLoading: isLoadingQuote
   } = useRemote(selectors.components.dex.getSwapQuote)
 
-  const { data: isTokenAllowed, isLoading: isTokenAllowedLoading } = useRemote(
-    selectors.components.dex.getTokenAllowanceStatus
-  )
+  const {
+    data: isTokenAllowed,
+    isLoading: isTokenAllowedLoading,
+    isNotAsked: isTokenAllowanceNotAsked
+  } = useRemote(selectors.components.dex.getTokenAllowanceStatus)
 
   const { isNotAsked: isTokenAllowanceTxNotAsked } = useRemote(
     selectors.components.dex.getTokenAllowanceTx
@@ -107,7 +109,11 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   }
 
   const showAllowanceCheck =
-    baseToken && baseToken !== NETWORK_TOKEN && !isTokenAllowed && !isTokenAllowedLoading
+    baseToken &&
+    baseToken !== NETWORK_TOKEN &&
+    !isTokenAllowed &&
+    !isTokenAllowedLoading &&
+    !isTokenAllowanceNotAsked
 
   return (
     <FormWrapper>
