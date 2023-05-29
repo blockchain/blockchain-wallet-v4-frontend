@@ -177,24 +177,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     })
   }, [props.fiatCurrency, props.buySellActions])
 
-  let method = selectedMethod || defaultMethod
-  if (cards && cards.length === 1) {
-    const card = cards[0]
-
-    const defaultCardMethod = props.paymentMethods.methods.find(
-      (m) => m.type === BSPaymentTypes.PAYMENT_CARD
-    )
-    method = {
-      ...card,
-      card: card.card,
-      currency: card.currency,
-      limits:
-        defaultCardMethod && defaultCardMethod.limits
-          ? defaultCardMethod.limits
-          : { max: '10000', min: '500' },
-      type: BSPaymentTypes.USER_CARD
-    } as BSPaymentMethodType
-  }
+  const method = selectedMethod || defaultMethod
 
   const conversionCoinType = 'FIAT'
 

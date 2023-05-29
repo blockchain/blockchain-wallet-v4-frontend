@@ -81,16 +81,12 @@ export default ({ api, coreSagas, networks }) => {
 
   const register = function* (action) {
     const { country, email, language, password, referral, sessionToken, state } = action.payload
-    // pulling this separately to perhaps
-    // solve for 'none' value being seen in amplitude
-    // for country code
-    const { country: countryFromFormValues } = yield select(
-      selectors.form.getFormValues(SIGNUP_FORM)
-    )
+
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
     const accountRecoveryV2: boolean = selectors.core.walletOptions
       .getAccountRecoveryV2(yield select())
       .getOrElse(false) as boolean
+
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
     const isExchangeMobileSignup =
       product === ProductAuthOptions.EXCHANGE &&
@@ -142,17 +138,18 @@ export default ({ api, coreSagas, networks }) => {
         })
         yield put(actions.signup.registerSuccess(undefined))
       }
-
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
-          properties: {
-            country: country || countryFromFormValues,
-            country_state: state,
-            device_origin: platform
-          }
-        })
-      )
+      if (!isAccountReset) {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
+            properties: {
+              country,
+              country_state: state,
+              device_origin: platform
+            }
+          })
+        )
+      }
       if (product === ProductAuthOptions.EXCHANGE) {
         yield put(
           actions.analytics.trackEvent({

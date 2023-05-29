@@ -116,6 +116,8 @@ export const getData = (state: RootState) => {
     userData.kycState === KYC_STATES.UNDER_REVIEW ||
     userData.kycState === KYC_STATES.VERIFIED
 
+  const isKycRejected = userData.kycState === KYC_STATES.REJECTED
+
   if (isKycPendingOrVerified) {
     isVerifiedId = true
   }
@@ -288,7 +290,8 @@ export const getData = (state: RootState) => {
     !isProfileCompleted &&
     userData?.tiers?.current !== TIER_TYPES.GOLD &&
     isUserDataLoaded &&
-    isKycEnabled
+    isKycEnabled &&
+    !isKycRejected
   ) {
     bannerToShow = 'completeYourProfile'
   } else if (showDocResubmitBanner && !isKycPendingOrVerified && isKycEnabled) {
