@@ -16,8 +16,7 @@ export const buildDexTx =
       data,
       endPoint: `/currency/evm/buildTx`,
       removeDefaultPostData: true,
-      // url: apiUrl
-      url: 'https://api.blockchain.info'
+      url: apiUrl
     }).then((data) => {
       try {
         return BuildDexTxSchema.parse(data)

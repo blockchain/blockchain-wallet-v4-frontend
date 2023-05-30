@@ -1,5 +1,4 @@
 import type { RequestConfig } from '../../http'
-import { DEX_NABU_GATEWAY_PREFIX } from '../constants'
 import { DexTokenAllowanceSchema } from '../schemas'
 import type { DexTokenAllowance } from '../types'
 
@@ -18,8 +17,7 @@ export const getDexTokenAllowance =
       data,
       endPoint: `/currency/evm/allowance`,
       removeDefaultPostData: true,
-      // url: apiUrl
-      url: 'https://api.blockchain.info'
+      url: apiUrl
     }).then((data) => {
       try {
         return DexTokenAllowanceSchema.parse(data)
