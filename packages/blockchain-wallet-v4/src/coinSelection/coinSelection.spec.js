@@ -247,6 +247,65 @@ describe('Coin Selection', () => {
     })
   })
 
+  describe('compare', () => {
+    it('should return the right selection for descentDraw', () => {
+      const inputs = map(Coin.fromJS, [
+        { confirmations: 1, value: 1 },
+        { confirmations: 1, value: 20000 },
+        { confirmations: 1, value: 0 },
+        { confirmations: 1, value: 0 },
+        { confirmations: 1, value: 300000 },
+        { confirmations: 1, value: 50000 },
+        { confirmations: 1, value: 30000 }
+      ])
+      const result = inputs.sort((a, b) => a.descentCompareWeighted(b))
+      const expected = [300000, 50000, 30000, 20000, 1, 0, 0]
+      expect(result.map((x) => x.value)).toEqual(expected)
+    })
+    it('should return the right selection with demoted coins for descentDraw', () => {
+      const inputs = map(Coin.fromJS, [
+        { confirmations: 1, value: 1 },
+        { confirmations: 1, value: 20000 },
+        { confirmations: 1, value: 0 },
+        { confirmations: 1, value: 0 },
+        { confirmations: 1, value: 300000 },
+        { confirmations: 0, value: 50000 },
+        { confirmations: 1, value: 30000 }
+      ]) //
+      const result = inputs.sort((a, b) => a.descentCompareWeighted(b))
+      const expected = [300000, 30000, 20000, 1, 0, 0, 50000]
+      expect(result.map((x) => x.value)).toEqual(expected)
+    })
+    it('should return the right selection for ascentDraw', () => {
+      const inputs = map(Coin.fromJS, [
+        { confirmations: 1, value: 1 },
+        { confirmations: 1, value: 20000 },
+        { confirmations: 1, value: 0 },
+        { confirmations: 1, value: 0 },
+        { confirmations: 1, value: 300000 },
+        { confirmations: 1, value: 50000 },
+        { confirmations: 1, value: 30000 }
+      ])
+      const result = inputs.sort((a, b) => a.ascentCompareWeighted(b))
+      const expected = [0, 0, 1, 20000, 30000, 50000, 300000]
+      expect(result.map((x) => x.value)).toEqual(expected)
+    })
+    it('should return the right selection with demoted coins for ascentDraw', () => {
+      const inputs = map(Coin.fromJS, [
+        { confirmations: 1, value: 1 },
+        { confirmations: 1, value: 20000 },
+        { confirmations: 1, value: 0 },
+        { confirmations: 1, value: 0 },
+        { confirmations: 1, value: 300000 },
+        { confirmations: 0, value: 50000 },
+        { confirmations: 1, value: 30000 }
+      ])
+      const result = inputs.sort((a, b) => a.ascentCompareWeighted(b))
+      const expected = [0, 0, 1, 20000, 30000, 300000, 50000]
+      expect(result.map((x) => x.value)).toEqual(expected)
+    })
+  })
+
   describe('descentDraw', () => {
     it('should return the right selection', () => {
       const inputs = map(Coin.fromJS, [
@@ -268,6 +327,27 @@ describe('Coin Selection', () => {
       // change = inputs - outputs - fee
       //          300000 - 100000 - 12430 = 187570
       expect(selection.outputs.map((x) => x.value)).toEqual([100000, 187570])
+    })
+    it('should demote unconfirmed coins', () => {
+      const inputs = map(Coin.fromJS, [
+        { confirmations: 1, value: 1 },
+        { confirmations: 1, value: 20000 },
+        { confirmations: 1, value: 0 },
+        { confirmations: 1, value: 0 },
+        { confirmations: 0, value: 300000 },
+        { confirmations: 1, value: 50000 },
+        { confirmations: 1, value: 30000 }
+      ])
+      const targets = map(Coin.fromJS, [{ value: 1000 }])
+      const selection = cs.descentDraw(targets, 55, inputs, 'change-address')
+      expect(selection.inputs.map((x) => x.value)).toEqual([50000])
+
+      // (overhead + inputs + outputs) * feePerByte
+      // (10 + (1 * 148) + (2 * 34)) * 55 = 12430
+      expect(selection.fee).toEqual(12430)
+      // change = inputs - outputs - fee
+      //          50000 - 1000 - 12430 = 36570
+      expect(selection.outputs.map((x) => x.value)).toEqual([1000, 36570])
     })
   })
 
