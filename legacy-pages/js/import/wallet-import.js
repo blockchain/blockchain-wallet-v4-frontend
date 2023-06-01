@@ -300,7 +300,6 @@
             console.error('Captcha error: ', e)
             reject(e)
           })
-        console.log(window.NEW_CAPTCHA_TOKEN, 'new captcha token')
       })
     })
   }
