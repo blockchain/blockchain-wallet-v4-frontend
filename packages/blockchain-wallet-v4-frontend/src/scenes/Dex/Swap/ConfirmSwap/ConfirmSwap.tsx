@@ -31,7 +31,7 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
 
   return (
     <FormWrapper>
-      <Header onClickBack={onClickBack} />
+      <Header percentage={0.5} onClickBack={onClickBack} timer='1' />
 
       <SwapPairWrapper>
         <SwapPair

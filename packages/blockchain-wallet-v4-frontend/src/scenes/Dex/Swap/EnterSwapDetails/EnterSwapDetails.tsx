@@ -213,7 +213,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         size='large'
         width='full'
         variant='primary'
-        disabled={!quote || !isTokenAllowed}
+        disabled={!quote || !!showAllowanceCheck}
         onClick={onConfirmSwap}
         text={<FormattedMessage id='copy.swap' defaultMessage='Swap' />}
       />
