@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import type { DexChain, DexSwapQuote, DexToken } from '@core/network/api/dex'
+import type { DexChain, DexToken } from '@core/network/api/dex'
 import Remote from '@core/remote'
 import { CoinType } from '@core/types'
 import { notReachable } from 'utils/helpers'
 
-import type { DexStateType, ParsedTx } from './types'
+import type { DexStateType, DexSwapQuoteWithDate, ParsedTx } from './types'
 
 const initialState: DexStateType = {
   chains: Remote.NotAsked,
@@ -78,7 +78,7 @@ const dexSlice = createSlice({
     fetchSwapQuoteLoading: (state) => {
       state.swapQuote = Remote.Loading
     },
-    fetchSwapQuoteSuccess: (state, action: PayloadAction<DexSwapQuote>) => {
+    fetchSwapQuoteSuccess: (state, action: PayloadAction<DexSwapQuoteWithDate>) => {
       state.swapQuote = Remote.Success(action.payload)
     },
     fetchTokenAllowance: (state, action: PayloadAction<{ baseToken: CoinType }>) => {},

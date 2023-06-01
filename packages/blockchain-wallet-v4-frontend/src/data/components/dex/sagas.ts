@@ -10,6 +10,7 @@ import { getPrivateKey } from '@core/utils/eth'
 import { actions, model, selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'
 
+import quoteMock from './mocks/quote.json'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import type { DexSwapForm } from './types'
@@ -194,37 +195,46 @@ export default ({ api }: { api: APIType }) => {
             throw Error('No user wallet address')
           }
 
-          const quoteResponse = yield* call(api.getDexSwapQuote, {
-            fromCurrency: {
-              address: baseTokenInfo.address,
-              amount: baseAmountGwei,
-              chainId: currentChain.chainId,
-              symbol: baseToken
-            },
-            params: {
-              slippage: `${slippage}`
-            },
+          // const quoteResponse = yield* call(api.getDexSwapQuote, {
+          //   fromCurrency: {
+          //     address: baseTokenInfo.address,
+          //     amount: baseAmountGwei,
+          //     chainId: currentChain.chainId,
+          //     symbol: baseToken
+          //   },
+          //   params: {
+          //     slippage: `${slippage}`
+          //   },
 
-            // User always has a private wallet setup automatically on sign up but should go through a security phrase
-            // in order to receive funds. If he didn't do it he has 0 balance and just nothing to swap. We don't need
-            // any additional checks here to make sure user can use a wallet
-            // TODO: Pass selected wallet not the first one when we have more than 1 wallet
-            takerAddress: `${nonCustodialAddress}`,
+          //   // User always has a private wallet setup automatically on sign up but should go through a security phrase
+          //   // in order to receive funds. If he didn't do it he has 0 balance and just nothing to swap. We don't need
+          //   // any additional checks here to make sure user can use a wallet
+          //   // TODO: Pass selected wallet not the first one when we have more than 1 wallet
+          //   takerAddress: `${nonCustodialAddress}`,
 
-            toCurrency: {
-              address: counterTokenInfo.address,
-              chainId: currentChain.chainId,
-              symbol: counterToken
-            },
+          //   toCurrency: {
+          //     address: counterTokenInfo.address,
+          //     chainId: currentChain.chainId,
+          //     symbol: counterToken
+          //   },
 
-            // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
-            venue: 'ZEROX' as const
-          })
-          yield* put(A.fetchSwapQuoteSuccess(quoteResponse))
+          //   // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
+          //   venue: 'ZEROX' as const
+          // })
+          yield* put(
+            // @ts-ignore
+            A.fetchSwapQuoteSuccess({
+              // ...quoteResponse,
+              ...quoteMock,
+              date: new Date(),
+              totalMs: REFRESH_INTERVAL
+            })
+          )
 
           // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
           // Also we consider to return to the FE only one quote in that case
-          const { quote } = quoteResponse
+          // const { quote } = quoteResponse
+          const { quote } = quoteMock
 
           if (quote) {
             yield* put(

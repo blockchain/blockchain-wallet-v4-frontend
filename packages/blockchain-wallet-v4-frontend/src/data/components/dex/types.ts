@@ -11,6 +11,11 @@ export type ParsedTx = {
   value: string
 }
 
+export type DexSwapQuoteWithDate = DexSwapQuote & {
+  date: Date
+  totalMs: number
+}
+
 // TODO: Handle errors types when the new BE driven errors will be delivered
 export type DexStateType = {
   chains: RemoteDataType<string, DexChain[]>
@@ -21,7 +26,7 @@ export type DexStateType = {
   isUserEligible: RemoteDataType<string, boolean>
   search: string
   searchedTokens: RemoteDataType<string, DexToken[]>
-  swapQuote: RemoteDataType<string, DexSwapQuote>
+  swapQuote: RemoteDataType<string, DexSwapQuoteWithDate>
   tokenAllowanceGasEstimate: string
   tokenAllowanceTx: RemoteDataType<string, ParsedTx>
 }
