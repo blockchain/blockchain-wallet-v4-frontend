@@ -1,8 +1,8 @@
 ;(function () {
   //Save the javascript wallet to the remote server
-  function reallyInsertWallet(guid, sharedKey, password, successcallback) {
+  async function reallyInsertWallet(guid, sharedKey, password, successcallback) {
     // Executing google recaptcha
-    initCaptcha()
+    await initCaptcha()
     var _errorcallback = function (e) {
       MyWallet.makeNotice('error', 'misc-error', 'Error Saving Wallet: ' + e, 10000)
       throw e
@@ -28,6 +28,7 @@
             var new_checksum = Crypto.util.bytesToHex(Crypto.SHA256(crypted, { asBytes: true }))
 
             MyWallet.setLoadingText('Saving wallet')
+            debugger
             console.log('new captcha', window.NEW_CAPTCHA_TOKEN)
             MyWallet.securePost(
               'wallet',
@@ -286,17 +287,21 @@
 
   function initCaptcha() {
     if (!window.grecaptcha || !window.grecaptcha.enterprise) return
-    window.grecaptcha.enterprise.ready(() => {
-      window.grecaptcha.enterprise
-        .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
-        .then((captchaToken) => {
-          console.log('Captcha success', captchaToken)
-          window.NEW_CAPTCHA_TOKEN = captchaToken
-        })
-        .catch((e) => {
-          console.error('Captcha error: ', e)
-        })
-      console.log(window.NEW_CAPTCHA_TOKEN, 'new captcha token')
+    return new Promise((resolve, reject) => {
+      window.grecaptcha.enterprise.ready(() => {
+        window.grecaptcha.enterprise
+          .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
+          .then((captchaToken) => {
+            console.log('Captcha success', captchaToken)
+            window.NEW_CAPTCHA_TOKEN = captchaToken
+            resolve()
+          })
+          .catch((e) => {
+            console.error('Captcha error: ', e)
+            reject(e)
+          })
+        console.log(window.NEW_CAPTCHA_TOKEN, 'new captcha token')
+      })
     })
   }
 
