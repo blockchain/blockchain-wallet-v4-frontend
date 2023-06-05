@@ -1,4 +1,5 @@
 import Task from 'data.task'
+import { addMilliseconds } from 'date-fns'
 import * as ethers from 'ethers'
 import { call, cancelled, delay, put, select } from 'typed-redux-saga'
 
@@ -221,12 +222,13 @@ export default ({ api }: { api: APIType }) => {
           //   // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
           //   venue: 'ZEROX' as const
           // })
+          yield delay(1000)
           yield* put(
             // @ts-ignore
             A.fetchSwapQuoteSuccess({
               // ...quoteResponse,
               ...quoteMock,
-              date: new Date(),
+              date: addMilliseconds(new Date(), REFRESH_INTERVAL),
               totalMs: REFRESH_INTERVAL
             })
           )

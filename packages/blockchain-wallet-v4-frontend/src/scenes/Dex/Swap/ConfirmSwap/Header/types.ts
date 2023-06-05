@@ -1,8 +1,8 @@
 import { DefaultTheme } from 'styled-components'
 
 export type HeaderProps = {
+  date: Date
   onClickBack: () => void
-  percentage: number
   theme: DefaultTheme
-  timer: string
+  totalMs: number
 }
