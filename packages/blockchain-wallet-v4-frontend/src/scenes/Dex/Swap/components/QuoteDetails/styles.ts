@@ -57,5 +57,3 @@ export const EditSlippageText = styled(Text)`
     cursor: pointer;
   }
 `
-
-export const LoadingBox = styled(SkeletonRectangle)``

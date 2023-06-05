@@ -4,16 +4,10 @@ import { Flex, SemanticColors, Text } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 
 import { Exchange } from '@core'
+import { SkeletonRectangle } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
-import {
-  EditSlippageText,
-  LoadingBox,
-  QuoteWrapper,
-  RowDetails,
-  RowTitle,
-  ValueText
-} from './styles'
+import { EditSlippageText, QuoteWrapper, RowDetails, RowTitle, ValueText } from './styles'
 import { QuoteDetailsProps } from './types'
 
 // TODO: ETH is hardcoded in some spots, should be from current chain data
@@ -33,9 +27,11 @@ export const QuoteDetails = ({
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           <ValueText>{slippage * 100}%</ValueText>
-          <EditSlippageText onClick={handleSettingsClick}>
-            <FormattedMessage id='buttons.edit' defaultMessage='Edit' />
-          </EditSlippageText>
+          {handleSettingsClick && (
+            <EditSlippageText onClick={handleSettingsClick}>
+              <FormattedMessage id='buttons.edit' defaultMessage='Edit' />
+            </EditSlippageText>
+          )}
         </Flex>
       </RowDetails>
       <RowDetails>
@@ -44,7 +40,7 @@ export const QuoteDetails = ({
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
-            <LoadingBox bgColor='white' height='39px' width='75px' />
+            <SkeletonRectangle bgColor='white' height='39px' width='75px' />
           ) : (
             <>
               <Text color={SemanticColors.title} variant='paragraph2'>
@@ -82,7 +78,7 @@ export const QuoteDetails = ({
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
-            <LoadingBox bgColor='white' height='39px' width='75px' />
+            <SkeletonRectangle bgColor='white' height='39px' width='75px' />
           ) : (
             <>
               <Text color={SemanticColors.title} variant='paragraph2'>
@@ -119,7 +115,7 @@ export const QuoteDetails = ({
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
-            <LoadingBox bgColor='white' height='39px' width='75px' />
+            <SkeletonRectangle bgColor='white' height='39px' width='75px' />
           ) : (
             <>
               <Text color={SemanticColors.title} variant='paragraph2'>
