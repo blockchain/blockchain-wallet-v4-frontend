@@ -3,8 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { DefaultTheme, withTheme } from 'styled-components'
 
 import CircularProgressBar from 'components/CircularProgressBar'
+import { useCountDown } from 'hooks'
 
-import { useCountDown } from '../../hooks/useCountDown'
 import { Highlight, ProgressWrapper, Root, Text } from './QuoteCountDown.model'
 
 type Props = {
