@@ -10,10 +10,10 @@ const Error = ({ goToConfirmSwap, goToEnterDetails }) => (
   <Wrapper>
     <Image name='dex-swap-error' height='88px' width='88px' />
     <TextWrapper>
-      <Text variant='title3' color={SemanticColors.title}>
+      <Text color={SemanticColors.title} textAlign='center' variant='title3'>
         <FormattedMessage defaultMessage='Swap failed' id='dex.complete-swap.error.title' />
       </Text>
-      <Text variant='body1' color={SemanticColors.body}>
+      <Text color={SemanticColors.body} textAlign='center' variant='body1'>
         <FormattedMessage
           defaultMessage="Your balance hasn't been affected. You can try again or cancel."
           id='dex.complete-swap.error.description'

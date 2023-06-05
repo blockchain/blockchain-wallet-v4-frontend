@@ -10,14 +10,14 @@ const CompleteSwap = ({ baseToken, counterToken, goToEnterDetails, onViewExplore
   <Wrapper>
     <Image name='dex-swap-confirming' height='88px' width='88px' />
     <TextWrapper>
-      <Text variant='title3' color={SemanticColors.title}>
+      <Text color={SemanticColors.title} textAlign='center' variant='title3'>
         <FormattedMessage
           defaultMessage='Swapping {baseToken} for {counterToken}'
           id='dex.complete-swap.title'
           values={{ baseToken, counterToken }}
         />
       </Text>
-      <Text variant='body1' color={SemanticColors.body}>
+      <Text color={SemanticColors.body} textAlign='center' variant='body1'>
         <FormattedMessage
           defaultMessage='You swap is being confirmed by the network. Track the confirmation on Etherscan or feel free to start a new swap.'
           id='dex.complete-swap.description'

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button, Padding, SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { Exchange } from '@core'
-import { SkeletonRectangle } from 'blockchain-info-components'
+import { SkeletonRectangle, SpinningLoader } from 'blockchain-info-components'
 import { actions, model, selectors } from 'data'
 import type { DexSwapForm } from 'data/types'
 import { useRemote } from 'hooks'
@@ -25,6 +25,7 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
   const [isInitialLoad, setIsInititalLoad] = useState(true)
   const dispatch = useDispatch()
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
+  const { isLoading: isSwapQuoteTxLoading } = useRemote(selectors.components.dex.getSwapQuoteTx)
   const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
     formValues || {}
 
@@ -62,7 +63,8 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
     value: quote?.quote.buyAmount.minAmount || 0
   })
 
-  const isSwapDisabled = showQuoteChangeMsg || isQuoteLoading
+  const isLoading = isQuoteLoading || isSwapQuoteTxLoading
+  const isSwapDisabled = showQuoteChangeMsg || isLoading
 
   const onConfirmSwap = () => {
     dispatch(actions.components.dex.sendSwapQuote({ baseToken: baseToken || '' }))
@@ -114,11 +116,7 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
             defaultMessage='Output is estimated. You will receive at least {amount} or the transaction will revert and assets will be returned to your wallet.'
             id='dex.confirm_swap.estimate_message'
             values={{
-              amount: quote ? (
-                `${minAmount} ${counterToken}`
-              ) : (
-                <SkeletonRectangle bgColor='white' height='39px' width='75px' />
-              )
+              amount: quote ? `${minAmount} ${counterToken}` : `-`
             }}
           />
         </Text>
@@ -130,7 +128,13 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
         width='full'
         variant='primary'
         onClick={onConfirmSwap}
-        text={<FormattedMessage id='copy.confirmSwap' defaultMessage='Confirm Swap' />}
+        text={
+          isLoading ? (
+            <SpinningLoader height='24px' width='24px' />
+          ) : (
+            <FormattedMessage id='copy.confirmSwap' defaultMessage='Confirm Swap' />
+          )
+        }
       />
     </FormWrapper>
   )

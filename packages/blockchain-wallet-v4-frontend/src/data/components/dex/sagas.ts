@@ -11,7 +11,6 @@ import { getPrivateKey } from '@core/utils/eth'
 import { actions, model, selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'
 
-import quoteMock from './mocks/quote.json'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import type { DexSwapForm } from './types'
@@ -25,6 +24,7 @@ const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, res
 const REFRESH_INTERVAL = 30000
 const TOKEN_ALLOWANCE_POLL_INTERVAL = 5000
 const provider = ethers.providers.getDefaultProvider(`https://api.blockchain.info/eth/nodes/rpc`)
+const COMPLETE_SWAP = 'COMPLETE_SWAP'
 
 export default ({ api }: { api: APIType }) => {
   const fetchUserEligibility = function* () {
@@ -46,10 +46,9 @@ export default ({ api }: { api: APIType }) => {
       }
 
       yield put(A.fetchUserEligibilityLoading())
-      // const userEligibility = yield* call(api.getDexUserEligibility, {
-      //   walletAddress: `${walletAddress}`
-      // })
-      const userEligibility = true
+      const userEligibility = yield* call(api.getDexUserEligibility, {
+        walletAddress: `${walletAddress}`
+      })
       yield* put(A.fetchUserEligibilitySuccess(userEligibility))
     } catch (e) {
       yield* put(A.fetchUserEligibilityFailure(e.toString()))
@@ -150,8 +149,7 @@ export default ({ api }: { api: APIType }) => {
           return yield put(A.stopPollSwapQuote())
         }
 
-        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
-          formValues
+        const { baseToken, baseTokenAmount, counterToken, slippage } = formValues
 
         if (baseToken && counterToken && getValidSwapAmount(baseTokenAmount)) {
           yield* put(A.fetchSwapQuoteLoading())
@@ -196,38 +194,37 @@ export default ({ api }: { api: APIType }) => {
             throw Error('No user wallet address')
           }
 
-          // const quoteResponse = yield* call(api.getDexSwapQuote, {
-          //   fromCurrency: {
-          //     address: baseTokenInfo.address,
-          //     amount: baseAmountGwei,
-          //     chainId: currentChain.chainId,
-          //     symbol: baseToken
-          //   },
-          //   params: {
-          //     slippage: `${slippage}`
-          //   },
+          const quoteResponse = yield* call(api.getDexSwapQuote, {
+            fromCurrency: {
+              address: baseTokenInfo.address,
+              amount: baseAmountGwei,
+              chainId: currentChain.chainId,
+              symbol: baseToken
+            },
+            params: {
+              slippage: `${slippage}`
+            },
 
-          //   // User always has a private wallet setup automatically on sign up but should go through a security phrase
-          //   // in order to receive funds. If he didn't do it he has 0 balance and just nothing to swap. We don't need
-          //   // any additional checks here to make sure user can use a wallet
-          //   // TODO: Pass selected wallet not the first one when we have more than 1 wallet
-          //   takerAddress: `${nonCustodialAddress}`,
+            // User always has a private wallet setup automatically on sign up but should go through a security phrase
+            // in order to receive funds. If he didn't do it he has 0 balance and just nothing to swap. We don't need
+            // any additional checks here to make sure user can use a wallet
+            // TODO: Pass selected wallet not the first one when we have more than 1 wallet
+            takerAddress: `${nonCustodialAddress}`,
 
-          //   toCurrency: {
-          //     address: counterTokenInfo.address,
-          //     chainId: currentChain.chainId,
-          //     symbol: counterToken
-          //   },
+            toCurrency: {
+              address: counterTokenInfo.address,
+              chainId: currentChain.chainId,
+              symbol: counterToken
+            },
 
-          //   // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
-          //   venue: 'ZEROX' as const
-          // })
+            // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
+            venue: 'ZEROX' as const
+          })
           yield delay(1000)
           yield* put(
             // @ts-ignore
             A.fetchSwapQuoteSuccess({
-              // ...quoteResponse,
-              ...quoteMock,
+              ...quoteResponse,
               date: addMilliseconds(new Date(), REFRESH_INTERVAL),
               totalMs: REFRESH_INTERVAL
             })
@@ -235,8 +232,7 @@ export default ({ api }: { api: APIType }) => {
 
           // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
           // Also we consider to return to the FE only one quote in that case
-          // const { quote } = quoteResponse
-          const { quote } = quoteMock
+          const { quote } = quoteResponse
 
           if (quote) {
             yield* put(
@@ -499,11 +495,11 @@ export default ({ api }: { api: APIType }) => {
       const signedTx = yield call(() => taskToPromise(Task.of(wallet.signTransaction(parsedTx))))
       // send tx
       const tx = yield call(() => taskToPromise(Task.of(provider.sendTransaction(signedTx))))
-      yield put(A.sendSwapQuoteSuccess({ tx }))
+      yield put(A.sendSwapQuoteSuccess({ tx: tx.hash }))
     } catch (e) {
       yield put(A.sendSwapQuoteFailure(e))
     }
-    // send to Complete step
+    yield put(actions.form.change(DEX_SWAP_FORM, 'step', COMPLETE_SWAP))
   }
 
   return {

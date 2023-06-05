@@ -20,6 +20,8 @@ const CompleteSwapContainer = () => {
   const { baseToken, counterToken } = formValues || {}
 
   const goToEnterDetails = () => {
+    dispatch(actions.form.reset(DEX_SWAP_FORM))
+    dispatch(actions.components.dex.clearCurrentSwapQuote())
     dispatch(actions.form.change(DEX_SWAP_FORM, 'step', ENTER_DETAILS))
   }
 
