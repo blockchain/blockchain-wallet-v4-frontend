@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button, Padding, SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { Exchange } from '@core'
 import { SkeletonRectangle } from 'blockchain-info-components'
-import { model, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import type { DexSwapForm } from 'data/types'
 import { useRemote } from 'hooks'
 
@@ -23,6 +23,7 @@ type Props = {
 export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
   const [showQuoteChangeMsg, setShowQuoteChangeMsg] = useState(false)
   const [isInitialLoad, setIsInititalLoad] = useState(true)
+  const dispatch = useDispatch()
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
     formValues || {}
@@ -63,7 +64,9 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
 
   const isSwapDisabled = showQuoteChangeMsg || isQuoteLoading
 
-  const onConfirmSwap = () => null
+  const onConfirmSwap = () => {
+    dispatch(actions.components.dex.sendSwapQuote({ baseToken: baseToken || '' }))
+  }
 
   return (
     <FormWrapper>

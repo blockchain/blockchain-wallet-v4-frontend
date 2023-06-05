@@ -5,7 +5,7 @@ import { call, cancelled, delay, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
-import { BuildDexTxParams, DexToken } from '@core/network/api/dex/types'
+import { BuildDexTxParams, DexToken, DexTransaction } from '@core/network/api/dex/types'
 import { cancelRequestSource } from '@core/network/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, model, selectors } from 'data'
@@ -451,6 +451,61 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const sendSwapQuote = function* (action) {
+    const { baseToken } = action.payload
+    yield put(A.stopPollTokenAllowanceTx())
+    const { quote, transaction } = S.getSwapQuote(yield select()).getOrElse({
+      quote: {},
+      transaction: {}
+    })
+
+    try {
+      if (!quote || !transaction) throw Error('No valid quote')
+      yield put(A.sendSwapQuoteLoading())
+
+      // get build tx params
+      const baseTokenInfo = selectors.components.dex
+        .getChainTokenInfo(yield* select(), baseToken)
+        .getOrFail('Unable to get base token info')
+      const tokenAddress = baseTokenInfo?.address || ''
+      const wallet = yield call(getWallet)
+      const source = {
+        descriptor: 'legacy',
+        pubKey: wallet.publicKey,
+        style: 'SINGLE'
+      }
+      const { data, gasLimit: txGasLimit, value } = transaction as DexTransaction
+      const swapTxParams = {
+        intent: {
+          destination: tokenAddress,
+          fee: 'NORMAL',
+          maxVerificationVersion: 1,
+          sources: [source],
+          swapTx: {
+            data,
+            gasLimit: txGasLimit,
+            value
+          },
+          type: 'SWAP'
+        },
+        network: 'ETH'
+      } as BuildDexTxParams
+
+      // build dex tx by call api
+      const response = yield call(api.buildDexTx, swapTxParams)
+      // parse the tx
+      const parsedTx = parseRawTx(response)
+      // sign tx
+      const signedTx = yield call(() => taskToPromise(Task.of(wallet.signTransaction(parsedTx))))
+      // send tx
+      const tx = yield call(() => taskToPromise(Task.of(provider.sendTransaction(signedTx))))
+      yield put(A.sendSwapQuoteSuccess({ tx }))
+    } catch (e) {
+      yield put(A.sendSwapQuoteFailure(e))
+    }
+    // send to Complete step
+  }
+
   return {
     fetchChainTokens,
     fetchChains,
@@ -461,6 +516,7 @@ export default ({ api }: { api: APIType }) => {
     fetchUserEligibility,
     pollTokenAllowance,
     pollTokenAllowanceTx,
+    sendSwapQuote,
     sendTokenAllowanceTx
   }
 }

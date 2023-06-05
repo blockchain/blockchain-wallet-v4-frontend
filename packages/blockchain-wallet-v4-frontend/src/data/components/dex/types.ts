@@ -11,6 +11,10 @@ export type ParsedTx = {
   value: string
 }
 
+export type SwapQuoteSuccess = {
+  tx: string
+}
+
 export type DexSwapQuoteWithDate = DexSwapQuote & {
   date: Date
   totalMs: number
@@ -26,6 +30,7 @@ export type DexStateType = {
   isUserEligible: RemoteDataType<string, boolean>
   search: string
   searchedTokens: RemoteDataType<string, DexToken[]>
+  sendSwapQuote: RemoteDataType<string, SwapQuoteSuccess>
   swapQuote: RemoteDataType<string, DexSwapQuoteWithDate>
   tokenAllowanceGasEstimate: string
   tokenAllowanceTx: RemoteDataType<string, ParsedTx>

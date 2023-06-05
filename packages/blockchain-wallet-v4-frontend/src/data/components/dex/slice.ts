@@ -5,7 +5,7 @@ import Remote from '@core/remote'
 import { CoinType } from '@core/types'
 import { notReachable } from 'utils/helpers'
 
-import type { DexStateType, DexSwapQuoteWithDate, ParsedTx } from './types'
+import type { DexStateType, DexSwapQuoteWithDate, ParsedTx, SwapQuoteSuccess } from './types'
 
 const initialState: DexStateType = {
   chains: Remote.NotAsked,
@@ -16,6 +16,7 @@ const initialState: DexStateType = {
   isUserEligible: Remote.NotAsked,
   search: '',
   searchedTokens: Remote.Success([]),
+  sendSwapQuote: Remote.NotAsked,
   swapQuote: Remote.NotAsked,
   tokenAllowanceGasEstimate: '',
   tokenAllowanceTx: Remote.NotAsked
@@ -126,6 +127,16 @@ const dexSlice = createSlice({
       state.isTokenAllowedAfterPolling = Remote.NotAsked
       state.tokenAllowanceGasEstimate = ''
       state.tokenAllowanceTx = Remote.NotAsked
+    },
+    sendSwapQuote: (state, action: PayloadAction<{ baseToken: string }>) => {},
+    sendSwapQuoteFailure: (state, action: PayloadAction<string>) => {
+      state.sendSwapQuote = Remote.Failure(action.payload)
+    },
+    sendSwapQuoteLoading: (state) => {
+      state.sendSwapQuote = Remote.Loading
+    },
+    sendSwapQuoteSuccess: (state, action: PayloadAction<SwapQuoteSuccess>) => {
+      state.sendSwapQuote = Remote.Success(action.payload)
     },
     sendTokenAllowanceTx: (state, action: PayloadAction<{ baseToken: string }>) => {},
     sendTokenAllowanceTxFailure: (state, action: PayloadAction<string>) => {
