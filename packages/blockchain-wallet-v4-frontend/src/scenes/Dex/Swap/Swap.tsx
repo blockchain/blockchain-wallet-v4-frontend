@@ -8,6 +8,7 @@ import { DexSwapForm } from 'data/components/dex/types'
 import { notReachable } from 'utils/helpers'
 
 import { PageWrapper } from '../components'
+import CompleteSwap from './CompleteSwap'
 import { ConfirmSwap } from './ConfirmSwap'
 import { EnterSwapDetails } from './EnterSwapDetails'
 
@@ -44,6 +45,13 @@ const SwapForm = (form: InjectedFormProps<DexSwapForm>) => {
       return (
         <PageWrapper>
           <ConfirmSwap walletCurrency={walletCurrency} onClickBack={onGoBack} />
+        </PageWrapper>
+      )
+
+    case 'COMPLETE_SWAP':
+      return (
+        <PageWrapper>
+          <CompleteSwap />
         </PageWrapper>
       )
 
