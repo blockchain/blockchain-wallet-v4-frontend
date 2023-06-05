@@ -1,7 +1,7 @@
-import type { DexSwapQuote } from '@core/network/api/dex'
+import { DexSwapQuoteWithDate } from 'data/types'
 
 export type QuoteDetailsProps = {
-  handleSettingsClick: () => void
+  handleSettingsClick?: () => void
   isDetailsOpen: boolean
   slippage: number
   walletCurrency: string
@@ -11,6 +11,6 @@ export type QuoteDetailsProps = {
     }
   | {
       isQuoteLoading: false
-      swapQuote: DexSwapQuote
+      swapQuote: DexSwapQuoteWithDate
     }
 )

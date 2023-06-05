@@ -1,6 +1,7 @@
 export const DEX_SWAP_FORM = 'dexSwap'
 
 export const ETHERSCAN_TOKEN_URL = 'https://etherscan.io/token'
+export const ETHERSCAN_TX_URL = 'https://etherscan.io/tx'
 
 export const DEFAULT_SLIPPAGE = 0.05
 export const MIN_ALLOWED_SLIPPAGE = 0.001

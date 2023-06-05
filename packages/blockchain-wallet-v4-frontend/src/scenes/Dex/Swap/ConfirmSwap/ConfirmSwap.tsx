@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
-import { Button } from '@blockchain-com/constellation'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button, Padding, SemanticColors, Text } from '@blockchain-com/constellation'
 
-import { model, selectors } from 'data'
+import { Exchange } from '@core'
+import { SkeletonRectangle, SpinningLoader } from 'blockchain-info-components'
+import { actions, model, selectors } from 'data'
 import type { DexSwapForm } from 'data/types'
+import { useRemote } from 'hooks'
 
-import { FlipPairButton, FormWrapper, SwapPair, SwapPairWrapper } from '../components'
+import { FlipPairButton, FormWrapper, QuoteDetails, SwapPair, SwapPairWrapper } from '../components'
 import { Header } from './Header'
+import { QuoteChange } from './QuoteChange'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
@@ -17,8 +21,33 @@ type Props = {
 }
 
 export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
+  const [showQuoteChangeMsg, setShowQuoteChangeMsg] = useState(false)
+  const [isInitialLoad, setIsInititalLoad] = useState(true)
+  const dispatch = useDispatch()
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
-  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues || {}
+  const { isLoading: isSwapQuoteTxLoading } = useRemote(selectors.components.dex.getSwapQuoteTx)
+  const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
+    formValues || {}
+
+  const { data: quote, isLoading: isQuoteLoading } = useRemote(
+    selectors.components.dex.getSwapQuote
+  )
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsInititalLoad(false)
+    }, 3000)
+
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isInitialLoad && isQuoteLoading) {
+      setShowQuoteChangeMsg(true)
+    }
+  }, [quote, setShowQuoteChangeMsg])
 
   const baseTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
@@ -27,12 +56,23 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
     selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
   )
 
-  const onConfirmSwap = () => null
+  const date = quote?.date || new Date()
+  const totalMs = quote?.totalMs || 0
+  const minAmount = Exchange.convertCoinToCoin({
+    coin: counterToken || '',
+    value: quote?.quote.buyAmount.minAmount || 0
+  })
+
+  const isLoading = isQuoteLoading || isSwapQuoteTxLoading
+  const isSwapDisabled = showQuoteChangeMsg || isLoading
+
+  const onConfirmSwap = () => {
+    dispatch(actions.components.dex.sendSwapQuote({ baseToken: baseToken || '' }))
+  }
 
   return (
     <FormWrapper>
-      <Header onClickBack={onClickBack} />
-
+      <Header date={date} onClickBack={onClickBack} totalMs={totalMs} />
       <SwapPairWrapper>
         <SwapPair
           isQuoteLocked
@@ -54,13 +94,47 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
           walletCurrency={walletCurrency}
         />
       </SwapPairWrapper>
-
+      {isQuoteLoading ? (
+        <QuoteDetails
+          isDetailsOpen
+          walletCurrency={walletCurrency}
+          slippage={slippage}
+          isQuoteLoading
+        />
+      ) : quote ? (
+        <QuoteDetails
+          isDetailsOpen
+          isQuoteLoading={false}
+          slippage={slippage}
+          swapQuote={quote}
+          walletCurrency={walletCurrency}
+        />
+      ) : null}
+      <Padding horizontal={1} bottom={1}>
+        <Text color={SemanticColors.body} variant='caption1'>
+          <FormattedMessage
+            defaultMessage='Output is estimated. You will receive at least {amount} or the transaction will revert and assets will be returned to your wallet.'
+            id='dex.confirm_swap.estimate_message'
+            values={{
+              amount: quote ? `${minAmount} ${counterToken}` : `-`
+            }}
+          />
+        </Text>
+      </Padding>
+      {showQuoteChangeMsg && <QuoteChange setShowQuoteChangeMsg={setShowQuoteChangeMsg} />}
       <Button
+        disabled={isSwapDisabled}
         size='large'
         width='full'
         variant='primary'
         onClick={onConfirmSwap}
-        text={<FormattedMessage id='copy.confirmSwap' defaultMessage='Confirm Swap' />}
+        text={
+          isLoading ? (
+            <SpinningLoader height='24px' width='24px' />
+          ) : (
+            <FormattedMessage id='copy.confirmSwap' defaultMessage='Confirm Swap' />
+          )
+        }
       />
     </FormWrapper>
   )

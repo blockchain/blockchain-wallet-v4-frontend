@@ -32,3 +32,5 @@ export const getTokenAllowanceGasEstimate = (state: RootState) =>
 
 export const getTokenAllowanceStatusAfterPolling = (state: RootState) =>
   state.components.dex.isTokenAllowedAfterPolling
+
+export const getSwapQuoteTx = (state: RootState) => state.components.dex.swapQuoteTx

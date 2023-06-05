@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Padding } from '@blockchain-com/constellation'
@@ -213,12 +213,10 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         size='large'
         width='full'
         variant='primary'
-        disabled={!quote || !isTokenAllowed}
+        disabled={!quote || !!showAllowanceCheck}
         onClick={onConfirmSwap}
         text={<FormattedMessage id='copy.swap' defaultMessage='Swap' />}
       />
-
-      {/* TODO: Check if we have other errors to display the same way and make it generic */}
       {hasQuoteError ? <ErrorMessage /> : null}
     </FormWrapper>
   )
