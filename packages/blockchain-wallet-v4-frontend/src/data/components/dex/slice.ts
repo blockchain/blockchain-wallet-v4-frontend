@@ -16,8 +16,8 @@ const initialState: DexStateType = {
   isUserEligible: Remote.NotAsked,
   search: '',
   searchedTokens: Remote.Success([]),
-  sendSwapQuote: Remote.NotAsked,
   swapQuote: Remote.NotAsked,
+  swapQuoteTx: Remote.NotAsked,
   tokenAllowanceGasEstimate: '',
   tokenAllowanceTx: Remote.NotAsked
 }
@@ -130,13 +130,13 @@ const dexSlice = createSlice({
     },
     sendSwapQuote: (state, action: PayloadAction<{ baseToken: string }>) => {},
     sendSwapQuoteFailure: (state, action: PayloadAction<string>) => {
-      state.sendSwapQuote = Remote.Failure(action.payload)
+      state.swapQuoteTx = Remote.Failure(action.payload)
     },
     sendSwapQuoteLoading: (state) => {
-      state.sendSwapQuote = Remote.Loading
+      state.swapQuoteTx = Remote.Loading
     },
     sendSwapQuoteSuccess: (state, action: PayloadAction<SwapQuoteSuccess>) => {
-      state.sendSwapQuote = Remote.Success(action.payload)
+      state.swapQuoteTx = Remote.Success(action.payload)
     },
     sendTokenAllowanceTx: (state, action: PayloadAction<{ baseToken: string }>) => {},
     sendTokenAllowanceTxFailure: (state, action: PayloadAction<string>) => {

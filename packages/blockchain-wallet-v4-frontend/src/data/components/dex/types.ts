@@ -30,15 +30,15 @@ export type DexStateType = {
   isUserEligible: RemoteDataType<string, boolean>
   search: string
   searchedTokens: RemoteDataType<string, DexToken[]>
-  sendSwapQuote: RemoteDataType<string, SwapQuoteSuccess>
   swapQuote: RemoteDataType<string, DexSwapQuoteWithDate>
+  swapQuoteTx: RemoteDataType<string, SwapQuoteSuccess>
   tokenAllowanceGasEstimate: string
   tokenAllowanceTx: RemoteDataType<string, ParsedTx>
 }
 
 export type DexSwapSide = 'BASE' | 'COUNTER'
 export type DexScenes = 'ONBOARDING' | 'SWAP' | 'NOT_ELIGIBLE' | 'ERROR' | 'LOADING'
-export type DexSwapSteps = 'CONFIRM_SWAP' | 'ENTER_DETAILS'
+export type DexSwapSteps = 'COMPLETE_SWAP' | 'CONFIRM_SWAP' | 'ENTER_DETAILS'
 export enum DexSwapSideFields {
   BASE = 'baseToken',
   COUNTER = 'counterToken'
