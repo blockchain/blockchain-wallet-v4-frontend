@@ -1,10 +1,11 @@
 import Task from 'data.task'
+import { addMilliseconds } from 'date-fns'
 import * as ethers from 'ethers'
 import { call, cancelled, delay, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
-import { BuildDexTxParams, DexToken } from '@core/network/api/dex/types'
+import { BuildDexTxParams, DexToken, DexTransaction } from '@core/network/api/dex/types'
 import { cancelRequestSource } from '@core/network/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, model, selectors } from 'data'
@@ -23,6 +24,7 @@ const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, res
 const REFRESH_INTERVAL = 30000
 const TOKEN_ALLOWANCE_POLL_INTERVAL = 5000
 const provider = ethers.providers.getDefaultProvider(`https://api.blockchain.info/eth/nodes/rpc`)
+const COMPLETE_SWAP = 'COMPLETE_SWAP'
 
 export default ({ api }: { api: APIType }) => {
   const fetchUserEligibility = function* () {
@@ -44,10 +46,9 @@ export default ({ api }: { api: APIType }) => {
       }
 
       yield put(A.fetchUserEligibilityLoading())
-      // const userEligibility = yield* call(api.getDexUserEligibility, {
-      //   walletAddress: `${walletAddress}`
-      // })
-      const userEligibility = true
+      const userEligibility = yield* call(api.getDexUserEligibility, {
+        walletAddress: `${walletAddress}`
+      })
       yield* put(A.fetchUserEligibilitySuccess(userEligibility))
     } catch (e) {
       yield* put(A.fetchUserEligibilityFailure(e.toString()))
@@ -148,8 +149,7 @@ export default ({ api }: { api: APIType }) => {
           return yield put(A.stopPollSwapQuote())
         }
 
-        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
-          formValues
+        const { baseToken, baseTokenAmount, counterToken, slippage } = formValues
 
         if (baseToken && counterToken && getValidSwapAmount(baseTokenAmount)) {
           yield* put(A.fetchSwapQuoteLoading())
@@ -220,7 +220,15 @@ export default ({ api }: { api: APIType }) => {
             // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
             venue: 'ZEROX' as const
           })
-          yield* put(A.fetchSwapQuoteSuccess(quoteResponse))
+          yield delay(1000)
+          yield* put(
+            // @ts-ignore
+            A.fetchSwapQuoteSuccess({
+              ...quoteResponse,
+              date: addMilliseconds(new Date(), REFRESH_INTERVAL),
+              totalMs: REFRESH_INTERVAL
+            })
+          )
 
           // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
           // Also we consider to return to the FE only one quote in that case
@@ -439,6 +447,61 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const sendSwapQuote = function* (action) {
+    const { baseToken } = action.payload
+    yield put(A.stopPollTokenAllowanceTx())
+    const { quote, transaction } = S.getSwapQuote(yield select()).getOrElse({
+      quote: {},
+      transaction: {}
+    })
+
+    try {
+      if (!quote || !transaction) throw Error('No valid quote')
+      yield put(A.sendSwapQuoteLoading())
+
+      // get build tx params
+      const baseTokenInfo = selectors.components.dex
+        .getChainTokenInfo(yield* select(), baseToken)
+        .getOrFail('Unable to get base token info')
+      const tokenAddress = baseTokenInfo?.address || ''
+      const wallet = yield call(getWallet)
+      const source = {
+        descriptor: 'legacy',
+        pubKey: wallet.publicKey,
+        style: 'SINGLE'
+      }
+      const { data, gasLimit: txGasLimit, value } = transaction as DexTransaction
+      const swapTxParams = {
+        intent: {
+          destination: tokenAddress,
+          fee: 'NORMAL',
+          maxVerificationVersion: 1,
+          sources: [source],
+          swapTx: {
+            data,
+            gasLimit: txGasLimit,
+            value
+          },
+          type: 'SWAP'
+        },
+        network: 'ETH'
+      } as BuildDexTxParams
+
+      // build dex tx by call api
+      const response = yield call(api.buildDexTx, swapTxParams)
+      // parse the tx
+      const parsedTx = parseRawTx(response)
+      // sign tx
+      const signedTx = yield call(() => taskToPromise(Task.of(wallet.signTransaction(parsedTx))))
+      // send tx
+      const tx = yield call(() => taskToPromise(Task.of(provider.sendTransaction(signedTx))))
+      yield put(A.sendSwapQuoteSuccess({ tx: tx.hash }))
+    } catch (e) {
+      yield put(A.sendSwapQuoteFailure(e))
+    }
+    yield put(actions.form.change(DEX_SWAP_FORM, 'step', COMPLETE_SWAP))
+  }
+
   return {
     fetchChainTokens,
     fetchChains,
@@ -449,6 +512,7 @@ export default ({ api }: { api: APIType }) => {
     fetchUserEligibility,
     pollTokenAllowance,
     pollTokenAllowanceTx,
+    sendSwapQuote,
     sendTokenAllowanceTx
   }
 }

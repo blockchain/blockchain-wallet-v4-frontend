@@ -3,8 +3,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { RefreshConfig } from '@core/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-
-import { useCountDown } from '../../hooks/useCountDown'
+import { useCountDown } from 'hooks'
 
 export type Props = {
   isSubmitting: boolean

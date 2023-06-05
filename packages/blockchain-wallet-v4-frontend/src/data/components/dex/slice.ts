@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import type { DexChain, DexSwapQuote, DexToken } from '@core/network/api/dex'
+import type { DexChain, DexToken } from '@core/network/api/dex'
 import Remote from '@core/remote'
 import { CoinType } from '@core/types'
 import { notReachable } from 'utils/helpers'
 
-import type { DexStateType, ParsedTx } from './types'
+import type { DexStateType, DexSwapQuoteWithDate, ParsedTx, SwapQuoteSuccess } from './types'
 
 const initialState: DexStateType = {
   chains: Remote.NotAsked,
@@ -17,6 +17,7 @@ const initialState: DexStateType = {
   search: '',
   searchedTokens: Remote.Success([]),
   swapQuote: Remote.NotAsked,
+  swapQuoteTx: Remote.NotAsked,
   tokenAllowanceGasEstimate: '',
   tokenAllowanceTx: Remote.NotAsked
 }
@@ -78,7 +79,7 @@ const dexSlice = createSlice({
     fetchSwapQuoteLoading: (state) => {
       state.swapQuote = Remote.Loading
     },
-    fetchSwapQuoteSuccess: (state, action: PayloadAction<DexSwapQuote>) => {
+    fetchSwapQuoteSuccess: (state, action: PayloadAction<DexSwapQuoteWithDate>) => {
       state.swapQuote = Remote.Success(action.payload)
     },
     fetchTokenAllowance: (state, action: PayloadAction<{ baseToken: CoinType }>) => {},
@@ -126,6 +127,16 @@ const dexSlice = createSlice({
       state.isTokenAllowedAfterPolling = Remote.NotAsked
       state.tokenAllowanceGasEstimate = ''
       state.tokenAllowanceTx = Remote.NotAsked
+    },
+    sendSwapQuote: (state, action: PayloadAction<{ baseToken: string }>) => {},
+    sendSwapQuoteFailure: (state, action: PayloadAction<string>) => {
+      state.swapQuoteTx = Remote.Failure(action.payload)
+    },
+    sendSwapQuoteLoading: (state) => {
+      state.swapQuoteTx = Remote.Loading
+    },
+    sendSwapQuoteSuccess: (state, action: PayloadAction<SwapQuoteSuccess>) => {
+      state.swapQuoteTx = Remote.Success(action.payload)
     },
     sendTokenAllowanceTx: (state, action: PayloadAction<{ baseToken: string }>) => {},
     sendTokenAllowanceTxFailure: (state, action: PayloadAction<string>) => {

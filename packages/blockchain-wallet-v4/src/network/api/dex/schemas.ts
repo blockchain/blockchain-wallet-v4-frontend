@@ -99,10 +99,10 @@ const DexTransactionSchema: z.ZodSchema<DexTransaction, z.ZodTypeDef, unknown> =
   // TODO: Change to just z.number when it's fixed on BE
   chainId: z.union([z.number(), stringToPositiveFloat]),
   data: z.string(),
-  gasLimit: stringToPositiveFloat,
-  gasPrice: stringToPositiveFloat,
+  gasLimit: z.string(),
+  gasPrice: z.string(),
   to: z.string(),
-  value: stringToPositiveFloat
+  value: z.string()
 })
 
 const DexPreImageSchema: z.ZodSchema<BuildDexTxPreImage, z.ZodTypeDef, unknown> = z.object({
