@@ -68,10 +68,10 @@ export type DexTransaction = {
   allowanceTarget: string
   chainId: number
   data: string
-  gasLimit: number
-  gasPrice: number
+  gasLimit: string
+  gasPrice: string
   to: string
-  value: number
+  value: string
 }
 
 export type DexSwapQuote = {
