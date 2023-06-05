@@ -85,7 +85,9 @@ export const QuoteDetails = ({
                 ~
                 {Exchange.convertCoinToCoin({
                   coin: 'ETH',
-                  value: props.swapQuote.transaction.gasPrice * props.swapQuote.transaction.gasLimit
+                  value:
+                    Number(props.swapQuote.transaction.gasPrice) *
+                    Number(props.swapQuote.transaction.gasLimit)
                 })}
                 {' ETH'}
               </Text>
