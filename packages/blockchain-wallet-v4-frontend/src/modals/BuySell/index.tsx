@@ -70,17 +70,15 @@ class BuySell extends PureComponent<Props, State> {
 
   componentDidMount() {
     this.setState({ show: true })
-    this.props.custodialActions.fetchProductEligibilityForUser()
-
     this.props.recurringBuyActions.fetchPaymentInfo()
   }
 
   componentWillUnmount() {
+    this.props.formActions.destroy(FORM_BS_CHECKOUT)
+    this.props.formActions.destroy(FORMS_BS_BILLING_ADDRESS)
     this.props.buySellActions.pollBalances()
     this.props.buySellActions.stopPollSellQuotePrice({})
     this.props.buySellActions.destroyCheckout()
-    this.props.formActions.destroy(FORM_BS_CHECKOUT)
-    this.props.formActions.destroy(FORMS_BS_BILLING_ADDRESS)
   }
 
   backToEnterAmount = () => {
@@ -297,6 +295,11 @@ class BuySell extends PureComponent<Props, State> {
               <StdLoading text={LoadingTextEnum.GETTING_READY} />
             </FlyoutChild>
           )}
+          {this.props.step === 'INITIAL_LOADING' && (
+            <FlyoutChild>
+              <Loading />
+            </FlyoutChild>
+          )}
           {/** Only Plaid errors for now */}
           {this.props.step === 'PAYMENT_ACCOUNT_ERROR' && (
             <FlyoutChild>
@@ -372,6 +375,7 @@ type LinkStatePropsType =
         | 'BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
+        | 'INITIAL_LOADING'
         | 'LOADING'
         | 'FREQUENCY'
         | 'SELL_ORDER_SUMMARY'

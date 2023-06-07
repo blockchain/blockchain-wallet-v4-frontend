@@ -1911,7 +1911,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     // When opening the buy modal if there are any existing orders that are cancellable, cancel them
     yield call(cleanupCancellableOrders)
-
     const { cryptoCurrency, method, mobilePaymentMethod, orderType, origin, step } = payload
 
     let hasPendingOBOrder = false
@@ -1919,6 +1918,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // get current user tier
     const isUserTier2 = yield call(isTier2)
+
+    // loading modal here before dong product eligibility check
+    // so buy flyout can load right away
+    if (isUserTier2) {
+      yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { origin }))
+      yield put(A.setStep({ step: 'INITIAL_LOADING' }))
+    }
 
     // FIXME: This call is causing the modal to be very slow, abstract this to somewhere other than here
     yield put(actions.custodial.fetchProductEligibilityForUser())
@@ -1942,6 +1948,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           origin: 'BuySellInit'
         })
       )
+      yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
       return
     }
 
@@ -1957,6 +1964,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             origin: 'BuySellInit'
           })
         )
+        yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
         return
       }
     }
@@ -1987,6 +1995,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           sanctionsType
         })
       )
+      yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
       return
     }
     // show sanctions for sell
@@ -2003,6 +2012,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           sanctionsType
         })
       )
+      yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
       return
     }
 
@@ -2013,7 +2023,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { cryptoCurrency, origin }))
-
     // Use the user's trading currency setting whenever opening the buy flow
     const fiatCurrency = selectors.modules.profile
       .getTradingCurrency(yield select())

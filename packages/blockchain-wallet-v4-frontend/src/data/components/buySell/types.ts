@@ -81,6 +81,7 @@ export enum BuySellStepType {
   'CHECKOUT_CONFIRM',
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
+  'INITIAL_LOADING',
   'KYC_REQUIRED',
   'LINKED_PAYMENT_ACCOUNTS',
   'LOADING',
@@ -307,6 +308,7 @@ export type StepActionsPayload =
         | 'BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
+        | 'INITIAL_LOADING'
         | 'LOADING'
         | 'FREQUENCY'
         | 'UPDATE_SECURITY_CODE'
