@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Flex, IconAlert, Padding, SemanticColors } from '@blockchain-com/constellation'
 
-import { CoinType } from '@core/types'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { DexSwapForm, DexSwapSide, ModalName, SwapAccountType } from 'data/types'
@@ -240,7 +239,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           size='large'
           width='full'
           variant='primary'
-          disabled={!quote || !!showAllowanceCheck || !!quoteError}
+          disabled={!quote || !!showAllowanceCheck}
           onClick={onConfirmSwap}
           text={
             quoteError ? (
