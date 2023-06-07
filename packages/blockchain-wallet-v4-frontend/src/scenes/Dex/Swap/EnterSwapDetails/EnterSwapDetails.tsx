@@ -229,12 +229,12 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         ) : null
       ) : null}
 
+      {quoteError && <ErrorMessage error={quoteError?.message} />}
       {showAllowanceCheck ? (
-        <Padding vertical={1}>
+        <Padding bottom={1.5}>
           <AllowanceCheck baseToken={baseToken} onApprove={onViewTokenAllowance} />
         </Padding>
       ) : null}
-      {quoteError && <ErrorMessage error={quoteError?.message} />}
       <ButtonContainer quoteError={quoteError}>
         <Button
           size='large'
@@ -246,11 +246,15 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
             quoteError ? (
               <Flex alignItems='center' gap={8}>
                 <IconAlert color={SemanticColors.warning} size='medium' />
-                <FormattedMessage
-                  id='dex.enter-swap-details.button.insufficient'
-                  defaultMessage='Insufficient {token}'
-                  values={{ token: baseToken }}
-                />
+                {quoteError.title.includes('Insufficient') ? (
+                  <FormattedMessage
+                    id='dex.enter-swap-details.button.insufficient'
+                    defaultMessage='Insufficient {token}'
+                    values={{ token: baseToken }}
+                  />
+                ) : (
+                  quoteError.title
+                )}
               </Flex>
             ) : (
               <FormattedMessage id='copy.swap' defaultMessage='Swap' />
