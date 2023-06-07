@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Padding } from '@blockchain-com/constellation'
+import { Button, Flex, IconAlert, Padding, SemanticColors } from '@blockchain-com/constellation'
 
 import { actions, model, selectors } from 'data'
 import { DexSwapForm, DexSwapSide, ModalName } from 'data/types'
@@ -39,7 +39,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
 
   const {
     data: quote,
-    hasError: hasQuoteError,
+    error: quoteError,
     isLoading: isLoadingQuote
   } = useRemote(selectors.components.dex.getSwapQuote)
 
@@ -116,7 +116,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     !isTokenAllowanceNotAsked
 
   return (
-    <FormWrapper>
+    <FormWrapper quoteError={quoteError}>
       <Header onClickSettings={onViewSettings} />
       <SwapPairWrapper>
         {formValues.baseToken ? (
@@ -213,13 +213,22 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         size='large'
         width='full'
         variant='primary'
-        disabled={!quote || !!showAllowanceCheck}
+        disabled={!quote || !!showAllowanceCheck || !!quoteError}
         onClick={onConfirmSwap}
-        text={<FormattedMessage id='copy.swap' defaultMessage='Swap' />}
+        text={
+          quoteError ? (
+            <Flex alignItems='center' gap={8}>
+              <IconAlert color={SemanticColors.warning} size='medium' />
+              {quoteError?.title}
+            </Flex>
+          ) : (
+            <FormattedMessage id='copy.swap' defaultMessage='Swap' />
+          )
+        }
       />
 
       {/* TODO: Check if we have other errors to display the same way and make it generic */}
-      {hasQuoteError ? <ErrorMessage /> : null}
+      {quoteError && <ErrorMessage error={quoteError?.message} />}
     </FormWrapper>
   )
 }
