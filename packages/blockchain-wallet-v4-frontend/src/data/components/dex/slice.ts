@@ -5,7 +5,13 @@ import Remote from '@core/remote'
 import { CoinType } from '@core/types'
 import { notReachable } from 'utils/helpers'
 
-import type { DexStateType, DexSwapQuoteWithDate, ParsedTx, SwapQuoteSuccess } from './types'
+import type {
+  DexStateType,
+  DexSwapQuoteWithDate,
+  ParsedTx,
+  QuoteError,
+  SwapQuoteSuccess
+} from './types'
 
 const initialState: DexStateType = {
   chains: Remote.NotAsked,
@@ -73,7 +79,7 @@ const dexSlice = createSlice({
       state.searchedTokens = Remote.Success(action.payload)
     },
     fetchSwapQuote: () => {},
-    fetchSwapQuoteFailure: (state, action: PayloadAction<string>) => {
+    fetchSwapQuoteFailure: (state, action: PayloadAction<QuoteError>) => {
       state.swapQuote = Remote.Failure(action.payload)
     },
     fetchSwapQuoteLoading: (state) => {

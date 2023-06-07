@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Padding } from '@blockchain-com/constellation'
+import { Button, Flex, IconAlert, Padding, SemanticColors } from '@blockchain-com/constellation'
 
+import { CoinType } from '@core/types'
 import { actions, model, selectors } from 'data'
-import { DexSwapForm, DexSwapSide, ModalName } from 'data/types'
+import { RootState } from 'data/rootReducer'
+import { DexSwapForm, DexSwapSide, ModalName, SwapAccountType } from 'data/types'
 import { usePrevious, useRemote } from 'hooks'
 
 import { AllowanceCheck } from '../AllowanceCheck'
@@ -18,6 +20,7 @@ import {
 } from '../components'
 import { ErrorMessage } from './ErrorMessage'
 import { Header } from './Header'
+import { ButtonContainer } from './styles'
 
 const { DEX_SWAP_FORM } = model.components.dex
 const NETWORK_TOKEN = 'ETH'
@@ -39,7 +42,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
 
   const {
     data: quote,
-    hasError: hasQuoteError,
+    error: quoteError,
     isLoading: isLoadingQuote
   } = useRemote(selectors.components.dex.getSwapQuote)
 
@@ -74,6 +77,17 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
   )
 
+  const baseTokenAccount = useSelector((state: RootState) => {
+    if (!baseToken) return undefined
+
+    const accounts = selectors.coins.getCoinAccounts(state, {
+      coins: [baseToken],
+      nonCustodialAccounts: true
+    })
+
+    return accounts[baseToken][0]
+  }) as SwapAccountType | undefined
+
   const onViewSettings = () => {
     dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))
   }
@@ -92,6 +106,18 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
 
   const onConfirmSwap = () => {
     dispatch(actions.form.change(DEX_SWAP_FORM, 'step', 'CONFIRM_SWAP'))
+  }
+
+  const onDepositMore = () => {
+    dispatch(
+      actions.modals.showModal(
+        ModalName.REQUEST_CRYPTO_MODAL,
+        {
+          origin: 'Dex'
+        },
+        { account: baseTokenAccount, coin: baseToken }
+      )
+    )
   }
 
   const onFlipPairClick = () => {
@@ -203,23 +229,54 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         ) : null
       ) : null}
 
+      {quoteError && <ErrorMessage error={quoteError?.message} />}
       {showAllowanceCheck ? (
-        <Padding vertical={1}>
+        <Padding bottom={1.5}>
           <AllowanceCheck baseToken={baseToken} onApprove={onViewTokenAllowance} />
         </Padding>
       ) : null}
-
-      <Button
-        size='large'
-        width='full'
-        variant='primary'
-        disabled={!quote || !!showAllowanceCheck}
-        onClick={onConfirmSwap}
-        text={<FormattedMessage id='copy.swap' defaultMessage='Swap' />}
-      />
-
-      {/* TODO: Check if we have other errors to display the same way and make it generic */}
-      {hasQuoteError ? <ErrorMessage /> : null}
+      <ButtonContainer quoteError={quoteError}>
+        <Button
+          size='large'
+          width='full'
+          variant='primary'
+          disabled={!quote || !!showAllowanceCheck || !!quoteError}
+          onClick={onConfirmSwap}
+          text={
+            quoteError ? (
+              <Flex alignItems='center' gap={8}>
+                <IconAlert color={SemanticColors.warning} size='medium' />
+                {quoteError.title.includes('Insufficient') ? (
+                  <FormattedMessage
+                    id='dex.enter-swap-details.button.insufficient'
+                    defaultMessage='Insufficient {token}'
+                    values={{ token: baseToken }}
+                  />
+                ) : (
+                  quoteError.title
+                )}
+              </Flex>
+            ) : (
+              <FormattedMessage id='copy.swap' defaultMessage='Swap' />
+            )
+          }
+        />
+        {quoteError && quoteError?.title.includes('Insufficient') && (
+          <Button
+            size='large'
+            width='full'
+            variant='minimal'
+            onClick={onDepositMore}
+            text={
+              <FormattedMessage
+                id='dex.enter-swap-details.deposit-more'
+                defaultMessage='Deposit more {token}'
+                values={{ token: baseToken }}
+              />
+            }
+          />
+        )}
+      </ButtonContainer>
     </FormWrapper>
   )
 }

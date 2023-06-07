@@ -261,8 +261,8 @@ export default ({ api }: { api: APIType }) => {
 
           yield delay(REFRESH_INTERVAL)
         }
-      } catch (e) {
-        yield put(A.fetchSwapQuoteFailure(e))
+      } catch ({ message, title }) {
+        yield put(A.fetchSwapQuoteFailure({ message, title }))
         yield put(A.stopPollSwapQuote())
       }
     }
