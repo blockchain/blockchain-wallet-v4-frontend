@@ -226,8 +226,6 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           )
         }
       />
-
-      {/* TODO: Check if we have other errors to display the same way and make it generic */}
       {quoteError && <ErrorMessage error={quoteError?.message} />}
     </FormWrapper>
   )
