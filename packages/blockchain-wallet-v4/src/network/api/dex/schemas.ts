@@ -144,6 +144,7 @@ export const DexSwapQuoteSchema: z.ZodSchema<DexSwapQuote, z.ZodTypeDef, unknown
   .object({
     legs: z.literal(1),
     quote: DexQuoteSchema,
+    quoteTtl: z.number(),
     tx: DexTransactionSchema,
     type: DexSwapQuoteTypeSchema,
     venueType: DexVenueTypeSchema
