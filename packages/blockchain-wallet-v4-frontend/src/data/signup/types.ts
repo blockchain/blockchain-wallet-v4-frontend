@@ -96,4 +96,5 @@ export type SignupStateType = {
   resetAccount: boolean
   restoring: RemoteDataType<string, RestoringType>
   signupCountry?: string
+  signupCountryState?: string
 }
