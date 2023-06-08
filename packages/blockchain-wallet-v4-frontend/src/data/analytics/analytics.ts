@@ -15,6 +15,8 @@ const queueCallback = async (rawEvents: RawEvent[]) => {
     const nabuId =
       rawEvents.find((event) => event.payload.traits.nabuId)?.payload.traits.nabuId ?? null
     const country = rawEvents.find((event) => event.payload.traits.country)?.payload.traits.country
+    const country_state = rawEvents.find((event) => event.payload.traits.country_state)?.payload
+      .traits.country_state
     const email =
       rawEvents.find((event) => event.payload.traits.email)?.payload.traits.email ?? null
     const tier = rawEvents.find((event) => event.payload.traits.tier)?.payload.traits.tier ?? null
@@ -25,6 +27,7 @@ const queueCallback = async (rawEvents: RawEvent[]) => {
 
     const traits = {
       country,
+      country_state,
       email,
       nabu_id: nabuId,
       tier: parsedTier

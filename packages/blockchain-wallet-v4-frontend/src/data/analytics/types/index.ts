@@ -129,6 +129,7 @@ type TrackEventAction =
 
 type AnalyticsTraits = {
   country?: string
+  country_state?: string
   email?: string
   nabuId: string
   tier?: number

@@ -13,12 +13,14 @@ export const trackEvent = function* ({ payload }: ReturnType<typeof trackEventAc
   const tiersState = (yield select(selectors.modules.profile.getTiers)).getOrElse({})
   const originalTimestamp = new Date().toISOString()
   const country = yield select(selectors.signup.getSignupCountry) || null
+  const countryState = yield select(selectors.signup.getSignupCountryState) || null
   const properties = { originalTimestamp, ...payload.properties }
 
   analytics.push(payload.key, {
     properties,
     traits: {
       country,
+      country_state: countryState,
       email,
       nabuId: nabuUserId,
       tier: tiersState.current

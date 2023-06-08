@@ -101,6 +101,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.loginLoading())
       yield put(actions.signup.setRegisterEmail(email))
       yield put(actions.signup.setSignupCountry(country))
+      yield put(actions.signup.setSignupCountryState(state))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
       if (isAccountReset && accountRecoveryV2) {
         yield call(coreSagas.wallet.createResetWalletSaga, {
