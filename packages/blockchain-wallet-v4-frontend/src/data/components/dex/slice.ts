@@ -134,7 +134,7 @@ const dexSlice = createSlice({
       state.tokenAllowanceGasEstimate = ''
       state.tokenAllowanceTx = Remote.NotAsked
     },
-    sendSwapQuote: (state, action: PayloadAction<{ baseToken: string }>) => {},
+    sendSwapQuote: () => {},
     sendSwapQuoteFailure: (state, action: PayloadAction<string>) => {
       state.swapQuoteTx = Remote.Failure(action.payload)
     },

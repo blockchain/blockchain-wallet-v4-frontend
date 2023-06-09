@@ -16,6 +16,7 @@ import {
   Events as DepositWithdrawalClientEvents,
   TrackEventAction as DepositWithdrawalClientEventAction
 } from './depositWithdrawalClient'
+import { Events as DexEvents, TrackEventAction as DexEventAction } from './dexEvents'
 import {
   Events as ClientErrorEvents,
   TrackEventAction as ClientErrorTrackEventAction
@@ -63,6 +64,7 @@ type AnalyticsKey =
   | AccountRecoveryEvents
   | ClientErrorEvents
   | DepositWithdrawalClientEvents
+  | DexEvents
   | InterestClientEvents
   | LoginEvents
   | MiscEvents
@@ -85,6 +87,7 @@ const Analytics = {
   ...CoinViewEvents,
   ...CowboysPromoEvents,
   ...DepositWithdrawalClientEvents,
+  ...DexEvents,
   ...InterestClientEvents,
   ...LoginEvents,
   ...MiscEvents,
@@ -111,6 +114,7 @@ type TrackEventAction =
   | AccountRecoveryTrackEventAction
   | ClientErrorTrackEventAction
   | DepositWithdrawalClientEventAction
+  | DexEventAction
   | InterestClientTrackEventAction
   | LoginTrackEventAction
   | MiscTrackEventAction

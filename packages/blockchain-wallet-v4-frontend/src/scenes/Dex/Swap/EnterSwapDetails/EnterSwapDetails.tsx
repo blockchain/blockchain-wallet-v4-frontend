@@ -3,10 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Flex, IconAlert, Padding, SemanticColors } from '@blockchain-com/constellation'
 
-import { CoinType } from '@core/types'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { DexSwapForm, DexSwapSide, ModalName, SwapAccountType } from 'data/types'
+import { Analytics, DexSwapForm, DexSwapSide, ModalName, SwapAccountType } from 'data/types'
 import { usePrevious, useRemote } from 'hooks'
 
 import { AllowanceCheck } from '../AllowanceCheck'
@@ -93,6 +92,12 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   }
 
   const onViewTokenAllowance = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.DEX_SWAP_APPROVE_TOKEN_CLICKED,
+        properties: {}
+      })
+    )
     dispatch(actions.modals.showModal(ModalName.DEX_TOKEN_ALLOWANCE, { origin: 'Dex' }))
   }
 
@@ -101,6 +106,15 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   }
 
   const onDetailsToggle = () => {
+    // when user expands quote toggle
+    if (!isDetailsExpanded) {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.DEX_SWAP_DETAIL_EXPANDED,
+          properties: {}
+        })
+      )
+    }
     setDetailsExpanded(!isDetailsExpanded)
   }
 
@@ -240,7 +254,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           size='large'
           width='full'
           variant='primary'
-          disabled={!quote || !!showAllowanceCheck || !!quoteError}
+          disabled={!quote || !!showAllowanceCheck}
           onClick={onConfirmSwap}
           text={
             quoteError ? (

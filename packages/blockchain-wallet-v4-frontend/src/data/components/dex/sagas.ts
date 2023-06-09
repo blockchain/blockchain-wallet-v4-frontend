@@ -9,6 +9,7 @@ import { BuildDexTxParams, DexToken, DexTransaction } from '@core/network/api/de
 import { cancelRequestSource } from '@core/network/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, model, selectors } from 'data'
+import { Analytics } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
@@ -21,7 +22,7 @@ const { DEX_SWAP_FORM } = model.components.dex
 
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-const REFRESH_INTERVAL = 30000
+const REFRESH_INTERVAL = 15000
 const TOKEN_ALLOWANCE_POLL_INTERVAL = 5000
 const provider = ethers.providers.getDefaultProvider(`https://api.blockchain.info/eth/nodes/rpc`)
 const COMPLETE_SWAP = 'COMPLETE_SWAP'
@@ -124,6 +125,14 @@ export default ({ api }: { api: APIType }) => {
 
       yield put(A.fetchSearchedTokensSuccess(tokenList))
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.DEX_SWAP_OUTPUT_NOT_FOUND,
+          properties: {
+            text_searched: search
+          }
+        })
+      )
       yield* put(A.fetchSearchedTokensFailure(e.toString()))
     } finally {
       if (yield* cancelled()) {
@@ -225,14 +234,14 @@ export default ({ api }: { api: APIType }) => {
             // @ts-ignore
             A.fetchSwapQuoteSuccess({
               ...quoteResponse,
-              date: addMilliseconds(new Date(), REFRESH_INTERVAL),
-              totalMs: REFRESH_INTERVAL
+              date: addMilliseconds(new Date(), quoteResponse.quoteTtl),
+              totalMs: quoteResponse.quoteTtl
             })
           )
 
           // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
           // Also we consider to return to the FE only one quote in that case
-          const { quote } = quoteResponse
+          const { quote, quoteTtl } = quoteResponse
 
           if (quote) {
             yield* put(
@@ -259,7 +268,7 @@ export default ({ api }: { api: APIType }) => {
             )
           }
 
-          yield delay(REFRESH_INTERVAL)
+          yield delay(quoteTtl)
         }
       } catch ({ message, title }) {
         yield put(A.fetchSwapQuoteFailure({ message, title }))
@@ -447,8 +456,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const sendSwapQuote = function* (action) {
-    const { baseToken } = action.payload
+  const sendSwapQuote = function* () {
     yield put(A.stopPollTokenAllowanceTx())
     const { quote, transaction } = S.getSwapQuote(yield select()).getOrElse({
       quote: {},
@@ -459,21 +467,16 @@ export default ({ api }: { api: APIType }) => {
       if (!quote || !transaction) throw Error('No valid quote')
       yield put(A.sendSwapQuoteLoading())
 
-      // get build tx params
-      const baseTokenInfo = selectors.components.dex
-        .getChainTokenInfo(yield* select(), baseToken)
-        .getOrFail('Unable to get base token info')
-      const tokenAddress = baseTokenInfo?.address || ''
       const wallet = yield call(getWallet)
       const source = {
         descriptor: 'legacy',
         pubKey: wallet.publicKey,
         style: 'SINGLE'
       }
-      const { data, gasLimit: txGasLimit, value } = transaction as DexTransaction
+      const { data, gasLimit: txGasLimit, to, value } = transaction as DexTransaction
       const swapTxParams = {
         intent: {
-          destination: tokenAddress,
+          destination: to,
           fee: 'NORMAL',
           maxVerificationVersion: 1,
           sources: [source],
@@ -491,7 +494,7 @@ export default ({ api }: { api: APIType }) => {
       const response = yield call(api.buildDexTx, swapTxParams)
       // parse the tx
       const parsedTx = parseRawTx(response)
-      // sign tx
+      // // sign tx
       const signedTx = yield call(() => taskToPromise(Task.of(wallet.signTransaction(parsedTx))))
       // send tx
       const tx = yield call(() => taskToPromise(Task.of(provider.sendTransaction(signedTx))))

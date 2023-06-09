@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { compose } from 'redux'
 
 import { actions, model, selectors } from 'data'
-import { DexSwapForm, ModalName } from 'data/types'
+import { Analytics, DexSwapForm, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
@@ -35,6 +35,12 @@ const TokenAllowanceContainer = () => {
   }
 
   const handleApprove = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.DEX_SWAP_APPROVE_TOKEN_CONFIRMED,
+        properties: {}
+      })
+    )
     dispatch(actions.components.dex.sendTokenAllowanceTx({ baseToken }))
     handleClose()
   }

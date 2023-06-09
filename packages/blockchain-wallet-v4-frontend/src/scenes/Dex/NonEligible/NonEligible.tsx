@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { Button } from '@blockchain-com/constellation'
 
 import { actions, model } from 'data'
+import { Analytics } from 'data/types'
 
 import { InfoWidget, PageWrapper, SceneCard } from '../components'
 
@@ -11,6 +12,15 @@ const { DEX_SUPPORT_SECTION_URL } = model.components.dex
 
 export const NonEligible = () => {
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.DEX_COUNTRY_INELIGIBLE_VIEWED,
+        properties: {}
+      })
+    )
+  }, [])
 
   const onClickLearnMore = () => {
     dispatch(actions.router.push(DEX_SUPPORT_SECTION_URL))

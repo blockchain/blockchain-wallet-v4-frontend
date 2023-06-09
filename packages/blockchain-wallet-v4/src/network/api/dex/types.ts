@@ -78,6 +78,7 @@ export type DexSwapQuote = {
   // now we support single only so its 1
   legs: 1
   quote: DexQuote
+  quoteTtl: number
   transaction: DexTransaction
   type: DexSwapQuoteType
   venueType: DexVenueType
