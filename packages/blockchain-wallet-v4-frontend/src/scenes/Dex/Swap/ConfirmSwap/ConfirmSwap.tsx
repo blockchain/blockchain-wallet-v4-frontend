@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button, Padding, SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { Exchange } from '@core'
-import { SkeletonRectangle, SpinningLoader } from 'blockchain-info-components'
+import { FiatType } from '@core/types'
+import { SpinningLoader } from 'blockchain-info-components'
 import { actions, model, selectors } from 'data'
-import type { DexSwapForm } from 'data/types'
+import { Analytics, DexSwapForm } from 'data/types'
 import { useRemote } from 'hooks'
 
 import { FlipPairButton, FormWrapper, QuoteDetails, SwapPair, SwapPairWrapper } from '../components'
@@ -14,10 +15,10 @@ import { Header } from './Header'
 import { QuoteChange } from './QuoteChange'
 
 const { DEX_SWAP_FORM } = model.components.dex
-
+const NETWORK = 'ETH'
 type Props = {
   onClickBack: () => void
-  walletCurrency: string
+  walletCurrency: FiatType
 }
 
 export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
@@ -26,6 +27,9 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
   const dispatch = useDispatch()
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const { isLoading: isSwapQuoteTxLoading } = useRemote(selectors.components.dex.getSwapQuoteTx)
+  const { data: rates } = useRemote((state) =>
+    selectors.core.data.misc.getRatesSelector(NETWORK, state)
+  )
   const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
     formValues || {}
 
@@ -33,10 +37,75 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
     selectors.components.dex.getSwapQuote
   )
 
+  const sendQuoteAnalytics = (analyticEvent) => {
+    if (quote && rates) {
+      const getCoinAmount = (coin, value) =>
+        Number(
+          Exchange.convertCoinToCoin({
+            coin,
+            value
+          })
+        )
+      const getFiatAmount = (coin, value) =>
+        Number(
+          Exchange.convertCoinToFiat({
+            coin,
+            currency: 'USD',
+            rates,
+            value
+          })
+        )
+      const sellSymbol = quote.quote.sellAmount.symbol
+      const sellAmount = quote.quote.sellAmount.amount
+      const buySymbol = quote.quote.buyAmount.symbol
+      const buyAmount = quote.quote.buyAmount.amount
+      const buyMinAmount = quote.quote.buyAmount.minAmount
+      const blockchainFeeAmount = (quote.quote.sellAmount.amount / 100) * 0.9
+      const transactionGasPrice = quote.transaction.gasPrice
+      const transactionGasLimit = quote.transaction.gasLimit
+      const networkAmount = Number(transactionGasPrice) * Number(transactionGasLimit)
+
+      const blockchain_fee_amount = getCoinAmount(NETWORK, blockchainFeeAmount)
+      const blockchain_fee_amount_usd = getFiatAmount(NETWORK, blockchainFeeAmount)
+      const expected_output_amount = getCoinAmount(buySymbol, buyAmount)
+      const expected_output_amount_usd = getFiatAmount(buySymbol, buyAmount)
+      const input_amount = getCoinAmount(sellSymbol, sellAmount)
+      const input_amount_usd = getFiatAmount(sellSymbol, sellAmount)
+      const min_output_amount = getCoinAmount(buySymbol, buyMinAmount)
+      const network_fee_amount = getCoinAmount(NETWORK, networkAmount)
+
+      dispatch(
+        actions.analytics.trackEvent({
+          key: analyticEvent,
+          properties: {
+            blockchain_fee_amount,
+            blockchain_fee_amount_usd,
+            blockchain_fee_currency: NETWORK,
+            expected_output_amount,
+            expected_output_amount_usd,
+            input_amount,
+            input_amount_usd,
+            input_currency: sellSymbol,
+            input_network: NETWORK,
+            min_output_amount,
+            network_fee_amount,
+            network_fee_currency: NETWORK,
+            output_currency: sellSymbol,
+            output_network: NETWORK,
+            slippage_allowed: slippage,
+            venue: quote.venueType
+          }
+        })
+      )
+    }
+  }
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsInititalLoad(false)
     }, 3000)
+
+    sendQuoteAnalytics(Analytics.DEX_SWAP_PREVIEW_VIEWED)
 
     return () => {
       clearTimeout(timeout)
@@ -67,7 +136,8 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
   const isSwapDisabled = showQuoteChangeMsg || isLoading
 
   const onConfirmSwap = () => {
-    dispatch(actions.components.dex.sendSwapQuote({ baseToken: baseToken || '' }))
+    sendQuoteAnalytics(Analytics.DEX_SWAP_CONFIRMED_CLICKED)
+    dispatch(actions.components.dex.sendSwapQuote())
   }
 
   return (

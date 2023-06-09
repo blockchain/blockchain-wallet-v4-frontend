@@ -5,10 +5,10 @@ export enum Events {
   DEX_SLIPPAGE_CHANGED = 'DEX Slippage changed - user changes slippage',
   DEX_SWAPPING_VIEWED = 'DEX Swapping Viewed - user sees the swapping screen',
   DEX_SWAP_AMOUNT_ENTERED = 'DEX Swap Amount Entered - users enters an amount in the input field',
+  DEX_SWAP_APPROVE_TOKEN_CLICKED = 'DEX Swap Approve token clicked - user clicks in approve token to be able to swap',
   DEX_SWAP_APPROVE_TOKEN_CONFIRMED = 'DEX Swap Approve token confirmed - user confirms the approval of the token',
   DEX_SWAP_CONFIRMED_CLICKED = 'DEX Swap Confirm Clicked - user clicks in confirm swap',
   DEX_SWAP_DETAIL_EXPANDED = 'DEX Swap Detail Expanded - user expands to see the full detail of the swap',
-  DEX_SWAP_EXECUTED_VIEWED = 'DEX Swap Executed Viewed - users sees the congrats screen',
   DEX_SWAP_FAILED_VIEWED = 'DEX Swap Failed Viewed - users sees the failed screen',
   DEX_SWAP_INPUT_OPENED = 'DEX Swap Input Opened - user opens the input coin selector',
   DEX_SWAP_OUTPUT_NOT_FOUND = 'DEX Swap Output Not Found - user is shown the “No results for X”',
@@ -58,9 +58,12 @@ type DexSlippageChanged = {
 
 type DexSwapAmountEntered = {
   key: Events.DEX_SWAP_AMOUNT_ENTERED
-  properties: {
-    input_currency: string
-  }
+  properties: {}
+}
+
+type DexSwapApproveTokenClicked = {
+  key: Events.DEX_SWAP_APPROVE_TOKEN_CLICKED
+  properties: {}
 }
 
 type DexSwapApproveTokenConfirmed = {
@@ -75,11 +78,6 @@ type DexSwapConfirmedClicked = {
 
 type DexSwapDetailExpanded = {
   key: Events.DEX_SWAP_DETAIL_EXPANDED
-  properties: {}
-}
-
-type DexSwapExecutedViewed = {
-  key: Events.DEX_SWAP_EXECUTED_VIEWED
   properties: {}
 }
 
@@ -128,10 +126,10 @@ export type TrackEventAction =
   | DexSettingsOpened
   | DexSlippageChanged
   | DexSwapAmountEntered
+  | DexSwapApproveTokenClicked
   | DexSwapApproveTokenConfirmed
   | DexSwapConfirmedClicked
   | DexSwapDetailExpanded
-  | DexSwapExecutedViewed
   | DexSwapFailedViewed
   | DexSwapInputOpened
   | DexSwapOutputNotFound

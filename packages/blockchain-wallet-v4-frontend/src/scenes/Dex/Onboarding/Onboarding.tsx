@@ -1,5 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
+
+import { actions } from 'data'
+import { Analytics } from 'data/types'
 
 import { InfoWidget, PageWrapper } from '../components'
 import { StepCard } from './components'
@@ -49,7 +53,16 @@ type Props = {
 }
 
 export const Onboarding = ({ onClickStart }: Props) => {
+  const dispatch = useDispatch()
   const [currentStep, setCurrentStep] = useState<number>(0)
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.DEX_ONBOARDING_VIEWED,
+        properties: {}
+      })
+    )
+  }, [])
   return (
     <PageWrapper>
       <StepCard

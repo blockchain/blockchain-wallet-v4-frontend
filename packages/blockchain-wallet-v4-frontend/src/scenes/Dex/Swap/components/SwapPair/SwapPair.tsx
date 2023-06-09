@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage, useIntl } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import {
   Flex,
   IconChevronDown,
@@ -16,7 +17,8 @@ import { CoinType } from '@core/types'
 import { Icon as TokenIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { DexSwapSide, DexSwapSideFields } from 'data/types'
+import { actions } from 'data'
+import { Analytics, DexSwapSide, DexSwapSideFields } from 'data/types'
 
 import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './styles'
 import { getZeroFiatAmountPreview } from './utils'
@@ -35,10 +37,27 @@ type Props = {
   )
 
 export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
+  const dispatch = useDispatch()
+  const [hasTriggerAnalytics, setHasTriggerAnalytics] = useState<boolean>(false)
   // TODO: Make type safe mapping between inputs name and form data properties
   const amountInputField = `${DexSwapSideFields[swapSide]}Amount`
   const isAnimationEnabled = !props.isQuoteLocked ? props.animate : false
   const isAmountEntered = !!(props.coin && props.amount !== 0)
+
+  // product only want to record this even once
+  useEffect(() => {
+    if (!hasTriggerAnalytics && swapSide === 'BASE') {
+      setHasTriggerAnalytics(true)
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.DEX_SWAP_AMOUNT_ENTERED,
+          properties: {}
+        })
+      )
+    }
+  }, [hasTriggerAnalytics, isAmountEntered])
+
+  const openTokenSelector = () => !props.isQuoteLocked && props.onTokenSelect(swapSide)
 
   const { formatMessage } = useIntl()
 
@@ -73,7 +92,7 @@ export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
         <TokenSelectWrapper
           role='button'
           isQuoteLocked={props.isQuoteLocked}
-          onClick={() => !props.isQuoteLocked && props.onTokenSelect(swapSide)}
+          onClick={openTokenSelector}
         >
           <Padding right={0.5}>
             <TokenIcon name={props.coin} size='16px' />
@@ -116,7 +135,7 @@ export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
         <TokenSelectWrapper
           role='button'
           isQuoteLocked={props.isQuoteLocked}
-          onClick={() => !props.isQuoteLocked && props.onTokenSelect(swapSide)}
+          onClick={openTokenSelector}
         >
           <TokenSelectRow>
             <Text variant='caption2' color={SemanticColors.body}>

@@ -87,6 +87,7 @@ const Analytics = {
   ...CoinViewEvents,
   ...CowboysPromoEvents,
   ...DepositWithdrawalClientEvents,
+  ...DexEvents,
   ...InterestClientEvents,
   ...LoginEvents,
   ...MiscEvents,

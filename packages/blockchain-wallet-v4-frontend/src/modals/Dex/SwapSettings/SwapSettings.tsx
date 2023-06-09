@@ -15,6 +15,7 @@ import { compose } from 'redux'
 import { Button as ButtonLegacy, Modal } from 'blockchain-info-components'
 import { actions, model } from 'data'
 import { ModalName } from 'data/modals/types'
+import { Analytics } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { SLIPPAGE_PRESETS } from './constants'
@@ -36,7 +37,22 @@ const DexSwapSettings = ({ position, total }: Props) => {
   const currentSlippage = useSlippageValueFromSwapForm()
   const [slippage, setSlippage] = useState<SlippageValue>(currentSlippage)
 
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.DEX_SETTINGS_OPENED,
+        properties: {}
+      })
+    )
+  }, [])
+
   const onSaveSettings = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.DEX_SLIPPAGE_CHANGED,
+        properties: {}
+      })
+    )
     dispatch(actions.form.change(DEX_SWAP_FORM, 'slippage', slippage.value))
     dispatch(actions.modals.closeModal())
   }

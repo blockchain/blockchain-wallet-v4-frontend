@@ -5,7 +5,7 @@ import { compose } from 'redux'
 import type { CoinType } from '@core/types'
 import { Modal } from 'blockchain-info-components'
 import { actions, model, selectors } from 'data'
-import { DexSwapForm, DexSwapSide, DexSwapSideFields, ModalName } from 'data/types'
+import { Analytics, DexSwapForm, DexSwapSide, DexSwapSideFields, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Header, SearchField, TokenList } from './components'
@@ -28,6 +28,26 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (swapSide === 'BASE') {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.DEX_SWAP_INPUT_OPENED,
+          properties: {}
+        })
+      )
+    }
+
+    if (swapSide === 'COUNTER') {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.DEX_SWAP_OUTPUT_OPENED,
+          properties: {}
+        })
+      )
+    }
+  }, [swapSide])
+
   const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
 
@@ -43,6 +63,18 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
   }
 
   const onTokenSelect = (token: CoinType) => {
+    // track event when counter token is selected
+    if (swapSide === 'COUNTER') {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.DEX_SWAP_OUTPUT_SELECTED,
+          properties: {
+            output_currency: token
+          }
+        })
+      )
+    }
+
     // set selected token
     dispatch(actions.form.change(DEX_SWAP_FORM, DexSwapSideFields[swapSide], token))
 
