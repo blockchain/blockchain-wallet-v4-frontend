@@ -62,7 +62,7 @@ export const SupportChatForGoldUserOnly: SupportChatForGoldUserOnlyComponent = (
         name: userFullname
       })
     }
-  }, [userData, isReady, sendMessage])
+  }, [userData, isReady, sendMessage, isGoldUser, isAvailable, userFullname])
 
   if (!userData || !portalElement) return null
 
