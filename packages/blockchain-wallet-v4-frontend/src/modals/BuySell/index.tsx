@@ -70,8 +70,6 @@ class BuySell extends PureComponent<Props, State> {
 
   componentDidMount() {
     this.setState({ show: true })
-    this.props.custodialActions.fetchProductEligibilityForUser()
-
     this.props.recurringBuyActions.fetchPaymentInfo()
   }
 
