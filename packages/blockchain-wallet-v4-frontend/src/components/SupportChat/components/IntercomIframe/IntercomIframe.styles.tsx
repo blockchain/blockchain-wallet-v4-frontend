@@ -12,6 +12,6 @@ export const AbsoluteWrapper = styled.div<{ isOpen: boolean }>`
 `
 export const Iframe = styled.iframe<{ isOpen: boolean }>`
   height: ${(props) => (props.isOpen ? '740px' : '84px')};
-  width: ${(props) => (props.isOpen ? '421px' : '84px')};
+  width: ${(props) => (props.isOpen ? '451px' : '84px')};
   border: none;
 `
