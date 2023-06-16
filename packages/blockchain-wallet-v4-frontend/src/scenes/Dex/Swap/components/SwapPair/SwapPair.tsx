@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import {
@@ -28,25 +28,32 @@ type Props = {
   walletCurrency: string
 } & ({ amount: number; balance: number | BigNumber; coin: CoinType } | { coin?: never }) &
   (
-    | { isQuoteLocked: true }
+    | { hasTriggerAnalytics?: undefined; isQuoteLocked: true; setHasTriggerAnalytics?: undefined }
     | {
         animate: boolean
+        hasTriggerAnalytics?: boolean
         isQuoteLocked: false
         onTokenSelect: (swapSide: DexSwapSide) => void
+        setHasTriggerAnalytics?: (status: boolean) => void
       }
   )
 
-export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
+export const SwapPair = ({
+  hasTriggerAnalytics,
+  setHasTriggerAnalytics,
+  swapSide,
+  walletCurrency,
+  ...props
+}: Props) => {
   const dispatch = useDispatch()
-  const [hasTriggerAnalytics, setHasTriggerAnalytics] = useState<boolean>(false)
   // TODO: Make type safe mapping between inputs name and form data properties
   const amountInputField = `${DexSwapSideFields[swapSide]}Amount`
   const isAnimationEnabled = !props.isQuoteLocked ? props.animate : false
   const isAmountEntered = !!(props.coin && props.amount !== 0)
 
-  // product only want to record this even once
+  // product only want to record this event once on first input
   useEffect(() => {
-    if (!hasTriggerAnalytics && swapSide === 'BASE') {
+    if (!hasTriggerAnalytics && isAmountEntered && swapSide === 'BASE' && setHasTriggerAnalytics) {
       setHasTriggerAnalytics(true)
       dispatch(
         actions.analytics.trackEvent({
@@ -55,7 +62,7 @@ export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
         })
       )
     }
-  }, [hasTriggerAnalytics, isAmountEntered])
+  }, [hasTriggerAnalytics, isAmountEntered, setHasTriggerAnalytics])
 
   const openTokenSelector = () => !props.isQuoteLocked && props.onTokenSelect(swapSide)
 
