@@ -27,9 +27,6 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
   const dispatch = useDispatch()
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const { isLoading: isSwapQuoteTxLoading } = useRemote(selectors.components.dex.getSwapQuoteTx)
-  const { data: rates } = useRemote((state) =>
-    selectors.core.data.misc.getRatesSelector(NETWORK, state)
-  )
   const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
     formValues || {}
 
@@ -37,8 +34,16 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
     selectors.components.dex.getSwapQuote
   )
 
+  const { data: buySymbolRates } = useRemote((state) =>
+    selectors.core.data.misc.getRatesSelector(quote?.quote.buyAmount.symbol || '', state)
+  )
+
+  const { data: sellSymbolRates } = useRemote((state) =>
+    selectors.core.data.misc.getRatesSelector(quote?.quote.sellAmount.symbol || '', state)
+  )
+
   const sendQuoteAnalytics = (analyticEvent) => {
-    if (quote && rates) {
+    if (quote && buySymbolRates && sellSymbolRates) {
       const getCoinAmount = (coin, value) =>
         Number(
           Exchange.convertCoinToCoin({
@@ -46,7 +51,7 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
             value
           })
         )
-      const getFiatAmount = (coin, value) =>
+      const getFiatAmount = (coin, value, rates) =>
         Number(
           Exchange.convertCoinToFiat({
             coin,
@@ -65,12 +70,16 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
       const transactionGasLimit = quote.transaction.gasLimit
       const networkAmount = Number(transactionGasPrice) * Number(transactionGasLimit)
 
-      const blockchain_fee_amount = getCoinAmount(NETWORK, blockchainFeeAmount)
-      const blockchain_fee_amount_usd = getFiatAmount(NETWORK, blockchainFeeAmount)
+      const blockchain_fee_amount = getCoinAmount(sellSymbol, blockchainFeeAmount)
+      const blockchain_fee_amount_usd = getFiatAmount(
+        sellSymbol,
+        blockchainFeeAmount,
+        sellSymbolRates
+      )
       const expected_output_amount = getCoinAmount(buySymbol, buyAmount)
-      const expected_output_amount_usd = getFiatAmount(buySymbol, buyAmount)
+      const expected_output_amount_usd = getFiatAmount(buySymbol, buyAmount, buySymbolRates)
       const input_amount = getCoinAmount(sellSymbol, sellAmount)
-      const input_amount_usd = getFiatAmount(sellSymbol, sellAmount)
+      const input_amount_usd = getFiatAmount(sellSymbol, sellAmount, sellSymbolRates)
       const min_output_amount = getCoinAmount(buySymbol, buyMinAmount)
       const network_fee_amount = getCoinAmount(NETWORK, networkAmount)
 
@@ -90,7 +99,7 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
             min_output_amount,
             network_fee_amount,
             network_fee_currency: NETWORK,
-            output_currency: sellSymbol,
+            output_currency: buySymbol,
             output_network: NETWORK,
             slippage_allowed: slippage,
             venue: quote.venueType
