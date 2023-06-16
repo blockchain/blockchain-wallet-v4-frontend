@@ -52,6 +52,12 @@ export default ({ api }: { api: APIType }) => {
       })
       yield* put(A.fetchUserEligibilitySuccess(userEligibility))
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.DEX_COUNTRY_INELIGIBLE_VIEWED,
+          properties: {}
+        })
+      )
       yield* put(A.fetchUserEligibilityFailure(e.toString()))
     }
   }
