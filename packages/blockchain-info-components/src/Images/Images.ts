@@ -72,6 +72,7 @@ import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
 import orderSuccess from './img/debitCard/order-success.png'
 import terminateCard from './img/debitCard/terminate-card.png'
+import dexGas from './img/dex/gas.svg'
 import dexOnboardingSlideFunds from './img/dex/onboarding-slide-funds@2x.png'
 import dexOnboardingSlideNotEligible from './img/dex/onboarding-slide-not-eligible@2x.png'
 import dexOnboardingSlideSwap from './img/dex/onboarding-slide-swap@2x.png'
@@ -261,6 +262,7 @@ const Images = {
   'cryptoad-4502': cryptoad4502,
   'cryptoad-large': cryptoadlarge,
   'cryptoad-small': cryptoadsmall,
+  'dex-gas': dexGas,
   'dex-onboarding-slide-funds': dexOnboardingSlideFunds,
   'dex-onboarding-slide-not-eligible': dexOnboardingSlideNotEligible,
   'dex-onboarding-slide-swap': dexOnboardingSlideSwap,
