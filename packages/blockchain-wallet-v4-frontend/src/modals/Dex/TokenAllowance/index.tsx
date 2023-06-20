@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { compose } from 'redux'
 
 import { actions, model, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import { Analytics, DexSwapForm, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import TokenAllowance from './TokenAllowance.template'
+import Error from './error'
+import TokenAllowance from './TokenAllowance'
+import { NonCustodialCoinInfoType } from './types'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
@@ -16,6 +19,12 @@ const TokenAllowanceContainer = () => {
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const gasEstimate = useSelector(selectors.components.dex.getTokenAllowanceGasEstimate)
   const { isLoading, isNotAsked } = useRemote(selectors.components.dex.getTokenAllowanceTx)
+  const nonCustodialCoinAccount = useSelector((state: RootState) =>
+    selectors.coins.getCoinAccounts(state, {
+      coins: ['ETH'],
+      nonCustodialAccounts: true
+    })
+  )
 
   useEffect(() => {
     if (formValues.baseToken) {
@@ -45,14 +54,32 @@ const TokenAllowanceContainer = () => {
     handleClose()
   }
 
+  const nonCustodialCoinInfo = (nonCustodialCoinAccount?.ETH[0] || {
+    address: '',
+    balance: 0
+  }) as NonCustodialCoinInfoType
+  const { address, balance } = nonCustodialCoinInfo
+
+  let truncatedAddress = address
+
+  if (address?.length > 8) {
+    const firstFour = address.slice(0, 4)
+    const lastFour = address.slice(-4)
+    truncatedAddress = `${firstFour}...${lastFour}`
+  }
+
+  if (!balance || !address) return <Error />
+
   return (
     <TokenAllowance
+      balance={balance}
       baseToken={baseToken}
       gasEstimate={gasEstimate}
       handleApprove={handleApprove}
       handleClose={handleClose}
       isLoading={isLoading}
       isNotAsked={isNotAsked}
+      truncatedAddress={truncatedAddress}
     />
   )
 }
