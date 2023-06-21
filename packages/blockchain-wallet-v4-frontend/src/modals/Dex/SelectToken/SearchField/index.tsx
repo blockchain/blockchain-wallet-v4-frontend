@@ -16,8 +16,8 @@ const SearchField = ({ onChange }: SearchFieldProps) => {
         type='text'
         onChange={(event) => onChange((event.target as HTMLInputElement).value)}
         placeholder={formatMessage({
-          defaultMessage: 'Search Symbol or Address',
-          id: 'dex.searCoin.placeholder'
+          defaultMessage: 'Search Token Symbol or Name',
+          id: 'dex.searchCoin.placeholder'
         })}
       />
       <SearchIconWrapper>
