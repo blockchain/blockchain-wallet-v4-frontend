@@ -15,8 +15,11 @@ import ViewEtherscan from './ViewEtherscan'
 
 const NATIVE_TOKEN = 'ETH'
 const BASE = 'BASE'
+const COUNTER = 'COUNTER'
 
 const SelectTokenList = ({
+  baseToken,
+  counterToken,
   items,
   onTokenSelect,
   search,
@@ -31,8 +34,10 @@ const SelectTokenList = ({
     <TokenListWrapper>
       {filteredItems.map(({ address, balance, name, symbol }) => {
         const balanceString = (typeof balance !== 'number' ? balance : balance).toString()
-
         if (swapSide === BASE && balanceString === '0') return null
+
+        if (swapSide === COUNTER && baseToken === symbol) return null
+        if (swapSide === BASE && counterToken === symbol) return null
         return (
           <TokenRow key={symbol} onClick={() => onTokenSelect(symbol)}>
             <TokenIcon name={symbol as CoinType} size='24px' />

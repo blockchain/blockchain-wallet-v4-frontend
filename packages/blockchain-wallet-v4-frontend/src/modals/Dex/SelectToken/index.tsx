@@ -48,7 +48,6 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
     }
   }, [swapSide])
 
-  const swapFormValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const walletCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
 
   const onClose = () => {
@@ -70,12 +69,6 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
 
     // set selected token
     dispatch(actions.form.change(DEX_SWAP_FORM, DexSwapSideFields[swapSide], token))
-
-    // if same token would now be on both sides of swap, clear other side of swap
-    const oppositeSide = swapSide === BASE ? COUNTER : BASE
-    if (swapFormValues[DexSwapSideFields[oppositeSide]] === token) {
-      dispatch(actions.form.change(DEX_SWAP_FORM, DexSwapSideFields[oppositeSide], undefined))
-    }
 
     onClose()
   }

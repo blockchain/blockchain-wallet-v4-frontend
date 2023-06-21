@@ -9,5 +9,7 @@ export type SelectTokenListContainerProps = {
 }
 
 export type SelectTokenListProps = {
+  baseToken?: CoinType
+  counterToken?: CoinType
   items: DexTokenWithBalance[]
 } & SelectTokenListContainerProps
