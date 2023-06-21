@@ -132,6 +132,8 @@ type TrackEventAction =
   | ExchangePromoTrackEventAction
 
 type AnalyticsTraits = {
+  country?: string
+  country_state?: string
   email?: string
   nabuId: string
   tier?: number
