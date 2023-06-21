@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { DexChain, DexToken } from '@core/network/api/dex'
 import Remote from '@core/remote'
 import { CoinType } from '@core/types'
-import { notReachable } from 'utils/helpers'
 
 import type {
   DexStateType,
@@ -14,14 +13,12 @@ import type {
 } from './types'
 
 const initialState: DexStateType = {
+  chainTokens: Remote.NotAsked,
   chains: Remote.NotAsked,
   currentChain: Remote.NotAsked, // TODO: might not need Remote type
-  currentChainTokens: Remote.NotAsked,
   isTokenAllowed: Remote.NotAsked,
   isTokenAllowedAfterPolling: Remote.NotAsked,
   isUserEligible: Remote.NotAsked,
-  search: '',
-  searchedTokens: Remote.Success([]),
   swapQuote: Remote.NotAsked,
   swapQuoteTx: Remote.NotAsked,
   tokenAllowanceGasEstimate: '',
@@ -35,28 +32,15 @@ const dexSlice = createSlice({
     clearCurrentSwapQuote: (state) => {
       state.swapQuote = Remote.NotAsked
     },
-    fetchChainTokens: (
-      state,
-      action: PayloadAction<{ search: string; type: 'RELOAD' | 'LOAD_MORE' }>
-    ) => {
-      switch (action.payload.type) {
-        case 'RELOAD':
-          state.currentChainTokens = Remote.Success([])
-          break
-        case 'LOAD_MORE':
-          break
-        default:
-          notReachable(action.payload.type)
-      }
-    },
+    fetchChainTokens: () => {},
     fetchChainTokensFailure: (state, action: PayloadAction<string>) => {
-      state.currentChainTokens = Remote.Failure(action.payload)
+      state.chainTokens = Remote.Failure(action.payload)
     },
     fetchChainTokensLoading: (state) => {
-      state.currentChainTokens = Remote.Loading
+      state.chainTokens = Remote.Loading
     },
     fetchChainTokensSuccess: (state, action: PayloadAction<{ data: DexToken[] }>) => {
-      state.currentChainTokens = Remote.Success(action.payload.data)
+      state.chainTokens = Remote.Success(action.payload.data)
     },
     fetchChains: () => {},
     fetchChainsFailure: (state, action: PayloadAction<string>) => {
@@ -67,16 +51,6 @@ const dexSlice = createSlice({
     },
     fetchChainsSuccess: (state, action: PayloadAction<DexChain[]>) => {
       state.chains = Remote.Success(action.payload)
-    },
-    fetchSearchedTokens: (state, action: PayloadAction<{ search: string }>) => {},
-    fetchSearchedTokensFailure: (state, action: PayloadAction<string>) => {
-      state.searchedTokens = Remote.Failure(action.payload)
-    },
-    fetchSearchedTokensLoading: (state) => {
-      state.searchedTokens = Remote.Loading
-    },
-    fetchSearchedTokensSuccess: (state, action: PayloadAction<DexToken[]>) => {
-      state.searchedTokens = Remote.Success(action.payload)
     },
     fetchSwapQuote: () => {},
     fetchSwapQuoteFailure: (state, action: PayloadAction<QuoteError>) => {
@@ -150,9 +124,6 @@ const dexSlice = createSlice({
     },
     setCurrentChain: (state, action: PayloadAction<DexChain>) => {
       state.currentChain = Remote.Success(action.payload)
-    },
-    setSearch: (state, action: PayloadAction<string>) => {
-      state.search = action.payload
     },
     setTokenAllowanceGasEstimate: (state, action: PayloadAction<string>) => {
       state.tokenAllowanceGasEstimate = action.payload
