@@ -13,8 +13,6 @@ import type {
   DexSwapQuoteType,
   DexToken,
   DexTokenAllowance,
-  DexTokenNative,
-  DexTokenNotNative,
   DexTransaction,
   DexVenueType
 } from './types'
@@ -33,37 +31,18 @@ const DexVenueTypeSchema: z.ZodSchema<DexVenueType, z.ZodTypeDef, unknown> = z.l
 const DexSwapQuoteTypeSchema: z.ZodSchema<DexSwapQuoteType, z.ZodTypeDef, unknown> =
   z.literal('SINGLE')
 
-const DexTokenNativeSchema: z.ZodSchema<DexTokenNative, z.ZodTypeDef, unknown> = z
-  .object({
-    address: z.string(),
-    chainId: z.number(),
-    decimals: z.number(),
-    name: z.string(),
-    symbol: z.string()
-  })
-  .transform((data) => ({ type: 'NATIVE', ...data }))
-
-const DexTokenNotNativeSchema: z.ZodSchema<DexTokenNotNative, z.ZodTypeDef, unknown> = z
-  .object({
-    address: z.string(),
-    chainId: z.number(),
-    decimals: z.number(),
-    isNative: z.optional(z.boolean()),
-    name: z.string(),
-    symbol: z.string(),
-    verifiedBy: z.number()
-  })
-  .transform(({ isNative, ...result }) => ({ type: 'NOT_NATIVE', ...result }))
-
-export const DexTokenSchema: z.ZodSchema<DexToken, z.ZodTypeDef, unknown> = z.union([
-  DexTokenNativeSchema,
-  DexTokenNotNativeSchema
-])
+export const DexTokenSchema: z.ZodSchema<DexToken, z.ZodTypeDef, unknown> = z.object({
+  address: z.string(),
+  chainId: z.number(),
+  decimals: z.number(),
+  name: z.string(),
+  symbol: z.string()
+})
 
 export const DexChainSchema: z.ZodSchema<DexChain, z.ZodTypeDef, unknown> = z.object({
   chainId: z.number(),
   name: z.string(),
-  nativeCurrency: DexTokenNativeSchema
+  nativeCurrency: DexTokenSchema
 })
 
 const DexBuyAmountSchema: z.ZodSchema<DexBuyAmount, z.ZodTypeDef, unknown> = z

@@ -13,30 +13,19 @@ export type DexFeeType = 'NORMAL'
 export type DexSignatureAlgorithmType = 'secp256k1'
 export type DexSourceDescriptor = 'legacy'
 
-type DexTokenCommon = {
+export type DexToken = {
   address: string
   chainId: number
   decimals: number
   name: string
   symbol: CoinType
 }
-
-export type DexTokenNative = DexTokenCommon & {
-  type: 'NATIVE'
-}
-
-export type DexTokenNotNative = DexTokenCommon & {
-  type: 'NOT_NATIVE'
-  verifiedBy: number
-}
-
-export type DexToken = DexTokenNative | DexTokenNotNative
 export type DexTokenWithBalance = DexToken & { balance: number | BigNumber }
 
 export type DexChain = {
   chainId: number
   name: string
-  nativeCurrency: DexTokenNative
+  nativeCurrency: DexToken
 }
 
 type DexAmountCommon = {
