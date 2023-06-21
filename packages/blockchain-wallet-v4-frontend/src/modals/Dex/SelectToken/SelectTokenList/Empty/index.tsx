@@ -9,10 +9,12 @@ import { Analytics } from 'data/types'
 import { NoResultsWrapper } from './styles'
 import { EmptyProps } from './types'
 
+const COUNTER = 'COUNTER'
+
 const Empty = ({ search = '', swapSide }: EmptyProps) => {
   const dispatch = useDispatch()
   useEffect(() => {
-    if (swapSide === 'COUNTER') {
+    if (swapSide === COUNTER) {
       dispatch(
         actions.analytics.trackEvent({
           key: Analytics.DEX_SWAP_OUTPUT_NOT_FOUND,

@@ -15,6 +15,9 @@ import SelectTokenList from './SelectTokenList'
 
 const { DEX_SWAP_FORM } = model.components.dex
 
+const COUNTER = 'COUNTER'
+const BASE = 'BASE'
+
 type Props = {
   position: number
   swapSide: DexSwapSide
@@ -26,7 +29,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
   const { onSearchChange, search } = useTokenListSearch()
 
   useEffect(() => {
-    if (swapSide === 'BASE') {
+    if (swapSide === BASE) {
       dispatch(
         actions.analytics.trackEvent({
           key: Analytics.DEX_SWAP_INPUT_OPENED,
@@ -35,7 +38,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
       )
     }
 
-    if (swapSide === 'COUNTER') {
+    if (swapSide === COUNTER) {
       dispatch(
         actions.analytics.trackEvent({
           key: Analytics.DEX_SWAP_OUTPUT_OPENED,
@@ -54,7 +57,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
 
   const onTokenSelect = (token: CoinType) => {
     // track event when counter token is selected
-    if (swapSide === 'COUNTER') {
+    if (swapSide === COUNTER) {
       dispatch(
         actions.analytics.trackEvent({
           key: Analytics.DEX_SWAP_OUTPUT_SELECTED,
@@ -69,7 +72,7 @@ const DexSelectToken = ({ position, swapSide, total }: Props) => {
     dispatch(actions.form.change(DEX_SWAP_FORM, DexSwapSideFields[swapSide], token))
 
     // if same token would now be on both sides of swap, clear other side of swap
-    const oppositeSide = swapSide === 'BASE' ? 'COUNTER' : 'BASE'
+    const oppositeSide = swapSide === BASE ? COUNTER : BASE
     if (swapFormValues[DexSwapSideFields[oppositeSide]] === token) {
       dispatch(actions.form.change(DEX_SWAP_FORM, DexSwapSideFields[oppositeSide], undefined))
     }
