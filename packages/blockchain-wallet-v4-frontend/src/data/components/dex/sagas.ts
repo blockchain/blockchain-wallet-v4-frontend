@@ -1,12 +1,11 @@
 import Task from 'data.task'
 import { addMilliseconds } from 'date-fns'
 import * as ethers from 'ethers'
-import { call, cancelled, delay, put, select } from 'typed-redux-saga'
+import { call, delay, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import { BuildDexTxParams, DexToken, DexTransaction } from '@core/network/api/dex/types'
-import { cancelRequestSource } from '@core/network/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, model, selectors } from 'data'
 import { Analytics } from 'data/types'
@@ -77,14 +76,13 @@ export default ({ api }: { api: APIType }) => {
       }
 
       yield* put(A.setCurrentChain(ethChain))
-      yield* put(A.fetchChainTokens({ search: '', type: 'RELOAD' }))
+      yield* put(A.fetchChainTokens())
     } catch (e) {
       yield* put(A.fetchChainsFailure(e.toString()))
     }
   }
 
-  const fetchChainTokens = function* (action: ReturnType<typeof A.fetchChainTokens>) {
-    const cancelSource = cancelRequestSource()
+  const fetchChainTokens = function* () {
     try {
       yield* put(A.fetchChainTokensLoading())
 
@@ -92,9 +90,7 @@ export default ({ api }: { api: APIType }) => {
         .getCurrentChain(yield* select())
         .getOrFail('Unable to get current chain')
       const tokenList: DexToken[] = yield* call(api.getDexChainTokens, currentChain.chainId, {
-        cancelToken: cancelSource.token,
-        offset: 0,
-        search: action.payload.search
+        offset: 0
       })
 
       yield* put(
@@ -104,46 +100,6 @@ export default ({ api }: { api: APIType }) => {
       )
     } catch (e) {
       yield* put(A.fetchChainTokensFailure(e.toString()))
-    } finally {
-      if (yield* cancelled()) {
-        yield* call(cancelSource.cancel)
-      }
-    }
-  }
-
-  const fetchSearchedTokens = function* (action: ReturnType<typeof A.fetchSearchedTokens>) {
-    const cancelSource = cancelRequestSource()
-    const { search } = action.payload
-    yield put(A.setSearch(search))
-    if (search === '') return yield put(A.fetchSearchedTokensSuccess([]))
-    try {
-      yield put(A.fetchSearchedTokensLoading())
-
-      const currentChain = S.getCurrentChain(yield select()).getOrFail(
-        'Unable to get current chain'
-      )
-
-      const tokenList: DexToken[] = yield call(api.searchDexTokens, {
-        cancelToken: cancelSource.token,
-        chainId: currentChain.chainId,
-        search
-      })
-
-      yield put(A.fetchSearchedTokensSuccess(tokenList))
-    } catch (e) {
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.DEX_SWAP_OUTPUT_NOT_FOUND,
-          properties: {
-            text_searched: search
-          }
-        })
-      )
-      yield* put(A.fetchSearchedTokensFailure(e.toString()))
-    } finally {
-      if (yield* cancelled()) {
-        yield* call(cancelSource.cancel)
-      }
     }
   }
 
@@ -514,7 +470,6 @@ export default ({ api }: { api: APIType }) => {
   return {
     fetchChainTokens,
     fetchChains,
-    fetchSearchedTokens,
     fetchSwapQuote,
     fetchSwapQuoteOnChange,
     fetchTokenAllowance,

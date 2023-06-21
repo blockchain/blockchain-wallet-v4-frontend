@@ -22,14 +22,12 @@ export type DexSwapQuoteWithDate = DexSwapQuote & {
 
 // TODO: Handle errors types when the new BE driven errors will be delivered
 export type DexStateType = {
+  chainTokens: RemoteDataType<string, DexToken[]>
   chains: RemoteDataType<string, DexChain[]>
   currentChain: RemoteDataType<string, DexChain>
-  currentChainTokens: RemoteDataType<string, DexToken[]>
   isTokenAllowed: RemoteDataType<string, boolean>
   isTokenAllowedAfterPolling: RemoteDataType<string, boolean>
   isUserEligible: RemoteDataType<string, boolean>
-  search: string
-  searchedTokens: RemoteDataType<string, DexToken[]>
   swapQuote: RemoteDataType<QuoteError, DexSwapQuoteWithDate>
   swapQuoteTx: RemoteDataType<string, SwapQuoteSuccess>
   tokenAllowanceGasEstimate: string

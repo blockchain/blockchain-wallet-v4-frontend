@@ -1,2 +1,2 @@
-export { useTokensListData } from './useTokensListData'
-export { useTokensListSearch } from './useTokensListSearch'
+export { useFilteredList } from './useFilteredList'
+export { useTokenListSearch } from './useTokenListSearch'

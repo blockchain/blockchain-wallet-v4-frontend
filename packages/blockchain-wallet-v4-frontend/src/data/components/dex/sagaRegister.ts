@@ -43,7 +43,6 @@ export default ({ api }) => {
     yield takeLatest(actions.fetchTokenAllowance.type, dexSagas.fetchTokenAllowance)
     yield takeLatest(actions.fetchChains.type, dexSagas.fetchChains)
     yield takeLatest(actions.fetchChainTokens.type, dexSagas.fetchChainTokens)
-    yield takeLatest(actions.fetchSearchedTokens.type, dexSagas.fetchSearchedTokens)
     yield takeLatest(actions.fetchUserEligibility.type, dexSagas.fetchUserEligibility)
     yield takeLatest(actions.sendTokenAllowanceTx.type, dexSagas.sendTokenAllowanceTx)
   }

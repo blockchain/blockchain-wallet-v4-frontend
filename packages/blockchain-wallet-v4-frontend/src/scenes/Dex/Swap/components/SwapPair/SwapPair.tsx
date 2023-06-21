@@ -23,6 +23,8 @@ import { Analytics, DexSwapSide, DexSwapSideFields } from 'data/types'
 import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './styles'
 import { getZeroFiatAmountPreview } from './utils'
 
+const BASE = 'BASE'
+
 type Props = {
   swapSide: DexSwapSide
   walletCurrency: string
@@ -53,7 +55,7 @@ export const SwapPair = ({
 
   // product only want to record this event once on first input
   useEffect(() => {
-    if (!hasTriggerAnalytics && isAmountEntered && swapSide === 'BASE' && setHasTriggerAnalytics) {
+    if (!hasTriggerAnalytics && isAmountEntered && swapSide === BASE && setHasTriggerAnalytics) {
       setHasTriggerAnalytics(true)
       dispatch(
         actions.analytics.trackEvent({
