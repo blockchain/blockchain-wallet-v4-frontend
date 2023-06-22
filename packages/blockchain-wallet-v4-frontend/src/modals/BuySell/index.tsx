@@ -295,6 +295,11 @@ class BuySell extends PureComponent<Props, State> {
               <StdLoading text={LoadingTextEnum.GETTING_READY} />
             </FlyoutChild>
           )}
+          {this.props.step === 'INITIAL_LOADING' && (
+            <FlyoutChild>
+              <Loading />
+            </FlyoutChild>
+          )}
           {/** Only Plaid errors for now */}
           {this.props.step === 'PAYMENT_ACCOUNT_ERROR' && (
             <FlyoutChild>
@@ -370,6 +375,7 @@ type LinkStatePropsType =
         | 'BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
+        | 'INITIAL_LOADING'
         | 'LOADING'
         | 'FREQUENCY'
         | 'SELL_ORDER_SUMMARY'
