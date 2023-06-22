@@ -6,7 +6,8 @@ import Tooltips from 'components/Tooltips'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import Modals from '../../modals'
-import { DexHeader } from './DexHeader'
+import MenuTop from '../Wallet/MenuTop'
+import { Nav } from '../Wallet/WalletLayout/WalletLayout.styles'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -34,7 +35,9 @@ const DexTemplate = (props) => (
   <ErrorBoundary>
     <Wrapper>
       <Alerts />
-      <DexHeader selectedTab='dex' />
+      <Nav>
+        <MenuTop />
+      </Nav>
       <Tooltips />
       <Modals />
       <Page>{props.children}</Page>
