@@ -70,11 +70,11 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
       const transactionGasLimit = quote.transaction.gasLimit
       const networkAmount = Number(transactionGasPrice) * Number(transactionGasLimit)
 
-      const blockchain_fee_amount = getCoinAmount(sellSymbol, blockchainFeeAmount)
+      const blockchain_fee_amount = getCoinAmount(buySymbol, blockchainFeeAmount)
       const blockchain_fee_amount_usd = getFiatAmount(
-        sellSymbol,
+        buySymbol,
         blockchainFeeAmount,
-        sellSymbolRates
+        buySymbolRates
       )
       const expected_output_amount = getCoinAmount(buySymbol, buyAmount)
       const expected_output_amount_usd = getFiatAmount(buySymbol, buyAmount, buySymbolRates)
@@ -89,7 +89,7 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
           properties: {
             blockchain_fee_amount,
             blockchain_fee_amount_usd,
-            blockchain_fee_currency: NETWORK,
+            blockchain_fee_currency: buySymbol,
             expected_output_amount,
             expected_output_amount_usd,
             input_amount,
