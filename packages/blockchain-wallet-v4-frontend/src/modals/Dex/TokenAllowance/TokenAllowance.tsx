@@ -38,10 +38,10 @@ const TokenAllowance = ({
       <Image name='dex-token-allowance' height='88px' width='88px' />
     </Flex>
     <Padding top={1.5} />
-    <Flex>
+    <Flex justifyContent='center'>
       <Text color={SemanticColors.title} textAlign='center' variant='title3'>
         <FormattedMessage
-          defaultMessage='Allow Blockchain.com DEX to use your {token}?'
+          defaultMessage='Allow {token}?'
           id='modals.dex.token_allowance.title'
           values={{
             token: baseToken
@@ -53,7 +53,7 @@ const TokenAllowance = ({
     <Flex>
       <Text color={SemanticColors.body} textAlign='center' variant='body1'>
         <FormattedMessage
-          defaultMessage='To complete the swap, give the Blockchain.com Dex smart contracts permission to use your {token}. You only have to do this once per token.'
+          defaultMessage='To complete the swap, allow permission to use your {token}. You only have to do this once per token.'
           id='modals.dex.token_allowance.description'
           values={{ token: baseToken }}
         />

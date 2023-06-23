@@ -5,7 +5,7 @@ import { compose } from 'redux'
 import type { CoinType } from '@core/types'
 import { Modal } from 'blockchain-info-components'
 import { actions, model, selectors } from 'data'
-import { Analytics, DexSwapForm, DexSwapSide, DexSwapSideFields, ModalName } from 'data/types'
+import { Analytics, DexSwapSide, DexSwapSideFields, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import Header from './Header'
