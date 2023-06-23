@@ -13,18 +13,11 @@ import BigNumber from 'bignumber.js'
 
 import type { DexSwapQuote } from '@core/network/api/dex'
 import { Image, SpinningLoader } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { selectors } from 'data'
 import { useRemote } from 'hooks'
 
-import {
-  FiatTextContainer,
-  GasFeeWrapper,
-  HorizontalLine,
-  ShowDetailsWrapper,
-  Wrapper
-} from './styles'
+import { GasFeeWrapper, HorizontalLine, ShowDetailsWrapper, Wrapper } from './styles'
 
 type OwnProps = {
   handleDetailsToggle: () => void
@@ -87,38 +80,12 @@ export const BaseRateAndFees = ({
   }
 
   const { isQuoteLocked, swapQuote } = props
-  const { buyAmount, sellAmount } = swapQuote.quote
   return props.swapQuote ? (
     <Wrapper>
-      <Flex alignItems='center' gap={4}>
-        <Text variant='paragraph2' color={SemanticColors.title}>
-          1 {sellAmount.symbol} =
-        </Text>
-        <CoinDisplay
-          coin={buyAmount.symbol}
-          size='14px'
-          color='grey900'
-          cursor='inherit'
-          weight={600}
-          data-e2e={`${buyAmount.symbol}Balance`}
-        >
-          {buyAmount.amount}
-        </CoinDisplay>
-        <FiatTextContainer>
-          (
-          <FiatDisplay
-            coin={buyAmount.symbol}
-            size='14px'
-            color='grey700'
-            cursor='inherit'
-            weight={500}
-            data-e2e={`${buyAmount.symbol}FiatBalance`}
-          >
-            {buyAmount.amount}
-          </FiatDisplay>
-          )
-        </FiatTextContainer>
-      </Flex>
+      <Text variant='paragraph2' color={SemanticColors.title}>
+        1 {swapQuote.quote.sellAmount.symbol} = ~{swapQuote.quote.price.toFixed(8)}{' '}
+        {swapQuote.quote.buyAmount.symbol}
+      </Text>
       {!isQuoteLocked && currentChain && (
         <Flex alignItems='center'>
           <GasFeeWrapper>
