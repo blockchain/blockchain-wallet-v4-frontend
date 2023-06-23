@@ -38,3 +38,7 @@ export const HorizontalLine = styled.div`
   height: 1px;
   background-color: ${(props) => props.theme.grey900};
 `
+export const FiatTextContainer = styled.div`
+  display: flex;
+  color: ${({ theme }) => theme.grey700};
+`
