@@ -31,3 +31,19 @@ export const SlippageButtons = styled.div`
     }
   }
 `
+
+export const InputContainer = styled.div`
+  position: relative;
+
+  & > img {
+    position: absolute;
+    top: 18px;
+    right: 8px;
+  }
+`
+
+export const ButtonSection = styled(Section)`
+  & > button {
+    border-radius: 32px !important;
+  }
+`
