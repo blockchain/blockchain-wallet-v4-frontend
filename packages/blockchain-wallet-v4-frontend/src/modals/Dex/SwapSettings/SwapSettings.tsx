@@ -5,7 +5,6 @@ import {
   Button,
   Flex,
   IconCloseCircleV2,
-  Input,
   PaletteColors,
   SemanticColors,
   Text
@@ -19,7 +18,14 @@ import { Analytics } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { SLIPPAGE_PRESETS } from './constants'
-import { ButtonSection, CloseIcon, InputContainer, Section, SlippageButtons } from './styles'
+import {
+  ButtonSection,
+  CloseIcon,
+  CustomInput,
+  InputContainer,
+  Section,
+  SlippageButtons
+} from './styles'
 import { SlippageValue, ValidatorTypeEnum } from './types'
 import { useSlippageValueFromSwapForm, validateSlippage } from './utils'
 
@@ -33,9 +39,9 @@ type Props = {
 const DexSwapSettings = ({ position, total }: Props) => {
   const dispatch = useDispatch()
   const { formatMessage } = useIntl()
-
   const currentSlippage = useSlippageValueFromSwapForm()
   const [slippage, setSlippage] = useState<SlippageValue>(currentSlippage)
+  const [customSlippage, setCustomSlippage] = useState<string>('')
 
   useEffect(() => {
     dispatch(
@@ -62,7 +68,12 @@ const DexSwapSettings = ({ position, total }: Props) => {
   }
 
   const handleInputChange = (event) => {
-    onChangeCustomSlippage((event.target as HTMLInputElement).value)
+    const { value } = event.target
+
+    if (!/^\d*\.?\d*$/.test(value)) return
+
+    setCustomSlippage(value)
+    onChangeCustomSlippage(value)
   }
 
   return (
@@ -108,11 +119,10 @@ const DexSwapSettings = ({ position, total }: Props) => {
             />
           </Text>
           <InputContainer>
-            <Input
+            <CustomInput
               id='dexCoinSearch'
-              defaultValue={slippage.isCustom ? slippage.value * 100 : ''}
-              state={slippage.isCustom && slippage.message ? slippage.messageType : 'default'}
-              type='number' // TODO: Fix constellation input to actually accept only numbers
+              type='text'
+              value={customSlippage}
               placeholder={formatMessage({
                 defaultMessage: 'Enter a percent',
                 id: 'dex.customSlippage.placeholder'
