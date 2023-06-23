@@ -336,10 +336,7 @@ module.exports = ({
   // add CSP nonce support if using local dev server
   if (useDevServer) {
     extraPluginsList = prepend(
-      new HtmlReplaceWebpackPlugin([
-        { pattern: '**CSP_NONCE**', replacement: CSP_NONCE },
-        { pattern: '**RECAPTCHA_KEY**', replacement: RECAPTCHA_KEY }
-      ]),
+      new HtmlReplaceWebpackPlugin([{ pattern: '**CSP_NONCE**', replacement: CSP_NONCE }]),
       extraPluginsList
     )
   }
