@@ -390,8 +390,8 @@ export default ({ api }: { api: APIType }) => {
         const response = yield call(api.buildDexTx, tokenAllowanceParams)
         const parsedTx = parseRawTx(response)
         const { gasLimit, gasPrice } = response.rawTx.payload
-        const gasLimitBn = ethers.BigNumber.from(gasLimit.hex)
-        const gasPriceBn = ethers.BigNumber.from(gasPrice.hex)
+        const gasLimitBn = ethers.BigNumber.from(gasLimit)
+        const gasPriceBn = ethers.BigNumber.from(gasPrice)
         const weiGasEstimate = gasLimitBn.mul(gasPriceBn).toString()
         yield put(A.pollTokenAllowanceTxSuccess(parsedTx))
         yield put(A.setTokenAllowanceGasEstimate(weiGasEstimate))

@@ -93,22 +93,13 @@ const DexPreImageSchema: z.ZodSchema<BuildDexTxPreImage, z.ZodTypeDef, unknown> 
 
 const DexBuildRawTxSchema: z.ZodSchema<BuildDexTxRawTx, z.ZodTypeDef, unknown> = z.object({
   payload: z.object({
-    chainId: z.number(),
+    chainId: z.string(),
     data: z.string(),
-    gasLimit: z.object({
-      hex: z.string(),
-      type: z.literal('BigNumber')
-    }),
-    gasPrice: z.object({
-      hex: z.string(),
-      type: z.literal('BigNumber')
-    }),
+    gasLimit: z.string(),
+    gasPrice: z.string(),
     nonce: z.number(),
     to: z.string(),
-    value: z.object({
-      hex: z.string(),
-      type: z.literal('BigNumber')
-    })
+    value: z.string()
   }),
   version: z.number()
 })
