@@ -77,6 +77,7 @@ import dexOnboardingSlideFunds from './img/dex/onboarding-slide-funds@2x.png'
 import dexOnboardingSlideNotEligible from './img/dex/onboarding-slide-not-eligible@2x.png'
 import dexOnboardingSlideSwap from './img/dex/onboarding-slide-swap@2x.png'
 import dexOnboardingSlideWelcome from './img/dex/onboarding-slide-welcome@2x.png'
+import dexPercentage from './img/dex/percentage.svg'
 import dexSwapConfirming from './img/dex/swap-confirming.png'
 import dexSwapError from './img/dex/swap-error.png'
 import dexTokenAllowance from './img/dex/token-allowance.svg'
@@ -267,6 +268,7 @@ const Images = {
   'dex-onboarding-slide-not-eligible': dexOnboardingSlideNotEligible,
   'dex-onboarding-slide-swap': dexOnboardingSlideSwap,
   'dex-onboarding-slide-welcome': dexOnboardingSlideWelcome,
+  'dex-percentage': dexPercentage,
   'dex-swap-confirming': dexSwapConfirming,
   'dex-swap-error': dexSwapError,
   'dex-token-allowance': dexTokenAllowance,

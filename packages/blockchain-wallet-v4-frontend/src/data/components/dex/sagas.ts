@@ -11,6 +11,7 @@ import { actions, model, selectors } from 'data'
 import { Analytics } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
+import quoteMock from './mocks/quote.json'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import type { DexSwapForm } from './types'
@@ -105,6 +106,8 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchSwapQuote = function* () {
     yield delay(300)
+    // create date to cancel loop when current date is more than 15minutes of when this date was created
+    const date = new Date()
 
     while (true) {
       try {
@@ -165,6 +168,8 @@ export default ({ api }: { api: APIType }) => {
             throw Error('No user wallet address')
           }
 
+          // const quoteResponse = quoteMock
+
           const quoteResponse = yield* call(api.getDexSwapQuote, {
             fromCurrency: {
               address: baseTokenInfo.address,
@@ -191,7 +196,7 @@ export default ({ api }: { api: APIType }) => {
             // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
             venue: 'ZEROX' as const
           })
-          yield delay(1000)
+
           yield* put(
             // @ts-ignore
             A.fetchSwapQuoteSuccess({
@@ -229,8 +234,14 @@ export default ({ api }: { api: APIType }) => {
               )
             )
           }
-
           yield delay(quoteTtl)
+          // cancel loop when current date is more than 15minutes of created date from above line 108 at the time of writing this comment
+
+          if (new Date() > addMilliseconds(date, 15 * 60 * 1000)) {
+            yield put(actions.form.reset(DEX_SWAP_FORM))
+            yield put(A.resetSwapQuote())
+            yield put(A.stopPollSwapQuote())
+          }
         }
       } catch ({ message, title }) {
         yield put(A.fetchSwapQuoteFailure({ message, title }))
@@ -390,8 +401,8 @@ export default ({ api }: { api: APIType }) => {
         const response = yield call(api.buildDexTx, tokenAllowanceParams)
         const parsedTx = parseRawTx(response)
         const { gasLimit, gasPrice } = response.rawTx.payload
-        const gasLimitBn = ethers.BigNumber.from(gasLimit.hex)
-        const gasPriceBn = ethers.BigNumber.from(gasPrice.hex)
+        const gasLimitBn = ethers.BigNumber.from(gasLimit)
+        const gasPriceBn = ethers.BigNumber.from(gasPrice)
         const weiGasEstimate = gasLimitBn.mul(gasPriceBn).toString()
         yield put(A.pollTokenAllowanceTxSuccess(parsedTx))
         yield put(A.setTokenAllowanceGasEstimate(weiGasEstimate))

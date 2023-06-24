@@ -102,6 +102,9 @@ const dexSlice = createSlice({
     pollTokenAllowanceTxSuccess: (state, action: PayloadAction<ParsedTx>) => {
       state.tokenAllowanceTx = Remote.Success(action.payload)
     },
+    resetSwapQuote: (state) => {
+      state.swapQuote = Remote.NotAsked
+    },
     resetTokenAllowance: (state) => {
       state.isTokenAllowed = Remote.NotAsked
       state.isTokenAllowedAfterPolling = Remote.NotAsked

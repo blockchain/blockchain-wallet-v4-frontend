@@ -15,11 +15,11 @@ const getPercentage = (value: number, total: number) => {
   return Math.ceil(((total - value) * 100) / total)
 }
 
-const getTimer = (ms: number) => format(ms, 'mm:ss')
+const getTimer = (ms: number, formatStyle?: string) => format(ms, formatStyle || 'mm:ss')
 
 const getIsCompleted = (ms: number) => ms <= 0
 
-export const useCountDown = (date: Date, totalMs: number) => {
+export const useCountDown = (date: Date, totalMs: number, formatStyle?: string) => {
   const [currentMs, setCurrentMs] = useState(() => getDifference(date))
   const intervalRef = useRef<number>()
 
@@ -29,10 +29,11 @@ export const useCountDown = (date: Date, totalMs: number) => {
     intervalRef.current = window.setInterval(() => {
       const difference = getDifference(date)
 
-      setCurrentMs(difference)
       if (difference <= 0) {
         window.clearInterval(intervalRef.current)
+        return
       }
+      setCurrentMs(difference)
     }, 1000)
 
     return () => window.clearInterval(intervalRef.current)
@@ -42,6 +43,6 @@ export const useCountDown = (date: Date, totalMs: number) => {
     isCompleted: getIsCompleted(currentMs),
     isCompletingSoon: getIsCompletingSoon(currentMs),
     percentage: getPercentage(currentMs, totalMs),
-    timer: getTimer(currentMs)
+    timer: getTimer(currentMs, formatStyle)
   }
 }

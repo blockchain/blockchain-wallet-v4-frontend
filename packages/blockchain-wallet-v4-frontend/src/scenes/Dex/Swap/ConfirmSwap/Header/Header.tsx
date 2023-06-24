@@ -17,7 +17,7 @@ import { IconContainer, ProgressWrapper } from './styles'
 import { HeaderProps } from './types'
 
 export const Header = withTheme(({ date, onClickBack, theme, totalMs }: HeaderProps) => {
-  const { percentage, timer } = useCountDown(date, totalMs)
+  const { percentage, timer } = useCountDown(date, totalMs, 'ss')
   return (
     <Padding bottom={1}>
       <Flex justifyContent='space-between' alignItems='center'>

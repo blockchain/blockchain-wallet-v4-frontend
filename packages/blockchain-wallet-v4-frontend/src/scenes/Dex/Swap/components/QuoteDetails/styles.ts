@@ -30,6 +30,7 @@ export const RowDetails = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  height: 45px;
   padding: 8px 16px;
   border-bottom: 1px solid ${(props) => props.theme.grey000};
 `

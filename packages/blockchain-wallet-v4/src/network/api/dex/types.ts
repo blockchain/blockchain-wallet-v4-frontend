@@ -88,22 +88,13 @@ export type BuildDexTxPreImage = {
 
 export type BuildDexTxRawTx = {
   payload: {
-    chainId: number
+    chainId: string
     data: string
-    gasLimit: {
-      hex: string
-      type: 'BigNumber'
-    }
-    gasPrice: {
-      hex: string
-      type: 'BigNumber'
-    }
+    gasLimit: string
+    gasPrice: string
     nonce: number
     to: string
-    value: {
-      hex: string
-      type: 'BigNumber'
-    }
+    value: string
   }
   version: number
 }
