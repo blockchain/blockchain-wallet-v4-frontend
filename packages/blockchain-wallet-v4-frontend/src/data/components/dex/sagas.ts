@@ -254,8 +254,7 @@ export default ({ api }: { api: APIType }) => {
     const { field, form } = action?.meta
 
     // exit whenever the counterTokenAmount changes, to avoid infinitely calling fetchSwapQuote
-    if (field === 'counterTokenAmount') return
-
+    if (field === 'counterTokenAmount' || field === 'step') return
     // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
     if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
     const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
