@@ -1,21 +1,15 @@
 import React from 'react'
-import { FormattedMessage, useIntl } from 'react-intl'
-import {
-  Flex,
-  IconSettings,
-  Padding,
-  PaletteColors,
-  SemanticColors,
-  Text
-} from '@blockchain-com/constellation'
+import { FormattedMessage } from 'react-intl'
+import { Flex, Padding, SemanticColors, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
+
+import { Image } from 'blockchain-info-components'
 
 const SettingsIcon = styled.div`
   cursor: pointer;
 `
 
 export const Header = ({ onClickSettings }: { onClickSettings: () => void }) => {
-  const { formatMessage } = useIntl()
   return (
     <Padding bottom={1}>
       <Flex justifyContent='space-between'>
@@ -23,11 +17,7 @@ export const Header = ({ onClickSettings }: { onClickSettings: () => void }) => 
           <FormattedMessage id='copy.swap' defaultMessage='Swap' />
         </Text>
         <SettingsIcon onClick={onClickSettings}>
-          <IconSettings
-            size='medium'
-            color={PaletteColors['grey-400']}
-            label={formatMessage({ defaultMessage: 'Settings', id: 'copy.settings' })}
-          />
+          <Image name='cog' size='24px' />
         </SettingsIcon>
       </Flex>
     </Padding>
