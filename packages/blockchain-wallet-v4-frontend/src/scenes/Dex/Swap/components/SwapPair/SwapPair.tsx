@@ -76,7 +76,7 @@ export const SwapPair = ({
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
-          disabled={props.isQuoteLocked}
+          disabled={props.isQuoteLocked || swapSide === 'COUNTER'}
           placeholder='0.00'
           name={amountInputField}
           validate={[]}
@@ -131,7 +131,7 @@ export const SwapPair = ({
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
-          disabled={props.isQuoteLocked}
+          disabled={props.isQuoteLocked || swapSide === 'COUNTER'}
           placeholder='0.00'
           name={amountInputField}
           validate={[]}
