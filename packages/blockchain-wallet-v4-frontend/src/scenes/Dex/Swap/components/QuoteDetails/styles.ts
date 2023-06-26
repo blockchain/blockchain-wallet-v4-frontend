@@ -36,6 +36,9 @@ export const RowDetails = styled.div`
 `
 
 export const RowTitle = styled(Text)`
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-weight: 500;
   font-size: 14px;
   line-height: 150%;
