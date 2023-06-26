@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Flex, IconAlert, Padding, SemanticColors } from '@blockchain-com/constellation'
+import { Button, Flex, IconAlert, Padding, PaletteColors } from '@blockchain-com/constellation'
 
 import { Exchange } from '@core'
 import { actions, model, selectors } from 'data'
@@ -286,7 +286,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           text={
             quoteError ? (
               <Flex alignItems='center' gap={8}>
-                <IconAlert color={SemanticColors.warning} size='medium' />
+                <IconAlert color={PaletteColors['orange-400']} size='medium' />
                 {quoteError.title.includes('Insufficient') ? (
                   <FormattedMessage
                     id='dex.enter-swap-details.button.insufficient'
