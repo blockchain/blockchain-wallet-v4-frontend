@@ -31,3 +31,34 @@ export const SlippageButtons = styled.div`
     }
   }
 `
+
+export const InputContainer = styled.div`
+  display: flex;
+  position: relative;
+  margin-top: 8px;
+
+  & > img {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+  }
+`
+
+export const ButtonSection = styled(Section)`
+  & > button {
+    border-radius: 32px !important;
+  }
+`
+
+export const CustomInput = styled.input`
+  flex-grow: 1;
+  border-style: none;
+  padding-left: 16px;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  height: 100%;
+  background-color: ${({ theme }) => theme.grey000};
+  padding: 12px 48px 12px 16px;
+  font-size: 16px;
+  border-radius: 8px;
+`

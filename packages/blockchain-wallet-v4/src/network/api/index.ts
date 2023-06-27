@@ -65,6 +65,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       apiUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      nabuUrl,
       ...http
     }),
     ...earn({

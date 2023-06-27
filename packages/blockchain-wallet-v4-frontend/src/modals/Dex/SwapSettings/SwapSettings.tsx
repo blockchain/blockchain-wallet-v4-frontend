@@ -5,20 +5,27 @@ import {
   Button,
   Flex,
   IconCloseCircleV2,
-  Input,
   PaletteColors,
   SemanticColors,
   Text
 } from '@blockchain-com/constellation'
 import { compose } from 'redux'
 
-import { Button as ButtonLegacy, Modal } from 'blockchain-info-components'
+import { Button as ButtonLegacy, Image, Modal } from 'blockchain-info-components'
 import { actions, model } from 'data'
 import { ModalName } from 'data/modals/types'
+import { Analytics } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { SLIPPAGE_PRESETS } from './constants'
-import { CloseIcon, Section, SlippageButtons } from './styles'
+import {
+  ButtonSection,
+  CloseIcon,
+  CustomInput,
+  InputContainer,
+  Section,
+  SlippageButtons
+} from './styles'
 import { SlippageValue, ValidatorTypeEnum } from './types'
 import { useSlippageValueFromSwapForm, validateSlippage } from './utils'
 
@@ -32,23 +39,41 @@ type Props = {
 const DexSwapSettings = ({ position, total }: Props) => {
   const dispatch = useDispatch()
   const { formatMessage } = useIntl()
-
   const currentSlippage = useSlippageValueFromSwapForm()
   const [slippage, setSlippage] = useState<SlippageValue>(currentSlippage)
+  const [customSlippage, setCustomSlippage] = useState<string>('')
 
   useEffect(() => {
-    if (slippage.isCustom && slippage.value) {
-      setSlippage(validateSlippage(`${slippage.value * 100}`))
-    }
-  }, [slippage])
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.DEX_SETTINGS_OPENED,
+        properties: {}
+      })
+    )
+  }, [])
 
   const onSaveSettings = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.DEX_SLIPPAGE_CHANGED,
+        properties: {}
+      })
+    )
     dispatch(actions.form.change(DEX_SWAP_FORM, 'slippage', slippage.value))
     dispatch(actions.modals.closeModal())
   }
 
   const onChangeCustomSlippage = (value: string) => {
     setSlippage(validateSlippage(value))
+  }
+
+  const handleInputChange = (event) => {
+    const { value } = event.target
+
+    if (!/^\d*\.?\d*$/.test(value)) return
+
+    setCustomSlippage(value)
+    onChangeCustomSlippage(value)
   }
 
   return (
@@ -64,10 +89,7 @@ const DexSwapSettings = ({ position, total }: Props) => {
       <form>
         <Section>
           <Text variant='paragraph1' color={SemanticColors.body}>
-            <FormattedMessage
-              id='copy.allowed_slippage_percentage'
-              defaultMessage='Allowed Slippage %'
-            />
+            <FormattedMessage id='copy.allowed_slippage' defaultMessage='Allowed Slippage' />
           </Text>
           <SlippageButtons>
             {SLIPPAGE_PRESETS.map((option) => (
@@ -93,28 +115,29 @@ const DexSwapSettings = ({ position, total }: Props) => {
           <Text variant='paragraph1' color={SemanticColors.body}>
             <FormattedMessage
               id='copy.custom_slippage_percentage'
-              defaultMessage='Custom Slippage %'
+              defaultMessage='Custom Slippage'
             />
           </Text>
-          <Input
-            // value={''} // TODO: Really no value prop for an INPUT field??? Fix constellation
-            id='dexCoinSearch'
-            defaultValue={slippage.isCustom ? slippage.value * 100 : ''}
-            state={slippage.isCustom && slippage.message ? slippage.messageType : 'default'}
-            type='number' // TODO: Fix constellation input to actually accept only numbers
-            placeholder={formatMessage({
-              defaultMessage: 'Search Symbol or Address',
-              id: 'dex.customSlippage.placeholder'
-            })}
-            onChange={(event) => onChangeCustomSlippage((event.target as HTMLInputElement).value)}
-          />
+          <InputContainer>
+            <CustomInput
+              id='dexCoinSearch'
+              type='text'
+              value={customSlippage}
+              placeholder={formatMessage({
+                defaultMessage: 'Enter a percent',
+                id: 'dex.customSlippage.placeholder'
+              })}
+              onChange={handleInputChange}
+            />
+            <Image name='dex-percentage' size='24px' />
+          </InputContainer>
           {slippage.isCustom && slippage.messageType ? (
             <Text variant='caption1' color={SemanticColors[slippage.messageType]}>
               {slippage.message}
             </Text>
           ) : null}
         </Section>
-        <Section>
+        <ButtonSection>
           <Button
             size='large'
             width='full'
@@ -126,7 +149,7 @@ const DexSwapSettings = ({ position, total }: Props) => {
               (slippage.messageType === ValidatorTypeEnum.ERROR || !slippage.value)
             }
           />
-        </Section>
+        </ButtonSection>
       </form>
     </Modal>
   )

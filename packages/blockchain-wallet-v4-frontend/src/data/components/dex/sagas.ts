@@ -1,17 +1,30 @@
-import { call, cancelled, put, select } from 'typed-redux-saga'
+import Task from 'data.task'
+import { addMilliseconds } from 'date-fns'
+import * as ethers from 'ethers'
+import { call, delay, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
-import type { DexToken } from '@core/network/api/dex'
-import { cancelRequestSource } from '@core/network/utils'
+import { BuildDexTxParams, DexToken, DexTransaction } from '@core/network/api/dex/types'
+import { getPrivateKey } from '@core/utils/eth'
 import { actions, model, selectors } from 'data'
-import { notReachable } from 'utils/helpers'
+import { Analytics } from 'data/types'
+import { promptForSecondPassword } from 'services/sagas'
 
+import * as S from './selectors'
 import { actions as A } from './slice'
 import type { DexSwapForm } from './types'
 import { getValidSwapAmount } from './utils'
+import { parseRawTx } from './utils/parseRawTx'
 
 const { DEX_SWAP_FORM } = model.components.dex
+
+const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
+
+const REFRESH_INTERVAL = 15000
+const TOKEN_ALLOWANCE_POLL_INTERVAL = 5000
+const provider = ethers.providers.getDefaultProvider(`https://api.blockchain.info/eth/nodes/rpc`)
+const COMPLETE_SWAP = 'COMPLETE_SWAP'
 
 export default ({ api }: { api: APIType }) => {
   const fetchUserEligibility = function* () {
@@ -27,17 +40,21 @@ export default ({ api }: { api: APIType }) => {
         })
       )
 
-      const walletAddress = nonCustodialCoinAccounts[token]?.[0].address
-      if (!walletAddress) {
-        yield* put(A.fetchUserEligibilityFailure('No user wallet address'))
+      if (!nonCustodialCoinAccounts[token]?.length) {
+        yield put(actions.core.data.eth.fetchData())
+        yield put(actions.core.data.eth.fetchErc20Data())
       }
 
       yield put(A.fetchUserEligibilityLoading())
-      const userEligibility = yield* call(api.getDexUserEligibility, {
-        walletAddress: `${walletAddress}`
-      })
+      const userEligibility = yield* call(api.getDexUserEligibility)
       yield* put(A.fetchUserEligibilitySuccess(userEligibility))
     } catch (e) {
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.DEX_COUNTRY_INELIGIBLE_VIEWED,
+          properties: {}
+        })
+      )
       yield* put(A.fetchUserEligibilityFailure(e.toString()))
     }
   }
@@ -50,146 +67,107 @@ export default ({ api }: { api: APIType }) => {
 
       // since MVP only supports ETH chain, set as current and then pre-fetch token list
       const ethChain = chainsList.find((chain) => chain.nativeCurrency.name === 'Ethereum')
+
       if (!ethChain) {
         yield* put(A.fetchChainTokensFailure('Failed to get Ethereum chain'))
         return
       }
 
       yield* put(A.setCurrentChain(ethChain))
-      yield* put(A.fetchChainTokens({ search: '', type: 'RELOAD' }))
+      yield* put(A.fetchChainTokens())
     } catch (e) {
       yield* put(A.fetchChainsFailure(e.toString()))
     }
   }
 
-  const fetchChainTokens = function* (action: ReturnType<typeof A.fetchChainTokens>) {
-    const cancelSource = cancelRequestSource()
+  const fetchChainTokens = function* () {
     try {
       yield* put(A.fetchChainTokensLoading())
-      const currentTokensMeta = selectors.components.dex.getCurrentChainTokensMeta(yield* select())
 
       const currentChain = selectors.components.dex
         .getCurrentChain(yield* select())
         .getOrFail('Unable to get current chain')
+      const tokenList: DexToken[] = yield* call(api.getDexChainTokens, currentChain.chainId, {
+        offset: 0
+      })
 
-      let tokenList: DexToken[] = []
-      switch (action.payload.type) {
-        case 'RELOAD':
-          tokenList = yield* call(api.getDexChainTokens, currentChain.chainId, {
-            cancelToken: cancelSource.token,
-            offset: 0,
-            search: action.payload.search
-          })
-          yield* put(
-            A.fetchChainTokensSuccess({
-              data: tokenList,
-              type: 'RELOAD'
-            })
-          )
-          break
-        case 'LOAD_MORE':
-          tokenList = yield* call(api.getDexChainTokens, currentChain.chainId, {
-            cancelToken: undefined,
-            offset: currentTokensMeta.count,
-            search: action.payload.search
-          })
-          yield* put(
-            A.fetchChainTokensSuccess({
-              data: tokenList,
-              type: 'LOAD_MORE'
-            })
-          )
-          break
-        default:
-          notReachable(action.payload.type)
-      }
+      yield* put(
+        A.fetchChainTokensSuccess({
+          data: tokenList
+        })
+      )
     } catch (e) {
       yield* put(A.fetchChainTokensFailure(e.toString()))
-    } finally {
-      if (yield* cancelled()) {
-        yield* call(cancelSource.cancel)
-      }
     }
   }
 
-  const fetchSwapQuote = function* (action) {
-    const {
-      meta: { field, form }
-    } = action
-    // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
-    if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
-    const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
+  const fetchSwapQuote = function* () {
+    yield delay(300)
+    // create date to cancel loop when current date is more than 15minutes of when this date was created
+    const date = new Date()
 
-    // do not request quote on automatic form flip
-    if (!formValues) return
-    if (formValues.isFlipping) return
-    if (formValues.baseToken === formValues.counterToken) return
-
-    // if one of the values is 0 set another one to 0 and clear a quote
-    if (field === 'baseTokenAmount' && getValidSwapAmount(formValues.baseTokenAmount) === 0) {
-      yield* put(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', ''))
-      yield* put(A.clearCurrentSwapQuote())
-      return
-    }
-    if (field === 'counterTokenAmount' && getValidSwapAmount(formValues.counterTokenAmount) === 0) {
-      yield* put(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', ''))
-      yield* put(A.clearCurrentSwapQuote())
-      return
-    }
-
-    const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } = formValues
-
-    // only fetch/update swap quote if we have a valid pair and a base amount
-    if (
-      baseToken &&
-      counterToken &&
-      (getValidSwapAmount(baseTokenAmount) || getValidSwapAmount(counterTokenAmount))
-    ) {
+    while (true) {
       try {
-        yield* put(A.fetchSwapQuoteLoading())
+        const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(
+          yield* select()
+        ) as DexSwapForm
 
-        const currentChain = selectors.components.dex
-          .getCurrentChain(yield* select())
-          .getOrFail('Unable to get current chain')
-
-        const baseTokenInfo = selectors.components.dex
-          .getChainTokenInfo(yield* select(), baseToken)
-          .getOrFail('Unable to get base token info')
-
-        if (!baseTokenInfo) {
-          yield* put(A.fetchSwapQuoteFailure('No base token'))
-          return
+        if (
+          !formValues ||
+          formValues.isFlipping ||
+          formValues.baseToken === formValues.counterToken
+        ) {
+          return yield put(A.stopPollSwapQuote())
         }
 
-        const baseAmountGwei = Exchange.convertCoinToCoin({
-          baseToStandard: false,
-          coin: currentChain.nativeCurrency.symbol,
-          value: baseTokenAmount || 0
-        })
+        const { baseToken, baseTokenAmount, counterToken, slippage } = formValues
 
-        const counterTokenInfo = selectors.components.dex
-          .getChainTokenInfo(yield* select(), counterToken)
-          .getOrFail('Unable to get counter token info')
+        if (baseToken && counterToken && getValidSwapAmount(baseTokenAmount)) {
+          yield* put(A.fetchSwapQuoteLoading())
 
-        if (!counterTokenInfo) {
-          yield* put(A.fetchSwapQuoteFailure('No counter token'))
-          return
-        }
+          const currentChain = selectors.components.dex
+            .getCurrentChain(yield* select())
+            .getOrFail('Unable to get current chain')
 
-        const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
-          coins: [baseToken],
-          nonCustodialAccounts: true
-        })
+          const baseTokenInfo = selectors.components.dex
+            .getChainTokenInfo(yield* select(), baseToken)
+            .getOrFail('Unable to get base token info')
 
-        const nonCustodialAddress = nonCustodialCoinAccounts[baseToken][0].address
-        if (!nonCustodialAddress) {
-          yield* put(A.fetchSwapQuoteFailure('No user wallet address'))
-          return
-        }
+          // Throw Error if no base token
+          if (!baseTokenInfo) {
+            throw Error('No base token')
+          }
 
-        const quoteResponse = yield* call(
-          api.getDexSwapQuote,
-          {
+          const baseAmountGwei = Exchange.convertCoinToCoin({
+            baseToStandard: false,
+            coin: currentChain.nativeCurrency.symbol,
+            value: baseTokenAmount || 0
+          })
+
+          const counterTokenInfo = selectors.components.dex
+            .getChainTokenInfo(yield* select(), counterToken)
+            .getOrFail('Unable to get counter token info')
+
+          // Throw Error if no counter token
+          if (!counterTokenInfo) {
+            throw Error('No counter token')
+          }
+
+          const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
+            coins: [baseToken],
+            nonCustodialAccounts: true
+          })
+
+          const nonCustodialAddress = nonCustodialCoinAccounts[baseToken][0].address
+
+          // Throw Error if no user wallet address
+          if (!nonCustodialAddress) {
+            throw Error('No user wallet address')
+          }
+
+          // const quoteResponse = quoteMock
+
+          const quoteResponse = yield* call(api.getDexSwapQuote, {
             fromCurrency: {
               address: baseTokenInfo.address,
               amount: baseAmountGwei,
@@ -214,52 +192,298 @@ export default ({ api }: { api: APIType }) => {
 
             // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
             venue: 'ZEROX' as const
-          },
-          {
-            ccy: 'ETH'
+          })
+
+          yield* put(
+            // @ts-ignore
+            A.fetchSwapQuoteSuccess({
+              ...quoteResponse,
+              date: addMilliseconds(new Date(), quoteResponse.quoteTtl),
+              totalMs: quoteResponse.quoteTtl
+            })
+          )
+
+          // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
+          // Also we consider to return to the FE only one quote in that case
+          const { quote, quoteTtl } = quoteResponse
+
+          if (quote) {
+            yield* put(
+              actions.form.change(
+                DEX_SWAP_FORM,
+                'baseTokenAmount',
+                Exchange.convertCoinToCoin({
+                  baseToStandard: true,
+                  coin: quote.sellAmount.symbol,
+                  value: quote.sellAmount.amount
+                })
+              )
+            )
+            yield* put(
+              actions.form.change(
+                DEX_SWAP_FORM,
+                'counterTokenAmount',
+                Exchange.convertCoinToCoin({
+                  baseToStandard: true,
+                  coin: quote.buyAmount.symbol,
+                  value: quote.buyAmount.amount
+                })
+              )
+            )
           }
-        )
+          yield delay(quoteTtl)
+          // cancel loop when current date is more than 15minutes of created date from above line 108 at the time of writing this comment
 
-        yield* put(A.fetchSwapQuoteSuccess(quoteResponse))
-
-        // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
-        // Also we consider to return to the FE only one quote in that case
-        const { quote } = quoteResponse
-
-        if (quote) {
-          yield* put(
-            actions.form.change(
-              DEX_SWAP_FORM,
-              'baseTokenAmount',
-              Exchange.convertCoinToCoin({
-                baseToStandard: true,
-                coin: quote.sellAmount.symbol,
-                value: quote.sellAmount.amount
-              })
-            )
-          )
-          yield* put(
-            actions.form.change(
-              DEX_SWAP_FORM,
-              'counterTokenAmount',
-              Exchange.convertCoinToCoin({
-                baseToStandard: true,
-                coin: quote.buyAmount.symbol,
-                value: quote.buyAmount.amount
-              })
-            )
-          )
+          if (new Date() > addMilliseconds(date, 15 * 60 * 1000)) {
+            yield put(actions.form.reset(DEX_SWAP_FORM))
+            yield put(A.resetSwapQuote())
+            yield put(A.stopPollSwapQuote())
+          }
         }
-      } catch (e) {
-        yield* put(A.fetchSwapQuoteFailure(e))
+      } catch ({ message, title }) {
+        yield put(A.fetchSwapQuoteFailure({ message, title }))
+        yield put(A.stopPollSwapQuote())
       }
     }
+  }
+
+  const fetchSwapQuoteOnChange = function* (action) {
+    const { field, form } = action?.meta
+
+    // exit whenever the counterTokenAmount changes, to avoid infinitely calling fetchSwapQuote
+    if (field === 'counterTokenAmount' || field === 'step') return
+    // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
+    if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
+    const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
+
+    // if one of the values is 0 set another one to 0 and clear a quote
+    if (field === 'baseTokenAmount' && getValidSwapAmount(formValues.baseTokenAmount) === 0) {
+      yield* put(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', ''))
+      yield* put(A.clearCurrentSwapQuote())
+      return
+    }
+
+    yield put(A.fetchSwapQuote())
+  }
+
+  const fetchTokenAllowance = function* (action: ReturnType<typeof A.fetchTokenAllowance>) {
+    const { baseToken } = action.payload
+    try {
+      yield put(A.fetchTokenAllowanceLoading())
+      const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
+        coins: [baseToken],
+        nonCustodialAccounts: true
+      })
+
+      let nonCustodialAddress: string | number | undefined =
+        nonCustodialCoinAccounts[baseToken][0].address
+
+      const baseTokenInfo = selectors.components.dex
+        .getChainTokenInfo(yield* select(), baseToken)
+        .getOrFail('Unable to get base token info')
+      const tokenAddress = baseTokenInfo?.address || ''
+
+      // Throw Error if no user wallet address
+      if (!nonCustodialAddress) throw Error('No user wallet address')
+
+      if (typeof nonCustodialAddress === 'number') {
+        nonCustodialAddress = nonCustodialAddress.toString()
+      }
+
+      const response = yield call(api.getDexTokenAllowance, {
+        addressOwner: nonCustodialAddress,
+        currency: tokenAddress,
+        network: 'ETH',
+        spender: 'ZEROX_EXCHANGE'
+      })
+      const isTokenAllowed = response?.result.allowance !== '0'
+      yield put(A.fetchTokenAllowanceSuccess(isTokenAllowed))
+    } catch (e) {
+      yield put(A.fetchTokenAllowanceFailure(e))
+    }
+  }
+
+  const pollTokenAllowance = function* (action: ReturnType<typeof A.pollTokenAllowance>) {
+    const { baseToken } = action.payload
+    try {
+      yield put(A.pollTokenAllowanceLoading())
+      const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
+        coins: [baseToken],
+        nonCustodialAccounts: true
+      })
+
+      let nonCustodialAddress: string | number | undefined =
+        nonCustodialCoinAccounts[baseToken][0].address
+
+      const baseTokenInfo = selectors.components.dex
+        .getChainTokenInfo(yield* select(), baseToken)
+        .getOrFail('Unable to get base token info')
+      const tokenAddress = baseTokenInfo?.address || ''
+
+      // Throw Error if no user wallet address
+      if (!nonCustodialAddress) throw Error('No user wallet address')
+
+      if (typeof nonCustodialAddress === 'number') {
+        nonCustodialAddress = nonCustodialAddress.toString()
+      }
+
+      // poll until api comes back true or 10mins pass (assuming TOKEN_ALLOWANCE_POLL_INTERVAL = 5000)
+      let i = 0
+      while (i < 120) {
+        yield delay(300)
+        const response = yield call(api.getDexTokenAllowance, {
+          addressOwner: nonCustodialAddress,
+          currency: tokenAddress,
+          network: 'ETH',
+          spender: 'ZEROX_EXCHANGE'
+        })
+        const isTokenAllowed = response?.result.allowance !== '0'
+
+        if (isTokenAllowed) {
+          yield put(A.pollTokenAllowanceSuccess(isTokenAllowed))
+          yield put(A.stopPollTokenAllowance())
+        }
+
+        yield delay(TOKEN_ALLOWANCE_POLL_INTERVAL)
+        i += 1
+      }
+      throw Error('Token allowance polling timed out')
+    } catch (e) {
+      yield put(A.pollTokenAllowanceFailure(e))
+      yield put(A.stopPollTokenAllowance())
+    }
+  }
+
+  const getWallet = function* () {
+    const password = yield call(promptForSecondPassword)
+    const getMnemonic = (state) => selectors.core.wallet.getMnemonic(state, password)
+    const mnemonicT = yield select(getMnemonic)
+    const mnemonic = yield call(() => taskToPromise(mnemonicT))
+    const privateKey = getPrivateKey(mnemonic)
+    return new ethers.Wallet(privateKey, provider)
+  }
+
+  const pollTokenAllowanceTx = function* (action: ReturnType<typeof A.pollTokenAllowanceTx>) {
+    const { baseToken } = action.payload
+    try {
+      yield put(A.pollTokenAllowanceTxLoading())
+      const baseTokenInfo = selectors.components.dex
+        .getChainTokenInfo(yield* select(), baseToken)
+        .getOrFail('Unable to get base token info')
+      const tokenAddress = baseTokenInfo?.address || ''
+      const wallet = yield call(getWallet)
+
+      const source = {
+        descriptor: 'legacy',
+        pubKey: wallet.publicKey,
+        style: 'SINGLE'
+      }
+      const tokenAllowanceParams = {
+        intent: {
+          amount: 'MAX',
+          destination: tokenAddress,
+          fee: 'NORMAL',
+          maxVerificationVersion: 1,
+          sources: [source],
+          spender: 'ZEROX_EXCHANGE',
+          type: 'TOKEN_APPROVAL'
+        },
+        network: 'ETH'
+      } as BuildDexTxParams
+
+      while (true) {
+        yield delay(300)
+        yield put(A.pollTokenAllowanceTxLoading())
+        const response = yield call(api.buildDexTx, tokenAllowanceParams)
+        const parsedTx = parseRawTx(response)
+        const { gasLimit, gasPrice } = response.rawTx.payload
+        const gasLimitBn = ethers.BigNumber.from(gasLimit)
+        const gasPriceBn = ethers.BigNumber.from(gasPrice)
+        const weiGasEstimate = gasLimitBn.mul(gasPriceBn).toString()
+        yield put(A.pollTokenAllowanceTxSuccess(parsedTx))
+        yield put(A.setTokenAllowanceGasEstimate(weiGasEstimate))
+
+        yield delay(REFRESH_INTERVAL)
+      }
+    } catch (e) {
+      yield put(A.pollTokenAllowanceTxFailure(e))
+      yield put(A.stopPollTokenAllowanceTx())
+    }
+  }
+
+  const sendTokenAllowanceTx = function* (action) {
+    const { baseToken } = action.payload
+
+    try {
+      const wallet = yield call(getWallet)
+      const tx = S.getTokenAllowanceTx(yield select()).getOrElse(null)
+      const signedTx = yield call(() => taskToPromise(Task.of(wallet.signTransaction(tx))))
+      yield call(() => taskToPromise(Task.of(provider.sendTransaction(signedTx))))
+      yield put(A.pollTokenAllowance({ baseToken }))
+    } catch (e) {
+      yield put(A.sendTokenAllowanceTxFailure(e))
+    }
+  }
+
+  const sendSwapQuote = function* () {
+    yield put(A.stopPollTokenAllowanceTx())
+    const { quote, transaction } = S.getSwapQuote(yield select()).getOrElse({
+      quote: {},
+      transaction: {}
+    })
+
+    try {
+      if (!quote || !transaction) throw Error('No valid quote')
+      yield put(A.sendSwapQuoteLoading())
+
+      const wallet = yield call(getWallet)
+      const source = {
+        descriptor: 'legacy',
+        pubKey: wallet.publicKey,
+        style: 'SINGLE'
+      }
+      const { data, gasLimit: txGasLimit, to, value } = transaction as DexTransaction
+      const swapTxParams = {
+        intent: {
+          destination: to,
+          fee: 'NORMAL',
+          maxVerificationVersion: 1,
+          sources: [source],
+          swapTx: {
+            data,
+            gasLimit: txGasLimit,
+            value
+          },
+          type: 'SWAP'
+        },
+        network: 'ETH'
+      } as BuildDexTxParams
+
+      // build dex tx by call api
+      const response = yield call(api.buildDexTx, swapTxParams)
+      // parse the tx
+      const parsedTx = parseRawTx(response)
+      // // sign tx
+      const signedTx = yield call(() => taskToPromise(Task.of(wallet.signTransaction(parsedTx))))
+      // send tx
+      const tx = yield call(() => taskToPromise(Task.of(provider.sendTransaction(signedTx))))
+      yield put(A.sendSwapQuoteSuccess({ tx: tx.hash }))
+    } catch (e) {
+      yield put(A.sendSwapQuoteFailure(e))
+    }
+    yield put(actions.form.change(DEX_SWAP_FORM, 'step', COMPLETE_SWAP))
   }
 
   return {
     fetchChainTokens,
     fetchChains,
     fetchSwapQuote,
-    fetchUserEligibility
+    fetchSwapQuoteOnChange,
+    fetchTokenAllowance,
+    fetchUserEligibility,
+    pollTokenAllowance,
+    pollTokenAllowanceTx,
+    sendSwapQuote,
+    sendTokenAllowanceTx
   }
 }

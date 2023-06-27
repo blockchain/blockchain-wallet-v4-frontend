@@ -11,7 +11,6 @@ const { DEX_SUPPORT_SECTION_URL } = model.components.dex
 
 export const NonEligible = () => {
   const dispatch = useDispatch()
-
   const onClickLearnMore = () => {
     dispatch(actions.router.push(DEX_SUPPORT_SECTION_URL))
   }

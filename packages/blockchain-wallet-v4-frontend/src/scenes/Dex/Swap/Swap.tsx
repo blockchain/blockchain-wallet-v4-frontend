@@ -8,6 +8,7 @@ import { DexSwapForm } from 'data/components/dex/types'
 import { notReachable } from 'utils/helpers'
 
 import { PageWrapper } from '../components'
+import CompleteSwap from './CompleteSwap'
 import { ConfirmSwap } from './ConfirmSwap'
 import { EnterSwapDetails } from './EnterSwapDetails'
 
@@ -47,13 +48,20 @@ const SwapForm = (form: InjectedFormProps<DexSwapForm>) => {
         </PageWrapper>
       )
 
+    case 'COMPLETE_SWAP':
+      return (
+        <PageWrapper>
+          <CompleteSwap />
+        </PageWrapper>
+      )
+
     default:
       return notReachable(swapFormValues.step)
   }
 }
 
 export const Swap = reduxForm<DexSwapForm>({
-  destroyOnUnmount: false,
+  destroyOnUnmount: true,
   enableReinitialize: true,
   form: DEX_SWAP_FORM,
   initialValues: { slippage: DEFAULT_SLIPPAGE, step: 'ENTER_DETAILS' }

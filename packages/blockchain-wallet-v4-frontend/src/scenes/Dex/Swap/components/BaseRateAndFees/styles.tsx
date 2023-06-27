@@ -1,5 +1,3 @@
-import React from 'react'
-import { Flex } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
@@ -33,4 +31,10 @@ export const ShowDetailsWrapper = styled.div`
   &:hover {
     cursor: pointer;
   }
+`
+
+export const HorizontalLine = styled.div`
+  width: 24px;
+  height: 1px;
+  background-color: ${(props) => props.theme.grey900};
 `
