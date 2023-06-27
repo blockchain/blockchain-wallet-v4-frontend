@@ -24,15 +24,23 @@ import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './
 import { getZeroFiatAmountPreview } from './utils'
 
 const BASE = 'BASE'
+const COUNTER = 'COUNTER'
+const NATIVE_TOKEN = 'ETH'
 
 type Props = {
   swapSide: DexSwapSide
   walletCurrency: string
 } & ({ amount: number; balance: number | BigNumber; coin: CoinType } | { coin?: never }) &
   (
-    | { hasTriggerAnalytics?: undefined; isQuoteLocked: true; setHasTriggerAnalytics?: undefined }
+    | {
+        handleMaxClicked?: undefined
+        hasTriggerAnalytics?: undefined
+        isQuoteLocked: true
+        setHasTriggerAnalytics?: undefined
+      }
     | {
         animate: boolean
+        handleMaxClicked?: () => void
         hasTriggerAnalytics?: boolean
         isQuoteLocked: false
         onTokenSelect: (swapSide: DexSwapSide) => void
@@ -52,6 +60,10 @@ export const SwapPair = ({
   const amountInputField = `${DexSwapSideFields[swapSide]}Amount`
   const isAnimationEnabled = !props.isQuoteLocked ? props.animate : false
   const isAmountEntered = !!(props.coin && props.amount !== 0)
+  const isBaseETH = props.coin === NATIVE_TOKEN
+  const isBase = swapSide === BASE
+  const amountColor = !isBaseETH && isBase ? 'blue600' : 'grey900'
+  const handleMaxClicked = isBaseETH ? null : props.handleMaxClicked
 
   // product only want to record this event once on first input
   useEffect(() => {
@@ -76,8 +88,8 @@ export const SwapPair = ({
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
-          disabled={props.isQuoteLocked}
-          placeholder='0.00'
+          disabled={props.isQuoteLocked || swapSide === COUNTER}
+          placeholder='0'
           name={amountInputField}
           validate={[]}
         />
@@ -120,9 +132,28 @@ export const SwapPair = ({
             />
           </TokenSelectRow>
         </TokenSelectWrapper>
-        <CoinDisplay coin={props.coin} color='grey600' size='10px' weight={500}>
-          {props.balance}
-        </CoinDisplay>
+        <Padding top={0.25}>
+          <Flex alignItems='center' gap={4}>
+            <Text color={SemanticColors.body} variant='micro'>
+              {swapSide === BASE ? (
+                <FormattedMessage defaultMessage='Max' id='copy.max' />
+              ) : (
+                <FormattedMessage defaultMessage='Balance' id='copy.balance' />
+              )}
+              :{' '}
+            </Text>
+            <CoinDisplay
+              coin={props.coin}
+              color={amountColor}
+              onClick={handleMaxClicked}
+              size='10px'
+              weight={500}
+              style={{ cursor: handleMaxClicked ? 'pointer' : 'initial' }}
+            >
+              {props.balance}
+            </CoinDisplay>
+          </Flex>
+        </Padding>
       </Flex>
     </PairWrapper>
   ) : (
@@ -131,8 +162,8 @@ export const SwapPair = ({
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
-          disabled={props.isQuoteLocked}
-          placeholder='0.00'
+          disabled={props.isQuoteLocked || swapSide === COUNTER}
+          placeholder='0'
           name={amountInputField}
           validate={[]}
         />

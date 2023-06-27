@@ -60,8 +60,10 @@ import checkEmptyBlue from './img/check-empty-blue.svg'
 import checkEmptyWhite from './img/check-empty-white.svg'
 import checkmarkCircleGreen from './img/checkmark-circle-green.svg'
 import circleEmpty from './img/circle-empty.svg'
+import circleQuestion from './img/circle-question.svg'
 import closeError from './img/close-error.svg'
 import cloudCheck from './img/cloud_check.svg'
+import cog from './img/cog.svg'
 import cowboySuite from './img/cowboy-suite.png'
 import cowboysLogo from './img/cowboys.svg'
 import creditCard from './img/credit-card.svg'
@@ -250,8 +252,10 @@ const Images = {
   'check-empty-white': checkEmptyWhite,
   'checkmark-circle-green': checkmarkCircleGreen,
   'circle-empty': circleEmpty,
+  'circle-question': circleQuestion,
   'close-error': closeError,
   'cloud-check': cloudCheck,
+  cog,
   'cowboy-suite': cowboySuite,
   cowboys: cowboysLogo,
   'cowboys-jersey': cowboysJersey,

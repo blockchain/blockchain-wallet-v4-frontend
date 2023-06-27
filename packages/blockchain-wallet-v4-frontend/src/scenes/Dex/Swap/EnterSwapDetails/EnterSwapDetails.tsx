@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Flex, IconAlert, Padding, SemanticColors } from '@blockchain-com/constellation'
+import { Button, Flex, IconAlert, Padding, PaletteColors } from '@blockchain-com/constellation'
 
+import { Exchange } from '@core'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { Analytics, DexSwapForm, DexSwapSide, ModalName, SwapAccountType } from 'data/types'
+import {
+  Analytics,
+  DexSwapForm,
+  DexSwapSide,
+  DexSwapSideFields,
+  ModalName,
+  SwapAccountType
+} from 'data/types'
 import { usePrevious, useRemote } from 'hooks'
 
 import { AllowanceCheck } from '../AllowanceCheck'
@@ -22,7 +30,7 @@ import { Header } from './Header'
 import { ButtonContainer } from './styles'
 
 const { DEX_SWAP_FORM } = model.components.dex
-const NETWORK_TOKEN = 'ETH'
+const NATIVE_TOKEN = 'ETH'
 const COUNTER = 'COUNTER'
 const BASE = 'BASE'
 
@@ -125,6 +133,17 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     dispatch(actions.form.change(DEX_SWAP_FORM, 'step', 'CONFIRM_SWAP'))
   }
 
+  const handleMaxClicked = () => {
+    if (!baseToken || !baseTokenBalance || baseToken === NATIVE_TOKEN) return
+
+    const maxAmount = Exchange.convertCoinToCoin({
+      coin: baseToken,
+      value: Number(baseTokenBalance)
+    })
+
+    dispatch(actions.form.change(DEX_SWAP_FORM, `${DexSwapSideFields.BASE}Amount`, maxAmount))
+  }
+
   const onDepositMore = () => {
     dispatch(
       actions.modals.showModal(
@@ -153,7 +172,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
 
   const showAllowanceCheck =
     baseToken &&
-    baseToken !== NETWORK_TOKEN &&
+    baseToken !== NATIVE_TOKEN &&
     !isTokenAllowed &&
     !isTokenAllowedLoading &&
     !isTokenAllowanceNotAsked
@@ -167,6 +186,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
             swapSide={BASE}
             animate={pairAnimate}
             hasTriggerAnalytics={hasTriggerAnalytics}
+            handleMaxClicked={handleMaxClicked}
             setHasTriggerAnalytics={setHasTriggerAnalytics}
             isQuoteLocked={false}
             balance={baseTokenBalance}
@@ -266,7 +286,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           text={
             quoteError ? (
               <Flex alignItems='center' gap={8}>
-                <IconAlert color={SemanticColors.warning} size='medium' />
+                <IconAlert color={PaletteColors['orange-400']} size='medium' />
                 {quoteError.title.includes('Insufficient') ? (
                   <FormattedMessage
                     id='dex.enter-swap-details.button.insufficient'

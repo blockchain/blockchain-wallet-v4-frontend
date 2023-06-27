@@ -124,11 +124,17 @@ export const DexSwapQuoteSchema: z.ZodSchema<DexSwapQuote, z.ZodTypeDef, unknown
     ...result
   }))
 
+const DexEnabledSchema: z.ZodSchema<boolean, z.ZodTypeDef, unknown> = z
+  .object({
+    enabled: z.boolean()
+  })
+  .transform(({ enabled }) => enabled)
+
 export const DexUserEligibilitySchema: z.ZodSchema<boolean, z.ZodTypeDef, unknown> = z
   .object({
-    eligible: z.boolean()
+    dex: DexEnabledSchema
   })
-  .transform(({ eligible }) => eligible)
+  .transform(({ dex }) => dex)
 
 export const DexTokenAllowanceSchema: z.ZodSchema<DexTokenAllowance, z.ZodTypeDef, unknown> =
   z.object({

@@ -4,7 +4,7 @@ import { Flex, SemanticColors, Text } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 
 import { Exchange } from '@core'
-import { SkeletonRectangle } from 'blockchain-info-components'
+import { Image, SkeletonRectangle, TooltipHost } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { EditSlippageText, QuoteWrapper, RowDetails, RowTitle, ValueText } from './styles'
@@ -37,6 +37,9 @@ export const QuoteDetails = ({
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.minimum_amount' defaultMessage='Minimum Amount' />
+          <TooltipHost id='tooltip.dex.minimum_amount'>
+            <Image name='circle-question' size='14px' />
+          </TooltipHost>
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
@@ -75,6 +78,9 @@ export const QuoteDetails = ({
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
+          <TooltipHost id='tooltip.dex.network_fee'>
+            <Image name='circle-question' size='14px' />
+          </TooltipHost>
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
@@ -114,6 +120,9 @@ export const QuoteDetails = ({
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.blockchain_fee' defaultMessage='Blockchain.com Fee' />
+          <TooltipHost id='tooltip.dex.blockchain_fee'>
+            <Image name='circle-question' size='14px' />
+          </TooltipHost>
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (

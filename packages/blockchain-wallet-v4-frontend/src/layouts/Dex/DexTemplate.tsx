@@ -21,6 +21,7 @@ const Page = styled.div`
   height: 100%;
   min-height: 100%;
   width: 100%;
+  overflow: scroll;
 
   > div:first-child {
     z-index: 1;
