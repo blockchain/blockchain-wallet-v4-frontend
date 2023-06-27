@@ -11,7 +11,6 @@ import { actions, model, selectors } from 'data'
 import { Analytics } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
-import quoteMock from './mocks/quote.json'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import type { DexSwapForm } from './types'
@@ -41,15 +40,13 @@ export default ({ api }: { api: APIType }) => {
         })
       )
 
-      const walletAddress = nonCustodialCoinAccounts[token]?.[0].address
-      if (!walletAddress) {
-        yield* put(A.fetchUserEligibilityFailure('No user wallet address'))
+      if (!nonCustodialCoinAccounts[token]?.length) {
+        yield put(actions.core.data.eth.fetchData())
+        yield put(actions.core.data.eth.fetchErc20Data())
       }
 
       yield put(A.fetchUserEligibilityLoading())
-      const userEligibility = yield* call(api.getDexUserEligibility, {
-        walletAddress: `${walletAddress}`
-      })
+      const userEligibility = yield* call(api.getDexUserEligibility)
       yield* put(A.fetchUserEligibilitySuccess(userEligibility))
     } catch (e) {
       yield put(
