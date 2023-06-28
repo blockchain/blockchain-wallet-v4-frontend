@@ -21,6 +21,7 @@ const mapStateToProps = (state: RootState) => ({
     .getFeatureFlags(state)
     .getOrElse({} as { [key in string]: boolean }),
   invitations: selectors.core.settings.getInvitations(state).getOrElse({} as InvitationsType),
+  isDexEligible: selectors.components.dex.getIsUserEligible(state),
   isKycVerificationEnabled: selectors.custodial.isKycVerificationEnabled(state),
   isReferralAvailable: selectors.components.referral.getReferralInformation(state),
   isReferralEnabled: selectors.core.walletOptions

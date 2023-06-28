@@ -586,6 +586,8 @@ export default ({ api, coreSagas, networks }) => {
       if (product !== ProductAuthOptions.EXCHANGE) {
         yield put(stopSubmit(LOGIN_FORM))
       }
+      // check if dex is eligible
+      yield put(actions.components.dex.fetchUserEligibility())
     } catch (e) {
       const error = e as LoginApiErrorType
       const initialError = typeof error !== 'string' && error.initial_error
