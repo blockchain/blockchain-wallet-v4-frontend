@@ -224,13 +224,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const payment = paymentGetOrElse(BASE.coin, paymentR)
       if (onChain) {
         try {
+          const useAgentHotWalletAddress = selectors.core.walletOptions
+            .getUseAgentHotWalletAddress(yield select())
+            .getOrElse(true)
+
+          const hotWalletAddressWalletOptions = selectors.core.walletOptions
+            .getHotWalletAddresses(yield select(), Product.SWAP)
+            .getOrElse(null)
+
           const paymentAccount: ReturnType<typeof api.getPaymentAccount> = yield call(
             api.getPaymentAccount,
             BASE.coin
           )
 
           // we are using a wallet address for the hot wallet from the API
-          const hotWalletAddress = paymentAccount.agent.address
+          const hotWalletAddress = useAgentHotWalletAddress
+            ? paymentAccount.agent.address
+            : hotWalletAddressWalletOptions
 
           if (!hotWalletAddress || typeof hotWalletAddress !== 'string') {
             throw new Error('Missing Address')
