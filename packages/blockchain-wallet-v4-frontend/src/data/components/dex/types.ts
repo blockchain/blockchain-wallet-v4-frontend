@@ -1,4 +1,6 @@
-import type { DexChain, DexSwapQuote, DexToken } from '@core/network/api/dex'
+import { BigNumber } from 'ethers'
+
+import type { DexChain, DexSwapQuote } from '@core/network/api/dex'
 import { CoinType, RemoteDataType } from '@core/types'
 
 export type ParsedTx = {
@@ -22,7 +24,6 @@ export type DexSwapQuoteWithDate = DexSwapQuote & {
 
 // TODO: Handle errors types when the new BE driven errors will be delivered
 export type DexStateType = {
-  chainTokens: RemoteDataType<string, DexToken[]>
   chains: RemoteDataType<string, DexChain[]>
   currentChain: RemoteDataType<string, DexChain>
   isTokenAllowed: RemoteDataType<string, boolean>
@@ -32,6 +33,7 @@ export type DexStateType = {
   swapQuoteTx: RemoteDataType<string, SwapQuoteSuccess>
   tokenAllowanceGasEstimate: string
   tokenAllowanceTx: RemoteDataType<string, ParsedTx>
+  tokens: DexToken[]
 }
 
 export type DexSwapSide = 'BASE' | 'COUNTER'
@@ -55,4 +57,12 @@ export type DexSwapForm = {
   isFlipping: boolean
   slippage: number
   step: DexSwapSteps
+}
+
+export type DexToken = {
+  address: string
+  balance: BigNumber
+  name: string
+  precision: number
+  symbol: CoinType
 }

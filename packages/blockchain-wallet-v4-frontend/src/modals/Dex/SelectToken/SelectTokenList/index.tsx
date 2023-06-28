@@ -3,11 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { model, selectors } from 'data'
 import { DexSwapForm } from 'data/types'
-import { useRemote } from 'hooks'
 
-import Error from './Error'
-import Loading from './Loading'
-import { getRemote } from './selectors'
 import SelectTokenList from './SelectTokenList'
 import { SelectTokenListContainerProps } from './types'
 
@@ -19,19 +15,16 @@ const SelectTokenListContainer = ({
   swapSide,
   walletCurrency
 }: SelectTokenListContainerProps) => {
-  const { data, error, isLoading, isNotAsked } = useRemote(getRemote)
+  const tokens = useSelector(selectors.components.dex.getTokens)
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const { baseToken, counterToken } = formValues
-
-  if (error) return <Error />
-  if (!data || isLoading || isNotAsked) return <Loading />
 
   return (
     <SelectTokenList
       baseToken={baseToken}
       counterToken={counterToken}
       // @ts-ignore data loses it's type
-      items={data}
+      items={tokens}
       onTokenSelect={onTokenSelect}
       search={search}
       swapSide={swapSide}

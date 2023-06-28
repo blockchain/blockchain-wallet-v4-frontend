@@ -5,9 +5,11 @@ import { call, delay, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
-import { BuildDexTxParams, DexToken, DexTransaction } from '@core/network/api/dex/types'
+import { BuildDexTxParams, DexTransaction } from '@core/network/api/dex/types'
+import { CoinType, RatesType } from '@core/types'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, model, selectors } from 'data'
+import profileSagas from 'data/modules/profile/sagas'
 import { Analytics } from 'data/types'
 import { promptForSecondPassword } from 'services/sagas'
 
@@ -26,9 +28,73 @@ const TOKEN_ALLOWANCE_POLL_INTERVAL = 5000
 const provider = ethers.providers.getDefaultProvider(`https://api.blockchain.info/eth/nodes/rpc`)
 const COMPLETE_SWAP = 'COMPLETE_SWAP'
 
-export default ({ api }: { api: APIType }) => {
+export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
+  const { waitForUserData } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
+  const initiateDex = function* () {
+    const isEligible = S.getIsUserEligible(yield select()).getOrElse(false)
+
+    if (!isEligible) return
+
+    const state = yield select()
+    const walletCurrency = yield select(selectors.core.settings.getCurrency)
+    const coins = yield select(selectors.core.data.coins.getCoins)
+    const erc20Coins: CoinType[] = yield select(selectors.core.data.coins.getErc20Coins)
+    const tokens = ['ETH', ...erc20Coins]
+      .map((coin) => {
+        const { name, precision, symbol, type } = coins[coin].coinfig
+
+        const balance = selectors.balances
+          .getCoinNonCustodialBalance(symbol)(state)
+          .getOrElse(ethers.BigNumber.from(0)) as ethers.BigNumber
+
+        let fiatAmount = '0'
+
+        if (balance.toString() !== '0') {
+          const rates = selectors.core.data.misc
+            .getRatesSelector(symbol, state)
+            .getOrElse({} as RatesType)
+
+          fiatAmount = Exchange.convertCoinToFiat({
+            coin: symbol,
+            currency: walletCurrency,
+            rates,
+            value: balance.toString()
+          })
+        }
+
+        const tokenObj = {
+          balance,
+          fiatAmount: Number(fiatAmount),
+          name,
+          precision,
+          symbol
+        }
+
+        if (coin === 'ETH') {
+          return {
+            ...tokenObj,
+            address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+          }
+        }
+
+        return {
+          ...tokenObj,
+          address: type.erc20Address
+        }
+      })
+      .sort((a, b) => b.fiatAmount - a.fiatAmount)
+
+    yield put(A.setTokens(tokens))
+
+    yield put(A.fetchChains())
+  }
   const fetchUserEligibility = function* () {
     try {
+      yield call(waitForUserData)
       // TODO: since MVP only supports ETH chain
       const token = 'ETH'
       const state = yield* select()
@@ -47,6 +113,7 @@ export default ({ api }: { api: APIType }) => {
 
       yield put(A.fetchUserEligibilityLoading())
       const userEligibility = yield* call(api.getDexUserEligibility)
+      if (!userEligibility) throw Error('User is not eligible for DEX')
       yield* put(A.fetchUserEligibilitySuccess(userEligibility))
     } catch (e) {
       yield put(
@@ -67,37 +134,10 @@ export default ({ api }: { api: APIType }) => {
 
       // since MVP only supports ETH chain, set as current and then pre-fetch token list
       const ethChain = chainsList.find((chain) => chain.nativeCurrency.name === 'Ethereum')
-
-      if (!ethChain) {
-        yield* put(A.fetchChainTokensFailure('Failed to get Ethereum chain'))
-        return
-      }
-
+      if (!ethChain) throw Error('No ETH chain found')
       yield* put(A.setCurrentChain(ethChain))
-      yield* put(A.fetchChainTokens())
     } catch (e) {
       yield* put(A.fetchChainsFailure(e.toString()))
-    }
-  }
-
-  const fetchChainTokens = function* () {
-    try {
-      yield* put(A.fetchChainTokensLoading())
-
-      const currentChain = selectors.components.dex
-        .getCurrentChain(yield* select())
-        .getOrFail('Unable to get current chain')
-      const tokenList: DexToken[] = yield* call(api.getDexChainTokens, currentChain.chainId, {
-        offset: 0
-      })
-
-      yield* put(
-        A.fetchChainTokensSuccess({
-          data: tokenList
-        })
-      )
-    } catch (e) {
-      yield* put(A.fetchChainTokensFailure(e.toString()))
     }
   }
 
@@ -129,9 +169,10 @@ export default ({ api }: { api: APIType }) => {
             .getCurrentChain(yield* select())
             .getOrFail('Unable to get current chain')
 
-          const baseTokenInfo = selectors.components.dex
-            .getChainTokenInfo(yield* select(), baseToken)
-            .getOrFail('Unable to get base token info')
+          const baseTokenInfo = selectors.components.dex.getChainTokenInfo(
+            yield* select(),
+            baseToken
+          )
 
           // Throw Error if no base token
           if (!baseTokenInfo) {
@@ -144,9 +185,10 @@ export default ({ api }: { api: APIType }) => {
             value: baseTokenAmount || 0
           })
 
-          const counterTokenInfo = selectors.components.dex
-            .getChainTokenInfo(yield* select(), counterToken)
-            .getOrFail('Unable to get counter token info')
+          const counterTokenInfo = selectors.components.dex.getChainTokenInfo(
+            yield* select(),
+            counterToken
+          )
 
           // Throw Error if no counter token
           if (!counterTokenInfo) {
@@ -278,9 +320,7 @@ export default ({ api }: { api: APIType }) => {
       let nonCustodialAddress: string | number | undefined =
         nonCustodialCoinAccounts[baseToken][0].address
 
-      const baseTokenInfo = selectors.components.dex
-        .getChainTokenInfo(yield* select(), baseToken)
-        .getOrFail('Unable to get base token info')
+      const baseTokenInfo = selectors.components.dex.getChainTokenInfo(yield* select(), baseToken)
       const tokenAddress = baseTokenInfo?.address || ''
 
       // Throw Error if no user wallet address
@@ -315,9 +355,7 @@ export default ({ api }: { api: APIType }) => {
       let nonCustodialAddress: string | number | undefined =
         nonCustodialCoinAccounts[baseToken][0].address
 
-      const baseTokenInfo = selectors.components.dex
-        .getChainTokenInfo(yield* select(), baseToken)
-        .getOrFail('Unable to get base token info')
+      const baseTokenInfo = selectors.components.dex.getChainTokenInfo(yield* select(), baseToken)
       const tokenAddress = baseTokenInfo?.address || ''
 
       // Throw Error if no user wallet address
@@ -367,9 +405,7 @@ export default ({ api }: { api: APIType }) => {
     const { baseToken } = action.payload
     try {
       yield put(A.pollTokenAllowanceTxLoading())
-      const baseTokenInfo = selectors.components.dex
-        .getChainTokenInfo(yield* select(), baseToken)
-        .getOrFail('Unable to get base token info')
+      const baseTokenInfo = selectors.components.dex.getChainTokenInfo(yield* select(), baseToken)
       const tokenAddress = baseTokenInfo?.address || ''
       const wallet = yield call(getWallet)
 
@@ -475,12 +511,12 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
-    fetchChainTokens,
     fetchChains,
     fetchSwapQuote,
     fetchSwapQuoteOnChange,
     fetchTokenAllowance,
     fetchUserEligibility,
+    initiateDex,
     pollTokenAllowance,
     pollTokenAllowanceTx,
     sendSwapQuote,
