@@ -1072,23 +1072,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           throw new Error('Missing deposit address')
         }
 
-        const hotWalletAddress = selectors.core.walletOptions
-          .getHotWalletAddresses(yield select(), Product[hotWalletAddressProduct])
-          .getOrElse(null)
-        let transaction
-        if (typeof hotWalletAddress !== 'string') {
-          console.error('Unable to retreive hotwallet address; falling back to deposit and sweep.')
-          transaction = yield call(buildAndPublishPayment, coin, payment, depositAddress)
-        } else {
-          // build and publish payment to network
-          transaction = yield call(
-            buildAndPublishPayment,
-            coin,
-            payment,
-            depositAddress,
-            hotWalletAddress
-          )
-        }
+        const paymentAccount: ReturnType<typeof api.getPaymentAccount> = yield call(
+          api.getPaymentAccount,
+          coin
+        )
+
+        // we are using a wallet address for the hot wallet from the API
+        const hotWalletAddress = paymentAccount.agent?.address
+          ? paymentAccount.agent.address
+          : paymentAccount.address
+
+        const transaction = yield call(
+          buildAndPublishPayment,
+          coin,
+          payment,
+          depositAddress,
+          hotWalletAddress
+        )
 
         // notify backend of incoming non-custodial deposit
         yield put(
