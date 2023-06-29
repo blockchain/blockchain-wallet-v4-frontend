@@ -8,10 +8,10 @@ export const getChains = (state: RootState) => state.components.dex.chains
 
 export const getCurrentChain = (state: RootState) => state.components.dex.currentChain
 
-export const getChainTokens = (state: RootState) => state.components.dex.chainTokens
+export const getTokens = (state: RootState) => state.components.dex.tokens
 
-export const getChainTokenInfo = (state: RootState, coinSymbol: CoinType) =>
-  getChainTokens(state).map((tokenList) => tokenList.find((x) => x.symbol === coinSymbol))
+export const getTokenInfo = (state: RootState, coinSymbol: CoinType) =>
+  getTokens(state).find(({ symbol }) => symbol === coinSymbol)
 
 export const getSwapQuote = (state: RootState) => state.components.dex.swapQuote
 

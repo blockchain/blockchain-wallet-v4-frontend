@@ -49,6 +49,7 @@ export default () => {
       yield put(actions.components.interest.fetchActiveRewardsBalance())
       yield put(actions.components.buySell.fetchBalance({}))
       yield put(actions.components.buySell.fetchOrders())
+      yield put(actions.components.dex.fetchUserEligibility())
       // TODO: SELF_CUSTODY, remove
       const stxEligibility = selectors.coins.getStxSelfCustodyAvailability(yield select())
       if (stxEligibility) {
