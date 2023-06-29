@@ -142,7 +142,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const fetchSwapQuote = function* () {
-    yield delay(300)
     // create date to cancel loop when current date is more than 15minutes of when this date was created
     const date = new Date()
 
@@ -169,10 +168,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             .getCurrentChain(yield* select())
             .getOrFail('Unable to get current chain')
 
-          const baseTokenInfo = selectors.components.dex.getChainTokenInfo(
-            yield* select(),
-            baseToken
-          )
+          const baseTokenInfo = selectors.components.dex.getTokenInfo(yield* select(), baseToken)
 
           // Throw Error if no base token
           if (!baseTokenInfo) {
@@ -185,7 +181,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             value: baseTokenAmount || 0
           })
 
-          const counterTokenInfo = selectors.components.dex.getChainTokenInfo(
+          const counterTokenInfo = selectors.components.dex.getTokenInfo(
             yield* select(),
             counterToken
           )
@@ -294,16 +290,46 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // exit whenever the counterTokenAmount changes, to avoid infinitely calling fetchSwapQuote
     if (field === 'counterTokenAmount' || field === 'step') return
+
     // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
     if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
     const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
+    const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues
 
     // if one of the values is 0 set another one to 0 and clear a quote
-    if (field === 'baseTokenAmount' && getValidSwapAmount(formValues.baseTokenAmount) === 0) {
+    if (field === 'baseTokenAmount' && getValidSwapAmount(baseTokenAmount) === 0) {
       yield* put(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', ''))
       yield* put(A.clearCurrentSwapQuote())
       return
     }
+
+    if (
+      (field === 'baseTokenAmount' && baseToken) ||
+      (field === 'baseToken' && getValidSwapAmount(baseTokenAmount) !== 0 && baseToken)
+    ) {
+      const token = selectors.components.dex.getTokenInfo(yield* select(), baseToken)
+
+      if (!token) return
+
+      const { balance } = token
+      const standardBalance = Exchange.convertCoinToCoin({
+        baseToStandard: true,
+        coin: baseToken,
+        value: balance.toString()
+      })
+
+      if (Number(standardBalance) < Number(baseTokenAmount)) {
+        yield put(
+          A.fetchSwapQuoteFailure({
+            message: 'Not enough {symbol} to cover swap.',
+            title: 'Insufficient Balance'
+          })
+        )
+        return
+      }
+    }
+
+    if (!counterToken) return
 
     yield put(A.fetchSwapQuote())
   }
@@ -320,7 +346,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let nonCustodialAddress: string | number | undefined =
         nonCustodialCoinAccounts[baseToken][0].address
 
-      const baseTokenInfo = selectors.components.dex.getChainTokenInfo(yield* select(), baseToken)
+      const baseTokenInfo = selectors.components.dex.getTokenInfo(yield* select(), baseToken)
       const tokenAddress = baseTokenInfo?.address || ''
 
       // Throw Error if no user wallet address
@@ -355,7 +381,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let nonCustodialAddress: string | number | undefined =
         nonCustodialCoinAccounts[baseToken][0].address
 
-      const baseTokenInfo = selectors.components.dex.getChainTokenInfo(yield* select(), baseToken)
+      const baseTokenInfo = selectors.components.dex.getTokenInfo(yield* select(), baseToken)
       const tokenAddress = baseTokenInfo?.address || ''
 
       // Throw Error if no user wallet address
@@ -405,7 +431,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { baseToken } = action.payload
     try {
       yield put(A.pollTokenAllowanceTxLoading())
-      const baseTokenInfo = selectors.components.dex.getChainTokenInfo(yield* select(), baseToken)
+      const baseTokenInfo = selectors.components.dex.getTokenInfo(yield* select(), baseToken)
       const tokenAddress = baseTokenInfo?.address || ''
       const wallet = yield call(getWallet)
 

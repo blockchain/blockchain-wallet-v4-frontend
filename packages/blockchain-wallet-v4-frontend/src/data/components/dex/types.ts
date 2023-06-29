@@ -62,6 +62,7 @@ export type DexSwapForm = {
 export type DexToken = {
   address: string
   balance: BigNumber
+  fiatAmount: number
   name: string
   precision: number
   symbol: CoinType
