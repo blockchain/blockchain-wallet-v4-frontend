@@ -27,6 +27,7 @@ const REFRESH_INTERVAL = 15000
 const TOKEN_ALLOWANCE_POLL_INTERVAL = 5000
 const provider = ethers.providers.getDefaultProvider(`https://api.blockchain.info/eth/nodes/rpc`)
 const COMPLETE_SWAP = 'COMPLETE_SWAP'
+const NATIVE_CURRENCY = 'ETH'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { waitForUserData } = profileSagas({
@@ -40,10 +41,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (!isEligible) return
 
     const state = yield select()
+    const nonCustodialCoinAccounts = yield* select(() =>
+      selectors.coins.getCoinAccounts(state, {
+        coins: [NATIVE_CURRENCY],
+        nonCustodialAccounts: true
+      })
+    )
+
+    if (!nonCustodialCoinAccounts[NATIVE_CURRENCY]?.length) {
+      yield put(actions.core.data.eth.fetchData())
+      yield put(actions.core.data.eth.fetchErc20Data())
+    }
     const walletCurrency = yield select(selectors.core.settings.getCurrency)
     const coins = yield select(selectors.core.data.coins.getCoins)
     const erc20Coins: CoinType[] = yield select(selectors.core.data.coins.getErc20Coins)
-    const tokens = ['ETH', ...erc20Coins]
+    const tokens = [NATIVE_CURRENCY, ...erc20Coins]
       .map((coin) => {
         const { name, precision, symbol, type } = coins[coin].coinfig
 
@@ -96,21 +108,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield call(waitForUserData)
       // TODO: since MVP only supports ETH chain
-      const token = 'ETH'
-      const state = yield* select()
-
-      const nonCustodialCoinAccounts = yield* select(() =>
-        selectors.coins.getCoinAccounts(state, {
-          coins: [token],
-          nonCustodialAccounts: true
-        })
-      )
-
-      if (!nonCustodialCoinAccounts[token]?.length) {
-        yield put(actions.core.data.eth.fetchData())
-        yield put(actions.core.data.eth.fetchErc20Data())
-      }
-
       yield put(A.fetchUserEligibilityLoading())
       const userEligibility = yield* call(api.getDexUserEligibility)
       if (!userEligibility) throw Error('User is not eligible for DEX')
@@ -160,7 +157,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
 
         const { baseToken, baseTokenAmount, counterToken, slippage } = formValues
-
         if (baseToken && counterToken && getValidSwapAmount(baseTokenAmount)) {
           yield* put(A.fetchSwapQuoteLoading())
 
@@ -329,7 +325,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
-    if (!counterToken) return
+    if (!counterToken || !baseToken || !getValidSwapAmount(baseTokenAmount)) return
 
     yield put(A.fetchSwapQuote())
   }

@@ -34,7 +34,7 @@ const SelectTokenList = ({
 
   return (
     <TokenListWrapper>
-      {filteredItems.map(({ address, balance, name, symbol }) => {
+      {filteredItems.slice(0, 100).map(({ address, balance, name, symbol }) => {
         const balanceString = (typeof balance !== 'number' ? balance : balance).toString()
         if (swapSide === BASE && balanceString === '0') return null
 
