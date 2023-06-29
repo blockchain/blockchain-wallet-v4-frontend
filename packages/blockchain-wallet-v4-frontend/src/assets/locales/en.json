@@ -2095,6 +2095,7 @@
   "scene.coinView.activitySection.accountDropdownLable": "All Accounts",
   "scene.debit_card.accounts_fail": "Failed to load accounts",
   "scene.debit_card.funds_fail": "Failed to load balances",
+  "scene.dex.enter_swap_details.error.message": "Not enough {coin} to cover swap.",
   "scene.earn.earnrate": "Earning {earnRate}%",
   "scene.earn.earnrate-upto": "Earning up to {earnRate}%",
   "sceners.reset.2fa_skip_header": "Continue without 2FA?",
