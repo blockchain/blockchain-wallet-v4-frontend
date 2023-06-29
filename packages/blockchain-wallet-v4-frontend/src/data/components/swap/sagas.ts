@@ -242,8 +242,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
             ? paymentAccount.agent.address
             : hotWalletAddressWalletOptions
 
-          if (!hotWalletAddress || typeof hotWalletAddress !== 'string') {
+          if (typeof hotWalletAddress !== 'string') {
             throw new Error('Missing Address')
+          }
+
+          if (typeof hotWalletAddress !== 'string') {
+            console.error(
+              'Unable to retreive hotwallet address; falling back to deposit and sweep.'
+            )
+            yield call(buildAndPublishPayment, payment.coin, payment, order.kind.depositAddress)
           }
 
           yield call(
