@@ -24,6 +24,9 @@ export const QuoteDetails = ({
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.allowed_slippage' defaultMessage='Allowed Slippage' />
+          <TooltipHost id='tooltip.dex.slippage'>
+            <Image name='circle-question' size='14px' />
+          </TooltipHost>
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           <ValueText>{slippage * 100}%</ValueText>
