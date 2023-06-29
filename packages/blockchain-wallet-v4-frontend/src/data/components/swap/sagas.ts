@@ -224,23 +224,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const payment = paymentGetOrElse(BASE.coin, paymentR)
       if (onChain) {
         try {
-          const hotWalletAddress = selectors.core.walletOptions
+          const useAgentHotWalletAddress = selectors.core.walletOptions
+            .getUseAgentHotWalletAddress(yield select())
+            .getOrElse(true)
+
+          const hotWalletAddressWalletOptions = selectors.core.walletOptions
             .getHotWalletAddresses(yield select(), Product.SWAP)
             .getOrElse(null)
-          if (typeof hotWalletAddress !== 'string') {
-            console.error(
-              'Unable to retreive hotwallet address; falling back to deposit and sweep.'
-            )
-            yield call(buildAndPublishPayment, payment.coin, payment, order.kind.depositAddress)
-          } else {
-            yield call(
-              buildAndPublishPayment,
-              payment.coin,
-              payment,
-              order.kind.depositAddress,
-              hotWalletAddress
-            )
+
+          const paymentAccount: ReturnType<typeof api.getPaymentAccount> = yield call(
+            api.getPaymentAccount,
+            BASE.coin
+          )
+
+          // we are using a wallet address for the hot wallet from the API
+          const hotWalletAddress = useAgentHotWalletAddress
+            ? paymentAccount.agent.address
+            : hotWalletAddressWalletOptions
+
+          if (!hotWalletAddress || typeof hotWalletAddress !== 'string') {
+            throw new Error('Missing Address')
           }
+
+          yield call(
+            buildAndPublishPayment,
+            payment.coin,
+            payment,
+            order.kind.depositAddress,
+            hotWalletAddress
+          )
 
           yield call(api.updateSwapOrder, order.id, 'DEPOSIT_SENT')
         } catch (e) {
