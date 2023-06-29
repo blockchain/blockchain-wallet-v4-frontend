@@ -171,9 +171,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw Error('No base token')
           }
 
-          const baseAmountGwei = Exchange.convertCoinToCoin({
+          const baseAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
-            coin: currentChain.nativeCurrency.symbol,
+            coin: baseToken,
             value: baseTokenAmount || 0
           })
 
@@ -204,7 +204,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const quoteResponse = yield* call(api.getDexSwapQuote, {
             fromCurrency: {
               address: baseTokenInfo.address,
-              amount: baseAmountGwei,
+              amount: baseAmount,
               chainId: currentChain.chainId,
               symbol: baseToken
             },
