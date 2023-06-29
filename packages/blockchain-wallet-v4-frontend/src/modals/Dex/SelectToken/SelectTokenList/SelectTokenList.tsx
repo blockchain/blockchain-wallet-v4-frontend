@@ -7,7 +7,6 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { useFilteredList } from '../hooks'
 import Empty from './Empty'
-import Loading from './Loading'
 import { TokenBalanceColumn, TokenDetails, TokenIcon, TokenListWrapper, TokenRow } from './styles'
 import TokenName from './TokenName'
 import { SelectTokenListProps } from './types'
@@ -26,11 +25,9 @@ const SelectTokenList = ({
   swapSide,
   walletCurrency
 }: SelectTokenListProps) => {
-  const { filteredItems, isLoading } = useFilteredList({ items, search })
+  const filteredItems = useFilteredList({ items, search })
 
   if (filteredItems.length === 0) return <Empty search={search} swapSide={swapSide} />
-
-  if (isLoading) return <Loading />
 
   return (
     <TokenListWrapper>
