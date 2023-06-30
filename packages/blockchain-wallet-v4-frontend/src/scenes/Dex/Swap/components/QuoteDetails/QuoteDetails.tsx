@@ -103,7 +103,7 @@ export const QuoteDetails = ({
               <Flex>
                 ~
                 <FiatDisplay
-                  coin={props.swapQuote.quote.sellAmount.symbol}
+                  coin='ETH'
                   currency={walletCurrency}
                   color='grey700'
                   lineHeight='150%'
