@@ -334,6 +334,8 @@ export default ({ api, coreSagas, networks }) => {
           actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
         )
       }
+      // check if dex is eligible
+      yield put(actions.components.dex.fetchUserEligibility())
       const guid = yield select(selectors.core.wallet.getGuid)
       if (firstLogin && !isAccountReset && !recovery) {
         // create nabu user

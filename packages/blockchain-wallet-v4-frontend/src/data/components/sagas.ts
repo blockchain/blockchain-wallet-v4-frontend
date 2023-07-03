@@ -44,7 +44,7 @@ export default ({ api, coreSagas, networks }) => ({
   buySell: buySell({ api, coreSagas, networks }),
   coinTransactions: coinTransactions(),
   debitCard: debitCard({ api, coreSagas, networks }),
-  dex: dex({ api }),
+  dex: dex({ api, coreSagas, networks }),
   ethTransactions: ethTransactions(),
   fiatTransactions: fiatTransactions(),
   fundRecovery: fundRecovery({ api }),

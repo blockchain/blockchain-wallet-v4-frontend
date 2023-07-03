@@ -1,6 +1,6 @@
-import { DexTokenWithBalance } from '@core/network/api/dex'
+import { DexToken } from 'data/types'
 
 export type UseFilteredListType = {
-  items: DexTokenWithBalance[]
+  items: DexToken[]
   search?: string
 }

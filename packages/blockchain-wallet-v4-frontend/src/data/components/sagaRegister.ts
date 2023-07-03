@@ -46,7 +46,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(btcTransactions())
     yield fork(coinTransactions())
     yield fork(debitCard({ api, coreSagas, networks }))
-    yield fork(dex({ api }))
+    yield fork(dex({ api, coreSagas, networks }))
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
     yield fork(fiatTransactions())

@@ -206,3 +206,7 @@ export const getShowEarnAvailableAssets = (state: RootState) =>
 // show prove flow
 export const getShowProveFlow = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showProveFlow']))
+
+// which deposit address to use for swap
+export const getUseAgentHotWalletAddress = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useAgentHotWalletAddress']))

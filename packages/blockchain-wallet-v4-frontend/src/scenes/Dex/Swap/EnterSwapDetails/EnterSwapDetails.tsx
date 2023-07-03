@@ -177,6 +177,8 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     !isTokenAllowedLoading &&
     !isTokenAllowanceNotAsked
 
+  const isInsufficientBalance = !!quoteError?.title.includes('Balance')
+
   return (
     <FormWrapper>
       <Header onClickSettings={onViewSettings} />
@@ -270,7 +272,13 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         ) : null
       ) : null}
 
-      {quoteError && <ErrorMessage error={quoteError?.message} />}
+      {quoteError && (
+        <ErrorMessage
+          coin={baseToken}
+          error={quoteError?.message}
+          isInsufficientBalance={isInsufficientBalance}
+        />
+      )}
       {showAllowanceCheck ? (
         <Padding bottom={1.5}>
           <AllowanceCheck baseToken={baseToken} onApprove={onViewTokenAllowance} />
@@ -287,14 +295,14 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
             quoteError ? (
               <Flex alignItems='center' gap={8}>
                 <IconAlert color={PaletteColors['orange-400']} size='medium' />
-                {quoteError.title.includes('Insufficient') ? (
+                {isInsufficientBalance ? (
                   <FormattedMessage
                     id='dex.enter-swap-details.button.insufficient'
                     defaultMessage='Insufficient {token}'
                     values={{ token: baseToken }}
                   />
                 ) : (
-                  quoteError.title
+                  quoteError?.title
                 )}
               </Flex>
             ) : (

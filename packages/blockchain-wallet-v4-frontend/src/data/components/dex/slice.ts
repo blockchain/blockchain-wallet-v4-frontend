@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import type { DexChain, DexToken } from '@core/network/api/dex'
+import type { DexChain } from '@core/network/api/dex'
 import Remote from '@core/remote'
 import { CoinType } from '@core/types'
 
 import type {
   DexStateType,
   DexSwapQuoteWithDate,
+  DexToken,
   ParsedTx,
   QuoteError,
   SwapQuoteSuccess
 } from './types'
 
 const initialState: DexStateType = {
-  chainTokens: Remote.NotAsked,
   chains: Remote.NotAsked,
   currentChain: Remote.NotAsked, // TODO: might not need Remote type
   isTokenAllowed: Remote.NotAsked,
@@ -22,7 +22,8 @@ const initialState: DexStateType = {
   swapQuote: Remote.NotAsked,
   swapQuoteTx: Remote.NotAsked,
   tokenAllowanceGasEstimate: '',
-  tokenAllowanceTx: Remote.NotAsked
+  tokenAllowanceTx: Remote.NotAsked,
+  tokens: []
 }
 
 const dexSlice = createSlice({
@@ -31,16 +32,6 @@ const dexSlice = createSlice({
   reducers: {
     clearCurrentSwapQuote: (state) => {
       state.swapQuote = Remote.NotAsked
-    },
-    fetchChainTokens: () => {},
-    fetchChainTokensFailure: (state, action: PayloadAction<string>) => {
-      state.chainTokens = Remote.Failure(action.payload)
-    },
-    fetchChainTokensLoading: (state) => {
-      state.chainTokens = Remote.Loading
-    },
-    fetchChainTokensSuccess: (state, action: PayloadAction<{ data: DexToken[] }>) => {
-      state.chainTokens = Remote.Success(action.payload.data)
     },
     fetchChains: () => {},
     fetchChainsFailure: (state, action: PayloadAction<string>) => {
@@ -82,6 +73,7 @@ const dexSlice = createSlice({
     fetchUserEligibilitySuccess: (state, action: PayloadAction<boolean>) => {
       state.isUserEligible = Remote.Success(action.payload)
     },
+    initiateDex: () => {},
     pollTokenAllowance: (state, action: PayloadAction<{ baseToken: CoinType }>) => {},
     pollTokenAllowanceFailure: (state, action: PayloadAction<string>) => {
       state.isTokenAllowedAfterPolling = Remote.Failure(action.payload)
@@ -130,6 +122,9 @@ const dexSlice = createSlice({
     },
     setTokenAllowanceGasEstimate: (state, action: PayloadAction<string>) => {
       state.tokenAllowanceGasEstimate = action.payload
+    },
+    setTokens: (state, action: PayloadAction<DexToken[]>) => {
+      state.tokens = action.payload
     },
     stopPollSwapQuote: () => {},
     stopPollTokenAllowance: () => {},

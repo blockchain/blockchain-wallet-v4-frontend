@@ -10,11 +10,12 @@ let pollQuoteTask: Task
 let pollTokenAllowanceTask: Task
 let pollTokenAllowanceTxTask: Task
 
-export default ({ api }) => {
-  const dexSagas = sagas({ api })
+export default ({ api, coreSagas, networks }) => {
+  const dexSagas = sagas({ api, coreSagas, networks })
 
   return function* dexSaga() {
     yield takeEvery(actionTypes.form.CHANGE, dexSagas.fetchSwapQuoteOnChange)
+    yield takeLatest(actions.initiateDex.type, dexSagas.initiateDex)
     yield takeLatest(actions.fetchSwapQuote.type, function* () {
       if (pollQuoteTask?.isRunning()) yield cancel(pollQuoteTask)
       pollQuoteTask = yield fork(dexSagas.fetchSwapQuote)
@@ -42,7 +43,6 @@ export default ({ api }) => {
     yield takeLatest(actions.sendSwapQuote.type, dexSagas.sendSwapQuote)
     yield takeLatest(actions.fetchTokenAllowance.type, dexSagas.fetchTokenAllowance)
     yield takeLatest(actions.fetchChains.type, dexSagas.fetchChains)
-    yield takeLatest(actions.fetchChainTokens.type, dexSagas.fetchChainTokens)
     yield takeLatest(actions.fetchUserEligibility.type, dexSagas.fetchUserEligibility)
     yield takeLatest(actions.sendTokenAllowanceTx.type, dexSagas.sendTokenAllowanceTx)
   }

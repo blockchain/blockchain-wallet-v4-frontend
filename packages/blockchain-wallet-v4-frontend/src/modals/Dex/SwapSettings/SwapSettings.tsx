@@ -41,7 +41,9 @@ const DexSwapSettings = ({ position, total }: Props) => {
   const { formatMessage } = useIntl()
   const currentSlippage = useSlippageValueFromSwapForm()
   const [slippage, setSlippage] = useState<SlippageValue>(currentSlippage)
-  const [customSlippage, setCustomSlippage] = useState<string>('')
+  const [customSlippage, setCustomSlippage] = useState<string>(
+    currentSlippage.isCustom ? `${currentSlippage.value * 100}` : ''
+  )
 
   useEffect(() => {
     dispatch(

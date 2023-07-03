@@ -1,5 +1,5 @@
-import { DexTokenWithBalance } from '@core/network/api/dex'
 import { CoinType, FiatType } from '@core/types'
+import { DexToken } from 'data/types'
 
 export type SelectTokenListContainerProps = {
   onTokenSelect: (token: CoinType) => void
@@ -11,5 +11,5 @@ export type SelectTokenListContainerProps = {
 export type SelectTokenListProps = {
   baseToken?: CoinType
   counterToken?: CoinType
-  items: DexTokenWithBalance[]
+  items: DexToken[]
 } & SelectTokenListContainerProps
