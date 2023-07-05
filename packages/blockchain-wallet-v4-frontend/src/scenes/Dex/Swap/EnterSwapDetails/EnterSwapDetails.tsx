@@ -87,15 +87,25 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
   )
 
+  const showAllowanceCheck =
+    baseToken &&
+    baseToken !== NATIVE_TOKEN &&
+    !isTokenAllowed &&
+    !isTokenAllowedLoading &&
+    !isTokenAllowanceNotAsked
+  const isInsufficientBalance = !!quoteError?.title.includes('Balance')
+  const isInsufficientGas = !!quoteError?.message.includes('gas')
+
   const baseTokenAccount = useSelector((state: RootState) => {
-    if (!baseToken) return undefined
+    const token = isInsufficientGas ? NATIVE_TOKEN : baseToken
+    if (!token) return undefined
 
     const accounts = selectors.coins.getCoinAccounts(state, {
-      coins: [baseToken],
+      coins: [token],
       nonCustodialAccounts: true
     })
 
-    return accounts[baseToken][0]
+    return accounts[token] && accounts[token][0]
   }) as SwapAccountType | undefined
 
   const onViewSettings = () => {
@@ -151,7 +161,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         {
           origin: 'Dex'
         },
-        { account: baseTokenAccount, coin: baseToken }
+        { account: baseTokenAccount, coin: isInsufficientBalance ? NATIVE_TOKEN : baseToken }
       )
     )
   }
@@ -169,15 +179,6 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
       setPairAnimate(false)
     }, 400)
   }
-
-  const showAllowanceCheck =
-    baseToken &&
-    baseToken !== NATIVE_TOKEN &&
-    !isTokenAllowed &&
-    !isTokenAllowedLoading &&
-    !isTokenAllowanceNotAsked
-
-  const isInsufficientBalance = !!quoteError?.title.includes('Balance')
 
   return (
     <FormWrapper>
@@ -279,7 +280,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           isInsufficientBalance={isInsufficientBalance}
         />
       )}
-      {showAllowanceCheck ? (
+      {showAllowanceCheck && !quoteError ? (
         <Padding bottom={1.5}>
           <AllowanceCheck baseToken={baseToken} onApprove={onViewTokenAllowance} />
         </Padding>
@@ -320,7 +321,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
               <FormattedMessage
                 id='dex.enter-swap-details.deposit-more'
                 defaultMessage='Deposit more {token}'
-                values={{ token: baseToken }}
+                values={{ token: isInsufficientGas ? NATIVE_TOKEN : baseToken }}
               />
             }
           />
