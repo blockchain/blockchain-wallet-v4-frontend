@@ -339,6 +339,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
     try {
+      const useAgentHotWalletAddressForSell = selectors.core.walletOptions
+        .getUseAgentHotWalletAddressForSell(yield select())
+        .getOrElse(true)
+
       const pair = S.getBSPair(yield select())
 
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
@@ -367,6 +371,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         direction === 'FROM_USERKEY'
           ? yield call(selectReceiveAddress, from, networks, api, coreSagas)
           : undefined
+
       const sellOrder: SwapOrderType = yield call(
         api.createSwapOrder,
         direction,
@@ -376,13 +381,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         undefined,
         refundAddr
       )
+      const paymentAccount: ReturnType<typeof api.getPaymentAccount> = yield call(
+        api.getPaymentAccount,
+        coin
+      )
+      // Should generally use sellOrder deposit address, have this just in case
+      // we need to fall back to paymentAccount address
+      const sellOrderDepositAddress: string = useAgentHotWalletAddressForSell
+        ? paymentAccount.agent.address || paymentAccount.address
+        : sellOrder.kind.depositAddress
+
       // on chain
       if (direction === 'FROM_USERKEY') {
         const paymentR = S.getPayment(yield select())
         // @ts-ignore
         const payment = paymentGetOrElse(from.coin, paymentR)
         try {
-          yield call(buildAndPublishPayment, payment.coin, payment, sellOrder.kind.depositAddress)
+          yield call(buildAndPublishPayment, payment.coin, payment, sellOrderDepositAddress)
           yield call(api.updateSwapOrder, sellOrder.id, 'DEPOSIT_SENT')
         } catch (e) {
           yield call(api.updateSwapOrder, sellOrder.id, 'CANCEL')
