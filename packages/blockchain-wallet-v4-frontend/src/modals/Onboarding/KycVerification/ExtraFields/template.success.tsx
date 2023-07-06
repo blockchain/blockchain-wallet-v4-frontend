@@ -266,7 +266,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       title: getFormattedMessageComponent(node.id)
     }
     return (
-      <FormGroup>
+      <FormGroup key={node.id}>
         <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
         <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
@@ -311,7 +311,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
     return (
       <>
-        <FormGroup>
+        <FormGroup key={node.id}>
           <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
           <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
@@ -391,7 +391,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     }
 
     return (
-      <FormGroup>
+      <FormGroup key={node.id}>
         <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
         {displayInstructions && (
@@ -461,7 +461,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const isOptional = node.children && node.children.some((item) => item.id.includes('UNDEFINED'))
 
     return (
-      <FormGroup>
+      <FormGroup key={node.id}>
         <QuestionTitle>
           {nodeTranslation.title !== '' ? nodeTranslation.title : node.text}
         </QuestionTitle>
