@@ -309,21 +309,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
     if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
     const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
-    const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues
+    const { baseToken, baseTokenAmount, counterToken } = formValues
 
     // if one of the values is 0 set another one to 0 and clear a quote
     if (field === 'baseTokenAmount' && getValidSwapAmount(baseTokenAmount) === 0) {
       yield* put(actions.form.change(DEX_SWAP_FORM, 'counterTokenAmount', ''))
       yield* put(A.clearCurrentSwapQuote())
-      return
+      return yield put(A.stopPollSwapQuote())
     }
 
     if (
-      (field === 'baseTokenAmount' && baseToken) ||
-      (field === 'baseToken' && getValidSwapAmount(baseTokenAmount) !== 0 && baseToken)
+      (field === 'baseTokenAmount' ||
+        (field === 'baseToken' && getValidSwapAmount(baseTokenAmount) !== 0) ||
+        field === 'counterToken') &&
+      baseToken
     ) {
       const token = selectors.components.dex.getTokenInfo(yield* select(), baseToken)
-
       if (!token) return
 
       const { balance } = token
@@ -340,7 +341,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             title: 'Insufficient Balance'
           })
         )
-        return
+
+        return yield put(A.stopPollSwapQuote())
       }
     }
 
