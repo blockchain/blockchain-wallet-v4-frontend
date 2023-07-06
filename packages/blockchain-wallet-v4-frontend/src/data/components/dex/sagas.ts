@@ -28,7 +28,7 @@ const TOKEN_ALLOWANCE_POLL_INTERVAL = 5000
 const provider = ethers.providers.getDefaultProvider(`https://api.blockchain.info/eth/nodes/rpc`)
 const ENTER_DETAILS = 'ENTER_DETAILS'
 const COMPLETE_SWAP = 'COMPLETE_SWAP'
-const NATIVE_CURRENCY = 'ETH'
+const NATIVE_TOKEN = 'ETH'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { waitForUserData } = profileSagas({
@@ -44,19 +44,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const state = yield select()
     const nonCustodialCoinAccounts = yield* select(() =>
       selectors.coins.getCoinAccounts(state, {
-        coins: [NATIVE_CURRENCY],
+        coins: [NATIVE_TOKEN],
         nonCustodialAccounts: true
       })
     )
 
-    if (!nonCustodialCoinAccounts[NATIVE_CURRENCY]?.length) {
+    if (!nonCustodialCoinAccounts[NATIVE_TOKEN]?.length) {
       yield put(actions.core.data.eth.fetchData())
       yield put(actions.core.data.eth.fetchErc20Data())
     }
     const walletCurrency = yield select(selectors.core.settings.getCurrency)
     const coins = yield select(selectors.core.data.coins.getCoins)
     const erc20Coins: CoinType[] = yield select(selectors.core.data.coins.getErc20Coins)
-    const tokens = [NATIVE_CURRENCY, ...erc20Coins]
+    const tokens = [NATIVE_TOKEN, ...erc20Coins]
       .map((coin) => {
         const { name, precision, symbol, type } = coins[coin].coinfig
 
@@ -87,7 +87,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           symbol
         }
 
-        if (coin === 'ETH') {
+        if (coin === NATIVE_TOKEN) {
           return {
             ...tokenObj,
             address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
@@ -189,7 +189,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           }
 
           const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
-            coins: [baseToken],
+            coins: [baseToken, NATIVE_TOKEN],
             nonCustodialAccounts: true
           })
 
@@ -199,8 +199,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           if (!nonCustodialAddress) {
             throw Error('No user wallet address')
           }
-
-          // const quoteResponse = quoteMock
 
           const quoteResponse = yield* call(api.getDexSwapQuote, {
             fromCurrency: {
@@ -240,9 +238,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
           // Also we consider to return to the FE only one quote in that case
-          const { quote, quoteTtl } = quoteResponse
+          const { quote, quoteTtl, transaction } = quoteResponse
 
           if (quote) {
+            const nonEthCustodialbalance = nonCustodialCoinAccounts[NATIVE_TOKEN][0].balance
+            const { gasLimit, gasPrice } = transaction
+            const gasLimitBn = ethers.BigNumber.from(gasLimit)
+            const gasPriceBn = ethers.BigNumber.from(gasPrice)
+            const gasFee = gasLimitBn.mul(gasPriceBn)
+
+            if (gasFee.gt(nonEthCustodialbalance)) {
+              // eslint-disable-next-line no-throw-literal
+              throw {
+                message: 'Not enough ETH to cover gas.',
+                title: 'Insufficient ETH'
+              }
+            }
+
             yield* put(
               actions.form.change(
                 DEX_SWAP_FORM,
@@ -362,7 +374,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const response = yield call(api.getDexTokenAllowance, {
         addressOwner: nonCustodialAddress,
         currency: tokenAddress,
-        network: 'ETH',
+        network: NATIVE_TOKEN,
         spender: 'ZEROX_EXCHANGE'
       })
       const isTokenAllowed = response?.result.allowance !== '0'
@@ -401,7 +413,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const response = yield call(api.getDexTokenAllowance, {
           addressOwner: nonCustodialAddress,
           currency: tokenAddress,
-          network: 'ETH',
+          network: NATIVE_TOKEN,
           spender: 'ZEROX_EXCHANGE'
         })
         const isTokenAllowed = response?.result.allowance !== '0'
@@ -453,7 +465,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           spender: 'ZEROX_EXCHANGE',
           type: 'TOKEN_APPROVAL'
         },
-        network: 'ETH'
+        network: NATIVE_TOKEN
       } as BuildDexTxParams
 
       while (true) {
@@ -531,7 +543,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           },
           type: 'SWAP'
         },
-        network: 'ETH'
+        network: NATIVE_TOKEN
       } as BuildDexTxParams
 
       // build dex tx by call api
