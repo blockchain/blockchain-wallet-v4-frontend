@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { Remote } from '@core'
 import { FiatBSAndSwapTransactionType } from '@core/types'
 import { useCoinConfig, useCurrency } from 'hooks'
 

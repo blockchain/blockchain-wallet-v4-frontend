@@ -57,11 +57,7 @@ const Dex = React.lazy(() => import('./Dex'))
 
 // NFTs
 const NftsView = React.lazy(() => import('./Nfts/View'))
-const NftsFirehose = React.lazy(() => import('./Nfts/Firehose'))
-const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
 const NftsAsset = React.lazy(() => import('./Nfts/AssetViewOnly'))
-const NftsAddress = React.lazy(() => import('./Nfts/Address/Address'))
-const NftsSettings = React.lazy(() => import('./Nfts/Settings'))
 
 // WALLET
 const Addresses = React.lazy(() => import('./Settings/Addresses'))

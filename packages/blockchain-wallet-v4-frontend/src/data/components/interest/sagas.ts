@@ -42,8 +42,7 @@ import {
   EarnTransactionType,
   PendingTransactionType,
   RewardsDepositFormType,
-  StakingDepositFormType,
-  StakingWithdrawalFormType
+  StakingDepositFormType
 } from './types'
 
 const PASSIVE_REWARDS_DEPOSIT_FORM = 'passiveRewardsDepositForm'
@@ -62,11 +61,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   )
 
-  const {
-    getDefaultAccountForCoin,
-    getNextReceiveAddressForCoin,
-    getOrUpdateProvisionalPaymentForCoin
-  } = coinSagas({
+  const { getDefaultAccountForCoin, getOrUpdateProvisionalPaymentForCoin } = coinSagas({
     api,
     coreSagas,
     networks

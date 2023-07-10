@@ -23,7 +23,6 @@ const ForgotPasswordEmail = (props: Props) => {
     product,
     routerActions,
     setStep,
-    signupActions,
     submitting
   } = props
 

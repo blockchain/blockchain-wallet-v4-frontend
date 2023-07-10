@@ -35,10 +35,10 @@ export type LinkDispatchPropsType = {
 
 export type Props = OwnPropsType & LinkStatePropsType & LinkDispatchPropsType
 
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean }
 
 class LinkFromExchangeAccountContainer extends React.PureComponent<Props, State> {
-  state: State = { direction: 'left', show: true }
+  state: State = { show: true }
 
   componentDidMount() {
     const { linkId } = this.props

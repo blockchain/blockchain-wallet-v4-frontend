@@ -114,7 +114,7 @@ export default (type: ModalNameType, options: OptionsType = {}) =>
 
           return filtered.length ? (
             <div>
-              {filtered.map((modal, i) => {
+              {filtered.map((modal) => {
                 const position = modals.indexOf(modal) + 1
 
                 return (

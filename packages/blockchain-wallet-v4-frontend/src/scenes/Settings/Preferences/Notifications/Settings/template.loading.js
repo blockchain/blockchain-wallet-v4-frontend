@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   }
 `
 
-export default (props) => (
+export default () => (
   <Wrapper>
     <SkeletonRectangle width='100%' height='30px' bgColorgrey000 />
     <SkeletonRectangle width='100%' height='30px' bgColorgrey000 />

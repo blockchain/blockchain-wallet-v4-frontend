@@ -9,7 +9,6 @@ import CompleteSwap from './CompleteSwap'
 import Error from './Error'
 
 const { DEX_SWAP_FORM, ETHERSCAN_TX_URL } = model.components.dex
-const NETWORK = 'ETH'
 const CONFIRM_SWAP = 'CONFIRM_SWAP'
 const ENTER_DETAILS = 'ENTER_DETAILS'
 

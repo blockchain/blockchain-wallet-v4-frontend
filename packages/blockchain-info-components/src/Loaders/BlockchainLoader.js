@@ -14,8 +14,8 @@ const Img = styled(Image)`
 const BlockchainLoader = (props) => <Img {...props} name='logo-loader' />
 
 BlockchainLoader.propTypes = {
-  height: PropTypes.string.isRequired,
-  width: PropTypes.string.isRequired
+  height: PropTypes.string,
+  width: PropTypes.string
 }
 
 BlockchainLoader.defaultProps = {

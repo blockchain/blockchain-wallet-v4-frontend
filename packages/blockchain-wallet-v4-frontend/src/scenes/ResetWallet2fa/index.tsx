@@ -33,9 +33,6 @@ const Header = styled.div`
 const ResetForm = styled(Form)`
   margin-top: 15px;
 `
-const InfoMsg = styled(Text)`
-  margin-top: 5px;
-`
 const Footer = styled(FormGroup)`
   display: flex;
   flex-direction: row;
@@ -55,10 +52,6 @@ const BackArrow = styled.div`
   cursor: pointer;
   margin-bottom: 20px;
 `
-
-const validNullableEmail = (emailVal) => {
-  return emailVal && emailVal.length ? validEmail(emailVal) : undefined
-}
 
 class ResetWallet2fa extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
   componentWillUnmount() {

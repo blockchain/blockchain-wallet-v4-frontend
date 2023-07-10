@@ -2,7 +2,6 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Exchange } from '@core'
-import { convertFiatToCoin } from '@core/exchange'
 import DataError from 'components/DataError'
 import { useRemote } from 'hooks'
 
@@ -14,7 +13,7 @@ import { RemotePropsType } from './WithdrawalForm.types'
 
 const WithdrawalForm = (props: Props) => {
   const dispatch = useDispatch()
-  const { analyticsActions, earnActions, formActions } = getActions(dispatch)
+  const { earnActions } = getActions(dispatch)
   const { data, error, isLoading, isNotAsked } = useRemote(getRemote)
   const { coin, displayCoin, formErrors, formValues, walletCurrency } = useSelector(getData)
   const { handleClose } = props

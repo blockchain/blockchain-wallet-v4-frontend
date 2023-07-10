@@ -5,10 +5,7 @@ import { StandardRow } from 'components/Rows'
 
 import { CustodialTransactionListItemComponent } from './CustodialTransactionListItem.types'
 
-const CustodialTransactionListItem: CustodialTransactionListItemComponent = ({
-  onClick,
-  transaction
-}) => {
+const CustodialTransactionListItem: CustodialTransactionListItemComponent = ({ onClick }) => {
   return (
     <StandardRow
       topLeftText='text'

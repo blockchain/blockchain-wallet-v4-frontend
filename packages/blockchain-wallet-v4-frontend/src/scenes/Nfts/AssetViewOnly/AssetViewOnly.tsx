@@ -1,35 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import ReactMarkdown from 'react-markdown'
 import { connect, ConnectedProps } from 'react-redux'
 import { PaletteColors } from '@blockchain-com/constellation'
-import BigNumber from 'bignumber.js'
 import NftDropdown from 'blockchain-wallet-v4-frontend/src/modals/Nfts/components/NftDropdown'
-import {
-  AvatarGradientColors,
-  LinksContainer
-} from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
+import { AvatarGradientColors } from 'blockchain-wallet-v4-frontend/src/scenes/Nfts/components'
 import Avatar from 'boring-avatars'
-import { formatDistanceToNow } from 'date-fns'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { NftAsset as NftAssetType, WyvernRawOrder } from '@core/network/api/nfts/types'
-import { WalletOptionsType } from '@core/types'
 import { Button, Icon as BlockchainIcon, Image, Link, Text } from 'blockchain-info-components'
 import CryptoAddress from 'components/CryptoAddress/CryptoAddress'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import { Flex } from 'components/Flex'
 import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
-import { isMobile, media, useMedia } from 'services/styles'
+import { isMobile, media } from 'services/styles'
 
 import {
   AssetName,
   CollectionName,
-  CustomLink,
   LeftColWrapper,
   RightColWrapper,
   Top,
@@ -368,24 +359,9 @@ const NftAssetViewOnly: React.FC<Props> = ({
                             <div style={{ padding: '1em' }}>
                               <Flex flexDirection='column'>
                                 <TraitsWrapper>
-                                  {asset.traits.map((trait) => {
-                                    if (!trait) return null
-
-                                    const assetTraits = asset.traits.find(
-                                      (t) => t?.trait_type === trait.trait_type
-                                    )
-                                    const traitCount = assetTraits?.trait_count
-                                    const rarity =
-                                      traitCount && asset.asset_contract.total_supply
-                                        ? `${parseFloat(
-                                            (
-                                              (traitCount / asset?.asset_contract.total_supply) *
-                                              100
-                                            ).toFixed(1)
-                                          )}% Rarity`
-                                        : 'New Trait'
-
-                                    return (
+                                  {asset.traits
+                                    .filter((trait) => trait)
+                                    .map((trait) => (
                                       <Trait key={trait.value}>
                                         <Text color='grey700' capitalize size='12px' weight={400}>
                                           <b>{trait?.trait_type}</b>
@@ -394,8 +370,7 @@ const NftAssetViewOnly: React.FC<Props> = ({
                                           {trait?.value}
                                         </Text>
                                       </Trait>
-                                    )
-                                  })}
+                                    ))}
                                 </TraitsWrapper>
                               </Flex>
                             </div>

@@ -3,18 +3,16 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from '@reduxjs/toolkit'
 
 import DataError from 'components/DataError'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { RecurringBuyStepType } from 'data/types'
 
-const Failure = (props: Props) => {
-  return (
-    <DataError
-      onClick={() => {
-        props.recurringBuyActions.setStep({ step: RecurringBuyStepType.GET_STARTED })
-      }}
-    />
-  )
-}
+const Failure = (props: Props) => (
+  <DataError
+    onClick={() => {
+      props.recurringBuyActions.setStep({ step: RecurringBuyStepType.GET_STARTED })
+    }}
+  />
+)
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)

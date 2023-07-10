@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
 
-import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'

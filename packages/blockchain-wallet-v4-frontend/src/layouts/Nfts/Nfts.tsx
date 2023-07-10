@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Redirect, Route, withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'

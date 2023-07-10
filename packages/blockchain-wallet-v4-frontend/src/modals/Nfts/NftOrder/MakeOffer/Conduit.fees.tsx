@@ -16,7 +16,7 @@ const Fees: React.FC<Props> = (props: Props) => {
   return (
     <>
       {orderFlow.fees.cata({
-        Failure: (e) => (
+        Failure: () => (
           <Flex justifyContent='space-between' alignItems='center'>
             <Flex>
               <Text size='14px' weight={500}>

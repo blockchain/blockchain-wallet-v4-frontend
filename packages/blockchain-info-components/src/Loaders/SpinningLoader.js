@@ -23,8 +23,9 @@ const Wrapper = styled.div`
 const SpinningLoader = (props) => <Wrapper {...props} />
 
 SpinningLoader.propTypes = {
-  height: PropTypes.string.isRequired,
-  width: PropTypes.string.isRequired
+  borderWidth: PropTypes.string,
+  height: PropTypes.string,
+  width: PropTypes.string
 }
 
 SpinningLoader.defaultProps = {

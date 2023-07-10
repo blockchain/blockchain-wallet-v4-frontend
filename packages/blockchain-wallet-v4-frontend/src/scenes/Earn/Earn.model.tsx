@@ -1,7 +1,5 @@
-import { PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { Link } from 'blockchain-info-components'
 import { SceneSubHeaderText, SceneWrapper } from 'components/Layout'
 
 export const TabRow = styled.div`

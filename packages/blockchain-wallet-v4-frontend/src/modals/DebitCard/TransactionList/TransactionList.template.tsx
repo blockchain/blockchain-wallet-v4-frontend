@@ -12,9 +12,7 @@ import { Props } from './TransactionList'
 
 const TransactionList = (props: Props) => {
   const { close } = props
-  const { data, isLoading, isNotAsked } = useRemote(
-    selectors.components.debitCard.getCardTransactions
-  )
+  const { data } = useRemote(selectors.components.debitCard.getCardTransactions)
 
   const [show, setShow] = useState(true)
 

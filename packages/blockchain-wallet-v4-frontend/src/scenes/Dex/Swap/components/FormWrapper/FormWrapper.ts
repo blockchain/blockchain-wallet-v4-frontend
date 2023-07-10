@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 import Form from 'components/Form/Form'
-import { QuoteError } from 'data/types'
 import { media } from 'services/styles'
 
 export const FormWrapper = styled(Form)`

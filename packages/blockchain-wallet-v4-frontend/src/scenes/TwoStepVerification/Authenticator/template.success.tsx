@@ -5,10 +5,9 @@ import { IconCheckCircle, PaletteColors } from '@blockchain-com/constellation'
 
 import { Button, Text } from 'blockchain-info-components'
 
-import { BackArrowFormHeader, CenteredColumn } from '../model'
-import { Props } from '.'
+import { CenteredColumn } from '../model'
 
-const AuthenticatorVerified = (props: Props) => {
+const AuthenticatorVerified = () => {
   return (
     <>
       <CenteredColumn>

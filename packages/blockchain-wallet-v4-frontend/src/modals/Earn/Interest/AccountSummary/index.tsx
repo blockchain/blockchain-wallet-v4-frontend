@@ -8,7 +8,7 @@ import { getCurrency } from '@core/redux/settings/selectors'
 import { CoinType, FiatType, RemoteDataType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
-import { Analytics, EarnStepMetaData } from 'data/types'
+import { EarnStepMetaData } from 'data/types'
 
 import { getData } from './selectors'
 import Loading from './template.loading'

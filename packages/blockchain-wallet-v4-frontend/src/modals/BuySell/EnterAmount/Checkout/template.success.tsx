@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
-import { BSPaymentMethodType, BSPaymentTypes, FiatType } from '@core/types'
+import { BSPaymentTypes, FiatType } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'

@@ -1,7 +1,5 @@
 import { concat, mergeRight, prop, propOr } from 'ramda'
 
-import { data as dataActions } from '../../../redux/actions'
-
 export default ({ get, post, rootUrl }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
     post({

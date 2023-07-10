@@ -6,7 +6,6 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { Props as OwnProps } from '../../..'
-import { TwoFactorSetupSteps } from '../model'
 import AuthenticatorCode from './template.qrcode'
 import AuthenticatorVerified from './template.success'
 import AuthenticatorVerify from './template.verify'

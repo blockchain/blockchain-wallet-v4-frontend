@@ -225,7 +225,7 @@ const MakeOffer: React.FC<Props> = (props) => {
           <Value>
             <Field
               name='expirationMinutes'
-              onChange={(days: any) => {
+              onChange={() => {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               }}
               component={SelectBox}

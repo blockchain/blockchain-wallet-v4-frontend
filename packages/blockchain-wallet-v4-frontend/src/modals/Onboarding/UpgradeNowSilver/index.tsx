@@ -11,7 +11,6 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
 import getData from './selectors'
-import Loading from './template.loading'
 import Success from './template.success'
 
 export type OwnProps = {

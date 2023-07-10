@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components'
 
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 const slideInTopAnimation = keyframes`
   0% {

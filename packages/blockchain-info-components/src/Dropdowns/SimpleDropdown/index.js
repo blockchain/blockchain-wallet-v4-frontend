@@ -18,7 +18,7 @@ class SimpleDropdown extends React.PureComponent {
   }
 
   handleClick() {
-    this.setState({ toggled: !this.state.toggled })
+    this.setState((prevProps) => ({ toggled: !prevProps.toggled }))
   }
 
   handleClickOutside() {
@@ -58,6 +58,7 @@ SimpleDropdown.defaultProps = {
 
 SimpleDropdown.propTypes = {
   callback: PropTypes.func.isRequired,
+  color: PropTypes.string,
   down: PropTypes.bool,
   items: PropTypes.arrayOf(
     PropTypes.shape({

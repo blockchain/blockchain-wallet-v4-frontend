@@ -24,11 +24,6 @@ import { useMedia } from 'services/styles'
 
 import NftCollectionImageSmall from './NftCollectionImageSmall'
 
-const XSmallButton = styled(Button)`
-  padding: 6px 8px;
-  height: auto;
-`
-
 const HoverBackground = styled.div<{ background: string }>`
   background: ${(props) => props.background};
   background-size: 100%;
@@ -91,14 +86,6 @@ const NftAssetItem: React.FC<Props> = ({ asset, isAddressPage = false }) => {
           image_logo: false,
           name_click: true
         }
-      })
-    )
-  }
-  const viewDetailsTracking = () => {
-    dispatch(
-      actions.analytics.trackEvent({
-        key: Analytics.NFT_VIEW_BUTTON_VIEWED,
-        properties: {}
       })
     )
   }

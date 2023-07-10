@@ -2,14 +2,12 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators } from 'redux'
-import styled from 'styled-components'
 
 import { NftAsset } from '@core/network/api/nfts/types'
 import { Image, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { Analytics } from 'data/types'
-import { media } from 'services/styles'
 
 import { EmptyState, ResultImg } from '../AssetViewOnly/AssetViewOnly'
 

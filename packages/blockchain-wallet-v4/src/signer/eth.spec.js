@@ -7,7 +7,6 @@ const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, res
 const mnemonic = 'frozen frame material evolve pill sing horn life spend amateur chat amused'
 const mockDepositAddress = '0xC5C4c5b3fAC134fc8b74Ad0e161fc781aC7aC010'
 const mockHotWalletAddress = '0xD5e3614010188A098104944a30e5508A11D13a36'
-const provider = ethers.getDefaultProvider()
 const baselineWallet = ethers.Wallet.fromMnemonic(mnemonic, "m/44'/60'/0'/0/0")
 const mockErc20Address = '0x6b175474e89094c44da98b954eedeac495271d0f'
 const nonce = 0

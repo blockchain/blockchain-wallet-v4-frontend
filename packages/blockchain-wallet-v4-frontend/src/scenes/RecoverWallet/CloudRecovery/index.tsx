@@ -14,8 +14,6 @@ import { Props as OwnProps } from '..'
 import {
   BackArrowFormHeader,
   CenteredColumn,
-  Column,
-  ContactSupportText,
   GoBackArrow,
   OuterWrapper,
   Row,
@@ -27,17 +25,6 @@ import {
 const ANDROID_URL = 'https://play.google.com/store/apps/details?id=piuk.blockchain.android'
 const IOS_URL = 'https://apps.apple.com/us/app/blockchain-wallet-buy-bitcoin/id493253309'
 
-const Body = styled.div`
-  display: flex;
-  margin-bottom: 8px;
-`
-const TextColumn = styled(Column)`
-  max-width: 60%;
-  margin-right: 16px;
-  > div {
-    margin-bottom: 16px;
-  }
-`
 const CenteredRow = styled(Row)`
   justify-content: center;
 `
@@ -65,7 +52,7 @@ const InstructionText = styled(Text)`
 const CloudRecovery = (props: Props) => {
   const [showAppStoreQrCode, toggleAppStoreQrCode] = useState(false)
   const [showPlayStoreQrCode, togglePlayStoreQrCode] = useState(false)
-  const { cachedGuid, emailFromMagicLink, lastGuid, qrData, setStep } = props
+  const { cachedGuid, emailFromMagicLink, lastGuid, setStep } = props
 
   const link = showAppStoreQrCode ? IOS_URL : ANDROID_URL
 

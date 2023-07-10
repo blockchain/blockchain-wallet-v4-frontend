@@ -7,7 +7,7 @@ import { defaultTo, filter, path, prop } from 'ramda'
 import { clearSubmitErrors, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { BSPaymentTypes, MobilePaymentType, WalletFiatType } from '@core/types'
+import { BSPaymentTypes, WalletFiatType } from '@core/types'
 import { CheckBoxInput, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import AvailabilityRows from 'components/Brokerage/AvailabilityRows'
 import { ErrorCartridge } from 'components/Cartridge'

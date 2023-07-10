@@ -79,10 +79,10 @@ class UploadDocumentsContainer extends Component {
 
   render() {
     const { loading } = this.props.uploaded.cata({
-      Failure: (val) => ({ loading: false }),
+      Failure: () => ({ loading: false }),
       Loading: () => ({ loading: true }),
-      NotAsked: (val) => ({ loading: false }),
-      Success: (val) => ({ loading: false })
+      NotAsked: () => ({ loading: false }),
+      Success: () => ({ loading: false })
     })
     return (
       <UploadDocuments

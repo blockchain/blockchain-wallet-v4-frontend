@@ -19,7 +19,7 @@ import { removeWhitespace } from 'services/forms/normalizers'
 import { isMobile, media } from 'services/styles'
 
 import { Props } from '../..'
-import { ActionButton, BackArrowFormHeader, CenteredColumn, FormWrapper, Row } from '../../model'
+import { ActionButton, BackArrowFormHeader, FormWrapper, Row } from '../../model'
 
 const ResponsiveRow = styled(Row)`
   justify-content: center;

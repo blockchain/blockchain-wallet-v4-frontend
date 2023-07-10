@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler } from 'react'
+import { FC } from 'react'
 
 export type LearnAboutRecurringBuyPanelProps = {
   onClick?: () => void

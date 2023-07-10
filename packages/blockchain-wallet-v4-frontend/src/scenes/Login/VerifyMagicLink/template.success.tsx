@@ -3,18 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
-import { Wrapper } from 'components/Public'
 import { media } from 'services/styles'
 
-import { Props } from '..'
 import { LoginWrapper } from '../model'
 
-const InfoWrapper = styled.div`
-  width: 100%;
-  text-align: left;
-  ${media.mobile`
-  text-align: center;`}
-`
 const DeviceInfoWrapper = styled.div`
   margin-top: 20px;
 `

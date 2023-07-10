@@ -55,7 +55,7 @@ class PairingCodeContainer extends React.PureComponent {
   }
 
   handleClick = () => {
-    this.setState({ showCode: !this.state.showCode })
+    this.setState((prevState) => ({ showCode: !prevState.showCode }))
   }
 
   render() {

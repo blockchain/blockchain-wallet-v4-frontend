@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'

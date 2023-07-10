@@ -45,8 +45,8 @@ const HeartbeatLoader = (props) => {
 
 HeartbeatLoader.propTypes = {
   color: PropTypes.oneOf(keysIn(Palette())),
-  height: PropTypes.string.isRequired,
-  width: PropTypes.string.isRequired
+  height: PropTypes.string,
+  width: PropTypes.string
 }
 
 HeartbeatLoader.defaultProps = {

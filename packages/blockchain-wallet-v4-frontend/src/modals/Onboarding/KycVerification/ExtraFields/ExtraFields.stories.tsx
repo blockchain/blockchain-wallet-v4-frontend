@@ -5,7 +5,6 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { combineReducers, createStore } from 'redux'
 
 import KYC_RESPONSE_NEW from './kycResponse'
-import KYC_RESPONSE from './kycResponseCountries'
 import ExtraFields from './template.success'
 
 const store = createStore(combineReducers({}))

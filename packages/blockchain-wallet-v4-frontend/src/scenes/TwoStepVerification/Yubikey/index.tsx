@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 
 import { Props as OwnProps } from '../../..'
-import { TwoFactorSetupSteps } from '../model'
 import YubikeySetup from './template.setup'
 import YubikeyVerified from './template.verified'
 

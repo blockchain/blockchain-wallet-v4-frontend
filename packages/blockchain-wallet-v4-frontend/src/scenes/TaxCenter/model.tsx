@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Button, SelectInput, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Button, SelectInput, Separator, Text } from 'blockchain-info-components'
 import { SceneWrapper } from 'components/Layout'
 import MenuHeader from 'components/MenuHeader'
 

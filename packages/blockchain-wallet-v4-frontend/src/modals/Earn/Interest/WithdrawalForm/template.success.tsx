@@ -26,7 +26,6 @@ import {
   AmountAvailContainer,
   AmountFieldContainer,
   ArrowIcon,
-  Availability,
   BalanceItem,
   BalanceWrapper,
   Bottom,

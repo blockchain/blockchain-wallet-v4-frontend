@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { Button, IconCloseCircle, SemanticColors, Text } from '@blockchain-com/constellation'
@@ -6,23 +6,11 @@ import { Button, IconCloseCircle, SemanticColors, Text } from '@blockchain-com/c
 import { CoinType } from '@core/types'
 import { Image } from 'blockchain-info-components'
 import { actions } from 'data'
-import { Analytics } from 'data/types'
 
 import { Bottom, Middle, TextContainer, Top, Wrapper } from './WithdrawalRequested.styles'
 
 const WithdrawalRequested = ({ coin, handleClose }: OwnProps) => {
   const dispatch = useDispatch()
-
-  // useEffect(() => {
-  //   dispatch(
-  //     actions.analytics.trackEvent({
-  //       key: Analytics.WALLET_ACTIVE_REWARDS_WITHDRAWAL_REQUESTED_VIEWED,
-  //       properties: {
-  //         currency: coin
-  //       }
-  //     })
-  //   )
-  // }, [])
 
   const handleClick = () => {
     dispatch(actions.components.interest.setStakingStep({ name: 'ACCOUNT_SUMMARY' }))

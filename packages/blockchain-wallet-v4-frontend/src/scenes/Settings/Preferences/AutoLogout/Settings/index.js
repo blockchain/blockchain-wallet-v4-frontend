@@ -21,9 +21,7 @@ class SettingContainer extends React.PureComponent {
   }
 
   handleToggle = () => {
-    this.setState({
-      updateToggled: !this.state.updateToggled
-    })
+    this.setState((prevProps) => ({ updateToggled: !prevProps.updateToggled }))
   }
 
   render() {

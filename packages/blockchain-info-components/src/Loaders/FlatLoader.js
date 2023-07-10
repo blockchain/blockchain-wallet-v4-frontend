@@ -59,8 +59,8 @@ const FlatLoader = (props) => {
 
 FlatLoader.propTypes = {
   color: PropTypes.oneOf(keysIn(Palette())),
-  height: PropTypes.string.isRequired,
-  width: PropTypes.string.isRequired
+  height: PropTypes.string,
+  width: PropTypes.string
 }
 
 FlatLoader.defaultProps = {

@@ -25,8 +25,8 @@ const QRCodeContainer = styled.div`
 `
 
 const QRCode = (props) => {
-  const { close, closeAll, position, total, ...rest } = props
-  const { amount, message, receiveAddress } = rest.value
+  const { close, closeAll, position, total, value } = props
+  const { amount, message, receiveAddress } = value
   let btcAddress = `bitcoin:${receiveAddress}`
   const amt = amount > 0 ? amount : null
   if (amt || message) btcAddress += '?'
@@ -61,7 +61,15 @@ const QRCode = (props) => {
 }
 
 QRCode.propTypes = {
-  value: PropTypes.object.isRequired
+  close: PropTypes.func.isRequired,
+  closeAll: PropTypes.func.isRequired,
+  position: PropTypes.number,
+  total: PropTypes.number,
+  value: PropTypes.shape({
+    amount: PropTypes.number,
+    message: PropTypes.string,
+    receiveAddress: PropTypes.string
+  })
 }
 
 export default QRCode

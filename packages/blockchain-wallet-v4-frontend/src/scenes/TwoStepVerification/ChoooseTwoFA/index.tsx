@@ -1,12 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import {
-  IconChevronRightV2,
-  IconPhone,
-  IconYubiKey,
-  PaletteColors
-} from '@blockchain-com/constellation'
+import { IconChevronRightV2, IconYubiKey, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'

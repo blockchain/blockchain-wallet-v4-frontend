@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  IconImage,
-  IconPlayCircle,
-  IconQuestion,
-  PaletteColors
-} from '@blockchain-com/constellation'
+import { IconPlayCircle, IconQuestion, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 const Wrapper = styled.div<{ right: string; top: string }>`

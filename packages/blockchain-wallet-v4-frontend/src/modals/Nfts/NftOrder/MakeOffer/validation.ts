@@ -4,7 +4,6 @@ import { NftMakeOfferFormValues, Props } from '.'
 
 export const validate = (formValues: NftMakeOfferFormValues, props: Props) => {
   const erc20Balance = props.erc20BalanceR.getOrElse(0)
-  const [selfCustodyBalance] = props.ethBalancesR.getOrElse([0, 0])
 
   // let index.tsx handle this
   if (formValues.coin === 'WETH') {

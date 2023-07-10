@@ -11,13 +11,6 @@ import { actions, selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
-import {
-  AssetFilterFields,
-  CollectionSortFields,
-  SortDirection,
-  useAssetsQuery,
-  useTrendingCollectionsQuery
-} from 'generated/graphql.types'
 import { media } from 'services/styles'
 
 import { GridWrapper, NftPageV2, Stat, StatsWrapper } from '../components'

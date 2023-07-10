@@ -4,7 +4,6 @@ import {
   always,
   compose,
   curry,
-  equals,
   find,
   findIndex,
   ifElse,

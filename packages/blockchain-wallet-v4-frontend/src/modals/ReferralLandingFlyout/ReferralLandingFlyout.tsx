@@ -43,7 +43,7 @@ const ReferralLanding: ReferralLandingFlyoutComponent = ({
   const [isOpen, setOpen] = useState<boolean>(true)
   const [textCopied, setTextCopied] = useState(false)
   const [textShared, setTextShared] = useState(false)
-  const [v, copy] = useCopyToClipboard()
+  const copy = useCopyToClipboard()[1]
 
   const handleClose = useCallback(async () => {
     setOpen(false)

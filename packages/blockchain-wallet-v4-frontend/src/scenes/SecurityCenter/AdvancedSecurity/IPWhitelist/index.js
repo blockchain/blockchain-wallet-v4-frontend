@@ -12,7 +12,7 @@ import IPWhitelist from './template'
 class IPWhitelistContainer extends React.PureComponent {
   state = { updateToggled: false }
 
-  componentDidMount(prevProps) {
+  componentDidMount() {
     if (!isEmpty(this.props.currentWhitelist)) {
       this.props.formActions.initialize('settingIPWhitelist', {
         IPWhitelist: this.props.currentWhitelist
@@ -26,9 +26,7 @@ class IPWhitelistContainer extends React.PureComponent {
   }
 
   handleToggle = () => {
-    this.setState({
-      updateToggled: !this.state.updateToggled
-    })
+    this.setState((prevProps) => ({ updateToggled: !prevProps.updateToggled }))
   }
 
   render() {

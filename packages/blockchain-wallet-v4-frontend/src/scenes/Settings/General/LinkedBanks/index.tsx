@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { path } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { ExtractSuccess, RemoteDataType, WalletFiatType } from '@core/types'

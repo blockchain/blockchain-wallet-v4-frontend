@@ -1,4 +1,3 @@
-import React from 'react'
 import { PaletteColors, SemanticColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 

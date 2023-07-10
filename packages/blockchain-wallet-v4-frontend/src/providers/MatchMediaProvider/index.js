@@ -38,9 +38,9 @@ export class MediaContextProvider extends React.Component {
   }
 
   updateMedia(matcherName, { matches }) {
-    this.setState({
-      media: assoc(matcherName, matches, this.state.media)
-    })
+    this.setState((prevState) => ({
+      media: assoc(matcherName, matches, prevState.media)
+    }))
   }
 
   render() {

@@ -62,18 +62,6 @@ const InputIcon = styled(Icon)`
 `
 
 class TextInput extends React.Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    height: PropTypes.string,
-    minHeight: PropTypes.string
-  }
-
-  static defaultProps = {
-    disabled: false,
-    height: '48px',
-    minHeight: '48px'
-  }
-
   componentDidUpdate(prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
       this.input.focus()
@@ -115,6 +103,18 @@ class TextInput extends React.Component {
       </Container>
     )
   }
+}
+
+TextInput.propTypes = {
+  disabled: PropTypes.bool,
+  height: PropTypes.string,
+  minHeight: PropTypes.string
+}
+
+TextInput.defaultProps = {
+  disabled: false,
+  height: '48px',
+  minHeight: '48px'
 }
 
 export default TextInput

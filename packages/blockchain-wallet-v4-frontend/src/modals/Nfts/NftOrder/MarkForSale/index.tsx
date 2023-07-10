@@ -389,8 +389,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                 <Value>
                   <Field
                     name='expirationMinutes'
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    onChange={(minutes: any) => {
+                    onChange={() => {
                       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     }}
                     component={SelectBox}

@@ -74,7 +74,9 @@ RadioButtonInput.propTypes = {
   children: PropTypes.node.isRequired,
   disabled: PropTypes.string,
   name: PropTypes.string.isRequired,
-  props: PropTypes.object.isRequired
+  props: PropTypes.shape({
+    id: PropTypes.string.isRequired
+  }).isRequired
 }
 
 export default RadioButtonInput

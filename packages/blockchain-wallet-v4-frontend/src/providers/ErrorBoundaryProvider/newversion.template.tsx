@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Icon, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
+import { Button, Modal, ModalBody, Text } from 'blockchain-info-components'
 
 const Body = styled(ModalBody)`
   display: flex;
@@ -30,7 +30,7 @@ const FooterButton = styled(Button)`
   font-weight: 600;
   margin-top: 24px;
 `
-const NewVersionAvailable = (props) => {
+const NewVersionAvailable = () => {
   return (
     <Modal size='small' style={{ zIndex: 999 }}>
       <Body>

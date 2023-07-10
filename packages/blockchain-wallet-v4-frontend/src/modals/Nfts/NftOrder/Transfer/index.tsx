@@ -13,8 +13,6 @@ import { required, validEthAddress } from 'services/forms'
 
 import { NftFlyoutRow, StickyCTA } from '../../components'
 import NftAssetHeaderRow from '../../components/NftAssetHeader'
-import NftFlyoutFailure from '../../components/NftFlyoutFailure'
-import NftFlyoutLoader from '../../components/NftFlyoutLoader'
 import { Props as OwnProps } from '..'
 import TransferCTA from './cta'
 import TransferFees from './fees'

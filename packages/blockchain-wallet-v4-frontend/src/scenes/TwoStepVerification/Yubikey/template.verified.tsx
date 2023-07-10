@@ -6,7 +6,6 @@ import { IconCheckCircle, PaletteColors } from '@blockchain-com/constellation'
 import { Button, Text } from 'blockchain-info-components'
 
 import { CenteredColumn } from '../model'
-import { Props } from '.'
 
 const YubikeyVerified = () => {
   return (

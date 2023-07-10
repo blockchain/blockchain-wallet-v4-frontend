@@ -8,12 +8,7 @@ import { all, call, put, select } from 'redux-saga/effects'
 import { Exchange, Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import {
-  GasCalculationOperations,
-  GasDataI,
-  NftAsset,
-  NftTemplateParams
-} from '@core/network/api/nfts/types'
+import { GasCalculationOperations, GasDataI, NftAsset } from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
   cancelNftOrder,

@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { WalletFiatEnum, WalletFiatType, WithdrawResponseType } from '@core/types'
+import { WalletFiatType, WithdrawResponseType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { UserDataType } from 'data/types'
 

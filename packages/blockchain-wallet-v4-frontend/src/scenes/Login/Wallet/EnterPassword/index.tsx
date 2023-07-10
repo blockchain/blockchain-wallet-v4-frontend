@@ -22,7 +22,6 @@ import { Props as OwnProps } from '../..'
 import BackArrowHeader from '../../components/BackArrowHeader'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
-import SignupLink from '../../components/SignupLink'
 import { ActionButton, CenteredColumn, WrapperWithPadding } from '../../model'
 
 const OuterWrapper = styled.div`
@@ -34,13 +33,6 @@ const OuterWrapper = styled.div`
     width: 100%;
     justify-content: center;
     padding: 0;
-  `};
-`
-const SideWrapper = styled.div`
-  height: 96%;
-  width: 274px;
-  ${media.tabletL`
-    display: none;
   `};
 `
 const FormWrapper = styled(Wrapper)`

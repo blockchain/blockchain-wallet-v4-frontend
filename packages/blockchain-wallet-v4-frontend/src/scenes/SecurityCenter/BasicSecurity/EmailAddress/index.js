@@ -14,12 +14,7 @@ import Success from './template.success'
 class EmailAddressContainer extends React.PureComponent {
   constructor(props) {
     super(props)
-    this.state = {
-      isEditing: false,
-      successToggled: false,
-      updateToggled: false,
-      verifyToggled: false
-    }
+    this.state = { isEditing: false }
 
     this.handleResend = this.handleResend.bind(this)
     this.handleVerifyClick = this.handleVerifyClick.bind(this)
@@ -34,19 +29,6 @@ class EmailAddressContainer extends React.PureComponent {
     }
   }
 
-  /* eslint-disable react/no-did-update-set-state */
-  componentDidUpdate(prevProps) {
-    const next = this.props.data.getOrElse({})
-    const prev = prevProps.data.getOrElse({})
-    if (next.verified && !prev.verified) {
-      this.setState({
-        successToggled: false,
-        verifyToggled: false
-      })
-    }
-  }
-  /* eslint-enable react/no-did-update-set-state */
-
   handleVerifyClick() {
     this.handleResend()
   }
@@ -58,16 +40,12 @@ class EmailAddressContainer extends React.PureComponent {
 
   handleChangeEmailView() {
     const { email } = this.props.data.getOrElse({})
-    this.setState({
-      isEditing: !this.state.isEditing
-    })
+    this.setState((prevProps) => ({ isEditing: !prevProps.isEditing }))
     this.props.formActions.change('securityEmailAddress', 'changeEmail', email)
   }
 
   handleEmailChangeCancel() {
-    this.setState({
-      isEditing: !this.state.isEditing
-    })
+    this.setState((prevProps) => ({ isEditing: !prevProps.isEditing }))
   }
 
   handleEmailChangeSubmit() {
@@ -76,9 +54,7 @@ class EmailAddressContainer extends React.PureComponent {
       key: Analytics.ONBOARDING_EMAIL_VERIFICATION_REQUESTED,
       properties: { origin: 'SECURITY' }
     })
-    this.setState({
-      isEditing: !this.state.isEditing
-    })
+    this.setState((prevProps) => ({ isEditing: !prevProps.isEditing }))
   }
 
   render() {

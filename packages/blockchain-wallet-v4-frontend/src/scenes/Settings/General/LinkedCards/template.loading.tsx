@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Card } from 'components/Card'
 import { StandardRow } from 'components/Rows'
 import { SettingContainer, SettingHeader, SettingSummary } from 'components/Setting'
 import { media } from 'services/styles'

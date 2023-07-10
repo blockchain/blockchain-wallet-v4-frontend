@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Badge, Button, Image, Text } from 'blockchain-info-components'
+import { Badge, Button, Text } from 'blockchain-info-components'
 import CopyClipboard from 'components/Clipboard/CopyClipboard'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { isMobile } from 'services/styles'

@@ -7,7 +7,6 @@ import styled from 'styled-components'
 
 import {
   Button,
-  Link,
   Modal,
   ModalBody,
   ModalFooter,

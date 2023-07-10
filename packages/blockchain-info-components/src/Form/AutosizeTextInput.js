@@ -48,18 +48,6 @@ const BaseTextInput = styled(AutosizeInput).attrs((props) => ({
 `
 
 class TextInput extends React.Component {
-  static propTypes = {
-    disabled: PropTypes.bool,
-    height: PropTypes.string,
-    minHeight: PropTypes.string
-  }
-
-  static defaultProps = {
-    disabled: false,
-    height: '40px',
-    minHeight: '40px'
-  }
-
   componentDidMount() {
     if (this.props.pointerToLeft) {
       this.input.input.setSelectionRange(0, 0)
@@ -99,6 +87,18 @@ class TextInput extends React.Component {
       />
     )
   }
+}
+
+TextInput.propTypes = {
+  disabled: PropTypes.bool,
+  height: PropTypes.string,
+  minHeight: PropTypes.string
+}
+
+TextInput.defaultProps = {
+  disabled: false,
+  height: '40px',
+  minHeight: '40px'
 }
 
 export default TextInput

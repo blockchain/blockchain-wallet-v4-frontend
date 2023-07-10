@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { Text } from 'blockchain-info-components'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -10,7 +9,6 @@ import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
-import Loading from '../TradingLimits/template.loading'
 import getData from './selectors'
 import Success from './template.success'
 

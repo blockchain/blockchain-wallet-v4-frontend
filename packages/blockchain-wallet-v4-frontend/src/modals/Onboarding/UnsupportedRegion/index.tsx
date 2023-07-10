@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { IconCloseCircleV2, IconGlobe, PaletteColors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { Image, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import Flyout, { duration, FlyoutChild, FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContainer, FlyoutContent } from 'components/Flyout/Layout'
