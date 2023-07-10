@@ -210,3 +210,7 @@ export const getShowProveFlow = (state: RootState) =>
 // which deposit address to use for swap
 export const getUseAgentHotWalletAddress = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useAgentHotWalletAddress']))
+
+// which deposit address to use for non custodial sell
+export const getUseAgentHotWalletAddressForSell = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useAgentHotWalletAddressForSell']))
