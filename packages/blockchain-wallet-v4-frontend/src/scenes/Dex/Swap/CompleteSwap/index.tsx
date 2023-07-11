@@ -8,10 +8,9 @@ import { useRemote } from 'hooks'
 import CompleteSwap from './CompleteSwap'
 import Error from './Error'
 
-const { DEX_SWAP_FORM, ETHERSCAN_TX_URL } = model.components.dex
+const { DEX_CONFIRM_SWAP_STEP, DEX_ENTER_DETAILS_STEP, DEX_SWAP_FORM, ETHERSCAN_TX_URL } =
+  model.components.dex
 const NETWORK = 'ETH'
-const CONFIRM_SWAP = 'CONFIRM_SWAP'
-const ENTER_DETAILS = 'ENTER_DETAILS'
 
 const CompleteSwapContainer = () => {
   const dispatch = useDispatch()
@@ -22,7 +21,7 @@ const CompleteSwapContainer = () => {
   const goToEnterDetails = () => {
     dispatch(actions.form.reset(DEX_SWAP_FORM))
     dispatch(actions.components.dex.clearCurrentSwapQuote())
-    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', ENTER_DETAILS))
+    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', DEX_ENTER_DETAILS_STEP))
   }
 
   const onSwappingViewed = () => {
@@ -44,7 +43,7 @@ const CompleteSwapContainer = () => {
   }
 
   const goToConfirmSwap = () => {
-    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', CONFIRM_SWAP))
+    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', DEX_CONFIRM_SWAP_STEP))
   }
 
   if (!data || error || !baseToken || !counterToken)

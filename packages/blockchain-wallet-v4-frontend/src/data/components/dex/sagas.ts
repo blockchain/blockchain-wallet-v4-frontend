@@ -1,6 +1,7 @@
 import Task from 'data.task'
 import { addMilliseconds } from 'date-fns'
 import * as ethers from 'ethers'
+import { initialize } from 'redux-form'
 import { call, delay, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
@@ -19,15 +20,14 @@ import type { DexSwapForm } from './types'
 import { getValidSwapAmount } from './utils'
 import { parseRawTx } from './utils/parseRawTx'
 
-const { DEX_SWAP_FORM } = model.components.dex
+const { DEFAULT_SLIPPAGE, DEX_COMPLETE_SWAP_STEP, DEX_ENTER_DETAILS_STEP, DEX_SWAP_FORM } =
+  model.components.dex
 
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 const REFRESH_INTERVAL = 15000
 const TOKEN_ALLOWANCE_POLL_INTERVAL = 5000
 const provider = ethers.providers.getDefaultProvider(`https://api.blockchain.info/eth/nodes/rpc`)
-const ENTER_DETAILS = 'ENTER_DETAILS'
-const COMPLETE_SWAP = 'COMPLETE_SWAP'
 const NATIVE_TOKEN = 'ETH'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -100,9 +100,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       })
       .sort((a, b) => b.fiatAmount - a.fiatAmount)
+    const tokensWithBalance = tokens.filter((token) => token.balance.toString() !== '0')
+    const hasTokensWithBalance = tokensWithBalance.length > 0
+    const hasNativeBalance = tokensWithBalance.some((token) => token.symbol === NATIVE_TOKEN)
 
+    yield put(
+      initialize(DEX_SWAP_FORM, {
+        baseToken: hasTokensWithBalance
+          ? hasNativeBalance
+            ? NATIVE_TOKEN
+            : tokensWithBalance[0].symbol
+          : undefined,
+        slippage: DEFAULT_SLIPPAGE,
+        step: DEX_ENTER_DETAILS_STEP
+      })
+    )
     yield put(A.setTokens(tokens))
-
     yield put(A.fetchChains())
   }
   const fetchUserEligibility = function* () {
@@ -557,7 +570,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // send tx
       const tx = yield call(() => taskToPromise(Task.of(provider.sendTransaction(signedTx))))
       yield put(A.sendSwapQuoteSuccess({ tx: tx.hash }))
-      yield put(actions.form.change(DEX_SWAP_FORM, 'step', COMPLETE_SWAP))
+      yield put(actions.form.change(DEX_SWAP_FORM, 'step', DEX_COMPLETE_SWAP_STEP))
     } catch (e) {
       if (e.error === 'Insufficient funds for transaction fees') {
         yield put(
@@ -566,10 +579,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             title: 'Insufficient ETH'
           })
         )
-        yield put(actions.form.change(DEX_SWAP_FORM, 'step', ENTER_DETAILS))
+        yield put(actions.form.change(DEX_SWAP_FORM, 'step', DEX_ENTER_DETAILS_STEP))
       } else {
         yield put(A.sendSwapQuoteFailure(e))
-        yield put(actions.form.change(DEX_SWAP_FORM, 'step', COMPLETE_SWAP))
+        yield put(actions.form.change(DEX_SWAP_FORM, 'step', DEX_COMPLETE_SWAP_STEP))
       }
     }
   }
