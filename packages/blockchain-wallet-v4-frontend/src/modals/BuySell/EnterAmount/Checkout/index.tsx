@@ -216,10 +216,10 @@ const Checkout = (props: Props) => {
 
   return (
     <Success
-      formValues={formValues}
-      isPristine={isPristine}
       {...props}
       {...data}
+      formValues={formValues}
+      isPristine={isPristine}
       onSubmit={handleSubmit}
     />
   )

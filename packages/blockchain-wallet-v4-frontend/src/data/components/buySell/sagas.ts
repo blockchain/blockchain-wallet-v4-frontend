@@ -1630,8 +1630,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const initializeBillingAddress = function* () {
     yield call(waitForUserData)
-    const userDataR = selectors.modules.profile.getUserData(yield select())
-    const userData = userDataR.getOrElse({} as UserDataType)
+    const userData = selectors.modules.profile
+      .getUserData(yield select())
+      .getOrElse({} as UserDataType)
+
     const address = userData
       ? userData.address
       : {
@@ -1698,7 +1700,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(
         actions.form.initialize(FORM_BS_CHECKOUT, {
-          amount: amount || (fix === Coin.FIAT && lastUnusedAmount) ? lastUnusedAmount : undefined,
+          amount: amount || (fix === Coin.FIAT && lastUnusedAmount ? lastUnusedAmount : undefined),
           cryptoAmount,
           fix,
           orderType,
@@ -2097,7 +2099,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
           break
         default:
-          // do nothing
           break
       }
     } else {
