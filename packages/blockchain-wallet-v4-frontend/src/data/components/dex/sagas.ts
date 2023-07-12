@@ -105,7 +105,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const hasNativeBalance = tokensWithBalance.some((token) => token.symbol === NATIVE_TOKEN)
 
     if (hasTokensWithBalance) {
-      yield put(A.setHasNoTokenBalances(!true))
+      yield put(A.setHasNoTokenBalances(true))
       yield put(
         initialize(DEX_SWAP_FORM, {
           baseToken: hasNativeBalance ? NATIVE_TOKEN : tokensWithBalance[0].symbol,
