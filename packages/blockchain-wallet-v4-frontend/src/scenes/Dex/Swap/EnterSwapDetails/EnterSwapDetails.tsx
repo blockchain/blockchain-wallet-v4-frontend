@@ -11,6 +11,7 @@ import {
   DexSwapForm,
   DexSwapSide,
   DexSwapSideFields,
+  DexSwapSteps,
   ModalName,
   SwapAccountType
 } from 'data/types'
@@ -29,7 +30,7 @@ import { ErrorMessage } from './ErrorMessage'
 import { Header } from './Header'
 import { ButtonContainer } from './styles'
 
-const { DEX_CONFIRM_SWAP_STEP, DEX_SWAP_FORM } = model.components.dex
+const { DEX_SWAP_FORM } = model.components.dex
 const NATIVE_TOKEN = 'ETH'
 const COUNTER = 'COUNTER'
 const BASE = 'BASE'
@@ -140,7 +141,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   }
 
   const onConfirmSwap = () => {
-    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', DEX_CONFIRM_SWAP_STEP))
+    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', DexSwapSteps.CONFIRM_SWAP))
   }
 
   const handleMaxClicked = () => {
