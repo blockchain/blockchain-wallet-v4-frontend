@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { actions, selectors } from 'data'
 import { DexScenes } from 'data/components/dex/types'
@@ -13,7 +13,6 @@ export const useSceneResolver = (): [DexScenes, (scene: DexScenes) => void] => {
   const isOnboardingPassed = localStorage.getItem(DEX_INTRO_VIEWED_KEY)
   const [scene, setScene] = useState<DexScenes>(isOnboardingPassed ? 'SWAP' : 'ONBOARDING')
 
-  const hasTokenBalances = useSelector(selectors.components.dex.getHasTokenBalances)
   const {
     data: isUserEligible,
     hasError: isUserEligibilityFailed,
@@ -35,7 +34,6 @@ export const useSceneResolver = (): [DexScenes, (scene: DexScenes) => void] => {
     if (isUserEligibilityLoading) setScene('LOADING')
     else if (isUserEligibilityFailed) setScene('ERROR')
     else if (!isUserEligible) setScene('NOT_ELIGIBLE')
-    else if (!hasTokenBalances) setScene('NO_TOKEN_BALANCES')
     else if (!isOnboardingPassed) setScene('ONBOARDING')
     else setScene('SWAP')
   }, [isUserEligibilityLoading, isUserEligibilityFailed, isUserEligible, isOnboardingPassed])

@@ -8,8 +8,6 @@ export const getChains = (state: RootState) => state.components.dex.chains
 
 export const getCurrentChain = (state: RootState) => state.components.dex.currentChain
 
-export const getHasTokenBalances = (state: RootState) => state.components.dex.hasNoTokenBalances
-
 export const getTokens = (state: RootState) => state.components.dex.tokens
 
 export const getTokenInfo = (state: RootState, coinSymbol: CoinType) =>

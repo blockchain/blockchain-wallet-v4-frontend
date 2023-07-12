@@ -7,7 +7,6 @@ import { notReachable } from 'utils/helpers'
 import { PageLoading } from './components'
 import { useSceneResolver } from './hooks'
 import { NonEligible } from './NonEligible'
-import { NoTokenBalances } from './NoTokenBalances'
 import { Onboarding } from './Onboarding'
 import { Swap } from './Swap'
 
@@ -39,9 +38,6 @@ const Dex = () => {
 
     case 'ONBOARDING':
       return <Onboarding onClickStart={onFinishOnboarding} />
-
-    case 'NO_TOKEN_BALANCES':
-      return <NoTokenBalances />
 
     case 'NOT_ELIGIBLE':
       return <NonEligible />

@@ -8,7 +8,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'
 
-import { InfoWidget, PageWrapper, SceneCard } from '../components'
+import { InfoWidget, PageWrapper, SceneCard } from '../../components'
 
 const NATIVE_TOKEN = 'ETH'
 

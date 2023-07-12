@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import type { InjectedFormProps } from 'redux-form'
 import { reduxForm } from 'redux-form'
@@ -10,6 +10,7 @@ import { PageWrapper } from '../components'
 import CompleteSwap from './CompleteSwap'
 import { ConfirmSwap } from './ConfirmSwap'
 import { EnterSwapDetails } from './EnterSwapDetails'
+import { NoTokenBalances } from './NoTokenBalances'
 
 const { DEFAULT_SLIPPAGE, DEX_SWAP_FORM } = model.components.dex
 
@@ -23,15 +24,6 @@ const SwapForm = (form: InjectedFormProps<DexSwapForm>) => {
     form.change('step', DexSwapSteps.ENTER_DETAILS)
   }
 
-  useEffect(() => {
-    if (
-      (swapFormValues.step === DexSwapSteps.CONFIRM_SWAP && !swapFormValues.baseToken) ||
-      !swapFormValues.counterToken
-    ) {
-      onGoBack()
-    }
-  }, [swapFormValues.step, swapFormValues.baseToken, swapFormValues.counterToken])
-
   switch (swapFormValues.step) {
     case DexSwapSteps.CONFIRM_SWAP:
       return (
@@ -44,6 +36,13 @@ const SwapForm = (form: InjectedFormProps<DexSwapForm>) => {
       return (
         <PageWrapper>
           <CompleteSwap />
+        </PageWrapper>
+      )
+
+    case DexSwapSteps.NO_TOKEN_BALANCES:
+      return (
+        <PageWrapper>
+          <NoTokenBalances />
         </PageWrapper>
       )
 
