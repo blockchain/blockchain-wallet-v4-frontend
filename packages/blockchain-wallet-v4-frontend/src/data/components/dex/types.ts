@@ -33,6 +33,7 @@ export enum DexSwapSteps {
 export type DexStateType = {
   chains: RemoteDataType<string, DexChain[]>
   currentChain: RemoteDataType<string, DexChain>
+  hasNoTokenBalances: boolean
   isTokenAllowed: RemoteDataType<string, boolean>
   isTokenAllowedAfterPolling: RemoteDataType<string, boolean>
   isUserEligible: RemoteDataType<string, boolean>
@@ -44,7 +45,13 @@ export type DexStateType = {
 }
 
 export type DexSwapSide = 'BASE' | 'COUNTER'
-export type DexScenes = 'ONBOARDING' | 'SWAP' | 'NOT_ELIGIBLE' | 'ERROR' | 'LOADING'
+export type DexScenes =
+  | 'ERROR'
+  | 'LOADING'
+  | 'NO_TOKEN_BALANCES'
+  | 'NOT_ELIGIBLE'
+  | 'ONBOARDING'
+  | 'SWAP'
 export enum DexSwapSideFields {
   BASE = 'baseToken',
   COUNTER = 'counterToken'

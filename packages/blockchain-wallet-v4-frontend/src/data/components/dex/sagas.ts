@@ -99,24 +99,25 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       })
       .sort((a, b) => b.fiatAmount - a.fiatAmount)
+
     const tokensWithBalance = tokens.filter((token) => token.balance.toString() !== '0')
     const hasTokensWithBalance = tokensWithBalance.length > 0
     const hasNativeBalance = tokensWithBalance.some((token) => token.symbol === NATIVE_TOKEN)
 
-    yield put(
-      initialize(DEX_SWAP_FORM, {
-        baseToken: hasTokensWithBalance
-          ? hasNativeBalance
-            ? NATIVE_TOKEN
-            : tokensWithBalance[0].symbol
-          : undefined,
-        slippage: DEFAULT_SLIPPAGE,
-        step: DexSwapSteps.ENTER_DETAILS
-      })
-    )
-    yield put(A.setTokens(tokens))
-    yield put(A.fetchChains())
+    if (hasTokensWithBalance) {
+      yield put(A.setHasNoTokenBalances(!true))
+      yield put(
+        initialize(DEX_SWAP_FORM, {
+          baseToken: hasNativeBalance ? NATIVE_TOKEN : tokensWithBalance[0].symbol,
+          slippage: DEFAULT_SLIPPAGE,
+          step: DexSwapSteps.ENTER_DETAILS
+        })
+      )
+      yield put(A.setTokens(tokens))
+      yield put(A.fetchChains())
+    }
   }
+
   const fetchUserEligibility = function* () {
     try {
       yield call(waitForUserData)

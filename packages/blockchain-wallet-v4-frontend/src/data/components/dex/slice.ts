@@ -16,6 +16,7 @@ import type {
 const initialState: DexStateType = {
   chains: Remote.NotAsked,
   currentChain: Remote.NotAsked, // TODO: might not need Remote type
+  hasNoTokenBalances: false,
   isTokenAllowed: Remote.NotAsked,
   isTokenAllowedAfterPolling: Remote.NotAsked,
   isUserEligible: Remote.NotAsked,
@@ -119,6 +120,9 @@ const dexSlice = createSlice({
     },
     setCurrentChain: (state, action: PayloadAction<DexChain>) => {
       state.currentChain = Remote.Success(action.payload)
+    },
+    setHasNoTokenBalances: (state, action: PayloadAction<boolean>) => {
+      state.hasNoTokenBalances = action.payload
     },
     setTokenAllowanceGasEstimate: (state, action: PayloadAction<string>) => {
       state.tokenAllowanceGasEstimate = action.payload
