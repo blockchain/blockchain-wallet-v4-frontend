@@ -325,7 +325,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const fetchSwapQuoteOnChange = function* (action) {
-    const { field, form, touch } = action?.meta
+    const { field, form, touch } = action?.meta || {}
 
     // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
     if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
@@ -395,7 +395,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (
       !counterToken ||
       !baseToken ||
-      (!getValidSwapAmount(baseTokenAmount) && !getValidSwapAmount(counterTokenAmount))
+      !(getValidSwapAmount(baseTokenAmount) || getValidSwapAmount(counterTokenAmount))
     )
       return
 
