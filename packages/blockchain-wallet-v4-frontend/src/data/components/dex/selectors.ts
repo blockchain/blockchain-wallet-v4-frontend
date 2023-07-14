@@ -32,3 +32,5 @@ export const getTokenAllowanceStatusAfterPolling = (state: RootState) =>
   state.components.dex.isTokenAllowedAfterPolling
 
 export const getSwapQuoteTx = (state: RootState) => state.components.dex.swapQuoteTx
+
+export const getCurrentSideType = (state: RootState) => state.components.dex.currentSideType

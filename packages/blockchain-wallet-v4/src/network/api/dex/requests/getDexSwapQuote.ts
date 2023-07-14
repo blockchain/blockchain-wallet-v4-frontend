@@ -8,7 +8,7 @@ import type { DexSwapQuote } from '../types'
 type Data = {
   fromCurrency: {
     address: string
-    amount: string
+    amount?: string
     chainId: number
     symbol: CoinType
   }
@@ -18,6 +18,7 @@ type Data = {
   takerAddress: string
   toCurrency: {
     address: string
+    amount?: string
     chainId: number
     symbol: CoinType
   }
