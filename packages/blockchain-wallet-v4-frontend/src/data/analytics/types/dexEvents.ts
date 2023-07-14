@@ -1,12 +1,14 @@
+import { DexPosition } from 'data/types'
+
 export enum Events {
   DEX_COUNTRY_INELIGIBLE_VIEWED = 'DEX Country Ineligible Viewed',
   DEX_ONBOARDING_VIEWED = 'DEX Onboarding Viewed',
-  DEX_SETTINGS_OPENED = 'DEX Settings opened',
-  DEX_SLIPPAGE_CHANGED = 'DEX Slippage changed',
+  DEX_SETTINGS_OPENED = 'DEX Settings Opened',
+  DEX_SLIPPAGE_CHANGED = 'DEX Slippage Changed',
   DEX_SWAPPING_VIEWED = 'DEX Swapping Viewed',
   DEX_SWAP_AMOUNT_ENTERED = 'DEX Swap Amount Entered',
-  DEX_SWAP_APPROVE_TOKEN_CLICKED = 'DEX Swap Approve token clicked',
-  DEX_SWAP_APPROVE_TOKEN_CONFIRMED = 'DEX Swap Approve token confirmed',
+  DEX_SWAP_APPROVE_TOKEN_CLICKED = 'DEX Swap Approve Token Clicked',
+  DEX_SWAP_APPROVE_TOKEN_CONFIRMED = 'DEX Swap Approve Token Confirmed',
   DEX_SWAP_CONFIRMED_CLICKED = 'DEX Swap Confirm Clicked',
   DEX_SWAP_DETAIL_EXPANDED = 'DEX Swap Detail Expanded',
   DEX_SWAP_FAILED_VIEWED = 'DEX Swap Failed Viewed',
@@ -58,7 +60,10 @@ type DexSlippageChanged = {
 
 type DexSwapAmountEntered = {
   key: Events.DEX_SWAP_AMOUNT_ENTERED
-  properties: {}
+  properties: {
+    currency: string
+    position: DexPosition
+  }
 }
 
 type DexSwapApproveTokenClicked = {

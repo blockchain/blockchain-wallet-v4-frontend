@@ -18,7 +18,7 @@ import { Icon as TokenIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions } from 'data'
-import { Analytics, DexSwapSide, DexSwapSideFields } from 'data/types'
+import { Analytics, DexPosition, DexSwapSide, DexSwapSideFields } from 'data/types'
 
 import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './styles'
 import { getZeroFiatAmountPreview } from './utils'
@@ -72,7 +72,10 @@ export const SwapPair = ({
       dispatch(
         actions.analytics.trackEvent({
           key: Analytics.DEX_SWAP_AMOUNT_ENTERED,
-          properties: {}
+          properties: {
+            currency: props.coin,
+            position: isBase ? DexPosition.SOURCE : DexPosition.DESTINATION
+          }
         })
       )
     }
@@ -88,7 +91,7 @@ export const SwapPair = ({
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
-          disabled={props.isQuoteLocked || swapSide === COUNTER}
+          disabled={props.isQuoteLocked}
           placeholder='0'
           name={amountInputField}
           validate={[]}
@@ -162,7 +165,7 @@ export const SwapPair = ({
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
-          disabled={props.isQuoteLocked || swapSide === COUNTER}
+          disabled={props.isQuoteLocked}
           placeholder='0'
           name={amountInputField}
           validate={[]}
