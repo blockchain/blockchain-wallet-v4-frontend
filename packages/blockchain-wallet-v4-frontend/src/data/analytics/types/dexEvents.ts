@@ -1,4 +1,4 @@
-import { DexPosition } from 'data/types'
+import { DexPosition } from 'data/components/dex/types'
 
 export enum Events {
   DEX_COUNTRY_INELIGIBLE_VIEWED = 'DEX Country Ineligible Viewed',
