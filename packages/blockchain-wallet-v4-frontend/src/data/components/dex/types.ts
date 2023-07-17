@@ -22,6 +22,21 @@ export type DexSwapQuoteWithDate = DexSwapQuote & {
   totalMs: number
 }
 
+export enum DexPosition {
+  DESTINATION = 'DESTINATION',
+  SOURCE = 'SOURCE'
+}
+
+export enum DexSwapSide {
+  BASE = 'BASE',
+  COUNTER = 'COUNTER'
+}
+
+export enum DexSwapSideFields {
+  BASE = 'baseToken',
+  COUNTER = 'counterToken'
+}
+
 export enum DexSwapSteps {
   COMPLETE_SWAP = 'COMPLETE_SWAP',
   CONFIRM_SWAP = 'CONFIRM_SWAP',
@@ -34,6 +49,7 @@ export enum DexSwapSteps {
 export type DexStateType = {
   chains: RemoteDataType<string, DexChain[]>
   currentChain: RemoteDataType<string, DexChain>
+  currentSideType: DexSwapSide
   isTokenAllowed: RemoteDataType<string, boolean>
   isTokenAllowedAfterPolling: RemoteDataType<string, boolean>
   isUserEligible: RemoteDataType<string, boolean>
@@ -44,12 +60,7 @@ export type DexStateType = {
   tokens: DexToken[]
 }
 
-export type DexSwapSide = 'BASE' | 'COUNTER'
 export type DexScenes = 'ERROR' | 'LOADING' | 'NOT_ELIGIBLE' | 'ONBOARDING' | 'SWAP'
-export enum DexSwapSideFields {
-  BASE = 'baseToken',
-  COUNTER = 'counterToken'
-}
 
 export type QuoteError = {
   message: string

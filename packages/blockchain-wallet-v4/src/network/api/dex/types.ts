@@ -32,11 +32,11 @@ type DexAmountCommon = {
   address: string
   amount: number
   chainId: number
+  minAmount?: number
   symbol: CoinType
 }
 
 export type DexBuyAmount = DexAmountCommon & {
-  minAmount: number
   type: 'BUY'
 }
 

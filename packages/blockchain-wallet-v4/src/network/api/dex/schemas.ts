@@ -50,7 +50,7 @@ const DexBuyAmountSchema: z.ZodSchema<DexBuyAmount, z.ZodTypeDef, unknown> = z
     address: z.string(),
     amount: stringToPositiveFloat,
     chainId: z.number(),
-    minAmount: stringToPositiveFloat,
+    minAmount: stringToPositiveFloat.optional(),
     symbol: z.string()
   })
   .transform((data) => ({ type: 'BUY', ...data }))
@@ -60,6 +60,7 @@ const DexSellAmountSchema: z.ZodSchema<DexSellAmount, z.ZodTypeDef, unknown> = z
     address: z.string(),
     amount: stringToPositiveFloat,
     chainId: z.number(),
+    minAmount: stringToPositiveFloat.optional(),
     symbol: z.string()
   })
   .transform((data) => ({ type: 'SELL', ...data }))

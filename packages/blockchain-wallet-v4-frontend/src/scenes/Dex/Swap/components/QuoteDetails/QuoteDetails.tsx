@@ -52,7 +52,9 @@ export const QuoteDetails = ({
               <Text color={SemanticColors.title} variant='paragraph2'>
                 {Exchange.convertCoinToCoin({
                   coin: props.swapQuote.quote.buyAmount.symbol,
-                  value: props.swapQuote.quote.buyAmount.minAmount
+                  value:
+                    props.swapQuote.quote.buyAmount?.minAmount ||
+                    props.swapQuote.quote.buyAmount.amount
                 })}{' '}
                 {props.swapQuote.quote.buyAmount.symbol}
               </Text>
@@ -70,7 +72,9 @@ export const QuoteDetails = ({
                   coin: props.swapQuote.quote.buyAmount.symbol,
                   value: Exchange.convertCoinToCoin({
                     coin: props.swapQuote.quote.buyAmount.symbol,
-                    value: props.swapQuote.quote.buyAmount.minAmount
+                    value:
+                      props.swapQuote.quote.buyAmount?.minAmount ||
+                      props.swapQuote.quote.buyAmount.amount
                   })
                 })}
               </FiatDisplay>
