@@ -1,7 +1,4 @@
 export const DEX_SWAP_FORM = 'dexSwap'
-export const DEX_ENTER_DETAILS_STEP = 'ENTER_DETAILS'
-export const DEX_CONFIRM_SWAP_STEP = 'CONFIRM_SWAP'
-export const DEX_COMPLETE_SWAP_STEP = 'COMPLETE_SWAP'
 
 export const ETHERSCAN_TOKEN_URL = 'https://etherscan.io/token'
 export const ETHERSCAN_TX_URL = 'https://etherscan.io/tx'

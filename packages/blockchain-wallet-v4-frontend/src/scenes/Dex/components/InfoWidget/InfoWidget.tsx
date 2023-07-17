@@ -1,13 +1,20 @@
 import React from 'react'
-import { Flex, Padding, PaletteColors, SemanticColors, Text } from '@blockchain-com/constellation'
+import { Padding, PaletteColors, SemanticColors, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Image } from 'blockchain-info-components'
 
 const Description = styled(Text)`
-  max-width: 327px;
+  max-width: 400px;
   padding-bottom: 1rem;
   color: ${PaletteColors['grey-700']};
+`
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
 `
 
 type SlideData = {
@@ -19,16 +26,16 @@ type SlideData = {
 
 export const InfoWidget = ({ description, image, imageWidth = '100%', title }: SlideData) => {
   return (
-    <Flex flexDirection='column' alignItems='center'>
+    <Container>
       <Image name={image} width={imageWidth} />
       <Padding top={2} bottom={1}>
-        <Text variant='title2' textAlign='center' color={SemanticColors.title}>
+        <Text variant='title3' textAlign='center' color={SemanticColors.title}>
           {title}
         </Text>
       </Padding>
       <Description variant='body1' textAlign='center' color={PaletteColors['grey-700']}>
         {description}
       </Description>
-    </Flex>
+    </Container>
   )
 }
