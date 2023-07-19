@@ -22,12 +22,7 @@ addEventListener('message', ({ data }) => {
         assets[coin.symbol] = { coinfig: coin }
       })
 
-      // TODO: remove this once backend adds flags
-      assets.XLM.coinfig.type.isMemoBased = true
-
-      // TODO: remove once backend returns this
-      assets.STX.coinfig.products.push('DynamicSelfCustody')
-      assets.STX.coinfig.type.isMemoBased = true
+      assets.MATIC.type.logoPngUrl = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png"
 
       // switch up the erc20 addresses to support testnet (for opensea testing)
       if (openSeaApi && openSeaApi.includes('testnets')) {
