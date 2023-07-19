@@ -22,7 +22,7 @@ addEventListener('message', ({ data }) => {
         assets[coin.symbol] = { coinfig: coin }
       })
 
-      assets.MATIC.type.logoPngUrl = "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/polygon/info/logo.png"
+      assets.MATIC.coinfig.type.logoPngUrl = assets["MATIC.MATIC"].coinfig.type.logoPngUrl
 
       // switch up the erc20 addresses to support testnet (for opensea testing)
       if (openSeaApi && openSeaApi.includes('testnets')) {
