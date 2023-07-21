@@ -858,7 +858,7 @@ const Bank = ({ bankDetails, icon, isActive, isDisabled = false, onClick, text }
     data-e2e={`sb${bankDetails?.bankAccountType?.toLowerCase()}Banks`}
     role='button'
     onClick={!isDisabled ? onClick : undefined}
-    isDisabled
+    isDisabled={isDisabled}
   >
     <DisplayIcon>{icon}</DisplayIcon>
     <MultiRowContainer>
