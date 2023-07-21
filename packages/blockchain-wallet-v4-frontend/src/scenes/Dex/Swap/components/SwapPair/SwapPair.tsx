@@ -24,7 +24,6 @@ import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './
 import { getZeroFiatAmountPreview } from './utils'
 
 const BASE = 'BASE'
-const COUNTER = 'COUNTER'
 const NATIVE_TOKEN = 'ETH'
 
 type Props = {
@@ -34,27 +33,17 @@ type Props = {
   (
     | {
         handleMaxClicked?: undefined
-        hasTriggerAnalytics?: undefined
         isQuoteLocked: true
-        setHasTriggerAnalytics?: undefined
       }
     | {
         animate: boolean
         handleMaxClicked?: () => void
-        hasTriggerAnalytics?: boolean
         isQuoteLocked: false
         onTokenSelect: (swapSide: DexSwapSide) => void
-        setHasTriggerAnalytics?: (status: boolean) => void
       }
   )
 
-export const SwapPair = ({
-  hasTriggerAnalytics,
-  setHasTriggerAnalytics,
-  swapSide,
-  walletCurrency,
-  ...props
-}: Props) => {
+export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
   const dispatch = useDispatch()
   // TODO: Make type safe mapping between inputs name and form data properties
   const amountInputField = `${DexSwapSideFields[swapSide]}Amount`
@@ -67,8 +56,7 @@ export const SwapPair = ({
 
   // product only want to record this event once on first input
   useEffect(() => {
-    if (!hasTriggerAnalytics && isAmountEntered && swapSide === BASE && setHasTriggerAnalytics) {
-      setHasTriggerAnalytics(true)
+    if (isAmountEntered) {
       dispatch(
         actions.analytics.trackEvent({
           key: Analytics.DEX_SWAP_AMOUNT_ENTERED,
@@ -79,7 +67,7 @@ export const SwapPair = ({
         })
       )
     }
-  }, [hasTriggerAnalytics, isAmountEntered, setHasTriggerAnalytics])
+  }, [isAmountEntered])
 
   const openTokenSelector = () => !props.isQuoteLocked && props.onTokenSelect(swapSide)
 
