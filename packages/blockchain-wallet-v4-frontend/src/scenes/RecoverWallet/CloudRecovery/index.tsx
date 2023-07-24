@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { RemoteDataType } from '@core/types'
 import { Image, Link, Text } from 'blockchain-info-components'
-import TextInputWithClipboard from 'components/Form/TextInputWithClipboard'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
 import { RecoverSteps } from 'data/types'

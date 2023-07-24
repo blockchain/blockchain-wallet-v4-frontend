@@ -20,6 +20,7 @@ import { transferEthReducer } from './modules/transferEth/reducers'
 import { networkConfigReducer as networkConfig } from './networkConfig/slice'
 import { preferencesReducer } from './preferences/reducers'
 import { pricesReducer as prices } from './prices/slice'
+import { remoteConfigReducer as remoteConfig } from './remoteConfig'
 import { sessionReducer as session } from './session/slice'
 import { signupReducer as signup } from './signup/slice'
 
@@ -40,14 +41,15 @@ const rootReducer = {
   prices,
   profile,
   rates,
+  remoteConfig,
   securityCenter,
   session,
   signup,
-  transferEth: transferEthReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,
   [paths.settingsPath]: coreReducers.settings,
   [paths.kvStorePath]: coreReducers.kvStore,
+  transferEth: transferEthReducer,
   walletOptions: coreReducers.walletOptionsReducer
 }
 

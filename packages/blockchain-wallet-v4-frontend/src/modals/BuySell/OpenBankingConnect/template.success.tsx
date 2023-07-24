@@ -33,7 +33,7 @@ const Success = (props: Props) => {
   useEffect(() => {
     const { id } = props.order
     if (id) {
-      props.buySellActions.pollOrder(id)
+      props.buySellActions.pollOrder({ orderId: id })
     }
   }, [props.order])
 

@@ -8,12 +8,10 @@ export const getChains = (state: RootState) => state.components.dex.chains
 
 export const getCurrentChain = (state: RootState) => state.components.dex.currentChain
 
-export const getCurrentChainTokens = (state: RootState) => state.components.dex.currentChainTokens
-export const getCurrentChainTokensMeta = (state: RootState) =>
-  state.components.dex.currentChainTokensMeta
+export const getTokens = (state: RootState) => state.components.dex.tokens
 
-export const getChainTokenInfo = (state: RootState, coinSymbol: CoinType) =>
-  getCurrentChainTokens(state).map((tokenList) => tokenList.find((x) => x.symbol === coinSymbol))
+export const getTokenInfo = (state: RootState, coinSymbol: CoinType) =>
+  getTokens(state).find(({ symbol }) => symbol === coinSymbol)
 
 export const getSwapQuote = (state: RootState) => state.components.dex.swapQuote
 
@@ -24,3 +22,13 @@ export const getDexCoinBalanceToDisplay =
       : null
     return balance ? balance.getOrElse(0) : 0
   }
+
+export const getTokenAllowanceStatus = (state: RootState) => state.components.dex.isTokenAllowed
+export const getTokenAllowanceTx = (state: RootState) => state.components.dex.tokenAllowanceTx
+export const getTokenAllowanceGasEstimate = (state: RootState) =>
+  state.components.dex.tokenAllowanceGasEstimate
+
+export const getTokenAllowanceStatusAfterPolling = (state: RootState) =>
+  state.components.dex.isTokenAllowedAfterPolling
+
+export const getSwapQuoteTx = (state: RootState) => state.components.dex.swapQuoteTx

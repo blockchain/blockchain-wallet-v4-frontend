@@ -9,6 +9,7 @@ import Form from 'components/Form/Form'
 import { actions, selectors } from 'data'
 import {
   AlertsState,
+  Analytics,
   ProductAuthOptions,
   RecoverFormType,
   RecoverSteps,
@@ -47,8 +48,56 @@ const RecoverWalletContainer = (props: Props) => {
 
   const { step } = props.formValues || RecoverSteps.RECOVERY_OPTIONS
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const { analyticsActions, formValues, language, signupActions } = props
+    if (step === RecoverSteps.FORGOT_PASSWORD_EMAIL) {
+      signupActions.triggerRecoverEmail(formValues?.recoveryEmail)
+      setStep(RecoverSteps.CHECK_INBOX)
+      analyticsActions.trackEvent({
+        key: Analytics.ACCOUNT_RECOVERY_EMAIL_SENT,
+        properties: {}
+      })
+      return
+    }
+    if (step === RecoverSteps.RECOVERY_PHRASE) {
+      return signupActions.restore({
+        email: formValues.email,
+        language,
+        mnemonic: formValues.mnemonic,
+        password: formValues.recoverPassword
+      })
+    }
+    if (step === RecoverSteps.TWO_FA_CONFIRMATION) {
+      return signupActions.verifyTwoFaForRecovery({
+        code: formValues?.twoFACode,
+        email: formValues.recoveryEmail
+      })
+    }
+    if (step === RecoverSteps.NEW_PASSWORD) {
+      analyticsActions.trackEvent({
+        key: Analytics.RECOVER_FUNDS_CLICKED,
+        properties: {}
+      })
+      if (props.accountRecoveryV2Flag) {
+        signupActions.resetAccountV2({
+          email: formValues?.recoveryEmail,
+          language,
+          password: formValues.resetAccountPassword
+        })
+      } else {
+        // legacy account recovery for FF
+        signupActions.resetAccount({
+          email: props.cachedEmail,
+          language,
+          password: formValues.resetAccountPassword
+        })
+      }
+    }
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       {(() => {
         switch (step) {
           case RecoverSteps.FORGOT_PASSWORD_EMAIL:

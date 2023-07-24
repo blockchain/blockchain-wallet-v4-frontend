@@ -115,7 +115,8 @@ export const getData = (state: RootState) => {
     userData.kycState === KYC_STATES.PENDING ||
     userData.kycState === KYC_STATES.UNDER_REVIEW ||
     userData.kycState === KYC_STATES.VERIFIED
-  const sddEligibleTier = selectors.components.buySell.getUserSddEligibleTier(state).getOrElse(1)
+
+  const isKycRejected = userData.kycState === KYC_STATES.REJECTED
 
   if (isKycPendingOrVerified) {
     isVerifiedId = true
@@ -148,8 +149,6 @@ export const getData = (state: RootState) => {
   const coinRename = selectors.core.walletOptions.getCoinRename(state).getOrElse('')
   const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
   const showRenameBanner = showBanner(!!coinRename, coinRenameAnnouncement, announcementState)
-
-  const isTier3SDD = sddEligibleTier === 3
 
   // servicePriceUnavailable
   const isServicePriceUnavailable = selectors.core.data.coins.getIsServicePriceDown(state)
@@ -187,7 +186,7 @@ export const getData = (state: RootState) => {
 
   // buy crypto
   const buyCryptoAnnouncement = getBuyCryptoAnnouncement()
-  const buyCryptoBannerCondition = userData?.tiers?.current < 2 || isKycStateNone
+  const buyCryptoBannerCondition = userData?.tiers?.current !== 2 || isKycStateNone
   const showBuyCryptoBanner = showBanner(
     buyCryptoBannerCondition,
     buyCryptoAnnouncement,
@@ -241,7 +240,7 @@ export const getData = (state: RootState) => {
   )
 
   // active rewards
-  const getActiveRewardsAnnouncement = getStakingAnnouncement()
+  const activeRewardsAnnouncement = getActiveRewardsAnnouncement()
   const activeRewardsEligible = selectors.components.interest
     .getActiveRewardsEligible(state)
     .getOrElse({})
@@ -254,7 +253,7 @@ export const getData = (state: RootState) => {
 
   const showActiveRewardsBanner = showBanner(
     isActiveRewardsPromoBannerFeatureFlagEnabled && isUserActiveRewardsEligible,
-    getActiveRewardsAnnouncement,
+    activeRewardsAnnouncement,
     announcementState
   )
 
@@ -273,7 +272,7 @@ export const getData = (state: RootState) => {
 
   // KYC finish banner
   const kycFinishAnnouncement = getKYCFinishAnnouncement()
-  const showFinishKYC = isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD
+  const showFinishKYC = isKycStateNone && isUserActive && !isFirstLogin
   const showKYCFinishBanner = showBanner(showFinishKYC, kycFinishAnnouncement, announcementState)
 
   const stakingEligibleR = selectors.components.interest.getStakingEligible(state)
@@ -282,38 +281,42 @@ export const getData = (state: RootState) => {
 
   let bannerToShow: BannerType = null
 
+  const isKycEnabled = products?.kycVerification?.enabled
+
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
   } else if (
     showCompleteYourProfileBanner &&
     !isProfileCompleted &&
     userData?.tiers?.current !== TIER_TYPES.GOLD &&
-    isUserDataLoaded
+    isUserDataLoaded &&
+    isKycEnabled &&
+    !isKycRejected
   ) {
     bannerToShow = 'completeYourProfile'
-  } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
+  } else if (showDocResubmitBanner && !isKycPendingOrVerified && isKycEnabled) {
     bannerToShow = 'resubmit'
-  } else if (showActiveRewardsBanner) {
+  } else if (showActiveRewardsBanner && isKycEnabled) {
     bannerToShow = 'activeRewards'
-  } else if (showStakingBanner) {
+  } else if (showStakingBanner && isKycEnabled) {
     bannerToShow = 'staking'
-  } else if (showAppleAndGooglePayBanner) {
+  } else if (showAppleAndGooglePayBanner && isKycEnabled) {
     bannerToShow = 'appleAndGooglePay'
-  } else if (showServicePriceUnavailableBanner) {
+  } else if (showServicePriceUnavailableBanner && isKycEnabled) {
     bannerToShow = 'servicePriceUnavailable'
-  } else if (showKYCFinishBanner) {
+  } else if (showKYCFinishBanner && isKycEnabled) {
     bannerToShow = 'finishKyc'
-  } else if (showBuyCryptoBanner) {
+  } else if (showBuyCryptoBanner && isKycEnabled) {
     bannerToShow = 'buyCrypto'
-  } else if (showContinueToGoldBanner) {
+  } else if (showContinueToGoldBanner && isKycEnabled) {
     bannerToShow = 'continueToGold'
   } else if (isNewCurrency) {
-    bannerToShow = 'newCurrency'
+    bannerToShow = 'newCurrency' // Show even KYC is disabled
   } else if (showRenameBanner) {
-    bannerToShow = 'coinRename'
-  } else if (showEarnRewardsBanner) {
+    bannerToShow = 'coinRename' // Show even KYC is disabled
+  } else if (showEarnRewardsBanner && isKycEnabled) {
     bannerToShow = 'earnRewards'
-  } else if (showRecurringBuyBanner) {
+  } else if (showRecurringBuyBanner && isKycEnabled) {
     bannerToShow = 'recurringBuys'
   } else {
     bannerToShow = null

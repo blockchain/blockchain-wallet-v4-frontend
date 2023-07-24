@@ -30,29 +30,42 @@ export type AgentType = AgentSimple & {
   bankName: string
   country: string
   holderDocument: string
+  intermediaryAddress: string
+  intermediaryName: string
+  intermediarySwiftCode: string
   label: string
   recipientAddress: string
   routingNumber: string
   swiftCode: string
 }
 
-export type BSAccountType =
-  | (IBSAccountType & {
-      agent: AgentType
-      currency: 'USD'
-    })
-  | (IBSAccountType & {
-      agent: AgentSimple
-      currency: 'EUR'
-    })
-  | (IBSAccountType & {
-      agent: AgentSimple
-      currency: 'GBP'
-    })
-  | (IBSAccountType & {
-      agent: AgentType
-      currency: 'ARS'
-    })
+export type BSAccountContent = {
+  footers: Array<{
+    actions?: Array<{
+      title: string
+      url: string
+    }>
+    icon?: string
+    id: string
+    isImportant?: boolean
+    message: string
+    title: string
+  }>
+  sections: Array<{
+    entries: Array<{
+      id: string
+      message: string
+      title: string
+    }>
+    name: string
+  }>
+}
+
+export type BSAccountType = IBSAccountType & {
+  agent: AgentType
+  content: BSAccountContent
+  currency: 'USD' | 'EUR' | 'GBP' | 'ARS'
+}
 
 export type BSBalanceType = {
   available: string
@@ -143,6 +156,8 @@ export enum CardFundSourceType {
   PREPAID = 'PREPAID'
 }
 
+type Capabilities = 'DEPOSIT' | 'WITHDRAWAL' | 'BROKERAGE'
+
 export type BSPaymentMethodType = {
   addedAt?: string
   address?: null | NabuAddressType
@@ -150,6 +165,7 @@ export type BSPaymentMethodType = {
     requiresRefresh?: true
   }
   block?: boolean
+  capabilities?: Capabilities[]
   card?: BSCard
   cardFundSources?: CardFundSourceType[]
   currency: FiatType
@@ -310,7 +326,10 @@ export type BSOrderProperties = {
   outputQuantity: string
   paymentError?: ORDER_ERROR_CODE
   paymentMethodId?: string
-  paymentType?: BSPaymentMethodType['type']
+  paymentType: Exclude<
+    BSPaymentMethodType['type'],
+    BSPaymentTypes.USER_CARD | BSPaymentTypes.BANK_ACCOUNT
+  >
   period?: RecurringBuyPeriods
   price?: string
   recurringBuyId?: string
@@ -552,4 +571,16 @@ export type CardSuccessRateResponse = {
     message: string
     title: string
   }
+}
+
+export type BuyOrderInputDto = {
+  action: BSOrderActionType
+  input: BSMoneyType
+  output: BSMoneyType
+  pair: BSPairsType
+  paymentMethodId?: BSCardType['id']
+  paymentType: BSPaymentMethodType['type']
+  pending: boolean
+  period?: RecurringBuyPeriods
+  quoteId?: string
 }

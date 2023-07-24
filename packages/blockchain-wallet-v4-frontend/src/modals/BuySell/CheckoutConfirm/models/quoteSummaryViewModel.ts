@@ -98,12 +98,14 @@ const makeIsTermsConsentRequired = (paymentMethod: BSPaymentTypes) =>
   [BSPaymentTypes.PAYMENT_CARD, BSPaymentTypes.USER_CARD].includes(paymentMethod)
 
 export const make = (quoteState: BuyQuoteStateType, coins: Coins) => {
-  const { amount, pair, paymentMethod, paymentMethodId, quote, refreshConfig } = quoteState
+  const { amount, pairObject, paymentMethod, paymentMethodId, quote, refreshConfig } = quoteState
+  const { pair } = pairObject
 
   return {
     cryptoDisplaySymbol: makeCryptoDisplaySymbol({ coins, pair }),
     depositTerms: getDepositTerms(quote),
     feeText: makeFeeText({ pair, quote }),
+    fiatAmountBase: amount,
     fiatCode: getFiatFromPair(pair),
     fiatMinusExplicitFeeText: makeFiatMinusExplicitFeeText({
       amountBase: amount,
@@ -117,6 +119,7 @@ export const make = (quoteState: BuyQuoteStateType, coins: Coins) => {
     }),
     paymentMethod,
     paymentMethodId,
+    quoteState,
     refreshConfig,
     totalCryptoText: makeTotalCryptoText({
       coins,

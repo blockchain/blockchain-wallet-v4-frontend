@@ -1,11 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { MobilePaymentType } from '@core/types'
+import { MobilePaymentType, RefreshConfig } from '@core/types'
 import { Button, HeartbeatLoader } from 'blockchain-info-components'
-import { RefreshConfig } from 'data/types'
-
-import { useCountDown } from '../hooks/useCountDown'
+import { useCountDown } from 'hooks'
 
 export type Props = {
   isAcceptedTerms: boolean

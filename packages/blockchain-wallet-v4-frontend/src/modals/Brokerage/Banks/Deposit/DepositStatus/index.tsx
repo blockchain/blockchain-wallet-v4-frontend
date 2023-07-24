@@ -21,7 +21,6 @@ const DepositStatus = (props: Props) => {
       props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
       props.buySellActions.fetchFiatEligible(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
-      props.buySellActions.fetchSDDEligibility()
     }
   }, [])
 

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
 
-import { Props as _P, SuccessStateType } from '.'
+import { SuccessStateType } from '.'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;
@@ -16,57 +15,20 @@ const Iframe = styled.iframe`
   margin-top: 16px;
 `
 
-const Success = ({ buySellActions, domains, order }: Props) => {
-  const [isError, setError] = useState(false)
+const Success = ({ clientSecret, domains, publishableApiKey }: Props) => (
+  <CustomFlyoutWrapper>
+    <Iframe
+      allow='payment *; publickey-credentials-get *'
+      sandbox='allow-forms allow-scripts allow-same-origin'
+      src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${publishableApiKey}/${clientSecret}`}
+    />
+  </CustomFlyoutWrapper>
+)
 
-  const handlePostMessage = async ({
-    data
-  }: {
-    data: { provider: 'STRIPE'; status: 'ERROR' | 'SUCCESS' }
-  }) => {
-    if (data.provider !== 'STRIPE') return
-
-    if (data.status === 'ERROR') {
-      setError(true)
-    }
-
-    if (data.status === 'SUCCESS') {
-      await buySellActions.pollOrder(order.id)
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('message', handlePostMessage, false)
-
-    return () => window.removeEventListener('message', handlePostMessage, false)
-  })
-
-  const handleRefresh = () => {
-    buySellActions.destroyCheckout()
-  }
-
-  if (
-    !order.attributes?.cardProvider?.publishableApiKey ||
-    !order.attributes?.cardProvider?.clientSecret
-  ) {
-    return <DataError onClick={handleRefresh} />
-  }
-
-  if (isError) {
-    return <DataError onClick={handleRefresh} />
-  }
-
-  return (
-    <CustomFlyoutWrapper>
-      <Iframe
-        allow='payment *; publickey-credentials-get *'
-        sandbox='allow-forms allow-scripts allow-same-origin'
-        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order.attributes.cardProvider.publishableApiKey}/${order.attributes.cardProvider.clientSecret}`}
-      />
-    </CustomFlyoutWrapper>
-  )
+export type Props = SuccessStateType & {
+  clientSecret: string
+  handleBack: () => void
+  publishableApiKey: string
 }
-
-export type Props = Omit<_P, 'data'> & SuccessStateType
 
 export default Success

@@ -13,7 +13,9 @@ import { RootState } from 'data/rootReducer'
 
 import { EarnInstrumentsType, EarnProductsType } from './types'
 
-export const getPassiveRewardsAccountBalance = (state: RootState) =>
+export const getPassiveRewardsAccountBalance = (
+  state: RootState
+): RemoteDataType<string, EarnAccountBalanceResponseType> =>
   state.components.interest.passiveRewardsAccountBalance
 export const getActiveRewardsAccountBalance = (state: RootState) =>
   state.components.interest.activeRewardsAccountBalance
@@ -303,6 +305,9 @@ export const getTotalActiveRewardsBondingDeposits = (state: RootState) =>
 
 export const getTotalStakingBondingDeposits = (state: RootState) =>
   state.components.interest.totalStakingBondingDeposits
+
+export const getStakingWithdrawals = (state: RootState) =>
+  state.components.interest.stakingWithdrawals
 
 export const getEarnDepositLimits = (state: RootState) =>
   state.components.interest.earnDepositLimits

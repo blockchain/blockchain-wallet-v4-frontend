@@ -8,14 +8,12 @@ export const getTransaction = (state: RootState) => state.components.sendCrypto.
 
 export const getPrebuildTx = (state: RootState) => state.components.sendCrypto.prebuildTx
 
-export const getWithdrawalFees = (state: RootState, coin: string) =>
-  state.components.sendCrypto.withdrawalFeesAndMins.map(
-    (x) => x.fees.find(({ symbol }) => symbol === coin)?.value
-  )
+export const getCustodialWithdrawalFee = (state: RootState) =>
+  state.components.sendCrypto.custodialWithdrawalFee
 
-export const getWithdrawalMin = (state: RootState, coin: string) =>
-  state.components.sendCrypto.withdrawalFeesAndMins.map(
-    (x) => x.minAmounts.find(({ symbol }) => symbol === coin)?.value
-  )
+export const getMaxCustodialWithdrawalFee = (state: RootState) =>
+  state.components.sendCrypto.maxCustodialWithdrawalFee
+
+export const getWithdrawalMin = (state: RootState) => state.components.sendCrypto.withdrawalMin
 
 export const getSendLimits = (state: RootState) => state.components.sendCrypto.sendLimits

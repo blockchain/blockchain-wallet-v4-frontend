@@ -70,7 +70,6 @@ const FirstStep = (props) => {
   } = props
   const isPayPro = !!payPro
   const isFromCustody = from && from.type === 'CUSTODIAL'
-  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -203,10 +202,11 @@ const FirstStep = (props) => {
       <FormGroup inline margin={isPayPro ? '10px' : '30px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage
-              id='modals.sendBch.firststep.networkfee'
-              defaultMessage='Network Fee'
-            />
+            {isFromCustody ? (
+              <FormattedMessage id='copy.processing-fee' defaultMessage='Processing Fee:' />
+            ) : (
+              <FormattedMessage id='copy.network-fee' defaultMessage='Network Fee:' />
+            )}
           </FormLabel>
           <ComboDisplay size='13px' coin='BCH' weight={500}>
             {totalFee}
@@ -233,7 +233,7 @@ const FirstStep = (props) => {
           nature='primary'
           height='56px'
           size='18px'
-          disabled={submitting || invalid || disableCustodySend || (!isPayPro && pristine)}
+          disabled={submitting || invalid || (!isPayPro && pristine)}
           data-e2e='bchSendContinue'
         >
           <FormattedMessage id='buttons.continue' defaultMessage='Continue' />

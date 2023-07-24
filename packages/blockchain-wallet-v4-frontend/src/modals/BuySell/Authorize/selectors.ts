@@ -5,9 +5,9 @@ import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
-  const orderR = selectors.components.buySell.getBSOrder(state)
+  const quoteR = selectors.components.buySell.getBuyQuote(state)
 
-  return lift((order: ExtractSuccess<typeof orderR>) => ({
-    order
-  }))(orderR)
+  return lift((quote: ExtractSuccess<typeof quoteR>) => ({
+    quote
+  }))(quoteR)
 }

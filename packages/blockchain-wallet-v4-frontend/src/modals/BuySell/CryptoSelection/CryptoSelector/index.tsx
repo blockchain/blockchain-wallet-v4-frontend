@@ -15,7 +15,7 @@ import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
 import SellState from './SellState'
 
-const { FORM_BS_CHECKOUT, FORM_BS_CRYPTO_SELECTION } = model.components.buySell
+const { FORM_BS_CRYPTO_SELECTION } = model.components.buySell
 
 const Wrapper = styled.div`
   display: flex;
@@ -101,30 +101,10 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
   }
 
   handleBuy = (pair: BSPairType) => {
-    const currentTier = this.props.userData?.tiers?.current ?? 0
-
     this.props.analyticsActions.trackEvent({
       key: Analytics.BUY_ASSET_SELECTED,
       properties: {}
     })
-
-    // if first time user, send to verify email step which is required future SDD check
-    if (!this.props.emailVerified && currentTier !== 2 && currentTier !== 1) {
-      return this.props.buySellActions.setStep({
-        cryptoCurrency: getCoinFromPair(pair.pair),
-        fiatCurrency: getFiatFromPair(pair.pair),
-        orderType: this.state.orderType,
-        pair,
-        step: 'VERIFY_EMAIL'
-      })
-    }
-
-    // if SDD user has already placed on order, force them to Gold upgrade
-    if (currentTier === 3 && this.props.sbOrders?.length > 0) {
-      return this.props.buySellActions.setStep({
-        step: 'UPGRADE_TO_GOLD'
-      })
-    }
 
     // in case of not directly supported fiat currency lend user to select trading currency from list
     const { preferredFiatTradingCurrency } = this.props.userData.currencies
@@ -152,18 +132,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
       properties: {}
     })
 
-    this.props.buySellActions.setStep({
-      cryptoCurrency: getCoinFromPair(pair.pair),
-      fiatCurrency: this.props.walletCurrency,
-      orderType: this.state.orderType,
-      pair,
-      step: 'SELL_ENTER_AMOUNT',
-      swapAccount
-    })
-    // reset form values so order doesn't hold values
-    // if user changes wallet/coin
-
-    this.props.formActions.change(FORM_BS_CHECKOUT, 'amount', '')
+    this.props.buySellActions.proceedToSellEnterAmount({ account: swapAccount, pair })
   }
 
   trackScreenViewed = () => {
@@ -177,7 +146,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
   }
 
   render() {
-    const showWelcome = this.props.isFirstLogin && !this.props.sddTransactionFinished
+    const showWelcome = this.props.isFirstLogin
 
     return (
       <Wrapper>

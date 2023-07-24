@@ -1,10 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import { RefreshConfig } from '@core/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { RefreshConfig } from 'data/types'
-
-import { useCountDown } from '../hooks/useCountDown'
+import { useCountDown } from 'hooks'
 
 export type Props = {
   isSubmitting: boolean

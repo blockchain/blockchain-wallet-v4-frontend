@@ -19,6 +19,7 @@ import { FORM } from './model'
 import * as S from './selectors'
 
 const coin = 'XLM'
+const SEND_XLM_FORM = '@SEND.XLM.FORM'
 export const logLocation = 'components/sendXlm/sagas'
 export const INITIAL_MEMO_TYPE = 'text'
 
@@ -107,10 +108,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const destroyed = function* () {
+    yield put(A.clearSendXlmMaxCustodialWithdrawalFee())
     yield put(actions.form.destroy(FORM))
   }
 
   const formChanged = function* (action) {
+    const formValues = yield select(selectors.form.getFormValues(SEND_XLM_FORM))
+    const maxWithdrawalFee = (yield select(S.getMaxCustodialWithdrawalFee)).getOrElse('')
+    const fiatCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
+    const fromAccount = formValues?.from
+    const amount = formValues?.amount?.coin || '0'
     try {
       const form = path(['meta', 'form'], action)
       if (!equals(FORM, form)) return
@@ -119,20 +126,54 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let payment: XlmPaymentType = (yield select(S.getPayment)).getOrElse({})
       payment = yield call(coreSagas.payment.xlm.create, { payment })
 
+      const setWithdrawalFee = function* () {
+        const withdrawalAmount = Exchange.convertCoinToCoin({
+          baseToStandard: false,
+          coin: 'XLM',
+          value: amount
+        })
+
+        const response: ReturnType<typeof api.getCustodialToNonCustodialWithdrawalFees> =
+          yield call(api.getCustodialToNonCustodialWithdrawalFees, {
+            amount: withdrawalAmount,
+            currency: 'XLM',
+            fiatCurrency,
+            paymentMethod: 'CRYPTO_TRANSFER'
+          })
+
+        const fee = response.totalFees.amount.value
+        if (fromAccount?.type === 'CUSTODIAL') {
+          payment = yield call(setFrom, payment, fromAccount, fromAccount.type, fee)
+          payment = yield payment.fee(fee)
+        }
+        yield put(A.paymentUpdatedSuccess(payment.value()))
+      }
+
+      const setMaxWithdrawalFee = function* () {
+        const response: ReturnType<typeof api.getMaxCustodialWithdrawalFee> = yield call(
+          api.getMaxCustodialWithdrawalFee,
+          {
+            currency: 'XLM',
+            fiatCurrency,
+            paymentMethod: 'CRYPTO_TRANSFER'
+          }
+        )
+        const fee = response.totalFees.amount.value
+        if (fromAccount && fromAccount.type === 'CUSTODIAL') {
+          payment = yield call(setFrom, payment, fromAccount, fromAccount.type, fee)
+          payment = yield payment.fee(fee)
+        }
+        yield put(A.paymentUpdatedSuccess(payment.value()))
+        yield put(A.sendXlmFetchMaxCustodialWithdrawalFeeSuccess(response.totalFees.amount.value))
+      }
       switch (field) {
         case 'from':
           const source = prop('address', payload) || payload
           const fromType = prop('type', payload)
           if (fromType === 'CUSTODIAL') {
-            const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
-              api.getWithdrawalFees,
-              'simplebuy',
-              'DEFAULT'
+            yield call(
+              amount === '0' && maxWithdrawalFee === '' ? setMaxWithdrawalFee : setWithdrawalFee
             )
-            const fee = response.fees.find(({ symbol }) => symbol === coin)?.minorValue || '0'
-            payment = yield call(setFrom, payment, payload, fromType, fee)
-            payment = yield payment.fee(fee)
-            yield put(A.paymentUpdatedSuccess(payment.value()))
             yield put(change(FORM, 'to', null))
           } else {
             payment = yield call(setFrom, payment, source, fromType)
@@ -188,9 +229,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const xlmAmount = prop('coin', payload)
           const stroopAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
-            coin,
+            coin: 'XLM',
             value: xlmAmount
           })
+          if (fromAccount?.type === 'CUSTODIAL') {
+            yield call(
+              new BigNumber(stroopAmount).isGreaterThan(new BigNumber(fromAccount?.withdrawable))
+                ? setMaxWithdrawalFee
+                : setWithdrawalFee
+            )
+          }
           payment = yield call(payment.amount, stroopAmount)
           break
         case 'description':
@@ -311,7 +359,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (!value.to) throw new Error('missing_to_from_custodial')
         if (!value.amount) throw new Error('missing_amount_from_custodial')
         const address = value.memo ? `${value.to.address}:${value.memo}` : value.to.address
-        api.withdrawBSFunds(address, coin, value.amount)
+        if (!value.fee) throw new Error('missing_fee_from_custodial')
+        yield call(api.withdrawBSFunds, address, coin, value.amount, value.fee)
       } else {
         payment = yield call(payment.publish)
       }

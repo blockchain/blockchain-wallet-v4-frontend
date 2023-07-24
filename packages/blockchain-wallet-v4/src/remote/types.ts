@@ -24,10 +24,7 @@ const cata = function <E, A, R>(
   }
 }
 
-const getOrElse = function <A, DV>(
-  this: RemoteDataType<any, A>,
-  defaultValue: DV extends A ? DV : A
-): DV | A {
+const getOrElse = function <A, DV>(this: RemoteDataType<any, A>, defaultValue: DV): DV | A {
   return this.data || defaultValue
 }
 
@@ -42,7 +39,7 @@ const getOrFail = function <A, EV>(this: RemoteDataType<any, A>, errorValue: EV)
 const map = function <E, A, T>(
   this: RemoteDataType<E, A>,
   f: (x: A) => T
-): RemoteSuccess<ReturnType<typeof f>> {
+): RemoteDataType<E, ReturnType<typeof f>> {
   return Remote.Success(f(this.data))
 }
 

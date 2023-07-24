@@ -10,6 +10,7 @@ import dex from './dex'
 import earn from './earn'
 import eth from './eth'
 import experiments from './experiments'
+import { makeFirebaseApp } from './firebase'
 import httpService from './http'
 import kvStore from './kvStore'
 import kyc from './kyc'
@@ -19,6 +20,7 @@ import nfts from './nfts'
 import profile from './profile'
 import rates from './rates'
 import referral from './referral'
+import { makeRemoteConfigApi } from './remoteConfig'
 import send from './send'
 import settings from './settings'
 import swap from './swap'
@@ -37,6 +39,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     root: rootUrl
   } = options.domains
   const nabuUrl = `${apiUrl}/nabu-gateway`
+  const firebaseApp = makeFirebaseApp()
 
   return {
     ...bch({ apiUrl, ...http }),
@@ -62,6 +65,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       apiUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      nabuUrl,
       ...http
     }),
     ...earn({
@@ -114,6 +118,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     ...swap({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       nabuUrl,
       ...http
     }),
@@ -124,7 +129,8 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       nabuUrl
     }),
     ...wallet({ rootUrl, ...http }),
-    ...xlm({ apiUrl, horizonUrl, ...http })
+    ...xlm({ apiUrl, horizonUrl, ...http }),
+    ...makeRemoteConfigApi(firebaseApp)
   }
 }
 
@@ -149,4 +155,5 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof swap> &
   ReturnType<typeof taxCenter> &
   ReturnType<typeof wallet> &
-  ReturnType<typeof xlm>
+  ReturnType<typeof xlm> &
+  ReturnType<typeof makeRemoteConfigApi>

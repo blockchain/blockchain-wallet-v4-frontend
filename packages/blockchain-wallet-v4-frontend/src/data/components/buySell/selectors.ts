@@ -1,6 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/SellEnterAmount/Checkout/validation'
-import memoize from 'fast-memoize'
 import { head, isEmpty, isNil, lift } from 'ramda'
 import { createSelector } from 'reselect'
 
@@ -17,9 +15,7 @@ import { getFormValues } from 'data/form/selectors'
 import { components } from 'data/model'
 import { RootState } from 'data/rootReducer'
 
-import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
-import { getInputFromPair, getOutputFromPair } from '../swap/model'
-import { getRate } from '../swap/utils'
+import { IncomingAmount } from '../swap/types'
 import { LIMIT } from './model'
 import { BSCardStateEnum, BSCheckoutFormValuesType } from './types'
 
@@ -117,7 +113,6 @@ export const getDefaultPaymentMethod = createSelector(
       const method = head(methodsOfType)
 
       switch (lastOrder.paymentType) {
-        case BSPaymentTypes.USER_CARD:
         case BSPaymentTypes.PAYMENT_CARD:
           if (!method) return
           let card = cards.find(
@@ -152,16 +147,16 @@ export const getDefaultPaymentMethod = createSelector(
           if (!method) return
           const bankAccount = bankAccounts.find((acct) => acct.id === lastOrder.paymentMethodId)
           if (bankAccount && bankAccount.state === 'ACTIVE') {
+            // TODO BE is inconsistent in such if they fix it we can update it here
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { capabilities, ...bankAccountRest } = bankAccount
             return {
               ...method,
-              ...bankAccount,
+              ...bankAccountRest,
               state: 'ACTIVE',
               type: lastOrder.paymentType as BSPaymentTypes
             }
           }
-          return undefined
-        case BSPaymentTypes.BANK_ACCOUNT:
-        case undefined:
           return undefined
         default:
           break
@@ -226,24 +221,9 @@ export const getVgsAddCardInfo = createSelector(
 
 export const getBuyQuote = (state: RootState) => state.components.buySell.buyQuote
 
-const makeGetBuyQuoteMemoizedByOrder = memoize(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (_: ReturnType<typeof getBSOrder>, state: RootState) => {
-    return getBuyQuote(state)
-  },
-  {
-    serializer: (args) => JSON.stringify(args[0]) // Use only first argument as memoization key
-  }
-)
-
-/**
- * @returns Up to date quote only if order was also updated. Otherwise, previous cached quote.
- */
-export const getBuyQuoteMemoizedByOrder = (state: RootState) => {
-  return makeGetBuyQuoteMemoizedByOrder(getBSOrder(state), state)
-}
-
 export const getSellQuote = (state: RootState) => state.components.buySell.sellQuote
+
+export const getSellQuotePrice = (state: RootState) => state.components.buySell.sellQuotePrice
 
 export const getSellOrder = (state: RootState) => state.components.buySell.sellOrder
 
@@ -256,50 +236,18 @@ export const getSwapAccount = (state: RootState) => state.components.buySell.swa
 export const getOriginalFiatCurrency = (state: RootState) =>
   state.components.buySell.originalFiatCurrency
 
-// Sell specific (for now!)
-// used for sell only now, eventually buy as well
-// TODO: use swap2 quote for buy AND sell
 export const getPayment = (state: RootState) => state.components.buySell.payment
 
 export const getIncomingAmount = (state: RootState) => {
-  const quoteR = getSellQuote(state)
-  const values = (getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType) || {
-    amount: '0',
-    fix: 'CRYPTO'
-  }
-
-  return lift(({ quote, rate }: ExtractSuccess<typeof quoteR>) => {
-    const fromCoin = getInputFromPair(quote.pair)
-    const toCoin = getOutputFromPair(quote.pair)
-    const amount =
-      values.fix === 'CRYPTO'
-        ? values.amount
-        : getQuote(quote.pair, rate, values.fix, values.amount)
-    const amtMinor = convertStandardToBase(fromCoin, amount)
-    const exRate = new BigNumber(getRate(quote.quote.priceTiers, toCoin, new BigNumber(amtMinor)))
-    const feeMajor = convertBaseToStandard(toCoin, quote.networkFee)
-
-    const amt = exRate.times(amount).minus(feeMajor)
-    const isNegative = amt.isLessThanOrEqualTo(0)
+  return getSellQuote(state).map((quote): IncomingAmount => {
+    const amt = quote.quote.resultAmount
+    const isNegative = new BigNumber(amt).isLessThanOrEqualTo(0)
 
     return {
       amt: isNegative ? 0 : amt,
       isNegative
     }
-  })(quoteR)
-}
-
-export const getSddEligible = (state: RootState) => state.components.buySell.sddEligible
-
-export const isUserSddEligible = (state: RootState) => {
-  const sddEligibleR = getSddEligible(state)
-  return lift((sddEligible: ExtractSuccess<typeof sddEligibleR>) => !sddEligible.eligible)(
-    sddEligibleR
-  )
-}
-export const getUserSddEligibleTier = (state: RootState) => {
-  const sddEligibleR = getSddEligible(state)
-  return lift((sddEligible: ExtractSuccess<typeof sddEligibleR>) => sddEligible.tier)(sddEligibleR)
+  })
 }
 
 export const getMethodByType = (state: RootState, type: BSPaymentTypes) => {
@@ -318,19 +266,7 @@ export const getUserLimit = (state: RootState, type: BSPaymentTypes) => {
   })(sbMethodsR)
 }
 
-export const getSddVerified = (state: RootState) => state.components.buySell.sddVerified
-
-export const isUserSddVerified = (state: RootState) => {
-  const sddVerifiedR = getSddVerified(state)
-  return lift(
-    (sddVerified: ExtractSuccess<typeof sddVerifiedR>) =>
-      sddVerified.taskComplete && sddVerified.verified
-  )(sddVerifiedR)
-}
 export const getLimits = (state: RootState) => state.components.buySell.limits
-
-export const getSddTransactionFinished = (state: RootState) =>
-  state.components.buySell.sddTransactionFinished
 
 export const getCheckoutAccountCodes = (state: RootState) =>
   state.components.buySell.checkoutDotComAccountCodes
@@ -340,3 +276,6 @@ export const getCheckoutApiKey = (state: RootState) => state.components.buySell.
 export const getAccumulatedTrades = (state: RootState) => state.components.buySell.accumulatedTrades
 
 export const getCardSuccessRate = (state: RootState) => state.components.buySell.cardSuccessRate
+
+export const getBsCheckoutFormValues = (state: RootState) =>
+  getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType

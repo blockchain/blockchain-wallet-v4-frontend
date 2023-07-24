@@ -57,18 +57,19 @@ export const getData = (
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
     includeInterest?: boolean
+    showCustodialFirst?: boolean
   }
 ) => {
   const {
     exclude = [],
     excludeHDWallets,
     excludeImported,
+    forceCustodialFirst,
     includeActiveRewards,
     includeAll = true,
     includeCustodial,
     includeExchangeAddress,
-    includeInterest,
-    forceCustodialFirst
+    includeInterest
   } = ownProps
 
   const buildDisplay = (wallet) => {
@@ -157,11 +158,13 @@ export const getData = (
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
         : Remote.of([]),
-      selectors.core.common.btc
-        .getActiveAccountsBalances(state)
-        .map(excluded)
-        .map(toDropdown)
-        .map(toGroup('Wallet')),
+      excludeHDWallets
+        ? Remote.of([])
+        : selectors.core.common.btc
+            .getActiveAccountsBalances(state)
+            .map(excluded)
+            .map(toDropdown)
+            .map(toGroup('Wallet')),
       showCustodial || showCustodialWithAddress
         ? selectors.components.buySell
             .getBSBalances(state)

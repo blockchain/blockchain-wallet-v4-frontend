@@ -22,10 +22,7 @@ export const getOrigin = (props: Props, bankAccounts: Array<BankTransferAccountT
     case BSPaymentTypes.FUNDS:
       return `${props.order.inputCurrency} Account`
     case BSPaymentTypes.PAYMENT_CARD:
-    case BSPaymentTypes.USER_CARD:
       return 'Credit/Debit Card'
-    case BSPaymentTypes.BANK_ACCOUNT:
-      return 'Bank Transfer'
     case BSPaymentTypes.LINK_BANK:
     case BSPaymentTypes.BANK_TRANSFER:
       const bankAccount = bankAccounts.find((acct) => acct.id === props.order.paymentMethodId)

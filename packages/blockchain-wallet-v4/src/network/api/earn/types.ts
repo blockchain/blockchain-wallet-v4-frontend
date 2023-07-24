@@ -2,7 +2,7 @@ import { CoinType, FiatType, NabuMoneyFloatType, WalletFiatType } from '@core/ty
 
 export type EarnApiProductType = 'staking' | 'savings' | 'EARN_CC1W'
 
-type CapProductType = 'STAKING' | 'SAVINGS' | 'EARN_CC1W'
+export type CapProductType = 'STAKING' | 'SAVINGS' | 'EARN_CC1W'
 
 export type EarnAccountBalanceType = {
   ccy?: CoinType
@@ -12,6 +12,7 @@ export type EarnAccountBalanceType = {
 
 export type EarnBalanceType = {
   balance: string
+  bondingDeposits: string
   earningBalance: string
   fiatAmount: string | null
   locked: string
@@ -20,6 +21,7 @@ export type EarnBalanceType = {
   pendingWithdrawal: string
   totalInterest: string
   totalRewards: string
+  unbondingWithdrawals: string
 }
 
 export type EarnAccountBalanceResponseType = {
@@ -41,9 +43,22 @@ export type EarnBondingDepositsType = {
   product: string
   userId: string
 }
+
+export type EarnUnbondingWithdrawalsType = {
+  amount: string
+  currency: CoinType
+  insertedAt: string
+  paymentRef: string
+  product: string
+  unbondingDays: number
+  unbondingExpiryDate: string
+  unbondingStartDate: string
+  userId: string
+}
+
 export type EarnBondingDepositsResponseType = {
   bondingDeposits: Array<EarnBondingDepositsType>
-  unbondingWithdrawals: Array<null>
+  unbondingWithdrawals: Array<EarnUnbondingWithdrawalsType>
 } | null
 
 // If user is eligible it will send {coin: eligibleType} otherwise it will send EligibleType only
@@ -220,7 +235,7 @@ export type StakingLimitType = {
   bondingDays: number
   disabledWithdrawals: boolean
   minDepositValue: string
-  unbondingDays?: number
+  unbondingDays: number
 }
 
 export type ActiveRewardsLimitType = {

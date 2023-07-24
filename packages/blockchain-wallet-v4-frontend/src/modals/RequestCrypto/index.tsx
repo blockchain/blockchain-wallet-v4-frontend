@@ -6,7 +6,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import { CoinType, FiatType, WalletCurrencyType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
-import { ModalName } from 'data/types'
+import { ModalName, SwapAccountType } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -106,7 +106,9 @@ const mapStateToProps = (state, ownProps): LinkStatePropsType => {
     initialValues: {
       coinSearch,
       currencyDisplay,
-      step: RequestSteps.COIN_SELECT
+      selectedAccount: ownProps?.account,
+      step:
+        ownProps?.account && ownProps?.coin ? RequestSteps.SHOW_ADDRESS : RequestSteps.COIN_SELECT
     },
     requestableCoins: getData(),
     walletCurrency: currencyDisplay
@@ -123,12 +125,13 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type State = {
   show: boolean
 }
-type OwnProps = ModalPropsType & { coin?: CoinType }
+type OwnProps = ModalPropsType & { account?: SwapAccountType; coin?: CoinType }
 type LinkStatePropsType = {
   formValues: RequestFormType
   initialValues: {
     coinSearch?: string
     currencyDisplay: WalletCurrencyType
+    selectedAccount: SwapAccountType
     step: RequestSteps
   }
   requestableCoins: Array<string>

@@ -1,36 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Flex } from '@blockchain-com/constellation'
+import { Flex, SemanticColors, Text } from '@blockchain-com/constellation'
 import BigNumber from 'bignumber.js'
 
 import { Exchange } from '@core'
-import type { DexSwapQuote } from '@core/network/api/dex'
+import { Image, SkeletonRectangle, TooltipHost } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
-import {
-  EditSlippageText,
-  LoadingBox,
-  QuoteWrapper,
-  RowDetails,
-  RowTitle,
-  ValueSubText,
-  ValueText
-} from './styles'
-
-type Props = {
-  handleSettingsClick: () => void
-  isDetailsOpen: boolean
-  slippage: number
-  walletCurrency: string
-} & (
-  | {
-      isQuoteLoading: true
-    }
-  | {
-      isQuoteLoading: false
-      swapQuote: DexSwapQuote
-    }
-)
+import { EditSlippageText, QuoteWrapper, RowDetails, RowTitle, ValueText } from './styles'
+import { QuoteDetailsProps } from './types'
 
 // TODO: ETH is hardcoded in some spots, should be from current chain data
 // TODO: hardcoded for only single-leg swaps
@@ -40,94 +18,62 @@ export const QuoteDetails = ({
   slippage,
   walletCurrency,
   ...props
-}: Props) => {
+}: QuoteDetailsProps) => {
   return (
     <QuoteWrapper animate={isDetailsOpen}>
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.allowed_slippage' defaultMessage='Allowed Slippage' />
+          <TooltipHost id='tooltip.dex.slippage'>
+            <Image name='circle-question' size='14px' />
+          </TooltipHost>
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           <ValueText>{slippage * 100}%</ValueText>
-          <EditSlippageText onClick={handleSettingsClick}>
-            <FormattedMessage id='buttons.edit' defaultMessage='Edit' />
-          </EditSlippageText>
-        </Flex>
-      </RowDetails>
-      <RowDetails>
-        <RowTitle>
-          <FormattedMessage id='copy.minimum_received' defaultMessage='Minimum Received' />
-        </RowTitle>
-        <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
-          {props.isQuoteLoading ? (
-            <LoadingBox bgColor='white' />
-          ) : (
-            <>
-              <ValueText>
-                <FiatDisplay
-                  coin={props.swapQuote.quote.buyAmount.symbol}
-                  currency={walletCurrency}
-                  color='textBlack'
-                  lineHeight='150%'
-                  loadingHeight='14px'
-                  size='14px'
-                  weight={600}
-                >
-                  {Exchange.convertCoinToCoin({
-                    baseToStandard: false,
-                    coin: props.swapQuote.quote.buyAmount.symbol,
-                    value: Exchange.convertCoinToCoin({
-                      coin: props.swapQuote.quote.buyAmount.symbol,
-                      value: props.swapQuote.quote.buyAmount.minAmount
-                    })
-                  })}
-                </FiatDisplay>
-              </ValueText>
-              <ValueSubText>
-                {Exchange.convertCoinToCoin({
-                  coin: props.swapQuote.quote.buyAmount.symbol,
-                  value: props.swapQuote.quote.buyAmount.minAmount
-                })}{' '}
-                {props.swapQuote.quote.buyAmount.symbol}
-              </ValueSubText>
-            </>
+          {handleSettingsClick && (
+            <EditSlippageText onClick={handleSettingsClick}>
+              <FormattedMessage id='buttons.edit' defaultMessage='Edit' />
+            </EditSlippageText>
           )}
         </Flex>
       </RowDetails>
       <RowDetails>
         <RowTitle>
-          <FormattedMessage id='copy.send_amount' defaultMessage='Send Amount' />
+          <FormattedMessage id='copy.minimum_amount' defaultMessage='Minimum Amount' />
+          <TooltipHost id='tooltip.dex.minimum_amount'>
+            <Image name='circle-question' size='14px' />
+          </TooltipHost>
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
-            <LoadingBox bgColor='white' />
+            <SkeletonRectangle bgColor='white' height='39px' width='75px' />
           ) : (
             <>
+              <Text color={SemanticColors.title} variant='paragraph2'>
+                {Exchange.convertCoinToCoin({
+                  coin: props.swapQuote.quote.buyAmount.symbol,
+                  value: props.swapQuote.quote.buyAmount.minAmount
+                })}{' '}
+                {props.swapQuote.quote.buyAmount.symbol}
+              </Text>
               <FiatDisplay
-                coin={props.swapQuote.quote.sellAmount.symbol}
+                coin={props.swapQuote.quote.buyAmount.symbol}
                 currency={walletCurrency}
-                color='textBlack'
+                color='grey700'
                 lineHeight='150%'
                 loadingHeight='14px'
-                size='14px'
-                weight={600}
+                size='12px'
+                weight={500}
               >
                 {Exchange.convertCoinToCoin({
                   baseToStandard: false,
-                  coin: props.swapQuote.quote.sellAmount.symbol,
+                  coin: props.swapQuote.quote.buyAmount.symbol,
                   value: Exchange.convertCoinToCoin({
-                    coin: props.swapQuote.quote.sellAmount.symbol,
-                    value: props.swapQuote.quote.sellAmount.amount
+                    coin: props.swapQuote.quote.buyAmount.symbol,
+                    value: props.swapQuote.quote.buyAmount.minAmount
                   })
                 })}
               </FiatDisplay>
-              <ValueSubText>
-                {Exchange.convertCoinToCoin({
-                  coin: props.swapQuote.quote.sellAmount.symbol,
-                  value: props.swapQuote.quote.sellAmount.amount
-                })}{' '}
-                {props.swapQuote.quote.sellAmount.symbol}
-              </ValueSubText>
             </>
           )}
         </Flex>
@@ -135,32 +81,41 @@ export const QuoteDetails = ({
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
+          <TooltipHost id='tooltip.dex.network_fee'>
+            <Image name='circle-question' size='14px' />
+          </TooltipHost>
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
-            <LoadingBox bgColor='white' />
+            <SkeletonRectangle bgColor='white' height='39px' width='75px' />
           ) : (
             <>
-              <FiatDisplay
-                coin={props.swapQuote.quote.sellAmount.symbol}
-                currency={walletCurrency}
-                color='textBlack'
-                lineHeight='150%'
-                loadingHeight='14px'
-                size='14px'
-                weight={600}
-              >
-                {new BigNumber(props.swapQuote.transaction.gasPrice)
-                  .multipliedBy(props.swapQuote.transaction.gasLimit)
-                  .toString()}
-              </FiatDisplay>
-              <ValueSubText>
+              <Text color={SemanticColors.title} variant='paragraph2'>
+                ~
                 {Exchange.convertCoinToCoin({
                   coin: 'ETH',
-                  value: props.swapQuote.transaction.gasPrice * props.swapQuote.transaction.gasLimit
+                  value:
+                    Number(props.swapQuote.transaction.gasPrice) *
+                    Number(props.swapQuote.transaction.gasLimit)
                 })}
                 {' ETH'}
-              </ValueSubText>
+              </Text>
+              <Flex>
+                ~
+                <FiatDisplay
+                  coin='ETH'
+                  currency={walletCurrency}
+                  color='grey700'
+                  lineHeight='150%'
+                  loadingHeight='14px'
+                  size='12px'
+                  weight={500}
+                >
+                  {new BigNumber(props.swapQuote.transaction.gasPrice)
+                    .multipliedBy(props.swapQuote.transaction.gasLimit)
+                    .toString()}
+                </FiatDisplay>
+              </Flex>
             </>
           )}
         </Flex>
@@ -168,37 +123,44 @@ export const QuoteDetails = ({
       <RowDetails>
         <RowTitle>
           <FormattedMessage id='copy.blockchain_fee' defaultMessage='Blockchain.com Fee' />
+          <TooltipHost id='tooltip.dex.blockchain_fee'>
+            <Image name='circle-question' size='14px' />
+          </TooltipHost>
         </RowTitle>
         <Flex flexDirection='column' alignItems='flex-end' justifyContent='space-between'>
           {props.isQuoteLoading ? (
-            <LoadingBox bgColor='white' />
+            <SkeletonRectangle bgColor='white' height='39px' width='75px' />
           ) : (
             <>
-              <FiatDisplay
-                coin={props.swapQuote.quote.sellAmount.symbol}
-                currency={walletCurrency}
-                color='textBlack'
-                lineHeight='150%'
-                loadingHeight='14px'
-                size='14px'
-                weight={600}
-              >
+              <Text color={SemanticColors.title} variant='paragraph2'>
+                ~
                 {Exchange.convertCoinToCoin({
-                  baseToStandard: false,
-                  coin: props.swapQuote.quote.sellAmount.symbol,
-                  value: Exchange.convertCoinToCoin({
-                    coin: props.swapQuote.quote.sellAmount.symbol,
-                    value: (props.swapQuote.quote.sellAmount.amount / 100) * 0.9
-                  })
-                })}
-              </FiatDisplay>
-              <ValueSubText>
-                {Exchange.convertCoinToCoin({
-                  coin: props.swapQuote.quote.sellAmount.symbol,
-                  value: (props.swapQuote.quote.sellAmount.amount / 100) * 0.9
+                  coin: props.swapQuote.quote.buyAmount.symbol,
+                  value: (props.swapQuote.quote.buyAmount.amount / 100) * 0.9
                 })}{' '}
-                {props.swapQuote.quote.sellAmount.symbol}
-              </ValueSubText>
+                {props.swapQuote.quote.buyAmount.symbol}
+              </Text>
+              <Flex>
+                ~
+                <FiatDisplay
+                  coin={props.swapQuote.quote.buyAmount.symbol}
+                  currency={walletCurrency}
+                  color='grey700'
+                  lineHeight='150%'
+                  loadingHeight='14px'
+                  size='12px'
+                  weight={500}
+                >
+                  {Exchange.convertCoinToCoin({
+                    baseToStandard: false,
+                    coin: props.swapQuote.quote.buyAmount.symbol,
+                    value: Exchange.convertCoinToCoin({
+                      coin: props.swapQuote.quote.buyAmount.symbol,
+                      value: (props.swapQuote.quote.buyAmount.amount / 100) * 0.9
+                    })
+                  })}
+                </FiatDisplay>
+              </Flex>
             </>
           )}
         </Flex>

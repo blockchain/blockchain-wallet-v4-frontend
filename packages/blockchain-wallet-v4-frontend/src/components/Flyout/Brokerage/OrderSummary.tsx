@@ -142,7 +142,7 @@ const OrderSummary: React.FC<Props> = ({
         <div style={{ padding: '0 77px', textAlign: 'center' }}>
           <IconWrapper>
             <div style={{ height: 64, width: 64 }}>
-              <Icon name={outputCurrency} size='64px' />
+              <Icon name={outputCurrency} size='64px' style={{ position: 'absolute' }} />
             </div>
 
             {orderState === 'FINISHED' ? (

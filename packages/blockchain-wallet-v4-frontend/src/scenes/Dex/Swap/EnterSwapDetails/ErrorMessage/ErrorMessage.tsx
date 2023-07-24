@@ -1,14 +1,23 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Padding, SemanticColors, Text } from '@blockchain-com/constellation'
+import { Flex, Padding, SemanticColors, Text } from '@blockchain-com/constellation'
 
-export const ErrorMessage = () => (
+import { ErrorMessageProps } from './types'
+
+export const ErrorMessage = ({ coin, error, isInsufficientBalance }: ErrorMessageProps) => (
   <Padding vertical={1}>
-    <Text variant='paragraph1' color={SemanticColors.error}>
-      <FormattedMessage
-        id='dex.quote_failure'
-        defaultMessage='Failed to obtain quote. Please refresh and try again.'
-      />
-    </Text>
+    <Flex justifyContent='center'>
+      <Text color={SemanticColors.warning} textAlign='center' variant='paragraph1'>
+        {isInsufficientBalance ? (
+          <FormattedMessage
+            defaultMessage='Not enough {coin} to cover swap.'
+            id='scene.dex.enter_swap_details.error.message'
+            values={{ coin }}
+          />
+        ) : (
+          error
+        )}
+      </Text>
+    </Flex>
   </Padding>
 )

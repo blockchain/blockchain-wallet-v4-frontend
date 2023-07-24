@@ -26,7 +26,6 @@ const initialState: IdentityVerificationState = {
   smsStep: Remote.Loading,
   states: Remote.NotAsked,
   steps: Remote.NotAsked,
-  stopFlowAfterLimitedAccessAchieved: false,
   supportedCountries: Remote.NotAsked,
   supportedDocuments: Remote.NotAsked,
   userAddresses: Remote.NotAsked,
@@ -116,10 +115,7 @@ const identityVerificationSlice = createSlice({
     },
     saveKYCExtraQuestions: () => {},
     saveUserInfoData: (state) => {},
-    saveUserResidentialData: (
-      state,
-      action: PayloadAction<{ checkSddEligibility?: boolean; onCompletionCallback?: () => void }>
-    ) => {},
+    saveUserResidentialData: () => {},
     sendDeepLink: () => {},
     sendEmailVerification: (state, action: PayloadAction<{ email: string }>) => {},
     setAllContextQuestionsAnswered: () => {},
@@ -164,9 +160,6 @@ const identityVerificationSlice = createSlice({
     },
     setStepsSuccess: (state, action: PayloadAction<Array<StepsType>>) => {
       state.steps = Remote.Success(action.payload)
-    },
-    setStopFlowAfterLimitedAccessAchieved: (state, action: PayloadAction<boolean>) => {
-      state.stopFlowAfterLimitedAccessAchieved = action.payload
     },
 
     setSupportedCountriesFailure: (state, action: PayloadAction<string>) => {

@@ -118,9 +118,6 @@ export const getShowTermsAndConditions = (state: RootState) =>
 export const getCoinViewV2 = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'coinViewV2']))
 
-export const getIsCreditCardOptimizationEnabled = (state: RootState) =>
-  getWebOptions(state).map(path<boolean>(['featureFlags', 'isCreditCardOptimizationEnabled']))
-
 // SSO creating exchange users under the hood
 // for all wallet logins and signup
 export const getCreateExchangeUserOnSignupOrLogin = (state: RootState) =>
@@ -198,6 +195,10 @@ export const getActiveRewardsEnabled = (state: RootState) =>
 export const getActiveRewardsWithdrawalEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isActiveRewardsWithdrawalEnabled']))
 
+// show staking withdrawal
+export const getStakingWithdrawalEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isStakingWithdrawalEnabled']))
+
 // show earn available assets checkbox
 export const getShowEarnAvailableAssets = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showEarnAvailableAssetsCheckbox']))
@@ -205,3 +206,11 @@ export const getShowEarnAvailableAssets = (state: RootState) =>
 // show prove flow
 export const getShowProveFlow = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showProveFlow']))
+
+// which deposit address to use for swap
+export const getUseAgentHotWalletAddress = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useAgentHotWalletAddress']))
+
+// which deposit address to use for non custodial sell
+export const getUseAgentHotWalletAddressForSell = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useAgentHotWalletAddressForSell']))

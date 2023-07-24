@@ -27,7 +27,6 @@ import { isNabuError } from 'services/errors'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
-import SuccessSdd from './template.sdd.success'
 
 const { getSymbol } = Exchange
 const { FORM_BS_CHECKOUT } = model.components.buySell
@@ -92,7 +91,6 @@ class OrderSummaryContainer extends PureComponent<Props> {
       NotAsked: () => <Loading />,
       Success: (val) => {
         const { interestEligible, interestRates, order } = val
-        const { state } = order
         const currencySymbol = getSymbol(getCounterCurrency(order))
         const [recurringBuy] = val.recurringBuyList.filter((rb) => {
           return rb.id === order.recurringBuyId
@@ -150,6 +148,17 @@ class OrderSummaryContainer extends PureComponent<Props> {
           }
         }
 
+        if (
+          order.state === 'PENDING_CONFIRMATION' &&
+          order.attributes?.cardCassy?.paymentState !== 'SETTLED' &&
+          order.attributes?.needCvv
+        ) {
+          // In case that it's in PENDING_CONFIRMATION state we need to and need tp update CVV we have t show modal
+          this.props.buySellActions.setStep({
+            step: 'UPDATE_SECURITY_CODE'
+          })
+        }
+
         const handleCompleteButton = () => {
           if (
             order.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' ||
@@ -179,15 +188,13 @@ class OrderSummaryContainer extends PureComponent<Props> {
           }
         }
 
-        return state === 'FAILED' || state === 'CANCELED' || !order.paymentType ? (
+        return order.state === 'FAILED' || order.state === 'CANCELED' || !order.paymentType ? (
           <BaseError
             code='INTERNAL_SERVER_ERROR'
             handleRetry={this.handleErrorAction}
             handleReset={this.handleErrorAction}
             handleBack={this.handleErrorAction}
           />
-        ) : val.userData?.tiers?.current !== 2 ? (
-          <SuccessSdd {...val} {...this.props} />
         ) : (
           <OrderSummary
             analyticsActions={this.props.analyticsActions}
@@ -203,7 +210,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
             interestEligible={interestEligible}
             interestRates={interestRates}
             lockTime={val.lockTime}
-            orderState={state}
+            orderState={order.state}
             orderType={getOrderType(order) as OrderType}
             outputCurrency={order.outputCurrency}
             paymentState={order.attributes?.everypay?.paymentState || null}

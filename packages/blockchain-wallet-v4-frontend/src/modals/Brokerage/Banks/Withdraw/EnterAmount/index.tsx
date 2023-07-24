@@ -61,10 +61,12 @@ const EnterAmountContainer = (props: Props) => {
       outputCurrency: props.fiatCurrency,
       toAccount
     } as CrossBorderLimitsPayload)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.fiatCurrency])
 
   const errorCallback = useCallback(() => {
     props.custodialActions.fetchCustodialBeneficiaries({ currency: props.fiatCurrency })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.fiatCurrency])
 
   const handleSubmit =

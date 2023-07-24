@@ -3,7 +3,7 @@ import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { clearSubmitErrors } from 'redux-form'
 
-import { BSOrderType, BSPaymentTypes, ProviderDetailsType, WalletOptionsType } from '@core/types'
+import { BSOrderType, ProviderDetailsType, WalletOptionsType } from '@core/types'
 import BaseError from 'components/BuySell/Error'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
@@ -28,7 +28,7 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
     setPolling(true)
 
     if (order.hasData && order.data) {
-      props.buySellActions.pollOrder(order.data.id)
+      props.buySellActions.pollOrder({ orderId: order.data.id, waitUntilSettled: true })
     } else if (card.hasData && card.data) {
       props.buySellActions.pollCard(card.data.id)
     }
@@ -36,17 +36,11 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
 
   const handleBack = useCallback(() => {
     if (order.data) {
-      props.buySellActions.createOrder({
+      return props.buySellActions.proceedToBuyConfirmation({
         mobilePaymentMethod: props.mobilePaymentMethod,
         paymentMethodId: order.data.paymentMethodId,
-        paymentType:
-          order.data.paymentType !== BSPaymentTypes.USER_CARD &&
-          order.data.paymentType !== BSPaymentTypes.BANK_ACCOUNT
-            ? order.data.paymentType
-            : undefined
+        paymentType: order.data.paymentType
       })
-
-      return
     }
 
     props.buySellActions.setStep({
@@ -118,6 +112,8 @@ const ThreeDSHandlerCheckoutDotCom = (props: Props) => {
 
   if (order.data?.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
     paymentLink = encodeURIComponent(order.data?.attributes?.cardProvider.paymentLink)
+  } else if (order.data?.attributes?.cardCassy?.cardAcquirerName === 'CHECKOUTDOTCOM') {
+    paymentLink = encodeURIComponent(order.data?.attributes?.cardCassy.paymentLink)
   } else if (providerDetails.data) {
     paymentLink = encodeURIComponent(providerDetails.data.cardProvider.paymentLink)
   } else if (!providerDetails.isLoading && !order.isLoading) {

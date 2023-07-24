@@ -10,6 +10,7 @@ import {
   BankTransferAccountType,
   DepositTerms,
   NabuProductType,
+  ProductEligibilityForUser,
   ProductEligibilityResponse,
   WithdrawLimitsResponse
 } from 'data/types'
@@ -18,8 +19,11 @@ import { BSTransactionsType } from '../buySell/types'
 import {
   BeneficiariesType,
   BeneficiaryType,
+  CustodialToNonCustodialWithdrawalFeesResponseType,
+  CustodialToNonCustodialWithdrawalFeesType,
   CustodialTransferRequestType,
   GetTransactionsHistoryType,
+  MaxCustodialWithdrawalFeeType,
   NabuCustodialProductType,
   NabuMoneyFloatType,
   PaymentDepositPendingResponseType,
@@ -117,6 +121,31 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getMaxCustodialWithdrawalFee = ({
+    currency,
+    fiatCurrency,
+    paymentMethod
+  }: MaxCustodialWithdrawalFeeType): CustodialToNonCustodialWithdrawalFeesResponseType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/withdrawals/fees?product=WALLET&max=true&currency=${currency}&fiatCurrency=${fiatCurrency}&paymentMethod=${paymentMethod}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
+  const getCustodialToNonCustodialWithdrawalFees = ({
+    amount,
+    currency,
+    fiatCurrency,
+    paymentMethod
+  }: CustodialToNonCustodialWithdrawalFeesType): CustodialToNonCustodialWithdrawalFeesResponseType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/withdrawals/fees?product=WALLET&amount=${amount}&currency=${currency}&fiatCurrency=${fiatCurrency}&paymentMethod=${paymentMethod}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
   const checkWithdrawalLocks = (
     paymentMethod: BSPaymentTypes,
     currency: WalletFiatType
@@ -199,7 +228,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const fetchProductEligibilityForUser = () =>
+  const fetchProductEligibilityForUser = (): ProductEligibilityForUser =>
     authorizedGet({
       data: {
         product: 'SIMPLEBUY'
@@ -213,9 +242,11 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     fetchProductEligibilityForUser,
     getBeneficiaries,
     getCrossBorderTransactions,
+    getCustodialToNonCustodialWithdrawalFees,
     getDepositTerms,
     getEligibilityForProduct,
     getLimitsAndFeaturesDetails,
+    getMaxCustodialWithdrawalFee,
     getTransactionsHistory,
     getWithdrawalFees,
     getWithdrawalLimits,

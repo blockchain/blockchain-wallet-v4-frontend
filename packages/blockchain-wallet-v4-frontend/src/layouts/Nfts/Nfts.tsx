@@ -72,6 +72,7 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftSearch')(state) as { search: string },
   isAuthenticated: selectors.auth.isAuthenticated(state),
   isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
+  isKycVerificationEnabled: selectors.custodial.isKycVerificationEnabled(state),
   isTestnet: selectors.components.nfts.getIsTestnet(state),
   pathname: selectors.router.getPathname(state)
 })

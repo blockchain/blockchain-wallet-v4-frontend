@@ -1,27 +1,52 @@
-import type { DexChain, DexSwapQuote, DexToken } from '@core/network/api/dex'
+import { BigNumber } from 'ethers'
+
+import type { DexChain, DexSwapQuote } from '@core/network/api/dex'
 import { CoinType, RemoteDataType } from '@core/types'
 
-type CurrentChainTokensMeta = {
-  count: number
-  status: 'LOADING_MORE' | 'LOADED' | 'NO_MORE_TOKENS'
+export type ParsedTx = {
+  chainId: string
+  data: string
+  gasLimit: string
+  gasPrice: string
+  nonce: number
+  to: string
+  value: string
+}
+
+export type SwapQuoteSuccess = {
+  tx: string
+}
+
+export type DexSwapQuoteWithDate = DexSwapQuote & {
+  date: Date
+  totalMs: number
 }
 
 // TODO: Handle errors types when the new BE driven errors will be delivered
 export type DexStateType = {
   chains: RemoteDataType<string, DexChain[]>
   currentChain: RemoteDataType<string, DexChain>
-  currentChainTokens: RemoteDataType<string, DexToken[]>
-  currentChainTokensMeta: CurrentChainTokensMeta
+  isTokenAllowed: RemoteDataType<string, boolean>
+  isTokenAllowedAfterPolling: RemoteDataType<string, boolean>
   isUserEligible: RemoteDataType<string, boolean>
-  swapQuote: RemoteDataType<string, DexSwapQuote>
+  swapQuote: RemoteDataType<QuoteError, DexSwapQuoteWithDate>
+  swapQuoteTx: RemoteDataType<string, SwapQuoteSuccess>
+  tokenAllowanceGasEstimate: string
+  tokenAllowanceTx: RemoteDataType<string, ParsedTx>
+  tokens: DexToken[]
 }
 
 export type DexSwapSide = 'BASE' | 'COUNTER'
 export type DexScenes = 'ONBOARDING' | 'SWAP' | 'NOT_ELIGIBLE' | 'ERROR' | 'LOADING'
-export type DexSwapSteps = 'CONFIRM_SWAP' | 'ENTER_DETAILS'
+export type DexSwapSteps = 'COMPLETE_SWAP' | 'CONFIRM_SWAP' | 'ENTER_DETAILS'
 export enum DexSwapSideFields {
   BASE = 'baseToken',
   COUNTER = 'counterToken'
+}
+
+export type QuoteError = {
+  message: string
+  title: string
 }
 
 export type DexSwapForm = {
@@ -32,4 +57,13 @@ export type DexSwapForm = {
   isFlipping: boolean
   slippage: number
   step: DexSwapSteps
+}
+
+export type DexToken = {
+  address: string
+  balance: BigNumber
+  fiatAmount: number
+  name: string
+  precision: number
+  symbol: CoinType
 }

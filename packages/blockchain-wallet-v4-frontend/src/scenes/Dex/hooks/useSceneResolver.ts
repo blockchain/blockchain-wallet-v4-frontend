@@ -20,7 +20,7 @@ export const useSceneResolver = (): [DexScenes, (scene: DexScenes) => void] => {
   } = useRemote(selectors.components.dex.getIsUserEligible)
 
   useEffect(() => {
-    dispatch(actions.components.dex.fetchUserEligibility())
+    dispatch(actions.components.dex.initiateDex())
   }, [])
 
   useEffect(() => {

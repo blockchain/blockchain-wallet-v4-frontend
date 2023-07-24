@@ -3,6 +3,7 @@ const { concat, prepend } = require('ramda')
 const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs')
+const webpack = require('webpack')
 // webpack plugins
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
@@ -125,6 +126,23 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   performance: { hints: false }, // TODO: enable bundle size warnings in future
   plugins: concat(
     [
+      new webpack.DefinePlugin({
+        'process.env.FIREBASE_API_KEY': JSON.stringify(
+          process.env.FIREBASE_API_KEY || envConfig.FIREBASE_API_KEY
+        ),
+        'process.env.FIREBASE_APP_ID': JSON.stringify(
+          process.env.FIREBASE_APP_ID || envConfig.FIREBASE_APP_ID
+        ),
+        'process.env.FIREBASE_MEASUREMENT_ID': JSON.stringify(
+          process.env.FIREBASE_MEASUREMENT_ID || envConfig.FIREBASE_MEASUREMENT_ID
+        ),
+        'process.env.FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(
+          process.env.FIREBASE_MESSAGING_SENDER_ID || envConfig.FIREBASE_MESSAGING_SENDER_ID
+        ),
+        'process.env.FIREBASE_PROJECT_ID': JSON.stringify(
+          process.env.FIREBASE_PROJECT_ID || envConfig.FIREBASE_PROJECT_ID
+        )
+      }),
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         template: CONFIG_PATH.src + '/index.html',
@@ -239,6 +257,8 @@ const buildDevServerConfig = (
           'connect-src',
           "'self'",
           'data:',
+          `https://firebaseinstallations.googleapis.com`,
+          `https://firebaseremoteconfig.googleapis.com`,
           envConfig.API_DOMAIN,
           envConfig.HORIZON_URL,
           envConfig.ROOT_URL,

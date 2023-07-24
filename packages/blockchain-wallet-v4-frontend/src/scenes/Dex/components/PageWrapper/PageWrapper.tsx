@@ -6,7 +6,7 @@ const FlexContainer = styled.div`
   justify-items: center;
   justify-content: center;
   width: 100%;
-  padding-top: 72px;
+  padding: 72px 0;
 `
 
 export const PageWrapper = ({ children }: { children: React.ReactNode }) => (

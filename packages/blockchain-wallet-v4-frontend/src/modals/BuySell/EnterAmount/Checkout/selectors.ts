@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { BSPaymentTypes, CrossBorderLimits, ExtractSuccess } from '@core/types'
+import { CrossBorderLimits, ExtractSuccess } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -13,9 +13,6 @@ const getData = (state: RootState) => {
   const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
-  const sddEligibleR = selectors.components.buySell.getSddEligible(state)
-  const userSDDTierR = selectors.components.buySell.getUserSddEligibleTier(state)
-  const sddLimitR = selectors.components.buySell.getUserLimit(state, BSPaymentTypes.PAYMENT_CARD)
   const cardsR = selectors.components.buySell.getBSCards(state) || []
   const bankTransferAccounts = selectors.components.brokerage
     .getBankTransferAccounts(state)
@@ -38,9 +35,6 @@ const getData = (state: RootState) => {
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
-      sddEligible: ExtractSuccess<typeof sddEligibleR>,
-      sddLimit: ExtractSuccess<typeof sddLimitR>,
-      userSDDTier: ExtractSuccess<typeof userSDDTierR>,
       products: ExtractSuccess<typeof productsR>
     ) => ({
       bankTransferAccounts,
@@ -50,17 +44,14 @@ const getData = (state: RootState) => {
       hasFiatBalance,
       hasPaymentAccount: hasFiatBalance || cards.length > 0 || bankTransferAccounts.length > 0,
       isRecurringBuy,
-      isSddFlow: sddEligible.eligible || userSDDTier === 3,
       limits: limitsR.getOrElse(undefined),
       payment: paymentR.getOrElse(undefined),
       products,
       rates,
       sbBalances,
-      sddEligible,
-      sddLimit,
       userData
     })
-  )(cardsR, ratesR, sbBalancesR, userDataR, sddEligibleR, sddLimitR, userSDDTierR, productsR)
+  )(cardsR, ratesR, sbBalancesR, userDataR, productsR)
 }
 
 export default getData

@@ -181,7 +181,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         if (values?.amount) {
           yield put(
-            actions.components.buySell.createOrder({
+            actions.components.buySell.proceedToBuyConfirmation({
               paymentMethodId: status.id,
               paymentType: BSPaymentTypes.BANK_TRANSFER
             })

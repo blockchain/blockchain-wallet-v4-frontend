@@ -7,7 +7,6 @@ import { RootState } from 'data/rootReducer'
 import { BSBillingAddressFormValuesType } from 'data/types'
 
 export const getData = (state: RootState) => {
-  const order = selectors.components.buySell.getBSOrder(state)
   const paymentMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
   const supportedCountriesR = selectors.components.identityVerification.getSupportedCountries(state)
   const userDataR = selectors.modules.profile.getUserData(state)
@@ -25,7 +24,6 @@ export const getData = (state: RootState) => {
     ) => ({
       eligibility,
       formValues,
-      order,
       paymentMethods,
       supportedCountries,
       userData

@@ -1,7 +1,7 @@
 import React, { ReactChild, useCallback, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
-import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
+import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Earn/Interest/DepositForm/model'
 import { clearSubmitErrors, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -11,7 +11,6 @@ import { BSPaymentMethodType, BSPaymentTypes, FiatType } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
-import GetMoreAccess from 'components/Flyout/Banners/GetMoreAccess'
 import TransactionsLeft from 'components/Flyout/Banners/TransactionsLeft'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { getPeriodTitleText } from 'components/Flyout/model'
@@ -35,7 +34,7 @@ import { useBlockedPayments } from './hooks'
 import Payment from './Payment'
 import { checkCrossBorderLimit, getMaxMin, maximumAmount, minimumAmount } from './validation'
 
-const { FORM_BS_CHECKOUT, LIMIT, LIMIT_FACTOR } = model.components.buySell
+const { FORM_BS_CHECKOUT } = model.components.buySell
 
 const AmountRow = styled(Row)<{ isError: boolean }>`
   position: relative;
@@ -77,22 +76,6 @@ const Amounts = styled.div`
   display: flex;
   justify-content: center;
 `
-const ErrorAmountContainer = styled.div`
-  margin: 0;
-  display: flex;
-  justify-content: center;
-`
-const ActionsRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 32px;
-  margin-top: 16px;
-`
-const ActionsItem = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
 const MaxAvailableWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -157,13 +140,28 @@ const isLimitError = (code: number | string): boolean => {
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     analyticsActions,
-    cards,
+    buySellActions,
     crossBorderLimits,
     cryptoCurrency,
     defaultMethod,
+    error,
     fiatCurrency,
+    form,
+    formErrors,
+    formValues,
+    handleSubmit,
+    identityVerificationActions,
+    isPristine,
+    isRecurringBuy,
+    limits,
     method: selectedMethod,
-    products
+    orderType,
+    pair,
+    payment,
+    products,
+    sbBalances,
+    swapAccount,
+    userData
   } = props
 
   useEffect(() => {
@@ -177,46 +175,29 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const [fontRatio, setFontRatio] = useState(1)
   const setOrderFrequency = useCallback(() => {
-    props.buySellActions.setStep({ step: 'FREQUENCY' })
-  }, [props.buySellActions])
+    buySellActions.setStep({ step: 'FREQUENCY' })
+  }, [buySellActions])
 
   const clearFormError = useCallback(() => {
-    dispatch(clearSubmitErrors(props.form))
-  }, [dispatch, props.form])
+    dispatch(clearSubmitErrors(form))
+  }, [dispatch, form])
 
   const { isPaymentMethodBlocked, paymentErrorButton, paymentErrorCard } =
     useBlockedPayments(selectedMethod)
 
   const goToCryptoSelection = useCallback(() => {
-    props.buySellActions.setStep({
-      fiatCurrency: props.fiatCurrency || 'USD',
+    buySellActions.setStep({
+      fiatCurrency: fiatCurrency || 'USD',
       step: 'CRYPTO_SELECTION'
     })
-  }, [props.fiatCurrency, props.buySellActions])
+  }, [fiatCurrency, buySellActions])
 
-  let method = selectedMethod || defaultMethod
-  if (props.isSddFlow && cards && cards.length === 1) {
-    const card = cards[0]
-
-    const defaultCardMethod = props.paymentMethods.methods.find(
-      (m) => m.type === BSPaymentTypes.PAYMENT_CARD
-    )
-    method = {
-      ...card,
-      card: card.card,
-      currency: card.currency,
-      limits:
-        defaultCardMethod && defaultCardMethod.limits
-          ? defaultCardMethod.limits
-          : { max: '10000', min: '500' },
-      type: BSPaymentTypes.USER_CARD
-    } as BSPaymentMethodType
-  }
+  const method = selectedMethod || defaultMethod
 
   const conversionCoinType = 'FIAT'
 
-  if (!props.formValues) return null
-  if (!fiatCurrency || !fiatCurrency)
+  if (!formValues) return null
+  if (!fiatCurrency)
     return (
       <FlyoutOopsError
         action='retry'
@@ -225,101 +206,85 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       />
     )
 
-  const limits = props.sddLimit || LIMIT
-  const sddLimit = { ...limits }
-
-  const isDailyLimitExceeded = props.limits?.max && Number(props.limits.max) === 0
+  const isDailyLimitExceeded = limits?.max && Number(limits.max) === 0
 
   const max = getMaxMin(
     'max',
-    props.sbBalances,
-    props.pair,
-    props.payment,
-    props.formValues,
+    sbBalances,
+    pair,
+    payment,
+    formValues,
     method,
-    props.swapAccount,
-    props.isSddFlow,
-    sddLimit,
-    props.limits
+    swapAccount,
+    limits
   ).value
   const min = getMaxMin(
     'min',
-    props.sbBalances,
-    props.pair,
-    props.payment,
-    props.formValues,
+    sbBalances,
+    pair,
+    payment,
+    formValues,
     method,
-    props.swapAccount,
-    props.isSddFlow,
-    sddLimit,
-    props.limits
+    swapAccount,
+    limits
   ).value
 
   // prevent proceed if entered amount is out of limits
-  const amountInBounds = isAmountInLimits(
-    Number(props.formValues?.amount),
-    Number(min),
-    Number(max)
-  )
+  const amountInBounds = isAmountInLimits(Number(formValues?.amount), Number(min), Number(max))
 
-  const errorMinMax = props.formValues?.amount
-    ? getAmountLimitsError(Number(props.formValues?.amount), Number(min), Number(max))
+  const errorMinMax = formValues?.amount
+    ? getAmountLimitsError(Number(formValues?.amount), Number(min), Number(max))
     : null
 
-  const amountError =
-    (typeof props.formErrors.amount === 'string' && props.formErrors.amount) || errorMinMax
+  const amountError = (typeof formErrors.amount === 'string' && formErrors.amount) || errorMinMax
 
-  const showError = !props.isPristine && amountError
+  const showError = !isPristine && amountError
 
   const handleMinMaxClick = () => {
     const prop = amountError === 'BELOW_MIN' ? 'min' : 'max'
     const maxMin = getMaxMin(
       prop,
-      props.sbBalances,
-      props.pair,
-      props.payment,
-      props.formValues,
+      sbBalances,
+      pair,
+      payment,
+      formValues,
       method,
-      props.swapAccount,
-      props.isSddFlow,
-      sddLimit,
-      props.limits
+      swapAccount,
+      limits
     ).value
     const value = convertStandardToBase(conversionCoinType, maxMin)
     if (prop === 'min') {
-      props.buySellActions.handleBuyMinAmountClick({ amount: value, coin: conversionCoinType })
+      buySellActions.handleBuyMinAmountClick({ amount: value, coin: conversionCoinType })
     }
 
     if (prop === 'max') {
-      props.buySellActions.handleBuyMaxAmountClick({ amount: value, coin: conversionCoinType })
+      buySellActions.handleBuyMaxAmountClick({ amount: value, coin: conversionCoinType })
     }
   }
 
   const handleMaxClick = () => {
     const maxMin = getMaxMin(
       'max',
-      props.sbBalances,
-      props.pair,
-      props.payment,
-      props.formValues,
+      sbBalances,
+      pair,
+      payment,
+      formValues,
       method,
-      props.swapAccount,
-      props.isSddFlow,
-      sddLimit,
-      props.limits
+      swapAccount,
+      limits
     ).value
     const value = convertStandardToBase(conversionCoinType, maxMin)
 
-    props.buySellActions.handleBuyMaxAmountClick({ amount: value, coin: conversionCoinType })
+    buySellActions.handleBuyMaxAmountClick({ amount: value, coin: conversionCoinType })
   }
 
   const handleCustomMinMaxClick = (value) => {
-    props.buySellActions.handleBuyMaxAmountClick({ amount: value, coin: conversionCoinType })
+    buySellActions.handleBuyMaxAmountClick({ amount: value, coin: conversionCoinType })
   }
 
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
     if (Number(fontSizeRatio) > 0) {
-      setFontRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
+      setFontRatio(Math.min(fontSizeRatio, 1))
     }
     const amountRowNode = inputNode.closest('#amount-row')
     const currencyNode = isFiat
@@ -327,7 +292,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       : amountRowNode.children[amountRowNode.children.length - 1]
     currencyNode.style.fontSize = `${fontSizeNumber * fontRatio}px`
   }
-  const limit = Number(props.sddLimit.max) / LIMIT_FACTOR
 
   const getValue = (value) =>
     fiatToString({
@@ -348,22 +312,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       properties: {}
     })
 
-    props.buySellActions.setStep({
-      // Always reset back to walletCurrency
-      // Otherwise FUNDS currency and Pairs currency can mismatch
-      fiatCurrency: props.fiatCurrency || 'USD',
-      step: 'CRYPTO_SELECTION'
-    })
+    buySellActions.returnToCryptoSelection()
   }
-
-  const { error } = props
 
   if (isNabuError(error)) {
     return <GenericNabuErrorFlyout error={error} onDismiss={clearFormError} />
   }
 
   return (
-    <CustomForm onSubmit={props.handleSubmit}>
+    <CustomForm onSubmit={handleSubmit}>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
         <TopText color='grey800' size='20px' weight={600}>
           <LeftTopCol>
@@ -381,7 +338,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </LeftTopCol>
         </TopText>
       </FlyoutWrapper>
-      <BaseQuote coin={props.cryptoCurrency} orderType={props.orderType} />
+      <BaseQuote coin={cryptoCurrency} orderType={orderType} />
 
       <FlyoutWrapper
         style={{
@@ -412,38 +369,22 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               // leave fiatActive always to avoid 50% width in HOC?
               fiatActive
               haveError={!!showError}
-              {...{
-                autoFocus: true,
-                hideError: true
-              }}
+              autoFocus
+              hideError
             />
           </AmountRow>
-
-          {props.isSddFlow && amountError === 'BELOW_MIN' && (
-            <ErrorAmountContainer onClick={handleMinMaxClick}>
-              <GreyBlueCartridge role='button' data-e2e='sbEnterAmountMin'>
-                <FormattedMessage
-                  id='modals.simplebuy.checkout.buy.belowmin'
-                  defaultMessage='{value} Minimum Buy'
-                  values={{
-                    value: getValue(min)
-                  }}
-                />
-              </GreyBlueCartridge>
-            </ErrorAmountContainer>
-          )}
         </LiftedActions>
         <AnchoredActions>
-          {props.isRecurringBuy && props.formValues.period && !props.isSddFlow && (
+          {isRecurringBuy && formValues.period && (
             <Scheduler
               onClick={setOrderFrequency}
-              period={props.formValues.period}
-              method={method || props.defaultMethod}
+              period={formValues.period}
+              method={method || defaultMethod}
             >
-              {getPeriodTitleText(props.formValues.period)}
+              {getPeriodTitleText(formValues.period)}
             </Scheduler>
           )}
-          {!props.isSddFlow && props.pair && (
+          {pair && (
             <Amounts>
               <MaxAvailableWrapper>
                 <CartridgeWrapper onClick={handleMinMaxClick}>
@@ -468,56 +409,21 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </MaxAvailableWrapper>
             </Amounts>
           )}
-          {props.isSddFlow && (
-            <ActionsRow>
-              <ActionsItem>
-                <Text weight={500} size='14px' color='grey600'>
-                  <FormattedMessage
-                    id='modals.simplebuy.checkout.max_card_limit'
-                    defaultMessage='Max Card Limit'
-                  />
-                </Text>
-                <div>
-                  <Text
-                    weight={600}
-                    size='16px'
-                    color='grey900'
-                  >{`${Currencies[fiatCurrency].units[fiatCurrency].symbol}${limit}`}</Text>
-                </div>
-              </ActionsItem>
-              <ActionsItem>
-                <div onClick={handleMaxClick} onKeyDown={handleMaxClick} role='button' tabIndex={0}>
-                  <Cartridge
-                    error={
-                      amountError === 'ABOVE_MAX' ||
-                      amountError === 'ABOVE_BALANCE' ||
-                      amountError === 'ABOVE_LIMIT'
-                    }
-                  >
-                    <FormattedMessage
-                      id='modals.simplebuy.checkout.maxbuy'
-                      defaultMessage='Max Buy'
-                    />
-                  </Cartridge>
-                </div>
-              </ActionsItem>
-            </ActionsRow>
-          )}
           {paymentErrorCard}
-          <Payment {...props} method={method} isSddFlow={props.isSddFlow} />
-          {props.error && (
+          <Payment {...props} method={method} />
+          {error && (
             <Banner type='warning' style={{ marginBottom: '15px' }}>
-              {isLimitError(props.error) && props.userData?.tiers?.current < 2 ? (
+              {isLimitError(error) && userData?.tiers?.current < 2 ? (
                 <div
                   onClick={() =>
-                    props.identityVerificationActions.verifyIdentity({
+                    identityVerificationActions.verifyIdentity({
                       needMoreInfo: false,
                       origin: 'BuySell',
                       tier: 2
                     })
                   }
                   onKeyDown={() =>
-                    props.identityVerificationActions.verifyIdentity({
+                    identityVerificationActions.verifyIdentity({
                       needMoreInfo: false,
                       origin: 'BuySell',
                       tier: 2
@@ -528,13 +434,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   style={{ cursor: 'pointer' }}
                 >
                   <>
-                    <ErrorCodeMappings code={props.error} />
+                    <ErrorCodeMappings code={error} />
                     <br />
                     <FormattedMessage id='copy.upgrade' defaultMessage='Upgrade to Gold' />
                   </>
                 </div>
               ) : (
-                <ErrorCodeMappings code={props.error} />
+                <ErrorCodeMappings code={error} />
               )}
             </Banner>
           )}
@@ -558,7 +464,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     id='copy.below_min'
                     defaultMessage='{amount} Minimum'
                     values={{
-                      amount: fiatToString({ unit: props.fiatCurrency, value: min })
+                      amount: fiatToString({ unit: fiatCurrency, value: min })
                     }}
                   />
                 </AlertButton>
@@ -573,7 +479,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     id='copy.not_enough_coin'
                     defaultMessage='Not Enough {coin}'
                     values={{
-                      coin: props.fiatCurrency
+                      coin: fiatCurrency
                     }}
                   />
                 </AlertButton>
@@ -583,7 +489,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     id='copy.above_max'
                     defaultMessage='{amount} Maximum'
                     values={{
-                      amount: fiatToString({ unit: props.fiatCurrency, value: max })
+                      amount: fiatToString({ unit: fiatCurrency, value: max })
                     }}
                   />
                 </AlertButton>
@@ -600,7 +506,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     id='modals.simplebuy.checkout.buy.belowmin'
                     defaultMessage='To offset fees and market volatility, the minimum amount for any buy is {amount} {currency}.'
                     values={{
-                      amount: fiatToString({ unit: props.fiatCurrency, value: min }),
+                      amount: fiatToString({ unit: fiatCurrency, value: min }),
                       currency: fiatCurrency
                     }}
                   />
@@ -611,7 +517,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     id='modals.simplebuy.checkout.buy.abovemax'
                     defaultMessage='The maximum amount of {coin} you can buy with your {currency} {amount}'
                     values={{
-                      amount: fiatToString({ unit: props.fiatCurrency, value: max }),
+                      amount: fiatToString({ unit: fiatCurrency, value: max }),
                       coin: cryptoCurrency,
                       currency: fiatCurrency
                     }}
@@ -623,7 +529,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     id='modals.simplebuy.checkout.buy.over_balance'
                     defaultMessage='Swapping from Trade Accounts cannot exceed {limit} a {period}. You have {currency}{amount} remaining.'
                     values={{
-                      amount: fiatToString({ unit: props.fiatCurrency, value: max }),
+                      amount: fiatToString({ unit: fiatCurrency, value: max }),
                       currency: fiatCurrency,
                       limit: formatFiat(
                         convertBaseToStandard('FIAT', effectiveLimit.limit.value),
@@ -639,7 +545,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     id='modals.simplebuy.checkout.buy.over_limit_full_access'
                     defaultMessage='You can buy up to {amount} per transaction. Get full access & buy larger amounts with your bank or card.'
                     values={{
-                      amount: fiatToString({ unit: props.fiatCurrency, value: max })
+                      amount: fiatToString({ unit: fiatCurrency, value: max })
                     }}
                   />
                 )}
@@ -648,7 +554,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     id='modals.simplebuy.checkout.buy.abovemax'
                     defaultMessage='The maximum amount of {coin} you can buy with your {currency} {amount}'
                     values={{
-                      amount: fiatToString({ unit: props.fiatCurrency, value: max }),
+                      amount: fiatToString({ unit: fiatCurrency, value: max }),
                       coin: cryptoCurrency,
                       currency: fiatCurrency
                     }}
@@ -687,14 +593,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           )}
         </AnchoredActions>
       </FlyoutWrapper>
-      {props.userData?.tiers?.current < 2 && // silver tier
-        (props.isSddFlow ||
-          (amountError === 'ABOVE_BALANCE' && !isFundsMethod) ||
-          amountError === 'ABOVE_LIMIT') && (
-          <FlyoutWrapper>
-            <GetMoreAccess startProcess={props.showUpgradeModal} />
-          </FlyoutWrapper>
-        )}
     </CustomForm>
   )
 }

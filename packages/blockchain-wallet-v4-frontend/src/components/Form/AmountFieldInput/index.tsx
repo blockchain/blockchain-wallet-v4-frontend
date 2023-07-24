@@ -65,7 +65,7 @@ const AmountFieldInput: React.FC<Props> = ({
 
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
     if (Number(fontSizeRatio) > 0) {
-      setRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
+      setRatio(Math.min(fontSizeRatio, 1))
     }
     const amountRowNode = inputNode.closest('#amount-row')
     const currencyNode = isFiat
@@ -110,10 +110,8 @@ const AmountFieldInput: React.FC<Props> = ({
             // leave fiatActive always to avoid 50% width in HOC?
             fiatActive
             haveError={!!amountError}
-            {...{
-              autoFocus: true,
-              hideError: true
-            }}
+            autoFocus
+            hideError
           />
 
           {fix === 'CRYPTO' && (
@@ -159,7 +157,7 @@ export type Props = {
   fiatCurrency: string
   fix: 'FIAT' | 'CRYPTO'
   name: string
-  onChange?: () => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 } & (
   | // FIAT <=> COIN TOGGLE
   {

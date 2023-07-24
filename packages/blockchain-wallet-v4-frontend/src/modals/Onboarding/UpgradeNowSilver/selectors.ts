@@ -1,3 +1,6 @@
+import { lift } from 'ramda'
+
+import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType, UserTierType } from 'data/types'
@@ -16,10 +19,13 @@ const getData = (state: RootState) => {
     tiers: { current: 0 }
   } as UserDataType)
 
-  return {
+  const productsR = selectors.custodial.getProductEligibilityForUser(state)
+
+  return lift((products: ExtractSuccess<typeof productsR>) => ({
+    products,
     userData,
     userTiers
-  }
+  }))(productsR)
 }
 
 export default getData

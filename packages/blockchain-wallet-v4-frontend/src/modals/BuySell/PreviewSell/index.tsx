@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import BigNumber from 'bignumber.js'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { clearSubmitErrors, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -8,15 +9,7 @@ import styled from 'styled-components'
 import { Exchange } from '@core'
 import { coinToString, formatFiat } from '@core/exchange/utils'
 import { BSOrderActionType, BSPairType, CoinType, PaymentValue, RatesType } from '@core/types'
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  SkeletonRectangle,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
@@ -33,9 +26,10 @@ import {
 } from 'data/types'
 import { isNabuError } from 'services/errors'
 
+import { QuoteCountDown } from '../../components/QuoteCountDown'
+import { COINS_WITH_CUSTOM_FEE, SOL_FEE, STX_FEE } from '../../constants'
 import { Border, TopText } from '../../Swap/components'
 import { ErrorCodeMappings } from '../model'
-import { QuoteCountDown } from '../QuoteCountDown'
 import Loading from '../template.loading'
 import { SellButton } from './SellButton'
 
@@ -150,7 +144,9 @@ const DisclaimerText = styled(Text)`
 `
 
 const getNetworkValue = (value: PaymentValue) =>
-  value.coin === 'BTC' || value.coin === 'BCH' ? value.selection?.fee : value.fee
+  value.coin === COINS_WITH_CUSTOM_FEE.BTC || value.coin === COINS_WITH_CUSTOM_FEE.BCH
+    ? value.selection?.fee
+    : value.fee
 
 class PreviewSell extends PureComponent<
   InjectedFormProps<{ destroyOnUnmount: boolean; form: string }, Props> & Props,
@@ -176,7 +172,7 @@ class PreviewSell extends PureComponent<
       properties: {}
     })
 
-    this.props.buySellActions.createOrder({})
+    this.props.buySellActions.createSellOrder()
   }
 
   handleOnClickBack = (BASE: string) => {
@@ -195,7 +191,18 @@ class PreviewSell extends PureComponent<
     })
   }
 
-  networkFee = (value: PaymentValue | undefined) => (value ? getNetworkValue(value) : 0)
+  networkFee = (value: PaymentValue | undefined, account: SwapAccountType | undefined) => {
+    if (account?.type === SwapBaseCounterTypes.ACCOUNT) {
+      if (account?.coin === COINS_WITH_CUSTOM_FEE.STX) {
+        return STX_FEE
+      }
+
+      if (account?.coin === COINS_WITH_CUSTOM_FEE.SOL) {
+        return SOL_FEE
+      }
+    }
+    return value ? getNetworkValue(value) : 0
+  }
 
   displayAmount = (formValues, account) => {
     return coinToString({
@@ -203,6 +210,19 @@ class PreviewSell extends PureComponent<
         symbol: account.coin
       },
       value: formValues?.cryptoAmount
+    })
+  }
+
+  displayTotalAmount = (formValues, account, payment) => {
+    return coinToString({
+      unit: {
+        symbol: account.coin
+      },
+      value: new BigNumber(formValues?.cryptoAmount).plus(
+        new BigNumber(
+          convertBaseToStandard(account.baseCoin, this.networkFee(payment, account))
+        ).toString()
+      )
     })
   }
 
@@ -217,7 +237,7 @@ class PreviewSell extends PureComponent<
             currency: COUNTER,
             isStandard: true,
             rates: isErc20 ? ratesEth : rates,
-            value: convertBaseToStandard(account.baseCoin, this.networkFee(payment))
+            value: convertBaseToStandard(account.baseCoin, this.networkFee(payment, account))
           })
         )) ||
       0
@@ -258,16 +278,14 @@ class PreviewSell extends PureComponent<
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => {
-        const { account, formValues } = this.props
+        const { account, formValues, payment } = this.props
         if (!formValues) return null
         if (!account) return null
-        const BASE = getInputFromPair(val.quote.pair)
-        const COUNTER = getOutputFromPair(val.quote.pair)
+        const BASE = getInputFromPair(this.props.pair.pair)
+        const COUNTER = getOutputFromPair(this.props.pair.pair)
         const feeInFiat = this.getFeeInFiat(account, BASE, COUNTER)
         const counterCoinTicker = COUNTER
         const baseCoinTicker = BASE
-        const { rates, ratesEth } = this.props
-        const fiatCurrency = getFiatFromPair(this.props.pair.pair)
         const isErc20 = window.coins[COUNTER].coinfig.type.erc20Address
         const incomingCoinName = window.coins[counterCoinTicker]?.coinfig.name ?? counterCoinTicker
 
@@ -318,7 +336,9 @@ class PreviewSell extends PureComponent<
                           <>
                             {counterCoinTicker}
                             &nbsp;
-                            {formatFiat(Number(success.amt) + Number(feeInFiat))}
+                            {formatFiat(
+                              convertBaseToStandard('FIAT', new BigNumber(success.amt).toString())
+                            )}
                           </>
                         )
                       }
@@ -403,55 +423,6 @@ class PreviewSell extends PureComponent<
             {account.type !== SwapBaseCounterTypes.CUSTODIAL && (
               <>
                 <RowItem>
-                  <RowText>
-                    <FormattedMessage
-                      id='modals.simplebuy.confirm.sale_amount'
-                      defaultMessage='Sale Amount'
-                    />
-                  </RowText>
-                  <RowText>
-                    <RowTextWrapper>
-                      {this.props.incomingAmountR.cata({
-                        Failure: () => (
-                          <Text size='14px' color='red600'>
-                            <FormattedMessage
-                              id='copy.oops'
-                              defaultMessage='Oops. Something went wrong.'
-                            />
-                          </Text>
-                        ),
-                        Loading: () => <SkeletonRectangle height='18px' width='70px' />,
-                        NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
-                        Success: (success) => {
-                          const saleAmount = formatFiat(Number(success.amt))
-                          const saleInCoin = Exchange.convertFiatToCoin({
-                            coin: BASE,
-                            currency: fiatCurrency,
-                            rates: window.coins[BASE].coinfig.type.erc20Address ? ratesEth : rates,
-                            value: Number(saleAmount)
-                          })
-                          return (
-                            <>
-                              <Value data-e2e='sbSaleAccount'>
-                                {counterCoinTicker}
-                                {saleAmount}
-                              </Value>
-                              <AdditionalText>
-                                {coinToString({
-                                  unit: {
-                                    symbol: account.coin
-                                  },
-                                  value: saleInCoin
-                                })}
-                              </AdditionalText>
-                            </>
-                          )
-                        }
-                      })}
-                    </RowTextWrapper>
-                  </RowText>
-                </RowItem>
-                <RowItem>
                   <RowItemContainer>
                     <TopRow>
                       <RowIcon>
@@ -478,7 +449,7 @@ class PreviewSell extends PureComponent<
                               },
                               value: convertBaseToStandard(
                                 account.baseCoin,
-                                this.networkFee(this.props.payment)
+                                this.networkFee(payment, account)
                               )
                             })}
                           </AdditionalText>
@@ -543,13 +514,21 @@ class PreviewSell extends PureComponent<
                           <>
                             {counterCoinTicker}
                             &nbsp;
-                            {formatFiat(Number(success.amt) + Number(feeInFiat))}
+                            {formatFiat(
+                              new BigNumber(
+                                convertBaseToStandard('FIAT', new BigNumber(success.amt).toString())
+                              )
+                                .plus(new BigNumber(feeInFiat).toString())
+                                .toString()
+                            )}
                           </>
                         )
                       }
                     })}
                   </Value>
-                  <AdditionalText>{this.displayAmount(formValues, account)}</AdditionalText>
+                  <AdditionalText>
+                    {this.displayTotalAmount(formValues, account, payment)}
+                  </AdditionalText>
                 </RowTextWrapper>
               </RowText>
             </RowItem>

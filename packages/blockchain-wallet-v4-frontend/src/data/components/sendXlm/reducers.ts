@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   checkDestination: Remote.NotAsked,
   feeToggled: false,
   isDestinationExchange: Remote.NotAsked,
+  maxCustodialWithdrawalFee: Remote.NotAsked,
   payment: Remote.NotAsked,
   sendLimits: Remote.NotAsked,
   showNoAccountForm: false,

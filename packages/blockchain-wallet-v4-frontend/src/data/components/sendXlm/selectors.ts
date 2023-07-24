@@ -1,9 +1,12 @@
-import { path } from 'ramda'
+import { RootState } from 'data/rootReducer'
 
-export const getStep = path(['components', 'sendXlm', 'step'])
-export const getPayment = path(['components', 'sendXlm', 'payment'])
-export const getCheckDestination = path(['components', 'sendXlm', 'checkDestination'])
-export const getIsDestinationExchange = path(['components', 'sendXlm', 'isDestinationExchange'])
-export const getFeeToggled = path(['components', 'sendXlm', 'feeToggled'])
-export const showNoAccountForm = path(['components', 'sendXlm', 'showNoAccountForm'])
-export const getSendLimits = path(['components', 'sendXlm', 'sendLimits'])
+export const getStep = (state: RootState) => state.components.sendXlm.step
+export const getPayment = (state: RootState) => state.components.sendXlm.payment
+export const getCheckDestination = (state: RootState) => state.components.sendXlm.checkDestination
+export const getIsDestinationExchange = (state: RootState) =>
+  state.components.sendXlm.isDestinationExchange
+export const getFeeToggled = (state: RootState) => state.components.sendXlm.feeToggled
+export const showNoAccountForm = (state: RootState) => state.components.sendXlm.showNoAccountForm
+export const getSendLimits = (state: RootState) => state.components.sendXlm.sendLimits
+export const getMaxCustodialWithdrawalFee = (state: RootState) =>
+  state.components.sendXlm.maxCustodialWithdrawalFee

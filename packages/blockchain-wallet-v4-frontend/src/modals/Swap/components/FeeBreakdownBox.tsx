@@ -6,7 +6,13 @@ import styled from 'styled-components'
 
 import { convertCoinToFiat } from '@core/exchange'
 import { coinToString } from '@core/exchange/utils'
-import { FiatType, PaymentValue, RatesType, RemoteDataType, SwapQuoteStateType } from '@core/types'
+import {
+  FiatType,
+  PaymentValue,
+  RatesType,
+  RemoteDataType,
+  SwapNewQuoteStateType
+} from '@core/types'
 import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout'
@@ -14,6 +20,8 @@ import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
 import { Analytics, SwapAccountType, SwapBaseCounterTypes } from 'data/types'
+
+import { COINS_WITH_CUSTOM_FEE, SOL_FEE, STX_FEE } from '../../constants'
 
 const Container = styled.div`
   background-color: ${(p) => p.theme.grey000};
@@ -63,8 +71,18 @@ const FeeBreakdownBox = ({
 }: Props): React.ReactElement => {
   const [toggle, setToggle] = useState(false)
   const networkFee = (value: PaymentValue | undefined) => {
+    if (base.type === SwapBaseCounterTypes.ACCOUNT) {
+      if (base?.coin === COINS_WITH_CUSTOM_FEE.STX) {
+        return STX_FEE
+      }
+
+      if (base?.coin === COINS_WITH_CUSTOM_FEE.SOL) {
+        return SOL_FEE
+      }
+    }
+
     return value
-      ? value.coin === 'BTC' || value.coin === 'BCH'
+      ? value.coin === COINS_WITH_CUSTOM_FEE.BTC || value.coin === COINS_WITH_CUSTOM_FEE.BCH
         ? value.selection?.fee
         : value.fee
       : 0
@@ -79,7 +97,7 @@ const FeeBreakdownBox = ({
     coin: counter.coin,
     currency: walletCurrency,
     rates: counterRates,
-    value: quoteR?.quote?.networkFee || '0'
+    value: quoteR.map((quote) => quote.networkFee || '0').getOrElse('0')
   })
   const counterName = window.coins[counter.coin].coinfig
     ? window.coins[counter.coin].coinfig.name
@@ -222,7 +240,7 @@ const FeeBreakdownBox = ({
                             unit: {
                               symbol: counter.coin
                             },
-                            value: convertBaseToStandard(counter.coin, value.quote.networkFee)
+                            value: convertBaseToStandard(counter.coin, value.networkFee)
                           })}
                         </Text>
                         <FiatDisplay
@@ -232,7 +250,7 @@ const FeeBreakdownBox = ({
                           color='grey400'
                           coin={counter.coin}
                         >
-                          {value.quote.networkFee}
+                          {value.networkFee}
                         </FiatDisplay>
                       </>
                     )
@@ -297,7 +315,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
     .getRatesSelector(ownProps.counter.coin, state)
     .getOrElse({} as RatesType),
   paymentR: selectors.components.swap.getPayment(state).getOrElse({} as PaymentValue),
-  quoteR: selectors.components.swap.getQuote(state).getOrElse({} as SwapQuoteStateType),
+  quoteR: selectors.components.swap.getQuote(state),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD') as FiatType
 })
 
@@ -311,7 +329,7 @@ interface OwnProps {
   base: SwapAccountType
   basePayment: RemoteDataType<string, PaymentValue | undefined>
   counter: SwapAccountType
-  counterQuote: RemoteDataType<string, SwapQuoteStateType>
+  counterQuote: RemoteDataType<string | Error, SwapNewQuoteStateType>
 }
 type Props = OwnProps & ConnectedProps<typeof connector>
 

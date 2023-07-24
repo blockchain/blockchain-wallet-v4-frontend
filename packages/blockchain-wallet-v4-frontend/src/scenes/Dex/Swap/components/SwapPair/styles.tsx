@@ -7,6 +7,8 @@ import { DexSwapSide } from 'data/types'
 
 import * as animations from './SwapPair.animations'
 
+const BASE = 'BASE'
+
 export const PairWrapper = styled.div<{ animate: boolean; swapSide: DexSwapSide }>`
   display: flex;
   flex-direction: row;
@@ -18,7 +20,7 @@ export const PairWrapper = styled.div<{ animate: boolean; swapSide: DexSwapSide 
   border-radius: 16px;
 
   ${({ animate, swapSide }) =>
-    swapSide === 'BASE'
+    swapSide === BASE
       ? animate
         ? animations.swingOutBottomAnimation
         : animations.swingInBottomAnimation

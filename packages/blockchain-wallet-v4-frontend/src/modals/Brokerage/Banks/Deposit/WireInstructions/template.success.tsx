@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { BankDWStepType } from 'data/components/brokerage/types'
+
 import { Props as OwnProps, SuccessStateType } from '.'
-import InstructionDetails from './InstructionDetails'
+import { InstructionDetails } from './InstructionDetails'
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,9 +14,15 @@ const Wrapper = styled.div`
 `
 
 const Success = (props: Props) => {
+  const onClickBack = () => {
+    props.brokerageActions.setDWStep({
+      dwStep: BankDWStepType.DEPOSIT_METHODS
+    })
+  }
+
   return (
     <Wrapper>
-      <InstructionDetails {...props} />
+      <InstructionDetails onClickBack={onClickBack} {...props} />
     </Wrapper>
   )
 }

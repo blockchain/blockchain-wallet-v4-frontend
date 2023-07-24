@@ -17,11 +17,6 @@ export const Wrapper = styled.div<{ isQuoteLocked: boolean }>`
     left: 8px;
     z-index: 99 !important;
     cursor: ${({ isQuoteLocked }) => (isQuoteLocked ? 'not-allowed' : 'pointer')};
-    transition: 0.45s;
-  }
-
-  > :hover:nth-child(1) {
-    transform: ${({ isQuoteLocked }) => (isQuoteLocked ? 'none' : 'rotate(180deg)')};
   }
 
   &:after {

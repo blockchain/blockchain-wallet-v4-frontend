@@ -20,18 +20,18 @@ import type {
   NabuAddressType,
   PaymentValue,
   ProviderDetailsType,
+  RefreshConfig,
   RemoteDataType,
-  SDDEligibleType,
-  SDDVerifiedType,
+  SwapNewQuoteType,
   SwapOrderType,
   SwapUserLimitsType,
   TradeAccumulatedItem
 } from '@core/types'
-import { SwapQuoteType } from '@core/types'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
 import type { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
+import { NabuError } from 'services/errors'
 
 import { BankDWStepType, PlaidSettlementErrorReasons } from '../brokerage/types'
 
@@ -81,6 +81,7 @@ export enum BuySellStepType {
   'CHECKOUT_CONFIRM',
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
+  'INITIAL_LOADING',
   'KYC_REQUIRED',
   'LINKED_PAYMENT_ACCOUNTS',
   'LOADING',
@@ -95,7 +96,8 @@ export enum BuySellStepType {
   'FREQUENCY',
   'VERIFY_EMAIL',
   'UPDATE_SECURITY_CODE',
-  'SELL_ENTER_AMOUNT'
+  'SELL_ENTER_AMOUNT',
+  'CONFIRMING_BUY_ORDER'
 }
 export type BSShowModalOriginType =
   | 'CoinPageHoldings'
@@ -147,15 +149,14 @@ export type BSCardSuccessRateType = {
   isBlocked: boolean
 }
 
-export type RefreshConfig = {
-  date: Date
-  totalMs: number
-}
-
 export type BuyQuoteStateType = {
   amount: string
   fee: string
+  /**
+   * @deprecated Use `pairObject` instead.
+   */
   pair: string
+  pairObject: BSPairType
   paymentMethod: BSPaymentTypes
   paymentMethodId?: BSCardType['id']
   quote: BuyQuoteType
@@ -167,19 +168,19 @@ export type BuyQuoteStateType = {
 }
 
 export type SellQuoteStateType = {
-  quote: SwapQuoteType
+  quote: SwapNewQuoteType
   rate: number
   refreshConfig: RefreshConfig
 }
 
 // State
 export type BuySellState = {
-  account: RemoteDataType<string, BSAccountType>
+  account: RemoteDataType<string | Error, BSAccountType>
   accumulatedTrades: RemoteDataType<string, Array<TradeAccumulatedItem>>
   addBank?: boolean
   applePayInfo?: ApplePayInfoType
   balances: RemoteDataType<PartialClientErrorProperties, BSBalancesType>
-  buyQuote: RemoteDataType<PartialClientErrorProperties, BuyQuoteStateType>
+  buyQuote: RemoteDataType<string | Error, BuyQuoteStateType>
   card: RemoteDataType<string | number | Error, BSCardType>
   cardId?: string
   cardSuccessRate?: BSCardSuccessRateType
@@ -189,7 +190,7 @@ export type BuySellState = {
   checkoutDotComApiKey?: string
   crossBorderLimits: RemoteDataType<unknown, CrossBorderLimits>
   cryptoCurrency?: CoinType
-  cvvStatus: RemoteDataType<string, boolean>
+  cvvStatus: RemoteDataType<string | NabuError, boolean>
   displayBack: boolean
   fiatCurrency?: FiatType
   fiatEligible: RemoteDataType<PartialClientErrorProperties | Error, FiatEligibleType>
@@ -210,11 +211,9 @@ export type BuySellState = {
   providerDetails: RemoteDataType<string | Error, ProviderDetailsType>
   quote: RemoteDataType<string, BSQuoteType>
   reason?: PlaidSettlementErrorReasons
-  sddEligible: RemoteDataType<PartialClientErrorProperties, SDDEligibleType>
-  sddTransactionFinished: boolean
-  sddVerified: RemoteDataType<PartialClientErrorProperties, SDDVerifiedType>
   sellOrder?: SwapOrderType
   sellQuote: RemoteDataType<string, SellQuoteStateType>
+  sellQuotePrice: RemoteDataType<string | Error, SellQuotePrice>
   step: keyof typeof BuySellStepType
   swapAccount?: SwapAccountType
   vgsVaultId?: string
@@ -263,7 +262,6 @@ export type StepActionsPayload =
   | {
       cryptoCurrency: CoinType
       fiatCurrency: FiatType
-      order?: BSOrderType
       pair: BSPairType
       step: 'PAYMENT_METHODS'
     }
@@ -310,7 +308,27 @@ export type StepActionsPayload =
         | 'BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
+        | 'INITIAL_LOADING'
         | 'LOADING'
         | 'FREQUENCY'
         | 'UPDATE_SECURITY_CODE'
+        | 'CONFIRMING_BUY_ORDER'
     }
+
+export type PollOrder = {
+  orderId: string
+  waitUntilSettled?: boolean // this will help us to keep track did user already been on 3DS page
+}
+
+export type SellQuotePrice = {
+  data: {
+    amount: StandardNumericString
+    networkFee: StandardNumericString
+    price: StandardNumericString
+    resultAmount: StandardNumericString
+  }
+  isFailed: boolean
+  isPlaceholder: boolean
+  isRefreshing: boolean
+  rate: number
+}

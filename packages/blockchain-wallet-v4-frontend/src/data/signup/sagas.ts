@@ -26,6 +26,7 @@ import { askSecondPasswordEnhancer } from 'services/sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
+  const SIGNUP_FORM = 'register'
   const { createExchangeUser, createUser, generateRetailToken, setSession } = profileSagas({
     api,
     coreSagas,
@@ -80,10 +81,12 @@ export default ({ api, coreSagas, networks }) => {
 
   const register = function* (action) {
     const { country, email, language, password, referral, sessionToken, state } = action.payload
+
     const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
     const accountRecoveryV2: boolean = selectors.core.walletOptions
       .getAccountRecoveryV2(yield select())
       .getOrElse(false) as boolean
+
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
     const isExchangeMobileSignup =
       product === ProductAuthOptions.EXCHANGE &&
@@ -98,6 +101,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.loginLoading())
       yield put(actions.signup.setRegisterEmail(email))
       yield put(actions.signup.setSignupCountry(country))
+      yield put(actions.signup.setSignupCountryState(state))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
       if (isAccountReset && accountRecoveryV2) {
         yield call(coreSagas.wallet.createResetWalletSaga, {
@@ -135,17 +139,18 @@ export default ({ api, coreSagas, networks }) => {
         })
         yield put(actions.signup.registerSuccess(undefined))
       }
-
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
-          properties: {
-            country,
-            country_state: `${country}-${state}`,
-            device_origin: platform
-          }
-        })
-      )
+      if (!isAccountReset) {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
+            properties: {
+              country,
+              country_state: state,
+              device_origin: platform
+            }
+          })
+        )
+      }
       if (product === ProductAuthOptions.EXCHANGE) {
         yield put(
           actions.analytics.trackEvent({

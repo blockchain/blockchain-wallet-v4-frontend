@@ -28,7 +28,6 @@ const CryptoSelection: React.FC<Props> = memo((props) => {
         (currentCurrencyIsInSupportedFiat ? props.walletCurrency : 'USD')
       props.buySellActions.fetchPairs({ currency })
       props.buySellActions.fetchFiatEligible(props.walletCurrency)
-      props.buySellActions.fetchSDDEligibility()
       props.buySellActions.fetchBSOrders()
     }
   }, [])
@@ -73,7 +72,6 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   isFirstLogin: selectors.signup.getFirstLogin(state),
   originalFiatCurrency: selectors.components.buySell.getOriginalFiatCurrency(state),
-  sddTransactionFinished: selectors.components.buySell.getSddTransactionFinished(state),
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })

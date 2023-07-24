@@ -1,4 +1,5 @@
-import { FiatType } from '@core/types'
+import { BSPaymentTypes, CoinType, FiatType } from '@core/types'
+import { PlaidSettlementErrorReasons } from 'data/types'
 
 export type SwapOrderType = {
   createdAt: string
@@ -14,7 +15,7 @@ export type SwapOrderType = {
     withdrawalAddress: string
     withdrawalTxHash: string
   }
-  pair: string
+  pair: PairType
   priceFunnel: {
     indicativePrice?: string
     inputMoney: string
@@ -40,7 +41,19 @@ export type ProcessedSwapOrderType = SwapOrderType & {
   insertedAt: string
 }
 
-export type SwapOrderDirectionType = 'INTERNAL' | 'ON_CHAIN' | 'FROM_USERKEY' | 'TO_USERKEY'
+export type PairType = string
+
+export enum SwapOrderDirection {
+  FROM_USERKEY = 'FROM_USERKEY',
+  INTERNAL = 'INTERNAL',
+  ON_CHAIN = 'ON_CHAIN',
+  TO_USERKEY = 'TO_USERKEY'
+}
+
+/**
+ * @deprecated
+ */
+export type SwapOrderDirectionType = keyof typeof SwapOrderDirection
 
 export type SwapOrderStateType =
   | 'PENDING_EXECUTION'
@@ -82,7 +95,7 @@ export type SwapQuoteType = {
   expiresAt: string
   id: string
   networkFee: string
-  pair: string
+  pair: PairType
   product: string
   quote: {
     currencyPair: string
@@ -99,3 +112,73 @@ export type SwapQuoteType = {
 }
 
 export type SwapQuoteStateType = { quote: SwapQuoteType; rate: number }
+
+export enum SwapProfile {
+  SWAP_FROM_USERKEY = 'SWAP_FROM_USERKEY',
+  SWAP_INTERNAL = 'SWAP_INTERNAL',
+  SWAP_ON_CHAIN = 'SWAP_ON_CHAIN',
+  SWAP_TO_USERKEY = 'SWAP_TO_USERKEY'
+}
+
+export type SwapQuotePriceType = {
+  amount: string
+  currencyPair: PairType
+  dynamicFee: string // USD
+  networkFee: string
+  orderProfileName: SwapProfile
+  paymentMethod: BSPaymentTypes
+  price: string
+  resultAmount: string // BTC f=(amount-dynamicFee)*price - networkFee
+}
+
+export type SwapNewQuoteType = {
+  feeDetails: {
+    fee: string
+    feeFlags: []
+    feeWithoutPromo: string
+  }
+  id: string
+  networkFee: string | null
+  price: string
+  quoteCreatedAt: string
+  quoteExpiresAt: string
+  quoteId: string
+  quoteMarginPercent: number
+  resultAmount: string
+  sampleDepositAddress: string
+  settlementDetails: {
+    availability: string
+    reason: PlaidSettlementErrorReasons
+  }
+  staticFee: string | null
+}
+
+export type RefreshConfig = {
+  date: Date
+  totalMs: number
+}
+
+export type SwapNewQuoteStateType = SwapNewQuoteType & {
+  price: StandardNumericString
+  refreshConfig: RefreshConfig
+  resultAmount: StandardNumericString
+}
+
+export enum SwapPaymentMethod {
+  Deposit = 'DEPOSIT',
+  Funds = 'FUNDS'
+}
+
+type AgentType = {
+  address?: string
+  main?: string
+}
+
+export type SwapPaymentAccount = {
+  address: string
+  agent: AgentType
+  currency: CoinType
+  id: string
+  partner: string
+  state: string
+}

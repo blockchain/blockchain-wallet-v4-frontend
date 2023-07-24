@@ -4,7 +4,7 @@ import { SemanticColors } from '@blockchain-com/constellation'
 import styled, { css } from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { GreyCartridge, SuccessCartridge } from 'components/Cartridge'
+import { SuccessCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContainer, FlyoutContent } from 'components/Flyout/Layout'
 import { Analytics, ModalName } from 'data/types'
@@ -49,13 +49,6 @@ const RowItemSubTitle = styled(Text)`
   flex: 1;
 `
 
-const StatusCartridge = styled(GreyCartridge)`
-  display: flex;
-  flex-direction: row;
-  > span {
-    padding: 3px 8px;
-  }
-`
 const StatusCartridgeSuccess = styled(SuccessCartridge)`
   display: flex;
   flex-direction: row;
@@ -129,6 +122,7 @@ const Template = (props: Props) => {
     handleClose,
     identityVerificationActions,
     modalActions,
+    products,
     userData,
     userTiers
   } = props
@@ -164,8 +158,6 @@ const Template = (props: Props) => {
   if (!Array.isArray(userTiers)) {
     return null
   }
-
-  const isUserTierZero = userCurrentTier === TIER_TYPES.NONE
 
   return (
     <FlyoutContainer>
@@ -212,40 +204,44 @@ const Template = (props: Props) => {
       <FlyoutContent mode='top'>
         <div>
           <UpgradeContainer>
-            <UpgradeRow>
-              <Image name='blue-verified' size='20px' />
-              <RowItemTitle>
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.full_access'
-                  defaultMessage='Full Access'
-                />
-              </RowItemTitle>
-              <StatusCartridgeSuccess>
-                <Text color='white' size='12px' weight={500}>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.apply_now'
-                    defaultMessage='Apply Now'
-                  />
-                </Text>
-              </StatusCartridgeSuccess>
-            </UpgradeRow>
+            {products?.kycVerification?.enabled && (
+              <>
+                <UpgradeRow>
+                  <Image name='blue-verified' size='20px' />
+                  <RowItemTitle>
+                    <FormattedMessage
+                      id='modals.onboarding.upgrade_now.full_access'
+                      defaultMessage='Full Access'
+                    />
+                  </RowItemTitle>
+                  <StatusCartridgeSuccess>
+                    <Text color='white' size='12px' weight={500}>
+                      <FormattedMessage
+                        id='modals.onboarding.upgrade_now.apply_now'
+                        defaultMessage='Apply Now'
+                      />
+                    </Text>
+                  </StatusCartridgeSuccess>
+                </UpgradeRow>
 
-            <UpgradeRowWithBorder style={{ padding: '25px' }}>
-              <Button
-                fullwidth
-                size='16px'
-                height='48px'
-                nature='primary'
-                data-e2e='upgradeNowUnlockSilverLimits'
-                type='button'
-                onClick={startVerification}
-              >
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.upgrade_and_unlock'
-                  defaultMessage='Upgrade & Unlock'
-                />
-              </Button>
-            </UpgradeRowWithBorder>
+                <UpgradeRowWithBorder style={{ padding: '25px' }}>
+                  <Button
+                    fullwidth
+                    size='16px'
+                    height='48px'
+                    nature='primary'
+                    data-e2e='upgradeNowUnlockSilverLimits'
+                    type='button'
+                    onClick={startVerification}
+                  >
+                    <FormattedMessage
+                      id='modals.onboarding.upgrade_now.upgrade_and_unlock'
+                      defaultMessage='Upgrade & Unlock'
+                    />
+                  </Button>
+                </UpgradeRowWithBorder>
+              </>
+            )}
 
             <UpgradeRowWithBorder>
               <Image name='swap-white' size='20px' />
@@ -304,89 +300,6 @@ const Template = (props: Props) => {
               <Image name='check-empty-white' size='20px' />
             </UpgradeRow>
           </UpgradeContainer>
-
-          <UpgradeContainer>
-            <UpgradeRowWithBorder>
-              <Image name='grey-verified' size='20px' />
-              <RowItemTitle>
-                <FormattedMessage
-                  id='modals.onboarding.upgrade_now.limited_access'
-                  defaultMessage='Limited Access'
-                />
-              </RowItemTitle>
-              <StatusCartridge>
-                <Text color='grey900' size='12px' weight={500}>
-                  {isUserTierZero ? (
-                    <FormattedMessage
-                      id='modals.onboarding.upgrade_now.apply_now'
-                      defaultMessage='Apply Now'
-                    />
-                  ) : (
-                    <FormattedMessage id='copy.active' defaultMessage='Active' />
-                  )}
-                </Text>
-              </StatusCartridge>
-            </UpgradeRowWithBorder>
-            <UpgradeRowWithBorder>
-              <Image name='send' size='20px' />
-              <RowItemWrapper>
-                <RowItemTitle>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.send_and_receive_crypto'
-                    defaultMessage='Send & Receive Crypto'
-                  />
-                </RowItemTitle>
-                <RowItemSubTitle>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.between_private_key_wallets'
-                    defaultMessage='Between DeFi Wallets'
-                  />
-                </RowItemSubTitle>
-              </RowItemWrapper>
-              <Image name='check-empty-blue' size='20px' />
-            </UpgradeRowWithBorder>
-            <UpgradeRow>
-              <Image name='swap-blue' size='20px' />
-              <RowItemWrapper>
-                <RowItemTitle>
-                  <FormattedMessage
-                    id='modals.tradinglimits.swap_crypto'
-                    defaultMessage='Swap Crypto'
-                  />
-                </RowItemTitle>
-                <RowItemSubTitle>
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.one_time_between_private_key_wallets'
-                    defaultMessage='One-Time Between DeFi Wallets'
-                  />
-                </RowItemSubTitle>
-              </RowItemWrapper>
-              <Image name='check-empty-blue' size='20px' />
-            </UpgradeRow>
-            {isUserTierZero && (
-              <div style={{ padding: '25px' }}>
-                <Button
-                  fullwidth
-                  size='16px'
-                  height='48px'
-                  nature='empty-secondary'
-                  data-e2e='getBasicUpdate'
-                  type='button'
-                  onClick={() => {
-                    // set user clicked on get limited access
-                    identityVerificationActions.setStopFlowAfterLimitedAccessAchieved(true)
-                    startVerification()
-                  }}
-                >
-                  <FormattedMessage
-                    id='modals.onboarding.upgrade_now.get_limited_access'
-                    defaultMessage='Get Limited Access'
-                  />
-                </Button>
-              </div>
-            )}
-          </UpgradeContainer>
-
           <Disclaimer>
             <RowItemSubTitle>
               <FormattedMessage

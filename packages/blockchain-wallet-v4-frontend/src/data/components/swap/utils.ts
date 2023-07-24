@@ -1,32 +1,63 @@
 import BigNumber from 'bignumber.js'
+import { addMilliseconds, addSeconds, differenceInMilliseconds } from 'date-fns'
 
-import { CoinType, SwapOrderDirectionType, SwapQuoteType } from '@core/types'
+import { SwapOrderDirection, SwapPaymentMethod, SwapProfile } from '@core/types'
 import { errorHandler } from '@core/utils'
+import { notReachable } from 'utils/helpers'
 
-import { convertBaseToStandard } from '../exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from './types'
-
-export const NO_QUOTE = 'No quote found.'
 
 export const getDirection = (
   BASE: SwapAccountType,
   COUNTER: SwapAccountType
-): SwapOrderDirectionType => {
+): SwapOrderDirection => {
   switch (true) {
     case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
       COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
-      return 'INTERNAL'
+      return SwapOrderDirection.INTERNAL
     case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
       COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
-      return 'ON_CHAIN'
+      return SwapOrderDirection.ON_CHAIN
     case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
       COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
-      return 'FROM_USERKEY'
+      return SwapOrderDirection.FROM_USERKEY
     case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
       COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
-      return 'TO_USERKEY'
+      return SwapOrderDirection.TO_USERKEY
     default:
-      return 'INTERNAL'
+      return SwapOrderDirection.INTERNAL
+  }
+}
+
+export const getProfile = (BASE: SwapAccountType, COUNTER: SwapAccountType): SwapProfile => {
+  switch (true) {
+    case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
+      COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
+      return SwapProfile.SWAP_INTERNAL
+    case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
+      COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
+      return SwapProfile.SWAP_ON_CHAIN
+    case BASE.type === SwapBaseCounterTypes.ACCOUNT &&
+      COUNTER.type === SwapBaseCounterTypes.CUSTODIAL:
+      return SwapProfile.SWAP_FROM_USERKEY
+    case BASE.type === SwapBaseCounterTypes.CUSTODIAL &&
+      COUNTER.type === SwapBaseCounterTypes.ACCOUNT:
+      return SwapProfile.SWAP_TO_USERKEY
+    default:
+      return SwapProfile.SWAP_INTERNAL
+  }
+}
+
+export const getPaymentMethod = (profile: SwapProfile): SwapPaymentMethod => {
+  switch (profile) {
+    case SwapProfile.SWAP_ON_CHAIN:
+    case SwapProfile.SWAP_FROM_USERKEY:
+    case SwapProfile.SWAP_TO_USERKEY:
+      return SwapPaymentMethod.Deposit
+    case SwapProfile.SWAP_INTERNAL:
+      return SwapPaymentMethod.Funds
+    default:
+      return notReachable(profile)
   }
 }
 
@@ -52,41 +83,33 @@ export const interpolatePrice = (
   }
 }
 
-export const getRate = (
-  priceTiers: SwapQuoteType['quote']['priceTiers'],
-  coin: CoinType,
-  amount: BigNumber,
-  minor?: boolean
-): number => {
-  try {
-    for (let index = 0; index <= priceTiers.length; index += 1) {
-      const priceTier = priceTiers[index]
-      if (index === priceTiers.length - 1)
-        return minor
-          ? Number(priceTier.price)
-          : new BigNumber(convertBaseToStandard(coin, priceTier.price)).toNumber()
+export const isValidInputAmount = (amount?: string): amount is string => {
+  if (amount === undefined) {
+    return false
+  }
 
-      const nextTier = priceTiers[index + 1]
-      const thisVol = new BigNumber(priceTier.volume)
-      const nextVol = new BigNumber(nextTier.volume)
+  const parsedAmount = parseFloat(amount)
 
-      if (thisVol.isLessThan(amount) && amount.isLessThanOrEqualTo(nextVol)) {
-        const price = interpolatePrice(
-          new BigNumber(priceTier.volume),
-          new BigNumber(priceTier.price),
-          new BigNumber(nextTier.volume),
-          new BigNumber(nextTier.price),
-          amount
-        )
+  if (Number.isNaN(parsedAmount) || parsedAmount <= 0) {
+    return false
+  }
 
-        if (typeof price === 'string') throw price
+  return true
+}
 
-        return minor ? price : new BigNumber(convertBaseToStandard(coin, price)).toNumber()
-      }
-    }
+export const getQuoteRefreshConfig = ({
+  currentDate,
+  expireDate
+}: {
+  currentDate: Date
+  expireDate: Date
+}) => {
+  const millisecondsUntilRefresh = Math.abs(
+    differenceInMilliseconds(expireDate, addSeconds(currentDate, 10))
+  )
 
-    return 0
-  } catch (e) {
-    throw Error(errorHandler(e))
+  return {
+    date: addMilliseconds(currentDate, millisecondsUntilRefresh),
+    totalMs: millisecondsUntilRefresh
   }
 }

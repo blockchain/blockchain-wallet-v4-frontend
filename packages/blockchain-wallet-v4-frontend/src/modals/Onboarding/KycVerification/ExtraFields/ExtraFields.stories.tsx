@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { combineReducers, createStore } from 'redux'
 
+import KYC_RESPONSE_NEW from './kycResponse'
 import KYC_RESPONSE from './kycResponseCountries'
 import ExtraFields from './template.success'
 
@@ -13,7 +14,7 @@ export default {
   argTypes: {},
   args: {
     error: null,
-    extraSteps: KYC_RESPONSE,
+    extraSteps: KYC_RESPONSE_NEW,
     formErrors: {},
     invalid: false,
     onSubmit: () => {},

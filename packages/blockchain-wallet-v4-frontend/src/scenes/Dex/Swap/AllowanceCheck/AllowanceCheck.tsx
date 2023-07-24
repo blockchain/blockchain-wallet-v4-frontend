@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FormattedMessage, useIntl } from 'react-intl'
 import {
   Button,
+  IconAlert,
   IconCheckCircle,
   IconQuestionCircle,
   SemanticColors,
+  Text,
   Tooltip
 } from '@blockchain-com/constellation'
 import styled, { createGlobalStyle } from 'styled-components'
+
+import { SpinningLoader } from 'blockchain-info-components'
+import { selectors } from 'data'
+import { useRemote } from 'hooks'
+
+import { ButtonContainer } from './styles'
 
 // TODO: Fix z-index and props and offset in constellation and remove that CSS file
 const GlobalStyleTooltipZIndexFix = createGlobalStyle`
@@ -25,8 +33,9 @@ const GreenButtonWrapper = styled.div`
   }
 `
 
-const InformationIcon = ({ coinSymbol }: { coinSymbol }) => {
+const InformationIcon = ({ baseToken }) => {
   const { formatMessage } = useIntl()
+
   return (
     <Tooltip
       side='top'
@@ -38,33 +47,67 @@ const InformationIcon = ({ coinSymbol }: { coinSymbol }) => {
       text={formatMessage(
         {
           defaultMessage:
-            'You must give the Blockchain.com Dex smart contracts permission to use your {coinSymbol}. You only have to do this once per token.',
+            'You must give the Blockchain.com Dex smart contracts permission to use your {baseToken}. You only have to do this once per token.',
           id: 'dex.allowSwap.tooltip'
         },
-        { coinSymbol }
+        { baseToken }
       )}
     />
   )
 }
 
 export const AllowanceCheck = ({
-  coinSymbol,
+  baseToken,
   onApprove
 }: {
-  coinSymbol: string
+  baseToken: string
   onApprove: () => void
 }) => {
-  const [isApproved, setIsApproved] = useState(false)
-  const onClick = () => {
-    // TODO: Interact with a chain
-    setIsApproved(true)
-    onApprove()
-  }
+  const {
+    data: isTokenAllowed,
+    hasError,
+    isLoading
+  } = useRemote(selectors.components.dex.getTokenAllowanceStatusAfterPolling)
+
+  if (isLoading)
+    return (
+      <ButtonContainer>
+        <Button
+          disabled
+          size='large'
+          width='full'
+          variant='minimal'
+          text={<SpinningLoader borderWidth='4px' height='24px' width='24px' />}
+        />
+      </ButtonContainer>
+    )
+
+  if (hasError)
+    return (
+      <ButtonContainer>
+        <Button
+          disabled
+          size='large'
+          width='full'
+          variant='minimal'
+          icon={<IconAlert color={SemanticColors.error} />}
+          text={
+            <Text color={SemanticColors.error} variant='title3'>
+              <FormattedMessage
+                id='dex.allowSwap.approved'
+                defaultMessage='{baseToken} approval failed. Try again.'
+                values={{ baseToken }}
+              />
+            </Text>
+          }
+        />
+      </ButtonContainer>
+    )
 
   return (
-    <>
+    <ButtonContainer>
       <GlobalStyleTooltipZIndexFix />
-      {isApproved ? (
+      {isTokenAllowed ? (
         <GreenButtonWrapper>
           <Button
             disabled
@@ -75,8 +118,8 @@ export const AllowanceCheck = ({
             text={
               <FormattedMessage
                 id='dex.allowSwap.approved'
-                defaultMessage='Approved {coinSymbol}'
-                values={{ coinSymbol }}
+                defaultMessage='Approved {baseToken}'
+                values={{ baseToken }}
               />
             }
           />
@@ -86,17 +129,17 @@ export const AllowanceCheck = ({
           size='large'
           width='full'
           variant='minimal'
-          onClick={onClick}
-          icon={<InformationIcon coinSymbol={coinSymbol} />}
+          onClick={onApprove}
+          icon={<InformationIcon baseToken={baseToken} />}
           text={
             <FormattedMessage
               id='dex.allowSwap.action'
-              defaultMessage='Allow {coinSymbol}'
-              values={{ coinSymbol }}
+              defaultMessage='Allow {baseToken}'
+              values={{ baseToken }}
             />
           }
         />
       )}
-    </>
+    </ButtonContainer>
   )
 }

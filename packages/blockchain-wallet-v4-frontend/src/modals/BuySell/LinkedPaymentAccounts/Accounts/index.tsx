@@ -25,6 +25,7 @@ import { Padding } from 'components/Padding'
 import { Analytics } from 'data/analytics/types'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { getEnterAmountStepType } from 'data/components/buySell/utils'
+import { BSCardStateEnum } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
@@ -213,10 +214,10 @@ const Accounts = (props: Props) => {
 
   const { orderType, userData } = props
   const availableBankAccounts = props.bankTransferAccounts.filter(
-    (account) => account.state === 'ACTIVE' && orderType === OrderType.BUY
+    (account) => account.state === BSCardStateEnum.ACTIVE && orderType === OrderType.BUY
   )
   const availableCards = props.cards.filter(
-    (card) => card.state === 'ACTIVE' && orderType === OrderType.BUY
+    (card) => card.state === BSCardStateEnum.ACTIVE && orderType === OrderType.BUY
   )
 
   const defaultMethods = props.paymentMethods.methods.map((value) => ({
@@ -400,10 +401,11 @@ const Accounts = (props: Props) => {
             ? cardMethods.map((cardMethod, index) => (
                 <Card
                   // eslint-disable-next-line react/no-array-index-key
-                  key={index}
+                  key={`${index}-${cardMethod.value?.card?.number}`}
                   value={cardMethod.value}
                   text={renderCardText(cardMethod.value)}
                   icon={getIcon(cardMethod.value)}
+                  isBlocked={cardMethod.value?.state === BSCardStateEnum.BLOCKED}
                   onClick={() => handlePaymentMethodSelect({ method: cardMethod.value })}
                   onClickNabuErrorInfo={(error) =>
                     addCard(

@@ -9,7 +9,7 @@ import TextBox from 'components/Form/TextBox'
 import { Analytics, RecoverSteps } from 'data/types'
 import { required } from 'services/forms'
 
-import { Props } from '../..'
+import { Props as OwnProps } from '../..'
 import {
   ContactSupportText,
   GoBackArrow,
@@ -104,13 +104,13 @@ const FirstStep = (props: Props) => {
           />
         </Text>
         <Button
-          type='submit'
           nature='primary'
           fullwidth
           height='48px'
           disabled={submitting || invalid}
           data-e2e='submitRecoveryPhrase'
           style={{ marginBottom: '16px' }}
+          onClick={props.setRecoveryPhraseStep2}
         >
           {submitting ? (
             <HeartbeatLoader height='20px' width='20px' color='white' />
@@ -164,6 +164,10 @@ const FirstStep = (props: Props) => {
       </SubCard>
     </OuterWrapper>
   )
+}
+
+type Props = OwnProps & {
+  setRecoveryPhraseStep2: () => void
 }
 
 export default FirstStep

@@ -60,8 +60,10 @@ import checkEmptyBlue from './img/check-empty-blue.svg'
 import checkEmptyWhite from './img/check-empty-white.svg'
 import checkmarkCircleGreen from './img/checkmark-circle-green.svg'
 import circleEmpty from './img/circle-empty.svg'
+import circleQuestion from './img/circle-question.svg'
 import closeError from './img/close-error.svg'
 import cloudCheck from './img/cloud_check.svg'
+import cog from './img/cog.svg'
 import cowboySuite from './img/cowboy-suite.png'
 import cowboysLogo from './img/cowboys.svg'
 import creditCard from './img/credit-card.svg'
@@ -72,10 +74,16 @@ import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
 import orderSuccess from './img/debitCard/order-success.png'
 import terminateCard from './img/debitCard/terminate-card.png'
-import dexOnboardingSlideFunds from './img/dex-onboarding-slide-funds@2x.png'
-import dexOnboardingSlideNotEligible from './img/dex-onboarding-slide-not-eligible@2x.png'
-import dexOnboardingSlideSwap from './img/dex-onboarding-slide-swap@2x.png'
-import dexOnboardingSlideWelcome from './img/dex-onboarding-slide-welcome@2x.png'
+import dexGas from './img/dex/gas.svg'
+import dexOnboardingSlideFunds from './img/dex/onboarding-slide-funds@2x.png'
+import dexOnboardingSlideNotEligible from './img/dex/onboarding-slide-not-eligible@2x.png'
+import dexOnboardingSlideSwap from './img/dex/onboarding-slide-swap@2x.png'
+import dexOnboardingSlideWelcome from './img/dex/onboarding-slide-welcome@2x.png'
+import dexPercentage from './img/dex/percentage.svg'
+import dexSwapConfirming from './img/dex/swap-confirming.png'
+import dexSwapError from './img/dex/swap-error.png'
+import dexTokenAllowance from './img/dex/token-allowance.svg'
+import dexVerificationCheck from './img/dex/verification-check.svg'
 import bars from './img/earn/bars.svg'
 import btcClock from './img/earn/btc-clock.svg'
 import btcGraph from './img/earn/btc-graph.svg'
@@ -83,8 +91,13 @@ import earnActivityEmpty from './img/earn/earn-activity-empty.svg'
 import earnEmpty from './img/earn/earn-empty.svg'
 import ethLocked from './img/earn/eth-locked.svg'
 import ethPending from './img/earn/eth-pending.svg'
+import onboardingActiveRewards from './img/earn/onboarding-active-rewards.svg'
+import onboardingEarn from './img/earn/onboarding-earn.svg'
+import onboardingPassiveRewards from './img/earn/onboarding-passive-rewards.svg'
+import onboardingStakingRewards from './img/earn/onboarding-staking-rewards.svg'
 import scenario1Graph from './img/earn/scenario-1-graph.svg'
 import scenario2Graph from './img/earn/scenario-2-graph.svg'
+import vortex from './img/earn/vortex.svg'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emailVerified from './img/email-verified.svg'
@@ -239,8 +252,10 @@ const Images = {
   'check-empty-white': checkEmptyWhite,
   'checkmark-circle-green': checkmarkCircleGreen,
   'circle-empty': circleEmpty,
+  'circle-question': circleQuestion,
   'close-error': closeError,
   'cloud-check': cloudCheck,
+  cog,
   'cowboy-suite': cowboySuite,
   cowboys: cowboysLogo,
   'cowboys-jersey': cowboysJersey,
@@ -252,10 +267,16 @@ const Images = {
   'cryptoad-4502': cryptoad4502,
   'cryptoad-large': cryptoadlarge,
   'cryptoad-small': cryptoadsmall,
+  'dex-gas': dexGas,
   'dex-onboarding-slide-funds': dexOnboardingSlideFunds,
   'dex-onboarding-slide-not-eligible': dexOnboardingSlideNotEligible,
   'dex-onboarding-slide-swap': dexOnboardingSlideSwap,
   'dex-onboarding-slide-welcome': dexOnboardingSlideWelcome,
+  'dex-percentage': dexPercentage,
+  'dex-swap-confirming': dexSwapConfirming,
+  'dex-swap-error': dexSwapError,
+  'dex-token-allowance': dexTokenAllowance,
+  'dex-verification-check': dexVerificationCheck,
   'earn-activity-empty': earnActivityEmpty,
   'earn-empty': earnEmpty,
   'email-error': emailError,
@@ -298,6 +319,10 @@ const Images = {
   'nft-nouns': nftnouns,
   'nft-paint-hyperlink': nftpainthyperlink,
   'nft-purchase': nftPurchase,
+  'onboarding-active-rewards': onboardingActiveRewards,
+  'onboarding-earn': onboardingEarn,
+  'onboarding-passive-rewards': onboardingPassiveRewards,
+  'onboarding-staking-rewards': onboardingStakingRewards,
   opensea,
   'order-failed': orderFailed,
   'order-my-card': orderMyCard,
@@ -335,6 +360,7 @@ const Images = {
   'user-success': userSuccess,
   'verify-notice': verifyNotice,
   'visa-logo': visaLogo,
+  vortex,
   wallet,
   'wallet-grayscale': walletGrayscale,
   'wallet-no-background': walletNoBackground,
