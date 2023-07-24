@@ -49,12 +49,12 @@ export enum DexSwapSteps {
 export type DexStateType = {
   chains: RemoteDataType<string, DexChain[]>
   currentChain: RemoteDataType<string, DexChain>
-  currentSideType: DexSwapSide
   isTokenAllowed: RemoteDataType<string, boolean>
   isTokenAllowedAfterPolling: RemoteDataType<string, boolean>
   isUserEligible: RemoteDataType<string, boolean>
   swapQuote: RemoteDataType<QuoteError, DexSwapQuoteWithDate>
   swapQuoteTx: RemoteDataType<string, SwapQuoteSuccess>
+  swapSideType: DexSwapSide
   tokenAllowanceGasEstimate: string
   tokenAllowanceTx: RemoteDataType<string, ParsedTx>
   tokens: DexToken[]

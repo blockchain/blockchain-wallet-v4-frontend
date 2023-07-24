@@ -33,4 +33,4 @@ export const getTokenAllowanceStatusAfterPolling = (state: RootState) =>
 
 export const getSwapQuoteTx = (state: RootState) => state.components.dex.swapQuoteTx
 
-export const getCurrentSideType = (state: RootState) => state.components.dex.currentSideType
+export const getSwapSideType = (state: RootState) => state.components.dex.swapSideType
