@@ -87,14 +87,12 @@ export const BaseRateAndFees = ({
     price,
     sellAmount: { symbol: sellSymbol }
   } = swapQuote.quote
-  const baseCurrency = isFetchedFromBase ? sellSymbol : buySymbol
-  const counterCurrency = isFetchedFromBase ? buySymbol : sellSymbol
   const counterPrice = isFetchedFromBase ? price.toFixed(8) : (1 / price).toFixed(8)
 
   return props.swapQuote ? (
     <Wrapper>
       <Text variant='paragraph2' color={SemanticColors.title}>
-        1 {baseCurrency} = ~{counterPrice} {counterCurrency}
+        1 {buySymbol} = ~{counterPrice} {sellSymbol}
       </Text>
       {!isQuoteLocked && currentChain && (
         <Flex alignItems='center'>
