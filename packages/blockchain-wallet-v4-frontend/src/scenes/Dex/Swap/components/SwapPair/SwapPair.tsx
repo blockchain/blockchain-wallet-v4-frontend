@@ -18,65 +18,61 @@ import { Icon as TokenIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions } from 'data'
-import { Analytics, DexSwapSide, DexSwapSideFields } from 'data/types'
+import { Analytics, DexPosition, DexSwapSide, DexSwapSideFields } from 'data/types'
+import { useDebounce } from 'hooks'
 
-import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './styles'
-import { getZeroFiatAmountPreview } from './utils'
+import {
+  AmountInput,
+  PairWrapper,
+  SubtextContainer,
+  TokenSelectRow,
+  TokenSelectWrapper
+} from './styles'
 
-const BASE = 'BASE'
-const COUNTER = 'COUNTER'
 const NATIVE_TOKEN = 'ETH'
 
 type Props = {
+  amount: number
   swapSide: DexSwapSide
   walletCurrency: string
-} & ({ amount: number; balance: number | BigNumber; coin: CoinType } | { coin?: never }) &
+} & ({ balance: number | BigNumber; coin: CoinType } | { coin?: never }) &
   (
     | {
         handleMaxClicked?: undefined
-        hasTriggerAnalytics?: undefined
         isQuoteLocked: true
-        setHasTriggerAnalytics?: undefined
       }
     | {
         animate: boolean
         handleMaxClicked?: () => void
-        hasTriggerAnalytics?: boolean
         isQuoteLocked: false
         onTokenSelect: (swapSide: DexSwapSide) => void
-        setHasTriggerAnalytics?: (status: boolean) => void
       }
   )
 
-export const SwapPair = ({
-  hasTriggerAnalytics,
-  setHasTriggerAnalytics,
-  swapSide,
-  walletCurrency,
-  ...props
-}: Props) => {
+export const SwapPair = ({ amount, swapSide, walletCurrency, ...props }: Props) => {
   const dispatch = useDispatch()
   // TODO: Make type safe mapping between inputs name and form data properties
+  const debouncedAmount = useDebounce(amount, 500)
   const amountInputField = `${DexSwapSideFields[swapSide]}Amount`
   const isAnimationEnabled = !props.isQuoteLocked ? props.animate : false
-  const isAmountEntered = !!(props.coin && props.amount !== 0)
+  const isAmountEntered = amount !== 0
   const isBaseETH = props.coin === NATIVE_TOKEN
-  const isBase = swapSide === BASE
+  const isBase = swapSide === DexSwapSide.BASE
   const amountColor = !isBaseETH && isBase ? 'blue600' : 'grey900'
   const handleMaxClicked = isBaseETH ? null : props.handleMaxClicked
 
   // product only want to record this event once on first input
   useEffect(() => {
-    if (!hasTriggerAnalytics && isAmountEntered && swapSide === BASE && setHasTriggerAnalytics) {
-      setHasTriggerAnalytics(true)
-      dispatch(
-        actions.analytics.trackEvent({
-          key: Analytics.DEX_SWAP_AMOUNT_ENTERED,
-          properties: {}
-        })
-      )
-    }
-  }, [hasTriggerAnalytics, isAmountEntered, setHasTriggerAnalytics])
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.DEX_SWAP_AMOUNT_ENTERED,
+        properties: {
+          currency: props.coin || '',
+          position: isBase ? DexPosition.SOURCE : DexPosition.DESTINATION
+        }
+      })
+    )
+  }, [debouncedAmount])
 
   const openTokenSelector = () => !props.isQuoteLocked && props.onTokenSelect(swapSide)
 
@@ -84,30 +80,36 @@ export const SwapPair = ({
 
   return props.coin ? (
     <PairWrapper animate={isAnimationEnabled} swapSide={swapSide}>
-      <Flex flexDirection='column' justifyContent={isAmountEntered ? 'space-evenly' : 'center'}>
+      <Flex
+        flexDirection='column'
+        justifyContent={isAmountEntered ? 'space-evenly' : 'center'}
+        width='fill'
+      >
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
-          disabled={props.isQuoteLocked || swapSide === COUNTER}
+          disabled={props.isQuoteLocked}
           placeholder='0'
           name={amountInputField}
           validate={[]}
         />
-        <FiatDisplay
-          coin={props.coin}
-          currency={walletCurrency}
-          color='grey600'
-          lineHeight='12px'
-          loadingHeight='14px'
-          size='14px'
-          weight={500}
-        >
-          {Exchange.convertCoinToCoin({
-            baseToStandard: false,
-            coin: props.coin,
-            value: props.amount
-          })}
-        </FiatDisplay>
+        <SubtextContainer>
+          <FiatDisplay
+            coin={props.coin}
+            currency={walletCurrency}
+            color='grey600'
+            lineHeight='12px'
+            loadingHeight='14px'
+            size='14px'
+            weight={500}
+          >
+            {Exchange.convertCoinToCoin({
+              baseToStandard: false,
+              coin: props.coin,
+              value: amount
+            })}
+          </FiatDisplay>
+        </SubtextContainer>
       </Flex>
       <Flex flexDirection='column' justifyContent='space-evenly' alignItems='center'>
         <TokenSelectWrapper
@@ -135,7 +137,7 @@ export const SwapPair = ({
         <Padding top={0.25}>
           <Flex alignItems='center' gap={4}>
             <Text color={SemanticColors.body} variant='micro'>
-              {swapSide === BASE ? (
+              {isBase ? (
                 <FormattedMessage defaultMessage='Max' id='copy.max' />
               ) : (
                 <FormattedMessage defaultMessage='Balance' id='copy.balance' />
@@ -158,18 +160,30 @@ export const SwapPair = ({
     </PairWrapper>
   ) : (
     <PairWrapper animate={isAnimationEnabled} swapSide={swapSide}>
-      <Flex flexDirection='column' justifyContent={isAmountEntered ? 'space-evenly' : 'center'}>
+      <Flex
+        flexDirection='column'
+        justifyContent={isAmountEntered ? 'space-evenly' : 'center'}
+        width='fill'
+      >
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
-          disabled={props.isQuoteLocked || swapSide === COUNTER}
+          disabled={props.isQuoteLocked}
           placeholder='0'
           name={amountInputField}
           validate={[]}
         />
-        <Text variant='paragraph-mono' color={SemanticColors.body}>
-          {getZeroFiatAmountPreview(walletCurrency)}
-        </Text>
+        <FiatDisplay
+          coin={NATIVE_TOKEN}
+          currency={walletCurrency}
+          color='grey600'
+          lineHeight='12px'
+          loadingHeight='14px'
+          size='14px'
+          weight={500}
+        >
+          0
+        </FiatDisplay>
       </Flex>
       <Flex justifyContent='space-evenly' alignItems='center'>
         <TokenSelectWrapper

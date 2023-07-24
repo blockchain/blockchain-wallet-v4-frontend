@@ -11,6 +11,7 @@ import {
   DexSwapForm,
   DexSwapSide,
   DexSwapSideFields,
+  DexSwapSteps,
   ModalName,
   SwapAccountType
 } from 'data/types'
@@ -31,8 +32,6 @@ import { ButtonContainer } from './styles'
 
 const { DEX_SWAP_FORM } = model.components.dex
 const NATIVE_TOKEN = 'ETH'
-const COUNTER = 'COUNTER'
-const BASE = 'BASE'
 
 type Props = {
   walletCurrency: string
@@ -41,7 +40,6 @@ type Props = {
 export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const dispatch = useDispatch()
 
-  const [hasTriggerAnalytics, setHasTriggerAnalytics] = useState(false)
   const [pairAnimate, setPairAnimate] = useState(false)
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
 
@@ -86,6 +84,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const counterTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
   )
+  const swapSideType = useSelector(selectors.components.dex.getSwapSideType)
 
   const showAllowanceCheck =
     baseToken &&
@@ -140,7 +139,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   }
 
   const onConfirmSwap = () => {
-    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', 'CONFIRM_SWAP'))
+    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', DexSwapSteps.CONFIRM_SWAP))
   }
 
   const handleMaxClicked = () => {
@@ -186,11 +185,9 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
       <SwapPairWrapper>
         {formValues.baseToken ? (
           <SwapPair
-            swapSide={BASE}
+            swapSide={DexSwapSide.BASE}
             animate={pairAnimate}
-            hasTriggerAnalytics={hasTriggerAnalytics}
             handleMaxClicked={handleMaxClicked}
-            setHasTriggerAnalytics={setHasTriggerAnalytics}
             isQuoteLocked={false}
             balance={baseTokenBalance}
             coin={baseToken}
@@ -200,10 +197,9 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           />
         ) : (
           <SwapPair
-            swapSide={BASE}
+            amount={baseTokenAmount || 0}
+            swapSide={DexSwapSide.BASE}
             animate={pairAnimate}
-            hasTriggerAnalytics={hasTriggerAnalytics}
-            setHasTriggerAnalytics={setHasTriggerAnalytics}
             isQuoteLocked={false}
             walletCurrency={walletCurrency}
             onTokenSelect={onTokenSelect}
@@ -214,7 +210,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
 
         {formValues.counterToken ? (
           <SwapPair
-            swapSide={COUNTER}
+            swapSide={DexSwapSide.COUNTER}
             animate={pairAnimate}
             isQuoteLocked={false}
             balance={counterTokenBalance}
@@ -225,9 +221,10 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           />
         ) : (
           <SwapPair
-            swapSide={COUNTER}
+            swapSide={DexSwapSide.COUNTER}
             animate={pairAnimate}
             isQuoteLocked={false}
+            amount={counterTokenAmount || 0}
             walletCurrency={walletCurrency}
             onTokenSelect={onTokenSelect}
           />
@@ -249,6 +246,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           isQuoteLoading={false}
           isQuoteLocked={false}
           swapQuote={quote}
+          swapSideType={swapSideType}
         />
       ) : null}
 

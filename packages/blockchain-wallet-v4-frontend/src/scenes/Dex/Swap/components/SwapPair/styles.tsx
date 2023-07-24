@@ -7,20 +7,23 @@ import { DexSwapSide } from 'data/types'
 
 import * as animations from './SwapPair.animations'
 
-const BASE = 'BASE'
-
 export const PairWrapper = styled.div<{ animate: boolean; swapSide: DexSwapSide }>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 8px 16px;
+  gap: 16px;
 
   height: 48px;
   background-color: ${(props) => props.theme.grey000};
   border-radius: 16px;
 
+  & > div {
+    max-width: 336px;
+  }
+
   ${({ animate, swapSide }) =>
-    swapSide === BASE
+    swapSide === DexSwapSide.BASE
       ? animate
         ? animations.swingOutBottomAnimation
         : animations.swingInBottomAnimation
@@ -28,7 +31,6 @@ export const PairWrapper = styled.div<{ animate: boolean; swapSide: DexSwapSide 
       ? animations.swingOutTopAnimation
       : animations.swingInTopAnimation}
 `
-
 export const TokenSelectWrapper = styled.div<{ isQuoteLocked: boolean }>`
   display: flex;
   flex-direction: row;
@@ -40,7 +42,6 @@ export const TokenSelectWrapper = styled.div<{ isQuoteLocked: boolean }>`
   background-color: ${(props) => props.theme.white};
   cursor: ${({ isQuoteLocked }) => (isQuoteLocked ? 'not-allowed' : 'pointer')};
 `
-
 export const AmountInput = styled(NumberBox)`
   max-height: 24px;
   > input {
@@ -66,7 +67,11 @@ export const AmountInput = styled(NumberBox)`
     }
   }
 `
-
+export const SubtextContainer = styled.div`
+  display: flex;
+  max-width: 336px;
+  overflow-x: scroll;
+`
 const TokenSelectRowStyled = styled(Flex)`
   margin-left: 8px;
 `

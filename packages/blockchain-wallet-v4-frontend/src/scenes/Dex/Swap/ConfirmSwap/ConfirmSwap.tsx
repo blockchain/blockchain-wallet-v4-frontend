@@ -7,7 +7,7 @@ import { Exchange } from '@core'
 import { FiatType } from '@core/types'
 import { SpinningLoader } from 'blockchain-info-components'
 import { actions, model, selectors } from 'data'
-import { Analytics, DexSwapForm } from 'data/types'
+import { Analytics, DexSwapForm, DexSwapSide } from 'data/types'
 import { useRemote } from 'hooks'
 
 import { FlipPairButton, FormWrapper, QuoteDetails, SwapPair, SwapPairWrapper } from '../components'
@@ -155,7 +155,7 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
       <SwapPairWrapper>
         <SwapPair
           isQuoteLocked
-          swapSide='BASE'
+          swapSide={DexSwapSide.BASE}
           balance={baseTokenBalance}
           coin={baseToken}
           amount={baseTokenAmount || 0}
@@ -166,7 +166,7 @@ export const ConfirmSwap = ({ onClickBack, walletCurrency }: Props) => {
 
         <SwapPair
           isQuoteLocked
-          swapSide='COUNTER'
+          swapSide={DexSwapSide.COUNTER}
           balance={counterTokenBalance}
           coin={counterToken}
           amount={counterTokenAmount || 0}

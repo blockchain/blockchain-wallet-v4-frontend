@@ -1,6 +1,7 @@
 import Task from 'data.task'
 import { addMilliseconds } from 'date-fns'
 import * as ethers from 'ethers'
+import { initialize } from 'redux-form'
 import { call, delay, put, select } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
@@ -15,19 +16,17 @@ import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
-import type { DexSwapForm } from './types'
+import { DexSwapForm, DexSwapSide, DexSwapSteps } from './types'
 import { getValidSwapAmount } from './utils'
 import { parseRawTx } from './utils/parseRawTx'
 
-const { DEX_SWAP_FORM } = model.components.dex
+const { DEFAULT_SLIPPAGE, DEX_SWAP_FORM } = model.components.dex
 
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 const REFRESH_INTERVAL = 15000
 const TOKEN_ALLOWANCE_POLL_INTERVAL = 5000
 const provider = ethers.providers.getDefaultProvider(`https://api.blockchain.info/eth/nodes/rpc`)
-const ENTER_DETAILS = 'ENTER_DETAILS'
-const COMPLETE_SWAP = 'COMPLETE_SWAP'
 const NATIVE_TOKEN = 'ETH'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -101,10 +100,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
       .sort((a, b) => b.fiatAmount - a.fiatAmount)
 
-    yield put(A.setTokens(tokens))
+    const tokensWithBalance = tokens.filter((token) => token.balance.toString() !== '0')
+    const hasTokensWithBalance = tokensWithBalance.length > 0
+    const hasNativeBalance = tokensWithBalance.some((token) => token.symbol === NATIVE_TOKEN)
 
-    yield put(A.fetchChains())
+    if (hasTokensWithBalance) {
+      yield put(
+        initialize(DEX_SWAP_FORM, {
+          baseToken: hasNativeBalance ? NATIVE_TOKEN : tokensWithBalance[0].symbol,
+          slippage: DEFAULT_SLIPPAGE,
+          step: DexSwapSteps.ENTER_DETAILS
+        })
+      )
+      yield put(A.setTokens(tokens))
+      yield put(A.fetchChains())
+    } else {
+      yield put(
+        initialize(DEX_SWAP_FORM, {
+          step: DexSwapSteps.NO_TOKEN_BALANCES
+        })
+      )
+    }
   }
+
   const fetchUserEligibility = function* () {
     try {
       yield call(waitForUserData)
@@ -157,8 +175,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           return yield put(A.stopPollSwapQuote())
         }
 
-        const { baseToken, baseTokenAmount, counterToken, slippage } = formValues
-        if (baseToken && counterToken && getValidSwapAmount(baseTokenAmount)) {
+        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
+          formValues
+        if (
+          baseToken &&
+          counterToken &&
+          (getValidSwapAmount(baseTokenAmount) || getValidSwapAmount(counterTokenAmount))
+        ) {
           yield* put(A.fetchSwapQuoteLoading())
 
           const currentChain = selectors.components.dex
@@ -188,6 +211,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw Error('No counter token')
           }
 
+          const counterAmount = Exchange.convertCoinToCoin({
+            baseToStandard: false,
+            coin: counterToken,
+            value: counterTokenAmount || 0
+          })
+
           const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
             coins: [baseToken, NATIVE_TOKEN],
             nonCustodialAccounts: true
@@ -200,10 +229,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw Error('No user wallet address')
           }
 
+          const sideType = yield select(S.getSwapSideType)
+
           const quoteResponse = yield* call(api.getDexSwapQuote, {
             fromCurrency: {
               address: baseTokenInfo.address,
-              amount: baseAmount,
+              amount: sideType === DexSwapSide.BASE ? baseAmount : undefined,
               chainId: currentChain.chainId,
               symbol: baseToken
             },
@@ -219,6 +250,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
             toCurrency: {
               address: counterTokenInfo.address,
+              amount: sideType === DexSwapSide.COUNTER ? counterAmount : undefined,
               chainId: currentChain.chainId,
               symbol: counterToken
             },
@@ -236,8 +268,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             })
           )
 
-          // We have a list of quotes but it's valid only for cross chains transactions that we currently don't have
-          // Also we consider to return to the FE only one quote in that case
           const { quote, quoteTtl, transaction } = quoteResponse
 
           if (quote) {
@@ -279,8 +309,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             )
           }
           yield delay(quoteTtl)
-          // cancel loop when current date is more than 15minutes of created date from above line 108 at the time of writing this comment
 
+          // cancel loop when current date is more than 15minutes of created date from above line 108 at the time of writing this comment
           if (new Date() > addMilliseconds(date, 15 * 60 * 1000)) {
             yield put(actions.form.reset(DEX_SWAP_FORM))
             yield put(A.resetSwapQuote())
@@ -295,21 +325,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const fetchSwapQuoteOnChange = function* (action) {
-    const { field, form } = action?.meta
-
-    // exit whenever the counterTokenAmount changes, to avoid infinitely calling fetchSwapQuote
-    if (field === 'counterTokenAmount' || field === 'step') return
-
-    // reset error if user changes token
-    if (field === 'baseToken') {
-      const error = yield select(selectors.components.dex.getSwapQuote)
-      if (error) yield put(A.clearCurrentSwapQuote())
-    }
+    const { field, form, touch } = action?.meta || {}
 
     // exit if incorrect form changed or the form values were modified by a saga (avoid infinite loop)
     if (form !== DEX_SWAP_FORM || action['@@redux-saga/SAGA_ACTION'] === true) return
+
+    // Don't fetch swap on the following cases:
+    // - field is step
+    // - touch is undefined and field equals baseTokenAmount or counterTokenAmount
+    //   - we only want to fetch when the user was the one who updated the values
+    if (
+      field === 'step' ||
+      (touch === undefined && (field === 'baseTokenAmount' || field === 'counterTokenAmount'))
+    )
+      return
+
     const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
-    const { baseToken, baseTokenAmount, counterToken } = formValues
+    const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues
 
     // if one of the values is 0 set another one to 0 and clear a quote
     if (field === 'baseTokenAmount' && getValidSwapAmount(baseTokenAmount) === 0) {
@@ -318,6 +350,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       return yield put(A.stopPollSwapQuote())
     }
 
+    // if one of the values is 0 set another one to 0 and clear a quote
+    if (field === 'counterTokenAmount' && getValidSwapAmount(counterTokenAmount) === 0) {
+      yield* put(actions.form.change(DEX_SWAP_FORM, 'baseTokenAmount', ''))
+      yield* put(A.clearCurrentSwapQuote())
+      return yield put(A.stopPollSwapQuote())
+    }
+
+    // reset insufficient balance error if user changes token
+    if (field === 'baseToken') {
+      const error = yield select(selectors.components.dex.getSwapQuote)
+      if (error) yield put(A.clearCurrentSwapQuote())
+    }
+
+    // if base amount is not enough, trigger insufficient balance error
     if (
       (field === 'baseTokenAmount' ||
         (field === 'baseToken' && getValidSwapAmount(baseTokenAmount) !== 0) ||
@@ -346,7 +392,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
-    if (!counterToken || !baseToken || !getValidSwapAmount(baseTokenAmount)) return
+    if (
+      !counterToken ||
+      !baseToken ||
+      !(getValidSwapAmount(baseTokenAmount) || getValidSwapAmount(counterTokenAmount))
+    )
+      return
+
+    if (field === 'baseTokenAmount') {
+      yield put(A.setSwapSideType(DexSwapSide.BASE))
+    } else {
+      yield put(A.setSwapSideType(DexSwapSide.COUNTER))
+    }
 
     yield put(A.fetchSwapQuote())
   }
@@ -557,7 +614,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // send tx
       const tx = yield call(() => taskToPromise(Task.of(provider.sendTransaction(signedTx))))
       yield put(A.sendSwapQuoteSuccess({ tx: tx.hash }))
-      yield put(actions.form.change(DEX_SWAP_FORM, 'step', COMPLETE_SWAP))
+      yield put(actions.form.change(DEX_SWAP_FORM, 'step', DexSwapSteps.COMPLETE_SWAP))
     } catch (e) {
       if (e.error === 'Insufficient funds for transaction fees') {
         yield put(
@@ -566,10 +623,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             title: 'Insufficient ETH'
           })
         )
-        yield put(actions.form.change(DEX_SWAP_FORM, 'step', ENTER_DETAILS))
+        yield put(actions.form.change(DEX_SWAP_FORM, 'step', DexSwapSteps.ENTER_DETAILS))
       } else {
         yield put(A.sendSwapQuoteFailure(e))
-        yield put(actions.form.change(DEX_SWAP_FORM, 'step', COMPLETE_SWAP))
+        yield put(actions.form.change(DEX_SWAP_FORM, 'step', DexSwapSteps.COMPLETE_SWAP))
       }
     }
   }
