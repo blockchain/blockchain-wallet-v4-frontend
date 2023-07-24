@@ -197,6 +197,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           />
         ) : (
           <SwapPair
+            amount={baseTokenAmount || 0}
             swapSide={DexSwapSide.BASE}
             animate={pairAnimate}
             isQuoteLocked={false}
@@ -223,6 +224,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
             swapSide={DexSwapSide.COUNTER}
             animate={pairAnimate}
             isQuoteLocked={false}
+            amount={counterTokenAmount || 0}
             walletCurrency={walletCurrency}
             onTokenSelect={onTokenSelect}
           />

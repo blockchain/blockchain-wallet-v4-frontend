@@ -19,6 +19,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions } from 'data'
 import { Analytics, DexPosition, DexSwapSide, DexSwapSideFields } from 'data/types'
+import { useDebounce } from 'hooks'
 
 import {
   AmountInput,
@@ -31,9 +32,10 @@ import {
 const NATIVE_TOKEN = 'ETH'
 
 type Props = {
+  amount: number
   swapSide: DexSwapSide
   walletCurrency: string
-} & ({ amount: number; balance: number | BigNumber; coin: CoinType } | { coin?: never }) &
+} & ({ balance: number | BigNumber; coin: CoinType } | { coin?: never }) &
   (
     | {
         handleMaxClicked?: undefined
@@ -47,12 +49,13 @@ type Props = {
       }
   )
 
-export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
+export const SwapPair = ({ amount, swapSide, walletCurrency, ...props }: Props) => {
   const dispatch = useDispatch()
   // TODO: Make type safe mapping between inputs name and form data properties
+  const debouncedAmount = useDebounce(amount, 500)
   const amountInputField = `${DexSwapSideFields[swapSide]}Amount`
   const isAnimationEnabled = !props.isQuoteLocked ? props.animate : false
-  const isAmountEntered = !!(props.coin && props.amount !== 0)
+  const isAmountEntered = amount !== 0
   const isBaseETH = props.coin === NATIVE_TOKEN
   const isBase = swapSide === DexSwapSide.BASE
   const amountColor = !isBaseETH && isBase ? 'blue600' : 'grey900'
@@ -60,18 +63,16 @@ export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
 
   // product only want to record this event once on first input
   useEffect(() => {
-    if (isAmountEntered) {
-      dispatch(
-        actions.analytics.trackEvent({
-          key: Analytics.DEX_SWAP_AMOUNT_ENTERED,
-          properties: {
-            currency: props.coin,
-            position: isBase ? DexPosition.SOURCE : DexPosition.DESTINATION
-          }
-        })
-      )
-    }
-  }, [isAmountEntered])
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.DEX_SWAP_AMOUNT_ENTERED,
+        properties: {
+          currency: props.coin || '',
+          position: isBase ? DexPosition.SOURCE : DexPosition.DESTINATION
+        }
+      })
+    )
+  }, [debouncedAmount])
 
   const openTokenSelector = () => !props.isQuoteLocked && props.onTokenSelect(swapSide)
 
@@ -105,7 +106,7 @@ export const SwapPair = ({ swapSide, walletCurrency, ...props }: Props) => {
             {Exchange.convertCoinToCoin({
               baseToStandard: false,
               coin: props.coin,
-              value: props.amount
+              value: amount
             })}
           </FiatDisplay>
         </SubtextContainer>
