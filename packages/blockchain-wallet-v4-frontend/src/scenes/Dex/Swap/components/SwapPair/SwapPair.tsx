@@ -28,8 +28,6 @@ import {
   TokenSelectWrapper
 } from './styles'
 
-const BASE = 'BASE'
-const COUNTER = 'COUNTER'
 const NATIVE_TOKEN = 'ETH'
 
 type Props = {
@@ -72,7 +70,7 @@ export const SwapPair = ({
 
   // product only want to record this event once on first input
   useEffect(() => {
-    if (!hasTriggerAnalytics && isAmountEntered && swapSide === BASE && setHasTriggerAnalytics) {
+    if (!hasTriggerAnalytics && isAmountEntered && isBase && setHasTriggerAnalytics) {
       setHasTriggerAnalytics(true)
       dispatch(
         actions.analytics.trackEvent({
@@ -149,7 +147,7 @@ export const SwapPair = ({
         <Padding top={0.25}>
           <Flex alignItems='center' gap={4}>
             <Text color={SemanticColors.body} variant='micro'>
-              {swapSide === DexSwapSide.BASE ? (
+              {isBase ? (
                 <FormattedMessage defaultMessage='Max' id='copy.max' />
               ) : (
                 <FormattedMessage defaultMessage='Balance' id='copy.balance' />
