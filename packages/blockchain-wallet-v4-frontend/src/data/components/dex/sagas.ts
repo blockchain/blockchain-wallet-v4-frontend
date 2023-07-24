@@ -229,7 +229,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw Error('No user wallet address')
           }
 
-          const sideType = yield select(S.getCurrentSideType)
+          const sideType = yield select(S.getSwapSideType)
 
           const quoteResponse = yield* call(api.getDexSwapQuote, {
             fromCurrency: {
@@ -400,9 +400,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       return
 
     if (field === 'baseTokenAmount') {
-      yield put(A.setCurrentSideType(DexSwapSide.BASE))
+      yield put(A.setSwapSideType(DexSwapSide.BASE))
     } else {
-      yield put(A.setCurrentSideType(DexSwapSide.COUNTER))
+      yield put(A.setSwapSideType(DexSwapSide.COUNTER))
     }
 
     yield put(A.fetchSwapQuote())

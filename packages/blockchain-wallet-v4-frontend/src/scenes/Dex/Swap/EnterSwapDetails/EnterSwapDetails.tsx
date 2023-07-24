@@ -84,6 +84,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const counterTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
   )
+  const swapSideType = useSelector(selectors.components.dex.getSwapSideType)
 
   const showAllowanceCheck =
     baseToken &&
@@ -243,6 +244,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           isQuoteLoading={false}
           isQuoteLocked={false}
           swapQuote={quote}
+          swapSideType={swapSideType}
         />
       ) : null}
 
