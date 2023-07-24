@@ -42,7 +42,7 @@ export const faqs: FaqType[] = [
   {
     answer: (
       <FormattedMessage
-        defaultMessage='Transfers can be made from both Trading Accounts and Private Key Wallets. Transferring your funds from a Private Key Wallet includes a network fee determined by the asset’s network. Funds you transfer during the week will be included in the following week’s strategy.'
+        defaultMessage='Transfers can be made from both Trading Accounts and DeFi Wallets. Transferring your funds from a DeFi Wallet includes a network fee determined by the asset’s network. Funds you transfer during the week will be included in the following week’s strategy.'
         id='scenes.earn.active-rewards-learn.faq.transfer.answer'
       />
     ),

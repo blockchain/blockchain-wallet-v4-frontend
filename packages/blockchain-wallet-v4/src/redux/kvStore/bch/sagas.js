@@ -24,7 +24,7 @@ import { BCH, derivationMap } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import * as A from './actions'
 
-const BCH_ACCT_NAME = 'Private Key Wallet'
+const BCH_ACCT_NAME = 'DeFi Wallet'
 
 export default ({ api, networks }) => {
   const createBch = function* (kv, hdAccounts, bchAccounts) {
@@ -84,11 +84,19 @@ export default ({ api, networks }) => {
       }
       // update account labels
       const legacyWalletName = 'My Bitcoin Cash Wallet'
+      const legacyWalletNameV2 = 'Private Key Wallet'
       forEach((account) => {
         // check if legacy format is used
         if (startsWith(legacyWalletName, account.label)) {
           // pluck label suffix e.g. " 2"
-          const labelSuffix = last(splitAt(22, account.label))
+          const labelSuffix = last(splitAt(legacyWalletName.length, account.label))
+          account.label = `${BCH_ACCT_NAME}${labelSuffix}`
+        } else if (
+          // check if legacy v2 format is used
+          startsWith(legacyWalletNameV2, account.label)
+        ) {
+          // pluck label suffix e.g. " 2"
+          const labelSuffix = last(splitAt(legacyWalletNameV2.length, account.label))
           account.label = `${BCH_ACCT_NAME}${labelSuffix}`
         }
       }, newkv.value.accounts)

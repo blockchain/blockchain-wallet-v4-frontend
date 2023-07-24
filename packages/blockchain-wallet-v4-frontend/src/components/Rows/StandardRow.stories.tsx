@@ -22,7 +22,7 @@ Default.args = {
       <Icon name='key' size='8px' color='grey600' />
     </IconCircularBackground>
   ),
-  topLeftText: 'Private Key Wallet',
+  topLeftText: 'DeFi Wallet',
   topRightText: '$7,926.43'
 }
 
@@ -44,7 +44,7 @@ MultipleRows.args = {
       <Icon name='key' size='8px' color='white' />
     </IconCircularBackground>
   ),
-  topLeftText: 'Private Key Wallet',
+  topLeftText: 'DeFi Wallet',
   topRightText: '$7,926.43'
 }
 
@@ -62,7 +62,7 @@ RightAction.args = {
     </IconCircularBackground>
   ),
   rightAction: true,
-  topLeftText: 'Private Key Wallet'
+  topLeftText: 'DeFi Wallet'
 }
 
 export const RightActionLoading = Template.bind({})
