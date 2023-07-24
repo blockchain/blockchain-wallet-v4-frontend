@@ -15,6 +15,7 @@ import type { DexSwapQuote } from '@core/network/api/dex'
 import { Image, SpinningLoader } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { selectors } from 'data'
+import { DexSwapSide } from 'data/types'
 import { useRemote } from 'hooks'
 
 import { GasFeeWrapper, HorizontalLine, ShowDetailsWrapper, Wrapper } from './styles'
@@ -31,6 +32,7 @@ type OwnProps = {
       isQuoteLoading: false
       isQuoteLocked: boolean
       swapQuote: DexSwapQuote
+      swapSideType: DexSwapSide
     }
 )
 
@@ -41,7 +43,6 @@ export const BaseRateAndFees = ({
   ...props
 }: OwnProps) => {
   const { data: currentChain } = useRemote(selectors.components.dex.getCurrentChain)
-
   if (props.isQuoteLoading) {
     return (
       <Wrapper>
@@ -79,12 +80,21 @@ export const BaseRateAndFees = ({
     )
   }
 
-  const { isQuoteLocked, swapQuote } = props
+  const { isQuoteLocked, swapQuote, swapSideType } = props
+  const isFetchedFromBase = swapSideType === DexSwapSide.BASE
+  const {
+    buyAmount: { symbol: buySymbol },
+    price,
+    sellAmount: { symbol: sellSymbol }
+  } = swapQuote.quote
+  const baseCurrency = isFetchedFromBase ? sellSymbol : buySymbol
+  const counterCurrency = isFetchedFromBase ? buySymbol : sellSymbol
+  const counterPrice = isFetchedFromBase ? price.toFixed(8) : (1 / price).toFixed(8)
+
   return props.swapQuote ? (
     <Wrapper>
       <Text variant='paragraph2' color={SemanticColors.title}>
-        1 {swapQuote.quote.sellAmount.symbol} = ~{swapQuote.quote.price.toFixed(8)}{' '}
-        {swapQuote.quote.buyAmount.symbol}
+        1 {baseCurrency} = ~{counterPrice} {counterCurrency}
       </Text>
       {!isQuoteLocked && currentChain && (
         <Flex alignItems='center'>
