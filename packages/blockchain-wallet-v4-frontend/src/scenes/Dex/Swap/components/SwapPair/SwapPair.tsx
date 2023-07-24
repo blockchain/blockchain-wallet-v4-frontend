@@ -20,11 +20,14 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions } from 'data'
 import { Analytics, DexPosition, DexSwapSide, DexSwapSideFields } from 'data/types'
 
-import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './styles'
-import { getZeroFiatAmountPreview } from './utils'
+import {
+  AmountInput,
+  PairWrapper,
+  SubtextContainer,
+  TokenSelectRow,
+  TokenSelectWrapper
+} from './styles'
 
-const BASE = 'BASE'
-const COUNTER = 'COUNTER'
 const NATIVE_TOKEN = 'ETH'
 
 type Props = {
@@ -61,13 +64,13 @@ export const SwapPair = ({
   const isAnimationEnabled = !props.isQuoteLocked ? props.animate : false
   const isAmountEntered = !!(props.coin && props.amount !== 0)
   const isBaseETH = props.coin === NATIVE_TOKEN
-  const isBase = swapSide === BASE
+  const isBase = swapSide === DexSwapSide.BASE
   const amountColor = !isBaseETH && isBase ? 'blue600' : 'grey900'
   const handleMaxClicked = isBaseETH ? null : props.handleMaxClicked
 
   // product only want to record this event once on first input
   useEffect(() => {
-    if (!hasTriggerAnalytics && isAmountEntered && swapSide === BASE && setHasTriggerAnalytics) {
+    if (!hasTriggerAnalytics && isAmountEntered && isBase && setHasTriggerAnalytics) {
       setHasTriggerAnalytics(true)
       dispatch(
         actions.analytics.trackEvent({
@@ -87,7 +90,11 @@ export const SwapPair = ({
 
   return props.coin ? (
     <PairWrapper animate={isAnimationEnabled} swapSide={swapSide}>
-      <Flex flexDirection='column' justifyContent={isAmountEntered ? 'space-evenly' : 'center'}>
+      <Flex
+        flexDirection='column'
+        justifyContent={isAmountEntered ? 'space-evenly' : 'center'}
+        width='fill'
+      >
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
@@ -96,21 +103,23 @@ export const SwapPair = ({
           name={amountInputField}
           validate={[]}
         />
-        <FiatDisplay
-          coin={props.coin}
-          currency={walletCurrency}
-          color='grey600'
-          lineHeight='12px'
-          loadingHeight='14px'
-          size='14px'
-          weight={500}
-        >
-          {Exchange.convertCoinToCoin({
-            baseToStandard: false,
-            coin: props.coin,
-            value: props.amount
-          })}
-        </FiatDisplay>
+        <SubtextContainer>
+          <FiatDisplay
+            coin={props.coin}
+            currency={walletCurrency}
+            color='grey600'
+            lineHeight='12px'
+            loadingHeight='14px'
+            size='14px'
+            weight={500}
+          >
+            {Exchange.convertCoinToCoin({
+              baseToStandard: false,
+              coin: props.coin,
+              value: props.amount
+            })}
+          </FiatDisplay>
+        </SubtextContainer>
       </Flex>
       <Flex flexDirection='column' justifyContent='space-evenly' alignItems='center'>
         <TokenSelectWrapper
@@ -138,7 +147,7 @@ export const SwapPair = ({
         <Padding top={0.25}>
           <Flex alignItems='center' gap={4}>
             <Text color={SemanticColors.body} variant='micro'>
-              {swapSide === BASE ? (
+              {isBase ? (
                 <FormattedMessage defaultMessage='Max' id='copy.max' />
               ) : (
                 <FormattedMessage defaultMessage='Balance' id='copy.balance' />
@@ -161,7 +170,11 @@ export const SwapPair = ({
     </PairWrapper>
   ) : (
     <PairWrapper animate={isAnimationEnabled} swapSide={swapSide}>
-      <Flex flexDirection='column' justifyContent={isAmountEntered ? 'space-evenly' : 'center'}>
+      <Flex
+        flexDirection='column'
+        justifyContent={isAmountEntered ? 'space-evenly' : 'center'}
+        width='fill'
+      >
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
@@ -170,9 +183,17 @@ export const SwapPair = ({
           name={amountInputField}
           validate={[]}
         />
-        <Text variant='paragraph-mono' color={SemanticColors.body}>
-          {getZeroFiatAmountPreview(walletCurrency)}
-        </Text>
+        <FiatDisplay
+          coin={NATIVE_TOKEN}
+          currency={walletCurrency}
+          color='grey600'
+          lineHeight='12px'
+          loadingHeight='14px'
+          size='14px'
+          weight={500}
+        >
+          0
+        </FiatDisplay>
       </Flex>
       <Flex justifyContent='space-evenly' alignItems='center'>
         <TokenSelectWrapper
