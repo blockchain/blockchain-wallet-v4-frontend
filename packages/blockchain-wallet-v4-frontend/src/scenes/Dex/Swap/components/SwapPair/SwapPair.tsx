@@ -27,7 +27,6 @@ import {
   TokenSelectRow,
   TokenSelectWrapper
 } from './styles'
-import { getZeroFiatAmountPreview } from './utils'
 
 const BASE = 'BASE'
 const COUNTER = 'COUNTER'
@@ -67,7 +66,7 @@ export const SwapPair = ({
   const isAnimationEnabled = !props.isQuoteLocked ? props.animate : false
   const isAmountEntered = !!(props.coin && props.amount !== 0)
   const isBaseETH = props.coin === NATIVE_TOKEN
-  const isBase = swapSide === BASE
+  const isBase = swapSide === DexSwapSide.BASE
   const amountColor = !isBaseETH && isBase ? 'blue600' : 'grey900'
   const handleMaxClicked = isBaseETH ? null : props.handleMaxClicked
 
@@ -150,7 +149,7 @@ export const SwapPair = ({
         <Padding top={0.25}>
           <Flex alignItems='center' gap={4}>
             <Text color={SemanticColors.body} variant='micro'>
-              {swapSide === BASE ? (
+              {swapSide === DexSwapSide.BASE ? (
                 <FormattedMessage defaultMessage='Max' id='copy.max' />
               ) : (
                 <FormattedMessage defaultMessage='Balance' id='copy.balance' />
