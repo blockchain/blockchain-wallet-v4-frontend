@@ -40,7 +40,6 @@ type Props = {
 export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const dispatch = useDispatch()
 
-  const [hasTriggerAnalytics, setHasTriggerAnalytics] = useState(false)
   const [pairAnimate, setPairAnimate] = useState(false)
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
 
@@ -188,9 +187,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           <SwapPair
             swapSide={DexSwapSide.BASE}
             animate={pairAnimate}
-            hasTriggerAnalytics={hasTriggerAnalytics}
             handleMaxClicked={handleMaxClicked}
-            setHasTriggerAnalytics={setHasTriggerAnalytics}
             isQuoteLocked={false}
             balance={baseTokenBalance}
             coin={baseToken}
@@ -200,10 +197,9 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           />
         ) : (
           <SwapPair
+            amount={baseTokenAmount || 0}
             swapSide={DexSwapSide.BASE}
             animate={pairAnimate}
-            hasTriggerAnalytics={hasTriggerAnalytics}
-            setHasTriggerAnalytics={setHasTriggerAnalytics}
             isQuoteLocked={false}
             walletCurrency={walletCurrency}
             onTokenSelect={onTokenSelect}
@@ -228,6 +224,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
             swapSide={DexSwapSide.COUNTER}
             animate={pairAnimate}
             isQuoteLocked={false}
+            amount={counterTokenAmount || 0}
             walletCurrency={walletCurrency}
             onTokenSelect={onTokenSelect}
           />
