@@ -20,7 +20,13 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { actions } from 'data'
 import { Analytics, DexPosition, DexSwapSide, DexSwapSideFields } from 'data/types'
 
-import { AmountInput, PairWrapper, TokenSelectRow, TokenSelectWrapper } from './styles'
+import {
+  AmountInput,
+  PairWrapper,
+  SubtextContainer,
+  TokenSelectRow,
+  TokenSelectWrapper
+} from './styles'
 import { getZeroFiatAmountPreview } from './utils'
 
 const BASE = 'BASE'
@@ -87,7 +93,11 @@ export const SwapPair = ({
 
   return props.coin ? (
     <PairWrapper animate={isAnimationEnabled} swapSide={swapSide}>
-      <Flex flexDirection='column' justifyContent={isAmountEntered ? 'space-evenly' : 'center'}>
+      <Flex
+        flexDirection='column'
+        justifyContent={isAmountEntered ? 'space-evenly' : 'center'}
+        width='fill'
+      >
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
@@ -96,21 +106,23 @@ export const SwapPair = ({
           name={amountInputField}
           validate={[]}
         />
-        <FiatDisplay
-          coin={props.coin}
-          currency={walletCurrency}
-          color='grey600'
-          lineHeight='12px'
-          loadingHeight='14px'
-          size='14px'
-          weight={500}
-        >
-          {Exchange.convertCoinToCoin({
-            baseToStandard: false,
-            coin: props.coin,
-            value: props.amount
-          })}
-        </FiatDisplay>
+        <SubtextContainer>
+          <FiatDisplay
+            coin={props.coin}
+            currency={walletCurrency}
+            color='grey600'
+            lineHeight='12px'
+            loadingHeight='14px'
+            size='14px'
+            weight={500}
+          >
+            {Exchange.convertCoinToCoin({
+              baseToStandard: false,
+              coin: props.coin,
+              value: props.amount
+            })}
+          </FiatDisplay>
+        </SubtextContainer>
       </Flex>
       <Flex flexDirection='column' justifyContent='space-evenly' alignItems='center'>
         <TokenSelectWrapper
@@ -161,7 +173,11 @@ export const SwapPair = ({
     </PairWrapper>
   ) : (
     <PairWrapper animate={isAnimationEnabled} swapSide={swapSide}>
-      <Flex flexDirection='column' justifyContent={isAmountEntered ? 'space-evenly' : 'center'}>
+      <Flex
+        flexDirection='column'
+        justifyContent={isAmountEntered ? 'space-evenly' : 'center'}
+        width='fill'
+      >
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
@@ -170,9 +186,17 @@ export const SwapPair = ({
           name={amountInputField}
           validate={[]}
         />
-        <Text variant='paragraph-mono' color={SemanticColors.body}>
-          {getZeroFiatAmountPreview(walletCurrency)}
-        </Text>
+        <FiatDisplay
+          coin={NATIVE_TOKEN}
+          currency={walletCurrency}
+          color='grey600'
+          lineHeight='12px'
+          loadingHeight='14px'
+          size='14px'
+          weight={500}
+        >
+          0
+        </FiatDisplay>
       </Flex>
       <Flex justifyContent='space-evenly' alignItems='center'>
         <TokenSelectWrapper
