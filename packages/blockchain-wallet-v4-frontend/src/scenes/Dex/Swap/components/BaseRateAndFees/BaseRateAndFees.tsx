@@ -92,7 +92,7 @@ export const BaseRateAndFees = ({
   return props.swapQuote ? (
     <Wrapper>
       <Text variant='paragraph2' color={SemanticColors.title}>
-        1 {buySymbol} = ~{counterPrice} {sellSymbol}
+        1 {sellSymbol} = ~{counterPrice} {buySymbol}
       </Text>
       {!isQuoteLocked && currentChain && (
         <Flex alignItems='center'>
