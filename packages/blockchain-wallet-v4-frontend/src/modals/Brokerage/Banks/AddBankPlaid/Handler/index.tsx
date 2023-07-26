@@ -29,7 +29,9 @@ const Iframe = styled.iframe`
 
 const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Props) => {
   const dispatch = useDispatch()
+
   const iFrameUrl = useSelector(selectors.components.brokerage.getPlaidWalletHelperLink)
+
   const {
     data,
     error: bankCredentialError,
@@ -68,8 +70,6 @@ const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Prop
           }
         })
       )
-      return
-      // throw new Error(error)
     }
 
     if (!public_token) {

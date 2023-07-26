@@ -1,4 +1,5 @@
 export enum Events {
+  PLAID_CLICK_OUTSIDE = 'User Clicked Outside Plaid Flyout',
   PLAID_ERROR = 'Error Linking With Plaid'
 }
 
@@ -15,4 +16,13 @@ type PlaidLinkingError = {
   }
 }
 
-export type TrackEventAction = PlaidLinkingError
+type PlaidClickedOutside = {
+  key: Events.PLAID_CLICK_OUTSIDE
+  properties: {
+    buy_sell_step: string
+    modal_step: string
+    origin: string
+  }
+}
+
+export type TrackEventAction = PlaidClickedOutside | PlaidLinkingError
