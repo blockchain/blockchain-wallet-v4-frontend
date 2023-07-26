@@ -46,7 +46,6 @@ const Success: React.FC<Props> = (props) => {
           }
         })
       )
-      handleClose()
     }
   }, [userClickedOutside])
 
