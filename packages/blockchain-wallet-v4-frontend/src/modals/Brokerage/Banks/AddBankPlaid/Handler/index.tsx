@@ -39,8 +39,10 @@ const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Prop
   } = useRemote(selectors.components.brokerage.getBankCredentials)
 
   useEffect(() => {
-    if (paymentMethodId && reason === 'REQUIRES_UPDATE') {
-      dispatch(actions.components.brokerage.fetchBankRefreshCredentials(paymentMethodId))
+    if (paymentMethodId && reason) {
+      if (reason === 'REQUIRES_UPDATE') {
+        dispatch(actions.components.brokerage.fetchBankRefreshCredentials(paymentMethodId))
+      }
     } else {
       dispatch(actions.components.brokerage.setupBankTransferProvider())
     }
