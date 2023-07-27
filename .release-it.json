@@ -15,8 +15,9 @@
     "commitMessage": "chore(Release): v${version}",
     "tagName": "v${version}",
     "tagAnnotation": "Release v${version}",
-    "pushArgs": "--no-verify"
+    "push": false
   },
+
   "github": {
     "release": true,
     "preRelease": true,
