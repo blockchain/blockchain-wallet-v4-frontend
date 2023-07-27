@@ -14,8 +14,7 @@
     "changelog": "changelog -t $(git describe --abbrev=0 --tags) -f -",
     "commitMessage": "chore(Release): v${version}",
     "tagName": "v${version}",
-    "tagAnnotation": "Release v${version}",
-    "push": false
+    "tagAnnotation": "Release v${version}"
   },
 
   "github": {
