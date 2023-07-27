@@ -108,15 +108,15 @@ class Flyout extends React.Component<Props> {
   shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
 
   render() {
-    const { children, doNotHide, isOpen, userClickedOutside } = this.props
+    const { children, doNotHide, isOpen, position, total, userClickedOutside } = this.props
 
     return (
       <AnimatePresence>
         {isOpen && !userClickedOutside ? (
           <FlyoutModal
             doNotHide={doNotHide}
-            total={this.props.total}
-            position={this.props.position}
+            total={total}
+            position={position}
             animate={{ x: 0 }}
             exit={{ x: width }}
             initial={{ x: width }}

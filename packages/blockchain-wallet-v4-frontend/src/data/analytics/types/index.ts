@@ -38,6 +38,10 @@ import {
   Events as OnboardingAndVerificationEvents,
   TrackEventAction as OnboardingAndVerificationTrackEventAction
 } from './onboardingAndVerification'
+import {
+  Events as PlaidClientEvents,
+  TrackEventAction as PlaidClientTrackEventAction
+} from './plaid'
 import { Events as SellEvents, TrackEventAction as SellTrackEventAction } from './sell'
 import {
   Events as SendCryptoEvents,
@@ -62,24 +66,25 @@ const TRACK_EVENT = 'trackEvent'
 
 type AnalyticsKey =
   | AccountRecoveryEvents
+  | BuyEvents
   | ClientErrorEvents
+  | CoinViewEvents
+  | CowboysPromoEvents
   | DepositWithdrawalClientEvents
   | DexEvents
+  | ExchangePromoEvents
   | InterestClientEvents
   | LoginEvents
   | MiscEvents
   | NftsEvents
   | OnboardingAndVerificationEvents
-  | SendCryptoEvents
-  | TaxCenterEvents
-  | CoinViewEvents
-  | CowboysPromoEvents
-  | ViewAndClickEvents
-  | SwapEvents
-  | WalletEarnEvents
-  | BuyEvents
+  | PlaidClientEvents
   | SellEvents
-  | ExchangePromoEvents
+  | SendCryptoEvents
+  | SwapEvents
+  | TaxCenterEvents
+  | ViewAndClickEvents
+  | WalletEarnEvents
 
 const Analytics = {
   ...AccountRecoveryEvents,
@@ -93,6 +98,7 @@ const Analytics = {
   ...MiscEvents,
   ...NftsEvents,
   ...OnboardingAndVerificationEvents,
+  ...PlaidClientEvents,
   ...SendCryptoEvents,
   ...SwapEvents,
   ...TaxCenterEvents,
@@ -104,32 +110,33 @@ const Analytics = {
 
 // event properties
 type AnalyticsProperties =
+  | DepositWithdrawalClientProperties
+  | InterestClientProperties
   | OnboardingAndVerificationAnalyticsProperties
   | ViewAndClickAnalyticsProperties
-  | InterestClientProperties
-  | DepositWithdrawalClientProperties
 
 // event actions
 type TrackEventAction =
   | AccountRecoveryTrackEventAction
+  | BuyTrackEventAction
   | ClientErrorTrackEventAction
+  | CowboysPromoTrackEventAction
   | DepositWithdrawalClientEventAction
   | DexEventAction
+  | ExchangePromoTrackEventAction
   | InterestClientTrackEventAction
   | LoginTrackEventAction
   | MiscTrackEventAction
   | NftsTrackEventAction
   | OnboardingAndVerificationTrackEventAction
+  | PlaidClientTrackEventAction
+  | SellTrackEventAction
   | SendCryptoTrackEventAction
   | SwapTrackEventAction
   | TaxCenterTrackEventAction
   | TransactionsTrackEventAction
   | ViewAndClickTrackEventAction
   | WalletEarnTrackEventAction
-  | CowboysPromoTrackEventAction
-  | BuyTrackEventAction
-  | SellTrackEventAction
-  | ExchangePromoTrackEventAction
 
 type AnalyticsTraits = {
   country?: string

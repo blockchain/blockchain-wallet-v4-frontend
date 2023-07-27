@@ -39,6 +39,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     (beneficiary) => beneficiary.currency in WalletFiatEnum
   )
 
+  if (!walletBeneficiaries.length) return <SettingContainer />
+
   return (
     <SettingContainer>
       <SettingSummary>
