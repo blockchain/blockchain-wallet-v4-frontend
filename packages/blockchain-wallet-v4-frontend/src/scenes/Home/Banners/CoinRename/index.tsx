@@ -9,7 +9,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { media } from 'services/styles'
 
-import { getCoinRenameAnnouncement } from '../selectors'
+import ANNOUNCEMENTS from '../constants'
 
 const Wrapper = styled.div`
   display: flex;
@@ -72,7 +72,7 @@ const CoinRename = ({ buySellActions, cacheActions, coinRename }: Props) => {
   if (!coinRename) return null
   if (!window.coins[coinRename]) return null
 
-  const newCoinAnnouncement = getCoinRenameAnnouncement(coinRename)
+  const newCoinAnnouncement = ANNOUNCEMENTS.COIN_RENAME(coinRename)
   const { coinfig } = window.coins[coinRename]
   const { displaySymbol, symbol } = coinfig
 

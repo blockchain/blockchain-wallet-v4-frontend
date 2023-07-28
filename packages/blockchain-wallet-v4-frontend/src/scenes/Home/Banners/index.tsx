@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
@@ -27,9 +27,27 @@ const BannerWrapper = styled.div`
   margin-bottom: 25px;
 `
 
+const BANNER_DICT = {
+  activeRewards: ActiveRewardsBanner,
+  appleAndGooglePay: AppleAndGooglePayBanner,
+  buyCrypto: BuyCrypto,
+  coinRename: CoinRename,
+  completeYourProfile: CompleteYourProfile,
+  continueToGold: ContinueToGold,
+  earnRewards: RewardsBanner,
+  finishKyc: FinishKyc,
+  newCurrency: NewCurrency,
+  recurringBuys: RecurringBuys,
+  resubmit: KycResubmit,
+  sanctions: Sanctions,
+  sbOrder: BSOrderBanner,
+  servicePriceUnavailable: ServicePriceUnavailable,
+  staking: StakingBanner
+}
+
 const Banners = (props: Props) => {
   const { buySellActions, interestActions } = props
-  const { data, error, isLoading, isNotAsked } = useRemote(getData)
+  const { data, hasError, isLoading, isNotAsked } = useRemote(getData)
 
   useEffect(() => {
     interestActions.fetchInterestEligible()
@@ -45,104 +63,19 @@ const Banners = (props: Props) => {
     }
   }, [])
 
-  if (!data || error || isNotAsked || isLoading) return null
+  if (!data || hasError || isNotAsked || isLoading) return null
 
   const { bannerToShow } = data
 
-  switch (bannerToShow) {
-    case 'resubmit':
-      return (
-        <BannerWrapper>
-          <KycResubmit />
-        </BannerWrapper>
-      )
-    case 'activeRewards':
-      return (
-        <BannerWrapper>
-          <ActiveRewardsBanner />
-        </BannerWrapper>
-      )
-    case 'staking':
-      return (
-        <BannerWrapper>
-          <StakingBanner />
-        </BannerWrapper>
-      )
-    case 'appleAndGooglePay':
-      return (
-        <BannerWrapper>
-          <AppleAndGooglePayBanner />
-        </BannerWrapper>
-      )
-    case 'finishKyc':
-      return (
-        <BannerWrapper>
-          <FinishKyc />
-        </BannerWrapper>
-      )
-    case 'servicePriceUnavailable':
-      return (
-        <BannerWrapper>
-          <ServicePriceUnavailable />
-        </BannerWrapper>
-      )
-    case 'sbOrder':
-      return (
-        <BannerWrapper>
-          <BSOrderBanner />
-        </BannerWrapper>
-      )
-    case 'coinRename':
-      return (
-        <BannerWrapper>
-          <CoinRename />
-        </BannerWrapper>
-      )
-    case 'newCurrency':
-      return (
-        <BannerWrapper>
-          <NewCurrency />
-        </BannerWrapper>
-      )
-    case 'buyCrypto':
-      return (
-        <BannerWrapper>
-          <BuyCrypto />
-        </BannerWrapper>
-      )
-    case 'continueToGold':
-      return (
-        <BannerWrapper>
-          <ContinueToGold />
-        </BannerWrapper>
-      )
-    case 'completeYourProfile':
-      return (
-        <BannerWrapper>
-          <CompleteYourProfile />
-        </BannerWrapper>
-      )
-    case 'recurringBuys':
-      return (
-        <BannerWrapper>
-          <RecurringBuys />
-        </BannerWrapper>
-      )
-    case 'sanctions':
-      return (
-        <BannerWrapper>
-          <Sanctions />
-        </BannerWrapper>
-      )
-    case 'earnRewards':
-      return (
-        <BannerWrapper>
-          <RewardsBanner />
-        </BannerWrapper>
-      )
-    default:
-      return null
-  }
+  if (!bannerToShow) return null
+
+  const Banner = BANNER_DICT[bannerToShow]
+
+  return (
+    <BannerWrapper>
+      <Banner />
+    </BannerWrapper>
+  )
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -154,4 +87,4 @@ const connector = connect(null, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 
-export default connector(memo(Banners))
+export default connector(Banners)
