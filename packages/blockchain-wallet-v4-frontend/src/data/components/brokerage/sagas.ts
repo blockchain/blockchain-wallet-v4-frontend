@@ -407,11 +407,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // get current user tier
     const isUserTier2 = yield call(isTier2)
-    yield put(actions.custodial.fetchProductEligibilityForUser())
-    yield take([
-      actions.custodial.fetchProductEligibilityForUserSuccess.type,
-      actions.custodial.fetchProductEligibilityForUserFailure.type
-    ])
 
     const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
       custodialWallets: { canDepositCrypto: false, enabled: false },

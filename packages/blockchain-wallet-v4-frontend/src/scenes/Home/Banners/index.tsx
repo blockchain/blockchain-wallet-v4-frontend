@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
@@ -28,21 +28,21 @@ const BannerWrapper = styled.div`
 `
 
 const BANNER_DICT = {
-  activeRewards: ActiveRewardsBanner,
-  appleAndGooglePay: AppleAndGooglePayBanner,
-  buyCrypto: BuyCrypto,
-  coinRename: CoinRename,
-  completeYourProfile: CompleteYourProfile,
-  continueToGold: ContinueToGold,
-  earnRewards: RewardsBanner,
-  finishKyc: FinishKyc,
-  newCurrency: NewCurrency,
-  recurringBuys: RecurringBuys,
-  resubmit: KycResubmit,
-  sanctions: Sanctions,
-  sbOrder: BSOrderBanner,
-  servicePriceUnavailable: ServicePriceUnavailable,
-  staking: StakingBanner
+  activeRewards: <ActiveRewardsBanner />,
+  appleAndGooglePay: <AppleAndGooglePayBanner />,
+  buyCrypto: <BuyCrypto />,
+  coinRename: <CoinRename />,
+  completeYourProfile: <CompleteYourProfile />,
+  continueToGold: <ContinueToGold />,
+  earnRewards: <RewardsBanner />,
+  finishKyc: <FinishKyc />,
+  newCurrency: <NewCurrency />,
+  recurringBuys: <RecurringBuys />,
+  resubmit: <KycResubmit />,
+  sanctions: <Sanctions />,
+  sbOrder: <BSOrderBanner />,
+  servicePriceUnavailable: <ServicePriceUnavailable />,
+  staking: <StakingBanner />
 }
 
 const Banners = (props: Props) => {
@@ -69,13 +69,7 @@ const Banners = (props: Props) => {
 
   if (!bannerToShow) return null
 
-  const Banner = BANNER_DICT[bannerToShow]
-
-  return (
-    <BannerWrapper>
-      <Banner />
-    </BannerWrapper>
-  )
+  return <BannerWrapper>{BANNER_DICT[bannerToShow]}</BannerWrapper>
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -87,4 +81,4 @@ const connector = connect(null, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 
-export default connector(Banners)
+export default connector(memo(Banners))

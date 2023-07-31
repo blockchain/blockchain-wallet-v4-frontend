@@ -3,7 +3,6 @@
 
 import { Coin } from '@core/utils'
 import { actions, actionTypes as AT } from 'data'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   BankDWStepType,
   InterestStep,
@@ -33,7 +32,6 @@ import {
 import {
   buyPaymentMethodSelectedPaymentTypeDictionary,
   buySellClickedOriginDictionary,
-  getNetworkFee,
   getOriginalTimestamp,
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
@@ -43,7 +41,6 @@ import {
   sendReceiveClickedOriginDictionary,
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,
-  swapClickedOriginDictionary,
   upgradeVerificationClickedOriginDictionary
 } from 'middleware/analyticsMiddleware/utils'
 
@@ -250,14 +247,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case actions.modals.showModal.type: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email ?? null
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const userData = state.profile.getOrElse({})
+
+        const nabuId = userData.id ?? null
+        const email = userData.emailVerified ? userData.email : null
+        const tier = userData.tiers?.current ?? null
 
         const modalName: ModalName = action.payload.type
-
         switch (modalName) {
           case ModalName.SIMPLE_BUY_MODAL: {
             const rawOrigin = action.payload.props.origin

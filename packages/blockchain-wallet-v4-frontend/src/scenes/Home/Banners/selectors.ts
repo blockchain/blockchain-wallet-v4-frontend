@@ -18,7 +18,7 @@ import ANNOUNCEMENTS from './constants'
 const { DOC_RESUBMISSION_REASONS, KYC_STATES } = model.profile
 const { EXPIRED, GENERAL } = DOC_RESUBMISSION_REASONS
 
-export type BannerType =
+type BannerType =
   | 'resubmit'
   | 'sbOrder'
   | 'finishKyc'
