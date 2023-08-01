@@ -2,7 +2,7 @@ import { path, prop } from 'ramda'
 
 import { crypto as wCrypto } from '@core'
 
-export const getLastAnnouncementState = (state): string | undefined =>
+export const getLastAnnouncementState = (state): object | undefined =>
   path(['cache', 'announcements'], state)
 export const getCache = (state) => prop('cache', state)
 export const getEmail = (state): string | undefined => path(['cache', 'lastEmail'], state)

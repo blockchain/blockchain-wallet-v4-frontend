@@ -9,7 +9,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { media } from 'services/styles'
 
-import { getServicePriceUnavailableAnnouncement } from '../selectors'
+import ANNOUNCEMENTS from '../constants'
 import { CloseLink } from '../styles'
 
 const Wrapper = styled.div`
@@ -52,7 +52,6 @@ const Description = styled(Text)`
 `
 
 const ServicePriceUnavailable = ({ cacheActions }: Props) => {
-  const completeAnnouncement = getServicePriceUnavailableAnnouncement()
   return (
     <Wrapper>
       <MessageWrapper>
@@ -74,7 +73,7 @@ const ServicePriceUnavailable = ({ cacheActions }: Props) => {
       </MessageWrapper>
       <CloseLink
         data-e2e='newCoinCloseButton'
-        onClick={() => cacheActions.announcementDismissed(completeAnnouncement)}
+        onClick={() => cacheActions.announcementDismissed(ANNOUNCEMENTS.SERVICE_PRICE_UNAVAILABLE)}
       >
         <Icon size='20px' color='grey400' name='close-circle' />
       </CloseLink>

@@ -32,25 +32,29 @@ const Actions = ({
   cryptoCurrency,
   swapActions
 }: Props) => {
+  const onBuyClick = () => {
+    buySellActions.showModal({
+      cryptoCurrency,
+      orderType: OrderType.BUY,
+      origin: 'PriceChart'
+    })
+    analyticsActions.trackEvent({
+      key: Analytics.PRICE_GRAPH_BUY_CLICKED,
+      properties: {}
+    })
+  }
+
+  const onSwapClick = () => {
+    swapActions.showModal({ origin: 'PriceChart' })
+    analyticsActions.trackEvent({
+      key: Analytics.PRICE_GRAPH_SWAP_CLICKED,
+      properties: {}
+    })
+  }
+
   return (
     <Wrapper>
-      <BuyTradeButton
-        data-e2e='buyButton'
-        height='42px'
-        nature='primary'
-        onClick={() => {
-          analyticsActions.trackEvent({
-            key: Analytics.PRICE_GRAPH_BUY_CLICKED,
-            properties: {}
-          })
-
-          buySellActions.showModal({
-            cryptoCurrency,
-            orderType: OrderType.BUY,
-            origin: 'PriceChart'
-          })
-        }}
-      >
+      <BuyTradeButton data-e2e='buyButton' height='42px' nature='primary' onClick={onBuyClick}>
         <Text color='white' size='16px' lineHeight='24px' weight={600}>
           <FormattedMessage
             id='price.chart.buy.coin'
@@ -63,14 +67,7 @@ const Actions = ({
         data-e2e='swapButton'
         height='42px'
         nature='empty-secondary'
-        onClick={() => {
-          analyticsActions.trackEvent({
-            key: Analytics.PRICE_GRAPH_SWAP_CLICKED,
-            properties: {}
-          })
-
-          swapActions.showModal({ origin: 'PriceChart' })
-        }}
+        onClick={onSwapClick}
       >
         <Text color='blue600' size='16px' lineHeight='24px' weight={600}>
           <FormattedMessage

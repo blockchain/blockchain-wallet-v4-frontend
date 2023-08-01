@@ -8,7 +8,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { media } from 'services/styles'
 
-import { getKYCFinishAnnouncement } from '../selectors'
+import ANNOUNCEMENTS from '../constants'
 import { BannerButton, CloseLink, Row } from '../styles'
 
 const Wrapper = styled.div`
@@ -63,7 +63,6 @@ const Copy = styled(Text)`
 `
 
 const FinishKyc = (props: Props) => {
-  const completeAnnouncement = getKYCFinishAnnouncement()
   return (
     <Wrapper>
       <StyledRow>
@@ -101,7 +100,7 @@ const FinishKyc = (props: Props) => {
       </BannerButton>
       <CloseLink
         data-e2e='newCoinCloseButton'
-        onClick={() => props.cacheActions.announcementDismissed(completeAnnouncement)}
+        onClick={() => props.cacheActions.announcementDismissed(ANNOUNCEMENTS.KYC_FINISH)}
       >
         <Icon size='20px' color='grey400' name='close-circle' />
       </CloseLink>

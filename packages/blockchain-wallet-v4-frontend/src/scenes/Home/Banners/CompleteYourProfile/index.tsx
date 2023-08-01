@@ -13,7 +13,7 @@ import { RootState } from 'data/rootReducer'
 import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
-import { getCompleteProfileAnnouncement } from '../selectors'
+import ANNOUNCEMENTS from '../constants'
 import { BannerButton, CloseLink } from '../styles'
 import { getData } from './selectors'
 
@@ -91,8 +91,6 @@ const CompleteYourProfile = ({
     })
   }, [modalActions])
 
-  const completeAnnouncement = getCompleteProfileAnnouncement()
-
   return (
     <Wrapper>
       <Row>
@@ -132,7 +130,7 @@ const CompleteYourProfile = ({
 
       <CloseLink
         data-e2e='newCoinCloseButton'
-        onClick={() => cacheActions.announcementDismissed(completeAnnouncement)}
+        onClick={() => cacheActions.announcementDismissed(ANNOUNCEMENTS.COMPLETE_PROFILE)}
       >
         <Icon size='20px' color='grey400' name='close-circle' />
       </CloseLink>

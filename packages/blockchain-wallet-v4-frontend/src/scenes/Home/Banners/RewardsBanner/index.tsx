@@ -12,8 +12,10 @@ import { actions } from 'data'
 import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
-import { getEarnRewardsAnnouncement } from '../selectors'
+import ANNOUNCEMENTS from '../constants'
 import { BannerButton, CloseLink, IconWrapper, Row } from '../styles'
+
+const { BANNER_REWARDS_CLICKED, BANNER_REWARDS_VIEWED } = Analytics
 
 const Wrapper = styled.div`
   display: flex;
@@ -56,7 +58,6 @@ const StartEarningRewards: React.FC<Props> = (props) => {
   const {
     analyticsActions: { trackEvent }
   } = props
-  const { BANNER_REWARDS_CLICKED, BANNER_REWARDS_VIEWED } = Analytics
 
   useEffect(() => {
     trackEvent({
@@ -77,8 +78,6 @@ const StartEarningRewards: React.FC<Props> = (props) => {
       }
     })
   }
-
-  const completeAnnouncement = getEarnRewardsAnnouncement()
 
   return (
     <Wrapper>
@@ -108,7 +107,7 @@ const StartEarningRewards: React.FC<Props> = (props) => {
       </LinkContainer>
       <CloseLink
         data-e2e='newCoinCloseButton'
-        onClick={() => props.cacheActions.announcementDismissed(completeAnnouncement)}
+        onClick={() => props.cacheActions.announcementDismissed(ANNOUNCEMENTS.EARN_REWARDS)}
       >
         <IconCloseCircleV2
           label='close'
