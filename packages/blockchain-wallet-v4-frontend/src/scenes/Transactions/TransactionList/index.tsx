@@ -32,53 +32,51 @@ const TransactionsWrapper = styled.div`
   border: 1px solid ${(props) => props.theme.grey000};
 `
 
-class TransactionList extends PureComponent<Props> {
-  render() {
-    const { coin, coinTicker, currency, data } = this.props
-    return data.cata({
-      Failure: (message) => <DataError onClick={this.props.onRefresh} message={message} />,
-      Loading: () => (
-        <TransactionsWrapper>
-          <Loading />
-        </TransactionsWrapper>
-      ),
-      NotAsked: () => (
-        <TransactionsWrapper>
-          <Loading />
-        </TransactionsWrapper>
-      ),
-      Success: (transactions: SuccessStateType) => (
-        <TransactionsWrapper>
-          {transactions.map((tx) => {
+const TransactionList = ({ coin, coinTicker, currency, data, onRefresh }: Props) => {
+  return data.cata({
+    Failure: (message) => <DataError onClick={onRefresh} message={message} />,
+    Loading: () => (
+      <TransactionsWrapper>
+        <Loading />
+      </TransactionsWrapper>
+    ),
+    NotAsked: () => (
+      <TransactionsWrapper>
+        <Loading />
+      </TransactionsWrapper>
+    ),
+    Success: (transactions: SuccessStateType) => (
+      <TransactionsWrapper>
+        {transactions.map((tx) => {
+          if ('processingErrorType' in tx) return null
+
+          return 'hash' in tx ? (
+            <NonCustodialTxListItem
+              key={tx.hash}
+              transaction={tx}
+              coin={coin as CoinType}
+              coinTicker={coinTicker}
+              currency={currency}
+            />
+          ) : 'priceFunnel' in tx ? (
             // @ts-ignore
-            return 'processingErrorType' in tx ? null : 'hash' in tx ? (
-              <NonCustodialTxListItem
-                key={tx.hash}
-                transaction={tx}
-                coin={coin as CoinType}
-                coinTicker={coinTicker}
-                currency={currency}
-              />
-            ) : 'priceFunnel' in tx ? (
-              // @ts-ignore
-              <SwapOrderTx key={tx.id} order={tx} coin={coin as CoinType} />
-            ) : 'pair' in tx ? (
-              <BuySellListItem key={tx.id} order={tx} />
-            ) : 'movements' in tx ? (
-              <SelfCustodyTx key={tx.txId} tx={tx} />
-            ) : (
-              <CustodialTxListItem
-                key={tx.id}
-                tx={tx as FiatBSAndSwapTransactionType}
-                coin={coin}
-                currency={currency}
-              />
-            )
-          })}
-        </TransactionsWrapper>
-      )
-    })
-  }
+            <SwapOrderTx key={tx.id} order={tx} coin={coin as CoinType} />
+          ) : 'pair' in tx ? (
+            <BuySellListItem key={tx.id} order={tx} />
+          ) : 'movements' in tx ? (
+            <SelfCustodyTx key={tx.txId} tx={tx} />
+          ) : (
+            <CustodialTxListItem
+              key={tx.id}
+              tx={tx as FiatBSAndSwapTransactionType}
+              coin={coin}
+              currency={currency}
+            />
+          )
+        })}
+      </TransactionsWrapper>
+    )
+  })
 }
 
 export type Props = {
