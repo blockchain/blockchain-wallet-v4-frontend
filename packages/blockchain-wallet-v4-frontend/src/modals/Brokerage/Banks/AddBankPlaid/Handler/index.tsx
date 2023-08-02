@@ -6,7 +6,7 @@ import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, selectors } from 'data'
-import { AddBankStepType, Analytics, BankPartners, PlaidSettlementErrorReasons } from 'data/types'
+import { AddBankStepType, BankPartners, PlaidSettlementErrorReasons } from 'data/types'
 import { useRemote } from 'hooks'
 import { isNabuError } from 'services/errors'
 
@@ -29,51 +29,28 @@ const Iframe = styled.iframe`
 
 const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Props) => {
   const dispatch = useDispatch()
-
   const iFrameUrl = useSelector(selectors.components.brokerage.getPlaidWalletHelperLink)
-
-  const {
-    data,
-    error: bankCredentialError,
-    hasError: hasBankCredentialError
-  } = useRemote(selectors.components.brokerage.getBankCredentials)
+  const { data, error, hasError } = useRemote(selectors.components.brokerage.getBankCredentials)
 
   useEffect(() => {
-    if (paymentMethodId && reason) {
-      if (reason === 'REQUIRES_UPDATE') {
-        dispatch(actions.components.brokerage.fetchBankRefreshCredentials(paymentMethodId))
+    if (reason && paymentMethodId) {
+      switch (reason) {
+        case 'REQUIRES_UPDATE':
+          dispatch(actions.components.brokerage.fetchBankRefreshCredentials(paymentMethodId))
+          break
+        default:
+          break
       }
     } else {
       dispatch(actions.components.brokerage.setupBankTransferProvider())
     }
   }, [reason, dispatch, paymentMethodId])
-
   const handlePostMessage = (event: MessageEvent) => {
     if (event.data.from !== 'plaid') return
     if (event.data.to !== 'sb') return
 
-    const { error: plaidError, metadata, public_token } = event.data
-
-    if (plaidError) {
-      const { error_code, error_message, error_type, event } = plaidError
-      const { institution, link_session_id } = metadata
-
-      dispatch(
-        actions.analytics.trackEvent({
-          key: Analytics.PLAID_ERROR,
-          properties: {
-            error_code,
-            error_event_type: event ?? 'ON_EXIT',
-            error_message,
-            error_type,
-            institution_id: institution.institution_id,
-            institution_name: institution.name,
-            link_session_id
-          }
-        })
-      )
-    }
-
+    const { error, metadata, public_token } = event.data
+    if (error) throw new Error(error)
     if (!public_token) {
       return handleClose()
     }
@@ -96,13 +73,12 @@ const Success: React.FC<Props> = ({ handleClose, paymentMethodId, reason }: Prop
     }
   }, [])
 
-  if (isNabuError(bankCredentialError)) {
-    return <GenericNabuErrorFlyout error={bankCredentialError} onDismiss={handleClose} />
+  if (isNabuError(error)) {
+    return <GenericNabuErrorFlyout error={error} onDismiss={handleClose} />
   }
-  if (hasBankCredentialError) {
+  if (hasError) {
     return <DataError />
   }
-
   if (!data || data.partner !== BankPartners.PLAID) return null
 
   return (
