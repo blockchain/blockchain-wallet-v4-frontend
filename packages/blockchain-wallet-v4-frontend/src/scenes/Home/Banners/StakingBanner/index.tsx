@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { actions } from 'data'
 import { useRemote } from 'hooks'
 
-import { getStakingAnnouncement } from '../selectors'
+import ANNOUNCEMENTS from '../constants'
 import { getData } from './StakingBanner.selectors'
 import StakingBanner from './StakingBanner.template'
 
@@ -19,7 +19,7 @@ const StakingBannerContainer = () => {
   if (!data || error || isLoading || isNotAsked) return null
 
   const onClickClose = () => {
-    dispatch(actions.cache.announcementDismissed(getStakingAnnouncement()))
+    dispatch(actions.cache.announcementDismissed(ANNOUNCEMENTS.STAKING))
   }
 
   return <StakingBanner onClickClose={onClickClose} rate={data.rate} />

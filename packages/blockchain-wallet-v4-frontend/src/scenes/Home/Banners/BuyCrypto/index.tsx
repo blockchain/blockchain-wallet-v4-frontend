@@ -10,7 +10,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
 
-import { getBuyCryptoAnnouncement } from '../selectors'
+import ANNOUNCEMENTS from '../constants'
 import { BannerButton, CloseLink, IconWrapper, Row } from '../styles'
 
 const Wrapper = styled.div`
@@ -63,8 +63,6 @@ const BuyCrypto = ({ buySellActions, cacheActions, fiatCurrency }: Props) => {
     })
   }, [buySellActions, fiatCurrency])
 
-  const completeAnnouncement = getBuyCryptoAnnouncement()
-
   return (
     <Wrapper>
       <Row>
@@ -91,7 +89,7 @@ const BuyCrypto = ({ buySellActions, cacheActions, fiatCurrency }: Props) => {
       </BannerButton>
       <CloseLink
         data-e2e='newCoinCloseButton'
-        onClick={() => cacheActions.announcementDismissed(completeAnnouncement)}
+        onClick={() => cacheActions.announcementDismissed(ANNOUNCEMENTS.BUY_CRIPTO)}
       >
         <Icon size='20px' color='grey400' name='close-circle' />
       </CloseLink>

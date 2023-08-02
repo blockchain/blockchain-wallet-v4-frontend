@@ -46,7 +46,6 @@ import { isNabuError, NabuError } from 'services/errors'
 import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import { actions as cacheActions } from '../../cache/slice'
-import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
 import brokerageSagas from '../brokerage/sagas'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
@@ -1936,19 +1935,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
-    // loading modal here before dong product eligibility check
+    // loading modal here before doing product eligibility check
     // so buy flyout can load right away
     if (isUserTier2) {
       yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { origin }))
       yield put(A.setStep({ step: 'INITIAL_LOADING' }))
     }
-
-    // FIXME: This call is causing the modal to be very slow, abstract this to somewhere other than here
-    yield put(actions.custodial.fetchProductEligibilityForUser())
-    yield take([
-      custodialActions.fetchProductEligibilityForUserSuccess.type,
-      custodialActions.fetchProductEligibilityForUserFailure.type
-    ])
 
     const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
       buy: { enabled: false, maxOrdersLeft: 0, reasonNotEligible: undefined },

@@ -11,7 +11,7 @@ import { RootState } from 'data/rootReducer'
 import { RecurringBuyOrigins } from 'data/types'
 import { media } from 'services/styles'
 
-import { getRecurringBuyAnnouncement } from '../selectors'
+import ANNOUNCEMENTS from '../constants'
 import { BannerButton, CloseLink } from '../styles'
 
 const Wrapper = styled.div`
@@ -77,8 +77,6 @@ const RecurringBuys = (props: Props) => {
     props.recurringBuyActions.learnMoreLinkClicked(RecurringBuyOrigins.DASHBOARD_PROMO)
   }
 
-  const completeAnnouncement = getRecurringBuyAnnouncement()
-
   return (
     <Wrapper>
       <Row>
@@ -110,7 +108,7 @@ const RecurringBuys = (props: Props) => {
       </BannerButton>
       <CloseLink
         data-e2e='newCoinCloseButton'
-        onClick={() => props.cacheActions.announcementDismissed(completeAnnouncement)}
+        onClick={() => props.cacheActions.announcementDismissed(ANNOUNCEMENTS.RECURRING_BUY)}
       >
         <Icon size='20px' color='grey400' name='close-circle' />
       </CloseLink>
