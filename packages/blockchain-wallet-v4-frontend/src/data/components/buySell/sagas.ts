@@ -888,7 +888,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // Have to check if the state is "FINISHED", otherwise poll for 1 minute until it is
         if (confirmedOrder.state === 'FINISHED') {
           yield put(A.confirmOrderSuccess(confirmedOrder))
-
           yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
           yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
@@ -1139,6 +1138,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(A.fetchOrdersFailure(error))
     }
+
+    yield put(actions.components.refresh.refreshBtcTransactions())
   }
 
   const fetchPairs = function* ({ payload }: ReturnType<typeof A.fetchPairs>) {
@@ -1463,11 +1464,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     if (!isUserTier2) {
       yield put(A.showModal({ origin: 'EmptyFeed' }))
-      yield put(
-        A.setStep({
-          step: 'KYC_REQUIRED'
-        })
-      )
+      yield put(A.setStep({ step: 'KYC_REQUIRED' }))
     } else {
       yield put(A.showModal({ origin: 'EmptyFeed' }))
 
@@ -1828,6 +1825,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.confirmOrderSuccess(order))
+      yield put(actions.components.refresh.refreshBtcTransactions())
+
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       yield put(cacheActions.removeLastUsedAmount({ pair: order.pair }))
     } catch (e) {

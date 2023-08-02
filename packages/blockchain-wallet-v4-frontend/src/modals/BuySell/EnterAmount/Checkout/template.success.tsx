@@ -16,7 +16,7 @@ import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { getPeriodTitleText } from 'components/Flyout/model'
 import Form from 'components/Form/Form'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
-import { model } from 'data'
+import { actions, model } from 'data'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
 import { Analytics, BSCheckoutFormValuesType } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
@@ -110,10 +110,7 @@ const normalizeAmount = (value, prevValue) => {
 
 const isAmountInLimits = (amount: number | undefined, min: number, max: number): boolean => {
   if (!amount) return false
-  if (amount < min || amount > max) {
-    return false
-  }
-  return true
+  return !(amount < min || amount > max)
 }
 const getAmountLimitsError = (amount: number, min: number, max: number): string | null => {
   if (amount < min) {
@@ -159,6 +156,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     pair,
     payment,
     products,
+    refreshActions,
     sbBalances,
     swapAccount,
     userData
@@ -174,6 +172,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const dispatch = useDispatch()
 
   const [fontRatio, setFontRatio] = useState(1)
+
   const setOrderFrequency = useCallback(() => {
     buySellActions.setStep({ step: 'FREQUENCY' })
   }, [buySellActions])
@@ -433,11 +432,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   tabIndex={0}
                   style={{ cursor: 'pointer' }}
                 >
-                  <>
-                    <ErrorCodeMappings code={error} />
-                    <br />
-                    <FormattedMessage id='copy.upgrade' defaultMessage='Upgrade to Gold' />
-                  </>
+                  <ErrorCodeMappings code={error} />
+                  <br />
+                  <FormattedMessage id='copy.upgrade' defaultMessage='Upgrade to Gold' />
                 </div>
               ) : (
                 <ErrorCodeMappings code={error} />

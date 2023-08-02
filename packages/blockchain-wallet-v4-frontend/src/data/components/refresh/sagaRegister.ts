@@ -7,6 +7,7 @@ export default () => {
   const refreshSagas = sagas()
 
   return function* refreshSaga() {
+    yield takeLatest(AT.REFRESH_BTC_TRANSACTIONS, refreshSagas.refreshBtcTransactions)
     yield takeLatest(AT.REFRESH_CLICKED, refreshSagas.refreshClicked)
     yield takeLatest(AT.REFRESH_RATES, refreshSagas.refreshRates)
   }

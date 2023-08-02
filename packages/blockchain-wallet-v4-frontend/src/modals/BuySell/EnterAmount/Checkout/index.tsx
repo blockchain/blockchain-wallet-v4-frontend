@@ -236,6 +236,7 @@ const mapDispatchToProps = (dispatch) => ({
   ),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
   recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
+  refreshActions: bindActionCreators(actions.components.refresh, dispatch),
   showUpgradeModal: () => {
     dispatch(
       actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {

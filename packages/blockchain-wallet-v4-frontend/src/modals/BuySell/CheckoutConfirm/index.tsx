@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { memo, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import { clearSubmitErrors } from 'redux-form'
@@ -19,26 +19,18 @@ import Success from './template.success'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
 
-class CheckoutConfirm extends PureComponent<Props> {
-  componentDidMount() {
-    this.props.sendActions.getLockRule()
-    if (!Remote.Success.is(this.props.data)) {
-      this.props.buySellActions.fetchCards(false)
-      this.props.brokerageActions.fetchBankTransferAccounts()
-    }
-  }
-
-  handleBack = () => {
-    this.props.buySellActions.returnToBuyEnterAmount({
-      pair: this.props.pair
+const CheckoutConfirm = memo((props: Props) => {
+  const handleBack = () => {
+    props.buySellActions.returnToBuyEnterAmount({
+      pair: props.pair
     })
   }
 
-  trackError = (error: Error | string) => {
+  const trackError = (error: Error | string) => {
     // not every remote type has been converted to a client error type so handle the string case
     const errorPayload = typeof error === 'string' ? { network_error_description: error } : error
 
-    this.props.analyticsActions.trackEvent({
+    props.analyticsActions.trackEvent({
       key: Analytics.CLIENT_ERROR,
       properties: {
         ...errorPayload,
@@ -49,30 +41,36 @@ class CheckoutConfirm extends PureComponent<Props> {
     })
   }
 
-  render() {
-    return this.props.data.cata({
-      Failure: (e) => {
-        this.trackError(e)
+  useEffect(() => {
+    props.sendActions.getLockRule()
+    if (!Remote.Success.is(props.data)) {
+      props.buySellActions.fetchCards(false)
+      props.brokerageActions.fetchBankTransferAccounts()
+    }
+  }, [])
 
-        if (isNabuError(e)) {
-          return <GenericNabuErrorFlyout error={e} onDismiss={this.handleBack} />
-        }
+  return props.data.cata({
+    Failure: (e) => {
+      trackError(e)
 
-        return (
-          <FlyoutOopsError
-            action='retry'
-            data-e2e='sbCheckoutConfirmFailure'
-            handler={this.handleBack}
-            errorMessage={e}
-          />
-        )
-      },
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) => <Success {...this.props} {...val} />
-    })
-  }
-}
+      if (isNabuError(e)) {
+        return <GenericNabuErrorFlyout error={e} onDismiss={handleBack} />
+      }
+
+      return (
+        <FlyoutOopsError
+          action='retry'
+          data-e2e='sbCheckoutConfirmFailure'
+          handler={handleBack}
+          errorMessage={e}
+        />
+      )
+    },
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />,
+    Success: (val) => <Success {...props} {...val} />
+  })
+})
 
 const mapStateToProps = (state: RootState) => ({
   applePayInfo: selectors.components.buySell.getApplePayInfo(state),
