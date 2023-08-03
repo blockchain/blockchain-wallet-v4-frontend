@@ -15,4 +15,4 @@ export const getIsTestnet = (state: RootState) =>
   selectors.core.walletOptions
     .getDomains(state)
     .getOrElse({ opensea: 'https://api.opensea.io' } as WalletOptionsType['domains'])
-    .opensea.includes('testnets')
+    .opensea?.includes('testnets')

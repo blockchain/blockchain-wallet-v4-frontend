@@ -160,7 +160,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         coin
       )
 
-      return (yield payment.chain().to(paymentAccount.address, 'ADDRESS').build().done()).value()
+      const addressForPAyment = paymentAccount.agent?.address
+        ? paymentAccount.agent.address
+        : paymentAccount.address
+
+      return (yield payment.chain().to(addressForPAyment, 'ADDRESS').build().done()).value()
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
@@ -220,9 +224,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const payment = paymentGetOrElse(BASE.coin, paymentR)
       if (onChain) {
         try {
-          const hotWalletAddress = selectors.core.walletOptions
+          const useAgentHotWalletAddress = selectors.core.walletOptions
+            .getUseAgentHotWalletAddress(yield select())
+            .getOrElse(true)
+
+          const hotWalletAddressWalletOptions = selectors.core.walletOptions
             .getHotWalletAddresses(yield select(), Product.SWAP)
             .getOrElse(null)
+
+          const paymentAccount: ReturnType<typeof api.getPaymentAccount> = yield call(
+            api.getPaymentAccount,
+            BASE.coin
+          )
+
+          // we are using a wallet address for the hot wallet from the API
+          const hotWalletAddress = useAgentHotWalletAddress
+            ? paymentAccount.agent.address
+            : hotWalletAddressWalletOptions
+
           if (typeof hotWalletAddress !== 'string') {
             console.error(
               'Unable to retreive hotwallet address; falling back to deposit and sweep.'

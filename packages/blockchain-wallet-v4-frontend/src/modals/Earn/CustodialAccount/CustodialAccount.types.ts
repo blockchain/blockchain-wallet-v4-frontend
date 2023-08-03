@@ -4,5 +4,5 @@ export type PropsType = {
   coin: CoinType
   cryptoAmount: string
   fiatAmount: string
-  product: 'Active Rewards' | 'Trading'
+  product: 'Active Rewards' | 'Trading' | 'Staking'
 }

@@ -1,3 +1,2 @@
-export { useTokensListData } from './useTokensListData'
-export { useTokensListScroll } from './useTokensListScroll'
-export { useTokensListSearch } from './useTokensListSearch'
+export { useFilteredList } from './useFilteredList'
+export { useTokenListSearch } from './useTokenListSearch'

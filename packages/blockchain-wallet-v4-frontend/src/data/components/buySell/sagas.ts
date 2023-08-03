@@ -46,7 +46,6 @@ import { isNabuError, NabuError } from 'services/errors'
 import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import { actions as cacheActions } from '../../cache/slice'
-import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
 import brokerageSagas from '../brokerage/sagas'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
@@ -339,6 +338,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
     try {
+      const useAgentHotWalletAddressForSell = selectors.core.walletOptions
+        .getUseAgentHotWalletAddressForSell(yield select())
+        .getOrElse(true)
+
       const pair = S.getBSPair(yield select())
 
       if (!pair) throw new Error(BS_ERROR.NO_PAIR_SELECTED)
@@ -367,6 +370,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         direction === 'FROM_USERKEY'
           ? yield call(selectReceiveAddress, from, networks, api, coreSagas)
           : undefined
+
       const sellOrder: SwapOrderType = yield call(
         api.createSwapOrder,
         direction,
@@ -376,13 +380,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         undefined,
         refundAddr
       )
+      const paymentAccount: ReturnType<typeof api.getPaymentAccount> = yield call(
+        api.getPaymentAccount,
+        coin
+      )
+      // Should generally use sellOrder deposit address, have this just in case
+      // we need to fall back to paymentAccount address
+      const sellOrderDepositAddress: string = useAgentHotWalletAddressForSell
+        ? paymentAccount.agent.address || paymentAccount.address
+        : sellOrder.kind.depositAddress
+
       // on chain
       if (direction === 'FROM_USERKEY') {
         const paymentR = S.getPayment(yield select())
         // @ts-ignore
         const payment = paymentGetOrElse(from.coin, paymentR)
         try {
-          yield call(buildAndPublishPayment, payment.coin, payment, sellOrder.kind.depositAddress)
+          yield call(buildAndPublishPayment, payment.coin, payment, sellOrderDepositAddress)
           yield call(api.updateSwapOrder, sellOrder.id, 'DEPOSIT_SENT')
         } catch (e) {
           yield call(api.updateSwapOrder, sellOrder.id, 'CANCEL')
@@ -1615,8 +1629,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const initializeBillingAddress = function* () {
     yield call(waitForUserData)
-    const userDataR = selectors.modules.profile.getUserData(yield select())
-    const userData = userDataR.getOrElse({} as UserDataType)
+    const userData = selectors.modules.profile
+      .getUserData(yield select())
+      .getOrElse({} as UserDataType)
+
     const address = userData
       ? userData.address
       : {
@@ -1683,7 +1699,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(
         actions.form.initialize(FORM_BS_CHECKOUT, {
-          amount: amount || (fix === Coin.FIAT && lastUnusedAmount) ? lastUnusedAmount : undefined,
+          amount: amount || (fix === Coin.FIAT && lastUnusedAmount ? lastUnusedAmount : undefined),
           cryptoAmount,
           fix,
           orderType,
@@ -1911,7 +1927,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     // When opening the buy modal if there are any existing orders that are cancellable, cancel them
     yield call(cleanupCancellableOrders)
-
     const { cryptoCurrency, method, mobilePaymentMethod, orderType, origin, step } = payload
 
     let hasPendingOBOrder = false
@@ -1920,17 +1935,31 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // get current user tier
     const isUserTier2 = yield call(isTier2)
 
-    // FIXME: This call is causing the modal to be very slow, abstract this to somewhere other than here
-    yield put(actions.custodial.fetchProductEligibilityForUser())
-    yield take([
-      custodialActions.fetchProductEligibilityForUserSuccess.type,
-      custodialActions.fetchProductEligibilityForUserFailure.type
-    ])
+    // loading modal here before doing product eligibility check
+    // so buy flyout can load right away
+    if (isUserTier2) {
+      yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { origin }))
+      yield put(A.setStep({ step: 'INITIAL_LOADING' }))
+    }
 
     const products = selectors.custodial.getProductEligibilityForUser(yield select()).getOrElse({
       buy: { enabled: false, maxOrdersLeft: 0, reasonNotEligible: undefined },
+      kycVerification: {
+        enabled: true
+      },
       sell: { reasonNotEligible: undefined }
     } as ProductEligibilityForUser)
+
+    // show unsupported region message
+    if (!products?.kycVerification.enabled) {
+      yield put(
+        actions.modals.showModal(ModalName.UNSUPPORTED_REGION, {
+          origin: 'BuySellInit'
+        })
+      )
+      yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
+      return
+    }
 
     // check is user eligible to do sell/buy
     // we skip this for gold users
@@ -1944,6 +1973,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             origin: 'BuySellInit'
           })
         )
+        yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
         return
       }
     }
@@ -1974,6 +2004,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           sanctionsType
         })
       )
+      yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
       return
     }
     // show sanctions for sell
@@ -1990,6 +2021,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           sanctionsType
         })
       )
+      yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
       return
     }
 
@@ -2000,7 +2032,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     yield put(actions.modals.showModal(ModalName.SIMPLE_BUY_MODAL, { cryptoCurrency, origin }))
-
     // Use the user's trading currency setting whenever opening the buy flow
     const fiatCurrency = selectors.modules.profile
       .getTradingCurrency(yield select())
@@ -2060,7 +2091,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
           break
         default:
-          // do nothing
           break
       }
     } else {

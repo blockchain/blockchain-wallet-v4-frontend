@@ -13,8 +13,12 @@ import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ProductEligibilityForUser, UserDataType } from 'data/types'
 
-const { EXPIRED, GENERAL } = model.profile.DOC_RESUBMISSION_REASONS
-export type BannerType =
+import ANNOUNCEMENTS from './constants'
+
+const { DOC_RESUBMISSION_REASONS, KYC_STATES } = model.profile
+const { EXPIRED, GENERAL } = DOC_RESUBMISSION_REASONS
+
+type BannerType =
   | 'resubmit'
   | 'sbOrder'
   | 'finishKyc'
@@ -23,7 +27,6 @@ export type BannerType =
   | 'continueToGold'
   | 'sanctions'
   | 'recurringBuys'
-  | 'sanctions'
   | 'coinListing'
   | 'coinRename'
   | 'servicePriceUnavailable'
@@ -35,37 +38,13 @@ export type BannerType =
   | 'activeRewards'
   | null
 
-export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
-export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
-
-export const getCompleteProfileAnnouncement = () => `complete-profile-homepage`
-export const getAppleAndGooglePayAnnouncement = () => `apple-and-google-pay`
-export const getSanctionsAnnouncement = () => `sanctions-homepage`
-export const getBuyCryptoAnnouncement = () => `buy-crypto-homepage`
-export const getRecurringBuyAnnouncement = () => `recurring-buys-homepage`
-export const getEarnRewardsAnnouncement = () => `earn-rewards-homepage`
-export const getStakingAnnouncement = () => `staking-homepage`
-export const getActiveRewardsAnnouncement = () => `active-rewards-homepage`
-export const getServicePriceUnavailableAnnouncement = () => `service-price-unavailable-homepage`
-export const getKYCFinishAnnouncement = () => `kyc-finish-homepage`
-export const getContinueToGoldAnnouncement = () => `continue-to-gold-homepage`
-
 const showBanner = (flag: boolean, banner: string, announcementState) => {
-  return (
-    flag &&
-    (!announcementState ||
-      !announcementState[banner] ||
-      (announcementState[banner] && !announcementState[banner].dismissed))
-  )
+  return flag && !announcementState?.[banner]?.dismissed
 }
 
 export const getData = (state: RootState) => {
   const announcementState = selectors.cache.getLastAnnouncementState(state)
-  let isVerifiedId = false
-  let isBankOrCardLinked = false
-  let isBuyCrypto = false
 
-  // @ts-ignore
   const showDocResubmitBanner = selectors.modules.profile
     .getKycDocResubmissionStatus(state)
     .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
@@ -73,17 +52,15 @@ export const getData = (state: RootState) => {
 
   const isUserActive =
     selectors.modules.profile.getUserActivationState(state).getOrElse('') !== 'NONE'
-  const isKycStateNone =
-    // @ts-ignore
-    selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
+  const isKycStateNone = selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
 
   const showCompleteYourProfile = selectors.core.walletOptions
     .getCompleteYourProfile(state)
     .getOrElse(false) as boolean
-  const completeProfileAnnouncement = getCompleteProfileAnnouncement()
+
   const showCompleteYourProfileBanner = showBanner(
     !!showCompleteYourProfile,
-    completeProfileAnnouncement,
+    ANNOUNCEMENTS.COMPLETE_PROFILE,
     announcementState
   )
 
@@ -104,21 +81,20 @@ export const getData = (state: RootState) => {
     NotAsked: () => false,
     Success: () => true
   })
+
   const userData = userDataR.getOrElse({
     address: { country: '' },
     tags: {},
     tiers: { current: 0 }
   } as UserDataType)
 
-  const { KYC_STATES } = model.profile
-  const isKycPendingOrVerified =
-    userData.kycState === KYC_STATES.PENDING ||
-    userData.kycState === KYC_STATES.UNDER_REVIEW ||
-    userData.kycState === KYC_STATES.VERIFIED
+  const isKycPendingOrVerified = [
+    KYC_STATES.PENDING,
+    KYC_STATES.UNDER_REVIEW,
+    KYC_STATES.VERIFIED
+  ].includes(userData.kycState)
 
-  if (isKycPendingOrVerified) {
-    isVerifiedId = true
-  }
+  const isKycRejected = userData.kycState === KYC_STATES.REJECTED
 
   // continueToGold
   const limits = selectors.components.buySell.getLimits(state).getOrElse({
@@ -131,29 +107,29 @@ export const getData = (state: RootState) => {
   const isRecurringBuy = selectors.core.walletOptions
     .getFeatureFlagRecurringBuys(state)
     .getOrElse(false) as boolean
-  const recurringBuyAnnouncement = getRecurringBuyAnnouncement()
+
   const showRecurringBuyBanner = showBanner(
     isRecurringBuy,
-    recurringBuyAnnouncement,
+    ANNOUNCEMENTS.RECURRING_BUY,
     announcementState
   )
 
   // newCurrency
   const newCoinListing = selectors.core.walletOptions.getNewCoinListing(state).getOrElse('')
-  const newCoinAnnouncement = getNewCoinAnnouncement(newCoinListing)
+  const newCoinAnnouncement = ANNOUNCEMENTS.NEW_COIN(newCoinListing)
   const isNewCurrency = showBanner(!!newCoinListing, newCoinAnnouncement, announcementState)
 
   // coinRename
   const coinRename = selectors.core.walletOptions.getCoinRename(state).getOrElse('')
-  const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
+  const coinRenameAnnouncement = ANNOUNCEMENTS.COIN_RENAME(coinRename)
   const showRenameBanner = showBanner(!!coinRename, coinRenameAnnouncement, announcementState)
 
   // servicePriceUnavailable
   const isServicePriceUnavailable = selectors.core.data.coins.getIsServicePriceDown(state)
-  const servicePriceUnavailableAnnouncement = getServicePriceUnavailableAnnouncement()
+
   const showServicePriceUnavailableBanner = showBanner(
     !!isServicePriceUnavailable,
-    servicePriceUnavailableAnnouncement,
+    ANNOUNCEMENTS.SERVICE_PRICE_UNAVAILABLE,
     announcementState
   )
 
@@ -161,84 +137,73 @@ export const getData = (state: RootState) => {
   const paymentMethods = selectors.components.buySell
     .getBSPaymentMethods(state)
     .getOrElse({} as BSPaymentMethodsType)
+
   const isAnyBankLinked =
     paymentMethods?.methods?.length > 0 &&
     paymentMethods.methods.find(
       (method) => method.eligible && method.type === BSPaymentTypes.LINK_BANK
     )
-  if (cards?.length > 0 || isAnyBankLinked) {
-    isBankOrCardLinked = true
-  }
+
+  const isBankOrCardLinked = cards?.length > 0 || isAnyBankLinked
 
   // user have some balance
   const balances = selectors.components.buySell.getBSBalances(state).getOrElse({} as BSBalancesType)
-  if (!isEmpty(balances)) {
-    if (
-      Object.values(balances).some(
-        (balance) => balance?.available && Number(balance?.available) > 0
-      )
-    ) {
-      isBuyCrypto = true
-    }
-  }
+  const isBuyCrypto = Object.values(balances).some(
+    (balance) => balance?.available && Number(balance?.available) > 0
+  )
 
   // buy crypto
-  const buyCryptoAnnouncement = getBuyCryptoAnnouncement()
   const buyCryptoBannerCondition = userData?.tiers?.current !== 2 || isKycStateNone
   const showBuyCryptoBanner = showBanner(
     buyCryptoBannerCondition,
-    buyCryptoAnnouncement,
+    ANNOUNCEMENTS.BUY_CRIPTO,
     announcementState
   )
 
-  const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
+  const isProfileCompleted = isKycPendingOrVerified && isBankOrCardLinked && isBuyCrypto
 
   // earnRewards
   const interestEligible = selectors.components.interest.getInterestEligible(state).getOrElse({})
   const isEarnRewardsPromoBannerFeatureFlagEnabled = selectors.core.walletOptions
     .getRewardsPromoBannerEnabled(state)
     .getOrElse(false) as boolean
-  const isUserEligibleToEarnRewards =
-    !isEmpty(interestEligible) && Object.values(interestEligible).some((obj) => !!obj?.eligible)
+  const isUserEligibleToEarnRewards = Object.values(interestEligible).some((obj) => !!obj?.eligible)
   const isEarnRewardsPromoBannerEnabled = !!(
     isEarnRewardsPromoBannerFeatureFlagEnabled && isUserEligibleToEarnRewards
   )
-  const earnRewardsAnnouncement = getEarnRewardsAnnouncement()
+
   const showEarnRewardsBanner = showBanner(
     isEarnRewardsPromoBannerEnabled,
-    earnRewardsAnnouncement,
+    ANNOUNCEMENTS.EARN_REWARDS,
     announcementState
   )
 
   // Apple and Google Pay
-  const appleAndGooglePayAnnouncement = getAppleAndGooglePayAnnouncement()
   const isAppleAndGooglePayPromoBannerFeatureFlagEnabled = selectors.core.walletOptions
     .getAppleAndGooglePayPromoBannerEnabled(state)
     .getOrElse(false) as boolean
 
   const showAppleAndGooglePayBanner = showBanner(
     isAppleAndGooglePayPromoBannerFeatureFlagEnabled,
-    appleAndGooglePayAnnouncement,
+    ANNOUNCEMENTS.APPLE_GOOGLE_PAY,
     announcementState
   )
 
   // Staking
-  const stakingAnnouncement = getStakingAnnouncement()
   const stakingEligible = selectors.components.interest.getStakingEligible(state).getOrElse({})
-  const isUserStakingEligible =
-    !isEmpty(stakingEligible) && Object.values(stakingEligible).some((obj) => !!obj?.eligible)
+
+  const isUserStakingEligible = Object.values(stakingEligible).some((obj) => !!obj?.eligible)
   const isStakingPromoBannerFeatureFlagEnabled = selectors.core.walletOptions
     .getStakingPromoBannerEnabled(state)
     .getOrElse(false) as boolean
 
   const showStakingBanner = showBanner(
     isStakingPromoBannerFeatureFlagEnabled && isUserStakingEligible,
-    stakingAnnouncement,
+    ANNOUNCEMENTS.STAKING,
     announcementState
   )
 
   // active rewards
-  const activeRewardsAnnouncement = getActiveRewardsAnnouncement()
   const activeRewardsEligible = selectors.components.interest
     .getActiveRewardsEligible(state)
     .getOrElse({})
@@ -251,27 +216,24 @@ export const getData = (state: RootState) => {
 
   const showActiveRewardsBanner = showBanner(
     isActiveRewardsPromoBannerFeatureFlagEnabled && isUserActiveRewardsEligible,
-    activeRewardsAnnouncement,
+    ANNOUNCEMENTS.ACTIVE_REWARDS,
     announcementState
   )
 
   // Continue to Gold
   const continueToGold =
-    (userData?.tiers?.current === TIER_TYPES.SILVER ||
-      userData?.tiers?.current === TIER_TYPES.SILVER_PLUS) &&
-    limits?.max &&
+    [TIER_TYPES.SILVER, TIER_TYPES.SILVER_PLUS].includes(userData?.tiers?.current) &&
     Number(limits?.max) > 0
-  const continueToGoldAnnouncement = getContinueToGoldAnnouncement()
+
   const showContinueToGoldBanner = showBanner(
     !!continueToGold,
-    continueToGoldAnnouncement,
+    ANNOUNCEMENTS.CONTINUE_TO_GOLD,
     announcementState
   )
 
   // KYC finish banner
-  const kycFinishAnnouncement = getKYCFinishAnnouncement()
   const showFinishKYC = isKycStateNone && isUserActive && !isFirstLogin
-  const showKYCFinishBanner = showBanner(showFinishKYC, kycFinishAnnouncement, announcementState)
+  const showKYCFinishBanner = showBanner(showFinishKYC, ANNOUNCEMENTS.KYC_FINISH, announcementState)
 
   const stakingEligibleR = selectors.components.interest.getStakingEligible(state)
   const activeRewardsEligibleR = selectors.components.interest.getActiveRewardsEligible(state)
@@ -279,38 +241,42 @@ export const getData = (state: RootState) => {
 
   let bannerToShow: BannerType = null
 
+  const isKycEnabled = products?.kycVerification?.enabled
+
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
   } else if (
     showCompleteYourProfileBanner &&
     !isProfileCompleted &&
     userData?.tiers?.current !== TIER_TYPES.GOLD &&
-    isUserDataLoaded
+    isUserDataLoaded &&
+    isKycEnabled &&
+    !isKycRejected
   ) {
     bannerToShow = 'completeYourProfile'
-  } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
+  } else if (showDocResubmitBanner && !isKycPendingOrVerified && isKycEnabled) {
     bannerToShow = 'resubmit'
-  } else if (showActiveRewardsBanner) {
+  } else if (showActiveRewardsBanner && isKycEnabled) {
     bannerToShow = 'activeRewards'
-  } else if (showStakingBanner) {
+  } else if (showStakingBanner && isKycEnabled) {
     bannerToShow = 'staking'
-  } else if (showAppleAndGooglePayBanner) {
+  } else if (showAppleAndGooglePayBanner && isKycEnabled) {
     bannerToShow = 'appleAndGooglePay'
-  } else if (showServicePriceUnavailableBanner) {
+  } else if (showServicePriceUnavailableBanner && isKycEnabled) {
     bannerToShow = 'servicePriceUnavailable'
-  } else if (showKYCFinishBanner) {
+  } else if (showKYCFinishBanner && isKycEnabled) {
     bannerToShow = 'finishKyc'
-  } else if (showBuyCryptoBanner) {
+  } else if (showBuyCryptoBanner && isKycEnabled) {
     bannerToShow = 'buyCrypto'
-  } else if (showContinueToGoldBanner) {
+  } else if (showContinueToGoldBanner && isKycEnabled) {
     bannerToShow = 'continueToGold'
   } else if (isNewCurrency) {
-    bannerToShow = 'newCurrency'
+    bannerToShow = 'newCurrency' // Show even KYC is disabled
   } else if (showRenameBanner) {
-    bannerToShow = 'coinRename'
-  } else if (showEarnRewardsBanner) {
+    bannerToShow = 'coinRename' // Show even KYC is disabled
+  } else if (showEarnRewardsBanner && isKycEnabled) {
     bannerToShow = 'earnRewards'
-  } else if (showRecurringBuyBanner) {
+  } else if (showRecurringBuyBanner && isKycEnabled) {
     bannerToShow = 'recurringBuys'
   } else {
     bannerToShow = null

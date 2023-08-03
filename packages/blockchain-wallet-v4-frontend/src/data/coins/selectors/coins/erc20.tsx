@@ -77,7 +77,7 @@ export const getAccounts = createDeepEqualSelector(
             balance: erc20Balance,
             baseCoin: 'ETH',
             coin,
-            label: 'Private Key Wallet',
+            label: 'DeFi Wallet',
             type: SwapBaseCounterTypes.ACCOUNT
           }
         ])

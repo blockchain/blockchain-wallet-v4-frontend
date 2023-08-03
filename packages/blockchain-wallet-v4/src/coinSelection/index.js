@@ -204,14 +204,15 @@ export const descentDraw = (targets, feePerByte, coins, changeAddress) =>
   findTarget(
     targets,
     feePerByte,
-    sort((a, b) => b.compare(a), coins),
+    sort((a, b) => a.descentCompareWeighted(b), coins),
     changeAddress
   )
+
 // ascentDraw :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
 export const ascentDraw = (targets, feePerByte, coins, changeAddress) =>
   findTarget(
     targets,
     feePerByte,
-    sort((a, b) => a.compare(b), coins),
+    sort((a, b) => a.ascentCompareWeighted(b), coins),
     changeAddress
   )

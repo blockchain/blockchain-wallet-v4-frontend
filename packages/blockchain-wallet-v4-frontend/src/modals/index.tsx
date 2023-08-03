@@ -35,6 +35,7 @@ const CustomizableConfirm = React.lazy(() => import('./CustomizableConfirm'))
 const TransactionList = React.lazy(() => import('./DebitCard/TransactionList'))
 
 // DEX
+const DexTokenAllowance = React.lazy(() => import('./Dex/TokenAllowance'))
 const DexSwapSettings = React.lazy(() => import('./Dex/SwapSettings'))
 const DexSelectToken = React.lazy(() => import('./Dex/SelectToken'))
 
@@ -87,6 +88,7 @@ const VerifyNotice = React.lazy(() => import('./Onboarding/VerifyNotice'))
 const SanctionsInfo = React.lazy(() => import('./Onboarding/SanctionsInfo'))
 const EarnOnboarding = React.lazy(() => import('./Onboarding/Earn'))
 // SOLO onboarding
+const UnsupportedRegion = React.lazy(() => import('./Onboarding/UnsupportedRegion'))
 const KycConsentScreen = React.lazy(() => import('./Onboarding/KycVerification/ConsentScreen'))
 
 // MOBILE
@@ -208,6 +210,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DEX_SWAP_SETTINGS) ? (
           <DexSwapSettings />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.DEX_TOKEN_ALLOWANCE) ? (
+          <DexTokenAllowance />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DEX_TOKEN_SELECT) ? (
           <DexSelectToken />
@@ -366,6 +371,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SANCTIONS_INFO_MODAL) ? (
           <SanctionsInfo />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.UNSUPPORTED_REGION) ? (
+          <UnsupportedRegion />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.EARN_ONBOARDING) ? (
           <EarnOnboarding />

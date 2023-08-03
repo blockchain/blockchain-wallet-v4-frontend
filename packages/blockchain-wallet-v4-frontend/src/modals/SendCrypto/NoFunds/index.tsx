@@ -13,7 +13,8 @@ import {
   FlyoutFooter,
   FlyoutSubHeader
 } from 'components/Flyout/Layout'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'
 
 import { Title } from '../../components'
@@ -39,7 +40,7 @@ const ImageWrapper = styled.div`
 `
 
 const NoFunds = (props: Props) => {
-  const { close } = props
+  const { close, isKycVerificationEnabled } = props
   return (
     <FlyoutContainer>
       <HeaderWrapper>
@@ -80,21 +81,23 @@ const NoFunds = (props: Props) => {
       </FlyoutContent>
 
       <FlyoutFooter collapsed>
-        <Padding bottom={0.5}>
-          <Button
-            data-e2e='sendNoFundsBuyCrypto'
-            nature='primary'
-            onClick={() => {
-              props.modalActions.closeModal(ModalName.SEND_CRYPTO_MODAL)
-              props.modalActions.showModal(ModalName.SIMPLE_BUY_MODAL, {
-                origin: 'Send'
-              })
-            }}
-            fullwidth
-          >
-            <FormattedMessage id='buttons.buy_crypto' defaultMessage='Buy Crypto' />
-          </Button>
-        </Padding>
+        {isKycVerificationEnabled && (
+          <Padding bottom={0.5}>
+            <Button
+              data-e2e='sendNoFundsBuyCrypto'
+              nature='primary'
+              onClick={() => {
+                props.modalActions.closeModal(ModalName.SEND_CRYPTO_MODAL)
+                props.modalActions.showModal(ModalName.SIMPLE_BUY_MODAL, {
+                  origin: 'Send'
+                })
+              }}
+              fullwidth
+            >
+              <FormattedMessage id='buttons.buy_crypto' defaultMessage='Buy Crypto' />
+            </Button>
+          </Padding>
+        )}
         <Button
           data-e2e='sendNoFundsReceiveCrypto'
           nature='empty-blue'
@@ -113,11 +116,15 @@ const NoFunds = (props: Props) => {
   )
 }
 
+const mapStateToProps = (state: RootState) => ({
+  isKycVerificationEnabled: selectors.custodial.isKycVerificationEnabled(state)
+})
+
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector> & OwnProps
 

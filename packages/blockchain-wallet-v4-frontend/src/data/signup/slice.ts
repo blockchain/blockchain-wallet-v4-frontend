@@ -28,7 +28,8 @@ const initialState: SignupStateType = {
   registering: Remote.NotAsked,
   resetAccount: false,
   restoring: Remote.NotAsked,
-  signupCountry: undefined
+  signupCountry: undefined,
+  signupCountryState: undefined
 }
 
 const signupSlice = createSlice({
@@ -120,6 +121,12 @@ const signupSlice = createSlice({
     },
     setSignupCountry: (state, action: PayloadAction<SignupStateType['signupCountry']>) => {
       state.signupCountry = action.payload
+    },
+    setSignupCountryState: (
+      state,
+      action: PayloadAction<SignupStateType['signupCountryState']>
+    ) => {
+      state.signupCountryState = action.payload
     },
     triggerRecoverEmail: (state, action) => {},
     triggerSmsVerificationRecovery: () => {},

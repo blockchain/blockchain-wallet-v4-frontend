@@ -65,7 +65,7 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
           <Text color='grey600' size='14px' weight={500}>
             <FormattedMessage
               id='modals.recoveryphrase.backupyourwallet.content.subheader'
-              defaultMessage="In crypto, when you hold the private keys, you're in control of the funds in your Private Key Wallet. The downside is that WHOEVER holds your private keys can control your Private Key Wallet."
+              defaultMessage="In crypto, when you hold the private keys, you're in control of the funds in your DeFi Wallet. The downside is that WHOEVER holds your private keys can control your DeFi Wallet."
             />
           </Text>
           <Text
@@ -107,7 +107,7 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
           >
             <FormattedMessage
               id='modals.recoveryphrase.backupyourwallet.content.warning'
-              defaultMessage='Warning: If someone has your Secret Private Key Recovery Phrase they will have access to your Private Key Wallet and can withdraw funds.'
+              defaultMessage='Warning: If someone has your Secret Private Key Recovery Phrase they will have access to your DeFi Wallet and can withdraw funds.'
             />
           </Text>
           <WarningContent>

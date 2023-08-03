@@ -27,6 +27,7 @@ import {
 import { isNabuError } from 'services/errors'
 
 import { QuoteCountDown } from '../../components/QuoteCountDown'
+import { COINS_WITH_CUSTOM_FEE, SOL_FEE, STX_FEE } from '../../constants'
 import { Border, TopText } from '../../Swap/components'
 import { ErrorCodeMappings } from '../model'
 import Loading from '../template.loading'
@@ -143,7 +144,9 @@ const DisclaimerText = styled(Text)`
 `
 
 const getNetworkValue = (value: PaymentValue) =>
-  value.coin === 'BTC' || value.coin === 'BCH' ? value.selection?.fee : value.fee
+  value.coin === COINS_WITH_CUSTOM_FEE.BTC || value.coin === COINS_WITH_CUSTOM_FEE.BCH
+    ? value.selection?.fee
+    : value.fee
 
 class PreviewSell extends PureComponent<
   InjectedFormProps<{ destroyOnUnmount: boolean; form: string }, Props> & Props,
@@ -188,7 +191,18 @@ class PreviewSell extends PureComponent<
     })
   }
 
-  networkFee = (value: PaymentValue | undefined) => (value ? getNetworkValue(value) : 0)
+  networkFee = (value: PaymentValue | undefined, account: SwapAccountType | undefined) => {
+    if (account?.type === SwapBaseCounterTypes.ACCOUNT) {
+      if (account?.coin === COINS_WITH_CUSTOM_FEE.STX) {
+        return STX_FEE
+      }
+
+      if (account?.coin === COINS_WITH_CUSTOM_FEE.SOL) {
+        return SOL_FEE
+      }
+    }
+    return value ? getNetworkValue(value) : 0
+  }
 
   displayAmount = (formValues, account) => {
     return coinToString({
@@ -205,7 +219,9 @@ class PreviewSell extends PureComponent<
         symbol: account.coin
       },
       value: new BigNumber(formValues?.cryptoAmount).plus(
-        new BigNumber(convertBaseToStandard(account.baseCoin, this.networkFee(payment))).toString()
+        new BigNumber(
+          convertBaseToStandard(account.baseCoin, this.networkFee(payment, account))
+        ).toString()
       )
     })
   }
@@ -221,7 +237,7 @@ class PreviewSell extends PureComponent<
             currency: COUNTER,
             isStandard: true,
             rates: isErc20 ? ratesEth : rates,
-            value: convertBaseToStandard(account.baseCoin, this.networkFee(payment))
+            value: convertBaseToStandard(account.baseCoin, this.networkFee(payment, account))
           })
         )) ||
       0
@@ -433,7 +449,7 @@ class PreviewSell extends PureComponent<
                               },
                               value: convertBaseToStandard(
                                 account.baseCoin,
-                                this.networkFee(payment)
+                                this.networkFee(payment, account)
                               )
                             })}
                           </AdditionalText>

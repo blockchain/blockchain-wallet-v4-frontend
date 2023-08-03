@@ -1,11 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Padding } from '@blockchain-com/constellation'
+import { Button, Flex, IconAlert, Padding, PaletteColors } from '@blockchain-com/constellation'
 
+import { Exchange } from '@core'
 import { actions, model, selectors } from 'data'
-import { DexSwapForm, DexSwapSide, ModalName } from 'data/types'
-import { useRemote } from 'hooks'
+import { RootState } from 'data/rootReducer'
+import {
+  Analytics,
+  DexSwapForm,
+  DexSwapSide,
+  DexSwapSideFields,
+  DexSwapSteps,
+  ModalName,
+  SwapAccountType
+} from 'data/types'
+import { usePrevious, useRemote } from 'hooks'
 
 import { AllowanceCheck } from '../AllowanceCheck'
 import {
@@ -18,8 +28,10 @@ import {
 } from '../components'
 import { ErrorMessage } from './ErrorMessage'
 import { Header } from './Header'
+import { ButtonContainer } from './styles'
 
 const { DEX_SWAP_FORM } = model.components.dex
+const NATIVE_TOKEN = 'ETH'
 
 type Props = {
   walletCurrency: string
@@ -27,7 +39,6 @@ type Props = {
 
 export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const dispatch = useDispatch()
-  const [isApproved, setIsApproved] = useState(false)
 
   const [pairAnimate, setPairAnimate] = useState(false)
   const [isDetailsExpanded, setDetailsExpanded] = useState(false)
@@ -35,12 +46,37 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const formValues = useSelector(selectors.form.getFormValues(DEX_SWAP_FORM)) as DexSwapForm
   const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
     formValues || {}
+  const previousBaseToken = usePrevious(baseToken)
 
   const {
     data: quote,
-    hasError: hasQuoteError,
+    error: quoteError,
     isLoading: isLoadingQuote
   } = useRemote(selectors.components.dex.getSwapQuote)
+
+  const {
+    data: isTokenAllowed,
+    isLoading: isTokenAllowedLoading,
+    isNotAsked: isTokenAllowanceNotAsked
+  } = useRemote(selectors.components.dex.getTokenAllowanceStatus)
+
+  const { isNotAsked: isTokenAllowanceTxNotAsked } = useRemote(
+    selectors.components.dex.getTokenAllowanceTx
+  )
+
+  useEffect(() => {
+    // resets token allowance state when user changes base token and only if token allowance tx has been called before
+    if (previousBaseToken !== baseToken && !isTokenAllowanceTxNotAsked) {
+      dispatch(actions.components.dex.resetTokenAllowance())
+    }
+  }, [baseToken, isTokenAllowanceTxNotAsked, previousBaseToken])
+
+  useEffect(() => {
+    // if baseToken exists and baseToken is not ETH, fetch token allowance
+    if (baseToken && baseToken !== 'ETH') {
+      dispatch(actions.components.dex.fetchTokenAllowance({ baseToken }))
+    }
+  }, [baseToken])
 
   const baseTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
@@ -48,9 +84,41 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   const counterTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
   )
+  const swapSideType = useSelector(selectors.components.dex.getSwapSideType)
+
+  const showAllowanceCheck =
+    baseToken &&
+    baseToken !== NATIVE_TOKEN &&
+    !isTokenAllowed &&
+    !isTokenAllowedLoading &&
+    !isTokenAllowanceNotAsked
+  const isInsufficientBalance = !!quoteError?.title.includes('Balance')
+  const isInsufficientGas = !!quoteError?.message.includes('gas')
+
+  const baseTokenAccount = useSelector((state: RootState) => {
+    const token = isInsufficientGas ? NATIVE_TOKEN : baseToken
+    if (!token) return undefined
+
+    const accounts = selectors.coins.getCoinAccounts(state, {
+      coins: [token],
+      nonCustodialAccounts: true
+    })
+
+    return accounts[token] && accounts[token][0]
+  }) as SwapAccountType | undefined
 
   const onViewSettings = () => {
     dispatch(actions.modals.showModal(ModalName.DEX_SWAP_SETTINGS, { origin: 'Dex' }))
+  }
+
+  const onViewTokenAllowance = () => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.DEX_SWAP_APPROVE_TOKEN_CLICKED,
+        properties: {}
+      })
+    )
+    dispatch(actions.modals.showModal(ModalName.DEX_TOKEN_ALLOWANCE, { origin: 'Dex' }))
   }
 
   const onTokenSelect = (swapSide: DexSwapSide) => {
@@ -58,11 +126,43 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
   }
 
   const onDetailsToggle = () => {
+    // when user expands quote toggle
+    if (!isDetailsExpanded) {
+      dispatch(
+        actions.analytics.trackEvent({
+          key: Analytics.DEX_SWAP_DETAIL_EXPANDED,
+          properties: {}
+        })
+      )
+    }
     setDetailsExpanded(!isDetailsExpanded)
   }
 
   const onConfirmSwap = () => {
-    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', 'CONFIRM_SWAP'))
+    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', DexSwapSteps.CONFIRM_SWAP))
+  }
+
+  const handleMaxClicked = () => {
+    if (!baseToken || !baseTokenBalance || baseToken === NATIVE_TOKEN) return
+
+    const maxAmount = Exchange.convertCoinToCoin({
+      coin: baseToken,
+      value: Number(baseTokenBalance)
+    })
+
+    dispatch(actions.form.change(DEX_SWAP_FORM, `${DexSwapSideFields.BASE}Amount`, maxAmount))
+  }
+
+  const onDepositMore = () => {
+    dispatch(
+      actions.modals.showModal(
+        ModalName.REQUEST_CRYPTO_MODAL,
+        {
+          origin: 'Dex'
+        },
+        { account: baseTokenAccount, coin: isInsufficientBalance ? NATIVE_TOKEN : baseToken }
+      )
+    )
   }
 
   const onFlipPairClick = () => {
@@ -85,8 +185,9 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
       <SwapPairWrapper>
         {formValues.baseToken ? (
           <SwapPair
-            swapSide='BASE'
+            swapSide={DexSwapSide.BASE}
             animate={pairAnimate}
+            handleMaxClicked={handleMaxClicked}
             isQuoteLocked={false}
             balance={baseTokenBalance}
             coin={baseToken}
@@ -96,7 +197,8 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           />
         ) : (
           <SwapPair
-            swapSide='BASE'
+            amount={baseTokenAmount || 0}
+            swapSide={DexSwapSide.BASE}
             animate={pairAnimate}
             isQuoteLocked={false}
             walletCurrency={walletCurrency}
@@ -108,7 +210,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
 
         {formValues.counterToken ? (
           <SwapPair
-            swapSide='COUNTER'
+            swapSide={DexSwapSide.COUNTER}
             animate={pairAnimate}
             isQuoteLocked={false}
             balance={counterTokenBalance}
@@ -119,9 +221,10 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           />
         ) : (
           <SwapPair
-            swapSide='COUNTER'
+            swapSide={DexSwapSide.COUNTER}
             animate={pairAnimate}
             isQuoteLocked={false}
+            amount={counterTokenAmount || 0}
             walletCurrency={walletCurrency}
             onTokenSelect={onTokenSelect}
           />
@@ -143,6 +246,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           isQuoteLoading={false}
           isQuoteLocked={false}
           swapQuote={quote}
+          swapSideType={swapSideType}
         />
       ) : null}
 
@@ -167,23 +271,60 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
         ) : null
       ) : null}
 
-      {baseToken && counterToken && quote ? (
-        <Padding vertical={1}>
-          <AllowanceCheck coinSymbol={baseToken} onApprove={() => setIsApproved(true)} />
+      {quoteError && (
+        <ErrorMessage
+          coin={baseToken}
+          error={quoteError?.message}
+          isInsufficientBalance={isInsufficientBalance}
+        />
+      )}
+      {showAllowanceCheck && !quoteError ? (
+        <Padding bottom={1.5}>
+          <AllowanceCheck baseToken={baseToken} onApprove={onViewTokenAllowance} />
         </Padding>
       ) : null}
-
-      <Button
-        size='large'
-        width='full'
-        variant='primary'
-        disabled={!quote || !isApproved}
-        onClick={onConfirmSwap}
-        text={<FormattedMessage id='copy.swap' defaultMessage='Swap' />}
-      />
-
-      {/* TODO: Check if we have other errors to display the same way and make it generic */}
-      {hasQuoteError ? <ErrorMessage /> : null}
+      <ButtonContainer quoteError={quoteError}>
+        <Button
+          size='large'
+          width='full'
+          variant='primary'
+          disabled={!quote || !!showAllowanceCheck}
+          onClick={onConfirmSwap}
+          text={
+            quoteError ? (
+              <Flex alignItems='center' gap={8}>
+                <IconAlert color={PaletteColors['orange-400']} size='medium' />
+                {isInsufficientBalance ? (
+                  <FormattedMessage
+                    id='dex.enter-swap-details.button.insufficient'
+                    defaultMessage='Insufficient {token}'
+                    values={{ token: baseToken }}
+                  />
+                ) : (
+                  quoteError?.title
+                )}
+              </Flex>
+            ) : (
+              <FormattedMessage id='copy.swap' defaultMessage='Swap' />
+            )
+          }
+        />
+        {quoteError && quoteError?.title.includes('Insufficient') && (
+          <Button
+            size='large'
+            width='full'
+            variant='minimal'
+            onClick={onDepositMore}
+            text={
+              <FormattedMessage
+                id='dex.enter-swap-details.deposit-more'
+                defaultMessage='Deposit more {token}'
+                values={{ token: isInsufficientGas ? NATIVE_TOKEN : baseToken }}
+              />
+            }
+          />
+        )}
+      </ButtonContainer>
     </FormWrapper>
   )
 }

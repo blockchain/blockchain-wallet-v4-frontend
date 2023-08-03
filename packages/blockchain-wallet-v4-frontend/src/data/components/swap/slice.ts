@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from '@core/remote'
 import {
-  BSPaymentTypes,
   CoinType,
   CrossBorderLimits,
   CrossBorderLimitsPayload,
@@ -234,6 +233,5 @@ const swapSlice = createSlice({
   }
 })
 
-const { actions, reducer } = swapSlice
-const swapSliceReducer = reducer
+const { actions, reducer: swapSliceReducer } = swapSlice
 export { actions, swapSliceReducer }

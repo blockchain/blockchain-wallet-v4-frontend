@@ -1,21 +1,19 @@
 import type { RequestConfig } from '../../http'
-import { DEX_NABU_GATEWAY_PREFIX } from '../constants'
 import { DexUserEligibilitySchema } from '../schemas'
 
 export const getDexUserEligibility =
   ({
-    apiUrl,
-    authorizedGet
+    authorizedGet,
+    nabuUrl
   }: {
-    apiUrl: string
     authorizedGet: (config: RequestConfig) => Promise<unknown>
+    nabuUrl: string
   }) =>
-  ({ walletAddress }: { walletAddress: string }): Promise<boolean> =>
+  (): Promise<boolean> =>
     authorizedGet({
       contentType: 'application/json',
-      endPoint: `${DEX_NABU_GATEWAY_PREFIX}/eligible`,
-      params: { product: 'DEX', walletAddress },
-      url: apiUrl
+      endPoint: `/products`,
+      url: nabuUrl
     }).then((data) => {
       try {
         return DexUserEligibilitySchema.parse(data)

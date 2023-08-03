@@ -47,8 +47,8 @@ const EnterEmailOrGuid = (props: Props) => {
               component={TextBox}
               data-e2e='loginGuidOrEmail'
               disableSpellcheck
-              errorBottom
-              errorLeft
+              errorTop
+              errorRight
               name='guidOrEmail'
               normalize={removeWhitespace}
               validate={[required, validWalletIdOrEmail]}

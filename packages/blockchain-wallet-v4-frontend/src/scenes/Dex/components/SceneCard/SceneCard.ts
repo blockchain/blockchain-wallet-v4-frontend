@@ -15,6 +15,10 @@ export const SceneCard = styled.div<{ height?: number }>`
   border: 1px solid ${({ theme }) => theme.grey100};
   background-color: ${({ theme }) => theme.white};
 
+  & button {
+    border-radius: 32px !important;
+  }
+
   ${media.tablet`
     width: 100%;
   `}

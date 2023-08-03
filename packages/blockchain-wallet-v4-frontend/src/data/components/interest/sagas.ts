@@ -16,6 +16,7 @@ import {
   EarnBondingDepositsResponseType,
   EarnBondingDepositsType,
   EarnTransactionResponseType,
+  EarnUnbondingWithdrawalsType,
   NabuCustodialProductType,
   PaymentValue,
   Product,
@@ -41,7 +42,8 @@ import {
   EarnTransactionType,
   PendingTransactionType,
   RewardsDepositFormType,
-  StakingDepositFormType
+  StakingDepositFormType,
+  StakingWithdrawalFormType
 } from './types'
 
 const PASSIVE_REWARDS_DEPOSIT_FORM = 'passiveRewardsDepositForm'
@@ -244,6 +246,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchStakingLimitsFailure(error))
+    }
+  }
+
+  const fetchStakingWithdrawals = function* () {
+    try {
+      yield put(A.fetchStakingWithdrawalsLoading())
+      const response: ReturnType<typeof api.getEarnWithdrawalRequests> = yield call(
+        api.getEarnWithdrawalRequests,
+        'staking'
+      )
+      yield put(A.fetchStakingWithdrawalsSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchStakingWithdrawalsFailure(error))
     }
   }
 
@@ -549,7 +565,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payload
   }: ReturnType<typeof A.fetchPendingStakingTransactions>) {
     const { coin } = payload
-
     try {
       yield put(A.fetchPendingStakingTransactionsLoading())
       const transactionResponse: EarnTransactionResponseType = yield call(api.getEarnTransactions, {
@@ -566,6 +581,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
 
       const bondingDeposits: EarnBondingDepositsType[] = earnBondingResponse?.bondingDeposits || []
+
+      const unbondingWithdrawals: EarnUnbondingWithdrawalsType[] =
+        earnBondingResponse?.unbondingWithdrawals || []
 
       const filteredTransactions: TransactionType[] =
         transactionResponse?.items.filter(({ state }) => state.includes('PENDING')) || []
@@ -586,6 +604,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       bondingDeposits.forEach(({ amount, bondingDays, bondingStartDate }) => {
         totalBondingAmount += Number(amount)
         pendingTransactions.push({ amount, bondingDays, date: bondingStartDate, type: 'BONDING' })
+      })
+
+      unbondingWithdrawals.forEach(({ amount, unbondingDays, unbondingStartDate }) => {
+        pendingTransactions.push({
+          amount,
+          date: unbondingStartDate,
+          type: 'UNBONDING',
+          unbondingDays
+        })
       })
 
       if (totalBondingAmount > 0) yield put(A.setTotalStakingBondingDeposits(totalBondingAmount))
@@ -927,7 +954,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield put(A.setWithdrawalMinimumsLoading())
       const withdrawalMinimumsResponse: ReturnType<typeof api.getWithdrawalMinsAndFees> =
-        yield call(api.getWithdrawalMinsAndFees)
+        yield call(api.getWithdrawalMinsAndFees, 'savings')
       if (coinfig.products.includes('PrivateKey') && !hidePkWallets) {
         defaultAccount = yield call(getDefaultAccountForCoin, coin)
       } else {
@@ -1187,6 +1214,48 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const requestStakingWithdrawal = function* ({
+    payload
+  }: ReturnType<typeof A.requestStakingWithdrawal>) {
+    const { coin, fix, formName, walletCurrency, withdrawalAmount } = payload
+    const isStakingWithdrawalEnabled = selectors.core.walletOptions
+      .getStakingWithdrawalEnabled(yield select())
+      .getOrElse(false) as boolean
+    const rates = S.getRates(yield select()).getOrElse({} as RatesType)
+
+    if (!isStakingWithdrawalEnabled) return
+    try {
+      yield put(actions.form.startSubmit(formName))
+      const withdrawalAmountCrypto =
+        fix === 'FIAT'
+          ? Exchange.convertFiatToCoin({
+              coin,
+              currency: walletCurrency,
+              maxPrecision: 18,
+              rates,
+              value: new BigNumber(withdrawalAmount).toNumber()
+            })
+          : new BigNumber(withdrawalAmount).toNumber()
+      const withdrawalAmountBase = new BigNumber(
+        convertStandardToBase(coin, withdrawalAmountCrypto)
+      )
+        .integerValue(BigNumber.ROUND_DOWN)
+        .toFixed()
+      yield call(api.initiateCustodialTransfer, {
+        amount: withdrawalAmountBase,
+        currency: coin,
+        destination: 'SIMPLEBUY',
+        origin: 'STAKING'
+      })
+      yield put(A.setStakingStep({ name: 'WITHDRAWAL_REQUESTED' }))
+      yield delay(3000)
+      yield put(A.fetchStakingBalance())
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.setActiveRewardsStep({ name: 'ACCOUNT_SUMMARY' }))
+    }
+  }
+
   const requestWithdrawal = function* ({ payload }: ReturnType<typeof A.requestWithdrawal>) {
     const { coin, destination, formName, origin, withdrawalAmountCrypto, withdrawalAmountFiat } =
       payload
@@ -1359,6 +1428,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchStakingEligible,
     fetchStakingLimits,
     fetchStakingRates,
+    fetchStakingWithdrawals,
     formChanged,
     handleTransferMaxAmountClick,
     handleTransferMinAmountClick,
@@ -1367,6 +1437,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     initializeStakingDepositForm,
     initializeWithdrawalForm,
     requestActiveRewardsWithdrawal,
+    requestStakingWithdrawal,
     requestWithdrawal,
     routeToTxHash,
     sendDeposit,

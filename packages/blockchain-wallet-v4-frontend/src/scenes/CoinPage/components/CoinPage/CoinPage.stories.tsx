@@ -198,7 +198,7 @@ const coinPageStoriesMeta: ComponentMeta<CoinPageComponent> = {
                 <Icon name='key' size='8px' color='white' />
               </IconCircularBackground>
             }
-            topLeftText='Private Key Wallet'
+            topLeftText='DeFi Wallet'
             topRightText='$7,926.43'
             bottomLeftText='Non-custodial'
             bottomRightText='0.00039387 BTC'

@@ -52,7 +52,7 @@ export const getErc20AccountBalances = (state, token) => {
         address: head(keys(ethAccount)),
         balance: erc20Balance,
         coin: toUpper(token),
-        label: `${coinfig.displaySymbol} Private Key Wallet`,
+        label: `${coinfig.displaySymbol} DeFi Wallet`,
         type: ADDRESS_TYPES.ACCOUNT
       }
     ]

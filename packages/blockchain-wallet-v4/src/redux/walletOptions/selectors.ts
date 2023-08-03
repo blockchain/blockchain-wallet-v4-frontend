@@ -195,6 +195,10 @@ export const getActiveRewardsEnabled = (state: RootState) =>
 export const getActiveRewardsWithdrawalEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isActiveRewardsWithdrawalEnabled']))
 
+// show staking withdrawal
+export const getStakingWithdrawalEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isStakingWithdrawalEnabled']))
+
 // show earn available assets checkbox
 export const getShowEarnAvailableAssets = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showEarnAvailableAssetsCheckbox']))
@@ -202,3 +206,11 @@ export const getShowEarnAvailableAssets = (state: RootState) =>
 // show prove flow
 export const getShowProveFlow = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showProveFlow']))
+
+// which deposit address to use for swap
+export const getUseAgentHotWalletAddress = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useAgentHotWalletAddress']))
+
+// which deposit address to use for non custodial sell
+export const getUseAgentHotWalletAddressForSell = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useAgentHotWalletAddressForSell']))

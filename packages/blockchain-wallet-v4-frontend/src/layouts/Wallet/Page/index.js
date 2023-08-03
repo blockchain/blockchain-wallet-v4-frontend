@@ -1,5 +1,4 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -16,33 +15,13 @@ const Wrapper = styled.div`
   }
 `
 
-class PageContainer extends React.Component {
-  componentDidUpdate(prevProps) {
-    if (prevProps.children.props.url !== this.props.children.props.url) {
-      try {
-        /* eslint-disable-next-line react/no-find-dom-node */
-        ReactDOM.findDOMNode(this).scrollTop = 0
-      } catch (e) {
-        /* eslint-disable-next-line */
-        console.log(e)
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.timeout) {
-      clearTimeout(this.timeout)
-    }
-  }
-
-  render() {
-    return (
-      /* eslint-disable-next-line react/no-string-refs */
-      <Wrapper ref='page' center={this.props.center}>
-        {this.props.children}
-      </Wrapper>
-    )
-  }
+const PageContainer = ({ center, children }) => {
+  const ref = useRef('page')
+  return (
+    <Wrapper ref={ref} center={center}>
+      {children}
+    </Wrapper>
+  )
 }
 
 export default PageContainer

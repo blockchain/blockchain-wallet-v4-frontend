@@ -21,7 +21,7 @@ export const getDestination = (props: Props) => {
   switch (props.order.kind.direction) {
     case 'TO_USERKEY':
     case 'ON_CHAIN':
-      return `${getOutputCoinDisplayName(props)} Private Key Wallet`
+      return `${getOutputCoinDisplayName(props)} DeFi Wallet `
     case 'FROM_USERKEY':
     case 'INTERNAL':
       return `${getOutputCoinDisplayName(props)} Trading Account`
@@ -34,7 +34,7 @@ export const getOrigin = (props: Props) => {
   switch (props.order.kind.direction) {
     case 'FROM_USERKEY':
     case 'ON_CHAIN':
-      return `${getInputCoinDisplayName(props)} Private Key Wallet`
+      return `${getInputCoinDisplayName(props)} DeFi Wallet`
     case 'TO_USERKEY':
     case 'INTERNAL':
       return `${getInputCoinDisplayName(props)} Trading Account`

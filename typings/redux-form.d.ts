@@ -42,6 +42,7 @@ export type WalletFormType =
   | 'settingsNotifications'
   | 'setupTwoFactor'
   | 'stakingDepositForm'
+  | 'stakingWithdrawalForm'
   | 'swapAmount'
   | 'swapOrderDetails'
   | 'transferEth'

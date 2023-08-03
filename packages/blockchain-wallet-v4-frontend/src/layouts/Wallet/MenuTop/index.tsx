@@ -21,11 +21,12 @@ const mapStateToProps = (state: RootState) => ({
     .getFeatureFlags(state)
     .getOrElse({} as { [key in string]: boolean }),
   invitations: selectors.core.settings.getInvitations(state).getOrElse({} as InvitationsType),
+  isDexEligible: selectors.components.dex.getIsUserEligible(state).getOrElse(false),
+  isKycVerificationEnabled: selectors.custodial.isKycVerificationEnabled(state),
   isReferralAvailable: selectors.components.referral.getReferralInformation(state),
   isReferralEnabled: selectors.core.walletOptions
     .getReferralEnabled(state)
     .getOrElse(false) as boolean,
-  nftsEnabled: selectors.core.walletOptions.getNftExplorer(state).getOrElse(false) as boolean,
   walletDebitCardEnabled: selectors.components.debitCard.isDebitCardModuleEnabledForAccount(state)
 })
 

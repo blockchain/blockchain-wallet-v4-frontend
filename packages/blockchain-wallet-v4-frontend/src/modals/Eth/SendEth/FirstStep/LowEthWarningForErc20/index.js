@@ -15,7 +15,7 @@ const LowEthWarningForErc20 = () => {
         <WarningHeader size='14px' weight={500} color='orange600'>
           <FormattedMessage
             id='modals.sendeth.lowethwarningforerc20.title1'
-            defaultMessage='Not Enough ETH in Private Key Wallet'
+            defaultMessage='Not Enough ETH in DeFi Wallet'
           />
         </WarningHeader>
         <Text size='13px' weight={400}>

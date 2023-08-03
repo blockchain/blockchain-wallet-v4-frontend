@@ -8,7 +8,7 @@ export const generateSelfCustodyAccount = (coin: CoinType, balance: string): Swa
       balance,
       baseCoin: coin,
       coin,
-      label: 'Private Key Wallet',
+      label: 'DeFi Wallet',
       type: SwapBaseCounterTypes.ACCOUNT
     }
   ]

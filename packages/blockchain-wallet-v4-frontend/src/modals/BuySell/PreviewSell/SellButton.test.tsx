@@ -4,11 +4,11 @@ import { render, screen } from '@testing-library/react'
 import { ThemeProvider } from 'styled-components'
 
 import { Palette } from 'blockchain-info-components'
+import { useCountDown } from 'hooks'
 
-import { useCountDown } from '../../hooks/useCountDown'
 import { Props, SellButton } from './SellButton'
 
-jest.mock('../../hooks/useCountDown', () => ({
+jest.mock('hooks/useCountDown', () => ({
   useCountDown: jest.fn(() => ({
     isCompletingSoon: false
   }))

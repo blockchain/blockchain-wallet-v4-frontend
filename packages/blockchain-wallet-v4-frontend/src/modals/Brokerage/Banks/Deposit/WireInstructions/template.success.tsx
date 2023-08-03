@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { WalletFiatEnum } from '@core/types'
 import { BankDWStepType } from 'data/components/brokerage/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { InstructionDetails } from './InstructionDetails'
-import { InstructionDetailsUsd } from './InstructionDetailsUsd'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,11 +22,7 @@ const Success = (props: Props) => {
 
   return (
     <Wrapper>
-      {props.account.currency === WalletFiatEnum[WalletFiatEnum.USD] ? (
-        <InstructionDetailsUsd onClickBack={onClickBack} {...props} />
-      ) : (
-        <InstructionDetails onClickBack={onClickBack} {...props} />
-      )}
+      <InstructionDetails onClickBack={onClickBack} {...props} />
     </Wrapper>
   )
 }
