@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
+import { format, getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
 import {
   addIndex,
   compose,
@@ -122,9 +122,9 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
-      (tx: { time: string }) =>
-        isAfter(getUnixTime(new Date(tx.time)), startDate) &&
-        isBefore(getUnixTime(new Date(tx.time)), endDate),
+      (tx: { insertedAt: number }) =>
+        isAfter(getUnixTime(new Date(tx.insertedAt)), getUnixTime(new Date(startDate))) &&
+        isBefore(getUnixTime(new Date(tx.insertedAt)), getUnixTime(new Date(endDate))),
       fullTxList
     )
 
@@ -133,9 +133,8 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     // @ts-ignore
     const txTimestamps = pluck('time', prunedTxList)
     const currency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
-    const currentPrices = prop(currency, xlmMarketData)
-    const currentPrice = new BigNumber(prop('last', currentPrices))
-    const fiatSymbol = prop('symbol', currentPrices)
+    const currentPrice = new BigNumber(prop('price', xlmMarketData))
+    const fiatSymbol = currency
 
     // fetch historical price data
     const historicalPrices = yield call(api.getPriceTimestampSeries, 'XLM', currency, txTimestamps)
@@ -147,7 +146,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
         takeLast(
           2,
           // @ts-ignore
-          getUnixTime(tx.time).toString().split(' ')
+          getUnixTime(tx.insertedAt).toString().split(' ')
         )
       )
       // @ts-ignore
@@ -170,7 +169,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       return {
         amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
         // @ts-ignore
-        date: format(getUnixTime(prop('time', tx)), 'yyyy-MM-dd'),
+        date: format(getUnixTime(prop('insertedAt', tx)), 'yyyy-MM-dd'),
         // @ts-ignore
         description: prop('description', tx),
 
@@ -252,6 +251,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
         limit: TX_REPORT_PAGE_SIZE,
         publicKey: address
       })
+
       // @ts-ignore
       pagingToken = prop('paging_token', last(fullTxList))
 
