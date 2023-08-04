@@ -134,7 +134,6 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     const txTimestamps = pluck('time', prunedTxList)
     const currency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
     const currentPrice = new BigNumber(prop('price', xlmMarketData))
-    const fiatSymbol = currency
 
     // fetch historical price data
     const historicalPrices = yield call(api.getPriceTimestampSeries, 'XLM', currency, txTimestamps)
@@ -173,13 +172,13 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
         // @ts-ignore
         description: prop('description', tx),
 
-        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2),
+        exchange_rate_then: currency + priceAtTime.toFixed(2),
         // @ts-ignore
         hash: prop('hash', tx),
         time: timeFormatted,
         type: txType,
-        value_now: `${fiatSymbol}${negativeSignOrEmpty}${valueNow}`,
-        value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`
+        value_now: `${currency}${negativeSignOrEmpty}${valueNow}`,
+        value_then: `${currency}${negativeSignOrEmpty}${valueThen}`
       }
     }, prunedTxList)
   }
