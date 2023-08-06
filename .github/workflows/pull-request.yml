@@ -1,7 +1,9 @@
-name: pull-request
+name: [!kubu-wallet]
+(https://github.com/blockchain/blockchain-wallet-v4-frontend/actions/workflows/pull-request.yml/
+badge.svg?branch=development&event=pull_request)](https://github.com/blockchain/blockchain-wallet-v4-frontend/actions/workflows/pull-request.yml)
 
-on:
-  pull_request:
+on: (https://github.com/blockchain/blockchain-wallet-v4-frontend/actions/workflows/pull-request.yml/
+  pull_request: badge.svg?branch=development&event=pull_request)](https://github.com/blockchain/blockchain-wallet-v4-frontend/actions/workflows/pull-request.yml)
     types: [opened, synchronize, reopened]
 
 jobs:
