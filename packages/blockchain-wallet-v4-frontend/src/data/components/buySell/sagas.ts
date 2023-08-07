@@ -888,7 +888,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // Have to check if the state is "FINISHED", otherwise poll for 1 minute until it is
         if (confirmedOrder.state === 'FINISHED') {
           yield put(A.confirmOrderSuccess(confirmedOrder))
-
           yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
           yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
@@ -1126,6 +1125,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const orders = yield call(api.getBSOrders, {})
       yield put(A.fetchOrdersSuccess(orders))
       yield put(actions.components.brokerage.fetchBankTransferAccounts())
+
+      // This is to refresh the page if it's the last step after success
+      const step = S.getStep(yield select())
+      if (step === 'ORDER_SUMMARY') {
+        yield put(actions.components.refresh.refreshAllTransactions())
+      }
     } catch (e) {
       if (!(yield call(isTier2))) return yield put(A.fetchOrdersSuccess([]))
 
@@ -1147,10 +1152,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchPairsLoading())
       const { pairs }: ReturnType<typeof api.getBSPairs> = yield call(api.getBSPairs, currency)
       const filteredPairs = pairs.filter((pair) => {
-        return (
-          window.coins[getCoinFromPair(pair.pair)] &&
-          window.coins[getCoinFromPair(pair.pair)].coinfig.type.name !== Coin.FIAT
-        )
+        return window.coins[getCoinFromPair(pair.pair)]?.coinfig.type.name !== Coin.FIAT
       })
       yield put(A.fetchPairsSuccess({ coin, pairs: filteredPairs }))
     } catch (e) {
@@ -1463,11 +1465,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     if (!isUserTier2) {
       yield put(A.showModal({ origin: 'EmptyFeed' }))
-      yield put(
-        A.setStep({
-          step: 'KYC_REQUIRED'
-        })
-      )
+      yield put(A.setStep({ step: 'KYC_REQUIRED' }))
     } else {
       yield put(A.showModal({ origin: 'EmptyFeed' }))
 
@@ -1714,9 +1712,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const pollBSBalances = function* () {
-    const skipLoading = true
-
-    yield put(A.fetchBalance({ skipLoading }))
+    yield put(A.fetchBalance({ skipLoading: true }))
   }
 
   const pollCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
@@ -1828,6 +1824,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.confirmOrderSuccess(order))
+
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       yield put(cacheActions.removeLastUsedAmount({ pair: order.pair }))
     } catch (e) {

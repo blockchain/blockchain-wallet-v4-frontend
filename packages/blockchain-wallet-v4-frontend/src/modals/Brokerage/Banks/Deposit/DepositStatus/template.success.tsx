@@ -65,12 +65,19 @@ const DescriptionText = styled(Text)`
 
 type Props = OwnProps & SuccessStateType
 
-const Success: React.FC<Props> = (props) => {
-  const coin = props.formValues?.currency || 'USD'
-  const amount = props.formValues?.amount || 0
-  const unit = (props.formValues?.currency as FiatType) || 'USD'
-  const isOpenBanking = props.defaultMethod?.partner === BankPartners.YAPILY
-  const isManualReview = props.formValues?.order?.state === BSTransactionStateEnum.MANUAL_REVIEW
+const Success: React.FC<Props> = ({ defaultMethod, formValues, handleClose }) => {
+  const coin = formValues?.currency || 'USD'
+  const amount = formValues?.amount || 0
+  const isManualReview = formValues?.order?.state === BSTransactionStateEnum.MANUAL_REVIEW
+  const isOpenBanking = defaultMethod?.partner === BankPartners.YAPILY
+
+  const messageValue = {
+    amount: fiatToString({
+      digits: 0,
+      unit: coin,
+      value: amount
+    })
+  }
 
   return (
     <Wrapper>
@@ -82,7 +89,7 @@ const Success: React.FC<Props> = (props) => {
           size='20px'
           color='grey600'
           role='button'
-          onClick={props.handleClose}
+          onClick={handleClose}
         />
       </CloseContainer>
 
@@ -103,13 +110,7 @@ const Success: React.FC<Props> = (props) => {
             <FormattedMessage
               id='modals.brokerage.deposit_success.title'
               defaultMessage='{amount} Deposited!'
-              values={{
-                amount: fiatToString({
-                  digits: 0,
-                  unit,
-                  value: amount
-                })
-              }}
+              values={messageValue}
             />
           </Text>
           <DescriptionText color='grey600' size='14px' weight={600}>
@@ -117,14 +118,7 @@ const Success: React.FC<Props> = (props) => {
               <FormattedMessage
                 id='modals.brokerage.deposit_success.wait_description'
                 defaultMessage='While we wait for your bank to send the cash, here’s early access to {amount} in your {currency} Cash Account so you can buy crypto right away.'
-                values={{
-                  amount: fiatToString({
-                    digits: 0,
-                    unit,
-                    value: amount
-                  }),
-                  currency: coin
-                }}
+                values={messageValue}
               />
             )}
           </DescriptionText>
@@ -143,7 +137,7 @@ const Success: React.FC<Props> = (props) => {
           height='48px'
           size='16px'
           nature='primary'
-          onClick={props.handleClose}
+          onClick={handleClose}
           fullwidth
         >
           <Text weight={600} color='white'>

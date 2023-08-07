@@ -182,7 +182,7 @@ class Deposit extends PureComponent<Props, State> {
             {this.props.step === BankDWStepType.DEPOSIT_STATUS && (
               /*
                * depending on the servers response we'll display a successful
-               * or unsuccessful deposit screen9
+               * or unsuccessful deposit screen
                */
 
               <FlyoutChild>
