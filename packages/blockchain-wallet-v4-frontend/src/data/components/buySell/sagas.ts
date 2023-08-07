@@ -1125,6 +1125,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const orders = yield call(api.getBSOrders, {})
       yield put(A.fetchOrdersSuccess(orders))
       yield put(actions.components.brokerage.fetchBankTransferAccounts())
+
+      // This is to refresh the page if it's the last step after success
+      const step = S.getStep(yield select())
+      if (step === 'ORDER_SUMMARY') {
+        yield put(actions.components.refresh.refreshAllTransactions())
+      }
     } catch (e) {
       if (!(yield call(isTier2))) return yield put(A.fetchOrdersSuccess([]))
 
@@ -1138,8 +1144,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(A.fetchOrdersFailure(error))
     }
-
-    yield put(actions.components.refresh.refreshBtcTransactions())
   }
 
   const fetchPairs = function* ({ payload }: ReturnType<typeof A.fetchPairs>) {
@@ -1148,10 +1152,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchPairsLoading())
       const { pairs }: ReturnType<typeof api.getBSPairs> = yield call(api.getBSPairs, currency)
       const filteredPairs = pairs.filter((pair) => {
-        return (
-          window.coins[getCoinFromPair(pair.pair)] &&
-          window.coins[getCoinFromPair(pair.pair)].coinfig.type.name !== Coin.FIAT
-        )
+        return window.coins[getCoinFromPair(pair.pair)]?.coinfig.type.name !== Coin.FIAT
       })
       yield put(A.fetchPairsSuccess({ coin, pairs: filteredPairs }))
     } catch (e) {
@@ -1711,9 +1712,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const pollBSBalances = function* () {
-    const skipLoading = true
-
-    yield put(A.fetchBalance({ skipLoading }))
+    yield put(A.fetchBalance({ skipLoading: true }))
   }
 
   const pollCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
@@ -1825,7 +1824,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       yield put(A.confirmOrderSuccess(order))
-      yield put(actions.components.refresh.refreshBtcTransactions())
 
       yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
       yield put(cacheActions.removeLastUsedAmount({ pair: order.pair }))

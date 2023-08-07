@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
-import { BSPaymentMethodType, BSPaymentTypes, FiatType } from '@core/types'
+import { BSPaymentTypes, FiatType } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -16,7 +16,7 @@ import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { getPeriodTitleText } from 'components/Flyout/model'
 import Form from 'components/Form/Form'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
-import { actions, model } from 'data'
+import { model } from 'data'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
 import { Analytics, BSCheckoutFormValuesType } from 'data/types'
 import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
@@ -156,7 +156,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     pair,
     payment,
     products,
-    refreshActions,
     sbBalances,
     swapAccount,
     userData

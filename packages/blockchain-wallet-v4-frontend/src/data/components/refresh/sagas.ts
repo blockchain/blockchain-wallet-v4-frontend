@@ -34,6 +34,57 @@ export default () => {
     yield put(actions.core.data.coins.fetchCoinsRates())
   }
 
+  /** Refreshes the transactions based on the page the user is viewing */
+  const refreshAllTransactions = function* () {
+    const pathname = yield select(selectors.router.getPathname)
+    const maybeCoin = toUpper(pathname.split('/')[2] || '')
+
+    switch (true) {
+      case pathname.includes('coins/BCH'):
+        yield call(refreshBchTransactions)
+        break
+      case pathname.includes('coins/BTC'):
+        yield call(refreshBtcTransactions)
+        break
+      case pathname.includes('coins/ETH'):
+        yield call(refreshEthTransactions)
+        break
+      case pathname.includes('coins/XLM'):
+        yield call(refreshXlmTransactions)
+        break
+      case selectors.core.data.coins.getErc20Coins().includes(maybeCoin):
+        yield call(refreshErc20Transactions, pathname.split('/')[1])
+        break
+      case selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(maybeCoin):
+      case selectors.core.data.coins.getCustodialCoins().includes(maybeCoin):
+        yield call(refreshCoinTransactions, maybeCoin)
+        break
+      case pathname.includes('coins/EUR'):
+        yield put(actions.core.data.fiat.fetchTransactions('EUR', true))
+        break
+      case pathname.includes('coins/GBP'):
+        yield put(actions.core.data.fiat.fetchTransactions('GBP', true))
+        break
+      case pathname.includes('coins/USD'):
+        yield put(actions.core.data.fiat.fetchTransactions('USD', true))
+        break
+      case pathname.includes('profile'):
+      case pathname.includes('/airdrops'):
+        yield put(actions.modules.profile.fetchUserDataLoading())
+        yield put(actions.modules.profile.fetchUser())
+        yield put(actions.modules.profile.fetchUserCampaigns())
+        break
+      case pathname.includes('/debit-card'):
+        yield put(actions.components.debitCard.getCurrentCardAccount())
+        yield put(actions.components.debitCard.getCardTransactions({ limit: 4 }))
+        break
+      case pathname.includes('/settings/general'):
+        yield put(actions.components.buySell.fetchCards(true))
+        break
+      default:
+    }
+  }
+
   const refreshClicked = function* () {
     try {
       // User
@@ -62,53 +113,7 @@ export default () => {
       // Custodial Swaps
       yield put(actions.custodial.fetchRecentSwapTxs())
 
-      const pathname = (yield select(selectors.router.getPathname))?.toLowerCase()
-      const maybeCoin = toUpper(pathname.split('/')[2] || '')
-
-      switch (true) {
-        case contains('coins/BCH', pathname):
-          yield call(refreshBchTransactions)
-          break
-        case contains('coins/BTC', pathname):
-          yield call(refreshBtcTransactions)
-          break
-        case contains('coins/ETH', pathname):
-          yield call(refreshEthTransactions)
-          break
-        case contains('coins/XLM', pathname):
-          yield call(refreshXlmTransactions)
-          break
-        case selectors.core.data.coins.getErc20Coins().includes(maybeCoin):
-          yield call(refreshErc20Transactions, pathname.split('/')[1])
-          break
-        case selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(maybeCoin):
-        case selectors.core.data.coins.getCustodialCoins().includes(maybeCoin):
-          yield call(refreshCoinTransactions, maybeCoin)
-          break
-        case contains('coins/EUR', pathname):
-          yield put(actions.core.data.fiat.fetchTransactions('EUR', true))
-          break
-        case contains('coins/GBP', pathname):
-          yield put(actions.core.data.fiat.fetchTransactions('GBP', true))
-          break
-        case contains('coins/USD', pathname):
-          yield put(actions.core.data.fiat.fetchTransactions('USD', true))
-          break
-        case contains('profile', pathname):
-        case contains('/airdrops', pathname):
-          yield put(actions.modules.profile.fetchUserDataLoading())
-          yield put(actions.modules.profile.fetchUser())
-          yield put(actions.modules.profile.fetchUserCampaigns())
-          break
-        case contains('/debit-card', pathname):
-          yield put(actions.components.debitCard.getCurrentCardAccount())
-          yield put(actions.components.debitCard.getCardTransactions({ limit: 4 }))
-          break
-        case contains('/settings/general', pathname):
-          yield put(actions.components.buySell.fetchCards(true))
-          break
-        default:
-      }
+      yield refreshAllTransactions()
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
@@ -119,8 +124,7 @@ export default () => {
   }
 
   return {
-    refreshBchTransactions,
-    refreshBtcTransactions,
+    refreshAllTransactions,
     refreshClicked,
     refreshRates
   }
