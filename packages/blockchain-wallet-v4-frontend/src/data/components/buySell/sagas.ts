@@ -32,6 +32,7 @@ import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import {
   AddBankStepType,
+  Analytics,
   BankDWStepType,
   BankPartners,
   BankTransferAccountType,
@@ -1716,6 +1717,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const pollCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
+    const spinnerLaunchTime = new Date()
+
     let retryAttempts = 0
     const maxRetryAttempts = 10
 
@@ -1741,6 +1744,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
         yield delay(2000)
       }
+
+      // Report the time the loading screen was up
+
+      const duration = Math.round((new Date().getTime() - spinnerLaunchTime.getTime()) / 1000)
+
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.SPINNER_LAUNCHED,
+          properties: {
+            // From api.getBSCard above
+            duration,
+            endpoint: `/payments/cards/${payload}`,
+            screen: origin
+          }
+        })
+      )
 
       if (card.state === 'ACTIVE') {
         const skipLoading = true
