@@ -1746,14 +1746,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       // Report the time the loading screen was up
-
       const duration = Math.round((new Date().getTime() - spinnerLaunchTime.getTime()) / 1000)
 
+      // Endpoint taken from api.getBSCard above
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.SPINNER_LAUNCHED,
           properties: {
-            // From api.getBSCard above
             duration,
             endpoint: `/payments/cards/${payload}`,
             screen: origin
@@ -1789,6 +1788,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           } as BSPaymentMethodType
           yield put(A.setMethod(newCardMethod))
         }
+
         return yield put(
           A.proceedToBuyConfirmation({
             paymentMethodId: card.id,

@@ -51,6 +51,8 @@ const Checkout = (props: Props) => {
   const methodRef = useRef<string>()
 
   const handleSubmit = () => {
+    // Measure how long it takes to go to next step from Preview Buy
+    const spinnerLaunchTime = new Date()
     if (!data) return
 
     const { hasPaymentAccount } = data
@@ -124,6 +126,16 @@ const Checkout = (props: Props) => {
           break
       }
     }
+    const duration = Math.round((new Date().getTime() - spinnerLaunchTime.getTime()) / 1000)
+
+    props.analyticsActions.trackEvent({
+      key: Analytics.SPINNER_LAUNCHED,
+      properties: {
+        duration,
+        endpoint: '',
+        screen: origin
+      }
+    })
   }
 
   const errorCallback = () => {
