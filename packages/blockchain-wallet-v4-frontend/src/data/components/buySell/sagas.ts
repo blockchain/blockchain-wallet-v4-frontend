@@ -544,6 +544,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const confirmOrder = function* ({ payload }: ReturnType<typeof A.confirmOrder>) {
+    // This is so the order can be sent to analytics from outside the try
+    const spinnerLaunchTime = new Date()
+    let orderId
+
     try {
       yield put(A.confirmOrderLoading())
       yield put(
@@ -800,6 +804,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               quoteState: maybeUpdatedQuoteState
             }
       )
+      // This is used outside the try to send the metric even on failure
+      orderId = order.id
 
       // Before isAsync this request would throw if the buy was going to fail and show the error UX
       // to the user. Now with isAsync = true this will no longer throw and we need to poll for FAILED or success state
@@ -962,6 +968,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.confirmOrderFailure(errorHandlerCode(e)))
       }
     }
+
+    // Here we report the order + confirm order time
+    const duration = Math.round((new Date().getTime() - spinnerLaunchTime.getTime()) / 1000)
+
+    // Endpoint taken from api.getBSCard above
+    yield put(
+      actions.analytics.trackEvent({
+        key: Analytics.SPINNER_LAUNCHED,
+        properties: {
+          duration,
+          endpoint: `/simple-buy/trades/${orderId}`,
+          screen: origin
+        }
+      })
+    )
   }
 
   const confirmBSFundsOrder = function* ({ payload }: ReturnType<typeof A.confirmFundsOrder>) {

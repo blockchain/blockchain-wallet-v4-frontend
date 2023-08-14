@@ -123,7 +123,6 @@ const Checkout = (props: Props) => {
       }
     }
     const duration = Math.round((new Date().getTime() - spinnerLaunchTime.getTime()) / 1000)
-
     props.analyticsActions.trackEvent({
       key: Analytics.SPINNER_LAUNCHED,
       properties: {
