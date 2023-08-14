@@ -14,6 +14,7 @@ import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
+import { getOrigin } from 'data/components/buySell/selectors'
 import { RootState } from 'data/rootReducer'
 import { Analytics, BSCheckoutFormValuesType, ModalName, RecurringBuyPeriods } from 'data/types'
 import { useRemote } from 'hooks'
@@ -47,6 +48,10 @@ const Checkout = (props: Props) => {
     selectors.preferences.getBSCheckoutPreferences(state)
   )
   const buySellGoal = goals.find((goal) => goal.name === 'buySell')
+
+  const modalOrigin = useSelector((state: RootState) =>
+    selectors.components.buySell.getOrigin(state)
+  )
 
   const methodRef = useRef<string>()
 
@@ -122,13 +127,14 @@ const Checkout = (props: Props) => {
           break
       }
     }
+
     const duration = Math.round((new Date().getTime() - spinnerLaunchTime.getTime()) / 1000)
     props.analyticsActions.trackEvent({
       key: Analytics.SPINNER_LAUNCHED,
       properties: {
         duration,
         endpoint: '',
-        screen: origin
+        screen: `[Preview Buy] ${modalOrigin}`
       }
     })
   }

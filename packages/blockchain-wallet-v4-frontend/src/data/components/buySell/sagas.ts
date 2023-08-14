@@ -827,7 +827,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               properties: {
                 duration: getSpinnerDuration(spinnerLaunchTime),
                 endpoint: `/simple-buy/trades/${confirmedOrder.id}`,
-                screen: modalOrigin
+                screen: `[Confirm Order] ${modalOrigin}`
               }
             })
           )
@@ -876,7 +876,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               properties: {
                 duration: getSpinnerDuration(spinnerLaunchTime),
                 endpoint: `/simple-buy/trades/${confirmedOrder.id}`,
-                screen: modalOrigin
+                screen: `[Confirm Order] ${modalOrigin}`
               }
             })
           )
@@ -958,7 +958,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         properties: {
           duration: getSpinnerDuration(spinnerLaunchTime),
           endpoint: `/simple-buy/trades/${orderId ?? ''}`,
-          screen: modalOrigin
+          screen: `[Confirm Order] ${modalOrigin}`
         }
       })
     )
@@ -991,7 +991,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           properties: {
             duration: getSpinnerDuration(spinnerLaunchTime),
             endpoint: `/simple-buy/trades/${order.id}`,
-            screen: modalOrigin
+            screen: `[Confirm Buy Sell Funds Order] ${modalOrigin}`
           }
         })
       )
@@ -1764,7 +1764,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           properties: {
             duration: getSpinnerDuration(spinnerLaunchTime),
             endpoint: `/payments/cards/${payload}`,
-            screen: modalOrigin
+            screen: `[Polling Card] ${modalOrigin}`
           }
         })
       )
