@@ -91,6 +91,8 @@ export const logLocation = 'components/buySell/sagas'
 
 let googlePaymentsClient: google.payments.api.PaymentsClient | null = null
 
+const getSpinnerDuration = (start) => Math.round((new Date().getTime() - start.getTime()) / 1000)
+
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { createUser, isTier2, waitForUserData } = profileSagas({
     api,
@@ -485,7 +487,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const cardAttrs = ['needCvv', 'everypay', 'cardProvider', 'cardCassy']
       if (order.attributes) {
         const foundOrder = cardAttrs.find((attr) => order.attributes?.[attr])
-        return foundOrder || null
+        if (foundOrder) return foundOrder
       }
     } catch (e) {
       if (isNabuError(e)) {
@@ -543,6 +545,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const confirmOrder = function* ({ payload }: ReturnType<typeof A.confirmOrder>) {
     // This is so the order can be sent to analytics from outside the try
     const spinnerLaunchTime = new Date()
+    const modalOrigin = S.getOrigin(yield select()) as string
     let orderId
 
     try {
@@ -817,6 +820,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield put(cacheActions.removeLastUsedAmount({ pair: confirmedOrder.pair }))
 
           yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
+
+          yield put(
+            actions.analytics.trackEvent({
+              key: Analytics.SPINNER_LAUNCHED,
+              properties: {
+                duration: getSpinnerDuration(spinnerLaunchTime),
+                endpoint: `/simple-buy/trades/${confirmedOrder.id}`,
+                screen: modalOrigin
+              }
+            })
+          )
+
           return // no need to proceed with the rest of this func
         }
       }
@@ -854,6 +869,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           yield put(A.setStep({ step: 'ORDER_SUMMARY' }))
           yield put(A.fetchOrders())
+
+          yield put(
+            actions.analytics.trackEvent({
+              key: Analytics.SPINNER_LAUNCHED,
+              properties: {
+                duration: getSpinnerDuration(spinnerLaunchTime),
+                endpoint: `/simple-buy/trades/${confirmedOrder.id}`,
+                screen: modalOrigin
+              }
+            })
+          )
+
           return
         }
 
@@ -924,23 +951,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
-    // Here we report the order + confirm order time
-    const duration = Math.round((new Date().getTime() - spinnerLaunchTime.getTime()) / 1000)
-
-    // Endpoint taken from api.getBSCard above
+    // Here we report the order + confirm order time as a fallback
     yield put(
       actions.analytics.trackEvent({
         key: Analytics.SPINNER_LAUNCHED,
         properties: {
-          duration,
-          endpoint: `/simple-buy/trades/${orderId}`,
-          screen: origin
+          duration: getSpinnerDuration(spinnerLaunchTime),
+          endpoint: `/simple-buy/trades/${orderId ?? ''}`,
+          screen: modalOrigin
         }
       })
     )
   }
 
   const confirmBSFundsOrder = function* ({ payload }: ReturnType<typeof A.confirmFundsOrder>) {
+    // This is so the order can be sent to analytics from outside the try
+    const spinnerLaunchTime = new Date()
     try {
       yield put(A.confirmOrderLoading())
       yield put(A.setStep({ step: 'CONFIRMING_BUY_ORDER' }))
@@ -957,6 +983,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
 
       yield put(A.fetchOrders())
+
+      const modalOrigin = S.getOrigin(yield select()) as string
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.SPINNER_LAUNCHED,
+          properties: {
+            duration: getSpinnerDuration(spinnerLaunchTime),
+            endpoint: `/simple-buy/trades/${order.id}`,
+            screen: modalOrigin
+          }
+        })
+      )
     } catch (e) {
       const errorPayload = isNabuError(e) ? e : errorHandler(e)
       yield put(A.confirmOrderFailure(errorPayload))
@@ -1717,17 +1755,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield delay(2000)
       }
 
-      // Report the time the loading screen was up
-      const duration = Math.round((new Date().getTime() - spinnerLaunchTime.getTime()) / 1000)
+      const modalOrigin = S.getOrigin(yield select()) as string
 
       // Endpoint taken from api.getBSCard above
       yield put(
         actions.analytics.trackEvent({
           key: Analytics.SPINNER_LAUNCHED,
           properties: {
-            duration,
+            duration: getSpinnerDuration(spinnerLaunchTime),
             endpoint: `/payments/cards/${payload}`,
-            screen: origin
+            screen: modalOrigin
           }
         })
       )
@@ -1736,9 +1773,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const skipLoading = true
         yield put(A.fetchCards(skipLoading))
         const cardMethodR = S.getMethodByType(yield select(), BSPaymentTypes.PAYMENT_CARD)
-        const origin = S.getOrigin(yield select())
 
-        if (origin === 'SettingsGeneral') {
+        if (modalOrigin === 'SettingsGeneral') {
           yield put(actions.modals.closeModal(ModalName.SIMPLE_BUY_MODAL))
 
           yield put(actions.alerts.displaySuccess('Card Added.'))
