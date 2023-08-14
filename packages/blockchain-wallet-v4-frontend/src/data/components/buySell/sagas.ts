@@ -484,11 +484,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // otherwise the order is probably in PENDING_DEPOSIT and so we should retry the fetch again
       const cardAttrs = ['needCvv', 'everypay', 'cardProvider', 'cardCassy']
       if (order.attributes) {
-        for (let i = 0; i < cardAttrs.length; i += 1) {
-          if (order.attributes[cardAttrs[i]]) {
-            return order
-          }
-        }
+        const foundOrder = cardAttrs.find((attr) => order.attributes?.[attr])
+        return foundOrder || null
       }
     } catch (e) {
       if (isNabuError(e)) {
@@ -550,19 +547,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     try {
       yield put(A.confirmOrderLoading())
-      yield put(
-        A.setStep({
-          step: 'CONFIRMING_BUY_ORDER'
-        })
-      )
+      yield put(A.setStep({ step: 'CONFIRMING_BUY_ORDER' }))
 
       const { mobilePaymentMethod, paymentMethodId, quoteState } = payload
 
       const account = selectors.components.brokerage.getAccount(yield select())
 
-      const domainsR = selectors.core.walletOptions.getDomains(yield select())
-
-      const domains = domainsR.getOrElse({
+      const domains = selectors.core.walletOptions.getDomains(yield select()).getOrElse({
         comRoot: 'https://www.blockchain.com',
         walletHelper: 'https://wallet-helper.blockchain.com'
       } as WalletOptionsType['domains'])
@@ -570,18 +561,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       let attributes: OrderConfirmAttributesType | undefined
 
       const paymentSuccessLink = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
-
-      if (quoteState.paymentMethod === BSPaymentTypes.PAYMENT_CARD) {
-        attributes = {
-          everypay: {
-            customerUrl: paymentSuccessLink
-          },
-          isAsync: true,
-          redirectURL: paymentSuccessLink
-        }
-      } else if (account?.partner === BankPartners.YAPILY) {
-        attributes = { callback: `${domains.comRoot}/brokerage-link-success` }
-      }
 
       if (mobilePaymentMethod) {
         if (mobilePaymentMethod === MobilePaymentType.APPLE_PAY) {
@@ -605,25 +584,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           if (applePayInfo.requiredBillingContactFields) {
             // had to remap the post field to be postalCode, as it was required on the iOS side
             requiredBillingContactFields = applePayInfo.requiredBillingContactFields.map(
-              (requiredBillingContactField) =>
-                requiredBillingContactField.replace(
-                  'post',
-                  'postalAddress'
-                ) as ApplePayJS.ApplePayContactField
+              (field) => field.replace('post', 'postalAddress') as ApplePayJS.ApplePayContactField
             )
           }
 
-          let supportedCountries
-
-          if (applePayInfo.supportedCountries) {
-            supportedCountries = applePayInfo.supportedCountries
-          }
-
-          let supportedNetworks = ['visa', 'masterCard']
-
-          if (applePayInfo.supportedNetworks) {
-            supportedNetworks = applePayInfo.supportedNetworks
-          }
+          const { supportedCountries, supportedNetworks = ['visa', 'masterCard'] } = applePayInfo
 
           // inputAmount is in cents, but amount has to be in decimals
           const amount = parseInt(quoteState.amount, 10) / 100
@@ -670,46 +635,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               : null,
             redirectURL: paymentSuccessLink
           }
-        }
-
-        if (mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY) {
+        } else if (mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY) {
           const googlePayInfo = selectors.components.buySell.getGooglePayInfo(yield select())
 
           if (!googlePayInfo) {
             throw new Error(BS_ERROR.GOOGLE_PAY_INFO_NOT_FOUND)
           }
 
-          const { allowCreditCards, allowPrepaidCards } = googlePayInfo
-
-          let allowedAuthMethods: google.payments.api.CardAuthMethod[] = [
-            'PAN_ONLY',
-            'CRYPTOGRAM_3DS'
-          ]
-
-          if (googlePayInfo.allowedAuthMethods) {
-            allowedAuthMethods = googlePayInfo.allowedAuthMethods
-          }
-
-          let allowedCardNetworks: google.payments.api.CardNetwork[] = ['MASTERCARD', 'VISA']
-
-          if (googlePayInfo.allowedCardNetworks) {
-            allowedCardNetworks = googlePayInfo.allowedCardNetworks
-          }
-
-          let billingAddressRequired = false
-
-          if (googlePayInfo.billingAddressRequired) {
-            billingAddressRequired = googlePayInfo.billingAddressRequired
-          }
-
-          let billingAddressParameters: google.payments.api.BillingAddressParameters = {
-            format: 'MIN',
-            phoneNumberRequired: false
-          }
-
-          if (googlePayInfo.billingAddressParameters) {
-            billingAddressParameters = googlePayInfo.billingAddressParameters
-          }
+          const {
+            allowCreditCards,
+            allowPrepaidCards,
+            allowedAuthMethods = ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+            allowedCardNetworks = ['MASTERCARD', 'VISA'],
+            billingAddressRequired = false,
+            billingAddressParameters = {
+              format: 'MIN',
+              phoneNumberRequired: false
+            },
+            googlePayParameters,
+            merchantBankCountry
+          } = googlePayInfo
 
           // inputAmount is in cents, but amount has to be in decimals
           const amount = parseInt(quoteState.amount, 10) / 100
@@ -717,7 +662,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           let parameters: google.payments.api.PaymentGatewayTokenizationParameters | null = null
 
           try {
-            parameters = JSON.parse(googlePayInfo.googlePayParameters)
+            parameters = JSON.parse(googlePayParameters)
           } catch (e) {
             throw new Error(BS_ERROR.GOOGLE_PAY_PARAMETERS_MALFORMED)
           }
@@ -752,7 +697,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             },
             shippingAddressRequired: false,
             transactionInfo: {
-              countryCode: googlePayInfo.merchantBankCountry,
+              countryCode: merchantBankCountry,
               currencyCode: getFiatFromPair(quoteState.pairObject.pair),
               totalPrice: `${amount}`,
               totalPriceStatus: 'FINAL' as const
@@ -789,6 +734,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             redirectURL: paymentSuccessLink
           }
         }
+      } else if (quoteState.paymentMethod === BSPaymentTypes.PAYMENT_CARD) {
+        attributes = {
+          everypay: {
+            customerUrl: paymentSuccessLink
+          },
+          isAsync: true,
+          redirectURL: paymentSuccessLink
+        }
+      } else if (account?.partner === BankPartners.YAPILY) {
+        attributes = { callback: `${domains.comRoot}/brokerage-link-success` }
       }
 
       const maybeUpdatedQuoteState = S.getBuyQuote(yield select()).getOrFail(BS_ERROR.NO_QUOTE)
@@ -988,11 +943,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const confirmBSFundsOrder = function* ({ payload }: ReturnType<typeof A.confirmFundsOrder>) {
     try {
       yield put(A.confirmOrderLoading())
-      yield put(
-        A.setStep({
-          step: 'CONFIRMING_BUY_ORDER'
-        })
-      )
+      yield put(A.setStep({ step: 'CONFIRMING_BUY_ORDER' }))
 
       const order = yield* createBuyOrder({
         quoteState: payload.quoteState
@@ -1933,8 +1884,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const getBankInformation = function* (order: BSOrderType) {
     yield put(actions.components.brokerage.fetchBankTransferAccounts())
     yield take(actions.components.brokerage.fetchBankTransferAccountsSuccess.type)
-    const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(yield select())
-    const bankAccounts = bankAccountsR.getOrElse([])
+    const bankAccounts = selectors.components.brokerage
+      .getBankTransferAccounts(yield select())
+      .getOrElse([])
+
     const [bankAccount] = filter(
       (b: BankTransferAccountType) =>
         // @ts-ignore
@@ -2064,7 +2017,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // Check if there is a pending_deposit Open Banking order
     if (latestPendingOrder) {
-      const bankAccount = yield call(getBankInformation, latestPendingOrder as BSOrderType)
+      const bankAccount = yield call(getBankInformation, latestPendingOrder)
       hasPendingOBOrder = prop('partner', bankAccount) === BankPartners.YAPILY
     }
 
@@ -2091,11 +2044,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } else if (!isUserTier2 && latestPendingOrder) {
       yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
 
-      yield put(
-        A.setStep({
-          step: 'CONFIRMING_BUY_ORDER'
-        })
-      )
+      yield put(A.setStep({ step: 'CONFIRMING_BUY_ORDER' }))
     } else if (cryptoCurrency) {
       switch (orderType) {
         case OrderType.BUY:
