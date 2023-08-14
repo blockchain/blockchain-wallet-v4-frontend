@@ -1268,6 +1268,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.startPollBuyQuote>) {
+    const spinnerLaunchTime = new Date()
+
     while (true) {
       try {
         const { amount, pairObject, paymentMethod, paymentMethodId } = payload
@@ -1313,6 +1315,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
 
         yield delay(refreshConfig.totalMs)
+
+        const modalOrigin = S.getOrigin(yield select()) as string
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.SPINNER_LAUNCHED,
+            properties: {
+              duration: getSpinnerDuration(spinnerLaunchTime),
+              endpoint: `/brokerage/quote`,
+              screen: `[Fetch Buy Quote] ${modalOrigin}`
+            }
+          })
+        )
       } catch (e) {
         const errorPayload = isNabuError(e) ? e : errorHandler(e)
         yield put(A.fetchBuyQuoteFailure(errorPayload))

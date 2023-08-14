@@ -14,7 +14,6 @@ import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
-import { getOrigin } from 'data/components/buySell/selectors'
 import { RootState } from 'data/rootReducer'
 import { Analytics, BSCheckoutFormValuesType, ModalName, RecurringBuyPeriods } from 'data/types'
 import { useRemote } from 'hooks'
@@ -57,7 +56,6 @@ const Checkout = (props: Props) => {
 
   const handleSubmit = () => {
     // Measure how long it takes to go to next step from Preview Buy
-    const spinnerLaunchTime = new Date()
     if (!data) return
 
     const { hasPaymentAccount } = data
@@ -127,16 +125,6 @@ const Checkout = (props: Props) => {
           break
       }
     }
-
-    const duration = Math.round((new Date().getTime() - spinnerLaunchTime.getTime()) / 1000)
-    props.analyticsActions.trackEvent({
-      key: Analytics.SPINNER_LAUNCHED,
-      properties: {
-        duration,
-        endpoint: '',
-        screen: `[Preview Buy] ${modalOrigin}`
-      }
-    })
   }
 
   const errorCallback = () => {
