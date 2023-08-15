@@ -1,12 +1,12 @@
 export enum SpinnerEvents {
-  SPINNER_LAUNCHED = 'Spinner Launched'
+  SPINNER_TIMED_OUT = 'Spinner Timed Out'
 }
 
 export type SpinnerEventAction = {
   key: SpinnerEvents
   properties: {
-    duration: number
     endpoint: string
     screen: string
+    timeout: number
   }
 }

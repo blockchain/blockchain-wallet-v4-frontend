@@ -823,11 +823,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           yield put(
             actions.analytics.trackEvent({
-              key: Analytics.SPINNER_LAUNCHED,
+              key: Analytics.SPINNER_TIMED_OUT,
               properties: {
-                duration: getSpinnerDuration(spinnerLaunchTime),
                 endpoint: `/simple-buy/trades/${confirmedOrder.id}`,
-                screen: `[Confirm Order] ${modalOrigin}`
+                screen: `[Confirm Order] ${modalOrigin}`,
+                timeout: getSpinnerDuration(spinnerLaunchTime)
               }
             })
           )
@@ -872,11 +872,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           yield put(
             actions.analytics.trackEvent({
-              key: Analytics.SPINNER_LAUNCHED,
+              key: Analytics.SPINNER_TIMED_OUT,
               properties: {
-                duration: getSpinnerDuration(spinnerLaunchTime),
                 endpoint: `/simple-buy/trades/${confirmedOrder.id}`,
-                screen: `[Confirm Order] ${modalOrigin}`
+                screen: `[Confirm Order] ${modalOrigin}`,
+                timeout: getSpinnerDuration(spinnerLaunchTime)
               }
             })
           )
@@ -954,11 +954,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // Here we report the order + confirm order time as a fallback
     yield put(
       actions.analytics.trackEvent({
-        key: Analytics.SPINNER_LAUNCHED,
+        key: Analytics.SPINNER_TIMED_OUT,
         properties: {
-          duration: getSpinnerDuration(spinnerLaunchTime),
           endpoint: `/simple-buy/trades/${orderId ?? ''}`,
-          screen: `[Confirm Order] ${modalOrigin}`
+          screen: `[Confirm Order] ${modalOrigin}`,
+          timeout: getSpinnerDuration(spinnerLaunchTime)
         }
       })
     )
@@ -987,11 +987,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const modalOrigin = S.getOrigin(yield select()) as string
       yield put(
         actions.analytics.trackEvent({
-          key: Analytics.SPINNER_LAUNCHED,
+          key: Analytics.SPINNER_TIMED_OUT,
           properties: {
-            duration: getSpinnerDuration(spinnerLaunchTime),
             endpoint: `/simple-buy/trades/${order.id}`,
-            screen: `[Confirm Buy Sell Funds Order] ${modalOrigin}`
+            screen: `[Confirm Buy Sell Funds Order] ${modalOrigin}`,
+            timeout: getSpinnerDuration(spinnerLaunchTime)
           }
         })
       )
@@ -1319,11 +1319,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const modalOrigin = S.getOrigin(yield select()) as string
         yield put(
           actions.analytics.trackEvent({
-            key: Analytics.SPINNER_LAUNCHED,
+            key: Analytics.SPINNER_TIMED_OUT,
             properties: {
-              duration: getSpinnerDuration(spinnerLaunchTime),
               endpoint: `/brokerage/quote`,
-              screen: `[Fetch Buy Quote] ${modalOrigin}`
+              screen: `[Fetch Buy Quote] ${modalOrigin}`,
+              timeout: getSpinnerDuration(spinnerLaunchTime)
             }
           })
         )
@@ -1774,11 +1774,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // Endpoint taken from api.getBSCard above
       yield put(
         actions.analytics.trackEvent({
-          key: Analytics.SPINNER_LAUNCHED,
+          key: Analytics.SPINNER_TIMED_OUT,
           properties: {
-            duration: getSpinnerDuration(spinnerLaunchTime),
             endpoint: `/payments/cards/${payload}`,
-            screen: `[Polling Card] ${modalOrigin}`
+            screen: `[Polling Card] ${modalOrigin}`,
+            timeout: getSpinnerDuration(spinnerLaunchTime)
           }
         })
       )
