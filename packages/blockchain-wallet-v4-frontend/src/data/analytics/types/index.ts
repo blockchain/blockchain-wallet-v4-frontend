@@ -47,6 +47,7 @@ import {
   Events as SendCryptoEvents,
   TrackEventAction as SendCryptoTrackEventAction
 } from './sendCrypto'
+import { SpinnerEventAction, SpinnerEvents } from './spinner'
 import { Events as SwapEvents, TrackEventAction as SwapTrackEventAction } from './swap'
 import {
   Events as TaxCenterEvents,
@@ -81,6 +82,7 @@ type AnalyticsKey =
   | PlaidClientEvents
   | SellEvents
   | SendCryptoEvents
+  | SpinnerEvents
   | SwapEvents
   | TaxCenterEvents
   | ViewAndClickEvents
@@ -100,6 +102,7 @@ const Analytics = {
   ...OnboardingAndVerificationEvents,
   ...PlaidClientEvents,
   ...SendCryptoEvents,
+  ...SpinnerEvents,
   ...SwapEvents,
   ...TaxCenterEvents,
   ...ViewAndClickEvents,
@@ -132,6 +135,7 @@ type TrackEventAction =
   | PlaidClientTrackEventAction
   | SellTrackEventAction
   | SendCryptoTrackEventAction
+  | SpinnerEventAction
   | SwapTrackEventAction
   | TaxCenterTrackEventAction
   | TransactionsTrackEventAction
