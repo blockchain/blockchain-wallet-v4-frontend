@@ -18,6 +18,7 @@ export type GoalsType =
   | 'paymentProtocol'
   | 'make-offer-nft'
   | 'nfts'
+  | 'recommendedImportedSweep'
   | 'referral'
   | 'rewards'
   | 'sanctionsNotice'

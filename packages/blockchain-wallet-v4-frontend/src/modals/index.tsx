@@ -55,6 +55,7 @@ const XlmReserveLearn = React.lazy(() => import('./Xlm/XlmReserveLearn'))
 // CRYPTO
 const RequestCrypto = React.lazy(() => import('./RequestCrypto'))
 const SendCrypto = React.lazy(() => import('./SendCrypto'))
+const RecommendedImportedSweep = React.lazy(() => import('./Wallet/RecommendedSweep'))
 
 // NFTS
 const NftOrder = React.lazy(() => import('./Nfts/NftOrder'))
@@ -272,6 +273,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.REMOVE_BANK_MODAL) ? (
           <RemoveBank />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.RECOMMENDED_IMPORTED_SWEEP) ? (
+          <RecommendedImportedSweep />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.RECURRING_BUYS_MODAL) ? (
           <RecurringBuys />
