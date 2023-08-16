@@ -2,72 +2,30 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
-import { Remote } from '@core'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
 import { getData } from './selectors'
-import TransferEth from './template'
+import RecommendedImportedSweep from './template'
 
-const DEFAULTS = {
-  ethAddr: '',
-  ethBalance: '0',
-  txFee: '0'
-}
-
-class RecommendedImportSweepContainer extends React.PureComponent<Props> {
-  componentDidMount() {
-    this.props.transferEthActions.initialized({
-      from: this.props.legacyEthAddr,
-      type: 'LEGACY'
-    })
+const RecommendedImportSweepContainer = (props: Props) => {
+  const handleSubmit = () => {
+    // props.sendBtcActions.initialized({
+    // })
   }
 
-  componentDidUpdate() {
-    if (Remote.Success.is(this.props.data)) {
-      const { ethBalance, txFee } = this.props.data.data
-      if (parseFloat(txFee) > parseFloat(ethBalance)) {
-        this.props.modalActions.closeAllModals()
-      }
-    }
-  }
-
-  handleSubmit = () => {
-    const { ethAddr, ethBalance } = this.props.data.getOrElse(DEFAULTS)
-    this.props.transferEthActions.confirmTransferEth({
-      effectiveBalance: ethBalance,
-      to: ethAddr
-    })
-  }
-
-  render() {
-    const { data } = this.props
-    return data.cata({
-      Failure: () => null,
-      Loading: () => null,
-      NotAsked: () => null,
-      Success: (val) => (
-        <TransferEth
-          ethAddr={val.ethAddr}
-          ethBalance={val.ethBalance}
-          onSubmit={this.handleSubmit}
-          txFee={val.txFee}
-          {...this.props}
-        />
-      )
-    })
-  }
+  return <RecommendedImportedSweep {...props} onSubmit={handleSubmit} />
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  activeAddresses: selectors.core.common.btc.getActiveAddresses(state).getOrElse([])
 })
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  transferEthActions: bindActionCreators(actions.modules.transferEth, dispatch)
+  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

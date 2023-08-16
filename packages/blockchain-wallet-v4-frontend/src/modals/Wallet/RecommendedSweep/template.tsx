@@ -36,7 +36,7 @@ const Row = styled.div`
 `
 
 const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { ethAddr, ethBalance, handleSubmit, legacyEthAddr, position, total, txFee } = props
+  const { handleSubmit, position, total } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
@@ -71,7 +71,7 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                 <FormattedMessage id='copy.from' defaultMessage='From' />:
               </Text>
               <Text size='14px' weight={400}>
-                {legacyEthAddr}
+                Hey
               </Text>
             </Row>
             <Row>
@@ -79,7 +79,7 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                 <FormattedMessage id='modals.transfereth.to' defaultMessage='To:' />
               </Text>
               <Text size='14px' weight={400}>
-                {ethAddr}
+                Hey
               </Text>
             </Row>
             <Row>
@@ -87,7 +87,7 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                 <FormattedMessage id='modals.transfereth.amount' defaultMessage='Amount:' />
               </Text>
               <CoinDisplay size='14px' coin='ETH' weight={400}>
-                {ethBalance}
+                Hey
               </CoinDisplay>
             </Row>
             <Row>
@@ -95,7 +95,7 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                 <FormattedMessage id='modals.transfereth.txfee' defaultMessage='Transaction Fee:' />
               </Text>
               <CoinDisplay size='14px' coin='ETH' weight={400}>
-                {txFee}
+                Hey
               </CoinDisplay>
             </Row>
           </Container>
@@ -119,12 +119,8 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
 }
 
 type Props = {
-  ethAddr: string
-  ethBalance: string
-  legacyEthAddr: string
   position: number
   total: number
-  txFee: string
 }
 
-export default reduxForm<{}, Props>({ form: 'transferEth' })(RecommendedImportedSweep)
+export default reduxForm<{}, Props>({ form: 'recommendedImportSweep' })(RecommendedImportedSweep)

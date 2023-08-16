@@ -6,14 +6,16 @@ import { selectors } from 'data'
 const extractAddress = (addr) => prop('addr', head(addr))
 
 export const getData = (state) => {
-  const paymentR = selectors.modules.transferEth.getPayment(state)
-  const defaultAccountR = selectors.core.kvStore.eth.getAccounts(state).map(extractAddress)
+  const addressesR = selectors.core.common.btc.getActiveAddresses(state)
+  const defaultAccountR = selectors.core.common.btc.getDefaultAccount(state)
 
-  const transform = (ethAddr, payment) => ({
-    ethAddr,
-    ethBalance: propOr('0', 'effectiveBalance', payment) as string,
-    txFee: propOr('0', 'fee', payment) as string
+  const transform = (addresses, defaultAccount) => ({
+    addresses,
+    defaultAccount
+    // ethAddr,
+    // ethBalance: propOr('0', 'effectiveBalance', payment) as string,
+    // txFee: propOr('0', 'fee', payment) as string
   })
 
-  return lift(transform)(defaultAccountR, paymentR)
+  return lift(transform)(addressesR, defaultAccountR)
 }
