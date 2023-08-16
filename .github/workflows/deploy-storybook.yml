@@ -1,12 +1,5 @@
-name: deploy-storybook
-
-on:
-  push:
-    branches:
-      - development
-
-jobs:
-  pull-request:
+- development
+   pull-request:
     runs-on: ubuntu-latest
     strategy:
       matrix:
