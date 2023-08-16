@@ -762,6 +762,21 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const runRecommendedImportedSweepGoal = function* (goal: GoalType) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    // const showRecommendedImportedSweep = (yield select(
+    //   selectors.core.settings.getImportSweep
+    // )).getOrElse(false)
+    yield put(
+      actions.goals.addInitialModal({
+        data: { origin },
+        key: 'recommendedImportedSweep',
+        name: 'RECOMMENDED_IMPORTED_SWEEP'
+      })
+    )
+  }
+
   const runMakeOfferNftGoal = function* (goal: GoalType) {
     yield take(actions.auth.loginSuccess)
     yield put(
@@ -882,6 +897,7 @@ export default ({ api, coreSagas, networks }) => {
       kycUpgradeRequiredNotice,
       linkAccount,
       payment,
+      recommendedImportedSweep,
       referralLanding,
       sanctionsNotice,
       swap,
@@ -894,6 +910,11 @@ export default ({ api, coreSagas, networks }) => {
     } = initialModals
 
     // Order matters here
+    if (recommendedImportedSweep) {
+      return yield put(
+        actions.modals.showModal(recommendedImportedSweep.name, recommendedImportedSweep.data)
+      )
+    }
     if (cowboys2022) {
       const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
       if (hasCowboysTag) {
@@ -1123,6 +1144,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'paymentProtocol':
           yield call(runPaymentProtocolGoal, goal)
           break
+        case 'recommendedImportedSweep':
+          yield call(runRecommendedImportedSweepGoal, goal)
+          break
         case 'referral':
           yield call(runReferralGoal, goal)
           break
@@ -1181,6 +1205,7 @@ export default ({ api, coreSagas, networks }) => {
     if (!firstLogin) {
       yield put(actions.goals.saveGoal({ data: {}, name: 'welcomeModal' }))
     }
+    yield put(actions.goals.saveGoal({ data: {}, name: 'recommendedImportedSweep' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'swapUpgrade' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'swapGetStarted' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'kycDocResubmit' }))

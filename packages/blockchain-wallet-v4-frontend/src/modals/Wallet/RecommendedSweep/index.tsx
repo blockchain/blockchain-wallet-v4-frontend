@@ -17,7 +17,7 @@ const DEFAULTS = {
   txFee: '0'
 }
 
-class TransferEthContainer extends React.PureComponent<Props> {
+class RecommendedImportSweepContainer extends React.PureComponent<Props> {
   componentDidMount() {
     this.props.transferEthActions.initialized({
       from: this.props.legacyEthAddr,
@@ -72,7 +72,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(modalEnhancer(ModalName.TRANSFER_ETH_MODAL), connector)
+const enhance = compose(modalEnhancer(ModalName.RECOMMENDED_IMPORTED_SWEEP), connector)
 
 type OwnProps = {
   legacyEthAddr: string
@@ -80,4 +80,4 @@ type OwnProps = {
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default enhance(TransferEthContainer)
+export default enhance(RecommendedImportSweepContainer)

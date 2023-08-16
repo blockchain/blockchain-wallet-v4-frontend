@@ -41,18 +41,15 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
   return (
     <Modal size='medium' position={position} total={total}>
       <ModalHeader closeButton={false}>
-        <FormattedMessage
-          id='modals.transfereth.title1'
-          defaultMessage='Updating Ethereum Address'
-        />
+        <FormattedMessage id='modals.recommendedsweep.title' defaultMessage='Recommended Sweep' />
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={handleSubmit}>
           <TextGroup inline>
             <Text size='14px' weight={400}>
               <FormattedMessage
-                id='modals.transfereth.para1_new'
-                defaultMessage='As we leave our beta program we want to make sure your Secret Private Key Recovery Phrase is compatible with other Ethereum wallets.'
+                id='modals.recommendedsweep.para1'
+                defaultMessage='Sweepy Sweep sweep'
               />
             </Text>
             <Text size='14px' weight={400}>
