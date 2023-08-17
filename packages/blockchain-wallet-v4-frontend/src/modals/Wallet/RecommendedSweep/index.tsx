@@ -15,16 +15,20 @@ import RecommendedImportedSweep from './template'
 const RecommendedImportSweepContainer = (props: Props) => {
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const SEND_FORM = '@SEND_CRYPTO'
-  const handleSubmit = () => {
-    props.modalActions.showModal(ModalName.SEND_BTC_MODAL, {
-      amount: '1',
-      from: 'sweepImportedAddresses',
-      origin: 'RecommendedImportedSweep'
-    })
-  }
+  const handleSubmit = () => {}
+  const addressHasBalance = data?.importedAddresses.filter((addr) => addr.info.final_balance > 0)
 
   if (isLoading || isNotAsked || error) return null
-  return <RecommendedImportedSweep {...props} onSubmit={handleSubmit} />
+  if (data?.importedAddresses.length === 0) return null
+
+  return (
+    <RecommendedImportedSweep
+      {...props}
+      addressHasBalance={addressHasBalance}
+      importedAddresses={data?.importedAddresses}
+      onSubmit={handleSubmit}
+    />
+  )
 }
 
 const mapStateToProps = (state) => ({})

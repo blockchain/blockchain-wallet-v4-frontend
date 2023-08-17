@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { ImportedAddrType } from '@core/types'
 import {
   Button,
   HeartbeatLoader,
@@ -36,89 +37,101 @@ const Row = styled.div`
 `
 
 const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { handleSubmit, position, total } = props
+  const { addressHasBalance, handleSubmit, importedAddresses, position, total } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
-      <ModalHeader closeButton={false}>
-        <FormattedMessage id='modals.recommendedsweep.title' defaultMessage='Recommended Sweep' />
-      </ModalHeader>
-      <ModalBody>
-        <Form onSubmit={handleSubmit}>
-          <TextGroup inline>
-            <Text size='14px' weight={400}>
+      {(importedAddresses?.length === 0 || addressHasBalance?.length === 0) && (
+        <ModalHeader closeButton={false}>
+          <FormattedMessage id='modals.uptodata.title' defaultMessage='Up to date' />
+        </ModalHeader>
+      )}
+      {importedAddresses &&
+        importedAddresses.length > 0 &&
+        addressHasBalance &&
+        addressHasBalance.length > 0 && (
+          <>
+            <ModalHeader closeButton={false}>
               <FormattedMessage
-                id='modals.recommendedsweep.para1'
-                defaultMessage='Sweepy Sweep sweep'
+                id='modals.recommendedsweep.title'
+                defaultMessage='Recommended Sweep'
               />
-            </Text>
-            <Text size='14px' weight={400}>
-              <FormattedMessage
-                id='modals.transfereth.para2'
-                defaultMessage="Because of this, we've updated your Ethereum address and are requiring a transfer of your funds."
-              />
-            </Text>
-            <Text size='14px' weight={400}>
-              <FormattedMessage
-                id='modals.transfereth.para3'
-                defaultMessage="Don't worry, your old address is still valid."
-              />
-            </Text>
-          </TextGroup>
-          <Container>
-            <Row>
-              <Text size='14px' weight={600}>
-                <FormattedMessage id='copy.from' defaultMessage='From' />:
-              </Text>
-              <Text size='14px' weight={400}>
-                Hey
-              </Text>
-            </Row>
-            <Row>
-              <Text size='14px' weight={600}>
-                <FormattedMessage id='modals.transfereth.to' defaultMessage='To:' />
-              </Text>
-              <Text size='14px' weight={400}>
-                Hey
-              </Text>
-            </Row>
-            <Row>
-              <Text size='14px' weight={600}>
-                <FormattedMessage id='modals.transfereth.amount' defaultMessage='Amount:' />
-              </Text>
-              <CoinDisplay size='14px' coin='ETH' weight={400}>
-                Hey
-              </CoinDisplay>
-            </Row>
-            <Row>
-              <Text size='14px' weight={600}>
-                <FormattedMessage id='modals.transfereth.txfee' defaultMessage='Transaction Fee:' />
-              </Text>
-              <CoinDisplay size='14px' coin='ETH' weight={400}>
-                Hey
-              </CoinDisplay>
-            </Row>
-          </Container>
-          <Button
-            data-e2e='transferEth'
-            nature='primary'
-            fullwidth
-            type='submit'
-            disabled={props.submitting}
-          >
-            {props.submitting ? (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
-            ) : (
-              <FormattedMessage id='modals.transfereth.confirm1' defaultMessage='Transfer Funds' />
-            )}
-          </Button>
-        </Form>
-      </ModalBody>
+            </ModalHeader>
+
+            <ModalBody>
+              <Form onSubmit={handleSubmit}>
+                <Text size='14px' weight={400}>
+                  <FormattedMessage
+                    id='modals.recommendedsweep.para1'
+                    defaultMessage='Sweepy Sweep sweep'
+                  />
+                </Text>
+                {/* Here I want to create a funciton that maps over each address
+                and each balance and displays it */}
+                <Container>
+                  <Row>
+                    <Text size='14px' weight={600}>
+                      <FormattedMessage id='copy.from' defaultMessage='From' />:
+                    </Text>
+                    <Text size='14px' weight={400}>
+                      Hey
+                    </Text>
+                  </Row>
+                  <Row>
+                    <Text size='14px' weight={600}>
+                      <FormattedMessage id='modals.transfereth.to' defaultMessage='To:' />
+                    </Text>
+                    <Text size='14px' weight={400}>
+                      Hey
+                    </Text>
+                  </Row>
+                  <Row>
+                    <Text size='14px' weight={600}>
+                      <FormattedMessage id='modals.transfereth.amount' defaultMessage='Amount:' />
+                    </Text>
+                    <CoinDisplay size='14px' coin='ETH' weight={400}>
+                      Hey
+                    </CoinDisplay>
+                  </Row>
+                  <Row>
+                    <Text size='14px' weight={600}>
+                      <FormattedMessage
+                        id='modals.transfereth.txfee'
+                        defaultMessage='Transaction Fee:'
+                      />
+                    </Text>
+                    <CoinDisplay size='14px' coin='ETH' weight={400}>
+                      Hey
+                    </CoinDisplay>
+                  </Row>
+                </Container>
+                <Button
+                  data-e2e='transferEth'
+                  nature='primary'
+                  fullwidth
+                  type='submit'
+                  disabled={props.submitting}
+                >
+                  {props.submitting ? (
+                    <HeartbeatLoader height='20px' width='20px' color='white' />
+                  ) : (
+                    <FormattedMessage
+                      id='modals.transfereth.confirm1'
+                      defaultMessage='Transfer Funds'
+                    />
+                  )}
+                </Button>
+              </Form>
+            </ModalBody>
+          </>
+        )}
     </Modal>
   )
 }
 
 type Props = {
+  addressHasBalance?: ImportedAddrType[]
+  importedAddresses?: ImportedAddrType[]
   position: number
   total: number
 }

@@ -1,15 +1,13 @@
-import { head, lift, prop, propOr } from 'ramda'
+import { lift } from 'ramda'
 
+import { ImportedAddrType } from '@core/types'
 import { selectors } from 'data'
 
-// @ts-ignore
-const extractAddress = (addr) => prop('addr', head(addr))
-
 export const getData = (state) => {
-  const addressesR = selectors.core.common.btc.getActiveAddresses(state) as object[]
+  const addressesR = selectors.core.common.btc.getActiveAddresses(state) as ImportedAddrType[]
 
-  const transform = (addresses) => ({
-    addresses
+  const transform = (importedAddresses: ImportedAddrType[]) => ({
+    importedAddresses
   })
 
   return lift(transform)(addressesR)
