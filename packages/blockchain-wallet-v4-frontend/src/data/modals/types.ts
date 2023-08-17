@@ -175,6 +175,7 @@ export type ModalOriginType =
   | 'BuySellLink'
   | 'BuySellStatus'
   | 'BuySellOrderSummary'
+  | 'RecommendedImportedSweep'
   | 'Swap'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'

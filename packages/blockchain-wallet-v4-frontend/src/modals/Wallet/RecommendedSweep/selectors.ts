@@ -6,16 +6,11 @@ import { selectors } from 'data'
 const extractAddress = (addr) => prop('addr', head(addr))
 
 export const getData = (state) => {
-  const addressesR = selectors.core.common.btc.getActiveAddresses(state)
-  const defaultAccountR = selectors.core.common.btc.getDefaultAccount(state)
+  const addressesR = selectors.core.common.btc.getActiveAddresses(state) as object[]
 
-  const transform = (addresses, defaultAccount) => ({
-    addresses,
-    defaultAccount
-    // ethAddr,
-    // ethBalance: propOr('0', 'effectiveBalance', payment) as string,
-    // txFee: propOr('0', 'fee', payment) as string
+  const transform = (addresses) => ({
+    addresses
   })
 
-  return lift(transform)(addressesR, defaultAccountR)
+  return lift(transform)(addressesR)
 }
