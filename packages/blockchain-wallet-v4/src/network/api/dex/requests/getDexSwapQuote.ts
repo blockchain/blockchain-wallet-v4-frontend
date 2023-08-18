@@ -13,6 +13,7 @@ type Data = {
     symbol: CoinType
   }
   params: {
+    skipValidation?: boolean
     slippage: string
   }
   takerAddress: string
