@@ -17,7 +17,7 @@ const SplashScreen = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  display: ${(props) => (props.displayed ? 'flex' : 'none')};
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -32,9 +32,11 @@ const ModalBody = (props) => {
 
   return (
     <BaseModalBody {...rest}>
-      <SplashScreen displayed={loading}>
-        <BlockchainLoader />
-      </SplashScreen>
+      {loading && (
+        <SplashScreen>
+          <BlockchainLoader />
+        </SplashScreen>
+      )}
       {children}
     </BaseModalBody>
   )

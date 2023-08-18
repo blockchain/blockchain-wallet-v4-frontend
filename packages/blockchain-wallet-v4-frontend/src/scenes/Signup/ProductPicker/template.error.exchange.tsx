@@ -15,66 +15,56 @@ const ContentWrapper = styled.div`
 
 const ExchangeUserConflict = ({ email, walletRedirect }: Props) => {
   return (
-    <>
-      <Wrapper>
-        <ContentWrapper>
-          <Image name='warning-circle-filled' width='44px' />
-          <Text
-            size='20px'
-            weight={600}
-            color='black'
-            style={{ marginTop: '8px' }}
-            lineHeight='1.5'
-          >
-            <FormattedMessage
-              id='scenes.register.exchange.user_conflict.title'
-              defaultMessage='Exchange Account Already Exists'
-            />
-          </Text>
-          <Text
-            color='grey900'
-            style={{ marginTop: '8px' }}
-            size='16px'
-            weight={500}
-            lineHeight='1.5'
-          >
-            <FormattedMessage
-              id='scenes.register.exchange.user_conflict.copy'
-              defaultMessage='You already have an Exchange account associated with {email}. Your funds are safe.'
-              values={{
-                email
-              }}
-            />
-          </Text>
+    <Wrapper>
+      <ContentWrapper>
+        <Image name='warning-circle-filled' width='44px' />
+        <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }} lineHeight='1.5'>
+          <FormattedMessage
+            id='scenes.register.exchange.user_conflict.title'
+            defaultMessage='Exchange Account Already Exists'
+          />
+        </Text>
+        <Text
+          color='grey900'
+          style={{ marginTop: '8px' }}
+          size='16px'
+          weight={500}
+          lineHeight='1.5'
+        >
+          <FormattedMessage
+            id='scenes.register.exchange.user_conflict.copy'
+            defaultMessage='You already have an Exchange account associated with {email}. Your funds are safe.'
+            values={{ email }}
+          />
+        </Text>
 
-          <Button
-            data-e2e='openWallet'
-            fullwidth
-            height='48px'
-            nature='primary'
-            style={{ marginBottom: '16px', marginTop: '32px' }}
-            onClick={walletRedirect}
-          >
-            <Text color='white' size='16px' weight={600}>
+        <Button
+          data-e2e='openWallet'
+          fullwidth
+          height='48px'
+          nature='primary'
+          style={{ marginBottom: '16px', marginTop: '32px' }}
+          onClick={walletRedirect}
+        >
+          <Text color='white' size='16px' weight={600}>
+            <FormattedMessage
+              id='scenes.register.exchange.user_conflict.open_wallet'
+              defaultMessage='Open Wallet ->'
+            />
+          </Text>
+        </Button>
+        <LinkContainer to='/login?product=exchange'>
+          <Button data-e2e='openExchange' fullwidth height='48px' nature='light'>
+            <Text color='blue600' size='16px' weight={600}>
               <FormattedMessage
-                id='scenes.register.exchange.user_conflict.open_wallet'
-                defaultMessage='Open Wallet ->'
+                id='scenes.register.exchange.user_conflict.log_into_exchange'
+                defaultMessage='Log In to Exchange ->'
               />
             </Text>
           </Button>
-          <LinkContainer to='/login?product=exchange'>
-            <Button data-e2e='openExchange' fullwidth height='48px' nature='light'>
-              <Text color='blue600' size='16px' weight={600}>
-                <FormattedMessage
-                  id='scenes.register.exchange.user_conflict.log_into_exchange'
-                  defaultMessage='Log In to Exchange ->'
-                />
-              </Text>
-            </Button>
-          </LinkContainer>
-        </ContentWrapper>
-      </Wrapper>
-    </>
+        </LinkContainer>
+      </ContentWrapper>
+    </Wrapper>
   )
 }
 

@@ -69,7 +69,6 @@ const MobileDropdown = () => {
         <CustomDropdownMenu>
           <DropdownMenuArrow />
           <StyledSwitch
-            css={{ backgroundColor: 'red' }}
             firstItem='iOS'
             secondItem='Android'
             handleFirstItemClicked={handleFirstItemClicked}
