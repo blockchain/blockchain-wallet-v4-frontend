@@ -40,7 +40,7 @@
       "default_account_idx": 0,
       "accounts": [
         {
-          "label": "BTC Private Key Wallet",
+          "label": "BTC DeFi Wallet",
           "archived": false,
           "derivations": [
             {

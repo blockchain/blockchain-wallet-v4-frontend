@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { actions } from 'data'
 import { useRemote } from 'hooks'
 
-import { getActiveRewardsAnnouncement } from '../selectors'
+import ANNOUNCEMENTS from '../constants'
 import { getData } from './ActiveRewardsBanner.selectors'
 import ActiveRewardsBanner from './ActiveRewardsBanner.template'
 
@@ -19,7 +19,7 @@ const ActiveRewardsBannerContainer = () => {
   if (!data || error || isLoading || isNotAsked) return null
 
   const onClickClose = () => {
-    dispatch(actions.cache.announcementDismissed(getActiveRewardsAnnouncement()))
+    dispatch(actions.cache.announcementDismissed(ANNOUNCEMENTS.ACTIVE_REWARDS))
   }
 
   return <ActiveRewardsBanner onClickClose={onClickClose} rate={data.rate} />

@@ -34,7 +34,7 @@ const allWallets = {
   label: 'All',
   options: [
     {
-      label: 'All BCH Private Key Wallets',
+      label: 'All BCH DeFi Wallets',
       value: 'all'
     }
   ]

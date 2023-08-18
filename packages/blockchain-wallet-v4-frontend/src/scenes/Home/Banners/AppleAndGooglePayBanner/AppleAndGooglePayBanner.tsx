@@ -5,7 +5,7 @@ import { MobilePaymentType } from '@core/types'
 import { actions, selectors } from 'data'
 import { useApplePay, useRemote } from 'hooks'
 
-import { getAppleAndGooglePayAnnouncement } from '../selectors'
+import ANNOUNCEMENTS from '../constants'
 import { AppleAndGooglePayBannerView } from './components'
 
 export const AppleAndGooglePayBanner = () => {
@@ -27,10 +27,10 @@ export const AppleAndGooglePayBanner = () => {
   }, [paymentMethods])
 
   const onClickClose = useCallback(() => {
-    return dispatch(actions.cache.announcementDismissed(getAppleAndGooglePayAnnouncement()))
+    return dispatch(actions.cache.announcementDismissed(ANNOUNCEMENTS.APPLE_GOOGLE_PAY))
   }, [dispatch])
 
-  const handleOnClick = useCallback(async () => {
+  const handleOnClick = useCallback(() => {
     const isApplePayEnabled = isApplePayAvailable && isApplePayFeatureFlagEnabled
 
     const mobilePaymentMethod = isApplePayEnabled

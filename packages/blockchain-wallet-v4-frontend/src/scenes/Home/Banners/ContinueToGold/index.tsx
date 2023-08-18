@@ -10,7 +10,7 @@ import { Image, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import { media } from 'services/styles'
 
-import { getContinueToGoldAnnouncement } from '../selectors'
+import ANNOUNCEMENTS from '../constants'
 import { BannerButton, CloseLink, Row } from '../styles'
 
 const Wrapper = styled.div`
@@ -61,7 +61,6 @@ const Copy = styled(Text)`
 `
 
 const ContinueToGold = ({ cacheActions, verifyIdentity }: Props) => {
-  const completeAnnouncement = getContinueToGoldAnnouncement()
   return (
     <Wrapper>
       <Row>
@@ -91,7 +90,7 @@ const ContinueToGold = ({ cacheActions, verifyIdentity }: Props) => {
       </BannerButton>
       <CloseLink
         data-e2e='newCoinCloseButton'
-        onClick={() => cacheActions.announcementDismissed(completeAnnouncement)}
+        onClick={() => cacheActions.announcementDismissed(ANNOUNCEMENTS.CONTINUE_TO_GOLD)}
       >
         <IconCloseCircleV2
           label='close'

@@ -26,101 +26,95 @@ import LinkBank from './LinkBank'
 import { NoMethods, PaymentsWrapper } from './Methods.styles'
 import PaymentCard from './PaymentCard'
 
+const getType = (value: BSPaymentMethodType) => {
+  switch (value.type) {
+    case BSPaymentTypes.BANK_TRANSFER:
+    case BSPaymentTypes.LINK_BANK:
+      return (
+        <FormattedMessage
+          id='modals.simplebuy.easybanktransfer'
+          defaultMessage='Easy Bank Transfer'
+        />
+      )
+    case BSPaymentTypes.BANK_ACCOUNT:
+      return value.currency === 'USD' ? (
+        <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
+      ) : (
+        <FormattedMessage
+          id='modals.simplebuy.deposit.bank_transfer'
+          defaultMessage='Bank Transfer'
+        />
+      )
+    case BSPaymentTypes.PAYMENT_CARD:
+      if (
+        value.cardFundSources?.includes(CardFundSourceType.DEBIT) &&
+        !value.cardFundSources?.includes(CardFundSourceType.CREDIT)
+      ) {
+        return (
+          <FormattedMessage id='modals.simplebuy.paymentcard.debit' defaultMessage='Debit Card' />
+        )
+      }
+
+      if (
+        value.cardFundSources?.includes(CardFundSourceType.CREDIT) &&
+        !value.cardFundSources?.includes(CardFundSourceType.DEBIT)
+      ) {
+        return (
+          <FormattedMessage id='modals.simplebuy.paymentcard.credit' defaultMessage='Credit Card' />
+        )
+      }
+
+      return (
+        <FormattedMessage
+          id='modals.simplebuy.paymentcard.debit_and_credit'
+          defaultMessage='Credit or Debit Card'
+        />
+      )
+    case BSPaymentTypes.USER_CARD:
+      if (value?.card) {
+        if (value.card.label) {
+          return value.card.label
+        }
+
+        return value.card.type
+      }
+
+      if (
+        value.cardFundSources?.includes(CardFundSourceType.DEBIT) &&
+        !value.cardFundSources?.includes(CardFundSourceType.CREDIT)
+      ) {
+        return (
+          <FormattedMessage id='modals.simplebuy.paymentcard.debit' defaultMessage='Debit Card' />
+        )
+      }
+
+      if (
+        value.cardFundSources?.includes(CardFundSourceType.CREDIT) &&
+        !value.cardFundSources?.includes(CardFundSourceType.DEBIT)
+      ) {
+        return (
+          <FormattedMessage id='modals.simplebuy.paymentcard.credit' defaultMessage='Credit Card' />
+        )
+      }
+
+      return (
+        <FormattedMessage
+          id='modals.simplebuy.paymentcard.debit_and_credit'
+          defaultMessage='Credit or Debit Card'
+        />
+      )
+    case BSPaymentTypes.FUNDS:
+    default:
+      return ''
+  }
+}
+
 export type Props = OwnProps & SuccessStateType
 
 const Methods: React.FC<Props> = (props: Props) => {
   const [isApplePayAvailable, setApplePayAvailable] = useState(false)
   const [isGooglePayAvailable, setGooglePayAvailable] = useState(false)
   const [sardineContextIsReady, sardineContext] = useSardineContext('MOBILE_WALLET_DEPOSIT')
-
-  const getType = (value: BSPaymentMethodType) => {
-    switch (value.type) {
-      case BSPaymentTypes.BANK_TRANSFER:
-      case BSPaymentTypes.LINK_BANK:
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.easybanktransfer'
-            defaultMessage='Easy Bank Transfer'
-          />
-        )
-      case BSPaymentTypes.BANK_ACCOUNT:
-        return value.currency === 'USD' ? (
-          <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
-        ) : (
-          <FormattedMessage
-            id='modals.simplebuy.deposit.bank_transfer'
-            defaultMessage='Bank Transfer'
-          />
-        )
-      case BSPaymentTypes.PAYMENT_CARD:
-        if (
-          value.cardFundSources?.includes(CardFundSourceType.DEBIT) &&
-          !value.cardFundSources?.includes(CardFundSourceType.CREDIT)
-        ) {
-          return (
-            <FormattedMessage id='modals.simplebuy.paymentcard.debit' defaultMessage='Debit Card' />
-          )
-        }
-
-        if (
-          value.cardFundSources?.includes(CardFundSourceType.CREDIT) &&
-          !value.cardFundSources?.includes(CardFundSourceType.DEBIT)
-        ) {
-          return (
-            <FormattedMessage
-              id='modals.simplebuy.paymentcard.credit'
-              defaultMessage='Credit Card'
-            />
-          )
-        }
-
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.paymentcard.debit_and_credit'
-            defaultMessage='Credit or Debit Card'
-          />
-        )
-      case BSPaymentTypes.USER_CARD:
-        if (value?.card) {
-          if (value.card.label) {
-            return value.card.label
-          }
-
-          return value.card.type
-        }
-
-        if (
-          value.cardFundSources?.includes(CardFundSourceType.DEBIT) &&
-          !value.cardFundSources?.includes(CardFundSourceType.CREDIT)
-        ) {
-          return (
-            <FormattedMessage id='modals.simplebuy.paymentcard.debit' defaultMessage='Debit Card' />
-          )
-        }
-
-        if (
-          value.cardFundSources?.includes(CardFundSourceType.CREDIT) &&
-          !value.cardFundSources?.includes(CardFundSourceType.DEBIT)
-        ) {
-          return (
-            <FormattedMessage
-              id='modals.simplebuy.paymentcard.credit'
-              defaultMessage='Credit Card'
-            />
-          )
-        }
-
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.paymentcard.debit_and_credit'
-            defaultMessage='Credit or Debit Card'
-          />
-        )
-      case BSPaymentTypes.FUNDS:
-      default:
-        return ''
-    }
-  }
 
   const handlePaymentMethodSelect = useCallback(
     ({

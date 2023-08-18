@@ -22,6 +22,29 @@ export type DexSwapQuoteWithDate = DexSwapQuote & {
   totalMs: number
 }
 
+export enum DexPosition {
+  DESTINATION = 'DESTINATION',
+  SOURCE = 'SOURCE'
+}
+
+export enum DexSwapSide {
+  BASE = 'BASE',
+  COUNTER = 'COUNTER'
+}
+
+export enum DexSwapSideFields {
+  BASE = 'baseToken',
+  COUNTER = 'counterToken'
+}
+
+export enum DexSwapSteps {
+  COMPLETE_SWAP = 'COMPLETE_SWAP',
+  CONFIRM_SWAP = 'CONFIRM_SWAP',
+  EMPTY_BALANCES = 'EMPTY_BALANCES',
+  ENTER_DETAILS = 'ENTER_DETAILS',
+  NO_TOKEN_BALANCES = 'NO_TOKEN_BALANCES'
+}
+
 // TODO: Handle errors types when the new BE driven errors will be delivered
 export type DexStateType = {
   chains: RemoteDataType<string, DexChain[]>
@@ -31,18 +54,13 @@ export type DexStateType = {
   isUserEligible: RemoteDataType<string, boolean>
   swapQuote: RemoteDataType<QuoteError, DexSwapQuoteWithDate>
   swapQuoteTx: RemoteDataType<string, SwapQuoteSuccess>
+  swapSideType: DexSwapSide
   tokenAllowanceGasEstimate: string
   tokenAllowanceTx: RemoteDataType<string, ParsedTx>
   tokens: DexToken[]
 }
 
-export type DexSwapSide = 'BASE' | 'COUNTER'
-export type DexScenes = 'ONBOARDING' | 'SWAP' | 'NOT_ELIGIBLE' | 'ERROR' | 'LOADING'
-export type DexSwapSteps = 'COMPLETE_SWAP' | 'CONFIRM_SWAP' | 'ENTER_DETAILS'
-export enum DexSwapSideFields {
-  BASE = 'baseToken',
-  COUNTER = 'counterToken'
-}
+export type DexScenes = 'ERROR' | 'LOADING' | 'NOT_ELIGIBLE' | 'ONBOARDING' | 'SWAP'
 
 export type QuoteError = {
   message: string

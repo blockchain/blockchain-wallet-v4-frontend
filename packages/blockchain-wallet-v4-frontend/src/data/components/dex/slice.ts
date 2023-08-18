@@ -4,9 +4,10 @@ import type { DexChain } from '@core/network/api/dex'
 import Remote from '@core/remote'
 import { CoinType } from '@core/types'
 
-import type {
+import {
   DexStateType,
   DexSwapQuoteWithDate,
+  DexSwapSide,
   DexToken,
   ParsedTx,
   QuoteError,
@@ -21,6 +22,7 @@ const initialState: DexStateType = {
   isUserEligible: Remote.NotAsked,
   swapQuote: Remote.NotAsked,
   swapQuoteTx: Remote.NotAsked,
+  swapSideType: DexSwapSide.BASE,
   tokenAllowanceGasEstimate: '',
   tokenAllowanceTx: Remote.NotAsked,
   tokens: []
@@ -119,6 +121,9 @@ const dexSlice = createSlice({
     },
     setCurrentChain: (state, action: PayloadAction<DexChain>) => {
       state.currentChain = Remote.Success(action.payload)
+    },
+    setSwapSideType: (state, action: PayloadAction<DexSwapSide>) => {
+      state.swapSideType = action.payload
     },
     setTokenAllowanceGasEstimate: (state, action: PayloadAction<string>) => {
       state.tokenAllowanceGasEstimate = action.payload

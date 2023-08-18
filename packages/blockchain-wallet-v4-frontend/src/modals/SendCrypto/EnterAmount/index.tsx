@@ -115,6 +115,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
   const { amount, fix, selectedAccount, to } = formValues
   const { coin, type } = selectedAccount
   const isAccount = type === SwapBaseCounterTypes.ACCOUNT
+  const custodialFees = custodialFeesR.getOrElse('0') || '0'
 
   const max = Number(convertCoinToCoin({ coin, value: selectedAccount.balance }))
   const min = minR.getOrElse('0')
@@ -127,7 +128,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           convertCoinToCoin({
             baseToStandard: false,
             coin,
-            value: custodialFeesR.getOrElse('0') || '0'
+            value: custodialFees
           })
         )
     })
@@ -379,7 +380,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             data-e2e='enterAmountBtn'
             fullwidth
             jumbo
-            disabled={!amount || !!formErrors.amount}
+            disabled={!amount || !!formErrors.amount || custodialFees === '0'}
           >
             <FormattedMessage id='buttons.next' defaultMessage='Next' />
           </Button>

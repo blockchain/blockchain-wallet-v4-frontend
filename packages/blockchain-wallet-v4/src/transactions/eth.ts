@@ -90,7 +90,7 @@ export const getErc20Label = (address, token, state) => {
   const ethAddressR = getDefaultAddress(state)
   const transform = (ethAddress) => {
     if (equals(toLower(ethAddress), toLower(address))) {
-      return `${token} Private Key Wallet`
+      return `${token} DeFi Wallet`
     }
     return address
   }

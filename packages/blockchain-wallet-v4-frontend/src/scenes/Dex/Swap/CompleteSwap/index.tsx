@@ -2,16 +2,13 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { actions, model, selectors } from 'data'
-import { Analytics, DexSwapForm } from 'data/types'
+import { Analytics, DexSwapForm, DexSwapSteps } from 'data/types'
 import { useRemote } from 'hooks'
 
 import CompleteSwap from './CompleteSwap'
 import Error from './Error'
 
 const { DEX_SWAP_FORM, ETHERSCAN_TX_URL } = model.components.dex
-const NETWORK = 'ETH'
-const CONFIRM_SWAP = 'CONFIRM_SWAP'
-const ENTER_DETAILS = 'ENTER_DETAILS'
 
 const CompleteSwapContainer = () => {
   const dispatch = useDispatch()
@@ -22,7 +19,7 @@ const CompleteSwapContainer = () => {
   const goToEnterDetails = () => {
     dispatch(actions.form.reset(DEX_SWAP_FORM))
     dispatch(actions.components.dex.clearCurrentSwapQuote())
-    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', ENTER_DETAILS))
+    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', DexSwapSteps.ENTER_DETAILS))
   }
 
   const onSwappingViewed = () => {
@@ -44,7 +41,7 @@ const CompleteSwapContainer = () => {
   }
 
   const goToConfirmSwap = () => {
-    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', CONFIRM_SWAP))
+    dispatch(actions.form.change(DEX_SWAP_FORM, 'step', DexSwapSteps.CONFIRM_SWAP))
   }
 
   if (!data || error || !baseToken || !counterToken)
