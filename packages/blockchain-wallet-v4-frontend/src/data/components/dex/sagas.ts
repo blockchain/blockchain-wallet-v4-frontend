@@ -175,7 +175,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           return yield put(A.stopPollSwapQuote())
         }
 
-        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
+        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage, step } =
           formValues
         if (
           baseToken &&
@@ -239,6 +239,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               symbol: baseToken
             },
             params: {
+              skipValidation: step === DexSwapSteps.ENTER_DETAILS,
               slippage: `${slippage}`
             },
 
