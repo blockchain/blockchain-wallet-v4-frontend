@@ -333,8 +333,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // Don't fetch swap on the following cases:
     // - field is step
-    // - touch is undefined and field equals baseTokenAmount or counterTokenAmount
-    //   - we only want to fetch when the user was the one who updated the values
+    // - touch is undefined and field equals counterTokenAmount
+    // - we only want to fetch when the user was the one who updated the values or if max was clicked
     if (field === 'step' || (touch === undefined && field === 'counterTokenAmount')) return
 
     const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
