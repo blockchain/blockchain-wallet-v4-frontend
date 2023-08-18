@@ -335,11 +335,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     // - field is step
     // - touch is undefined and field equals baseTokenAmount or counterTokenAmount
     //   - we only want to fetch when the user was the one who updated the values
-    if (
-      field === 'step' ||
-      (touch === undefined && (field === 'baseTokenAmount' || field === 'counterTokenAmount'))
-    )
-      return
+    if (field === 'step' || (touch === undefined && field === 'counterTokenAmount')) return
 
     const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
     const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues
