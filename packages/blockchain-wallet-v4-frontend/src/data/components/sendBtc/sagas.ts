@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
 import { add, equals, identity, includes, isNil, nth, path, pathOr, prop } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
-import { call, delay, put, race, select, take } from 'redux-saga/effects'
+import { all, call, delay, put, race, select, take } from 'redux-saga/effects'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
@@ -39,6 +39,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
+
   const initialized = function* (action) {
     try {
       const { amount, description, feeType, from, payPro, to } = action.payload
@@ -163,6 +164,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const fiatCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
     const fromAccount = formValues?.from
     const amount = formValues?.amount?.coin || '0'
+
     try {
       const form = path(['meta', 'form'], action)
       if (!equals(FORM, form)) return
@@ -221,7 +223,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
         yield put(A.sendBtcFetchMaxCustodialWithdrawalFeeSuccess(fee))
       }
-
       switch (field) {
         case 'from':
           const payloadT = payload as BtcFromType
@@ -306,6 +307,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               payment = yield payment.to(address as unknown as string, toType)
           }
           break
+
         case 'amount':
           const btcAmount = prop('coin', payload)
           const satAmount = Exchange.convertCoinToCoin({
@@ -566,8 +568,50 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const btcImportedFundsSweep = function* () {
+    try {
+      yield put(A.sendBtcPaymentUpdatedLoading())
+      const addressesR = yield select(selectors.core.common.btc.getActiveAddresses)
+      const addresses = addressesR.getOrElse([])
+      const btcAddressesWithBalance = addresses.filter((addr) => addr.info.final_balance > 0)
+      const accounts = (yield select(selectors.core.common.btc.getAccountsBalances)).getOrElse([])
+      const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+
+      const defaultAccount = accounts.filter((acc) => acc.index === defaultIndex)[0]
+
+      // move this into its own saga
+      // so that I can use yields
+      // payload is the list of accounts
+      // with funds
+      yield all(
+        btcAddressesWithBalance.map(function* (addr) {
+          let payment = coreSagas.payment.btc.create({
+            network: networks.btc
+          })
+          try {
+            payment = yield payment.init()
+            payment = yield payment.from(addr.addr, ADDRESS_TYPES.LEGACY)
+            payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT)
+            const defaultFeePerByte = path(['fees', 'regular'], payment.value())
+            payment = yield payment.fee(defaultFeePerByte)
+            const effectiveBalance = prop('effectiveBalance', payment.value())
+            payment = yield payment.amount(parseInt(effectiveBalance))
+            payment = yield payment.build()
+            let password
+            payment = yield payment.sign(password)
+            payment = yield payment.publish()
+          } catch (e) {
+            yield put(actions.logs.logErrorMessage(logLocation, 'sweepBtcFunds', e))
+          }
+        })
+      )
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'sweepBtcFunds', e))
+    }
+  }
   return {
     bitpayInvoiceExpired,
+    btcImportedFundsSweep,
     destroyed,
     fetchSendLimits,
     firstStepSubmitClicked,

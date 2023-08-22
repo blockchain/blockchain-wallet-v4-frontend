@@ -16,6 +16,7 @@ import {
 } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import Form from 'components/Form/Form'
+import { CoinIcon } from 'layouts/Wallet/components'
 
 const Container = styled.div`
   display: flex;
@@ -34,6 +35,16 @@ const Row = styled.div`
   width: 100%;
   padding: 5px;
   box-sizing: border-box;
+`
+
+const IconRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  & > :first-child {
+    margin-right: 4px;
+  }
 `
 
 const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) => {
@@ -78,7 +89,7 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                 {/* Here I want to create a funciton that maps over each address
                 and each balance and displays it */}
                 <Container>
-                  {btcAddressHasBalance && (
+                  {/* {btcAddressHasBalance && (
                     <Row style={{ marginBottom: '8px' }}>
                       <Text>
                         <FormattedMessage
@@ -86,18 +97,21 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                           defaultMessage='BTC'
                         />
                       </Text>
+
                       <Text>
                         {' '}
                         <FormattedMessage id='copy.balance' defaultMessage='Balance' />
                       </Text>
                     </Row>
-                  )}
+                  )} */}
                   {btcAddressHasBalance?.map((addr) => (
                     <Row key={addr.addr} style={{ marginBottom: '8px' }}>
-                      <Text size='14px' weight={500}>
-                        {addr.addr}
-                      </Text>
-
+                      <IconRow>
+                        <CoinIcon name='BTC' size='16px' />
+                        <Text size='14px' weight={500}>
+                          {addr.addr}
+                        </Text>
+                      </IconRow>
                       <Text size='14px' weight={400}>
                         {Exchange.convertCoinToCoin({
                           baseToStandard: true,
@@ -108,7 +122,7 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                       </Text>
                     </Row>
                   ))}
-                  {bchAddressHasBalance && (
+                  {/* {bchAddressHasBalance && (
                     <Row style={{ marginBottom: '8px' }}>
                       <Text>
                         <FormattedMessage
@@ -121,12 +135,15 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                         <FormattedMessage id='copy.balance' defaultMessage='Balance' />
                       </Text>
                     </Row>
-                  )}
+                  )} */}
                   {bchAddressHasBalance?.map((addr) => (
                     <Row key={addr.addr} style={{ marginBottom: '8px' }}>
-                      <Text size='14px' weight={500}>
-                        {addr.addr}
-                      </Text>
+                      <IconRow>
+                        <CoinIcon name='BCH' size='16px' />
+                        <Text size='14px' weight={500}>
+                          {addr.addr}
+                        </Text>
+                      </IconRow>
                       <Text size='14px' weight={400}>
                         {Exchange.convertCoinToCoin({
                           baseToStandard: true,

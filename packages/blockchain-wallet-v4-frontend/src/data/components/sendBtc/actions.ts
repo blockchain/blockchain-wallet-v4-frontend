@@ -15,6 +15,10 @@ export const initialized = (payload) => ({
 
 export const destroyed = () => ({ type: AT.SEND_BTC_DESTROYED })
 
+export const btcImportedFundsSweep = () => ({
+  type: AT.SEND_BTC_IMPORTED_FUNDS_SWEEP
+})
+
 export const sendBtcPaymentUpdatedSuccess = (payment: PaymentValue) => ({
   payload: payment,
   type: AT.SEND_BTC_PAYMENT_UPDATED_SUCCESS
