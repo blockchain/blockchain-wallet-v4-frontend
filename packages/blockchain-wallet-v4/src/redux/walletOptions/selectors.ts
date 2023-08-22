@@ -214,3 +214,7 @@ export const getUseAgentHotWalletAddress = (state: RootState) =>
 // which deposit address to use for non custodial sell
 export const getUseAgentHotWalletAddressForSell = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useAgentHotWalletAddressForSell']))
+
+// imported address sweep
+export const getImportedAddressSweep = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showImportedAddressSweep']))

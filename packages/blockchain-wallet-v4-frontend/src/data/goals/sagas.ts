@@ -765,9 +765,13 @@ export default ({ api, coreSagas, networks }) => {
   const runRecommendedImportedSweepGoal = function* (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
+    const showCompleteYourProfile = selectors.core.walletOptions
+      .getImportedAddressSweep(yield select())
+      .getOrElse(null)
     // const showRecommendedImportedSweep = (yield select(
     //   selectors.core.settings.getImportSweep
     // )).getOrElse(false)
+    if (!showCompleteYourProfile) return
     yield put(
       actions.goals.addInitialModal({
         data: { origin },
