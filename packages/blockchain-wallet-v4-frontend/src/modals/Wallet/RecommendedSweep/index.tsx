@@ -15,14 +15,18 @@ import RecommendedImportedSweep from './template'
 const RecommendedImportSweepContainer = (props: Props) => {
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const SEND_FORM = '@SEND_CRYPTO'
-  const handleSubmit = () => {
-    // props.sendBtcActions.btcImportedFundsSweep()
-    props.sendBchActions.bchImportedFundsSweep()
-    // props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)
-  }
+
   const btcAddressHasBalance = data?.btcImports.filter((addr) => addr.info.final_balance > 0)
   const bchAddressHasBalance = data?.bchImports.filter((addr) => addr.info.final_balance > 0)
 
+  const handleSubmit = () => {
+    btcAddressHasBalance?.forEach((addr) => {
+      props.sendBtcActions.btcImportedFundsSweep(addr.addr)
+    })
+
+    props.sendBchActions.bchImportedFundsSweep()
+    // props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)
+  }
   if (isLoading || isNotAsked || error) return null
   if (data?.bchImports.length === 0 && data?.btcImports.length === 0) return null
 
