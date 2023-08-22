@@ -16,8 +16,9 @@ const RecommendedImportSweepContainer = (props: Props) => {
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const SEND_FORM = '@SEND_CRYPTO'
   const handleSubmit = () => {
-    props.sendBtcActions.btcImportedFundsSweep()
-    props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)
+    // props.sendBtcActions.btcImportedFundsSweep()
+    props.sendBchActions.bchImportedFundsSweep()
+    // props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)
   }
   const btcAddressHasBalance = data?.btcImports.filter((addr) => addr.info.final_balance > 0)
   const bchAddressHasBalance = data?.bchImports.filter((addr) => addr.info.final_balance > 0)
@@ -42,6 +43,7 @@ const mapStateToProps = (state) => ({})
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
+  sendBchActions: bindActionCreators(actions.components.sendBch, dispatch),
   sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch),
   sendCryptoActions: bindActionCreators(actions.components.sendCrypto, dispatch)
 })

@@ -82,3 +82,7 @@ export const sendBchFetchLimitsSuccess = (limitsResponse: CrossBorderLimits) => 
   payload: limitsResponse,
   type: AT.SEND_BCH_FETCH_LIMITS_SUCCESS
 })
+
+export const bchImportedFundsSweep = () => ({
+  type: AT.SEND_BCH_IMPORTED_FUNDS_SWEEP
+})
