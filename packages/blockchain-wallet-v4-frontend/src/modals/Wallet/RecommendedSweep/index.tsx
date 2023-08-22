@@ -11,6 +11,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { ModalPropsType } from '../../types'
 import { getData } from './selectors'
 import RecommendedImportedSweep from './template'
+import NoActionRequired from './template.noaction'
 
 const RecommendedImportSweepContainer = (props: Props) => {
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
@@ -28,23 +29,29 @@ const RecommendedImportSweepContainer = (props: Props) => {
     // props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)
   }
   if (isLoading || isNotAsked || error) return null
-  if (data?.bchImports.length === 0 && data?.btcImports.length === 0) return null
-
+  if (props.hideNoActionRequiredSweep) return null
+  if (
+    (data?.bchImports.length === 0 && data?.btcImports.length === 0) ||
+    (btcAddressHasBalance?.length === 0 && bchAddressHasBalance?.length === 0)
+  ) {
+    return <NoActionRequired {...props} />
+  }
   return (
     <RecommendedImportedSweep
       {...props}
       btcAddressHasBalance={btcAddressHasBalance}
       bchAddressHasBalance={bchAddressHasBalance}
-      bchImportedAddresses={data?.bchImports}
-      btcImportedAddresses={data?.btcImports}
       onSubmit={handleSubmit}
     />
   )
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+  hideNoActionRequiredSweep: selectors.cache.getNoActionRequiredSweep(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
+  cacheActions: bindActionCreators(actions.cache, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   sendBchActions: bindActionCreators(actions.components.sendBch, dispatch),
@@ -56,6 +63,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(modalEnhancer(ModalName.RECOMMENDED_IMPORTED_SWEEP), connector)
 
-type Props = ModalPropsType & ConnectedProps<typeof connector>
+export type Props = ModalPropsType & ConnectedProps<typeof connector>
 
 export default enhance(RecommendedImportSweepContainer)

@@ -14,6 +14,7 @@ const initialState = {
   lastLogoutTimestamp: undefined,
   lastUnusedAmounts: {},
   mobileConnected: undefined,
+  noActionRequiredSweep: undefined,
   unifiedAccount: undefined
 }
 
@@ -65,6 +66,9 @@ const cacheSlice = createSlice({
     mobileConnectedStored: (state, action) => {
       state.mobileConnected = action.payload
     },
+    noActionRequiredSweep: (state, action) => {
+      state.noActionRequiredSweep = action.payload
+    },
     removeExchangeLogin: (state) => {
       state.exchangeEmail = undefined
       state.exchangeWalletGuid = undefined
@@ -74,6 +78,9 @@ const cacheSlice = createSlice({
       if (state.lastUnusedAmounts[action.payload.pair]) {
         delete state.lastUnusedAmounts[action.payload.pair]
       }
+    },
+    removeNoActionRequiredSweep: (state) => {
+      state.noActionRequiredSweep = undefined
     },
     removeStoredLogin: (state) => {
       state.exchangeEmail = undefined

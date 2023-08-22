@@ -570,16 +570,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const btcImportedFundsSweep = function* (action) {
     const { payload } = action
-    debugger
     try {
       const accounts = (yield select(selectors.core.common.btc.getAccountsBalances)).getOrElse([])
       const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
 
       const defaultAccount = accounts.filter((acc) => acc.index === defaultIndex)[0]
-      // move this into its own saga
-      // so that I can use yields
-      // payload is the list of accounts
-      // with funds
 
       let payment = coreSagas.payment.btc.create({
         network: networks.btc

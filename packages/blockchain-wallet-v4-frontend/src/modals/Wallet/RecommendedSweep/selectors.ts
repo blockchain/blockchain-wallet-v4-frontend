@@ -11,7 +11,6 @@ const filterRelevantAddresses = (addrs) =>
 
 export const getData = (state) => {
   const bchAddressesR = selectors.core.common.bch.getActiveAddresses(state) as ImportedAddrType[]
-
   const btcAddressesR = selectors.core.common.btc.getActiveAddresses(state) as ImportedAddrType[]
 
   const transform = (

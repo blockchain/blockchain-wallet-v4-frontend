@@ -29,6 +29,9 @@ export const getUnifiedAccountStatus = (state): boolean | undefined =>
 export const getLastUnusedAmounts = (state): boolean | undefined =>
   path(['cache', 'lastUnusedAmounts'], state)
 
+export const getNoActionRequiredSweep = (state): boolean | undefined =>
+  path(['cache', 'noActionRequiredSweep'], state)
+
 export const getChannelPrivKeyForQrData = (state) => {
   const channelPrivKey = getChannelPrivKey(state)
 
