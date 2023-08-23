@@ -3,11 +3,11 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { intervalToDuration } from 'date-fns'
-import { defaultTo, filter, path, prop } from 'ramda'
+import { defaultTo, filter, path } from 'ramda'
 import { clearSubmitErrors, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { BSPaymentTypes, MobilePaymentType, WalletFiatType } from '@core/types'
+import { BSPaymentTypes, WalletFiatType } from '@core/types'
 import { CheckBoxInput, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import AvailabilityRows from 'components/Brokerage/AvailabilityRows'
 import { ErrorCartridge } from 'components/Cartridge'
@@ -259,14 +259,14 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
             b.state === 'ACTIVE' && b.id === props.quoteSummaryViewModel.paymentMethodId,
           defaultTo([])(bankAccounts)
         )
-        const paymentPartner = prop('partner', bankAccount)
         if (sardineContextIsReady) {
           sardineContext.updateConfig({
             flow: 'ACH_LINK'
           })
         }
+
         // if yapily we need the auth screen before creating the order
-        if (paymentPartner === BankPartners.YAPILY) {
+        if (bankAccount?.partner === BankPartners.YAPILY) {
           if (sardineContextIsReadyOB) {
             sardineContextOB.updateConfig({
               flow: 'OB_LINK'

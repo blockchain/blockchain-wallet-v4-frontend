@@ -7,11 +7,7 @@ export enum Events {
 }
 
 type MiscTrackEventAction = {
-  key:
-    | Events.CUSTOMER_SUPPORT_CLICKED
-    | Events.WRONG_CHANGE_CACHE
-    | Events.WRONG_RECEIVE_CACHE
-    | Events.SIGNUP_VIEWED
+  key: Events
   properties: {}
 }
 

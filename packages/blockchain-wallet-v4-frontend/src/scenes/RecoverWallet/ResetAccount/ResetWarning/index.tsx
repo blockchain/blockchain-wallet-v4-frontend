@@ -32,13 +32,14 @@ margin-bottom: 12px;
 `}
 `
 const ResetWarning: React.FC<Props> = (props: Props) => {
+  const { accountRecoveryData, analyticsActions, setStep } = props
+
   const handleResetAccountClick = () => {
-    const { accountRecoveryData, analyticsActions, setStep } = props
     // will be 0 if no 2fa
     if (accountRecoveryData?.two_fa_type) {
-      if (accountRecoveryData?.two_fa_type === 5) {
-        props.signupActions.triggerSmsVerificationRecovery()
+      if (accountRecoveryData.two_fa_type === 5) {
         // trigger sms challenge
+        props.signupActions.triggerSmsVerificationRecovery()
       } else {
         setStep(RecoverSteps.TWO_FA_CONFIRMATION)
       }
@@ -53,7 +54,6 @@ const ResetWarning: React.FC<Props> = (props: Props) => {
       }
     })
   }
-  const { accountRecoveryData, setStep } = props
   return (
     <FormWrapper>
       <BackArrowFormHeader

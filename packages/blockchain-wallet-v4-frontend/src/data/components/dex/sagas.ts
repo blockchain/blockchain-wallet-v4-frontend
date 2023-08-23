@@ -175,7 +175,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           return yield put(A.stopPollSwapQuote())
         }
 
-        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
+        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage, step } =
           formValues
         if (
           baseToken &&
@@ -239,6 +239,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               symbol: baseToken
             },
             params: {
+              skipValidation: step === DexSwapSteps.ENTER_DETAILS,
               slippage: `${slippage}`
             },
 
@@ -332,13 +333,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // Don't fetch swap on the following cases:
     // - field is step
-    // - touch is undefined and field equals baseTokenAmount or counterTokenAmount
-    //   - we only want to fetch when the user was the one who updated the values
-    if (
-      field === 'step' ||
-      (touch === undefined && (field === 'baseTokenAmount' || field === 'counterTokenAmount'))
-    )
-      return
+    // - touch is undefined and field equals counterTokenAmount
+    // - we only want to fetch when the user was the one who updated the values or if max was clicked
+    if (field === 'step' || (touch === undefined && field === 'counterTokenAmount')) return
 
     const formValues = selectors.form.getFormValues(DEX_SWAP_FORM)(yield* select()) as DexSwapForm
     const { baseToken, baseTokenAmount, counterToken, counterTokenAmount } = formValues
