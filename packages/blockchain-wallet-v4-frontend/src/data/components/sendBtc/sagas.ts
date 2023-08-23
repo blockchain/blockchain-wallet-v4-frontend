@@ -571,26 +571,34 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const btcImportedFundsSweep = function* (action) {
     const { payload } = action
     try {
-      const accounts = (yield select(selectors.core.common.btc.getAccountsBalances)).getOrElse([])
-      const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+      // eslint-disable-next-line no-restricted-syntax
+      for (const addr of payload) {
+        const accounts = (yield select(selectors.core.common.btc.getAccountsBalances)).getOrElse([])
+        const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
 
-      const defaultAccount = accounts.filter((acc) => acc.index === defaultIndex)[0]
+        const defaultAccount = accounts.filter((acc) => acc.index === defaultIndex)[0]
 
-      let payment = coreSagas.payment.btc.create({
-        network: networks.btc
-      })
-      payment = yield payment.init()
-      payment = yield payment.from(payload, ADDRESS_TYPES.LEGACY)
-      payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT)
-      const defaultFeePerByte = path(['fees', 'regular'], payment.value())
-      payment = yield payment.fee(defaultFeePerByte)
-      const effectiveBalance = prop('effectiveBalance', payment.value())
-      payment = yield payment.amount(parseInt(effectiveBalance))
-      payment = yield payment.build()
-      // let password
-      // payment = yield payment.sign(password)
-      // payment = yield payment.publish()
+        let payment = coreSagas.payment.btc.create({
+          network: networks.btc
+        })
+
+        payment = yield payment.init()
+        payment = yield payment.from(addr, ADDRESS_TYPES.LEGACY)
+        payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT)
+        const defaultFeePerByte = path(['fees', 'regular'], payment.value())
+        payment = yield payment.fee(defaultFeePerByte)
+        const effectiveBalance = prop('effectiveBalance', payment.value())
+        payment = yield payment.amount(parseInt(effectiveBalance))
+        payment = yield payment.build()
+        // let password
+        // payment = yield payment.sign(password)
+        // payment = yield payment.publish()
+        // yield put(actions.core.data.btc.fetchData())
+        yield put({ type: 'BTC_FUNDS_SWEEP_COMPLETED' })
+      }
     } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('ERROR:', e)
       yield put(actions.logs.logErrorMessage(logLocation, 'sweepBtcFunds', e))
     }
   }

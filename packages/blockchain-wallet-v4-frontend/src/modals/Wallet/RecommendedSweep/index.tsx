@@ -21,15 +21,18 @@ const RecommendedImportSweepContainer = (props: Props) => {
   const bchAddressHasBalance = data?.bchImports.filter((addr) => addr.info.final_balance > 0)
 
   const handleSubmit = () => {
-    btcAddressHasBalance?.forEach((addr) => {
-      props.sendBtcActions.btcImportedFundsSweep(addr.addr)
-    })
+    props.sendBtcActions.btcImportedFundsSweep(btcAddressHasBalance!.map((item) => item.addr))
 
-    props.sendBchActions.bchImportedFundsSweep()
+    // props.sendBchActions.bchImportedFundsSweep(bchAddressHasBalance!.map((item) => item.addr))
     // props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)
   }
   if (isLoading || isNotAsked || error) return null
-  if (props.hideNoActionRequiredSweep) return null
+  if (
+    props.hideNoActionRequiredSweep &&
+    btcAddressHasBalance?.length === 0 &&
+    bchAddressHasBalance?.length === 0
+  )
+    return null
   if (
     (data?.bchImports.length === 0 && data?.btcImports.length === 0) ||
     (btcAddressHasBalance?.length === 0 && bchAddressHasBalance?.length === 0)

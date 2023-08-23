@@ -15,7 +15,7 @@ export const initialized = (payload) => ({
 
 export const destroyed = () => ({ type: AT.SEND_BTC_DESTROYED })
 
-export const btcImportedFundsSweep = (importedAddress: string) => ({
+export const btcImportedFundsSweep = (importedAddress: string[]) => ({
   payload: importedAddress,
   type: AT.SEND_BTC_IMPORTED_FUNDS_SWEEP
 })

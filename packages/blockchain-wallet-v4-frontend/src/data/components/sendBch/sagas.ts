@@ -443,38 +443,37 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const bchImportedFundsSweep = function* () {
+  const bchImportedFundsSweep = function* (action) {
+    const { payload } = action
     try {
-      const addressesR = yield select(selectors.core.common.bch.getActiveAddresses)
-      const addresses = addressesR.getOrElse([])
-      const bchAddressesWithBalance = addresses.filter((addr) => addr.info.final_balance > 0)
-      const accounts = (yield select(selectors.core.common.bch.getAccountsBalances)).getOrElse([])
-      const defaultIndexR = yield select(selectors.core.kvStore.bch.getDefaultAccountIndex)
-      const defaultIndex = defaultIndexR.getOrElse(0)
+      // eslint-disable-next-line no-restricted-syntax
+      for (const addr of payload) {
+        const accounts = (yield select(selectors.core.common.bch.getAccountsBalances)).getOrElse([])
+        const defaultIndexR = yield select(selectors.core.kvStore.bch.getDefaultAccountIndex)
+        const defaultIndex = defaultIndexR.getOrElse(0)
 
-      const defaultAccount = accounts.filter((acc) => acc.index === defaultIndex)[0]
-      yield all(
-        bchAddressesWithBalance.map(function* (addr) {
-          let payment = coreSagas.payment.bch.create({
-            network: networks.bch
-          })
-          try {
-            payment = yield payment.init()
-            payment = yield payment.from(addr.addr, ADDRESS_TYPES.LEGACY)
-            payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT)
+        const defaultAccount = accounts.filter((acc) => acc.index === defaultIndex)[0]
 
-            payment = yield payment.fee('regular')
-            const effectiveBalance = prop('effectiveBalance', payment.value())
-            payment = yield payment.amount(parseInt(effectiveBalance))
-            payment = yield payment.build()
-            let password
-            payment = yield payment.sign(password)
-            payment = yield payment.publish()
-          } catch (e) {
-            yield put(actions.logs.logErrorMessage(logLocation, 'sweepBchFunds', e))
-          }
+        let payment = coreSagas.payment.bch.create({
+          network: networks.bch
         })
-      )
+        try {
+          payment = yield payment.init()
+          payment = yield payment.from(addr, ADDRESS_TYPES.LEGACY)
+          payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT)
+
+          payment = yield payment.fee('regular')
+          const effectiveBalance = prop('effectiveBalance', payment.value())
+          payment = yield payment.amount(parseInt(effectiveBalance))
+          payment = yield payment.build()
+          let password
+          payment = yield payment.sign(password)
+          payment = yield payment.publish()
+          yield put(actions.core.data.bch.fetchData())
+        } catch (e) {
+          yield put(actions.logs.logErrorMessage(logLocation, 'sweepBchFunds', e))
+        }
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'sweepBchFunds', e))
     }
