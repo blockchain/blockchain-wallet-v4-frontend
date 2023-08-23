@@ -11,6 +11,7 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
+  SpinningLoader,
   Text,
   TextGroup
 } from 'blockchain-info-components'
@@ -48,8 +49,24 @@ const IconRow = styled.div`
   }
 `
 
+const Body = styled(ModalBody)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 24px 0 24px;
+`
+
 const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { bchAddressHasBalance, btcAddressHasBalance, handleSubmit, position, total } = props
+  const {
+    bchAddressHasBalance,
+    bchLoading,
+    btcAddressHasBalance,
+    btcLoading,
+    handleSubmit,
+    position,
+    total
+  } = props
   useEffect(() => {
     props.cacheActions.removeNoActionRequiredSweep()
   }, [])
@@ -58,19 +75,23 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
       <ModalHeader closeButton={false}>
         <FormattedMessage id='modals.recommendedsweep.title' defaultMessage='Recommended Sweep' />
       </ModalHeader>
-
-      <ModalBody>
-        <Form onSubmit={handleSubmit}>
-          <Text size='14px' weight={400}>
-            <FormattedMessage
-              id='modals.recommendedsweep.para1'
-              defaultMessage='Sweepy Sweep sweep'
-            />
-          </Text>
-          {/* Here I want to create a funciton that maps over each address
+      {btcLoading || bchLoading ? (
+        <Body>
+          <SpinningLoader />
+        </Body>
+      ) : (
+        <ModalBody>
+          <Form onSubmit={handleSubmit}>
+            <Text size='14px' weight={400}>
+              <FormattedMessage
+                id='modals.recommendedsweep.para1'
+                defaultMessage='Sweepy Sweep sweep'
+              />
+            </Text>
+            {/* Here I want to create a funciton that maps over each address
                 and each balance and displays it */}
-          <Container>
-            {/* {btcAddressHasBalance && (
+            <Container>
+              {/* {btcAddressHasBalance && (
                     <Row style={{ marginBottom: '8px' }}>
                       <Text>
                         <FormattedMessage
@@ -85,25 +106,25 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                       </Text>
                     </Row>
                   )} */}
-            {btcAddressHasBalance?.map((addr) => (
-              <Row key={addr.addr} style={{ marginBottom: '8px' }}>
-                <IconRow>
-                  <CoinIcon name='BTC' size='16px' />
-                  <Text size='14px' weight={500}>
-                    {addr.addr}
+              {btcAddressHasBalance?.map((addr) => (
+                <Row key={addr.addr} style={{ marginBottom: '8px' }}>
+                  <IconRow>
+                    <CoinIcon name='BTC' size='16px' />
+                    <Text size='14px' weight={500}>
+                      {addr.addr}
+                    </Text>
+                  </IconRow>
+                  <Text size='14px' weight={400}>
+                    {Exchange.convertCoinToCoin({
+                      baseToStandard: true,
+                      coin: 'BTC',
+                      value: addr.info.final_balance
+                    })}{' '}
+                    BTC
                   </Text>
-                </IconRow>
-                <Text size='14px' weight={400}>
-                  {Exchange.convertCoinToCoin({
-                    baseToStandard: true,
-                    coin: 'BTC',
-                    value: addr.info.final_balance
-                  })}{' '}
-                  BTC
-                </Text>
-              </Row>
-            ))}
-            {/* {bchAddressHasBalance && (
+                </Row>
+              ))}
+              {/* {bchAddressHasBalance && (
                     <Row style={{ marginBottom: '8px' }}>
                       <Text>
                         <FormattedMessage
@@ -117,47 +138,53 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                       </Text>
                     </Row>
                   )} */}
-            {bchAddressHasBalance?.map((addr) => (
-              <Row key={addr.addr} style={{ marginBottom: '8px' }}>
-                <IconRow>
-                  <CoinIcon name='BCH' size='16px' />
-                  <Text size='14px' weight={500}>
-                    {addr.addr}
+              {bchAddressHasBalance?.map((addr) => (
+                <Row key={addr.addr} style={{ marginBottom: '8px' }}>
+                  <IconRow>
+                    <CoinIcon name='BCH' size='16px' />
+                    <Text size='14px' weight={500}>
+                      {addr.addr}
+                    </Text>
+                  </IconRow>
+                  <Text size='14px' weight={400}>
+                    {Exchange.convertCoinToCoin({
+                      baseToStandard: true,
+                      coin: 'BCH',
+                      value: addr.info.final_balance
+                    })}{' '}
+                    BCH
                   </Text>
-                </IconRow>
-                <Text size='14px' weight={400}>
-                  {Exchange.convertCoinToCoin({
-                    baseToStandard: true,
-                    coin: 'BCH',
-                    value: addr.info.final_balance
-                  })}{' '}
-                  BCH
-                </Text>
-              </Row>
-            ))}
-          </Container>
-          <Button
-            data-e2e='recommendedSweepSubmit'
-            nature='primary'
-            fullwidth
-            type='submit'
-            disabled={props.submitting}
-          >
-            {props.submitting ? (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
-            ) : (
-              <FormattedMessage id='modals.transfereth.confirm1' defaultMessage='Transfer Funds' />
-            )}
-          </Button>
-        </Form>
-      </ModalBody>
+                </Row>
+              ))}
+            </Container>
+            <Button
+              data-e2e='recommendedSweepSubmit'
+              nature='primary'
+              fullwidth
+              type='submit'
+              disabled={props.submitting}
+            >
+              {props.submitting ? (
+                <HeartbeatLoader height='20px' width='20px' color='white' />
+              ) : (
+                <FormattedMessage
+                  id='modals.transfereth.confirm1'
+                  defaultMessage='Transfer Funds'
+                />
+              )}
+            </Button>
+          </Form>
+        </ModalBody>
+      )}
     </Modal>
   )
 }
 
 type Props = {
   bchAddressHasBalance?: ImportedAddrType[]
+  bchLoading: boolean
   btcAddressHasBalance?: ImportedAddrType[]
+  btcLoading: boolean
   position: number
   total: number
 } & OwnProps

@@ -6,6 +6,7 @@ import * as AT from './actionTypes'
 import { SendBtcState } from './types'
 
 const INITIAL_STATE: SendBtcState = {
+  btcImportedFundsSweep: Remote.NotAsked,
   feePerByteToggled: false,
   maxCustodialWithdrawalFee: Remote.NotAsked,
   payment: Remote.NotAsked,
@@ -57,6 +58,15 @@ export function sendBtcReducer(state = INITIAL_STATE, action) {
     }
     case AT.SEND_BTC_FETCH_LIMITS_FAILURE: {
       return assoc('sendLimits', Remote.Failure(action.payload), state)
+    }
+    case AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_LOADING: {
+      return assoc('btcImportedFundsSweep', Remote.Loading, state)
+    }
+    case AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_SUCCESS: {
+      return assoc('btcImportedFundsSweep', Remote.Success(action.payload), state)
+    }
+    case AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_FAILURE: {
+      return assoc('btcImportedFundsSweep', Remote.Failure(action.payload), state)
     }
     default:
       return state

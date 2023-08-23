@@ -87,3 +87,17 @@ export const bchImportedFundsSweep = (importedAddresses: string[]) => ({
   payload: importedAddresses,
   type: AT.SEND_BCH_IMPORTED_FUNDS_SWEEP
 })
+
+export const bchImportedFundsSweepFailure = (payload) => ({
+  payload,
+  type: AT.SEND_BCH_IMPORTED_FUNDS_SWEEP_FAILURE
+})
+
+export const bchImportedFundsSweepLoading = () => ({
+  type: AT.SEND_BCH_IMPORTED_FUNDS_SWEEP_LOADING
+})
+
+export const bchImportedFundsSweepSuccess = (payload) => ({
+  payload,
+  type: AT.SEND_BCH_IMPORTED_FUNDS_SWEEP_SUCCESS
+})

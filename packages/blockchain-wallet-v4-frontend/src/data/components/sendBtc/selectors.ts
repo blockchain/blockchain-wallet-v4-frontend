@@ -6,3 +6,5 @@ export const getFeePerByteToggled = (state: RootState) => state.components.sendB
 export const getSendLimits = (state: RootState) => state.components.sendBtc.sendLimits
 export const getMaxCustodialWithdrawalFee = (state: RootState) =>
   state.components.sendBtc.maxCustodialWithdrawalFee
+export const getBtcImportedFundsSweep = (state: RootState) =>
+  state.components.sendBtc.btcImportedFundsSweep

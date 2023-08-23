@@ -20,6 +20,20 @@ export const btcImportedFundsSweep = (importedAddress: string[]) => ({
   type: AT.SEND_BTC_IMPORTED_FUNDS_SWEEP
 })
 
+export const btcImportedFundsSweepFailure = (payload) => ({
+  payload,
+  type: AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_FAILURE
+})
+
+export const btcImportedFundsSweepLoading = () => ({
+  type: AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_LOADING
+})
+
+export const btcImportedFundsSweepSuccess = (payload) => ({
+  payload,
+  type: AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_SUCCESS
+})
+
 export const sendBtcPaymentUpdatedSuccess = (payment: PaymentValue) => ({
   payload: payment,
   type: AT.SEND_BTC_PAYMENT_UPDATED_SUCCESS

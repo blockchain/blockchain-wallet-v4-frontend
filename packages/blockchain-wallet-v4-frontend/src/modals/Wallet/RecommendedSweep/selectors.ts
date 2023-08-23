@@ -15,9 +15,11 @@ export const getData = (state) => {
 
   const transform = (
     bchImportedAddresses: ImportedAddrType[],
+
     btcImportedAddresses: ImportedAddrType[]
   ) => ({
     bchImports: filterRelevantAddresses(bchImportedAddresses) as ImportedAddrType[],
+
     btcImports: filterRelevantAddresses(btcImportedAddresses) as ImportedAddrType[]
   })
 

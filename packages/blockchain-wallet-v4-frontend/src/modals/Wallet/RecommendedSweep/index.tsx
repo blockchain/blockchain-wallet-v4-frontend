@@ -3,7 +3,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
-import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -15,7 +14,16 @@ import NoActionRequired from './template.noaction'
 
 const RecommendedImportSweepContainer = (props: Props) => {
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
-  const SEND_FORM = '@SEND_CRYPTO'
+  const {
+    data: btcSweep,
+    error: btcError,
+    isLoading: btcLoading
+  } = useRemote(selectors.components.sendBtc.getBtcImportedFundsSweep)
+  const {
+    data: bchSweep,
+    error: bchError,
+    isLoading: bchLoading
+  } = useRemote(selectors.components.sendBch.getBchImportedFundsSweep)
 
   const btcAddressHasBalance = data?.btcImports.filter((addr) => addr.info.final_balance > 0)
   const bchAddressHasBalance = data?.bchImports.filter((addr) => addr.info.final_balance > 0)
@@ -39,11 +47,14 @@ const RecommendedImportSweepContainer = (props: Props) => {
   ) {
     return <NoActionRequired {...props} />
   }
+
   return (
     <RecommendedImportedSweep
       {...props}
       btcAddressHasBalance={btcAddressHasBalance}
+      btcLoading={btcLoading}
       bchAddressHasBalance={bchAddressHasBalance}
+      bchLoading={bchLoading}
       onSubmit={handleSubmit}
     />
   )

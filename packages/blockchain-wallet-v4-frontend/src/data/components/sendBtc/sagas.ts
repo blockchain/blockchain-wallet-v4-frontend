@@ -570,6 +570,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const btcImportedFundsSweep = function* (action) {
     const { payload } = action
+    yield put(A.btcImportedFundsSweepLoading())
     try {
       // eslint-disable-next-line no-restricted-syntax
       for (const addr of payload) {
@@ -594,11 +595,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // payment = yield payment.sign(password)
         // payment = yield payment.publish()
         // yield put(actions.core.data.btc.fetchData())
-        yield put({ type: 'BTC_FUNDS_SWEEP_COMPLETED' })
+        yield put(A.btcImportedFundsSweepSuccess(true))
       }
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log('ERROR:', e)
+      yield put(A.btcImportedFundsSweepFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'sweepBtcFunds', e))
     }
   }
