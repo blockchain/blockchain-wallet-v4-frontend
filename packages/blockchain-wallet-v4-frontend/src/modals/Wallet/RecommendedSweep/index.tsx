@@ -32,7 +32,6 @@ const RecommendedImportSweepContainer = (props: Props) => {
     props.sendBtcActions.btcImportedFundsSweep(btcAddressHasBalance!.map((item) => item.addr))
 
     // props.sendBchActions.bchImportedFundsSweep(bchAddressHasBalance!.map((item) => item.addr))
-    // props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)
   }
   if (isLoading || isNotAsked || error) return null
   if (

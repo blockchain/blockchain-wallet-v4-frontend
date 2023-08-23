@@ -445,6 +445,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const bchImportedFundsSweep = function* (action) {
     const { payload } = action
+    yield put(A.bchImportedFundsSweepLoading())
     try {
       // eslint-disable-next-line no-restricted-syntax
       for (const addr of payload) {
@@ -457,25 +458,36 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         let payment = coreSagas.payment.bch.create({
           network: networks.bch
         })
-        try {
-          payment = yield payment.init()
-          payment = yield payment.from(addr, ADDRESS_TYPES.LEGACY)
-          payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT)
 
-          payment = yield payment.fee('regular')
-          const effectiveBalance = prop('effectiveBalance', payment.value())
-          payment = yield payment.amount(parseInt(effectiveBalance))
-          payment = yield payment.build()
-          let password
-          payment = yield payment.sign(password)
-          payment = yield payment.publish()
-          yield put(actions.core.data.bch.fetchData())
-        } catch (e) {
-          yield put(actions.logs.logErrorMessage(logLocation, 'sweepBchFunds', e))
-        }
+        payment = yield payment.init()
+        payment = yield payment.from(addr, ADDRESS_TYPES.LEGACY)
+        payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT)
+
+        payment = yield payment.fee('regular')
+        const effectiveBalance = prop('effectiveBalance', payment.value())
+        payment = yield payment.amount(parseInt(effectiveBalance))
+        payment = yield payment.build()
+        let password
+        payment = yield payment.sign(password)
+        payment = yield payment.publish()
+        yield put(actions.core.data.bch.fetchData())
+        yield put(actions.router.push('/coins/BCH'))
+        yield put(
+          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+            coinName: 'Bitcoin Cash'
+          })
+        )
+        yield put(A.bchImportedFundsSweepSuccess(true))
+        yield put(actions.modals.closeAllModals())
       }
     } catch (e) {
+      yield put(A.bchImportedFundsSweepFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'sweepBchFunds', e))
+      yield put(
+        actions.alerts.displayError(C.SEND_COIN_ERROR, {
+          coinName: 'Bitcoin Cash'
+        })
+      )
     }
   }
 

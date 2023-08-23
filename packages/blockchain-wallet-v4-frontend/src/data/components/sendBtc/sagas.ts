@@ -596,8 +596,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // payment = yield payment.publish()
         // yield put(actions.core.data.btc.fetchData())
         yield put(A.btcImportedFundsSweepSuccess(true))
+        yield put(actions.router.push('/coins/BTC'))
+        yield put(
+          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+            coinName: 'Bitcoin'
+          })
+        )
+        yield put(actions.modals.closeAllModals())
       }
     } catch (e) {
+      yield put(
+        actions.alerts.displayError(C.SEND_COIN_ERROR, {
+          coinName: 'Bitcoin'
+        })
+      )
       yield put(A.btcImportedFundsSweepFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'sweepBtcFunds', e))
     }
