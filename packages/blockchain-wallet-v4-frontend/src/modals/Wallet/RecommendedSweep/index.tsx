@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
@@ -25,8 +25,10 @@ const RecommendedImportSweepContainer = (props: Props) => {
     isLoading: bchLoading
   } = useRemote(selectors.components.sendBch.getBchImportedFundsSweep)
 
-  const btcAddressHasBalance = data?.btcImports.filter((addr) => addr.info.final_balance > 0)
-  const bchAddressHasBalance = data?.bchImports.filter((addr) => addr.info.final_balance > 0)
+  const DUST = 546
+
+  const btcAddressHasBalance = data?.btcImports.filter((addr) => addr.info.final_balance > DUST)
+  const bchAddressHasBalance = data?.bchImports.filter((addr) => addr.info.final_balance > DUST)
 
   const handleSubmit = () => {
     props.sendBtcActions.btcImportedFundsSweep(btcAddressHasBalance!.map((item) => item.addr))
@@ -34,12 +36,7 @@ const RecommendedImportSweepContainer = (props: Props) => {
     // props.sendBchActions.bchImportedFundsSweep(bchAddressHasBalance!.map((item) => item.addr))
   }
   if (isLoading || isNotAsked || error) return null
-  if (
-    props.hideNoActionRequiredSweep &&
-    btcAddressHasBalance?.length === 0 &&
-    bchAddressHasBalance?.length === 0
-  )
-    return null
+  if (props.hideNoActionRequiredSweep) return null
   if (
     (data?.bchImports.length === 0 && data?.btcImports.length === 0) ||
     (btcAddressHasBalance?.length === 0 && bchAddressHasBalance?.length === 0)
@@ -68,8 +65,7 @@ const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   sendBchActions: bindActionCreators(actions.components.sendBch, dispatch),
-  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch),
-  sendCryptoActions: bindActionCreators(actions.components.sendCrypto, dispatch)
+  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

@@ -73,7 +73,7 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader closeButton={false}>
-        <FormattedMessage id='modals.recommendedsweep.title' defaultMessage='Recommended Sweep' />
+        <FormattedMessage id='modals.securitynotice.title' defaultMessage='Security Notice' />
       </ModalHeader>
       {btcLoading || bchLoading ? (
         <Body>
@@ -82,14 +82,12 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
       ) : (
         <ModalBody>
           <Form onSubmit={handleSubmit}>
-            <Text size='14px' weight={400}>
+            <Text size='14px' weight={400} lineHeight='1.5'>
               <FormattedMessage
-                id='modals.recommendedsweep.para1'
-                defaultMessage='Sweepy Sweep sweep'
+                id='modals.securitynotice.para1'
+                defaultMessage='The following legacy addresses have been identified as likely to be vulnerable to a security issue. To secure these funds, click the ‘Transfer Funds’ button below. This will move the funds from the legacy addresses into new, secure addresses in your DeFi wallet.'
               />
             </Text>
-            {/* Here I want to create a funciton that maps over each address
-                and each balance and displays it */}
             <Container>
               {/* {btcAddressHasBalance && (
                     <Row style={{ marginBottom: '8px' }}>

@@ -1,15 +1,8 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import {
-  Button,
-  HeartbeatLoader,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { Button, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
+import { ModalName } from 'data/types'
 
 import { Props as OwnProps } from '.'
 
@@ -23,11 +16,24 @@ const NoActionRequired = (props: Props) => {
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader closeButton={false}>
-        <FormattedMessage id='modals.uptodata.title' defaultMessage='Up to date' />
+        <FormattedMessage id='modals.securitynotice.title' defaultMessage='Security Notice' />
       </ModalHeader>
 
       <ModalBody>
-        <Text>HI!</Text>
+        <Text size='16px' weight={400} lineHeight='1.5' style={{ marginBottom: '16px' }}>
+          <FormattedMessage
+            id='modals.uptodate.body'
+            defaultMessage='Good news: Your wallet does not contain any funds in potentially at-risk legacy addresses. No further action is needed.'
+          />
+        </Text>
+        <Button
+          data-e2e='upToDateThanks'
+          nature='primary'
+          fullwidth
+          onClick={() => props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)}
+        >
+          <FormattedMessage id='modals.uptodate.thanks' defaultMessage='Thanks!' />
+        </Button>
       </ModalBody>
     </Modal>
   )
