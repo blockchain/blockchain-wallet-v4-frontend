@@ -9,7 +9,7 @@ import { APIType } from '@core/network/api'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { BtcAccountFromType, BtcFromType, BtcPaymentType, WalletAccountEnum } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
 
@@ -477,6 +477,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             coinName: 'Bitcoin Cash'
           })
         )
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.TRANSFER_FUNDS_SUCCESS,
+            properties: {}
+          })
+        )
         yield put(A.bchImportedFundsSweepSuccess(true))
         yield put(actions.modals.closeAllModals())
       }
@@ -486,6 +492,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         actions.alerts.displayError(C.SEND_COIN_ERROR, {
           coinName: 'Bitcoin Cash'
+        })
+      )
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.TRANSFER_FUNDS_FAILURE,
+          properties: {}
         })
       )
     }

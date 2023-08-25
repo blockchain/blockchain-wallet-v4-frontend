@@ -12,10 +12,10 @@ import {
   ModalBody,
   ModalHeader,
   SpinningLoader,
-  Text,
-  TextGroup
+  Text
 } from 'blockchain-info-components'
 import Form from 'components/Form/Form'
+import { Analytics } from 'data/types'
 import { CoinIcon } from 'layouts/Wallet/components'
 
 import { Props as OwnProps } from '.'
@@ -67,9 +67,14 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
     position,
     total
   } = props
+
   useEffect(() => {
-    props.cacheActions.removeNoActionRequiredSweep()
+    props.analyticsActions.trackEvent({
+      key: Analytics.TRANSFER_FUNDS_MODAL_SHOWN,
+      properties: {}
+    })
   }, [])
+
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader closeButton={false}>

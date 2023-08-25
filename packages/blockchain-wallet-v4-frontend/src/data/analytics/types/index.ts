@@ -38,6 +38,10 @@ import {
   Events as OnboardingAndVerificationEvents,
   TrackEventAction as OnboardingAndVerificationTrackEventAction
 } from './onboardingAndVerification'
+import {
+  Events as RecommendedSweepEvents,
+  TrackEventAction as RecommendedSweepTrackEventAction
+} from './recommendedimportsweep'
 import { Events as SellEvents, TrackEventAction as SellTrackEventAction } from './sell'
 import {
   Events as SendCryptoEvents,
@@ -80,6 +84,7 @@ type AnalyticsKey =
   | BuyEvents
   | SellEvents
   | ExchangePromoEvents
+  | RecommendedSweepEvents
 
 const Analytics = {
   ...AccountRecoveryEvents,
@@ -93,6 +98,7 @@ const Analytics = {
   ...MiscEvents,
   ...NftsEvents,
   ...OnboardingAndVerificationEvents,
+  ...RecommendedSweepEvents,
   ...SendCryptoEvents,
   ...SwapEvents,
   ...TaxCenterEvents,
@@ -120,6 +126,7 @@ type TrackEventAction =
   | MiscTrackEventAction
   | NftsTrackEventAction
   | OnboardingAndVerificationTrackEventAction
+  | RecommendedSweepTrackEventAction
   | SendCryptoTrackEventAction
   | SwapTrackEventAction
   | TaxCenterTrackEventAction

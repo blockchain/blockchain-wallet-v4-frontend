@@ -16,7 +16,7 @@ import {
 } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
 
@@ -596,6 +596,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // payment = yield payment.publish()
         // yield put(actions.core.data.btc.fetchData())
         yield put(A.btcImportedFundsSweepSuccess(true))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.TRANSFER_FUNDS_SUCCESS,
+            properties: {}
+          })
+        )
         yield put(actions.router.push('/coins/BTC'))
         yield put(
           actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
@@ -612,6 +618,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
       yield put(A.btcImportedFundsSweepFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'sweepBtcFunds', e))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.TRANSFER_FUNDS_FAILURE,
+          properties: {}
+        })
+      )
     }
   }
   return {

@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -34,9 +34,17 @@ const RecommendedImportSweepContainer = (props: Props) => {
     props.sendBtcActions.btcImportedFundsSweep(btcAddressHasBalance!.map((item) => item.addr))
 
     // props.sendBchActions.bchImportedFundsSweep(bchAddressHasBalance!.map((item) => item.addr))
+    props.analyticsActions.trackEvent({
+      key: Analytics.TRANSFER_FUNDS_CLICKED,
+      properties: {}
+    })
   }
   if (isLoading || isNotAsked || error) return null
-  if (props.hideNoActionRequiredSweep) return null
+  if (
+    props.hideNoActionRequiredSweep?.guid === props.walletGuid &&
+    props.hideNoActionRequiredSweep?.seen
+  )
+    return null
   if (
     (data?.bchImports.length === 0 && data?.btcImports.length === 0) ||
     (btcAddressHasBalance?.length === 0 && bchAddressHasBalance?.length === 0)
@@ -57,10 +65,12 @@ const RecommendedImportSweepContainer = (props: Props) => {
 }
 
 const mapStateToProps = (state) => ({
-  hideNoActionRequiredSweep: selectors.cache.getNoActionRequiredSweep(state)
+  hideNoActionRequiredSweep: selectors.cache.getNoActionRequiredSweep(state),
+  walletGuid: selectors.core.wallet.getGuid(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),

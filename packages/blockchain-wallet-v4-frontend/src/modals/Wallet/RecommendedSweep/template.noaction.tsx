@@ -2,16 +2,24 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 
 import { Props as OwnProps } from '.'
 
 const NoActionRequired = (props: Props) => {
-  const { position, total } = props
+  const { position, total, walletGuid } = props
 
   useEffect(() => {
-    props.cacheActions.noActionRequiredSweep(true)
+    props.analyticsActions.trackEvent({
+      key: Analytics.NO_VULNERABLE_FUNDS_SHOWN,
+      properties: {}
+    })
   }, [])
+
+  const thanksClicked = () => {
+    props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)
+    props.cacheActions.noActionRequiredSweep({ guid: walletGuid, seen: true })
+  }
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -26,12 +34,7 @@ const NoActionRequired = (props: Props) => {
             defaultMessage='Good news: Your wallet does not contain any funds in potentially at-risk legacy addresses. No further action is needed.'
           />
         </Text>
-        <Button
-          data-e2e='upToDateThanks'
-          nature='primary'
-          fullwidth
-          onClick={() => props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)}
-        >
+        <Button data-e2e='upToDateThanks' nature='primary' fullwidth onClick={thanksClicked}>
           <FormattedMessage id='modals.uptodate.thanks' defaultMessage='Thanks!' />
         </Button>
       </ModalBody>
