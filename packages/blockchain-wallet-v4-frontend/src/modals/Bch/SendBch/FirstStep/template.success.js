@@ -59,6 +59,8 @@ const FirstStep = (props) => {
     from,
     handleBitPayInvoiceExpiration,
     handleSubmit,
+    importedAddressSweepFeatureFlag,
+    importedAddressSweepGetInfo,
     invalid,
     isMnemonicVerified,
     payPro,
@@ -70,7 +72,7 @@ const FirstStep = (props) => {
   } = props
   const isPayPro = !!payPro
   const isFromCustody = from && from.type === 'CUSTODIAL'
-
+  const excludeImportedAddresses = importedAddressSweepFeatureFlag && importedAddressSweepGetInfo
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin='15px' style={{ zIndex: 3 }}>
@@ -120,6 +122,7 @@ const FirstStep = (props) => {
                   component={SelectBoxBchAddresses}
                   dataE2e='sendBchAddressInput'
                   exclude={from ? [from.label] : []}
+                  excludeImported={excludeImportedAddresses}
                   includeAll={false}
                   includeExchangeAddress
                   isCreatable

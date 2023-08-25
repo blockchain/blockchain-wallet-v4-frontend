@@ -91,6 +91,8 @@ const FirstStep = (props) => {
     feePerByteElements,
     feePerByteToggled,
     from,
+    importedAddressSweepFeatureFlag,
+    importedAddressSweepGetInfo,
     isMnemonicVerified,
     payPro,
     priorityFeePerByte,
@@ -101,7 +103,7 @@ const FirstStep = (props) => {
   } = rest
   const isPayPro = !!payPro
   const isFromCustody = from && from.type === 'CUSTODIAL'
-
+  const excludeImportedAddresses = importedAddressSweepFeatureFlag && importedAddressSweepGetInfo
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin='15px' style={{ zIndex: 3 }}>
@@ -150,6 +152,7 @@ const FirstStep = (props) => {
                   component={SelectBoxBtcAddresses}
                   dataE2e='sendBtcAddressInput'
                   exclude={from ? [from.label] : []}
+                  excludeImported={excludeImportedAddresses}
                   includeAll={false}
                   includeExchangeAddress
                   isCreatable

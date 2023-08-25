@@ -6,3 +6,10 @@ export const REQUEST_ACCOUNTS_SELECTOR: CoinAccountSelectorType = {
   nonCustodialAccounts: true,
   tradingAccounts: true
 }
+
+// used for when we want to hide imported addresses
+export const REQUEST_ACCOUNTS_SELECTOR_NO_IMPORTED: CoinAccountSelectorType = {
+  importedAddresses: false,
+  nonCustodialAccounts: true,
+  tradingAccounts: true
+}

@@ -14,7 +14,9 @@ export const getData = createDeepEqualSelector(
     selectors.core.common.btc.getActiveAddresses,
     selectors.core.wallet.isMnemonicVerified,
     selectors.form.getFormValues(model.components.sendBtc.FORM),
-    selectors.components.sendBtc.getSendLimits
+    selectors.components.sendBtc.getSendLimits,
+    selectors.core.walletOptions.getImportedAddressSweep,
+    selectors.core.settings.getImportSweep
   ],
   (
     feePerByteToggled,
@@ -23,7 +25,9 @@ export const getData = createDeepEqualSelector(
     btcAddressesR,
     isMnemonicVerified,
     formValues,
-    sendLimitsR
+    sendLimitsR,
+    importedAddressSweepFeatureFlagR,
+    importedAddressSweepGetInfoR
   ) => {
     const btcAccountsLength = length(btcAccountsR.getOrElse([]))
     const btcAddressesLength = length(btcAddressesR.getOrElse([]))
@@ -34,6 +38,8 @@ export const getData = createDeepEqualSelector(
     const destination = prop('to', formValues)
     const from = prop('from', formValues)
     const sendLimits = sendLimitsR.getOrElse({})
+    const importedAddressSweepFeatureFlag = importedAddressSweepFeatureFlagR.getOrElse(false)
+    const importedAddressSweepGetInfo = importedAddressSweepGetInfoR.getOrElse(false)
 
     const transform = (payment) => {
       const regularFeePerByte = path(['fees', 'regular'], payment)
@@ -78,6 +84,8 @@ export const getData = createDeepEqualSelector(
         feePerByteElements,
         feePerByteToggled,
         from,
+        importedAddressSweepFeatureFlag,
+        importedAddressSweepGetInfo,
         isMnemonicVerified,
         maxFeePerByte,
         minFeePerByte,
