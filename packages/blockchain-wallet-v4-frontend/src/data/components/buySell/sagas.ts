@@ -486,8 +486,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // otherwise the order is probably in PENDING_DEPOSIT and so we should retry the fetch again
       const cardAttrs = ['needCvv', 'everypay', 'cardProvider', 'cardCassy']
       if (order.attributes) {
-        const foundOrder = cardAttrs.find((attr) => order.attributes?.[attr])
-        if (foundOrder) return foundOrder
+        const foundAttribute = cardAttrs.find((attr) => order.attributes?.[attr])
+        if (foundAttribute) return order
       }
     } catch (e) {
       if (isNabuError(e)) {
