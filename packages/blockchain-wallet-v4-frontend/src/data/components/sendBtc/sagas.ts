@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
 import { add, equals, identity, includes, isNil, nth, path, pathOr, prop } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
-import { all, call, delay, put, race, select, take } from 'redux-saga/effects'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
@@ -585,8 +585,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         payment = yield payment.init()
         payment = yield payment.from(addr, ADDRESS_TYPES.LEGACY)
-        payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT)
+        payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT, 17)
         const defaultFeePerByte = path(['fees', 'regular'], payment.value())
+        const { addressIndex } = payment.value().to[0]
+
         payment = yield payment.fee(defaultFeePerByte)
         const effectiveBalance = prop('effectiveBalance', payment.value())
         payment = yield payment.amount(parseInt(effectiveBalance))
@@ -594,22 +596,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // let password
         // payment = yield payment.sign(password)
         // payment = yield payment.publish()
-        // yield put(actions.core.data.btc.fetchData())
-        yield put(A.btcImportedFundsSweepSuccess(true))
-        yield put(
-          actions.analytics.trackEvent({
-            key: Analytics.TRANSFER_FUNDS_SUCCESS,
-            properties: {}
-          })
-        )
-        yield put(actions.router.push('/coins/BTC'))
-        yield put(
-          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
-            coinName: 'Bitcoin'
-          })
-        )
-        yield put(actions.modals.closeAllModals())
+        yield put(actions.core.data.btc.fetchData())
+        yield take(actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS)
+        yield put(A.setImportFundReceiveIndex(addressIndex))
       }
+      yield put(A.btcImportedFundsSweepSuccess(true))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.TRANSFER_FUNDS_SUCCESS,
+          properties: {}
+        })
+      )
+      yield put(actions.router.push('/coins/BTC'))
+      yield put(
+        actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+          coinName: 'Bitcoin'
+        })
+      )
+      yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(
         actions.alerts.displayError(C.SEND_COIN_ERROR, {

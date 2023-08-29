@@ -6,6 +6,7 @@ import * as AT from './actionTypes'
 import { SendBtcState } from './types'
 
 const INITIAL_STATE: SendBtcState = {
+  btcImportedFundsReceiveIndex: null,
   btcImportedFundsSweep: Remote.NotAsked,
   feePerByteToggled: false,
   maxCustodialWithdrawalFee: Remote.NotAsked,

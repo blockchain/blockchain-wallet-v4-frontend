@@ -46,13 +46,13 @@ export default ({ api }) => {
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
-  const __calculateTo = function* (destinations, type, network) {
+  const __calculateTo = function* (destinations, type, addressIndex, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
     // if address or account index
     if (isValidAddressOrIndex(destinations)) {
-      return [toOutput('BTC', network, appState, destinations, type)]
+      return [toOutput('BTC', network, appState, destinations, type, addressIndex)]
     }
 
     // if non-empty array of addresses or account indexes
@@ -258,7 +258,8 @@ export default ({ api }) => {
           init: () => chain(gen, (payment) => payment.init()),
           publish: () => chain(gen, (payment) => payment.publish()),
           sign: (password) => chain(gen, (payment) => payment.sign(password)),
-          to: (destinations, type) => chain(gen, (payment) => payment.to(destinations, type))
+          to: (destinations, type, addressIndex) =>
+            chain(gen, (payment) => payment.to(destinations, type, addressIndex))
         })
 
         return makeChain(function* () {
@@ -330,8 +331,8 @@ export default ({ api }) => {
         return makePayment(merge(p, { ...signed }))
       },
 
-      *to(destinations, type) {
-        const to = yield call(__calculateTo, destinations, type, network)
+      *to(destinations, type, addressIndex) {
+        const to = yield call(__calculateTo, destinations, type, addressIndex, network)
         return makePayment(merge(p, { to }))
       },
 
