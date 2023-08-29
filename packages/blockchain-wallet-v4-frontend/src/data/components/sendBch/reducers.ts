@@ -6,6 +6,7 @@ import * as AT from './actionTypes'
 import { SendBchState } from './types'
 
 const INITIAL_STATE: SendBchState = {
+  bchImportedFundsReceiveIndex: null,
   bchImportedFundsSweep: Remote.NotAsked,
   maxCustodialWithdrawalFee: Remote.NotAsked,
   payment: Remote.NotAsked,
@@ -63,6 +64,9 @@ export function sendBchReducer(state = INITIAL_STATE, action) {
     }
     case AT.SEND_BCH_IMPORTED_FUNDS_SWEEP_FAILURE: {
       return assoc('bchImportedFundsSweep', Remote.Failure(action.payload), state)
+    }
+    case AT.SET_IMPORT_FUNDS_RECEIVE_INDEX: {
+      return assoc('bchImportedFundsReceiveIndex', action.payload, state)
     }
     default:
       return state

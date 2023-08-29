@@ -583,11 +583,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           selectors.core.data.btc.getReceiveIndex(defaultAccount.xpub)
         )).getOrElse(0)
         const receiveIndexPrev = yield select(S.getImportFundsReceiveIndex)
+
+        const receiveIndex = receiveIndexPrev ? receiveIndexPrev + 1 : receiveIndexMultiaddr
+
         let payment = coreSagas.payment.btc.create({
           network: networks.btc
         })
-
-        const receiveIndex = receiveIndexPrev ? receiveIndexPrev + 1 : receiveIndexMultiaddr
 
         payment = yield payment.init()
         payment = yield payment.from(addr, ADDRESS_TYPES.LEGACY)
@@ -598,13 +599,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const effectiveBalance = prop('effectiveBalance', payment.value())
         payment = yield payment.amount(parseInt(effectiveBalance))
         payment = yield payment.build()
-        // let password
-        // payment = yield payment.sign(password)
-        // payment = yield payment.publish()
-        yield put(actions.core.data.btc.fetchData())
-        yield take(actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS)
+        let password
+        payment = yield payment.sign(password)
+        payment = yield payment.publish()
         yield put(A.setImportFundReceiveIndex(receiveIndex))
       }
+      yield put(actions.core.data.btc.fetchData())
       yield put(A.btcImportedFundsSweepSuccess(true))
       yield put(
         actions.analytics.trackEvent({
@@ -626,6 +626,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           properties: {}
         })
       )
+      yield put(A.setImportFundReceiveIndex(null))
     }
   }
   return {

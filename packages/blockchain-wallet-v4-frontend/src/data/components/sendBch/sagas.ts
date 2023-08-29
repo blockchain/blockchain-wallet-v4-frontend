@@ -455,6 +455,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         const defaultAccount = accounts.filter((acc) => acc.index === defaultIndex)[0]
 
+        const receiveIndexMultiaddr = (yield select(
+          selectors.core.data.bch.getReceiveIndex(defaultAccount.xpub)
+        )).getOrElse(0)
+        const receiveIndexPrev = yield select(S.getImportFundsReceiveIndex)
+
+        const receiveIndex = receiveIndexPrev ? receiveIndexPrev + 1 : receiveIndexMultiaddr
         let payment = coreSagas.payment.bch.create({
           network: networks.bch
         })
