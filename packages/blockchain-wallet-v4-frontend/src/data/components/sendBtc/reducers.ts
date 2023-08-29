@@ -69,6 +69,9 @@ export function sendBtcReducer(state = INITIAL_STATE, action) {
     case AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_FAILURE: {
       return assoc('btcImportedFundsSweep', Remote.Failure(action.payload), state)
     }
+    case AT.SET_IMPORT_FUNDS_RECEIVE_INDEX: {
+      return assoc('btcImportedFundsReceiveIndex', action.payload, state)
+    }
     default:
       return state
   }

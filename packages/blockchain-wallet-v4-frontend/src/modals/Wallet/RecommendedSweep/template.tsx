@@ -14,8 +14,7 @@ import {
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
-import Form from 'components/Form/Form'
-import { Analytics } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import { CoinIcon } from 'layouts/Wallet/components'
 
 import { Props as OwnProps } from '.'
@@ -57,14 +56,14 @@ const Body = styled(ModalBody)`
   margin: 24px 0 24px;
 `
 
-const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) => {
+const RecommendedImportedSweep = (props: Props) => {
   const {
     bchAddressHasBalance,
     bchLoading,
     btcAddressHasBalance,
     btcLoading,
-    handleSubmit,
     position,
+    sweepSuccess,
     total
   } = props
 
@@ -74,27 +73,44 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
       properties: {}
     })
   }, [])
-
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader closeButton={false}>
         <FormattedMessage id='modals.securitynotice.title' defaultMessage='Security Notice' />
       </ModalHeader>
-      {btcLoading || bchLoading ? (
+      {(btcLoading || bchLoading) && (
         <Body>
           <SpinningLoader />
         </Body>
-      ) : (
+      )}
+      {sweepSuccess && (
         <ModalBody>
-          <Form onSubmit={handleSubmit}>
-            <Text size='14px' weight={400} lineHeight='1.5'>
-              <FormattedMessage
-                id='modals.securitynotice.para1'
-                defaultMessage='The following legacy addresses have been identified as likely to be vulnerable to a security issue. To secure these funds, click the ‘Transfer Funds’ button below. This will move the funds from the legacy addresses into new, secure addresses in your DeFi wallet.'
-              />
-            </Text>
-            <Container>
-              {/* {btcAddressHasBalance && (
+          <Text size='16px' weight={400} lineHeight='1.5' style={{ marginBottom: '16px' }}>
+            <FormattedMessage
+              id='modals.success.body'
+              defaultMessage='All funds held in legacy addresses have been successfully transferred to new, secure addresses in your DeFi Wallet.'
+            />
+          </Text>
+          <Button
+            data-e2e='upToDateThanks'
+            nature='primary'
+            fullwidth
+            onClick={() => props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)}
+          >
+            <FormattedMessage id='modals.uptodate.thanks' defaultMessage='Thanks!' />
+          </Button>
+        </ModalBody>
+      )}
+      {!btcLoading && !bchLoading && !sweepSuccess && (
+        <ModalBody>
+          <Text size='14px' weight={400} lineHeight='1.5'>
+            <FormattedMessage
+              id='modals.securitynotice.para1'
+              defaultMessage='The following legacy addresses have been identified as likely to be vulnerable to a security issue. To secure these funds, click the ‘Transfer Funds’ button below. This will move the funds from the legacy addresses into new, secure addresses in your DeFi wallet.'
+            />
+          </Text>
+          <Container>
+            {/* {btcAddressHasBalance && (
                     <Row style={{ marginBottom: '8px' }}>
                       <Text>
                         <FormattedMessage
@@ -109,25 +125,25 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                       </Text>
                     </Row>
                   )} */}
-              {btcAddressHasBalance?.map((addr) => (
-                <Row key={addr.addr} style={{ marginBottom: '8px' }}>
-                  <IconRow>
-                    <CoinIcon name='BTC' size='16px' />
-                    <Text size='14px' weight={500}>
-                      {addr.addr}
-                    </Text>
-                  </IconRow>
-                  <Text size='14px' weight={400}>
-                    {Exchange.convertCoinToCoin({
-                      baseToStandard: true,
-                      coin: 'BTC',
-                      value: addr.info.final_balance
-                    })}{' '}
-                    BTC
+            {btcAddressHasBalance?.map((addr) => (
+              <Row key={addr.addr} style={{ marginBottom: '8px' }}>
+                <IconRow>
+                  <CoinIcon name='BTC' size='16px' />
+                  <Text size='14px' weight={500}>
+                    {addr.addr}
                   </Text>
-                </Row>
-              ))}
-              {/* {bchAddressHasBalance && (
+                </IconRow>
+                <Text size='14px' weight={400}>
+                  {Exchange.convertCoinToCoin({
+                    baseToStandard: true,
+                    coin: 'BTC',
+                    value: addr.info.final_balance
+                  })}{' '}
+                  BTC
+                </Text>
+              </Row>
+            ))}
+            {/* {bchAddressHasBalance && (
                     <Row style={{ marginBottom: '8px' }}>
                       <Text>
                         <FormattedMessage
@@ -141,42 +157,38 @@ const RecommendedImportedSweep = (props: InjectedFormProps<{}, Props> & Props) =
                       </Text>
                     </Row>
                   )} */}
-              {bchAddressHasBalance?.map((addr) => (
-                <Row key={addr.addr} style={{ marginBottom: '8px' }}>
-                  <IconRow>
-                    <CoinIcon name='BCH' size='16px' />
-                    <Text size='14px' weight={500}>
-                      {addr.addr}
-                    </Text>
-                  </IconRow>
-                  <Text size='14px' weight={400}>
-                    {Exchange.convertCoinToCoin({
-                      baseToStandard: true,
-                      coin: 'BCH',
-                      value: addr.info.final_balance
-                    })}{' '}
-                    BCH
+            {bchAddressHasBalance?.map((addr) => (
+              <Row key={addr.addr} style={{ marginBottom: '8px' }}>
+                <IconRow>
+                  <CoinIcon name='BCH' size='16px' />
+                  <Text size='14px' weight={500}>
+                    {addr.addr}
                   </Text>
-                </Row>
-              ))}
-            </Container>
-            <Button
-              data-e2e='recommendedSweepSubmit'
-              nature='primary'
-              fullwidth
-              type='submit'
-              disabled={props.submitting}
-            >
-              {props.submitting ? (
-                <HeartbeatLoader height='20px' width='20px' color='white' />
-              ) : (
-                <FormattedMessage
-                  id='modals.transfereth.confirm1'
-                  defaultMessage='Transfer Funds'
-                />
-              )}
-            </Button>
-          </Form>
+                </IconRow>
+                <Text size='14px' weight={400}>
+                  {Exchange.convertCoinToCoin({
+                    baseToStandard: true,
+                    coin: 'BCH',
+                    value: addr.info.final_balance
+                  })}{' '}
+                  BCH
+                </Text>
+              </Row>
+            ))}
+          </Container>
+          <Button
+            data-e2e='recommendedSweepSubmit'
+            nature='primary'
+            fullwidth
+            onClick={props.handleSubmit}
+            disabled={props.btcLoading || props.bchLoading}
+          >
+            {props.btcLoading || props.bchLoading ? (
+              <HeartbeatLoader height='20px' width='20px' color='white' />
+            ) : (
+              <FormattedMessage id='modals.transfereth.confirm1' defaultMessage='Transfer Funds' />
+            )}
+          </Button>
         </ModalBody>
       )}
     </Modal>
@@ -188,8 +200,9 @@ type Props = {
   bchLoading: boolean
   btcAddressHasBalance?: ImportedAddrType[]
   btcLoading: boolean
+  handleSubmit: () => void
   position: number
   total: number
 } & OwnProps
 
-export default reduxForm<{}, Props>({ form: 'recommendedImportSweep' })(RecommendedImportedSweep)
+export default RecommendedImportedSweep

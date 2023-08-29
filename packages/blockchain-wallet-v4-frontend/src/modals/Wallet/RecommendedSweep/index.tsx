@@ -39,7 +39,8 @@ const RecommendedImportSweepContainer = (props: Props) => {
       properties: {}
     })
   }
-  if (isLoading || isNotAsked || error) return null
+  if (isNotAsked || error) return null
+
   if (
     props.hideNoActionRequiredSweep?.guid === props.walletGuid &&
     props.hideNoActionRequiredSweep?.seen
@@ -59,13 +60,14 @@ const RecommendedImportSweepContainer = (props: Props) => {
       btcLoading={btcLoading}
       bchAddressHasBalance={bchAddressHasBalance}
       bchLoading={bchLoading}
-      onSubmit={handleSubmit}
+      handleSubmit={handleSubmit}
     />
   )
 }
 
 const mapStateToProps = (state) => ({
   hideNoActionRequiredSweep: selectors.cache.getNoActionRequiredSweep(state),
+  sweepSuccess: selectors.components.sendBtc.getBtcImportedFundsSweep(state).getOrElse(false),
   walletGuid: selectors.core.wallet.getGuid(state)
 })
 

@@ -579,15 +579,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         const defaultAccount = accounts.filter((acc) => acc.index === defaultIndex)[0]
 
+        const receiveIndexMultiaddr = (yield select(
+          selectors.core.data.btc.getReceiveIndex(defaultAccount.xpub)
+        )).getOrElse(0)
+        const receiveIndexPrev = yield select(S.getImportFundsReceiveIndex)
         let payment = coreSagas.payment.btc.create({
           network: networks.btc
         })
 
+        const receiveIndex = receiveIndexPrev ? receiveIndexPrev + 1 : receiveIndexMultiaddr
+
         payment = yield payment.init()
         payment = yield payment.from(addr, ADDRESS_TYPES.LEGACY)
-        payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT, 17)
+        payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT, receiveIndex)
         const defaultFeePerByte = path(['fees', 'regular'], payment.value())
-        const { addressIndex } = payment.value().to[0]
 
         payment = yield payment.fee(defaultFeePerByte)
         const effectiveBalance = prop('effectiveBalance', payment.value())
@@ -598,7 +603,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // payment = yield payment.publish()
         yield put(actions.core.data.btc.fetchData())
         yield take(actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS)
-        yield put(A.setImportFundReceiveIndex(addressIndex))
+        yield put(A.setImportFundReceiveIndex(receiveIndex))
       }
       yield put(A.btcImportedFundsSweepSuccess(true))
       yield put(
@@ -607,13 +612,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           properties: {}
         })
       )
-      yield put(actions.router.push('/coins/BTC'))
-      yield put(
-        actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
-          coinName: 'Bitcoin'
-        })
-      )
-      yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(
         actions.alerts.displayError(C.SEND_COIN_ERROR, {
