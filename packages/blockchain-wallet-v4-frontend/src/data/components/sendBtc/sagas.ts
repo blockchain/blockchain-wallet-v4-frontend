@@ -599,9 +599,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const effectiveBalance = prop('effectiveBalance', payment.value())
         payment = yield payment.amount(parseInt(effectiveBalance))
         payment = yield payment.build()
-        let password
-        payment = yield payment.sign(password)
-        payment = yield payment.publish()
+        // let password
+        // payment = yield payment.sign(password)
+        // payment = yield payment.publish()
         yield put(A.setImportFundReceiveIndex(receiveIndex))
       }
       yield put(actions.core.data.btc.fetchData())

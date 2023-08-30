@@ -10,6 +10,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { ModalPropsType } from '../../types'
 import { getData } from './selectors'
 import RecommendedImportedSweep from './template'
+import Error from './template.error'
 import NoActionRequired from './template.noaction'
 
 const RecommendedImportSweepContainer = (props: Props) => {
@@ -51,6 +52,9 @@ const RecommendedImportSweepContainer = (props: Props) => {
     (btcAddressHasBalance?.length === 0 && bchAddressHasBalance?.length === 0)
   ) {
     return <NoActionRequired {...props} />
+  }
+  if (btcError || bchError) {
+    return <Error handleSubmit={handleSubmit} {...props} />
   }
 
   return (
