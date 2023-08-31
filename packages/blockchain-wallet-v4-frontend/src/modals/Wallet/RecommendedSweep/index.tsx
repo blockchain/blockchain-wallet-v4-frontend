@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
+import { Remote } from '@core'
 import { actions, selectors } from 'data'
 import { Analytics, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
@@ -30,18 +31,19 @@ const RecommendedImportSweepContainer = (props: Props) => {
 
   const btcAddressHasBalance = data?.btcImports.filter((addr) => addr.info.final_balance > DUST)
   const bchAddressHasBalance = data?.bchImports.filter((addr) => addr.info.final_balance > DUST)
+  const sweepSuccess = props.btcSweepSuccess && props.bchSweepSuccess
 
   const handleSubmit = () => {
     props.sendBtcActions.btcImportedFundsSweep(btcAddressHasBalance!.map((item) => item.addr))
 
-    // props.sendBchActions.bchImportedFundsSweep(bchAddressHasBalance!.map((item) => item.addr))
+    props.sendBchActions.bchImportedFundsSweep(bchAddressHasBalance!.map((item) => item.addr))
     props.analyticsActions.trackEvent({
       key: Analytics.TRANSFER_FUNDS_CLICKED,
       properties: {}
     })
   }
-  if (isNotAsked || error) return null
 
+  if (isNotAsked || error) return null
   if (
     props.hideNoActionRequiredSweep?.guid === props.walletGuid &&
     props.hideNoActionRequiredSweep?.seen
@@ -54,7 +56,7 @@ const RecommendedImportSweepContainer = (props: Props) => {
     return <NoActionRequired {...props} />
   }
   if (btcError || bchError) {
-    return <Error handleSubmit={handleSubmit} {...props} />
+    return <Error handleSubmit={handleSubmit} {...props} btcError={btcError} />
   }
 
   return (
@@ -65,13 +67,15 @@ const RecommendedImportSweepContainer = (props: Props) => {
       bchAddressHasBalance={bchAddressHasBalance}
       bchLoading={bchLoading}
       handleSubmit={handleSubmit}
+      sweepSuccess={sweepSuccess}
     />
   )
 }
 
 const mapStateToProps = (state) => ({
+  bchSweepSuccess: selectors.components.sendBch.getBchImportedFundsSweep(state).getOrElse(false),
+  btcSweepSuccess: selectors.components.sendBtc.getBtcImportedFundsSweep(state).getOrElse(false),
   hideNoActionRequiredSweep: selectors.cache.getNoActionRequiredSweep(state),
-  sweepSuccess: selectors.components.sendBtc.getBtcImportedFundsSweep(state).getOrElse(false),
   walletGuid: selectors.core.wallet.getGuid(state)
 })
 

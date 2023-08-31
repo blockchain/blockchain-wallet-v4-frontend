@@ -568,6 +568,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const btcImportedFundsSweepEffectiveBalance = function* (action) {
+    try {
+      const addressesR = yield select(selectors.core.common.btc.getActiveAddresses)
+      const addresses = addressesR.getOrElse([]).filter(prop('priv')).map(prop('addr'))
+    } catch (e) {}
+  }
+
   const btcImportedFundsSweep = function* (action) {
     const { payload } = action
     yield put(A.btcImportedFundsSweepLoading())
@@ -602,7 +609,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // let password
         // payment = yield payment.sign(password)
         // payment = yield payment.publish()
-        yield put(A.setImportFundReceiveIndex(receiveIndex))
+        yield put(A.setImportFundsReceiveIndex(receiveIndex))
       }
       yield put(actions.core.data.btc.fetchData())
       yield put(A.btcImportedFundsSweepSuccess(true))
@@ -626,12 +633,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           properties: {}
         })
       )
-      yield put(A.setImportFundReceiveIndex(null))
+      yield put(A.setImportFundsReceiveIndex(null))
     }
   }
   return {
     bitpayInvoiceExpired,
     btcImportedFundsSweep,
+    btcImportedFundsSweepEffectiveBalance,
     destroyed,
     fetchSendLimits,
     firstStepSubmitClicked,

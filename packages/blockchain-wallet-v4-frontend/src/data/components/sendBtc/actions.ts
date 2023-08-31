@@ -34,9 +34,14 @@ export const btcImportedFundsSweepSuccess = (payload) => ({
   type: AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_SUCCESS
 })
 
-export const setImportFundReceiveIndex = (index: number | null) => ({
+export const setImportFundsReceiveIndex = (index: number | null) => ({
   payload: index,
   type: AT.SET_IMPORT_FUNDS_RECEIVE_INDEX
+})
+
+export const btcImportedFundsSweepEffectiveBalance = (importedAddress: string[]) => ({
+  payload: importedAddress,
+  type: AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_EFFECTIVE_BALANCE
 })
 
 export const sendBtcPaymentUpdatedSuccess = (payment: PaymentValue) => ({

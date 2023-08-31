@@ -467,7 +467,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
         payment = yield payment.init()
         payment = yield payment.from(addr, ADDRESS_TYPES.LEGACY)
-        payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT)
+        payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT, receiveIndex)
 
         payment = yield payment.fee('regular')
         const effectiveBalance = prop('effectiveBalance', payment.value())
@@ -476,22 +476,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         let password
         payment = yield payment.sign(password)
         payment = yield payment.publish()
-        yield put(actions.core.data.bch.fetchData())
-        yield put(actions.router.push('/coins/BCH'))
-        yield put(
-          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
-            coinName: 'Bitcoin Cash'
-          })
-        )
+        yield put(A.setImportFundsReceiveIndex(receiveIndex))
         yield put(
           actions.analytics.trackEvent({
             key: Analytics.TRANSFER_FUNDS_SUCCESS,
             properties: {}
           })
         )
-        yield put(A.bchImportedFundsSweepSuccess(true))
-        yield put(actions.modals.closeAllModals())
       }
+      yield put(actions.core.data.bch.fetchData())
+      yield put(A.bchImportedFundsSweepSuccess(true))
     } catch (e) {
       yield put(A.bchImportedFundsSweepFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'sweepBchFunds', e))
@@ -506,6 +500,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           properties: {}
         })
       )
+      yield put(A.setImportFundsReceiveIndex(null))
     }
   }
 

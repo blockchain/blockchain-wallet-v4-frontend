@@ -109,21 +109,6 @@ const RecommendedImportedSweep = (props: Props) => {
             />
           </Text>
           <Container>
-            {/* {btcAddressHasBalance && (
-                    <Row style={{ marginBottom: '8px' }}>
-                      <Text>
-                        <FormattedMessage
-                          id='modals.recommendedsweep.btcaddress'
-                          defaultMessage='BTC'
-                        />
-                      </Text>
-
-                      <Text>
-                        {' '}
-                        <FormattedMessage id='copy.balance' defaultMessage='Balance' />
-                      </Text>
-                    </Row>
-                  )} */}
             {btcAddressHasBalance?.map((addr) => (
               <Row key={addr.addr} style={{ marginBottom: '8px' }}>
                 <IconRow>
@@ -142,20 +127,7 @@ const RecommendedImportedSweep = (props: Props) => {
                 </Text>
               </Row>
             ))}
-            {/* {bchAddressHasBalance && (
-                    <Row style={{ marginBottom: '8px' }}>
-                      <Text>
-                        <FormattedMessage
-                          id='modals.recommendedsweep.bchaddress'
-                          defaultMessage='BCH'
-                        />
-                      </Text>
-                      <Text>
-                        {' '}
-                        <FormattedMessage id='copy.balance' defaultMessage='Balance' />
-                      </Text>
-                    </Row>
-                  )} */}
+
             {bchAddressHasBalance?.map((addr) => (
               <Row key={addr.addr} style={{ marginBottom: '8px' }}>
                 <IconRow>
@@ -201,6 +173,7 @@ type Props = {
   btcLoading: boolean
   handleSubmit: () => void
   position: number
+  sweepSuccess: boolean | string
   total: number
 } & OwnProps
 

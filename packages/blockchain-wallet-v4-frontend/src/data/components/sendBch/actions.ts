@@ -102,7 +102,7 @@ export const bchImportedFundsSweepSuccess = (payload) => ({
   type: AT.SEND_BCH_IMPORTED_FUNDS_SWEEP_SUCCESS
 })
 
-export const setImportFundsReceiveIndex = (index: number) => ({
+export const setImportFundsReceiveIndex = (index: number | null) => ({
   payload: index,
   type: AT.SET_IMPORT_FUNDS_RECEIVE_INDEX
 })
