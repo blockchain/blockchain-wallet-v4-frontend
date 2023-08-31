@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
+import { Image, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 
 import { QRModalType } from '../SignupCard'
-import bgImage from './ModalBackground.svg'
 
 const ANDROID_URL = 'https://play.google.com/store/apps/details?id=piuk.blockchain.android'
 const IOS_URL = 'https://apps.apple.com/us/app/blockchain-wallet-buy-bitcoin/id493253309'
@@ -46,7 +45,7 @@ type Props = {
 
 const QRsModal: React.FC<Props> = ({ onClose, platform }) => (
   <QRModal doNotHide size='medium'>
-    <img src={bgImage} alt='QR code app download background' />
+    <Image name='backgorund-modal-gradient' />
     <QRModalHeader onClose={onClose} />
     <QRModalBody>
       <Text color='white' size='1.5rem' weight={600} lineHeight='1.5'>
