@@ -4,8 +4,6 @@ import styled from 'styled-components'
 import { Image, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 
-import { QRModalType } from '../SignupCard'
-
 const ANDROID_URL = 'https://play.google.com/store/apps/details?id=piuk.blockchain.android'
 const IOS_URL = 'https://apps.apple.com/us/app/blockchain-wallet-buy-bitcoin/id493253309'
 
@@ -37,6 +35,8 @@ const QRModalBody = styled(ModalBody)`
     margin-top: 1rem;
   }
 `
+
+export type QRModalType = 'iOS' | 'Android'
 
 type Props = {
   onClose: () => void

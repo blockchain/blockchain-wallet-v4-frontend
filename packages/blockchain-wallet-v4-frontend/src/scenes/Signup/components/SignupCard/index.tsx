@@ -19,7 +19,7 @@ import {
   PaddingWrapper
 } from '..'
 import SignupForm from '../SignupForm'
-import QRsModal from '../SignupForm/QRsModal'
+import QRsModal, { QRModalType } from '../SignupForm/QRsModal'
 
 const AppButtons = styled.footer<{ showForm: boolean }>`
   display: flex;
@@ -47,8 +47,6 @@ const Bottom = styled.div`
 const LinkAccountSpacer = styled.div`
   height: 1rem;
 `
-
-export type QRModalType = 'iOS' | 'Android'
 
 const SignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
   const {

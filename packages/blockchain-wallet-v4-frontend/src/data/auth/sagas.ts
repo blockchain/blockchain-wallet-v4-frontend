@@ -45,7 +45,7 @@ import {
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { createExchangeUser, createUser } = profileSagas({
+  const { createExchangeUser, createUser, waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
@@ -335,7 +335,25 @@ export default ({ api, coreSagas, networks }) => {
         )
       }
       // check if dex is eligible
+      yield call(waitForUserData)
       yield put(actions.components.dex.fetchUserEligibility())
+      yield put(actions.custodial.fetchProductEligibilityForUser())
+
+      yield take([
+        actions.custodial.fetchProductEligibilityForUserSuccess.type,
+        actions.custodial.fetchProductEligibilityForUserFailure.type
+      ])
+
+      const userElegibility = selectors.custodial
+        .getProductEligibilityForUser(yield select())
+        .getOrElse({
+          useExternalTradingAccount: { enabled: false }
+        })
+
+      if (userElegibility.useExternalTradingAccount.enabled === false) {
+        return yield put(actions.router.push('/continue-on-phone'))
+      }
+
       const guid = yield select(selectors.core.wallet.getGuid)
       if (firstLogin && !isAccountReset && !recovery) {
         // create nabu user
@@ -385,12 +403,6 @@ export default ({ api, coreSagas, networks }) => {
           if (!verifiedTwoFa) {
             yield put(actions.router.push('/setup-two-factor'))
           } else {
-            yield put(actions.custodial.fetchProductEligibilityForUser())
-            yield take([
-              actions.custodial.fetchProductEligibilityForUserSuccess.type,
-              actions.custodial.fetchProductEligibilityForUserFailure.type
-            ])
-
             const products = selectors.custodial
               .getProductEligibilityForUser(yield select())
               .getOrElse({

@@ -44,6 +44,7 @@ const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
 // need to be authed to see this, but uses public layout
+const ContinueOnPhone = React.lazy(() => import('./ContinueOnPhone'))
 const TwoStepVerification = React.lazy(() => import('./TwoStepVerification'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
 const UploadDocumentsForDebitCards = React.lazy(() => import('./UploadDocumentsForDebitCards'))
@@ -134,6 +135,11 @@ const App = ({
                                 path='/account-recovery'
                                 component={VerifyAccountRecovery}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Recovery`}
+                              />
+                              <AuthLayout
+                                path='/continue-on-phone'
+                                component={ContinueOnPhone}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | Continue on your phone`}
                               />
                               <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
                               <AuthLayout
