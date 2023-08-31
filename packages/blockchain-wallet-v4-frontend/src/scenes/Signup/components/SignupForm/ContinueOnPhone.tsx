@@ -1,5 +1,4 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -14,9 +13,10 @@ const ContinueOnPhoneCard = styled(Card)`
 `
 const ButtonsContainer = styled.div`
   display: flex;
-  width: 100%;
-  justify-content: space-around;
-  align-items: center;
+
+  > button:first-of-type {
+    margin-right: 0.5rem;
+  }
 `
 
 type Props = {
