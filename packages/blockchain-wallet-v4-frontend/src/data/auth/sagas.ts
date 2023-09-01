@@ -344,13 +344,14 @@ export default ({ api, coreSagas, networks }) => {
         actions.custodial.fetchProductEligibilityForUserFailure.type
       ])
 
-      const userElegibility = selectors.custodial
+      const userEligibility = selectors.custodial
         .getProductEligibilityForUser(yield select())
         .getOrElse({
           useExternalTradingAccount: { enabled: false }
         })
 
-      if (userElegibility.useExternalTradingAccount.enabled === false) {
+      // Bakkt related flag - if enabled, user needs to continue on phone
+      if (userEligibility.useExternalTradingAccount.enabled) {
         return yield put(actions.router.push('/continue-on-phone'))
       }
 
