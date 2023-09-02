@@ -196,11 +196,7 @@ const SignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
               </Bottom>
             </AppButtons>
           )}
-          {isExchangeMobileSignup ? (
-            <Bottom />
-          ) : (
-            <LoginLink analyticsActions={props.analyticsActions} unified={props.unified} />
-          )}
+          {isExchangeMobileSignup ? <Bottom /> : <LoginLink />}
         </Card>
       </CardWrapper>
     </>

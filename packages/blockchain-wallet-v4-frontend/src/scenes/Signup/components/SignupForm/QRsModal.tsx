@@ -45,7 +45,7 @@ type Props = {
 
 const QRsModal: React.FC<Props> = ({ onClose, platform }) => (
   <QRModal doNotHide size='medium'>
-    <Image name='backgorund-modal-gradient' />
+    <Image name='background-modal-gradient' />
     <QRModalHeader onClose={onClose} />
     <QRModalBody>
       <Text color='white' size='1.5rem' weight={600} lineHeight='1.5'>

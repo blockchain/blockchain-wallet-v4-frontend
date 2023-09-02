@@ -199,7 +199,7 @@ const Images = {
   'apple-app-store-badge': appleAppStoreBadge,
   'apple-pay': applePay,
   'arrow-left': arrowLeft,
-  'backgorund-modal-gradient': bgModalGradient,
+  'background-modal-gradient': bgModalGradient,
   bank,
   'bank-empty': bankEmpty,
   'bank-empty-blue': bankEmptyBlue,

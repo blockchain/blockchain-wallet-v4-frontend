@@ -54,7 +54,11 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
   return props.walletLoginData.cata({
     Failure: (error) =>
       error === 4 && isExchangeMobileSignup ? (
-        <ExchangeMobileUserConflict {...props} />
+        <ExchangeMobileUserConflict
+          authActions={props.authActions}
+          email={props.email}
+          showExchangeLoginButton={props.showExchangeLoginButton}
+        />
       ) : (
         <Error error={error} />
       ),
@@ -62,17 +66,17 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
     NotAsked: () => {
       if (isMetadataRecovery) {
         props.routerActions.push('/home')
-        return null
+      } else {
+        props.routerActions.push('/login?product=exchange')
       }
-      props.routerActions.push('/login?product=exchange')
       return null
     },
     Success: () =>
       showExchangeUserConflict ? (
-        <ExchangeUserConflict {...props} walletRedirect={walletRedirect} />
+        <ExchangeUserConflict email={props.email} walletRedirect={walletRedirect} />
       ) : (
         <ProductPicker
-          {...props}
+          isAccountReset={props.isAccountReset}
           walletRedirect={walletRedirect}
           exchangeRedirect={exchangeRedirect}
         />
@@ -80,10 +84,9 @@ const ProductPickerContainer: React.FC<Props> = (props) => {
   })
 }
 const mapStateToProps = (state) => ({
-  appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
   email: selectors.signup.getRegisterEmail(state) as string,
   exchangeUserConflict: selectors.auth.getExchangeConflictStatus(state) as boolean,
-  isAccountReset: selectors.signup.getAccountReset(state) as boolean,
+  isAccountReset: selectors.signup.getAccountReset(state),
   isMetadataRecoveryR: selectors.signup.getMetadataRestore(state),
   products: selectors.custodial.getProductEligibilityForUser(state).getOrElse({
     notifications: []
@@ -98,7 +101,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
-  miscActions: bindActionCreators(actions.core.data.misc, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
   runGoals: () => dispatch(actions.goals.runGoals()),

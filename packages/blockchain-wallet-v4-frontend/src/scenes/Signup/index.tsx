@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { find, pathOr, propEq } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
-import { RemoteDataType, WalletOptionsType } from '@core/types'
+import { RemoteDataType } from '@core/types'
 import { Image } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -16,7 +15,7 @@ import BuyGoal from './BuyGoal'
 import Header from './components/Header'
 import SignupCard from './components/SignupCard'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
-import { GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
+import { GoalDataType, SignupFormType } from './types'
 
 const SignupWrapper = styled.div`
   display: flex;
@@ -77,7 +76,7 @@ class SignupContainer extends React.PureComponent<
   }
 
   onCountryChange = (e: React.ChangeEvent<HTMLInputElement> | undefined, value: string) => {
-    this.setDefaultCountry(value)
+    this.setShowState(value)
     this.props.formActions.clearFields(SIGNUP_FORM, false, false, 'state')
   }
 
@@ -97,11 +96,11 @@ class SignupContainer extends React.PureComponent<
   }
 
   setCountryOnLoad = (country: string) => {
-    this.setDefaultCountry(country)
+    this.setShowState(country)
     this.props.formActions.change(SIGNUP_FORM, 'country', country)
   }
 
-  setDefaultCountry = (country: string) => {
+  setShowState = (country: string) => {
     this.setState({ showState: country === 'US' })
   }
 
@@ -113,14 +112,9 @@ class SignupContainer extends React.PureComponent<
     const { goals, isLoadingR } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
 
-    // pull email from simple buy goal if it exists or signup goal
-    const email =
-      pathOr('', ['data', 'email'], find(propEq('name', 'buySell'), goals)) ||
-      pathOr('', ['data', 'email'], find(propEq('name', 'signup'), goals))
+    const isLinkAccountGoal = !!goals.find((goal) => goal.name === 'linkAccount')
 
-    const signupInitialValues = (email ? { email } : {}) as SignupFormInitValuesType
-    const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
-    const isBuyGoal = !!find(propEq('name', 'buySell'), goals)
+    const isBuyGoal = !!goals.find((goal) => goal.name === 'buySell')
 
     const subviewProps = {
       isFormSubmitting,
@@ -131,8 +125,7 @@ class SignupContainer extends React.PureComponent<
       showForm: this.state.showForm,
       showState: this.state.showState,
       toggleSignupFormVisibility: this.toggleSignupFormVisibility,
-      ...this.props, // order here matters as we may need to override initial form values!
-      initialValues: signupInitialValues
+      ...this.props
     }
 
     return (
@@ -155,16 +148,9 @@ class SignupContainer extends React.PureComponent<
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  domains: selectors.core.walletOptions.getDomains(state).getOrElse({
-    exchange: 'https://exchange.blockchain.com'
-  } as WalletOptionsType['domains']),
   formValues: selectors.form.getFormValues(SIGNUP_FORM)(state) as SignupFormType,
   goals: selectors.goals.getGoals(state) as GoalDataType,
   isLoadingR: selectors.signup.getRegistering(state) as RemoteDataType<string, undefined>,
-  isReferralEnabled: selectors.core.walletOptions
-    .getReferralEnabled(state)
-    .getOrElse(false) as boolean,
-  isValidReferralCode: selectors.signup.getIsValidReferralCode(state),
   language: selectors.preferences.getLanguage(state),
   search: selectors.router.getSearch(state) as string,
   signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata,
@@ -172,8 +158,6 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   signupActions: bindActionCreators(actions.signup, dispatch),
@@ -183,12 +167,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
-  domains: WalletOptionsType['domains']
   formValues: SignupFormType
   goals: GoalDataType
   isLoadingR: RemoteDataType<string, undefined>
-  isReferralEnabled: boolean
-  isValidReferralCode?: boolean
   language: string
   search: string
   signupMetadata: ProductSignupMetadata

@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
+import { getReferralEnabled } from '@core/redux/walletOptions/selectors'
 import { CountryScope } from '@core/types'
 import { Button, HeartbeatLoader, Text, TextGroup } from 'blockchain-info-components'
 import CheckBox from 'components/Form/CheckBox'
@@ -15,7 +17,8 @@ import PasswordBox from 'components/Form/PasswordBox'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
-import { CountryType, SignUpGoalDataType, StateType } from 'data/types'
+import { getIsValidReferralCode } from 'data/signup/selectors'
+import { CountryType, StateType } from 'data/types'
 import { useCountryList, useUSStateList } from 'hooks'
 import {
   required,
@@ -31,7 +34,7 @@ import {
 import { applyToUpperCase } from 'services/forms/normalizers'
 
 import { SIGNUP_FORM } from '../..'
-import { SubviewProps } from '../../types'
+import { SignupFormInitValuesType, SubviewProps } from '../../types'
 import ContinueOnPhone from './ContinueOnPhone'
 
 const StyledForm = styled(Form)`
@@ -96,19 +99,19 @@ const SignupForm = (props: Props) => {
     formActions,
     formValues,
     goals,
-    initialValues,
     invalid,
     isFormSubmitting,
-    isReferralEnabled,
-    isValidReferralCode,
     onCountrySelect,
     onSignupSubmit,
     setShowModal,
     showState
   } = props
 
-  const passwordValue = formValues?.password || ''
-  const referralValue = formValues?.referral || ''
+  const isReferralEnabled = useSelector(getReferralEnabled).getOrElse(false)
+  const isValidReferralCode = useSelector(getIsValidReferralCode)
+
+  const passwordValue = formValues?.password ?? ''
+  const referralValue = formValues?.referral ?? ''
   const isStateTexas = formValues?.state === 'US-TX'
 
   const showReferralError =
@@ -116,14 +119,20 @@ const SignupForm = (props: Props) => {
 
   const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
   const { data: supportedUSStates } = useUSStateList()
-  const dataGoal = goals.find((g) => g.name === 'signup')
-  const { email }: SignUpGoalDataType = dataGoal?.data || {}
+
+  const buySellGoal = goals.find((goal) => goal.name === 'buySell')
+  const singupGoal = goals.find((goal) => goal.name === 'signup')
+
+  const signupEmail = singupGoal?.data?.email
+  const initialEmail = buySellGoal?.data?.email ?? signupEmail
+
+  const initialValues = (initialEmail ? { email: initialEmail } : {}) as SignupFormInitValuesType
 
   useEffect(() => {
-    if (email) {
-      formActions.change(SIGNUP_FORM, 'email', email)
+    if (signupEmail) {
+      formActions.change(SIGNUP_FORM, 'email', signupEmail)
     }
-  }, [formActions, email])
+  }, [formActions, signupEmail])
 
   if (!supportedCountries?.countries || !supportedUSStates?.states) {
     return <></>

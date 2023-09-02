@@ -8,13 +8,7 @@ export type SignupFormInitValuesType = {
   country?: string
   email?: string
 }
-export type GeoLocationType = {
-  countryCode: string
-  headerBlockchainCFIpCountry: string
-  headerBlockchainGoogleIpCountry: string
-  headerBlockchainGoogleIpRegion: string
-  ip: string
-}
+
 export type SignupFormType = {
   country: string
   email: string
@@ -23,7 +17,13 @@ export type SignupFormType = {
   state: string
 }
 export type GoalDataType = Array<{
-  data: never
+  data: {
+    amount: number
+    crypto: string
+    email: string
+    fiatCurrency: string
+    firstLogin: boolean
+  }
   id: string
   name: GoalsType
 }>

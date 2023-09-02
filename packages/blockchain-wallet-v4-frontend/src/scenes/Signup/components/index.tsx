@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { trackEvent } from 'data/analytics/slice'
+import { getUnifiedAccountStatus } from 'data/cache/selectors'
 import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
@@ -145,36 +148,43 @@ align-items: center;
 `}
 `
 
-export const LoginLink = (props: { analyticsActions; unified }) => (
-  <LoginCard>
-    <LinkContainer data-e2e='signupLink' to='/login'>
-      <LoginLinkRow
-        onClick={() =>
-          props.analyticsActions.trackEvent({
-            key: Analytics.LOGIN_CLICKED,
-            properties: {
-              origin: 'SIGN_UP_FLOW',
-              unified: props.unified
-            }
-          })
+export const LoginLink = () => {
+  const dispatch = useDispatch()
+  const unified = useSelector(getUnifiedAccountStatus)
+
+  const trackLoginClicked = useCallback(() => {
+    dispatch(
+      trackEvent({
+        key: Analytics.LOGIN_CLICKED,
+        properties: {
+          origin: 'SIGN_UP_FLOW',
+          unified
         }
-      >
-        <Text
-          size='16px'
-          color='grey600'
-          weight={500}
-          style={{ cursor: 'pointer', marginTop: '16px' }}
-        >
-          <FormattedMessage
-            id='scenes.register.account.link'
-            defaultMessage='Already have a Blockchain.com Account?'
-          />
-        </Text>
-        &nbsp;
-        <LoginLinkText size='16px' color='blue600' weight={600}>
-          <FormattedMessage id='scenes.login.wallet.exchange_login' defaultMessage='Log In ->' />
-        </LoginLinkText>
-      </LoginLinkRow>
-    </LinkContainer>
-  </LoginCard>
-)
+      })
+    )
+  }, [])
+
+  return (
+    <LoginCard>
+      <LinkContainer data-e2e='signupLink' to='/login'>
+        <LoginLinkRow onClick={trackLoginClicked}>
+          <Text
+            size='16px'
+            color='grey600'
+            weight={500}
+            style={{ cursor: 'pointer', marginTop: '16px' }}
+          >
+            <FormattedMessage
+              id='scenes.register.account.link'
+              defaultMessage='Already have a Blockchain.com Account?'
+            />
+          </Text>
+          &nbsp;
+          <LoginLinkText size='16px' color='blue600' weight={600}>
+            <FormattedMessage id='scenes.login.wallet.exchange_login' defaultMessage='Log In ->' />
+          </LoginLinkText>
+        </LoginLinkRow>
+      </LinkContainer>
+    </LoginCard>
+  )
+}
