@@ -1,9 +1,9 @@
 // Log in Events
 export enum Events {
-  NO_VULNERABLE_FUNDS_SHOWN = 'No Vulnerable Funds Shown',
-  TRANSFER_FUNDS_CLICKED = 'Transfer Funds Clicked',
+  NO_VULNERABLE_FUNDS_SHOWN = 'Not Vulnerable Modal Is Shown',
+  TRANSFER_FUNDS_CLICKED = 'Transfer Funds CTA Is Clicked',
   TRANSFER_FUNDS_FAILURE = 'Transfer Funds Failure',
-  TRANSFER_FUNDS_MODAL_SHOWN = 'Transfer Funds Modal Shown',
+  TRANSFER_FUNDS_MODAL_SHOWN = 'Transfer Funds Modal Is Shown',
   TRANSFER_FUNDS_SUCCESS = 'Transfer Funds Success'
 }
 

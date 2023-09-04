@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
@@ -57,10 +57,7 @@ const RecommendedImportSweepContainer = (props: Props) => {
   )
     return null
 
-  if (
-    (data?.bchImports.length === 0 && btcAddressHasBalance?.length === 0) ||
-    (btcAddressHasBalance?.length === 0 && bchAddressHasBalance?.length === 0)
-  ) {
+  if (btcAddressHasBalance?.length === 0 && bchAddressHasBalance?.length === 0) {
     return <NoActionRequired {...props} />
   }
   if (btcError || bchError) {
