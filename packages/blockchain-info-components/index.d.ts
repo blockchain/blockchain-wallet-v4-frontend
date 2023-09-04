@@ -263,7 +263,7 @@ export const TextGroup: FunctionComponent<{
   style?: CSSProperties
 }>
 export const Toast: FunctionComponent<{
-  nature?: 'success' | 'error' | 'warn'
+  nature?: 'info' | 'warn' | 'success' | 'error'
   coin?: CoinType
   onClose?: () => void
   persist?: boolean

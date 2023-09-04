@@ -1,3 +1,3 @@
-import { path } from 'ramda'
+import { RootState } from 'data/rootReducer'
 
-export const selectAlerts = path(['alerts'])
+export const selectAlerts = (state: RootState) => state.alerts
