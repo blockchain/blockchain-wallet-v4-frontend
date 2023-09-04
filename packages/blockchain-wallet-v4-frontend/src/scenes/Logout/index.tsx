@@ -1,69 +1,89 @@
-import React from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React, { useEffect, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
 
-import { actions } from 'data'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
+import { deauthorizeBrowser, logoutClearReduxStore } from 'data/session/slice'
 
-import Logout from './template'
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+const Footer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  > a {
+    margin-top: 10px;
+  }
+`
 
-class LogoutContainer extends React.PureComponent<Props, State> {
-  constructor(props) {
-    super(props)
-    this.state = { secondsRemaining: 10 }
-    this.onDeauthorizeBrowser = this.onDeauthorizeBrowser.bind(this)
-    this.onGoToLogin = this.onGoToLogin.bind(this)
-    this.tick = this.tick.bind(this)
+const LogoutContainer: React.FC = () => {
+  const [secondsRemaining, setSecondsRemaining] = useState(10)
+
+  const dispatch = useDispatch()
+
+  const onDeauthorizeBrowser = () => {
+    dispatch(deauthorizeBrowser())
   }
 
-  componentDidMount() {
-    // @ts-ignore
-    this.interval = setInterval(this.tick, 1000)
+  const onGoToLogin = () => {
+    dispatch(logoutClearReduxStore())
   }
 
-  componentWillUnmount() {
-    // @ts-ignore
-    clearInterval(this.interval)
-  }
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSecondsRemaining((seconds) => seconds - 1)
+    }, 1000)
 
-  onGoToLogin() {
-    this.props.sessionActions.logoutClearReduxStore()
-  }
-
-  onDeauthorizeBrowser() {
-    this.props.sessionActions.deauthorizeBrowser()
-  }
-
-  tick() {
-    this.setState((prevState) => ({
-      secondsRemaining: prevState.secondsRemaining - 1
-    }))
-    if (this.state.secondsRemaining <= 0) {
-      this.props.sessionActions.logoutClearReduxStore()
+    return () => {
+      clearInterval(id)
     }
+  }, [])
+
+  if (secondsRemaining <= 0) {
+    onGoToLogin()
   }
 
-  render() {
-    return (
-      <Logout
-        onDeauthorizeBrowser={this.onDeauthorizeBrowser}
-        onGoToLogin={this.onGoToLogin}
-        secondsRemaining={this.state.secondsRemaining}
-      />
-    )
-  }
+  return (
+    <Wrapper>
+      <Header>
+        <Text size='22px' weight={400}>
+          <FormattedMessage id='scenes.logout.title' defaultMessage='You are now logged out!' />
+        </Text>
+        {secondsRemaining <= 5 && (
+          <Text size='12px' weight={400}>
+            Refreshing in {secondsRemaining} seconds...
+          </Text>
+        )}
+      </Header>
+      <Separator />
+      <Text size='14px' weight={400}>
+        <FormattedMessage
+          id='scenes.logout.message'
+          defaultMessage='Click the button below to require authorization the next time you login with this browser. Do this if you are using a shared or public computer.'
+        />
+      </Text>
+      <Footer>
+        <Button
+          data-e2e='deauthBrowser'
+          type='submit'
+          nature='primary'
+          onClick={onDeauthorizeBrowser}
+        >
+          <FormattedMessage id='scenes.logout.deauth' defaultMessage='De-Authorize Browser' />
+        </Button>
+        <Link size='13px' weight={500} onClick={onGoToLogin}>
+          <FormattedMessage id='buttons.continue_to_login' defaultMessage='Continue to Login' />
+        </Link>
+      </Footer>
+    </Wrapper>
+  )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  routerActions: bindActionCreators(actions.router, dispatch),
-  sessionActions: bindActionCreators(actions.session, dispatch)
-})
-
-const connector = connect(null, mapDispatchToProps)
-
-type Props = ConnectedProps<typeof connector>
-
-type State = {
-  secondsRemaining: number
-}
-
-export default connector(LogoutContainer)
+export default LogoutContainer
