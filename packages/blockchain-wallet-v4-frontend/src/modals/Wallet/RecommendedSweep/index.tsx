@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
-import { Remote } from '@core'
 import { actions, selectors } from 'data'
 import { Analytics, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
@@ -15,6 +14,7 @@ import Error from './template.error'
 import NoActionRequired from './template.noaction'
 
 const RecommendedImportSweepContainer = (props: Props) => {
+  const { cacheActions, sendBchActions, sendBtcActions } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const {
     data: btcSweep,
@@ -27,16 +27,21 @@ const RecommendedImportSweepContainer = (props: Props) => {
     isLoading: bchLoading
   } = useRemote(selectors.components.sendBch.getBchImportedFundsSweep)
 
+  const {
+    data: btcAddressHasBalance,
+    error: btcAddressHasBalanceError,
+    isLoading: btcAddressHasBalanceLoading
+  } = useRemote(selectors.components.sendBtc.getBtcImportedFundsWithEffectiveBalance)
+
   const DUST = 546
 
-  const btcAddressHasBalance = data?.btcImports.filter((addr) => addr.info.final_balance > DUST)
   const bchAddressHasBalance = data?.bchImports.filter((addr) => addr.info.final_balance > DUST)
   const sweepSuccess = props.btcSweepSuccess && props.bchSweepSuccess
 
   const handleSubmit = () => {
-    props.sendBtcActions.btcImportedFundsSweep(btcAddressHasBalance!.map((item) => item.addr))
+    sendBtcActions.btcImportedFundsSweep(btcAddressHasBalance!.map((item) => item.address))
 
-    props.sendBchActions.bchImportedFundsSweep(bchAddressHasBalance!.map((item) => item.addr))
+    sendBchActions.bchImportedFundsSweep(bchAddressHasBalance!.map((item) => item.addr))
     props.analyticsActions.trackEvent({
       key: Analytics.TRANSFER_FUNDS_CLICKED,
       properties: {}
@@ -46,11 +51,14 @@ const RecommendedImportSweepContainer = (props: Props) => {
   if (isNotAsked || error) return null
   if (
     props.hideNoActionRequiredSweep?.guid === props.walletGuid &&
-    props.hideNoActionRequiredSweep?.seen
+    props.hideNoActionRequiredSweep?.seen &&
+    btcAddressHasBalance?.length === 0 &&
+    bchAddressHasBalance?.length === 0
   )
     return null
+
   if (
-    (data?.bchImports.length === 0 && data?.btcImports.length === 0) ||
+    (data?.bchImports.length === 0 && btcAddressHasBalance?.length === 0) ||
     (btcAddressHasBalance?.length === 0 && bchAddressHasBalance?.length === 0)
   ) {
     return <NoActionRequired {...props} />

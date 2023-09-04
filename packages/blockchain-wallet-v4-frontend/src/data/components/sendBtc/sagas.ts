@@ -25,7 +25,7 @@ import { emojiRegex } from '../send/types'
 import * as A from './actions'
 import { FORM } from './model'
 import * as S from './selectors'
-import { SendBtcFormValues } from './types'
+import { ImportedBtcAddress, ImportedBtcAddressList, SendBtcFormValues } from './types'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
@@ -568,11 +568,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const btcImportedFundsSweepEffectiveBalance = function* (action) {
+  const btcImportedFundsSweepEffectiveBalance = function* () {
     try {
+      yield take(actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS)
       const addressesR = yield select(selectors.core.common.btc.getActiveAddresses)
-      const addresses = addressesR.getOrElse([]).filter(prop('priv')).map(prop('addr'))
-    } catch (e) {}
+      const addresses = addressesR.getOrElse([]).filter(prop('priv'))
+      const hasEffectiveBalances: ImportedBtcAddressList = []
+      // eslint-disable-next-line no-restricted-syntax
+      for (const addr of addresses) {
+        let payment = coreSagas.payment.btc.create({
+          network: networks.btc
+        })
+
+        payment = yield payment.init()
+        payment = yield payment.from(addr.addr, ADDRESS_TYPES.LEGACY)
+        const defaultFeePerByte = path(['fees', 'regular'], payment.value())
+
+        payment = yield payment.fee(defaultFeePerByte)
+        const effectiveBalance = prop('effectiveBalance', payment.value())
+        if (effectiveBalance > 0) {
+          hasEffectiveBalances.push({
+            address: addr.addr,
+            balance: addr.info.final_balance
+          })
+        }
+      }
+      yield put(A.btcImportedFundsSweepEffectiveBalanceSuccess(hasEffectiveBalances))
+    } catch (e) {
+      yield put(A.btcImportedFundsSweepEffectiveBalanceFailure([]))
+    }
   }
 
   const btcImportedFundsSweep = function* (action) {
@@ -610,15 +634,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // payment = yield payment.sign(password)
         // payment = yield payment.publish()
         yield put(A.setImportFundsReceiveIndex(receiveIndex))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.TRANSFER_FUNDS_SUCCESS,
+            properties: {}
+          })
+        )
       }
       yield put(actions.core.data.btc.fetchData())
       yield put(A.btcImportedFundsSweepSuccess(true))
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.TRANSFER_FUNDS_SUCCESS,
-          properties: {}
-        })
-      )
     } catch (e) {
       yield put(
         actions.alerts.displayError(C.SEND_COIN_ERROR, {

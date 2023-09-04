@@ -8,6 +8,7 @@ import { SendBtcState } from './types'
 const INITIAL_STATE: SendBtcState = {
   btcImportedFundsReceiveIndex: null,
   btcImportedFundsSweep: Remote.NotAsked,
+  btcImportedFundsWithEffectiveBalance: Remote.NotAsked,
   feePerByteToggled: false,
   maxCustodialWithdrawalFee: Remote.NotAsked,
   payment: Remote.NotAsked,
@@ -71,6 +72,15 @@ export function sendBtcReducer(state = INITIAL_STATE, action) {
     }
     case AT.SET_IMPORT_FUNDS_RECEIVE_INDEX: {
       return assoc('btcImportedFundsReceiveIndex', action.payload, state)
+    }
+    case AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_EFFECTIVE_BALANCE_LOADING: {
+      return assoc('btcImportedFundsWithEffectiveBalance', Remote.Loading, state)
+    }
+    case AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_EFFECTIVE_BALANCE_SUCCESS: {
+      return assoc('btcImportedFundsWithEffectiveBalance', Remote.Success(action.payload), state)
+    }
+    case AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_EFFECTIVE_BALANCE_FAILURE: {
+      return assoc('btcImportedFundsWithEffectiveBalance', Remote.Failure(action.payload), state)
     }
     default:
       return state

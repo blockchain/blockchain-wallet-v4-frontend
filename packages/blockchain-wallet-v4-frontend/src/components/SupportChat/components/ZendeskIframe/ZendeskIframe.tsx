@@ -7,7 +7,7 @@ export const ZendeskIframe: ZendeskIframeComponent = ({ id, isOpen, src }) => {
   return (
     <RelativeWrapper>
       <AbsoluteWrapper isOpen={isOpen}>
-        <Iframe id={id} src={src} isOpen={isOpen} />
+        {/* <Iframe id={id} src={src} isOpen={isOpen} /> */}
       </AbsoluteWrapper>
     </RelativeWrapper>
   )

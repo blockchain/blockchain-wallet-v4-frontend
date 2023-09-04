@@ -1,5 +1,3 @@
-import { Root } from 'react-markdown/lib/rehype-filter'
-
 import { RootState } from 'data/rootReducer'
 
 export const getStep = (state: RootState) => state.components.sendBtc.step
@@ -12,3 +10,6 @@ export const getBtcImportedFundsSweep = (state: RootState) =>
   state.components.sendBtc.btcImportedFundsSweep
 export const getImportFundsReceiveIndex = (state: RootState) =>
   state.components.sendBtc.btcImportedFundsReceiveIndex
+
+export const getBtcImportedFundsWithEffectiveBalance = (state: RootState) =>
+  state.components.sendBtc.btcImportedFundsWithEffectiveBalance

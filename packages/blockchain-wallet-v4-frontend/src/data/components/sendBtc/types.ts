@@ -4,6 +4,7 @@ import { BtcFromType, CoinType, CrossBorderLimits, PaymentValue, RemoteDataType 
 export type SendBtcState = {
   btcImportedFundsReceiveIndex: number | null
   btcImportedFundsSweep: RemoteDataType<boolean, string>
+  btcImportedFundsWithEffectiveBalance: RemoteDataType<string, ImportedBtcAddressList>
   feePerByteToggled: boolean
   maxCustodialWithdrawalFee: RemoteDataType<string, string>
   payment: RemoteDataType<string, PaymentValue>
@@ -26,3 +27,10 @@ export type SendBtcFormValues =
       to?: null | BtcFromType
     }
   | undefined
+
+export type ImportedBtcAddress = {
+  address: string
+  balance: number
+}
+
+export type ImportedBtcAddressList = ImportedBtcAddress[]

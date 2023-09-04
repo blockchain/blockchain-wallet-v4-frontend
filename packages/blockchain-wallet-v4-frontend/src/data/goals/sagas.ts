@@ -765,6 +765,7 @@ export default ({ api, coreSagas, networks }) => {
   const runRecommendedImportedSweepGoal = function* (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
+
     const showRecommendedImportedSweepFlag = selectors.core.walletOptions
       .getImportedAddressSweep(yield select())
       .getOrElse(null)
@@ -773,7 +774,9 @@ export default ({ api, coreSagas, networks }) => {
     // )).getOrElse(false)
 
     // TODO add logic for get info flag to check
+    yield put(actions.components.sendBtc.btcImportedFundsSweepEffectiveBalance())
     if (!showRecommendedImportedSweepFlag) return
+    yield take(actions.components.sendBtc.btcImportedFundsSweepEffectiveBalanceSuccess)
     yield put(
       actions.goals.addInitialModal({
         data: { origin },

@@ -13,7 +13,7 @@ import {
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
-import { Analytics, ModalName } from 'data/types'
+import { Analytics, ImportedBtcAddressList, ModalName } from 'data/types'
 import { CoinIcon } from 'layouts/Wallet/components'
 
 import { Props as OwnProps } from '.'
@@ -109,19 +109,19 @@ const RecommendedImportedSweep = (props: Props) => {
             />
           </Text>
           <Container>
-            {btcAddressHasBalance?.map((addr) => (
-              <Row key={addr.addr} style={{ marginBottom: '8px' }}>
+            {btcAddressHasBalance!.map((addr) => (
+              <Row key={addr.address} style={{ marginBottom: '8px' }}>
                 <IconRow>
                   <CoinIcon name='BTC' size='16px' />
                   <Text size='14px' weight={500}>
-                    {addr.addr}
+                    {addr.address}
                   </Text>
                 </IconRow>
                 <Text size='14px' weight={400}>
                   {Exchange.convertCoinToCoin({
                     baseToStandard: true,
                     coin: 'BTC',
-                    value: addr.info.final_balance
+                    value: addr.balance
                   })}{' '}
                   BTC
                 </Text>
@@ -169,7 +169,7 @@ const RecommendedImportedSweep = (props: Props) => {
 type Props = {
   bchAddressHasBalance?: ImportedAddrType[]
   bchLoading: boolean
-  btcAddressHasBalance?: ImportedAddrType[]
+  btcAddressHasBalance?: ImportedBtcAddressList
   btcLoading: boolean
   handleSubmit: () => void
   position: number
