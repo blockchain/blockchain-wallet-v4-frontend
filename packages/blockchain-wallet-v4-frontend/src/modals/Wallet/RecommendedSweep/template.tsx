@@ -13,6 +13,7 @@ import {
   SpinningLoader,
   Text
 } from 'blockchain-info-components'
+import CoinBalanceDisplay from 'components/CoinWithBalance/CoinBalanceDisplay'
 import { Analytics, ImportedBtcAddressList, ModalName } from 'data/types'
 import { CoinIcon } from 'layouts/Wallet/components'
 
@@ -87,7 +88,7 @@ const RecommendedImportedSweep = (props: Props) => {
           <Text size='16px' weight={400} lineHeight='1.5' style={{ marginBottom: '16px' }}>
             <FormattedMessage
               id='modals.success.body'
-              defaultMessage='All funds held in legacy addresses have been successfully transferred to new, secure addresses in your DeFi Wallet.'
+              defaultMessage='All funds held in legacy addresses have been successfully transferred to new addresses in your DeFi Wallet. Please discontinue the use of the legacy addresses in your wallet for receiving funds. Should you receive funds into these addresses in the future, you will be prompted again to transfer them to a new, secure address. You can now continue using your wallet normally.'
             />
           </Text>
           <Button
@@ -105,26 +106,27 @@ const RecommendedImportedSweep = (props: Props) => {
           <Text size='14px' weight={400} lineHeight='1.5'>
             <FormattedMessage
               id='modals.securitynotice.para1'
-              defaultMessage='The following legacy addresses have been identified as likely to be vulnerable to a security issue. To secure these funds, click the ‘Transfer Funds’ button below. This will move the funds from the legacy addresses into new, secure addresses in your DeFi wallet.'
+              defaultMessage='The following legacy addresses have been identified as possibly affected by a security issue. To secure these funds, click the ‘Transfer Funds’ button below. This will move the funds from the legacy addresses into new, secure addresses in your DeFi Wallet.'
             />
           </Text>
           <Container>
-            {btcAddressHasBalance!.map((addr) => (
-              <Row key={addr.address} style={{ marginBottom: '8px' }}>
+            {btcAddressHasBalance?.map((addr) => (
+              <Row key={addr.address} style={{ marginBottom: '12px' }}>
                 <IconRow>
                   <CoinIcon name='BTC' size='16px' />
                   <Text size='14px' weight={500}>
                     {addr.address}
                   </Text>
                 </IconRow>
-                <Text size='14px' weight={400}>
+                <CoinBalanceDisplay coin='BTC' balance={addr.balance} />
+                {/* <Text size='14px' weight={400}>
                   {Exchange.convertCoinToCoin({
                     baseToStandard: true,
                     coin: 'BTC',
                     value: addr.balance
                   })}{' '}
                   BTC
-                </Text>
+                </Text> */}
               </Row>
             ))}
 
@@ -136,14 +138,7 @@ const RecommendedImportedSweep = (props: Props) => {
                     {addr.addr}
                   </Text>
                 </IconRow>
-                <Text size='14px' weight={400}>
-                  {Exchange.convertCoinToCoin({
-                    baseToStandard: true,
-                    coin: 'BCH',
-                    value: addr.info.final_balance
-                  })}{' '}
-                  BCH
-                </Text>
+                <CoinBalanceDisplay coin='BCH' balance={addr.info.final_balance} />
               </Row>
             ))}
           </Container>

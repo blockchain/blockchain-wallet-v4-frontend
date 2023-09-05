@@ -31,7 +31,7 @@ const NoActionRequired = (props: Props) => {
         <Text size='16px' weight={400} lineHeight='1.5' style={{ marginBottom: '16px' }}>
           <FormattedMessage
             id='modals.uptodate.body'
-            defaultMessage='Good news: Your wallet does not contain any funds in potentially at-risk legacy addresses. No further action is needed.'
+            defaultMessage='Your wallet does not contain any funds affected by the identified security issue. You can continue using your wallet normally.'
           />
         </Text>
         <Button data-e2e='upToDateThanks' nature='primary' fullwidth onClick={thanksClicked}>

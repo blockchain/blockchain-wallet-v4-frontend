@@ -61,7 +61,7 @@ const RecommendedImportSweepContainer = (props: Props) => {
     return <NoActionRequired {...props} />
   }
   if (btcError || bchError) {
-    return <Error handleSubmit={handleSubmit} {...props} btcError={btcError} />
+    return <Error handleSubmit={handleSubmit} {...props} />
   }
 
   return (
