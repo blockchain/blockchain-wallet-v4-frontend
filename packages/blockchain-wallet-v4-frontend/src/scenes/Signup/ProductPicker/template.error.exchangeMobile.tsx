@@ -78,6 +78,6 @@ const ExchangeMobileUserConflict = ({ authActions, email, showExchangeLoginButto
 type Props = {
   email: string
   showExchangeLoginButton: boolean
-} & OwnProps
+} & Pick<OwnProps, 'authActions'>
 
 export default ExchangeMobileUserConflict
