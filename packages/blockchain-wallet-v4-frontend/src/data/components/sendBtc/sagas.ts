@@ -576,21 +576,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const hasEffectiveBalances: ImportedBtcAddressList = []
       // eslint-disable-next-line no-restricted-syntax
       for (const addr of addresses) {
-        let payment = coreSagas.payment.btc.create({
-          network: networks.btc
-        })
-
-        payment = yield payment.init()
-        payment = yield payment.from(addr.addr, ADDRESS_TYPES.LEGACY)
-        const defaultFeePerByte = path(['fees', 'regular'], payment.value())
-
-        payment = yield payment.fee(defaultFeePerByte)
-        const effectiveBalance = prop('effectiveBalance', payment.value())
-        if (effectiveBalance > 0) {
-          hasEffectiveBalances.push({
-            address: addr.addr,
-            balance: addr.info.final_balance
+        if (addr.info.final_balance > 0) {
+          let payment = coreSagas.payment.btc.create({
+            network: networks.btc
           })
+          payment = yield payment.init()
+          payment = yield payment.from(addr.addr, ADDRESS_TYPES.LEGACY)
+          const defaultFeePerByte = path(['fees', 'regular'], payment.value())
+
+          payment = yield payment.fee(defaultFeePerByte)
+          const effectiveBalance = prop('effectiveBalance', payment.value())
+          if (effectiveBalance > 0) {
+            hasEffectiveBalances.push({
+              address: addr.addr,
+              balance: addr.info.final_balance
+            })
+          }
         }
       }
       yield put(A.btcImportedFundsSweepEffectiveBalanceSuccess(hasEffectiveBalances))
