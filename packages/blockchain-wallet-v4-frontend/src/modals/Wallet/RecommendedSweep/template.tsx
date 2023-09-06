@@ -119,14 +119,6 @@ const RecommendedImportedSweep = (props: Props) => {
                   </Text>
                 </IconRow>
                 <CoinBalanceDisplay coin='BTC' balance={addr.balance} />
-                {/* <Text size='14px' weight={400}>
-                  {Exchange.convertCoinToCoin({
-                    baseToStandard: true,
-                    coin: 'BTC',
-                    value: addr.balance
-                  })}{' '}
-                  BTC
-                </Text> */}
               </Row>
             ))}
 
