@@ -18,14 +18,21 @@ export const getData = createDeepEqualSelector(
       coinPricesPrevious: ExtractSuccess<typeof coinPricesPreviousR>
     ) => {
       const coinList = selectors.core.data.coins.getAllCoins()
-      const coinPricesList = coinList.map((coin: string) => {
+
+      // filter out undefined coins, zero value coins and coins with inflated marketcaps
+      const filteredCoins = coinList.filter((coin: string) => {
         const { coinfig } = window.coins[coin]
-        const currentPrice = coinPrices[coinfig.symbol]?.price
+        const currentPrice = coinPrices[coinfig.symbol]?.price ?? 0
+        return currentPrice !== 0 && coinfig.symbol !== 'HOKK'
+      })
+
+      const filteredCoinPricesList = filteredCoins.map((coin: string) => {
+        const { coinfig } = window.coins[coin]
+        const currentPrice = coinPrices[coinfig.symbol].price
         const yesterdayPrice = coinPricesPrevious[coinfig.symbol]?.price
         // some market caps returned as null
-        const marketCap = coinPrices[coinfig.symbol]?.marketCap
-          ? coinPrices[coinfig.symbol]?.marketCap
-          : 0
+        const marketCap = coinPrices[coinfig.symbol]?.marketCap ?? 0
+
         const coinBalance = selectors.balances
           .getCoinTotalBalance(coinfig.symbol)(state)
           .getOrElse(0)
@@ -43,11 +50,6 @@ export const getData = createDeepEqualSelector(
           priceChange: priceChangeStr,
           products: coinfig.products
         }
-      })
-
-      // filter out undefined coins, zero value coins and coins with inflated marketcaps
-      const filteredCoinPricesList = coinPricesList.filter((coin) => {
-        return coin.price && coin.price !== 0 && coin.coin !== 'HOKK'
       })
 
       return sortCoins(filteredCoinPricesList)

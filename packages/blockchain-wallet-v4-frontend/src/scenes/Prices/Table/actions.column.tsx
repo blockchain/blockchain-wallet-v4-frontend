@@ -26,69 +26,69 @@ export const getActionsColumn = (
   Cell: ({ row: { original: values } }) => {
     const canSell = Number(values.balance) > 0
 
+    const showActions = values.products.includes('CustodialWalletBalance')
+
+    if (!showActions) return <CellWrapper />
+
     return (
       <CellWrapper>
-        {values.products.includes('CustodialWalletBalance') ? (
-          <>
-            <Button
-              data-e2e={`${values.coin}BuySellBtn`}
-              height='32px'
-              nature='primary'
-              onClick={() => {
-                analyticsActions.trackEvent({
-                  key: Analytics.PRICES_PAGE_BUY_CLICKED,
-                  properties: {}
-                })
+        <Button
+          data-e2e={`${values.coin}BuySellBtn`}
+          height='32px'
+          nature='primary'
+          onClick={() => {
+            analyticsActions.trackEvent({
+              key: Analytics.PRICES_PAGE_BUY_CLICKED,
+              properties: {}
+            })
 
-                if (canSell) {
-                  analyticsActions.trackEvent({
-                    key: Analytics.PRICES_PAGE_SELL_CLICKED,
-                    properties: {}
-                  })
-                }
+            if (canSell) {
+              analyticsActions.trackEvent({
+                key: Analytics.PRICES_PAGE_SELL_CLICKED,
+                properties: {}
+              })
+            }
 
-                buySellActions.showModal({
-                  cryptoCurrency: values.coin,
-                  orderType: OrderType.BUY,
-                  origin: 'Prices'
-                })
-              }}
-              width='96px'
-              style={{ marginRight: '12px' }}
-            >
-              <Text size='14px' color='white' weight={600}>
-                {canSell ? (
-                  <FormattedMessage id='buttons.buy_sell' defaultMessage='Buy & Sell' />
-                ) : (
-                  <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
-                )}
-              </Text>
-            </Button>
-            <Button
-              data-e2e={`${values.coin}SwapBtn`}
-              height='32px'
-              nature='empty-blue'
-              onClick={() => {
-                analyticsActions.trackEvent({
-                  key: Analytics.PRICES_PAGE_SWAP_CLICKED,
-                  properties: {}
-                })
-                formActions.destroy('initSwap')
-                modalActions.showModal(ModalName.SWAP_MODAL, {
-                  origin: 'Prices'
-                })
-                swapActions.setStep({
-                  step: 'INIT_SWAP'
-                })
-              }}
-              width='68px'
-            >
-              <Text size='14px' color='blue600' weight={600}>
-                <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
-              </Text>
-            </Button>
-          </>
-        ) : null}
+            buySellActions.showModal({
+              cryptoCurrency: values.coin,
+              orderType: OrderType.BUY,
+              origin: 'Prices'
+            })
+          }}
+          width='96px'
+          style={{ marginRight: '12px' }}
+        >
+          <Text size='14px' color='white' weight={600}>
+            {canSell ? (
+              <FormattedMessage id='buttons.buy_sell' defaultMessage='Buy & Sell' />
+            ) : (
+              <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
+            )}
+          </Text>
+        </Button>
+        <Button
+          data-e2e={`${values.coin}SwapBtn`}
+          height='32px'
+          nature='empty-blue'
+          onClick={() => {
+            analyticsActions.trackEvent({
+              key: Analytics.PRICES_PAGE_SWAP_CLICKED,
+              properties: {}
+            })
+            formActions.destroy('initSwap')
+            modalActions.showModal(ModalName.SWAP_MODAL, {
+              origin: 'Prices'
+            })
+            swapActions.setStep({
+              step: 'INIT_SWAP'
+            })
+          }}
+          width='68px'
+        >
+          <Text size='14px' color='blue600' weight={600}>
+            <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
+          </Text>
+        </Button>
       </CellWrapper>
     )
   },
