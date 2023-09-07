@@ -8,16 +8,8 @@ import { PlatformTypes } from 'data/types'
 import { isMobile, media } from 'services/styles'
 
 import { SubviewProps } from '../../types'
-import {
-  Card,
-  CardInfo,
-  CardTitle,
-  CardWrapper,
-  InfoItem,
-  InfoTitle,
-  LoginLink,
-  PaddingWrapper
-} from '..'
+import { Card, CardInfo, CardTitle, CardWrapper, InfoItem, InfoTitle, PaddingWrapper } from '..'
+import { LoginLink } from '../LoginLink'
 import SignupForm from '../SignupForm'
 import QRsModal, { QRModalType } from '../SignupForm/QRsModal'
 
@@ -196,11 +188,7 @@ const SignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
               </Bottom>
             </AppButtons>
           )}
-          {isExchangeMobileSignup ? (
-            <Bottom />
-          ) : (
-            <LoginLink analyticsActions={props.analyticsActions} unified={props.unified} />
-          )}
+          {isExchangeMobileSignup ? <Bottom /> : <LoginLink />}
         </Card>
       </CardWrapper>
     </>

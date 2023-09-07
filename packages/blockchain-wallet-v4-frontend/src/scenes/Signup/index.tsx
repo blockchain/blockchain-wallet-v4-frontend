@@ -6,7 +6,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
-import { RemoteDataType, WalletOptionsType } from '@core/types'
+import { RemoteDataType } from '@core/types'
 import { Image } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -155,9 +155,6 @@ class SignupContainer extends React.PureComponent<
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  domains: selectors.core.walletOptions.getDomains(state).getOrElse({
-    exchange: 'https://exchange.blockchain.com'
-  } as WalletOptionsType['domains']),
   formValues: selectors.form.getFormValues(SIGNUP_FORM)(state) as SignupFormType,
   goals: selectors.goals.getGoals(state) as GoalDataType,
   isLoadingR: selectors.signup.getRegistering(state) as RemoteDataType<string, undefined>,
@@ -167,13 +164,10 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   isValidReferralCode: selectors.signup.getIsValidReferralCode(state),
   language: selectors.preferences.getLanguage(state),
   search: selectors.router.getSearch(state) as string,
-  signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata,
-  unified: selectors.cache.getUnifiedAccountStatus(state) as boolean
+  signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   signupActions: bindActionCreators(actions.signup, dispatch),
@@ -183,7 +177,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
-  domains: WalletOptionsType['domains']
   formValues: SignupFormType
   goals: GoalDataType
   isLoadingR: RemoteDataType<string, undefined>
@@ -192,7 +185,6 @@ type LinkStatePropsType = {
   language: string
   search: string
   signupMetadata: ProductSignupMetadata
-  unified: boolean
 }
 type StateProps = {
   showForm: boolean

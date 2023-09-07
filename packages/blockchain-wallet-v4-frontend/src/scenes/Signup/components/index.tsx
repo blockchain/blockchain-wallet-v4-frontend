@@ -1,10 +1,6 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
-import styled, { DefaultTheme } from 'styled-components'
+import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 export const CardWrapper = styled.div<{ hideMargin?: boolean }>`
@@ -47,22 +43,7 @@ export const CardHeader = styled.div`
   align-items: center;
   display: flex;
 `
-export const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
-  display: flex;
-  background: ${(props) => props.theme[props.color]};
-  height: 3rem;
-  width: 3rem;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  margin-right: 1.25rem;
 
-  ${media.tablet`
-    height: 2.5rem;
-    width: 2.5rem;
-    flex-shrink: 0;
-  `}
-`
 export const CardsWrapper = styled.div`
   display: flex;
 
@@ -103,78 +84,3 @@ export const InfoItem = styled.div`
     `}
   }
 `
-export const SubCard = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1.25rem;
-  margin-bottom: 2.5rem;
-`
-export const SignInText = styled(Text)`
-  &:hover {
-    color: ${(props) => props.theme.white};
-    font-weight: 600;
-  }
-`
-const LoginCard = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 24px;
-  border-top: 1px solid ${(props) => props.theme.grey000};
-  padding-bottom: 1.5rem;
-  ${media.tabletL`
-  flex-direction: column;
-  align-items: center;
-`};
-`
-const LoginLinkText = styled(Text)`
-  margin-top: 16px;
-  cursor: pointer;
-  ${media.mobile`
-  margin-top: 0;
-`};
-  &:hover {
-    font-weight: 600;
-  }
-`
-const LoginLinkRow = styled.div`
-  display: flex;
-  align-items: center;
-  ${media.mobile`
-flex-direction: column;
-align-items: center;
-`}
-`
-
-export const LoginLink = (props: { analyticsActions; unified }) => (
-  <LoginCard>
-    <LinkContainer data-e2e='signupLink' to='/login'>
-      <LoginLinkRow
-        onClick={() =>
-          props.analyticsActions.trackEvent({
-            key: Analytics.LOGIN_CLICKED,
-            properties: {
-              origin: 'SIGN_UP_FLOW',
-              unified: props.unified
-            }
-          })
-        }
-      >
-        <Text
-          size='16px'
-          color='grey600'
-          weight={500}
-          style={{ cursor: 'pointer', marginTop: '16px' }}
-        >
-          <FormattedMessage
-            id='scenes.register.account.link'
-            defaultMessage='Already have a Blockchain.com Account?'
-          />
-        </Text>
-        &nbsp;
-        <LoginLinkText size='16px' color='blue600' weight={600}>
-          <FormattedMessage id='scenes.login.wallet.exchange_login' defaultMessage='Log In ->' />
-        </LoginLinkText>
-      </LoginLinkRow>
-    </LinkContainer>
-  </LoginCard>
-)
