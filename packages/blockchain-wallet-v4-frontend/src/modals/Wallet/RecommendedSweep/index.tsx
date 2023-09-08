@@ -14,7 +14,7 @@ import Error from './template.error'
 import NoActionRequired from './template.noaction'
 
 const RecommendedImportSweepContainer = (props: Props) => {
-  const { cacheActions, sendBchActions, sendBtcActions } = props
+  const { sendBchActions, sendBtcActions } = props
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const {
     data: btcSweep,
@@ -34,7 +34,6 @@ const RecommendedImportSweepContainer = (props: Props) => {
   } = useRemote(selectors.components.sendBtc.getBtcImportedFundsWithEffectiveBalance)
 
   const DUST = 546
-
   const bchAddressHasBalance = data?.bchImports.filter((addr) => addr.info.final_balance > DUST)
   const sweepSuccess = props.btcSweepSuccess && props.bchSweepSuccess
 
@@ -57,8 +56,17 @@ const RecommendedImportSweepContainer = (props: Props) => {
   )
     return null
 
-  if (btcAddressHasBalance?.length === 0 && bchAddressHasBalance?.length === 0) {
-    return <NoActionRequired {...props} />
+  if (
+    (btcAddressHasBalance?.length === 0 || data?.btcImports.length === 0) &&
+    (bchAddressHasBalance?.length === 0 || data?.bchImports.length === 0)
+  ) {
+    return (
+      <NoActionRequired
+        {...props}
+        bchAddresses={data?.bchImports}
+        btcAddresses={data?.btcImports}
+      />
+    )
   }
   if (btcError || bchError) {
     return <Error handleSubmit={handleSubmit} {...props} />

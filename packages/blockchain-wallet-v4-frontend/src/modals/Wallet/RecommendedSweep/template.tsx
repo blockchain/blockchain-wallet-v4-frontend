@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Exchange } from '@core'
 import { ImportedAddrType } from '@core/types'
 import {
   Button,
