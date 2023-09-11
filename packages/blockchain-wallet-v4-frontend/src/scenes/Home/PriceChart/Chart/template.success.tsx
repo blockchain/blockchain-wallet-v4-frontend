@@ -29,8 +29,6 @@ const bisectDate = bisector<Data, Date>((d) => new Date(getYValue(d))).left
 
 const strokeWidth = 2
 
-type TooltipData = Data
-
 const circleSize = 4
 
 const circleStroke = 2
@@ -46,11 +44,10 @@ const Wrapper = styled.div`
   justify-content: center;
 `
 
-const Chart = ({ coin, currency, data }: OwnProps) => {
+const Chart = ({ coin, currency, data }: Props) => {
   const [ref, bounds] = useMeasure({ polyfill: ResizeObserver })
 
-  const width = bounds.width || 100
-  const height = bounds.height || 100
+  const { height = 200, width = 100 } = bounds
 
   const color = Color(coin as keyof DefaultTheme) || '#000'
   const {
@@ -59,7 +56,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
     tooltipData,
     tooltipLeft = 0,
     tooltipTop = 0
-  } = useTooltip<TooltipData>()
+  } = useTooltip<Data>()
 
   const tooltipStyles = useMemo(
     () => ({
@@ -182,12 +179,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
       </svg>
 
       {tooltipData ? (
-        <TooltipWithBounds
-          key={Math.random()}
-          top={tooltipTop}
-          left={tooltipLeft}
-          style={tooltipStyles}
-        >
+        <TooltipWithBounds top={tooltipTop} left={tooltipLeft} style={tooltipStyles}>
           {formatDate(getYValue(tooltipData))}
           <br />
           <br />
@@ -201,7 +193,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
   )
 }
 
-type OwnProps = {
+type Props = {
   coin: CoinType
   currency: FiatType
   data: Data[]
