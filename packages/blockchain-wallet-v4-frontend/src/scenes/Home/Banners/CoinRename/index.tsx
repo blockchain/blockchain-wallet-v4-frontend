@@ -10,24 +10,9 @@ import { actions, selectors } from 'data'
 import { media } from 'services/styles'
 
 import ANNOUNCEMENTS from '../constants'
+import { Wrapper } from '../styles'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-  border: 1px solid ${(props) => props.theme.grey000};
-  border-radius: 8px;
-  overflow: hidden;
-  padding: 20px;
-
-  ${media.atLeastLaptop`
-    height: 80px;
-    padding: 0 20px;
-  `}
-`
-const NewCoinWrapper = styled.div`
+const CenterWrapper = styled.div`
   display: flex;
   align-items: center;
 `
@@ -48,11 +33,6 @@ const Description = styled(Text)`
   ${media.atLeastMobile`
     display: block;
   `}
-`
-
-const CTAWrapper = styled.div`
-  display: flex;
-  align-items: center;
 `
 
 const CTAButton = styled(Button)`
@@ -78,7 +58,7 @@ const CoinRename = ({ buySellActions, cacheActions, coinRename }: Props) => {
 
   return (
     <Wrapper>
-      <NewCoinWrapper>
+      <CenterWrapper>
         <Icon name={coinRename} size='36px' style={{ marginRight: '16px' }} />
         <div>
           <VerbText>
@@ -92,9 +72,9 @@ const CoinRename = ({ buySellActions, cacheActions, coinRename }: Props) => {
             />
           </Description>
         </div>
-      </NewCoinWrapper>
+      </CenterWrapper>
 
-      <CTAWrapper>
+      <CenterWrapper>
         <CTAButton
           data-e2e='newCoinTradeNowButton'
           nature='primary'
@@ -118,7 +98,7 @@ const CoinRename = ({ buySellActions, cacheActions, coinRename }: Props) => {
         >
           <Icon size='20px' color='grey400' name='close-circle' />
         </CloseLink>
-      </CTAWrapper>
+      </CenterWrapper>
     </Wrapper>
   )
 }

@@ -10,24 +10,8 @@ import { actions } from 'data'
 import { media } from 'services/styles'
 
 import ANNOUNCEMENTS from '../constants'
-import { CloseLink } from '../styles'
+import { CloseLink, Wrapper } from '../styles'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-  border: 1px solid ${(props) => props.theme.grey000};
-  border-radius: 8px;
-  overflow: hidden;
-  padding: 20px;
-
-  ${media.atLeastLaptop`
-    height: 80px;
-    padding: 0 20px;
-  `}
-`
 const MessageWrapper = styled.div`
   display: flex;
   align-items: center;
