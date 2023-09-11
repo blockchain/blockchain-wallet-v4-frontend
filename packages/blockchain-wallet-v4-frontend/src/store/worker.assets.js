@@ -22,7 +22,9 @@ addEventListener('message', ({ data }) => {
         assets[coin.symbol] = { coinfig: coin }
       })
 
-      assets.MATIC.coinfig.type.logoPngUrl = assets["MATIC.MATIC"].coinfig.type.logoPngUrl
+      assets.MATIC.coinfig.type.logoPngUrl = assets['MATIC.MATIC'].coinfig.type.logoPngUrl
+      assets.STX.coinfig.products.push('DynamicSelfCustody')
+      assets.STX.coinfig.type.isMemoBased = true
 
       // switch up the erc20 addresses to support testnet (for opensea testing)
       if (openSeaApi && openSeaApi.includes('testnets')) {

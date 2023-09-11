@@ -480,9 +480,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { amount, currency } = yield select(getFormValues('brokerageTx'))
     const { id, partner } = yield select(selectors.components.brokerage.getAccount)
     const domainsR = yield select(selectors.core.walletOptions.getDomains)
-    const { comRoot } = domainsR.getOrElse({
-      comRoot: 'https://www.blockchain.com'
-    })
+    const { comRoot } = domainsR.getOrElse({ comRoot: 'https://www.blockchain.com' })
     const callback =
       partner === BankPartners.YAPILY ? `${comRoot}/brokerage-link-success` : undefined
     const attributes = { callback }

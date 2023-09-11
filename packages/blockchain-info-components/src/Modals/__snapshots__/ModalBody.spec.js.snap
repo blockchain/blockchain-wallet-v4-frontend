@@ -2,9 +2,7 @@
 
 exports[`ModalBody component default renders correctly 1`] = `
 <styled.div>
-  <styled.div
-    displayed={true}
-  >
+  <styled.div>
     <BlockchainLoader
       height="100px"
       width="100px"
