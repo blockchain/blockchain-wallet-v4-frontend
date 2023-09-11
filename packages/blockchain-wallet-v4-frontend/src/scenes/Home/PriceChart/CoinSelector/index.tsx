@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import SelectBoxCoinPriceChart from 'components/Form/SelectBoxCoinPriceChart'
-import { actions, selectors } from 'data'
+import { coinClicked } from 'data/components/priceChart/slice'
+import { getPriceChart } from 'data/preferences/selectors'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`
@@ -20,17 +20,16 @@ const Wrapper = styled.div`
   `}
 `
 
-const CoinSelector = ({
-  actions: { coinClicked },
-  initialize,
-  priceChart: { coin = 'BTC' }
-}: InjectedFormProps<{}, Props> & Props) => {
+const CoinSelector = ({ initialize }) => {
+  const dispatch = useDispatch()
+  const { coin = 'BTC' } = useSelector(getPriceChart)
+
   useEffect(() => {
     initialize({ coin })
   }, [coin])
 
-  const onChange = (_, val) => {
-    coinClicked(val)
+  const onChange = (_, value) => {
+    dispatch(coinClicked(value))
   }
 
   return (
@@ -45,20 +44,4 @@ const CoinSelector = ({
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    priceChart: selectors.preferences.getPriceChart(state)
-  }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.components.priceChart, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-const enhance = compose<React.ComponentType>(reduxForm({ form: 'priceChartCoin' }), connector)
-
-type Props = ConnectedProps<typeof connector>
-
-export default enhance(CoinSelector)
+export default reduxForm({ form: 'priceChartCoin' })(CoinSelector)
