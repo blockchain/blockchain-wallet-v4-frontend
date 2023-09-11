@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { Exchange } from '@core'
 import { formatFiat } from '@core/exchange/utils'
-import { FiatType, PriceChangeType, PriceDiffType } from '@core/types'
+import { FiatType, PriceChangeType, PriceMovementDirType } from '@core/types'
 import { Text } from 'blockchain-info-components'
 
 const PriceChangeText = styled(Text)`
@@ -14,13 +14,13 @@ const PriceChangeText = styled(Text)`
 `
 
 const PriceChangeColoredText = styled.span<{
-  change: PriceDiffType
+  movement: PriceMovementDirType
 }>`
   font-weight: 600;
   color: ${(props) =>
-    props.change.movement === 'down'
+    props.movement === 'down'
       ? props.theme.red600
-      : props.change.movement === 'up'
+      : props.movement === 'up'
       ? props.theme.green600
       : props.theme.grey600};
 `
@@ -36,24 +36,25 @@ export const PriceChange = ({
   isPortfolioPosition?: boolean
   priceChange: PriceChangeType
 }) => {
-  const change = isPortfolioPosition ? priceChange.positionChange : priceChange.overallChange
-  const price = formatFiat(change.diff)
-  const priceChangePercentFormatted = formatFiat(change.percentChange)
+  const { diff, movement, percentChange } = isPortfolioPosition
+    ? priceChange.positionChange
+    : priceChange.overallChange
+  const price = formatFiat(diff)
+  const priceChangePercentFormatted = formatFiat(percentChange)
   let priceFormatted
 
-  if (change.movement === 'down') {
+  if (movement === 'down') {
     priceFormatted = `-${Exchange.getSymbol(currency)}${price.substring(1)}`
   } else {
     priceFormatted = `${Exchange.getSymbol(currency)}${price}`
   }
 
-  const hasNanValues = Number.isNaN(Number(price)) || Number.isNaN(Number(change.percentChange))
-
+  const hasNanValues = Number.isNaN(Number(diff)) || Number.isNaN(Number(percentChange))
   if (hasNanValues) return null
 
   return (
     <PriceChangeText>
-      <PriceChangeColoredText change={change}>
+      <PriceChangeColoredText movement={movement}>
         {priceFormatted} ({priceChangePercentFormatted})%
       </PriceChangeColoredText>
       {children}
