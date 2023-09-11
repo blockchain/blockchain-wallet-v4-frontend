@@ -4,7 +4,7 @@ import { Exchange } from '@core'
 
 import * as selectors from '../../selectors'
 
-export const getData = (coin, state) => {
+export const getData = (state, coin) => {
   const ratesR = selectors.core.data.coins.getRates(coin, state)
   const currencyR = selectors.core.settings.getCurrency(state)
 
