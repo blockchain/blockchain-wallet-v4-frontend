@@ -3,9 +3,7 @@ import React from 'react'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
-const Success = (props: { balance: number | string; coin: string }) => {
-  const { balance, coin } = props
-
+const Success = ({ balance, coin }: { balance: number | string; coin: string }) => {
   return (
     <>
       <FiatDisplay
