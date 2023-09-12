@@ -1,14 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { toLower } from 'ramda'
 import styled from 'styled-components'
 
 import { CoinfigType, CoinType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { HomeBalanceRow, HomeBalanceTable } from 'components/Balances'
 
-import { Props } from '.'
 import CoinBalance from './CoinBalance'
+import getData from './selectors'
 
 const TxLink = styled(LinkContainer)`
   &:hover {
@@ -42,32 +42,28 @@ const Amount = styled.div`
   }
 `
 
-const Success = (props: OwnProps & Props) => {
-  const useBackup = props.coins.length === 0
-  const useCombo = props.coins.every((coin) => coin.type.name === 'FIAT')
-  const coins = useBackup
-    ? props.backupCoins
-    : useCombo
-    ? [...props.coins, ...props.backupCoins]
-    : props.coins
+const Success = ({ coins }: Props) => {
+  const backupCoins = useSelector(getData).getOrElse([])
+
+  const useBackup = coins.length === 0
+  const useCombo = coins.every((coin) => coin.type.name === 'FIAT')
+
+  const holdingsCoins = useBackup ? backupCoins : useCombo ? [...coins, ...backupCoins] : coins
 
   return (
     <HomeBalanceTable>
-      {coins.map((val) => {
+      {holdingsCoins.map(({ name, symbol }) => {
         return (
-          <HomeBalanceRow
-            key={val.symbol + val.name}
-            data-e2e={`${toLower(val.symbol)}BalanceTable`}
-          >
-            <TxLink to={`/coins/${val.symbol}`}>
+          <HomeBalanceRow key={symbol + name} data-e2e={`${symbol.toLowerCase()}BalanceTable`}>
+            <TxLink to={`/coins/${symbol}`}>
               <div>
                 <Wrapper>
                   <Coin>
-                    <CoinIcon name={val.symbol as CoinType} size='32px' />
-                    <CoinName color='grey700'>{val.name}</CoinName>
+                    <CoinIcon name={symbol as CoinType} size='32px' />
+                    <CoinName color='grey700'>{name}</CoinName>
                   </Coin>
                   <Amount>
-                    <CoinBalance {...props} coin={val.symbol} />
+                    <CoinBalance coin={symbol} />
                   </Amount>
                 </Wrapper>
               </div>
@@ -79,7 +75,7 @@ const Success = (props: OwnProps & Props) => {
   )
 }
 
-type OwnProps = {
+type Props = {
   coins: CoinfigType[]
 }
 
