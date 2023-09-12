@@ -62,7 +62,7 @@ const selectColor = (type, coin) => {
 }
 
 const Toast = (props) => {
-  const { children, coin, nature, onClose, persist, timeout } = props
+  const { children, coin, nature = 'info', onClose, persist = false, timeout = 5000 } = props
   const color = selectColor(nature, coin)
 
   useEffect(() => {
@@ -97,12 +97,13 @@ const Toast = (props) => {
 
 Toast.propTypes = {
   children: PropTypes.node.isRequired,
-  nature: PropTypes.oneOf(['success', 'error', 'info']),
-  onClose: PropTypes.func.isRequired
-}
-
-Toast.defaultProps = {
-  nature: 'info'
+  coin: PropTypes.shape({
+    coinCode: PropTypes.string
+  }),
+  nature: PropTypes.oneOf(['error', 'info', 'success', 'warn']),
+  onClose: PropTypes.func.isRequired,
+  persist: PropTypes.bool,
+  timeout: PropTypes.number
 }
 
 export default Toast

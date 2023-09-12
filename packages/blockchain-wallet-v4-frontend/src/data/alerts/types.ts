@@ -1,14 +1,13 @@
 import { CoinType } from '@core/types'
+import { ToastNatureType } from 'blockchain-info-components'
 
 // types
-export type AlertNatureType = 'info' | 'warn' | 'success' | 'error'
-
 export type AlertType = {
   coin?: CoinType
   data?: any
   id: string
   message: string
-  nature: AlertNatureType
+  nature: ToastNatureType
   persist?: boolean
 }
 

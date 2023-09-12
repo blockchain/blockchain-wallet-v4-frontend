@@ -4,7 +4,6 @@ import { coreRootSagaFactory, coreSagasFactory } from '@core'
 import { actions } from 'data'
 import miscSagas from 'data/misc/sagas'
 
-import alerts from './alerts/sagaRegister'
 import analytics from './analytics/sagaRegister'
 import auth from './auth/sagaRegister'
 import components from './components/sagaRegister'
@@ -32,7 +31,6 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
     put(actions.misc.pingRuntimeFile()),
     call(logAppConsoleWarning),
     fork(analytics),
-    fork(alerts),
     fork(auth({ api, coreSagas, networks })),
     fork(components({ api, coreSagas, networks })),
     fork(custodial({ api, coreSagas, networks })),
