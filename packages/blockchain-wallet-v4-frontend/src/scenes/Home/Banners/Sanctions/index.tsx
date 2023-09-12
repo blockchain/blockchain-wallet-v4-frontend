@@ -6,27 +6,9 @@ import styled from 'styled-components'
 
 import { Link, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
-import { media } from 'services/styles'
 
-import { BannerButton } from '../styles'
+import { BannerButton, IconWrapper, Wrapper } from '../styles'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid ${(props) => props.theme.orange900};
-  border-radius: 8px;
-  padding: 20px;
-  ${media.atLeastLaptop`
-    height: 96px;
-    padding: 0 20px;
-  `}
-  ${media.mobile`
-    padding: 12px;
-    flex-direction: column;
-  `}
-`
 const Row = styled.div`
   display: flex;
   align-items: center;
@@ -41,17 +23,6 @@ const Column = styled.div`
   flex: 1;
 `
 
-const PendingIconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  width: 40px;
-  min-width: 40px;
-  border-radius: 20px;
-  margin-right: 20px;
-`
-
 const Sanctions = () => {
   const products = useSelector(selectors.custodial.getProductEligibilityForUser).data
   const message = products?.notifications?.length ? products?.notifications[0].message : null
@@ -59,9 +30,9 @@ const Sanctions = () => {
   return (
     <Wrapper>
       <Row>
-        <PendingIconWrapper>
+        <IconWrapper>
           <IconWarningTriangle color={PaletteColors['orange-400']} label='alert' size='large' />
-        </PendingIconWrapper>
+        </IconWrapper>
       </Row>
       <CentralRow>
         <Column>

@@ -25,8 +25,8 @@ const Wrapper = styled.div`
   `}
 `
 
-const Column = styled.div<{ hiddenOnMobile?: boolean }>`
-  display: ${(props) => (props.hiddenOnMobile ? 'none' : 'flex')};
+const Column = styled.div`
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
