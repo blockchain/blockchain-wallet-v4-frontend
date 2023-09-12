@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useGlobalFilter, useSortBy, useTable } from 'react-table'
+import { formValueSelector } from 'redux-form'
 import styled from 'styled-components'
 
+import { getCurrency } from '@core/redux/settings/selectors'
+import { getCoinViewV2 } from '@core/redux/walletOptions/selectors'
 import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
-import { selectors } from 'data'
 
 import { Props as _P, SuccessStateType as _S } from '.'
 import { getTableColumns } from './Table'
@@ -24,16 +26,18 @@ export const TableBodyWrapper = styled.div`
 `
 
 const PricesTable = (props: Props) => {
+  const isCoinViewV2Enabled = useSelector(getCoinViewV2).getOrElse(false) as boolean
+  const textFilter = useSelector((state) => formValueSelector('prices')(state, 'textFilter'))
+  const walletCurrency = useSelector(getCurrency).getOrElse('USD')
+
   const {
     analyticsActions,
     buySellActions,
     data,
     formActions,
-    isCoinViewV2Enabled,
     modalActions,
     routerActions,
-    swapActions,
-    walletCurrency
+    swapActions
   } = props
 
   const columns = useMemo(
@@ -57,7 +61,7 @@ const PricesTable = (props: Props) => {
     prepareRow,
     rows,
     setGlobalFilter,
-    state
+    state: { globalFilter }
   } = useTable(
     {
       columns,
@@ -70,18 +74,17 @@ const PricesTable = (props: Props) => {
 
   // if the table's filter state and redux form textFilter input dont match
   // update so they do, allowing text filtering to work
-  if (state.globalFilter !== props.textFilter) {
-    setGlobalFilter(props.textFilter)
+  if (globalFilter !== textFilter) {
+    setGlobalFilter(textFilter)
   }
 
   // limit no match found length to something reasonable
   const filterMatchText =
-    (state.globalFilter?.length > 20 && `${state.globalFilter.substring(0, 20)}…`) ||
-    state.globalFilter
+    globalFilter?.length > 20 ? `${globalFilter.substring(0, 20)}…` : globalFilter
 
   return (
     <TableWrapper cellWidth='16%' minCellWidth='150px' height='calc(100% - 97px)'>
-      {state.globalFilter?.length && !rows.length ? (
+      {globalFilter?.length && !rows.length ? (
         <NoResultsWrapper>
           <CellText color='grey900' size='18px'>
             <span role='img' aria-label='detective emoji'>
@@ -148,12 +151,6 @@ const PricesTable = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  isCoinViewV2Enabled: selectors.core.walletOptions.getCoinViewV2(state).getOrElse(false) as boolean
-})
+type Props = _P & { data: _S }
 
-const connector = connect(mapStateToProps)
-
-type Props = _P & { data: _S; isCoinViewV2Enabled: boolean }
-
-export default connector(PricesTable)
+export default PricesTable

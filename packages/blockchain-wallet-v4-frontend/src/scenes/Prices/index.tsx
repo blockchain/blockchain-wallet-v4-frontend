@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { BaseFieldProps, Field, formValueSelector, reduxForm } from 'redux-form'
+import { BaseFieldProps, Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { ExtractSuccess } from '@core/types'
@@ -70,8 +70,8 @@ const Scene = ({ children }) => (
   </SceneWrapper>
 )
 
-const PricesContainer = (props: Props) => {
-  const { priceActions, rowDataR } = props
+const PricesContainer = (props: OwnProps) => {
+  const { priceActions, rowDataR, ...rest } = props
 
   useEffect(() => {
     priceActions.fetchCoinPrices()
@@ -96,16 +96,14 @@ const PricesContainer = (props: Props) => {
     ),
     Success: (val) => (
       <Scene>
-        <PricesTable data={val} {...props} />
+        <PricesTable data={val} {...rest} />
       </Scene>
     )
   })
 }
 
 const mapStateToProps = (state) => ({
-  rowDataR: getData(state),
-  textFilter: formValueSelector('prices')(state, 'textFilter'),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
+  rowDataR: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -131,6 +129,7 @@ export type TableColumnsType = {
   swapActions: ReturnType<typeof mapDispatchToProps>['swapActions']
   walletCurrency: ReturnType<typeof selectors.core.settings.getCurrency>
 }
-export type Props = ConnectedProps<typeof connector>
+type OwnProps = ConnectedProps<typeof connector>
+export type Props = Omit<OwnProps, 'priceActions' | 'rowDataR'>
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export default enhance(PricesContainer) as React.ComponentClass
