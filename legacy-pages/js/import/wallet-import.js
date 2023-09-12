@@ -40,7 +40,8 @@
                 method: 'insert',
                 format: 'plain',
                 sharedKey: sharedKey,
-                guid: guid
+                guid: guid,
+                email: 'leora+testjson+testytesthihihi'
               },
               function (data) {
                 MyWallet.makeNotice('success', 'misc-success', data)
