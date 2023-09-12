@@ -16,6 +16,7 @@ import { getData } from './selectors'
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
+  gap: 12px;
 
   ${media.atLeastTabletL`
     margin-top: 24px;
@@ -23,15 +24,9 @@ const Wrapper = styled.div`
   `}
 `
 
-const BuyTradeButton = styled(Button)`
-  &:first-child {
-    margin-right: 12px;
-  }
-`
-
 const ActionsContainer = () => {
   const dispatch = useDispatch()
-  const { coinName, cryptoCurrency } = useSelector(getData)
+  const { cryptoCurrency } = useSelector(getData)
 
   const onBuyClick = () => {
     dispatch(
@@ -49,6 +44,22 @@ const ActionsContainer = () => {
     )
   }
 
+  const onSellClick = () => {
+    dispatch(
+      buySellActions.showModal({
+        cryptoCurrency,
+        orderType: OrderType.SELL,
+        origin: 'PriceChart'
+      })
+    )
+    dispatch(
+      trackEvent({
+        key: Analytics.PRICE_GRAPH_SELL_CLICKED,
+        properties: {}
+      })
+    )
+  }
+
   const onSwapClick = () => {
     dispatch(swapActions.showModal({ origin: 'PriceChart' }))
     dispatch(
@@ -61,29 +72,39 @@ const ActionsContainer = () => {
 
   return (
     <Wrapper>
-      <BuyTradeButton data-e2e='buyButton' height='42px' nature='primary' onClick={onBuyClick}>
+      <Button
+        width='125px'
+        data-e2e='buyButton'
+        height='42px'
+        nature='primary'
+        onClick={onBuyClick}
+      >
         <Text color='white' size='16px' lineHeight='24px' weight={600}>
-          <FormattedMessage
-            id='price.chart.buy.coin'
-            defaultMessage='Buy {coinName}'
-            values={{ coinName }}
-          />
+          <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
         </Text>
-      </BuyTradeButton>
-      <BuyTradeButton
+      </Button>
+      <Button
+        width='125px'
+        data-e2e='sellButton'
+        height='42px'
+        nature='empty-secondary'
+        onClick={onSellClick}
+      >
+        <Text color='blue600' size='16px' lineHeight='24px' weight={600}>
+          <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
+        </Text>
+      </Button>
+      <Button
+        width='125px'
         data-e2e='swapButton'
         height='42px'
         nature='empty-secondary'
         onClick={onSwapClick}
       >
         <Text color='blue600' size='16px' lineHeight='24px' weight={600}>
-          <FormattedMessage
-            id='price.chart.swap.coin'
-            defaultMessage='Swap {coinName}'
-            values={{ coinName }}
-          />
+          <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
         </Text>
-      </BuyTradeButton>
+      </Button>
     </Wrapper>
   )
 }
