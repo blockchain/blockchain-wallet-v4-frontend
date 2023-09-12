@@ -26,12 +26,12 @@ const PriceChangeColoredText = styled.span<{
 `
 
 export const PriceChange = ({
-  children,
+  children = null,
   currency,
-  isPortfolioPosition,
+  isPortfolioPosition = false,
   priceChange
 }: {
-  children: ReactNode
+  children?: ReactNode
   currency: FiatType
   isPortfolioPosition?: boolean
   priceChange: PriceChangeType

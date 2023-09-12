@@ -7,11 +7,7 @@ import { PriceChangeType } from '@core/types'
 
 const Success = ({ priceChange }: Props) => {
   const currency = useSelector(getCurrency).getOrElse('USD')
-  return (
-    <PriceChange currency={currency} priceChange={priceChange}>
-      {}
-    </PriceChange>
-  )
+  return <PriceChange currency={currency} priceChange={priceChange} />
 }
 
 export type Props = {
