@@ -87,15 +87,6 @@ export default ({ api, coreSagas, networks }) => {
       .getAccountRecoveryV2(yield select())
       .getOrElse(false) as boolean
 
-    // pulling this separately to perhaps
-    // solve for 'none' value being seen in amplitude
-    // for country code
-    let countryFromFormValues
-    if (!isAccountReset) {
-      const { country } = yield select(selectors.form.getFormValues(SIGNUP_FORM))
-      countryFromFormValues = country
-    }
-
     const { platform, product } = yield select(selectors.signup.getProductSignupMetadata)
     const isExchangeMobileSignup =
       product === ProductAuthOptions.EXCHANGE &&
@@ -110,6 +101,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.loginLoading())
       yield put(actions.signup.setRegisterEmail(email))
       yield put(actions.signup.setSignupCountry(country))
+      yield put(actions.signup.setSignupCountryState(state))
       const captchaToken = yield call(generateCaptchaToken, CaptchaActionName.SIGNUP)
       if (isAccountReset && accountRecoveryV2) {
         yield call(coreSagas.wallet.createResetWalletSaga, {
@@ -147,17 +139,18 @@ export default ({ api, coreSagas, networks }) => {
         })
         yield put(actions.signup.registerSuccess(undefined))
       }
-
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
-          properties: {
-            country: country || countryFromFormValues,
-            country_state: state,
-            device_origin: platform
-          }
-        })
-      )
+      if (!isAccountReset) {
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.ONBOARDING_WALLET_SIGNED_UP,
+            properties: {
+              country,
+              country_state: state,
+              device_origin: platform
+            }
+          })
+        )
+      }
       if (product === ProductAuthOptions.EXCHANGE) {
         yield put(
           actions.analytics.trackEvent({

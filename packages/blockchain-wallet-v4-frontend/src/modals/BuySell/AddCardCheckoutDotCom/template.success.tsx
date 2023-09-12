@@ -120,7 +120,7 @@ const Success = ({
                 </Flex>
 
                 <RawHyperlink
-                  href='https://support.blockchain.com/hc/en-us/articles/5154350610716'
+                  href='https://support.blockchain.com/hc/en-us/articles/4417061499284'
                   target='_blank'
                 >
                   <Button data-e2e='creditCardInfo.learnMoreButton' nature='dark'>

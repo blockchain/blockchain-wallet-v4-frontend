@@ -67,7 +67,7 @@ export type HeaderType = {
 export type ExtraQuestionsType = {
   blocking: boolean
   context: keyof typeof ExtraKYCContext
-  header?: Array<HeaderType>
+  header?: HeaderType
   nodes: Array<NodeItem>
 }
 

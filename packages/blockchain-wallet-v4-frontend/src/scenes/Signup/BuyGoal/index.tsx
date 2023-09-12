@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
-import { InjectedFormProps } from 'redux-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { change, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
+import { getIsCoinDataLoaded } from '@core/redux/data/coins/selectors'
 import { Icon, Text } from 'blockchain-info-components'
-import { selectors } from 'data'
 import { BuySellWidgetGoalDataType } from 'data/types'
 
 import { SIGNUP_FORM } from '..'
-import { Card, CardHeader, CardsWrapper, LoginLink, PaddingWrapper } from '../components'
+import { Card, CardHeader, CardsWrapper, PaddingWrapper } from '../components'
+import { LoginLink } from '../components/LoginLink'
 import SignupForm from '../components/SignupForm'
 import { SubviewProps } from '../types'
 
@@ -56,17 +56,20 @@ const Amount = styled(Text)`
   text-overflow: ellipsis;
 `
 
-const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps & Props) => {
-  const { formActions, goals, isCoinDataLoaded } = props
-  const dataGoal = find(propEq('name', 'buySell'), goals)
-  const goalData: BuySellWidgetGoalDataType = propOr({}, 'data', dataGoal)
+const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps) => {
+  const isCoinDataLoaded = useSelector(getIsCoinDataLoaded)
+  const dispatch = useDispatch()
+
+  const { goals } = props
+  const dataGoal = goals.find((goal) => goal.name === 'buySell')
+  const goalData = dataGoal?.data ?? ({} as BuySellWidgetGoalDataType)
   const { amount, crypto, email, fiatCurrency } = goalData
-  const showBuyHeader =
-    !isNil(goalData) && !isEmpty(goalData) && !!fiatCurrency && !!crypto && !!amount
+  const showBuyHeader = Object.keys(goalData).length > 0 && !!fiatCurrency && !!crypto && !!amount
 
   useEffect(() => {
-    formActions.change(SIGNUP_FORM, 'email', email)
-  }, [formActions])
+    dispatch(change(SIGNUP_FORM, 'email', email))
+  }, [])
+
   return (
     <>
       <CardsWrapper>
@@ -114,19 +117,11 @@ const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps & Props) => {
             )}
             <SignupForm {...props} />
           </PaddingWrapper>
-          <LoginLink analyticsActions={props.analyticsActions} unified={props.unified} />
+          <LoginLink />
         </BuyCard>
       </CardsWrapper>
     </>
   )
 }
 
-const mapStateToProps = (state) => ({
-  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state)
-})
-
-const connector = connect(mapStateToProps)
-
-type Props = ConnectedProps<typeof connector>
-
-export default connector(BuyGoal)
+export default BuyGoal

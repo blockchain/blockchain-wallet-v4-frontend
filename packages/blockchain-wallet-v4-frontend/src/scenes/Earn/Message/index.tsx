@@ -5,16 +5,14 @@ import { useDispatch } from 'react-redux'
 import { EarnEDDStatus, EarnRatesType, RewardsRatesType } from '@core/types'
 import { Text } from 'blockchain-info-components'
 import { actions } from 'data'
-import { ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 
 import Loading from '../Earn.MessageLoading.template'
 import EDDAdditionalInfoMessage from './EDDAdditionalInfoMessage.template'
 import EDDInformationSubmitted from './EDDInformationSubmitted.template'
 import getData from './Message.selectors'
-import NotGoldTierMessage from './NotGoldTierMessage.template'
 
-const MessageContainer = ({ isGoldTier }: PropTypes) => {
+const MessageContainer = () => {
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const dispatch = useDispatch()
 
@@ -39,15 +37,8 @@ const MessageContainer = ({ isGoldTier }: PropTypes) => {
   const isEDDSubmitted: boolean = eddNeeded && eddSubmitted && !eddPassed
   Object.values(stakingRates).forEach(({ rate }) => rates.push(rate))
 
-  const handleUpgradeNow = () => {
-    dispatch(actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: 'EarnPage' }))
-  }
   const handleEDDSubmitInfo = () => {
     dispatch(actions.components.interestUploadDocument.showModal({ origin: 'EarnPage' }))
-  }
-
-  if (!isGoldTier) {
-    return <NotGoldTierMessage handleClick={handleUpgradeNow} maxRate={Math.max(...rates)} />
   }
 
   if (isEDDRequired) {
@@ -65,10 +56,6 @@ type DataType = {
   earnEDDStatus: EarnEDDStatus
   rewardsRates: RewardsRatesType['rates']
   stakingRates: EarnRatesType['rates']
-}
-
-type PropTypes = {
-  isGoldTier: boolean
 }
 
 export default MessageContainer

@@ -39,6 +39,7 @@ import blockchainLogo from './img/bc-logo.svg'
 import blockchainLogoCircle from './img/bc-logo-circle.svg'
 import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgBannerPatternLg from './img/bg-banner-pattern-lg.svg'
+import bgModalGradient from './img/bg-modal-gradient.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bgPatternLatam from './img/bg-pattern-latam.svg'
 import bgReferral from './img/bg-referral.svg'
@@ -60,8 +61,10 @@ import checkEmptyBlue from './img/check-empty-blue.svg'
 import checkEmptyWhite from './img/check-empty-white.svg'
 import checkmarkCircleGreen from './img/checkmark-circle-green.svg'
 import circleEmpty from './img/circle-empty.svg'
+import circleQuestion from './img/circle-question.svg'
 import closeError from './img/close-error.svg'
 import cloudCheck from './img/cloud_check.svg'
+import cog from './img/cog.svg'
 import cowboySuite from './img/cowboy-suite.png'
 import cowboysLogo from './img/cowboys.svg'
 import creditCard from './img/credit-card.svg'
@@ -72,10 +75,17 @@ import orderFailed from './img/debitCard/order-failed.png'
 import orderMyCard from './img/debitCard/order-my-card.png'
 import orderSuccess from './img/debitCard/order-success.png'
 import terminateCard from './img/debitCard/terminate-card.png'
-import dexOnboardingSlideFunds from './img/dex-onboarding-slide-funds@2x.png'
-import dexOnboardingSlideNotEligible from './img/dex-onboarding-slide-not-eligible@2x.png'
-import dexOnboardingSlideSwap from './img/dex-onboarding-slide-swap@2x.png'
-import dexOnboardingSlideWelcome from './img/dex-onboarding-slide-welcome@2x.png'
+import dexGas from './img/dex/gas.svg'
+import dexNoTokenBalances from './img/dex/no-token-balances.png'
+import dexOnboardingSlideFunds from './img/dex/onboarding-slide-funds@2x.png'
+import dexOnboardingSlideNotEligible from './img/dex/onboarding-slide-not-eligible@2x.png'
+import dexOnboardingSlideSwap from './img/dex/onboarding-slide-swap@2x.png'
+import dexOnboardingSlideWelcome from './img/dex/onboarding-slide-welcome@2x.png'
+import dexPercentage from './img/dex/percentage.svg'
+import dexSwapConfirming from './img/dex/swap-confirming.png'
+import dexSwapError from './img/dex/swap-error.png'
+import dexTokenAllowance from './img/dex/token-allowance.svg'
+import dexVerificationCheck from './img/dex/verification-check.svg'
 import bars from './img/earn/bars.svg'
 import btcClock from './img/earn/btc-clock.svg'
 import btcGraph from './img/earn/btc-graph.svg'
@@ -189,6 +199,7 @@ const Images = {
   'apple-app-store-badge': appleAppStoreBadge,
   'apple-pay': applePay,
   'arrow-left': arrowLeft,
+  'backgorund-modal-gradient': bgModalGradient,
   bank,
   'bank-empty': bankEmpty,
   'bank-empty-blue': bankEmptyBlue,
@@ -244,8 +255,10 @@ const Images = {
   'check-empty-white': checkEmptyWhite,
   'checkmark-circle-green': checkmarkCircleGreen,
   'circle-empty': circleEmpty,
+  'circle-question': circleQuestion,
   'close-error': closeError,
   'cloud-check': cloudCheck,
+  cog,
   'cowboy-suite': cowboySuite,
   cowboys: cowboysLogo,
   'cowboys-jersey': cowboysJersey,
@@ -257,10 +270,17 @@ const Images = {
   'cryptoad-4502': cryptoad4502,
   'cryptoad-large': cryptoadlarge,
   'cryptoad-small': cryptoadsmall,
+  'dex-gas': dexGas,
+  'dex-no-token-balances': dexNoTokenBalances,
   'dex-onboarding-slide-funds': dexOnboardingSlideFunds,
   'dex-onboarding-slide-not-eligible': dexOnboardingSlideNotEligible,
   'dex-onboarding-slide-swap': dexOnboardingSlideSwap,
   'dex-onboarding-slide-welcome': dexOnboardingSlideWelcome,
+  'dex-percentage': dexPercentage,
+  'dex-swap-confirming': dexSwapConfirming,
+  'dex-swap-error': dexSwapError,
+  'dex-token-allowance': dexTokenAllowance,
+  'dex-verification-check': dexVerificationCheck,
   'earn-activity-empty': earnActivityEmpty,
   'earn-empty': earnEmpty,
   'email-error': emailError,

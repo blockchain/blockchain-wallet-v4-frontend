@@ -60,7 +60,7 @@ export const getAllCoins: () => Array<string> = memoizeWhenCoinsExist(_getAllCoi
 export const getErc20Coins: () => Array<string> = memoizeWhenCoinsExist(_getErc20Coins)
 export const getCoins = _getCoins
 
-export const getIsCoinDataLoaded = (state) => {
+export const getIsCoinDataLoaded = (state: RootState) => {
   return state.dataPath.coins.isCoinDataLoaded
 }
 

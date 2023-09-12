@@ -3,8 +3,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { MobilePaymentType, RefreshConfig } from '@core/types'
 import { Button, HeartbeatLoader } from 'blockchain-info-components'
-
-import { useCountDown } from '../../hooks/useCountDown'
+import { useCountDown } from 'hooks'
 
 export type Props = {
   isAcceptedTerms: boolean
@@ -17,6 +16,13 @@ export type Props = {
 export const ConfirmButton = (props: Props) => {
   const { isCompletingSoon } = useCountDown(props.refreshConfig.date, props.refreshConfig.totalMs)
 
+  const showLoading = props.isSubmitting || isCompletingSoon
+
+  const buttonDisabled =
+    showLoading ||
+    !props.isAcceptedTerms ||
+    (props.mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY && !props.isGooglePayReady)
+
   return (
     <Button
       fullwidth
@@ -25,14 +31,9 @@ export const ConfirmButton = (props: Props) => {
       size='16px'
       height='48px'
       type='submit'
-      disabled={
-        props.isSubmitting ||
-        isCompletingSoon ||
-        !props.isAcceptedTerms ||
-        (props.mobilePaymentMethod === MobilePaymentType.GOOGLE_PAY && !props.isGooglePayReady)
-      }
+      disabled={buttonDisabled}
     >
-      {props.isSubmitting || isCompletingSoon ? (
+      {showLoading ? (
         <HeartbeatLoader height='16px' width='16px' color='white' />
       ) : (
         <FormattedMessage id='buttons.buy_now' defaultMessage='Buy Now' />

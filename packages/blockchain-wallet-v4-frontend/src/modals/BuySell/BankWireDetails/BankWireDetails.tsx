@@ -1,14 +1,14 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import { AlertCard } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Icon } from 'blockchain-info-components'
 import { DisplayIcon, DisplaySubTitle, DisplayTitle } from 'components/BuySell'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
-import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import { FlyoutWrapper } from 'components/Flyout'
 
 import { Props as OwnProps, SuccessStateType } from '.'
+import { ActionFooter } from './ActionFooter'
 import { Header } from './Header'
 
 const Wrapper = styled.div`
@@ -18,32 +18,36 @@ const Wrapper = styled.div`
   height: 100%;
 `
 
-const Bottom = styled(FlyoutWrapper)`
+const RowCopy = styled.div`
   display: flex;
-  padding-top: 24px;
-  flex-direction: column;
-  height: 100%;
-`
-const LegalWrapper = styled(TextGroup)`
-  margin-top: 20px;
-`
-
-const RowCopy = styled(Row)`
-  display: flex;
+  align-items: center;
   flex-direction: row;
   justify-content: space-between;
+  border-bottom: 1px solid white;
+  padding: 16px;
+
+  &:last-child {
+    border-bottom: none;
+  }
 `
 
 const BottomInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 41px;
+  margin-top: 40px;
+
+  & > * {
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 `
 
 const BottomRow = styled.div`
   display: flex;
   flex-direction: row;
-  margin-bottom: 16px;
 
   > div.constellation {
     width: 100%;
@@ -59,8 +63,30 @@ const BottomMultiRowContainer = styled.div`
   margin-left: 16px;
 `
 
-const Copy = styled.div`
-  display: flex;
+const Entries = styled.div`
+  background-color: ${(props) => props.theme.grey000};
+  border-radius: 16px;
+`
+
+const SectionTitle = styled.div`
+  color: ${(props) => props.theme.grey700};
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 8px;
+`
+
+const EntryTitle = styled.div`
+  font-size: 14px;
+  color: ${(props) => props.theme.grey700};
+  font-weight: 500;
+  line-height: 1.5;
+`
+
+const EntryValue = styled.div`
+  font-size: 16px;
+  color: ${(props) => props.theme.grey900};
+  font-weight: 600;
+  line-height: 1.5;
 `
 
 type Props = OwnProps &
@@ -68,191 +94,61 @@ type Props = OwnProps &
     onClickBack: () => void
   }
 
-export const BankWireDetails: React.FC<Props> = (props) => {
-  const recipientName = `${props.userData.firstName} ${props.userData.lastName}`
-
+export const BankWireDetails = (props: Props) => {
   return (
     <Wrapper>
-      <div>
-        <FlyoutWrapper>
-          <Header
-            currency={props.account.currency}
-            displayBack={props.displayBack}
-            handleClose={props.handleClose}
-            onClickBack={props.onClickBack}
-          />
-        </FlyoutWrapper>
+      <FlyoutWrapper>
+        <Header
+          currency={props.account.currency}
+          displayBack={props.displayBack}
+          handleClose={props.handleClose}
+          onClickBack={props.onClickBack}
+        />
 
-        <RowCopy>
-          <div>
-            <Title>
-              <FormattedMessage
-                id='modals.simplebuy.transferdetails.recipient'
-                defaultMessage='Recipient'
-              />
-            </Title>
-            <Value data-e2e='sbRecipientName'>{recipientName}</Value>
+        {props.account.content.sections.map((section) => (
+          <div key={section.name}>
+            <SectionTitle>{section.name}</SectionTitle>
+
+            <Entries>
+              {section.entries.map((entry) => (
+                <RowCopy key={entry.id}>
+                  <div>
+                    <EntryTitle>{entry.title}</EntryTitle>
+                    <EntryValue>{entry.message}</EntryValue>
+                  </div>
+                  <CopyClipboardButton textToCopy={entry.message} />
+                </RowCopy>
+              ))}
+            </Entries>
           </div>
-          <Copy>
-            <CopyClipboardButton textToCopy={recipientName} />
-          </Copy>
-        </RowCopy>
-        {props.account.currency === 'EUR' && (
-          <RowCopy>
-            <div>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.bankname'
-                  defaultMessage='Bank Name'
-                />
-              </Title>
-              <Value data-e2e='sbBankName'>{props.account.agent.name}</Value>
-            </div>
-            <Copy>
-              <CopyClipboardButton textToCopy={props.account.agent.name} />
-            </Copy>
-          </RowCopy>
-        )}
-        {props.account.currency === 'EUR' && (
-          <RowCopy>
-            <div>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.IBAN'
-                  defaultMessage='IBAN'
-                />
-              </Title>
-              <Value data-e2e='sbIbanAddress'>{props.account.address}</Value>
-            </div>
-            <Copy>
-              <CopyClipboardButton textToCopy={props.account.address} />
-            </Copy>
-          </RowCopy>
-        )}
-        {props.account.currency === 'GBP' && !!props.account.agent.account && (
-          <RowCopy>
-            <div>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.account'
-                  defaultMessage='Account Number'
-                />
-              </Title>
-              <Value data-e2e='sbAccountNumber'>{props.account.agent.account}</Value>
-            </div>
-            <Copy>
-              <CopyClipboardButton textToCopy={props.account.agent.account} />
-            </Copy>
-          </RowCopy>
-        )}
-        {props.account.currency === 'GBP' && (
-          <RowCopy>
-            <div>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.sortcode'
-                  defaultMessage='Sort Code'
-                />
-              </Title>
-              <Value data-e2e='sbSortCode'>{props.account.agent.code}</Value>
-            </div>
-            <Copy>
-              <CopyClipboardButton textToCopy={props.account.agent.code} />
-            </Copy>
-          </RowCopy>
-        )}
-        {props.account.currency === 'EUR' && (
-          <RowCopy>
-            <div>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.swift'
-                  defaultMessage='Bank Code (SWIFT / BIC)'
-                />
-              </Title>
-              <Value data-e2e='sbBankCode'>{props.account.agent.code}</Value>
-            </div>
-            <Copy>
-              <CopyClipboardButton textToCopy={props.account.agent.code} />
-            </Copy>
-          </RowCopy>
-        )}
-      </div>
-      <Bottom>
-        <BottomInfoContainer>
-          <BottomRow>
-            <AlertCard
-              variant='warning'
-              content={
-                <FormattedMessage
-                  id='modals.simplebuy.deposit.bank_transfer_only_description'
-                  defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'
-                />
-              }
-              title={
-                <FormattedMessage
-                  id='modals.simplebuy.deposit.bank_transfer_only'
-                  defaultMessage='Bank Transfers Only'
-                />
-              }
-            />
-          </BottomRow>
-          <BottomRow>
-            <DisplayIcon>
-              <Icon size='18px' color='grey800' name='pending' />
-            </DisplayIcon>
-            <BottomMultiRowContainer>
-              <DisplayTitle>
-                <FormattedMessage
-                  id='modals.simplebuy.deposit.processing_time'
-                  defaultMessage='Processing Time'
-                />
-              </DisplayTitle>
-              <DisplaySubTitle>
-                {props.account.currency === 'GBP' && (
-                  <FormattedMessage
-                    id='modals.simplebuy.deposit.processing_time.info.gbp1'
-                    defaultMessage='Funds will be credited to your GBP Account as soon as we receive them. In the UK Faster Payments Network, this can take a couple of hours.'
-                  />
-                )}
-                {props.account.currency === 'EUR' && (
-                  <FormattedMessage
-                    id='modals.simplebuy.deposit.processing_time.info.eur1'
-                    defaultMessage='Funds will be credited to your EUR Account as soon as we receive them. SEPA transfers usually take around 1 business day to reach us.'
-                  />
-                )}
-              </DisplaySubTitle>
-            </BottomMultiRowContainer>
-          </BottomRow>
+        ))}
 
-          {props.account.currency === 'GBP' && (
-            <LegalWrapper inline>
-              <Text size='12px' weight={500} color='grey600'>
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.depositagreement'
-                  defaultMessage='By depositing funds to this account, you agree to {ToS}, our banking partner.'
-                  values={{
-                    ToS: (
-                      <Link
-                        href='https://exchange.blockchain.com/legal'
-                        size='12px'
-                        weight={500}
-                        rel='noreferrer noopener'
-                        target='_blank'
-                      >
-                        <FormattedMessage
-                          id='modals.simplebuy.transferdetails.agree'
-                          defaultMessage='Terms and Conditions of Modular'
-                        />
-                      </Link>
-                    )
-                  }}
-                />
-              </Text>
-            </LegalWrapper>
-          )}
+        <BottomInfoContainer>
+          {props.account.content.footers.map((footer) => {
+            if (footer.actions) {
+              return (
+                <ActionFooter key={footer.id} actions={footer.actions} message={footer.message} />
+              )
+            }
+
+            return footer.isImportant ? (
+              <BottomRow key={footer.id}>
+                <AlertCard variant='warning' content={footer.message} title={footer.title} />
+              </BottomRow>
+            ) : (
+              <BottomRow key={footer.id}>
+                <DisplayIcon>
+                  <Icon size='18px' color='grey800' name='pending' />
+                </DisplayIcon>
+                <BottomMultiRowContainer>
+                  <DisplayTitle>{footer.title}</DisplayTitle>
+                  <DisplaySubTitle>{footer.message}</DisplaySubTitle>
+                </BottomMultiRowContainer>
+              </BottomRow>
+            )
+          })}
         </BottomInfoContainer>
-      </Bottom>
+      </FlyoutWrapper>
     </Wrapper>
   )
 }

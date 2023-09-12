@@ -31,7 +31,7 @@ export const createNew = (
   password,
   sharedKey,
   mnemonic,
-  firstAccountName = 'Private Key Wallet',
+  firstAccountName = 'DeFi Wallet',
   nAccounts = 1
 ) => fromJS([HDWallet.js(firstAccountName, mnemonic, undefined, nAccounts, undefined)])
 

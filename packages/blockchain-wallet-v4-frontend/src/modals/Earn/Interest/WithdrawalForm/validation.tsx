@@ -39,17 +39,8 @@ export const minimumWithdrawalAmount = (
   allValues: InterestWithdrawalFormType,
   props: any
 ) => {
-  const { coin, displayCoin, rates, walletCurrency, withdrawalMinimums } = props
-  const MIN_WITHDRAWAL = withdrawalMinimums.find(propEq('symbol', coin)).value
-  const withdrawalMin = displayCoin
-    ? MIN_WITHDRAWAL
-    : Exchange.convertCoinToFiat({
-        coin,
-        currency: walletCurrency,
-        isStandard: true,
-        rates,
-        value: MIN_WITHDRAWAL
-      })
+  const { coin, displayCoin, walletCurrency } = props
+  const withdrawalMin = convertBaseToStandard(coin, '1')
 
   return new BigNumber(Number(withdrawalMin)).isGreaterThan(Number(value)) ? (
     <FormattedMessage

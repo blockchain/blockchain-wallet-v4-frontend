@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Navbar } from 'components/Navbar'
+import { PrimaryNavItem } from 'components/Navbar/Navbar'
 import { selectors } from 'data'
 import { Analytics, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
@@ -20,6 +21,7 @@ const Header = (props: OwnProps) => {
     featureFlags,
     history,
     invitations,
+    isDexEligible,
     isKycVerificationEnabled,
     isReferralAvailable,
     isReferralEnabled,
@@ -87,7 +89,7 @@ const Header = (props: OwnProps) => {
     })
   }, [analyticsActions, history])
 
-  const primaryNavItems = [
+  const primaryNavItems: PrimaryNavItem[] = [
     {
       dest: '/home',
       e2e: 'homeLink',
@@ -101,7 +103,6 @@ const Header = (props: OwnProps) => {
     {
       dest: '/earn',
       e2e: 'earnLink',
-      isNew: true,
       text: <FormattedMessage id='copy.earn' defaultMessage='Earn' />
     }
   ]
@@ -122,7 +123,7 @@ const Header = (props: OwnProps) => {
     })
   }
 
-  if (featureFlags.dex) {
+  if (featureFlags.dex && isDexEligible) {
     primaryNavItems.push({
       dest: '/dex',
       e2e: 'dexLink',

@@ -91,7 +91,7 @@ export const To = ({ campaignName, userCampaignState }: CampaignInfoType) => {
     case 'SUNRIVER':
       return userCampaignState === 'REWARD_RECEIVED' ? (
         <Text size='14px' weight={500}>
-          XLM Private Key Wallet
+          XLM DeFi Wallet
         </Text>
       ) : (
         <Text>-</Text>
@@ -99,7 +99,7 @@ export const To = ({ campaignName, userCampaignState }: CampaignInfoType) => {
     case 'BLOCKSTACK':
       return userCampaignState === 'REWARD_RECEIVED' ? (
         <Text size='14px' weight={500}>
-          STX Private Key Wallet
+          STX DeFi Wallet
         </Text>
       ) : (
         <Text>-</Text>

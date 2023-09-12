@@ -1,6 +1,10 @@
 import z from 'zod'
 
 import type {
+  BuildDexTx,
+  BuildDexTxPreImage,
+  BuildDexTxRawTx,
+  BuildDexTxSummary,
   DexBuyAmount,
   DexChain,
   DexQuote,
@@ -8,8 +12,7 @@ import type {
   DexSwapQuote,
   DexSwapQuoteType,
   DexToken,
-  DexTokenNative,
-  DexTokenNotNative,
+  DexTokenAllowance,
   DexTransaction,
   DexVenueType
 } from './types'
@@ -28,37 +31,18 @@ const DexVenueTypeSchema: z.ZodSchema<DexVenueType, z.ZodTypeDef, unknown> = z.l
 const DexSwapQuoteTypeSchema: z.ZodSchema<DexSwapQuoteType, z.ZodTypeDef, unknown> =
   z.literal('SINGLE')
 
-const DexTokenNativeSchema: z.ZodSchema<DexTokenNative, z.ZodTypeDef, unknown> = z
-  .object({
-    address: z.string(),
-    chainId: z.number(),
-    decimals: z.number(),
-    name: z.string(),
-    symbol: z.string()
-  })
-  .transform((data) => ({ type: 'NATIVE', ...data }))
-
-const DexTokenNotNativeSchema: z.ZodSchema<DexTokenNotNative, z.ZodTypeDef, unknown> = z
-  .object({
-    address: z.string(),
-    chainId: z.number(),
-    decimals: z.number(),
-    isNative: z.optional(z.boolean()),
-    name: z.string(),
-    symbol: z.string(),
-    verifiedBy: z.number()
-  })
-  .transform(({ isNative, ...result }) => ({ type: 'NOT_NATIVE', ...result }))
-
-export const DexTokenSchema: z.ZodSchema<DexToken, z.ZodTypeDef, unknown> = z.union([
-  DexTokenNativeSchema,
-  DexTokenNotNativeSchema
-])
+export const DexTokenSchema: z.ZodSchema<DexToken, z.ZodTypeDef, unknown> = z.object({
+  address: z.string(),
+  chainId: z.number(),
+  decimals: z.number(),
+  name: z.string(),
+  symbol: z.string()
+})
 
 export const DexChainSchema: z.ZodSchema<DexChain, z.ZodTypeDef, unknown> = z.object({
   chainId: z.number(),
   name: z.string(),
-  nativeCurrency: DexTokenNativeSchema
+  nativeCurrency: DexTokenSchema
 })
 
 const DexBuyAmountSchema: z.ZodSchema<DexBuyAmount, z.ZodTypeDef, unknown> = z
@@ -66,7 +50,7 @@ const DexBuyAmountSchema: z.ZodSchema<DexBuyAmount, z.ZodTypeDef, unknown> = z
     address: z.string(),
     amount: stringToPositiveFloat,
     chainId: z.number(),
-    minAmount: stringToPositiveFloat,
+    minAmount: stringToPositiveFloat.optional(),
     symbol: z.string()
   })
   .transform((data) => ({ type: 'BUY', ...data }))
@@ -76,6 +60,7 @@ const DexSellAmountSchema: z.ZodSchema<DexSellAmount, z.ZodTypeDef, unknown> = z
     address: z.string(),
     amount: stringToPositiveFloat,
     chainId: z.number(),
+    minAmount: stringToPositiveFloat.optional(),
     symbol: z.string()
   })
   .transform((data) => ({ type: 'SELL', ...data }))
@@ -94,16 +79,43 @@ const DexTransactionSchema: z.ZodSchema<DexTransaction, z.ZodTypeDef, unknown> =
   // TODO: Change to just z.number when it's fixed on BE
   chainId: z.union([z.number(), stringToPositiveFloat]),
   data: z.string(),
-  gasLimit: stringToPositiveFloat,
-  gasPrice: stringToPositiveFloat,
+  gasLimit: z.string(),
+  gasPrice: z.string(),
   to: z.string(),
-  value: stringToPositiveFloat
+  value: z.string()
+})
+
+const DexPreImageSchema: z.ZodSchema<BuildDexTxPreImage, z.ZodTypeDef, unknown> = z.object({
+  descriptor: z.literal('legacy'),
+  preImage: z.string(),
+  signatureAlgorithm: z.literal('secp256k1'),
+  signingKey: z.string()
+})
+
+const DexBuildRawTxSchema: z.ZodSchema<BuildDexTxRawTx, z.ZodTypeDef, unknown> = z.object({
+  payload: z.object({
+    chainId: z.string(),
+    data: z.string(),
+    gasLimit: z.string(),
+    gasPrice: z.string(),
+    nonce: z.number(),
+    to: z.string(),
+    value: z.string()
+  }),
+  version: z.number()
+})
+
+const BuildDexTxSummarySchema: z.ZodSchema<BuildDexTxSummary, z.ZodTypeDef, unknown> = z.object({
+  absoluteFeeEstimate: z.string(),
+  absoluteFeeMaximum: z.string(),
+  relativeFee: z.string()
 })
 
 export const DexSwapQuoteSchema: z.ZodSchema<DexSwapQuote, z.ZodTypeDef, unknown> = z
   .object({
     legs: z.literal(1),
     quote: DexQuoteSchema,
+    quoteTtl: z.number(),
     tx: DexTransactionSchema,
     type: DexSwapQuoteTypeSchema,
     venueType: DexVenueTypeSchema
@@ -113,8 +125,27 @@ export const DexSwapQuoteSchema: z.ZodSchema<DexSwapQuote, z.ZodTypeDef, unknown
     ...result
   }))
 
+const DexEnabledSchema: z.ZodSchema<boolean, z.ZodTypeDef, unknown> = z
+  .object({
+    enabled: z.boolean()
+  })
+  .transform(({ enabled }) => enabled)
+
 export const DexUserEligibilitySchema: z.ZodSchema<boolean, z.ZodTypeDef, unknown> = z
   .object({
-    eligible: z.boolean()
+    dex: DexEnabledSchema
   })
-  .transform(({ eligible }) => eligible)
+  .transform(({ dex }) => dex)
+
+export const DexTokenAllowanceSchema: z.ZodSchema<DexTokenAllowance, z.ZodTypeDef, unknown> =
+  z.object({
+    result: z.object({
+      allowance: z.string()
+    })
+  })
+
+export const BuildDexTxSchema: z.ZodSchema<BuildDexTx, z.ZodTypeDef, unknown> = z.object({
+  preImages: DexPreImageSchema.array(),
+  rawTx: DexBuildRawTxSchema,
+  summary: BuildDexTxSummarySchema
+})

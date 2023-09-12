@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { find, propEq, propOr } from 'ramda'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
@@ -33,6 +32,7 @@ import { applyToUpperCase } from 'services/forms/normalizers'
 
 import { SIGNUP_FORM } from '../..'
 import { SubviewProps } from '../../types'
+import ContinueOnPhone from './ContinueOnPhone'
 
 const StyledForm = styled(Form)`
   margin-top: 20px;
@@ -103,19 +103,21 @@ const SignupForm = (props: Props) => {
     isValidReferralCode,
     onCountrySelect,
     onSignupSubmit,
+    setShowModal,
     showState
   } = props
+
   const passwordValue = formValues?.password || ''
   const referralValue = formValues?.referral || ''
+  const isStateTexas = formValues?.state === 'US-TX'
+
   const showReferralError =
     referralValue.length > 0 && isValidReferralCode !== undefined && !isValidReferralCode
 
   const { data: supportedCountries } = useCountryList({ scope: CountryScope.SIGNUP })
   const { data: supportedUSStates } = useUSStateList()
-
-  const dataGoal = find(propEq('name', 'signup'), goals)
-  const goalData: SignUpGoalDataType = propOr({}, 'data', dataGoal)
-  const { email } = goalData
+  const dataGoal = goals.find((g) => g.name === 'signup')
+  const { email }: SignUpGoalDataType = dataGoal?.data || {}
 
   useEffect(() => {
     if (email) {
@@ -264,6 +266,11 @@ const SignupForm = (props: Props) => {
             />
           </FieldWithoutTopRadius>
         ) : null}
+        {isStateTexas && (
+          <FormItem>
+            <ContinueOnPhone setShowModal={setShowModal} />
+          </FormItem>
+        )}
       </FormGroup>
       {isReferralEnabled && (
         <FormGroup>
@@ -303,7 +310,7 @@ const SignupForm = (props: Props) => {
       </FormGroup>
       <Button
         data-e2e='signupButton'
-        disabled={isFormSubmitting || invalid}
+        disabled={isFormSubmitting || invalid || isStateTexas}
         fullwidth
         height='48px'
         nature='primary'
@@ -321,6 +328,6 @@ const SignupForm = (props: Props) => {
   )
 }
 
-type Props = InjectedFormProps<{}> & SubviewProps
+type Props = InjectedFormProps<{}> & SubviewProps & { setShowModal?: (e) => void }
 
 export default SignupForm

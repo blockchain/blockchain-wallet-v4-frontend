@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import { connect, ConnectedProps, useSelector } from 'react-redux'
-import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import {
@@ -47,19 +46,23 @@ const Checkout = (props: Props) => {
   const preferences = useSelector((state: RootState) =>
     selectors.preferences.getBSCheckoutPreferences(state)
   )
+  const buySellGoal = goals.find((goal) => goal.name === 'buySell')
+
+  const modalOrigin = useSelector((state: RootState) =>
+    selectors.components.buySell.getOrigin(state)
+  )
 
   const methodRef = useRef<string>()
 
   const handleSubmit = () => {
+    // Measure how long it takes to go to next step from Preview Buy
     if (!data) return
 
     const { hasPaymentAccount } = data
 
-    const buySellGoal = find(propEq('name', 'buySell'), goals)
+    const id = buySellGoal?.id ?? ''
 
-    const id = propOr('', 'id', buySellGoal)
-
-    if (!isEmpty(id)) {
+    if (id) {
       props.deleteGoal(String(id))
     }
 
@@ -93,7 +96,6 @@ const Checkout = (props: Props) => {
               paymentMethodId: method.id,
               paymentType: BSPaymentTypes.PAYMENT_CARD
             })
-
             break
           }
 
@@ -119,7 +121,6 @@ const Checkout = (props: Props) => {
           })
           break
         case BSPaymentTypes.BANK_ACCOUNT:
-          break
         default:
           break
       }
@@ -131,8 +132,7 @@ const Checkout = (props: Props) => {
   }
 
   useEffect(() => {
-    const dataGoal = find(propEq('name', 'buySell'), goals)
-    const goalAmount = pathOr('', ['data', 'amount'], dataGoal)
+    const goalAmount = buySellGoal?.data?.amount ?? ''
     const amount = goalAmount || formValues?.amount
     const cryptoAmount = formValues?.cryptoAmount
     const period = formValues?.period || RecurringBuyPeriods.ONE_TIME
@@ -216,10 +216,10 @@ const Checkout = (props: Props) => {
 
   return (
     <Success
-      formValues={formValues}
-      isPristine={isPristine}
       {...props}
       {...data}
+      formValues={formValues}
+      isPristine={isPristine}
       onSubmit={handleSubmit}
     />
   )

@@ -22,10 +22,7 @@ addEventListener('message', ({ data }) => {
         assets[coin.symbol] = { coinfig: coin }
       })
 
-      // TODO: remove this once backend adds flags
-      assets.XLM.coinfig.type.isMemoBased = true
-
-      // TODO: remove once backend returns this
+      assets.MATIC.coinfig.type.logoPngUrl = assets['MATIC.MATIC'].coinfig.type.logoPngUrl
       assets.STX.coinfig.products.push('DynamicSelfCustody')
       assets.STX.coinfig.type.isMemoBased = true
 

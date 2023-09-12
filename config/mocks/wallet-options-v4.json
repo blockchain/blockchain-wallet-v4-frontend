@@ -76,6 +76,8 @@
         "stxSelfCustodyEnableAll": true,
         "themeEnabled": true,
         "unifiedAccountLogin": true,
+        "useAgentHotWalletAddress": true,
+        "useAgentHotWalletAddressForSell": false,
         "useLoqateService": true,
         "useNewPaymentProviders": true,
         "useVgsProvider": true,

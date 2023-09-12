@@ -24,7 +24,7 @@ const erc20FromLabel = curry((coin, payment) => {
   const { coinfig } = window.coins[coin]
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
-      return `${coinfig.displaySymbol} Private Key Wallet`
+      return `${coinfig.displaySymbol} DeFi Wallet`
     default:
       return from.address
   }

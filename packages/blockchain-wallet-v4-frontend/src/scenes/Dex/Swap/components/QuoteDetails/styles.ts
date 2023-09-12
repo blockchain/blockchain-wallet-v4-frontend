@@ -30,11 +30,15 @@ export const RowDetails = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  height: 45px;
   padding: 8px 16px;
   border-bottom: 1px solid ${(props) => props.theme.grey000};
 `
 
 export const RowTitle = styled(Text)`
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-weight: 500;
   font-size: 14px;
   line-height: 150%;
@@ -48,13 +52,6 @@ export const ValueText = styled(Text)`
   color: ${(props) => props.theme.textBlack};
 `
 
-export const ValueSubText = styled(Text)`
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 150%;
-  color: ${(props) => props.theme.grey600};
-`
-
 export const EditSlippageText = styled(Text)`
   font-weight: 500;
   font-size: 12px;
@@ -64,5 +61,3 @@ export const EditSlippageText = styled(Text)`
     cursor: pointer;
   }
 `
-
-export const LoadingBox = styled(SkeletonRectangle)``

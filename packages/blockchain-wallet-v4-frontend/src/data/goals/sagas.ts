@@ -675,7 +675,9 @@ export default ({ api, coreSagas, networks }) => {
       .getOrElse(false)
     // check if user is under review. resubmission status sometimes only
     // is removed from user profile after they are verified
-    const kycState = (yield select(selectors.modules.profile.getUserKYCState)).getOrElse('NONE')
+    const kycState = (yield select(selectors.modules.profile.getUserKYCState)).getOrElse(
+      KYC_STATES.NONE
+    )
     const isKycPending = kycState === KYC_STATES.UNDER_REVIEW || kycState === KYC_STATES.PENDING
     if (showKycDocResubmitModal && !isKycPending) {
       yield put(
@@ -980,6 +982,9 @@ export default ({ api, coreSagas, networks }) => {
     const { current } = (yield select(selectors.modules.profile.getUserTiers)).getOrElse({
       current: 0
     }) || { current: 0 }
+    const kycState = (yield select(selectors.modules.profile.getUserKYCState)).getOrElse(
+      KYC_STATES.NONE
+    )
     // If the user is tagged with the COWBOYS_2022 promo tag don't show them the typical verify notice modal
     const hasCowboysTag = selectors.modules.profile.getCowboysTag(yield select()).getOrElse(false)
 
@@ -993,7 +998,12 @@ export default ({ api, coreSagas, networks }) => {
       kycVerification: { enabled: false }
     } as ProductEligibilityForUser)
 
-    if (current < 2 && !hasCowboysTag && products?.kycVerification?.enabled) {
+    if (
+      current < 2 &&
+      !hasCowboysTag &&
+      products?.kycVerification?.enabled &&
+      kycState !== KYC_STATES.REJECTED
+    ) {
       yield put(
         actions.goals.addInitialModal({
           data: { origin },

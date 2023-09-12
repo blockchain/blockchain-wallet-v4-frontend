@@ -366,6 +366,30 @@ class Tooltips extends React.PureComponent {
             defaultMessage='You can still make an offer using an ERC20 like WETH.'
           />
         </Tooltip>
+        <Tooltip id='tooltip.dex.minimum_amount'>
+          <FormattedMessage
+            id='scenes.dex.quote_details.minimum_amount.tooltip'
+            defaultMessage='The minimum amount you are guaranteed to receive. If the price changes more than your set slippage, your transaction will revert.'
+          />
+        </Tooltip>
+        <Tooltip id='tooltip.dex.slippage'>
+          <FormattedMessage
+            id='scenes.dex.quote_details.network_fee.tooltip'
+            defaultMessage='Slippage is the max percentage of price you’re willing to allow for your swap to go through. If price changes beyond that, the swap will revert and your assets will be returned.'
+          />
+        </Tooltip>
+        <Tooltip id='tooltip.dex.network_fee'>
+          <FormattedMessage
+            id='scenes.dex.quote_details.network_fee.tooltip'
+            defaultMessage='A fee paid to process your transaction. This must be paid in the network’s native token.'
+          />
+        </Tooltip>
+        <Tooltip id='tooltip.dex.blockchain_fee'>
+          <FormattedMessage
+            id='scenes.dex.quote_details.blockchain_fee.tooltip'
+            defaultMessage='This is a small fee for using the Blockchain.com DEX service.'
+          />
+        </Tooltip>
       </TooltipWrapper>
     )
   }

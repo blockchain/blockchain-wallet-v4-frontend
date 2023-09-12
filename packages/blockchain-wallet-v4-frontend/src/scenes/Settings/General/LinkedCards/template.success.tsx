@@ -73,8 +73,6 @@ const Success: React.FC<
               />
             }
             icon={<IconCreditCard size='medium' color={PaletteColors['blue-600']} />}
-            bottomRightText=''
-            topRightText=''
           />
         )}
         {activeCards.map((card) => {

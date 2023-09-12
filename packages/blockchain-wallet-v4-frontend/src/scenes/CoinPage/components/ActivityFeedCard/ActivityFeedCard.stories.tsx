@@ -27,7 +27,7 @@ export const SuccessState = () => {
         <AccountSelectBox
           items={[
             {
-              text: 'Private Key Wallet',
+              text: 'DeFi Wallet',
               value: 'private key'
             }
           ]}
