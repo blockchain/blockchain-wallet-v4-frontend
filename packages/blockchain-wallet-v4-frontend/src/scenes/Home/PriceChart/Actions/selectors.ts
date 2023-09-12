@@ -10,7 +10,6 @@ export const getData = createDeepEqualSelector(
 
     return {
       coinName,
-      coinTicker,
       cryptoCurrency
     }
   }
