@@ -1,6 +1,6 @@
 import { lift, map } from 'ramda'
 
-import { Exchange } from '@core'
+import { TimeRange } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
@@ -13,9 +13,8 @@ export const getData = createDeepEqualSelector(
   ],
   (currencyR, priceChartPreferences, coin, priceIndexSeriesDataR) => {
     const currency = currencyR.getOrElse('USD')
-    const currencySymbol = Exchange.getSymbol(currency)
     const cacheCoin = priceChartPreferences.coin
-    const cacheTime = priceChartPreferences.time || 'month'
+    const cacheTime = priceChartPreferences.time ?? TimeRange.MONTH
 
     const transform = (priceIndexSeriesData) => ({
       coin,
@@ -27,7 +26,6 @@ export const getData = createDeepEqualSelector(
         time: cacheTime
       },
       currency,
-      currencySymbol,
       data: lift(transform)(priceIndexSeriesDataR)
     }
   }
