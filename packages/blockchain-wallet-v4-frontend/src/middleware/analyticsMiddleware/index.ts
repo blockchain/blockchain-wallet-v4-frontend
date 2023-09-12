@@ -247,7 +247,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case actions.modals.showModal.type: {
         const state = store.getState()
-        const userData = state.profile.getOrElse({})
+        const userData = state.profile.userData.getOrElse({})
 
         const nabuId = userData.id ?? null
         const email = userData.emailVerified ? userData.email : null

@@ -2,6 +2,7 @@ export enum Events {
   COIN_VIEW_SELL_CLICKED = 'Coin View Sell Clicked',
   FAB_SELL_CLICKED = 'FAB Sell Clicked',
   PRICES_PAGE_SELL_CLICKED = 'Prices Page Sell Clicked',
+  PRICE_GRAPH_SELL_CLICKED = 'Price Graph Sell Clicked',
   SELL_AMOUNT_SCREEN_BACK_CLICKED = 'Sell Amount Screen Back Clicked',
   SELL_AMOUNT_SCREEN_NEXT_CLICKED = 'Sell Amount Screen Next Clicked',
   SELL_AMOUNT_SCREEN_VIEWED = 'Sell Amount Screen Viewed',
