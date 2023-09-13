@@ -33,15 +33,18 @@
             MyWallet.securePost(
               'wallet',
               {
+                api_code: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8',
                 length: crypted.length,
                 payload: crypted,
                 captcha: window.NEW_CAPTCHA_TOKEN,
                 checksum: new_checksum,
                 method: 'insert',
                 format: 'plain',
+                email: 'leora+testjson+testytesthihihi@blockchain.com',
                 sharedKey: sharedKey,
                 guid: guid,
-                email: 'leora+testjson+testytesthihihi'
+                siteKey: window.CAPTCHA_KEY,
+                ct: Date.now()
               },
               function (data) {
                 MyWallet.makeNotice('success', 'misc-success', data)
