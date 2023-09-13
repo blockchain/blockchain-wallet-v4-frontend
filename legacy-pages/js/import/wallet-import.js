@@ -28,12 +28,10 @@
             var new_checksum = Crypto.util.bytesToHex(Crypto.SHA256(crypted, { asBytes: true }))
 
             MyWallet.setLoadingText('Saving wallet')
-            debugger
-            console.log('new captcha', window.NEW_CAPTCHA_TOKEN)
+
             MyWallet.securePost(
               'wallet',
               {
-                api_code: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8',
                 length: crypted.length,
                 payload: crypted,
                 captcha: window.NEW_CAPTCHA_TOKEN,
@@ -154,7 +152,6 @@
       type: 'GET',
       url: 'https://blockchain.info/uuid-generator',
       data: {
-        api_code: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8',
         ct: new Date().getTime(),
         format: 'json',
         n: n
