@@ -40,7 +40,6 @@
                 checksum: new_checksum,
                 method: 'insert',
                 format: 'plain',
-                email: 'leora+testjson+testytesthihihi@blockchain.com',
                 sharedKey: sharedKey,
                 guid: guid,
                 siteKey: window.CAPTCHA_KEY,
@@ -153,7 +152,7 @@
   function generateUUIDs(n, success, error) {
     $.ajax({
       type: 'GET',
-      url: 'https://staging.blockchain.info/uuid-generator',
+      url: 'https://blockchain.info/uuid-generator',
       data: {
         api_code: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8',
         ct: new Date().getTime(),
