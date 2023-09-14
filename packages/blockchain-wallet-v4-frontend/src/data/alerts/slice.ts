@@ -36,16 +36,16 @@ const alertsSlice = createSlice({
 })
 
 const displayWarning = (message: string, data?: any, persist?: boolean) =>
-  alertsSlice.actions.showAlerts(ToastNatureType.WARN, message, data, persist)
+  alertsSlice.actions.showAlerts('warn' as ToastNatureType, message, data, persist)
 
 const displayInfo = (message: string, data?: any, persist?: boolean) =>
-  alertsSlice.actions.showAlerts(ToastNatureType.INFO, message, data, persist)
+  alertsSlice.actions.showAlerts('info' as ToastNatureType, message, data, persist)
 
 const displaySuccess = (message: string, data?: any, persist?: boolean) =>
-  alertsSlice.actions.showAlerts(ToastNatureType.SUCCESS, message, data, persist)
+  alertsSlice.actions.showAlerts('success' as ToastNatureType, message, data, persist)
 
 const displayError = (message: string, data?: any, persist?: boolean, coin?: CoinType) =>
-  alertsSlice.actions.showAlerts(ToastNatureType.ERROR, message, data, persist, coin)
+  alertsSlice.actions.showAlerts('error' as ToastNatureType, message, data, persist, coin)
 
 export const actions = {
   ...alertsSlice.actions,
