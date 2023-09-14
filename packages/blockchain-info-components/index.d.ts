@@ -262,7 +262,7 @@ export const TextGroup: FunctionComponent<{
   inline?: boolean
   style?: CSSProperties
 }>
-export enum ToastNatureType {
+enum ToastNatureType {
   ERROR = 'error',
   INFO = 'info',
   SUCCESS = 'success',
