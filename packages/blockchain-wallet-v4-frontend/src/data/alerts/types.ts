@@ -1,7 +1,13 @@
 import { CoinType } from '@core/types'
-import { ToastNatureType } from 'blockchain-info-components'
 
 // types
+export enum ToastNatureType {
+  ERROR = 'error',
+  INFO = 'info',
+  SUCCESS = 'success',
+  WARN = 'warn'
+}
+
 export type AlertType = {
   coin?: CoinType
   data?: any
