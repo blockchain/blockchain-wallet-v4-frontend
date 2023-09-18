@@ -1,3 +1,5 @@
+import { BigNumber } from 'ethers'
+
 import { BuildDexTx } from '@core/network/api/dex/types'
 
 import { ParsedTx } from '../types'
@@ -9,12 +11,12 @@ export const parseRawTx = (tx: BuildDexTx): ParsedTx => {
   const { chainId, data, gasLimit, gasPrice, nonce, to, value } = payload
 
   return {
-    chainId,
+    chainId: Number(chainId),
     data,
-    gasLimit,
-    gasPrice,
+    gasLimit: BigNumber.from(gasLimit).toHexString(),
+    gasPrice: BigNumber.from(gasPrice).toHexString(),
     nonce,
     to,
-    value
+    value: BigNumber.from(value).toHexString()
   }
 }

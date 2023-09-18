@@ -4,7 +4,7 @@ import type { DexChain, DexSwapQuote } from '@core/network/api/dex'
 import { CoinType, RemoteDataType } from '@core/types'
 
 export type ParsedTx = {
-  chainId: string
+  chainId: number
   data: string
   gasLimit: string
   gasPrice: string
