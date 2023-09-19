@@ -60,6 +60,10 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     isNotAsked: isTokenAllowanceNotAsked
   } = useRemote(selectors.components.dex.getTokenAllowanceStatus)
 
+  const { data: isPolledTokenAllowed } = useRemote(
+    selectors.components.dex.getTokenAllowanceStatusAfterPolling
+  )
+
   const { isNotAsked: isTokenAllowanceTxNotAsked } = useRemote(
     selectors.components.dex.getTokenAllowanceTx
   )
@@ -288,7 +292,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           size='large'
           width='full'
           variant='primary'
-          disabled={!quote || !!showAllowanceCheck}
+          disabled={!quote || (!isPolledTokenAllowed && !!showAllowanceCheck)}
           onClick={onConfirmSwap}
           text={
             quoteError ? (
