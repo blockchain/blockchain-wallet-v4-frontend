@@ -170,8 +170,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield* select()
         ) as DexSwapForm
 
-        const isTokenAllowedR = S.getTokenAllowanceStatus(yield select())
-        const isTokenAllowed = isTokenAllowedR.getOrElse(false)
+        const isTokenAllowed = S.getTokenAllowanceStatus(yield select()).getOrElse(false)
 
         if (
           !formValues ||
@@ -249,8 +248,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             },
             venue: 'ZEROX' as const
           })
-
-          // need to some how map correctly based on which side it is on.
 
           yield* put(
             // @ts-ignore
@@ -347,7 +344,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     // reset insufficient balance error if user changes token
-    if (field === 'baseToken' && baseToken) {
+    if (baseToken && field === 'baseToken') {
       const error = yield select(selectors.components.dex.getSwapQuote)
       if (error) yield put(A.clearCurrentSwapQuote())
 
