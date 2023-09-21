@@ -75,20 +75,12 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     }
   }, [baseToken, isTokenAllowanceTxNotAsked, previousBaseToken])
 
-  useEffect(() => {
-    // if baseToken exists and baseToken is not ETH, fetch token allowance
-    if (baseToken && baseToken !== 'ETH') {
-      dispatch(actions.components.dex.fetchTokenAllowance({ baseToken }))
-    }
-  }, [baseToken])
-
   const baseTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
   )
   const counterTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
   )
-  const swapSideType = useSelector(selectors.components.dex.getSwapSideType)
 
   const showAllowanceCheck =
     baseToken &&
@@ -250,7 +242,6 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           isQuoteLoading={false}
           isQuoteLocked={false}
           swapQuote={quote}
-          swapSideType={swapSideType}
         />
       ) : null}
 

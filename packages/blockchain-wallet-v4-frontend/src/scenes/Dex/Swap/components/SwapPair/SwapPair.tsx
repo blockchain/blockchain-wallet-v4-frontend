@@ -88,7 +88,7 @@ export const SwapPair = ({ amount, swapSide, walletCurrency, ...props }: Props) 
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
-          disabled={props.isQuoteLocked}
+          disabled={props.isQuoteLocked || swapSide === DexSwapSide.COUNTER}
           placeholder='0'
           name={amountInputField}
           validate={[]}
@@ -168,7 +168,7 @@ export const SwapPair = ({ amount, swapSide, walletCurrency, ...props }: Props) 
         <Field
           component={AmountInput}
           data-e2e={`${swapSide}AmountField`}
-          disabled={props.isQuoteLocked}
+          disabled={props.isQuoteLocked || swapSide === DexSwapSide.COUNTER}
           placeholder='0'
           name={amountInputField}
           validate={[]}

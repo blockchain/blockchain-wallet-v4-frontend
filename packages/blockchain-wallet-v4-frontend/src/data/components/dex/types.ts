@@ -54,7 +54,6 @@ export type DexStateType = {
   isUserEligible: RemoteDataType<string, boolean>
   swapQuote: RemoteDataType<QuoteError, DexSwapQuoteWithDate>
   swapQuoteTx: RemoteDataType<string, SwapQuoteSuccess>
-  swapSideType: DexSwapSide
   tokenAllowanceGasEstimate: string
   tokenAllowanceTx: RemoteDataType<string, ParsedTx>
   tokens: DexToken[]
