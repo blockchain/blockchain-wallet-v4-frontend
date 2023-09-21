@@ -2,7 +2,7 @@ import Task from 'data.task'
 import { addMilliseconds } from 'date-fns'
 import * as ethers from 'ethers'
 import { initialize } from 'redux-form'
-import { call, delay, put, select } from 'typed-redux-saga'
+import { call, delay, put, select, take } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
@@ -112,6 +112,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           step: DexSwapSteps.ENTER_DETAILS
         })
       )
+      if (tokensWithBalance[0].symbol !== NATIVE_TOKEN)
+        yield put(A.fetchTokenAllowance({ baseToken: tokensWithBalance[0].symbol }))
+
       yield put(A.setTokens(tokens))
       yield put(A.fetchChains())
     } else {
@@ -167,6 +170,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           yield* select()
         ) as DexSwapForm
 
+        const isTokenAllowed = S.getTokenAllowanceStatus(yield select()).getOrElse(false)
+
         if (
           !formValues ||
           formValues.isFlipping ||
@@ -175,8 +180,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           return yield put(A.stopPollSwapQuote())
         }
 
-        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage, step } =
+        const { baseToken, baseTokenAmount, counterToken, counterTokenAmount, slippage } =
           formValues
+
         if (
           baseToken &&
           counterToken &&
@@ -211,12 +217,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw Error('No counter token')
           }
 
-          const counterAmount = Exchange.convertCoinToCoin({
-            baseToStandard: false,
-            coin: counterToken,
-            value: counterTokenAmount || 0
-          })
-
           const nonCustodialCoinAccounts = selectors.coins.getCoinAccounts(yield* select(), {
             coins: [baseToken, NATIVE_TOKEN],
             nonCustodialAccounts: true
@@ -229,34 +229,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             throw Error('No user wallet address')
           }
 
-          const sideType = yield select(S.getSwapSideType)
-
           const quoteResponse = yield* call(api.getDexSwapQuote, {
             fromCurrency: {
               address: baseTokenInfo.address,
-              amount: sideType === DexSwapSide.BASE ? baseAmount : undefined,
+              amount: baseAmount,
               chainId: currentChain.chainId,
               symbol: baseToken
             },
             params: {
-              skipValidation: step === DexSwapSteps.ENTER_DETAILS,
+              skipValidation: !isTokenAllowed && baseToken !== NATIVE_TOKEN,
               slippage: `${slippage}`
             },
-
-            // User always has a private wallet setup automatically on sign up but should go through a security phrase
-            // in order to receive funds. If he didn't do it he has 0 balance and just nothing to swap. We don't need
-            // any additional checks here to make sure user can use a wallet
-            // TODO: Pass selected wallet not the first one when we have more than 1 wallet
             takerAddress: `${nonCustodialAddress}`,
-
             toCurrency: {
               address: counterTokenInfo.address,
-              amount: sideType === DexSwapSide.COUNTER ? counterAmount : undefined,
               chainId: currentChain.chainId,
               symbol: counterToken
             },
-
-            // Hardcoded now. In future get it from: https://{{dex_url}}/v1/venues
             venue: 'ZEROX' as const
           })
 
@@ -272,13 +261,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const { quote, quoteTtl, transaction } = quoteResponse
 
           if (quote) {
-            const nonEthCustodialbalance = nonCustodialCoinAccounts[NATIVE_TOKEN][0].balance
+            const nonEthCustodialBalance = nonCustodialCoinAccounts[NATIVE_TOKEN][0].balance
             const { gasLimit, gasPrice } = transaction
-            const gasLimitBn = ethers.BigNumber.from(gasLimit)
-            const gasPriceBn = ethers.BigNumber.from(gasPrice)
+            const gasLimitBn = ethers.BigNumber.from(gasLimit || '0')
+            const gasPriceBn = ethers.BigNumber.from(gasPrice || '0')
             const gasFee = gasLimitBn.mul(gasPriceBn)
 
-            if (gasFee.gt(nonEthCustodialbalance)) {
+            if (gasFee.gt(nonEthCustodialBalance)) {
               // eslint-disable-next-line no-throw-literal
               throw {
                 message: 'Not enough ETH to cover gas.',
@@ -355,9 +344,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     // reset insufficient balance error if user changes token
-    if (field === 'baseToken') {
+    if (baseToken && field === 'baseToken') {
       const error = yield select(selectors.components.dex.getSwapQuote)
       if (error) yield put(A.clearCurrentSwapQuote())
+
+      if (baseToken !== NATIVE_TOKEN) {
+        yield put(A.fetchTokenAllowance({ baseToken }))
+        yield take([A.fetchTokenAllowanceSuccess, A.fetchTokenAllowanceFailure])
+      }
     }
 
     // if base amount is not enough, trigger insufficient balance error
@@ -389,18 +383,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
-    if (
-      !counterToken ||
-      !baseToken ||
-      !(getValidSwapAmount(baseTokenAmount) || getValidSwapAmount(counterTokenAmount))
-    )
-      return
-
-    if (field === 'baseTokenAmount') {
-      yield put(A.setSwapSideType(DexSwapSide.BASE))
-    } else {
-      yield put(A.setSwapSideType(DexSwapSide.COUNTER))
-    }
+    if (!counterToken || !baseToken || !getValidSwapAmount(baseTokenAmount)) return
 
     yield put(A.fetchSwapQuote())
   }
