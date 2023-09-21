@@ -1,6 +1,5 @@
 const chalk = require('chalk')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpackBuilder = require('./webpackBuilder')
 const CONFIG_PATH = require('../../config/paths')
