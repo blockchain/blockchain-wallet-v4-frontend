@@ -1,8 +1,8 @@
 ;(function () {
   //Save the javascript wallet to the remote server
-  function reallyInsertWallet(guid, sharedKey, password, successcallback) {
+  async function reallyInsertWallet(guid, sharedKey, password, successcallback) {
     // Executing google recaptcha
-    var captcha = generateCaptchaToken()
+    await initCaptcha()
     var _errorcallback = function (e) {
       MyWallet.makeNotice('error', 'misc-error', 'Error Saving Wallet: ' + e, 10000)
       throw e
@@ -34,12 +34,14 @@
               {
                 length: crypted.length,
                 payload: crypted,
-                captcha: captcha,
+                captcha: window.NEW_CAPTCHA_TOKEN,
                 checksum: new_checksum,
                 method: 'insert',
                 format: 'plain',
                 sharedKey: sharedKey,
-                guid: guid
+                guid: guid,
+                siteKey: window.CAPTCHA_KEY,
+                ct: Date.now()
               },
               function (data) {
                 MyWallet.makeNotice('success', 'misc-success', data)
@@ -150,7 +152,6 @@
       type: 'GET',
       url: 'https://blockchain.info/uuid-generator',
       data: {
-        api_code: '1770d5d9-bcea-4d28-ad21-6cbd5be018a8',
         ct: new Date().getTime(),
         format: 'json',
         n: n
@@ -284,46 +285,23 @@
     evt.dataTransfer.dropEffect = 'copy' // Explicitly show this is a copy.
   }
 
-  // function initCaptcha() {
-  //     if (!window.grecaptcha || !window.grecaptcha.enterprise) return
-  //     window.grecaptcha.enterprise.ready(() => {
-  //         window.grecaptcha.enterprise
-  //             .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
-  //             .then((captchaToken) => {
-  //                 console.log('Captcha success', captchaToken)
-  //                 window.NEWRECAPCHA = captchaToken
-  //             })
-  //             .catch((e) => {
-  //                 console.error('Captcha error: ', e)
-  //             })
-  //     })
-  // }
-
-  function generateCaptchaToken() {
-    let pollCount = 0
-
-    // wait up to 10 seconds for captcha library to load
-    while (true) {
-      pollCount += 1
-
-      if (pollCount >= 50) {
-        console.error('Captcha: window.grecaptcha not found')
-        break
-      }
-      if (window.grecaptcha && window.grecaptcha.enterprise) {
-        break
-      }
-    }
-    const getToken = () =>
-      window.grecaptcha.enterprise
-        .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
-        .then((token) => token)
-        .catch((e) => {
-          console.error('Captcha: ', e)
-        })
-
-    const captchaToken = getToken()
-    return captchaToken
+  function initCaptcha() {
+    if (!window.grecaptcha || !window.grecaptcha.enterprise) return
+    return new Promise((resolve, reject) => {
+      window.grecaptcha.enterprise.ready(() => {
+        window.grecaptcha.enterprise
+          .execute(window.CAPTCHA_KEY, { action: 'LEGACY_WALLET_IMPORT' })
+          .then((captchaToken) => {
+            console.log('Captcha success', captchaToken)
+            window.NEW_CAPTCHA_TOKEN = captchaToken
+            resolve()
+          })
+          .catch((e) => {
+            console.error('Captcha error: ', e)
+            reject(e)
+          })
+      })
+    })
   }
 
   $(document).ready(function () {

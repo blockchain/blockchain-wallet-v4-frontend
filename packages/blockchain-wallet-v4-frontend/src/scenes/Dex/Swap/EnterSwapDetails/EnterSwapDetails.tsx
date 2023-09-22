@@ -60,6 +60,10 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     isNotAsked: isTokenAllowanceNotAsked
   } = useRemote(selectors.components.dex.getTokenAllowanceStatus)
 
+  const { data: isPolledTokenAllowed } = useRemote(
+    selectors.components.dex.getTokenAllowanceStatusAfterPolling
+  )
+
   const { isNotAsked: isTokenAllowanceTxNotAsked } = useRemote(
     selectors.components.dex.getTokenAllowanceTx
   )
@@ -71,20 +75,12 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
     }
   }, [baseToken, isTokenAllowanceTxNotAsked, previousBaseToken])
 
-  useEffect(() => {
-    // if baseToken exists and baseToken is not ETH, fetch token allowance
-    if (baseToken && baseToken !== 'ETH') {
-      dispatch(actions.components.dex.fetchTokenAllowance({ baseToken }))
-    }
-  }, [baseToken])
-
   const baseTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(baseToken)
   )
   const counterTokenBalance = useSelector(
     selectors.components.dex.getDexCoinBalanceToDisplay(counterToken)
   )
-  const swapSideType = useSelector(selectors.components.dex.getSwapSideType)
 
   const showAllowanceCheck =
     baseToken &&
@@ -246,7 +242,6 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           isQuoteLoading={false}
           isQuoteLocked={false}
           swapQuote={quote}
-          swapSideType={swapSideType}
         />
       ) : null}
 
@@ -288,7 +283,7 @@ export const EnterSwapDetails = ({ walletCurrency }: Props) => {
           size='large'
           width='full'
           variant='primary'
-          disabled={!quote || !!showAllowanceCheck}
+          disabled={!quote || (!isPolledTokenAllowed && !!showAllowanceCheck)}
           onClick={onConfirmSwap}
           text={
             quoteError ? (

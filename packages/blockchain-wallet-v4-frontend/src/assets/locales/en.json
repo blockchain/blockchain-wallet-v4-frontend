@@ -2002,8 +2002,6 @@
   "networkWarning.send.title": "Only send {symbol} on the {network} network",
   "orderdetails.recurring.tooltip": "Recurring orders will be placed automatically on a regular basis from your linked credit card.",
   "paymentMethods.bankWire.message": "If you'd prefer to deposit funds directly from your bank account first, follow the instructions on the next screen. Once your deposit arrives in your Blockchain.com account you can come back here to buy crypto.",
-  "price.chart.buy.coin": "Buy {coinName}",
-  "price.chart.swap.coin": "Swap {coinName}",
   "scene.coinView.activitySection.accountDropdownLable": "All Accounts",
   "scene.debit_card.accounts_fail": "Failed to load accounts",
   "scene.debit_card.funds_fail": "Failed to load balances",
