@@ -171,6 +171,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         ) as DexSwapForm
 
         const isTokenAllowed = S.getTokenAllowanceStatus(yield select()).getOrElse(false)
+        const isTokenAllowedAfterPolling = S.getTokenAllowanceStatusAfterPolling(
+          yield select()
+        ).getOrElse(false)
 
         if (
           !formValues ||
@@ -237,7 +240,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               symbol: baseToken
             },
             params: {
-              skipValidation: !isTokenAllowed && baseToken !== NATIVE_TOKEN,
+              skipValidation:
+                !isTokenAllowed && !isTokenAllowedAfterPolling && baseToken !== NATIVE_TOKEN,
               slippage: `${slippage}`
             },
             takerAddress: `${nonCustodialAddress}`,
