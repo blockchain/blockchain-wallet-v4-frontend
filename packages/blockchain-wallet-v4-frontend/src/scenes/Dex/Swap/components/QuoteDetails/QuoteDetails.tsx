@@ -139,15 +139,15 @@ export const QuoteDetails = ({
               <Text color={SemanticColors.title} variant='paragraph2'>
                 ~
                 {Exchange.convertCoinToCoin({
-                  coin: props.swapQuote.quote.buyAmount.symbol,
-                  value: (props.swapQuote.quote.buyAmount.amount / 100) * 0.9
+                  coin: props.swapQuote.quote.sellAmount.symbol,
+                  value: (props.swapQuote.quote.sellAmount.amount / 100) * 0.9
                 })}{' '}
-                {props.swapQuote.quote.buyAmount.symbol}
+                {props.swapQuote.quote.sellAmount.symbol}
               </Text>
               <Flex>
                 ~
                 <FiatDisplay
-                  coin={props.swapQuote.quote.buyAmount.symbol}
+                  coin={props.swapQuote.quote.sellAmount.symbol}
                   currency={walletCurrency}
                   color='grey700'
                   lineHeight='150%'
@@ -157,10 +157,10 @@ export const QuoteDetails = ({
                 >
                   {Exchange.convertCoinToCoin({
                     baseToStandard: false,
-                    coin: props.swapQuote.quote.buyAmount.symbol,
+                    coin: props.swapQuote.quote.sellAmount.symbol,
                     value: Exchange.convertCoinToCoin({
-                      coin: props.swapQuote.quote.buyAmount.symbol,
-                      value: (props.swapQuote.quote.buyAmount.amount / 100) * 0.9
+                      coin: props.swapQuote.quote.sellAmount.symbol,
+                      value: (props.swapQuote.quote.sellAmount.amount / 100) * 0.9
                     })
                   })}
                 </FiatDisplay>
