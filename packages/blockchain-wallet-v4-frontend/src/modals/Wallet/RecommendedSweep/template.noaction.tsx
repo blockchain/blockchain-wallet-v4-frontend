@@ -45,7 +45,7 @@ const NoActionRequired = (props: Props) => {
           )}
         </Text>
         <Button data-e2e='upToDateThanks' nature='primary' fullwidth onClick={thanksClicked}>
-          <FormattedMessage id='modals.uptodate.thanks' defaultMessage='Thanks!' />
+          <FormattedMessage id='modals.securitynotice.uptodate.thanks' defaultMessage='Thanks!' />
         </Button>
       </ModalBody>
     </Modal>

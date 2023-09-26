@@ -86,7 +86,7 @@ const RecommendedImportedSweep = (props: Props) => {
         <ModalBody>
           <Text size='16px' weight={400} lineHeight='1.5' style={{ marginBottom: '16px' }}>
             <FormattedMessage
-              id='modals.success.body'
+              id='modals.securitynotice.success.body'
               defaultMessage='All funds held in legacy addresses have been successfully transferred to new addresses in your DeFi Wallet. Please discontinue the use of the legacy addresses in your wallet for receiving funds. Should you receive funds into these addresses in the future, you will be prompted again to transfer them to a new, secure address. You can now continue using your wallet normally.'
             />
           </Text>
@@ -96,7 +96,7 @@ const RecommendedImportedSweep = (props: Props) => {
             fullwidth
             onClick={() => props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)}
           >
-            <FormattedMessage id='modals.uptodate.thanks' defaultMessage='Thanks!' />
+            <FormattedMessage id='modals.securitynotice.uptodate.thanks' defaultMessage='Thanks!' />
           </Button>
         </ModalBody>
       )}
