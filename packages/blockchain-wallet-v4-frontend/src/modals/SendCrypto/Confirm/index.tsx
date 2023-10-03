@@ -218,7 +218,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   </FiatDisplay>
                 </div>
               </CustomRow>
-              {tx.rawTx?.payload.payload.memo.content ? (
+              {/* {tx.extraData?.memo ? (
                 <CustomRow>
                   <div>
                     <Text size='16px' weight={500} color='black'>
@@ -227,11 +227,11 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   </div>
                   <div>
                     <Text size='16px' weight={500} color='black'>
-                      {tx.rawTx.payload.payload.memo.content}
+                      {tx.extraData?.memo}
                     </Text>
                   </div>
                 </CustomRow>
-              ) : null}
+              ) : null} */}
               <CustomRow>
                 <div>
                   <Text size='16px' weight={600} color='black'>

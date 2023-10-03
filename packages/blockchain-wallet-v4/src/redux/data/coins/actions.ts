@@ -31,6 +31,9 @@ export const pollForCoinData = (): CoinsActionTypes => ({
 export const setCoinDataLoaded = (): CoinsActionTypes => ({
   type: AT.SET_COIN_DATA_LOADED
 })
+export const initializeSubscriptions = () => ({
+  type: AT.INITIALIZE_SUBSCRIPTIONS
+})
 
 // RATES
 export const fetchCoinsRates = () => ({

@@ -5,6 +5,7 @@ import { all, call, fork, put, select, take } from 'redux-saga/effects'
 
 import { coreSelectors } from '@core'
 import { CountryScope, WalletOptionsType } from '@core/types'
+import { sha256 } from '@core/walletCrypto'
 import { actions, actionTypes, selectors } from 'data'
 import { ClientErrorProperties } from 'data/analytics/types/errors'
 import { fetchBalances } from 'data/balances/sagas'
@@ -337,6 +338,16 @@ export default ({ api, coreSagas, networks }) => {
       // check if dex is eligible
       yield put(actions.components.dex.fetchUserEligibility())
       const guid = yield select(selectors.core.wallet.getGuid)
+      const sharedKey = yield select(selectors.core.wallet.getSharedKey)
+      const sharedKeyHash = sha256(sharedKey).toString('hex')
+      const guidHash = sha256(guid).toString('hex')
+      yield call(api.authorizePubkey, { guid, sharedKeyHash })
+
+      const subscriptions = yield call(api.getSubscriptions, { auth: { guidHash, sharedKeyHash } })
+
+      if (!subscriptions.subscriptions || subscriptions.subscriptions.length === 0) {
+        yield put(actions.core.data.coins.initializeSubscriptions())
+      }
       if (firstLogin && !isAccountReset && !recovery) {
         // create nabu user
         yield call(createUser)

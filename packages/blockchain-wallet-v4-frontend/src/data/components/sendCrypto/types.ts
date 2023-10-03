@@ -1,4 +1,4 @@
-import { BuildTxResponseType } from '@core/network/api/coin/types'
+import { BuildTxResponseType } from '@core/network/api/coins/types'
 import {
   CoinType,
   CrossBorderLimits,
@@ -15,7 +15,7 @@ export type SendCryptoState = {
   initialCoin?: string
   isValidAddress: RemoteDataType<string, boolean>
   maxCustodialWithdrawalFee: RemoteDataType<string, string>
-  prebuildTx: RemoteDataType<string, SharedBuildTxResponseType>
+  prebuildTx: RemoteDataType<string, BuildTxResponseType>
   sendLimits: RemoteDataType<string, CrossBorderLimits>
   step: SendCryptoStepType
   transaction: RemoteDataType<

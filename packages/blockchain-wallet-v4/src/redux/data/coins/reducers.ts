@@ -24,6 +24,7 @@ export const coinsReducer = (state = INITIAL_STATE, action: CoinsActionTypes): C
         balances: { ...state.balances, [action.payload.coin]: Remote.Loading }
       }
     case AT.FETCH_COIN_DATA_SUCCESS:
+      console.log({ balances: state.balances })
       return {
         ...state,
         balances: {

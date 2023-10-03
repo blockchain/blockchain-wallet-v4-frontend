@@ -7,7 +7,13 @@ import secp256k1 from 'secp256k1'
 import { Exchange } from '@core'
 import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { BuildTxIntentType, BuildTxResponseType } from '@core/network/api/coin/types'
+import {
+  BuildTxIntentParamType,
+  BuildTxResponseType,
+  BuildTxType,
+  SignatureType,
+  SourceStyleType
+} from '@core/network/api/coins/types'
 import { getPrivKey, getPubKey } from '@core/redux/data/self-custody/sagas'
 import { FiatType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -37,26 +43,18 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const buildTx = function* (action: ReturnType<typeof A.buildTx>) {
-    let coin
-    let fee
-    let accountType
+    const { account, baseCryptoAmt, destination, fee, memo } = action.payload
+    const { coin, type } = account
+
     try {
       yield put(A.buildTxLoading())
-      const { account, baseCryptoAmt, destination, fee, memo } = action.payload
-      const { coin } = account
       const feesR = yield select(S.getCustodialWithdrawalFee)
 
-      if (account.type === SwapBaseCounterTypes.ACCOUNT) {
+      if (type === SwapBaseCounterTypes.ACCOUNT) {
         const password = yield call(promptForSecondPassword)
         const pubKey = yield call(getPubKey, password)
-        const guid = yield select(selectors.core.wallet.getGuid)
-        const [uuid] = yield call(api.generateUUIDs, 1)
 
         const tx: ReturnType<typeof api.buildTx> = yield call(api.buildTx, {
-          id: {
-            guid,
-            uuid
-          },
           intent: {
             amount: baseCryptoAmt,
             currency: coin,
@@ -65,16 +63,17 @@ export default ({ api }: { api: APIType }) => {
               memo
             },
             fee,
+            maxVerificationVersion: 2,
             sources: [
               {
                 descriptor: 'legacy',
                 pubKey,
-                style: 'SINGLE'
+                style: SourceStyleType.SINGLE
               }
             ],
-            type: 'PAYMENT'
-          } as BuildTxIntentType
-        })
+            type: BuildTxType.PAYMENT
+          }
+        } as BuildTxIntentParamType)
 
         yield put(A.buildTxSuccess(tx))
       } else {
@@ -88,11 +87,16 @@ export default ({ api }: { api: APIType }) => {
 
         yield put(
           A.buildTxSuccess({
+            preImages: [
+              { descriptor: '', preImage: '', signatureAlgorithm: 'secp256k1', signingKeys: '' }
+            ],
+            rawTx: { created: 0, ttl: 0, version: 0 },
             summary: {
               absoluteFeeEstimate: baseCryptoFee,
               absoluteFeeMaximum: baseCryptoFee,
               amount: baseCryptoAmt,
               balance: account.balance as string,
+              feeCurrency: coin,
               relativeFee: baseCryptoFee
             }
           })
@@ -119,7 +123,7 @@ export default ({ api }: { api: APIType }) => {
           properties: {
             currency: coin,
             fee_rate: fee,
-            from_account_type: accountType,
+            from_account_type: type,
             originalTimestamp: new Date().toISOString(),
             to_account_type: AccountType.USERKEY
           }
@@ -280,24 +284,25 @@ export default ({ api }: { api: APIType }) => {
 
     if (!privateKey) throw new Error('Could not derive private key')
 
-    const signedTx = prebuildTx
-    const signedPreImages = prebuildTx.preImages.map((preImage) => {
-      // @ts-ignore
-      const { recovery, signature } = secp256k1.sign(
-        Buffer.from(preImage.preImage, 'hex'),
-        Buffer.from(privateKey, 'hex')
-      )
+    // @ts-ignore
+    const signedPreImages = prebuildTx.preImages.map(
+      ({ preImage, signatureAlgorithm, signingKeys }) => {
+        // @ts-ignore
+        const { signature } = secp256k1.sign(
+          Buffer.from(preImage, 'hex'),
+          Buffer.from(privateKey, 'hex')
+        )
 
-      // eslint-disable-next-line no-buffer-constructor
-      const recoveryBuffer = new Buffer(1)
-      recoveryBuffer.writeUInt8(recovery)
-      preImage.signature = Buffer.concat([signature, recoveryBuffer]).toString('hex')
-      return preImage
-    })
+        return {
+          preImage,
+          signature,
+          signatureAlgorithm,
+          signingKeys
+        }
+      }
+    )
 
-    signedTx.preImages = signedPreImages
-
-    return signedTx
+    return signedPreImages
   }
 
   const submitTransaction = function* () {
@@ -322,23 +327,16 @@ export default ({ api }: { api: APIType }) => {
 
       if (selectedAccount.type === SwapBaseCounterTypes.ACCOUNT) {
         const password = yield call(promptForSecondPassword)
-        const guid = yield select(selectors.core.wallet.getGuid)
-        const [uuid] = yield call(api.generateUUIDs, 1)
         const prebuildTx = S.getPrebuildTx(yield select()).getOrFail(
           'No prebuildTx'
         ) as BuildTxResponseType
         prebuildTxFee = prebuildTx.summary.absoluteFeeEstimate
-        const signedTx: BuildTxResponseType = yield call(signTx, prebuildTx, password)
-        const pushedTx: ReturnType<typeof api.pushTx> = yield call(
-          api.pushTx,
-          coin,
-          signedTx.rawTx,
-          signedTx.preImages,
-          {
-            guid,
-            uuid
-          }
-        )
+        const signedTx: SignatureType[] = yield call(signTx, prebuildTx, password)
+        const { txId }: ReturnType<typeof api.pushTx> = yield call(api.pushTx, {
+          currency: coin,
+          rawTx: prebuildTx.rawTx,
+          signatures: signedTx
+        })
 
         const value = convertCoinToCoin({
           baseToStandard: true,
@@ -346,7 +344,7 @@ export default ({ api }: { api: APIType }) => {
           value: prebuildTx.summary.amount
         })
 
-        if (pushedTx.txId) {
+        if (txId) {
           yield put(
             A.submitTransactionSuccess({
               amount: { symbol: coin, value }
@@ -448,11 +446,10 @@ export default ({ api }: { api: APIType }) => {
         return
       }
 
-      const response: ReturnType<typeof api.validateAddress> = yield call(
-        api.validateAddress,
-        coin,
-        address
-      )
+      const response: ReturnType<typeof api.validateAddress> = yield call(api.validateAddress, {
+        address,
+        coin
+      })
       yield put(A.validateAddressSuccess(response.success))
     } catch (e) {
       yield put(A.validateAddressFailure(e))

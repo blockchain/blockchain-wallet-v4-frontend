@@ -62,11 +62,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   )
 
-  const {
-    getDefaultAccountForCoin,
-    getNextReceiveAddressForCoin,
-    getOrUpdateProvisionalPaymentForCoin
-  } = coinSagas({
+  const { getDefaultAccountForCoin, getOrUpdateProvisionalPaymentForCoin } = coinSagas({
     api,
     coreSagas,
     networks

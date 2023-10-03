@@ -89,6 +89,10 @@ const configuredStore = async function () {
     options,
     url: `${socketUrl}/coins`
   })
+  const activitiesSocket = new Socket({
+    options,
+    url: `${socketUrl}/activities`
+  })
   const ratesSocket = new ApiSocket({
     maxReconnects: 3,
     options,
@@ -144,6 +148,7 @@ const configuredStore = async function () {
       streamingXlm(xlmStreamingService, api),
       webSocketRates(ratesSocket),
       webSocketCoins(coinsSocket),
+      webSocketCoins(activitiesSocket),
       coreMiddleware.walletSync({ api, isAuthenticated, walletPath: 'wallet.payload' }),
       analyticsMiddleware()
     ]),
@@ -165,6 +170,7 @@ const configuredStore = async function () {
   const persistor = persistStore(store, null)
 
   sagaMiddleware.run(rootSaga, {
+    activitiesSocket,
     api,
     coinsSocket,
     networks,
