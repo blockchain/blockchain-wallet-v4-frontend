@@ -2263,8 +2263,6 @@
   "scenes.login.recovery_options.cloud_backup.title": "Recover Account with Cloud Backup",
   "scenes.login.recovery_options.recovery_phrase": "Recover your DeFi wallet + trading accounts.",
   "scenes.login.recovery_options.recovery_phrase.title": "Use your recovery phrase",
-  "scenes.login.recovery_options.standard_recovery": "Recover your trading accounts.",
-  "scenes.login.recovery_options.standard_recovery.title": "Standard account recovery",
   "scenes.login.resendsms": "Resend SMS",
   "scenes.login.reset_your_account.arrow": "Reset your account ->",
   "scenes.login.trouble_logging_in": "Trouble Logging In?",
