@@ -2358,7 +2358,7 @@
   "scenes.recovery.invalid_twofa": "Incorrect code",
   "scenes.recovery.reset_warning_bodytext": "To restore your Private Key Wallet (DeFi Wallet), please use your cloud backup or recovery phrase.",
   "scenes.recovery.reset_warning_titletext": "This method only restores your Trading and Earn Accounts",
-  "scenes.recovery.reverify_warning": "For your security, you may be to re-verify your identity before accessing your Wallet or Exchange funds.",
+  "scenes.recovery.reverify_warning": "For your security, you may need to re-verify your identity before accessing your Wallet or Exchange funds.",
   "scenes.recovery.setup2FA.getCode": "Get Verification Code",
   "scenes.recovery.setup2FA.submitCode": "Submit Code",
   "scenes.recovery.sms_verified.header": "Mobile Number Verified",
