@@ -168,7 +168,7 @@ const RecoveryOptions = (props: Props) => {
             </TextRow>
             <Icon name='chevron-right' size='20px' color='grey400' />
           </IconTextRow>
-          {accountRecoveryV2Flag && (
+          {/* {accountRecoveryV2Flag && (
             <IconTextRow onClick={resetAccountClicked}>
               <TextRow>
                 <CircleBackground color='blue000'>
@@ -191,25 +191,25 @@ const RecoveryOptions = (props: Props) => {
               </TextRow>
               <Icon name='chevron-right' size='20px' color='grey400' />
             </IconTextRow>
-          )}
+          )} */}
         </FormBody>
       </WrapperWithPadding>
-      {!accountRecoveryV2Flag && (
-        <SubCard>
-          <TroubleLoggingInRow>
-            <Text
-              size='16px'
-              color='grey600'
-              weight={500}
-              style={{ cursor: 'pointer', marginTop: '16px' }}
-            >
-              <FormattedMessage
-                id='scenes.login.trouble_logging_in'
-                defaultMessage='Trouble Logging In?'
-              />
-            </Text>
-            &nbsp;
-            {props.nabuId ? (
+      {/* {!accountRecoveryV2Flag && ( */}
+      <SubCard>
+        <TroubleLoggingInRow>
+          <Text
+            size='16px'
+            color='grey600'
+            weight={500}
+            style={{ cursor: 'pointer', marginTop: '16px' }}
+          >
+            <FormattedMessage
+              id='scenes.login.trouble_logging_in'
+              defaultMessage='Trouble Logging In?'
+            />
+          </Text>
+          &nbsp;
+          {/* {props.nabuId ? (
               <ContactSupportText
                 size='16px'
                 weight={600}
@@ -223,20 +223,20 @@ const RecoveryOptions = (props: Props) => {
                   defaultMessage='Reset your account ->'
                 />
               </ContactSupportText>
-            ) : (
-              <ContactSupportText
-                weight={600}
-                size='16px'
-                target='_blank'
-                href='https://support.blockchain.com/'
-                style={{ marginLeft: '2px' }}
-              >
-                <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
-              </ContactSupportText>
-            )}
-          </TroubleLoggingInRow>
-        </SubCard>
-      )}
+            ) : ( */}
+          <ContactSupportText
+            weight={600}
+            size='16px'
+            target='_blank'
+            href='https://support.blockchain.com/'
+            style={{ marginLeft: '2px' }}
+          >
+            <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
+          </ContactSupportText>
+          {/* )} */}
+        </TroubleLoggingInRow>
+      </SubCard>
+      {/* )} */}
     </OuterWrapper>
   )
 }
