@@ -1,9 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
-import { SemanticColors, Text } from '@blockchain-com/constellation'
 
-import { getData } from './selectors'
+import { getData } from '../selectors'
 import { LinkContainer } from './styles'
 
 export const UkBanner = () => {
@@ -15,18 +14,18 @@ export const UkBanner = () => {
       target='_blank'
       rel='noopener noreferrer'
     >
-      <Text color={SemanticColors.muted} textAlign='center' variant='caption1'>
+      <span>
         <FormattedMessage
           defaultMessage="Don't invest unless you're prepared to lose all the money you invest. This is a high-risk investment and you should not expect to be protected if something goes wrong."
           id='scene.nav,banner.uk.description1'
         />{' '}
-        <Text color={SemanticColors.muted} variant='caption2'>
+        <span>
           <FormattedMessage
             defaultMessage='Take 2 mins to learn more'
             id='scene.nav,banner.uk.description2'
           />
-        </Text>
-      </Text>
+        </span>
+      </span>
     </LinkContainer>
   )
 }

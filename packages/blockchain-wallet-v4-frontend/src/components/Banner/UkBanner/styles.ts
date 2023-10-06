@@ -1,13 +1,18 @@
 import styled from 'styled-components'
 
 import { Link } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 export const LinkContainer = styled(Link)`
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   padding: 4px 16px;
   background: ${({ theme }) => theme.grey000};
   margin-top: 1px;
+  font-size: 12px;
+  text-align: center;
 
   & > span {
     width: 100%;
@@ -17,7 +22,7 @@ export const LinkContainer = styled(Link)`
     }
   }
 
-  &:hover {
-    color: white !important;
-  }
+  ${media.mobile`
+    font-size: 10px;
+  `}
 `
