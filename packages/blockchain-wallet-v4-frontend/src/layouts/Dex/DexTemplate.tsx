@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
+import { UkBanner, UkFooterBanner } from 'components/Banner'
 import Tooltips from 'components/Tooltips'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
@@ -38,10 +39,12 @@ const DexTemplate = (props) => (
       <Alerts />
       <Nav>
         <MenuTop />
+        <UkBanner />
       </Nav>
       <Tooltips />
       <Modals />
       <Page>{props.children}</Page>
+      <UkFooterBanner />
     </Wrapper>
   </ErrorBoundary>
 )
