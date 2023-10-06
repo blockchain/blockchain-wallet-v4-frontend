@@ -10,9 +10,14 @@ export const LinkContainer = styled(Link)`
   width: 100%;
   padding: 4px 16px;
   background: ${({ theme }) => theme.grey000};
+  color: ${({ theme }) => theme.grey600};
   margin-top: 1px;
   font-size: 12px;
   text-align: center;
+
+  &:hover {
+    color: ${({ theme }) => theme.grey600};
+  }
 
   & > span {
     width: 100%;

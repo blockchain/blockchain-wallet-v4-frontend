@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
-import { UkBanner } from 'components/Banner/UkBanner'
+import { UkBanner, UkFooterBanner } from 'components/Banner'
 import Tooltips from 'components/Tooltips'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
@@ -35,6 +35,7 @@ const NftsTemplate: React.FC<any> = (props) => {
         <Tooltips />
         <Modals />
         <Page>{props.children}</Page>
+        <UkFooterBanner />
       </Wrapper>
     </ErrorBoundary>
   )
