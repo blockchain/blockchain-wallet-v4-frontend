@@ -22,7 +22,6 @@ const CellWrapper = styled(HeaderWrapper)`
     cursor: pointer;
   }
 `
-const CoinIcon = styled(Icon)``
 
 export const getNameColumn = (
   modalActions: TableColumnsType['modalActions'],
@@ -43,7 +42,7 @@ export const getNameColumn = (
           }
         }}
       >
-        <CoinIcon name={values.coin} size='32px' color={values.coin} />
+        <Icon name={values.coin} size='32px' color={values.coin} />
         <CellText>{values.name}</CellText>
       </CellWrapper>
     )

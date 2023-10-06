@@ -262,10 +262,17 @@ export const TextGroup: FunctionComponent<{
   inline?: boolean
   style?: CSSProperties
 }>
+enum ToastNatureType {
+  ERROR = 'error',
+  INFO = 'info',
+  SUCCESS = 'success',
+  WARN = 'warn'
+}
 export const Toast: FunctionComponent<{
-  nature?: 'success' | 'error' | 'warn'
+  children: ReactNode
   coin?: CoinType
-  onClose?: () => void
+  nature?: ToastNatureType
+  onClose: () => void
   persist?: boolean
   timeout?: number
 }>

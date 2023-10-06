@@ -47,8 +47,6 @@ export type DexSellAmount = DexAmountCommon & {
 export type DexQuote = {
   buyAmount: DexBuyAmount
   buyTokenFee: number
-  buyTokenPercentageFee: number
-  guaranteedPrice: number
   price: number
   sellAmount: DexSellAmount
 }

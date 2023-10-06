@@ -1,26 +1,38 @@
 import React from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 
-import { actions, selectors } from 'data'
+import { SkeletonRectangle } from 'blockchain-info-components'
+import { getPriceChart } from 'data/preferences/selectors'
+import { RootState } from 'data/rootReducer'
+import { media } from 'services/styles'
 
-import CoinPriceChange from './CoinPriceChange'
+import { getData } from './selectors'
+import Success from './template.success'
 
-const CoinPerformance = (props: Props) => {
-  return <CoinPriceChange {...props} />
+const Wrapper = styled.div`
+  margin-top: 8px;
+  margin-left: 0;
+
+  ${media.atLeastTabletL`
+    margin-left: 24px;
+  `}
+`
+
+const CoinPerformance = () => {
+  const priceChart = useSelector(getPriceChart)
+
+  const data = useSelector((state: RootState) => getData(state, priceChart))
+  return (
+    <Wrapper>
+      {data.cata({
+        Failure: () => null,
+        Loading: () => <SkeletonRectangle width='100px' height='16px' />,
+        NotAsked: () => <SkeletonRectangle width='100px' height='16px' />,
+        Success: ({ priceChange }) => <Success priceChange={priceChange} />
+      })}
+    </Wrapper>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  currency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
-  priceChart: selectors.preferences.getPriceChart(state)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  miscActions: bindActionCreators(actions.core.data.misc, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type Props = ConnectedProps<typeof connector>
-
-export default connector(CoinPerformance)
+export default CoinPerformance

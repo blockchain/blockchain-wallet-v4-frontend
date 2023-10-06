@@ -39,6 +39,10 @@ import {
   TrackEventAction as OnboardingAndVerificationTrackEventAction
 } from './onboardingAndVerification'
 import {
+  Events as PlaidClientEvents,
+  TrackEventAction as PlaidClientTrackEventAction
+} from './plaid'
+import {
   Events as RecommendedSweepEvents,
   TrackEventAction as RecommendedSweepTrackEventAction
 } from './recommendedimportsweep'
@@ -47,6 +51,7 @@ import {
   Events as SendCryptoEvents,
   TrackEventAction as SendCryptoTrackEventAction
 } from './sendCrypto'
+import { SpinnerEventAction, SpinnerEvents } from './spinner'
 import { Events as SwapEvents, TrackEventAction as SwapTrackEventAction } from './swap'
 import {
   Events as TaxCenterEvents,
@@ -66,25 +71,28 @@ const TRACK_EVENT = 'trackEvent'
 
 type AnalyticsKey =
   | AccountRecoveryEvents
+  | BuyEvents
   | ClientErrorEvents
+  | CoinViewEvents
+  | CowboysPromoEvents
   | DepositWithdrawalClientEvents
   | DexEvents
+  | ExchangePromoEvents
   | InterestClientEvents
   | LoginEvents
   | MiscEvents
   | NftsEvents
   | OnboardingAndVerificationEvents
-  | SendCryptoEvents
-  | TaxCenterEvents
-  | CoinViewEvents
-  | CowboysPromoEvents
-  | ViewAndClickEvents
-  | SwapEvents
-  | WalletEarnEvents
-  | BuyEvents
+  | PlaidClientEvents
   | SellEvents
   | ExchangePromoEvents
   | RecommendedSweepEvents
+  | SendCryptoEvents
+  | SpinnerEvents
+  | SwapEvents
+  | TaxCenterEvents
+  | ViewAndClickEvents
+  | WalletEarnEvents
 
 const Analytics = {
   ...AccountRecoveryEvents,
@@ -99,7 +107,9 @@ const Analytics = {
   ...NftsEvents,
   ...OnboardingAndVerificationEvents,
   ...RecommendedSweepEvents,
+  ...PlaidClientEvents,
   ...SendCryptoEvents,
+  ...SpinnerEvents,
   ...SwapEvents,
   ...TaxCenterEvents,
   ...ViewAndClickEvents,
@@ -110,33 +120,35 @@ const Analytics = {
 
 // event properties
 type AnalyticsProperties =
+  | DepositWithdrawalClientProperties
+  | InterestClientProperties
   | OnboardingAndVerificationAnalyticsProperties
   | ViewAndClickAnalyticsProperties
-  | InterestClientProperties
-  | DepositWithdrawalClientProperties
 
 // event actions
 type TrackEventAction =
   | AccountRecoveryTrackEventAction
+  | BuyTrackEventAction
   | ClientErrorTrackEventAction
+  | CowboysPromoTrackEventAction
   | DepositWithdrawalClientEventAction
   | DexEventAction
+  | ExchangePromoTrackEventAction
   | InterestClientTrackEventAction
   | LoginTrackEventAction
   | MiscTrackEventAction
   | NftsTrackEventAction
   | OnboardingAndVerificationTrackEventAction
   | RecommendedSweepTrackEventAction
+  | PlaidClientTrackEventAction
+  | SellTrackEventAction
   | SendCryptoTrackEventAction
+  | SpinnerEventAction
   | SwapTrackEventAction
   | TaxCenterTrackEventAction
   | TransactionsTrackEventAction
   | ViewAndClickTrackEventAction
   | WalletEarnTrackEventAction
-  | CowboysPromoTrackEventAction
-  | BuyTrackEventAction
-  | SellTrackEventAction
-  | ExchangePromoTrackEventAction
 
 type AnalyticsTraits = {
   country?: string

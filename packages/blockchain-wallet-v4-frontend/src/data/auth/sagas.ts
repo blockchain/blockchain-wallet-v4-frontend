@@ -4,7 +4,7 @@ import { startSubmit, stopSubmit } from 'redux-form'
 import { all, call, fork, put, select, take } from 'redux-saga/effects'
 
 import { coreSelectors } from '@core'
-import { CountryScope, WalletOptionsType } from '@core/types'
+import { CountryScope, RemoteDataType, WalletOptionsType } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { ClientErrorProperties } from 'data/analytics/types/errors'
 import { fetchBalances } from 'data/balances/sagas'
@@ -45,7 +45,7 @@ import {
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { createExchangeUser, createUser } = profileSagas({
+  const { createExchangeUser, createUser, waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
@@ -294,23 +294,18 @@ export default ({ api, coreSagas, networks }) => {
     state = undefined
   }: LoginRoutinePayloadType) {
     try {
-      const product = yield select(selectors.auth.getProduct)
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
         yield put(actions.wallet.upgradeWallet(3))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
-      const createExchangeUserFlag = (yield select(
-        selectors.core.walletOptions.getCreateExchangeUserOnSignupOrLogin
-      )).getOrElse(false)
-      const isLatestVersion = yield select(selectors.core.wallet.isWrapperLatestVersion)
       yield call(coreSagas.settings.fetchSettings)
+      const isLatestVersion = yield select(selectors.core.wallet.isWrapperLatestVersion)
       if (!isLatestVersion) {
         yield put(actions.wallet.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
-      const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.signup.setFirstLogin(firstLogin))
@@ -329,20 +324,44 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.data.xlm.fetchData)
 
       yield call(authNabu, firstLogin)
+      const product = yield select(selectors.auth.getProduct)
       if (product === ProductAuthOptions.EXCHANGE && (recovery || !firstLogin)) {
         return yield put(
           actions.modules.profile.authAndRouteToExchangeAction(ExchangeAuthOriginType.Login)
         )
       }
       // check if dex is eligible
+      yield call(waitForUserData)
       yield put(actions.components.dex.fetchUserEligibility())
+      yield put(actions.custodial.fetchProductEligibilityForUser())
+
+      yield take([
+        actions.custodial.fetchProductEligibilityForUserSuccess.type,
+        actions.custodial.fetchProductEligibilityForUserFailure.type
+      ])
+
+      // As this is a remote loaded thing, it returns a { data } object
+      const { data: userEligibility }: RemoteDataType<string, ProductEligibilityForUser> =
+        yield select(selectors.custodial.getProductEligibilityForUser)
+
+      // Bakkt related flag - if enabled, user needs to continue on phone
+      if (userEligibility?.useExternalTradingAccount?.enabled) {
+        return yield put(actions.router.push('/continue-on-phone'))
+      }
+
       const guid = yield select(selectors.core.wallet.getGuid)
+      const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
       if (firstLogin && !isAccountReset && !recovery) {
         // create nabu user
         yield call(createUser)
         yield call(api.setUserInitialAddress, country, state)
         yield call(coreSagas.settings.fetchSettings)
       }
+
+      const createExchangeUserFlag = (yield select(
+        selectors.core.walletOptions.getCreateExchangeUserOnSignupOrLogin
+      )).getOrElse(false)
+
       if (!isAccountReset && !recovery && createExchangeUserFlag) {
         if (firstLogin) {
           yield call(createExchangeUser, country)
@@ -385,12 +404,6 @@ export default ({ api, coreSagas, networks }) => {
           if (!verifiedTwoFa) {
             yield put(actions.router.push('/setup-two-factor'))
           } else {
-            yield put(actions.custodial.fetchProductEligibilityForUser())
-            yield take([
-              actions.custodial.fetchProductEligibilityForUserSuccess.type,
-              actions.custodial.fetchProductEligibilityForUserFailure.type
-            ])
-
             const products = selectors.custodial
               .getProductEligibilityForUser(yield select())
               .getOrElse({

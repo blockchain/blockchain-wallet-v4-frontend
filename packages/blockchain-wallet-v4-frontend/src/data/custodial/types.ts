@@ -93,6 +93,15 @@ export type ProductEligibilityForUser = {
     id: 'TRADE'
     reasonNotEligible?: NotEligibleReason
   }
+  useExternalTradingAccount: {
+    enabled: boolean
+    id: string
+  }
+  useTradingAccount: {
+    defaultProduct: boolean
+    enabled: boolean
+    id: string
+  }
   withdrawFiat?: {
     enabled: boolean
     id: 'WITHDRAW_FIAT'

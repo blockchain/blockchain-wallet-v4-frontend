@@ -1,14 +1,19 @@
 import { CoinType } from '@core/types'
 
 // types
-export type AlertNatureType = 'info' | 'warn' | 'success' | 'error'
+export enum ToastNatureType {
+  ERROR = 'error',
+  INFO = 'info',
+  SUCCESS = 'success',
+  WARN = 'warn'
+}
 
 export type AlertType = {
   coin?: CoinType
   data?: any
   id: string
   message: string
-  nature: AlertNatureType
+  nature: ToastNatureType
   persist?: boolean
 }
 

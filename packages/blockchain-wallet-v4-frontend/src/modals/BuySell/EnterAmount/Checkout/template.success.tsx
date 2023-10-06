@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
-import { BSPaymentMethodType, BSPaymentTypes, FiatType } from '@core/types'
+import { BSPaymentTypes, FiatType } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -110,10 +110,7 @@ const normalizeAmount = (value, prevValue) => {
 
 const isAmountInLimits = (amount: number | undefined, min: number, max: number): boolean => {
   if (!amount) return false
-  if (amount < min || amount > max) {
-    return false
-  }
-  return true
+  return !(amount < min || amount > max)
 }
 const getAmountLimitsError = (amount: number, min: number, max: number): string | null => {
   if (amount < min) {
@@ -174,6 +171,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const dispatch = useDispatch()
 
   const [fontRatio, setFontRatio] = useState(1)
+
   const setOrderFrequency = useCallback(() => {
     buySellActions.setStep({ step: 'FREQUENCY' })
   }, [buySellActions])
@@ -433,11 +431,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   tabIndex={0}
                   style={{ cursor: 'pointer' }}
                 >
-                  <>
-                    <ErrorCodeMappings code={error} />
-                    <br />
-                    <FormattedMessage id='copy.upgrade' defaultMessage='Upgrade to Gold' />
-                  </>
+                  <ErrorCodeMappings code={error} />
+                  <br />
+                  <FormattedMessage id='copy.upgrade' defaultMessage='Upgrade to Gold' />
                 </div>
               ) : (
                 <ErrorCodeMappings code={error} />

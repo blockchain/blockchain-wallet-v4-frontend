@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
@@ -8,63 +8,29 @@ export const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid ${(props) => props.theme.grey000};
+  border-radius: 8px;
+  padding: 20px;
   box-sizing: border-box;
   overflow: hidden;
-  padding: 20px;
-  border-radius: 8px;
-  border: 1px solid ${(props) => props.theme.grey000};
 
   ${media.atLeastLaptop`
-  height: 56px;
-  padding: 0 20px;
-  align-items: flex-start;
-`}
+    height: 80px;
+    padding: 0 20px;
+  `}
 
   ${media.mobile`
-  flex-direction: column
-`}
+    padding: 12px;
+    flex-direction: column;
+  `}
 `
 
-export const ColumnWrapper = styled.div<{ showSpacing?: boolean }>`
+export const Column = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  ${media.mobile`
-  width: 100%;
-  margin-top: ${(props) => (props.showSpacing ? '24px' : '0')};
-`}
-`
-export const Column = styled.div<{ hideRow?: boolean }>`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
 
-  ${(props) =>
-    !props.hideRow &&
-    css`
-      flex-direction: column;
-    `}
-
-  ${media.mobile`
-  flex-direction: column
-`}
-`
-export const Title = styled(Text)`
-  color: ${(props) => props.theme.grey800};
-  margin-top: 4px;
-  margin-right: 8px;
-`
-export const SubTitle = styled(Text)`
-  margin-top: 6px;
-`
-
-export const CartridgeContainer = styled.div`
-  width: auto;
-  margin-right: 14px;
-  > span {
-    text-transform: uppercase;
+  & > div:first-child {
+    margin-bottom: 0.25rem;
   }
 `
 
@@ -94,6 +60,14 @@ export const IconWrapper = styled.div`
   min-width: 40px;
   border-radius: 20px;
   margin-right: 20px;
+`
+
+export const PendingIconWrapper = styled(IconWrapper)`
+  background-color: ${(props) => props.theme.orange000};
+`
+
+export const SyncIconWrapper = styled(IconWrapper)`
+  background-color: ${(props) => props.theme.blue100};
 `
 
 export const BannerButton = styled(Button)`

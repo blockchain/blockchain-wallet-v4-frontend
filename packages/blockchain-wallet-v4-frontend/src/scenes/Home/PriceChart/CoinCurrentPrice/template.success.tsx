@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { CoinType } from '@core/types'
 import { Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
@@ -12,10 +13,10 @@ const Wrapper = styled.div`
   `}
 `
 
-const Success = ({ fiat, ...props }: { fiat: string }) => {
+const Success = ({ coin, fiat }: { coin: CoinType; fiat: string }) => {
   return (
     <Wrapper>
-      <Text size='24px' weight={600} color='black' data-e2e={props['data-e2e']}>
+      <Text size='24px' weight={600} color='black' data-e2e={`coinTicker${coin}`}>
         {fiat}
       </Text>
     </Wrapper>

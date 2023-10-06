@@ -39,6 +39,7 @@ import blockchainLogo from './img/bc-logo.svg'
 import blockchainLogoCircle from './img/bc-logo-circle.svg'
 import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgBannerPatternLg from './img/bg-banner-pattern-lg.svg'
+import bgModalGradient from './img/bg-modal-gradient.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bgPatternLatam from './img/bg-pattern-latam.svg'
 import bgReferral from './img/bg-referral.svg'
@@ -198,6 +199,7 @@ const Images = {
   'apple-app-store-badge': appleAppStoreBadge,
   'apple-pay': applePay,
   'arrow-left': arrowLeft,
+  'backgorund-modal-gradient': bgModalGradient,
   bank,
   'bank-empty': bankEmpty,
   'bank-empty-blue': bankEmptyBlue,

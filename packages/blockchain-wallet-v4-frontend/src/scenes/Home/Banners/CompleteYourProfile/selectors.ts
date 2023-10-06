@@ -5,6 +5,8 @@ import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 
+const { KYC_STATES } = model.profile
+
 export const getData = (state: RootState): { currentStep: number } => {
   let currentStep = 0
   const isKycStateNone =
@@ -22,7 +24,6 @@ export const getData = (state: RootState): { currentStep: number } => {
     tiers: { current: 0 }
   } as UserDataType)
 
-  const { KYC_STATES } = model.profile
   const isKycVerified = userData.kycState === KYC_STATES.VERIFIED
 
   if (isKycVerified) {

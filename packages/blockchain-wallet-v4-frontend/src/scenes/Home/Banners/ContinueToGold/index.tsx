@@ -4,69 +4,20 @@ import { connect, ConnectedProps } from 'react-redux'
 import { IconCloseCircleV2, PaletteColors } from '@blockchain-com/constellation'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import { Dispatch } from 'redux'
-import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'
 import { actions } from 'data'
-import { media } from 'services/styles'
 
 import ANNOUNCEMENTS from '../constants'
-import { BannerButton, CloseLink, Row } from '../styles'
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid ${(props) => props.theme.grey000};
-  border-radius: 8px;
-  padding: 20px;
-
-  ${media.atLeastLaptop`
-    height: 80px;
-    padding: 0 20px;
-  `}
-  ${media.mobile`
-    padding: 12px;
-    flex-direction: column;
-  `}
-`
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  & > div:first-child {
-    margin-bottom: 4px;
-  }
-`
-const PendingIconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  width: 40px;
-  min-width: 40px;
-  border-radius: 20px;
-  margin-right: 20px;
-`
-const Copy = styled(Text)`
-  display: flex;
-  align-items: center;
-  ${media.mobile`
-    font-size: 12px;
-  `}
-  ${media.tablet`
-    font-size: 14px;
-  `}
-`
+import { BannerButton, CloseLink, Column, Copy, IconWrapper, Row, Wrapper } from '../styles'
 
 const ContinueToGold = ({ cacheActions, verifyIdentity }: Props) => {
   return (
     <Wrapper>
       <Row>
-        <PendingIconWrapper>
+        <IconWrapper>
           <Image name='tier-gold' size='32px' />
-        </PendingIconWrapper>
+        </IconWrapper>
         <Column>
           <Text size='20px' weight={600} color='grey800'>
             <FormattedMessage
