@@ -14,12 +14,7 @@ const Body = styled(ModalBody)`
   flex-direction: column;
 `
 const Error = (props: Props) => {
-  const { handleSubmit, position, total } = props
-
-  const okClicked = () => {
-    props.modalActions.closeModal(ModalName.RECOMMENDED_IMPORTED_SWEEP)
-    props.cacheActions.noActionRequiredSweep({ guid: props.walletGuid, seen: true })
-  }
+  const { position, total } = props
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -54,7 +49,6 @@ const Error = (props: Props) => {
 }
 
 type Props = {
-  handleSubmit: () => void
   position: number
   total: number
 } & OwnProps
