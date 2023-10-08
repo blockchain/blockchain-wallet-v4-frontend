@@ -10,6 +10,4 @@ export const Container = styled.div`
   background: ${({ theme }) => theme.grey000};
   text-align: center;
   padding: 0.5rem;
-  position: sticky;
-  bottom: 0;
 `
