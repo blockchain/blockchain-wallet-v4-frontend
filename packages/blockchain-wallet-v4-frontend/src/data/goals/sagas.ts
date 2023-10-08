@@ -769,13 +769,11 @@ export default ({ api, coreSagas, networks }) => {
     const showRecommendedImportedSweepFlag = selectors.core.walletOptions
       .getImportedAddressSweep(yield select())
       .getOrElse(null)
-    // const showRecommendedImportedSweepGetInfo = (yield select(
-    //   selectors.core.settings.getImportSweep
-    // )).getOrElse(false)
-
-    // TODO add logic for get info flag to check
+    const showRecommendedImportedSweepGetInfo = (yield select(
+      selectors.core.settings.getImportSweep
+    )).getOrElse(false)
     yield put(actions.components.sendBtc.btcImportedFundsSweepEffectiveBalance())
-    if (!showRecommendedImportedSweepFlag) return
+    if (!showRecommendedImportedSweepFlag && !showRecommendedImportedSweepGetInfo) return
     yield take(actions.components.sendBtc.btcImportedFundsSweepEffectiveBalanceSuccess)
     yield put(
       actions.goals.addInitialModal({
