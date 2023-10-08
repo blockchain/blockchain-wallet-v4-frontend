@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { UkFooterBanner } from 'components/Banner'
 import { SceneWrapper } from 'components/Layout'
 import { media } from 'services/styles'
 
@@ -50,6 +51,7 @@ const Home = () => {
           <PriceChart />
         </ColumnRight>
       </ColumnWrapper>
+      <UkFooterBanner />
     </SceneWrapper>
   )
 }
