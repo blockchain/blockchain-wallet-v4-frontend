@@ -769,19 +769,21 @@ export default ({ api, coreSagas, networks }) => {
     const showRecommendedImportedSweepFlag = selectors.core.walletOptions
       .getImportedAddressSweep(yield select())
       .getOrElse(null)
-    const showRecommendedImportedSweepGetInfo = (yield select(
+    const showRecommendedImportedSweepGetInfo: boolean = (yield select(
       selectors.core.settings.getImportSweep
     )).getOrElse(false)
+
     yield put(actions.components.sendBtc.btcImportedFundsSweepEffectiveBalance())
-    if (!showRecommendedImportedSweepFlag && !showRecommendedImportedSweepGetInfo) return
-    yield take(actions.components.sendBtc.btcImportedFundsSweepEffectiveBalanceSuccess)
-    yield put(
-      actions.goals.addInitialModal({
-        data: { origin },
-        key: 'recommendedImportedSweep',
-        name: 'RECOMMENDED_IMPORTED_SWEEP'
-      })
-    )
+    if (showRecommendedImportedSweepGetInfo && showRecommendedImportedSweepFlag) {
+      yield take(actions.components.sendBtc.btcImportedFundsSweepEffectiveBalanceSuccess)
+      yield put(
+        actions.goals.addInitialModal({
+          data: { origin },
+          key: 'recommendedImportedSweep',
+          name: 'RECOMMENDED_IMPORTED_SWEEP'
+        })
+      )
+    }
   }
 
   const runMakeOfferNftGoal = function* (goal: GoalType) {
