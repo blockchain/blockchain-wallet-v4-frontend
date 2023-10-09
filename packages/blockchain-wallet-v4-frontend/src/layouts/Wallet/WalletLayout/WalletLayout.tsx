@@ -6,6 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
+import { UkBanner } from 'components/Banner'
 import { CowboysCardComponent } from 'components/Card/CowboysCard'
 import ExchangePromo from 'components/Card/ExchangePromo'
 import { SupportChatForGoldUserOnly } from 'components/SupportChat'
@@ -65,6 +66,7 @@ const WalletLayout: Props = ({
         <ExchangePromo />
         <Nav>
           <MenuTop />
+          <UkBanner />
           <Announcements type='service' alertArea='wallet' />
           <Announcements type='static' />
         </Nav>
