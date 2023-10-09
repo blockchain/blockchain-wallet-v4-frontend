@@ -8,6 +8,7 @@ export default ({ api, coreSagas, networks }) => {
   const sendBchSagas = sagas({ api, coreSagas, networks })
 
   return function* sendBchSaga() {
+    yield takeLatest(AT.SEND_BCH_IMPORTED_FUNDS_SWEEP, sendBchSagas.bchImportedFundsSweep)
     yield takeLatest(AT.SEND_BCH_INITIALIZED, sendBchSagas.initialized)
     yield takeLatest(AT.SEND_BCH_DESTROYED, sendBchSagas.destroyed)
     yield takeLatest(

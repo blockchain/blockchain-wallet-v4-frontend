@@ -34,6 +34,8 @@ export const getInvitations = (state): RemoteDataType<string, InvitationsType> =
   getSettings(state).map(prop('invited'))
 export const getLastMnemonicBackup = (state) => getSettings(state).map(prop('last_mnemonic_backup'))
 
+export const getImportSweep = (state) => getSettings(state).map(prop('recommend_imported_sweep'))
+
 export const getAuthTypeValue = (state: RootState) => {
   const authType = getAuthType(state)
   if (authType && authType > 0) {

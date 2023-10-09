@@ -2,14 +2,14 @@ import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
 import { add, equals, hasPath, identity, includes, isNil, nth, path, pathOr, prop } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
-import { call, put, race, select, take } from 'redux-saga/effects'
+import { all, call, put, race, select, take } from 'redux-saga/effects'
 
 import { Exchange, utils } from '@core'
 import { APIType } from '@core/network/api'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { BtcAccountFromType, BtcFromType, BtcPaymentType, WalletAccountEnum } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
 
@@ -443,7 +443,69 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const bchImportedFundsSweep = function* (action) {
+    const { payload } = action
+    yield put(A.bchImportedFundsSweepLoading())
+    try {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const addr of payload) {
+        const accounts = (yield select(selectors.core.common.bch.getAccountsBalances)).getOrElse([])
+        const defaultIndexR = yield select(selectors.core.kvStore.bch.getDefaultAccountIndex)
+        const defaultIndex = defaultIndexR.getOrElse(0)
+
+        const defaultAccount = accounts.filter((acc) => acc.index === defaultIndex)[0]
+
+        const receiveIndexMultiaddr = (yield select(
+          selectors.core.data.bch.getReceiveIndex(defaultAccount.xpub)
+        )).getOrElse(0)
+        const receiveIndexPrev = yield select(S.getImportFundsReceiveIndex)
+
+        const receiveIndex = receiveIndexPrev ? receiveIndexPrev + 1 : receiveIndexMultiaddr
+        let payment = coreSagas.payment.bch.create({
+          network: networks.bch
+        })
+
+        payment = yield payment.init()
+        payment = yield payment.from(addr, ADDRESS_TYPES.LEGACY)
+        payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT, receiveIndex)
+
+        payment = yield payment.fee('regular')
+        const effectiveBalance = prop('effectiveBalance', payment.value())
+        payment = yield payment.amount(parseInt(effectiveBalance))
+        payment = yield payment.build()
+        let password
+        payment = yield payment.sign(password)
+        payment = yield payment.publish()
+        yield put(A.setImportFundsReceiveIndex(receiveIndex))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.TRANSFER_FUNDS_SUCCESS,
+            properties: {}
+          })
+        )
+      }
+      yield put(actions.core.data.bch.fetchData())
+      yield put(A.bchImportedFundsSweepSuccess(true))
+    } catch (e) {
+      yield put(A.bchImportedFundsSweepFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'sweepBchFunds', e))
+      yield put(
+        actions.alerts.displayError(C.SEND_COIN_ERROR, {
+          coinName: 'Bitcoin Cash'
+        })
+      )
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.TRANSFER_FUNDS_FAILURE,
+          properties: {}
+        })
+      )
+      yield put(A.setImportFundsReceiveIndex(null))
+    }
+  }
+
   return {
+    bchImportedFundsSweep,
     bitPayInvoiceEntered,
     bitpayInvoiceExpired,
     destroyed,

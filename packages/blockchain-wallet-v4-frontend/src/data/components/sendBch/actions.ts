@@ -82,3 +82,27 @@ export const sendBchFetchLimitsSuccess = (limitsResponse: CrossBorderLimits) => 
   payload: limitsResponse,
   type: AT.SEND_BCH_FETCH_LIMITS_SUCCESS
 })
+
+export const bchImportedFundsSweep = (importedAddresses: string[]) => ({
+  payload: importedAddresses,
+  type: AT.SEND_BCH_IMPORTED_FUNDS_SWEEP
+})
+
+export const bchImportedFundsSweepFailure = (payload) => ({
+  payload,
+  type: AT.SEND_BCH_IMPORTED_FUNDS_SWEEP_FAILURE
+})
+
+export const bchImportedFundsSweepLoading = () => ({
+  type: AT.SEND_BCH_IMPORTED_FUNDS_SWEEP_LOADING
+})
+
+export const bchImportedFundsSweepSuccess = (payload) => ({
+  payload,
+  type: AT.SEND_BCH_IMPORTED_FUNDS_SWEEP_SUCCESS
+})
+
+export const setImportFundsReceiveIndex = (index: number | null) => ({
+  payload: index,
+  type: AT.SET_IMPORT_FUNDS_RECEIVE_INDEX
+})

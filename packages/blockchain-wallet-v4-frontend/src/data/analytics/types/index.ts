@@ -42,6 +42,10 @@ import {
   Events as PlaidClientEvents,
   TrackEventAction as PlaidClientTrackEventAction
 } from './plaid'
+import {
+  Events as RecommendedSweepEvents,
+  TrackEventAction as RecommendedSweepTrackEventAction
+} from './recommendedimportsweep'
 import { Events as SellEvents, TrackEventAction as SellTrackEventAction } from './sell'
 import {
   Events as SendCryptoEvents,
@@ -81,6 +85,8 @@ type AnalyticsKey =
   | OnboardingAndVerificationEvents
   | PlaidClientEvents
   | SellEvents
+  | ExchangePromoEvents
+  | RecommendedSweepEvents
   | SendCryptoEvents
   | SpinnerEvents
   | SwapEvents
@@ -100,6 +106,7 @@ const Analytics = {
   ...MiscEvents,
   ...NftsEvents,
   ...OnboardingAndVerificationEvents,
+  ...RecommendedSweepEvents,
   ...PlaidClientEvents,
   ...SendCryptoEvents,
   ...SpinnerEvents,
@@ -132,6 +139,7 @@ type TrackEventAction =
   | MiscTrackEventAction
   | NftsTrackEventAction
   | OnboardingAndVerificationTrackEventAction
+  | RecommendedSweepTrackEventAction
   | PlaidClientTrackEventAction
   | SellTrackEventAction
   | SendCryptoTrackEventAction

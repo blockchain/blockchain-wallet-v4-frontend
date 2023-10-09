@@ -16,7 +16,7 @@ import {
 } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
 
@@ -25,7 +25,7 @@ import { emojiRegex } from '../send/types'
 import * as A from './actions'
 import { FORM } from './model'
 import * as S from './selectors'
-import { SendBtcFormValues } from './types'
+import { ImportedBtcAddress, ImportedBtcAddressList, SendBtcFormValues } from './types'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
@@ -39,6 +39,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
+
   const initialized = function* (action) {
     try {
       const { amount, description, feeType, from, payPro, to } = action.payload
@@ -163,6 +164,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const fiatCurrency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
     const fromAccount = formValues?.from
     const amount = formValues?.amount?.coin || '0'
+
     try {
       const form = path(['meta', 'form'], action)
       if (!equals(FORM, form)) return
@@ -221,7 +223,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
         yield put(A.sendBtcFetchMaxCustodialWithdrawalFeeSuccess(fee))
       }
-
       switch (field) {
         case 'from':
           const payloadT = payload as BtcFromType
@@ -306,6 +307,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               payment = yield payment.to(address as unknown as string, toType)
           }
           break
+
         case 'amount':
           const btcAmount = prop('coin', payload)
           const satAmount = Exchange.convertCoinToCoin({
@@ -566,8 +568,103 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const btcImportedFundsSweepEffectiveBalance = function* () {
+    try {
+      yield take(actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS)
+      const addressesR = yield select(selectors.core.common.btc.getActiveAddresses)
+      const addresses = addressesR.getOrElse([]).filter(prop('priv'))
+      const hasEffectiveBalances: ImportedBtcAddressList = []
+      // eslint-disable-next-line no-restricted-syntax
+      for (const addr of addresses) {
+        if (addr.info.final_balance > 0) {
+          let payment = coreSagas.payment.btc.create({
+            network: networks.btc
+          })
+          payment = yield payment.init()
+          payment = yield payment.from(addr.addr, ADDRESS_TYPES.LEGACY)
+          const defaultFeePerByte = path(['fees', 'regular'], payment.value())
+
+          payment = yield payment.fee(defaultFeePerByte)
+          const effectiveBalance = prop('effectiveBalance', payment.value())
+          if (effectiveBalance > 0) {
+            hasEffectiveBalances.push({
+              address: addr.addr,
+              balance: addr.info.final_balance
+            })
+          }
+        }
+      }
+      yield put(A.btcImportedFundsSweepEffectiveBalanceSuccess(hasEffectiveBalances))
+    } catch (e) {
+      yield put(A.btcImportedFundsSweepEffectiveBalanceFailure([]))
+    }
+  }
+
+  const btcImportedFundsSweep = function* (action) {
+    const { payload } = action
+    yield put(A.btcImportedFundsSweepLoading())
+    try {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const addr of payload) {
+        const accounts = (yield select(selectors.core.common.btc.getAccountsBalances)).getOrElse([])
+        const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+
+        const defaultAccount = accounts.filter((acc) => acc.index === defaultIndex)[0]
+
+        const receiveIndexMultiaddr = (yield select(
+          selectors.core.data.btc.getReceiveIndex(defaultAccount.xpub)
+        )).getOrElse(0)
+        const receiveIndexPrev = yield select(S.getImportFundsReceiveIndex)
+
+        const receiveIndex = receiveIndexPrev ? receiveIndexPrev + 1 : receiveIndexMultiaddr
+
+        let payment = coreSagas.payment.btc.create({
+          network: networks.btc
+        })
+
+        payment = yield payment.init()
+        payment = yield payment.from(addr, ADDRESS_TYPES.LEGACY)
+        payment = yield payment.to(defaultAccount.index, ADDRESS_TYPES.ACCOUNT, receiveIndex)
+        const defaultFeePerByte = path(['fees', 'regular'], payment.value())
+
+        payment = yield payment.fee(defaultFeePerByte)
+        const effectiveBalance = prop('effectiveBalance', payment.value())
+        payment = yield payment.amount(parseInt(effectiveBalance))
+        payment = yield payment.build()
+        let password
+        payment = yield payment.sign(password)
+        payment = yield payment.publish()
+        yield put(A.setImportFundsReceiveIndex(receiveIndex))
+        yield put(
+          actions.analytics.trackEvent({
+            key: Analytics.TRANSFER_FUNDS_SUCCESS,
+            properties: {}
+          })
+        )
+      }
+      yield put(actions.core.data.btc.fetchData())
+      yield put(A.btcImportedFundsSweepSuccess(true))
+    } catch (e) {
+      yield put(
+        actions.alerts.displayError(C.SEND_COIN_ERROR, {
+          coinName: 'Bitcoin'
+        })
+      )
+      yield put(A.btcImportedFundsSweepFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'sweepBtcFunds', e))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.TRANSFER_FUNDS_FAILURE,
+          properties: {}
+        })
+      )
+      yield put(A.setImportFundsReceiveIndex(null))
+    }
+  }
   return {
     bitpayInvoiceExpired,
+    btcImportedFundsSweep,
+    btcImportedFundsSweepEffectiveBalance,
     destroyed,
     fetchSendLimits,
     firstStepSubmitClicked,

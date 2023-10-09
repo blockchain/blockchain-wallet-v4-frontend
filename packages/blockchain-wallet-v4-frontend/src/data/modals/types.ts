@@ -63,6 +63,7 @@ export enum ModalName {
   PAIRING_CODE_MODAL = 'PAIRING_CODE_MODAL',
   PROMPT_INPUT_MODAL = 'PROMPT_INPUT_MODAL',
   QR_CODE_MODAL = 'QR_CODE_MODAL',
+  RECOMMENDED_IMPORTED_SWEEP = 'RECOMMENDED_IMPORTED_SWEEP',
   RECOVERY_PHRASE_MODAL = 'RECOVERY_PHRASE_MODAL',
   RECURRING_BUYS_MODAL = 'RECURRING_BUYS_MODAL',
   REFERRAL_LANDING_MODAL = 'REFERRAL_LANDING_MODAL',
@@ -174,6 +175,7 @@ export type ModalOriginType =
   | 'BuySellLink'
   | 'BuySellStatus'
   | 'BuySellOrderSummary'
+  | 'RecommendedImportedSweep'
   | 'Swap'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'

@@ -132,7 +132,7 @@ export const fromPrivateKey = (network, wallet, key) => {
 }
 
 // toOutputAccount :: Coin -> String -> ReduxState -> Integer -> Object
-export const toOutputAccount = (coin, network, state, accountIndex) => {
+export const toOutputAccount = (coin, network, state, accountIndex, addressIndex) => {
   const wallet = S.wallet.getWallet(state)
   const account = Wallet.getAccount(accountIndex, wallet).get() // throw if nothing
   const xpub =
@@ -141,7 +141,10 @@ export const toOutputAccount = (coin, network, state, accountIndex) => {
     coin === 'BTC'
       ? S.data.btc.getReceiveIndex(xpub, state)
       : S.data.bch.getReceiveIndex(xpub, state)
-  const receiveIndex = receiveIndexR.getOrFail(new Error('missing_receive_address'))
+  const receiveIndex =
+    addressIndex !== undefined
+      ? addressIndex
+      : receiveIndexR.getOrFail(new Error('missing_receive_address'))
   const address =
     coin === 'BTC'
       ? HDAccount.getReceiveAddress(account, receiveIndex, network)
@@ -173,10 +176,10 @@ export const toOutputAddress = (address) => ({
 })
 
 // toOutputAccount :: Network -> ReduxState -> String|Integer -> String -> Object
-export const toOutput = curry((coin, network, state, destination, type) => {
+export const toOutput = curry((coin, network, state, destination, type, addressIndex) => {
   switch (type) {
     case ADDRESS_TYPES.ACCOUNT:
-      return toOutputAccount(coin, network, state, destination)
+      return toOutputAccount(coin, network, state, destination, addressIndex)
     case ADDRESS_TYPES.SCRIPT: {
       return toOutputScript(destination)
     }

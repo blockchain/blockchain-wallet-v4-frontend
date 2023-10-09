@@ -1,9 +1,12 @@
-import { map } from 'ramda'
+import { lift, map } from 'ramda'
 
 import { CoinfigType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
-import { REQUEST_ACCOUNTS_SELECTOR } from 'data/coins/model/request'
+import {
+  REQUEST_ACCOUNTS_SELECTOR,
+  REQUEST_ACCOUNTS_SELECTOR_NO_IMPORTED
+} from 'data/coins/model/request'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { ProductEligibilityForUser, SwapAccountType, SwapBaseCounterTypes } from 'data/types'
@@ -18,17 +21,29 @@ export const getData = createDeepEqualSelector(
         coins: ownProps.requestableCoins,
         ...REQUEST_ACCOUNTS_SELECTOR
       } as CoinAccountSelectorType),
+    (state, ownProps) =>
+      getCoinAccounts(state, {
+        coins: ownProps.requestableCoins,
+        ...REQUEST_ACCOUNTS_SELECTOR_NO_IMPORTED
+      } as CoinAccountSelectorType),
     selectors.balances.getTotalWalletBalancesSorted,
     selectors.modules.profile.isSilverOrAbove,
     selectors.form.getFormValues(REQUEST_FORM),
-    selectors.custodial.getProductEligibilityForUser
+    selectors.custodial.getProductEligibilityForUser,
+    selectors.core.walletOptions.getImportedAddressSweep,
+    selectors.core.settings.getImportSweep
   ],
   (
     accounts,
+    accountsWithoutImportedAddresses,
     sortedCoinsR: ReturnType<typeof selectors.balances.getTotalWalletBalancesSorted>,
     isSilverOrAbove,
     formValues: { coinSearch?: string },
-    productsR: ReturnType<typeof selectors.custodial.getProductEligibilityForUser>
+    productsR: ReturnType<typeof selectors.custodial.getProductEligibilityForUser>,
+    importedAddressSweepFeatureFlagR: ReturnType<
+      typeof selectors.core.walletOptions.getImportedAddressSweep
+    >,
+    importedAddressSweepGetInfoR: ReturnType<typeof selectors.core.settings.getImportSweep>
   ) => {
     const search = formValues?.coinSearch || 'ALL'
     const prunedAccounts = [] as Array<SwapAccountType>
@@ -44,6 +59,9 @@ export const getData = createDeepEqualSelector(
     const products = productsR.getOrElse({
       custodialWallets: { enabled: false }
     } as ProductEligibilityForUser)
+
+    const importedAddressSweepFeatureFlag = importedAddressSweepFeatureFlagR.getOrElse(false)
+    const importedAddressSweepGetInfo = importedAddressSweepGetInfoR.getOrElse(false)
 
     const includeCustodialWallets =
       products.custodialWallets?.enabled &&
@@ -68,7 +86,7 @@ export const getData = createDeepEqualSelector(
 
           if (include) prunedAccounts.push(coinAccount)
         }, coinAccounts),
-      accounts
+      importedAddressSweepFeatureFlag ? accountsWithoutImportedAddresses : accounts
     )
 
     const sortedAccounts = prunedAccounts

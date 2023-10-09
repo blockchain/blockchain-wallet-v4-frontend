@@ -8,6 +8,11 @@ export default ({ api, coreSagas, networks }) => {
   const sendBtcSagas = sagas({ api, coreSagas, networks })
 
   return function* sendBtcSaga() {
+    yield takeLatest(AT.SEND_BTC_IMPORTED_FUNDS_SWEEP, sendBtcSagas.btcImportedFundsSweep)
+    yield takeLatest(
+      AT.SEND_BTC_IMPORTED_FUNDS_SWEEP_EFFECTIVE_BALANCE,
+      sendBtcSagas.btcImportedFundsSweepEffectiveBalance
+    )
     yield takeLatest(AT.SEND_BTC_INITIALIZED, sendBtcSagas.initialized)
     yield takeLatest(AT.SEND_BTC_DESTROYED, sendBtcSagas.destroyed)
     yield takeLatest(
