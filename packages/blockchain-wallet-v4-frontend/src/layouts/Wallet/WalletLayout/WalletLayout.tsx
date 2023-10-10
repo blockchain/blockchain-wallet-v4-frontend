@@ -6,7 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
-import { UkBanner } from 'components/Banner'
+import { UkBanner, UkFooterBanner } from 'components/Banner'
 import { CowboysCardComponent } from 'components/Card/CowboysCard'
 import ExchangePromo from 'components/Card/ExchangePromo'
 import { SupportChatForGoldUserOnly } from 'components/SupportChat'
@@ -25,6 +25,7 @@ const WalletLayout: Props = ({
   autoLogoutTimeLength,
   center = false,
   children,
+  hasUkBanner,
   hideMenu = false,
   modalActions,
   pathname,
@@ -78,6 +79,7 @@ const WalletLayout: Props = ({
             data-e2e={`page${replace(/\//g, '-', pathname)}`}
           >
             <Page center={center}>{children}</Page>
+            {hasUkBanner && <UkFooterBanner />}
           </Content>
         </Container>
         <SupportChatForGoldUserOnly />
@@ -100,6 +102,7 @@ type Props = FC<
   {
     center?: boolean
     children: ReactElement
+    hasUkBanner?: boolean
     hideMenu?: boolean
     pathname: string
     removeContentPadding?: boolean
