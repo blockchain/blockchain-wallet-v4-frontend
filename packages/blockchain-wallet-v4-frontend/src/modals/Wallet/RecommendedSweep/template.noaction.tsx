@@ -35,12 +35,12 @@ const NoActionRequired = (props: Props) => {
           {noImportedAddresses ? (
             <FormattedMessage
               id='modals.uptodate.body'
-              defaultMessage='Your wallet does not contain any funds affected by the identified security issue. You can continue using your wallet normally.'
+              defaultMessage='Your wallet does not contain any funds affected by the identified third party software security issue. You can continue using your wallet normally.'
             />
           ) : (
             <FormattedMessage
               id='modals.uptodate.hasaddresses.body'
-              defaultMessage='Your wallet does not currently contain any funds affected by the identified security issue. Please discontinue the use of the legacy addresses in your wallet for receiving funds. Should you receive funds into these addresses in the future, you will be prompted to transfer them to a new, secure address. You can now continue using your wallet normally.'
+              defaultMessage='Your wallet does not currently contain any funds affected by the identified third party software security issue. Please discontinue the use of the legacy addresses in your wallet for receiving funds. Should you receive funds into these addresses in the future, you will be prompted to transfer them to a new, secure address. You can now continue using your wallet normally.'
             />
           )}
         </Text>
