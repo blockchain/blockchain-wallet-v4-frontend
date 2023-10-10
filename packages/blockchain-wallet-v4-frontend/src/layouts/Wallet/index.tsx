@@ -11,6 +11,7 @@ const WalletLayoutContainer: FC<Props> = ({
   center,
   component: Component,
   computedMatch,
+  hasUkBanner,
   hideMenu,
   isAuthenticated,
   isCoinDataLoaded,
@@ -39,6 +40,7 @@ const WalletLayoutContainer: FC<Props> = ({
       render={(props) => (
         <WalletLayout
           removeContentPadding={removeContentPadding}
+          hasUkBanner={hasUkBanner}
           hideMenu={hideMenu}
           center={center}
           pathname={props.location.pathname}
@@ -64,6 +66,7 @@ type Props = ConnectedProps<typeof connector> & {
   component: React.ComponentType<any>
   computedMatch?: any
   exact?: boolean
+  hasUkBanner?: boolean
   hideMenu?: boolean
   path: string
   removeContentPadding?: boolean

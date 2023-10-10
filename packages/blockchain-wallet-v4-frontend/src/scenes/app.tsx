@@ -256,8 +256,8 @@ const App = ({
                               )}
                               <WalletLayout path='/airdrops' component={Airdrops} />
                               <WalletLayout path='/exchange' component={TheExchange} />
-                              <WalletLayout path='/home' component={Home} />
-                              <WalletLayout path='/earn' component={Earn} exact />
+                              <WalletLayout path='/home' component={Home} hasUkBanner />
+                              <WalletLayout path='/earn' component={Earn} exact hasUkBanner />
                               <WalletLayout path='/earn/history' component={EarnHistory} />
                               {isActiveRewardsEnabled && (
                                 <WalletLayout
@@ -269,7 +269,7 @@ const App = ({
                               <WalletLayout path='/settings/addresses' component={Addresses} />
                               <WalletLayout path='/settings/general' component={General} />
                               <WalletLayout path='/settings/preferences' component={Preferences} />
-                              <WalletLayout path='/prices' component={Prices} />
+                              <WalletLayout path='/prices' component={Prices} hasUkBanner />
                               <WalletLayout path='/tax-center' component={TaxCenter} />
                               <WalletLayout
                                 path='/coins/:coin'

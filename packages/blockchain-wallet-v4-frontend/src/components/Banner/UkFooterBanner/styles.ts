@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
+export const Container = styled.div<{ isSticky?: boolean }>`
   display: flex;
   width: 100%;
+  position: sticky;
+  bottom: 0;
   justify-content: center;
   align-items: center;
   color: ${({ theme }) => theme.grey600};
