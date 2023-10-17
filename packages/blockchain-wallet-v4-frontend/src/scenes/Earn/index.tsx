@@ -3,7 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { Text } from 'blockchain-info-components'
+import { Link, Text } from 'blockchain-info-components'
+import { getData as getUserCountry } from 'components/Banner/selectors'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { Analytics, EarnTabsType, ModalName } from 'data/types'
@@ -59,6 +60,8 @@ const Earn = () => {
     earnActions.setSearchValue({ value: e.target.value })
   }, 800)
 
+  const isUserFromUK = useSelector(getUserCountry)?.country === 'GB'
+
   useEffect(() => {
     // this also calls rates
     earnActions.fetchEarnInstruments()
@@ -110,15 +113,31 @@ const Earn = () => {
     } = data
 
     return (
-      <Table
-        activeRewardsRates={activeRewardsRates}
-        earnEDDStatus={earnEDDStatus}
-        interestRates={interestRates}
-        interestRatesArray={interestRatesArray}
-        isGoldTier={isGoldTier}
-        stakingRates={stakingRates}
-        userData={userData}
-      />
+      <>
+        {isUserFromUK && (
+          <Text weight={500} size='14px' italic style={{ marginBottom: 16 }}>
+            APYs are always indicative based on past performance and are not guaranteed. Find out
+            more about Staking and Rewards as well as the risks{' '}
+            <Link
+              size='14px'
+              href='https://support.blockchain.com/hc/en-us/articles/10857163796380-Staking-and-Rewards-what-are-the-risks'
+              target='_blank'
+            >
+              here
+            </Link>
+            .
+          </Text>
+        )}
+        <Table
+          activeRewardsRates={activeRewardsRates}
+          earnEDDStatus={earnEDDStatus}
+          interestRates={interestRates}
+          interestRatesArray={interestRatesArray}
+          isGoldTier={isGoldTier}
+          stakingRates={stakingRates}
+          userData={userData}
+        />
+      </>
     )
   }
 
