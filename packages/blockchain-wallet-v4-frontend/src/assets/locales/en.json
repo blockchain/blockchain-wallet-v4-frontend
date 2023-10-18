@@ -1556,9 +1556,9 @@
   "modals.securitynotice.para1.thirdparty": "The following legacy addresses have been identified as possibly affected by a third party software security issue. To secure these funds, click the ‘Transfer Funds’ button below. This will move the funds from the legacy addresses into new, secure addresses in your DeFi Wallet.",
   "modals.securitynotice.success.body": "All funds held in legacy addresses have been successfully transferred to new addresses in your DeFi Wallet. Please discontinue the use of the legacy addresses in your wallet for receiving funds. Should you receive funds into these addresses in the future, you will be prompted again to transfer them to a new, secure address. You can now continue using your wallet normally.",
   "modals.securitynotice.title": "Security Notice",
-  "modals.securitynotice.uptodate.thanks": "Thanks!",
   "modals.securitynotice.uptodate.body.thirdparty": "Your wallet does not contain any funds affected by the identified third party software security issue. You can continue using your wallet normally.",
   "modals.securitynotice.uptodate.hasaddresses.body.thirdparty": "Your wallet does not currently contain any funds affected by the identified third party software security issue. Please discontinue the use of the legacy addresses in your wallet for receiving funds. Should you receive funds into these addresses in the future, you will be prompted to transfer them to a new, secure address. You can now continue using your wallet normally.",
+  "modals.securitynotice.uptodate.thanks": "Thanks!",
   "modals.send.banner.get_started": "Get Started",
   "modals.send.banner.verify.description": "Verify your ID now and send up to {dayCurrencySymbol}{dayAmount} a {suggestedPeriod}. Now, your limit is {currency}{limit} a {period}.",
   "modals.send.banner.verify.title": "Verify your identity. Send more crypto.",
@@ -1976,7 +1976,6 @@
   "modals.upgradenow.subtitle": "Start buying & selling crypto today.",
   "modals.upgradenow.unlock_full_access_limits": "Unlock Full Access",
   "modals.upgradenow.unlock_silver_limits": "Unlock Silver Limits",
-
   "modals.verifyMessage.address": "Bitcoin Address:",
   "modals.verifyMessage.failure": "The signature does not match the message.",
   "modals.verifyMessage.message": "Message:",
