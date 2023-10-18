@@ -1,13 +1,15 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import axios from 'axios'
 import { find, pathOr, propEq } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
-import { RemoteDataType } from '@core/types'
+import { RemoteDataType, WalletOptionsType } from '@core/types'
 import { Image } from 'blockchain-info-components'
+import { UkBanner } from 'components/Banner'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ProductSignupMetadata } from 'data/types'
@@ -47,6 +49,12 @@ const LatamWrapper = styled.div`
   }
 `
 
+const UKHeaderWrapper = styled.div`
+  position: absolute;
+  width: 100vw;
+  top: 0;
+`
+
 export const SIGNUP_FORM = 'register'
 
 const qsParams = new URLSearchParams(window.location.hash)
@@ -59,6 +67,7 @@ class SignupContainer extends React.PureComponent<
   constructor(props) {
     super(props)
     this.state = {
+      geoCountryCode: undefined,
       showForm: true,
       showState: false
     }
@@ -68,11 +77,22 @@ class SignupContainer extends React.PureComponent<
     const { signupActions, websocketActions } = this.props
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()
+    this.getUserCurrentGeo()
     signupActions.initializeSignup()
     if (window?._SardineContext) {
       window._SardineContext.updateConfig({
         flow: 'SIGNUP'
       })
+    }
+  }
+
+  async getUserCurrentGeo() {
+    const { api } = this.props.domains
+
+    const response = await axios.get(`${api}/nabu-gateway/geolocation2`)
+    const { countryCode } = response?.data
+    if (countryCode) {
+      this.setState((state) => ({ ...state, geoCountryCode: countryCode }))
     }
   }
 
@@ -112,6 +132,9 @@ class SignupContainer extends React.PureComponent<
   render() {
     const { goals, isLoadingR } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
+    const { geoCountryCode } = this.state
+
+    const isUserInUK = geoCountryCode === 'GB'
 
     // pull email from simple buy goal if it exists or signup goal
     const email =
@@ -136,25 +159,35 @@ class SignupContainer extends React.PureComponent<
     }
 
     return (
-      <SignupWrapper>
-        {isLatam && <Header />}
-        {isLinkAccountGoal && <ExchangeLinkGoal {...subviewProps} />}
-        {isBuyGoal && <BuyGoal {...subviewProps} />}
-        {!isLinkAccountGoal && !isBuyGoal && !isLatam && <SignupCard {...subviewProps} />}
-        {!isLinkAccountGoal && !isBuyGoal && isLatam && (
-          <LatamWrapper>
-            <SignupCard {...subviewProps} />
-            <LatamPhone>
-              <Image width='569px' name='latam-signup-phone' />
-            </LatamPhone>
-          </LatamWrapper>
+      <>
+        {!isUserInUK && (
+          <UKHeaderWrapper>
+            <UkBanner userLoggedOut />
+          </UKHeaderWrapper>
         )}
-      </SignupWrapper>
+        <SignupWrapper>
+          {isLatam && <Header />}
+          {isLinkAccountGoal && <ExchangeLinkGoal {...subviewProps} />}
+          {isBuyGoal && <BuyGoal {...subviewProps} />}
+          {!isLinkAccountGoal && !isBuyGoal && !isLatam && <SignupCard {...subviewProps} />}
+          {!isLinkAccountGoal && !isBuyGoal && isLatam && (
+            <LatamWrapper>
+              <SignupCard {...subviewProps} />
+              <LatamPhone>
+                <Image width='569px' name='latam-signup-phone' />
+              </LatamPhone>
+            </LatamWrapper>
+          )}
+        </SignupWrapper>
+      </>
     )
   }
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  domains: selectors.core.walletOptions
+    .getDomains(state)
+    .getOrElse({}) as WalletOptionsType['domains'],
   formValues: selectors.form.getFormValues(SIGNUP_FORM)(state) as SignupFormType,
   goals: selectors.goals.getGoals(state) as GoalDataType,
   isLoadingR: selectors.signup.getRegistering(state) as RemoteDataType<string, undefined>,
@@ -177,6 +210,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
+  domains: WalletOptionsType['domains']
   formValues: SignupFormType
   goals: GoalDataType
   isLoadingR: RemoteDataType<string, undefined>
@@ -187,6 +221,7 @@ type LinkStatePropsType = {
   signupMetadata: ProductSignupMetadata
 }
 type StateProps = {
+  geoCountryCode?: string
   showForm: boolean
   showState: boolean
 }
