@@ -122,6 +122,7 @@ const Earn = () => {
               size='14px'
               href='https://support.blockchain.com/hc/en-us/articles/10857167024156-Various-Cryptoassets-and-Their-Risks'
               target='_blank'
+              style={{ textDecoration: 'underline' }}
             >
               here
             </Link>
