@@ -104,7 +104,7 @@ const RecommendedImportedSweep = (props: Props) => {
         <ModalBody>
           <Text size='14px' weight={400} lineHeight='1.5'>
             <FormattedMessage
-              id='modals.securitynotice.para1'
+              id='modals.securitynotice.para1.thirdparty'
               defaultMessage='The following legacy addresses have been identified as possibly affected by a third party software security issue. To secure these funds, click the ‘Transfer Funds’ button below. This will move the funds from the legacy addresses into new, secure addresses in your DeFi Wallet.'
             />
           </Text>
