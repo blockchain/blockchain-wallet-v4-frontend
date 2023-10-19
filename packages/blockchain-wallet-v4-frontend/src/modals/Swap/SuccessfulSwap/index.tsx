@@ -1,16 +1,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { isEmpty } from 'ramda'
 import styled from 'styled-components'
 
 import { SwapOrderType } from '@core/types'
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { duration, FlyoutWrapper } from 'components/Flyout'
 import { getOutput } from 'data/components/swap/model'
 import { Analytics, ModalName } from 'data/types'
 
 import { Props as BaseProps, SuccessStateType } from '..'
+import { getData } from '../selectors'
 
 const Wrapper = styled(FlyoutWrapper)`
   width: 100%;
@@ -52,10 +54,11 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
     interestEligible,
     interestRates,
     isRewardsFlowAfterSwapEnabled,
-    order
+    order,
+    userData
   } = props
   if (!order) return null
-
+  const isUserFromUK = userData?.address?.country === 'GB'
   const swappedCurrency = useMemo(() => getOutput(order), [order])
   const swappedCurrencyHasRate = useMemo(
     () => interestRates[swappedCurrency],
@@ -161,6 +164,22 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
               }}
             />
           </StyledEarnSubText>
+          {isUserFromUK && (
+            <StyledEarnSubText size='14px' color='grey600' weight={600}>
+              APYs are always indicative based on past performance and are not guaranteed. Find out
+              more about Staking and Rewards as well as the risks{' '}
+              <Link
+                size='12px'
+                href='https://support.blockchain.com/hc/en-us/articles/10857163796380-Staking-and-Rewards-what-are-the-risks'
+                target='_blank'
+                style={{ textDecoration: 'underline' }}
+              >
+                here
+              </Link>
+              .
+            </StyledEarnSubText>
+          )}
+
           <StyledEarnButton
             data-e2e='swapEarn'
             nature='primary'
