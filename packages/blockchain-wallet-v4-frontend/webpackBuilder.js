@@ -291,24 +291,24 @@ const buildDevServerConfig = (
         throw new Error('webpack-dev-server is not defined')
       }
 
-      devServer.app.get('/wallet-options-v4.json', function (req, res) {
-        // combine wallet options base with custom environment config
-        mockWalletOptions.domains = {
-          api: envConfig.API_DOMAIN,
-          bitpay: envConfig.BITPAY_URL,
-          comRoot: envConfig.COM_ROOT,
-          comWalletApp: localhostUrl,
-          exchange: envConfig.EXCHANGE_URL,
-          horizon: envConfig.HORIZON_URL,
-          opensea: envConfig.OPENSEA_API,
-          root: envConfig.ROOT_URL,
-          veriff: envConfig.VERIFF_URL,
-          walletHelper: envConfig.WALLET_HELPER_DOMAIN,
-          webSocket: envConfig.WEB_SOCKET_URL
-        }
+    devServer.app.get('/wallet-options-v4.json', function (req, res) {
+      // combine wallet options base with custom environment config
+      mockWalletOptions.domains = {
+        api: envConfig.API_DOMAIN,
+        bitpay: envConfig.BITPAY_URL,
+        comRoot: envConfig.COM_ROOT,
+        comWalletApp: localhostUrl,
+        exchange: envConfig.EXCHANGE_URL,
+        horizon: envConfig.HORIZON_URL,
+        opensea: envConfig.OPENSEA_API,
+        root: envConfig.ROOT_URL,
+        veriff: envConfig.VERIFF_URL,
+        walletHelper: envConfig.WALLET_HELPER_DOMAIN,
+        webSocket: envConfig.WEB_SOCKET_URL
+      }
 
-        res.json(mockWalletOptions)
-      })
+      res.json(mockWalletOptions)
+    })
 
       devServer.app.get('/wallet-options.json', function (req, res) {
         mockWalletOptions.domains = {

@@ -5,7 +5,7 @@ import securityCenter from './securityCenter/sagas'
 import settings from './settings/sagas'
 import transferEth from './transferEth/sagas'
 
-export default ({ api, coreSagas, networks }) => ({
+export def1ault ({ api, coreSagas, networks }) => ({
   addressesBch: addressesBch({ coreSagas }),
   profile: profile({ api, coreSagas, networks }),
   rates: rates({ api }),
