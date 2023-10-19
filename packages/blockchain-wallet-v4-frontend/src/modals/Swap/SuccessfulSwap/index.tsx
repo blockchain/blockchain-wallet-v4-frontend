@@ -54,10 +54,11 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
     interestEligible,
     interestRates,
     isRewardsFlowAfterSwapEnabled,
-    order
+    order,
+    userData
   } = props
   if (!order) return null
-
+  const isUserFromUK = userData?.address?.country === 'GB'
   const swappedCurrency = useMemo(() => getOutput(order), [order])
   const swappedCurrencyHasRate = useMemo(
     () => interestRates[swappedCurrency],
@@ -163,7 +164,7 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
               }}
             />
           </StyledEarnSubText>
-          {/* {isUserFromUK && (
+          {isUserFromUK && (
             <StyledEarnSubText size='14px' color='grey600' weight={600}>
               APYs are always indicative based on past performance and are not guaranteed. Find out
               more about Staking and Rewards as well as the risks{' '}
@@ -177,7 +178,7 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
               </Link>
               .
             </StyledEarnSubText>
-          )} */}
+          )}
 
           <StyledEarnButton
             data-e2e='swapEarn'
