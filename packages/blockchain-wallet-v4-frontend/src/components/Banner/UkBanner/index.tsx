@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux'
 import { getData } from '../selectors'
 import { LinkContainer } from './styles'
 
-export const UkBanner = () => {
+export const UkBanner = ({ userLoggedOut = false }: { userLoggedOut?: boolean }) => {
   const { country } = useSelector(getData)
-  if (country !== 'GB') return null
+  if (!userLoggedOut && country !== 'GB') return null
   return (
     <LinkContainer
       href='https://support.blockchain.com/hc/en-us/articles/10618857176604-UK-FCA-Regulations'

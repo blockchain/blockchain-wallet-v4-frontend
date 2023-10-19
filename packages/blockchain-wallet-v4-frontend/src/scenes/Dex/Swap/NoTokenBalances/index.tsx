@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
+import { Link, Text } from 'blockchain-info-components'
+import { getData } from 'components/Banner/selectors'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'
@@ -38,6 +40,8 @@ export const NoTokenBalances = () => {
     )
   }
 
+  const isUserFromUK = useSelector(getData)?.country === 'GB'
+
   return (
     <PageWrapper>
       <CustomSceneCard height={356}>
@@ -52,10 +56,28 @@ export const NoTokenBalances = () => {
             />
           }
           description={
-            <FormattedMessage
-              id='dex.noTokenBalances.description'
-              defaultMessage='Transfer from your Blockchain.com Account, send from any exchange, or ask a friend!'
-            />
+            <>
+              <FormattedMessage
+                id='dex.noTokenBalances.description'
+                defaultMessage='Transfer from your Blockchain.com Account, send from any exchange, or ask a friend!'
+              />
+              {isUserFromUK && (
+                <Text weight={500} size='14px' italic style={{ marginTop: 8 }}>
+                  Find out more about various crypto assets
+                  <br />
+                  and their risks{' '}
+                  <Link
+                    size='14px'
+                    href='https://support.blockchain.com/hc/en-us/articles/10857167024156-Various-Cryptoassets-and-Their-Risks'
+                    target='_blank'
+                    style={{ textDecoration: 'underline' }}
+                  >
+                    here
+                  </Link>
+                  .
+                </Text>
+              )}
+            </>
           }
         />
         <Button

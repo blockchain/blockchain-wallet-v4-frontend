@@ -42,7 +42,7 @@ export const cardsData: CardType[] = [
     description: (
       <FormattedMessage
         id='scenes.earn.active-rewards-learn.cards.description-3'
-        defaultMessage='While Active Rewards gives a rewards component which is fixed on a weekly basis, market movements may affect your nominal crypto balance at the end of the lock-up period.'
+        defaultMessage='While Active Rewards allows you to earn a fixed reward on a weekly basis, you may end up with less crypto than you had at the start. Study the scenarios below closely so that you fully understand this product.'
       />
     ),
     id: 'scenes.earn.active-rewards-learn.cards.title-3',
