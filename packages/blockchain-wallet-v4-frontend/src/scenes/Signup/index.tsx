@@ -160,7 +160,7 @@ class SignupContainer extends React.PureComponent<
 
     return (
       <>
-        {!isUserInUK && (
+        {isUserInUK && (
           <UKHeaderWrapper>
             <UkBanner userLoggedOut />
           </UKHeaderWrapper>
