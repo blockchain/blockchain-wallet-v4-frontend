@@ -216,8 +216,9 @@ const OrderSummary: React.FC<Props> = ({
                           rate: coinInterestRate
                         }}
                       />
+
                       {isUserFromUK && (
-                        <Text color='grey600' weight={500} size='12px' italic>
+                        <SecondaryInfoText>
                           APYs are always indicative based on past performance and are not
                           guaranteed. Find out more about Staking and Rewards as well as the risks{' '}
                           <Link
@@ -229,7 +230,7 @@ const OrderSummary: React.FC<Props> = ({
                             here
                           </Link>
                           .
-                        </Text>
+                        </SecondaryInfoText>
                       )}
                     </SecondaryInfoText>
                   )}
