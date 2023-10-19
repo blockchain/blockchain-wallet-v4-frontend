@@ -75,7 +75,11 @@ class Airdrops extends React.PureComponent<Props> {
           </Text>
         ) : (
           <Text size='16px' weight={500}>
-            Oops. Something went wrong and we don't know why. <b>Here's the error: {e.type}</b>
+            {"Oops. Something went wrong and we don't know why. "}
+            <b>
+              {"Here's the error: "}
+              {e.type}
+            </b>
           </Text>
         ),
       Loading: () => <Text weight={500}>Loading...</Text>,
@@ -96,7 +100,7 @@ class Airdrops extends React.PureComponent<Props> {
         <SceneSubHeaderText>
           <FormattedMessage
             id='scenes.airdrops.blockchain.safest'
-            defaultMessage='The safest and easiest way to try and discover new crypto.'
+            defaultMessage='The easiest way to try and discover new crypto.'
           />
         </SceneSubHeaderText>
         {AirdropCards}
