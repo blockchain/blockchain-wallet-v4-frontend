@@ -40,12 +40,14 @@ const Success: React.FC<Props> = ({
   interestRates,
   position,
   total,
+  userData,
   walletCurrency
 }) => {
   const { currency, fiatAmount, fiatCurrency } = afterTransaction
   const purchaseAmount = fiatAmount || 0
   const interestAmount = calcBasicInterest(purchaseAmount, interestRates[currency || 'BTC'])
   const worthCurrency = fiatCurrency || (walletCurrency as WalletFiatType)
+  const isUserFromUK = userData?.address?.country === 'GB'
   return (
     <Modal size='medium' position={position} total={total}>
       <ModalHeaderBorderless onClose={closeAll}>
@@ -67,6 +69,21 @@ const Success: React.FC<Props> = ({
             }}
           />
         </Text>
+        {isUserFromUK && (
+          <Text color='grey600' weight={500} size='14px' italic>
+            APYs are always indicative based on past performance and are not guaranteed. Find out
+            more about various crypto assets and their risks{' '}
+            <Link
+              size='12px'
+              href='https://support.blockchain.com/hc/en-us/articles/10857163796380-Staking-and-Rewards-what-are-the-risks'
+              target='_blank'
+              style={{ textDecoration: 'underline' }}
+            >
+              here
+            </Link>
+            .
+          </Text>
+        )}
         <Text
           size='14px'
           color='grey600'
