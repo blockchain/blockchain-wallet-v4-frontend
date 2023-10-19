@@ -9,12 +9,12 @@ import {
   SemanticColors
 } from '@blockchain-com/constellation'
 
-import { Image, Text } from 'blockchain-info-components'
+import { Image, Link, Text } from 'blockchain-info-components'
 
 import { CloseLink } from '../styles'
 import { CardWrapper } from './StakingBanner.model'
 
-const StakingBanner = ({ onClickClose, rate }) => (
+const StakingBanner = ({ isUserFromUK, onClickClose, rate }) => (
   <CardWrapper>
     <Padding horizontal={1} vertical={1.5}>
       <Flex flexDirection='row' alignItems='center' justifyContent='space-between' gap={16}>
@@ -36,6 +36,21 @@ const StakingBanner = ({ onClickClose, rate }) => (
                 values={{ rate }}
               />
             </Text>
+            {isUserFromUK && (
+              <Text color='grey600' weight={500} size='12px' italic>
+                APYs are always indicative based on past performance and are not guaranteed. Find
+                out more about Staking and Rewards as well as the risks{' '}
+                <Link
+                  size='12px'
+                  href='https://support.blockchain.com/hc/en-us/articles/10857163796380-Staking-and-Rewards-what-are-the-risks'
+                  target='_blank'
+                  style={{ textDecoration: 'underline' }}
+                >
+                  here
+                </Link>
+                .
+              </Text>
+            )}
           </Flex>
         </Flex>
         <Flex alignItems='center'>
