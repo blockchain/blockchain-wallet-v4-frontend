@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { intervalToDuration } from 'date-fns'
 import { isEmpty } from 'ramda'
 import styled from 'styled-components'
@@ -12,6 +13,7 @@ import {
   RewardsRatesType
 } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { getData } from 'components/Banner/selectors'
 import { duration } from 'components/Flyout'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
@@ -99,6 +101,8 @@ const OrderSummary: React.FC<Props> = ({
   const isTransactionPending = isPendingDeposit && paymentState === 'WAITING_FOR_3DS_RESPONSE'
 
   const { days } = intervalToDuration({ end: lockTime, start: 0 })
+
+  const isUserFromUK = useSelector(getData)?.country === 'GB'
 
   // Getting the interest rate for the coin that was bought
   const coinInterestRate = !!interestRates[outputCurrency] && interestRates[outputCurrency]
@@ -212,6 +216,21 @@ const OrderSummary: React.FC<Props> = ({
                           rate: coinInterestRate
                         }}
                       />
+                      {isUserFromUK && (
+                        <Text color='grey600' weight={500} size='12px' italic>
+                          APYs are always indicative based on past performance and are not
+                          guaranteed. Find out more about Staking and Rewards as well as the risks{' '}
+                          <Link
+                            size='12px'
+                            href='https://support.blockchain.com/hc/en-us/articles/10857163796380-Staking-and-Rewards-what-are-the-risks'
+                            target='_blank'
+                            style={{ textDecoration: 'underline' }}
+                          >
+                            here
+                          </Link>
+                          .
+                        </Text>
+                      )}
                     </SecondaryInfoText>
                   )}
                 </>
