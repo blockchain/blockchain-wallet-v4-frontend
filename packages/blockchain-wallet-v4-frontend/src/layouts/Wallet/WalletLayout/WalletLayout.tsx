@@ -22,6 +22,7 @@ import Page from '../Page'
 import { Container, Content, Nav, Wrapper } from './WalletLayout.styles'
 
 const WalletLayout: Props = ({
+  approvalDate,
   autoLogoutTimeLength,
   center = false,
   children,
@@ -79,7 +80,7 @@ const WalletLayout: Props = ({
             data-e2e={`page${replace(/\//g, '-', pathname)}`}
           >
             <Page center={center}>{children}</Page>
-            {hasUkBanner && <UkFooterBanner />}
+            {hasUkBanner && <UkFooterBanner approvalDate={approvalDate} />}
           </Content>
         </Container>
         <SupportChatForGoldUserOnly />
@@ -100,6 +101,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = FC<
   {
+    approvalDate?: string
     center?: boolean
     children: ReactElement
     hasUkBanner?: boolean
