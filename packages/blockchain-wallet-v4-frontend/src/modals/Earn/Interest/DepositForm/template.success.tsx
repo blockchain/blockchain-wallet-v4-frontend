@@ -23,7 +23,7 @@ import NumberBox from 'components/Form/NumberBox'
 import { actions, selectors } from 'data'
 import { RewardsDepositFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
-import { Analytics } from 'data/types'
+import { Analytics, UserDataType } from 'data/types'
 import { useSardineContext } from 'hooks'
 import { required } from 'services/forms'
 import { debounce } from 'utils/helpers'
@@ -95,6 +95,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     interestLimits,
     interestRates,
     invalid,
+    isUserFromUK,
     payment,
     rates,
     rewardsEDDDepositLimits,
@@ -229,6 +230,21 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
                 rate: interestRates[coin]
               }}
             />{' '}
+            {isUserFromUK && (
+              <Text color='grey600' weight={500} size='14px' italic>
+                APYs are always indicative based on past performance and are not guaranteed. Find
+                out more about Staking and Rewards as well as the risks{' '}
+                <Link
+                  size='12px'
+                  href='https://support.blockchain.com/hc/en-us/articles/10857163796380-Staking-and-Rewards-what-are-the-risks'
+                  target='_blank'
+                  style={{ textDecoration: 'underline' }}
+                >
+                  here
+                </Link>
+                .
+              </Text>
+            )}
             {!insufficientEth && (
               <>
                 <FormattedMessage
@@ -639,6 +655,9 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  isUserFromUK:
+    selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType).address?.country ===
+    'GB',
   values: selectors.form.getFormValues(FORM_NAME)(state) as RewardsDepositFormType
 })
 
@@ -651,6 +670,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
+  isUserFromUK: boolean
   values?: RewardsDepositFormType
 }
 

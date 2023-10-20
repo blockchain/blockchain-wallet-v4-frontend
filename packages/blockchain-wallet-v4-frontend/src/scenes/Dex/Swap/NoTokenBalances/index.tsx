@@ -63,12 +63,12 @@ export const NoTokenBalances = () => {
               />
               {isUserFromUK && (
                 <Text weight={500} size='14px' italic style={{ marginTop: 8 }}>
-                  Find out more about various crypto assets
+                  Find out more about Staking and Rewards
                   <br />
-                  and their risks{' '}
+                  as well as the risks here{' '}
                   <Link
                     size='14px'
-                    href='https://support.blockchain.com/hc/en-us/articles/10857167024156-Various-Cryptoassets-and-Their-Risks'
+                    href='https://support.blockchain.com/hc/en-us/articles/10857163796380-Staking-and-Rewards-what-are-the-risks'
                     target='_blank'
                     style={{ textDecoration: 'underline' }}
                   >

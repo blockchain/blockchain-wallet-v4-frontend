@@ -67,7 +67,7 @@
         "rewardsFlowUnderSwapEnabled": true,
         "rewardsPromoBanner": true,
         "secureEmailSmsUpdate": false,
-        "showImportedAddressSweep": true,
+        "showImportedAddressSweep": false,
         "showEarnAvailableAssetsCheckbox": true,
         "showProveFlow": true,
         "showSilverRevamp": true,

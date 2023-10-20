@@ -14,7 +14,7 @@ export const UkFooterBanner = () => {
       <span>
         <FormattedMessage
           id='uk.footer.banner.title'
-          defaultMessage='This promotion has been approved by Helford Capital Partners LLP on 7 October 2023.'
+          defaultMessage='This Financial Promotion has been approved by Helford Capital Partners LLP on 20 October 2023.'
         />
       </span>
     </Container>
