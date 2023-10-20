@@ -8,6 +8,7 @@ import Loading from './template.loading'
 import { WalletLayout } from './WalletLayout'
 
 const WalletLayoutContainer: FC<Props> = ({
+  approvalDate,
   center,
   component: Component,
   computedMatch,
@@ -39,6 +40,7 @@ const WalletLayoutContainer: FC<Props> = ({
       path={path}
       render={(props) => (
         <WalletLayout
+          approvalDate={approvalDate}
           removeContentPadding={removeContentPadding}
           hasUkBanner={hasUkBanner}
           hideMenu={hideMenu}
@@ -62,6 +64,7 @@ const mapStateToProps = (state) => ({
 const connector = connect(mapStateToProps)
 
 type Props = ConnectedProps<typeof connector> & {
+  approvalDate?: string
   center?: boolean
   component: React.ComponentType<any>
   computedMatch?: any

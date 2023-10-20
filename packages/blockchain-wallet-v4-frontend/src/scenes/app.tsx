@@ -254,10 +254,26 @@ const App = ({
                               {isDebitCardEnabled && (
                                 <WalletLayout path='/debit-card' component={DebitCard} />
                               )}
-                              <WalletLayout path='/airdrops' component={Airdrops} />
+                              <WalletLayout
+                                path='/airdrops'
+                                component={Airdrops}
+                                hasUkBanner
+                                approvalDate='October 7 2023'
+                              />
                               <WalletLayout path='/exchange' component={TheExchange} />
-                              <WalletLayout path='/home' component={Home} hasUkBanner />
-                              <WalletLayout path='/earn' component={Earn} exact hasUkBanner />
+                              <WalletLayout
+                                path='/home'
+                                component={Home}
+                                hasUkBanner
+                                approvalDate='October 7 2023'
+                              />
+                              <WalletLayout
+                                path='/earn'
+                                component={Earn}
+                                exact
+                                hasUkBanner
+                                approvalDate='October 7 2023'
+                              />
                               <WalletLayout path='/earn/history' component={EarnHistory} />
                               {isActiveRewardsEnabled && (
                                 <WalletLayout
@@ -269,7 +285,12 @@ const App = ({
                               <WalletLayout path='/settings/addresses' component={Addresses} />
                               <WalletLayout path='/settings/general' component={General} />
                               <WalletLayout path='/settings/preferences' component={Preferences} />
-                              <WalletLayout path='/prices' component={Prices} hasUkBanner />
+                              <WalletLayout
+                                path='/prices'
+                                component={Prices}
+                                hasUkBanner
+                                approvalDate='October 7 2023'
+                              />
                               <WalletLayout path='/tax-center' component={TaxCenter} />
                               <WalletLayout
                                 path='/coins/:coin'
