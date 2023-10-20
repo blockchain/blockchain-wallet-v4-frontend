@@ -298,6 +298,7 @@ const App = ({
                                 hideMenu={isCoinViewV2Enabled}
                                 center={isCoinViewV2Enabled}
                                 removeContentPadding
+                                hasUkBanner
                               />
                               {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                             </Switch>
