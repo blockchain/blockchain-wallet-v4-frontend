@@ -30,16 +30,12 @@ const WalletLayoutContainer: FC<Props> = ({
     return <Redirect to={{ pathname: '/login', state: { from: '' } }} />
   }
 
-  const coin = computedMatch?.params?.coin
-  const isValidRoute = path.includes('/transactions') && !window.coins[coin]
-
   if (!isValidRoute) {
     return <Redirect to={{ pathname: '/home', state: { from: '' } }} />
   }
 
   const showBannerForCoin = computedMatch.path.startsWith('/coins/')
   const pageApprovalDate = showBannerForCoin ? COIN_APPROVAL_DATE[coin] : approvalDate
-
   return (
     <Route
       path={path}
