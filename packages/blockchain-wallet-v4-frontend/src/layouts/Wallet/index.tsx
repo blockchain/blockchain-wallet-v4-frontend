@@ -21,15 +21,7 @@ const WalletLayoutContainer: FC<Props> = ({
   removeContentPadding,
   ...rest
 }: Props) => {
-  let isValidRoute = true
-  let coin
-
   document.title = 'Blockchain.com Wallet'
-
-  if (path.includes('/transactions')) {
-    coin = computedMatch.params.coin
-    if (!window.coins[coin]) isValidRoute = false
-  }
 
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />
