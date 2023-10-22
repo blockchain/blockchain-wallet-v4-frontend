@@ -12,7 +12,7 @@ import { Image } from 'blockchain-info-components'
 import { UkBanner } from 'components/Banner'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ProductSignupMetadata } from 'data/types'
+import { ProductAuthMetadata, ProductSignupMetadata } from 'data/types'
 
 import BuyGoal from './BuyGoal'
 import Header from './components/Header'
@@ -67,7 +67,6 @@ class SignupContainer extends React.PureComponent<
   constructor(props) {
     super(props)
     this.state = {
-      geoCountryCode: undefined,
       showForm: true,
       showState: false
     }
@@ -77,22 +76,11 @@ class SignupContainer extends React.PureComponent<
     const { signupActions, websocketActions } = this.props
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()
-    this.getUserCurrentGeo()
     signupActions.initializeSignup()
     if (window?._SardineContext) {
       window._SardineContext.updateConfig({
         flow: 'SIGNUP'
       })
-    }
-  }
-
-  async getUserCurrentGeo() {
-    const { api } = this.props.domains
-
-    const response = await axios.get(`${api}/nabu-gateway/geolocation2`)
-    const { countryCode } = response?.data
-    if (countryCode) {
-      this.setState((state) => ({ ...state, geoCountryCode: countryCode }))
     }
   }
 
@@ -130,12 +118,10 @@ class SignupContainer extends React.PureComponent<
   }
 
   render() {
-    const { goals, isLoadingR } = this.props
+    const { goals, isLoadingR, productAuthMetadata } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
-    const { geoCountryCode } = this.state
 
-    const isUserInUK = geoCountryCode === 'GB'
-
+    const isUserInUK = productAuthMetadata?.ipCountry === 'BE'
     // pull email from simple buy goal if it exists or signup goal
     const email =
       pathOr('', ['data', 'email'], find(propEq('name', 'buySell'), goals)) ||
@@ -196,6 +182,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
     .getOrElse(false) as boolean,
   isValidReferralCode: selectors.signup.getIsValidReferralCode(state),
   language: selectors.preferences.getLanguage(state),
+  productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
   search: selectors.router.getSearch(state) as string,
   signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata
 })
@@ -217,6 +204,7 @@ type LinkStatePropsType = {
   isReferralEnabled: boolean
   isValidReferralCode?: boolean
   language: string
+  productAuthMetadata: ProductAuthMetadata
   search: string
   signupMetadata: ProductSignupMetadata
 }

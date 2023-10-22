@@ -35,6 +35,7 @@ const SearchIconWrapper = styled.div`
 
 const Scene = ({ children }) => {
   const isUserFromUK = useSelector(getUserCountry)?.country === 'GB'
+  const isIpFromUK = useSelector(getUserCountry)?.ipCountry === 'GB'
 
   return (
     <SceneWrapper>
