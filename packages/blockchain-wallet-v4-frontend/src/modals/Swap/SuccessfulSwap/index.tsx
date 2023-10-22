@@ -55,10 +55,12 @@ const SuccessfulSwap: React.FC<Props> = (props) => {
     interestRates,
     isRewardsFlowAfterSwapEnabled,
     order,
+    productAuthMetadata,
     userData
   } = props
   if (!order) return null
   const isUserFromUK = userData?.address?.country === 'GB'
+  const isIpFromUk = productAuthMetadata?.ipCountry === 'GB'
   const swappedCurrency = useMemo(() => getOutput(order), [order])
   const swappedCurrencyHasRate = useMemo(
     () => interestRates[swappedCurrency],

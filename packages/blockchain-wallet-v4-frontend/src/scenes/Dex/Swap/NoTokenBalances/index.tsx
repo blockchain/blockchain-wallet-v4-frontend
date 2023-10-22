@@ -41,6 +41,7 @@ export const NoTokenBalances = () => {
   }
 
   const isUserFromUK = useSelector(getData)?.country === 'GB'
+  const isIpFromUk = useSelector(getData)?.ipCountry === 'GB'
 
   return (
     <PageWrapper>

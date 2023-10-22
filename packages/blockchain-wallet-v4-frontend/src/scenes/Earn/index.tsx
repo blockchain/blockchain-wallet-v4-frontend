@@ -61,6 +61,7 @@ const Earn = () => {
   }, 800)
 
   const isUserFromUK = useSelector(getUserCountry)?.country === 'GB'
+  const isIpFromUk = useSelector(getUserCountry)?.ipCountry === 'GB'
 
   useEffect(() => {
     // this also calls rates

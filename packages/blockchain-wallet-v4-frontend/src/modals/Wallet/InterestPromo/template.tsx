@@ -39,6 +39,7 @@ const Success: React.FC<Props> = ({
   interestActions,
   interestRates,
   position,
+  productAuthMetadata,
   total,
   userData,
   walletCurrency
@@ -48,6 +49,7 @@ const Success: React.FC<Props> = ({
   const interestAmount = calcBasicInterest(purchaseAmount, interestRates[currency || 'BTC'])
   const worthCurrency = fiatCurrency || (walletCurrency as WalletFiatType)
   const isUserFromUK = userData?.address?.country === 'GB'
+  const isUpFromUk = productAuthMetadata?.ipCountry === 'GB'
   return (
     <Modal size='medium' position={position} total={total}>
       <ModalHeaderBorderless onClose={closeAll}>

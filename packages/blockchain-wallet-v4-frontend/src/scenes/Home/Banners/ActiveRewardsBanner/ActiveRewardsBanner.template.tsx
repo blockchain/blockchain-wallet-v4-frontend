@@ -19,6 +19,7 @@ import { ActiveRewardsBannerTypes } from './ActiveRewardsBanner.types'
 
 const ActiveRewardsBanner = ({ onClickClose, rate }: ActiveRewardsBannerTypes) => {
   const isUserFromUK = useSelector(getData)?.country === 'GB'
+  const isIpFromUk = useSelector(getData)?.ipCountry === 'GB'
 
   return (
     <CardWrapper>

@@ -13,6 +13,7 @@ const StakingBannerContainer = () => {
   const dispatch = useDispatch()
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const isUserFromUK = useSelector(getBannerData)?.country === 'GB'
+  const isIpFromUk = useSelector(getBannerData)?.ipCountry === 'GB'
   useEffect(() => {
     dispatch(actions.components.interest.fetchStakingRates())
   }, [])
