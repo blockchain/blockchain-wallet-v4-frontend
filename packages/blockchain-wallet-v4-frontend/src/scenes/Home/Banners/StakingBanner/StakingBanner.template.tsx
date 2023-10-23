@@ -14,7 +14,7 @@ import { Image, Link, Text } from 'blockchain-info-components'
 import { CloseLink } from '../styles'
 import { CardWrapper } from './StakingBanner.model'
 
-const StakingBanner = ({ isUserFromUK, onClickClose, rate }) => (
+const StakingBanner = ({ isIpFromUK, isUserFromUK, onClickClose, rate }) => (
   <CardWrapper>
     <Padding horizontal={1} vertical={1.5}>
       <Flex flexDirection='row' alignItems='center' justifyContent='space-between' gap={16}>

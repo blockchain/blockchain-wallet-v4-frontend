@@ -9,6 +9,7 @@ const getData = (state: RootState) => {
   const afterTransactionR = selectors.components.interest.getAfterTransaction(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const userDataR = selectors.modules.profile.getUserData(state)
+  const productAuthMetadata = selectors.auth.getProductAuthMetadata(state)
 
   return lift(
     (
@@ -19,6 +20,7 @@ const getData = (state: RootState) => {
     ) => ({
       afterTransaction,
       interestRates,
+      productAuthMetadata,
       userData,
       walletCurrency
     })

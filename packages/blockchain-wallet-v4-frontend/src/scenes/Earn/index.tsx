@@ -61,6 +61,7 @@ const Earn = () => {
   }, 800)
 
   const isUserFromUK = useSelector(getUserCountry)?.country === 'GB'
+  const isIpFromUK = useSelector(getUserCountry)?.ipCountry === 'GB'
 
   useEffect(() => {
     // this also calls rates
@@ -114,7 +115,7 @@ const Earn = () => {
 
     return (
       <>
-        {isUserFromUK && (
+        {(isUserFromUK || isIpFromUK) && (
           <Text weight={500} size='14px' italic style={{ marginBottom: 16 }}>
             Real-time data is obtained from multiple sources and may sometimes be delayed due to
             system performance issues. Past performance is not a reliable indicator of future

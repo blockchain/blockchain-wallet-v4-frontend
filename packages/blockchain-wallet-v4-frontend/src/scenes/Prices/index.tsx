@@ -35,6 +35,7 @@ const SearchIconWrapper = styled.div`
 
 const Scene = ({ children }) => {
   const isUserFromUK = useSelector(getUserCountry)?.country === 'GB'
+  const isSignupFromUk = useSelector(getUserCountry)?.signupCountry === 'GB'
 
   return (
     <SceneWrapper>
@@ -55,7 +56,7 @@ const Scene = ({ children }) => {
                 />
               </Text>
             </SubTitle>
-            {isUserFromUK && (
+            {(isUserFromUK || isSignupFromUk) && (
               <SubTitle>
                 <Text color='grey600' size='14px' weight={500}>
                   Real-time data is obtained from multiple sources and may sometimes be delayed due

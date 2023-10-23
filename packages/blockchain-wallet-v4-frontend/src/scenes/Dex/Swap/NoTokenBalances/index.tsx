@@ -41,6 +41,7 @@ export const NoTokenBalances = () => {
   }
 
   const isUserFromUK = useSelector(getData)?.country === 'GB'
+  const isIpFromUK = useSelector(getData)?.ipCountry === 'GB'
 
   return (
     <PageWrapper>
@@ -61,7 +62,7 @@ export const NoTokenBalances = () => {
                 id='dex.noTokenBalances.description'
                 defaultMessage='Transfer from your Blockchain.com Account, send from any exchange, or ask a friend!'
               />
-              {isUserFromUK && (
+              {(isUserFromUK || isIpFromUK) && (
                 <Text weight={500} size='14px' italic style={{ marginTop: 8 }}>
                   Find out more about Staking and Rewards
                   <br />

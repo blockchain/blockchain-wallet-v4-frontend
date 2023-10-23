@@ -375,6 +375,8 @@ export default ({ api, coreSagas, networks }) => {
   const initializeSignUp = function* () {
     yield put(actions.modules.profile.clearSession())
     yield put(actions.modules.profile.clearProfileState())
+    const response = yield call(api.getUserLocation2)
+    const { countryCode } = response
     const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
     const referrerUsername = queryParams.get('referrerUsername') as string
     const tuneTid = queryParams.get('tuneTid') as string
@@ -388,6 +390,11 @@ export default ({ api, coreSagas, networks }) => {
         referrerUsername,
         signupRedirect,
         tuneTid
+      })
+    )
+    yield put(
+      actions.auth.setProductAuthMetadata({
+        ipCountry: countryCode
       })
     )
     yield put(

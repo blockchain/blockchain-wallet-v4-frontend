@@ -13,6 +13,7 @@ const StakingBannerContainer = () => {
   const dispatch = useDispatch()
   const { data, error, isLoading, isNotAsked } = useRemote(getData)
   const isUserFromUK = useSelector(getBannerData)?.country === 'GB'
+  const isIpFromUK = useSelector(getBannerData)?.ipCountry === 'GB'
   useEffect(() => {
     dispatch(actions.components.interest.fetchStakingRates())
   }, [])
@@ -23,7 +24,14 @@ const StakingBannerContainer = () => {
     dispatch(actions.cache.announcementDismissed(ANNOUNCEMENTS.STAKING))
   }
 
-  return <StakingBanner onClickClose={onClickClose} rate={data.rate} isUserFromUK={isUserFromUK} />
+  return (
+    <StakingBanner
+      onClickClose={onClickClose}
+      rate={data.rate}
+      isUserFromUK={isUserFromUK}
+      isIpFromUK={isIpFromUK}
+    />
+  )
 }
 
 export default StakingBannerContainer

@@ -213,6 +213,13 @@ export default ({
       url: nabuUrl
     })
 
+  const getUserLocation2 = () =>
+    get({
+      contentType: 'application/json',
+      endPoint: '/geolocation2',
+      url: nabuUrl
+    })
+
   const getUser = () =>
     authorizedGet({
       contentType: 'application/json',
@@ -384,6 +391,7 @@ export default ({
     getPaymentsAccountExchange,
     getUser,
     getUserCampaigns,
+    getUserLocation2,
     getUserReferralInfo,
     getUserRiskSettings,
     getUserTermsAndConditions,
