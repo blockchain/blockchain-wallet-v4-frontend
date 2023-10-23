@@ -774,7 +774,9 @@ export default ({ api, coreSagas, networks }) => {
     try {
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
-
+      // get ip country address for finproms
+      const response = yield call(api.getUserLocation2)
+      const { countryCode: ipCountry } = response
       // get product auth data from querystring
       const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
       // get guid when wallet is launched from a logged in exchange account
@@ -793,6 +795,7 @@ export default ({ api, coreSagas, networks }) => {
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
+          ipCountry,
           platform,
           product,
           redirect,

@@ -132,6 +132,7 @@ export type ExchangeLoginFailureType = any
 export type ExchangeResetPasswordSuccessType = any
 
 export type ProductAuthMetadata = {
+  ipCountry?: string
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
