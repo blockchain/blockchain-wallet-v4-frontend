@@ -4,10 +4,12 @@ import { Redirect, Route } from 'react-router-dom'
 
 import { selectors } from 'data'
 
+import { COIN_APPROVAL_DATE } from './coinApprovalDates'
 import Loading from './template.loading'
 import { WalletLayout } from './WalletLayout'
 
 const WalletLayoutContainer: FC<Props> = ({
+  approvalDate,
   center,
   component: Component,
   computedMatch,
@@ -32,13 +34,22 @@ const WalletLayoutContainer: FC<Props> = ({
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />
 
-  return !isAuthenticated ? (
-    <Redirect to={{ pathname: '/login', state: { from: '' } }} />
-  ) : isValidRoute ? (
+  if (!isAuthenticated) {
+    return <Redirect to={{ pathname: '/login', state: { from: '' } }} />
+  }
+
+  if (!isValidRoute) {
+    return <Redirect to={{ pathname: '/home', state: { from: '' } }} />
+  }
+
+  const showBannerForCoin = computedMatch.path.startsWith('/coins/')
+  const pageApprovalDate = showBannerForCoin ? COIN_APPROVAL_DATE[coin] : approvalDate
+  return (
     <Route
       path={path}
       render={(props) => (
         <WalletLayout
+          approvalDate={pageApprovalDate}
           removeContentPadding={removeContentPadding}
           hasUkBanner={hasUkBanner}
           hideMenu={hideMenu}
@@ -49,8 +60,6 @@ const WalletLayoutContainer: FC<Props> = ({
         </WalletLayout>
       )}
     />
-  ) : (
-    <Redirect to={{ pathname: '/home', state: { from: '' } }} />
   )
 }
 
@@ -62,6 +71,7 @@ const mapStateToProps = (state) => ({
 const connector = connect(mapStateToProps)
 
 type Props = ConnectedProps<typeof connector> & {
+  approvalDate?: string
   center?: boolean
   component: React.ComponentType<any>
   computedMatch?: any
