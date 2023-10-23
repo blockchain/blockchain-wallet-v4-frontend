@@ -71,7 +71,7 @@ const Success: React.FC<Props> = ({
             }}
           />
         </Text>
-        {(isUserFromUK || isIpFromUk) && (
+        {isUserFromUK && (
           <Text color='grey600' weight={500} size='14px' italic>
             APYs are always indicative based on past performance and are not guaranteed. Find out
             more about Staking and Rewards as well as the risks{' '}

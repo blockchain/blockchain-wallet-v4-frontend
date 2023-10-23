@@ -2,8 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
 
-import { selectors } from 'data'
-
 import { getData } from '../selectors'
 import { LinkContainer } from './styles'
 

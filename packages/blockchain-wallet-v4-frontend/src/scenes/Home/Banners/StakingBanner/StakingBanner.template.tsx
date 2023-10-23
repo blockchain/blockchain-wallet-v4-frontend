@@ -36,7 +36,7 @@ const StakingBanner = ({ isIpFromUK, isUserFromUK, onClickClose, rate }) => (
                 values={{ rate }}
               />
             </Text>
-            {(isUserFromUK || isIpFromUK) && (
+            {isUserFromUK && (
               <Text color='grey600' weight={500} size='12px' italic>
                 APYs are always indicative based on past performance and are not guaranteed. Find
                 out more about Staking and Rewards as well as the risks{' '}
