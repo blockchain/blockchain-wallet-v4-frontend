@@ -15,7 +15,6 @@ export const getData = (state: RootState) => {
   const isRewardsFlowAfterSwapEnabled = selectors.core.walletOptions
     .getRewardsFlowUnderSwapEnabled(state)
     .getOrElse(false) as boolean
-  const productAuthMetadata = selectors.auth.getProductAuthMetadata(state)
 
   return lift(
     (
@@ -31,7 +30,6 @@ export const getData = (state: RootState) => {
       interestEligible,
       interestRates,
       isRewardsFlowAfterSwapEnabled,
-      productAuthMetadata,
       products,
       userData,
       walletCurrency

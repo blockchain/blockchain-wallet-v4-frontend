@@ -118,10 +118,10 @@ class SignupContainer extends React.PureComponent<
   }
 
   render() {
-    const { goals, isLoadingR, productAuthMetadata } = this.props
+    const { formValues, goals, isLoadingR, productAuthMetadata } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
-
-    const isUserInUK = productAuthMetadata?.ipCountry === 'BE'
+    const isUserInUK = productAuthMetadata?.ipCountry === 'GB'
+    const userSelectedUK = formValues?.country === 'GB'
     // pull email from simple buy goal if it exists or signup goal
     const email =
       pathOr('', ['data', 'email'], find(propEq('name', 'buySell'), goals)) ||
@@ -146,7 +146,7 @@ class SignupContainer extends React.PureComponent<
 
     return (
       <>
-        {isUserInUK && (
+        {(isUserInUK || userSelectedUK) && (
           <UKHeaderWrapper>
             <UkBanner userLoggedOut />
           </UKHeaderWrapper>

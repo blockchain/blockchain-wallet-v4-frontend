@@ -8,7 +8,6 @@ export const getData = (state: RootState) => {
   const interestRatesR = selectors.components.interest.getInterestRates(state)
   const afterTransactionR = selectors.components.interest.getAfterTransaction(state)
   const userDataR = selectors.modules.profile.getUserData(state)
-  const productAuthMetadata = selectors.auth.getProductAuthMetadata(state)
 
   return lift(
     (
@@ -18,7 +17,6 @@ export const getData = (state: RootState) => {
     ) => ({
       afterTransaction,
       interestRates,
-      productAuthMetadata,
       userData
     })
   )(interestRatesR, afterTransactionR, userDataR)

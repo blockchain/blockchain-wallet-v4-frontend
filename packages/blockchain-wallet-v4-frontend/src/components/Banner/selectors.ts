@@ -4,7 +4,8 @@ import { UserDataType } from 'data/types'
 export const getData = (state) => {
   const loginMetadata = selectors.auth.getProductAuthMetadata(state)
   const userData = selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
+  const signupCountry = selectors.signup.getSignupCountry(state)
   const country = userData?.address?.country
   const ipCountry = loginMetadata?.ipCountry
-  return { country, ipCountry }
+  return { country, ipCountry, signupCountry }
 }

@@ -56,7 +56,7 @@ const Scene = ({ children }) => {
                 />
               </Text>
             </SubTitle>
-            {isUserFromUK && (
+            {(isUserFromUK || isIpFromUK) && (
               <SubTitle>
                 <Text color='grey600' size='14px' weight={500}>
                   Real-time data is obtained from multiple sources and may sometimes be delayed due

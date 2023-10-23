@@ -6,8 +6,10 @@ import { getData } from '../selectors'
 import { Container } from './styles'
 
 export const UkFooterBanner = () => {
-  const { country } = useSelector(getData)
-  if (country !== 'GB') return null
+  const { country, ipCountry, signupCountry } = useSelector(getData)
+  const userCountry = country !== undefined ? country : ipCountry
+  const hideBanner = userCountry !== 'GB' && signupCountry !== 'GB'
+  if (hideBanner) return null
 
   return (
     <Container>

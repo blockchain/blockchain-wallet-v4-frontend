@@ -103,7 +103,6 @@ const OrderSummary: React.FC<Props> = ({
   const { days } = intervalToDuration({ end: lockTime, start: 0 })
 
   const isUserFromUK = useSelector(getData)?.country === 'GB'
-  const isIpFromUK = useSelector(getData)?.ipCountry === 'GB'
 
   // Getting the interest rate for the coin that was bought
   const coinInterestRate = !!interestRates[outputCurrency] && interestRates[outputCurrency]

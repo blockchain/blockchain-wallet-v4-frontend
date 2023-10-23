@@ -2,12 +2,18 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
 
+import { selectors } from 'data'
+
 import { getData } from '../selectors'
 import { LinkContainer } from './styles'
 
 export const UkBanner = ({ userLoggedOut = false }: { userLoggedOut?: boolean }) => {
-  const { country } = useSelector(getData)
-  if (!userLoggedOut && country !== 'GB') return null
+  const { country, ipCountry, signupCountry } = useSelector(getData)
+  const userCountry = country !== undefined ? country : ipCountry
+  const hideBanner = userCountry !== 'GB' && signupCountry !== 'GB'
+
+  if (!userLoggedOut && hideBanner) return null
+
   return (
     <LinkContainer
       href='https://support.blockchain.com/hc/en-us/articles/10618857176604-UK-FCA-Regulations'

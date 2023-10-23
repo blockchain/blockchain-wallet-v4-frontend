@@ -49,7 +49,7 @@ const Success: React.FC<Props> = ({
   const interestAmount = calcBasicInterest(purchaseAmount, interestRates[currency || 'BTC'])
   const worthCurrency = fiatCurrency || (walletCurrency as WalletFiatType)
   const isUserFromUK = userData?.address?.country === 'GB'
-  const isUpFromUk = productAuthMetadata?.ipCountry === 'GB'
+  const isIpFromUk = productAuthMetadata?.ipCountry === 'GB'
   return (
     <Modal size='medium' position={position} total={total}>
       <ModalHeaderBorderless onClose={closeAll}>
@@ -71,7 +71,7 @@ const Success: React.FC<Props> = ({
             }}
           />
         </Text>
-        {isUserFromUK && (
+        {(isUserFromUK || isIpFromUk) && (
           <Text color='grey600' weight={500} size='14px' italic>
             APYs are always indicative based on past performance and are not guaranteed. Find out
             more about Staking and Rewards as well as the risks{' '}
