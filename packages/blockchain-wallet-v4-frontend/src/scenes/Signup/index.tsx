@@ -17,6 +17,7 @@ import { ProductAuthMetadata, ProductSignupMetadata } from 'data/types'
 import BuyGoal from './BuyGoal'
 import Header from './components/Header'
 import SignupCard from './components/SignupCard'
+import SofiSignupCard from './components/SofiSignupCard'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
 import { GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
 
@@ -118,7 +119,7 @@ class SignupContainer extends React.PureComponent<
   }
 
   render() {
-    const { formValues, goals, isLoadingR, productAuthMetadata } = this.props
+    const { formValues, goals, isLoadingR, productAuthMetadata, signupMetadata } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
     const isUserInUK = productAuthMetadata?.ipCountry === 'GB'
     const userSelectedUK = formValues?.country === 'GB'
@@ -130,6 +131,7 @@ class SignupContainer extends React.PureComponent<
     const signupInitialValues = (email ? { email } : {}) as SignupFormInitValuesType
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
     const isBuyGoal = !!find(propEq('name', 'buySell'), goals)
+    const isSofi = signupMetadata?.isSofi
 
     const subviewProps = {
       isFormSubmitting,
@@ -155,8 +157,11 @@ class SignupContainer extends React.PureComponent<
           {isLatam && <Header />}
           {isLinkAccountGoal && <ExchangeLinkGoal {...subviewProps} />}
           {isBuyGoal && <BuyGoal {...subviewProps} />}
-          {!isLinkAccountGoal && !isBuyGoal && !isLatam && <SignupCard {...subviewProps} />}
-          {!isLinkAccountGoal && !isBuyGoal && isLatam && (
+          {isSofi && <SofiSignupCard {...subviewProps} />}
+          {!isLinkAccountGoal && !isBuyGoal && !isLatam && !isSofi && (
+            <SignupCard {...subviewProps} />
+          )}
+          {!isLinkAccountGoal && !isBuyGoal && !isSofi && isLatam && (
             <LatamWrapper>
               <SignupCard {...subviewProps} />
               <LatamPhone>

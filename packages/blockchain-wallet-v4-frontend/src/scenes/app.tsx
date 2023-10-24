@@ -43,6 +43,7 @@ const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
 const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
+const SofiSignupSuccess = React.lazy(() => import('./Signup/SofiSignupSuccess'))
 // need to be authed to see this, but uses public layout
 const ContinueOnPhone = React.lazy(() => import('./ContinueOnPhone'))
 const TwoStepVerification = React.lazy(() => import('./TwoStepVerification'))
@@ -191,6 +192,11 @@ const App = ({
                               <AuthLayout
                                 path='/sofi'
                                 component={Signup}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+                              />
+                              <AuthLayout
+                                path='/sofi-success'
+                                component={SofiSignupSuccess}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
                               />
                               <AuthLayout

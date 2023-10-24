@@ -8,6 +8,7 @@ export enum SignupRedirectTypes {
 }
 
 export type ProductSignupMetadata = {
+  isSofi?: boolean
   platform?: PlatformTypes
   product?: ProductAuthOptions
   referrerUsername?: string

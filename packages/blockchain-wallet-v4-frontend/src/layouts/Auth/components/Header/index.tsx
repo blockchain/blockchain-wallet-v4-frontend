@@ -39,7 +39,7 @@ const BlockchainLogoImage = styled(Image)`
   `}
 `
 const BlockchainSofiLogoImage = styled(Image)`
-  width: 375px;
+  width: 375 px;
   display: block;
   ${media.tablet`
     width: 200px;

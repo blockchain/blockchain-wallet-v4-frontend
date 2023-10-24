@@ -66,6 +66,9 @@ const ContentContainer = styled.div`
   max-width: 100%;
   box-sizing: border-box;
   margin: 0 16px;
+  ${media.mobile`
+  margin: 0;
+`}
 `
 
 const AuthLayoutContainer = ({
