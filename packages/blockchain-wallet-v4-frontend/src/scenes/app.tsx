@@ -189,6 +189,11 @@ const App = ({
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Setup 2FA`}
                               />
                               <AuthLayout
+                                path='/sofi'
+                                component={Signup}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+                              />
+                              <AuthLayout
                                 path='/signup'
                                 component={Signup}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`}

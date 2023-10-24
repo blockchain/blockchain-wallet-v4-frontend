@@ -37,6 +37,7 @@ import barChart from './img/bar-chart.svg'
 import blockchainIcon from './img/bc-icon.svg'
 import blockchainLogo from './img/bc-logo.svg'
 import blockchainLogoCircle from './img/bc-logo-circle.svg'
+import blockchainSofiLogo from './img/bc-sofi-logo.svg'
 import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgBannerPatternLg from './img/bg-banner-pattern-lg.svg'
 import bgModalGradient from './img/bg-modal-gradient.svg'
@@ -239,6 +240,7 @@ const Images = {
   'blockchain-logo': blockchainLogo,
   'blockchain-logo-circle': blockchainLogoCircle,
   'blockchain-silver': blockchainSilver,
+  'blockchain-sofi-logo': blockchainSofiLogo,
   'blue-verified': blueVerified,
   'btc-clock': btcClock,
   'btc-graph': btcGraph,

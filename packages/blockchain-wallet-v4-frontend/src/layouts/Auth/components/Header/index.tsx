@@ -8,6 +8,7 @@ import { media } from 'services/styles'
 
 const qsParams = new URLSearchParams(window.location.hash)
 const isLatam = qsParams.has('latam')
+const isSofi = window.location.hash === '#/sofi'
 
 const NavbarStyled = styled(Public)<{ authProduct: string }>`
   padding: 0 16px;
@@ -37,6 +38,13 @@ const BlockchainLogoImage = styled(Image)`
     width: 200px;
   `}
 `
+const BlockchainSofiLogoImage = styled(Image)`
+  width: 375px;
+  display: block;
+  ${media.tablet`
+    width: 200px;
+  `}
+`
 const AuthBrand = styled.div`
   display: flex;
   flex-direction: row;
@@ -57,11 +65,9 @@ const Header = (props) => {
         <NavbarBrandStyled>
           <AuthBrand>
             <HeaderLink href='https://www.blockchain.com'>
-              {isLatam ? (
-                <BlockchainLogoImage name='sesocio-to-blockchain-logo' height='70px' />
-              ) : (
-                <BlockchainLogoImage name='blockchain-logo' height='24px' />
-              )}
+              {isLatam && <BlockchainLogoImage name='sesocio-to-blockchain-logo' height='70px' />}{' '}
+              {isSofi && <BlockchainSofiLogoImage name='blockchain-sofi-logo' height='24px' />}
+              {!isLatam && !isSofi && <BlockchainLogoImage name='blockchain-logo' height='24px' />}
             </HeaderLink>
           </AuthBrand>
         </NavbarBrandStyled>
