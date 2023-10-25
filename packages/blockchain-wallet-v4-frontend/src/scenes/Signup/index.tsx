@@ -154,10 +154,10 @@ class SignupContainer extends React.PureComponent<
           </UKHeaderWrapper>
         )}
         <SignupWrapper>
+          {isSofi && <SofiSignupCard {...subviewProps} />}
           {isLatam && <Header />}
           {isLinkAccountGoal && <ExchangeLinkGoal {...subviewProps} />}
           {isBuyGoal && <BuyGoal {...subviewProps} />}
-          {isSofi && <SofiSignupCard {...subviewProps} />}
           {!isLinkAccountGoal && !isBuyGoal && !isLatam && !isSofi && (
             <SignupCard {...subviewProps} />
           )}

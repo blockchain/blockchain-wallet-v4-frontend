@@ -4,11 +4,11 @@ import styled from 'styled-components'
 import { Image, Link } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
 import { Brand, Public } from 'components/Navbar'
-import { media } from 'services/styles'
+import { isMobile, media } from 'services/styles'
 
 const qsParams = new URLSearchParams(window.location.hash)
 const isLatam = qsParams.has('latam')
-const isSofi = window.location.hash === '#/sofi'
+const isSofi = window.location.hash === '#/signup/sofi'
 
 const NavbarStyled = styled(Public)<{ authProduct: string }>`
   padding: 0 16px;
@@ -42,7 +42,7 @@ const BlockchainSofiLogoImage = styled(Image)`
   width: 375 px;
   display: block;
   ${media.tablet`
-    width: 200px;
+    width: 275px;
   `}
 `
 const AuthBrand = styled.div`
@@ -59,9 +59,10 @@ const HeaderLink = styled(Link)`
 `
 
 const Header = (props) => {
+  const nabvarHeight = isSofi && isMobile() ? '55px' : '112px'
   return (
     <>
-      <NavbarStyled height='112px' authProduct={props.authProduct}>
+      <NavbarStyled height={nabvarHeight} authProduct={props.authProduct}>
         <NavbarBrandStyled>
           <AuthBrand>
             <HeaderLink href='https://www.blockchain.com'>

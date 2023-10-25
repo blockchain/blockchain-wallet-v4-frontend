@@ -45,7 +45,13 @@ const SofiSignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
         <Card>
           <PaddingWrapper>
             <CardTitle>
-              <Text size='24px' color='textBlack' weight={600} lineHeight='1.5'>
+              <Text
+                size='24px'
+                color='textBlack'
+                weight={600}
+                lineHeight='1.5'
+                style={{ textAlign: 'center' }}
+              >
                 <FormattedMessage
                   id='scenes.signup.sofi.header'
                   defaultMessage='Let’s get your account setup.'
