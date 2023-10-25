@@ -129,11 +129,13 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       Success: () => ({ busy: false, walletError: null })
     })
 
+    const isMobileViewLogin = platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS
+
     const loginProps = {
       busy, // TODO see if we still need busy
       exchangeError,
       exchangeTabClicked: this.exchangeTabClicked,
-      isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
+      isMobileViewLogin,
       walletError,
       ...this.props,
       handleBackArrowClickExchange: this.handleBackArrowClickExchange,
@@ -142,72 +144,60 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       walletTabClicked: this.walletTabClicked
     }
 
-    const { isMobileViewLogin } = loginProps
-
     return (
-      <>
-        {/* CONTENT */}
-        <Form onSubmit={this.handleSubmit}>
-          {(() => {
-            switch (step) {
-              case LoginSteps.SOFI_EMAIL:
-                return <Email {...loginProps} />
-              case LoginSteps.INSTITUTIONAL_PORTAL:
-                return <InstitutionalPortal {...loginProps} />
-              case LoginSteps.ENTER_PASSWORD_EXCHANGE:
-                return (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <EnterPasswordExchange {...loginProps} />
-                  </>
-                )
-              case LoginSteps.ENTER_PASSWORD_WALLET:
-                return (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <EnterPasswordWallet {...loginProps} />
-                  </>
-                )
-              case LoginSteps.TWO_FA_EXCHANGE:
-                return (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <TwoFAExchange {...loginProps} />
-                  </>
-                )
-              case LoginSteps.TWO_FA_WALLET:
-                return (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <TwoFAWallet {...loginProps} />
-                  </>
-                )
-              case LoginSteps.SOFI_VERIFY_ID:
-                return <SofiVerifyID {...loginProps} />
-              case LoginSteps.CHECK_EMAIL:
-                return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
-              case LoginSteps.VERIFY_MAGIC_LINK:
-                return <VerifyMagicLink {...loginProps} />
-              case LoginSteps.SOFI_SUCCESS:
-                return <SofiSuccess {...loginProps} />
-
-              case LoginSteps.ENTER_EMAIL_GUID:
-              default:
-                return product === ProductAuthOptions.EXCHANGE ? (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <ExchangeEnterEmail {...loginProps} />
-                  </>
-                ) : (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <WalletEnterEmailOrGuid {...loginProps} />
-                  </>
-                )
-            }
-          })()}
-        </Form>
-      </>
+      <Form onSubmit={this.handleSubmit}>
+        {(() => {
+          switch (step) {
+            case LoginSteps.INSTITUTIONAL_PORTAL:
+              return <InstitutionalPortal {...loginProps} />
+            case LoginSteps.ENTER_PASSWORD_EXCHANGE:
+              return (
+                <>
+                  {!isMobileViewLogin && <UrlNoticeBar />}
+                  <EnterPasswordExchange {...loginProps} />
+                </>
+              )
+            case LoginSteps.ENTER_PASSWORD_WALLET:
+              return (
+                <>
+                  {!isMobileViewLogin && <UrlNoticeBar />}
+                  <EnterPasswordWallet {...loginProps} />
+                </>
+              )
+            case LoginSteps.TWO_FA_EXCHANGE:
+              return (
+                <>
+                  {!isMobileViewLogin && <UrlNoticeBar />}
+                  <TwoFAExchange {...loginProps} />
+                </>
+              )
+            case LoginSteps.TWO_FA_WALLET:
+              return (
+                <>
+                  {!isMobileViewLogin && <UrlNoticeBar />}
+                  <TwoFAWallet {...loginProps} />
+                </>
+              )
+            case LoginSteps.CHECK_EMAIL:
+              return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
+            case LoginSteps.VERIFY_MAGIC_LINK:
+              return <VerifyMagicLink {...loginProps} />
+            case LoginSteps.ENTER_EMAIL_GUID:
+            default:
+              return product === ProductAuthOptions.EXCHANGE ? (
+                <>
+                  {!isMobileViewLogin && <UrlNoticeBar />}
+                  <ExchangeEnterEmail {...loginProps} />
+                </>
+              ) : (
+                <>
+                  {!isMobileViewLogin && <UrlNoticeBar />}
+                  <WalletEnterEmailOrGuid {...loginProps} />
+                </>
+              )
+          }
+        })()}
+      </Form>
     )
   }
 }
