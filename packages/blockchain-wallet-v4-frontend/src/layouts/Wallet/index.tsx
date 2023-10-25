@@ -1,8 +1,9 @@
 import React, { FC } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Redirect, Route } from 'react-router-dom'
 
-import { selectors } from 'data'
+import { getIsCoinDataLoaded } from '@core/redux/data/coins/selectors'
+import { isAuthenticated } from 'data/auth/selectors'
 
 import { COIN_APPROVAL_DATE } from './coinApprovalDates'
 import Loading from './template.loading'
@@ -15,27 +16,33 @@ const WalletLayoutContainer: FC<Props> = ({
   computedMatch,
   hasUkBanner,
   hideMenu,
-  isAuthenticated,
-  isCoinDataLoaded,
   path,
   removeContentPadding,
   ...rest
 }: Props) => {
   document.title = 'Blockchain.com Wallet'
 
+  const isUserAuthenticated = useSelector(isAuthenticated)
+  const isCoinDataLoaded = useSelector(getIsCoinDataLoaded)
+
   // IMPORTANT: do not allow routes to load until window.coins is loaded
   if (!isCoinDataLoaded) return <Loading />
 
-  if (!isAuthenticated) {
+  if (!isUserAuthenticated) {
     return <Redirect to={{ pathname: '/login', state: { from: '' } }} />
   }
+
+  const coin = computedMatch?.params.coin ?? ''
+
+  const isValidRoute = !(path.includes('/transaction') && !window.coins[coin])
 
   if (!isValidRoute) {
     return <Redirect to={{ pathname: '/home', state: { from: '' } }} />
   }
 
-  const showBannerForCoin = computedMatch.path.startsWith('/coins/')
+  const showBannerForCoin = computedMatch?.path.startsWith('/coins/') && coin
   const pageApprovalDate = showBannerForCoin ? COIN_APPROVAL_DATE[coin] : approvalDate
+
   return (
     <Route
       path={path}
@@ -55,18 +62,14 @@ const WalletLayoutContainer: FC<Props> = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: selectors.auth.isAuthenticated(state),
-  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state)
-})
-
-const connector = connect(mapStateToProps)
-
-type Props = ConnectedProps<typeof connector> & {
+type Props = {
   approvalDate?: string
   center?: boolean
   component: React.ComponentType<any>
-  computedMatch?: any
+  computedMatch?: {
+    params: { coin?: string }
+    path: string
+  }
   exact?: boolean
   hasUkBanner?: boolean
   hideMenu?: boolean
@@ -74,4 +77,4 @@ type Props = ConnectedProps<typeof connector> & {
   removeContentPadding?: boolean
 }
 
-export default connector(WalletLayoutContainer)
+export default WalletLayoutContainer
