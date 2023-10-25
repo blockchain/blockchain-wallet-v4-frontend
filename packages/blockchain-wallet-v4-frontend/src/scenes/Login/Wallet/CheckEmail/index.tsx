@@ -1,10 +1,12 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
-import { LoginSteps } from 'data/types'
+import { trackEvent } from 'data/analytics/slice'
+import { Analytics, LoginSteps } from 'data/types'
 import { VERIFY_EMAIL_SENT_ERROR } from 'services/alerts'
 import { media } from 'services/styles'
 
@@ -33,8 +35,11 @@ const ButtonTextRow = styled(Row)`
 `
 
 const CheckEmail = (props: Props) => {
-  const [disabled, setDisabled] = useState(true)
-  const [sentState, setSentState] = useState('sent')
+  const [disabled, setDisabled] = useState<boolean>(true)
+  const [sentState, setSentState] = useState<'checkEmail' | 'sent'>('sent')
+
+  const dispatch = useDispatch()
+
   useEffect(() => {
     if (disabled) {
       setTimeout(() => {
@@ -47,6 +52,15 @@ const CheckEmail = (props: Props) => {
       }, 5000)
     }
   }, [disabled, sentState])
+
+  useEffect(() => {
+    dispatch(
+      trackEvent({
+        key: Analytics.LOGIN_VERIFY_DEVICE_VIEWED,
+        properties: {}
+      })
+    )
+  }, [])
 
   const hasErrorAlert = props.alerts.find((alert) => alert.message === VERIFY_EMAIL_SENT_ERROR)
 
