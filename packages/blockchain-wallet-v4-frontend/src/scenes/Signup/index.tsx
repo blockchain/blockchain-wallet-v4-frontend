@@ -131,7 +131,7 @@ class SignupContainer extends React.PureComponent<
     const signupInitialValues = (email ? { email } : {}) as SignupFormInitValuesType
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
     const isBuyGoal = !!find(propEq('name', 'buySell'), goals)
-    const isSofi = signupMetadata?.isSofi
+    const isSofi = window.location.hash.includes('sofi')
 
     const subviewProps = {
       isFormSubmitting,
@@ -195,6 +195,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch),
   signupActions: bindActionCreators(actions.signup, dispatch),
   websocketActions: bindActionCreators(actions.ws, dispatch)
 })

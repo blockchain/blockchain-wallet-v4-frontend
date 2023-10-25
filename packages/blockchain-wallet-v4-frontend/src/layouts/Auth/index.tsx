@@ -16,7 +16,7 @@ import Header from './components/Header'
 
 const qsParams = new URLSearchParams(window.location.hash)
 const isLatam = qsParams.has('latam')
-const isSofi = window.location.hash === '#/signup/sofi'
+const isSofi = window.location.hash.includes('sofi')
 const isSofiOnMobile = isSofi && isMobile()
 
 const FooterContainer = styled.div`
@@ -38,6 +38,8 @@ const Wrapper = styled.div<{ authProduct?: string }>`
       ? props.theme.exchangeLogin
       : isLatam
       ? '#04001F'
+      : isSofiOnMobile
+      ? 'white'
       : props.theme.grey900};
   height: auto;
   min-height: 100%;

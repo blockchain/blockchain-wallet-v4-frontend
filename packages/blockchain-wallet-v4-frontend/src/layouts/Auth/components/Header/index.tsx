@@ -8,7 +8,7 @@ import { isMobile, media } from 'services/styles'
 
 const qsParams = new URLSearchParams(window.location.hash)
 const isLatam = qsParams.has('latam')
-const isSofi = window.location.hash === '#/signup/sofi'
+const isSofi = window.location.hash.includes('sofi')
 
 const NavbarStyled = styled(Public)<{ authProduct: string }>`
   padding: 0 16px;
