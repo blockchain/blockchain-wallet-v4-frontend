@@ -5,7 +5,7 @@ import axios from 'axios'
 import styled from 'styled-components'
 
 import { getDomains } from '@core/redux/walletOptions/selectors'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 
 const ContentWrapper = styled.div`
@@ -16,6 +16,8 @@ const ContentWrapper = styled.div`
   flex-direction: column;
 `
 
+const LINK_BACK_TO_APP =
+  'https://blockchain.page.link/?link=https://login.blockchain.com/#/&apn=piuk.blockchain.android&isi=493253309&ibi=com.rainydayapps.Blockchain'
 const VFP_STORE_URL = '/onboarding/prove/possession/instant-link/vfp-store'
 
 const ELEMENTS = {
@@ -101,12 +103,14 @@ const Prove: React.FC<Props> = ({ location: { pathname, search } }) => {
           />
         </Text>
       </ContentWrapper>
-      <Button data-e2e='back-to-app' fullwidth onClick={() => {}} style={{ marginTop: '1rem' }}>
-        <FormattedMessage
-          id='scenes.prove.back'
-          defaultMessage='Go back to the Blockchain.com App'
-        />
-      </Button>
+      <Link href={LINK_BACK_TO_APP}>
+        <Button data-e2e='back-to-app' fullwidth style={{ marginTop: '1rem' }}>
+          <FormattedMessage
+            id='scenes.prove.back'
+            defaultMessage='Go back to the Blockchain.com App'
+          />
+        </Button>
+      </Link>
     </Wrapper>
   )
 }
