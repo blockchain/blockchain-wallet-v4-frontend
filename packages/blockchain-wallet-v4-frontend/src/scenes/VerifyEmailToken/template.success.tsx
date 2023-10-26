@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { Button, Padding } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'
+import { trackEvent } from 'data/analytics/slice'
+import { Analytics } from 'data/types'
 import { isMobile } from 'services/styles'
 
 const Wrapper = styled.div`
@@ -16,9 +19,20 @@ const Wrapper = styled.div`
 const APP_URL = 'https://blockchainwallet.page.link/dashboard'
 
 const Success = () => {
+  const dispatch = useDispatch()
+
   const returnToApp = () => {
     window.location.href = APP_URL
   }
+
+  useEffect(() => {
+    dispatch(
+      trackEvent({
+        key: Analytics.VERIFY_DEVICE_EMAIL_CONFIRMED,
+        properties: {}
+      })
+    )
+  }, [])
 
   return (
     <Wrapper>

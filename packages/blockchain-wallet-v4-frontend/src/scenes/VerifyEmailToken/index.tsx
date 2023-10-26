@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
@@ -9,11 +8,14 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-const VerifyEmailToken = ({ data, location, miscActions }: Props) => {
+const VerifyEmailToken = ({ location }: Props) => {
   const token = decodeURIComponent(location.pathname.split('/verify-email/')[1])
 
+  const dispatch = useDispatch()
+  const data = useSelector(selectors.core.data.misc.verifyEmailToken)
+
   useEffect(() => {
-    miscActions.verifyEmailToken(token)
+    dispatch(actions.core.data.misc.verifyEmailToken(token))
   }, [])
 
   return (
@@ -28,19 +30,8 @@ const VerifyEmailToken = ({ data, location, miscActions }: Props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
-  data: selectors.core.data.misc.verifyEmailToken(state)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  miscActions: bindActionCreators(actions.core.data.misc, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type Props = ConnectedProps<typeof connector> & {
+type Props = {
   location: { pathname: string; search: string }
 }
 
-export default connector(VerifyEmailToken)
+export default VerifyEmailToken

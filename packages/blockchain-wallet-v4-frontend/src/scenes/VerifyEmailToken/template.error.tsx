@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 const Error = ({ error }: Props) => {
   return (
     <Wrapper>
-      {error && error.includes('already been verified') ? (
+      {error?.includes('already been verified') ? (
         <>
           <Image name='email-verified' size='24px' />
 
