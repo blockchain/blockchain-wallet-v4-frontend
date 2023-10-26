@@ -22,7 +22,7 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   static getDerivedStateFromProps(nextProps) {
     const { createExchangeUserFlag, hasCowboyTag, isEmailVerified, signupCountry, signupMetadata } =
       nextProps
-    const { signupRedirect } = signupMetadata
+    const { isSofi, signupRedirect } = signupMetadata
     if (isEmailVerified) {
       if (hasCowboyTag) {
         // When the user has the COWBOYS_2022 tag set from the backend we want to skip

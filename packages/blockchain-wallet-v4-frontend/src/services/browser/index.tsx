@@ -36,3 +36,13 @@ export const isBrowserSafari = () => {
     safari: '>12'
   })
 }
+
+export const isBrowserAndroid = () => {
+  const browser = Bowser.getParser(window.navigator.userAgent)
+  if (browser.getOSName() === 'Android') return true
+}
+
+export const isBrowserIOS = () => {
+  const browser = Bowser.getParser(window.navigator.userAgent)
+  if (browser.getOSName() === 'iOS') return true
+}
