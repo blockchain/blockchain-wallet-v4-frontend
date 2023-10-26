@@ -1,12 +1,13 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { trackEvent } from 'data/analytics/slice'
 import { Analytics, LoginSteps } from 'data/types'
+import { selectAlerts } from 'data/alerts/selectors'
 import { VERIFY_EMAIL_SENT_ERROR } from 'services/alerts'
 import { media } from 'services/styles'
 
@@ -41,6 +42,14 @@ const CheckEmail = (props: Props) => {
 
   const dispatch = useDispatch()
 
+  const alerts = useSelector(selectAlerts)
+
+  const onResendEmail = (e: SyntheticEvent) => {
+    setDisabled(true)
+    setSentState('sent')
+    props.handleSubmit(e)
+  }
+
   useEffect(() => {
     if (disabled) {
       setTimeout(() => {
@@ -63,20 +72,22 @@ const CheckEmail = (props: Props) => {
     )
   }, [])
 
-  const hasErrorAlert = props.alerts.find((alert) => alert.message === VERIFY_EMAIL_SENT_ERROR)
+  const hasErrorAlert = alerts.find((alert) => alert.message === VERIFY_EMAIL_SENT_ERROR)
+
+  const handleBackClick = () => {
+    if (props.isSofi) {
+      props.setStep(LoginSteps.SOFI_EMAIL)
+    } else {
+      props.handleBackArrowClickWallet()
+    }
+  }
 
   return (
     <LoginWrapper>
       <WrapperWithPadding>
         <BackArrowHeader
-          {...props}
-          handleBackArrowClick={() => {
-            if (props.isSofi) {
-              props.setStep(LoginSteps.SOFI_EMAIL)
-            } else {
-              props.handleBackArrowClickWallet()
-            }
-          }}
+          formValues={props.formValues}
+          handleBackArrowClick={handleBackClick}
           product={props.productAuthMetadata.product}
         />
         <FormBody>
@@ -113,11 +124,7 @@ const CheckEmail = (props: Props) => {
           data-e2e='loginResendEmail'
           disabled={disabled && !hasErrorAlert}
           // @ts-ignore
-          onClick={(e: SyntheticEvent) => {
-            setDisabled(true)
-            setSentState('sent')
-            props.handleSubmit(e)
-          }}
+          onClick={onResendEmail}
         >
           {disabled && sentState === 'sent' && !hasErrorAlert && (
             <ButtonTextRow>
@@ -151,7 +158,6 @@ const CheckEmail = (props: Props) => {
 
 type Props = OwnProps & {
   handleSubmit: (e) => void
-  setStep: (step: LoginSteps) => void
 }
 
 export default CheckEmail

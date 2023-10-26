@@ -13,6 +13,7 @@ import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { getChannelPrivKeyForQrData } from 'data/cache/selectors'
+import { getInitialRedirect } from 'data/goals/selectors'
 import { ProductAuthOptions, UnifiedAccountRedirectType } from 'data/types'
 import { required } from 'services/forms'
 import { isMobile, media } from 'services/styles'
@@ -77,7 +78,6 @@ const EnterPasswordWallet = (props: OwnProps) => {
     exchangeTabClicked,
     formValues,
     handleBackArrowClickWallet,
-    initialRedirect,
     invalid,
     isSofi,
     magicLinkData,
@@ -94,6 +94,9 @@ const EnterPasswordWallet = (props: OwnProps) => {
     (walletError.toLowerCase().includes('this account has been locked') ||
       walletError.toLowerCase().includes('account is locked') ||
       walletError.toLowerCase().includes('account deactivated'))
+
+  const initialRedirect = useSelector(getInitialRedirect) as UnifiedAccountRedirectType
+
   const settingsRedirect = Object.values(UnifiedAccountRedirectType).includes(initialRedirect)
 
   return (
