@@ -792,10 +792,14 @@ export default ({ api, coreSagas, networks }) => {
       const redirect = queryParams.get('redirect') as string
       // keeps session id consistent if logging in from mobile exchange app
       const sessionIdMobile = queryParams.get('sessionId') as string
+      const pathname = yield select(selectors.router.getPathname)
+      const isSofi = pathname.includes('sofi')
+      const urlPathParams = pathname.split('/')
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
           ipCountry,
+          isSofi,
           platform,
           product,
           redirect,
@@ -803,8 +807,7 @@ export default ({ api, coreSagas, networks }) => {
         })
       )
       // select required data to initialize auth below
-      const pathname = yield select(selectors.router.getPathname)
-      const urlPathParams = pathname.split('/')
+
       const walletGuidOrMagicLinkFromUrl = urlPathParams[2]
       const isUnified = yield select(selectors.cache.getUnifiedAccountStatus)
       const storedGuid = yield select(selectors.cache.getStoredGuid)
@@ -817,6 +820,10 @@ export default ({ api, coreSagas, networks }) => {
       // initialize login form and/or set initial auth step
       // 👋 Case order matters, think before changing!
       switch (true) {
+        // sofi login flow
+        case isSofi:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.SOFI_EMAIL))
+          break
         // wallet mobile webview auth flow
         case platform !== PlatformTypes.WEB && product === ProductAuthOptions.WALLET:
           yield call(initMobileWalletAuthFlow)

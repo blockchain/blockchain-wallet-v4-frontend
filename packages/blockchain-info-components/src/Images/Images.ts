@@ -121,6 +121,7 @@ import googlePay from './img/google-pay-icon.svg'
 import googlePlayBadge from './img/google-play-badge.svg'
 import greyVerified from './img/grey-verified.svg'
 import identification from './img/identification.svg'
+import identifcationCircle from './img/identification-circle.svg'
 import identityVerification from './img/identity-verification.svg'
 import instagram from './img/instagram.svg'
 import interest from './img/interest.svg'
@@ -306,6 +307,7 @@ const Images = {
   'google-play-badge': googlePlayBadge,
   'grey-verified': greyVerified,
   identification,
+  'identification-circle': identifcationCircle,
   'identity-verification': identityVerification,
   instagram,
   interest,

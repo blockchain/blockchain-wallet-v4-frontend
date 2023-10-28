@@ -14,6 +14,12 @@ export const WrapperWithPadding = styled.div`
     padding: 0 16px;
   `}
 `
+export const SoFiWrapperWithPadding = styled.div`
+  padding: 0 32px;
+  ${media.mobile`
+    padding: 0 16px;
+  `}
+`
 export const ActionButton = styled(Button)`
   margin-top: 15px;
 `

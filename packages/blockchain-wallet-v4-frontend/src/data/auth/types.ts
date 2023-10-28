@@ -32,6 +32,9 @@ export enum LoginSteps {
   ENTER_PASSWORD_WALLET = 'ENTER_PASSWORD_WALLET',
   INSTITUTIONAL_PORTAL = 'INSTITUTIONAL_PORTAL',
   LOADING = 'LOADING',
+  SOFI_EMAIL = 'SOFI_EMAIL',
+  SOFI_SUCCESS = 'SOFI_SUCCESS',
+  SOFI_VERIFY_ID = 'SOFI_VERIFY_ID',
   TWO_FA_EXCHANGE = 'TWO_FA_EXCHANGE',
   TWO_FA_WALLET = 'TWO_FA_WALLET',
   VERIFY_MAGIC_LINK = 'VERIFY_MAGIC_LINK'
@@ -70,6 +73,8 @@ export type LoginFormType = {
   guid?: string
   guidOrEmail?: string
   password?: string
+  sofiLoginEmail?: string
+  sofiLoginSSN?: string
   step?: LoginSteps
   twoFA?: number | string
   upgradePassword?: string
@@ -133,6 +138,7 @@ export type ExchangeResetPasswordSuccessType = any
 
 export type ProductAuthMetadata = {
   ipCountry?: string
+  isSofi?: boolean
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
