@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Badge, Button, HeartbeatLoader, Text, TextGroup } from 'blockchain-info-components'
-import { PlatformTypes } from 'data/types'
+import { trackEvent } from 'data/analytics/slice'
+import { Analytics, PlatformTypes } from 'data/types'
 import { isMobile, media } from 'services/styles'
 
 import { SubviewProps } from '../../types'
@@ -57,6 +59,16 @@ const SignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
 
   const [showModal, setShowModal] = useState<QRModalType | null>(null)
   const closeModal = () => setShowModal(null)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(
+      trackEvent({
+        key: Analytics.CREATE_YOUR_ACCOUNT_VIEWED,
+        properties: {}
+      })
+    )
+  }, [])
 
   return (
     <>
