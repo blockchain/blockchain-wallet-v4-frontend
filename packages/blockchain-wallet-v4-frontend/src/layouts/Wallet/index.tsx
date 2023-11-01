@@ -66,7 +66,7 @@ type Props = {
   approvalDate?: string
   center?: boolean
   component: React.ComponentType<any>
-  computedMatch: {
+  computedMatch?: {
     params: { coin?: string }
     path: string
   }

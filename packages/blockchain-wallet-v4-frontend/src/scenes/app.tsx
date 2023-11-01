@@ -223,15 +223,10 @@ const App = ({
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
                               />
                               <AuthLayout
-                                path='/prove/instant-link/callback' // prove/instant-link/callback?vfp=
+                                path='/prove/instant-link/callback'
                                 component={Prove}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Verify Device`}
                               />
-                              {/* <AuthLayout
-                                path='/prove/instant-link/callback/expired'
-                                component={Prove}
-                                pageTitle={`${BLOCKCHAIN_TITLE} | Verify Device`}
-                              /> */}
 
                               {/* DEX routes */}
                               {isDexEnabled && (

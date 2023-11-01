@@ -8,6 +8,9 @@ import { getDomains } from '@core/redux/walletOptions/selectors'
 import { Button, Icon, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 
+import { LINK_BACK_TO_APP, TEXT_ELEMENTS, VFP_STORE_URL } from './constants'
+import { ProveProps, ProveStates } from './types'
+
 const ContentWrapper = styled.div`
   margin-top: 1rem;
   display: flex;
@@ -16,51 +19,17 @@ const ContentWrapper = styled.div`
   flex-direction: column;
 `
 
-const LINK_BACK_TO_APP =
-  'https://blockchain.page.link/?link=https://login.blockchain.com/#/&apn=piuk.blockchain.android&isi=493253309&ibi=com.rainydayapps.Blockchain'
-const VFP_STORE_URL = '/onboarding/prove/possession/instant-link/vfp-store'
-
-const ELEMENTS = {
-  error: {
-    description:
-      'Return to the Blockchain.com App to get a new one and continue with the verification process.',
-    iconProps: {
-      color: 'error',
-      name: 'close-circle'
-    },
-    title: 'Your link has expired'
-  },
-  verified: {
-    description: 'Return to the Blockchain.com App to continue with the verification process.',
-    iconProps: {
-      color: 'success',
-      name: 'checkmark-circle-filled'
-    },
-    title: 'Your device is verified!'
-  }
-}
-
-type Props = {
-  isExpired?: boolean
-  location: {
-    pathname: string
-    search: string
-  }
-}
-
-const Prove: React.FC<Props> = ({ location: { pathname, search } }) => {
+const Prove: React.FC<ProveProps> = ({ location: { pathname, search } }) => {
   const isExpired = pathname.includes('/expired')
 
-  const [proveStatus, setProveStatus] = useState<'loading' | 'error' | 'verified'>(
-    isExpired ? 'error' : 'loading'
-  )
+  const [proveStatus, setProveStatus] = useState<ProveStates>(isExpired ? 'error' : 'loading')
 
   const {
     data: { api }
   } = useSelector(getDomains)
 
   const checkFingerprint = async () => {
-    const vfp = new URLSearchParams(search || '').get('vfp')
+    const vfp = new URLSearchParams(search).get('vfp')
 
     axios
       .post(`${api}${VFP_STORE_URL}`, { vfp })
@@ -73,15 +42,12 @@ const Prove: React.FC<Props> = ({ location: { pathname, search } }) => {
   }
 
   useEffect(() => {
-    // if(!isExpired) checkFingerprint()
-    setTimeout(() => {
-      setProveStatus('verified')
-    }, 2000)
+    if (!isExpired) checkFingerprint()
   }, [])
 
   if (proveStatus === 'loading') return <SpinningLoader />
 
-  const { description, iconProps, title } = ELEMENTS[proveStatus]
+  const { description, iconProps, title } = TEXT_ELEMENTS[proveStatus]
 
   return (
     <Wrapper>
