@@ -1,16 +1,14 @@
 // import React from 'react'
-// import { useSelector } from 'react-redux'
 // import { FormattedMessage } from 'react-intl'
+// import { useSelector } from 'react-redux'
 // import styled from 'styled-components'
-
-// import { selectors } from 'data'
 
 // import { CoinType } from '@core/types'
 // import { Button, Icon, Modal, ModalBody, Text } from 'blockchain-info-components'
-// import modalEnhancer from 'providers/ModalEnhancer'
-
 // import CoinBalanceDisplay from 'components/CoinWithBalance/CoinBalanceDisplay'
+// import { selectors } from 'data'
 // import { ModalName } from 'data/types'
+// import modalEnhancer from 'providers/ModalEnhancer'
 
 // import { ModalPropsType } from '../../types'
 
@@ -29,6 +27,7 @@
 //     border-bottom-right-radius: 16px;
 //   }
 // `
+
 // const BalanceRow = styled.div`
 //   flex: auto;
 //   display: flex;
@@ -62,16 +61,6 @@
 //   display: flex;
 //   align-items: center;
 //   justify-content: space-between;
-// `
-
-// const IconRow = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: flex-start;
-//   align-items: center;
-//   & > :first-child {
-//     margin-right: 4px;
-//   }
 // `
 
 // const Coin = styled.div`
@@ -127,7 +116,7 @@
 //           weight={500}
 //           color='grey600'
 //           lineHeight='1.5'
-//           style={{ textAlign: 'center', marginTop: '16px' }}
+//           style={{ marginTop: '16px', textAlign: 'center' }}
 //         >
 //           <FormattedMessage
 //             id='scenes.sofi.welcome.modal.body'
@@ -135,7 +124,7 @@
 //           />
 //         </Text>
 //         <BalanceTable>
-//           {sbBalancesArray.map(({ symbol, mainBalanceToDisplay }) => {
+//           {sbBalancesArray.map(({ mainBalanceToDisplay, symbol }) => {
 //             const { coinfig } = window.coins[symbol]
 
 //             return (

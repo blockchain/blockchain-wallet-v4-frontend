@@ -146,6 +146,7 @@ import nftNothingHere from './img/nfts/nft-nothing-here.svg'
 import nftPurchase from './img/nfts/nft-purchase.svg'
 import nftnouns from './img/nfts/nouns.png'
 import nftpainthyperlink from './img/nfts/paint-hyperlink.png'
+import offline from './img/offline.svg'
 import opensea from './img/opensea.png'
 import percentLightBlueCircle from './img/percent-light-blue-circle.svg'
 import percentWhiteCircle from './img/percent-white-circle.svg'
@@ -328,6 +329,7 @@ const Images = {
   'nft-nouns': nftnouns,
   'nft-paint-hyperlink': nftpainthyperlink,
   'nft-purchase': nftPurchase,
+  offline,
   'onboarding-active-rewards': onboardingActiveRewards,
   'onboarding-earn': onboardingEarn,
   'onboarding-passive-rewards': onboardingPassiveRewards,
