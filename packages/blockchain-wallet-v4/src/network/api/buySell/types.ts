@@ -69,6 +69,7 @@ export type BSAccountType = IBSAccountType & {
 
 export type BSBalanceType = {
   available: string
+  mainBalanceToDisplay?: string
   pending: string
   withdrawable: string
 }

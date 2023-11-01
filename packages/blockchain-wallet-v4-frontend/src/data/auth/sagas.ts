@@ -18,6 +18,7 @@ import {
   ExchangeAuthOriginType,
   ExchangeErrorCodes,
   LoginRoutinePayloadType,
+  ModalName,
   ProductEligibilityForUser
 } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
@@ -451,6 +452,10 @@ export default ({ api, coreSagas, networks }) => {
       }
       // swap tasks
       yield put(actions.components.swap.fetchTrades())
+      // TODO remove this this is just for testing
+      yield put(
+        actions.modals.showModal(ModalName.SOFI_MIGRATED_BALANCES, { origin: 'SofiMigration' })
+      )
       // check/update btc account names
       yield call(coreSagas.wallet.checkAndUpdateWalletNames)
       // We are checking wallet metadata to see if mnemonic is verified

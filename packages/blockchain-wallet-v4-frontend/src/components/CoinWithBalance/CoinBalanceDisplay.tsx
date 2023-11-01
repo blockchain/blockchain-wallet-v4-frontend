@@ -5,12 +5,20 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Amount } from './CoinWithBalance.model'
 
-const CoinBalanceDisplay = ({ balance, coin }: { balance: number | string; coin: string }) => {
+const CoinBalanceDisplay = ({
+  balance,
+  coin,
+  size
+}: {
+  balance: number | string
+  coin: string
+  size?: string
+}) => {
   return (
     <Amount>
       <FiatDisplay
         coin={coin}
-        size='16px'
+        size={size || '16px'}
         mobileSize='16px'
         loadingHeight='20px'
         color='grey800'
