@@ -98,7 +98,7 @@ export const BaseRateAndFees = ({
               color={SemanticColors.title}
               size='12px'
               weight={600}
-              coin={currentChain.nativeCurrency.symbol}
+              coin={currentChain?.nativeCurrency?.symbol}
               currency={walletCurrency}
             >
               {new BigNumber(swapQuote.transaction.gasLimit)

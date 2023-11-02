@@ -5,6 +5,7 @@ import type {
   BuildDexTxPreImage,
   BuildDexTxRawTx,
   BuildDexTxSummary,
+  DexBcdcFee,
   DexBuyAmount,
   DexChain,
   DexQuote,
@@ -42,7 +43,7 @@ export const DexTokenSchema: z.ZodSchema<DexToken, z.ZodTypeDef, unknown> = z.ob
 export const DexChainSchema: z.ZodSchema<DexChain, z.ZodTypeDef, unknown> = z.object({
   chainId: z.number(),
   name: z.string(),
-  nativeCurrency: DexTokenSchema
+  nativeCurrency: DexTokenSchema.nullable()
 })
 
 const DexBuyAmountSchema: z.ZodSchema<DexBuyAmount, z.ZodTypeDef, unknown> = z
@@ -65,7 +66,13 @@ const DexSellAmountSchema: z.ZodSchema<DexSellAmount, z.ZodTypeDef, unknown> = z
   })
   .transform((data) => ({ type: 'SELL', ...data }))
 
+const DexBcdcFeeSchema: z.ZodSchema<DexBcdcFee, z.ZodTypeDef, unknown> = z.object({
+  amount: stringToPositiveFloat,
+  symbol: z.string()
+})
+
 const DexQuoteSchema: z.ZodSchema<DexQuote, z.ZodTypeDef, unknown> = z.object({
+  bcdcFee: DexBcdcFeeSchema,
   buyAmount: DexBuyAmountSchema,
   buyTokenFee: stringToPositiveFloat,
   price: stringToPositiveFloat,
