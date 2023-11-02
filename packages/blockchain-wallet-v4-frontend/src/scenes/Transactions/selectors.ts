@@ -111,11 +111,8 @@ const coinSelectorMap = (
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const { computedMatch } = ownProps
   const { coin } = computedMatch.params
-  const {
-    data: {
-      tiers: { current = 0 }
-    }
-  } = selectors.modules.profile.getUserData(state)
+  const userData = selectors.modules.profile.getUserData(state)
+  const current = userData?.data?.tiers?.current || 0
   const isGoldTier = current >= 2
 
   return createSelector(
