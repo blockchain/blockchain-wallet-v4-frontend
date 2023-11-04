@@ -43,6 +43,7 @@ const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
 const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
+const Prove = React.lazy(() => import('./Prove'))
 // need to be authed to see this, but uses public layout
 const ContinueOnPhone = React.lazy(() => import('./ContinueOnPhone'))
 const TwoStepVerification = React.lazy(() => import('./TwoStepVerification'))
@@ -220,6 +221,11 @@ const App = ({
                                 path='/verify-email-step'
                                 component={VerifyEmail}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
+                              />
+                              <AuthLayout
+                                path='/prove/instant-link/callback'
+                                component={Prove}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | Verify Device`}
                               />
 
                               {/* DEX routes */}
