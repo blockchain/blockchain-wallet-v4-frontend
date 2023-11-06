@@ -23,6 +23,7 @@ import referral from './referral'
 import { makeRemoteConfigApi } from './remoteConfig'
 import send from './send'
 import settings from './settings'
+import sofi from './sofi'
 import swap from './swap'
 import taxCenter from './taxCenter'
 import wallet from './wallet'
@@ -115,6 +116,12 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       nabuUrl,
       ...http
     }),
+    ...sofi({
+      authorizedPatch: authorizedHttp.patch,
+      authorizedPost: authorizedHttp.post,
+      nabuUrl,
+      ...http
+    }),
     ...swap({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
@@ -152,6 +159,7 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof profile> &
   ReturnType<typeof referral> &
   ReturnType<typeof send> &
+  ReturnType<typeof sofi> &
   ReturnType<typeof swap> &
   ReturnType<typeof taxCenter> &
   ReturnType<typeof wallet> &
