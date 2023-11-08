@@ -138,7 +138,6 @@ export type ExchangeResetPasswordSuccessType = any
 
 export type ProductAuthMetadata = {
   ipCountry?: string
-  isSofi?: boolean
   platform?: PlatformTypes
   product?: ProductAuthOptions
   redirect?: string
@@ -160,6 +159,7 @@ export type AuthStateType = {
   }
   isAuthenticated: boolean
   isLoggingIn: boolean
+  isSofi?: boolean
   login: RemoteDataType<LoginFailureType, LoginSuccessType>
   magicLinkData?: AuthMagicLink
   magicLinkDataEncoded?: string

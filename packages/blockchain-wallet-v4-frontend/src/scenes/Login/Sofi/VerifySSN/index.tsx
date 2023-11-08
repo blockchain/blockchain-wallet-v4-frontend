@@ -40,8 +40,7 @@ const FormBody = styled.div`
 `
 
 const SofiVerifyID = (props: Props) => {
-  const { busy, formActions, formValues, invalid, magicLinkData, submitting } = props
-  const email = 'leora@blockchain.com'
+  const { busy, formActions, formValues, invalid, submitting } = props
 
   const validSsn = formValues?.sofiLoginSSN?.length === 4
 

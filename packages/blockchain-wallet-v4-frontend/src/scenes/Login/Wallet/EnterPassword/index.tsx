@@ -86,6 +86,7 @@ const EnterPasswordWallet = (props: Props) => {
     handleBackArrowClickWallet,
     initialRedirect,
     invalid,
+    isSofi,
     magicLinkData,
     productAuthMetadata,
     qrData,
@@ -104,7 +105,7 @@ const EnterPasswordWallet = (props: Props) => {
   return (
     <OuterWrapper>
       <FormWrapper>
-        {!settingsRedirect && !productAuthMetadata.isSofi && (
+        {!settingsRedirect && !isSofi && (
           <ProductTabMenu
             active={ProductAuthOptions.WALLET}
             onExchangeTabClick={exchangeTabClicked}
@@ -184,14 +185,6 @@ const EnterPasswordWallet = (props: Props) => {
               platform={productAuthMetadata.platform}
               product={ProductAuthOptions.WALLET}
             />
-            {productAuthMetadata.isSofi && (
-              <button
-                onClick={() => props.formActions.change('login', 'step', LoginSteps.SOFI_VERIFY_ID)}
-                type='button'
-              >
-                TEMP BUTTON
-              </button>
-            )}
           </CenteredColumn>
         </WrapperWithPadding>
       </FormWrapper>

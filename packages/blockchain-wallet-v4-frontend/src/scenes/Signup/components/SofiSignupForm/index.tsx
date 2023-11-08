@@ -88,13 +88,7 @@ const SofiSignupForm = (props: Props) => {
           <FormLabel htmlFor='email'>
             <FormattedMessage id='scenes.signup.sofi.email' defaultMessage='Your Email' />
           </FormLabel>
-          <Field
-            bgColor='grey000'
-            component={TextBox}
-            data-e2e='signupEmail'
-            name='email'
-            disabled
-          />
+          <Field bgColor='grey000' component={TextBox} data-e2e='signupEmail' name='email' />
         </FormItem>
       </FormGroup>
       <FormGroup>

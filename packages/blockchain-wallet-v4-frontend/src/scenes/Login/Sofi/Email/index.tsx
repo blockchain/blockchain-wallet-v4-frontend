@@ -35,7 +35,7 @@ const LoginWrapper = styled(Wrapper)`
 
 const Email = (props: Props) => {
   const { busy, formActions, formValues, invalid, magicLinkData, submitting } = props
-  const email = 'leora@blockchain.com'
+  const email = 'leora+testsofi+106@blockchain.com'
 
   useEffect(() => {
     if (email) {
@@ -80,15 +80,13 @@ const Email = (props: Props) => {
               component={TextBox}
               data-e2e='sofiLoginEmail'
               name='sofiLoginEmail'
-              disabled
               noLastPass
             />
           </FormItem>
         </FormGroup>
         <LinkRow>
           <ActionButton
-            // type='submit'
-            onClick={() => formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET)}
+            type='submit'
             nature='primary'
             fullwidth
             height='48px'

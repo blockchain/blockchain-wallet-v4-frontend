@@ -5,6 +5,8 @@ import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
+import { actions } from 'data'
+import { ModalName } from 'data/types'
 import { isBrowserAndroid, isBrowserIOS } from 'services/browser'
 import { isMobile } from 'services/styles'
 
@@ -16,9 +18,17 @@ const ContentWrapper = styled.div`
 `
 
 const SofiSuccess = () => {
+  const dispatch = useDispatch()
   // Add check here to make sure that there is wallet data
   // route should navigate to login if there's no wallet data
-  const sofiWalletRedirect = () => {}
+  const sofiWalletRedirect = () => {
+    dispatch(actions.router.push('/home'))
+    dispatch(
+      actions.modals.showModal(ModalName.SOFI_BLOCKCHAIN_WELCOME, {
+        origin: 'SofiMigration'
+      })
+    )
+  }
   const downloadMobileApp = () => {
     if (isBrowserAndroid()) {
       window.open('https://play.google.com/store/apps/details?id=piuk.blockchain.android', '_blank')

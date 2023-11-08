@@ -298,8 +298,7 @@ export default ({ api, coreSagas, networks }) => {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       const productSignupData = yield select(selectors.signup.getProductSignupMetadata)
-      const productAuthMetadata = yield select(S.getProductAuthMetadata)
-      const isSofi = productSignupData?.isSofi
+      const isSofi = yield select(S.getIsSofi)
 
       if (!isHdWallet) {
         yield put(actions.wallet.upgradeWallet(3))
@@ -422,6 +421,8 @@ export default ({ api, coreSagas, networks }) => {
         } else {
           yield put(actions.router.push('/verify-email-step'))
         }
+      } else if (isSofi) {
+        yield put(actions.router.push('/sofi-verify'))
       } else {
         yield put(actions.router.push('/home'))
       }
@@ -804,13 +805,13 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         actions.auth.setProductAuthMetadata({
           ipCountry,
-          isSofi,
           platform,
           product,
           redirect,
           userType
         })
       )
+      yield put(actions.auth.setIsSofi(isSofi))
       // select required data to initialize auth below
 
       const walletGuidOrMagicLinkFromUrl = urlPathParams[2]
@@ -928,6 +929,7 @@ export default ({ api, coreSagas, networks }) => {
       guid,
       guidOrEmail,
       password,
+      sofiLoginEmail,
       step
     } = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const unificationFlowType = yield select(S.getAccountUnificationFlowType)
@@ -941,7 +943,11 @@ export default ({ api, coreSagas, networks }) => {
         auth = auth.toUpperCase()
       }
       // CHECKS FORM STEP TO SEE IF WE WANT TO TRIGGER THE VERIFICATION LINK
-      if (step === LoginSteps.ENTER_EMAIL_GUID || step === LoginSteps.CHECK_EMAIL) {
+      if (
+        step === LoginSteps.ENTER_EMAIL_GUID ||
+        step === LoginSteps.CHECK_EMAIL ||
+        step === LoginSteps.SOFI_EMAIL
+      ) {
         // If it's a guid, we take them to the enter mobile verification step
         if (isGuid(guidOrEmail) && product === ProductAuthOptions.WALLET) {
           yield put(actions.form.change(LOGIN_FORM, 'guid', guidOrEmail))
@@ -953,7 +959,9 @@ export default ({ api, coreSagas, networks }) => {
         } else {
           // trigger email from wallet form
           yield put(actions.form.change(LOGIN_FORM, 'email', email || guidOrEmail))
-          yield put(actions.auth.triggerWalletMagicLink({ email: email || guidOrEmail }))
+          yield put(
+            actions.auth.triggerWalletMagicLink({ email: email || guidOrEmail || sofiLoginEmail })
+          )
         }
         yield put(
           actions.analytics.trackEvent({
