@@ -14,6 +14,7 @@ export default ({ api, coreSagas, networks }) => {
     fetchUserRiskSettings,
     linkFromExchangeAccount,
     linkToExchangeAccount,
+    migrateSofiUser,
     shareWalletAddressesWithExchange,
     signIn
   } = sagas({
@@ -36,5 +37,6 @@ export default ({ api, coreSagas, networks }) => {
     // @ts-ignore
     yield takeLatest(AT.LINK_TO_EXCHANGE_ACCOUNT, linkToExchangeAccount)
     yield takeLatest(AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE, shareWalletAddressesWithExchange)
+    yield takeLatest(AT.MIGRATE_SOFI_USER, migrateSofiUser)
   }
 }

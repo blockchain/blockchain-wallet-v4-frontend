@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -12,14 +12,12 @@ import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { LoginSteps, ProductAuthOptions } from 'data/types'
 import { required } from 'services/forms'
-import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
-import { Props } from '../..'
 import { SofiSsnForm } from './types'
 
 const LoginWrapper = styled(Wrapper)`
@@ -58,10 +56,14 @@ const ActionButton = styled(Button)`
 const SofiVerifyID = (props: InjectedFormProps) => {
   const { invalid, submitting } = props
   const formValues = useSelector(selectors.form.getFormValues('verifySofiSsn')) as SofiSsnForm
+  const dispatch = useDispatch()
 
   const validSsn = formValues?.sofiSSN?.length === 4
 
-  const handleSubmit = () => {}
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(actions.modules.profile.migrateSofiUser())
+  }
   return (
     <Form onSubmit={handleSubmit}>
       <LoginWrapper isSofi>

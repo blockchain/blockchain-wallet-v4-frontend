@@ -731,6 +731,7 @@ export default ({ api, coreSagas, networks }) => {
         migration_status: 'SUCCESS'
       }
       yield put(A.migrateSofiUserSuccess(response))
+      yield put(actions.router.push('/sofi-success'))
     } catch (e) {
       yield put(A.migrateSofiUserFailure(e))
     }
