@@ -152,7 +152,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield* put(A.fetchChainsSuccess(chainsList))
 
       // since MVP only supports ETH chain, set as current and then pre-fetch token list
-      const ethChain = chainsList.find((chain) => chain.nativeCurrency.name === 'Ethereum')
+      const ethChain = chainsList.find((chain) => chain?.nativeCurrency?.name === 'Ethereum')
       if (!ethChain) throw Error('No ETH chain found')
       yield* put(A.setCurrentChain(ethChain))
     } catch (e) {
@@ -311,7 +311,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             yield put(A.stopPollSwapQuote())
           }
         }
-      } catch ({ message, title }) {
+      } catch (e) {
+        const { message, title } = e
         yield put(A.fetchSwapQuoteFailure({ message, title }))
         yield put(A.stopPollSwapQuote())
       }
