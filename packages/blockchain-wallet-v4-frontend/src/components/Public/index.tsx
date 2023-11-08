@@ -2,9 +2,9 @@ import styled from 'styled-components'
 
 import { media } from 'services/styles'
 
-const isSofi = window.location.hash.includes('sofi')
+const isSofiUrl = window.location.hash.includes('sofi')
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{ isSofi?: boolean }>`
   padding: 32px;
   border-radius: 8px;
   box-sizing: border-box;
@@ -17,7 +17,9 @@ export const Wrapper = styled.div`
   `}
   ${media.mobile`
     padding: 20px;
-    box-shadow: ${isSofi ? 'none' : '0 2px 8px 0 rgba(0, 0, 0, 0.21)'};
+    box-shadow: ${(props) =>
+      props.isSofi || isSofiUrl ? 'none' : '0 2px 8px 0 rgba(0, 0, 0, 0.21)'};
+
   `}
 `
 

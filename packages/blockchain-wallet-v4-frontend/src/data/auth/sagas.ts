@@ -297,6 +297,10 @@ export default ({ api, coreSagas, networks }) => {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
+      const productSignupData = yield select(selectors.signup.getProductSignupMetadata)
+      const productAuthMetadata = yield select(S.getProductAuthMetadata)
+      const isSofi = productSignupData?.isSofi
+
       if (!isHdWallet) {
         yield put(actions.wallet.upgradeWallet(3))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
@@ -452,10 +456,6 @@ export default ({ api, coreSagas, networks }) => {
       }
       // swap tasks
       yield put(actions.components.swap.fetchTrades())
-      // TODO remove this this is just for testing
-      yield put(
-        actions.modals.showModal(ModalName.SOFI_MIGRATED_BALANCES, { origin: 'SofiMigration' })
-      )
       // check/update btc account names
       yield call(coreSagas.wallet.checkAndUpdateWalletNames)
       // We are checking wallet metadata to see if mnemonic is verified

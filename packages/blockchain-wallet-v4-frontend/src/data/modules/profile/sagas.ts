@@ -683,6 +683,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const initiateSofiLanding = function* () {
+    yield put(A.fetchSofiMigrationStatusLoading())
     try {
       const testUrl =
         'https://www.blockchain.com/sofi?aesCiphertext&aesIV=aesIV&aesTag=aesTag&aesKeyCiphertext=aesKeyCiphertext'
@@ -708,12 +709,31 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.router.push('/login/sofi'))
       }
+      yield put(A.fetchSofiMigrationStatusSuccess(response))
     } catch (e) {
       //TODO add error handling
+      yield put(A.fetchSofiMigrationStatusFailure(e))
     }
 
     // also save information retrieved from response in redux
     // so we can use it for signup information
+  }
+
+  const migrateSofiUser = function* () {
+    yield put(A.migrateSofiUserLoading())
+    try {
+      yield put(A.migrateSofiUserLoading())
+      const { sofiSSN } = yield select(selectors.form.getFormValues('verifySofiSsn'))
+      // TODO commenting out for now, will use
+      // mock response for now
+      // const response = yield call(api.migrateSofiUser, sofiSSN)
+      const response = {
+        migration_status: 'SUCCESS'
+      }
+      yield put(A.migrateSofiUserSuccess(response))
+    } catch (e) {
+      yield put(A.migrateSofiUserFailure(e))
+    }
   }
 
   return {
@@ -733,6 +753,7 @@ export default ({ api, coreSagas, networks }) => {
     isTier2,
     linkFromExchangeAccount,
     linkToExchangeAccount,
+    migrateSofiUser,
     recoverUser,
     renewApiSockets,
     renewSession,

@@ -160,6 +160,7 @@ export interface ProfileState {
     shareWalletAddressesWithExchange: RemoteDataType<string, string>
   }
   sofiData: RemoteDataType<string, SofiMigrationStatusResponseType>
+  sofiMigrationStatus: RemoteDataType<string, SofiUserMigrationStatus>
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
   userRiskSettings: RemoteDataType<NabuApiErrorType, UserRiskSettings>
@@ -368,6 +369,24 @@ interface FetchSofiMigrationStatusFailureAction {
   type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_FAILURE
 }
 
+interface MigrateSofiUserLoadingAction {
+  type: typeof AT.MIGRATE_SOFI_USER_LOADING
+}
+
+interface MigrateSofiUserSuccessAction {
+  payload: {
+    migrationStatus: SofiUserMigrationStatus
+  }
+  type: typeof AT.MIGRATE_SOFI_USER_SUCCESS
+}
+
+interface MigrateSofiUserFailureAction {
+  payload: {
+    error: string
+  }
+  type: typeof AT.MIGRATE_SOFI_USER_FAILURE
+}
+
 export type ProfileActionTypes =
   | AuthAndRouteToExchangeAction
   | ClearProfileStateAction
@@ -397,6 +416,9 @@ export type ProfileActionTypes =
   | LinkToExchangeAccountResetAction
   | LinkToExchangeAccountLoadingAction
   | LinkToExchangeAccountSuccessAction
+  | MigrateSofiUserLoadingAction
+  | MigrateSofiUserSuccessAction
+  | MigrateSofiUserFailureAction
   | SetApiTokenFailureAction
   | SetApiTokenNotAskedAction
   | SetApiTokenLoadingAction

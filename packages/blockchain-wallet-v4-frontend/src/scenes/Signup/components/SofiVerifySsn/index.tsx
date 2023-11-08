@@ -1,29 +1,26 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Field } from 'redux-form'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Image, Link, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Image, Link, Text } from 'blockchain-info-components'
 import Form from 'components/Form/Form'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
+import FormLabel from 'components/Form/FormLabel'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
+import { selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { LoginSteps, ProductAuthOptions } from 'data/types'
-import { required, validWalletIdOrEmail } from 'services/forms'
+import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
-import {
-  ActionButton,
-  GuidError,
-  LinkRow,
-  LoginFormLabel,
-  SoFiWrapperWithPadding
-} from '../../model'
+import { SofiSsnForm } from './types'
 
 const LoginWrapper = styled(Wrapper)`
   display: flex;
@@ -38,16 +35,36 @@ const FormBody = styled.div`
   flex-direction: column;
   align-items: center;
 `
+const SoFiWrapperWithPadding = styled.div`
+  padding: 0 32px;
+  ${media.mobile`
+    padding: 0 16px;
+  `}
+`
 
-const SofiVerifyID = (props: Props) => {
-  const { busy, formActions, formValues, invalid, magicLinkData, submitting } = props
-  const email = 'leora@blockchain.com'
+const LoginFormLabel = styled(FormLabel)`
+  margin-bottom: 8px;
+`
+const LinkRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
-  const validSsn = formValues?.sofiLoginSSN?.length === 4
+const ActionButton = styled(Button)`
+  margin-top: 15px;
+`
 
+const SofiVerifyID = (props: InjectedFormProps) => {
+  const { invalid, submitting } = props
+  const formValues = useSelector(selectors.form.getFormValues('verifySofiSsn')) as SofiSsnForm
+
+  const validSsn = formValues?.sofiSSN?.length === 4
+
+  const handleSubmit = () => {}
   return (
-    <Form>
-      <LoginWrapper>
+    <Form onSubmit={handleSubmit}>
+      <LoginWrapper isSofi>
         <SoFiWrapperWithPadding>
           <FormBody>
             <Image name='identification-circle' style={{ marginTop: '24px' }} />
@@ -74,14 +91,14 @@ const SofiVerifyID = (props: Props) => {
             </Text>
             <FormGroup>
               <FormItem style={{ marginTop: '24px' }}>
-                <LoginFormLabel htmlFor='sofiLoginEmail'>
+                <LoginFormLabel htmlFor='sofiSSN'>
                   <FormattedMessage id='scenes.login.sofi.ssn' defaultMessage='Last 4 SSN' />
                 </LoginFormLabel>
                 <Field
                   autoFocus
                   component={TextBox}
-                  data-e2e='sofiLoginSSN'
-                  name='sofiLoginSSN'
+                  data-e2e='sofiSSN'
+                  name='sofiSSN'
                   noLastPass
                   placeholder='Enter last 4 of your SSN'
                 />
@@ -90,12 +107,11 @@ const SofiVerifyID = (props: Props) => {
           </FormBody>
           <LinkRow>
             <ActionButton
-              // type='submit'
-              onClick={() => formActions.change(LOGIN_FORM, 'step', LoginSteps.SOFI_SUCCESS)}
+              type='submit'
               nature='primary'
               fullwidth
               height='48px'
-              disabled={submitting || invalid || busy || !validSsn}
+              disabled={submitting || invalid || !validSsn}
               data-e2e='loginButton'
               style={{ marginBottom: '16px' }}
             >
@@ -114,4 +130,4 @@ const SofiVerifyID = (props: Props) => {
   )
 }
 
-export default SofiVerifyID
+export default reduxForm({ form: 'verifySofiSsn' })(SofiVerifyID)

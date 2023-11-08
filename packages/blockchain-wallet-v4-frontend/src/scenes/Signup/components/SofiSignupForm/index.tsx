@@ -71,12 +71,14 @@ const SofiSignupForm = (props: Props) => {
   const isStateTexas = formValues?.state === 'US-TX'
 
   const dataGoal = goals.find((g) => g.name === 'signup')
-  const email = 'leora@blockchain.com'
+  const email = 'leora+testsofi+106@blockchain.com'
 
   useEffect(() => {
     if (email) {
       formActions.change(SIGNUP_FORM, 'email', email)
     }
+    formActions.change(SIGNUP_FORM, 'country', 'US')
+    formActions.change(SIGNUP_FORM, 'state', 'US-CO')
   }, [formActions, email])
 
   return (

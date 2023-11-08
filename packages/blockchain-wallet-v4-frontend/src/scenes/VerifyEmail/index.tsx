@@ -30,6 +30,8 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
         nextProps.routerActions.push('/home')
         nextProps.saveGoal('cowboys2022', { firstLogin: true })
         nextProps.runGoals()
+      } else if (isSofi) {
+        nextProps.routerActions.push('/sofi-verify')
       } else if (
         createExchangeUserFlag &&
         signupRedirect !== SignupRedirectTypes.WALLET_HOME &&
@@ -64,12 +66,14 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
 
   render() {
     const isMetadataRecovery = Remote.Success.is(this.props.isMetadataRecoveryR)
+    const { isSofi } = this.props.signupMetadata
     return (
       <VerifyEmail
         {...this.props}
         resendEmail={this.onResendEmail}
         skipVerification={this.skipVerification}
         isMetadataRecovery={isMetadataRecovery}
+        isSofi={isSofi}
       />
     )
   }

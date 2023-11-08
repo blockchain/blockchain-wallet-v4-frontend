@@ -175,3 +175,21 @@ export const fetchSofiMigrationStatusFailure = (error) => ({
   payload: { error },
   type: AT.FETCH_SOFI_MIGRATION_STATUS_FAILURE
 })
+
+export const migrateSofiUser = () => ({
+  type: AT.MIGRATE_SOFI_USER
+})
+
+export const migrateSofiUserLoading = () => ({
+  type: AT.MIGRATE_SOFI_USER_LOADING
+})
+
+export const migrateSofiUserSuccess = (migrationStatus) => ({
+  payload: { migrationStatus },
+  type: AT.MIGRATE_SOFI_USER_SUCCESS
+})
+
+export const migrateSofiUserFailure = (error) => ({
+  payload: { error },
+  type: AT.MIGRATE_SOFI_USER_FAILURE
+})
