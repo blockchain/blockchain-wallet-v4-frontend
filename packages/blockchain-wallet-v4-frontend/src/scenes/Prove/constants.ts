@@ -1,7 +1,7 @@
 export const LINK_BACK_TO_APP =
   'https://blockchain.page.link/?link=https://login.blockchain.com/#/&apn=piuk.blockchain.android&isi=493253309&ibi=com.rainydayapps.Blockchain'
 
-export const VFP_STORE_URL = '/onboarding/prove/possession/instant-link/vfp-store'
+export const VFP_STORE_URL = '/nabu-gateway/onboarding/prove/possession/instant-link/vfp-store'
 
 export const TEXT_ELEMENTS = {
   error: {
