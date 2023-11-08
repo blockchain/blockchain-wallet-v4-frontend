@@ -15,6 +15,7 @@ const INITIAL_STATE: ProfileState = {
     linkToExchangeAccountStatus: Remote.NotAsked,
     shareWalletAddressesWithExchange: Remote.NotAsked
   },
+  sofiData: Remote.NotAsked,
   userCampaigns: Remote.NotAsked,
   userData: Remote.NotAsked,
   userRiskSettings: Remote.NotAsked,
@@ -205,6 +206,23 @@ export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes
           shareWalletAddressesWithExchange: Remote.Success(action.payload.data)
         }
       }
+    case AT.FETCH_SOFI_MIGRATION_STATUS_FAILURE:
+      return {
+        ...state,
+        sofiData: Remote.Failure(action.payload.error)
+      }
+    case AT.FETCH_SOFI_MIGRATION_STATUS_LOADING:
+      return {
+        ...state,
+        sofiData: Remote.Loading
+      }
+    case AT.FETCH_SOFI_MIGRATION_STATUS_SUCCESS: {
+      return {
+        ...state,
+        sofiData: Remote.Success(action.payload.migrationStatus)
+      }
+    }
+
     default:
       return state
   }

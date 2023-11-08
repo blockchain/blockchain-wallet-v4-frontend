@@ -16,7 +16,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import * as S from './selectors'
-import { ExchangeAuthOriginType, UserDataType } from './types'
+import { ExchangeAuthOriginType, SofiUserMigrationStatus, UserDataType } from './types'
 
 export const logLocation = 'modules/profile/sagas'
 export const userRequiresRestoreError = 'User restored'
@@ -682,6 +682,40 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const initiateSofiLanding = function* () {
+    try {
+      const testUrl =
+        'https://www.blockchain.com/sofi?aesCiphertext&aesIV=aesIV&aesTag=aesTag&aesKeyCiphertext=aesKeyCiphertext'
+      // real version, using placeholder version below for testing
+      // const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
+
+      // get migration URL and break it apart into pieces
+      const queryParams = new URLSearchParams(testUrl)
+      const aesCiphertext = queryParams.get('aesCiphertext') as string
+      const aesIV = queryParams.get('aesIV') as string
+      const aesTag = queryParams.get('aesTag') as string
+      const aesKeyCiphertext = queryParams.get('aesKeyCiphertext') as string
+      // call is user migrated api before loading page
+      const response = yield call(
+        api.sofiMigrationStatus,
+        aesCiphertext,
+        aesIV,
+        aesTag,
+        aesKeyCiphertext
+      )
+      if (response.migration_status === SofiUserMigrationStatus.AWAITING_USER) {
+        yield put(actions.router.push('/sofi'))
+      } else {
+        yield put(actions.router.push('/login/sofi'))
+      }
+    } catch (e) {
+      //TODO add error handling
+    }
+
+    // also save information retrieved from response in redux
+    // so we can use it for signup information
+  }
+
   return {
     authAndRouteToExchangeAction,
     clearSession,
@@ -695,6 +729,7 @@ export default ({ api, coreSagas, networks }) => {
     generateExchangeAuthCredentials,
     generateRetailToken,
     getCampaignData,
+    initiateSofiLanding,
     isTier2,
     linkFromExchangeAccount,
     linkToExchangeAccount,

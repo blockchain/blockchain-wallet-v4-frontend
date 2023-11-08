@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios'
 
+import { SofiMigrationStatusResponseType } from '@core/network/api/sofi/types'
 import type {
   NabuAddressType,
   NabuApiErrorType,
@@ -138,6 +139,13 @@ export type UserTierType = {
 
 export type UserTiersType = Array<UserTierType>
 
+export enum SofiUserMigrationStatus {
+  AWAITING_USER = 'AWAITING_USER',
+  FAILURE = 'FAILURE',
+  PENDING = 'PENDING',
+  SUCCESS = 'SUCCESS'
+}
+
 // State
 export interface ProfileState {
   apiToken: RemoteDataType<string, string>
@@ -151,6 +159,7 @@ export interface ProfileState {
     linkToExchangeAccountStatus: RemoteDataType<string, string>
     shareWalletAddressesWithExchange: RemoteDataType<string, string>
   }
+  sofiData: RemoteDataType<string, SofiMigrationStatusResponseType>
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
   userRiskSettings: RemoteDataType<NabuApiErrorType, UserRiskSettings>
@@ -343,6 +352,21 @@ interface FetchUserRiskSettingsSuccessAction {
   }
   type: typeof AT.FETCH_USER_RISK_SETTINGS_SUCCESS
 }
+interface FetchSofiMigrationStatusLoadingAction {
+  type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_LOADING
+}
+interface FetchSofiMigrationStatusSuccessAction {
+  payload: {
+    migrationStatus: SofiMigrationStatusResponseType
+  }
+  type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_SUCCESS
+}
+interface FetchSofiMigrationStatusFailureAction {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_FAILURE
+}
 
 export type ProfileActionTypes =
   | AuthAndRouteToExchangeAction
@@ -351,6 +375,9 @@ export type ProfileActionTypes =
   | FetchTiersLoadingAction
   | FetchTiersSuccessAction
   | FetchTiersAction
+  | FetchSofiMigrationStatusFailureAction
+  | FetchSofiMigrationStatusLoadingAction
+  | FetchSofiMigrationStatusSuccessAction
   | FetchUser
   | FetchUserCampaignsFailureAction
   | FetchUserCampaignsLoadingAction

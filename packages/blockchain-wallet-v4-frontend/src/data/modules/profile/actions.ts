@@ -157,3 +157,21 @@ export const fetchUserRiskSettingsSuccess = (userRiskSettings): ProfileActionTyp
   payload: { userRiskSettings },
   type: AT.FETCH_USER_RISK_SETTINGS_SUCCESS
 })
+
+export const fetchSofiMigrationStatus = () => ({
+  type: AT.FETCH_SOFI_MIGRATION_STATUS
+})
+
+export const fetchSofiMigrationStatusLoading = () => ({
+  type: AT.FETCH_SOFI_MIGRATION_STATUS_LOADING
+})
+
+export const fetchSofiMigrationStatusSuccess = (migrationStatus) => ({
+  payload: { migrationStatus },
+  type: AT.FETCH_SOFI_MIGRATION_STATUS_SUCCESS
+})
+
+export const fetchSofiMigrationStatusFailure = (error) => ({
+  payload: { error },
+  type: AT.FETCH_SOFI_MIGRATION_STATUS_FAILURE
+})
