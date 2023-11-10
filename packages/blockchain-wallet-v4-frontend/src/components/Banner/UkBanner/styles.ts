@@ -9,8 +9,8 @@ export const LinkContainer = styled(Link)`
   align-items: center;
   width: 100%;
   padding: 4px 16px;
-  background: #0c6cf2;
-  color: white;
+  background: #ffd9d6;
+  color: ${({ theme }) => theme.grey900};
   margin-top: 1px;
   font-size: 16px;
   font-weight: 500;
