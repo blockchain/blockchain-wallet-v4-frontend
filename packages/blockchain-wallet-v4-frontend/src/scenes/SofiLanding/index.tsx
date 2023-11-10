@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
@@ -16,11 +16,10 @@ const ContentWrapper = styled.div`
 
 const SofiLanding = () => {
   const dispatch = useDispatch()
-  // Add check here to make sure that there is wallet data
-  // route should navigate to login if there's no wallet data
-  const sofiNewUserRedirect = () => {
-    dispatch(actions.router.push('/sofi/signup'))
-  }
+  // use effect of checking sofi migration status
+  // if it's complete redirect to wallet
+  // add loading state until we know for sure
+
   return (
     <Wrapper>
       <ContentWrapper>
