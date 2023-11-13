@@ -919,6 +919,13 @@ export default ({ api, coreSagas, networks }) => {
     } = initialModals
 
     // Order matters here
+    if (kycDocResubmit) {
+      return yield put(
+        actions.modals.showModal(kycDocResubmit.name, {
+          origin: 'KycDocResubmitGoal'
+        })
+      )
+    }
     if (recommendedImportedSweep) {
       return yield put(
         actions.modals.showModal(recommendedImportedSweep.name, recommendedImportedSweep.data)
@@ -935,13 +942,6 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (transferEth) {
       return yield put(actions.modals.showModal(transferEth.name, transferEth.data))
-    }
-    if (kycDocResubmit) {
-      return yield put(
-        actions.modals.showModal(kycDocResubmit.name, {
-          origin: 'KycDocResubmitGoal'
-        })
-      )
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
