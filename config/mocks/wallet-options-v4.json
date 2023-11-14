@@ -96,7 +96,7 @@
     "horizon": "https://horizon.stellar.org",
     "opensea": "https://testnets-api.opensea.io",
     "root": "https://blockchain.info",
-    "veriff": "https://magic.veriff.me",
+    "veriff": "*.veriff.me",
     "walletHelper": "https://wallet-helper.blockchain.com",
     "webSocket": "wss://ws.blockchain.info"
   }
