@@ -154,17 +154,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const paymentAmount = generateProvisionalPaymentAmount(coin, amount)
       payment = yield payment.amount(paymentAmount)
 
-      // TODO, add isMemoBased check
       const paymentAccount: ReturnType<typeof api.getPaymentAccount> = yield call(
         api.getPaymentAccount,
         coin
       )
 
-      const addressForPAyment = paymentAccount.agent?.address
+      const addressForPayment = paymentAccount.agent?.address
         ? paymentAccount.agent.address
         : paymentAccount.address
 
-      return (yield payment.chain().to(addressForPAyment, 'ADDRESS').build().done()).value()
+      return (
+        (yield payment
+          .chain()
+          // TODO, add isMemoBased check
+          .to(addressForPayment.split(':')[0], 'ADDRESS')
+          .build()
+          .done()).value()
+      )
     } catch (e) {
       // eslint-disable-next-line
       console.log(e)
