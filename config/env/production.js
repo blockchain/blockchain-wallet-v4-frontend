@@ -10,7 +10,7 @@ module.exports = {
   SARDINE_CLIENT_ID: '01ac52dd-f1ed-4715-be81-1023407cdd82',
   SARDINE_ENVIRONMENT: 'production',
   ROOT_URL: 'https://blockchain.info',
-  VERIFF_URL: 'https://magic.veriff.me',
+  VERIFF_URL: '*.veriff.me',
   WALLET_HELPER_DOMAIN: 'https://wallet-helper.blockchain.com',
   WEB_SOCKET_URL: 'wss://ws.blockchain.info'
 }
