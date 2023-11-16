@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
+import { SofiMigrationStatusResponseType } from '@core/network/api/sofi/types'
 import { CountryScope } from '@core/types'
 import { Button, HeartbeatLoader, Text, TextGroup } from 'blockchain-info-components'
 import CheckBox from 'components/Form/CheckBox'
@@ -15,6 +17,7 @@ import PasswordBox from 'components/Form/PasswordBox'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
+import { selectors } from 'data'
 import { CountryType, SignUpGoalDataType, StateType } from 'data/types'
 import { useCountryList, useUSStateList } from 'hooks'
 import {
@@ -67,18 +70,23 @@ const SofiSignupForm = (props: Props) => {
     setShowModal
   } = props
 
+  const { sofi_jwt_payload } = useSelector(selectors.modules.profile.getSofiUserData).getOrElse(
+    {}
+  ) as SofiMigrationStatusResponseType
+
+  const { country, email, state } = sofi_jwt_payload
+
   const passwordValue = formValues?.password || ''
   const isStateTexas = formValues?.state === 'US-TX'
 
   const dataGoal = goals.find((g) => g.name === 'signup')
-  const email = 'leora+testsofi+215@blockchain.com'
 
   useEffect(() => {
     if (email) {
       formActions.change(SIGNUP_FORM, 'email', email)
     }
-    formActions.change(SIGNUP_FORM, 'country', 'US')
-    formActions.change(SIGNUP_FORM, 'state', 'US-CO')
+    formActions.change(SIGNUP_FORM, 'country', country)
+    formActions.change(SIGNUP_FORM, 'state', state)
   }, [formActions, email])
 
   return (

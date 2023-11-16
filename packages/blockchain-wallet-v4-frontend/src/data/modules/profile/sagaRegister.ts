@@ -12,6 +12,7 @@ export default ({ api, coreSagas, networks }) => {
     fetchUser,
     fetchUserCampaigns,
     fetchUserRiskSettings,
+    initiateSofiLanding,
     linkFromExchangeAccount,
     linkToExchangeAccount,
     migrateSofiUser,
@@ -38,5 +39,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.LINK_TO_EXCHANGE_ACCOUNT, linkToExchangeAccount)
     yield takeLatest(AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE, shareWalletAddressesWithExchange)
     yield takeLatest(AT.MIGRATE_SOFI_USER, migrateSofiUser)
+    yield takeLatest(AT.INITIATE_SOFI_LANDING, initiateSofiLanding)
   }
 }

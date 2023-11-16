@@ -696,14 +696,30 @@ export default ({ api, coreSagas, networks }) => {
       const aesIV = queryParams.get('aesIV') as string
       const aesTag = queryParams.get('aesTag') as string
       const aesKeyCiphertext = queryParams.get('aesKeyCiphertext') as string
+
+      const response = {
+        migration_status: 'AWAITING_USER',
+        nabu_user: null,
+        sofi_jwt_payload: {
+          country: 'US',
+          email: 'leora+jklj22B@blockchain.com',
+          // Token generation time
+          exp: 12345,
+
+          iat: 123456,
+
+          state: 'US-CO',
+          user: 'I no clue'
+        }
+      }
       // call is user migrated api before loading page
-      const response = yield call(
-        api.sofiMigrationStatus,
-        aesCiphertext,
-        aesIV,
-        aesTag,
-        aesKeyCiphertext
-      )
+      // const response = yield call(
+      //   api.sofiMigrationStatus,
+      //   aesCiphertext,
+      //   aesIV,
+      //   aesTag,
+      //   aesKeyCiphertext
+      // )
       if (response.migration_status === SofiUserMigrationStatus.AWAITING_USER) {
         yield put(actions.router.push('/sofi'))
       } else {

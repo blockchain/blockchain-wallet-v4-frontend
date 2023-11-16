@@ -5,7 +5,10 @@ import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import { useRemote } from 'hooks'
+
+import Loading from './template.loading'
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -19,6 +22,18 @@ const SofiLanding = () => {
   // use effect of checking sofi migration status
   // if it's complete redirect to wallet
   // add loading state until we know for sure
+  useEffect(() => {
+    dispatch(actions.modules.profile.initiateSofiLanding())
+  }, [])
+
+  useEffect(() => {})
+
+  const { data, error, isLoading, isNotAsked } = useRemote(
+    selectors.modules.profile.getSofiUserData
+  )
+  if (isLoading || isNotAsked) {
+    return <Loading />
+  }
 
   return (
     <Wrapper>

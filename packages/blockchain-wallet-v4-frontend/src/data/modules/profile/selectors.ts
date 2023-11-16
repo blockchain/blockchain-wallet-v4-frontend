@@ -118,8 +118,6 @@ export const getAuthCredentials = (state) => ({
 
 export const getCampaign = pathOr(null, ['profile', 'campaign'])
 
-export const getSofiUserData = path(['profile', 'sofiData'])
-
 export const CLOSE_TO_AMOUNT = 0.8
 export const closeToTier1Limit = (state) =>
   lift(
@@ -147,6 +145,10 @@ export const getLinkToExchangeAccountDeeplink = path([
 ])
 export const getShareWalletAddressesStatus = (state: RootState) =>
   state.profile.exchangeOnboarding.shareWalletAddressesWithExchange
+
+export const getSofiUserData = (state: RootState) => state.profile.sofiData
+
+export const getSofiMigrationStatus = (state: RootState) => state.profile.sofiMigrationStatus
 
 export const getRemainingCoins = (state) => {
   // TODO, fix this

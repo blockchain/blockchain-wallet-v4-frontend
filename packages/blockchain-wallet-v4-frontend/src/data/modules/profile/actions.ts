@@ -193,3 +193,7 @@ export const migrateSofiUserFailure = (error) => ({
   payload: { error },
   type: AT.MIGRATE_SOFI_USER_FAILURE
 })
+
+export const initiateSofiLanding = () => ({
+  type: AT.INITIATE_SOFI_LANDING
+})
