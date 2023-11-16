@@ -146,6 +146,13 @@ export enum SofiUserMigrationStatus {
   SUCCESS = 'SUCCESS'
 }
 
+export type SofiLinkData = {
+  aesCiphertext: string
+  aesIv: string
+  aesKeyCiphertext: string
+  aesTag: string
+}
+
 // State
 export interface ProfileState {
   apiToken: RemoteDataType<string, string>
@@ -160,6 +167,7 @@ export interface ProfileState {
     shareWalletAddressesWithExchange: RemoteDataType<string, string>
   }
   sofiData: RemoteDataType<string, SofiMigrationStatusResponseType>
+  sofiLinkData: SofiLinkData | {}
   sofiMigrationStatus: RemoteDataType<string, SofiUserMigrationStatus>
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
@@ -387,6 +395,13 @@ interface MigrateSofiUserFailureAction {
   type: typeof AT.MIGRATE_SOFI_USER_FAILURE
 }
 
+interface SetSofiLinkDataAction {
+  payload: {
+    linkData: SofiLinkData
+  }
+  type: typeof AT.SET_SOFI_LINK_DATA
+}
+
 export type ProfileActionTypes =
   | AuthAndRouteToExchangeAction
   | ClearProfileStateAction
@@ -425,6 +440,7 @@ export type ProfileActionTypes =
   | SetApiTokenSuccessAction
   | SetCampaignAction
   | SetLinkToExchangeAccountDeeplinkAction
+  | SetSofiLinkDataAction
   | ShareWalletAddressesWithExchange
   | ShareWalletAddressWithExchangeFailureAction
   | ShareWalletAddressWithExchangeLoadingAction

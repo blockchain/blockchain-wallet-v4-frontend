@@ -697,6 +697,8 @@ export default ({ api, coreSagas, networks }) => {
       const aesTag = queryParams.get('aesTag') as string
       const aesKeyCiphertext = queryParams.get('aesKeyCiphertext') as string
 
+      yield put(A.setSofiLinkData({ aesCiphertext, aesIV, aesTag, aesKeyCiphertext }))
+
       const response = {
         migration_status: 'AWAITING_USER',
         nabu_user: null,

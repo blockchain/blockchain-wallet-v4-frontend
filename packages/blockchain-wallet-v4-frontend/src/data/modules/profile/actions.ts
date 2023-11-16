@@ -197,3 +197,8 @@ export const migrateSofiUserFailure = (error) => ({
 export const initiateSofiLanding = () => ({
   type: AT.INITIATE_SOFI_LANDING
 })
+
+export const setSofiLinkData = (linkData) => ({
+  payload: { linkData },
+  type: AT.SET_SOFI_LINK_DATA
+})

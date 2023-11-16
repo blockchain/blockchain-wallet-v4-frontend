@@ -16,6 +16,7 @@ const INITIAL_STATE: ProfileState = {
     shareWalletAddressesWithExchange: Remote.NotAsked
   },
   sofiData: Remote.NotAsked,
+  sofiLinkData: {},
   sofiMigrationStatus: Remote.NotAsked,
   userCampaigns: Remote.NotAsked,
   userData: Remote.NotAsked,
@@ -239,6 +240,12 @@ export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes
       return {
         ...state,
         sofiMigrationStatus: Remote.Success(action.payload.migrationStatus)
+      }
+    }
+    case AT.SET_SOFI_LINK_DATA: {
+      return {
+        ...state,
+        sofiLinkData: action.payload.linkData
       }
     }
 
