@@ -46,7 +46,7 @@ import {
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { createExchangeUser, createUser, waitForUserData } = profileSagas({
+  const { associateSofiUser, createExchangeUser, createUser, waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
@@ -422,6 +422,8 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.router.push('/verify-email-step'))
         }
       } else if (isSofi) {
+        // associate nabu user here
+        yield call(associateSofiUser)
         yield put(actions.router.push('/sofi-verify'))
       } else {
         yield put(actions.router.push('/home'))

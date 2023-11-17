@@ -23,15 +23,15 @@ export default ({ authorizedPatch, authorizedPost, get, nabuUrl, post }) => {
       url: nabuUrl
     })
 
-  const associateNabuUser = (sofiJwtToken) => {
+  const associateNabuUser = (aesIV, aesCiphertext, aesTag, aesKeyCiphertext) => {
     authorizedPatch({
       contentType: 'application/json',
       endPoint: '/sofi/associate-nabu-user',
       headers: {
-        'X-SoFi-AES-IV': 'TBD',
-        'X-SoFi-AES-Key-Ciphertext': 'TBD',
-        'X-SoFi-AES-Tag': 'TBD',
-        'X-SoFi-JWT-AES-Ciphertext': 'TBD'
+        'X-SoFi-AES-IV': aesIV,
+        'X-SoFi-AES-Key-Ciphertext': aesKeyCiphertext,
+        'X-SoFi-AES-Tag': aesTag,
+        'X-SoFi-JWT-AES-Ciphertext': aesCiphertext
       },
       url: nabuUrl
     })

@@ -755,7 +755,16 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const associateSofiUser = function* () {
+    try {
+      const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
+      yield call(api.associateNabuUser, aesCiphertext, aesIV, aesTag, aesKeyCiphertext)
+      //TODO do we need to handle a success?
+    } catch (e) {}
+  }
+
   return {
+    associateSofiUser,
     authAndRouteToExchangeAction,
     clearSession,
     createExchangeUser,
