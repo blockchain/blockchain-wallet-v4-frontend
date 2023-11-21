@@ -218,3 +218,7 @@ export const getUseAgentHotWalletAddressForSell = (state: RootState) =>
 // imported address sweep
 export const getImportedAddressSweep = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showImportedAddressSweep']))
+
+// prove
+export const getProveEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'proveEnabled']))
