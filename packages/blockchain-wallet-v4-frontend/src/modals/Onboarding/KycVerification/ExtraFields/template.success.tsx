@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -157,6 +157,28 @@ const LabelItem = styled.label`
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const disabled = props.invalid || props.submitting
 
+  // due to default invalid state of redux-form we need to check if all multi-select nodes are checked
+  // and if they are checked we need to click on them to update redux-form state and remove invalid state
+  useEffect(() => {
+    const { nodes } = props.extraSteps
+    const multiSelectNode = nodes.find((node) => node.type === NodeItemTypes.MULTIPLE_SELECTION)
+
+    if (multiSelectNode && multiSelectNode.children) {
+      multiSelectNode.children.forEach((item) => {
+        if (!item.checked) {
+          return
+        }
+
+        const element = document.getElementById(item.id)
+
+        if (element) {
+          element.click()
+        }
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   if (props.submitting) {
     return (
       <SpinnerWrapper>
@@ -176,9 +198,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         const multipleItems = multipleSelection.map(
           (node) => node.children && node.children.some((item) => item.checked)
         )
+
         return multipleItems.every((item) => item)
       }
     }
+
     return true
   }
 
