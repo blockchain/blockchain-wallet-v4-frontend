@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -156,28 +157,6 @@ const LabelItem = styled.label`
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const disabled = props.invalid || props.submitting
-
-  // due to default invalid state of redux-form we need to check if all multi-select nodes are checked
-  // and if they are checked we need to click on them to update redux-form state and remove invalid state
-  useEffect(() => {
-    const { nodes } = props.extraSteps
-    const multiSelectNode = nodes.find((node) => node.type === NodeItemTypes.MULTIPLE_SELECTION)
-
-    if (multiSelectNode && multiSelectNode.children) {
-      multiSelectNode.children.forEach((item) => {
-        if (!item.checked) {
-          return
-        }
-
-        const element = document.getElementById(item.id)
-
-        if (element) {
-          element.click()
-        }
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   if (props.submitting) {
     return (
@@ -617,7 +596,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
 export type Props = OwnProps & SuccessStateType
 
-export default reduxForm<{}, Props>({
+const ReduxForm = reduxForm<{}, Props>({
   destroyOnUnmount: false,
   form: KYC_EXTRA_QUESTIONS_FORM
 })(Success)
+
+export default connect((_, ownProps: Props) => ({
+  initialValues: ownProps.extraSteps.nodes.reduce((acc, node) => {
+    if (node.type === 'SINGLE_SELECTION') {
+      return {
+        ...acc,
+        [node.id]: node.children?.find((child) => child.checked)?.id
+      }
+    }
+
+    return acc
+  }, {})
+}))(ReduxForm)
