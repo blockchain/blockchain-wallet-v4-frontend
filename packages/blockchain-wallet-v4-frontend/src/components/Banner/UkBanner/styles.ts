@@ -7,7 +7,6 @@ export const LinkContainer = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
   padding: 4px 16px;
   background: #ffd9d6;
   color: ${({ theme }) => theme.grey900};
