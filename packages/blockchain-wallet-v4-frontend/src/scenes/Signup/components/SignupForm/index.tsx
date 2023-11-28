@@ -34,6 +34,8 @@ import { SIGNUP_FORM } from '../..'
 import { SubviewProps } from '../../types'
 import ContinueOnPhone from './ContinueOnPhone'
 
+const BAKKT_STATES = ['US-HI', 'US-LA', 'US-NJ', 'US-NV', 'US-TN', 'US-TX', 'US-VA']
+
 const StyledForm = styled(Form)`
   margin-top: 20px;
 
@@ -109,7 +111,7 @@ const SignupForm = (props: Props) => {
 
   const passwordValue = formValues?.password || ''
   const referralValue = formValues?.referral || ''
-  const isStateTexas = formValues?.state === 'US-TX'
+  const isUSStateUnsupported = BAKKT_STATES.includes(formValues?.state)
 
   const showReferralError =
     referralValue.length > 0 && isValidReferralCode !== undefined && !isValidReferralCode
@@ -266,7 +268,7 @@ const SignupForm = (props: Props) => {
             />
           </FieldWithoutTopRadius>
         ) : null}
-        {isStateTexas && (
+        {isUSStateUnsupported && (
           <FormItem>
             <ContinueOnPhone setShowModal={setShowModal} />
           </FormItem>
@@ -310,7 +312,7 @@ const SignupForm = (props: Props) => {
       </FormGroup>
       <Button
         data-e2e='signupButton'
-        disabled={isFormSubmitting || invalid || isStateTexas}
+        disabled={isFormSubmitting || invalid || isUSStateUnsupported}
         fullwidth
         height='48px'
         nature='primary'
