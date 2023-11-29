@@ -5,7 +5,7 @@ import { call, delay, put, select, take } from 'redux-saga/effects'
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import Remote from '@core/remote'
-import { PaymentType, Product, SwapOrderDirection } from '@core/types'
+import { ExtraKYCContext, PaymentType, Product, SwapOrderDirection } from '@core/types'
 import { Coin, errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
@@ -15,9 +15,11 @@ import {
   CustodialSanctionsEnum,
   ModalName,
   NabuProducts,
-  ProductEligibilityForUser
+  ProductEligibilityForUser,
+  VerifyIdentityOriginType
 } from 'data/types'
 import { isNabuError } from 'services/errors'
+import { getExtraKYCCompletedStatus } from 'services/sagas/extraKYC'
 
 import { actions as custodialActions } from '../../custodial/slice'
 import profileSagas from '../../modules/profile/sagas'
@@ -542,6 +544,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { baseCurrency, counterCurrency, origin } = payload
+    // Verify identity before deposit if TIER 2
+    const completedKYC = yield call(getExtraKYCCompletedStatus, {
+      api,
+      context: ExtraKYCContext.TRADING,
+      origin: 'Swap' as VerifyIdentityOriginType
+    })
+
+    // If KYC was closed before answering, return
+    if (!completedKYC) {
+      return
+    }
+
     yield put(
       actions.modals.showModal(ModalName.SWAP_MODAL, {
         baseCurrency,

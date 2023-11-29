@@ -3,7 +3,7 @@ import { RemoteDataType } from '@core/types'
 import * as AT from './actionTypes'
 
 export type RequestState = {
-  /*  
+  /*
     {
         Coin + Label: RemoteDataType<any, "18sikQNP236uPKRtUMrUF8H2vwv9CKbKfP">
         'BTC Private Key Wallet': Remote.Success<"18sikQNP236uPKRtUMrUF8H2vwv9CKbKfP">
