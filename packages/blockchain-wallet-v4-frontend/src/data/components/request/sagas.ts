@@ -72,11 +72,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (!isUserTier2) {
       return
     }
-    // Verify identity before deposit if TIER 2
     yield call(getExtraKYCCompletedStatus, {
       api,
       context: ExtraKYCContext.FIAT_DEPOSIT,
-      origin: 'BuySell' as VerifyIdentityOriginType
+      origin: 'Request' as VerifyIdentityOriginType
     })
   }
 

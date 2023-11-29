@@ -33,6 +33,7 @@ export type VerifyIdentityOriginType =
   | 'Interest'
   | 'Withdraw'
   | 'DebitCard'
+  | 'Request'
   | 'UpgradeNowSilver'
 
 export enum StepsEnum {
