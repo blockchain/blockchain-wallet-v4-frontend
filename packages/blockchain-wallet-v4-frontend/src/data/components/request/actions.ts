@@ -25,3 +25,6 @@ export const getNextAddressSuccess = (
 export const setAddressCopied = () => ({
   type: AT.SET_ADDRESS_COPIED
 })
+export const getIsUserFinishedKyc = () => ({
+  type: AT.CHECK_CAN_USER_PROCEED_WITH_ADDRESS
+})

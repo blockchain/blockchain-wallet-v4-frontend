@@ -1,4 +1,4 @@
-import { lift, map } from 'ramda'
+import { map } from 'ramda'
 
 import { CoinfigType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'

@@ -15,7 +15,7 @@ export const STEPS = {
 
 export type EmailSmsStepType = keyof typeof STEPS
 
-// TODO - this is added only for analytics purpose and we should get rid of it
+// TODO - this is added only for analytics purpose, and we should get rid of it
 // it could be replaced with ModalOriginType from data/modals
 export type VerifyIdentityOriginType =
   | 'DashboardPromo'

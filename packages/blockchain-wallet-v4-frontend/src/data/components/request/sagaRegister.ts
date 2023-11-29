@@ -8,5 +8,9 @@ export default ({ api, coreSagas, networks }) => {
 
   return function* requestSaga() {
     yield takeLatest(AT.GET_NEXT_ADDRESS, requestSagas.getNextAddress)
+    yield takeLatest(
+      AT.CHECK_CAN_USER_PROCEED_WITH_ADDRESS,
+      requestSagas.checkIsUserAllowedToProceedWithRequest
+    )
   }
 }
