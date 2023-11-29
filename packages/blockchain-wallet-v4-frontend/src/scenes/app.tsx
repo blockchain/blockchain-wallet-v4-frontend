@@ -119,6 +119,9 @@ const App = ({
     url: `${apiUrl}/nft-market-api/graphql/`
   })
 
+  const isSofi = window.location.pathname === '/sofi'
+
+  const sofiParams = isSofi && window.location.search
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
@@ -339,6 +342,7 @@ const App = ({
                                 removeContentPadding
                                 hasUkBanner
                               />
+                              {isSofi && window.location.replace(`/#/sofi${sofiParams}`)}
                               {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                             </Switch>
                           </Suspense>

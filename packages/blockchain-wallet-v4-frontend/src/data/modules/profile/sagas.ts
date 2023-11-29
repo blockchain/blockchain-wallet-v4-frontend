@@ -685,44 +685,44 @@ export default ({ api, coreSagas, networks }) => {
   const initiateSofiLanding = function* () {
     yield put(A.fetchSofiMigrationStatusLoading())
     try {
-      const testUrl =
-        'https://www.blockchain.com/sofi?aesCiphertext&aesIV=aesIV&aesTag=aesTag&aesKeyCiphertext=aesKeyCiphertext'
+      const realUrl = window.location.href
+      console.log(realUrl, 'REAL URL')
       // real version, using placeholder version below for testing
-      // const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
+      const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
 
-      // get migration URL and break it apart into pieces
-      const queryParams = new URLSearchParams(testUrl)
       const aesCiphertext = queryParams.get('aesCiphertext') as string
       const aesIV = queryParams.get('aesIV') as string
       const aesTag = queryParams.get('aesTag') as string
       const aesKeyCiphertext = queryParams.get('aesKeyCiphertext') as string
+      console.log('keys', aesCiphertext, aesIV, aesTag, aesKeyCiphertext)
 
       yield put(A.setSofiLinkData({ aesCiphertext, aesIV, aesTag, aesKeyCiphertext }))
 
-      const response = {
-        migration_status: 'AWAITING_USER',
-        nabu_user: null,
-        sofi_jwt_payload: {
-          country: 'US',
-          email: 'leora+jklj22B@blockchain.com',
-          // Token generation time
-          exp: 12345,
+      // const response = {
+      //   migration_status: 'AWAITING_USER',
+      //   nabu_user: null,
+      //   sofi_jwt_payload: {
+      //     country: 'US',
+      //     email: 'leora+sofitesting+1120+450@blockchain.com',
+      //     // Token generation time
+      //     exp: 12345,
 
-          iat: 123456,
+      //     iat: 123456,
 
-          state: 'US-CO',
-          user: 'I no clue'
-        }
-      }
+      //     state: 'US-CO',
+      //     user: 'I no clue'
+      //   }
+      // }
       // call is user migrated api before loading page
-      // const response = yield call(
-      //   api.sofiMigrationStatus,
-      //   aesCiphertext,
-      //   aesIV,
-      //   aesTag,
-      //   aesKeyCiphertext
-      // )
-      if (response.migration_status === SofiUserMigrationStatus.AWAITING_USER) {
+      const response = yield call(
+        api.sofiMigrationStatus,
+        aesIV,
+        aesCiphertext,
+        aesTag,
+        aesKeyCiphertext
+      )
+
+      if (response.migrationStatus === SofiUserMigrationStatus.AWAITING_USER) {
         yield put(actions.router.push('/sofi'))
       } else {
         yield put(actions.router.push('/login/sofi'))
@@ -744,10 +744,11 @@ export default ({ api, coreSagas, networks }) => {
       const { sofiSSN } = yield select(selectors.form.getFormValues('verifySofiSsn'))
       // TODO commenting out for now, will use
       // mock response for now
-      // const response = yield call(api.migrateSofiUser, sofiSSN)
-      const response = {
-        migration_status: 'SUCCESS'
-      }
+
+      const response = yield call(api.migrateSofiUser, sofiSSN)
+      // const response = {
+      //   migration_status: 'SUCCESS'
+      // }
       yield put(A.migrateSofiUserSuccess(response))
       yield put(actions.router.push('/sofi-success'))
     } catch (e) {
@@ -756,11 +757,22 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const associateSofiUser = function* () {
+    const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
+    const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
     try {
-      const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
-      yield call(api.associateNabuUser, aesCiphertext, aesIV, aesTag, aesKeyCiphertext)
+      const response = yield call(
+        api.associateNabuUser,
+        aesIV,
+        aesCiphertext,
+        aesTag,
+        aesKeyCiphertext,
+        nabuSessionToken
+      )
+      console.log(response, 'associate nabu user response')
       //TODO do we need to handle a success?
-    } catch (e) {}
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return {

@@ -45,71 +45,68 @@ const SofiVerifyID = (props: Props) => {
   const validSsn = formValues?.sofiLoginSSN?.length === 4
 
   return (
-    <Form>
-      <LoginWrapper>
-        <SoFiWrapperWithPadding>
-          <FormBody>
-            <Image name='identification-circle' style={{ marginTop: '24px' }} />
-            <Text
-              size='20px'
-              color='textBlack'
-              weight={600}
-              lineHeight='1.5'
-              style={{ marginTop: '16px', textAlign: 'center' }}
-            >
-              <FormattedMessage id='scenes.login.sofi.ssn.header' defaultMessage='Verify your ID' />
-            </Text>
-            <Text
-              size='16px'
-              color='textBlack'
-              weight={500}
-              lineHeight='1.5'
-              style={{ marginTop: '8px', textAlign: 'center' }}
-            >
-              <FormattedMessage
-                id='scenes.login.sofi.ssn.body'
-                defaultMessage='Enter the last 4 of your SSN to verify you’re the owner of this account. We will not store this information.'
+    <LoginWrapper>
+      <SoFiWrapperWithPadding>
+        <FormBody>
+          <Image name='identification-circle' style={{ marginTop: '24px' }} />
+          <Text
+            size='20px'
+            color='textBlack'
+            weight={600}
+            lineHeight='1.5'
+            style={{ marginTop: '16px', textAlign: 'center' }}
+          >
+            <FormattedMessage id='scenes.login.sofi.ssn.header' defaultMessage='Verify your ID' />
+          </Text>
+          <Text
+            size='16px'
+            color='textBlack'
+            weight={500}
+            lineHeight='1.5'
+            style={{ marginTop: '8px', textAlign: 'center' }}
+          >
+            <FormattedMessage
+              id='scenes.login.sofi.ssn.body'
+              defaultMessage='Enter the last 4 of your SSN to verify you’re the owner of this account. We will not store this information.'
+            />
+          </Text>
+          <FormGroup>
+            <FormItem style={{ marginTop: '24px' }}>
+              <LoginFormLabel htmlFor='sofiLoginEmail'>
+                <FormattedMessage id='scenes.login.sofi.ssn' defaultMessage='Last 4 SSN' />
+              </LoginFormLabel>
+              <Field
+                autoFocus
+                component={TextBox}
+                data-e2e='sofiLoginSSN'
+                name='sofiLoginSSN'
+                noLastPass
+                placeholder='Enter last 4 of your SSN'
               />
-            </Text>
-            <FormGroup>
-              <FormItem style={{ marginTop: '24px' }}>
-                <LoginFormLabel htmlFor='sofiLoginEmail'>
-                  <FormattedMessage id='scenes.login.sofi.ssn' defaultMessage='Last 4 SSN' />
-                </LoginFormLabel>
-                <Field
-                  autoFocus
-                  component={TextBox}
-                  data-e2e='sofiLoginSSN'
-                  name='sofiLoginSSN'
-                  noLastPass
-                  placeholder='Enter last 4 of your SSN'
-                />
-              </FormItem>
-            </FormGroup>
-          </FormBody>
-          <LinkRow>
-            <ActionButton
-              // type='submit'
-              onClick={() => formActions.change(LOGIN_FORM, 'step', LoginSteps.SOFI_SUCCESS)}
-              nature='primary'
-              fullwidth
-              height='48px'
-              disabled={submitting || invalid || busy || !validSsn}
-              data-e2e='loginButton'
-              style={{ marginBottom: '16px' }}
-            >
-              {submitting ? (
-                <HeartbeatLoader height='20px' width='20px' color='white' />
-              ) : (
-                <Text color='whiteFade900' size='16px' weight={600}>
-                  <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
-                </Text>
-              )}
-            </ActionButton>
-          </LinkRow>
-        </SoFiWrapperWithPadding>
-      </LoginWrapper>
-    </Form>
+            </FormItem>
+          </FormGroup>
+        </FormBody>
+        <LinkRow>
+          <ActionButton
+            type='submit'
+            nature='primary'
+            fullwidth
+            height='48px'
+            disabled={submitting || invalid || busy || !validSsn}
+            data-e2e='loginButton'
+            style={{ marginBottom: '16px' }}
+          >
+            {submitting ? (
+              <HeartbeatLoader height='20px' width='20px' color='white' />
+            ) : (
+              <Text color='whiteFade900' size='16px' weight={600}>
+                <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+              </Text>
+            )}
+          </ActionButton>
+        </LinkRow>
+      </SoFiWrapperWithPadding>
+    </LoginWrapper>
   )
 }
 

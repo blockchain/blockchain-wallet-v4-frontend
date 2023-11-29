@@ -1,6 +1,6 @@
 import { SofiMigrationStatusResponseType, SofiUserMigrationStatus } from './types'
 
-export default ({ authorizedPatch, authorizedPost, get, nabuUrl, post }) => {
+export default ({ authorizedPost, authorizedPut, get, nabuUrl, patch, post }) => {
   const sofiMigrationStatus = (
     aesIV,
     aesCiphertext,
@@ -23,8 +23,8 @@ export default ({ authorizedPatch, authorizedPost, get, nabuUrl, post }) => {
       url: nabuUrl
     })
 
-  const associateNabuUser = (aesIV, aesCiphertext, aesTag, aesKeyCiphertext) => {
-    authorizedPatch({
+  const associateNabuUser = (aesIV, aesCiphertext, aesTag, aesKeyCiphertext, nabuSessionToken) => {
+    authorizedPut({
       contentType: 'application/json',
       endPoint: '/sofi/associate-nabu-user',
       headers: {

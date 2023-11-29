@@ -1,4 +1,5 @@
 import base64url from 'base64url'
+import Login from 'blockchain-wallet-v4-frontend/src/scenes/Login'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { all, call, fork, put, select, take } from 'redux-saga/effects'
@@ -297,8 +298,9 @@ export default ({ api, coreSagas, networks }) => {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
-      const productSignupData = yield select(selectors.signup.getProductSignupMetadata)
-      const isSofi = yield select(S.getIsSofi)
+      const { isSofi: isSofiSignup } = yield select(selectors.signup.getProductSignupMetadata)
+      const isSofiAuth = yield select(S.getIsSofi)
+      const isSofi = isSofiSignup || isSofiAuth
 
       if (!isHdWallet) {
         yield put(actions.wallet.upgradeWallet(3))
@@ -419,10 +421,14 @@ export default ({ api, coreSagas, networks }) => {
             }
           }
         } else {
+          if (isSofi) yield fork(associateSofiUser)
+          // TODO how do we handle this situation if user is 404 not found
           yield put(actions.router.push('/verify-email-step'))
         }
       } else if (isSofi) {
         // associate nabu user here
+        // do i need to put a try/catch here?
+
         yield call(associateSofiUser)
         yield put(actions.router.push('/sofi-verify'))
       } else {

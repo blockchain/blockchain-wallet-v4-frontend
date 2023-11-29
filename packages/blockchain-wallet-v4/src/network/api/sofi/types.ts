@@ -4,7 +4,7 @@ export type SofiMigrationStatusResponseType = {
     email: string
     id: string
   }
-  sofi_jwt_payload: {
+  sofiJwtPayload: {
     // SoFi user email
     country: string // Internal SoFi user ID
     email: string

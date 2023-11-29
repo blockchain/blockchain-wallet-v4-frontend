@@ -117,8 +117,8 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       ...http
     }),
     ...sofi({
-      authorizedPatch: authorizedHttp.patch,
       authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
       nabuUrl,
       ...http
     }),

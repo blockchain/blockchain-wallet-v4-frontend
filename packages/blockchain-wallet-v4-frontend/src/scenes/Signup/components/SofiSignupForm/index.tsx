@@ -70,12 +70,11 @@ const SofiSignupForm = (props: Props) => {
     setShowModal
   } = props
 
-  const { sofi_jwt_payload } = useSelector(selectors.modules.profile.getSofiUserData).getOrElse(
+  const { sofiJwtPayload } = useSelector(selectors.modules.profile.getSofiUserData).getOrElse(
     {}
   ) as SofiMigrationStatusResponseType
 
-  const { country, email, state } = sofi_jwt_payload
-
+  const { country, email, state } = sofiJwtPayload
   const passwordValue = formValues?.password || ''
   const isStateTexas = formValues?.state === 'US-TX'
 

@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
+import { SofiMigrationStatusResponseType } from '@core/network/api/sofi/types'
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
+import { selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { LoginSteps, ProductAuthOptions } from 'data/types'
 import { required, validWalletIdOrEmail } from 'services/forms'
@@ -35,8 +38,10 @@ const LoginWrapper = styled(Wrapper)`
 
 const Email = (props: Props) => {
   const { busy, formActions, formValues, invalid, magicLinkData, submitting } = props
-  const email = 'leora+testsofi+106@blockchain.com'
-
+  const { sofiJwtPayload } = useSelector(selectors.modules.profile.getSofiUserData).getOrElse(
+    {}
+  ) as SofiMigrationStatusResponseType
+  const { email } = sofiJwtPayload
   useEffect(() => {
     if (email) {
       formActions.change(LOGIN_FORM, 'sofiLoginEmail', email)
