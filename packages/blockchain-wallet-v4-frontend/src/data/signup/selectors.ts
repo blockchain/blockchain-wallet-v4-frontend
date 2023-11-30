@@ -73,3 +73,7 @@ export function getSignupCountry(state: RootState): SignupStateType['signupCount
 export function getSignupCountryState(state: RootState): SignupStateType['signupCountryState'] {
   return state.signup.signupCountryState
 }
+
+export function bakktRedirectUSStates(state: RootState): SignupStateType['bakktRedirectUSStates'] {
+  return state.signup.bakktRedirectUSStates
+}
