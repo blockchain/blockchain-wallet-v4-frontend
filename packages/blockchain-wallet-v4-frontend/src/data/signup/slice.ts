@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { boolean } from 'zod'
 
 import { Remote } from '@core'
 
@@ -18,6 +19,7 @@ import {
 const initialState: SignupStateType = {
   accountRecoveryMagicLinkData: {},
   accountRecoveryVerify: Remote.NotAsked,
+  bakktRedirectUSStates: [],
   firstLogin: false,
   isValidReferralCode: undefined,
   kycReset: undefined,

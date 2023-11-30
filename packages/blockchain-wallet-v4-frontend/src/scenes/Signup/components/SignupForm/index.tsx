@@ -34,8 +34,6 @@ import { SIGNUP_FORM } from '../..'
 import { SubviewProps } from '../../types'
 import ContinueOnPhone from './ContinueOnPhone'
 
-const BAKKT_STATES = ['US-HI', 'US-LA', 'US-NJ', 'US-NV', 'US-TN', 'US-TX', 'US-VA']
-
 const StyledForm = styled(Form)`
   margin-top: 20px;
 
@@ -95,6 +93,7 @@ const getStateElements = (states: Array<StateType>) => [
 
 const SignupForm = (props: Props) => {
   const {
+    bakktRedirectUSStates,
     formActions,
     formValues,
     goals,
@@ -111,7 +110,7 @@ const SignupForm = (props: Props) => {
 
   const passwordValue = formValues?.password || ''
   const referralValue = formValues?.referral || ''
-  const isUSStateUnsupported = BAKKT_STATES.includes(formValues?.state)
+  const isUSStateUnsupported = bakktRedirectUSStates.includes(formValues?.state)
 
   const showReferralError =
     referralValue.length > 0 && isValidReferralCode !== undefined && !isValidReferralCode

@@ -118,7 +118,7 @@ class SignupContainer extends React.PureComponent<
   }
 
   render() {
-    const { formValues, goals, isLoadingR, productAuthMetadata } = this.props
+    const { bakktRedirectUSStates, formValues, goals, isLoadingR, productAuthMetadata } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
     const isUserInUK = productAuthMetadata?.ipCountry === 'GB'
     const userSelectedUK = formValues?.country === 'GB'
@@ -171,6 +171,7 @@ class SignupContainer extends React.PureComponent<
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  bakktRedirectUSStates: selectors.core.walletOptions.getBakktRedirectUSStates(state).getOrElse([]),
   domains: selectors.core.walletOptions
     .getDomains(state)
     .getOrElse({}) as WalletOptionsType['domains'],
@@ -197,6 +198,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
+  bakktRedirectUSStates: WalletOptionsType['bakktRedirectUSStates']
   domains: WalletOptionsType['domains']
   formValues: SignupFormType
   goals: GoalDataType
