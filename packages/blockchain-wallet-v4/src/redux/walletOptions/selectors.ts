@@ -30,6 +30,10 @@ export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
 export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
 export const getWalletHelperDomain = (state) => getDomains(state).map(prop('walletHelper'))
 
+// BAKKT
+export const getBakktRedirectUSStates = (state: RootState) =>
+  getOptions(state).map((e) => e.bakktRedirectUSStates)
+
 //
 // FEATURE FLAG SELECTORS
 //
