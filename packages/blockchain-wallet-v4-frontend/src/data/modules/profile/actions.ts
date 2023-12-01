@@ -202,3 +202,7 @@ export const setSofiLinkData = (linkData) => ({
   payload: { linkData },
   type: AT.SET_SOFI_LINK_DATA
 })
+
+export const associateSofiUser = () => ({
+  type: AT.ASSOCIATE_SOFI_USER
+})

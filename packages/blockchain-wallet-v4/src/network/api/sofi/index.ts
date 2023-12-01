@@ -1,12 +1,15 @@
-import { SofiMigrationStatusResponseType, SofiUserMigrationStatus } from './types'
+import {
+  SofiMigrationResponseType,
+  SofiMigrationStatusResponseType,
+  SofiUserMigrationStatus
+} from './types'
 
-export default ({ authorizedPost, authorizedPut, get, nabuUrl, patch, post }) => {
-  const sofiMigrationStatus = (
+export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, patch, post }) => {
+  const sofiMigrationStatusJwt = (
     aesIV,
     aesCiphertext,
     aesTag,
-    aesKeyCiphertext,
-    nabuSessionToken
+    aesKeyCiphertext
   ): SofiMigrationStatusResponseType =>
     get({
       contentType: 'application/json',
@@ -14,7 +17,6 @@ export default ({ authorizedPost, authorizedPut, get, nabuUrl, patch, post }) =>
       headers: {
         // can have nabu session token if sofi jwt
         // is not available
-        Authorization: `Bearer ${nabuSessionToken}`,
         'X-SoFi-AES-IV': aesIV,
         'X-SoFi-AES-Key-Ciphertext': aesKeyCiphertext,
         'X-SoFi-AES-Tag': aesTag,
@@ -23,7 +25,14 @@ export default ({ authorizedPost, authorizedPut, get, nabuUrl, patch, post }) =>
       url: nabuUrl
     })
 
-  const associateNabuUser = (aesIV, aesCiphertext, aesTag, aesKeyCiphertext, nabuSessionToken) => {
+  const sofiMigrationStatusNabuToken = (): SofiMigrationStatusResponseType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/sofi/user-migration-status',
+      url: nabuUrl
+    })
+
+  const associateNabuUser = (aesIV, aesCiphertext, aesTag, aesKeyCiphertext, nabuSessionToken) =>
     authorizedPut({
       contentType: 'application/json',
       endPoint: '/sofi/associate-nabu-user',
@@ -35,8 +44,8 @@ export default ({ authorizedPost, authorizedPut, get, nabuUrl, patch, post }) =>
       },
       url: nabuUrl
     })
-  }
-  const migrateSofiUser = (ssn) => {
+
+  const migrateSofiUser = (ssn) =>
     authorizedPost({
       contentType: 'application/json',
       data: {
@@ -45,10 +54,11 @@ export default ({ authorizedPost, authorizedPut, get, nabuUrl, patch, post }) =>
       endPoint: '/sofi/migrate-sofi-user',
       url: nabuUrl
     })
-  }
+
   return {
     associateNabuUser,
     migrateSofiUser,
-    sofiMigrationStatus
+    sofiMigrationStatusJwt,
+    sofiMigrationStatusNabuToken
   }
 }

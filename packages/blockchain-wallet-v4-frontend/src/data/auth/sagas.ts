@@ -47,7 +47,7 @@ import {
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { associateSofiUser, createExchangeUser, createUser, waitForUserData } = profileSagas({
+  const { createExchangeUser, createUser, waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
@@ -421,7 +421,7 @@ export default ({ api, coreSagas, networks }) => {
             }
           }
         } else {
-          if (isSofi) yield fork(associateSofiUser)
+          yield put(actions.modules.profile.associateSofiUser())
           // TODO how do we handle this situation if user is 404 not found
           yield put(actions.router.push('/verify-email-step'))
         }
@@ -429,11 +429,12 @@ export default ({ api, coreSagas, networks }) => {
         // associate nabu user here
         // do i need to put a try/catch here?
 
-        yield call(associateSofiUser)
+        yield put(actions.modules.profile.associateSofiUser())
         yield put(actions.router.push('/sofi-verify'))
       } else {
         yield put(actions.router.push('/home'))
       }
+      yield call(api.sofiMigrationStatusNabuToken)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
       // We run goals in accountResetSaga in this case

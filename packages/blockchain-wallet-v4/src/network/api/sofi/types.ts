@@ -24,3 +24,7 @@ export enum SofiUserMigrationStatus {
   PENDING = 'PENDING',
   SUCCESS = 'SUCCESS'
 }
+
+export type SofiMigrationResponseType = {
+  migration_status: SofiUserMigrationStatus
+}

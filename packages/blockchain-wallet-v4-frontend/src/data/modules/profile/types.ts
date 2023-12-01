@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios'
+import { type } from 'os'
 
 import { SofiMigrationStatusResponseType } from '@core/network/api/sofi/types'
 import type {
@@ -153,6 +154,12 @@ export type SofiLinkData = {
   aesTag: string
 }
 
+export type SofiMigrationErrorType = {
+  id: string
+  message: string
+  title: string
+}
+
 // State
 export interface ProfileState {
   apiToken: RemoteDataType<string, string>
@@ -166,7 +173,7 @@ export interface ProfileState {
     linkToExchangeAccountStatus: RemoteDataType<string, string>
     shareWalletAddressesWithExchange: RemoteDataType<string, string>
   }
-  sofiData: RemoteDataType<string, SofiMigrationStatusResponseType>
+  sofiData: RemoteDataType<SofiMigrationErrorType, SofiMigrationStatusResponseType>
   sofiLinkData: SofiLinkData | {}
   sofiMigrationStatus: RemoteDataType<string, SofiUserMigrationStatus>
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
@@ -372,7 +379,7 @@ interface FetchSofiMigrationStatusSuccessAction {
 }
 interface FetchSofiMigrationStatusFailureAction {
   payload: {
-    error: string
+    error: SofiMigrationErrorType
   }
   type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_FAILURE
 }
@@ -402,7 +409,12 @@ interface SetSofiLinkDataAction {
   type: typeof AT.SET_SOFI_LINK_DATA
 }
 
+interface AssociateSofiUserAction {
+  type: typeof AT.ASSOCIATE_SOFI_USER
+}
+
 export type ProfileActionTypes =
+  | AssociateSofiUserAction
   | AuthAndRouteToExchangeAction
   | ClearProfileStateAction
   | FetchTiersFailureAction

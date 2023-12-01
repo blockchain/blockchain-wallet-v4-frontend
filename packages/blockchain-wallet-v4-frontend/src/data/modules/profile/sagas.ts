@@ -10,6 +10,7 @@ import { actions, actionTypes, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { sendMessageToMobile } from 'data/auth/sagas.mobile'
 import { Analytics, AuthMagicLink, ModalName, PlatformTypes, ProductAuthOptions } from 'data/types'
+import { isNabuError, NabuError } from 'services/errors'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
@@ -715,7 +716,7 @@ export default ({ api, coreSagas, networks }) => {
       // }
       // call is user migrated api before loading page
       const response = yield call(
-        api.sofiMigrationStatus,
+        api.sofiMigrationStatusJwt,
         aesIV,
         aesCiphertext,
         aesTag,
@@ -740,19 +741,26 @@ export default ({ api, coreSagas, networks }) => {
   const migrateSofiUser = function* () {
     yield put(A.migrateSofiUserLoading())
     try {
-      yield put(A.migrateSofiUserLoading())
       const { sofiSSN } = yield select(selectors.form.getFormValues('verifySofiSsn'))
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
       // TODO commenting out for now, will use
       // mock response for now
 
-      const response = yield call(api.migrateSofiUser, sofiSSN)
+      const response = yield call(api.migrateSofiUser, sofiSSN, nabuSessionToken)
       // const response = {
       //   migration_status: 'SUCCESS'
       // }
+
       yield put(A.migrateSofiUserSuccess(response))
       yield put(actions.router.push('/sofi-success'))
     } catch (e) {
-      yield put(A.migrateSofiUserFailure(e))
+      yield put(
+        A.migrateSofiUserFailure({
+          id: e.id,
+          message: e.message,
+          title: e.title
+        })
+      )
     }
   }
 
