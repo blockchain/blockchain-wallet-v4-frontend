@@ -155,9 +155,17 @@ export type SofiLinkData = {
 }
 
 export type SofiMigrationErrorType = {
-  id: string
+  id: SofiMigrationErrorIds
   message: string
   title: string
+}
+
+export enum SofiMigrationErrorIds {
+  ALREADY_MIGRTED = 'sofi.migration.error.account.migrated',
+  NON_US = 'sofi.migration.error.account.not.us',
+  NOT_ELIGIBLE = 'sofi.migration.error.account.not.eligible',
+  RATE_LIMIT = 'sofi.migration.error.rate.limit',
+  SSN_ERROR = 'sofi.migration.error.ssn.verification.failed'
 }
 
 // State
@@ -173,9 +181,9 @@ export interface ProfileState {
     linkToExchangeAccountStatus: RemoteDataType<string, string>
     shareWalletAddressesWithExchange: RemoteDataType<string, string>
   }
-  sofiData: RemoteDataType<SofiMigrationErrorType, SofiMigrationStatusResponseType>
+  sofiData: RemoteDataType<string, SofiMigrationStatusResponseType>
   sofiLinkData: SofiLinkData | {}
-  sofiMigrationStatus: RemoteDataType<string, SofiUserMigrationStatus>
+  sofiMigrationStatus: RemoteDataType<SofiMigrationErrorType, SofiUserMigrationStatus>
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
   userRiskSettings: RemoteDataType<NabuApiErrorType, UserRiskSettings>
@@ -379,7 +387,7 @@ interface FetchSofiMigrationStatusSuccessAction {
 }
 interface FetchSofiMigrationStatusFailureAction {
   payload: {
-    error: SofiMigrationErrorType
+    error: string
   }
   type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_FAILURE
 }
@@ -397,7 +405,7 @@ interface MigrateSofiUserSuccessAction {
 
 interface MigrateSofiUserFailureAction {
   payload: {
-    error: string
+    error: SofiMigrationErrorType
   }
   type: typeof AT.MIGRATE_SOFI_USER_FAILURE
 }

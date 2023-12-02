@@ -695,7 +695,6 @@ export default ({ api, coreSagas, networks }) => {
       const aesIV = queryParams.get('aesIV') as string
       const aesTag = queryParams.get('aesTag') as string
       const aesKeyCiphertext = queryParams.get('aesKeyCiphertext') as string
-      console.log('keys', aesCiphertext, aesIV, aesTag, aesKeyCiphertext)
 
       yield put(A.setSofiLinkData({ aesCiphertext, aesIV, aesTag, aesKeyCiphertext }))
 
@@ -776,7 +775,6 @@ export default ({ api, coreSagas, networks }) => {
         aesKeyCiphertext,
         nabuSessionToken
       )
-      console.log(response, 'associate nabu user response')
       //TODO do we need to handle a success?
     } catch (e) {
       console.log(e)
