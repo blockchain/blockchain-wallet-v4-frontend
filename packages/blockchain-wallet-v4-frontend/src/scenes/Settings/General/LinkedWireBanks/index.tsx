@@ -1,51 +1,36 @@
-import React, { PureComponent } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { ExtractSuccess, RemoteDataType, WalletFiatType } from '@core/types'
-import { actions, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
+import { BeneficiariesType, BSPaymentMethodsType } from '@core/types'
+import { custodial } from 'data/actions'
+import { brokerage, buySell } from 'data/components/actions'
+import { getFiatCurrency } from 'data/components/withdraw/selectors'
+import { useRemote } from 'hooks'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class LinkedBanks extends PureComponent<Props> {
-  componentDidMount() {
-    this.props.custodialActions.fetchCustodialBeneficiaries({})
-    this.props.brokerageActions.fetchBankTransferAccounts()
-    this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
-  }
-
-  render() {
-    return this.props.data.cata({
-      Failure: () => null,
-      Loading: () => <Loading />,
-      NotAsked: () => null,
-      Success: (val) => <Success {...this.props} {...val} />
-    })
-  }
+type DataType = {
+  beneficiaries: BeneficiariesType
+  paymentMethods: BSPaymentMethodsType
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: getData(state),
-  fiatCurrency: selectors.components.withdraw.getFiatCurrency(state)
-})
+const LinkedWireBanks = () => {
+  const { data, hasError, isLoading, isNotAsked } = useRemote(getData)
+  const fiatCurrency = useSelector(getFiatCurrency)
+  const dispatch = useDispatch()
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  custodialActions: bindActionCreators(actions.custodial, dispatch),
-  withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
-})
+  useEffect(() => {
+    dispatch(custodial.fetchCustodialBeneficiaries({}))
+    dispatch(brokerage.fetchBankTransferAccounts())
+    dispatch(buySell.fetchPaymentMethods(fiatCurrency))
+  }, [])
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: WalletFiatType
+  if (hasError || isNotAsked) return <></>
+  if (isLoading) return <Loading />
+  if (!data) return <></>
+  return <Success {...(data as DataType)} />
 }
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = ConnectedProps<typeof connector>
 
-export default connector(LinkedBanks)
+export default LinkedWireBanks

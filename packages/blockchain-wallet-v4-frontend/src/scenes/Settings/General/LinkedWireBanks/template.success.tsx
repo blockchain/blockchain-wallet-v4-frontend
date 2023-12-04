@@ -4,15 +4,22 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { BSPaymentMethodType, BSPaymentTypes, WalletFiatEnum, WalletFiatType } from '@core/types'
+import {
+  BeneficiariesType,
+  BSPaymentMethodsType,
+  BSPaymentMethodType,
+  BSPaymentTypes,
+  WalletFiatEnum,
+  WalletFiatType
+} from '@core/types'
 import { Box, Image, Text } from 'blockchain-info-components'
 import { SettingContainer, SettingSummary } from 'components/Setting'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
 
 import { CardDetails, Child } from '../styles'
-import { Props as OwnProps, SuccessStateType } from '.'
 
 const BankIconWrapper = styled.div`
   margin-right: 14px;
@@ -34,8 +41,16 @@ const getAvailableAmountForCurrency = (
   return null
 }
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  const walletBeneficiaries = props.beneficiaries.filter(
+type Props = {
+  beneficiaries: BeneficiariesType
+  paymentMethods: BSPaymentMethodsType
+}
+
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = ({
+  beneficiaries,
+  paymentMethods
+}) => {
+  const walletBeneficiaries = beneficiaries.filter(
     (beneficiary) => beneficiary.currency in WalletFiatEnum
   )
 
@@ -47,7 +62,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         <div>
           {walletBeneficiaries.map((beneficiary) => {
             const availableAmount = getAvailableAmountForCurrency(
-              props.paymentMethods.methods,
+              paymentMethods.methods,
               beneficiary.currency as WalletFiatType
             )
             return (
@@ -93,5 +108,4 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   )
 }
 
-type Props = OwnProps & SuccessStateType
 export default reduxForm<{}, Props>({ form: 'linkedBanks' })(Success)
