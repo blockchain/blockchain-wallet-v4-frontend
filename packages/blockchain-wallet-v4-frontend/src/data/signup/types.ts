@@ -86,6 +86,7 @@ export type SignupStateType = {
   accountRecoveryMagicLinkData: AccountRecoveryMagicLinkData
   accountRecoveryMagicLinkDataEncoded?: string
   accountRecoveryVerify: RemoteDataType<string, any>
+  bakktRedirectUSStates: [] | [string]
   firstLogin: boolean
   isValidReferralCode?: boolean
   kycReset?: boolean

@@ -139,10 +139,10 @@ export const QuoteDetails = ({
               <Text color={SemanticColors.title} variant='paragraph2'>
                 ~
                 {Exchange.convertCoinToCoin({
-                  coin: props.swapQuote.quote.sellAmount.symbol,
-                  value: (props.swapQuote.quote.sellAmount.amount / 100) * 0.9
+                  coin: props.swapQuote.quote.bcdcFee.symbol,
+                  value: props.swapQuote.quote.bcdcFee.amount
                 })}{' '}
-                {props.swapQuote.quote.sellAmount.symbol}
+                {props.swapQuote.quote.bcdcFee.symbol}
               </Text>
               <Flex>
                 ~

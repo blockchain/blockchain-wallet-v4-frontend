@@ -25,7 +25,7 @@ export type DexTokenWithBalance = DexToken & { balance: number | BigNumber }
 export type DexChain = {
   chainId: number
   name: string
-  nativeCurrency: DexToken
+  nativeCurrency: DexToken | null
 }
 
 type DexAmountCommon = {
@@ -44,7 +44,13 @@ export type DexSellAmount = DexAmountCommon & {
   type: 'SELL'
 }
 
+export type DexBcdcFee = {
+  amount: number
+  symbol: CoinType
+}
+
 export type DexQuote = {
+  bcdcFee: DexBcdcFee
   buyAmount: DexBuyAmount
   buyTokenFee: number
   price: number

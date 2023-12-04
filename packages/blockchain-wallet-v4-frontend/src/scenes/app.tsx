@@ -47,6 +47,7 @@ const SofiLanding = React.lazy(() => import('./SofiLanding'))
 const SofiSignupSuccess = React.lazy(() => import('./Signup/SofiSignupSuccess'))
 const SofiSignupFailure = React.lazy(() => import('./Signup/SofiSignupFailure'))
 const SofiVerify = React.lazy(() => import('./Signup/components/SofiVerifySsn'))
+const Prove = React.lazy(() => import('./Prove'))
 // need to be authed to see this, but uses public layout
 const ContinueOnPhone = React.lazy(() => import('./ContinueOnPhone'))
 const TwoStepVerification = React.lazy(() => import('./TwoStepVerification'))
@@ -96,6 +97,7 @@ const App = ({
   isDebitCardEnabled,
   isDexEnabled,
   isNftExplorerEnabled,
+  isProveEnabled,
   persistor,
   store,
   userData
@@ -263,7 +265,13 @@ const App = ({
                                 component={VerifyEmail}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
                               />
-
+                              {isProveEnabled && (
+                                <AuthLayout
+                                  path='/prove/instant-link/callback'
+                                  component={Prove}
+                                  pageTitle={`${BLOCKCHAIN_TITLE} | Verify Device`}
+                                />
+                              )}
                               {/* DEX routes */}
                               {isDexEnabled && (
                                 <DexLayout
@@ -369,7 +377,6 @@ const mapStateToProps = (state) => ({
     .getActiveRewardsEnabled(state)
     .getOrElse(false) as boolean,
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
-  isCoinDataLoaded: selectors.core.data.coins.getIsCoinDataLoaded(state),
   isCoinViewV2Enabled: selectors.core.walletOptions
     .getCoinViewV2(state)
     .getOrElse(false) as boolean,
@@ -382,6 +389,7 @@ const mapStateToProps = (state) => ({
   isNftExplorerEnabled: selectors.core.walletOptions
     .getNftExplorer(state)
     .getOrElse(false) as boolean,
+  isProveEnabled: selectors.core.walletOptions.getProveEnabled(state).getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 

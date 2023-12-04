@@ -82,6 +82,9 @@ class RequestCoinSelect extends React.PureComponent<Props> {
               if (account.type === SwapBaseCounterTypes.CUSTODIAL && !data.isAtLeastTier1) {
                 setStep(RequestSteps.IDV_INTRO)
               } else {
+                if (account.type === SwapBaseCounterTypes.CUSTODIAL) {
+                  this.props.requestActions.getIsUserFinishedKyc()
+                }
                 formActions.change(REQUEST_FORM, 'selectedAccount', account)
                 formActions.change(REQUEST_FORM, 'step', RequestSteps.SHOW_ADDRESS)
               }
@@ -194,7 +197,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  requestActions: bindActionCreators(actions.components.request, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

@@ -96,8 +96,9 @@
     "horizon": "https://horizon.stellar.org",
     "opensea": "https://testnets-api.opensea.io",
     "root": "https://blockchain.info",
-    "veriff": "https://magic.veriff.me",
+    "veriff": "*.veriff.me",
     "walletHelper": "https://wallet-helper.blockchain.com",
     "webSocket": "wss://ws.blockchain.info"
-  }
+  },
+  "bakktRedirectUSStates": ["US-HI", "US-LA", "US-NJ", "US-NV", "US-TN", "US-TX", "US-VA"]
 }

@@ -60,6 +60,7 @@ const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const SofiSignupForm = (props: Props) => {
   const {
+    bakktRedirectUSStates,
     formActions,
     formValues,
     goals,
@@ -76,7 +77,7 @@ const SofiSignupForm = (props: Props) => {
 
   const { country, email, state } = sofiJwtPayload
   const passwordValue = formValues?.password || ''
-  const isStateTexas = formValues?.state === 'US-TX'
+  const isUSStateUnsupported = bakktRedirectUSStates.includes(formValues?.state)
 
   const dataGoal = goals.find((g) => g.name === 'signup')
 
@@ -183,13 +184,6 @@ const SofiSignupForm = (props: Props) => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup>
-        {isStateTexas && (
-          <FormItem>
-            <ContinueOnPhone setShowModal={setShowModal} />
-          </FormItem>
-        )}
-      </FormGroup>
 
       <FormGroup inline>
         <FieldWrapper>
@@ -199,9 +193,24 @@ const SofiSignupForm = (props: Props) => {
           <Terms company='sofi' />
         </FormLabel>
       </FormGroup>
+      {isUSStateUnsupported && (
+        <FormGroup inline>
+          <FieldWrapper>
+            <Field
+              name='sofiBakktAcceptTerms'
+              validate={[required]}
+              component={CheckBox}
+              hideErrors
+            />
+          </FieldWrapper>
+          <FormLabel style={{ marginTop: '1px' }}>
+            <Terms company='sofi-bakkt' />
+          </FormLabel>
+        </FormGroup>
+      )}
       <Button
         data-e2e='signupButton'
-        disabled={isFormSubmitting || invalid || isStateTexas}
+        disabled={isFormSubmitting || invalid}
         fullwidth
         height='48px'
         nature='primary'

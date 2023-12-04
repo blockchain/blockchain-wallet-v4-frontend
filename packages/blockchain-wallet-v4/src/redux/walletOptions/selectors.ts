@@ -30,6 +30,10 @@ export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
 export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
 export const getWalletHelperDomain = (state) => getDomains(state).map(prop('walletHelper'))
 
+// BAKKT
+export const getBakktRedirectUSStates = (state: RootState) =>
+  getOptions(state).map((e) => e.bakktRedirectUSStates)
+
 //
 // FEATURE FLAG SELECTORS
 //
@@ -218,3 +222,7 @@ export const getUseAgentHotWalletAddressForSell = (state: RootState) =>
 // imported address sweep
 export const getImportedAddressSweep = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showImportedAddressSweep']))
+
+// prove
+export const getProveEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'proveEnabled']))
