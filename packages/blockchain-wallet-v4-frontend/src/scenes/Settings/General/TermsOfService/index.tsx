@@ -1,7 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
 import { Button, Icon, Link } from 'blockchain-info-components'
 import {
@@ -11,9 +9,8 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import { actions } from 'data'
 
-const TermsOfService = (props: Props) => {
+const TermsOfService = () => {
   return (
     <SettingContainer>
       <SettingSummary>
@@ -31,13 +28,7 @@ const TermsOfService = (props: Props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Link
-          onClick={() => {
-            props.settingsActions.generalSettingsExternalRedirect('/legal/terms')
-          }}
-          href='https://www.blockchain.com/legal/terms'
-          target='_blank'
-        >
+        <Link href='https://www.blockchain.com/legal/terms' target='_blank'>
           <Button data-e2e='termsLink' nature='empty-blue'>
             <Icon name='open-in-new-tab' size='20px' />
           </Button>
@@ -47,12 +38,4 @@ const TermsOfService = (props: Props) => {
   )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
-})
-
-const connector = connect(null, mapDispatchToProps)
-
-type Props = {} & ConnectedProps<typeof connector>
-
-export default connector(TermsOfService)
+export default TermsOfService

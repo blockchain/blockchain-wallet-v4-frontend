@@ -1,5 +1,7 @@
 import { always, compose, curry, flatten, ifElse, isNil, map, prop } from 'ramda'
 
+import { RootState } from 'data/rootReducer'
+
 import {
   Address,
   AddressMap,
@@ -15,7 +17,7 @@ import { walletPath } from '../paths'
 const intoJS = (i) => i.toJS()
 export const getWrapper = prop(walletPath)
 export const getWallet = compose(Wrapper.selectWallet, getWrapper)
-export const getVersion = compose(Wrapper.selectVersion, getWrapper)
+export const getVersion = (state: RootState) => state.walletPath.version as string
 export const getDefaultHDWallet = compose(
   HDWalletList.selectHDWallet,
   Wallet.selectHdWallets,
@@ -27,7 +29,7 @@ export const getContext = compose(flatten, intoJS, Wallet.selectContext, getWall
 export const getSpendableContext = compose(intoJS, Wallet.selectSpendableContext, getWallet)
 export const getSpendableAddrContext = compose(intoJS, Wallet.selectSpendableAddrContext, getWallet)
 export const getSharedKey = compose(Wallet.selectSharedKey, getWallet)
-export const getGuid = compose(Wallet.selectGuid, getWallet)
+export const getGuid = (state: RootState) => state.walletPath.wallet.guid
 export const getAddresses = compose(intoJS, map(Address.toJS), Wallet.selectAddresses, getWallet)
 export const getActiveAddresses = compose(
   intoJS,
