@@ -1,4 +1,4 @@
-import { compose, curry, defaultTo, lift, path, prop } from 'ramda'
+import { curry, defaultTo, path } from 'ramda'
 
 import { RootState } from 'data/rootReducer'
 
