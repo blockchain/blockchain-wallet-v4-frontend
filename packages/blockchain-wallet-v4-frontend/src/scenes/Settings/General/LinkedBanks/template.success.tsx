@@ -1,26 +1,25 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch, useSelector } from 'react-redux'
 import { IconBank, PaletteColors } from '@blockchain-com/constellation'
-import { any } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { BSPaymentMethodType, BSPaymentTypes, WalletFiatEnum } from '@core/types'
+import { getAddPlaidPaymentProvider } from '@core/redux/walletOptions/selectors'
+import { BSPaymentMethodsType, BSPaymentTypes, FiatType, WalletFiatEnum } from '@core/types'
 import { Coin } from '@core/utils'
 import { Box, Button, Image, Text } from 'blockchain-info-components'
 import { Expanded, Flex } from 'components/Flex'
 import { StandardRow } from 'components/Rows'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
-import { selectors } from 'data'
+import { brokerage } from 'data/components/actions'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BankTransferAccountType } from 'data/types'
-import { useRemote } from 'hooks'
+import { AddBankStepType, BankTransferAccountType, BrokerageModalOriginType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
 
 import { CustomSettingHeader, RemoveButton } from '../styles'
-import { Props as OwnProps, SuccessStateType } from '.'
 
 const CustomSettingComponent = styled(SettingComponent)`
   margin-top: 36px;
@@ -33,25 +32,60 @@ const StyledSettingsContainer = styled(SettingContainer)`
   border-bottom: none;
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  const { data: paymentMethods, isLoading: isLoadingPaymentMethods } = useRemote(
-    selectors.components.buySell.getBSPaymentMethods
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = ({
+  bankAccounts,
+  paymentMethods,
+  submitting,
+  tradingCurrency
+}) => {
+  const plaidEnabled = useSelector(getAddPlaidPaymentProvider).getOrElse(false)
+
+  const dispatch = useDispatch()
+
+  const handleBankClick = () => {
+    const ACHProvider = plaidEnabled ? 'ADD_BANK_PLAID_MODAL' : 'ADD_BANK_YODLEE_MODAL'
+    dispatch(
+      brokerage.showModal({
+        modalType: tradingCurrency === 'USD' ? ACHProvider : 'ADD_BANK_YAPILY_MODAL',
+        origin: BrokerageModalOriginType.ADD_BANK_SETTINGS
+      })
+    )
+    dispatch(
+      brokerage.setAddBankStep({
+        addBankStep: AddBankStepType.ADD_BANK
+      })
+    )
+  }
+
+  const handleShowBankClick = (account: BankTransferAccountType) => {
+    dispatch(
+      brokerage.showModal({
+        modalType: 'BANK_DETAILS_MODAL',
+        origin: BrokerageModalOriginType.BANK
+      })
+    )
+    dispatch(brokerage.setBankDetails({ account }))
+  }
+
+  const handleDeleteBank = (account: BankTransferAccountType) => {
+    dispatch(
+      brokerage.showModal({
+        modalType: 'REMOVE_BANK_MODAL',
+        origin: BrokerageModalOriginType.BANK
+      })
+    )
+    dispatch(brokerage.setBankDetails({ account }))
+  }
+
+  const bankLimit = paymentMethods?.methods.find(
+    (method) => method.type === BSPaymentTypes.BANK_TRANSFER
+  )?.limits
+
+  const walletBeneficiaries = bankAccounts.filter((account) => account.currency in WalletFiatEnum)
+
+  const isEligible = paymentMethods.methods.some(
+    (method) => method.type === BSPaymentTypes.BANK_TRANSFER
   )
-
-  const bankLimit = useMemo(() => {
-    if (isLoadingPaymentMethods) return
-
-    return paymentMethods?.methods.find((method) => method.type === BSPaymentTypes.BANK_TRANSFER)
-      ?.limits
-  }, [paymentMethods, isLoadingPaymentMethods])
-
-  const walletBeneficiaries = props.bankAccounts.filter(
-    (account) => account.currency in WalletFiatEnum
-  )
-
-  const isEligible = any(
-    (method: BSPaymentMethodType) => method.type === BSPaymentTypes.BANK_TRANSFER
-  )(props.paymentMethods.methods)
 
   return (
     <StyledSettingsContainer>
@@ -83,7 +117,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             return (
               <Box
                 key={account.id}
-                onClick={() => props.handleShowBankClick(account)}
+                onClick={() => handleShowBankClick(account)}
                 data-e2e={`bankAccountRow-${account.id}`}
                 isMethod
                 isMobile={media.mobile}
@@ -142,12 +176,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     <RemoveButton
                       data-e2e={`removeBankAccount-${account.id}`}
                       nature='light-red'
-                      disabled={props.submitting}
+                      disabled={submitting}
                       style={{ minWidth: 'auto' }}
                       // @ts-ignore
                       onClick={(e: SyntheticEvent) => {
                         e.stopPropagation()
-                        props.handleDeleteBank(account)
+                        handleDeleteBank(account)
                       }}
                     >
                       <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
@@ -161,7 +195,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       </SettingSummary>
       {isEligible && (
         <CustomSettingComponent>
-          <Button nature='primary' data-e2e='addBankFromSettings' onClick={props.handleBankClick}>
+          <Button nature='primary' data-e2e='addBankFromSettings' onClick={handleBankClick}>
             <FormattedMessage id='buttons.add_bank' defaultMessage='Add a Bank' />
           </Button>
         </CustomSettingComponent>
@@ -170,10 +204,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   )
 }
 
-type Props = OwnProps &
-  SuccessStateType & {
-    handleBankClick: () => void
-    handleDeleteBank: (account: BankTransferAccountType) => void
-    handleShowBankClick: (account: BankTransferAccountType) => void
-  }
+type Props = {
+  bankAccounts: BankTransferAccountType[]
+  paymentMethods: BSPaymentMethodsType
+  tradingCurrency: FiatType
+}
+
 export default reduxForm<{}, Props>({ form: 'linkedBanks' })(Success)
