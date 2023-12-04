@@ -5,8 +5,9 @@ import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
+import { useRemote } from 'hooks'
 import { isBrowserAndroid, isBrowserIOS } from 'services/browser'
 import { isMobile } from 'services/styles'
 
@@ -18,6 +19,8 @@ const ContentWrapper = styled.div`
 `
 
 const SofiSuccess = () => {
+  const { data } = useRemote(selectors.modules.profile.getSofiMigrationStatus)
+
   const dispatch = useDispatch()
   // Add check here to make sure that there is wallet data
   // route should navigate to login if there's no wallet data
@@ -36,6 +39,7 @@ const SofiSuccess = () => {
       window.open('https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309', '_blank')
     }
   }
+
   return (
     <Wrapper>
       <ContentWrapper>
