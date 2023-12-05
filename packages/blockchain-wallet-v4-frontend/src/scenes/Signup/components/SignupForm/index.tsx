@@ -311,7 +311,7 @@ const SignupForm = (props: Props) => {
       </FormGroup>
       <Button
         data-e2e='signupButton'
-        disabled={isFormSubmitting || invalid || isUSStateUnsupported}
+        disabled={isFormSubmitting || invalid}
         fullwidth
         height='48px'
         nature='primary'

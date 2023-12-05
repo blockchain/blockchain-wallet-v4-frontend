@@ -58,6 +58,9 @@ const VerifyAccountRecovery = React.lazy(() => import('./RecoverWallet/EmailAuth
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 
+// TEST
+const ContinueOnMobile = React.lazy(() => import('./Login/Sofi/ContinueOnMobile'))
+
 // DEX
 const Dex = React.lazy(() => import('./Dex'))
 
@@ -215,7 +218,7 @@ const App = ({
                               <AuthLayout
                                 path='/sofi'
                                 component={SofiLanding}
-                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Migration`}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
                               />
                               <AuthLayout
                                 path='/sofi-success'
@@ -230,6 +233,11 @@ const App = ({
                               <AuthLayout
                                 path='/sofi-verify'
                                 component={SofiVerify}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+                              />
+                              <AuthLayout
+                                path='/sofi-mobile'
+                                component={ContinueOnMobile}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
                               />
                               <AuthLayout

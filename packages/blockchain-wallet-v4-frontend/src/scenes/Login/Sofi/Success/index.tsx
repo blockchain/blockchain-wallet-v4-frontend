@@ -52,7 +52,7 @@ const SofiSuccess = (props: Props) => {
             >
               <FormattedMessage
                 id='scenes.sofi.login.success.mobile.title'
-                defaultMessage='Your account was successfully migrated. Your crypto balances have been imported. Go to the Blockchain.com App to keep enjoying your crypto experience.'
+                defaultMessage='Your account has been successfully migrated. Download the Blockchain.com App now to continue your journey.'
               />
             </Text>
             <Button data-e2e='viewAccount' fullwidth nature='primary' onClick={downloadMobileApp}>

@@ -153,7 +153,7 @@ const GenerateReport = React.lazy(() => import('./TaxCenter/GenerateReport'))
 
 // SOFI
 const SofiWelcome = React.lazy(() => import('./Sofi/Welcome'))
-const SofiMigratedBalances = React.lazy(() => import('./Sofi/MigratedBalances'))
+// const SofiMigratedBalances = React.lazy(() => import('./Sofi/MigratedBalances'))
 
 const Modals = (props: Props) => {
   return (
@@ -325,9 +325,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SOFI_BLOCKCHAIN_WELCOME) ? (
           <SofiWelcome />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.SOFI_MIGRATED_BALANCES) ? (
+        {/* {props.modals.find((modal) => modal.type === ModalName.SOFI_MIGRATED_BALANCES) ? (
           <SofiMigratedBalances />
-        ) : null}
+        ) : null} */}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMINATE_CARD) ? (

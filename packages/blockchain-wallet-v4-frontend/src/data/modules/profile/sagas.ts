@@ -687,7 +687,6 @@ export default ({ api, coreSagas, networks }) => {
     yield put(A.fetchSofiMigrationStatusLoading())
     try {
       const realUrl = window.location.href
-      console.log(realUrl, 'REAL URL')
       // real version, using placeholder version below for testing
       const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
 
@@ -698,21 +697,6 @@ export default ({ api, coreSagas, networks }) => {
 
       yield put(A.setSofiLinkData({ aesCiphertext, aesIV, aesTag, aesKeyCiphertext }))
 
-      // const response = {
-      //   migration_status: 'AWAITING_USER',
-      //   nabu_user: null,
-      //   sofi_jwt_payload: {
-      //     country: 'US',
-      //     email: 'leora+sofitesting+1120+450@blockchain.com',
-      //     // Token generation time
-      //     exp: 12345,
-
-      //     iat: 123456,
-
-      //     state: 'US-CO',
-      //     user: 'I no clue'
-      //   }
-      // }
       // call is user migrated api before loading page
       const response = yield call(
         api.sofiMigrationStatusJwt,

@@ -18,11 +18,11 @@
 //   flex: 1;
 //   width: 100%;
 //   margin: 16px 0 72px;
-//   > div:first-child {
+//   & > div:first-child {
 //     border-top-left-radius: 16px;
 //     border-top-right-radius: 16px;
 //   }
-//   > div:last-child {
+//   & > div:last-child {
 //     border-bottom-left-radius: 16px;
 //     border-bottom-right-radius: 16px;
 //   }
@@ -44,7 +44,7 @@
 //   display: flex;
 //   flex-direction: column;
 //   align-items: flex-end;
-//   > div:last-child {
+//   & > div:last-child {
 //     margin-top: 5px;
 //   }
 // `
@@ -52,7 +52,7 @@
 //   display: flex;
 //   flex-direction: column;
 //   align-items: flex-start;
-//   > div:last-child {
+//   & > div:last-child {
 //     margin-top: 5px;
 //   }
 // `

@@ -130,6 +130,7 @@ import latamSignupPhone from './img/latam-signup-phone.svg'
 import lockOpen from './img/lock-open.svg'
 import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
+import mobile from './img/mobile.svg'
 import money from './img/money.png'
 import nft from './img/nft.png'
 import nftcollections from './img/nfts/collections.png'
@@ -319,6 +320,7 @@ const Images = {
   'lock-open': lockOpen,
   'logo-loader': logoLoader,
   'mastercard-logo': mastercardLogo,
+  mobile,
   money,
   nft,
   'nft-collections': nftcollections,

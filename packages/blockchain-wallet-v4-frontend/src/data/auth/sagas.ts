@@ -298,10 +298,12 @@ export default ({ api, coreSagas, networks }) => {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
+      const bakktRedirectStates = (yield select(
+        selectors.core.walletOptions.getBakktRedirectUSStates
+      )).getOrElse([])
       const { isSofi: isSofiSignup } = yield select(selectors.signup.getProductSignupMetadata)
       const isSofiAuth = yield select(S.getIsSofi)
       const isSofi = isSofiSignup || isSofiAuth
-
       if (!isHdWallet) {
         yield put(actions.wallet.upgradeWallet(3))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
@@ -421,16 +423,23 @@ export default ({ api, coreSagas, networks }) => {
             }
           }
         } else {
-          yield put(actions.modules.profile.associateSofiUser())
           // TODO how do we handle this situation if user is 404 not found
           yield put(actions.router.push('/verify-email-step'))
         }
       } else if (isSofi) {
+        const { sofiJwtPayload } = (yield select(
+          selectors.modules.profile.getSofiUserData
+        )).getOrElse({})
+        const { state: sofiUserState } = sofiJwtPayload
+        const bakktRedirect = bakktRedirectStates.includes(state || sofiUserState)
         // associate nabu user here
         // do i need to put a try/catch here?
-
         yield put(actions.modules.profile.associateSofiUser())
-        yield put(actions.router.push('/sofi-verify'))
+        if (bakktRedirect) {
+          yield put(actions.router.push('/sofi-mobile'))
+        } else {
+          yield put(actions.router.push('/sofi-verify'))
+        }
       } else {
         yield put(actions.router.push('/home'))
       }
