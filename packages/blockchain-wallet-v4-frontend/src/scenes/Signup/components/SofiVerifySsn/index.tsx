@@ -83,6 +83,7 @@ const SofiVerifyID = (props: InjectedFormProps) => {
   const { data, error, isLoading, isNotAsked } = useRemote(
     selectors.modules.profile.getSofiMigrationStatus
   )
+
   const dispatch = useDispatch()
 
   const isSsnError = error?.id === SofiMigrationErrorIds.SSN_ERROR

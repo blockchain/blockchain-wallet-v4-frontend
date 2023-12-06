@@ -686,10 +686,7 @@ export default ({ api, coreSagas, networks }) => {
   const initiateSofiLanding = function* () {
     yield put(A.fetchSofiMigrationStatusLoading())
     try {
-      const realUrl = window.location.href
-      // real version, using placeholder version below for testing
       const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
-
       const aesCiphertext = queryParams.get('aesCiphertext') as string
       const aesIV = queryParams.get('aesIV') as string
       const aesTag = queryParams.get('aesTag') as string
@@ -705,6 +702,11 @@ export default ({ api, coreSagas, networks }) => {
         aesTag,
         aesKeyCiphertext
       )
+
+      let sofiUserState = response.sofiJwtPayload?.state
+      if (sofiUserState.substring(0, 2) !== 'US') {
+        sofiUserState = 'US-' + sofiUserState
+      }
 
       if (response.migrationStatus === SofiUserMigrationStatus.AWAITING_USER) {
         yield put(actions.router.push('/sofi'))
@@ -750,8 +752,9 @@ export default ({ api, coreSagas, networks }) => {
   const associateSofiUser = function* () {
     const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
     const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
+    yield put(A.associateSofiUserLoading())
     try {
-      const response = yield call(
+      yield call(
         api.associateNabuUser,
         aesIV,
         aesCiphertext,
@@ -759,9 +762,13 @@ export default ({ api, coreSagas, networks }) => {
         aesKeyCiphertext,
         nabuSessionToken
       )
+      yield put(A.associateSofiUserSuccess(true))
+      yield put(actions.router.push('/sofi-verify'))
+
       //TODO do we need to handle a success?
     } catch (e) {
-      console.log(e)
+      yield put(A.associateSofiUserFailure(e))
+      yield put(actions.router.push('/sofi-error'))
     }
   }
 

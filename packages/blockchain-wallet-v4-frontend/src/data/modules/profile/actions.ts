@@ -166,8 +166,8 @@ export const fetchSofiMigrationStatusLoading = () => ({
   type: AT.FETCH_SOFI_MIGRATION_STATUS_LOADING
 })
 
-export const fetchSofiMigrationStatusSuccess = (migrationStatus) => ({
-  payload: { migrationStatus },
+export const fetchSofiMigrationStatusSuccess = (data) => ({
+  payload: data,
   type: AT.FETCH_SOFI_MIGRATION_STATUS_SUCCESS
 })
 
@@ -205,4 +205,18 @@ export const setSofiLinkData = (linkData) => ({
 
 export const associateSofiUser = () => ({
   type: AT.ASSOCIATE_SOFI_USER
+})
+
+export const associateSofiUserLoading = () => ({
+  type: AT.ASSOCIATE_SOFI_USER_LOADING
+})
+
+export const associateSofiUserSuccess = (boolean) => ({
+  payload: { boolean },
+  type: AT.ASSOCIATE_SOFI_USER_SUCCESS
+})
+
+export const associateSofiUserFailure = (error) => ({
+  payload: { error },
+  type: AT.ASSOCIATE_SOFI_USER_FAILURE
 })

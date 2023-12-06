@@ -437,8 +437,6 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.modules.profile.associateSofiUser())
         if (bakktRedirect) {
           yield put(actions.router.push('/sofi-mobile'))
-        } else {
-          yield put(actions.router.push('/sofi-verify'))
         }
       } else {
         yield put(actions.router.push('/home'))

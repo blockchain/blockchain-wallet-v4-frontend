@@ -15,6 +15,7 @@ const INITIAL_STATE: ProfileState = {
     linkToExchangeAccountStatus: Remote.NotAsked,
     shareWalletAddressesWithExchange: Remote.NotAsked
   },
+  sofiAssociateNabuUser: Remote.NotAsked,
   sofiData: Remote.NotAsked,
   sofiLinkData: {},
   sofiMigrationStatus: Remote.NotAsked,
@@ -221,7 +222,7 @@ export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes
     case AT.FETCH_SOFI_MIGRATION_STATUS_SUCCESS: {
       return {
         ...state,
-        sofiData: Remote.Success(action.payload.migrationStatus)
+        sofiData: Remote.Success(action.payload)
       }
     }
     case AT.MIGRATE_SOFI_USER_FAILURE:
@@ -246,6 +247,24 @@ export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes
       return {
         ...state,
         sofiLinkData: action.payload.linkData
+      }
+    }
+    case AT.ASSOCIATE_SOFI_USER_FAILURE: {
+      return {
+        ...state,
+        sofiAssociateNabuUser: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.ASSOCIATE_SOFI_USER_LOADING: {
+      return {
+        ...state,
+        sofiAssociateNabuUser: Remote.Loading
+      }
+    }
+    case AT.ASSOCIATE_SOFI_USER_SUCCESS: {
+      return {
+        ...state,
+        sofiAssociateNabuUser: Remote.Success(action.payload.boolean)
       }
     }
 

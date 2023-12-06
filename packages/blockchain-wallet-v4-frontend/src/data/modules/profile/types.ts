@@ -181,6 +181,7 @@ export interface ProfileState {
     linkToExchangeAccountStatus: RemoteDataType<string, string>
     shareWalletAddressesWithExchange: RemoteDataType<string, string>
   }
+  sofiAssociateNabuUser: RemoteDataType<boolean, string>
   sofiData: RemoteDataType<string, SofiMigrationStatusResponseType>
   sofiLinkData: SofiLinkData | {}
   sofiMigrationStatus: RemoteDataType<SofiMigrationErrorType, SofiUserMigrationStatus>
@@ -380,9 +381,7 @@ interface FetchSofiMigrationStatusLoadingAction {
   type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_LOADING
 }
 interface FetchSofiMigrationStatusSuccessAction {
-  payload: {
-    migrationStatus: SofiMigrationStatusResponseType
-  }
+  payload: SofiMigrationStatusResponseType
   type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_SUCCESS
 }
 interface FetchSofiMigrationStatusFailureAction {
@@ -421,8 +420,25 @@ interface AssociateSofiUserAction {
   type: typeof AT.ASSOCIATE_SOFI_USER
 }
 
+interface AssociateSofiUserLoadingAction {
+  type: typeof AT.ASSOCIATE_SOFI_USER_LOADING
+}
+
+interface AssociateSofiUserSuccessAction {
+  payload: { boolean }
+  type: typeof AT.ASSOCIATE_SOFI_USER_SUCCESS
+}
+
+interface AssociateSofiUserFailureAction {
+  payload: { error }
+  type: typeof AT.ASSOCIATE_SOFI_USER_FAILURE
+}
+
 export type ProfileActionTypes =
   | AssociateSofiUserAction
+  | AssociateSofiUserLoadingAction
+  | AssociateSofiUserSuccessAction
+  | AssociateSofiUserFailureAction
   | AuthAndRouteToExchangeAction
   | ClearProfileStateAction
   | FetchTiersFailureAction

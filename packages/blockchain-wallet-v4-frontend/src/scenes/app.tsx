@@ -226,7 +226,7 @@ const App = ({
                                 pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
                               />
                               <AuthLayout
-                                path='/sofi-expired'
+                                path='/sofi-error'
                                 component={SofiSignupFailure}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
                               />

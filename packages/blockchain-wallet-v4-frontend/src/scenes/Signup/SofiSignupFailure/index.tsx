@@ -5,6 +5,8 @@ import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
+import { actions, selectors } from 'data'
+import { useRemote } from 'hooks'
 import { isMobile } from 'services/styles'
 
 const ContentWrapper = styled.div`
@@ -14,21 +16,34 @@ const ContentWrapper = styled.div`
   flex-direction: column;
 `
 
-const MigrationExpired = () => {
+const MigrationError = () => {
   // Add check here to make sure that there is wallet data
   // route should navigate to login if there's no wallet data
   const backToSofi = () => {}
 
+  const {
+    data: isMigrated,
+    hasError: isAssociatedError,
+    isLoading: isAssociatedLoading
+  } = useRemote(selectors.modules.profile.getSofiAssociateNabuUserStatus)
+
   return (
     <Wrapper>
       <ContentWrapper>
-        <Image name='offline' height='40px' />
+        <Image name='close-error' height='40px' />
 
         <Text size='20px' weight={600} color='black' lineHeight='1.5' style={{ marginTop: '8px' }}>
-          <FormattedMessage
-            id='scenes.sofi.signup.failure.expired.header'
-            defaultMessage='Uh oh! Your migration link expired.'
-          />
+          {isAssociatedError ? (
+            <FormattedMessage
+              id='scenes.sofi.signup.failure.generic.header'
+              defaultMessage='Uh oh! Something went wrong.'
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.sofi.signup.failure.expired.header'
+              defaultMessage='Uh oh! Your migration link expired.'
+            />
+          )}
         </Text>
         <>
           <Text
@@ -54,4 +69,4 @@ const MigrationExpired = () => {
   )
 }
 
-export default MigrationExpired
+export default MigrationError
