@@ -150,11 +150,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield* put(A.fetchChainsLoading())
       const chainsList = yield* call(api.getDexChains)
       yield* put(A.fetchChainsSuccess(chainsList))
+      const config = yield select(selectors.networkConfig.getConfig)
 
       // since MVP only supports ETH chain, set as current and then pre-fetch token list
-      const ethChain = chainsList.find((chain) => chain?.nativeCurrency?.name === 'Ethereum')
-      if (!ethChain) throw Error('No ETH chain found')
-      yield* put(A.setCurrentChain(ethChain))
+      const ethChain = chainsList.find(({ name }) => name === 'Ethereum Mainnet')
+      const ethConfig = config.data.networks.find(
+        ({ identifiers }) => identifiers.chainId === ethChain?.chainId
+      )
+
+      if (!ethChain || !ethConfig) throw Error('No ETH chain found')
+      yield* put(
+        A.setCurrentChain({
+          ...ethChain,
+          nativeCurrency: { name: ethConfig.name, symbol: ethConfig.nativeAsset }
+        })
+      )
     } catch (e) {
       yield* put(A.fetchChainsFailure(e.toString()))
     }
