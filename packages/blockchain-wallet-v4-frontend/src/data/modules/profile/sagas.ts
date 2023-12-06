@@ -713,7 +713,12 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.router.push('/login/sofi'))
       }
-      yield put(A.fetchSofiMigrationStatusSuccess(response))
+      yield put(
+        A.fetchSofiMigrationStatusSuccess({
+          ...response,
+          sofiJwtPayload: { ...response.sofiJwtPayload, state: sofiUserState }
+        })
+      )
     } catch (e) {
       //TODO add error handling
       yield put(A.fetchSofiMigrationStatusFailure(e))
