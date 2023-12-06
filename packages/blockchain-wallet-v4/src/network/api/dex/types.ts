@@ -25,7 +25,7 @@ export type DexTokenWithBalance = DexToken & { balance: number | BigNumber }
 export type DexChain = {
   chainId: number
   name: string
-  nativeCurrency: DexToken | null
+  nativeCurrency?: { name: string; symbol: string }
 }
 
 type DexAmountCommon = {

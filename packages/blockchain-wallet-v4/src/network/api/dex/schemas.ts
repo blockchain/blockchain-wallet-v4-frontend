@@ -42,8 +42,7 @@ export const DexTokenSchema: z.ZodSchema<DexToken, z.ZodTypeDef, unknown> = z.ob
 
 export const DexChainSchema: z.ZodSchema<DexChain, z.ZodTypeDef, unknown> = z.object({
   chainId: z.number(),
-  name: z.string(),
-  nativeCurrency: DexTokenSchema.nullable()
+  name: z.string()
 })
 
 const DexBuyAmountSchema: z.ZodSchema<DexBuyAmount, z.ZodTypeDef, unknown> = z
