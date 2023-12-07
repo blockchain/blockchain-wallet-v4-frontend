@@ -1,5 +1,6 @@
 import sha256 from 'crypto-js/sha256'
 import { differenceInMilliseconds, subSeconds } from 'date-fns'
+import { query } from 'express'
 import { compose, equals, prop, sortBy, tail } from 'ramda'
 import { stopSubmit } from 'redux-form'
 import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
@@ -692,6 +693,11 @@ export default ({ api, coreSagas, networks }) => {
       const aesTag = queryParams.get('aesTag') as string
       const aesKeyCiphertext = queryParams.get('aesKeyCiphertext') as string
 
+      // if there are no params in url, just `/sofi`
+      // redirect them to login page
+      if (!aesCiphertext || !aesIV || !aesTag || !aesKeyCiphertext) {
+        yield put(actions.router.push('/login'))
+      }
       yield put(A.setSofiLinkData({ aesCiphertext, aesIV, aesTag, aesKeyCiphertext }))
 
       // call is user migrated api before loading page
