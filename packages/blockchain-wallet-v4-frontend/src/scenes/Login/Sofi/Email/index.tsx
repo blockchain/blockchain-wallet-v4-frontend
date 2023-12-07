@@ -41,7 +41,7 @@ const Email = (props: Props) => {
   const { sofiJwtPayload } = useSelector(selectors.modules.profile.getSofiUserData).getOrElse(
     {}
   ) as SofiMigrationStatusResponseType
-  const { email } = sofiJwtPayload
+  const email = sofiJwtPayload?.email || ''
   useEffect(() => {
     if (email) {
       formActions.change(LOGIN_FORM, 'sofiLoginEmail', email)

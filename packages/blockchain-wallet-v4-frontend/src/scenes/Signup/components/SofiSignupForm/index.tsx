@@ -71,9 +71,13 @@ const SofiSignupForm = (props: Props) => {
     setShowModal
   } = props
 
-  const { sofiJwtPayload } = useSelector(selectors.modules.profile.getSofiUserData).getOrElse(
-    {}
-  ) as SofiMigrationStatusResponseType
+  const { sofiJwtPayload } = useSelector(selectors.modules.profile.getSofiUserData).getOrElse({
+    sofiJwtPayload: {
+      country: '',
+      email: '',
+      state: ''
+    }
+  }) as SofiMigrationStatusResponseType
 
   const { country, email, state } = sofiJwtPayload
   const passwordValue = formValues?.password || ''
