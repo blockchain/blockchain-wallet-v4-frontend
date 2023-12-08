@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import {
@@ -13,6 +14,7 @@ import {
   Text
 } from 'blockchain-info-components'
 import CoinBalanceDisplay from 'components/CoinWithBalance/CoinBalanceDisplay'
+import { actions } from 'data'
 import { Analytics, ImportedBtcAddressList, ModalName } from 'data/types'
 import { CoinIcon } from 'layouts/Wallet/components'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -56,6 +58,12 @@ const Body = styled(ModalBody)`
 `
 
 const SofiWelcome = (props: Props) => {
+  const dispatch = useDispatch()
+  const continueButtonClick = () => {
+    dispatch(
+      actions.modals.showModal(ModalName.SOFI_MIGRATED_BALANCES, { origin: 'SofiMigration' })
+    )
+  }
   return (
     <Modal size='medium' position={props.position} total={props.total}>
       <Body>
@@ -78,7 +86,7 @@ const SofiWelcome = (props: Props) => {
             defaultMessage='Congrats! You can now continue your crypto experience with Blockchain.com.'
           />
         </Text>
-        <Button nature='primary' fullwidth data-e2e='sofiContinue'>
+        <Button nature='primary' fullwidth data-e2e='sofiContinue' onClick={continueButtonClick}>
           <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </Body>
