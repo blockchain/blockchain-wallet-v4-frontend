@@ -31,7 +31,7 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
         nextProps.saveGoal('cowboys2022', { firstLogin: true })
         nextProps.runGoals()
       } else if (isSofi) {
-        nextProps.routerActions.push('/sofi-verify')
+        nextProps.profileActions.associateSofiUser()
       } else if (
         createExchangeUserFlag &&
         signupRedirect !== SignupRedirectTypes.WALLET_HOME &&
@@ -95,6 +95,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   miscActions: bindActionCreators(actions.core.data.misc, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
   runGoals: () => dispatch(actions.goals.runGoals()),
   saveGoal: (name, data) => dispatch(actions.goals.saveGoal({ data, name })),

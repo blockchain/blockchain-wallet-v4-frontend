@@ -298,9 +298,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
-      const bakktRedirectStates = (yield select(
-        selectors.core.walletOptions.getBakktRedirectUSStates
-      )).getOrElse([])
+
       const { isSofi: isSofiSignup } = yield select(selectors.signup.getProductSignupMetadata)
       const isSofiAuth = yield select(S.getIsSofi)
       const isSofi = isSofiSignup || isSofiAuth
@@ -398,6 +396,7 @@ export default ({ api, coreSagas, networks }) => {
           yield fork(createExchangeUser, existingUserCountryCode)
         }
       }
+
       if (firstLogin) {
         const countryCode = country || 'US'
         const currency = getFiatCurrencyFromCountry(countryCode)
@@ -427,20 +426,13 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.router.push('/verify-email-step'))
         }
       } else if (isSofi) {
-        const { sofiJwtPayload } = (yield select(
-          selectors.modules.profile.getSofiUserData
-        )).getOrElse({})
-        const { state: sofiUserState } = sofiJwtPayload
-        const bakktRedirect = bakktRedirectStates.includes(state || sofiUserState)
         // associate nabu user here
         // do i need to put a try/catch here?
         yield put(actions.modules.profile.associateSofiUser())
-        if (bakktRedirect) {
-          yield put(actions.router.push('/sofi-mobile'))
-        }
       } else {
         yield put(actions.router.push('/home'))
       }
+
       yield call(api.sofiMigrationStatusNabuToken)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)

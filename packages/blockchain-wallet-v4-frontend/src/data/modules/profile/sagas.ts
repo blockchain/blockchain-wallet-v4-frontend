@@ -764,6 +764,14 @@ export default ({ api, coreSagas, networks }) => {
 
   const associateSofiUser = function* () {
     const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
+    const bakktRedirectStates = (yield select(
+      selectors.core.walletOptions.getBakktRedirectUSStates
+    )).getOrElse([])
+    const { sofiJwtPayload } = (yield select(selectors.modules.profile.getSofiUserData)).getOrElse(
+      {}
+    )
+    const { state: sofiUserState } = sofiJwtPayload
+    const bakktRedirect = bakktRedirectStates.includes(sofiUserState)
     const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
     yield put(A.associateSofiUserLoading())
     try {
@@ -776,8 +784,11 @@ export default ({ api, coreSagas, networks }) => {
         nabuSessionToken
       )
       yield put(A.associateSofiUserSuccess(true))
-      yield put(actions.router.push('/sofi-verify'))
-
+      if (bakktRedirect) {
+        yield put(actions.router.push('/sofi-mobile'))
+      } else {
+        yield put(actions.router.push('/sofi-verify'))
+      }
       //TODO do we need to handle a success?
     } catch (e) {
       yield put(A.associateSofiUserFailure(e))
