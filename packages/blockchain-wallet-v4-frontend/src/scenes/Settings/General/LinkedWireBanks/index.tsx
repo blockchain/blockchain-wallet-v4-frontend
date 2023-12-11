@@ -27,9 +27,8 @@ const LinkedWireBanks = () => {
     dispatch(buySell.fetchPaymentMethods(fiatCurrency))
   }, [])
 
-  if (hasError || isNotAsked) return <></>
   if (isLoading) return <Loading />
-  if (!data) return <></>
+  if (hasError || isNotAsked || !data) return null
   return <Success {...(data as DataType)} />
 }
 
