@@ -83,7 +83,9 @@
         "useNewPaymentProviders": true,
         "useVgsProvider": true,
         "walletConnect": true,
-        "walletDebitCardEnabled": true
+        "walletDebitCardEnabled": true,
+        "proveEnabled": true,
+        "fiatTransformAlertEnabled": true
       }
     }
   },

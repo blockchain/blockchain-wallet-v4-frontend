@@ -14,8 +14,6 @@ import { PriceChange } from '../../model'
 import { getData } from './selectors'
 
 class UserPortfolioPositionChange extends PureComponent<Props> {
-  state = {}
-
   componentDidMount() {
     this.props.miscActions.fetchPriceChange(
       this.props.coin,
