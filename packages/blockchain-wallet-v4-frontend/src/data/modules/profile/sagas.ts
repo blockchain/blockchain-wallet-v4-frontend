@@ -738,19 +738,19 @@ export default ({ api, coreSagas, networks }) => {
 
   const fetchSofiUserStatus = function* () {
     try {
-      yield delay(7000)
       const response = yield call(api.sofiMigrationStatusNabuToken)
       yield put(A.setSofiUserStatusFromPolling(response?.migrationStatus))
       if (response?.migrationStatus === 'SUCCESS') {
         yield put(A.setSofiMigratedBalances(response?.balances))
         return true
       }
-      if (response?.migrationStatus === 'FAILURE') {
+      if (response?.migrationStatus === 'FAILURE' || !response?.migrationStatus) {
         return true
       }
     } catch (error) {
       return false
     }
+    yield delay(7000)
     return yield call(fetchSofiUserStatus)
   }
 
