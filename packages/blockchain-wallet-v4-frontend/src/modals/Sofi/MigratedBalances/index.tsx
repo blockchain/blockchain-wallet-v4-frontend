@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { CoinType } from '@core/types'
 import { Button, Modal, Text } from 'blockchain-info-components'
 import CoinBalanceDisplay from 'components/CoinWithBalance/CoinBalanceDisplay'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -24,12 +24,15 @@ import {
 } from './styles'
 
 const SofiMigratedBalances = (props: Props) => {
+  const dispatch = useDispatch()
   const sbBalances = useSelector(selectors.components.buySell.getBSBalances).getOrElse({})
   const sbBalancesArray = Object.entries(sbBalances).map(([key, value]) => ({
     symbol: key,
     ...value
   }))
-
+  const viewAccountClick = () => {
+    dispatch(actions.modals.closeModal(ModalName.SOFI_MIGRATED_BALANCES))
+  }
   return (
     <Modal size='medium' position={props.position} total={props.total}>
       <Body>
@@ -83,7 +86,7 @@ const SofiMigratedBalances = (props: Props) => {
             )
           })}
         </BalanceTable>
-        <Button nature='primary' fullwidth data-e2e='sofiContinue'>
+        <Button nature='primary' fullwidth data-e2e='sofiContinue' onClick={viewAccountClick}>
           <FormattedMessage id='buttons.view_my_account' defaultMessage='View my account' />
         </Button>
       </Body>

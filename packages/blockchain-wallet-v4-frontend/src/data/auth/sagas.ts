@@ -462,9 +462,6 @@ export default ({ api, coreSagas, networks }) => {
       if (!buySellGoal) {
         yield put(actions.components.buySell.fetchPaymentMethods())
       }
-      yield put(
-        actions.modals.showModal(ModalName.SOFI_BLOCKCHAIN_WELCOME, { origin: 'SofiMigration' })
-      )
       // swap tasks
       yield put(actions.components.swap.fetchTrades())
       // check/update btc account names
