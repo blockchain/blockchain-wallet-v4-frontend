@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react'
-import { connect, ConnectedProps, useDispatch, useSelector } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { BSCardType, BSPaymentMethodsType, FiatType, RemoteDataType } from '@core/types'
+import { BSCardType, BSPaymentMethodsType } from '@core/types'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
-import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import { useRemote } from 'hooks'
 
@@ -44,9 +42,8 @@ const LinkedCards = () => {
 
   const { data, hasError, isLoading, isNotAsked } = useRemote(getData)
 
-  if (hasError || isNotAsked) return <></>
   if (isLoading) return <Loading />
-  if (!data) return <></>
+  if (hasError || isNotAsked || !data) return null
 
   const isUserVerified = data.userData.tiers?.current > 0
 
@@ -62,10 +59,6 @@ export type SuccessStateType = {
   cards: Array<BSCardType>
   paymentMethods: BSPaymentMethodsType
   userData: UserDataType
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency?: FiatType
 }
 
 export default LinkedCards
