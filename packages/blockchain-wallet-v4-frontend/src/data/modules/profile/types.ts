@@ -168,6 +168,12 @@ export enum SofiMigrationErrorIds {
   SSN_ERROR = 'sofi.migration.error.ssn.verification.failed'
 }
 
+export type SofiMigratedBalances = {
+  balances: {
+    amount: string
+    currency: string
+  }[]
+}
 // State
 export interface ProfileState {
   apiToken: RemoteDataType<string, string>
@@ -186,6 +192,7 @@ export interface ProfileState {
   sofiLinkData: SofiLinkData | {}
   sofiMigrationStatus: RemoteDataType<SofiMigrationErrorType, SofiUserMigrationStatus>
   sofiMigrationStatusFromPolling: RemoteDataType<string, SofiUserMigrationStatus>
+  sofiMigrationTransferedBalances: RemoteDataType<string, SofiMigratedBalances>
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
   userRiskSettings: RemoteDataType<NabuApiErrorType, UserRiskSettings>
@@ -440,6 +447,11 @@ interface SetSofiUserStatusFromPollingAction {
   type: typeof AT.SET_SOFI_USER_STATUS_FROM_POLLING
 }
 
+interface SetSofiMigratedBalancesAction {
+  payload: { sofiMigratedBalances: SofiMigratedBalances }
+  type: typeof AT.SET_SOFI_MIGRATED_BALANCES
+}
+
 export type ProfileActionTypes =
   | AssociateSofiUserAction
   | AssociateSofiUserLoadingAction
@@ -483,6 +495,7 @@ export type ProfileActionTypes =
   | SetCampaignAction
   | SetLinkToExchangeAccountDeeplinkAction
   | SetSofiLinkDataAction
+  | SetSofiMigratedBalancesAction
   | SetSofiUserStatusFromPollingAction
   | ShareWalletAddressesWithExchange
   | ShareWalletAddressWithExchangeFailureAction

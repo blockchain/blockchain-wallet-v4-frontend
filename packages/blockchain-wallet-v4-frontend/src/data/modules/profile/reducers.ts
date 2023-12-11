@@ -20,6 +20,7 @@ const INITIAL_STATE: ProfileState = {
   sofiLinkData: {},
   sofiMigrationStatus: Remote.NotAsked,
   sofiMigrationStatusFromPolling: Remote.NotAsked,
+  sofiMigrationTransferedBalances: Remote.NotAsked,
   userCampaigns: Remote.NotAsked,
   userData: Remote.NotAsked,
   userRiskSettings: Remote.NotAsked,
@@ -273,6 +274,13 @@ export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes
       return {
         ...state,
         sofiMigrationStatusFromPolling: Remote.Success(action.payload.sofiUserStatus)
+      }
+    }
+
+    case AT.SET_SOFI_MIGRATED_BALANCES: {
+      return {
+        ...state,
+        sofiMigrationTransferedBalances: Remote.Success(action.payload.sofiMigratedBalances)
       }
     }
 
