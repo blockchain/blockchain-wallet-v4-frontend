@@ -27,9 +27,8 @@ const LinkedBanks = () => {
     dispatch(buySell.fetchPaymentMethods(tradingCurrency))
   }, [])
 
-  if (hasError) return <></>
   if (isLoading || isNotAsked) return <Loading />
-  if (!data) return <></>
+  if (hasError || !data) return null
   return <Success tradingCurrency={tradingCurrency} {...(data as DataType)} />
 }
 
