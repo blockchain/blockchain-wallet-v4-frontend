@@ -11,6 +11,7 @@ const ANNOUNCEMENTS = {
   RECURRING_BUY: `recurring-buys-homepage`,
   SANCTIONS: `sanctions-homepage`,
   SERVICE_PRICE_UNAVAILABLE: `service-price-unavailable-homepage`,
+  SOFI_MIGRATION: `sofi-migration-homepage`,
   STAKING: `staking-homepage`
 }
 

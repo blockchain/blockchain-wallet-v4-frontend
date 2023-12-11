@@ -36,6 +36,7 @@ type BannerType =
   | 'appleAndGooglePay'
   | 'staking'
   | 'activeRewards'
+  | 'sofiMigration'
   | null
 
 const showBanner = (flag: boolean, banner: string, announcementState) => {
@@ -243,8 +244,12 @@ export const getData = (state: RootState) => {
 
   const isKycEnabled = products?.kycVerification?.enabled
 
+  const showSofiMigrationBalanceBanner = true
+
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
+  } else if (showSofiMigrationBalanceBanner) {
+    bannerToShow = 'sofiMigration'
   } else if (
     showCompleteYourProfileBanner &&
     !isProfileCompleted &&

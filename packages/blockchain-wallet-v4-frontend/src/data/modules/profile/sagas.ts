@@ -736,6 +736,20 @@ export default ({ api, coreSagas, networks }) => {
     // so we can use it for signup information
   }
 
+  const fetchSofiUserStatus = function* () {
+    try {
+      yield delay(7000)
+      const response = yield call(api.sofiMigrationStatusNabuToken)
+      yield put(A.setSofiUserStatusFromPolling(response?.migrationStatus))
+      if (response?.migrationStatus === 'SUCCESS' || response?.migrationStatus === 'FAILURE') {
+        return true
+      }
+    } catch (error) {
+      return false
+    }
+    return yield call(fetchSofiUserStatus)
+  }
+
   const migrateSofiUser = function* () {
     yield put(A.migrateSofiUserLoading())
     try {
@@ -802,6 +816,7 @@ export default ({ api, coreSagas, networks }) => {
     clearSession,
     createExchangeUser,
     createUser,
+    fetchSofiUserStatus,
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,

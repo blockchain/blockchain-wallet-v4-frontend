@@ -432,8 +432,7 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.router.push('/home'))
       }
-
-      yield call(api.sofiMigrationStatusNabuToken)
+      yield put(actions.modules.profile.fetchSofiUserStatus())
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
       // We run goals in accountResetSaga in this case

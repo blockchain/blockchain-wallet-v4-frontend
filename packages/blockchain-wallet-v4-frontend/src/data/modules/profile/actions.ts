@@ -220,3 +220,12 @@ export const associateSofiUserFailure = (error) => ({
   payload: { error },
   type: AT.ASSOCIATE_SOFI_USER_FAILURE
 })
+
+export const fetchSofiUserStatus = () => ({
+  type: AT.FETCH_SOFI_USER_STATUS
+})
+
+export const setSofiUserStatusFromPolling = (sofiUserStatus) => ({
+  payload: { sofiUserStatus },
+  type: AT.SET_SOFI_USER_STATUS_FROM_POLLING
+})

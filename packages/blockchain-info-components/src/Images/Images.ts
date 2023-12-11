@@ -169,6 +169,7 @@ import sendCrypto from './img/send-crypto.svg'
 import sendNoFundsPromo from './img/send-no-funds-promo.svg'
 import smartphone from './img/smartphone.png'
 import sofiBlockchainMigration from './img/sofi-blockchain-migration.svg'
+import sofiMigrationPending from './img/sofi-migration-pending.svg'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import ssBcLogo from './img/ss-bc-logo.svg'
 import subtractCheckCircle from './img/subtract-check-circle.png'
@@ -363,6 +364,7 @@ const Images = {
   'sesocio-to-blockchain-logo': ssBcLogo,
   smartphone,
   'sofi-blockchain-migration': sofiBlockchainMigration,
+  'sofi-migration-pending': sofiMigrationPending,
   'source-of-wealth': sourceOfWealth,
   'subtract-check-circle': subtractCheckCircle,
   swap,
