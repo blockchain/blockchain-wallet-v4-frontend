@@ -4,7 +4,8 @@ import { getFiatTransformAlertEnabled } from '@core/redux/walletOptions/selector
 import { CoinfigType } from '@core/types'
 import { getUserLegalEntity } from 'data/modules/profile/selectors'
 
-const useShowConversionAlert = (coinfig: CoinfigType) => {
+const useShowConversionAlert = (coinfig?: CoinfigType) => {
+  if (!coinfig) return false
   const fiatTransformAlertEnabled = useSelector(getFiatTransformAlertEnabled)
   const userLegalEntity = useSelector(getUserLegalEntity)
 

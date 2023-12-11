@@ -2,10 +2,11 @@ import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { addDays, format } from 'date-fns'
+import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
-import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import AvailabilityRows from 'components/Brokerage/AvailabilityRows'
 import {
   FlyoutContainer,
@@ -15,7 +16,6 @@ import {
   FlyoutSubHeader
 } from 'components/Flyout/Layout'
 import { CheckoutRow } from 'components/Rows'
-import { actions, selectors } from 'data'
 import {
   BankDWStepType,
   BankPartners,
@@ -23,9 +23,27 @@ import {
   BrokerageTxFormValuesType,
   DepositTerms
 } from 'data/types'
+import { getUserLegalEntity } from 'data/modules/profile/selectors'
+import {
+  getFeatureFlagAvailableToTradeWithdraw,
+  getFiatTransformAlertEnabled
+} from '@core/redux/walletOptions/selectors'
+import { brokerage } from 'data/components/actions'
+import useShowConversionAlert from 'blockchain-wallet-v4-frontend/src/hooks/useShowBalanceConversionAlert'
+
+// Auto margin top so it gets pushed to the bottom
+const FiatNoticeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 1rem;
+  background-color: ${(props) => props.theme.grey000};
+  border-radius: 0.5rem;
+  margin: auto 2rem 0;
+`
 
 const getBankFormatted = (bank) => {
-  if (!bank || !bank.details) return 'Bank Transfer'
+  if (!bank?.details) return 'Bank Transfer'
   const { accountNumber, bankAccountType, bankName } = bank.details
 
   return `${bankName} ${bankAccountType?.toLowerCase() || ''} ${accountNumber}`
@@ -38,29 +56,34 @@ type Props = {
 }
 
 const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
-  const [submitting, setSubmitting] = useState<boolean>(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const dispatch = useDispatch()
 
-  const availableToTradeWithdraw = useSelector(
-    selectors.core.walletOptions.getFeatureFlagAvailableToTradeWithdraw
-  ).getOrElse(false) as boolean
+  const availableToTradeWithdraw = useSelector(getFeatureFlagAvailableToTradeWithdraw).getOrElse(
+    false
+  ) as boolean
 
-  const targetCoinName = defaultMethod?.currency
-    ? window.coins[defaultMethod.currency].coinfig.name
-    : undefined
+  const { coinfig } = defaultMethod?.currency
+    ? window.coins[defaultMethod.currency]
+    : { coinfig: undefined }
+
+  const targetCoinName = coinfig?.name
 
   const isOpenBanking = defaultMethod?.partner === BankPartners.YAPILY
+
   const backButtonClick = useCallback(() => {
-    dispatch(actions.components.brokerage.setDWStep({ dwStep: BankDWStepType.ENTER_AMOUNT }))
+    dispatch(brokerage.setDWStep({ dwStep: BankDWStepType.ENTER_AMOUNT }))
   }, [])
 
   const submitButtonClick = useCallback(() => {
     setSubmitting(true)
-    dispatch(actions.components.brokerage.createFiatDeposit())
+    dispatch(brokerage.createFiatDeposit())
   }, [])
 
-  const amount = formValues?.amount || 0
+  const showConversionDisclaimer = useShowConversionAlert(coinfig)
+
+  const amount = formValues?.amount ?? 0
 
   return (
     <FlyoutContainer>
@@ -104,6 +127,25 @@ const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
           title={<FormattedMessage id='copy.total' defaultMessage='Total' />}
         />
         {availableToTradeWithdraw && <AvailabilityRows depositTerms={depositTerms} />}
+
+        {showConversionDisclaimer && (
+          <FiatNoticeWrapper>
+            <Text
+              weight={600}
+              size='14px'
+              lineHeight='21px'
+              style={{ marginBottom: '8px' }}
+              color='grey900'
+            >
+              Changes to {defaultMethod?.currency} Balances
+            </Text>
+            <Text size='12px' color='grey900'>
+              Your {targetCoinName} ({defaultMethod?.currency}) balance will be converted to USDC
+              daily at 12:00 am UTC. To avoid any inconvenience, buy crypto or initiate a withdrawal
+              before the specified time.
+            </Text>
+          </FiatNoticeWrapper>
+        )}
       </FlyoutContent>
       <FlyoutFooter collapsed>
         <Button
