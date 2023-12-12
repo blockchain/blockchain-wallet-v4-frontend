@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
+import useShowConversionAlert from 'blockchain-wallet-v4-frontend/src/hooks/useShowBalanceConversionAlert'
 import { format } from 'date-fns'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -32,6 +33,8 @@ const Success: React.FC<Props> = ({ handleClose }) => {
   const { coinfig } = window.coins[sellCounterCurrency]
 
   const sellCurrencyName = coinfig.name || sellCounterCurrency
+
+  const showConversionDisclaimer = useShowConversionAlert(coinfig)
 
   if (!sellOrder) return null
 
@@ -130,7 +133,7 @@ const Success: React.FC<Props> = ({ handleClose }) => {
           </Value>
         </Row>
 
-        {true && (
+        {showConversionDisclaimer && (
           <DisclaimerText>
             <FormattedMessage
               id='modals.simplebuy.confirm.conversion_legalese'
