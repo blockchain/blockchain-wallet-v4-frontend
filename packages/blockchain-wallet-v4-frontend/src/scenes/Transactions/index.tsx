@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
 import { NavLink } from 'react-router-dom'
-import { isEmpty, path, toLower } from 'ramda'
+import { path, toLower } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -75,19 +75,9 @@ const ExplainerWrapper = styled.div`
 `
 const StatsContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
   height: 120px;
   max-height: 120px;
   margin: 24px 0;
-
-  & > :first-child {
-    width: 320px;
-    min-width: 320px;
-    z-index: 2;
-    margin-right: 30px;
-  }
 
   ${media.laptop`
     height: auto;
@@ -95,12 +85,7 @@ const StatsContainer = styled.div`
     flex-direction: column;
     margin: 12px 0;
 
-    & > :first-child {
-      width: auto;
-      margin-right: 0px;
-    }
-
-    & > :last-child {
+    & > :not(:first-child) {
       margin-top: 12px;
     }
   `}
@@ -172,12 +157,10 @@ class TransactionsContainer extends React.PureComponent<Props> {
     } = this.props
     const { coin } = computedMatch.params
     const { coinfig } = window.coins[coin]
-    const interestEligibleCoin =
-      !isEmpty(interestEligible) && interestEligible[coin] && interestEligible[coin]?.eligible
-    const stakingEligibleCoin =
-      !isEmpty(stakingEligible) && stakingEligible[coin] && stakingEligible[coin]?.eligible
+    const interestEligibleCoin = interestEligible?.[coin]?.eligible
+    const stakingEligibleCoin = stakingEligible?.[coin]?.eligible
     const isEarnButtonEnabled = isGoldTier && (interestEligibleCoin || stakingEligibleCoin)
-    const isEarnSourceType = sourceType && (sourceType === 'INTEREST' || sourceType === 'STAKING')
+    const isEarnSourceType = sourceType === 'INTEREST' || sourceType === 'STAKING'
 
     return (
       <SceneWrapper>
@@ -359,8 +342,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
     buySellActions: bindActionCreators(actions.components.buySell, dispatch),
     interestActions: bindActionCreators(actions.components.interest, dispatch),
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
-    recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
-    withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
+    recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
   }
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return {

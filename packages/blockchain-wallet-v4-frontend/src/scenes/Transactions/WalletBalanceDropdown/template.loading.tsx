@@ -3,8 +3,6 @@ import styled from 'styled-components'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
 
-type Props = {}
-
 const Wrapper = styled.div`
   height: 120px;
   width: 320px;
@@ -32,7 +30,7 @@ export const Skeletons = () => {
   )
 }
 
-const Loading: React.FC<Props> = () => {
+const Loading: React.FC = () => {
   return (
     <Wrapper>
       <Skeletons />
