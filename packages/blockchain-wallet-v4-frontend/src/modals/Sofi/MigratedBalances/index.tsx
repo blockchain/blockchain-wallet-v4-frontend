@@ -25,11 +25,10 @@ import {
 
 const SofiMigratedBalances = (props: Props) => {
   const dispatch = useDispatch()
-  const sbBalances = useSelector(selectors.components.buySell.getBSBalances).getOrElse({})
-  const sbBalancesArray = Object.entries(sbBalances).map(([key, value]) => ({
-    symbol: key,
-    ...value
-  }))
+  const balances = useSelector(
+    selectors.modules.profile.getSofiMigrationTransferedBalances
+  ).getOrElse([])
+
   const viewAccountClick = () => {
     dispatch(actions.modals.closeModal(ModalName.SOFI_MIGRATED_BALANCES))
   }
@@ -61,25 +60,22 @@ const SofiMigratedBalances = (props: Props) => {
           />
         </Text>
         <BalanceTable>
-          {sbBalancesArray.map(({ mainBalanceToDisplay, symbol }) => {
-            const { coinfig } = window.coins[symbol]
+          {/* @ts-ignore */}
+          {balances.map(({ amount, currency }) => {
+            const { coinfig } = window.coins[currency]
 
             return (
-              <BalanceRow key={symbol}>
+              <BalanceRow key={currency}>
                 <Wrapper>
                   <Coin>
-                    <CoinIcon name={symbol as CoinType} size='32px' />
+                    <CoinIcon name={currency as CoinType} size='32px' />
                     <CoinNames>
                       <CoinName>{coinfig.name}</CoinName>
-                      <CoinSymbol>{symbol}</CoinSymbol>
+                      <CoinSymbol>{currency}</CoinSymbol>
                     </CoinNames>
                   </Coin>
                   <Amount>
-                    <CoinBalanceDisplay
-                      coin={symbol}
-                      balance={mainBalanceToDisplay || 0}
-                      size='14px'
-                    />
+                    <CoinBalanceDisplay coin={currency} balance={amount || 0} size='14px' />
                   </Amount>
                 </Wrapper>
               </BalanceRow>

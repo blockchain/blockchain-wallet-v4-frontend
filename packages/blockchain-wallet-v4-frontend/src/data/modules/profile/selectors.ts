@@ -158,6 +158,9 @@ export const getSofiAssociateNabuUserStatus = (state: RootState) =>
 export const getSofiMigrationStatusFromPolling = (state: RootState) =>
   state.profile.sofiMigrationStatusFromPolling
 
+export const getSofiMigrationTransferedBalances = (state: RootState) =>
+  state.profile.sofiMigrationTransferedBalances
+
 export const getRemainingCoins = (state) => {
   // TODO, fix this
   const exchangeCoinsList = []

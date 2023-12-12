@@ -230,7 +230,7 @@ export const setSofiUserStatusFromPolling = (sofiUserStatus) => ({
   type: AT.SET_SOFI_USER_STATUS_FROM_POLLING
 })
 
-export const setSofiMigratedBalances = (sofiMigratedBalances) => ({
-  payload: { sofiMigratedBalances },
+export const setSofiMigratedBalances = (balances) => ({
+  payload: { balances },
   type: AT.SET_SOFI_MIGRATED_BALANCES
 })

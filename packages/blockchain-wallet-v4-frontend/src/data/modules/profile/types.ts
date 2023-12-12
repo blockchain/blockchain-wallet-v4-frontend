@@ -167,12 +167,13 @@ export enum SofiMigrationErrorIds {
   RATE_LIMIT = 'sofi.migration.error.rate.limit',
   SSN_ERROR = 'sofi.migration.error.ssn.verification.failed'
 }
+type Balance = {
+  amount: string
+  currency: string // using string to handle large numbers and precision
+}
 
 export type SofiMigratedBalances = {
-  balances: {
-    amount: string
-    currency: string
-  }[]
+  balances: Balance[]
 }
 // State
 export interface ProfileState {
@@ -190,7 +191,7 @@ export interface ProfileState {
   sofiAssociateNabuUser: RemoteDataType<boolean, string>
   sofiData: RemoteDataType<string, SofiMigrationStatusResponseType>
   sofiLinkData: SofiLinkData | {}
-  sofiMigrationStatus: RemoteDataType<SofiMigrationErrorType, SofiUserMigrationStatus>
+  sofiMigrationStatus: RemoteDataType<SofiMigrationErrorType, any>
   sofiMigrationStatusFromPolling: RemoteDataType<string, SofiUserMigrationStatus>
   sofiMigrationTransferedBalances: RemoteDataType<string, SofiMigratedBalances>
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
@@ -405,7 +406,7 @@ interface MigrateSofiUserLoadingAction {
 
 interface MigrateSofiUserSuccessAction {
   payload: {
-    migrationStatus: SofiUserMigrationStatus
+    data
   }
   type: typeof AT.MIGRATE_SOFI_USER_SUCCESS
 }
@@ -448,7 +449,7 @@ interface SetSofiUserStatusFromPollingAction {
 }
 
 interface SetSofiMigratedBalancesAction {
-  payload: { sofiMigratedBalances: SofiMigratedBalances }
+  payload: { balances: SofiMigratedBalances }
   type: typeof AT.SET_SOFI_MIGRATED_BALANCES
 }
 

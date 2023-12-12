@@ -242,7 +242,7 @@ export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes
     case AT.MIGRATE_SOFI_USER_SUCCESS: {
       return {
         ...state,
-        sofiMigrationStatus: Remote.Success(action.payload.migrationStatus)
+        sofiMigrationStatus: Remote.Success(action.payload)
       }
     }
     case AT.SET_SOFI_LINK_DATA: {
@@ -280,7 +280,7 @@ export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes
     case AT.SET_SOFI_MIGRATED_BALANCES: {
       return {
         ...state,
-        sofiMigrationTransferedBalances: Remote.Success(action.payload.sofiMigratedBalances)
+        sofiMigrationTransferedBalances: Remote.Success(action.payload.balances)
       }
     }
 

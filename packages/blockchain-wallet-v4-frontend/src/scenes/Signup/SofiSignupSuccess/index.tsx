@@ -20,6 +20,7 @@ const ContentWrapper = styled.div`
 
 const SofiSuccess = () => {
   const { data } = useRemote(selectors.modules.profile.getSofiMigrationStatus)
+  const status = data.migrationStatus.migration_status
 
   const dispatch = useDispatch()
   // Add check here to make sure that there is wallet data
@@ -43,10 +44,16 @@ const SofiSuccess = () => {
   return (
     <Wrapper>
       <ContentWrapper>
-        <Image name='checkmark-circle-green' height='40px' />
+        {status === 'SUCCESS' && <Image name='checkmark-circle-green' height='40px' />}
+        {status === 'PENDING' && <Image name='sofi-migration-pending' height='40px' />}
 
         <Text size='20px' weight={600} color='black' lineHeight='1.5' style={{ marginTop: '8px' }}>
-          <FormattedMessage id='scenes.sofi.signup.success' defaultMessage='You’re all set!' />
+          {status === 'SUCCESS' && (
+            <FormattedMessage id='scenes.sofi.signup.success' defaultMessage='You’re all set!' />
+          )}
+          {status === 'PENDING' && (
+            <FormattedMessage id='scenes.sofi.signup.pending' defaultMessage='Migration started' />
+          )}
         </Text>
         {isMobile() ? (
           <>
@@ -57,10 +64,18 @@ const SofiSuccess = () => {
               size='16px'
               weight={500}
             >
-              <FormattedMessage
-                id='scenes.sofi.signup.success. mobile.title'
-                defaultMessage='Your account was created successfully. Go to the Blockchain.com App to keep enjoying your crypto experience.'
-              />
+              {status === 'SUCCESS' && (
+                <FormattedMessage
+                  id='scenes.sofi.signup.success.mobile.title'
+                  defaultMessage='Your account was created successfully. Go to the Blockchain.com App to keep enjoying your crypto experience.'
+                />
+              )}
+              {status === 'PENDING' && (
+                <FormattedMessage
+                  id='scenes.sofi.signup.pending.mobile.title'
+                  defaultMessage='We are migrating your account. This process might take up to 24 hours. Go to the Blockchain.com App to view your account.'
+                />
+              )}
             </Text>
             <Button data-e2e='viewAccount' fullwidth nature='primary' onClick={downloadMobileApp}>
               <Text color='white' size='16px' weight={600}>
@@ -80,10 +95,18 @@ const SofiSuccess = () => {
               size='16px'
               weight={500}
             >
-              <FormattedMessage
-                id='scenes.sofi.signup.success.title'
-                defaultMessage='Your account was successfully created. Your crypto balances have been migrated.'
-              />
+              {status === 'SUCCESS' && (
+                <FormattedMessage
+                  id='scenes.sofi.signup.success.title'
+                  defaultMessage='Your account was successfully created. Your crypto balances have been migrated.'
+                />
+              )}
+              {status === 'PENDING' && (
+                <FormattedMessage
+                  id='scenes.sofi.signup.pending.title'
+                  defaultMessage='We are migrating your account. This process might take up to 24 hours.'
+                />
+              )}
             </Text>
             <Button data-e2e='viewAccount' fullwidth nature='primary' onClick={sofiWalletRedirect}>
               <Text color='white' size='16px' weight={600}>
