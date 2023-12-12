@@ -151,6 +151,10 @@ const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
 // TAX CENTER
 const GenerateReport = React.lazy(() => import('./TaxCenter/GenerateReport'))
 
+// SOFI
+const SofiWelcome = React.lazy(() => import('./Sofi/Welcome'))
+const SofiMigratedBalances = React.lazy(() => import('./Sofi/MigratedBalances'))
+
 const Modals = (props: Props) => {
   return (
     <Suspense fallback={null}>
@@ -317,6 +321,12 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SIGN_MESSAGE_MODAL) ? (
           <SignMessage />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SOFI_BLOCKCHAIN_WELCOME) ? (
+          <SofiWelcome />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SOFI_MIGRATED_BALANCES) ? (
+          <SofiMigratedBalances />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}

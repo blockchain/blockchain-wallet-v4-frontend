@@ -14,7 +14,7 @@ import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
-import { ProductAuthOptions, UnifiedAccountRedirectType } from 'data/types'
+import { LoginSteps, ProductAuthOptions, UnifiedAccountRedirectType } from 'data/types'
 import { required } from 'services/forms'
 import { isMobile, media } from 'services/styles'
 
@@ -22,7 +22,6 @@ import { Props as OwnProps } from '../..'
 import BackArrowHeader from '../../components/BackArrowHeader'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
-import SignupLink from '../../components/SignupLink'
 import { ActionButton, CenteredColumn, WrapperWithPadding } from '../../model'
 
 const OuterWrapper = styled.div`
@@ -87,6 +86,7 @@ const EnterPasswordWallet = (props: Props) => {
     handleBackArrowClickWallet,
     initialRedirect,
     invalid,
+    isSofi,
     magicLinkData,
     productAuthMetadata,
     qrData,
@@ -105,7 +105,7 @@ const EnterPasswordWallet = (props: Props) => {
   return (
     <OuterWrapper>
       <FormWrapper>
-        {!settingsRedirect && (
+        {!settingsRedirect && !isSofi && (
           <ProductTabMenu
             active={ProductAuthOptions.WALLET}
             onExchangeTabClick={exchangeTabClicked}

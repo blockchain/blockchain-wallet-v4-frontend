@@ -33,7 +33,9 @@ const BackArrowHeader = (props: {
   product?: ProductAuthOptions
 }) => {
   const isExchangeLogin = props.product === ProductAuthOptions.EXCHANGE
-  const email = isExchangeLogin ? props.formValues.exchangeEmail : props.formValues.email
+  const email = isExchangeLogin
+    ? props.formValues.exchangeEmail
+    : props.formValues.email || props.formValues.sofiLoginEmail
   const guid = props.formValues?.guid
   const firstPartGuid = guid && guid.slice(0, 4)
   const lastPartGuid = guid && guid.slice(-4)

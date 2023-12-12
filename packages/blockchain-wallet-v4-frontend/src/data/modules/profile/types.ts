@@ -1,5 +1,7 @@
 import { AxiosError } from 'axios'
+import { type } from 'os'
 
+import { SofiMigrationStatusResponseType } from '@core/network/api/sofi/types'
 import type {
   NabuAddressType,
   NabuApiErrorType,
@@ -138,6 +140,41 @@ export type UserTierType = {
 
 export type UserTiersType = Array<UserTierType>
 
+export enum SofiUserMigrationStatus {
+  AWAITING_USER = 'AWAITING_USER',
+  FAILURE = 'FAILURE',
+  PENDING = 'PENDING',
+  SUCCESS = 'SUCCESS'
+}
+
+export type SofiLinkData = {
+  aesCiphertext: string
+  aesIv: string
+  aesKeyCiphertext: string
+  aesTag: string
+}
+
+export type SofiMigrationErrorType = {
+  id: SofiMigrationErrorIds
+  message: string
+  title: string
+}
+
+export enum SofiMigrationErrorIds {
+  ALREADY_MIGRTED = 'sofi.migration.error.account.migrated',
+  NON_US = 'sofi.migration.error.account.not.us',
+  NOT_ELIGIBLE = 'sofi.migration.error.account.not.eligible',
+  RATE_LIMIT = 'sofi.migration.error.rate.limit',
+  SSN_ERROR = 'sofi.migration.error.ssn.verification.failed'
+}
+type Balance = {
+  amount: string
+  currency: string // using string to handle large numbers and precision
+}
+
+export type SofiMigratedBalances = {
+  balances: Balance[]
+}
 // State
 export interface ProfileState {
   apiToken: RemoteDataType<string, string>
@@ -151,6 +188,12 @@ export interface ProfileState {
     linkToExchangeAccountStatus: RemoteDataType<string, string>
     shareWalletAddressesWithExchange: RemoteDataType<string, string>
   }
+  sofiAssociateNabuUser: RemoteDataType<boolean, string>
+  sofiData: RemoteDataType<string, SofiMigrationStatusResponseType>
+  sofiLinkData: SofiLinkData | {}
+  sofiMigrationStatus: RemoteDataType<SofiMigrationErrorType, any>
+  sofiMigrationStatusFromPolling: RemoteDataType<string, SofiUserMigrationStatus>
+  sofiMigrationTransferedBalances: RemoteDataType<string, SofiMigratedBalances>
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
   userRiskSettings: RemoteDataType<NabuApiErrorType, UserRiskSettings>
@@ -343,14 +386,87 @@ interface FetchUserRiskSettingsSuccessAction {
   }
   type: typeof AT.FETCH_USER_RISK_SETTINGS_SUCCESS
 }
+interface FetchSofiMigrationStatusLoadingAction {
+  type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_LOADING
+}
+interface FetchSofiMigrationStatusSuccessAction {
+  payload: SofiMigrationStatusResponseType
+  type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_SUCCESS
+}
+interface FetchSofiMigrationStatusFailureAction {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_FAILURE
+}
+
+interface MigrateSofiUserLoadingAction {
+  type: typeof AT.MIGRATE_SOFI_USER_LOADING
+}
+
+interface MigrateSofiUserSuccessAction {
+  payload: {
+    data
+  }
+  type: typeof AT.MIGRATE_SOFI_USER_SUCCESS
+}
+
+interface MigrateSofiUserFailureAction {
+  payload: {
+    error: SofiMigrationErrorType
+  }
+  type: typeof AT.MIGRATE_SOFI_USER_FAILURE
+}
+
+interface SetSofiLinkDataAction {
+  payload: {
+    linkData: SofiLinkData
+  }
+  type: typeof AT.SET_SOFI_LINK_DATA
+}
+
+interface AssociateSofiUserAction {
+  type: typeof AT.ASSOCIATE_SOFI_USER
+}
+
+interface AssociateSofiUserLoadingAction {
+  type: typeof AT.ASSOCIATE_SOFI_USER_LOADING
+}
+
+interface AssociateSofiUserSuccessAction {
+  payload: { boolean }
+  type: typeof AT.ASSOCIATE_SOFI_USER_SUCCESS
+}
+
+interface AssociateSofiUserFailureAction {
+  payload: { error }
+  type: typeof AT.ASSOCIATE_SOFI_USER_FAILURE
+}
+
+interface SetSofiUserStatusFromPollingAction {
+  payload: { sofiUserStatus: SofiUserMigrationStatus }
+  type: typeof AT.SET_SOFI_USER_STATUS_FROM_POLLING
+}
+
+interface SetSofiMigratedBalancesAction {
+  payload: { balances: SofiMigratedBalances }
+  type: typeof AT.SET_SOFI_MIGRATED_BALANCES
+}
 
 export type ProfileActionTypes =
+  | AssociateSofiUserAction
+  | AssociateSofiUserLoadingAction
+  | AssociateSofiUserSuccessAction
+  | AssociateSofiUserFailureAction
   | AuthAndRouteToExchangeAction
   | ClearProfileStateAction
   | FetchTiersFailureAction
   | FetchTiersLoadingAction
   | FetchTiersSuccessAction
   | FetchTiersAction
+  | FetchSofiMigrationStatusFailureAction
+  | FetchSofiMigrationStatusLoadingAction
+  | FetchSofiMigrationStatusSuccessAction
   | FetchUser
   | FetchUserCampaignsFailureAction
   | FetchUserCampaignsLoadingAction
@@ -370,12 +486,18 @@ export type ProfileActionTypes =
   | LinkToExchangeAccountResetAction
   | LinkToExchangeAccountLoadingAction
   | LinkToExchangeAccountSuccessAction
+  | MigrateSofiUserLoadingAction
+  | MigrateSofiUserSuccessAction
+  | MigrateSofiUserFailureAction
   | SetApiTokenFailureAction
   | SetApiTokenNotAskedAction
   | SetApiTokenLoadingAction
   | SetApiTokenSuccessAction
   | SetCampaignAction
   | SetLinkToExchangeAccountDeeplinkAction
+  | SetSofiLinkDataAction
+  | SetSofiMigratedBalancesAction
+  | SetSofiUserStatusFromPollingAction
   | ShareWalletAddressesWithExchange
   | ShareWalletAddressWithExchangeFailureAction
   | ShareWalletAddressWithExchangeLoadingAction

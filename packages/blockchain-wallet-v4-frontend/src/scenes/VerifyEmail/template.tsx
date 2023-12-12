@@ -21,10 +21,16 @@ const IconWrapper = styled.div`
   border-radius: 50%;
 `
 
-const VerifyEmail = ({ email, isMetadataRecovery, resendEmail, skipVerification }: Props) => {
+const VerifyEmail = ({
+  email,
+  isMetadataRecovery,
+  isSofi,
+  resendEmail,
+  skipVerification
+}: Props) => {
   return (
     <>
-      <Wrapper>
+      <Wrapper isSofi={isSofi}>
         <ContentWrapper>
           <IconWrapper>
             <Icon color='white' name='email' size='24px' />
@@ -93,6 +99,7 @@ const VerifyEmail = ({ email, isMetadataRecovery, resendEmail, skipVerification 
 type Props = {
   email: string
   isMetadataRecovery: boolean
+  isSofi?: boolean
   resendEmail: () => void
   skipVerification: () => void
 }

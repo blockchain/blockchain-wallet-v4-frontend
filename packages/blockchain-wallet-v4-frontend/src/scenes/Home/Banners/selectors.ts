@@ -11,7 +11,7 @@ import {
 } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ProductEligibilityForUser, UserDataType } from 'data/types'
+import { ProductEligibilityForUser, SofiUserMigrationStatus, UserDataType } from 'data/types'
 
 import ANNOUNCEMENTS from './constants'
 
@@ -36,6 +36,7 @@ type BannerType =
   | 'appleAndGooglePay'
   | 'staking'
   | 'activeRewards'
+  | 'sofiMigration'
   | null
 
 const showBanner = (flag: boolean, banner: string, announcementState) => {
@@ -242,9 +243,22 @@ export const getData = (state: RootState) => {
   let bannerToShow: BannerType = null
 
   const isKycEnabled = products?.kycVerification?.enabled
+  // SOFI
+  const sofiMigrationPending = selectors.modules.profile
+    .getSofiMigrationStatus(state)
+    .getOrElse(null)
+  const sofiMigrationPendingPolling = selectors.modules.profile
+    .getSofiMigrationStatusFromPolling(state)
+    .getOrElse(null)
+
+  const showSofiMigrationBanner =
+    sofiMigrationPending === SofiUserMigrationStatus.PENDING ||
+    sofiMigrationPendingPolling === SofiUserMigrationStatus.PENDING
 
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
+  } else if (showSofiMigrationBanner) {
+    bannerToShow = 'sofiMigration'
   } else if (
     showCompleteYourProfileBanner &&
     !isProfileCompleted &&

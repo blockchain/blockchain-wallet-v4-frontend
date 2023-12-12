@@ -15,6 +15,12 @@ const INITIAL_STATE: ProfileState = {
     linkToExchangeAccountStatus: Remote.NotAsked,
     shareWalletAddressesWithExchange: Remote.NotAsked
   },
+  sofiAssociateNabuUser: Remote.NotAsked,
+  sofiData: Remote.NotAsked,
+  sofiLinkData: {},
+  sofiMigrationStatus: Remote.NotAsked,
+  sofiMigrationStatusFromPolling: Remote.NotAsked,
+  sofiMigrationTransferedBalances: Remote.NotAsked,
   userCampaigns: Remote.NotAsked,
   userData: Remote.NotAsked,
   userRiskSettings: Remote.NotAsked,
@@ -205,6 +211,79 @@ export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes
           shareWalletAddressesWithExchange: Remote.Success(action.payload.data)
         }
       }
+    case AT.FETCH_SOFI_MIGRATION_STATUS_FAILURE:
+      return {
+        ...state,
+        sofiData: Remote.Failure(action.payload.error)
+      }
+    case AT.FETCH_SOFI_MIGRATION_STATUS_LOADING:
+      return {
+        ...state,
+        sofiData: Remote.Loading
+      }
+    case AT.FETCH_SOFI_MIGRATION_STATUS_SUCCESS: {
+      return {
+        ...state,
+        sofiData: Remote.Success(action.payload)
+      }
+    }
+    case AT.MIGRATE_SOFI_USER_FAILURE:
+      return {
+        ...state,
+        sofiMigrationStatus: Remote.Failure(action.payload.error)
+      }
+    case AT.MIGRATE_SOFI_USER_LOADING: {
+      return {
+        ...state,
+        sofiMigrationStatus: Remote.Loading
+      }
+    }
+
+    case AT.MIGRATE_SOFI_USER_SUCCESS: {
+      return {
+        ...state,
+        sofiMigrationStatus: Remote.Success(action.payload)
+      }
+    }
+    case AT.SET_SOFI_LINK_DATA: {
+      return {
+        ...state,
+        sofiLinkData: action.payload.linkData
+      }
+    }
+    case AT.ASSOCIATE_SOFI_USER_FAILURE: {
+      return {
+        ...state,
+        sofiAssociateNabuUser: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.ASSOCIATE_SOFI_USER_LOADING: {
+      return {
+        ...state,
+        sofiAssociateNabuUser: Remote.Loading
+      }
+    }
+    case AT.ASSOCIATE_SOFI_USER_SUCCESS: {
+      return {
+        ...state,
+        sofiAssociateNabuUser: Remote.Success(action.payload.boolean)
+      }
+    }
+
+    case AT.SET_SOFI_USER_STATUS_FROM_POLLING: {
+      return {
+        ...state,
+        sofiMigrationStatusFromPolling: Remote.Success(action.payload.sofiUserStatus)
+      }
+    }
+
+    case AT.SET_SOFI_MIGRATED_BALANCES: {
+      return {
+        ...state,
+        sofiMigrationTransferedBalances: Remote.Success(action.payload.balances)
+      }
+    }
+
     default:
       return state
   }

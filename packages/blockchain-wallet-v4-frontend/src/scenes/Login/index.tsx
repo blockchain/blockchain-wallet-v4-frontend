@@ -24,6 +24,10 @@ import EnterPasswordExchange from './Exchange/EnterPassword'
 import InstitutionalPortal from './Exchange/Institutional'
 import TwoFAExchange from './Exchange/TwoFA'
 import { getData } from './selectors'
+// SOFI Login
+import Email from './Sofi/Email'
+import SofiSuccess from './Sofi/Success'
+import SofiVerifyID from './Sofi/VerifySSN'
 import VerifyMagicLink from './VerifyMagicLink'
 import CheckEmail from './Wallet/CheckEmail'
 import WalletEnterEmailOrGuid from './Wallet/EnterEmailOrGuid'
@@ -146,6 +150,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         <Form onSubmit={this.handleSubmit}>
           {(() => {
             switch (step) {
+              case LoginSteps.SOFI_EMAIL:
+                return <Email {...loginProps} />
               case LoginSteps.INSTITUTIONAL_PORTAL:
                 return <InstitutionalPortal {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_EXCHANGE:
@@ -176,10 +182,15 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                     <TwoFAWallet {...loginProps} />
                   </>
                 )
+              case LoginSteps.SOFI_VERIFY_ID:
+                return <SofiVerifyID {...loginProps} />
               case LoginSteps.CHECK_EMAIL:
                 return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...loginProps} />
+              case LoginSteps.SOFI_SUCCESS:
+                return <SofiSuccess {...loginProps} />
+
               case LoginSteps.ENTER_EMAIL_GUID:
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (
@@ -213,6 +224,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
+  isSofi: selectors.auth.getIsSofi(state),
   jwtToken: selectors.auth.getJwtToken(state),
   magicLinkData: selectors.auth.getMagicLinkData(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),

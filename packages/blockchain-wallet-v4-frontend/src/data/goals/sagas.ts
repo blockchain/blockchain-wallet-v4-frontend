@@ -48,6 +48,30 @@ export default ({ api, coreSagas, networks }) => {
       .getOrElse(false)
   }
 
+  const sofiMigrationStatusCheck = function* () {
+    // If user is coming from sofi migration, awaiting user or pending, don't them this modal
+    const sofiMigrationInitialStatus = (yield select(
+      selectors.modules.profile.getSofiUserData
+    )).getOrElse(null)
+    const sofiMigrationStatus = (yield select(
+      selectors.modules.profile.getSofiMigrationStatus
+    )).getOrElse(null)
+    const sofiMigrationStatusFromPolling = (yield select(
+      selectors.modules.profile.getSofiMigrationStatusFromPolling
+    )).getOrElse(null)
+
+    if (
+      sofiMigrationInitialStatus ||
+      sofiMigrationStatusFromPolling ||
+      sofiMigrationInitialStatus === 'AWAITING_USER' ||
+      sofiMigrationInitialStatus ||
+      sofiMigrationStatusFromPolling ||
+      sofiMigrationInitialStatus === 'PENDING'
+    ) {
+      return true
+    }
+  }
+
   // TODO: use new world deeplinking once merged
   const defineExchangeSettingsGoal = function* (search) {
     const params = new URLSearchParams(search)
@@ -1028,9 +1052,12 @@ export default ({ api, coreSagas, networks }) => {
       kycVerification: { enabled: false }
     } as ProductEligibilityForUser)
 
+    const isSofiPending = yield call(sofiMigrationStatusCheck)
+
     if (
       current < 2 &&
       !hasCowboysTag &&
+      !isSofiPending &&
       products?.kycVerification?.enabled &&
       kycState !== KYC_STATES.REJECTED
     ) {

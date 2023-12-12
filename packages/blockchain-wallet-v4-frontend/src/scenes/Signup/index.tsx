@@ -17,6 +17,7 @@ import { ProductAuthMetadata, ProductSignupMetadata } from 'data/types'
 import BuyGoal from './BuyGoal'
 import Header from './components/Header'
 import SignupCard from './components/SignupCard'
+import SofiSignupCard from './components/SofiSignupCard'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
 import { GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
 
@@ -130,6 +131,7 @@ class SignupContainer extends React.PureComponent<
     const signupInitialValues = (email ? { email } : {}) as SignupFormInitValuesType
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
     const isBuyGoal = !!find(propEq('name', 'buySell'), goals)
+    const isSofi = window.location.hash.includes('sofi')
 
     const subviewProps = {
       isFormSubmitting,
@@ -152,11 +154,14 @@ class SignupContainer extends React.PureComponent<
           </UKHeaderWrapper>
         )}
         <SignupWrapper>
+          {isSofi && <SofiSignupCard {...subviewProps} />}
           {isLatam && <Header />}
           {isLinkAccountGoal && <ExchangeLinkGoal {...subviewProps} />}
           {isBuyGoal && <BuyGoal {...subviewProps} />}
-          {!isLinkAccountGoal && !isBuyGoal && !isLatam && <SignupCard {...subviewProps} />}
-          {!isLinkAccountGoal && !isBuyGoal && isLatam && (
+          {!isLinkAccountGoal && !isBuyGoal && !isLatam && !isSofi && (
+            <SignupCard {...subviewProps} />
+          )}
+          {!isLinkAccountGoal && !isBuyGoal && !isSofi && isLatam && (
             <LatamWrapper>
               <SignupCard {...subviewProps} />
               <LatamPhone>
@@ -191,6 +196,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch),
   signupActions: bindActionCreators(actions.signup, dispatch),
   websocketActions: bindActionCreators(actions.ws, dispatch)
 })

@@ -146,6 +146,21 @@ export const getLinkToExchangeAccountDeeplink = path([
 export const getShareWalletAddressesStatus = (state: RootState) =>
   state.profile.exchangeOnboarding.shareWalletAddressesWithExchange
 
+export const getSofiUserData = (state: RootState) => state.profile.sofiData
+
+export const getSofiMigrationStatus = (state: RootState) => state.profile.sofiMigrationStatus
+
+export const getSofiLinkData = (state: RootState) => state.profile.sofiLinkData
+
+export const getSofiAssociateNabuUserStatus = (state: RootState) =>
+  state.profile.sofiAssociateNabuUser
+
+export const getSofiMigrationStatusFromPolling = (state: RootState) =>
+  state.profile.sofiMigrationStatusFromPolling
+
+export const getSofiMigrationTransferedBalances = (state: RootState) =>
+  state.profile.sofiMigrationTransferedBalances
+
 export const getRemainingCoins = (state) => {
   // TODO, fix this
   const exchangeCoinsList = []

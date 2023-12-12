@@ -14,6 +14,7 @@ export type SignupFormType = {
   email: string
   password: string
   referral?: string
+  sofiSsn?: string
   state: string
 }
 export type GoalDataType = Array<{

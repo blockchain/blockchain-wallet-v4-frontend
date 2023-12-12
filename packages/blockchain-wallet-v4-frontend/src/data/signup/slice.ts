@@ -103,8 +103,10 @@ const signupSlice = createSlice({
       state.kycReset = action.payload
     },
     setProductSignupMetadata: (state, action: PayloadAction<ProductSignupMetadata>) => {
-      const { platform, product, referrerUsername, signupRedirect, tuneTid } = action.payload
+      const { isSofi, platform, product, referrerUsername, signupRedirect, tuneTid } =
+        action.payload
       state.productSignupMetadata = {
+        isSofi,
         platform: platform?.toUpperCase() as PlatformTypes,
         product: product?.toUpperCase() as ProductAuthOptions,
         referrerUsername,
