@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch, useSelector } from 'react-redux'
+import useShowConversionAlert from 'blockchain-wallet-v4-frontend/src/hooks/useShowBalanceConversionAlert'
 import { addDays, format } from 'date-fns'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
 
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
@@ -16,13 +17,14 @@ import {
   FlyoutSubHeader
 } from 'components/Flyout/Layout'
 import { CheckoutRow } from 'components/Rows'
-import { BankDWStepType, BankPartners } from 'data/types'
-import { getUserLegalEntity } from 'data/modules/profile/selectors'
-import { getFiatTransformAlertEnabled } from '@core/redux/walletOptions/selectors'
-
-import { Props as _P, SuccessStateType as _S } from '.'
-import { FormattedBank } from './model'
-import { getCurrencyName } from './utils'
+import { actions, selectors } from 'data'
+import {
+  BankDWStepType,
+  BankPartners,
+  BankTransferAccountType,
+  BrokerageTxFormValuesType,
+  DepositTerms
+} from 'data/types'
 
 // Auto margin top so it gets pushed to the bottom
 const FiatNoticeWrapper = styled.div`
@@ -33,30 +35,50 @@ const FiatNoticeWrapper = styled.div`
   background-color: ${(props) => props.theme.grey000};
   border-radius: 0.5rem;
   margin: auto 2rem 0;
+  border: 1px solid #d46a00;
 `
 
-const Success = (props: Props) => {
-  const [submitting, setSubmitting] = useState<boolean>(false)
-  const targetCoinName = getCurrencyName(props.defaultMethod?.currency)
+const getBankFormatted = (bank) => {
+  if (!bank || !bank.details) return 'Bank Transfer'
+  const { accountNumber, bankAccountType, bankName } = bank.details
 
-  const isOpenBanking = props.defaultMethod?.partner === BankPartners.YAPILY
+  return `${bankName} ${bankAccountType?.toLowerCase() || ''} ${accountNumber}`
+}
+
+type Props = {
+  defaultMethod?: BankTransferAccountType
+  depositTerms?: DepositTerms
+  formValues: BrokerageTxFormValuesType
+}
+
+const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
+  const [submitting, setSubmitting] = useState<boolean>(false)
+
+  const dispatch = useDispatch()
+
+  const availableToTradeWithdraw = useSelector(
+    selectors.core.walletOptions.getFeatureFlagAvailableToTradeWithdraw
+  ).getOrElse(false) as boolean
+
+  const targetCoinName = defaultMethod?.currency
+    ? window.coins[defaultMethod.currency].coinfig.name
+    : undefined
+
+  const isOpenBanking = defaultMethod?.partner === BankPartners.YAPILY
   const backButtonClick = useCallback(() => {
-    props.brokerageActions.setDWStep({
-      dwStep: BankDWStepType.ENTER_AMOUNT
-    })
+    dispatch(actions.components.brokerage.setDWStep({ dwStep: BankDWStepType.ENTER_AMOUNT }))
   }, [])
 
   const submitButtonClick = useCallback(() => {
     setSubmitting(true)
-    props.brokerageActions.createFiatDeposit()
+    dispatch(actions.components.brokerage.createFiatDeposit())
   }, [])
 
-  const fiatTransformAlertEnabled = useSelector(getFiatTransformAlertEnabled)
-  const userLegalEntity = useSelector(getUserLegalEntity)
+  const showConversionDisclaimer = useShowConversionAlert(
+    window.coins[defaultMethod!.currency].coinfig
+  )
 
-  const amount = props.formValues?.amount || 0
-
-  const showChangeAlert = fiatTransformAlertEnabled && true;
+  const amount = formValues?.amount || 0
 
   return (
     <FlyoutContainer>
@@ -66,14 +88,14 @@ const Success = (props: Props) => {
       <FlyoutSubHeader
         data-e2e='depositConfirmAmount'
         title={fiatToString({
-          unit: props.defaultMethod?.currency as FiatType,
+          unit: defaultMethod?.currency as FiatType,
           value: amount
         })}
         subTitle=''
       />
       <FlyoutContent mode='top'>
         <CheckoutRow
-          text={FormattedBank(props.defaultMethod)}
+          text={getBankFormatted(defaultMethod)}
           title={<FormattedMessage id='copy.from' defaultMessage='From' />}
         />
         <CheckoutRow
@@ -94,28 +116,28 @@ const Success = (props: Props) => {
         <CheckoutRow
           text={fiatToString({
             digits: 0,
-            unit: props.defaultMethod?.currency || ('USD' as FiatType),
+            unit: defaultMethod?.currency || ('USD' as FiatType),
             value: amount
           })}
           title={<FormattedMessage id='copy.total' defaultMessage='Total' />}
         />
-        {props.availableToTradeWithdraw && <AvailabilityRows depositTerms={props.depositTerms} />}
+        {availableToTradeWithdraw && <AvailabilityRows depositTerms={depositTerms} />}
 
-        {showChangeAlert && (
+        {showConversionDisclaimer && (
           <FiatNoticeWrapper>
             <Text
               weight={600}
               size='14px'
               lineHeight='21px'
               style={{ marginBottom: '8px' }}
-              color='grey900'
+              color='#D46A00'
             >
-              Changes to {props.defaultMethod?.currency} Balances
+              Important information
             </Text>
             <Text size='12px' color='grey900'>
-              Your {targetCoinName} ({props.defaultMethod?.currency}) balance will be converted to
-              USDC daily at 12:00 am UTC. To avoid any inconvenience, buy crypto or initiate a
-              withdrawal before the specified time.
+              Your {targetCoinName} ({defaultMethod?.currency}) balance will be converted to USDC
+              daily at 12:00 am UTC. To avoid any inconvenience, buy crypto or initiate a withdrawal
+              before the specified time.
             </Text>
           </FiatNoticeWrapper>
         )}
@@ -143,7 +165,5 @@ const Success = (props: Props) => {
     </FlyoutContainer>
   )
 }
-
-type Props = _P & _S
 
 export default Success

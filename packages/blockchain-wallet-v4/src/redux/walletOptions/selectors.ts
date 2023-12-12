@@ -227,5 +227,5 @@ export const getImportedAddressSweep = (state: RootState) =>
 export const getProveEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'proveEnabled']))
 
-export const getFiatTransformAlertEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'fiatTransformAlertEnabled']))
+export const getFiatEntityRemediationAlert = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'showFiatEntityRemediationAlert']))
