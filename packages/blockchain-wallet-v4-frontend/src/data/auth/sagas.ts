@@ -449,9 +449,6 @@ export default ({ api, coreSagas, networks }) => {
       if (email) {
         yield put(actions.cache.emailStored(email))
       }
-      yield put(
-        actions.modals.showModal(ModalName.SOFI_MIGRATED_BALANCES, { origin: 'SofiMigration' })
-      )
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
       yield put(actions.form.destroy(LOGIN_FORM))
