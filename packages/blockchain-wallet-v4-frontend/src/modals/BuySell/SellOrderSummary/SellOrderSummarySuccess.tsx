@@ -1,12 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
+import useShowConversionAlert from 'blockchain-wallet-v4-frontend/src/hooks/useShowBalanceConversionAlert'
 import { format } from 'date-fns'
-import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import { OrderType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import { selectors } from 'data'
 import {
   getCoinFromPair,
   getFiatFromPair,
@@ -15,37 +17,28 @@ import {
 } from 'data/components/buySell/model'
 
 import { BuyOrSell } from '../model'
-import { Props as OwnProps, SuccessStateType } from '.'
-import { Status } from './model'
+import { Props } from '.'
+import { Amount, DisclaimerText, TopText, Wrapper } from './SellOrderSumary.styles'
+import { Status } from './StatusMessage'
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  height: 100%;
-`
-const TopText = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-const Amount = styled.div`
-  margin-top: 40px;
-  > div {
-    display: inline;
-  }
-`
+const Success: React.FC<Props> = ({ handleClose }) => {
+  const sellOrder = useSelector(selectors.components.buySell.getSellOrder)
 
-const Success: React.FC<Props> = (props) => {
-  const { sellOrder } = props
   const sellBaseAmount = sellOrder && getSellBaseAmount(sellOrder)
   const sellBaseCurrency = sellOrder ? getCoinFromPair(sellOrder.pair) : 'BTC'
   const sellCounterCurrency = sellOrder ? getFiatFromPair(sellOrder.pair) : 'USD'
   const isInternal = sellOrder?.kind.direction === 'INTERNAL'
   const sellCounterAmount = sellOrder ? getSellCounterAmount(sellOrder) : 0
-  const sellCurrencyName = window.coins[sellCounterCurrency]?.coinfig.name || sellCounterCurrency
 
-  return sellOrder ? (
+  const { coinfig } = window.coins[sellCounterCurrency]
+
+  const sellCurrencyName = coinfig.name || sellCounterCurrency
+
+  const showConversionDisclaimer = useShowConversionAlert(coinfig)
+
+  if (!sellOrder) return null
+
+  return (
     <Wrapper>
       <div>
         <FlyoutWrapper>
@@ -53,13 +46,7 @@ const Success: React.FC<Props> = (props) => {
             <span>
               <BuyOrSell orderType={OrderType.SELL} crypto={sellBaseCurrency} />
             </span>
-            <Icon
-              cursor
-              name='close'
-              size='20px'
-              color='grey600'
-              onClick={() => props.handleClose()}
-            />
+            <Icon cursor name='close' size='20px' color='grey600' onClick={handleClose} />
           </TopText>
           <Amount>
             <Text color='grey800' data-e2e='sbAmount' size='32px' weight={600}>
@@ -70,7 +57,7 @@ const Success: React.FC<Props> = (props) => {
             </Text>
           </Amount>
           <div style={{ margin: '16px 0' }}>
-            <Status {...props} />
+            <Status sellOrder={sellOrder} />
           </div>
         </FlyoutWrapper>
         <Row>
@@ -145,11 +132,22 @@ const Success: React.FC<Props> = (props) => {
             {isInternal ? `${sellBaseCurrency} Trading Account` : `${sellBaseCurrency} DeFi Wallet`}
           </Value>
         </Row>
+
+        {showConversionDisclaimer && (
+          <DisclaimerText>
+            <FormattedMessage
+              id='modals.simplebuy.confirm.conversion_legalese'
+              defaultMessage='Your {coinName} ({symbol}) balance will be converted to USDC daily at 12:00 am UTC. To avoid any inconvenience , buy crypto or initiate a withdrawal before the specified time.'
+              values={{
+                coinName: sellCurrencyName,
+                symbol: sellCounterCurrency
+              }}
+            />
+          </DisclaimerText>
+        )}
       </div>
     </Wrapper>
-  ) : null
+  )
 }
-
-type Props = OwnProps & SuccessStateType
 
 export default Success
