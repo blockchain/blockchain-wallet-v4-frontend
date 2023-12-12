@@ -351,7 +351,7 @@ export default ({ api, coreSagas, networks }) => {
         yield select(selectors.custodial.getProductEligibilityForUser)
 
       // Bakkt related flag - if enabled, user needs to continue on phone
-      if (userEligibility?.useExternalTradingAccount?.enabled) {
+      if (userEligibility?.useExternalTradingAccount?.enabled && !isSofi) {
         return yield put(actions.router.push('/continue-on-phone'))
       }
 

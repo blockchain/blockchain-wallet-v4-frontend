@@ -739,17 +739,10 @@ export default ({ api, coreSagas, networks }) => {
   const fetchSofiUserStatus = function* () {
     try {
       const response = yield call(api.sofiMigrationStatusNabuToken)
-      const testResponse = {
-        migrationStatus: 'SUCCESS',
-
-        // Optional, in case if migration is complete
-        // Minor units
-        balances: null
-      }
       yield put(A.setSofiUserStatusFromPolling(response?.migrationStatus))
 
-      if (testResponse.migrationStatus === 'SUCCESS') {
-        yield put(A.setSofiMigratedBalances(testResponse?.balances))
+      if (response.migrationStatus === 'SUCCESS') {
+        yield put(A.setSofiMigratedBalances(response?.balances))
         return true
       }
       if (response?.migrationStatus === 'FAILURE' || !response?.migrationStatus) {
