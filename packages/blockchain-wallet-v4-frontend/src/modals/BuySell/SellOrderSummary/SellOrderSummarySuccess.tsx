@@ -17,7 +17,7 @@ import {
 
 import { BuyOrSell } from '../model'
 import { Props } from '.'
-import { Amount, TopText, Wrapper } from './SellOrderSumary.styles'
+import { Amount, DisclaimerText, TopText, Wrapper } from './SellOrderSumary.styles'
 import { Status } from './StatusMessage'
 
 const Success: React.FC<Props> = ({ handleClose }) => {
@@ -129,6 +129,19 @@ const Success: React.FC<Props> = ({ handleClose }) => {
             {isInternal ? `${sellBaseCurrency} Trading Account` : `${sellBaseCurrency} DeFi Wallet`}
           </Value>
         </Row>
+
+        {true && (
+          <DisclaimerText>
+            <FormattedMessage
+              id='modals.simplebuy.confirm.conversion_legalese'
+              defaultMessage='Your {coinName} ({symbol}) balance will be converted to USDC daily at 12:00 am UTC. To avoid any inconvenience , buy crypto or initiate a withdrawal before the specified time.'
+              values={{
+                coinName: sellCurrencyName,
+                symbol: sellCounterCurrency
+              }}
+            />
+          </DisclaimerText>
+        )}
       </div>
     </Wrapper>
   )

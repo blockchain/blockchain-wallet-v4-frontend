@@ -443,6 +443,18 @@ class PreviewSell extends PureComponent<
             </RowItem>
             <Border />
             <FlyoutWrapper>
+              {true && (
+                <DisclaimerText>
+                  <FormattedMessage
+                    id='modals.simplebuy.confirm.conversion_legalese'
+                    defaultMessage='Your {coinName} ({symbol}) balance will be converted to USDC daily at 12:00 am UTC. To avoid any inconvenience , buy crypto or initiate a withdrawal before the specified time.'
+                    values={{
+                      coinName: incomingCoinName,
+                      symbol: COUNTER
+                    }}
+                  />
+                </DisclaimerText>
+              )}
               <DisclaimerText>
                 <FormattedMessage
                   id='modals.simplebuy.confirm.sell_description'
