@@ -697,9 +697,9 @@ export default ({ api, coreSagas, networks }) => {
       // redirect them to login page
       // TODO
       // temporarily removing this for sofi testing
-      // if (!aesCiphertext || !aesIV || !aesTag || !aesKeyCiphertext) {
-      //   yield put(actions.router.push('/login'))
-      // }
+      if (!aesCiphertext || !aesIV || !aesTag || !aesKeyCiphertext) {
+        yield put(actions.router.replace('/login'))
+      }
       yield put(A.setSofiLinkData({ aesCiphertext, aesIV, aesTag, aesKeyCiphertext }))
 
       // call is user migrated api before loading page
