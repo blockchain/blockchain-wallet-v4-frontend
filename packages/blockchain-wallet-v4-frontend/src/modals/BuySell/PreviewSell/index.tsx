@@ -7,7 +7,14 @@ import { clearSubmitErrors, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
 import { coinToString, formatFiat } from '@core/exchange/utils'
-import { BSOrderActionType, BSPairType, CoinType, PaymentValue, RatesType } from '@core/types'
+import {
+  BSOrderActionType,
+  BSPairType,
+  CoinfigType,
+  CoinType,
+  PaymentValue,
+  RatesType
+} from '@core/types'
 import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Value } from 'components/Flyout'
@@ -46,7 +53,7 @@ import {
   RowTextWrapper,
   ToolTipText,
   TopRow
-} from './PreviewSell.styled'
+} from './PreviewSell.styles'
 import { SellButton } from './SellButton'
 
 const { FORM_BS_CHECKOUT, FORM_BS_PREVIEW_SELL } = model.components.buySell
@@ -174,8 +181,21 @@ class PreviewSell extends PureComponent<
     }))
   }
 
+  showFiatTransformAlert = (coinfig: CoinfigType) => {
+    const { fiatTransformAlertEnabled, userLegalEntity } = this.props
+    if (!fiatTransformAlertEnabled || coinfig.type.name !== 'FIAT') return false
+
+    // Non BC_US with USD balance
+    const NON_BC_US_WITH_USD = userLegalEntity !== 'BC_US' && coinfig.displaySymbol === 'USD'
+    // Non BC_LT/BC_LT_2 with EUR/GBP balance
+    const ANY_BC_LT_WITH_EUR_GBP =
+      !userLegalEntity?.includes('BC_LT') && ['EUR', 'GBP'].includes(coinfig.displaySymbol)
+
+    return NON_BC_US_WITH_USD || ANY_BC_LT_WITH_EUR_GBP
+  }
+
   render() {
-    const { clearErrors, error, quoteR } = this.props
+    const { clearErrors, error, fiatTransformAlertEnabled, quoteR, userLegalEntity } = this.props
 
     if (isNabuError(error)) {
       return <GenericNabuErrorFlyout error={error} onDismiss={clearErrors} />
@@ -197,6 +217,8 @@ class PreviewSell extends PureComponent<
         const { coinfig } = window.coins[counterCoinTicker]
         const isErc20 = coinfig.type.erc20Address
         const incomingCoinName = coinfig.name ?? counterCoinTicker
+
+        const showConversionDisclaimer = this.showFiatTransformAlert(coinfig)
 
         return (
           <CustomForm onSubmit={this.handleSubmit}>
@@ -443,7 +465,7 @@ class PreviewSell extends PureComponent<
             </RowItem>
             <Border />
             <FlyoutWrapper>
-              {true && (
+              {showConversionDisclaimer && (
                 <DisclaimerText>
                   <FormattedMessage
                     id='modals.simplebuy.confirm.conversion_legalese'
@@ -516,13 +538,15 @@ const mapStateToProps = (state: RootState) => {
   return {
     account: selectors.components.buySell.getSwapAccount(state),
     coin,
+    fiatTransformAlertEnabled: selectors.core.walletOptions.getFiatTransformAlertEnabled(state),
     formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
     incomingAmountR: selectors.components.buySell.getIncomingAmount(state),
     pair: selectors.components.buySell.getBSPair(state),
     payment: selectors.components.buySell.getPayment(state).getOrElse(undefined),
     quoteR: selectors.components.buySell.getSellQuote(state),
     rates: selectors.core.data.misc.getRatesSelector(coin, state).getOrElse({} as RatesType),
-    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType)
+    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType),
+    userLegalEntity: selectors.modules.profile.getUserLegalEntity(state)
   }
 }
 
