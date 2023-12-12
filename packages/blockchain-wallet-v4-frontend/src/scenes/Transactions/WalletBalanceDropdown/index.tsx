@@ -8,7 +8,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { coinToString, fiatToString } from '@core/exchange/utils'
-import { getFiatTransformAlertEnabled } from '@core/redux/walletOptions/selectors'
+import { getFiatEntityRemediationAlert } from '@core/redux/walletOptions/selectors'
 import {
   AddressTypesType,
   CoinfigType,
@@ -378,11 +378,11 @@ class WalletBalanceDropdown extends Component<Props> {
   }
 
   render() {
-    const { coin, data, fiatTransformAlertEnabled } = this.props
+    const { coin, data, showFiatEntityRemediationAlert } = this.props
     const { coinfig } = window.coins[coin]
 
-    const showChangeAlert =
-      fiatTransformAlertEnabled && this.showFiatTransformAlert(this.props, coinfig)
+    const showConversionDisclaimer =
+      showFiatEntityRemediationAlert && this.showFiatTransformAlert(this.props, coinfig)
 
     return data.cata({
       Failure: (e) => <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>,
@@ -409,7 +409,7 @@ class WalletBalanceDropdown extends Component<Props> {
               />
             </Wrapper>
 
-            {showChangeAlert && (
+            {showConversionDisclaimer && (
               <FiatNoticeWrapper>
                 <Text
                   weight={600}
@@ -436,7 +436,7 @@ class WalletBalanceDropdown extends Component<Props> {
 
 const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps),
-  fiatTransformAlertEnabled: getFiatTransformAlertEnabled(state),
+  showFiatEntityRemediationAlert: getFiatEntityRemediationAlert(state),
   userLegalEntity: getUserLegalEntity(state)
 })
 

@@ -182,8 +182,8 @@ class PreviewSell extends PureComponent<
   }
 
   showFiatTransformAlert = (coinfig: CoinfigType) => {
-    const { fiatTransformAlertEnabled, userLegalEntity } = this.props
-    if (!fiatTransformAlertEnabled || coinfig.type.name !== 'FIAT') return false
+    const { showFiatEntityRemediationAlert, userLegalEntity } = this.props
+    if (!showFiatEntityRemediationAlert || coinfig.type.name !== 'FIAT') return false
 
     // Non BC_US with USD balance
     const NON_BC_US_WITH_USD = userLegalEntity !== 'BC_US' && coinfig.displaySymbol === 'USD'
@@ -195,7 +195,7 @@ class PreviewSell extends PureComponent<
   }
 
   render() {
-    const { clearErrors, error, fiatTransformAlertEnabled, quoteR, userLegalEntity } = this.props
+    const { clearErrors, error, quoteR } = this.props
 
     if (isNabuError(error)) {
       return <GenericNabuErrorFlyout error={error} onDismiss={clearErrors} />
@@ -536,7 +536,6 @@ const mapStateToProps = (state: RootState) => {
   return {
     account: selectors.components.buySell.getSwapAccount(state),
     coin,
-    fiatTransformAlertEnabled: selectors.core.walletOptions.getFiatTransformAlertEnabled(state),
     formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
     incomingAmountR: selectors.components.buySell.getIncomingAmount(state),
     pair: selectors.components.buySell.getBSPair(state),
@@ -544,6 +543,8 @@ const mapStateToProps = (state: RootState) => {
     quoteR: selectors.components.buySell.getSellQuote(state),
     rates: selectors.core.data.misc.getRatesSelector(coin, state).getOrElse({} as RatesType),
     ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType),
+    showFiatEntityRemediationAlert:
+      selectors.core.walletOptions.getFiatEntityRemediationAlert(state),
     userLegalEntity: selectors.modules.profile.getUserLegalEntity(state)
   }
 }

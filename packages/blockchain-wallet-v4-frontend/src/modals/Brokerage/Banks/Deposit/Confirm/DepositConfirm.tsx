@@ -23,13 +23,9 @@ import {
   BrokerageTxFormValuesType,
   DepositTerms
 } from 'data/types'
-import { getUserLegalEntity } from 'data/modules/profile/selectors'
-import {
-  getFeatureFlagAvailableToTradeWithdraw,
-  getFiatTransformAlertEnabled
-} from '@core/redux/walletOptions/selectors'
+import { getFeatureFlagAvailableToTradeWithdraw } from '@core/redux/walletOptions/selectors'
 import { brokerage } from 'data/components/actions'
-import useShowConversionAlert from 'blockchain-wallet-v4-frontend/src/hooks/useShowBalanceConversionAlert'
+import useShowConversionAlert from '../../../../../hooks/useShowBalanceConversionAlert'
 
 // Auto margin top so it gets pushed to the bottom
 const FiatNoticeWrapper = styled.div`
@@ -40,6 +36,7 @@ const FiatNoticeWrapper = styled.div`
   background-color: ${(props) => props.theme.grey000};
   border-radius: 0.5rem;
   margin: auto 2rem 0;
+  border: 1px solid #d46a00;
 `
 
 const getBankFormatted = (bank) => {
@@ -135,7 +132,7 @@ const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
               size='14px'
               lineHeight='21px'
               style={{ marginBottom: '8px' }}
-              color='grey900'
+              color='#D46A00'
             >
               Changes to {defaultMethod?.currency} Balances
             </Text>
