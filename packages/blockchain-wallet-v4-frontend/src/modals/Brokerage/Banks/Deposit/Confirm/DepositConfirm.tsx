@@ -125,16 +125,10 @@ const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
 
         {showConversionDisclaimer && (
           <FiatNoticeWrapper>
-            <Text
-              weight={600}
-              size='14px'
-              lineHeight='21px'
-              style={{ marginBottom: '8px' }}
-              color='#D46A00'
-            >
-              Important information
+            <Text weight={600} size='14px' lineHeight='21px' style={{ marginBottom: '8px' }}>
+              <span style={{ color: '#D46A00' }}>Important information</span>
             </Text>
-            <Text size='12px' color='grey900'>
+            <Text size='12px' weight={500} color='grey900'>
               Your {targetCoinName} ({defaultMethod?.currency}) balance will be converted to USDC
               daily at 12:00 am UTC. To avoid any inconvenience, buy crypto or initiate a withdrawal
               before the specified time.

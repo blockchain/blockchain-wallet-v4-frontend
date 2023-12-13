@@ -23,7 +23,7 @@ const DepositMethods = ({ handleClose }: Props) => {
   )
 
   useEffect(() => {
-    dispatch(actions.components.send.getLockRule)
+    dispatch(actions.components.send.getLockRule())
     if (formValues?.currency && defaultMethod) {
       dispatch(
         actions.components.brokerage.fetchDepositTerms({
