@@ -716,11 +716,8 @@ export default ({ api, coreSagas, networks }) => {
         sofiUserState = 'US-' + sofiUserState
       }
 
-      if (response.migrationStatus === SofiUserMigrationStatus.AWAITING_USER) {
-        yield put(actions.router.push('/sofi'))
-      } else {
-        yield put(actions.router.push('/login/sofi'))
-      }
+      yield put(actions.router.push('/sofi'))
+
       yield put(
         A.fetchSofiMigrationStatusSuccess({
           ...response,
@@ -730,6 +727,7 @@ export default ({ api, coreSagas, networks }) => {
     } catch (e) {
       //TODO add error handling
       yield put(A.fetchSofiMigrationStatusFailure(e))
+      yield put(actions.router.push('/sofi'))
     }
 
     // also save information retrieved from response in redux
