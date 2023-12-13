@@ -687,12 +687,26 @@ export default ({ api, coreSagas, networks }) => {
   const initiateSofiLanding = function* () {
     yield put(A.fetchSofiMigrationStatusLoading())
     try {
+      const url = window.location.href
       const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
-      const aesCiphertext = queryParams.get('aesCiphertext') as string
-      const aesIV = queryParams.get('aesIV') as string
-      const aesTag = queryParams.get('aesTag') as string
-      const aesKeyCiphertext = queryParams.get('aesKeyCiphertext') as string
 
+      function getQueryParamCaseInsensitive(url, paramName) {
+        // Create URLSearchParams object from the URL
+        const normalizedParamName = paramName.toLowerCase()
+        // Iterate over all query parameters
+        for (const [key, value] of queryParams) {
+          if (key.toLowerCase() === normalizedParamName) {
+            return value
+          }
+        }
+        // If the parameter is not found, return null or undefined
+        return null
+      }
+
+      const aesCiphertext = getQueryParamCaseInsensitive(url, 'aesCiphertext') as string
+      const aesIV = getQueryParamCaseInsensitive(url, 'aesIV') as string
+      const aesTag = getQueryParamCaseInsensitive(url, 'aesTag') as string
+      const aesKeyCiphertext = getQueryParamCaseInsensitive(url, 'aesKeyCipherText') as string
       // if there are no params in url, just `/sofi`
       // redirect them to login page
       // TODO
