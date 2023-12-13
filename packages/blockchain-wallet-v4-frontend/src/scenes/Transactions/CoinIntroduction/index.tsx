@@ -1,13 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import { CoinType, WalletFiatEnum, WalletFiatType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
 import { actions } from 'data'
-import { ModalName } from 'data/types'
 import { media } from 'services/styles'
 
 const Container = styled.div`
@@ -50,93 +48,76 @@ const BuyButton = styled(Button)`
     background-color: white;
   }
 `
+const brokerageCurrencies = Object.keys(WalletFiatEnum).filter(
+  (value) =>
+    typeof WalletFiatEnum[value] === 'number' &&
+    [WalletFiatEnum.ARS, WalletFiatEnum.USD].includes(WalletFiatEnum[value])
+)
 
-class CoinIntroductionContainer extends React.PureComponent<Props> {
-  handleRequest = () =>
-    this.props.modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
-      origin: 'EmptyFeed'
-    })
+const CoinIntroductionContainer = ({ coin }: Props) => {
+  const dispatch = useDispatch()
 
-  render() {
-    const { brokerageActions, buySellActions, coin } = this.props
-    const { coinfig } = window.coins[coin]
-    const brokerageCurrencies = Object.keys(WalletFiatEnum).filter(
-      (value) =>
-        typeof WalletFiatEnum[value] === 'number' &&
-        [WalletFiatEnum.ARS, WalletFiatEnum.USD].includes(WalletFiatEnum[value])
-    )
-    const isBrokerageCurrency = brokerageCurrencies.includes(coin)
+  const { coinfig } = window.coins[coin]
 
-    return (
-      <Container>
-        <Row>
-          <Column>
-            <div>
-              <Text size='20px' weight={600} color='grey800'>
-                <FormattedMessage
-                  id='scenes.transaction.content.empty.transactions'
-                  defaultMessage='Transactions'
-                />
-              </Text>
-              <Content weight={400}>
-                <FormattedMessage
-                  id='scenes.transaction.content.empty.cointxs'
-                  defaultMessage='All your {coinName} transactions will show up here.'
-                  values={{
-                    coinName: coinfig.name
-                  }}
-                />
-              </Content>
-            </div>
-          </Column>
-        </Row>
-        <Column style={{ paddingRight: '20px' }}>
-          <BuyButton
-            data-e2e='buyCoinFromTxList'
-            nature='empty-secondary'
-            onClick={() => {
-              if (coinfig.type.name === 'FIAT') {
-                // ACH Deposits/Withdrawals is only for USD and ARS right now
-                // so keeping the existing functionality for EUR
-                return isBrokerageCurrency
-                  ? brokerageActions.handleDepositFiatClick(coin as WalletFiatType)
-                  : buySellActions.handleDepositFiatClick({ coin, origin: 'TransactionList' })
-              }
-              buySellActions.showModal({ origin: 'EmptyFeed' })
-            }}
-          >
-            {coinfig.type.name === 'FIAT' ? (
-              <FormattedMessage
-                id='scenes.transaction.content.empty.depositnow'
-                defaultMessage='Deposit {coin} Now'
-                values={{ coin: coinfig.name }}
-              />
-            ) : (
-              <FormattedMessage
-                id='scenes.transaction.content.empty.buycoinnow'
-                defaultMessage='Buy {coin} Now'
-                values={{ coin: coinfig.name }}
-              />
-            )}
-          </BuyButton>
-        </Column>
-      </Container>
-    )
+  const isBrokerageCurrency = brokerageCurrencies.includes(coin)
+
+  const buyClick = () => {
+    if (coinfig.type.name === 'FIAT') {
+      // ACH Deposits/Withdrawals is only for USD and ARS right now
+      // so keeping the existing functionality for EUR
+      return isBrokerageCurrency
+        ? dispatch(actions.components.brokerage.handleDepositFiatClick(coin as WalletFiatType))
+        : dispatch(
+            actions.components.buySell.handleDepositFiatClick({ coin, origin: 'TransactionList' })
+          )
+    }
+    dispatch(actions.components.buySell.showModal({ origin: 'EmptyFeed' }))
   }
+
+  return (
+    <Container>
+      <Row>
+        <Column>
+          <div>
+            <Text size='20px' weight={600} color='grey800'>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.transactions'
+                defaultMessage='Transactions'
+              />
+            </Text>
+            <Content weight={400}>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.cointxs'
+                defaultMessage='All your {coinName} transactions will show up here.'
+                values={{ coinName: coinfig.name }}
+              />
+            </Content>
+          </div>
+        </Column>
+      </Row>
+      <Column style={{ paddingRight: '20px' }}>
+        <BuyButton data-e2e='buyCoinFromTxList' nature='empty-secondary' onClick={buyClick}>
+          {coinfig.type.name === 'FIAT' ? (
+            <FormattedMessage
+              id='scenes.transaction.content.empty.depositnow'
+              defaultMessage='Deposit {coin} Now'
+              values={{ coin: coinfig.name }}
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.transaction.content.empty.buycoinnow'
+              defaultMessage='Buy {coin} Now'
+              values={{ coin: coinfig.name }}
+            />
+          )}
+        </BuyButton>
+      </Column>
+    </Container>
+  )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
-
-const connector = connect(undefined, mapDispatchToProps)
-
-type OwnProps = {
+export type Props = {
   coin: CoinType
 }
 
-export type Props = OwnProps & ConnectedProps<typeof connector>
-
-export default connector(CoinIntroductionContainer)
+export default memo(CoinIntroductionContainer)
