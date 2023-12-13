@@ -132,8 +132,8 @@ const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
             </Text>
             <Text size='12px' weight={500} color='grey900'>
               Your {targetCoinName} ({defaultMethod?.currency}) balance will be converted to USDC
-              daily at 12:00 am UTC. To avoid any inconvenience, buy crypto or initiate a withdrawal
-              before the specified time.
+              daily at 12:00 am UTC. To avoid any inconvenience buy crypto before the specified
+              time.
             </Text>
           </FiatNoticeWrapper>
         )}

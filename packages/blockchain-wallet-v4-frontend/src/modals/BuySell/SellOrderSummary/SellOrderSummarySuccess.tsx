@@ -137,7 +137,7 @@ const Success: React.FC<Props> = ({ handleClose }) => {
           <DisclaimerText>
             <FormattedMessage
               id='modals.simplebuy.confirm.conversion_legalese'
-              defaultMessage='Your {coinName} ({symbol}) balance will be converted to USDC daily at 12:00 am UTC. To avoid any inconvenience , buy crypto or initiate a withdrawal before the specified time.'
+              defaultMessage='Your {coinName} ({symbol}) balance will be converted to USDC daily at 12:00 am UTC. To avoid any inconvenience buy crypto before the specified time.'
               values={{
                 coinName: sellCurrencyName,
                 symbol: sellCounterCurrency
