@@ -14,7 +14,7 @@ import Success from './template.success'
 const LinkedCards = () => {
   const dispatch = useDispatch()
 
-  const fiatCurrency = useSelector(selectors.core.settings.getCurrency) ?? 'USD'
+  const fiatCurrency = useSelector(selectors.core.settings.getCurrency).getOrElse('USD')
 
   const handleCreditCardClick = () => {
     dispatch(
