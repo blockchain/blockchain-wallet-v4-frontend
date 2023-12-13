@@ -38,7 +38,7 @@ const Wrapper = styled.div`
   z-index: 2;
   margin-right: 30px;
 
-  ${media.laptopL`
+  ${media.laptop`
     width: auto;
     margin-right: 0px;
   `}
@@ -52,6 +52,11 @@ const FiatNoticeWrapper = styled(Wrapper)`
   padding: 1rem;
   background-color: ${(props) => props.theme.grey000};
   border-radius: 0.5rem;
+
+  ${media.laptop`
+    width: auto;
+    margin-right: 0px;
+  `}
 `
 
 const DisplayContainer = styled.div<{ isItem?: boolean }>`
