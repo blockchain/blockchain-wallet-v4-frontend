@@ -1,53 +1,15 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-import {
-  Button,
-  HeartbeatLoader,
-  Image,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  SpinningLoader,
-  Text
-} from 'blockchain-info-components'
+import { Button, Image, Modal, ModalBody, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ModalName, SofiUserMigrationStatus } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  margin: 20px 0 10px;
-  border: 1px solid ${(props) => props.theme.grey200};
-`
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 5px;
-  box-sizing: border-box;
-`
-
-const IconRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  & > :first-child {
-    margin-right: 4px;
-  }
-`
 
 const Body = styled(ModalBody)`
   display: flex;
@@ -71,9 +33,12 @@ const SofiWelcome = (props: Props) => {
   const statusPending =
     sofiMigrationStatus === SofiUserMigrationStatus.PENDING ||
     sofiMigrationStatusFromPolling === SofiUserMigrationStatus.PENDING
+  const statusSuccess =
+    sofiMigrationStatus === SofiUserMigrationStatus.SUCCESS ||
+    sofiMigrationStatusFromPolling === SofiUserMigrationStatus.SUCCESS
 
   const continueButtonClick = () => {
-    if (!statusPending) {
+    if (statusPending || statusSuccess) {
       dispatch(
         actions.modals.showModal(ModalName.SOFI_MIGRATED_BALANCES, { origin: 'SofiMigration' })
       )
@@ -98,15 +63,15 @@ const SofiWelcome = (props: Props) => {
           lineHeight='1.5'
           style={{ marginBottom: '64px', marginTop: '16px', textAlign: 'center' }}
         >
-          {statusPending ? (
-            <FormattedMessage
-              id='scenes.sofi.welcome.modal.pending'
-              defaultMessage='We are migrating your account. This process might take up to 24 hours.'
-            />
-          ) : (
+          {statusSuccess ? (
             <FormattedMessage
               id='scenes.sofi.welcome.modal.body'
               defaultMessage='Congrats! You can now continue your crypto experience with Blockchain.com.'
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.sofi.welcome.modal.pending'
+              defaultMessage='We are migrating your account. This process might take up to 24 hours.'
             />
           )}
         </Text>
