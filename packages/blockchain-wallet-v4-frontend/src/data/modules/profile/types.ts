@@ -175,6 +175,14 @@ type Balance = {
 export type SofiMigratedBalances = {
   balances: Balance[]
 }
+
+export type ErrorType = {
+  code: number
+  description: string
+  id: string
+  status: number
+  type: string
+}
 // State
 export interface ProfileState {
   apiToken: RemoteDataType<string, string>
@@ -189,7 +197,7 @@ export interface ProfileState {
     shareWalletAddressesWithExchange: RemoteDataType<string, string>
   }
   sofiAssociateNabuUser: RemoteDataType<boolean, string>
-  sofiData: RemoteDataType<string, SofiMigrationStatusResponseType>
+  sofiData: RemoteDataType<ErrorType, SofiMigrationStatusResponseType>
   sofiLinkData: SofiLinkData | {}
   sofiMigrationStatus: RemoteDataType<SofiMigrationErrorType, any>
   sofiMigrationStatusFromPolling: RemoteDataType<string, SofiUserMigrationStatus>
@@ -395,7 +403,7 @@ interface FetchSofiMigrationStatusSuccessAction {
 }
 interface FetchSofiMigrationStatusFailureAction {
   payload: {
-    error: string
+    error: ErrorType
   }
   type: typeof AT.FETCH_SOFI_MIGRATION_STATUS_FAILURE
 }
