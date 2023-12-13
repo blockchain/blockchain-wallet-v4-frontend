@@ -427,8 +427,7 @@ class WalletBalanceDropdown extends Component<Props> {
                 </Text>
                 <Text size='12px' color='grey900'>
                   Your {coinfig.name} ({coin}) balance will be converted to USDC daily at 12:00 am
-                  UTC. To avoid any inconvenience, buy crypto or initiate a withdrawal before the
-                  specified time.
+                  UTC. To avoid any inconvenience buy crypto before the specified time.
                 </Text>
               </FiatNoticeWrapper>
             )}

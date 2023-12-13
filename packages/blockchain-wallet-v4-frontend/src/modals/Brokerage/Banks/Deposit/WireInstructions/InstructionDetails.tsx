@@ -132,8 +132,7 @@ export const InstructionDetails = ({ account, onClickBack }: Props) => {
                 <li>
                   <Text size='12px' weight={500} color='grey900'>
                     Your {coinfig.name} ({currency}) balance will be converted to USDC daily at
-                    12:00 am UTC. To avoid any inconvenience, buy crypto or initiate a withdrawal
-                    before the specified time.
+                    12:00 am UTC. To avoid any inconvenience buy crypto before the specified time.
                   </Text>
                 </li>
               )}
