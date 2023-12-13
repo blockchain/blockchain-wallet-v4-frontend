@@ -6,7 +6,8 @@ import { CoinType } from '@core/types'
 import { Button, Modal, Text } from 'blockchain-info-components'
 import CoinBalanceDisplay from 'components/CoinWithBalance/CoinBalanceDisplay'
 import { actions, selectors } from 'data'
-import { ModalName } from 'data/types'
+import { RootState } from 'data/rootReducer'
+import { ModalName, SofiUserMigrationStatus } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
@@ -28,6 +29,16 @@ const SofiMigratedBalances = (props: Props) => {
   const balances = useSelector(
     selectors.modules.profile.getSofiMigrationTransferedBalances
   ).getOrElse([])
+  const sofiMigrationStatus = useSelector(
+    (state: RootState) => state.profile.sofiMigrationStatus
+  ).getOrElse(null)
+  const sofiMigrationStatusFromPolling = useSelector(
+    (state: RootState) => state.profile.sofiMigrationStatusFromPolling
+  ).getOrElse(null)
+
+  const statusPending =
+    sofiMigrationStatus === SofiUserMigrationStatus.PENDING ||
+    sofiMigrationStatusFromPolling === SofiUserMigrationStatus.PENDING
 
   const viewAccountClick = () => {
     dispatch(actions.modals.closeModal(ModalName.SOFI_MIGRATED_BALANCES))
@@ -42,10 +53,17 @@ const SofiMigratedBalances = (props: Props) => {
           lineHeight='1.5'
           style={{ marginTop: '24px' }}
         >
-          <FormattedMessage
-            id='scenes.sofi.modal.migratedbalances.header'
-            defaultMessage='You’re all set! 🎉'
-          />
+          {statusPending ? (
+            <FormattedMessage
+              id='scenes.sofi.modal.migratedbalances.pending.header'
+              defaultMessage='Migration in progress 🕔'
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.sofi.modal.migratedbalances.header'
+              defaultMessage='You’re all set! 🎉'
+            />
+          )}
         </Text>
         <Text
           size='16px'
@@ -54,10 +72,17 @@ const SofiMigratedBalances = (props: Props) => {
           lineHeight='1.5'
           style={{ marginTop: '16px', textAlign: 'center' }}
         >
-          <FormattedMessage
-            id='scenes.sofi.welcome.modal.body'
-            defaultMessage='Here’s a list of all the assets migrated from your SoFi account. '
-          />
+          {statusPending ? (
+            <FormattedMessage
+              id='scenes.sofi.welcome.modal.body.pending'
+              defaultMessage='Here’s a list of all the assets being migrated from your SoFi account. '
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.sofi.welcome.modal.body'
+              defaultMessage='Here’s a list of all the assets migrated from your SoFi account. '
+            />
+          )}
         </Text>
         <BalanceTable>
           {/* @ts-ignore */}

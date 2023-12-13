@@ -741,7 +741,7 @@ export default ({ api, coreSagas, networks }) => {
       const response = yield call(api.sofiMigrationStatusNabuToken)
       yield put(A.setSofiUserStatusFromPolling(response?.migrationStatus))
 
-      if (response.migrationStatus === 'SUCCESS') {
+      if (response.migrationStatus === 'SUCCESS' || response.migrationStatus === 'PENDING') {
         yield put(A.setSofiMigratedBalances(response?.balances))
         return true
       }
@@ -765,12 +765,12 @@ export default ({ api, coreSagas, networks }) => {
 
       const response = yield call(api.migrateSofiUser, sofiSSN, nabuSessionToken)
 
-      yield put(A.migrateSofiUserSuccess(response))
       const userStatusResponse = yield call(api.sofiMigrationStatusNabuToken)
 
       if (userStatusResponse.migration_status === SofiUserMigrationStatus.SUCCESS) {
         yield put(A.setSofiMigratedBalances(response.balances))
       }
+      yield put(A.migrateSofiUserSuccess(response))
       yield put(actions.router.push('/sofi-success'))
     } catch (e) {
       yield put(
@@ -780,6 +780,7 @@ export default ({ api, coreSagas, networks }) => {
           title: e.title
         })
       )
+      yield put(actions.router.push('/sofi-error'))
     }
   }
 
