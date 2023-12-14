@@ -443,7 +443,9 @@ export default ({ api, coreSagas, networks }) => {
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.startLogoutTimer())
       yield call(startCoinWebsockets)
-
+      yield put(
+        actions.modals.showModal(ModalName.SOFI_MIGRATED_BALANCES, { origin: 'SofiMigration' })
+      )
       // store guid and email in cache for future login
       yield put(actions.cache.guidEntered(guid))
       if (email) {
