@@ -12,8 +12,7 @@ const ErrorWrapper = styled(Wrapper)`
   flex-direction: column;
 `
 
-const Error = (props) => {
-  const { error } = props
+const Error = ({ error }) => {
   return (
     <ErrorWrapper>
       <Icon color='error' name='close-circle' size='40px' />
