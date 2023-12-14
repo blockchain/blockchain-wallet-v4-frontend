@@ -26,16 +26,7 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmail = (props: Props) => {
-  const {
-    busy,
-    cache,
-    formValues,
-    invalid,
-    magicLinkData,
-    productAuthMetadata,
-    submitting,
-    walletTabClicked
-  } = props
+  const { busy, formValues, invalid, magicLinkData, submitting, walletTabClicked } = props
 
   return (
     <LoginWrapper>

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -10,6 +11,7 @@ import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
+import { trackEvent } from 'data/analytics/slice'
 import { Analytics, ExchangeErrorCodes, ProductAuthOptions } from 'data/types'
 import { required } from 'services/forms'
 import { media } from 'services/styles'
@@ -30,7 +32,6 @@ const LoginWrapper = styled(Wrapper)`
 
 const EnterPasswordExchange = (props: Props) => {
   const {
-    analyticsActions,
     cache,
     exchangeError,
     formValues,
@@ -42,18 +43,22 @@ const EnterPasswordExchange = (props: Props) => {
     walletTabClicked
   } = props
 
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    analyticsActions.trackEvent({
-      key: Analytics.LOGIN_PASSWORD_INPUT_PAGE_ENTERED,
-      properties: {
-        device_origin: productAuthMetadata?.product || 'WEB',
-        originalTimestamp: new Date().toISOString()
-      }
-    })
+    dispatch(
+      trackEvent({
+        key: Analytics.LOGIN_PASSWORD_INPUT_PAGE_ENTERED,
+        properties: {
+          device_origin: productAuthMetadata?.product || 'WEB',
+          originalTimestamp: new Date().toISOString()
+        }
+      })
+    )
   }, [])
 
-  const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
-  const sanctionedRegionError = exchangeError && exchangeError === ExchangeErrorCodes.NOT_ACCEPTABLE
+  const passwordError = exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
+  const sanctionedRegionError = exchangeError === ExchangeErrorCodes.NOT_ACCEPTABLE
 
   return (
     <LoginWrapper>
@@ -65,7 +70,7 @@ const EnterPasswordExchange = (props: Props) => {
       />
       <WrapperWithPadding>
         <BackArrowHeader
-          {...props}
+          formValues={formValues}
           handleBackArrowClick={handleBackArrowClickExchange}
           hideGuid
           marginTop='28px'
