@@ -51,7 +51,7 @@ const TwoFAWallet = (props: Props) => {
     formValues,
     handleBackArrowClickWallet,
     invalid,
-    magicLinkData,
+    isMobilePlatform,
     productAuthMetadata,
     submitting,
     walletError
@@ -97,7 +97,7 @@ const TwoFAWallet = (props: Props) => {
           formValues={formValues}
           handleBackArrowClick={handleBackArrowClickWallet}
           marginTop='28px'
-          platform={magicLinkData?.platform_type}
+          hideBackArrow={isMobilePlatform}
           product={props.productAuthMetadata.product}
         />
         {twoFAType && (
@@ -190,7 +190,7 @@ const TwoFAWallet = (props: Props) => {
           />
         </CenteredColumn>
       </WrapperWithPadding>
-      <SignupLink platform={magicLinkData?.platform_type} />
+      {!isMobilePlatform && <SignupLink />}
     </LoginWrapper>
   )
 }

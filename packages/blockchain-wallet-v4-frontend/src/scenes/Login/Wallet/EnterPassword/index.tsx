@@ -12,6 +12,7 @@ import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
+import { getIsSofi } from 'data/auth/selectors'
 import { getChannelPrivKeyForQrData } from 'data/cache/selectors'
 import { getInitialRedirect } from 'data/goals/selectors'
 import { ProductAuthOptions, UnifiedAccountRedirectType } from 'data/types'
@@ -79,14 +80,14 @@ const EnterPasswordWallet = (props: OwnProps) => {
     formValues,
     handleBackArrowClickWallet,
     invalid,
-    isSofi,
-    magicLinkData,
+    isMobilePlatform,
     productAuthMetadata,
     submitting,
     walletError
   } = props
 
   const qrData = useSelector(getChannelPrivKeyForQrData)
+  const isSofi = useSelector(getIsSofi)
 
   const passwordError = walletError?.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
@@ -113,7 +114,7 @@ const EnterPasswordWallet = (props: OwnProps) => {
             <BackArrowHeader
               formValues={formValues}
               handleBackArrowClick={handleBackArrowClickWallet}
-              platform={magicLinkData?.platform_type}
+              hideBackArrow={isMobilePlatform}
               marginTop='28px'
             />
           )}

@@ -48,7 +48,7 @@ const InstitutionalPortal = (props: Props) => {
     formValues,
     handleBackArrowClickExchange,
     invalid,
-    magicLinkData,
+    isMobilePlatform,
     productAuthMetadata,
     submitting
   } = props
@@ -144,7 +144,7 @@ const InstitutionalPortal = (props: Props) => {
           />
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink platform={magicLinkData?.platform_type} />
+      {isMobilePlatform && <SignupLink />}
     </LoginWrapper>
   )
 }

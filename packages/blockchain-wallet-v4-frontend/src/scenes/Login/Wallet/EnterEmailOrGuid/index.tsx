@@ -29,8 +29,15 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmailOrGuid = (props: Props) => {
-  const { busy, exchangeTabClicked, formValues, invalid, magicLinkData, submitting, walletError } =
-    props
+  const {
+    busy,
+    exchangeTabClicked,
+    formValues,
+    invalid,
+    isMobilePlatform,
+    submitting,
+    walletError
+  } = props
   const guidError = walletError?.toLowerCase().includes('unknown wallet id')
 
   return (
@@ -94,7 +101,7 @@ const EnterEmailOrGuid = (props: Props) => {
           </LinkContainer>
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink platform={magicLinkData?.platform_type} />
+      {isMobilePlatform && <SignupLink />}
     </LoginWrapper>
   )
 }

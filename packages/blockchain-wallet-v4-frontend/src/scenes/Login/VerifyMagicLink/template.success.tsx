@@ -1,20 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
-import { Wrapper } from 'components/Public'
+import { actions } from 'data'
 import { media } from 'services/styles'
 
-import { Props } from '..'
 import { LoginWrapper } from '../model'
 
-const InfoWrapper = styled.div`
-  width: 100%;
-  text-align: left;
-  ${media.mobile`
-  text-align: center;`}
-`
 const DeviceInfoWrapper = styled.div`
   margin-top: 20px;
 `
@@ -86,25 +80,28 @@ const SuccessWrapper = styled.div`
   flex-direction: column;
 `
 
-const Success = (props) => {
-  const { approver, requester } = props
-  return props.deviceAuthorized ? (
-    <LoginWrapper>
-      <SuccessWrapper>
-        <Icon color='success' name='checkmark-circle-filled' size='40px' />
-        <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
-          <FormattedMessage id='scenes.login.device_verified' defaultMessage='Device verified!' />
-        </Text>
+const Success = ({ approver, deviceAuthorized, requester }) => {
+  const dispatch = useDispatch()
+  const authorizeDevice = (state: boolean) => dispatch(actions.auth.authorizeVerifyDevice(state))
 
-        <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
-          <FormattedMessage
-            id='scenes.login.device_verified.copy'
-            defaultMessage='You can safely close this tab or page. Go back to the other Blockchain.com tab or page to continue.'
-          />
-        </Text>
-      </SuccessWrapper>
-    </LoginWrapper>
-  ) : (
+  if (deviceAuthorized) {
+    return (
+      <LoginWrapper>
+        <SuccessWrapper>
+          <Icon color='success' name='checkmark-circle-filled' size='40px' />
+
+          <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
+            <FormattedMessage
+              id='scenes.login.device_verified.copy'
+              defaultMessage='You can safely close this tab or page. Go back to the other Blockchain.com tab or page to continue.'
+            />
+          </Text>
+        </SuccessWrapper>
+      </LoginWrapper>
+    )
+  }
+
+  return (
     <LoginWrapper>
       <FormBody>
         <Image name='blockchain-icon' width='40px' height='40px' />
@@ -232,7 +229,7 @@ const Success = (props) => {
         <ApproveRejectButtons
           data-e2e='approveLogin'
           nature='warning'
-          onClick={() => props.authActions.authorizeVerifyDevice(true)}
+          onClick={() => authorizeDevice(true)}
         >
           <FormattedMessage id='modals.mobilenumberverify.verify' defaultMessage='Verify' />
         </ApproveRejectButtons>
@@ -242,7 +239,7 @@ const Success = (props) => {
         <ApproveRejectButtons
           data-e2e='rejectLogin'
           nature='primary'
-          onClick={() => props.authActions.authorizeVerifyDevice(false)}
+          onClick={() => authorizeDevice(false)}
         >
           <FormattedMessage id='scenes.authorizelogin.reject' defaultMessage='Reject' />
         </ApproveRejectButtons>

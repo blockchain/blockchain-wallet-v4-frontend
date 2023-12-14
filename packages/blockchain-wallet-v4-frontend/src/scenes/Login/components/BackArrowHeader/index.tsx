@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { LoginFormType, LoginSteps, PlatformTypes, ProductAuthOptions } from 'data/auth/types'
+import { LoginFormType, LoginSteps, ProductAuthOptions } from 'data/auth/types'
 import { isMobile } from 'services/styles'
 
 const BackArrowWrapper = styled.div<{ hideBackArrow?: boolean; marginTop?: string }>`
@@ -27,18 +27,18 @@ const EmailAndGuid = styled.div`
 type Props = {
   formValues: LoginFormType
   handleBackArrowClick: () => void
+  hideBackArrow?: boolean
   hideGuid?: boolean
   marginTop?: string
-  platform?: PlatformTypes
   product?: ProductAuthOptions
 }
 
 const BackArrowHeader = ({
   formValues,
   handleBackArrowClick,
+  hideBackArrow,
   hideGuid,
   marginTop,
-  platform,
   product
 }: Props) => {
   const isExchangeLogin = product === ProductAuthOptions.EXCHANGE
@@ -48,7 +48,6 @@ const BackArrowHeader = ({
   const guid = formValues?.guid
   const firstPartGuid = guid?.slice(0, 4)
   const lastPartGuid = guid?.slice(-4)
-  const hideBackArrow = platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS
   return (
     <BackArrowWrapper marginTop={marginTop} hideBackArrow={hideBackArrow}>
       {!hideBackArrow && (

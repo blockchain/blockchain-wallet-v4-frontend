@@ -9,8 +9,6 @@ import { actions } from 'data'
 import { isBrowserAndroid, isBrowserIOS } from 'services/browser'
 import { isMobile } from 'services/styles'
 
-import { Props } from '../..'
-
 const ContentWrapper = styled.div`
   display: flex;
   text-align: center;
@@ -18,7 +16,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
 `
 
-const SofiSuccess = (props: Props) => {
+const SofiSuccess = () => {
   const dispatch = useDispatch()
   // Add check here to make sure that there is wallet data
   // route should navigate to login if there's no wallet data

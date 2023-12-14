@@ -1,20 +1,14 @@
 import React, { useEffect } from 'react'
-import { connect, ConnectedProps, useDispatch, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { push } from 'connected-react-router'
 import { getFormValues, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
 import Form from 'components/Form/Form'
-import { actions, selectors } from 'data'
-import { auth as authActions, cache as cacheActions, router as routerActions } from 'data/actions'
+import { auth as authActions, cache as cacheActions } from 'data/actions'
 import { trackEvent } from 'data/analytics/slice'
 import { LOGIN_FORM } from 'data/auth/model'
-import {
-  getExchangeLogin,
-  getLogin,
-  getMagicLinkData,
-  getProductAuthMetadata
-} from 'data/auth/selectors'
+import { getExchangeLogin, getLogin, getProductAuthMetadata } from 'data/auth/selectors'
 import { getCache } from 'data/cache/selectors'
 import {
   Analytics,
@@ -22,8 +16,8 @@ import {
   LoginFormType,
   LoginSteps,
   PlatformTypes,
-  ProductAuthOptions,
-  UnifiedAccountRedirectType
+  ProductAuthMetadata,
+  ProductAuthOptions
 } from 'data/types'
 
 import UrlNoticeBar from './components/UrlNoticeBar'
@@ -31,7 +25,6 @@ import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
 import InstitutionalPortal from './Exchange/Institutional'
 import TwoFAExchange from './Exchange/TwoFA'
-import { getData } from './selectors'
 // SOFI Login
 import Email from './Sofi/Email'
 import SofiSuccess from './Sofi/Success'
@@ -45,9 +38,6 @@ import TwoFAWallet from './Wallet/TwoFA'
 const Login = (props) => {
   const { change, destroy, ...reduxFormProps } = props
   const formActions = { change, destroy }
-
-  // not used here
-  const magicLinkData = useSelector(getMagicLinkData)
 
   // Used here
   const cache = useSelector(getCache)
@@ -100,7 +90,7 @@ const Login = (props) => {
   const exchangeTabClicked = () => {
     const { exchangeEmail } = cache
     dispatch(authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE }))
-    dispatch(routerActions.push('/login?product=exchange'))
+    dispatch(push('/login?product=exchange'))
     if (exchangeEmail) {
       formActions.change('exchangeEmail', exchangeEmail)
       formActions.change('step', LoginSteps.ENTER_PASSWORD_EXCHANGE)
@@ -112,7 +102,7 @@ const Login = (props) => {
   const walletTabClicked = () => {
     const { guidStored, lastEmail, lastGuid } = cache
     dispatch(authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET }))
-    dispatch(routerActions.push('/login?product=wallet'))
+    dispatch(push('/login?product=wallet'))
     if (guidStored || lastGuid) {
       formActions.change('guid', lastGuid || guidStored)
       formActions.change('email', lastEmail)
@@ -127,18 +117,17 @@ const Login = (props) => {
     dispatch(authActions.continueLoginProcess())
   }
 
-  const isMobileViewLogin = platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS
+  const isMobilePlatform = platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS
 
   const loginProps = {
-    ...props,
+    ...reduxFormProps,
     busy, // TODO see if we still need busy
-    cache,
     exchangeError,
     exchangeTabClicked,
     formValues,
     handleBackArrowClickExchange,
     handleBackArrowClickWallet,
-    magicLinkData,
+    isMobilePlatform,
     productAuthMetadata,
     walletError,
     walletTabClicked
@@ -168,51 +157,56 @@ const Login = (props) => {
     <Form onSubmit={handleSubmit}>
       {(() => {
         switch (step) {
+          case LoginSteps.SOFI_EMAIL:
+            return <Email {...loginProps} />
           case LoginSteps.INSTITUTIONAL_PORTAL:
             return <InstitutionalPortal {...loginProps} />
           case LoginSteps.ENTER_PASSWORD_EXCHANGE:
             return (
               <>
-                {!isMobileViewLogin && <UrlNoticeBar />}
+                {!isMobilePlatform && <UrlNoticeBar />}
                 <EnterPasswordExchange {...loginProps} />
               </>
             )
           case LoginSteps.ENTER_PASSWORD_WALLET:
             return (
               <>
-                {!isMobileViewLogin && <UrlNoticeBar />}
+                {!isMobilePlatform && <UrlNoticeBar />}
                 <EnterPasswordWallet {...loginProps} />
               </>
             )
           case LoginSteps.TWO_FA_EXCHANGE:
             return (
               <>
-                {!isMobileViewLogin && <UrlNoticeBar />}
+                {!isMobilePlatform && <UrlNoticeBar />}
                 <TwoFAExchange {...loginProps} />
               </>
             )
           case LoginSteps.TWO_FA_WALLET:
             return (
               <>
-                {!isMobileViewLogin && <UrlNoticeBar />}
+                {!isMobilePlatform && <UrlNoticeBar />}
                 <TwoFAWallet {...loginProps} />
               </>
             )
+          case LoginSteps.SOFI_VERIFY_ID:
+            return <SofiVerifyID {...loginProps} />
           case LoginSteps.CHECK_EMAIL:
             return <CheckEmail {...loginProps} handleSubmit={handleSubmit} />
           case LoginSteps.VERIFY_MAGIC_LINK:
             return <VerifyMagicLink {...loginProps} />
+          case LoginSteps.SOFI_SUCCESS:
+            return <SofiSuccess {...loginProps} />
+
           case LoginSteps.ENTER_EMAIL_GUID:
           default:
-            return product === ProductAuthOptions.EXCHANGE ? (
+            const LoginComponent =
+              product === ProductAuthOptions.EXCHANGE ? ExchangeEnterEmail : WalletEnterEmailOrGuid
+
+            return (
               <>
-                {!isMobileViewLogin && <UrlNoticeBar />}
-                <ExchangeEnterEmail {...loginProps} />
-              </>
-            ) : (
-              <>
-                {!isMobileViewLogin && <UrlNoticeBar />}
-                <WalletEnterEmailOrGuid {...loginProps} />
+                {!isMobilePlatform && <UrlNoticeBar />}
+                <LoginComponent {...loginProps} />
               </>
             )
         }
@@ -221,43 +215,21 @@ const Login = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  cache: selectors.cache.getCache(state),
-  formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
-  initialRedirect: selectors.goals.getInitialRedirect(state) as UnifiedAccountRedirectType,
-  initialValues: {
-    step: LoginSteps.ENTER_EMAIL_GUID
-  },
-  isSofi: selectors.auth.getIsSofi(state),
-  jwtToken: selectors.auth.getJwtToken(state),
-  magicLinkData: selectors.auth.getMagicLinkData(state),
-  productAuthMetadata: selectors.auth.getProductAuthMetadata(state)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  authActions: bindActionCreators(actions.auth, dispatch),
-  cacheActions: bindActionCreators(actions.cache, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type OwnProps = {
+export type Props = {
   busy?: boolean
   exchangeError?: ExchangeErrorCodes
   exchangeTabClicked?: () => void
+  formValues: LoginFormType
   handleBackArrowClickExchange: () => void
   handleBackArrowClickWallet: () => void
-  invalid: boolean
-  pristine: boolean
+  invalid?: boolean
+  isMobilePlatform: boolean
+  pristine?: boolean
+  productAuthMetadata: ProductAuthMetadata
   submitting: boolean
   walletError?: string
   walletTabClicked?: () => void
 }
-
-export type Props = ConnectedProps<typeof connector> & OwnProps
 
 export default reduxForm({
   form: LOGIN_FORM,

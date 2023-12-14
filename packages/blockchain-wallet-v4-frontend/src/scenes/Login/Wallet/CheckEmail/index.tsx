@@ -5,9 +5,9 @@ import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
+import { selectAlerts } from 'data/alerts/selectors'
 import { trackEvent } from 'data/analytics/slice'
 import { Analytics, LoginSteps } from 'data/types'
-import { selectAlerts } from 'data/alerts/selectors'
 import { VERIFY_EMAIL_SENT_ERROR } from 'services/alerts'
 import { media } from 'services/styles'
 
@@ -151,7 +151,7 @@ const CheckEmail = (props: Props) => {
           )}
         </Button>
       </WrapperWithPadding>
-      <SignupLink platform={props.magicLinkData?.platform_type} />
+      {props.isMobilePlatform && <SignupLink />}
     </LoginWrapper>
   )
 }

@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'
-import { PlatformTypes, ProductAuthOptions } from 'data/auth/types'
+import { ProductAuthOptions } from 'data/auth/types'
 
 const TabWrapper = styled.div`
   display: flex;
@@ -35,23 +35,21 @@ const ProductIcon = styled(Image)`
 
 const ProductTabMenu = ({
   active,
+  isMobilePlatform,
   onExchangeTabClick,
   onWalletTabClick,
-  platform,
   product
 }: {
   active: ProductAuthOptions
+  isMobilePlatform?: boolean
   onExchangeTabClick?: () => void
   onWalletTabClick?: () => void
-  platform?: PlatformTypes
   product?: ProductAuthOptions
 }) => {
   const isWalletActive = active === ProductAuthOptions.WALLET
   // if webview is being opened from exchange mobile app
   // want to hide the wallet tab
-  const hideWalletTab =
-    (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS) &&
-    product === ProductAuthOptions.EXCHANGE
+  const hideWalletTab = isMobilePlatform && product === ProductAuthOptions.EXCHANGE
   return (
     <TabWrapper>
       {!hideWalletTab && (

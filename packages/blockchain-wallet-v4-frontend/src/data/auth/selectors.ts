@@ -46,7 +46,7 @@ export function getMobileLoginStarted(state: RootState): AuthStateType['mobileLo
   return state.auth.mobileLoginStarted
 }
 
-export function getMagicLinkData(state: RootState): AuthStateType['magicLinkData'] {
+export function getMagicLinkData(state: RootState) {
   return state.auth.magicLinkData
 }
 
