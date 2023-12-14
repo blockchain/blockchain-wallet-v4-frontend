@@ -1,8 +1,13 @@
 import React from 'react'
+import styled from 'styled-components'
 
-import { Link } from 'blockchain-info-components'
+import { Link, Text } from 'blockchain-info-components'
 
-import { Wrapper } from './ActionFooter.styles'
+export const Wrapper = styled(Text)`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`
 
 type Props = {
   actions: { title: string; url: string }[]

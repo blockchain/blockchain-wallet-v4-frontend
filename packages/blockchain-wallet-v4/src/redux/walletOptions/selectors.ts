@@ -34,6 +34,9 @@ export const getWalletHelperDomain = (state) => getDomains(state).map(prop('wall
 export const getBakktRedirectUSStates = (state: RootState) =>
   getOptions(state).map((e) => e.bakktRedirectUSStates)
 
+export const getConversionLearnMoreLink = (state: RootState) =>
+  getOptions(state).map((e) => e.fiatRemediationLearnMoreLink)
+
 //
 // FEATURE FLAG SELECTORS
 //
@@ -227,5 +230,6 @@ export const getImportedAddressSweep = (state: RootState) =>
 export const getProveEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'proveEnabled']))
 
+// Fiat Remediation
 export const getFiatEntityRemediationAlert = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showFiatEntityRemediationAlert']))
