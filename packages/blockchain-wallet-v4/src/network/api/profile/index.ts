@@ -58,11 +58,12 @@ export default ({
       url: nabuUrl
     })
 
-  const createOrGetUser = (retailToken) =>
+  const createOrGetUser = (retailToken, partnerReferralCode) =>
     post({
       contentType: 'application/json',
       data: {
-        jwt: retailToken
+        jwt: retailToken,
+        partnerReferralCode
       },
       endPoint: '/users',
       url: nabuUrl

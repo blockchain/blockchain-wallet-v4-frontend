@@ -4,6 +4,7 @@ import { query } from 'express'
 import { compose, equals, prop, sortBy, tail } from 'ramda'
 import { stopSubmit } from 'redux-form'
 import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
+import Cookies from 'universal-cookie'
 
 import { Remote } from '@core'
 import { ExtractSuccess, WalletOptionsType } from '@core/types'
@@ -262,9 +263,12 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateAuthCredentials = function* () {
     const retailToken = yield call(generateRetailToken)
+    const cookies = new Cookies()
+    const partnerReferralCode = cookies.get('partnerReferralCode')
     const { token: nabuLifetimeToken, userId: nabuUserId } = yield call(
       api.createOrGetUser,
-      retailToken
+      retailToken,
+      partnerReferralCode
     )
     // write to both to support legacy mobile clients
     // TODO: in future, consider just writing to unifiedCredentials entry
