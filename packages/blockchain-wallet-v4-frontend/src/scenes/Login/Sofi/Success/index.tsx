@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
+import { push } from 'connected-react-router'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
-import { actions } from 'data'
 import { isBrowserAndroid, isBrowserIOS } from 'services/browser'
 import { isMobile } from 'services/styles'
 
@@ -21,7 +21,7 @@ const SofiSuccess = () => {
   // Add check here to make sure that there is wallet data
   // route should navigate to login if there's no wallet data
   const sofiWalletRedirect = () => {
-    dispatch(actions.router.push('/home'))
+    dispatch(push('/home'))
   }
   const APP_URL = 'https://blockchainwallet.page.link/dashboard'
 

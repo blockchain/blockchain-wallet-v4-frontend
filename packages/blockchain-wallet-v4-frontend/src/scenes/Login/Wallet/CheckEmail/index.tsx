@@ -85,11 +85,7 @@ const CheckEmail = (props: Props) => {
   return (
     <LoginWrapper>
       <WrapperWithPadding>
-        <BackArrowHeader
-          formValues={props.formValues}
-          handleBackArrowClick={handleBackClick}
-          product={props.productAuthMetadata.product}
-        />
+        <BackArrowHeader formValues={props.formValues} handleBackArrowClick={handleBackClick} />
         <FormBody>
           <CircleBackground color='blue600'>
             <Icon name='computer' color='white' size='24px' />

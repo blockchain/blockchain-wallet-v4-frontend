@@ -1,9 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch, useSelector } from 'react-redux'
+import { push } from 'connected-react-router'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'
-import { ProductAuthOptions } from 'data/auth/types'
+import { actions } from 'data'
+import { LOGIN_FORM } from 'data/auth/model'
+import { getProduct } from 'data/auth/selectors'
+import { LoginSteps, ProductAuthOptions } from 'data/auth/types'
+import { getCache } from 'data/cache/selectors'
 
 const TabWrapper = styled.div`
   display: flex;
@@ -34,19 +40,40 @@ const ProductIcon = styled(Image)`
 `
 
 const ProductTabMenu = ({
-  active,
   isMobilePlatform,
-  onExchangeTabClick,
-  onWalletTabClick,
   product
 }: {
-  active: ProductAuthOptions
   isMobilePlatform?: boolean
-  onExchangeTabClick?: () => void
-  onWalletTabClick?: () => void
   product?: ProductAuthOptions
 }) => {
-  const isWalletActive = active === ProductAuthOptions.WALLET
+  const dispatch = useDispatch()
+  const { exchangeEmail, guidStored, lastEmail, lastGuid } = useSelector(getCache)
+  const activeProduct = useSelector(getProduct)
+
+  const exchangeTabClick = () => {
+    dispatch(actions.auth.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE }))
+    if (exchangeEmail) {
+      actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail)
+      actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE)
+    } else {
+      actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
+    }
+    dispatch(push('/login?product=exchange'))
+  }
+
+  const walletTabClick = () => {
+    dispatch(actions.auth.setProductAuthMetadata({ product: ProductAuthOptions.WALLET }))
+    if (guidStored || lastGuid) {
+      actions.form.change(LOGIN_FORM, 'guid', lastGuid || guidStored)
+      actions.form.change(LOGIN_FORM, 'email', lastEmail)
+      actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET)
+    } else {
+      actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
+    }
+    dispatch(push('/login?product=wallet'))
+  }
+
+  const isWalletActive = activeProduct === ProductAuthOptions.WALLET
   // if webview is being opened from exchange mobile app
   // want to hide the wallet tab
   const hideWalletTab = isMobilePlatform && product === ProductAuthOptions.EXCHANGE
@@ -55,7 +82,7 @@ const ProductTabMenu = ({
       {!hideWalletTab && (
         <ProductTab
           product={ProductAuthOptions.WALLET}
-          onClick={onWalletTabClick}
+          onClick={walletTabClick}
           isActive={isWalletActive}
         >
           <ProductIcon
@@ -69,7 +96,7 @@ const ProductTabMenu = ({
       )}
       <ProductTab
         isActive={!isWalletActive}
-        onClick={onExchangeTabClick}
+        onClick={exchangeTabClick}
         hideWalletTab={hideWalletTab}
         product={ProductAuthOptions.EXCHANGE}
       >

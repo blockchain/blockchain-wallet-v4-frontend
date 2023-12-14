@@ -38,8 +38,7 @@ const EnterPasswordExchange = (props: Props) => {
     invalid,
     isMobilePlatform,
     productAuthMetadata,
-    submitting,
-    walletTabClicked
+    submitting
   } = props
 
   const dispatch = useDispatch()
@@ -61,12 +60,7 @@ const EnterPasswordExchange = (props: Props) => {
 
   return (
     <LoginWrapper>
-      <ProductTabMenu
-        active={ProductAuthOptions.EXCHANGE}
-        onWalletTabClick={walletTabClicked}
-        isMobilePlatform={isMobilePlatform}
-        product={ProductAuthOptions.EXCHANGE}
-      />
+      <ProductTabMenu isMobilePlatform={isMobilePlatform} product={ProductAuthOptions.EXCHANGE} />
       <WrapperWithPadding>
         <BackArrowHeader
           formValues={formValues}
@@ -74,7 +68,6 @@ const EnterPasswordExchange = (props: Props) => {
           hideGuid
           marginTop='28px'
           hideBackArrow={isMobilePlatform}
-          product={ProductAuthOptions.EXCHANGE}
         />
         <FormGroup>
           <FormItem>

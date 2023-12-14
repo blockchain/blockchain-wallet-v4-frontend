@@ -76,7 +76,6 @@ const SettingsGoalText = styled.div`
 const EnterPasswordWallet = (props: OwnProps) => {
   const {
     busy,
-    exchangeTabClicked,
     formValues,
     handleBackArrowClickWallet,
     invalid,
@@ -103,12 +102,7 @@ const EnterPasswordWallet = (props: OwnProps) => {
   return (
     <OuterWrapper>
       <FormWrapper>
-        {!settingsRedirect && !isSofi && (
-          <ProductTabMenu
-            active={ProductAuthOptions.WALLET}
-            onExchangeTabClick={exchangeTabClicked}
-          />
-        )}
+        {!settingsRedirect && !isSofi && <ProductTabMenu />}
         <WrapperWithPadding>
           {!settingsRedirect && (
             <BackArrowHeader

@@ -1,10 +1,11 @@
-import { path, prop } from 'ramda'
+import { path } from 'ramda'
 
 import { crypto as wCrypto } from '@core'
+import { RootState } from 'data/rootReducer'
 
 export const getLastAnnouncementState = (state): object | undefined =>
   path(['cache', 'announcements'], state)
-export const getCache = (state) => prop('cache', state)
+export const getCache = (state: RootState) => state.cache
 export const getEmail = (state): string | undefined => path(['cache', 'lastEmail'], state)
 export const getExchangeEmail = (state): string | undefined =>
   path(['cache', 'exchangeEmail'], state)

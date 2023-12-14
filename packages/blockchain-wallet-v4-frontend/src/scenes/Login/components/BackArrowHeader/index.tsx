@@ -1,8 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
+import { getProduct } from 'data/auth/selectors'
 import { LoginFormType, LoginSteps, ProductAuthOptions } from 'data/auth/types'
 import { isMobile } from 'services/styles'
 
@@ -30,7 +32,6 @@ type Props = {
   hideBackArrow?: boolean
   hideGuid?: boolean
   marginTop?: string
-  product?: ProductAuthOptions
 }
 
 const BackArrowHeader = ({
@@ -38,13 +39,12 @@ const BackArrowHeader = ({
   handleBackArrowClick,
   hideBackArrow,
   hideGuid,
-  marginTop,
-  product
+  marginTop
 }: Props) => {
-  const isExchangeLogin = product === ProductAuthOptions.EXCHANGE
-  const email = isExchangeLogin
-    ? formValues.exchangeEmail
-    : formValues.email || formValues.sofiLoginEmail
+  const activeProduct = useSelector(getProduct)
+  const isExchangeLogin = activeProduct === ProductAuthOptions.EXCHANGE
+  const walletEmail = formValues.email ?? formValues.sofiLoginEmail
+  const email = isExchangeLogin ? formValues.exchangeEmail : walletEmail
   const guid = formValues?.guid
   const firstPartGuid = guid?.slice(0, 4)
   const lastPartGuid = guid?.slice(-4)

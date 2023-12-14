@@ -98,7 +98,6 @@ const TwoFAWallet = (props: Props) => {
           handleBackArrowClick={handleBackArrowClickWallet}
           marginTop='28px'
           hideBackArrow={isMobilePlatform}
-          product={props.productAuthMetadata.product}
         />
         {twoFAType && (
           <FormGroup>
