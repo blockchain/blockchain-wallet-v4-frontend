@@ -31,7 +31,7 @@ const LoginWrapper = styled(Wrapper)`
 const EnterEmailOrGuid = (props: Props) => {
   const { busy, exchangeTabClicked, formValues, invalid, magicLinkData, submitting, walletError } =
     props
-  const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
+  const guidError = walletError?.toLowerCase().includes('unknown wallet id')
 
   return (
     <LoginWrapper>

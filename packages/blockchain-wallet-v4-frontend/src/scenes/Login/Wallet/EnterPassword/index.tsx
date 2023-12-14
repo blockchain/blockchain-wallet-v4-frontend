@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useSelector } from 'react-redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -13,8 +12,8 @@ import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
-import { actions, selectors } from 'data'
-import { LoginSteps, ProductAuthOptions, UnifiedAccountRedirectType } from 'data/types'
+import { getChannelPrivKeyForQrData } from 'data/cache/selectors'
+import { ProductAuthOptions, UnifiedAccountRedirectType } from 'data/types'
 import { required } from 'services/forms'
 import { isMobile, media } from 'services/styles'
 
@@ -35,13 +34,7 @@ const OuterWrapper = styled.div`
     padding: 0;
   `};
 `
-const SideWrapper = styled.div`
-  height: 96%;
-  width: 274px;
-  ${media.tabletL`
-    display: none;
-  `};
-`
+
 const FormWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
@@ -78,7 +71,7 @@ const SettingsGoalText = styled.div`
   margin: 36px 0 24px;
 `
 
-const EnterPasswordWallet = (props: Props) => {
+const EnterPasswordWallet = (props: OwnProps) => {
   const {
     busy,
     exchangeTabClicked,
@@ -89,12 +82,13 @@ const EnterPasswordWallet = (props: Props) => {
     isSofi,
     magicLinkData,
     productAuthMetadata,
-    qrData,
     submitting,
     walletError
   } = props
 
-  const passwordError = walletError && walletError.toLowerCase().includes('wrong_wallet_password')
+  const qrData = useSelector(getChannelPrivKeyForQrData)
+
+  const passwordError = walletError?.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
     walletError &&
     (walletError.toLowerCase().includes('this account has been locked') ||
@@ -114,7 +108,7 @@ const EnterPasswordWallet = (props: Props) => {
         <WrapperWithPadding>
           {!settingsRedirect && (
             <BackArrowHeader
-              {...props}
+              formValues={formValues}
               handleBackArrowClick={handleBackArrowClickWallet}
               platform={magicLinkData?.platform_type}
               marginTop='28px'
@@ -229,18 +223,4 @@ const EnterPasswordWallet = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  phonePubKey: selectors.cache.getPhonePubkey(state),
-  qrData: selectors.cache.getChannelPrivKeyForQrData(state),
-  walletLoginData: selectors.auth.getLogin(state)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  middlewareActions: bindActionCreators(actions.ws, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type Props = OwnProps & ConnectedProps<typeof connector>
-
-export default connector(EnterPasswordWallet)
+export default EnterPasswordWallet
