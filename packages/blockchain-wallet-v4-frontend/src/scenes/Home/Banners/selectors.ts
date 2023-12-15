@@ -251,10 +251,15 @@ export const getData = (state: RootState) => {
     .getSofiMigrationStatusFromPolling(state)
     .getOrElse(null)
 
-  const showSofiMigrationBanner =
+  const showSofiMigration =
     sofiMigrationPending === SofiUserMigrationStatus.PENDING ||
     sofiMigrationPendingPolling === SofiUserMigrationStatus.PENDING
 
+  const showSofiMigrationBanner = showBanner(
+    showSofiMigration,
+    ANNOUNCEMENTS.SOFI_MIGRATION,
+    announcementState
+  )
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
   } else if (showSofiMigrationBanner) {
