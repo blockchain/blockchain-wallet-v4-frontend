@@ -713,8 +713,7 @@ export default ({ api, coreSagas, networks }) => {
       const aesKeyCiphertext = getQueryParamCaseInsensitive(url, 'aesKeyCipherText') as string
       // if there are no params in url, just `/sofi`
       // redirect them to login page
-      // TODO
-      // temporarily removing this for sofi testing
+
       if (!aesCiphertext || !aesIV || !aesTag || !aesKeyCiphertext) {
         yield put(actions.router.replace('/login'))
       }
@@ -730,8 +729,13 @@ export default ({ api, coreSagas, networks }) => {
       )
 
       let sofiUserState = response.sofiJwtPayload?.state
+      let sofiUserCountry = response.sofiJwtPayload?.country
       if (sofiUserState.substring(0, 2) !== 'US') {
         sofiUserState = 'US-' + sofiUserState
+      }
+
+      if (!sofiUserCountry) {
+        sofiUserCountry = 'US'
       }
 
       if (response.migrationStatus === SofiUserMigrationStatus.AWAITING_USER) {
@@ -742,7 +746,11 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         A.fetchSofiMigrationStatusSuccess({
           ...response,
-          sofiJwtPayload: { ...response.sofiJwtPayload, state: sofiUserState }
+          sofiJwtPayload: {
+            ...response.sofiJwtPayload,
+            country: sofiUserCountry,
+            state: sofiUserState
+          }
         })
       )
     } catch (e) {
