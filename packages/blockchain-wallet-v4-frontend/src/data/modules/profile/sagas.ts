@@ -4,6 +4,7 @@ import { query } from 'express'
 import { compose, equals, prop, sortBy, tail } from 'ramda'
 import { stopSubmit } from 'redux-form'
 import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
+import Cookies from 'universal-cookie'
 
 import { Remote } from '@core'
 import { ExtractSuccess, WalletOptionsType } from '@core/types'
@@ -262,9 +263,12 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateAuthCredentials = function* () {
     const retailToken = yield call(generateRetailToken)
+    const cookies = new Cookies()
+    const partnerReferralCode = cookies.get('partnerReferralCode')
     const { token: nabuLifetimeToken, userId: nabuUserId } = yield call(
       api.createOrGetUser,
-      retailToken
+      retailToken,
+      partnerReferralCode
     )
     // write to both to support legacy mobile clients
     // TODO: in future, consider just writing to unifiedCredentials entry
@@ -709,8 +713,7 @@ export default ({ api, coreSagas, networks }) => {
       const aesKeyCiphertext = getQueryParamCaseInsensitive(url, 'aesKeyCipherText') as string
       // if there are no params in url, just `/sofi`
       // redirect them to login page
-      // TODO
-      // temporarily removing this for sofi testing
+
       if (!aesCiphertext || !aesIV || !aesTag || !aesKeyCiphertext) {
         yield put(actions.router.replace('/login'))
       }
@@ -726,6 +729,7 @@ export default ({ api, coreSagas, networks }) => {
       )
 
       let sofiUserState = response.sofiJwtPayload?.state
+      let sofiUserCountry = response.sofiJwtPayload?.country || 'US'
       if (sofiUserState.substring(0, 2) !== 'US') {
         sofiUserState = 'US-' + sofiUserState
       }
@@ -738,7 +742,11 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         A.fetchSofiMigrationStatusSuccess({
           ...response,
-          sofiJwtPayload: { ...response.sofiJwtPayload, state: sofiUserState }
+          sofiJwtPayload: {
+            ...response.sofiJwtPayload,
+            country: sofiUserCountry,
+            state: sofiUserState
+          }
         })
       )
     } catch (e) {
