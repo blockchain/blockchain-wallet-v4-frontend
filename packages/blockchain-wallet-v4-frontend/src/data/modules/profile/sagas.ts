@@ -729,13 +729,9 @@ export default ({ api, coreSagas, networks }) => {
       )
 
       let sofiUserState = response.sofiJwtPayload?.state
-      let sofiUserCountry = response.sofiJwtPayload?.country
+      let sofiUserCountry = response.sofiJwtPayload?.country || 'US'
       if (sofiUserState.substring(0, 2) !== 'US') {
         sofiUserState = 'US-' + sofiUserState
-      }
-
-      if (!sofiUserCountry) {
-        sofiUserCountry = 'US'
       }
 
       if (response.migrationStatus === SofiUserMigrationStatus.AWAITING_USER) {
