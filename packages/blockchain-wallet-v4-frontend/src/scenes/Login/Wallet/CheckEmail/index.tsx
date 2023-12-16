@@ -69,7 +69,13 @@ const CheckEmail = (props: Props) => {
       <WrapperWithPadding>
         <BackArrowHeader
           {...props}
-          handleBackArrowClick={props.handleBackArrowClickWallet}
+          handleBackArrowClick={() => {
+            if (props.isSofi) {
+              props.setStep(LoginSteps.SOFI_EMAIL)
+            } else {
+              props.handleBackArrowClickWallet()
+            }
+          }}
           product={props.productAuthMetadata.product}
         />
         <FormBody>

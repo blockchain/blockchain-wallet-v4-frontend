@@ -693,6 +693,13 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const url = window.location.href
       const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
+      const sofiLinkDataFromStore = yield select(S.getSofiLinkData)
+      const {
+        aesCiphertext: aesCiphertextFromStore,
+        aesIV: aesIVFromStore,
+        aesTag: aesTagFromStore,
+        aesKeyCiphertext: aesKeyCiphertextFromStore
+      } = sofiLinkDataFromStore
 
       function getQueryParamCaseInsensitive(url, paramName) {
         // Create URLSearchParams object from the URL
@@ -707,10 +714,16 @@ export default ({ api, coreSagas, networks }) => {
         return null
       }
 
-      const aesCiphertext = getQueryParamCaseInsensitive(url, 'aesCiphertext') as string
-      const aesIV = getQueryParamCaseInsensitive(url, 'aesIV') as string
-      const aesTag = getQueryParamCaseInsensitive(url, 'aesTag') as string
-      const aesKeyCiphertext = getQueryParamCaseInsensitive(url, 'aesKeyCipherText') as string
+      const aesCiphertext =
+        (getQueryParamCaseInsensitive(url, 'aesCiphertext') as string) ||
+        (aesCiphertextFromStore as string)
+      const aesIV =
+        (getQueryParamCaseInsensitive(url, 'aesIV') as string) || (aesIVFromStore as string)
+      const aesTag =
+        (getQueryParamCaseInsensitive(url, 'aesTag') as string) || (aesTagFromStore as string)
+      const aesKeyCiphertext =
+        (getQueryParamCaseInsensitive(url, 'aesKeyCipherText') as string) ||
+        (aesKeyCiphertextFromStore as string)
       // if there are no params in url, just `/sofi`
       // redirect them to login page
       // TODO

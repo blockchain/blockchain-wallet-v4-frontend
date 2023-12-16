@@ -83,8 +83,6 @@ const SofiSignupForm = (props: Props) => {
   const passwordValue = formValues?.password || ''
   const isUSStateUnsupported = bakktRedirectUSStates.includes(formValues?.state)
 
-  const dataGoal = goals.find((g) => g.name === 'signup')
-
   useEffect(() => {
     if (email) {
       formActions.change(SIGNUP_FORM, 'email', email)

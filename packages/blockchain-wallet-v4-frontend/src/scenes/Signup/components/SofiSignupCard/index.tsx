@@ -3,12 +3,11 @@ import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
-import { Badge, Button, HeartbeatLoader, Icon, Text, TextGroup } from 'blockchain-info-components'
-import { PlatformTypes } from 'data/types'
-import { isMobile, media } from 'services/styles'
+import { Icon, Text } from 'blockchain-info-components'
+import { isMobile } from 'services/styles'
 
 import { SubviewProps } from '../../types'
-import { Card, CardInfo, CardTitle, CardWrapper, InfoItem, InfoTitle } from '..'
+import { Card, CardTitle, CardWrapper, InfoItem, InfoTitle } from '..'
 import QRsModal, { QRModalType } from '../SignupForm/QRsModal'
 import SofiSignupForm from '../SofiSignupForm'
 
@@ -33,8 +32,6 @@ const PaddingWrapper = styled.div`
 const SofiSignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
   const { isFormSubmitting, onSignupSubmit, routerActions, showForm, toggleSignupFormVisibility } =
     props
-  const buttonSubmit = showForm ? onSignupSubmit : toggleSignupFormVisibility
-  const showOnlySignup = showForm
 
   const [showModal, setShowModal] = useState<QRModalType | null>(null)
   const closeModal = () => setShowModal(null)
