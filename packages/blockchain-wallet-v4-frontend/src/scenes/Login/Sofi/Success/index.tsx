@@ -27,12 +27,9 @@ const SofiSuccess = (props: Props) => {
   }
 
   const downloadMobileApp = () => {
-    if (isBrowserAndroid()) {
-      window.open('https://play.google.com/store/apps/details?id=piuk.blockchain.android', '_blank')
-    } else if (isBrowserIOS()) {
-      window.open('https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309', '_blank')
-    }
+    window.open('https://blockchainwallet.page.link/qvLN', '_blank')
   }
+
   return (
     <Wrapper>
       <ContentWrapper>
