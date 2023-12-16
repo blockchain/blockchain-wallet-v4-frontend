@@ -20,8 +20,14 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   // We don't want to direct the user to /select-product
   // rather take them straight to home screen of the wallet
   static getDerivedStateFromProps(nextProps) {
-    const { createExchangeUserFlag, hasCowboyTag, isEmailVerified, signupCountry, signupMetadata } =
-      nextProps
+    const {
+      associateSofiBeforeEmailVerification,
+      createExchangeUserFlag,
+      hasCowboyTag,
+      isEmailVerified,
+      signupCountry,
+      signupMetadata
+    } = nextProps
     const { isSofi, signupRedirect } = signupMetadata
     if (isEmailVerified) {
       if (hasCowboyTag) {
@@ -31,7 +37,11 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
         nextProps.saveGoal('cowboys2022', { firstLogin: true })
         nextProps.runGoals()
       } else if (isSofi) {
-        nextProps.profileActions.associateSofiUser()
+        if (associateSofiBeforeEmailVerification) {
+          nextProps.profileActions.sofiRedirectAfterEmailVerification()
+        } else {
+          nextProps.profileActions.associateSofiUser()
+        }
       } else if (
         createExchangeUserFlag &&
         signupRedirect !== SignupRedirectTypes.WALLET_HOME &&
@@ -81,6 +91,9 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = (state) => ({
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
+  associateSofiBeforeEmailVerification: selectors.core.walletOptions
+    .getAssociateSofiBeforeEmailVerification(state)
+    .getOrElse(false),
   createExchangeUserFlag: selectors.core.walletOptions
     .getCreateExchangeUserOnSignupOrLogin(state)
     .getOrElse(false),

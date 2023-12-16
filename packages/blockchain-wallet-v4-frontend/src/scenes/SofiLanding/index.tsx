@@ -34,8 +34,6 @@ const SofiLanding = () => {
     selectors.modules.profile.getSofiUserData
   )
 
-  const backToSofi = () => {}
-
   if (isLoading || isNotAsked) {
     return <Loading />
   }

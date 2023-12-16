@@ -79,17 +79,14 @@ const SofiSignupForm = (props: Props) => {
     }
   }) as SofiMigrationStatusResponseType
 
-  const { country, email, state } = sofiJwtPayload
+  const { country, state } = sofiJwtPayload
   const passwordValue = formValues?.password || ''
   const isUSStateUnsupported = bakktRedirectUSStates.includes(formValues?.state)
 
   useEffect(() => {
-    if (email) {
-      formActions.change(SIGNUP_FORM, 'email', email)
-    }
     formActions.change(SIGNUP_FORM, 'country', country)
     formActions.change(SIGNUP_FORM, 'state', state)
-  }, [formActions, email])
+  }, [formActions, sofiJwtPayload])
 
   return (
     <StyledForm override onSubmit={onSignupSubmit} initialValues={initialValues}>
@@ -98,7 +95,13 @@ const SofiSignupForm = (props: Props) => {
           <FormLabel htmlFor='email'>
             <FormattedMessage id='scenes.signup.sofi.email' defaultMessage='Your Email' />
           </FormLabel>
-          <Field bgColor='grey000' component={TextBox} data-e2e='signupEmail' name='email' />
+          <Field
+            autoFocus
+            bgColor='grey000'
+            component={TextBox}
+            data-e2e='signupEmail'
+            name='email'
+          />
         </FormItem>
       </FormGroup>
       <FormGroup>
@@ -107,7 +110,6 @@ const SofiSignupForm = (props: Props) => {
             <FormattedMessage defaultMessage='Password' id='scenes.register.password' />
           </FormLabel>
           <Field
-            autoFocus
             bgColor='grey000'
             component={PasswordBox}
             data-e2e='signupPassword'

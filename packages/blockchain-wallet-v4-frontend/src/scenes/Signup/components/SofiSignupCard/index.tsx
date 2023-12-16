@@ -30,8 +30,7 @@ const PaddingWrapper = styled.div`
 `
 
 const SofiSignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
-  const { isFormSubmitting, onSignupSubmit, routerActions, showForm, toggleSignupFormVisibility } =
-    props
+  const { routerActions } = props
 
   const [showModal, setShowModal] = useState<QRModalType | null>(null)
   const closeModal = () => setShowModal(null)

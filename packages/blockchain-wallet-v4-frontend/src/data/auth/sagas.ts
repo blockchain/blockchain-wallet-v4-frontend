@@ -367,6 +367,9 @@ export default ({ api, coreSagas, networks }) => {
       const createExchangeUserFlag = (yield select(
         selectors.core.walletOptions.getCreateExchangeUserOnSignupOrLogin
       )).getOrElse(false)
+      const associateBeforeEmailVerification = (yield select(
+        selectors.core.walletOptions.getAssociateSofiBeforeEmailVerification
+      )).getOrElse(false)
 
       if (!isAccountReset && !recovery && createExchangeUserFlag) {
         if (firstLogin) {
@@ -396,7 +399,6 @@ export default ({ api, coreSagas, networks }) => {
           yield fork(createExchangeUser, existingUserCountryCode)
         }
       }
-
       if (firstLogin) {
         const countryCode = country || 'US'
         const currency = getFiatCurrencyFromCountry(countryCode)
@@ -422,13 +424,16 @@ export default ({ api, coreSagas, networks }) => {
             }
           }
         } else {
-          // TODO how do we handle this situation if user is 404 not found
+          if (isSofi && associateBeforeEmailVerification) {
+            yield put(actions.modules.profile.associateSofiUser())
+          }
           yield put(actions.router.push('/verify-email-step'))
         }
-      } else if (isSofi) {
-        // associate nabu user here
-        // do i need to put a try/catch here?
-        yield put(actions.modules.profile.associateSofiUser())
+        // TBD if i need this
+        // } else if (isSofi) {
+        //   // associate nabu user here
+        //   // do i need to put a try/catch here?
+        //   yield put(actions.modules.profile.associateSofiUser())
       } else {
         yield put(actions.router.push('/home'))
       }

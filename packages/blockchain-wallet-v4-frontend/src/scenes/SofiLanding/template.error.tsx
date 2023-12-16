@@ -13,8 +13,6 @@ const ContentWrapper = styled.div`
 `
 
 const SofiErrorLanding = () => {
-  const backToSofi = () => {}
-
   return (
     <Wrapper>
       <ContentWrapper>
@@ -37,11 +35,6 @@ const SofiErrorLanding = () => {
             defaultMessage='Looks like your migration link expired. Restart your crypto account migration from your account on the SoFi website.'
           />
         </Text>
-        <Button data-e2e='viewAccount' fullwidth nature='primary' onClick={backToSofi}>
-          <Text color='white' size='16px' weight={600}>
-            <FormattedMessage id='buttons.go_to_sofi' defaultMessage='Go to SoFi account' />
-          </Text>
-        </Button>
       </ContentWrapper>
     </Wrapper>
   )

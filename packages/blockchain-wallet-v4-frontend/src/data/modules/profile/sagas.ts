@@ -813,8 +813,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const associateSofiUser = function* () {
-    const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
+  const redirectAfterAssociation = function* () {
     const bakktRedirectStates = (yield select(
       selectors.core.walletOptions.getBakktRedirectUSStates
     )).getOrElse([])
@@ -823,6 +822,20 @@ export default ({ api, coreSagas, networks }) => {
     )
     const { state: sofiUserState } = sofiJwtPayload
     const bakktRedirect = bakktRedirectStates.includes(sofiUserState)
+    if (bakktRedirect) {
+      yield put(actions.router.push('/sofi-mobile'))
+    } else {
+      yield put(actions.router.push('/sofi-verify'))
+    }
+  }
+
+  const associateSofiUser = function* () {
+    const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
+
+    const associateBeforeEmailVerification = (yield select(
+      selectors.core.walletOptions.getAssociateSofiBeforeEmailVerification
+    )).getOrElse(false)
+
     const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
     yield put(A.associateSofiUserLoading())
     try {
@@ -834,12 +847,14 @@ export default ({ api, coreSagas, networks }) => {
         aesKeyCiphertext,
         nabuSessionToken
       )
-      yield put(A.associateSofiUserSuccess(true))
-      if (bakktRedirect) {
-        yield put(actions.router.push('/sofi-mobile'))
+
+      if (associateBeforeEmailVerification) {
+        yield put(actions.router.push('/verify-email-step'))
       } else {
-        yield put(actions.router.push('/sofi-verify'))
+        yield call(redirectAfterAssociation)
       }
+      yield put(A.associateSofiUserSuccess(true))
+
       //TODO do we need to handle a success?
     } catch (e) {
       yield put(A.associateSofiUserFailure(e))
@@ -868,6 +883,7 @@ export default ({ api, coreSagas, networks }) => {
     linkToExchangeAccount,
     migrateSofiUser,
     recoverUser,
+    redirectAfterAssociation,
     renewApiSockets,
     renewSession,
     renewUser,
