@@ -1,27 +1,15 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
-import styled from 'styled-components'
 
-import { WalletFiatType } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { actions, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
+import { actions } from 'data'
 
 import ANNOUNCEMENTS from '../constants'
-import { BannerButton, CloseLink, Column, Copy, IconWrapper, Row, Wrapper } from '../styles'
+import { CloseLink, Column, Copy, IconWrapper, Row, Wrapper } from '../styles'
 
-const SofiMigration = ({ buySellActions, cacheActions, fiatCurrency }: Props) => {
-  const showModal = useCallback(() => {
-    buySellActions.showModal({ origin: 'WelcomeModal' })
-
-    buySellActions.setStep({
-      fiatCurrency,
-      step: 'CRYPTO_SELECTION'
-    })
-  }, [buySellActions, fiatCurrency])
-
+const SofiMigration = ({ cacheActions }: Props) => {
   return (
     <Wrapper>
       <Row>
@@ -53,21 +41,13 @@ const SofiMigration = ({ buySellActions, cacheActions, fiatCurrency }: Props) =>
   )
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  fiatCurrency: selectors.components.buySell.getFiatCurrency(state) as WalletFiatType
-})
-
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(undefined, mapDispatchToProps)
 
-type LinkStatePropsType = {
-  fiatCurrency: WalletFiatType
-}
 type Props = ConnectedProps<typeof connector>
 
 export default connector(SofiMigration)

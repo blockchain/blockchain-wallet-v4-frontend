@@ -179,6 +179,7 @@ export type ModalOriginType =
   | 'BuySellStatus'
   | 'BuySellOrderSummary'
   | 'RecommendedImportedSweep'
+  | 'SofiFinishMigration'
   | 'SofiMigration'
   | 'SofiWelcomeGoal'
   | 'Swap'
