@@ -40,7 +40,7 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
         if (associateSofiBeforeEmailVerification) {
           nextProps.profileActions.sofiRedirectAfterEmailVerification()
         } else {
-          nextProps.profileActions.associateSofiUser()
+          nextProps.profileActions.associateSofiUserSignup()
         }
       } else if (
         createExchangeUserFlag &&
