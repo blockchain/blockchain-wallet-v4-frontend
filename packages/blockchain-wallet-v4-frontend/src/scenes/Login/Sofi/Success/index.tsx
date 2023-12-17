@@ -25,9 +25,10 @@ const SofiSuccess = (props: Props) => {
   const sofiWalletRedirect = () => {
     dispatch(actions.router.push('/home'))
   }
+  const APP_URL = 'https://blockchainwallet.page.link/dashboard'
 
   const downloadMobileApp = () => {
-    window.open('https://blockchainwallet.page.link/qvLN', '_blank')
+    window.location.href = APP_URL
   }
 
   return (
@@ -49,14 +50,14 @@ const SofiSuccess = (props: Props) => {
             >
               <FormattedMessage
                 id='scenes.sofi.login.success.mobile.title'
-                defaultMessage='Your account has been successfully migrated. Download the Blockchain.com App now to continue your journey.'
+                defaultMessage='Your account has been successfully migrated. Open the Blockchain.com App now to continue your journey.'
               />
             </Text>
             <Button data-e2e='viewAccount' fullwidth nature='primary' onClick={downloadMobileApp}>
               <Text color='white' size='16px' weight={600}>
                 <FormattedMessage
-                  id='buttons.download_app'
-                  defaultMessage='Download the Blockchain.com App'
+                  id='buttons.open_app'
+                  defaultMessage='Open the Blockchain.com App'
                 />
               </Text>
             </Button>

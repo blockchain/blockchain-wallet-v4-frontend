@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Button, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
+import { LoginSteps } from 'data/types'
 import { useRemote } from 'hooks'
 
 import Loading from './template.loading'
@@ -19,6 +20,11 @@ const ContentWrapper = styled.div`
 
 const SofiSuccessLanding = () => {
   const dispatch = useDispatch()
+
+  const loginButtonClick = () => {
+    dispatch(actions.router.push('/login/sofi'))
+    dispatch(actions.form.change('login', 'step', LoginSteps.SOFI_EMAIL))
+  }
   return (
     <Wrapper>
       <ContentWrapper>
@@ -75,12 +81,7 @@ const SofiSuccessLanding = () => {
             defaultMessage='Already have a Blockchain account?'
           />
         </Text>
-        <Button
-          data-e2e='existingSofi'
-          fullwidth
-          nature='dark'
-          onClick={() => dispatch(actions.router.push('/login/sofi'))}
-        >
+        <Button data-e2e='existingSofi' fullwidth nature='dark' onClick={loginButtonClick}>
           <Text color='white' size='16px' weight={600}>
             <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
           </Text>
