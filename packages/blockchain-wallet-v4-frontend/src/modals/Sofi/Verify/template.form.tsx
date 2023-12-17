@@ -4,14 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import {
-  Button,
-  HeartbeatLoader,
-  Image,
-  SpinningLoader,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Image, Text, TextGroup } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout/Layout'
 import Form from 'components/Form/Form'
 import FormGroup from 'components/Form/FormGroup'
@@ -21,7 +14,6 @@ import PasswordBox from 'components/Form/PasswordBox'
 import { actions, selectors } from 'data'
 import { SofiMigrationErrorIds } from 'data/types'
 import { useRemote } from 'hooks'
-import { media } from 'services/styles'
 
 import { SofiSsnForm } from './types'
 
@@ -41,16 +33,6 @@ const LoginFormLabel = styled(FormLabel)`
 const Error = styled(TextGroup)`
   display: inline;
   margin-top: 3px;
-`
-
-const LoadingWrapper = styled.div`
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 175px;
-  gap: 16px;
 `
 
 const SofiVerifyID = (props: InjectedFormProps) => {

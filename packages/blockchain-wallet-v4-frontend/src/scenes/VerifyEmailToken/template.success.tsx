@@ -30,6 +30,9 @@ const Success = () => {
           defaultMessage='Your email is verified!'
         />
       </Text>
+      {/* commenting out mobile links for now since it's confusing
+      for sofi flow and don't know another workaround
+      (no sofi context on this landing page) */}
       {/* {isMobile() ? (
         <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
           <FormattedMessage

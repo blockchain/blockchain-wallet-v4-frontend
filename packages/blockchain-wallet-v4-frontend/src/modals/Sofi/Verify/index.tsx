@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
-import { FiatType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { actions, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
+import { selectors } from 'data'
 import { ModalName, SofiMigrationErrorIds } from 'data/types'
 import { useRemote } from 'hooks'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -17,7 +13,6 @@ import Loading from './template.loading'
 import SofiMigrationPending from './template.pending'
 
 const SofiVerifyId = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
-  const dispatch = useDispatch()
   const { data, error, isLoading, isNotAsked } = useRemote(
     selectors.modules.profile.getSofiMigrationStatus
   )
@@ -34,7 +29,6 @@ const SofiVerifyId = ({ close, position, total, userClickedOutside }: ModalProps
       close(ModalName.SOFI_VERIFY_ID)
     }, duration)
   }
-
   return (
     <Flyout
       position={position}
@@ -44,7 +38,7 @@ const SofiVerifyId = ({ close, position, total, userClickedOutside }: ModalProps
       data-e2e='sofiVerifyIdModal'
       total={total}
     >
-      {isNotAsked && (
+      {(isNotAsked || isSsnError) && (
         <FlyoutChild>
           <SofiVerifyID />
         </FlyoutChild>

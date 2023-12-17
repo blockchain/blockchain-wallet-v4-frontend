@@ -803,7 +803,6 @@ export default ({ api, coreSagas, networks }) => {
         yield put(A.setSofiMigratedBalances(response.balances))
       }
       yield put(A.migrateSofiUserSuccess(response))
-      yield put(actions.router.push('/sofi-success'))
     } catch (e) {
       yield put(
         A.migrateSofiUserFailure({
@@ -812,7 +811,6 @@ export default ({ api, coreSagas, networks }) => {
           title: e.title
         })
       )
-      yield put(actions.router.push('/sofi-error'))
     }
   }
 

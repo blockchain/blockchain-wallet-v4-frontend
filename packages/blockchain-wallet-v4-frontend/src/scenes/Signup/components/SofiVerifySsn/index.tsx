@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -76,16 +76,26 @@ const LoadingWrapper = styled.div`
 
 const SofiVerifyID = (props: InjectedFormProps) => {
   const { invalid, submitting } = props
+  const dispatch = useDispatch()
   const formValues = useSelector(selectors.form.getFormValues('verifySofiSsn')) as SofiSsnForm
   const { data, error, isLoading, isNotAsked } = useRemote(
     selectors.modules.profile.getSofiMigrationStatus
   )
 
-  const dispatch = useDispatch()
-
   const isSsnError = error?.id === SofiMigrationErrorIds.SSN_ERROR
 
   const validSsn = formValues?.sofiSSN?.length === 4
+  useEffect(() => {
+    if (error && !isSsnError) {
+      dispatch(actions.router.push('/sofi-error'))
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (data) {
+      dispatch(actions.router.push('/sofi-success'))
+    }
+  }, [data])
 
   const handleSubmit = (e) => {
     e.preventDefault()
