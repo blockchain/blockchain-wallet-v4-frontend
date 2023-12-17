@@ -857,10 +857,16 @@ export default ({ api, coreSagas, networks }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     yield take(actions.auth.loginSuccess)
+    const { isSofi: isSofiSignup } = yield select(selectors.signup.getProductSignupMetadata)
+    const isSofiAuth = yield select(selectors.auth.getIsSofi)
+    const isSofi = isSofiSignup || isSofiAuth
     const sofiMigrationStatusFromPolling = (yield select(
       selectors.modules.profile.getSofiMigrationStatusFromPolling
     )).getOrElse(null)
-    if (sofiMigrationStatusFromPolling === SofiUserMigrationStatus.AWAITING_USER) {
+    // the purpose of this modal is only to show it if
+    // user is logging in without sofi deeplink but needs to finish
+    // migratioon process
+    if (sofiMigrationStatusFromPolling === SofiUserMigrationStatus.AWAITING_USER && !isSofi) {
       yield put(
         actions.goals.addInitialModal({
           data: { origin },
