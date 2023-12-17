@@ -68,7 +68,7 @@ const BackArrowHeader = ({
         </BackArrow>
       )}
       <EmailAndGuid>
-        {hideGuid || (email && isMobile()) || isExchangeLogin ? (
+        {hideGuid || email || (email && isMobile()) || isExchangeLogin ? (
           <Text
             color='blue600'
             size='12px'
