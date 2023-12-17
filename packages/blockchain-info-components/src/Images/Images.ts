@@ -121,8 +121,10 @@ import googlePay from './img/google-pay-icon.svg'
 import googlePlayBadge from './img/google-play-badge.svg'
 import greyVerified from './img/grey-verified.svg'
 import identification from './img/identification.svg'
-import identifcationCircle from './img/identification-circle.svg'
+import identificationCircle from './img/identification-circle.svg'
+import identificationCircleBlack from './img/identification-circle-black.svg'
 import identityVerification from './img/identity-verification.svg'
+import identityVerificationPending from './img/identity-verification-pending.svg'
 import instagram from './img/instagram.svg'
 import interest from './img/interest.svg'
 import introHand from './img/intro-hand.png'
@@ -312,8 +314,10 @@ const Images = {
   'google-play-badge': googlePlayBadge,
   'grey-verified': greyVerified,
   identification,
-  'identification-circle': identifcationCircle,
+  'identification-circle': identificationCircle,
+  'identification-circle-black': identificationCircleBlack,
   'identity-verification': identityVerification,
+  'identity-verification-pending': identityVerificationPending,
   instagram,
   interest,
   'intro-card': introCard,

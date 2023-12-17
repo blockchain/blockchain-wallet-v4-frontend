@@ -154,6 +154,7 @@ const GenerateReport = React.lazy(() => import('./TaxCenter/GenerateReport'))
 // SOFI
 const SofiWelcome = React.lazy(() => import('./Sofi/Welcome'))
 const SofiMigratedBalances = React.lazy(() => import('./Sofi/MigratedBalances'))
+const SofiVerifyID = React.lazy(() => import('./Sofi/Verify'))
 
 const Modals = (props: Props) => {
   return (
@@ -327,6 +328,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SOFI_MIGRATED_BALANCES) ? (
           <SofiMigratedBalances />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SOFI_VERIFY_ID) ? (
+          <SofiVerifyID />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
