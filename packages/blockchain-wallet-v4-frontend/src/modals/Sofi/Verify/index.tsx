@@ -62,6 +62,6 @@ const SofiVerifyId = ({ close, position, total, userClickedOutside }: ModalProps
   )
 }
 
-const enhance = modalEnhancer(ModalName.SOFI_VERIFY_ID)
+const enhance = modalEnhancer(ModalName.SOFI_VERIFY_ID, { fixed: true, transition: duration })
 
 export default enhance(SofiVerifyId)
