@@ -830,7 +830,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const associateSofiUser = function* () {
+  const associateSofiUserSignup = function* () {
     const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
 
     const associateBeforeEmailVerification = (yield select(
@@ -863,8 +863,33 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const associateSofiUserLogin = function* () {
+    const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
+
+    const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
+    yield put(A.associateSofiUserLoading())
+    try {
+      yield call(
+        api.associateNabuUser,
+        aesIV,
+        aesCiphertext,
+        aesTag,
+        aesKeyCiphertext,
+        nabuSessionToken
+      )
+      yield put(A.associateSofiUserSuccess(true))
+      yield call(redirectAfterAssociation)
+
+      //TODO do we need to handle a success?
+    } catch (e) {
+      yield put(A.associateSofiUserFailure(e))
+      yield put(actions.router.push('/sofi-error'))
+    }
+  }
+
   return {
-    associateSofiUser,
+    associateSofiUserLogin,
+    associateSofiUserSignup,
     authAndRouteToExchangeAction,
     clearSession,
     createExchangeUser,

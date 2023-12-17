@@ -424,16 +424,13 @@ export default ({ api, coreSagas, networks }) => {
             }
           }
         } else {
-          if (isSofi && associateBeforeEmailVerification) {
-            yield put(actions.modules.profile.associateSofiUser())
+          if (isSofi) {
+            yield put(actions.modules.profile.associateSofiUserSignup())
           }
           yield put(actions.router.push('/verify-email-step'))
         }
-        // TBD if i need this
-        // } else if (isSofi) {
-        //   // associate nabu user here
-        //   // do i need to put a try/catch here?
-        //   yield put(actions.modules.profile.associateSofiUser())
+      } else if (isSofi && !firstLogin) {
+        yield put(actions.modules.profile.associateSofiUserLogin())
       } else {
         yield put(actions.router.push('/home'))
       }

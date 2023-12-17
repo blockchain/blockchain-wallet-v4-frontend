@@ -857,9 +857,10 @@ export default ({ api, coreSagas, networks }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     yield take(actions.auth.loginSuccess)
-    const sofiStatus = yield call(sofiMigrationStatusCheck)
-    // maybe here check if there's also a nabu id associated?
-    if (sofiStatus === SofiUserMigrationStatus.AWAITING_USER) {
+    const sofiMigrationStatusFromPolling = (yield select(
+      selectors.modules.profile.getSofiMigrationStatusFromPolling
+    )).getOrElse(null)
+    if (sofiMigrationStatusFromPolling === SofiUserMigrationStatus.AWAITING_USER) {
       yield put(
         actions.goals.addInitialModal({
           data: { origin },

@@ -433,8 +433,12 @@ interface SetSofiLinkDataAction {
   type: typeof AT.SET_SOFI_LINK_DATA
 }
 
-interface AssociateSofiUserAction {
-  type: typeof AT.ASSOCIATE_SOFI_USER
+interface AssociateSofiUserSignupAction {
+  type: typeof AT.ASSOCIATE_SOFI_USER_SIGNUP
+}
+
+interface AssociateSofiUserLoginAction {
+  type: typeof AT.ASSOCIATE_SOFI_USER_LOGIN
 }
 
 interface AssociateSofiUserLoadingAction {
@@ -462,7 +466,8 @@ interface SetSofiMigratedBalancesAction {
 }
 
 export type ProfileActionTypes =
-  | AssociateSofiUserAction
+  | AssociateSofiUserSignupAction
+  | AssociateSofiUserLoginAction
   | AssociateSofiUserLoadingAction
   | AssociateSofiUserSuccessAction
   | AssociateSofiUserFailureAction

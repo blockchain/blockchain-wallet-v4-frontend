@@ -203,8 +203,12 @@ export const setSofiLinkData = (linkData) => ({
   type: AT.SET_SOFI_LINK_DATA
 })
 
-export const associateSofiUser = () => ({
-  type: AT.ASSOCIATE_SOFI_USER
+export const associateSofiUserSignup = () => ({
+  type: AT.ASSOCIATE_SOFI_USER_SIGNUP
+})
+
+export const associateSofiUserLogin = () => ({
+  type: AT.ASSOCIATE_SOFI_USER_LOGIN
 })
 
 export const associateSofiUserLoading = () => ({
