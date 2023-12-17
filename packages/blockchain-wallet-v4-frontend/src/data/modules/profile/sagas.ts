@@ -774,6 +774,9 @@ export default ({ api, coreSagas, networks }) => {
         yield put(A.setSofiMigratedBalances(response?.balances))
         return true
       }
+      if (response.migrationStatus === 'AWAITING_USER') {
+        return true
+      }
       if (response?.migrationStatus === 'FAILURE' || !response?.migrationStatus) {
         return true
       }

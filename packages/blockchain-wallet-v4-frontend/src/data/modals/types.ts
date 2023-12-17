@@ -180,6 +180,7 @@ export type ModalOriginType =
   | 'BuySellOrderSummary'
   | 'RecommendedImportedSweep'
   | 'SofiMigration'
+  | 'SofiWelcomeGoal'
   | 'Swap'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'

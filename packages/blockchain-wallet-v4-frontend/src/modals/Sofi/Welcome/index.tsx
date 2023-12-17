@@ -40,13 +40,20 @@ const SofiWelcome = (props: Props) => {
     sofiMigrationStatus === SofiUserMigrationStatus.FAILURE ||
     sofiMigrationStatusFromPolling === SofiUserMigrationStatus.FAILURE
 
+  const statusAwaitingUser =
+    sofiMigrationStatus === SofiUserMigrationStatus.AWAITING_USER ||
+    sofiMigrationStatusFromPolling === SofiUserMigrationStatus.AWAITING_USER
+
   const continueButtonClick = () => {
+    dispatch(actions.modals.closeModal(ModalName.SOFI_BLOCKCHAIN_WELCOME))
     if (statusPending || statusSuccess) {
       dispatch(
         actions.modals.showModal(ModalName.SOFI_MIGRATED_BALANCES, { origin: 'SofiMigration' })
       )
     }
-    dispatch(actions.modals.closeModal(ModalName.SOFI_BLOCKCHAIN_WELCOME))
+    if (statusAwaitingUser) {
+      dispatch(actions.modals.showModal(ModalName.SOFI_VERIFY_ID, { origin: 'SofiMigration' }))
+    }
   }
 
   return (
@@ -77,6 +84,12 @@ const SofiWelcome = (props: Props) => {
             <FormattedMessage
               id='scenes.sofi.welcome.modal.body'
               defaultMessage='Congrats! You can now continue your crypto experience with Blockchain.com.'
+            />
+          )}
+          {statusAwaitingUser && (
+            <FormattedMessage
+              id='scenes.sofi.welcome.modal.awaiting'
+              defaultMessage='You`re almost there! We have just verify your SoFi account before the migration is finished.'
             />
           )}
           {statusPending && (
