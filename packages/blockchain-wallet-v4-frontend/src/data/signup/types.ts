@@ -71,9 +71,9 @@ export enum AccountRecoveryApprovalStatusType {
 
 export type MetadataRestoreType = any
 
-export type RegisteringFailureType = undefined
+export type RegisteringFailureType = { error: string }
 
-export type RegisteringSuccessType = undefined
+export type RegisteringSuccessType = any
 
 export type RestoringType = undefined
 

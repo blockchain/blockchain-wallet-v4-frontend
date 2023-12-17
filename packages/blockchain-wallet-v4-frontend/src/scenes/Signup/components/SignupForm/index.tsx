@@ -69,6 +69,14 @@ const PasswordRequirementText = styled(Text)<{ isValid?: boolean }>`
   color: ${(props) => (props.isValid ? props.theme.grey800 : props.theme.red600)};
 `
 
+const EmailErrorText = styled(Text)`
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 4px;
+  margin-left: 2px;
+  color: ${(props) => props.theme.red600};
+`
+
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const getCountryElements = (countries: Array<CountryType>) => [
@@ -107,6 +115,9 @@ const SignupForm = (props: Props) => {
     setShowModal,
     showState
   } = props
+
+  // @ts-ignore
+  const lowercaseError = props.registering?.error?.reason === 'email.lowercase'
 
   const passwordValue = formValues?.password || ''
   const referralValue = formValues?.referral || ''
@@ -151,6 +162,14 @@ const SignupForm = (props: Props) => {
             validate={[required, validEmail]}
           />
         </FormItem>
+        {lowercaseError && (
+          <EmailErrorText>
+            <FormattedMessage
+              id='scenes.security.email.lowercase'
+              defaultMessage='Please enter your email address using lowercase letters only.'
+            />
+          </EmailErrorText>
+        )}
       </FormGroup>
       <FormGroup>
         <FormItem>

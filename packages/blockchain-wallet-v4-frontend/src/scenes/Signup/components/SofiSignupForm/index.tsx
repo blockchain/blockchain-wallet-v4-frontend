@@ -55,6 +55,13 @@ const PasswordRequirementText = styled(Text)<{ isValid?: boolean }>`
   font-weight: 400;
   color: ${(props) => (props.isValid ? props.theme.grey800 : props.theme.red600)};
 `
+const EmailErrorText = styled(Text)`
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 4px;
+  margin-left: 2px;
+  color: ${(props) => props.theme.red600};
+`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
@@ -82,6 +89,8 @@ const SofiSignupForm = (props: Props) => {
   const { country, state } = sofiJwtPayload
   const passwordValue = formValues?.password || ''
   const isUSStateUnsupported = bakktRedirectUSStates.includes(formValues?.state)
+  // @ts-ignore
+  const lowercaseError = props.registering?.error?.reason === 'email.lowercase'
 
   useEffect(() => {
     formActions.change(SIGNUP_FORM, 'country', country)
@@ -103,6 +112,14 @@ const SofiSignupForm = (props: Props) => {
             name='email'
           />
         </FormItem>
+        {lowercaseError && (
+          <EmailErrorText>
+            <FormattedMessage
+              id='scenes.security.email.lowercase'
+              defaultMessage='Please enter your email address using lowercase letters only.'
+            />
+          </EmailErrorText>
+        )}
       </FormGroup>
       <FormGroup>
         <FormItem>
