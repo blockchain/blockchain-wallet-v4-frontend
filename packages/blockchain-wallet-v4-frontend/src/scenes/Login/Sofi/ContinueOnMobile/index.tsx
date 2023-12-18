@@ -45,13 +45,12 @@ const ContinueOnMobile = (props: Props) => {
     dispatch(actions.router.push('/home'))
   }
 
+  const APP_URL = 'https://blockchainwallet.page.link/dashboard'
+
   const downloadMobileApp = () => {
-    if (isBrowserAndroid()) {
-      window.open('https://play.google.com/store/apps/details?id=piuk.blockchain.android', '_blank')
-    } else if (isBrowserIOS()) {
-      window.open('https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309', '_blank')
-    }
+    window.location.href = APP_URL
   }
+
   return (
     <Wrapper>
       <ContentWrapper>
@@ -88,13 +87,24 @@ const ContinueOnMobile = (props: Props) => {
         >
           <FormattedMessage
             id='scenes.sofi.continueonmobile.description2'
-            defaultMessage='To keep enjoying your Blockchain.com experience, download the app.'
+            defaultMessage='To keep enjoying your Blockchain.com experience, please use the mobile app.'
           />
         </Text>
-        <AppButtons>
-          <Badge type='applestore' />
-          <Badge type='googleplay' />
-        </AppButtons>
+        {isMobile() ? (
+          <Button data-e2e='viewAccount' fullwidth nature='primary' onClick={downloadMobileApp}>
+            <Text color='white' size='16px' weight={600}>
+              <FormattedMessage
+                id='buttons.download_app'
+                defaultMessage='Download the Blockchain.com App'
+              />
+            </Text>
+          </Button>
+        ) : (
+          <AppButtons>
+            <Badge type='applestore' />
+            <Badge type='googleplay' />
+          </AppButtons>
+        )}
       </ContentWrapper>
     </Wrapper>
   )

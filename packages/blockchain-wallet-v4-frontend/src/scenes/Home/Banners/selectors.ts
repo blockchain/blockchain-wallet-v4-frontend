@@ -36,6 +36,7 @@ type BannerType =
   | 'appleAndGooglePay'
   | 'staking'
   | 'activeRewards'
+  | 'sofiFinishMigration'
   | 'sofiMigration'
   | null
 
@@ -251,12 +252,28 @@ export const getData = (state: RootState) => {
     .getSofiMigrationStatusFromPolling(state)
     .getOrElse(null)
 
-  const showSofiMigrationBanner =
+  const showSofiMigration =
     sofiMigrationPending === SofiUserMigrationStatus.PENDING ||
     sofiMigrationPendingPolling === SofiUserMigrationStatus.PENDING
 
+  const showSofiFinishMigration =
+    sofiMigrationPending === SofiUserMigrationStatus.AWAITING_USER ||
+    sofiMigrationPendingPolling === SofiUserMigrationStatus.AWAITING_USER
+
+  const showSofiMigrationBanner = showBanner(
+    showSofiMigration,
+    ANNOUNCEMENTS.SOFI_MIGRATION,
+    announcementState
+  )
+  const showSofiFinishMigrationBanner = showBanner(
+    showSofiFinishMigration,
+    ANNOUNCEMENTS.SOFI_FINISH_MIGRATION,
+    announcementState
+  )
   if (showSanctionsBanner) {
     bannerToShow = 'sanctions'
+  } else if (showSofiFinishMigrationBanner) {
+    bannerToShow = 'sofiFinishMigration'
   } else if (showSofiMigrationBanner) {
     bannerToShow = 'sofiMigration'
   } else if (

@@ -88,6 +88,7 @@ export enum ModalName {
   SKIP_TWOFA_CONFIRMATION_WARNING = 'SKIP_TWOFA_CONFIRMATION_WARNING',
   SOFI_BLOCKCHAIN_WELCOME = 'SOFI_BLOCKCHAIN_WELCOME',
   SOFI_MIGRATED_BALANCES = 'SOFI_MIGRATED_BALANCES',
+  SOFI_VERIFY_ID = 'SOFI_VERIFY_ID',
   STAKING_MODAL = 'STAKING_MODAL',
   SUPPORT_MODAL = 'SUPPORT_MODAL',
   SWAP_MODAL = 'SWAP_MODAL',
@@ -178,7 +179,9 @@ export type ModalOriginType =
   | 'BuySellStatus'
   | 'BuySellOrderSummary'
   | 'RecommendedImportedSweep'
+  | 'SofiFinishMigration'
   | 'SofiMigration'
+  | 'SofiWelcomeGoal'
   | 'Swap'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'

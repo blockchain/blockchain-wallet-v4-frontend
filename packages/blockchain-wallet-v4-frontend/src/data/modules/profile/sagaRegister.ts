@@ -5,7 +5,8 @@ import sagas from './sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const {
-    associateSofiUser,
+    associateSofiUserLogin,
+    associateSofiUserSignup,
     authAndRouteToExchangeAction,
     clearSession,
     createUser,
@@ -18,6 +19,7 @@ export default ({ api, coreSagas, networks }) => {
     linkFromExchangeAccount,
     linkToExchangeAccount,
     migrateSofiUser,
+    redirectAfterAssociation,
     shareWalletAddressesWithExchange,
     signIn
   } = sagas({
@@ -43,6 +45,8 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE, shareWalletAddressesWithExchange)
     yield takeLatest(AT.MIGRATE_SOFI_USER, migrateSofiUser)
     yield takeLatest(AT.INITIATE_SOFI_LANDING, initiateSofiLanding)
-    yield takeLatest(AT.ASSOCIATE_SOFI_USER, associateSofiUser)
+    yield takeLatest(AT.ASSOCIATE_SOFI_USER_LOGIN, associateSofiUserLogin)
+    yield takeLatest(AT.ASSOCIATE_SOFI_USER_SIGNUP, associateSofiUserSignup)
+    yield takeLatest(AT.SOFI_REDIRECT_AFTER_EMAIL_VERIFICATION, redirectAfterAssociation)
   }
 }

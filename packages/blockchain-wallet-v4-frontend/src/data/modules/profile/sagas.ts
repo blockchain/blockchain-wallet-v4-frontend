@@ -693,6 +693,13 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const url = window.location.href
       const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
+      const sofiLinkDataFromStore = yield select(S.getSofiLinkData)
+      const {
+        aesCiphertext: aesCiphertextFromStore,
+        aesIV: aesIVFromStore,
+        aesTag: aesTagFromStore,
+        aesKeyCiphertext: aesKeyCiphertextFromStore
+      } = sofiLinkDataFromStore
 
       function getQueryParamCaseInsensitive(url, paramName) {
         // Create URLSearchParams object from the URL
@@ -707,15 +714,20 @@ export default ({ api, coreSagas, networks }) => {
         return null
       }
 
-      const aesCiphertext = getQueryParamCaseInsensitive(url, 'aesCiphertext') as string
-      const aesIV = getQueryParamCaseInsensitive(url, 'aesIV') as string
-      const aesTag = getQueryParamCaseInsensitive(url, 'aesTag') as string
-      const aesKeyCiphertext = getQueryParamCaseInsensitive(url, 'aesKeyCipherText') as string
+      const aesCiphertext =
+        (getQueryParamCaseInsensitive(url, 'aesCiphertext') as string) ||
+        (aesCiphertextFromStore as string)
+      const aesIV =
+        (getQueryParamCaseInsensitive(url, 'aesIV') as string) || (aesIVFromStore as string)
+      const aesTag =
+        (getQueryParamCaseInsensitive(url, 'aesTag') as string) || (aesTagFromStore as string)
+      const aesKeyCiphertext =
+        (getQueryParamCaseInsensitive(url, 'aesKeyCipherText') as string) ||
+        (aesKeyCiphertextFromStore as string)
       // if there are no params in url, just `/sofi`
       // redirect them to login page
-
       if (!aesCiphertext || !aesIV || !aesTag || !aesKeyCiphertext) {
-        yield put(actions.router.replace('/login'))
+        return yield put(actions.router.replace('/login'))
       }
       yield put(A.setSofiLinkData({ aesCiphertext, aesIV, aesTag, aesKeyCiphertext }))
 
@@ -734,11 +746,8 @@ export default ({ api, coreSagas, networks }) => {
         sofiUserState = 'US-' + sofiUserState
       }
 
-      if (response.migrationStatus === SofiUserMigrationStatus.AWAITING_USER) {
-        yield put(actions.router.push('/sofi'))
-      } else {
-        yield put(actions.router.push('/login/sofi'))
-      }
+      yield put(actions.router.push('/sofi'))
+
       yield put(
         A.fetchSofiMigrationStatusSuccess({
           ...response,
@@ -752,6 +761,7 @@ export default ({ api, coreSagas, networks }) => {
     } catch (e) {
       //TODO add error handling
       yield put(A.fetchSofiMigrationStatusFailure(e))
+      yield put(actions.router.push('/sofi'))
     }
 
     // also save information retrieved from response in redux
@@ -765,6 +775,9 @@ export default ({ api, coreSagas, networks }) => {
 
       if (response.migrationStatus === 'SUCCESS' || response.migrationStatus === 'PENDING') {
         yield put(A.setSofiMigratedBalances(response?.balances))
+        return true
+      }
+      if (response.migrationStatus === 'AWAITING_USER') {
         return true
       }
       if (response?.migrationStatus === 'FAILURE' || !response?.migrationStatus) {
@@ -793,7 +806,6 @@ export default ({ api, coreSagas, networks }) => {
         yield put(A.setSofiMigratedBalances(response.balances))
       }
       yield put(A.migrateSofiUserSuccess(response))
-      yield put(actions.router.push('/sofi-success'))
     } catch (e) {
       yield put(
         A.migrateSofiUserFailure({
@@ -802,12 +814,10 @@ export default ({ api, coreSagas, networks }) => {
           title: e.title
         })
       )
-      yield put(actions.router.push('/sofi-error'))
     }
   }
 
-  const associateSofiUser = function* () {
-    const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
+  const redirectAfterAssociation = function* () {
     const bakktRedirectStates = (yield select(
       selectors.core.walletOptions.getBakktRedirectUSStates
     )).getOrElse([])
@@ -816,6 +826,49 @@ export default ({ api, coreSagas, networks }) => {
     )
     const { state: sofiUserState } = sofiJwtPayload
     const bakktRedirect = bakktRedirectStates.includes(sofiUserState)
+    if (bakktRedirect) {
+      yield put(actions.router.push('/sofi-mobile'))
+    } else {
+      yield put(actions.router.push('/sofi-verify'))
+    }
+  }
+
+  const associateSofiUserSignup = function* () {
+    const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
+
+    const associateBeforeEmailVerification = (yield select(
+      selectors.core.walletOptions.getAssociateSofiBeforeEmailVerification
+    )).getOrElse(false)
+
+    const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
+    yield put(A.associateSofiUserLoading())
+    try {
+      yield call(
+        api.associateNabuUser,
+        aesIV,
+        aesCiphertext,
+        aesTag,
+        aesKeyCiphertext,
+        nabuSessionToken
+      )
+
+      if (associateBeforeEmailVerification) {
+        yield put(actions.router.push('/verify-email-step'))
+      } else {
+        yield call(redirectAfterAssociation)
+      }
+      yield put(A.associateSofiUserSuccess(true))
+
+      //TODO do we need to handle a success?
+    } catch (e) {
+      yield put(A.associateSofiUserFailure(e))
+      yield put(actions.router.push('/sofi-error'))
+    }
+  }
+
+  const associateSofiUserLogin = function* () {
+    const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
+
     const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
     yield put(A.associateSofiUserLoading())
     try {
@@ -828,11 +881,8 @@ export default ({ api, coreSagas, networks }) => {
         nabuSessionToken
       )
       yield put(A.associateSofiUserSuccess(true))
-      if (bakktRedirect) {
-        yield put(actions.router.push('/sofi-mobile'))
-      } else {
-        yield put(actions.router.push('/sofi-verify'))
-      }
+      yield call(redirectAfterAssociation)
+
       //TODO do we need to handle a success?
     } catch (e) {
       yield put(A.associateSofiUserFailure(e))
@@ -841,7 +891,8 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   return {
-    associateSofiUser,
+    associateSofiUserLogin,
+    associateSofiUserSignup,
     authAndRouteToExchangeAction,
     clearSession,
     createExchangeUser,
@@ -861,6 +912,7 @@ export default ({ api, coreSagas, networks }) => {
     linkToExchangeAccount,
     migrateSofiUser,
     recoverUser,
+    redirectAfterAssociation,
     renewApiSockets,
     renewSession,
     renewUser,

@@ -19,7 +19,6 @@ const ContentWrapper = styled.div`
 const MigrationError = () => {
   // Add check here to make sure that there is wallet data
   // route should navigate to login if there's no wallet data
-  const backToSofi = () => {}
 
   const {
     data: isMigrated,
@@ -58,11 +57,6 @@ const MigrationError = () => {
               defaultMessage='Restart your crypto account migration from your account on the SoFi website.'
             />
           </Text>
-          <Button data-e2e='viewAccount' fullwidth nature='primary' onClick={backToSofi}>
-            <Text color='white' size='16px' weight={600}>
-              <FormattedMessage id='buttons.go_to_sofi' defaultMessage='Go to SoFi account' />
-            </Text>
-          </Button>
         </>
       </ContentWrapper>
     </Wrapper>

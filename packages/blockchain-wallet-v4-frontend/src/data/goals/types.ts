@@ -24,6 +24,7 @@ export type GoalsType =
   | 'sanctionsNotice'
   | 'settings'
   | 'signup'
+  | 'sofiMigrationContinue'
   | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'
