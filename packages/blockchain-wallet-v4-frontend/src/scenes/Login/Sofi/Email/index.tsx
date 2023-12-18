@@ -10,11 +10,6 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
-import { selectors } from 'data'
-import { LOGIN_FORM } from 'data/auth/model'
-import { LoginSteps, ProductAuthOptions } from 'data/types'
-import { required, validWalletIdOrEmail } from 'services/forms'
-import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
@@ -91,6 +86,7 @@ const Email = (props: Props) => {
               data-e2e='sofiLoginEmail'
               name='sofiLoginEmail'
               noLastPass
+              autoCapitalize='none'
             />
           </FormItem>
         </FormGroup>
