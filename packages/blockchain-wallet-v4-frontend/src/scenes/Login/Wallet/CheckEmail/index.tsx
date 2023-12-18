@@ -19,6 +19,7 @@ const FormBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 24px;
 `
 
 const LoginWrapper = styled(Wrapper)`
@@ -80,7 +81,7 @@ const CheckEmail = (props: Props) => {
         />
         <FormBody>
           <CircleBackground color='blue600'>
-            <Icon name='computer' color='white' size='24px' />
+            <Icon name='email' color='white' size='24px' />
           </CircleBackground>
           <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
             <FormattedMessage id='copy.verifyyourdevice' defaultMessage='Verify Your Device' />
@@ -94,7 +95,13 @@ const CheckEmail = (props: Props) => {
           >
             <FormattedMessage
               id='scenes.login.checkemail'
-              defaultMessage='If you have an account registered with this email address, you will receive an email with a link to verify your device.'
+              defaultMessage='Check your email and click the button or link to verify your email address. Open the link on this device.'
+            />
+          </Text>
+          <Text color='grey900' size='16px' lineHeight='1.5' weight={600}>
+            <FormattedMessage
+              id='scenes.login.checkemail_2'
+              defaultMessage='Come back here after verifying your email.'
             />
           </Text>
         </FormBody>
