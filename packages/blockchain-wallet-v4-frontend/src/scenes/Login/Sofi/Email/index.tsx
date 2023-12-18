@@ -10,6 +10,7 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
+import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
@@ -29,6 +30,14 @@ const BackArrow = styled.div`
   align-items: center;
   cursor: pointer;
   margin: 24px 8px 8px 0;
+`
+
+const HelperText = styled(Text)`
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 4px;
+  margin-left: 2px;
+  color: ${(props) => props.theme.grey600};
 `
 
 const Email = (props: Props) => {
@@ -87,8 +96,17 @@ const Email = (props: Props) => {
               name='sofiLoginEmail'
               noLastPass
               autoCapitalize='none'
+              normalize={removeWhitespace}
             />
           </FormItem>
+          <Text>
+            <HelperText>
+              <FormattedMessage
+                id='scenes.email.login.lowercase'
+                defaultMessage='Email addresses are case sensitive'
+              />
+            </HelperText>
+          </Text>
         </FormGroup>
         <LinkRow>
           <ActionButton

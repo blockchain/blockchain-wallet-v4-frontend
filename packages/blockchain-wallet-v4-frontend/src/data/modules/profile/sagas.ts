@@ -743,6 +743,10 @@ export default ({ api, coreSagas, networks }) => {
 
       let sofiUserState = response.sofiJwtPayload?.state
       let sofiUserCountry = response.sofiJwtPayload?.country || 'US'
+      if (!sofiUserState) {
+        yield put(A.fetchSofiMigrationStatusFailure('missing US state'))
+        return yield put(actions.router.push('/sofi'))
+      }
       if (sofiUserState.substring(0, 2) !== 'US') {
         sofiUserState = 'US-' + sofiUserState
       }
