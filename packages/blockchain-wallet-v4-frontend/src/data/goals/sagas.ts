@@ -19,7 +19,7 @@ import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
-import { ProductEligibilityForUser } from 'data/types'
+import { ProductEligibilityForUser, SofiUserMigrationStatus } from 'data/types'
 import * as C from 'services/alerts'
 
 import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
@@ -63,12 +63,16 @@ export default ({ api, coreSagas, networks }) => {
     if (
       sofiMigrationInitialStatus ||
       sofiMigrationStatusFromPolling ||
-      sofiMigrationInitialStatus === 'AWAITING_USER' ||
+      sofiMigrationInitialStatus === 'AWAITING_USER'
+    ) {
+      return 'AWAITING_USER'
+    }
+    if (
       sofiMigrationInitialStatus ||
       sofiMigrationStatusFromPolling ||
       sofiMigrationInitialStatus === 'PENDING'
     ) {
-      return true
+      return 'PENDING'
     }
   }
 
@@ -849,6 +853,30 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.router.push(`/${goal.data.pathname}`))
   }
 
+  const runSofiContinueMigrationGoal = function* (goal: GoalType) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    yield take(actions.auth.loginSuccess)
+    const { isSofi: isSofiSignup } = yield select(selectors.signup.getProductSignupMetadata)
+    const isSofiAuth = yield select(selectors.auth.getIsSofi)
+    const isSofi = isSofiSignup || isSofiAuth
+    const sofiMigrationStatusFromPolling = (yield select(
+      selectors.modules.profile.getSofiMigrationStatusFromPolling
+    )).getOrElse(null)
+    // the purpose of this modal is only to show it if
+    // user is logging in without sofi deeplink but needs to finish
+    // migratioon process
+    if (sofiMigrationStatusFromPolling === SofiUserMigrationStatus.AWAITING_USER && !isSofi) {
+      yield put(
+        actions.goals.addInitialModal({
+          data: { origin },
+          key: 'sofiMigrationContinue',
+          name: 'SOFI_BLOCKCHAIN_WELCOME'
+        })
+      )
+    }
+  }
+
   const runInterestRedirect = function* (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -933,6 +961,7 @@ export default ({ api, coreSagas, networks }) => {
       recommendedImportedSweep,
       referralLanding,
       sanctionsNotice,
+      sofiMigrationContinue,
       swap,
       swapGetStarted,
       swapUpgrade,
@@ -943,6 +972,13 @@ export default ({ api, coreSagas, networks }) => {
     } = initialModals
 
     // Order matters here
+    if (sofiMigrationContinue) {
+      return yield put(
+        actions.modals.showModal(sofiMigrationContinue.name, {
+          origin: 'SofiWelcomeGoal'
+        })
+      )
+    }
     if (kycDocResubmit) {
       return yield put(
         actions.modals.showModal(kycDocResubmit.name, {
@@ -1052,12 +1088,15 @@ export default ({ api, coreSagas, networks }) => {
       kycVerification: { enabled: false }
     } as ProductEligibilityForUser)
 
-    const isSofiPending = yield call(sofiMigrationStatusCheck)
+    const sofiStatus = yield call(sofiMigrationStatusCheck)
+    const sofiPending = sofiStatus === 'PENDING'
+    const sofiAwaitingUser = sofiStatus === 'AWAITING_USER'
 
     if (
       current < 2 &&
       !hasCowboysTag &&
-      !isSofiPending &&
+      !sofiPending &&
+      !sofiAwaitingUser &&
       products?.kycVerification?.enabled &&
       kycState !== KYC_STATES.REJECTED
     ) {
@@ -1195,6 +1234,9 @@ export default ({ api, coreSagas, networks }) => {
         case 'settings':
           yield call(runSettingsDeeplinkRedirect, goal)
           break
+        case 'sofiMigrationContinue':
+          yield call(runSofiContinueMigrationGoal, goal)
+          break
         case 'swap':
           yield call(runSwapModal, goal)
           break
@@ -1241,6 +1283,7 @@ export default ({ api, coreSagas, networks }) => {
     if (!firstLogin) {
       yield put(actions.goals.saveGoal({ data: {}, name: 'welcomeModal' }))
     }
+    yield put(actions.goals.saveGoal({ data: {}, name: 'sofiMigrationContinue' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'recommendedImportedSweep' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'swapUpgrade' }))
     yield put(actions.goals.saveGoal({ data: {}, name: 'swapGetStarted' }))
@@ -1254,6 +1297,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.goals.saveGoal({ data: {}, name: 'kycUpgradeRequiredNotice' }))
       yield put(actions.goals.saveGoal({ data: {}, name: 'sanctionsNotice' }))
     }
+
     // when airdrops are running
     // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     // yield put(actions.goals.saveGoal('airdropClaim'))

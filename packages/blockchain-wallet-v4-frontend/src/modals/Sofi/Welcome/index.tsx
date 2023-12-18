@@ -36,14 +36,24 @@ const SofiWelcome = (props: Props) => {
   const statusSuccess =
     sofiMigrationStatus === SofiUserMigrationStatus.SUCCESS ||
     sofiMigrationStatusFromPolling === SofiUserMigrationStatus.SUCCESS
+  const statusFailure =
+    sofiMigrationStatus === SofiUserMigrationStatus.FAILURE ||
+    sofiMigrationStatusFromPolling === SofiUserMigrationStatus.FAILURE
+
+  const statusAwaitingUser =
+    sofiMigrationStatus === SofiUserMigrationStatus.AWAITING_USER ||
+    sofiMigrationStatusFromPolling === SofiUserMigrationStatus.AWAITING_USER
 
   const continueButtonClick = () => {
+    dispatch(actions.modals.closeModal(ModalName.SOFI_BLOCKCHAIN_WELCOME))
     if (statusPending || statusSuccess) {
       dispatch(
         actions.modals.showModal(ModalName.SOFI_MIGRATED_BALANCES, { origin: 'SofiMigration' })
       )
     }
-    dispatch(actions.modals.closeModal(ModalName.SOFI_BLOCKCHAIN_WELCOME))
+    if (statusAwaitingUser) {
+      dispatch(actions.modals.showModal(ModalName.SOFI_VERIFY_ID, { origin: 'SofiMigration' }))
+    }
   }
 
   return (
@@ -51,10 +61,17 @@ const SofiWelcome = (props: Props) => {
       <Body>
         <Image name='sofi-blockchain-migration' width='250px' />
         <Text size='20px' weight={600} color='grey900' lineHeight='1.5'>
-          <FormattedMessage
-            id='scenes.sofi.welcome.header'
-            defaultMessage='Welcome to Blockchain.com!'
-          />
+          {statusFailure ? (
+            <FormattedMessage
+              id='scenes.sofi.signup.failure.generic.header'
+              defaultMessage='Uh oh! Something went wrong.'
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.sofi.welcome.header'
+              defaultMessage='Welcome to Blockchain.com!'
+            />
+          )}
         </Text>
         <Text
           size='16px'
@@ -63,20 +80,37 @@ const SofiWelcome = (props: Props) => {
           lineHeight='1.5'
           style={{ marginBottom: '64px', marginTop: '16px', textAlign: 'center' }}
         >
-          {statusSuccess ? (
+          {statusSuccess && (
             <FormattedMessage
               id='scenes.sofi.welcome.modal.body'
               defaultMessage='Congrats! You can now continue your crypto experience with Blockchain.com.'
             />
-          ) : (
+          )}
+          {statusAwaitingUser && (
+            <FormattedMessage
+              id='scenes.sofi.welcome.modal.awaiting'
+              defaultMessage='You`re almost there! We have just verify your SoFi account before the migration is finished.'
+            />
+          )}
+          {statusPending && (
             <FormattedMessage
               id='scenes.sofi.welcome.modal.pending'
               defaultMessage='We are migrating your account. This process might take up to 24 hours.'
             />
           )}
+          {statusFailure && (
+            <FormattedMessage
+              id='scenes.sofi.signup.failure.expired.body'
+              defaultMessage='Restart your crypto account migration from your account on the SoFi website.'
+            />
+          )}
         </Text>
         <Button nature='primary' fullwidth data-e2e='sofiContinue' onClick={continueButtonClick}>
-          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+          {statusFailure ? (
+            <FormattedMessage id='buttons.ok' defaultMessage='OK' />
+          ) : (
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+          )}
         </Button>
       </Body>
     </Modal>

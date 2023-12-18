@@ -30,21 +30,24 @@ const Success = () => {
           defaultMessage='Your email is verified!'
         />
       </Text>
-      {isMobile() ? (
+      {/* commenting out mobile links for now since it's confusing
+      for sofi flow and don't know another workaround
+      (no sofi context on this landing page) */}
+      {/* {isMobile() ? (
         <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
           <FormattedMessage
             id='scenes.verifyemailtoken.return_mobile_new'
             defaultMessage='Return to the app to access your Blockchain.com Account.'
           />
         </Text>
-      ) : (
-        <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
-          <FormattedMessage
-            id='scenes.verifyemailtoken.return_new'
-            defaultMessage='Return to the previous tab to access your Blockchain.com Account.'
-          />
-        </Text>
-      )}
+      ) : ( */}
+      <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
+        <FormattedMessage
+          id='scenes.verifyemailtoken.return_new'
+          defaultMessage='Return to the previous tab to access your Blockchain.com Account.'
+        />
+      </Text>
+      {/* )}
       <Padding top={3} bottom={0.5}>
         <Button
           data-e2e='goBackToApp'
@@ -60,7 +63,7 @@ const Success = () => {
             </Text>
           }
         />
-      </Padding>
+      </Padding> */}
     </Wrapper>
   )
 }

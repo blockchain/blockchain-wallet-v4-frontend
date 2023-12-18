@@ -12,7 +12,12 @@ import { Image } from 'blockchain-info-components'
 import { UkBanner } from 'components/Banner'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ProductAuthMetadata, ProductSignupMetadata } from 'data/types'
+import {
+  ProductAuthMetadata,
+  ProductSignupMetadata,
+  RegisteringFailureType,
+  RegisteringSuccessType
+} from 'data/types'
 
 import BuyGoal from './BuyGoal'
 import Header from './components/Header'
@@ -189,6 +194,10 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   isValidReferralCode: selectors.signup.getIsValidReferralCode(state),
   language: selectors.preferences.getLanguage(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
+  registering: selectors.signup.getRegistering(state) as RemoteDataType<
+    RegisteringFailureType,
+    RegisteringSuccessType
+  >,
   search: selectors.router.getSearch(state) as string,
   signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata
 })
@@ -213,6 +222,7 @@ type LinkStatePropsType = {
   isValidReferralCode?: boolean
   language: string
   productAuthMetadata: ProductAuthMetadata
+  registering: RemoteDataType<RegisteringFailureType, RegisteringSuccessType>
   search: string
   signupMetadata: ProductSignupMetadata
 }

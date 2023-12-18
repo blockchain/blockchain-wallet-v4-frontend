@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <meta name="apple-itunes-app" content="app-id=493253309" />
     <meta
       name="description"
       content="The world's most trusted and popular crypto wallet. Sign up today to buy and sell Bitcoin, Ethereum and other top cryptocurrencies."
@@ -45,6 +44,17 @@
       gtag('config', 'UA-52108117-5', {
         send_page_view: false
       })
+    </script>
+    <script type="text/javascript">
+      window.onload = function () {
+        var currentUrl = window.location.hash
+        if (!currentUrl.includes('sofi')) {
+          var metaTag = document.createElement('meta')
+          metaTag.name = 'apple-itunes-app'
+          metaTag.content = 'app-id=493253309'
+          document.head.appendChild(metaTag)
+        }
+      }
     </script>
     <style nonce="**CSP_NONCE**">
       html,

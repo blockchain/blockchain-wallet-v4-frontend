@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -18,13 +17,11 @@ import Form from 'components/Form/Form'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
-import TextBox from 'components/Form/TextBox'
+import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
-import { LOGIN_FORM } from 'data/auth/model'
-import { LoginSteps, ProductAuthOptions, SofiMigrationErrorIds } from 'data/types'
+import { SofiMigrationErrorIds } from 'data/types'
 import { useRemote } from 'hooks'
-import { required } from 'services/forms'
 import { media } from 'services/styles'
 
 import { SofiSsnForm } from './types'
@@ -79,16 +76,26 @@ const LoadingWrapper = styled.div`
 
 const SofiVerifyID = (props: InjectedFormProps) => {
   const { invalid, submitting } = props
+  const dispatch = useDispatch()
   const formValues = useSelector(selectors.form.getFormValues('verifySofiSsn')) as SofiSsnForm
   const { data, error, isLoading, isNotAsked } = useRemote(
     selectors.modules.profile.getSofiMigrationStatus
   )
 
-  const dispatch = useDispatch()
-
   const isSsnError = error?.id === SofiMigrationErrorIds.SSN_ERROR
 
   const validSsn = formValues?.sofiSSN?.length === 4
+  useEffect(() => {
+    if (error && !isSsnError) {
+      dispatch(actions.router.push('/sofi-error'))
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (data) {
+      dispatch(actions.router.push('/sofi-success'))
+    }
+  }, [data])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -144,7 +151,7 @@ const SofiVerifyID = (props: InjectedFormProps) => {
                     </LoginFormLabel>
                     <Field
                       autoFocus
-                      component={TextBox}
+                      component={PasswordBox}
                       data-e2e='sofiSSN'
                       name='sofiSSN'
                       noLastPass

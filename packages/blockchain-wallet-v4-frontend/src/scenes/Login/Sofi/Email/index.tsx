@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { SofiMigrationStatusResponseType } from '@core/network/api/sofi/types'
-import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
@@ -19,13 +18,7 @@ import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
-import {
-  ActionButton,
-  GuidError,
-  LinkRow,
-  LoginFormLabel,
-  SoFiWrapperWithPadding
-} from '../../model'
+import { ActionButton, LinkRow, LoginFormLabel, SoFiWrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
   display: flex;
@@ -36,27 +29,39 @@ const LoginWrapper = styled(Wrapper)`
   `}
 `
 
+const BackArrow = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 24px 8px 8px 0;
+`
+
 const Email = (props: Props) => {
-  const { busy, formActions, formValues, invalid, magicLinkData, submitting } = props
-  const { sofiJwtPayload } = useSelector(selectors.modules.profile.getSofiUserData).getOrElse(
-    {}
-  ) as SofiMigrationStatusResponseType
-  const email = sofiJwtPayload?.email || ''
-  useEffect(() => {
-    if (email) {
-      formActions.change(LOGIN_FORM, 'sofiLoginEmail', email)
-    }
-  }, [formActions, email])
+  const { busy, formValues, invalid, routerActions, submitting } = props
 
   return (
     <LoginWrapper>
       <SoFiWrapperWithPadding>
+        <BackArrow onClick={() => routerActions.push('/sofi')}>
+          <Icon
+            data-e2e='signupBack'
+            name='arrow-back'
+            size='24px'
+            color='blue600'
+            style={{ marginRight: '8px' }}
+            role='button'
+          />
+
+          <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
+            <FormattedMessage id='copy.back' defaultMessage='Back' />
+          </Text>
+        </BackArrow>
         <Text
           size='20px'
           color='textBlack'
           weight={600}
           lineHeight='1.5'
-          style={{ marginTop: '40px', textAlign: 'center' }}
+          style={{ marginTop: '24px', textAlign: 'center' }}
         >
           <FormattedMessage
             id='scenes.login.sofi.header'
