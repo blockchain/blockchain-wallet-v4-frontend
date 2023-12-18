@@ -227,7 +227,7 @@ export const getImportedAddressSweep = (state: RootState) =>
 export const getProveEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'proveEnabled']))
 
-// sofi
+// sofi associate before email verification
 export const getAssociateSofiBeforeEmailVerification = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'sofiAssociateUserBeforeEmailVerification']))
 
