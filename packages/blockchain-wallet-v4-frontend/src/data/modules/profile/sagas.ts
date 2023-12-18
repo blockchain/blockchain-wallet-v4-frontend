@@ -771,15 +771,20 @@ export default ({ api, coreSagas, networks }) => {
   const fetchSofiUserStatus = function* () {
     try {
       const response = yield call(api.sofiMigrationStatusNabuToken)
-      yield put(A.setSofiUserStatusFromPolling(response?.migrationStatus))
+      yield put(A.setSofiUserStatus(response.migrationStatus))
 
-      if (response.migrationStatus === 'SUCCESS' || response.migrationStatus === 'PENDING') {
+      if (response.migrationStatus === 'PENDING') {
+        yield put(A.setSofiMigratedBalances(response?.balances))
+      }
+
+      if (response.migrationStatus === 'SUCCESS') {
         yield put(A.setSofiMigratedBalances(response?.balances))
         return true
       }
-      if (response.migrationStatus === 'AWAITING_USER') {
-        return true
-      }
+      // i don't think i want to dot his
+      // if (response.migrationStatus === 'AWAITING_USER') {
+      //   return true
+      // }
       if (response?.migrationStatus === 'FAILURE' || !response?.migrationStatus) {
         return true
       }
@@ -805,7 +810,11 @@ export default ({ api, coreSagas, networks }) => {
       if (userStatusResponse.migration_status === SofiUserMigrationStatus.SUCCESS) {
         yield put(A.setSofiMigratedBalances(response.balances))
       }
+      if (userStatusResponse.migration_status === SofiUserMigrationStatus.PENDING) {
+        yield call(fetchSofiUserStatus)
+      }
       yield put(A.migrateSofiUserSuccess(response))
+      yield put(A.setSofiUserStatus(response.migration_status))
     } catch (e) {
       yield put(
         A.migrateSofiUserFailure({

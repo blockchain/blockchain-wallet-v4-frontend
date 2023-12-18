@@ -242,3 +242,8 @@ export const setSofiMigratedBalances = (balances) => ({
 export const sofiRedirectAfterEmailVerification = () => ({
   type: AT.SOFI_REDIRECT_AFTER_EMAIL_VERIFICATION
 })
+
+export const setSofiUserStatus = (sofiUserStatus) => ({
+  payload: { sofiUserStatus },
+  type: AT.SET_SOFI_USER_STATUS
+})

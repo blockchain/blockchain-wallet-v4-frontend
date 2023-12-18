@@ -354,6 +354,9 @@ export default ({ api, coreSagas, networks }) => {
       if (userEligibility?.useExternalTradingAccount?.enabled && !isSofi) {
         return yield put(actions.router.push('/continue-on-phone'))
       }
+      if (!isSofi) {
+        yield put(actions.modules.profile.fetchSofiUserStatus())
+      }
 
       const guid = yield select(selectors.core.wallet.getGuid)
       const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
@@ -434,7 +437,7 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.router.push('/home'))
       }
-      yield put(actions.modules.profile.fetchSofiUserStatus())
+
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
       // We run goals in accountResetSaga in this case
