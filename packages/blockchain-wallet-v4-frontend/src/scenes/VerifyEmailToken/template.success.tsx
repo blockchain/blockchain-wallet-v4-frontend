@@ -25,10 +25,7 @@ const Success = () => {
       <Image name='email-verified' size='24px' />
 
       <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
-        <FormattedMessage
-          id='scenes.verifyemailtoken.verified'
-          defaultMessage='Your email is verified!'
-        />
+        <FormattedMessage id='scenes.verifyemailtoken.verified' defaultMessage='Email Verified' />
       </Text>
       {/* commenting out mobile links for now since it's confusing
       for sofi flow and don't know another workaround
@@ -44,7 +41,7 @@ const Success = () => {
       <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
         <FormattedMessage
           id='scenes.verifyemailtoken.return_new'
-          defaultMessage='Return to the previous tab to access your Blockchain.com Account.'
+          defaultMessage='You can safely close this tab or page. Go back to the other Blockchain.com tab or page to continue.'
         />
       </Text>
       {/* )}
