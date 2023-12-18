@@ -726,9 +726,8 @@ export default ({ api, coreSagas, networks }) => {
         (aesKeyCiphertextFromStore as string)
       // if there are no params in url, just `/sofi`
       // redirect them to login page
-
       if (!aesCiphertext || !aesIV || !aesTag || !aesKeyCiphertext) {
-        yield put(actions.router.replace('/login'))
+        return yield put(actions.router.replace('/login'))
       }
       yield put(A.setSofiLinkData({ aesCiphertext, aesIV, aesTag, aesKeyCiphertext }))
 
