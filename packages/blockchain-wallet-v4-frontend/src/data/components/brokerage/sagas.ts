@@ -293,6 +293,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.handleDepositFiatClick>) {
     const isUserTier2 = yield call(isTier2)
     if (!isUserTier2) {
+      yield put(
+        actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+          origin: BrokerageModalOriginType.DEPOSIT_BUTTON
+        })
+      )
       return
     }
     // Verify identity before deposit if TIER 2
@@ -309,7 +314,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     yield put(
       actions.components.brokerage.showModal({
-        modalType: 'BANK_DEPOSIT_MODAL',
+        modalType: ModalName.BANK_DEPOSIT_MODAL,
         origin: BrokerageModalOriginType.DEPOSIT_BUTTON
       })
     )
@@ -370,6 +375,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
     const isUserTier2 = yield call(isTier2)
     if (!isUserTier2) {
+      yield put(
+        actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+          origin: BrokerageModalOriginType.WITHDRAWAL
+        })
+      )
       return
     }
     // Verify identity before deposit if TIER 2

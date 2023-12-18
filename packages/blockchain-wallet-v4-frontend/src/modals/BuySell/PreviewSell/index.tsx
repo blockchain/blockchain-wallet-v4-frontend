@@ -3,15 +3,21 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { clearSubmitErrors, Form, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
+import { clearSubmitErrors, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
 import { coinToString, formatFiat } from '@core/exchange/utils'
-import { BSOrderActionType, BSPairType, CoinType, PaymentValue, RatesType } from '@core/types'
+import {
+  BSOrderActionType,
+  BSPairType,
+  CoinfigType,
+  CoinType,
+  PaymentValue,
+  RatesType
+} from '@core/types'
 import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
-import { FlyoutWrapper, Row, Value } from 'components/Flyout'
+import { FlyoutWrapper, Value } from 'components/Flyout'
 import { GenericNabuErrorFlyout } from 'components/GenericNabuErrorFlyout'
 import { actions, model, selectors } from 'data'
 import { getFiatFromPair } from 'data/components/buySell/model'
@@ -31,117 +37,26 @@ import { COINS_WITH_CUSTOM_FEE, SOL_FEE, STX_FEE } from '../../constants'
 import { Border, TopText } from '../../Swap/components'
 import { ErrorCodeMappings } from '../model'
 import Loading from '../template.loading'
+import {
+  AdditionalText,
+  Amount,
+  Bottom,
+  BottomActions,
+  CustomForm,
+  DisclaimerText,
+  IconWrapper,
+  QuoteCountDownWrapper,
+  RowIcon,
+  RowItem,
+  RowItemContainer,
+  RowText,
+  RowTextWrapper,
+  ToolTipText,
+  TopRow
+} from './PreviewSell.styles'
 import { SellButton } from './SellButton'
 
 const { FORM_BS_CHECKOUT, FORM_BS_PREVIEW_SELL } = model.components.buySell
-
-const CustomForm = styled(Form)`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`
-
-const RowItem = styled(Row)`
-  display: flex;
-  justify-content: space-between;
-`
-const TopRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-
-const RowIcon = styled.div`
-  display: flex;
-`
-
-const RowItemContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`
-const RowTextWrapper = styled.div`
-  text-align: right;
-`
-const RowText = styled(Text)`
-  font-size: 16px;
-  font-weight: 500;
-  color: ${(props) => props.theme.grey900};
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
-const AdditionalText = styled(Text)`
-  font-weight: 500;
-  color: ${(props) => props.theme.grey400};
-  text-align: right;
-  font-size: 14px;
-`
-const ToolTipText = styled.div`
-  display: flex;
-  border-radius: 8px;
-  margin-top: 8px;
-  padding: 16px;
-  background-color: ${(props) => props.theme.grey000};
-
-  animation: fadeIn 0.3s ease-in-out;
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-`
-const IconWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  cursor: pointer;
-  margin-left: 4px;
-`
-
-const QuoteCountDownWrapper = styled.div`
-  margin-top: 28px;
-`
-
-const Amount = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 8px;
-  > div {
-    display: flex;
-    flex-direction: row;
-  }
-`
-const Bottom = styled(FlyoutWrapper)`
-  display: flex;
-  flex-direction: column;
-  padding-top: 30px;
-  height: 100%;
-`
-
-const BottomActions = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  flex: 1;
-`
-
-const DisclaimerText = styled(Text)`
-  display: flex;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 24px;
-  text-align: left;
-  a {
-    color: ${(props) => props.theme.blue600};
-    cursor: pointer;
-    text-decoration: none;
-    display: contents;
-  }
-`
 
 const getNetworkValue = (value: PaymentValue) =>
   value.coin === COINS_WITH_CUSTOM_FEE.BTC || value.coin === COINS_WITH_CUSTOM_FEE.BCH
@@ -266,28 +181,44 @@ class PreviewSell extends PureComponent<
     }))
   }
 
+  showFiatTransformAlert = (coinfig: CoinfigType) => {
+    const { showFiatEntityRemediationAlert, userLegalEntity } = this.props
+    if (!showFiatEntityRemediationAlert || coinfig.type.name !== 'FIAT') return false
+
+    // Non BC_US with USD balance
+    const NON_BC_US_WITH_USD = userLegalEntity !== 'BC_US' && coinfig.displaySymbol === 'USD'
+    // Non BC_LT/BC_LT_2 with EUR/GBP balance
+    const ANY_BC_LT_WITH_EUR_GBP =
+      !userLegalEntity?.includes('BC_LT') && ['EUR', 'GBP'].includes(coinfig.displaySymbol)
+
+    return NON_BC_US_WITH_USD || ANY_BC_LT_WITH_EUR_GBP
+  }
+
   render() {
-    const { error } = this.props
+    const { clearErrors, error, quoteR } = this.props
 
     if (isNabuError(error)) {
-      return <GenericNabuErrorFlyout error={error} onDismiss={this.props.clearErrors} />
+      return <GenericNabuErrorFlyout error={error} onDismiss={clearErrors} />
     }
 
-    return this.props.quoteR.cata({
+    return quoteR.cata({
       Failure: () => null,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => {
-        const { account, formValues, payment } = this.props
-        if (!formValues) return null
-        if (!account) return null
-        const BASE = getInputFromPair(this.props.pair.pair)
-        const COUNTER = getOutputFromPair(this.props.pair.pair)
+        const { account, formValues, pair, payment } = this.props
+        if (!formValues || !account) return null
+
+        const BASE = getInputFromPair(pair.pair)
+        const COUNTER = getOutputFromPair(pair.pair)
         const feeInFiat = this.getFeeInFiat(account, BASE, COUNTER)
         const counterCoinTicker = COUNTER
         const baseCoinTicker = BASE
-        const isErc20 = window.coins[COUNTER].coinfig.type.erc20Address
-        const incomingCoinName = window.coins[counterCoinTicker]?.coinfig.name ?? counterCoinTicker
+        const { coinfig } = window.coins[counterCoinTicker]
+        const isErc20 = coinfig.type.erc20Address
+        const incomingCoinName = coinfig.name ?? counterCoinTicker
+
+        const showConversionDisclaimer = this.showFiatTransformAlert(coinfig)
 
         return (
           <CustomForm onSubmit={this.handleSubmit}>
@@ -534,6 +465,18 @@ class PreviewSell extends PureComponent<
             </RowItem>
             <Border />
             <FlyoutWrapper>
+              {showConversionDisclaimer && (
+                <DisclaimerText>
+                  <FormattedMessage
+                    id='modals.simplebuy.confirm.conversion_legalese'
+                    defaultMessage='Your {coinName} ({symbol}) balance will be converted to USDC daily at 12:00 am UTC. To avoid any inconvenience , buy crypto or initiate a withdrawal before the specified time.'
+                    values={{
+                      coinName: incomingCoinName,
+                      symbol: COUNTER
+                    }}
+                  />
+                </DisclaimerText>
+              )}
               <DisclaimerText>
                 <FormattedMessage
                   id='modals.simplebuy.confirm.sell_description'
@@ -591,7 +534,6 @@ class PreviewSell extends PureComponent<
 
 const mapStateToProps = (state: RootState) => {
   const coin = selectors.components.buySell.getCryptoCurrency(state) as CoinType
-  const payment = selectors.components.buySell.getPayment(state).getOrElse(undefined)
 
   return {
     account: selectors.components.buySell.getSwapAccount(state),
@@ -599,10 +541,13 @@ const mapStateToProps = (state: RootState) => {
     formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
     incomingAmountR: selectors.components.buySell.getIncomingAmount(state),
     pair: selectors.components.buySell.getBSPair(state),
-    payment,
+    payment: selectors.components.buySell.getPayment(state).getOrElse(undefined),
     quoteR: selectors.components.buySell.getSellQuote(state),
     rates: selectors.core.data.misc.getRatesSelector(coin, state).getOrElse({} as RatesType),
-    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType)
+    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType),
+    showFiatEntityRemediationAlert:
+      selectors.core.walletOptions.getFiatEntityRemediationAlert(state),
+    userLegalEntity: selectors.modules.profile.getUserLegalEntity(state)
   }
 }
 

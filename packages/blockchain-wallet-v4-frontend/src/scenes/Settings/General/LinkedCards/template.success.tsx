@@ -1,5 +1,6 @@
-import React, { SyntheticEvent } from 'react'
+import React, { memo, SyntheticEvent } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { IconCreditCard, PaletteColors } from '@blockchain-com/constellation'
 import {
   CARD_TYPES,
@@ -9,18 +10,18 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { BSPaymentTypes, FiatType } from '@core/types'
+import { BSPaymentTypes } from '@core/types'
 import { Coin } from '@core/utils'
 import { Box, Button, Text } from 'blockchain-info-components'
 import { Expanded, Flex } from 'components/Flex'
 import { StandardRow } from 'components/Rows'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
-import { model } from 'data'
+import { actions, model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { media } from 'services/styles'
 
 import { CustomSettingHeader, RemoveButton } from '../styles'
-import { Props as OwnProps, SuccessStateType } from '.'
+import { SuccessStateType } from '.'
 
 const { FORM_BS_CHECKOUT_CONFIRM } = model.components.buySell
 
@@ -42,14 +43,19 @@ const CardImg = styled.img`
   width: 24px;
 `
 
-const Success: React.FC<
-  InjectedFormProps<{}, Props & { fiatCurrency?: FiatType }> & Props & { fiatCurrency?: FiatType }
-> = (props) => {
-  const ccPaymentMethod = props.paymentMethods.methods.find(
-    (m) => m.type === BSPaymentTypes.PAYMENT_CARD
-  )
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = ({
+  cards,
+  handleCreditCardClick,
+  paymentMethods,
+  submitting
+}) => {
+  const dispatch = useDispatch()
 
-  const activeCards = props.cards.filter((card) => card.state === 'ACTIVE')
+  const deleteCard = (cardID) => dispatch(actions.components.buySell.deleteCard(cardID))
+
+  const ccPaymentMethod = paymentMethods.methods.find((m) => m.type === BSPaymentTypes.PAYMENT_CARD)
+
+  const activeCards = cards.filter((card) => card.state === 'ACTIVE')
 
   return (
     <CustomSettingContainer>
@@ -140,12 +146,12 @@ const Success: React.FC<
                   <RemoveButton
                     data-e2e='removeCard'
                     nature='light-red'
-                    disabled={props.submitting}
+                    disabled={submitting}
                     style={{ minWidth: 'auto' }}
                     // @ts-ignore
                     onClick={(e: SyntheticEvent) => {
                       e.stopPropagation()
-                      props.buySellActions.deleteCard(card.id)
+                      deleteCard(card.id)
                     }}
                   >
                     <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
@@ -160,7 +166,7 @@ const Success: React.FC<
         <Button
           nature='primary'
           data-e2e='addCardFromSettings'
-          onClick={() => props.handleCreditCardClick()}
+          onClick={() => handleCreditCardClick()}
         >
           <FormattedMessage id='buttons.add_card' defaultMessage='Add Card' />
         </Button>
@@ -169,9 +175,8 @@ const Success: React.FC<
   )
 }
 
-type Props = OwnProps &
-  SuccessStateType & {
-    handleCreditCardClick: () => void
-  }
+type Props = SuccessStateType & {
+  handleCreditCardClick: () => void
+}
 
-export default reduxForm<{}, Props>({ form: FORM_BS_CHECKOUT_CONFIRM })(Success)
+export default memo(reduxForm<{}, Props>({ form: FORM_BS_CHECKOUT_CONFIRM })(Success))

@@ -12,18 +12,16 @@ const LoadingWrapper = styled(Wrapper)`
   flex-direction: column;
 `
 
-const Loading = () => {
-  return (
-    <LoadingWrapper>
-      <SpinningLoader width='40px' height='40px' />
-      <Text size='16px' weight={400} style={{ marginTop: '24px' }}>
-        <FormattedMessage
-          id='scenes.login.verify'
-          defaultMessage="We're verifying your login attempt. Please wait..."
-        />
-      </Text>
-    </LoadingWrapper>
-  )
-}
+const Loading = () => (
+  <LoadingWrapper>
+    <SpinningLoader width='40px' height='40px' />
+    <Text size='16px' weight={400} style={{ marginTop: '24px' }}>
+      <FormattedMessage
+        id='scenes.login.verify'
+        defaultMessage="We're verifying your login attempt. Please wait..."
+      />
+    </Text>
+  </LoadingWrapper>
+)
 
 export default Loading

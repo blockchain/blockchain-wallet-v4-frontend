@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { push } from 'connected-react-router'
+import { clearFields, Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
@@ -41,10 +42,6 @@ const BackArrow = styled.div`
 `
 
 const InstitutionalPortal = (props: Props) => {
-  useEffect(() => {
-    props.formActions.clearFields(LOGIN_FORM, false, false, 'exchangeEmail')
-  }, [])
-
   const {
     busy,
     exchangeError,
@@ -53,14 +50,18 @@ const InstitutionalPortal = (props: Props) => {
     invalid,
     magicLinkData,
     productAuthMetadata,
-    routerActions,
     submitting
   } = props
-  const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
+
+  const passwordError = exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
+
   const backArrowClick = () => {
     handleBackArrowClickExchange()
-    routerActions.push('/login?product=exchange')
+    push('/login?product=exchange')
   }
+  useEffect(() => {
+    clearFields(LOGIN_FORM, false, false, 'exchangeEmail')
+  }, [])
   return (
     <LoginWrapper>
       <WrapperWithPadding>
@@ -113,7 +114,7 @@ const InstitutionalPortal = (props: Props) => {
                   id='scenes.login.exchange.wrong_password'
                   defaultMessage='Login failed - wrong password.'
                 />
-                {/* some sort of prompts to reset password?  */}
+                {/* some sort of prompts to reset password? */}
               </FormError>
             )}
           </FormItem>

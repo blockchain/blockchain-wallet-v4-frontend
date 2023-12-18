@@ -103,6 +103,8 @@ export type UserTradingCurrencies = {
   userFiatCurrencies: WalletFiatType[]
 }
 
+type UserLegalEntities = 'BC_BVI_2' | 'BC_INT' | 'BC_LT' | 'BC_LT_2' | 'BC_NG' | 'BC_US'
+
 export type UserDataType = {
   address?: NabuAddressType
   currencies: UserTradingCurrencies
@@ -121,6 +123,7 @@ export type UserDataType = {
   state: UserActivationStateType
   tags: TagsType
   tiers: Tiers
+  userLegalEntity: UserLegalEntities
   userName?: string
   walletAddresses: {}
   walletGuid: string
