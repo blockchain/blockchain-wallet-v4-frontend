@@ -269,7 +269,11 @@ export default ({ api, coreSagas, networks }) => {
     const { token: nabuLifetimeToken, userId: nabuUserId } = yield call(
       api.createOrGetUser,
       retailToken,
-      isSofi ? 'sofi' : partnerReferralCodeFromCookie
+      isSofi
+        ? 'SOFI_MIGRATION'
+        : partnerReferralCodeFromCookie === 'sofi'
+        ? 'SOFI_MIGRATION'
+        : partnerReferralCodeFromCookie
     )
     // write to both to support legacy mobile clients
     // TODO: in future, consider just writing to unifiedCredentials entry
