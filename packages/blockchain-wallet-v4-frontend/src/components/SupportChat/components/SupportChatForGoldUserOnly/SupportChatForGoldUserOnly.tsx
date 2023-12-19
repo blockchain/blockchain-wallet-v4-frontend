@@ -5,28 +5,26 @@ import { useDispatch } from 'react-redux'
 import {
   useSupportChatAvailability,
   useSupportChatMessage,
-  useSupportChatOpenState
+  useSupportChatState
 } from 'components/SupportChat/hooks'
 import { actions, selectors } from 'data'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
-import { ZendeskIframe } from '../ZendeskIframe'
+import { IntercomIframe } from '../IntercomIframe'
 import { SupportChatForGoldUserOnlyComponent } from './SupportChatForGoldUserOnly.types'
 
 export const SupportChatForGoldUserOnly: SupportChatForGoldUserOnlyComponent = () => {
-  const iframeId = 'zendesk-iframe'
+  const iframeId = 'bcdc-intercom-iframe'
   const portalElement = document.getElementById('contact-chat-portal')
   const dispatch = useDispatch()
 
-  const [isOpen] = useSupportChatOpenState()
+  const [{ isOpen, isReady }] = useSupportChatState()
   const { data: userData } = useRemote(selectors.modules.profile.getUserData)
   const { isAvailable } = useSupportChatAvailability({ iframeId })
   const { data: domains } = useRemote(selectors.core.walletOptions.getDomains)
 
-  const { sendMessage } = useSupportChatMessage({
-    iframeId
-  })
+  const { sendMessage } = useSupportChatMessage({ iframeId })
 
   const trackCustomerSupportClickedEvent = useCallback(() => {
     dispatch(
@@ -47,7 +45,7 @@ export const SupportChatForGoldUserOnly: SupportChatForGoldUserOnlyComponent = (
   const iframeSrc = useMemo(() => {
     if (!domains) return 'https://wallet-helper.blockchain.com'
 
-    return `${domains.walletHelper}/wallet-helper/zendesk/#/`
+    return `${domains.walletHelper}/wallet-helper/intercom/#/`
   }, [domains])
 
   useEffect(() => {
@@ -57,23 +55,19 @@ export const SupportChatForGoldUserOnly: SupportChatForGoldUserOnlyComponent = (
   }, [isOpen, trackCustomerSupportClickedEvent])
 
   useEffect(() => {
-    if (isGoldUser && userData && isAvailable) {
-      // FIXME: adding a 7 second delay because sendMessage was preiously firing before react was loaded
-      // in the iframe and the chat button wasn't showing up. The proper solution should wait for the iframe
-      // to tell wallet that it's loaded properly and will receive this message.
-      setTimeout(() => {
-        sendMessage('showChat', {
-          email: userData.email,
-          fullName: userFullname
-        })
-      }, 7000)
+    if (isGoldUser && userData && isAvailable && isReady) {
+      sendMessage('boot', {
+        background_color: 'red',
+        email: userData?.email,
+        name: userFullname
+      })
     }
-  }, [userData, isAvailable, sendMessage, isGoldUser, userFullname])
+  }, [userData, isReady, sendMessage, isGoldUser, isAvailable, userFullname])
 
   if (!userData || !portalElement) return null
 
   return createPortal(
-    <ZendeskIframe id={iframeId} src={iframeSrc} isOpen={isOpen} />,
+    <IntercomIframe id={iframeId} src={iframeSrc} isOpen={isOpen} />,
     portalElement
   )
 }

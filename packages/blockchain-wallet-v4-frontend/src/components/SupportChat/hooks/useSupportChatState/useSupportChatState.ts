@@ -1,20 +1,24 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { SupportChatOpenStateHook } from './useSupportChatOpenState.types'
+import { SupportChatStateHook } from './useSupportChatState.types'
 
-export const useSupportChatOpenState: SupportChatOpenStateHook = (initialValue = false) => {
+export const useSupportChatState: SupportChatStateHook = (initialValue = false) => {
   const [isOpen, setOpen] = useState<boolean>(initialValue)
+  const [isReady, setReady] = useState<boolean>(initialValue)
 
   const onMessage = useCallback(
     (event) => {
       const message = event.data
-      // HMR/zendesk combo sends empty messages sometimes that result in widget state
-      // being set to close when it really is still open
+
       if (message && typeof message.widgetOpen === 'boolean') {
         setOpen(message.widgetOpen)
       }
+
+      if (message && typeof message.widgetReady === 'boolean') {
+        setReady(message.widgetReady)
+      }
     },
-    [setOpen]
+    [setOpen, setReady]
   )
 
   useEffect(() => {
@@ -25,5 +29,5 @@ export const useSupportChatOpenState: SupportChatOpenStateHook = (initialValue =
     }
   }, [onMessage])
 
-  return [isOpen, setOpen]
+  return [{ isOpen, isReady, setOpen, setReady }]
 }
