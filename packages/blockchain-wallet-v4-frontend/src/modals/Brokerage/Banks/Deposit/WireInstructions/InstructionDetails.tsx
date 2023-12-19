@@ -1,5 +1,4 @@
 import React from 'react'
-import useShowConversionAlert from 'blockchain-wallet-v4-frontend/src/hooks/useShowBalanceConversionAlert'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -35,8 +34,8 @@ const BottomInfoContainer = styled.div`
     }
   }
 `
-const BottomRow = styled.div`
-  display: ${(props) => (React.Children.count(props.children) > 0 ? 'flex' : 'none')};
+const BottomRow = styled.div<{ $items: number }>`
+  display: ${(props) => (props.$items > 0 ? 'flex' : 'none')};
   flex-direction: row;
 `
 const Entries = styled.div`
@@ -62,7 +61,7 @@ const EntryValue = styled.div`
   line-height: 1.5;
 `
 
-const FiatNoticeWrapper = styled.div`
+const NoticeWrapper = styled.div`
   flex: 1;
   padding: 1rem 1rem 0 1rem;
   background-color: ${(props) => props.theme.grey000};
@@ -81,13 +80,13 @@ type Props = OwnProps &
 
 export const InstructionDetails = ({ account, onClickBack }: Props) => {
   const { content, currency } = account
-  const { coinfig } = window.coins[currency]
 
-  const showConversionDisclaimer = useShowConversionAlert(coinfig)
+  const footerActions = content.footers.filter((footer) => footer.actions)
+  const footerNotices = content.footers.filter((footer) => !footer.actions)
 
   return (
     <FlyoutWrapper>
-      <Header currency={account.currency} onClickBack={onClickBack} />
+      <Header currency={currency} onClickBack={onClickBack} />
 
       {content.sections.map((section) => (
         <div key={section.name}>
@@ -107,37 +106,25 @@ export const InstructionDetails = ({ account, onClickBack }: Props) => {
       ))}
 
       <BottomInfoContainer>
-        {content.footers
-          .filter((footer) => footer.actions)
-          .map((footer) => (
-            <ActionFooter key={footer.id} message={footer.message} actions={footer.actions!} />
-          ))}
+        {footerActions.map((footer) => (
+          <ActionFooter key={footer.id} message={footer.message} actions={footer.actions!} />
+        ))}
 
-        <BottomRow>
-          <FiatNoticeWrapper>
+        <BottomRow $items={footerNotices.length}>
+          <NoticeWrapper>
             <Text size='14px' weight={600}>
               <span style={{ color: '#D46A00' }}>Important Information</span>
             </Text>
             <ul>
-              {content.footers
-                .filter((footer) => !footer.actions)
-                .map((footer) => (
-                  <li key={footer.id}>
-                    <Text size='12px' weight={500} color='grey900'>
-                      {footer.message}
-                    </Text>
-                  </li>
-                ))}
-              {showConversionDisclaimer && (
-                <li>
+              {footerNotices.map((footer) => (
+                <li key={footer.id}>
                   <Text size='12px' weight={500} color='grey900'>
-                    Your {coinfig.name} ({currency}) balance will be converted to USDC daily at
-                    12:00 am UTC. To avoid any inconvenience buy crypto before the specified time.
+                    {footer.message}
                   </Text>
                 </li>
-              )}
+              ))}
             </ul>
-          </FiatNoticeWrapper>
+          </NoticeWrapper>
         </BottomRow>
       </BottomInfoContainer>
     </FlyoutWrapper>

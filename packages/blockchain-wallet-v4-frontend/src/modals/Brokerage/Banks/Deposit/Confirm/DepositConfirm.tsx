@@ -1,13 +1,12 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import useShowConversionAlert from 'blockchain-wallet-v4-frontend/src/hooks/useShowBalanceConversionAlert'
 import { addDays, format } from 'date-fns'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader } from 'blockchain-info-components'
 import AvailabilityRows from 'components/Brokerage/AvailabilityRows'
 import {
   FlyoutContainer,
@@ -25,18 +24,6 @@ import {
   BrokerageTxFormValuesType,
   DepositTerms
 } from 'data/types'
-
-// Auto margin top so it gets pushed to the bottom
-const FiatNoticeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  padding: 1rem;
-  background-color: ${(props) => props.theme.grey000};
-  border-radius: 0.5rem;
-  margin: auto 2rem 0;
-  border: 1px solid #d46a00;
-`
 
 const getBankFormatted = (bank) => {
   if (!bank || !bank.details) return 'Bank Transfer'
@@ -73,10 +60,6 @@ const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
     setSubmitting(true)
     dispatch(actions.components.brokerage.createFiatDeposit())
   }, [])
-
-  const showConversionDisclaimer = useShowConversionAlert(
-    window.coins[defaultMethod!.currency].coinfig
-  )
 
   const amount = formValues?.amount || 0
 
@@ -122,19 +105,6 @@ const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
           title={<FormattedMessage id='copy.total' defaultMessage='Total' />}
         />
         {availableToTradeWithdraw && <AvailabilityRows depositTerms={depositTerms} />}
-
-        {showConversionDisclaimer && (
-          <FiatNoticeWrapper>
-            <Text weight={600} size='14px' lineHeight='21px' style={{ marginBottom: '8px' }}>
-              <span style={{ color: '#D46A00' }}>Important information</span>
-            </Text>
-            <Text size='12px' weight={500} color='grey900'>
-              Your {targetCoinName} ({defaultMethod?.currency}) balance will be converted to USDC
-              daily at 12:00 am UTC. To avoid any inconvenience buy crypto before the specified
-              time.
-            </Text>
-          </FiatNoticeWrapper>
-        )}
       </FlyoutContent>
       <FlyoutFooter collapsed>
         <Button

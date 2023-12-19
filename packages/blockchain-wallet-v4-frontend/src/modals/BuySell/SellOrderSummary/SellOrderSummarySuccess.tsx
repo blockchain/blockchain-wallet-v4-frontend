@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
-import useShowConversionAlert from 'blockchain-wallet-v4-frontend/src/hooks/useShowBalanceConversionAlert'
 import { format } from 'date-fns'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -18,14 +17,11 @@ import {
 
 import { BuyOrSell } from '../model'
 import { Props } from '.'
-import { Amount, DisclaimerText, TopText, Wrapper } from './SellOrderSumary.styles'
+import { Amount, TopText, Wrapper } from './SellOrderSumary.styles'
 import { Status } from './StatusMessage'
 
 const Success: React.FC<Props> = ({ handleClose }) => {
   const sellOrder = useSelector(selectors.components.buySell.getSellOrder)
-  const conversionLearnMoreLink = useSelector(
-    selectors.core.walletOptions.getConversionLearnMoreLink
-  ).getOrElse(undefined)
 
   const sellBaseAmount = sellOrder && getSellBaseAmount(sellOrder)
   const sellBaseCurrency = sellOrder ? getCoinFromPair(sellOrder.pair) : 'BTC'
@@ -36,8 +32,6 @@ const Success: React.FC<Props> = ({ handleClose }) => {
   const { coinfig } = window.coins[sellCounterCurrency]
 
   const sellCurrencyName = coinfig.name || sellCounterCurrency
-
-  const showConversionDisclaimer = useShowConversionAlert(coinfig)
 
   if (!sellOrder) return null
 
@@ -135,26 +129,6 @@ const Success: React.FC<Props> = ({ handleClose }) => {
             {isInternal ? `${sellBaseCurrency} Trading Account` : `${sellBaseCurrency} DeFi Wallet`}
           </Value>
         </Row>
-
-        {showConversionDisclaimer && (
-          <DisclaimerText>
-            <FormattedMessage
-              id='modals.simplebuy.sell.summary.conversion_legalese'
-              defaultMessage='Your {coinName} ({symbol}) balance will be converted to USDC daily at 12:00 am UTC. To avoid any inconvenience buy crypto before the specified time. {learnMoreElement}'
-              values={{
-                coinName: sellCurrencyName,
-                learnMoreElement: conversionLearnMoreLink ? (
-                  <a href={conversionLearnMoreLink} target='_blank' rel='noreferrer'>
-                    Learn More.
-                  </a>
-                ) : (
-                  ''
-                ),
-                symbol: sellCounterCurrency
-              }}
-            />
-          </DisclaimerText>
-        )}
       </div>
     </Wrapper>
   )

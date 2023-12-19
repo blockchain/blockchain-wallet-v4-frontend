@@ -181,19 +181,6 @@ class PreviewSell extends PureComponent<
     }))
   }
 
-  showFiatTransformAlert = (coinfig: CoinfigType) => {
-    const { showFiatEntityRemediationAlert, userLegalEntity } = this.props
-    if (!showFiatEntityRemediationAlert || coinfig.type.name !== 'FIAT') return false
-
-    // Non BC_US with USD balance
-    const NON_BC_US_WITH_USD = userLegalEntity !== 'BC_US' && coinfig.displaySymbol === 'USD'
-    // Non BC_LT/BC_LT_2 with EUR/GBP balance
-    const ANY_BC_LT_WITH_EUR_GBP =
-      !userLegalEntity?.includes('BC_LT') && ['EUR', 'GBP'].includes(coinfig.displaySymbol)
-
-    return NON_BC_US_WITH_USD || ANY_BC_LT_WITH_EUR_GBP
-  }
-
   render() {
     const { clearErrors, error, quoteR } = this.props
 
@@ -217,8 +204,6 @@ class PreviewSell extends PureComponent<
         const { coinfig } = window.coins[counterCoinTicker]
         const isErc20 = coinfig.type.erc20Address
         const incomingCoinName = coinfig.name ?? counterCoinTicker
-
-        const showConversionDisclaimer = this.showFiatTransformAlert(coinfig)
 
         return (
           <CustomForm onSubmit={this.handleSubmit}>
@@ -465,18 +450,6 @@ class PreviewSell extends PureComponent<
             </RowItem>
             <Border />
             <FlyoutWrapper>
-              {showConversionDisclaimer && (
-                <DisclaimerText>
-                  <FormattedMessage
-                    id='modals.simplebuy.confirm.conversion_legalese'
-                    defaultMessage='Your {coinName} ({symbol}) balance will be converted to USDC daily at 12:00 am UTC. To avoid any inconvenience , buy crypto or initiate a withdrawal before the specified time.'
-                    values={{
-                      coinName: incomingCoinName,
-                      symbol: COUNTER
-                    }}
-                  />
-                </DisclaimerText>
-              )}
               <DisclaimerText>
                 <FormattedMessage
                   id='modals.simplebuy.confirm.sell_description'
@@ -544,10 +517,7 @@ const mapStateToProps = (state: RootState) => {
     payment: selectors.components.buySell.getPayment(state).getOrElse(undefined),
     quoteR: selectors.components.buySell.getSellQuote(state),
     rates: selectors.core.data.misc.getRatesSelector(coin, state).getOrElse({} as RatesType),
-    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType),
-    showFiatEntityRemediationAlert:
-      selectors.core.walletOptions.getFiatEntityRemediationAlert(state),
-    userLegalEntity: selectors.modules.profile.getUserLegalEntity(state)
+    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType)
   }
 }
 
