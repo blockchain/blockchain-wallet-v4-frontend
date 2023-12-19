@@ -775,16 +775,17 @@ export default ({ api, coreSagas, networks }) => {
 
   const fetchSofiUserStatus = function* () {
     try {
+      yield call(waitForUserData)
       const response = yield call(api.sofiMigrationStatusNabuToken)
       yield put(A.setSofiUserStatus(response.migrationStatus))
-
-      if (response.migrationStatus === 'PENDING') {
-        yield put(A.setSofiMigratedBalances(response?.balances))
-      }
 
       if (response.migrationStatus === 'SUCCESS') {
         yield put(A.setSofiMigratedBalances(response?.balances))
         return true
+      }
+
+      if (response.migrationStatus === 'PENDING') {
+        yield put(A.setSofiMigratedBalances(response?.balances))
       }
       // i don't think i want to dot his
       // if (response.migrationStatus === 'AWAITING_USER') {
