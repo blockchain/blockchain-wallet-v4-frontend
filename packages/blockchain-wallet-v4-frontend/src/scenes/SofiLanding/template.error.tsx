@@ -4,6 +4,8 @@ import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
+import { selectors } from 'data'
+import { useRemote } from 'hooks'
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -13,6 +15,10 @@ const ContentWrapper = styled.div`
 `
 
 const SofiErrorLanding = () => {
+  const { data, error, isLoading, isNotAsked } = useRemote(
+    selectors.modules.profile.getSofiUserData
+  )
+
   return (
     <Wrapper>
       <ContentWrapper>
@@ -32,7 +38,7 @@ const SofiErrorLanding = () => {
         >
           <FormattedMessage
             id='scenes.sofi.signup.failure.expired.body'
-            defaultMessage='Looks like your migration link expired. Restart your crypto account migration from your account on the SoFi website.'
+            defaultMessage='Looks like there was an issue with your link. Restart your crypto account migration from your account on the SoFi website.'
           />
         </Text>
       </ContentWrapper>

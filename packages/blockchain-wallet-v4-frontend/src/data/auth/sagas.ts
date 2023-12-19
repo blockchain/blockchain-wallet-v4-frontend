@@ -354,6 +354,9 @@ export default ({ api, coreSagas, networks }) => {
       if (userEligibility?.useExternalTradingAccount?.enabled && !isSofi) {
         return yield put(actions.router.push('/continue-on-phone'))
       }
+      if (!isSofi) {
+        yield put(actions.modules.profile.fetchSofiUserStatus())
+      }
 
       const guid = yield select(selectors.core.wallet.getGuid)
       const isAccountReset: boolean = yield select(selectors.signup.getAccountReset)
@@ -434,7 +437,7 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.router.push('/home'))
       }
-      yield put(actions.modules.profile.fetchSofiUserStatus())
+
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
       // We run goals in accountResetSaga in this case
@@ -959,6 +962,9 @@ export default ({ api, coreSagas, networks }) => {
         // If it's a guid, we take them to the enter mobile verification step
         if (isGuid(guidOrEmail) && product === ProductAuthOptions.WALLET) {
           yield put(actions.form.change(LOGIN_FORM, 'guid', guidOrEmail))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+        } else if (isGuid(sofiLoginEmail) && product === ProductAuthOptions.WALLET) {
+          yield put(actions.form.change(LOGIN_FORM, 'guid', sofiLoginEmail))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
         } else if (product === ProductAuthOptions.EXCHANGE) {
           // trigger email for exchange form

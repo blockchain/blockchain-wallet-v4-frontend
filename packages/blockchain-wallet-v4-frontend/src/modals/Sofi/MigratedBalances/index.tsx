@@ -27,21 +27,15 @@ import NoAssetsMigrated from './template.noassets'
 
 const SofiMigratedBalances = (props: Props) => {
   const dispatch = useDispatch()
-
   const balances = useSelector(
     selectors.modules.profile.getSofiMigrationTransferedBalances
   ).getOrElse([]) as Array<{ amount: number; currency: string }>
 
-  const sofiMigrationStatus = useSelector(
-    (state: RootState) => state.profile.sofiMigrationStatus
-  ).getOrElse(null)
-  const sofiMigrationStatusFromPolling = useSelector(
-    (state: RootState) => state.profile.sofiMigrationStatusFromPolling
-  ).getOrElse(null)
+  const sofiMigrationUserStatus = useSelector(
+    (state: RootState) => state.profile.sofiUserMigrationStatus
+  )
 
-  const statusPending =
-    sofiMigrationStatus === SofiUserMigrationStatus.PENDING ||
-    sofiMigrationStatusFromPolling === SofiUserMigrationStatus.PENDING
+  const statusPending = sofiMigrationUserStatus === SofiUserMigrationStatus.PENDING
 
   const viewAccountClick = () => {
     dispatch(actions.modals.closeModal(ModalName.SOFI_MIGRATED_BALANCES))

@@ -34,53 +34,21 @@ const SofiPendingLanding = () => {
           weight={500}
         >
           <FormattedMessage
-            id='scenes.sofi.signup.welcome.body'
-            defaultMessage='Migrating your crypto from SoFi is super quick. Choose how you’d like to continue. We’ll take care of migrating your crypto.'
-          />
-        </Text>
-        <Text
-          color='grey900'
-          lineHeight='1.5'
-          style={{ marginBottom: '16px', marginTop: '8px' }}
-          size='16px'
-          weight={500}
-        >
-          <FormattedMessage
-            id='scenes.sofi.signup.welcome.new'
-            defaultMessage='New to Blockchain.com?'
-          />
-        </Text>
-        <Button
-          data-e2e='newSofi'
-          fullwidth
-          nature='primary'
-          onClick={() => dispatch(actions.router.push('/signup/sofi'))}
-          style={{ marginBottom: '16px' }}
-        >
-          <Text color='white' size='16px' weight={600}>
-            <FormattedMessage id='buttons.signup' defaultMessage='Sign Up' />
-          </Text>
-        </Button>
-        <Text
-          color='grey900'
-          lineHeight='1.5'
-          style={{ marginBottom: '16px', marginTop: '8px' }}
-          size='16px'
-          weight={500}
-        >
-          <FormattedMessage
-            id='scenes.sofi.signup.welcome.existing'
-            defaultMessage='Already have a Blockchain account?'
+            id='scenes.sofi.signup.welcome.body.pending'
+            defaultMessage='Your account migration is already pending.'
           />
         </Text>
         <Button
           data-e2e='existingSofi'
           fullwidth
           nature='dark'
-          onClick={() => dispatch(actions.router.push('/login/sofi'))}
+          onClick={() => dispatch(actions.router.push('/login'))}
         >
           <Text color='white' size='16px' weight={600}>
-            <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
+            <FormattedMessage
+              id='scenes.sofi.signup.welcome.existing.login'
+              defaultMessage='Log into your account'
+            />
           </Text>
         </Button>
       </ContentWrapper>
