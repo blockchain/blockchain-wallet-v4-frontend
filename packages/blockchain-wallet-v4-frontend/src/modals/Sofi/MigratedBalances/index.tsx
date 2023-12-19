@@ -30,7 +30,6 @@ const SofiMigratedBalances = (props: Props) => {
   const balances = useSelector(
     selectors.modules.profile.getSofiMigrationTransferedBalances
   ).getOrElse([]) as Array<{ amount: number; currency: string }>
-
   const sofiMigrationUserStatus = useSelector(
     (state: RootState) => state.profile.sofiUserMigrationStatus
   )

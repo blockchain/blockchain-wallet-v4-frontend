@@ -817,11 +817,12 @@ export default ({ api, coreSagas, networks }) => {
 
       const userStatusResponse = yield call(api.sofiMigrationStatusNabuToken)
 
-      if (userStatusResponse.migration_status === SofiUserMigrationStatus.SUCCESS) {
-        yield put(A.setSofiMigratedBalances(response.balances))
+      if (userStatusResponse.migrationStatus === SofiUserMigrationStatus.SUCCESS) {
+        yield put(A.setSofiMigratedBalances(userStatusResponse.balances))
       }
-      if (userStatusResponse.migration_status === SofiUserMigrationStatus.PENDING) {
-        yield call(fetchSofiUserStatus)
+      if (userStatusResponse.migrationStatus === SofiUserMigrationStatus.PENDING) {
+        yield put(A.setSofiMigratedBalances(userStatusResponse?.balances))
+        yield put(A.fetchSofiUserStatus())
       }
       yield put(A.migrateSofiUserSuccess(response))
       yield put(A.setSofiUserStatus(response.migration_status))
