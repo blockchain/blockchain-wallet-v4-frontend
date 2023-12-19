@@ -27,40 +27,39 @@ const Success = () => {
       <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
         <FormattedMessage id='scenes.verifyemailtoken.verified' defaultMessage='Email Verified' />
       </Text>
-      {/* commenting out mobile links for now since it's confusing
-      for sofi flow and don't know another workaround
-      (no sofi context on this landing page) */}
-      {/* {isMobile() ? (
+      {isMobile() ? (
         <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
           <FormattedMessage
             id='scenes.verifyemailtoken.return_mobile_new'
-            defaultMessage='Return to the app to access your Blockchain.com Account.'
+            defaultMessage='Continue to the Blockchain.com app to access your account'
           />
         </Text>
-      ) : ( */}
-      <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
-        <FormattedMessage
-          id='scenes.verifyemailtoken.return_new'
-          defaultMessage='You can safely close this tab or page. Go back to the other Blockchain.com tab or page to continue.'
-        />
-      </Text>
-      {/* )}
-      <Padding top={3} bottom={0.5}>
-        <Button
-          data-e2e='goBackToApp'
-          width='full'
-          variant='minimal'
-          onClick={returnToApp}
-          text={
-            <Text color='blue600' size='16px' weight={600}>
-              <FormattedMessage
-                id='buttons.go_back_to_bc_app'
-                defaultMessage='Go back to Blockchain.com App'
-              />
-            </Text>
-          }
-        />
-      </Padding> */}
+      ) : (
+        <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
+          <FormattedMessage
+            id='scenes.verifyemailtoken.return_new'
+            defaultMessage='You can safely close this tab or page. Go back to the other Blockchain.com tab or page to continue.'
+          />
+        </Text>
+      )}
+      {isMobile() && (
+        <Padding top={3} bottom={0.5}>
+          <Button
+            data-e2e='goBackToApp'
+            width='full'
+            variant='minimal'
+            onClick={returnToApp}
+            text={
+              <Text color='blue600' size='16px' weight={600}>
+                <FormattedMessage
+                  id='buttons.go_to_bc_app'
+                  defaultMessage='Continue to Blockchain.com App'
+                />
+              </Text>
+            }
+          />
+        </Padding>
+      )}
     </Wrapper>
   )
 }
