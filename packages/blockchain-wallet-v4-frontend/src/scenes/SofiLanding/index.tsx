@@ -1,23 +1,15 @@
 import React, { useEffect } from 'react'
-import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
-import { Button, Image, Text } from 'blockchain-info-components'
-import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
+import { SofiUserMigrationStatus } from 'data/types'
 import { useRemote } from 'hooks'
 
 import SofiErrorLanding from './template.error'
 import Loading from './template.loading'
+import SofiPendingLanding from './template.pending'
 import SofiSuccessLanding from './template.success'
-
-const ContentWrapper = styled.div`
-  display: flex;
-  text-align: center;
-  align-items: center;
-  flex-direction: column;
-`
 
 const SofiLanding = () => {
   const dispatch = useDispatch()
@@ -33,6 +25,10 @@ const SofiLanding = () => {
   const { data, error, isLoading, isNotAsked } = useRemote(
     selectors.modules.profile.getSofiUserData
   )
+  // @ts-ignore
+  const isPending = data?.migrationStatus === SofiUserMigrationStatus.PENDING
+  // i need to fix this type but i don't want to do
+  // so close to migration date when everything is working
 
   if (isLoading || isNotAsked) {
     return <Loading />
@@ -41,7 +37,8 @@ const SofiLanding = () => {
   return (
     <>
       {error && <SofiErrorLanding />}
-      {data && <SofiSuccessLanding />}
+      {isPending && <SofiPendingLanding />}
+      {data && !isPending && <SofiSuccessLanding />}
     </>
   )
 }
