@@ -81,7 +81,7 @@ const CheckEmail = (props: Props) => {
         />
         <FormBody>
           <CircleBackground color='blue600'>
-            <Icon name='email' color='white' size='24px' />
+            <Icon name='computer' color='white' size='24px' />
           </CircleBackground>
           <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
             <FormattedMessage id='copy.verifyyourdevice' defaultMessage='Verify Your Device' />
