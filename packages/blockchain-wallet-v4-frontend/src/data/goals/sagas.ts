@@ -48,34 +48,6 @@ export default ({ api, coreSagas, networks }) => {
       .getOrElse(false)
   }
 
-  const sofiMigrationStatusCheck = function* () {
-    // If user is coming from sofi migration, awaiting user or pending, don't them this modal
-    const sofiMigrationInitialStatus = (yield select(
-      selectors.modules.profile.getSofiUserData
-    )).getOrElse(null)
-    const sofiMigrationStatus = (yield select(
-      selectors.modules.profile.getSofiMigrationStatus
-    )).getOrElse(null)
-    const sofiMigrationStatusFromPolling = (yield select(
-      selectors.modules.profile.getSofiMigrationStatusFromPolling
-    )).getOrElse(null)
-
-    if (
-      sofiMigrationInitialStatus ||
-      sofiMigrationStatusFromPolling ||
-      sofiMigrationInitialStatus === 'AWAITING_USER'
-    ) {
-      return 'AWAITING_USER'
-    }
-    if (
-      sofiMigrationInitialStatus ||
-      sofiMigrationStatusFromPolling ||
-      sofiMigrationInitialStatus === 'PENDING'
-    ) {
-      return 'PENDING'
-    }
-  }
-
   // TODO: use new world deeplinking once merged
   const defineExchangeSettingsGoal = function* (search) {
     const params = new URLSearchParams(search)
@@ -860,13 +832,11 @@ export default ({ api, coreSagas, networks }) => {
     const { isSofi: isSofiSignup } = yield select(selectors.signup.getProductSignupMetadata)
     const isSofiAuth = yield select(selectors.auth.getIsSofi)
     const isSofi = isSofiSignup || isSofiAuth
-    const sofiMigrationStatusFromPolling = (yield select(
-      selectors.modules.profile.getSofiMigrationStatusFromPolling
-    )).getOrElse(null)
+    const sofiMigrationStatus = yield select(selectors.modules.profile.getSofiUserMigrationStatus)
     // the purpose of this modal is only to show it if
     // user is logging in without sofi deeplink but needs to finish
     // migratioon process
-    if (sofiMigrationStatusFromPolling === SofiUserMigrationStatus.AWAITING_USER && !isSofi) {
+    if (sofiMigrationStatus === SofiUserMigrationStatus.AWAITING_USER && !isSofi) {
       yield put(
         actions.goals.addInitialModal({
           data: { origin },
@@ -1088,15 +1058,14 @@ export default ({ api, coreSagas, networks }) => {
       kycVerification: { enabled: false }
     } as ProductEligibilityForUser)
 
-    const sofiStatus = yield call(sofiMigrationStatusCheck)
-    const sofiPending = sofiStatus === 'PENDING'
-    const sofiAwaitingUser = sofiStatus === 'AWAITING_USER'
+    const { isSofi: isSofiSignup } = yield select(selectors.signup.getProductSignupMetadata)
+    const isSofiAuth = yield select(selectors.auth.getIsSofi)
+    const isSofi = isSofiSignup || isSofiAuth
 
     if (
       current < 2 &&
       !hasCowboysTag &&
-      !sofiPending &&
-      !sofiAwaitingUser &&
+      !isSofi &&
       products?.kycVerification?.enabled &&
       kycState !== KYC_STATES.REJECTED
     ) {

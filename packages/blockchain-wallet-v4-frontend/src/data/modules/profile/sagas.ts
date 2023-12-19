@@ -263,12 +263,17 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateAuthCredentials = function* () {
     const retailToken = yield call(generateRetailToken)
+    const { isSofi } = yield select(selectors.signup.getProductSignupMetadata)
     const cookies = new Cookies()
-    const partnerReferralCode = cookies.get('partnerReferralCode')
+    const partnerReferralCodeFromCookie = cookies.get('partnerReferralCode')
     const { token: nabuLifetimeToken, userId: nabuUserId } = yield call(
       api.createOrGetUser,
       retailToken,
-      partnerReferralCode
+      isSofi
+        ? 'SOFI_MIGRATION'
+        : partnerReferralCodeFromCookie === 'sofi'
+        ? 'SOFI_MIGRATION'
+        : partnerReferralCodeFromCookie
     )
     // write to both to support legacy mobile clients
     // TODO: in future, consider just writing to unifiedCredentials entry
@@ -742,6 +747,10 @@ export default ({ api, coreSagas, networks }) => {
 
       let sofiUserState = response.sofiJwtPayload?.state
       let sofiUserCountry = response.sofiJwtPayload?.country || 'US'
+      if (!sofiUserState) {
+        yield put(A.fetchSofiMigrationStatusFailure('missing US state'))
+        return yield put(actions.router.push('/sofi'))
+      }
       if (sofiUserState.substring(0, 2) !== 'US') {
         sofiUserState = 'US-' + sofiUserState
       }
@@ -770,16 +779,22 @@ export default ({ api, coreSagas, networks }) => {
 
   const fetchSofiUserStatus = function* () {
     try {
+      yield call(waitForUserData)
       const response = yield call(api.sofiMigrationStatusNabuToken)
-      yield put(A.setSofiUserStatusFromPolling(response?.migrationStatus))
+      yield put(A.setSofiUserStatus(response.migrationStatus))
 
-      if (response.migrationStatus === 'SUCCESS' || response.migrationStatus === 'PENDING') {
+      if (response.migrationStatus === 'SUCCESS') {
         yield put(A.setSofiMigratedBalances(response?.balances))
         return true
       }
-      if (response.migrationStatus === 'AWAITING_USER') {
-        return true
+
+      if (response.migrationStatus === 'PENDING') {
+        yield put(A.setSofiMigratedBalances(response?.balances))
       }
+      // i don't think i want to dot his
+      // if (response.migrationStatus === 'AWAITING_USER') {
+      //   return true
+      // }
       if (response?.migrationStatus === 'FAILURE' || !response?.migrationStatus) {
         return true
       }
@@ -802,10 +817,15 @@ export default ({ api, coreSagas, networks }) => {
 
       const userStatusResponse = yield call(api.sofiMigrationStatusNabuToken)
 
-      if (userStatusResponse.migration_status === SofiUserMigrationStatus.SUCCESS) {
-        yield put(A.setSofiMigratedBalances(response.balances))
+      if (userStatusResponse.migrationStatus === SofiUserMigrationStatus.SUCCESS) {
+        yield put(A.setSofiMigratedBalances(userStatusResponse.balances))
+      }
+      if (userStatusResponse.migrationStatus === SofiUserMigrationStatus.PENDING) {
+        yield put(A.setSofiMigratedBalances(userStatusResponse?.balances))
+        yield put(A.fetchSofiUserStatus())
       }
       yield put(A.migrateSofiUserSuccess(response))
+      yield put(A.setSofiUserStatus(response.migration_status))
     } catch (e) {
       yield put(
         A.migrateSofiUserFailure({

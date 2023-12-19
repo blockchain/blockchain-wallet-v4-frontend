@@ -160,6 +160,9 @@ export const getSofiAssociateNabuUserStatus = (state: RootState) =>
 export const getSofiMigrationStatusFromPolling = (state: RootState) =>
   state.profile.sofiMigrationStatusFromPolling
 
+export const getSofiUserMigrationStatus = (state: RootState) =>
+  state.profile.sofiUserMigrationStatus
+
 export const getSofiMigrationTransferedBalances = (state: RootState) =>
   state.profile.sofiMigrationTransferedBalances
 

@@ -245,20 +245,10 @@ export const getData = (state: RootState) => {
 
   const isKycEnabled = products?.kycVerification?.enabled
   // SOFI
-  const sofiMigrationPending = selectors.modules.profile
-    .getSofiMigrationStatus(state)
-    .getOrElse(null)
-  const sofiMigrationPendingPolling = selectors.modules.profile
-    .getSofiMigrationStatusFromPolling(state)
-    .getOrElse(null)
+  const sofiUserMigrationStatus = selectors.modules.profile.getSofiUserMigrationStatus(state)
+  const showSofiMigration = sofiUserMigrationStatus === SofiUserMigrationStatus.PENDING
 
-  const showSofiMigration =
-    sofiMigrationPending === SofiUserMigrationStatus.PENDING ||
-    sofiMigrationPendingPolling === SofiUserMigrationStatus.PENDING
-
-  const showSofiFinishMigration =
-    sofiMigrationPending === SofiUserMigrationStatus.AWAITING_USER ||
-    sofiMigrationPendingPolling === SofiUserMigrationStatus.AWAITING_USER
+  const showSofiFinishMigration = sofiUserMigrationStatus === SofiUserMigrationStatus.AWAITING_USER
 
   const showSofiMigrationBanner = showBanner(
     showSofiMigration,

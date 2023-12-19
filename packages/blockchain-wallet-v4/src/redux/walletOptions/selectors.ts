@@ -234,5 +234,6 @@ export const getProveEnabled = (state: RootState) =>
 export const getFiatEntityRemediationAlert = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'showFiatEntityRemediationAlert']))
 // sofi
+// sofi associate before email verification
 export const getAssociateSofiBeforeEmailVerification = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'sofiAssociateUserBeforeEmailVerification']))

@@ -21,28 +21,18 @@ const Body = styled(ModalBody)`
 const SofiWelcome = (props: Props) => {
   const dispatch = useDispatch()
   const sofiMigrationStatus = useSelector(
-    (state: RootState) => state.profile.sofiMigrationStatus
-  ).getOrElse(null)
-  const sofiMigrationStatusFromPolling = useSelector(
-    (state: RootState) => state.profile.sofiMigrationStatusFromPolling
-  ).getOrElse(null)
+    (state: RootState) => state.profile.sofiUserMigrationStatus
+  )
+
   // TODO: may need to optimize this to load if both statuses are null
   // so it doesn't start as one or finish in another.
   // i don't think this will happen in real cases since migration since this
   // modal shows only after ssn verification
-  const statusPending =
-    sofiMigrationStatus === SofiUserMigrationStatus.PENDING ||
-    sofiMigrationStatusFromPolling === SofiUserMigrationStatus.PENDING
-  const statusSuccess =
-    sofiMigrationStatus === SofiUserMigrationStatus.SUCCESS ||
-    sofiMigrationStatusFromPolling === SofiUserMigrationStatus.SUCCESS
-  const statusFailure =
-    sofiMigrationStatus === SofiUserMigrationStatus.FAILURE ||
-    sofiMigrationStatusFromPolling === SofiUserMigrationStatus.FAILURE
+  const statusPending = sofiMigrationStatus === SofiUserMigrationStatus.PENDING
 
-  const statusAwaitingUser =
-    sofiMigrationStatus === SofiUserMigrationStatus.AWAITING_USER ||
-    sofiMigrationStatusFromPolling === SofiUserMigrationStatus.AWAITING_USER
+  const statusSuccess = sofiMigrationStatus === SofiUserMigrationStatus.SUCCESS
+  const statusFailure = sofiMigrationStatus === SofiUserMigrationStatus.FAILURE
+  const statusAwaitingUser = sofiMigrationStatus === SofiUserMigrationStatus.AWAITING_USER
 
   const continueButtonClick = () => {
     dispatch(actions.modals.closeModal(ModalName.SOFI_BLOCKCHAIN_WELCOME))

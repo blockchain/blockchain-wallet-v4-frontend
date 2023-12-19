@@ -205,6 +205,7 @@ export interface ProfileState {
   sofiMigrationStatus: RemoteDataType<SofiMigrationErrorType, any>
   sofiMigrationStatusFromPolling: RemoteDataType<string, SofiUserMigrationStatus>
   sofiMigrationTransferedBalances: RemoteDataType<string, SofiMigratedBalances>
+  sofiUserMigrationStatus: SofiUserMigrationStatus | null
   userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
   userRiskSettings: RemoteDataType<NabuApiErrorType, UserRiskSettings>
@@ -468,6 +469,11 @@ interface SetSofiMigratedBalancesAction {
   type: typeof AT.SET_SOFI_MIGRATED_BALANCES
 }
 
+interface SetSofiUserStatusAction {
+  payload: { sofiUserStatus: SofiUserMigrationStatus }
+  type: typeof AT.SET_SOFI_USER_STATUS
+}
+
 export type ProfileActionTypes =
   | AssociateSofiUserSignupAction
   | AssociateSofiUserLoginAction
@@ -513,6 +519,7 @@ export type ProfileActionTypes =
   | SetLinkToExchangeAccountDeeplinkAction
   | SetSofiLinkDataAction
   | SetSofiMigratedBalancesAction
+  | SetSofiUserStatusAction
   | SetSofiUserStatusFromPollingAction
   | ShareWalletAddressesWithExchange
   | ShareWalletAddressWithExchangeFailureAction
