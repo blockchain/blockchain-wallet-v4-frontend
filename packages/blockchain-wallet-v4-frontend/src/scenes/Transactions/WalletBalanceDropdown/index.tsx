@@ -8,7 +8,6 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { coinToString, fiatToString } from '@core/exchange/utils'
-import { getFiatEntityRemediationAlert } from '@core/redux/walletOptions/selectors'
 import {
   AddressTypesType,
   CoinfigType,
@@ -24,7 +23,6 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import SelectBox from 'components/Form/SelectBox'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { getUserLegalEntity } from 'data/modules/profile/selectors'
 import { ModalName } from 'data/types'
 import { media } from 'services/styles'
 
@@ -368,28 +366,8 @@ class WalletBalanceDropdown extends Component<Props> {
     )
   }
 
-  showFiatTransformAlert = ({ userLegalEntity, ...rest }, coinfig: CoinfigType) => {
-    const balance = this.coinBalance(rest) || 0
-    // If not FIAT nor has balance, do not show
-    if (coinfig.type.name !== 'FIAT' || balance <= 0) return false
-
-    // Non BC_US with USD balance
-    const NON_BC_US_WITH_USD = userLegalEntity !== 'BC_US' && coinfig.displaySymbol === 'USD'
-    // Non BC_LT/BC_LT_2 with EUR/GBP balance
-    const ANY_BC_LT_WITH_EUR_GBP =
-      !userLegalEntity?.includes('BC_LT') && ['EUR', 'GBP'].includes(coinfig.displaySymbol)
-
-    return NON_BC_US_WITH_USD || ANY_BC_LT_WITH_EUR_GBP
-  }
-
   render() {
-    const { coin, data, showFiatEntityRemediationAlert } = this.props
-    const { coinfig } = window.coins[coin]
-
-    const showConversionDisclaimer =
-      showFiatEntityRemediationAlert && this.showFiatTransformAlert(this.props, coinfig)
-
-    return data.cata({
+    return this.props.data.cata({
       Failure: (e) => <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
@@ -413,24 +391,6 @@ class WalletBalanceDropdown extends Component<Props> {
                 templateItem={this.renderItem}
               />
             </Wrapper>
-
-            {showConversionDisclaimer && (
-              <FiatNoticeWrapper>
-                <Text
-                  weight={600}
-                  size='14px'
-                  lineHeight='21px'
-                  style={{ marginBottom: '8px' }}
-                  color='grey900'
-                >
-                  Changes to {coin} Balances
-                </Text>
-                <Text size='12px' color='grey900'>
-                  Your {coinfig.name} ({coin}) balance will be converted to USDC daily at 12:00 am
-                  UTC. To avoid any inconvenience buy crypto before the specified time.
-                </Text>
-              </FiatNoticeWrapper>
-            )}
           </>
         )
       }
@@ -439,9 +399,7 @@ class WalletBalanceDropdown extends Component<Props> {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps),
-  showFiatEntityRemediationAlert: getFiatEntityRemediationAlert(state),
-  userLegalEntity: getUserLegalEntity(state)
+  data: getData(state, ownProps)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

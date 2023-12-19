@@ -85,8 +85,7 @@
         "useVgsProvider": true,
         "walletConnect": true,
         "walletDebitCardEnabled": true,
-        "proveEnabled": true,
-        "showFiatEntityRemediationAlert": true
+        "proveEnabled": true
       }
     }
   },
@@ -103,6 +102,5 @@
     "walletHelper": "https://wallet-helper.blockchain.com",
     "webSocket": "wss://ws.blockchain.info"
   },
-  "bakktRedirectUSStates": ["US-HI", "US-LA", "US-NJ", "US-NV", "US-TN", "US-TX", "US-VA"],
-  "fiatRemediationLearnMoreLink": "https://support.blockchain.com/hc/en-us"
+  "bakktRedirectUSStates": ["US-HI", "US-LA", "US-NJ", "US-NV", "US-TN", "US-TX", "US-VA"]
 }

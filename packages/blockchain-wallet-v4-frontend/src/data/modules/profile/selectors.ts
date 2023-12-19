@@ -87,8 +87,6 @@ export const getKycDocResubmissionStatus = compose(
   lift(path(['resubmission', 'reason'])),
   getUserData
 )
-export const getUserLegalEntity = (state: RootState) =>
-  state.profile.userData.map((e) => e.userLegalEntity).getOrElse(undefined)
 
 export const getTiers = path(['profile', 'userTiers'])
 export const getTier = curry((state, tierIndex) =>
