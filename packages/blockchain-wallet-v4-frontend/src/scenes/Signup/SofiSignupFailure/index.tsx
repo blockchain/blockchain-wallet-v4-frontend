@@ -30,19 +30,11 @@ const MigrationError = () => {
     <Wrapper>
       <ContentWrapper>
         <Image name='close-error' height='40px' />
-
         <Text size='20px' weight={600} color='black' lineHeight='1.5' style={{ marginTop: '8px' }}>
-          {isAssociatedError ? (
-            <FormattedMessage
-              id='scenes.sofi.signup.failure.generic.header'
-              defaultMessage='Uh oh! Something went wrong.'
-            />
-          ) : (
-            <FormattedMessage
-              id='scenes.sofi.signup.failure.expired.header'
-              defaultMessage='Uh oh! Your migration link expired.'
-            />
-          )}
+          <FormattedMessage
+            id='scenes.sofi.signup.failure.generic.header'
+            defaultMessage='Uh oh! Something went wrong.'
+          />
         </Text>
         <>
           <Text
