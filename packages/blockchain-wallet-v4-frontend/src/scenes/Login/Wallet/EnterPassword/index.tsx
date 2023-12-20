@@ -188,7 +188,7 @@ const EnterPasswordWallet = (props: Props) => {
           </CenteredColumn>
         </WrapperWithPadding>
       </FormWrapper>
-      {!isMobile() && (
+      {!isMobile() && !isSofi && (
         <MobileAuthWrapper>
           <QRCodeWrapper value={qrData} size={150} showImage />
           <TextColumn>
