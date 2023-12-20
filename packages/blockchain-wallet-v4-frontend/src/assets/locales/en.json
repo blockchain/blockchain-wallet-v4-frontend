@@ -2727,7 +2727,6 @@
   "scenes.sofi.modal.migratedbalances.pending.header": "Migration in progress 🕔",
   "scenes.sofi.signup.continueonphone": "Continue on your phone",
   "scenes.sofi.signup.failure.expired.body": "Restart your crypto account migration from your account on the SoFi website.",
-  "scenes.sofi.signup.failure.expired.header": "Uh oh! Your migration link expired.",
   "scenes.sofi.signup.failure.generic.header": "Uh oh! Something went wrong.",
   "scenes.sofi.signup.pending": "Migration started",
   "scenes.sofi.signup.pending.mobile.title": "We are migrating your account. This process might take up to 24 hours. Go to the Blockchain.com App to view your account.",
