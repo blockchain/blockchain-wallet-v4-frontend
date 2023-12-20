@@ -19,6 +19,13 @@ const FormBody = styled.div`
 
 const SofiMigrationPending = () => {
   const dispatch = useDispatch()
+
+  const dashboardClick = () => {
+    dispatch(actions.modals.closeModal(ModalName.SOFI_VERIFY_ID))
+    dispatch(
+      actions.modals.showModal(ModalName.SOFI_MIGRATED_BALANCES, { origin: 'SofiMigration' })
+    )
+  }
   return (
     <FlyoutContainer>
       <FlyoutContent mode='top'>
@@ -70,10 +77,10 @@ const SofiMigrationPending = () => {
           height='48px'
           data-e2e='viewDashboard'
           style={{ marginBottom: '16px', marginTop: '56px' }}
-          onClick={() => dispatch(actions.modals.closeModal(ModalName.SOFI_VERIFY_ID))}
+          onClick={dashboardClick}
         >
           <Text color='whiteFade900' size='16px' weight={600}>
-            <FormattedMessage id='buttons.view_dashboard' defaultMessage='Go to dashboard' />
+            <FormattedMessage id='buttons.view_status' defaultMessage='View Status' />
           </Text>
         </Button>
       </FlyoutFooter>
