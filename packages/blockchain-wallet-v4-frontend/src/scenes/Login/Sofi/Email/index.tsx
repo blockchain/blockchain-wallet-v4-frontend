@@ -97,6 +97,7 @@ const Email = (props: Props) => {
               noLastPass
               autoCapitalize='none'
               normalize={removeWhitespace}
+              props={{ autoCapitalize: 'off' }}
             />
           </FormItem>
           <Text>

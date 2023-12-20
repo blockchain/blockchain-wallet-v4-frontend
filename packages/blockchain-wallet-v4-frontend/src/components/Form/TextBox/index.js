@@ -30,6 +30,7 @@ const getErrorState = ({ invalid, touched }) => {
 
 const TextBox = (field) => {
   const {
+    autoCapitalize,
     autoComplete,
     autoFocus,
     borderRightNone,
@@ -55,6 +56,7 @@ const TextBox = (field) => {
       <TextInput
         {...input}
         active={active}
+        autoCapitalize={autoCapitalize}
         autoComplete={autoComplete}
         autoFocus={autoFocus}
         borderRightNone={borderRightNone}
