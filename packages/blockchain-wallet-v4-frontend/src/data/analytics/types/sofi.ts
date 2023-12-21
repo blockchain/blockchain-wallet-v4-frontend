@@ -1,5 +1,3 @@
-import { type } from 'os'
-
 // Log in Events
 export enum Events {
   SOFI_MIGRATION_DASHBOARD_SHOWED = 'Sofi Migration Dashboard Showed',
