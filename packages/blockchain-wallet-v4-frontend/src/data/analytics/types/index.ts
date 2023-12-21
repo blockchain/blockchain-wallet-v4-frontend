@@ -51,6 +51,7 @@ import {
   Events as SendCryptoEvents,
   TrackEventAction as SendCryptoTrackEventAction
 } from './sendCrypto'
+import { Events as SofiEvents, TrackEventAction as SofiTrackEventAction } from './sofi'
 import { SpinnerEventAction, SpinnerEvents } from './spinner'
 import { Events as SwapEvents, TrackEventAction as SwapTrackEventAction } from './swap'
 import {
@@ -85,6 +86,7 @@ type AnalyticsKey =
   | OnboardingAndVerificationEvents
   | PlaidClientEvents
   | SellEvents
+  | SofiEvents
   | ExchangePromoEvents
   | RecommendedSweepEvents
   | SendCryptoEvents
@@ -110,6 +112,7 @@ const Analytics = {
   ...PlaidClientEvents,
   ...SendCryptoEvents,
   ...SpinnerEvents,
+  ...SofiEvents,
   ...SwapEvents,
   ...TaxCenterEvents,
   ...ViewAndClickEvents,
@@ -143,6 +146,7 @@ type TrackEventAction =
   | PlaidClientTrackEventAction
   | SellTrackEventAction
   | SendCryptoTrackEventAction
+  | SofiTrackEventAction
   | SpinnerEventAction
   | SwapTrackEventAction
   | TaxCenterTrackEventAction

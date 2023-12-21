@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -12,7 +12,7 @@ import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import { actions, selectors } from 'data'
-import { SofiMigrationErrorIds } from 'data/types'
+import { Analytics, SofiMigrationErrorIds } from 'data/types'
 import { useRemote } from 'hooks'
 
 import { SofiSsnForm } from './types'
@@ -44,6 +44,15 @@ const SofiVerifyID = (props: InjectedFormProps) => {
 
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SOFI_MIGRATION_NEED_SSN_SHOWED,
+        properties: {}
+      })
+    )
+  }, [])
+
   const isSsnError = error?.id === SofiMigrationErrorIds.SSN_ERROR
 
   const validSsn = formValues?.sofiSSN?.length === 4
@@ -51,6 +60,12 @@ const SofiVerifyID = (props: InjectedFormProps) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(actions.modules.profile.migrateSofiUser())
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SOFI_MIGRATION_NEED_SSN_CONTINUE_CLICKED,
+        properties: {}
+      })
+    )
   }
   return (
     <Form onSubmit={handleSubmit}>

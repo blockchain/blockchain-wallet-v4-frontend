@@ -1,18 +1,16 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
+import { useDispatch } from 'react-redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Image, Link, Text } from 'blockchain-info-components'
-import Form from 'components/Form/Form'
+import { HeartbeatLoader, Image, Text } from 'blockchain-info-components'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
-import { LOGIN_FORM } from 'data/auth/model'
-import { LoginSteps, ProductAuthOptions } from 'data/types'
-import { required, validWalletIdOrEmail } from 'services/forms'
+import { actions } from 'data'
+import { Analytics } from 'data/types'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
@@ -41,6 +39,17 @@ const FormBody = styled.div`
 
 const SofiVerifyID = (props: Props) => {
   const { busy, formActions, formValues, invalid, submitting } = props
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SOFI_MIGRATION_NEED_SSN_SHOWED,
+        properties: {}
+      })
+    )
+  }, [])
 
   const validSsn = formValues?.sofiLoginSSN?.length === 4
 

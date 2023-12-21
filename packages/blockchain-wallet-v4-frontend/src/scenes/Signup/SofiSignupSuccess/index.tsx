@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import { useRemote } from 'hooks'
 import { isBrowserAndroid, isBrowserIOS } from 'services/browser'
 import { isMobile } from 'services/styles'
@@ -23,6 +23,15 @@ const SofiSuccess = () => {
   const status = data.migrationStatus.migration_status
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SOFI_MIGRATION_IN_PROGRESS_SHOWED,
+        properties: {}
+      })
+    )
+  }, [])
   // Add check here to make sure that there is wallet data
   // route should navigate to login if there's no wallet data
   const sofiWalletRedirect = () => {
