@@ -963,9 +963,6 @@ export default ({ api, coreSagas, networks }) => {
         if (isGuid(guidOrEmail) && product === ProductAuthOptions.WALLET) {
           yield put(actions.form.change(LOGIN_FORM, 'guid', guidOrEmail))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-        } else if (isGuid(sofiLoginEmail) && product === ProductAuthOptions.WALLET) {
-          yield put(actions.form.change(LOGIN_FORM, 'guid', sofiLoginEmail))
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
         } else if (product === ProductAuthOptions.EXCHANGE) {
           // trigger email for exchange form
           yield put(actions.form.change(LOGIN_FORM, 'exchangeEmail', exchangeEmail))
