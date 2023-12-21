@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { Button, Image, Modal, ModalBody, Text } from 'blockchain-info-components'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName, SofiUserMigrationStatus } from 'data/types'
+import { Analytics, ModalName, SofiUserMigrationStatus } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
@@ -20,6 +20,16 @@ const Body = styled(ModalBody)`
 
 const SofiWelcome = (props: Props) => {
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SOFI_MIGRATION_WELCOME_SHOWED,
+        properties: {}
+      })
+    )
+  }, [])
+
   const sofiMigrationStatus = useSelector(
     (state: RootState) => state.profile.sofiUserMigrationStatus
   )

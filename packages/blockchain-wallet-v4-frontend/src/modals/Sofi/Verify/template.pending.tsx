@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Button, Image, Text, TextGroup } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout/Layout'
 import { actions } from 'data'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 
 const FormBody = styled.div`
   display: flex;
@@ -19,6 +19,15 @@ const FormBody = styled.div`
 
 const SofiMigrationPending = () => {
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SOFI_MIGRATION_IN_PROGRESS_SHOWED,
+        properties: {}
+      })
+    )
+  }, [])
 
   const dashboardClick = () => {
     dispatch(actions.modals.closeModal(ModalName.SOFI_VERIFY_ID))

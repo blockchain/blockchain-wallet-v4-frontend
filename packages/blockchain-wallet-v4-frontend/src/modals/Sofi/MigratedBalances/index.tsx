@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -7,7 +7,7 @@ import { Button, Modal, Text } from 'blockchain-info-components'
 import CoinBalanceDisplay from 'components/CoinWithBalance/CoinBalanceDisplay'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName, SofiUserMigrationStatus } from 'data/types'
+import { Analytics, ModalName, SofiUserMigrationStatus } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
@@ -27,6 +27,15 @@ import NoAssetsMigrated from './template.noassets'
 
 const SofiMigratedBalances = (props: Props) => {
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SOFI_MIGRATION_SUCCESS_ASSETS_SHOWED,
+        properties: {}
+      })
+    )
+  }, [])
   const balances = useSelector(
     selectors.modules.profile.getSofiMigrationTransferedBalances
   ).getOrElse([]) as Array<{ amount: number; currency: string }>
