@@ -21,7 +21,7 @@ export const SofiBanner = ({ userLoggedOut = false }: { userLoggedOut?: boolean 
       <Text>
         <FormattedMessage
           id='banner.sofi.member_announcement.title'
-          defaultMessage='Sofi Members:'
+          defaultMessage='SoFi Members:'
         />
       </Text>{' '}
       <Text>
