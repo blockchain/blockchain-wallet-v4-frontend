@@ -4,9 +4,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import { replace } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import Sofi from '@core/network/api/sofi'
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
-import { UkBanner, UkFooterBanner } from 'components/Banner'
+import { SofiBanner, UkBanner, UkFooterBanner } from 'components/Banner'
 import { CowboysCardComponent } from 'components/Card/CowboysCard'
 import ExchangePromo from 'components/Card/ExchangePromo'
 import { SupportChatForGoldUserOnly } from 'components/SupportChat'
@@ -68,7 +69,9 @@ const WalletLayout: Props = ({
         <ExchangePromo />
         <Nav>
           <MenuTop />
+          <SofiBanner />
           <UkBanner />
+          {/* put sofi banner here */}
           <Announcements type='service' alertArea='wallet' />
           <Announcements type='static' />
         </Nav>
