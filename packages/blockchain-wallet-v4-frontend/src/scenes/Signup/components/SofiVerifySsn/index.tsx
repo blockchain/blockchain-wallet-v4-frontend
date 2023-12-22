@@ -20,7 +20,7 @@ import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
-import { SofiMigrationErrorIds } from 'data/types'
+import { Analytics, SofiMigrationErrorIds } from 'data/types'
 import { useRemote } from 'hooks'
 import { media } from 'services/styles'
 
@@ -86,6 +86,15 @@ const SofiVerifyID = (props: InjectedFormProps) => {
 
   const validSsn = formValues?.sofiSSN?.length === 4
   useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SOFI_MIGRATION_NEED_SSN_SHOWED,
+        properties: {}
+      })
+    )
+  }, [])
+
+  useEffect(() => {
     if (error && !isSsnError) {
       dispatch(actions.router.push('/sofi-error'))
     }
@@ -100,6 +109,12 @@ const SofiVerifyID = (props: InjectedFormProps) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(actions.modules.profile.migrateSofiUser())
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SOFI_MIGRATION_NEED_SSN_CONTINUE_CLICKED,
+        properties: {}
+      })
+    )
   }
   return (
     <Form onSubmit={handleSubmit}>

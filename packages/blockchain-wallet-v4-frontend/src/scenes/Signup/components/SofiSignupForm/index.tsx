@@ -110,6 +110,7 @@ const SofiSignupForm = (props: Props) => {
             component={TextBox}
             data-e2e='signupEmail'
             name='email'
+            props={{ autoCapitalize: 'off' }}
           />
         </FormItem>
         {lowercaseError && (

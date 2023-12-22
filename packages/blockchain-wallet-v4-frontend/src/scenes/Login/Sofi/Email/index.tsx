@@ -10,6 +10,7 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
+import { required, validEmail } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
@@ -87,7 +88,10 @@ const Email = (props: Props) => {
         <FormGroup>
           <FormItem style={{ marginTop: '24px' }}>
             <LoginFormLabel htmlFor='sofiLoginEmail'>
-              <FormattedMessage id='scenes.login.email_guid' defaultMessage='Email or Wallet ID' />
+              <FormattedMessage
+                id='scenes.recover.email_request'
+                defaultMessage='Enter your email'
+              />
             </LoginFormLabel>
             <Field
               autoFocus
@@ -97,6 +101,8 @@ const Email = (props: Props) => {
               noLastPass
               autoCapitalize='none'
               normalize={removeWhitespace}
+              props={{ autoCapitalize: 'off' }}
+              validate={[required, validEmail]}
             />
           </FormItem>
           <Text>

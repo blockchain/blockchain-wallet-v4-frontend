@@ -5,11 +5,8 @@ import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
-import { actions, selectors } from 'data'
-import { LoginSteps } from 'data/types'
-import { useRemote } from 'hooks'
-
-import Loading from './template.loading'
+import { actions } from 'data'
+import { Analytics, LoginSteps } from 'data/types'
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -20,6 +17,15 @@ const ContentWrapper = styled.div`
 
 const SofiSuccessLanding = () => {
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(
+      actions.analytics.trackEvent({
+        key: Analytics.SOFI_MIGRATION_DASHBOARD_SHOWED,
+        properties: {}
+      })
+    )
+  }, [])
 
   const loginButtonClick = () => {
     dispatch(actions.router.push('/login/sofi'))
