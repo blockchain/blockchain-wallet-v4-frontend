@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-import { Link } from 'blockchain-info-components'
-
 export const SofiRow = styled.div`
   display: flex;
   justify-content: center;
