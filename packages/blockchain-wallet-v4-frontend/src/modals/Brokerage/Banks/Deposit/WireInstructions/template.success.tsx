@@ -1,30 +1,12 @@
 import React from 'react'
-import styled from 'styled-components'
 
-import { BankDWStepType } from 'data/components/brokerage/types'
-
+import AddBankWireForm from '../AddBankWireForm'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { InstructionDetails } from './InstructionDetails'
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  height: 100%;
-`
 
 const Success = (props: Props) => {
-  const onClickBack = () => {
-    props.brokerageActions.setDWStep({
-      dwStep: BankDWStepType.DEPOSIT_METHODS
-    })
-  }
+  // console.log(props)
 
-  return (
-    <Wrapper>
-      <InstructionDetails onClickBack={onClickBack} {...props} />
-    </Wrapper>
-  )
+  return <AddBankWireForm />
 }
 
 type Props = OwnProps & SuccessStateType

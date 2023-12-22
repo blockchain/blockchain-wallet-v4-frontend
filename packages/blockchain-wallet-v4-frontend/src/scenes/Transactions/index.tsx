@@ -246,42 +246,36 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 )}
                 {coinfig.type.name === 'FIAT' && (
                   <>
-                    {window.coins[coin].coinfig.type.name === 'FIAT' && (
-                      <Button
-                        nature='primary'
-                        data-e2e='depositFiat'
-                        style={{ minWidth: 'auto' }}
-                        onClick={() => {
-                          if (!this.props.brokerageActions) return
-                          if (!this.props.buySellActions) return
-                          if (isInvited || coin === 'USD') {
-                            this.props.brokerageActions.handleDepositFiatClick(
-                              coin as WalletFiatType
-                            )
-                          } else {
-                            this.props.buySellActions.handleDepositFiatClick({
-                              coin: coin as WalletFiatType,
-                              origin: 'TransactionList'
-                            })
-                          }
-                        }}
-                      >
-                        <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
-                      </Button>
-                    )}
-                    {window.coins[coin].coinfig.type.name === 'FIAT' && (
-                      <Button
-                        nature='primary'
-                        data-e2e='withdrawFiat'
-                        style={{ marginLeft: '8px', minWidth: 'auto' }}
-                        onClick={() => {
-                          if (!this.props.brokerageActions) return
-                          this.props.brokerageActions.handleWithdrawClick(coin as WalletFiatType)
-                        }}
-                      >
-                        <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
-                      </Button>
-                    )}
+                    <Button
+                      nature='primary'
+                      data-e2e='depositFiat'
+                      style={{ minWidth: 'auto' }}
+                      onClick={() => {
+                        if (!this.props.brokerageActions) return
+                        if (!this.props.buySellActions) return
+                        if (isInvited || coin === 'USD') {
+                          this.props.brokerageActions.handleDepositFiatClick(coin as WalletFiatType)
+                        } else {
+                          this.props.buySellActions.handleDepositFiatClick({
+                            coin: coin as WalletFiatType,
+                            origin: 'TransactionList'
+                          })
+                        }
+                      }}
+                    >
+                      <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
+                    </Button>
+                    <Button
+                      nature='primary'
+                      data-e2e='withdrawFiat'
+                      style={{ marginLeft: '8px', minWidth: 'auto' }}
+                      onClick={() => {
+                        if (!this.props.brokerageActions) return
+                        this.props.brokerageActions.handleWithdrawClick(coin as WalletFiatType)
+                      }}
+                    >
+                      <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
+                    </Button>
                   </>
                 )}
               </TitleActionContainer>

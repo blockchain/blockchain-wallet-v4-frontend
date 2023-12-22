@@ -209,3 +209,6 @@ export const validFormat = (regex) => (value) => {
 
   return new RegExp(regex).test(value) ? undefined : <M.InvalidFormat />
 }
+
+export const validRoutingNumber = (value) =>
+  value?.length !== 9 && <span>Must be 9 digits long</span>
