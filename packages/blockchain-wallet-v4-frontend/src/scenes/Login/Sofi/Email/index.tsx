@@ -10,6 +10,7 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
+import { RootState } from 'data/rootReducer'
 import { required, validEmail } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
@@ -43,6 +44,16 @@ const HelperText = styled(Text)`
 
 const Email = (props: Props) => {
   const { busy, formValues, invalid, routerActions, submitting } = props
+
+  const { sofiJwtPayload } = useSelector((state: RootState) => state.profile.sofiData).getOrElse(
+    {}
+  ) as SofiMigrationStatusResponseType
+
+  useEffect(() => {
+    if (!sofiJwtPayload) {
+      routerActions.push('/sofi-error')
+    }
+  }, [])
 
   return (
     <LoginWrapper>
