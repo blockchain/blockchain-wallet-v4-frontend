@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { destroy, formValueSelector, reduxForm } from 'redux-form'
@@ -18,6 +18,19 @@ import EnterUserData from './Steps/EnterUserData'
 import Failure from './Steps/Failure'
 import { ADD_WIRE_BANK_STEPS, WireBankFormType } from './Steps/StepsTypes'
 import Success from './Steps/Success'
+
+type FORM_PAYLOAD = {
+  accountNumber: string
+  bankName: string
+  currency: string
+  intermediaryBankInfo?: {
+    bankAccountNumber: string
+    bankName: string
+    bankRoutingNumber: string
+  }
+  product?: string
+  routingNumber: string
+}
 
 const AddWireBank = () => {
   const [step, setStep] = useState<ADD_WIRE_BANK_STEPS>('USER_INFO')
@@ -44,6 +57,8 @@ const AddWireBank = () => {
     data: { api }
   } = useSelector(getDomains)
 
+  const alreadyLinked = useRef(false)
+
   const resetForm = () => {
     dispatch(destroy('addWireBank'))
     dispatch(actions.components.brokerage.setDWStep({ dwStep: BankDWStepType.DEPOSIT_METHODS }))
@@ -60,7 +75,7 @@ const AddWireBank = () => {
       routingNumber
     } = formValues
 
-    const payload = {
+    const payload: FORM_PAYLOAD = {
       accountNumber,
       bankName,
       currency,
@@ -69,7 +84,7 @@ const AddWireBank = () => {
 
     if (hasIntermediaryBank === 'YES') {
       payload.intermediaryBankInfo = {
-        bankAccount: intermediaryAccountNumber,
+        bankAccountNumber: intermediaryAccountNumber,
         bankName: intermediaryBankName,
         bankRoutingNumber: intermediaryRoutingNumber
       }
@@ -82,6 +97,7 @@ const AddWireBank = () => {
       })
       setStep('SUCCESS')
     } catch (error) {
+      alreadyLinked.current = error.dataFields.description.includes('already exists')
       setStep('FAILURE')
     }
   }
@@ -104,7 +120,7 @@ const AddWireBank = () => {
       case 'SUCCESS':
         return <Success bankName={formValues?.bankName ?? ''} />
       case 'FAILURE':
-        return <Failure />
+        return <Failure alreadyLinked={alreadyLinked.current} />
       case 'USER_INFO':
       default:
         const nextStep =

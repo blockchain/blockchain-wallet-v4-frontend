@@ -3,9 +3,9 @@ export type WireBankFormType = {
   accountNumber: string
   bankName: string
   hasIntermediaryBank: 'YES' | 'NO'
-  intermediaryAccountNumber?: string
-  intermediaryBankName?: string
-  intermediaryRoutingNumber?: string
+  intermediaryAccountNumber: string
+  intermediaryBankName: string
+  intermediaryRoutingNumber: string
   routingNumber: string
 }
 

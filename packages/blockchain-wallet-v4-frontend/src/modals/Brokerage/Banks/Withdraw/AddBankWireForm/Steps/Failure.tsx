@@ -10,7 +10,7 @@ import { BankDWStepType } from 'data/types'
 import { Header } from '../Header'
 import { FinalStatusWrapper } from './StepsStyles'
 
-const Failure = () => {
+const Failure = ({ alreadyLinked }: { alreadyLinked: boolean }) => {
   const dispatch = useDispatch()
 
   const onConfirm = () => {
@@ -27,8 +27,9 @@ const Failure = () => {
           Unable to add bank account
         </Text>
         <Text size='16px' weight={500} color='grey600'>
-          There was a problem adding your bank account details. Please try to again or add a
-          different payment method.
+          {alreadyLinked
+            ? 'The provided Routing and/or Account numbers are already associated to another account'
+            : 'There was a problem adding your bank account details. Please try to again or add a different payment method.'}
         </Text>
       </FinalStatusWrapper>
       <FlyoutFooter collapsed>
