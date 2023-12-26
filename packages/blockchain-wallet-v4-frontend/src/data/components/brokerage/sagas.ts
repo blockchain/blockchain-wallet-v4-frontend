@@ -397,10 +397,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.form.destroy('brokerageTx'))
     yield put(actions.components.withdraw.showModal({ fiatCurrency: payload }))
 
-    const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
-      yield select()
-    )
-    const bankTransferAccounts = bankTransferAccountsR.getOrElse([])
+    const bankTransferAccounts = selectors.components.brokerage
+      .getBankTransferAccounts(yield select())
+      .getOrElse([])
     if (bankTransferAccounts.length) {
       yield put(
         actions.components.brokerage.setBankDetails({

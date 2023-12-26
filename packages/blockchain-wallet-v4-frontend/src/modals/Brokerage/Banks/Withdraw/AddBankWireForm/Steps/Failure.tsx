@@ -4,35 +4,33 @@ import { destroy } from 'redux-form'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import FlyoutFooter from 'components/Flyout/Footer'
-import { actions } from 'data'
+import { setDWStep } from 'data/components/brokerage/slice'
 import { BankDWStepType } from 'data/types'
 
 import { Header } from '../Header'
-import { FieldsWrapper } from './StepsStyles'
+import { FinalStatusWrapper } from './StepsStyles'
 
 const Failure = () => {
   const dispatch = useDispatch()
 
   const onConfirm = () => {
     dispatch(destroy('addWireBank'))
-    dispatch(actions.components.brokerage.setDWStep({ dwStep: BankDWStepType.DEPOSIT_METHODS }))
+    dispatch(setDWStep({ dwStep: BankDWStepType.DEPOSIT_METHODS }))
   }
 
   return (
     <>
-      <FieldsWrapper>
+      <FinalStatusWrapper>
         <Header />
-        <Icon name='bank-filled' />
-        <div style={{ textAlign: 'center' }}>
-          <Text size='20px' weight={600} color='grey900' style={{ marginBottom: '0.5rem' }}>
-            Unable to add bank account
-          </Text>
-          <Text size='16px' weight={500} color='grey600'>
-            There was a problem adding your bank account details. Please try to again or add a
-            different payment method.
-          </Text>
-        </div>
-      </FieldsWrapper>
+        <Icon color='error' name='close-circle' size='3rem' />
+        <Text size='20px' weight={600} color='grey900'>
+          Unable to add bank account
+        </Text>
+        <Text size='16px' weight={500} color='grey600'>
+          There was a problem adding your bank account details. Please try to again or add a
+          different payment method.
+        </Text>
+      </FinalStatusWrapper>
       <FlyoutFooter collapsed>
         <Button data-e2e='addWireBankFailure' fullwidth nature='primary' onClick={onConfirm}>
           Try again

@@ -9,27 +9,16 @@ import CheckBox from 'components/Form/CheckBox'
 import { getUserData } from 'data/modules/profile/selectors'
 
 import { Header } from '../Header'
-import { WIRE_BANK_FORM } from './constants'
+import { BANK_INFO_ROWS, INTERMEDIARY_INFO_ROWS, WIRE_BANK_FORM } from './constants'
 import { Entries, Entry, FieldsWrapper } from './StepsStyles'
 import { StepProps, WireBankFormType } from './StepsTypes'
-
-const BANK_INFO_ROWS = [
-  { key: 'Name', prop: 'bankName' },
-  { key: 'Routing number (ABA)', prop: 'routingNumber' },
-  { key: 'Account number', prop: 'accountNumber' }
-]
-const INTERMEDIARY_INFO_ROWS = [
-  { key: 'Name', prop: 'intermediaryBankName' },
-  { key: 'Account number', prop: 'intermediaryAccountNumber' },
-  { key: 'Routing number / Swift code', prop: 'intermediaryRoutingNumber' }
-]
 
 const ConfirmData = ({ onClickBack, onNextStep }: StepProps) => {
   const formValues = useSelector(getFormValues(WIRE_BANK_FORM)) as WireBankFormType
 
-  const { data } = useSelector(getUserData)
-
-  const { address, firstName, lastName } = data
+  const {
+    data: { address, firstName, lastName }
+  } = useSelector(getUserData)
 
   return (
     <>

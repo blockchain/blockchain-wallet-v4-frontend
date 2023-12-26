@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 
-export const BackContainer = styled.div`
+const BackContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
