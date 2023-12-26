@@ -212,3 +212,6 @@ export const validFormat = (regex) => (value) => {
 
 export const validRoutingNumber = (value) =>
   value?.length !== 9 && <span>Must be 9 digits long</span>
+
+export const validBankName = (value) =>
+  value?.length > 18 && <span>Bank Name can only be a max of 18 characters long</span>

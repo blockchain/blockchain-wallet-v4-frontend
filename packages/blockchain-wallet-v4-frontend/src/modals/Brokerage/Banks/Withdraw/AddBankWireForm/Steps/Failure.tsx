@@ -28,7 +28,7 @@ const Failure = ({ alreadyLinked }: { alreadyLinked: boolean }) => {
         </Text>
         <Text size='16px' weight={500} color='grey600'>
           {alreadyLinked
-            ? 'The provided Routing and/or Account numbers are already associated to another account'
+            ? 'This account number is already linked. Please try linking another account'
             : 'There was a problem adding your bank account details. Please try to again or add a different payment method.'}
         </Text>
       </FinalStatusWrapper>

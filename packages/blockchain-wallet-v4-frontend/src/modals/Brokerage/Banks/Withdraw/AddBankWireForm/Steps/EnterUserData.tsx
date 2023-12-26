@@ -8,7 +8,7 @@ import FlyoutFooter from 'components/Flyout/Footer'
 import FormLabel from 'components/Form/FormLabel'
 import NumberBox from 'components/Form/NumberBox'
 import TextBox from 'components/Form/TextBox'
-import { required, validRoutingNumber } from 'services/forms'
+import { required, validBankName, validRoutingNumber } from 'services/forms'
 
 import { Header } from '../Header'
 import { FieldsWrapper } from './StepsStyles'
@@ -29,7 +29,11 @@ const EnterUserData = ({ onClickBack, onNextStep }: StepProps) => {
   const missingData = [routingNumber, accountNumber, bankName, hasIntermediaryBank].some((e) => !e)
 
   const disabled =
-    !hasBasicRoutingInfo || missingData || bankName.length === 0 || hasIntermediaryBank.length === 0
+    !hasBasicRoutingInfo ||
+    missingData ||
+    bankName.length === 0 ||
+    bankName.length > 18 ||
+    hasIntermediaryBank.length === 0
 
   const handleNext = () => {
     if (disabled) return undefined
@@ -59,7 +63,7 @@ const EnterUserData = ({ onClickBack, onNextStep }: StepProps) => {
             placeholder='Enter bank name'
             data-e2e='bankName'
             name='bankName'
-            validate={[required]}
+            validate={[required, validBankName]}
           />
         </div>
 
@@ -70,6 +74,10 @@ const EnterUserData = ({ onClickBack, onNextStep }: StepProps) => {
               defaultMessage='Routing number'
             />
           </FormLabel>
+          <Text size='12px' color='grey600' style={{ marginBottom: '0.5rem' }}>
+            Make sure you use the correct routing number for wire transfers. It may differ from your
+            bank&apos;s ACH routing number
+          </Text>
           <Field
             component={NumberBox}
             placeholder='Enter 9-digit Routing Number'

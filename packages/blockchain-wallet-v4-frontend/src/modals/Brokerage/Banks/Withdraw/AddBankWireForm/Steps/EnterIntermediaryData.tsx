@@ -8,7 +8,7 @@ import FlyoutFooter from 'components/Flyout/Footer'
 import FormLabel from 'components/Form/FormLabel'
 import NumberBox from 'components/Form/NumberBox'
 import TextBox from 'components/Form/TextBox'
-import { required, validRoutingNumber } from 'services/forms'
+import { required, validBankName, validRoutingNumber } from 'services/forms'
 
 import { Header } from '../Header'
 import { WIRE_BANK_FORM } from './constants'
@@ -28,7 +28,8 @@ const EnterIntermediaryBank = ({ onClickBack, onNextStep }: StepProps) => {
 
   const disabled =
     [intermediaryBankName, intermediaryAccountNumber].some((val) => !val || val.length === 0) ||
-    intermediaryRoutingNumber?.length !== 9
+    intermediaryRoutingNumber.length !== 9 ||
+    intermediaryBankName.length > 18
 
   const handleNext = () => {
     if (disabled) return undefined
@@ -57,7 +58,7 @@ const EnterIntermediaryBank = ({ onClickBack, onNextStep }: StepProps) => {
             data-e2e='intermediaryBankName'
             name='intermediaryBankName'
             noLastPass
-            validate={[required]}
+            validate={[required, validBankName]}
           />
         </div>
         <div>
@@ -67,6 +68,10 @@ const EnterIntermediaryBank = ({ onClickBack, onNextStep }: StepProps) => {
               defaultMessage='Intermediary Bank Routing number'
             />
           </FormLabel>
+          <Text size='12px' color='grey600' style={{ marginBottom: '0.5rem' }}>
+            Make sure you use the correct routing number for wire transfers. It may differ from your
+            bank&apos;s ACH routing number
+          </Text>
           <Field
             component={NumberBox}
             placeholder='Enter 9-digit routing number'
