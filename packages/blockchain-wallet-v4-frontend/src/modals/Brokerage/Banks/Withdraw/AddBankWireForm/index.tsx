@@ -53,6 +53,7 @@ const AddWireBank = () => {
     const {
       accountNumber,
       bankName,
+      hasIntermediaryBank,
       intermediaryAccountNumber,
       intermediaryBankName,
       intermediaryRoutingNumber,
@@ -63,12 +64,15 @@ const AddWireBank = () => {
       accountNumber,
       bankName,
       currency,
-      intermediaryBankInfo: {
+      routingNumber
+    }
+
+    if (hasIntermediaryBank === 'YES') {
+      payload.intermediaryBankInfo = {
         bankAccount: intermediaryAccountNumber,
         bankName: intermediaryBankName,
         bankRoutingNumber: intermediaryRoutingNumber
-      },
-      routingNumber
+      }
     }
 
     setStep('LOADING')

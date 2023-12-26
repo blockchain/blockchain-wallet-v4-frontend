@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
-import { Field, getFormValues, reduxForm } from 'redux-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { change, Field, getFormValues, reduxForm } from 'redux-form'
 
 import { Button, Text } from 'blockchain-info-components'
 import FlyoutFooter from 'components/Flyout/Footer'
@@ -16,14 +16,21 @@ import { StepProps, WireBankFormType } from './StepsTypes'
 const ConfirmData = ({ onClickBack, onNextStep }: StepProps) => {
   const formValues = useSelector(getFormValues(WIRE_BANK_FORM)) as WireBankFormType
 
+  const dispatch = useDispatch()
+
   const {
     data: { address, firstName, lastName }
   } = useSelector(getUserData)
 
+  const resetAcceptDetails = () => {
+    dispatch(change(WIRE_BANK_FORM, 'acceptDetails', false))
+    onClickBack()
+  }
+
   return (
     <>
       <FieldsWrapper>
-        <Header onClickBack={onClickBack} />
+        <Header onClickBack={resetAcceptDetails} />
         <div>
           <Text size='16px' color='grey600' weight={600} style={{ marginBottom: '8px' }}>
             Bank Info

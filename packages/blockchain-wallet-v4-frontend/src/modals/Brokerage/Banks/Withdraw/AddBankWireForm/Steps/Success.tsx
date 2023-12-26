@@ -1,11 +1,12 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { destroy } from 'redux-form'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import FlyoutFooter from 'components/Flyout/Footer'
-import { setDWStep } from 'data/components/brokerage/slice'
-import { BankDWStepType } from 'data/types'
+import { actions } from 'data'
+import { getFiatCurrency } from 'data/components/withdraw/selectors'
+import { ModalName, WithdrawStepEnum } from 'data/types'
 
 import { Header } from '../Header'
 import { WIRE_BANK_FORM } from './constants'
@@ -15,10 +16,17 @@ type Props = { bankName: string }
 
 const Success = ({ bankName }: Props) => {
   const dispatch = useDispatch()
+  const fiatCurrency = useSelector(getFiatCurrency)
 
   const onConfirm = () => {
     dispatch(destroy(WIRE_BANK_FORM))
-    dispatch(setDWStep({ dwStep: BankDWStepType.BANK_LIST }))
+    dispatch(actions.modals.closeModal(ModalName.BANK_DEPOSIT_MODAL))
+    dispatch(
+      actions.components.withdraw.setStep({
+        fiatCurrency,
+        step: WithdrawStepEnum.BANK_PICKER
+      })
+    )
   }
 
   return (

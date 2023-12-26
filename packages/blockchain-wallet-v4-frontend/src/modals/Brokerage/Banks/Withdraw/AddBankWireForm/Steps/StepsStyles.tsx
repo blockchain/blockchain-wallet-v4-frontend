@@ -27,11 +27,11 @@ export const Entry = styled.div`
   align-items: center;
 
   > div {
-    flex: 4;
+    flex: 7;
   }
 
   div:last-child {
-    flex: 2;
+    flex: 5;
     text-align: right;
   }
 
