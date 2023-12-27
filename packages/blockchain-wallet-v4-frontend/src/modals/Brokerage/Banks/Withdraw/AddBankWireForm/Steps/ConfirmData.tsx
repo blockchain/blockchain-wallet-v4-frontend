@@ -10,7 +10,7 @@ import { getUserData } from 'data/modules/profile/selectors'
 
 import { Header } from '../Header'
 import { BANK_INFO_ROWS, INTERMEDIARY_INFO_ROWS, WIRE_BANK_FORM } from './constants'
-import { Entries, Entry, FieldsWrapper } from './StepsStyles'
+import { BaseEntry, Entries, Entry, FieldsWrapper } from './StepsStyles'
 import { StepProps, WireBankFormType } from './StepsTypes'
 
 const ConfirmData = ({ onClickBack, onNextStep }: StepProps) => {
@@ -38,14 +38,7 @@ const ConfirmData = ({ onClickBack, onNextStep }: StepProps) => {
 
           <Entries>
             {BANK_INFO_ROWS.map((item) => (
-              <Entry key={item.key}>
-                <Text size='16px' color='grey900' weight={600}>
-                  {item.key}
-                </Text>
-                <Text size='16px' color='grey600' weight={600}>
-                  {formValues[item.prop]}
-                </Text>
-              </Entry>
+              <Entry key={item.key} leftText={item.key} rightText={formValues[item.prop]} />
             ))}
           </Entries>
         </div>
@@ -57,14 +50,7 @@ const ConfirmData = ({ onClickBack, onNextStep }: StepProps) => {
             </Text>
             <Entries>
               {INTERMEDIARY_INFO_ROWS.map((item) => (
-                <Entry key={item.key}>
-                  <Text size='16px' color='grey900' weight={600}>
-                    {item.key}
-                  </Text>
-                  <Text size='16px' color='grey600' weight={600}>
-                    {formValues[item.prop]}
-                  </Text>
-                </Entry>
+                <Entry key={item.key} leftText={item.key} rightText={formValues[item.prop]} />
               ))}
             </Entries>
           </div>
@@ -76,15 +62,9 @@ const ConfirmData = ({ onClickBack, onNextStep }: StepProps) => {
           </Text>
 
           <Entries>
-            <Entry>
-              <Text size='16px' color='grey900' weight={600}>
-                Name
-              </Text>
-              <Text size='16px' color='grey600' weight={600}>
-                {firstName} {lastName}
-              </Text>
-            </Entry>
-            <Entry>
+            <Entry leftText='Name' rightText={`${firstName} ${lastName}`} />
+
+            <BaseEntry>
               <Text size='16px' color='grey900' weight={600}>
                 Address
               </Text>
@@ -99,7 +79,7 @@ const ConfirmData = ({ onClickBack, onNextStep }: StepProps) => {
                   {address?.postCode}
                 </Text>
               </div>
-            </Entry>
+            </BaseEntry>
           </Entries>
         </div>
 

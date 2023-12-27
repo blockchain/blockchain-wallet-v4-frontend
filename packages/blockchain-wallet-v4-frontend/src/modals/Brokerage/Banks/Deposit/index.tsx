@@ -23,6 +23,7 @@ import DepositStatus from './DepositStatus'
 import EnterAmount from './EnterAmount'
 import OpenBankingConnect from './OpenBankingConnect'
 import getData from './selectors'
+import WireInstructions from './WireInstructions'
 
 class Deposit extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -190,6 +191,11 @@ class Deposit extends PureComponent<Props, State> {
               </FlyoutChild>
             )}
             {this.props.step === BankDWStepType.WIRE_INSTRUCTIONS && (
+              <FlyoutChild>
+                <WireInstructions {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === BankDWStepType.ADD_WIRE_BANK && (
               <FlyoutChild>
                 <AddBankWireForm />
               </FlyoutChild>

@@ -1,4 +1,7 @@
+import React from 'react'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
 
 export const FieldsWrapper = styled.div`
   display: flex;
@@ -21,7 +24,7 @@ export const Entries = styled.div`
   border: 1px solid ${(props) => props.theme.grey000};
 `
 
-export const Entry = styled.div`
+export const BaseEntry = styled.div`
   display: flex;
   padding: 1rem;
   align-items: center;
@@ -39,3 +42,14 @@ export const Entry = styled.div`
     border-bottom: 1px solid ${(props) => props.theme.grey000};
   }
 `
+
+export const Entry = ({ leftText, rightText }: { leftText: string; rightText: string }) => (
+  <BaseEntry>
+    <Text size='16px' color='grey900' weight={600}>
+      {rightText}
+    </Text>
+    <Text size='16px' color='grey600' weight={600}>
+      {leftText}
+    </Text>
+  </BaseEntry>
+)

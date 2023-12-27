@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import { destroy, formValueSelector, reduxForm } from 'redux-form'
 
@@ -37,17 +37,19 @@ const AddWireBank = () => {
 
   const dispatch = useDispatch()
 
-  const formValues = useSelector((state) =>
-    formValueSelector('addWireBank')(
-      state,
-      'accountNumber',
-      'bankName',
-      'hasIntermediaryBank',
-      'intermediaryAccountNumber',
-      'intermediaryBankName',
-      'intermediaryRoutingNumber',
-      'routingNumber'
-    )
+  const formValues = useSelector(
+    (state) =>
+      formValueSelector('addWireBank')(
+        state,
+        'accountNumber',
+        'bankName',
+        'hasIntermediaryBank',
+        'intermediaryAccountNumber',
+        'intermediaryBankName',
+        'intermediaryRoutingNumber',
+        'routingNumber'
+      ),
+    shallowEqual
   ) as WireBankFormType
 
   const currency = useSelector(getFiatCurrency)

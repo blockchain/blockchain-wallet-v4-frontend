@@ -68,10 +68,6 @@ const EnterIntermediaryBank = ({ onClickBack, onNextStep }: StepProps) => {
               defaultMessage='Intermediary Bank Routing number'
             />
           </FormLabel>
-          <Text size='12px' color='grey600' style={{ marginBottom: '0.5rem' }}>
-            Make sure you use the correct routing number for wire transfers. It may differ from your
-            bank&apos;s ACH routing number
-          </Text>
           <Field
             component={NumberBox}
             placeholder='Enter 9-digit routing number'
