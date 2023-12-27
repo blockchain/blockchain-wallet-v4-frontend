@@ -8,13 +8,14 @@ import { setDWStep } from 'data/components/brokerage/slice'
 import { BankDWStepType } from 'data/types'
 
 import { Header } from '../Header'
+import { WIRE_BANK_FORM } from './constants'
 import { FinalStatusWrapper } from './StepsStyles'
 
 const Failure = ({ alreadyLinked }: { alreadyLinked: boolean }) => {
   const dispatch = useDispatch()
 
   const onConfirm = () => {
-    dispatch(destroy('addWireBank'))
+    dispatch(destroy(WIRE_BANK_FORM))
     dispatch(setDWStep({ dwStep: BankDWStepType.DEPOSIT_METHODS }))
   }
 

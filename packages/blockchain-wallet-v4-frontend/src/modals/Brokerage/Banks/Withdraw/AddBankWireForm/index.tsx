@@ -39,7 +39,7 @@ const AddWireBank = () => {
 
   const formValues = useSelector(
     (state) =>
-      formValueSelector('addWireBank')(
+      formValueSelector(WIRE_BANK_FORM)(
         state,
         'accountNumber',
         'bankName',
@@ -62,7 +62,7 @@ const AddWireBank = () => {
   const alreadyLinked = useRef(false)
 
   const resetForm = () => {
-    dispatch(destroy('addWireBank'))
+    dispatch(destroy(WIRE_BANK_FORM))
     dispatch(actions.components.brokerage.setDWStep({ dwStep: BankDWStepType.DEPOSIT_METHODS }))
   }
 

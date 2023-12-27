@@ -11,12 +11,13 @@ import TextBox from 'components/Form/TextBox'
 import { required, validBankName, validRoutingNumber } from 'services/forms'
 
 import { Header } from '../Header'
+import { WIRE_BANK_FORM } from './constants'
 import { FieldsWrapper } from './StepsStyles'
 import { StepProps, WireBankFormType } from './StepsTypes'
 
 const EnterUserData = ({ onClickBack, onNextStep }: StepProps) => {
   const { accountNumber, bankName, hasIntermediaryBank, routingNumber } = useSelector((state) =>
-    formValueSelector('addWireBank')(
+    formValueSelector(WIRE_BANK_FORM)(
       state,
       'routingNumber',
       'accountNumber',
