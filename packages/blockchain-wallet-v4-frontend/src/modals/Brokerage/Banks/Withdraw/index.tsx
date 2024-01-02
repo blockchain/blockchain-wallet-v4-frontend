@@ -177,7 +177,7 @@ type LinkStatePropsType =
       fiatCurrency: WalletFiatType
       step: WithdrawStepEnum.WITHDRAWAL_METHODS
     }
-// export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+
 export type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 type State = { show: boolean }
 

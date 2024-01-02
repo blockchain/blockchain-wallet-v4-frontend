@@ -93,6 +93,7 @@ export enum BankStatusType {
 }
 
 export enum BankDWStepType {
+  ADD_WIRE_BANK = 'ADD_WIRE_BANK',
   AUTHORIZE = 'AUTHORIZE',
   BANK_LIST = 'BANK_LIST',
   CONFIRM = 'CONFIRM',
@@ -109,15 +110,16 @@ export enum BankDWStepType {
 export type BrokerageDWStepPayload =
   | {
       dwStep:
-        | BankDWStepType.ENTER_AMOUNT
+        | BankDWStepType.ADD_WIRE_BANK
         | BankDWStepType.AUTHORIZE
+        | BankDWStepType.BANK_LIST
         | BankDWStepType.CONFIRM
-        | BankDWStepType.WIRE_INSTRUCTIONS
         | BankDWStepType.DEPOSIT_CONNECT
         | BankDWStepType.DEPOSIT_STATUS
-        | BankDWStepType.BANK_LIST
+        | BankDWStepType.ENTER_AMOUNT
         | BankDWStepType.INELIGIBLE
         | BankDWStepType.LOADING
+        | BankDWStepType.WIRE_INSTRUCTIONS
     }
   | {
       dwStep: BankDWStepType.PAYMENT_ACCOUNT_ERROR
