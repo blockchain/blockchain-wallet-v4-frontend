@@ -53,10 +53,10 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = ({
   const dispatch = useDispatch()
 
   const redirectBackToStep = useSelector(getRedirectBackToStep)
-  const handleSubmit = () => {
-    if (account) {
-      dispatch(deleteSavedBank(account.id))
-    }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(deleteSavedBank(account.id))
   }
 
   const bankAccountName = account?.details
