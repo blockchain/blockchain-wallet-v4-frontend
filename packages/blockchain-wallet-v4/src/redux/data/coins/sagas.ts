@@ -60,16 +60,36 @@ export default ({ api }: { api: APIType }) => {
             const { results }: ReturnType<typeof api.balance> = yield call(api.balance, [
               { descriptor: 'legacy', pubKey, style: 'SINGLE' }
             ])
+            // only want to show native coins for stx
+            // although i think we're only using this api call for stx
+            // don't see anywhere else that we're passing a 'list'
+            let filteredStxNative
+            if (coin === 'STX') {
+              filteredStxNative = results[0].balances.filter(
+                ({ identifier }) => identifier === 'native'
+              )
+            }
 
             // TODO: SELF_CUSTODY
-            yield put(
-              A.fetchDataSuccess(
-                coin,
-                results[0].balances
-                  .reduce((acc, curr) => acc.plus(curr.amount), new BigNumber(0))
-                  .toString()
+            if (coin === 'STX') {
+              yield put(
+                A.fetchDataSuccess(
+                  coin,
+                  filteredStxNative
+                    .reduce((acc, curr) => acc.plus(curr.amount), new BigNumber(0))
+                    .toString()
+                )
               )
-            )
+            } else {
+              yield put(
+                A.fetchDataSuccess(
+                  coin,
+                  results[0].balances
+                    .reduce((acc, curr) => acc.plus(curr.amount), new BigNumber(0))
+                    .toString()
+                )
+              )
+            }
           } catch (e) {
             const error = errorHandler(e)
             yield put(A.fetchDataFailure(error, coin))
