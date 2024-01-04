@@ -5,21 +5,16 @@ import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { SofiMigrationStatusResponseType } from '@core/network/api/sofi/types'
-import { CountryScope } from '@core/types'
 import { Button, HeartbeatLoader, Text, TextGroup } from 'blockchain-info-components'
 import CheckBox from 'components/Form/CheckBox'
 import Form from 'components/Form/Form'
-import FormError from 'components/Form/FormError'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
-import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
 import Terms from 'components/Terms'
 import { selectors } from 'data'
-import { CountryType, SignUpGoalDataType, StateType } from 'data/types'
-import { useCountryList, useUSStateList } from 'hooks'
 import {
   required,
   stringContainsLowercaseLetter,
@@ -31,11 +26,9 @@ import {
   validPasswordConfirmation,
   validStrongPassword
 } from 'services/forms'
-import { applyToUpperCase } from 'services/forms/normalizers'
 
 import { SIGNUP_FORM } from '../..'
 import { SubviewProps } from '../../types'
-import ContinueOnPhone from '../SignupForm/ContinueOnPhone'
 
 const StyledForm = styled(Form)`
   margin-top: 20px;
@@ -75,26 +68,26 @@ const SofiSignupForm = (props: Props) => {
     invalid,
     isFormSubmitting,
     onSignupSubmit,
+    routerActions,
     setShowModal
   } = props
 
-  const { sofiJwtPayload } = useSelector(selectors.modules.profile.getSofiUserData).getOrElse({
-    sofiJwtPayload: {
-      country: '',
-      email: '',
-      state: ''
+  const { sofiJwtPayload } = useSelector(selectors.modules.profile.getSofiUserData).getOrElse(
+    {}
+  ) as SofiMigrationStatusResponseType
+  useEffect(() => {
+    if (!sofiJwtPayload) {
+      routerActions.push('/sofi-error')
     }
-  }) as SofiMigrationStatusResponseType
+  }, [])
 
-  const { country, state } = sofiJwtPayload
   const passwordValue = formValues?.password || ''
   const isUSStateUnsupported = bakktRedirectUSStates.includes(formValues?.state)
   // @ts-ignore
   const lowercaseError = props.registering?.error?.reason === 'email.lowercase'
-
   useEffect(() => {
-    formActions.change(SIGNUP_FORM, 'country', country)
-    formActions.change(SIGNUP_FORM, 'state', state)
+    formActions.change(SIGNUP_FORM, 'country', sofiJwtPayload?.country)
+    formActions.change(SIGNUP_FORM, 'state', sofiJwtPayload?.state)
   }, [formActions, sofiJwtPayload])
 
   return (
@@ -111,6 +104,7 @@ const SofiSignupForm = (props: Props) => {
             data-e2e='signupEmail'
             name='email'
             props={{ autoCapitalize: 'off' }}
+            validate={[required, validEmail]}
           />
         </FormItem>
         {lowercaseError && (
