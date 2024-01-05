@@ -7,6 +7,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { selectAlerts } from 'data/alerts/selectors'
 import { trackEvent } from 'data/analytics/slice'
+import { getIsSofi } from 'data/auth/selectors'
 import { Analytics, LoginSteps } from 'data/types'
 import { VERIFY_EMAIL_SENT_ERROR } from 'services/alerts'
 import { media } from 'services/styles'
@@ -42,6 +43,7 @@ const CheckEmail = (props: Props) => {
 
   const dispatch = useDispatch()
 
+  const isSofi = useSelector(getIsSofi)
   const alerts = useSelector(selectAlerts)
 
   const onResendEmail = (e: SyntheticEvent) => {
@@ -75,7 +77,7 @@ const CheckEmail = (props: Props) => {
   const hasErrorAlert = alerts.find((alert) => alert.message === VERIFY_EMAIL_SENT_ERROR)
 
   const handleBackClick = () => {
-    if (props.isSofi) {
+    if (isSofi) {
       props.setStep(LoginSteps.SOFI_EMAIL)
     } else {
       props.handleBackArrowClickWallet()
@@ -154,6 +156,7 @@ const CheckEmail = (props: Props) => {
 
 type Props = OwnProps & {
   handleSubmit: (e) => void
+  setStep: (step: LoginSteps) => void
 }
 
 export default CheckEmail

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { FormProps, getFormValues, reduxForm } from 'redux-form'
+import { getFormValues, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
 import Form from 'components/Form/Form'
@@ -129,7 +129,7 @@ const Login = (props) => {
       trackEvent({
         key: Analytics.LOGIN_VIEWED,
         properties: {
-          device_origin: productAuthMetadata?.platform || 'WEB',
+          device_origin: productAuthMetadata?.platform ?? 'WEB',
           originalTimestamp: new Date().toISOString()
         }
       })
@@ -182,7 +182,7 @@ const Login = (props) => {
             return <SofiSuccess />
 
           case LoginSteps.ENTER_EMAIL_GUID:
-          default:
+          default: {
             const LoginComponent =
               productAuthMetadata.product === ProductAuthOptions.EXCHANGE
                 ? ExchangeEnterEmail
@@ -194,6 +194,7 @@ const Login = (props) => {
                 <LoginComponent {...loginProps} />
               </>
             )
+          }
         }
       })()}
     </Form>

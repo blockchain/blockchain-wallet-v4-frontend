@@ -1,5 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
+import { push } from 'connected-react-router'
 import styled from 'styled-components'
 
 import { Badge, Button, Image, Text } from 'blockchain-info-components'
@@ -7,8 +9,6 @@ import { Wrapper } from 'components/Public'
 import { isMobile, media } from 'services/styles'
 
 import { CircleBackground } from '../../model'
-import { useDispatch } from 'react-redux'
-import { push } from 'connected-react-router'
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -36,13 +36,6 @@ const AppButtons = styled.footer`
 `
 
 const ContinueOnMobile = () => {
-  const dispatch = useDispatch()
-  // Add check here to make sure that there is wallet data
-  // route should navigate to login if there's no wallet data
-  const sofiWalletRedirect = () => {
-    dispatch(push('/home'))
-  }
-
   const APP_URL = 'https://blockchainwallet.page.link/dashboard'
 
   const downloadMobileApp = () => {
