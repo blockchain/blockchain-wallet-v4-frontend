@@ -1,14 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch, useSelector } from 'react-redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { getCurrency } from '@core/redux/settings/selectors'
 import { Button, HeartbeatLoader, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import Form from 'components/Form/Form'
+import { brokerage } from 'data/components/actions'
+import { BankTransferAccountType, BrokerageModalOriginType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
-
-import { LinkDispatchPropsType, LinkStatePropsType, OwnProps } from '.'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -49,19 +50,42 @@ export const BankDetails = styled.div`
   margin-top: 24px;
 `
 
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+type Props = {
+  account: BankTransferAccountType
+  handleClose: () => void
+}
 
-const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  const { account, walletCurrency } = props
+const Template: React.FC<InjectedFormProps<{}, Props> & Props> = ({
+  account,
+  handleClose,
+  submitting
+}) => {
+  const dispatch = useDispatch()
+  const walletCurrency = useSelector(getCurrency).getOrElse('USD')
 
-  const bankAccountName =
-    account && 'details' in account ? (
-      `${account.details?.bankName || ''} ${account.details?.accountNumber || ''}`
-    ) : (
-      <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
+  const { details } = account
+
+  const bankAccountName = details ? (
+    `${details?.bankName || ''} ${details?.accountNumber || ''}`
+  ) : (
+    <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
+  )
+
+  const onClick = () => {
+    dispatch(
+      brokerage.showModal({
+        modalType: 'REMOVE_BANK_MODAL',
+        origin: BrokerageModalOriginType.BANK
+      })
     )
+    dispatch(
+      brokerage.setBankDetails({
+        account,
+        redirectBackToStep: true
+      })
+    )
+  }
 
-  const accountDetails = account && 'details' in account && account.details
   return (
     <Wrapper>
       <FlyoutWrapper>
@@ -73,21 +97,21 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             size='20px'
             color='grey600'
             role='button'
-            onClick={props.handleClose}
+            onClick={handleClose}
           />
         </CloseContainer>
 
         <BankIconWrapper>
-          {accountDetails && <Image name={getBankLogoImageName(accountDetails.bankName)} />}
+          {details && <Image name={getBankLogoImageName(details.bankName)} />}
         </BankIconWrapper>
         <BankDetails>
           <Text size='24px' color='grey900' weight={600}>
             {bankAccountName}
           </Text>
           <Text size='24px' color='grey600' weight={500}>
-            {(accountDetails && accountDetails.bankAccountType?.toLowerCase()) || ''}{' '}
+            {details.bankAccountType?.toLowerCase() || ''}{' '}
             <FormattedMessage id='scenes.settings.general.account' defaultMessage='account' />{' '}
-            {(account && 'details' in account && account.details.accountNumber) || ''}
+            {account.details?.accountNumber || ''}
           </Text>
         </BankDetails>
       </FlyoutWrapper>
@@ -113,23 +137,21 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         </Text>
       </DisclaimerWrapper>
       <BankFlyoutWrapper>
-        <Form onSubmit={props.handleSubmit}>
-          <Button
-            fullwidth
-            size='16px'
-            height='48px'
-            nature='light-red'
-            data-e2e='removeBankDetials'
-            disabled={props.submitting}
-            type='submit'
-          >
-            {props.submitting ? (
-              <HeartbeatLoader color='blue100' height='20px' width='20px' />
-            ) : (
-              <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
-            )}
-          </Button>
-        </Form>
+        <Button
+          fullwidth
+          size='16px'
+          height='48px'
+          nature='light-red'
+          data-e2e='removeBankDetails'
+          disabled={submitting}
+          onClick={onClick}
+        >
+          {submitting ? (
+            <HeartbeatLoader color='blue100' height='20px' width='20px' />
+          ) : (
+            <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
+          )}
+        </Button>
       </BankFlyoutWrapper>
     </Wrapper>
   )
