@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { InjectedFormProps, reduxForm } from 'redux-form'
+import { reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
 import Form from 'components/Form/Form'
@@ -32,53 +32,37 @@ import WalletEnterEmailOrGuid from './Wallet/EnterEmailOrGuid'
 import EnterPasswordWallet from './Wallet/EnterPassword'
 import TwoFAWallet from './Wallet/TwoFA'
 
-class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
-  componentDidMount() {
-    this.props.authActions.initializeLogin()
-    if (window?._SardineContext) {
-      window._SardineContext.updateConfig({
-        flow: 'LOGIN'
-      })
-    }
-    this.props.analyticsActions.trackEvent({
-      key: Analytics.LOGIN_VIEWED,
-      properties: {
-        device_origin: this.props?.productAuthMetadata?.platform || 'WEB',
-        originalTimestamp: new Date().toISOString()
-      }
-    })
+const Login = (props: Props) => {
+  const setStep = (step: LoginSteps) => {
+    props.formActions.change(LOGIN_FORM, 'step', step)
   }
 
-  setStep = (step: LoginSteps) => {
-    this.props.formActions.change(LOGIN_FORM, 'step', step)
-  }
-
-  handleBackArrowClick = () => {
-    const { authActions, formActions } = this.props
+  const handleBackArrowClick = () => {
+    const { authActions, formActions } = props
     formActions.destroy(LOGIN_FORM)
-    this.setStep(LoginSteps.ENTER_EMAIL_GUID)
+    setStep(LoginSteps.ENTER_EMAIL_GUID)
     authActions.clearLoginError()
   }
 
-  handleBackArrowClickWallet = () => {
-    this.handleBackArrowClick()
-    this.props.cacheActions.removeWalletLogin()
-    if (this.props.cache.unifiedAccount) {
-      this.props.cacheActions.removeExchangeLogin()
+  const handleBackArrowClickWallet = () => {
+    handleBackArrowClick()
+    props.cacheActions.removeWalletLogin()
+    if (props.cache.unifiedAccount) {
+      props.cacheActions.removeExchangeLogin()
     }
   }
 
-  handleBackArrowClickExchange = () => {
-    this.handleBackArrowClick()
-    this.props.cacheActions.removeExchangeLogin()
-    if (this.props.cache.unifiedAccount) {
-      this.props.cacheActions.removeWalletLogin()
+  const handleBackArrowClickExchange = () => {
+    handleBackArrowClick()
+    props.cacheActions.removeExchangeLogin()
+    if (props.cache.unifiedAccount) {
+      props.cacheActions.removeWalletLogin()
     }
   }
 
-  exchangeTabClicked = () => {
-    const { exchangeEmail } = this.props.cache
-    const { authActions, formActions, routerActions } = this.props
+  const exchangeTabClicked = () => {
+    const { exchangeEmail } = props.cache
+    const { authActions, formActions, routerActions } = props
     authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
     routerActions.push('/login?product=exchange')
     if (exchangeEmail) {
@@ -89,9 +73,9 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }
   }
 
-  walletTabClicked = () => {
-    const { guidStored, lastEmail, lastGuid } = this.props.cache
-    const { authActions, formActions, routerActions } = this.props
+  const walletTabClicked = () => {
+    const { guidStored, lastEmail, lastGuid } = props.cache
+    const { authActions, formActions, routerActions } = props
     authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })
     routerActions.push('/login?product=wallet')
     if (guidStored || lastGuid) {
@@ -103,110 +87,120 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }
   }
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    this.props.authActions.continueLoginProcess()
+    props.authActions.continueLoginProcess()
   }
 
-  render() {
-    const { exchangeLoginDataR, formValues, productAuthMetadata, walletLoginDataR } = this.props
-    const { platform, product } = productAuthMetadata
-    const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
-
-    const { exchangeError } = exchangeLoginDataR.cata({
-      Failure: (val) => ({ busy: false, exchangeError: val }),
-      Loading: () => ({ busy: true, exchangeError: null }),
-      NotAsked: () => ({ busy: false, exchangeError: null }),
-      Success: () => ({ busy: false, exchangeError: null })
-    })
-
-    const { busy, walletError } = walletLoginDataR.cata({
-      Failure: (val) => ({ busy: false, walletError: val }),
-      Loading: () => ({ busy: true, walletError: null }),
-      NotAsked: () => ({ busy: false, walletError: null }),
-      Success: () => ({ busy: false, walletError: null })
-    })
-
-    const loginProps = {
-      busy, // TODO see if we still need busy
-      exchangeError,
-      exchangeTabClicked: this.exchangeTabClicked,
-      isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
-      walletError,
-      ...this.props,
-      handleBackArrowClickExchange: this.handleBackArrowClickExchange,
-      handleBackArrowClickWallet: this.handleBackArrowClickWallet,
-      setStep: this.setStep,
-      walletTabClicked: this.walletTabClicked
+  useEffect(() => {
+    props.authActions.initializeLogin()
+    if (window?._SardineContext) {
+      window._SardineContext.updateConfig({
+        flow: 'LOGIN'
+      })
     }
+    props.analyticsActions.trackEvent({
+      key: Analytics.LOGIN_VIEWED,
+      properties: {
+        device_origin: props?.productAuthMetadata?.platform || 'WEB',
+        originalTimestamp: new Date().toISOString()
+      }
+    })
+  }, [])
 
-    const { isMobileViewLogin } = loginProps
+  const { exchangeLoginDataR, formValues, productAuthMetadata, walletLoginDataR } = props
+  const { platform, product } = productAuthMetadata
+  const step = formValues?.step ?? LoginSteps.ENTER_EMAIL_GUID
 
-    return (
-      <>
-        {/* CONTENT */}
-        <Form onSubmit={this.handleSubmit}>
-          {(() => {
-            switch (step) {
-              case LoginSteps.SOFI_EMAIL:
-                return <Email {...loginProps} />
-              case LoginSteps.INSTITUTIONAL_PORTAL:
-                return <InstitutionalPortal {...loginProps} />
-              case LoginSteps.ENTER_PASSWORD_EXCHANGE:
-                return (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <EnterPasswordExchange {...loginProps} />
-                  </>
-                )
-              case LoginSteps.ENTER_PASSWORD_WALLET:
-                return (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <EnterPasswordWallet {...loginProps} />
-                  </>
-                )
-              case LoginSteps.TWO_FA_EXCHANGE:
-                return (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <TwoFAExchange {...loginProps} />
-                  </>
-                )
-              case LoginSteps.TWO_FA_WALLET:
-                return (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <TwoFAWallet {...loginProps} />
-                  </>
-                )
-              case LoginSteps.SOFI_VERIFY_ID:
-                return <SofiVerifyID {...loginProps} />
-              case LoginSteps.CHECK_EMAIL:
-                return <CheckEmail {...loginProps} handleSubmit={this.handleSubmit} />
-              case LoginSteps.VERIFY_MAGIC_LINK:
-                return <VerifyMagicLink {...loginProps} />
-              case LoginSteps.SOFI_SUCCESS:
-                return <SofiSuccess />
-              case LoginSteps.ENTER_EMAIL_GUID:
-              default:
-                return product === ProductAuthOptions.EXCHANGE ? (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <ExchangeEnterEmail {...loginProps} />
-                  </>
-                ) : (
-                  <>
-                    {!isMobileViewLogin && <UrlNoticeBar />}
-                    <WalletEnterEmailOrGuid {...loginProps} />
-                  </>
-                )
-            }
-          })()}
-        </Form>
-      </>
-    )
+  const { exchangeError } = exchangeLoginDataR.cata({
+    Failure: (val) => ({ busy: false, exchangeError: val }),
+    Loading: () => ({ busy: true, exchangeError: null }),
+    NotAsked: () => ({ busy: false, exchangeError: null }),
+    Success: () => ({ busy: false, exchangeError: null })
+  })
+
+  const { busy, walletError } = walletLoginDataR.cata({
+    Failure: (val) => ({ busy: false, walletError: val }),
+    Loading: () => ({ busy: true, walletError: null }),
+    NotAsked: () => ({ busy: false, walletError: null }),
+    Success: () => ({ busy: false, walletError: null })
+  })
+
+  const loginProps = {
+    busy, // TODO see if we still need busy
+    exchangeError,
+    exchangeTabClicked,
+    isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
+    walletError,
+    ...props,
+    handleBackArrowClickExchange,
+    handleBackArrowClickWallet,
+    setStep,
+    walletTabClicked
   }
+
+  const { isMobileViewLogin } = loginProps
+
+  const getComponentByStep = () => {
+    switch (step) {
+      case LoginSteps.SOFI_EMAIL:
+        return <Email {...loginProps} />
+      case LoginSteps.INSTITUTIONAL_PORTAL:
+        return <InstitutionalPortal {...loginProps} />
+      case LoginSteps.ENTER_PASSWORD_EXCHANGE:
+        return (
+          <>
+            {!isMobileViewLogin && <UrlNoticeBar />}
+            <EnterPasswordExchange {...loginProps} />
+          </>
+        )
+      case LoginSteps.ENTER_PASSWORD_WALLET:
+        return (
+          <>
+            {!isMobileViewLogin && <UrlNoticeBar />}
+            <EnterPasswordWallet {...loginProps} />
+          </>
+        )
+      case LoginSteps.TWO_FA_EXCHANGE:
+        return (
+          <>
+            {!isMobileViewLogin && <UrlNoticeBar />}
+            <TwoFAExchange {...loginProps} />
+          </>
+        )
+      case LoginSteps.TWO_FA_WALLET:
+        return (
+          <>
+            {!isMobileViewLogin && <UrlNoticeBar />}
+            <TwoFAWallet {...loginProps} />
+          </>
+        )
+      case LoginSteps.SOFI_VERIFY_ID:
+        return <SofiVerifyID {...loginProps} />
+      case LoginSteps.CHECK_EMAIL:
+        return <CheckEmail {...loginProps} handleSubmit={handleSubmit} />
+      case LoginSteps.VERIFY_MAGIC_LINK:
+        return <VerifyMagicLink {...loginProps} />
+      case LoginSteps.SOFI_SUCCESS:
+        return <SofiSuccess />
+
+      case LoginSteps.ENTER_EMAIL_GUID:
+      default:
+        return product === ProductAuthOptions.EXCHANGE ? (
+          <>
+            {!isMobileViewLogin && <UrlNoticeBar />}
+            <ExchangeEnterEmail {...loginProps} />
+          </>
+        ) : (
+          <>
+            {!isMobileViewLogin && <UrlNoticeBar />}
+            <WalletEnterEmailOrGuid {...loginProps} />
+          </>
+        )
+    }
+  }
+
+  return <Form onSubmit={handleSubmit}>{getComponentByStep()}</Form>
 }
 
 const mapStateToProps = (state) => ({

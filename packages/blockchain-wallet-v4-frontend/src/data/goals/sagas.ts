@@ -157,7 +157,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(
       actions.goals.saveGoal({
         data: { pathname },
-        name: DeepLinkGoal.NFTS
+        name: DeepLinkGoal.DEX
       })
     )
   }

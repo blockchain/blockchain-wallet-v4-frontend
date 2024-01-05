@@ -22,7 +22,7 @@ type SaveGoalPayload = {
   name: GoalsType
 }
 
-const generateId = () => Math.random().toString(36).substr(2, 10)
+const generateId = () => Math.random().toString(36).substring(2, 10)
 
 const goalsSlice = createSlice({
   initialState,
