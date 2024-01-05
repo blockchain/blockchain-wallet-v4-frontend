@@ -12,7 +12,9 @@ import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
+import { getIsSofi } from 'data/auth/selectors'
 import { getChannelPrivKeyForQrData } from 'data/cache/selectors'
+import { getInitialRedirect } from 'data/goals/selectors'
 import { ProductAuthOptions, UnifiedAccountRedirectType } from 'data/types'
 import { required } from 'services/forms'
 import { isMobile, media } from 'services/styles'
@@ -74,19 +76,17 @@ const SettingsGoalText = styled.div`
 const EnterPasswordWallet = (props: OwnProps) => {
   const {
     busy,
-    exchangeTabClicked,
     formValues,
     handleBackArrowClickWallet,
-    initialRedirect,
     invalid,
-    isSofi,
-    magicLinkData,
+    isMobilePlatform,
     productAuthMetadata,
     submitting,
     walletError
   } = props
 
   const qrData = useSelector(getChannelPrivKeyForQrData)
+  const isSofi = useSelector(getIsSofi)
 
   const passwordError = walletError?.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
@@ -94,23 +94,21 @@ const EnterPasswordWallet = (props: OwnProps) => {
     (walletError.toLowerCase().includes('this account has been locked') ||
       walletError.toLowerCase().includes('account is locked') ||
       walletError.toLowerCase().includes('account deactivated'))
+
+  const initialRedirect = useSelector(getInitialRedirect) as UnifiedAccountRedirectType
+
   const settingsRedirect = Object.values(UnifiedAccountRedirectType).includes(initialRedirect)
 
   return (
     <OuterWrapper>
       <FormWrapper>
-        {!settingsRedirect && !isSofi && (
-          <ProductTabMenu
-            active={ProductAuthOptions.WALLET}
-            onExchangeTabClick={exchangeTabClicked}
-          />
-        )}
+        {!settingsRedirect && !isSofi && <ProductTabMenu />}
         <WrapperWithPadding>
           {!settingsRedirect && (
             <BackArrowHeader
               formValues={formValues}
               handleBackArrowClick={handleBackArrowClickWallet}
-              platform={magicLinkData?.platform_type}
+              hideBackArrow={isMobilePlatform}
               marginTop='28px'
             />
           )}

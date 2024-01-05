@@ -4,7 +4,6 @@ import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { PlatformTypes } from 'data/types'
 import { media } from 'services/styles'
 
 const SubCard = styled.div`
@@ -37,9 +36,7 @@ const Row = styled.div`
   `}
 `
 
-const SignUpLink = ({ platform }: { platform?: PlatformTypes }) => {
-  if (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS) return null
-
+const SignUpLink = () => {
   return (
     <SubCard>
       <LinkContainer data-e2e='signupLink' to='/signup'>

@@ -26,16 +26,11 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmail = (props: Props) => {
-  const { busy, formValues, invalid, magicLinkData, submitting, walletTabClicked } = props
+  const { busy, formValues, invalid, isMobilePlatform, submitting } = props
 
   return (
     <LoginWrapper>
-      <ProductTabMenu
-        active={ProductAuthOptions.EXCHANGE}
-        onWalletTabClick={walletTabClicked}
-        platform={magicLinkData?.platform_type}
-        product={ProductAuthOptions.EXCHANGE}
-      />
+      <ProductTabMenu isMobilePlatform={isMobilePlatform} product={ProductAuthOptions.EXCHANGE} />
       <WrapperWithPadding>
         <FormGroup>
           <FormItem style={{ marginTop: '40px' }}>
@@ -74,7 +69,7 @@ const EnterEmail = (props: Props) => {
           </ActionButton>
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink platform={magicLinkData?.platform_type} />
+      {isMobilePlatform && <SignupLink />}
     </LoginWrapper>
   )
 }

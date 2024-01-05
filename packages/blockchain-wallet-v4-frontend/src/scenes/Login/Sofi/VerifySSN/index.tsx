@@ -11,17 +11,10 @@ import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
-import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
-import {
-  ActionButton,
-  GuidError,
-  LinkRow,
-  LoginFormLabel,
-  SoFiWrapperWithPadding
-} from '../../model'
+import { ActionButton, LinkRow, LoginFormLabel, SoFiWrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
   display: flex;
@@ -38,7 +31,7 @@ const FormBody = styled.div`
 `
 
 const SofiVerifyID = (props: Props) => {
-  const { busy, formActions, formValues, invalid, submitting } = props
+  const { busy, formValues, invalid, submitting } = props
 
   const dispatch = useDispatch()
 

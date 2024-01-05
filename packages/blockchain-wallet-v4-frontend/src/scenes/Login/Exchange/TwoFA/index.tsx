@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -12,6 +12,7 @@ import FormLabel from 'components/Form/FormLabel'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { trackEvent } from 'data/analytics/slice'
+import { getAuthType } from 'data/auth/selectors'
 import { ProductAuthOptions } from 'data/auth/types'
 import { Analytics, ExchangeErrorCodes } from 'data/types'
 import { required } from 'services/forms'
@@ -33,20 +34,20 @@ const LoginWrapper = styled(Wrapper)`
 `
 const TwoFAExchange = (props: Props) => {
   const {
-    authType,
     busy,
-    cache,
     exchangeError,
     formValues,
     handleBackArrowClickExchange,
     invalid,
-    magicLinkData,
+    isMobilePlatform,
     productAuthMetadata,
     submitting
   } = props
   const twoFactorError = exchangeError === ExchangeErrorCodes.WRONG_2FA
 
   const dispatch = useDispatch()
+
+  const authType = useSelector(getAuthType)
 
   useEffect(() => {
     const twoFAType = getTwoFaType(authType)
@@ -69,7 +70,7 @@ const TwoFAExchange = (props: Props) => {
           formValues={formValues}
           handleBackArrowClick={handleBackArrowClickExchange}
           hideGuid
-          platform={magicLinkData?.platform_type}
+          hideBackArrow={isMobilePlatform}
         />
         <FormGroup>
           <FormItem>
@@ -127,11 +128,10 @@ const TwoFAExchange = (props: Props) => {
             origin='2FA'
             platform={productAuthMetadata.platform}
             product={ProductAuthOptions.EXCHANGE}
-            unified={cache.unifiedAccount}
           />
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink platform={magicLinkData?.platform_type} />
+      {isMobilePlatform && <SignupLink />}
     </LoginWrapper>
   )
 }

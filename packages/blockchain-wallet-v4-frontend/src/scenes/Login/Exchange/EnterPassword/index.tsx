@@ -32,15 +32,13 @@ const LoginWrapper = styled(Wrapper)`
 
 const EnterPasswordExchange = (props: Props) => {
   const {
-    cache,
     exchangeError,
     formValues,
     handleBackArrowClickExchange,
     invalid,
-    magicLinkData,
+    isMobilePlatform,
     productAuthMetadata,
-    submitting,
-    walletTabClicked
+    submitting
   } = props
 
   const dispatch = useDispatch()
@@ -62,20 +60,14 @@ const EnterPasswordExchange = (props: Props) => {
 
   return (
     <LoginWrapper>
-      <ProductTabMenu
-        active={ProductAuthOptions.EXCHANGE}
-        onWalletTabClick={walletTabClicked}
-        platform={magicLinkData?.platform_type}
-        product={ProductAuthOptions.EXCHANGE}
-      />
+      <ProductTabMenu isMobilePlatform={isMobilePlatform} product={ProductAuthOptions.EXCHANGE} />
       <WrapperWithPadding>
         <BackArrowHeader
           formValues={formValues}
           handleBackArrowClick={handleBackArrowClickExchange}
           hideGuid
           marginTop='28px'
-          platform={magicLinkData?.platform_type}
-          product={ProductAuthOptions.EXCHANGE}
+          hideBackArrow={isMobilePlatform}
         />
         <FormGroup>
           <FormItem>
@@ -131,11 +123,10 @@ const EnterPasswordExchange = (props: Props) => {
             origin='PASSWORD'
             platform={productAuthMetadata.platform}
             product={ProductAuthOptions.EXCHANGE}
-            unified={cache.unifiedAccount}
           />
         </CenteredColumn>
       </WrapperWithPadding>
-      <SignupLink platform={magicLinkData?.platform_type} />
+      {isMobilePlatform && <SignupLink />}
     </LoginWrapper>
   )
 }

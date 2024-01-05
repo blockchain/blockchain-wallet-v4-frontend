@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -15,6 +15,7 @@ import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { auth } from 'data/actions'
 import { trackEvent } from 'data/analytics/slice'
+import { getAuthType } from 'data/auth/selectors'
 import { ProductAuthOptions } from 'data/auth/types'
 import { Analytics, ExchangeErrorCodes } from 'data/types'
 import { required } from 'services/forms'
@@ -45,17 +46,18 @@ const ResponsiveRow = styled(Row)`
 
 const TwoFAWallet = (props: Props) => {
   const {
-    authType,
     busy,
     exchangeError,
     formValues,
     handleBackArrowClickWallet,
     invalid,
-    magicLinkData,
+    isMobilePlatform,
     productAuthMetadata,
     submitting,
     walletError
   } = props
+
+  const authType = useSelector(getAuthType)
 
   const accountLocked =
     walletError?.toLowerCase().includes('this account has been locked') ||
@@ -95,8 +97,7 @@ const TwoFAWallet = (props: Props) => {
           formValues={formValues}
           handleBackArrowClick={handleBackArrowClickWallet}
           marginTop='28px'
-          platform={magicLinkData?.platform_type}
-          product={props.productAuthMetadata.product}
+          hideBackArrow={isMobilePlatform}
         />
         {twoFAType && (
           <FormGroup>
@@ -188,7 +189,7 @@ const TwoFAWallet = (props: Props) => {
           />
         </CenteredColumn>
       </WrapperWithPadding>
-      <SignupLink platform={magicLinkData?.platform_type} />
+      {!isMobilePlatform && <SignupLink />}
     </LoginWrapper>
   )
 }

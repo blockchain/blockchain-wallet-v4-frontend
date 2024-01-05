@@ -17,6 +17,7 @@ import { media } from 'services/styles'
 
 import { Props } from '../..'
 import { ActionButton, LinkRow, LoginFormLabel, SoFiWrapperWithPadding } from '../../model'
+import { push } from 'connected-react-router'
 
 const LoginWrapper = styled(Wrapper)`
   display: flex;
@@ -43,7 +44,7 @@ const HelperText = styled(Text)`
 `
 
 const Email = (props: Props) => {
-  const { busy, formValues, invalid, routerActions, submitting } = props
+  const { busy, formValues, invalid, submitting } = props
 
   const { sofiJwtPayload } = useSelector((state: RootState) => state.profile.sofiData).getOrElse(
     {}
@@ -51,14 +52,14 @@ const Email = (props: Props) => {
 
   useEffect(() => {
     if (!sofiJwtPayload) {
-      routerActions.push('/sofi-error')
+      push('/sofi-error')
     }
   }, [])
 
   return (
     <LoginWrapper>
       <SoFiWrapperWithPadding>
-        <BackArrow onClick={() => routerActions.push('/sofi')}>
+        <BackArrow onClick={() => push('/sofi')}>
           <Icon
             data-e2e='signupBack'
             name='arrow-back'

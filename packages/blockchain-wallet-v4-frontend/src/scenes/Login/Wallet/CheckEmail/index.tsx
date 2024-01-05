@@ -1,11 +1,13 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
+import { selectAlerts } from 'data/alerts/selectors'
 import { trackEvent } from 'data/analytics/slice'
+import { getIsSofi } from 'data/auth/selectors'
 import { Analytics, LoginSteps } from 'data/types'
 import { VERIFY_EMAIL_SENT_ERROR } from 'services/alerts'
 import { media } from 'services/styles'
@@ -41,6 +43,15 @@ const CheckEmail = (props: Props) => {
 
   const dispatch = useDispatch()
 
+  const isSofi = useSelector(getIsSofi)
+  const alerts = useSelector(selectAlerts)
+
+  const onResendEmail = (e: SyntheticEvent) => {
+    setDisabled(true)
+    setSentState('sent')
+    props.handleSubmit(e)
+  }
+
   useEffect(() => {
     if (disabled) {
       setTimeout(() => {
@@ -63,22 +74,20 @@ const CheckEmail = (props: Props) => {
     )
   }, [])
 
-  const hasErrorAlert = props.alerts.find((alert) => alert.message === VERIFY_EMAIL_SENT_ERROR)
+  const hasErrorAlert = alerts.find((alert) => alert.message === VERIFY_EMAIL_SENT_ERROR)
+
+  const handleBackClick = () => {
+    if (isSofi) {
+      props.setStep(LoginSteps.SOFI_EMAIL)
+    } else {
+      props.handleBackArrowClickWallet()
+    }
+  }
 
   return (
     <LoginWrapper>
       <WrapperWithPadding>
-        <BackArrowHeader
-          {...props}
-          handleBackArrowClick={() => {
-            if (props.isSofi) {
-              props.setStep(LoginSteps.SOFI_EMAIL)
-            } else {
-              props.handleBackArrowClickWallet()
-            }
-          }}
-          product={props.productAuthMetadata.product}
-        />
+        <BackArrowHeader formValues={props.formValues} handleBackArrowClick={handleBackClick} />
         <FormBody>
           <CircleBackground color='blue600'>
             <Icon name='computer' color='white' size='24px' />
@@ -113,11 +122,7 @@ const CheckEmail = (props: Props) => {
           data-e2e='loginResendEmail'
           disabled={disabled && !hasErrorAlert}
           // @ts-ignore
-          onClick={(e: SyntheticEvent) => {
-            setDisabled(true)
-            setSentState('sent')
-            props.handleSubmit(e)
-          }}
+          onClick={onResendEmail}
         >
           {disabled && sentState === 'sent' && !hasErrorAlert && (
             <ButtonTextRow>
@@ -144,7 +149,7 @@ const CheckEmail = (props: Props) => {
           )}
         </Button>
       </WrapperWithPadding>
-      <SignupLink platform={props.magicLinkData?.platform_type} />
+      {props.isMobilePlatform && <SignupLink />}
     </LoginWrapper>
   )
 }
