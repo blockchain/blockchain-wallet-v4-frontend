@@ -1,13 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { IconBank, PaletteColors } from '@blockchain-com/constellation'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { getAddPlaidPaymentProvider } from '@core/redux/walletOptions/selectors'
-import { BSPaymentMethodsType, BSPaymentTypes, FiatType, WalletFiatEnum } from '@core/types'
+import { BSPaymentMethodsType, BSPaymentTypes, WalletFiatEnum } from '@core/types'
 import { Coin } from '@core/utils'
 import { Box, Button, Image, Text } from 'blockchain-info-components'
 import { Expanded, Flex } from 'components/Flex'
@@ -15,7 +14,7 @@ import { StandardRow } from 'components/Rows'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { brokerage } from 'data/components/actions'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { AddBankStepType, BankTransferAccountType, BrokerageModalOriginType } from 'data/types'
+import { BankTransferAccountType, BrokerageModalOriginType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
 
@@ -35,24 +34,15 @@ const StyledSettingsContainer = styled(SettingContainer)`
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = ({
   bankAccounts,
   paymentMethods,
-  submitting,
-  tradingCurrency
+  submitting
 }) => {
-  const plaidEnabled = useSelector(getAddPlaidPaymentProvider).getOrElse(false)
-
   const dispatch = useDispatch()
 
   const handleBankClick = () => {
-    const ACHProvider = plaidEnabled ? 'ADD_BANK_PLAID_MODAL' : 'ADD_BANK_YODLEE_MODAL'
     dispatch(
       brokerage.showModal({
-        modalType: tradingCurrency === 'USD' ? ACHProvider : 'ADD_BANK_YAPILY_MODAL',
+        modalType: 'SELECT_ADD_BANK_TYPE',
         origin: BrokerageModalOriginType.ADD_BANK_SETTINGS
-      })
-    )
-    dispatch(
-      brokerage.setAddBankStep({
-        addBankStep: AddBankStepType.ADD_BANK
       })
     )
   }
@@ -207,7 +197,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = ({
 type Props = {
   bankAccounts: BankTransferAccountType[]
   paymentMethods: BSPaymentMethodsType
-  tradingCurrency: FiatType
 }
 
 export default reduxForm<{}, Props>({ form: 'linkedBanks' })(Success)

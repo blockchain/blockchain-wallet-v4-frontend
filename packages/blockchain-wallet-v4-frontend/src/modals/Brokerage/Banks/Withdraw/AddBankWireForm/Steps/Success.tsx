@@ -4,8 +4,9 @@ import { destroy } from 'redux-form'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import FlyoutFooter from 'components/Flyout/Footer'
-import { actions } from 'data'
+import { components, modals } from 'data/actions'
 import { getFiatCurrency } from 'data/components/withdraw/selectors'
+import { getModals } from 'data/modals/selectors'
 import { ModalName, WithdrawStepEnum } from 'data/types'
 
 import { Header } from '../Header'
@@ -17,16 +18,21 @@ type Props = { bankName: string }
 const Success = ({ bankName }: Props) => {
   const dispatch = useDispatch()
   const fiatCurrency = useSelector(getFiatCurrency)
+  const openModals = useSelector(getModals)
 
   const onConfirm = () => {
     dispatch(destroy(WIRE_BANK_FORM))
-    dispatch(actions.modals.closeModal(ModalName.BANK_DEPOSIT_MODAL))
-    dispatch(
-      actions.components.withdraw.setStep({
-        fiatCurrency,
-        step: WithdrawStepEnum.BANK_PICKER
-      })
-    )
+    dispatch(modals.closeModal(ModalName.BANK_DEPOSIT_MODAL))
+    if (openModals.find((m) => m.props.origin === 'AddBankModalSettings')) {
+      dispatch(modals.closeModal(ModalName.BANK_DEPOSIT_MODAL))
+    } else {
+      dispatch(
+        components.withdraw.setStep({
+          fiatCurrency,
+          step: WithdrawStepEnum.BANK_PICKER
+        })
+      )
+    }
   }
 
   return (

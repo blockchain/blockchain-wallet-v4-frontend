@@ -64,21 +64,22 @@ class Withdraw extends PureComponent<Props, State> {
           <Loading {...this.props} />
         </Flyout>
       ),
-      Success: (val) => {
-        const { userData } = val
+      Success: ({ userData }) => {
         const { kycState } = userData
         const isUserRejectedOrExpired = kycState === 'REJECTED' || kycState === 'EXPIRED'
-
-        return isUserRejectedOrExpired ? (
-          <Flyout
-            {...this.props}
-            onClose={this.handleClose}
-            isOpen={this.state.show}
-            data-e2e='custodyWithdrawModal'
-          >
-            <Rejected handleClose={this.handleClose} />
-          </Flyout>
-        ) : (
+        if (isUserRejectedOrExpired) {
+          return (
+            <Flyout
+              {...this.props}
+              onClose={this.handleClose}
+              isOpen={this.state.show}
+              data-e2e='custodyWithdrawModal'
+            >
+              <Rejected handleClose={this.handleClose} />
+            </Flyout>
+          )
+        }
+        return (
           <Flyout
             {...this.props}
             onClose={this.handleClose}

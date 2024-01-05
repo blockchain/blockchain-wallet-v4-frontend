@@ -147,6 +147,7 @@ const AddBankYapily = React.lazy(() => import('./Brokerage/Banks/AddBankYapily')
 const AddBankYodlee = React.lazy(() => import('./Brokerage/Banks/AddBankYodlee'))
 const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
 const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
+const SelectAddBank = React.lazy(() => import('./Brokerage/Banks/SelectAddBank'))
 
 // TAX CENTER
 const GenerateReport = React.lazy(() => import('./TaxCenter/GenerateReport'))
@@ -440,6 +441,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.US_PATRIOTIC_ACT) ? (
           <ViewUsPatrioticActFlyout />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SELECT_ADD_BANK_TYPE) ? (
+          <SelectAddBank />
         ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />
