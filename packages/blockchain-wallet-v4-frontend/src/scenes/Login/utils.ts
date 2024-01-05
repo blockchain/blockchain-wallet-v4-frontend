@@ -1,4 +1,4 @@
-export const getTwoFaType = (authType: number): string | null => {
+export const getTwoFaType = (authType: number) => {
   if (authType > 0) {
     if (authType === 1) return 'YUBIKEY'
     if (authType === 4 || authType === 5) return 'SMS'
