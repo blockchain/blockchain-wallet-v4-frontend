@@ -21,15 +21,17 @@ const getData = (state: RootState): RemoteDataType<string, SuccessStateType> => 
   const plaidEnabledR = selectors.core.walletOptions.getAddPlaidPaymentProvider(state)
   const userDataR = selectors.modules.profile.getUserData(state)
 
+  const filterPaymentMethods = (methods) => {
+    return methods.filter((m) => m.type === BSPaymentTypes.BANK_ACCOUNT || m.currency === 'USD')
+  }
+
   return lift((paymentMethods, plaidEnabled, userData) => ({
-    paymentMethods:
-      (!invitations.openBanking && {
-        ...paymentMethods,
-        methods: paymentMethods.methods.filter((m) => {
-          return m.type === BSPaymentTypes.BANK_ACCOUNT || m.currency === 'USD'
-        })
-      }) ||
-      paymentMethods,
+    paymentMethods: invitations.openBanking
+      ? paymentMethods
+      : {
+          ...paymentMethods,
+          methods: filterPaymentMethods(paymentMethods.methods)
+        },
     plaidEnabled,
     userData
   }))(paymentMethodsR, plaidEnabledR, userDataR)
