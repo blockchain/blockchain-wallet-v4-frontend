@@ -8,7 +8,6 @@ import { LoginFormType } from 'data/types'
 
 export const getData = (state: RootState) => {
   const accountUnificationFlow = selectors.auth.getAccountUnificationFlowType(state)
-  const authType = selectors.auth.getAuthType(state)
   const formValues = selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType
   const exchangeLoginR = selectors.auth.getExchangeLogin(state)
   const jwtToken = selectors.auth.getJwtToken(state)
@@ -23,7 +22,6 @@ export const getData = (state: RootState) => {
       walletLogin: ExtractSuccess<typeof walletLoginR>
     ) => ({
       accountUnificationFlow,
-      authType,
       exchangeLogin,
       formValues,
       jwtToken,
