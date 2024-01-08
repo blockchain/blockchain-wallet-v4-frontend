@@ -130,7 +130,7 @@ export const determineAuthenticationFlow = function* (
           yield put(actions.auth.setMagicLinkInfo(authMagicLink))
           yield put(
             actions.auth.setProductAuthMetadata({
-              platform: platformType as PlatformTypes,
+              platform: platformType,
               product: ProductAuthOptions.EXCHANGE,
               redirect,
               sessionIdMobile
@@ -157,7 +157,7 @@ export const determineAuthenticationFlow = function* (
           // store data in the cache and update form values to be used to submit login
           yield put(actions.cache.emailStored(walletData?.email))
           yield put(actions.cache.guidStored(walletData?.guid))
-          yield put(actions.cache.mobileConnectedStored(walletData?.is_mobile_setup))
+          yield put(actions.cache.mobileConnectedStored(!!walletData?.is_mobile_setup))
           yield put(actions.cache.hasCloudBackup(walletData?.has_cloud_backup))
           yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
           yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
