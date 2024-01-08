@@ -51,7 +51,7 @@ export default ({ api, coreSagas, networks }) => {
   // TODO: use new world deeplinking once merged
   const defineExchangeSettingsGoal = function* (search) {
     const params = new URLSearchParams(search)
-    const guid = params.get('guid')
+    const guid = params.get('guid') ?? undefined
     const settingsChange = params.get('change')
     const email = decodeURIComponent(params.get('email') as string)
     yield put(actions.cache.removeStoredLogin())

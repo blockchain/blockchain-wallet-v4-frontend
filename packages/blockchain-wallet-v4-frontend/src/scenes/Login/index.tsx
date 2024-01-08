@@ -189,8 +189,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...loginProps} />
               case LoginSteps.SOFI_SUCCESS:
-                return <SofiSuccess {...loginProps} />
-
+                return <SofiSuccess />
               case LoginSteps.ENTER_EMAIL_GUID:
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (
