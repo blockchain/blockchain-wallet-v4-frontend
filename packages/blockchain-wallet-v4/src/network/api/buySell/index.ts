@@ -242,7 +242,7 @@ export default ({ authorizedDelete, authorizedGet, authorizedPost, authorizedPut
   // TODO: move this BROKERAGE component
   const deleteSavedAccount = (
     accountId: BSCardType['id'] | BankTransferAccountType['id'],
-    accountType: 'cards' | 'banktransfer'
+    accountType: 'cards' | 'banktransfer' | 'banks'
   ): BSCardType | BankTransferAccountType =>
     authorizedDelete({
       endPoint: `/payments/${accountType}/${accountId}`,

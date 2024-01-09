@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { IconBank, PaletteColors } from '@blockchain-com/constellation'
-import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -12,13 +11,14 @@ import { Box, Button, Image, Text } from 'blockchain-info-components'
 import { Expanded, Flex } from 'components/Flex'
 import { StandardRow } from 'components/Rows'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
+import { modals } from 'data/actions'
 import { brokerage } from 'data/components/actions'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BankTransferAccountType, BrokerageModalOriginType } from 'data/types'
+import { BankTransferAccountType, BrokerageModalOriginType, ModalName } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
 
-import { CustomSettingHeader, RemoveButton } from '../styles'
+import { CustomSettingHeader } from '../styles'
 
 const CustomSettingComponent = styled(SettingComponent)`
   margin-top: 36px;
@@ -31,11 +31,7 @@ const StyledSettingsContainer = styled(SettingContainer)`
   border-bottom: none;
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = ({
-  bankAccounts,
-  paymentMethods,
-  submitting
-}) => {
+const Success: React.FC<Props> = ({ bankAccounts, paymentMethods }) => {
   const dispatch = useDispatch()
 
   const handleBankClick = () => {
@@ -49,22 +45,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = ({
 
   const handleShowBankClick = (account: BankTransferAccountType) => {
     dispatch(
-      brokerage.showModal({
-        modalType: 'BANK_DETAILS_MODAL',
-        origin: BrokerageModalOriginType.BANK
-      })
+      modals.showModal(
+        ModalName.BANK_DETAILS_MODAL,
+        {
+          origin: 'SettingsGeneral'
+        },
+        {
+          accountId: account.id,
+          accountNumber: account.details.accountNumber,
+          accountType: account.details.bankAccountType,
+          bankName: account.details.bankName,
+          bankType: BSPaymentTypes.BANK_TRANSFER
+        }
+      )
     )
-    dispatch(brokerage.setBankDetails({ account }))
-  }
-
-  const handleDeleteBank = (account: BankTransferAccountType) => {
-    dispatch(
-      brokerage.showModal({
-        modalType: 'REMOVE_BANK_MODAL',
-        origin: BrokerageModalOriginType.BANK
-      })
-    )
-    dispatch(brokerage.setBankDetails({ account }))
   }
 
   const bankLimit = paymentMethods?.methods.find(
@@ -161,22 +155,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = ({
                       </Flex>
                     </Flex>
                   </Expanded>
-
-                  <Flex alignItems='center'>
-                    <RemoveButton
-                      data-e2e={`removeBankAccount-${account.id}`}
-                      nature='light-red'
-                      disabled={submitting}
-                      style={{ minWidth: 'auto' }}
-                      // @ts-ignore
-                      onClick={(e: SyntheticEvent) => {
-                        e.stopPropagation()
-                        handleDeleteBank(account)
-                      }}
-                    >
-                      <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
-                    </RemoveButton>
-                  </Flex>
                 </Flex>
               </Box>
             )
@@ -199,4 +177,4 @@ type Props = {
   paymentMethods: BSPaymentMethodsType
 }
 
-export default reduxForm<{}, Props>({ form: 'linkedBanks' })(Success)
+export default Success

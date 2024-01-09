@@ -10,7 +10,7 @@ import {
 } from '@core/types'
 import { PartialClientErrorProperties } from 'data/analytics/types/errors'
 import { ModalNameType } from 'data/modals/types'
-import { BankTransferAccountType } from 'data/types'
+import { BankTransferAccountType, DeleteBankEndpointTypes } from 'data/types'
 
 import {
   AddBankStepType,
@@ -48,7 +48,13 @@ const brokerageSlice = createSlice({
   name: 'brokerage',
   reducers: {
     createFiatDeposit: () => {},
-    deleteSavedBank: (state, action: PayloadAction<BankTransferAccountType['id']>) => {},
+    deleteSavedBank: (
+      state,
+      action: PayloadAction<{
+        bankId: BankTransferAccountType['id']
+        bankType: DeleteBankEndpointTypes
+      }>
+    ) => {},
     fetchBankLinkCredentials: (state, action: PayloadAction<WalletFiatType>) => {},
     fetchBankLinkCredentialsError: (state, action: PayloadAction<string | Error>) => {
       state.bankCredentials = Remote.Failure(action.payload)
@@ -145,6 +151,9 @@ const brokerageSlice = createSlice({
     setReason: (state, action: PayloadAction<PlaidSettlementErrorReasons | undefined>) => {
       state.reason = action.payload
     },
+    setRedirectBackToStep: (state, action: PayloadAction<boolean>) => {
+      state.redirectBackToStep = action.payload ?? false
+    },
     setupBankTransferProvider: () => {},
     showModal: (
       state,
@@ -176,6 +185,7 @@ export const {
   setBankCredentials,
   setBankDetails,
   setDWStep,
+  setRedirectBackToStep,
   showModal
 } = brokerageSlice.actions
 const { actions } = brokerageSlice

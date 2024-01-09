@@ -24,6 +24,7 @@ import {
   BrokerageModalOriginType,
   BSCheckoutFormValuesType,
   CustodialSanctionsEnum,
+  DeleteBankEndpointTypes,
   ModalName,
   ProductEligibilityForUser,
   VerifyIdentityOriginType
@@ -44,12 +45,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const deleteSavedBank = function* ({ payload: bankId }: ReturnType<typeof A.deleteSavedBank>) {
+  const deleteSavedBank = function* ({
+    payload: { bankId, bankType = 'banktransfer' }
+  }: ReturnType<typeof A.deleteSavedBank>) {
     try {
       yield put(actions.form.startSubmit('linkedBanks'))
-      yield call(api.deleteSavedAccount, bankId, 'banktransfer')
-      yield put(A.fetchBankTransferAccounts())
-      yield take([A.fetchBankTransferAccountsSuccess.type, A.fetchBankTransferAccountsError.type])
+      yield call(api.deleteSavedAccount, bankId, bankType)
+      if (bankType === 'banktransfer') {
+        yield put(A.fetchBankTransferAccounts())
+        yield take([A.fetchBankTransferAccountsSuccess.type, A.fetchBankTransferAccountsError.type])
+      } else {
+        yield put(actions.custodial.fetchCustodialBeneficiaries({}))
+        yield take([
+          actions.custodial.fetchCustodialBeneficiariesSuccess.type,
+          actions.custodial.fetchCustodialBeneficiariesFailure.type
+        ])
+      }
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
       yield put(actions.modals.closeModal(ModalName.BANK_DETAILS_MODAL))

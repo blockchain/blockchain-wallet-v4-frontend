@@ -7,9 +7,12 @@ import styled from 'styled-components'
 import { getCurrency } from '@core/redux/settings/selectors'
 import { Button, HeartbeatLoader, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import { modals } from 'data/actions'
 import { brokerage } from 'data/components/actions'
-import { BankTransferAccountType, BrokerageModalOriginType } from 'data/types'
+import { ModalName } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
+
+import { BankDetailsModalProps } from './types'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -51,38 +54,35 @@ export const BankDetails = styled.div`
 `
 
 type Props = {
-  account: BankTransferAccountType
   handleClose: () => void
-}
+} & BankDetailsModalProps
 
 const Template: React.FC<InjectedFormProps<{}, Props> & Props> = ({
-  account,
+  accountId,
+  accountNumber,
+  accountType,
+  bankName,
+  bankType,
   handleClose,
   submitting
 }) => {
   const dispatch = useDispatch()
   const walletCurrency = useSelector(getCurrency).getOrElse('USD')
 
-  const { details } = account
-
-  const bankAccountName = details ? (
-    `${details?.bankName || ''} ${details?.accountNumber || ''}`
-  ) : (
-    <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
-  )
-
   const onClick = () => {
+    dispatch(brokerage.setRedirectBackToStep(true))
+
     dispatch(
-      brokerage.showModal({
-        modalType: 'REMOVE_BANK_MODAL',
-        origin: BrokerageModalOriginType.BANK
-      })
-    )
-    dispatch(
-      brokerage.setBankDetails({
-        account,
-        redirectBackToStep: true
-      })
+      modals.showModal(
+        ModalName.REMOVE_BANK_MODAL,
+        { origin: 'BankDetailsModal' },
+        {
+          accountId,
+          accountNumber,
+          bankName,
+          bankType
+        }
+      )
     )
   }
 
@@ -102,16 +102,16 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = ({
         </CloseContainer>
 
         <BankIconWrapper>
-          {details && <Image name={getBankLogoImageName(details.bankName)} />}
+          <Image name={getBankLogoImageName(bankName)} />
         </BankIconWrapper>
         <BankDetails>
-          <Text size='24px' color='grey900' weight={600}>
-            {bankAccountName}
+          <Text size='24px' color='grey900' weight={600} capitalize>
+            {bankName ?? <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />}
           </Text>
-          <Text size='24px' color='grey600' weight={500}>
-            {details.bankAccountType?.toLowerCase() || ''}{' '}
+          <Text size='24px' color='grey600' weight={500} capitalize>
+            {accountType.toLowerCase() || ''}{' '}
             <FormattedMessage id='scenes.settings.general.account' defaultMessage='account' />{' '}
-            {account.details?.accountNumber || ''}
+            {accountNumber || ''}
           </Text>
         </BankDetails>
       </FlyoutWrapper>

@@ -9,7 +9,9 @@ import { FlyoutWrapper } from 'components/Flyout'
 import Form from 'components/Form/Form'
 import { getRedirectBackToStep } from 'data/components/brokerage/selectors'
 import { deleteSavedBank } from 'data/components/brokerage/slice'
-import { BankTransferAccountType } from 'data/types'
+import { DeleteBankEndpointTypes } from 'data/types'
+
+import { RemoveBankModalProps } from './types'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -41,12 +43,15 @@ const LeftTopCol = styled.div`
 `
 
 type Props = {
-  account: BankTransferAccountType
+  entityType: DeleteBankEndpointTypes
   handleClose: () => void
-}
+} & Omit<RemoveBankModalProps, 'bankType'>
 
 const Template: React.FC<InjectedFormProps<{}, Props> & Props> = ({
-  account,
+  accountId,
+  accountNumber,
+  bankName,
+  entityType,
   handleClose,
   submitting
 }) => {
@@ -56,12 +61,8 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = ({
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(deleteSavedBank(account.id))
+    dispatch(deleteSavedBank({ bankId: accountId, bankType: entityType }))
   }
-
-  const bankAccountName = account?.details
-    ? `${account.details?.bankName} ${account.details?.accountNumber || ''}`
-    : `bank account`
 
   return (
     <Wrapper>
@@ -113,8 +114,8 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = ({
           >
             <FormattedMessage
               id='modals.brokerage.remove_bank.description'
-              defaultMessage="You're about to remove your {bankAccountName}"
-              values={{ bankAccountName }}
+              defaultMessage="You're about to remove your {bankName} account ending in {accountNumber}"
+              values={{ accountNumber, bankName }}
             />
           </Text>
           <Button
