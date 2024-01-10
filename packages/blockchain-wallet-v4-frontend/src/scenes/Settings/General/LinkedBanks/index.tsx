@@ -22,7 +22,7 @@ const LinkedBanks = () => {
 
   if (isLoading || isNotAsked) return <Loading />
   if (hasError || !data) return null
-  return <Success {...data} />
+  return <Success bankAccounts={data.bankAccounts} paymentMethods={data.paymentMethods} />
 }
 
 export default LinkedBanks

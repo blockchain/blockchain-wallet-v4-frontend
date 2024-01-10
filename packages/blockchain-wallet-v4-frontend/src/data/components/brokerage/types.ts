@@ -295,3 +295,5 @@ export type DepositTerms = {
   settlementType: SettlementType
   withdrawalLockDays: number
 }
+
+export type DeleteBankEndpointTypes = 'banks' | 'banktransfer'

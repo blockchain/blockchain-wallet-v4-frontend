@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { compose } from 'redux'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { selectors } from 'data'
 import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
 import Template from './template'
+import { BankDetailsModalProps } from './types'
 
-const BankDetails = (props: ModalPropsType) => {
+const BankDetails = (props: BankDetailsModalProps & ModalPropsType) => {
   const [show, setShow] = useState(false)
-
-  const account = useSelector(selectors.components.brokerage.getAccount)
 
   const handleClose = () => {
     setShow(false)
@@ -26,12 +23,21 @@ const BankDetails = (props: ModalPropsType) => {
     setShow(true)
   }, [])
 
-  if (!account) return null
+  if (!props.accountId) return null
+
+  const { accountId, accountNumber, accountType, bankName, bankType } = props
 
   return (
     <Flyout {...props} onClose={handleClose} isOpen={show} data-e2e='bankDetailsModal'>
       <FlyoutChild>
-        <Template account={account} handleClose={handleClose} />
+        <Template
+          handleClose={handleClose}
+          accountId={accountId}
+          accountType={accountType}
+          bankType={bankType}
+          accountNumber={accountNumber}
+          bankName={bankName}
+        />
       </FlyoutChild>
     </Flyout>
   )
