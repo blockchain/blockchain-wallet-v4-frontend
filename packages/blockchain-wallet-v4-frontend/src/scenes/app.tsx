@@ -180,11 +180,11 @@ const App = ({
                                 component={MobileLogin}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                               />
-                              <AuthLayout
+                              {/* <AuthLayout
                                 path='/recover'
                                 component={RecoverWallet}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
-                              />
+                              /> */}
                               <AuthLayout
                                 path='/reset-2fa'
                                 component={ResetWallet2fa}
