@@ -1,5 +1,4 @@
 import { getFormValues } from 'redux-form'
-import { END } from 'redux-saga'
 import { call, delay, put, race, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'

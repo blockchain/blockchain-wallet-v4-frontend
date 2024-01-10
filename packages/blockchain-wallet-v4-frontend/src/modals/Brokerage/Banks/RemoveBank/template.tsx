@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   height: 100%;
   display: flex;
 `
-const RemoveBankFlyout = styled(FlyoutWrapper)`
+const ContentFlyout = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
 `
@@ -66,7 +66,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = ({
 
   return (
     <Wrapper>
-      <RemoveBankFlyout>
+      <ContentFlyout>
         {redirectBackToStep ? (
           <TopText color='grey800' size='20px' weight={600}>
             <LeftTopCol>
@@ -147,7 +147,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = ({
             <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </Button>
         </CustomForm>
-      </RemoveBankFlyout>
+      </ContentFlyout>
     </Wrapper>
   )
 }
