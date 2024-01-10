@@ -2277,7 +2277,6 @@
   "scenes.login.exchange.sactions_error": "We are unable to offer services in your region at this time.",
   "scenes.login.exchange.wrong_password": "Login failed - wrong password.",
   "scenes.login.guid_error": "Unknown Wallet ID. Please check that it was entered correctly or try signing in with your email.",
-  "scenes.login.import_your_account": "Import Your Account",
   "scenes.login.login": "Log In",
   "scenes.login.need.help": "Need Help?",
   "scenes.login.password": "Password",
