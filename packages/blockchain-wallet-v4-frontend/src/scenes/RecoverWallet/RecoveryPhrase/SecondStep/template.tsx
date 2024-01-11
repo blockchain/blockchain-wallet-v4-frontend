@@ -10,7 +10,7 @@ import PasswordBox from 'components/Form/PasswordBox'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import Terms from 'components/Terms'
-import { RecoverSteps } from 'data/types'
+import { Analytics, RecoverSteps } from 'data/types'
 import {
   required,
   stringContainsLowercaseLetter,
@@ -57,8 +57,20 @@ class SecondStep extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { formValues, invalid, isRestoring, isRestoringFromMetadata } = this.props
+    const { analyticsActions, formValues, invalid, isRestoring, isRestoringFromMetadata } =
+      this.props
     const passwordValue = formValues?.recoverPassword || ''
+    if (isRestoringFromMetadata) {
+      analyticsActions.trackEvent({
+        key: Analytics.METADATA_ACCOUNT_RECOVERY_SUCCESS,
+        properties: {}
+      })
+    } else {
+      analyticsActions.trackEvent({
+        key: Analytics.METADATA_ACCOUNT_RECOVERY_FAILED,
+        properties: {}
+      })
+    }
     return (
       <>
         {!isRestoringFromMetadata && !this.state.importWalletPrompt && (

@@ -8,6 +8,8 @@ export enum Events {
   ACCOUNT_RECOVERY_EMAIL_SENT = 'Account Recovery Email Sent',
   ACCOUNT_RECOVERY_FORGOT_PASSWORD_VIEWED = 'Account Recovery Forgot Password Viewed',
   ACCOUNT_RECOVERY_PROCESS_COMPLETED = 'Accounts Recovery Process Completed',
+  METADATA_ACCOUNT_RECOVERY_FAILED = 'Metadata Account Recovery Failed',
+  METADATA_ACCOUNT_RECOVERY_SUCCESS = 'Metadata Account Recovery Success',
   RECOVERY_CLOUD_BACKUP_CODE_SCANNED = 'Cloud Backup Code Scanned',
   RECOVERY_FAILED = 'Account Recovery Failed',
   RECOVERY_IMPORT_WALLET_CANCELLED = 'Import Wallet Cancelled',
@@ -31,6 +33,8 @@ type AccountRecoveryActions = {
     | Events.ACCOUNT_RECOVERY_EMAIL_SENT
     | Events.ACCOUNT_RECOVERY_FORGOT_PASSWORD_VIEWED
     | Events.ACCOUNT_RECOVERY_PROCESS_COMPLETED
+    | Events.METADATA_ACCOUNT_RECOVERY_FAILED
+    | Events.METADATA_ACCOUNT_RECOVERY_SUCCESS
     | Events.RECOVERY_CLOUD_BACKUP_CODE_SCANNED
     | Events.RECOVERY_FAILED
     | Events.RECOVER_FUNDS_CLICKED
