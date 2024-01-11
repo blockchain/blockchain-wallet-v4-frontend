@@ -59,6 +59,7 @@ const UKHeaderWrapper = styled.div`
   position: absolute;
   width: 100vw;
   top: 0;
+  z-index: 2;
 `
 
 export const SIGNUP_FORM = 'register'
@@ -124,7 +125,7 @@ class SignupContainer extends React.PureComponent<
   }
 
   render() {
-    const { bakktRedirectUSStates, formValues, goals, isLoadingR, productAuthMetadata } = this.props
+    const { formValues, goals, isLoadingR, productAuthMetadata } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
     const isUserInUK = productAuthMetadata?.ipCountry === 'GB'
     const userSelectedUK = formValues?.country === 'GB'

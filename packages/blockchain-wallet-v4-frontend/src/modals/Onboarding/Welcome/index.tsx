@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import Flyout, { duration, FlyoutWrapper } from 'components/Flyout'
-import { actions, selectors } from 'data'
+import { buySell } from 'data/components/actions'
+import { getCryptoCurrency } from 'data/components/buySell/selectors'
 import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
+
+import { ModalPropsType } from '../../types'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   width: 100%;
@@ -67,127 +69,97 @@ const ButtonWrapper = styled.div`
   }
 `
 
-class WelcomeContainer extends React.PureComponent<Props> {
-  state = { show: false }
+const WelcomeContainer = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
+  const dispatch = useDispatch()
+  const cryptoCurrency = useSelector(getCryptoCurrency)
+  const [show, setShow] = useState(false)
 
-  componentDidMount() {
-    this.setState({ show: true }) //eslint-disable-line
-  }
+  useEffect(() => {
+    setShow(true)
+  }, [])
 
-  handleClose = () => {
-    this.setState({ show: false })
+  const handleClose = () => {
+    setShow(false)
     setTimeout(() => {
-      this.props.close()
+      close()
     }, duration)
   }
 
-  handleBSClick = () => {
-    const { cryptoCurrency } = this.props
-    this.setState({ show: false })
+  const handleBSClick = () => {
+    setShow(false)
     setTimeout(() => {
-      this.props.close()
-      if (cryptoCurrency) {
-        this.props.buySellActions.showModal({ cryptoCurrency, origin: 'WelcomeModal' })
-      } else {
-        this.props.buySellActions.showModal({ origin: 'WelcomeModal' })
-      }
+      close()
+      dispatch(buySell.showModal({ cryptoCurrency, origin: 'WelcomeModal' }))
     }, duration / 2)
   }
 
-  render() {
-    const { show } = this.state
-    const { ...rest } = this.props
-    return (
-      <Flyout {...rest} onClose={this.props.close} isOpen={show} data-e2e='welcomeModal'>
-        <CustomFlyoutWrapper>
-          <Header>
-            <Image name='intro-hand' width='28px' height='28px' />
-            <Text color='grey600' size='20px' weight={600}>
-              <FormattedMessage
-                id='modals.wallet.tour.wallet.tour'
-                defaultMessage='Welcome to Blockchain!'
-              />
-            </Text>
-          </Header>
-          <ContentContainer>
-            <IconBackground>
-              <Icon color='blue600' name='cart-filled' size='25px' />
-            </IconBackground>
-            <Title size='20px' weight={600}>
-              <FormattedMessage
-                id='modals.wallet.welcome.sb.title'
-                defaultMessage='Own Crypto in a Few Minutes'
-              />
-            </Title>
-            <ContentTextWrapper color='grey600' size='14x' weight={500}>
-              <FormattedMessage
-                id='modals.wallet.welcome.sb.verifybuy'
-                defaultMessage='Verify your identity and buy crypto.'
-              />
-            </ContentTextWrapper>
-            <Image name='buy-wallet' width='282px' height='165px' />
-          </ContentContainer>
-          <ButtonWrapper>
-            <Button
-              capitalize
-              data-e2e='toBuySellModal'
-              fullwidth
-              height='48px'
-              nature='primary'
-              onClick={this.handleBSClick}
-              size='16px'
-            >
-              <FormattedMessage
-                id='modals.wallet.welcome.sb.button'
-                defaultMessage='Buy Crypto Now'
-              />
-            </Button>
-            <Button
-              capitalize
-              data-e2e='skipTour'
-              fullwidth
-              height='48px'
-              nature='light'
-              onClick={this.handleClose}
-              size='16px'
-            >
-              <FormattedMessage id='modals.wallet.welcome.sb.skip' defaultMessage='Skip' />
-            </Button>
-          </ButtonWrapper>
-        </CustomFlyoutWrapper>
-      </Flyout>
-    )
-  }
+  return (
+    <Flyout
+      position={position}
+      total={total}
+      userClickedOutside={userClickedOutside}
+      onClose={close}
+      isOpen={show}
+      data-e2e='welcomeModal'
+    >
+      <CustomFlyoutWrapper>
+        <Header>
+          <Image name='intro-hand' width='28px' height='28px' />
+          <Text color='grey600' size='20px' weight={600}>
+            <FormattedMessage
+              id='modals.wallet.tour.wallet.tour'
+              defaultMessage='Welcome to Blockchain!'
+            />
+          </Text>
+        </Header>
+        <ContentContainer>
+          <IconBackground>
+            <Icon color='blue600' name='cart-filled' size='25px' />
+          </IconBackground>
+          <Title size='20px' weight={600}>
+            <FormattedMessage
+              id='modals.wallet.welcome.sb.title'
+              defaultMessage='Own Crypto in a Few Minutes'
+            />
+          </Title>
+          <ContentTextWrapper color='grey600' size='14x' weight={500}>
+            <FormattedMessage
+              id='modals.wallet.welcome.sb.verifybuy'
+              defaultMessage='Verify your identity and buy crypto.'
+            />
+          </ContentTextWrapper>
+          <Image name='buy-wallet' width='282px' height='165px' />
+        </ContentContainer>
+        <ButtonWrapper>
+          <Button
+            capitalize
+            data-e2e='toBuySellModal'
+            fullwidth
+            height='48px'
+            nature='primary'
+            onClick={handleBSClick}
+            size='16px'
+          >
+            <FormattedMessage
+              id='modals.wallet.welcome.sb.button'
+              defaultMessage='Buy Crypto Now'
+            />
+          </Button>
+          <Button
+            capitalize
+            data-e2e='skipTour'
+            fullwidth
+            height='48px'
+            nature='light'
+            onClick={handleClose}
+            size='16px'
+          >
+            <FormattedMessage id='modals.wallet.welcome.sb.skip' defaultMessage='Skip' />
+          </Button>
+        </ButtonWrapper>
+      </CustomFlyoutWrapper>
+    </Flyout>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  cryptoCurrency: selectors.components.buySell.getCryptoCurrency(state) || undefined
-})
-
-const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  onboardingActions: bindActionCreators(actions.components.onboarding, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type OwnPropsType = {
-  close: () => void
-  position: number
-  total: number
-  userClickedOutside: boolean
-}
-
-type LinkDispatchPropsType = {
-  buySellActions: typeof actions.components.buySell
-  onboardingActions: typeof actions.components.onboarding
-}
-
-type Props = OwnPropsType & LinkDispatchPropsType & ConnectedProps<typeof connector>
-
-const enhance = compose<React.ComponentType>(
-  modalEnhancer(ModalName.WELCOME_MODAL, { transition: duration }),
-  connector
-)
-
-export default enhance(WelcomeContainer)
+export default modalEnhancer(ModalName.WELCOME_MODAL, { transition: duration })(WelcomeContainer)

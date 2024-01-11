@@ -3,3 +3,8 @@ export enum COMPLETE_PROFILE_STEPS {
   LINK_PAYMENT = 'LINK_PAYMENT',
   VERIFY = 'VERIFY'
 }
+
+export type ActionButtonType = {
+  currentStep: number
+  onClick: () => void
+}

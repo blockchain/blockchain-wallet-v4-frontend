@@ -1,9 +1,8 @@
-import { isEmpty } from 'ramda'
-
-import { BSPaymentMethodsType, BSPaymentTypes, TermType, TradeAccumulatedItem } from '@core/types'
+import { BSPaymentMethodsType, BSPaymentTypes, TermType } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
+
+const { KYC_STATES } = model.profile
 
 type ReturnData = {
   currentStep: number
@@ -14,20 +13,14 @@ type ReturnData = {
 }
 
 export const getData = (state: RootState): ReturnData => {
-  let currentStep = 0
-  let isVerifiedId = false
-  let isKycPending = false
-  let isBankOrCardLinked = false
-  let isBuyCrypto = false
   const isKycStateNone =
-    // @ts-ignore
-    selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
+    selectors.modules.profile.getUserKYCState(state).getOrElse('') === KYC_STATES.NONE
 
   const isFirstLogin = selectors.signup.getFirstLogin(state)
 
   if (isFirstLogin || isKycStateNone) {
     return {
-      currentStep,
+      currentStep: 0,
       isBankOrCardLinked: false,
       isBuyCrypto: false,
       isKycPending: false,
@@ -35,20 +28,21 @@ export const getData = (state: RootState): ReturnData => {
     }
   }
 
-  const userDataR = selectors.modules.profile.getUserData(state)
-  const userData = userDataR.getOrElse({
+  const userData = selectors.modules.profile.getUserData(state).getOrElse({
+    kycState: undefined,
     tiers: { current: 0 }
-  } as UserDataType)
+  })
 
-  const { KYC_STATES } = model.profile
-  isKycPending =
+  let currentStep = 0
+  let isBankOrCardLinked = false
+
+  const isKycPending =
     userData.kycState === KYC_STATES.PENDING || userData.kycState === KYC_STATES.UNDER_REVIEW
 
   const isKycVerified = userData.kycState === KYC_STATES.VERIFIED
 
   if (isKycVerified) {
     currentStep += 1
-    isVerifiedId = true
   }
 
   // user have some cards or banks linked
@@ -66,11 +60,11 @@ export const getData = (state: RootState): ReturnData => {
     isBankOrCardLinked = true
   }
 
+  let isBuyCrypto = false
   // user accumulated amount all the time
-  const accumulatedTrades = selectors.components.buySell
-    .getAccumulatedTrades(state)
-    .getOrElse([] as TradeAccumulatedItem[])
-  if (!isEmpty(accumulatedTrades)) {
+  const accumulatedTrades = selectors.components.buySell.getAccumulatedTrades(state).getOrElse([])
+
+  if (accumulatedTrades.length > 0) {
     const allAccumulated = accumulatedTrades.find(
       (accumulated) => accumulated.termType === TermType.ALL
     )
@@ -80,5 +74,11 @@ export const getData = (state: RootState): ReturnData => {
     }
   }
 
-  return { currentStep, isBankOrCardLinked, isBuyCrypto, isKycPending, isVerifiedId }
+  return {
+    currentStep,
+    isBankOrCardLinked,
+    isBuyCrypto,
+    isKycPending,
+    isVerifiedId: isKycVerified
+  }
 }
