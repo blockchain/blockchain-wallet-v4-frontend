@@ -45,6 +45,8 @@ const LinkedCards = () => {
   if (isLoading) return <Loading />
   if (hasError || isNotAsked || !data) return null
 
+  // TODO: FRICTIONS If user is from UK && missing things, call it here
+  // Endpoint to call will be a GET to /nabu-gateway/uk-frictions/state
   const isUserVerified = data.userData.tiers?.current > 0
 
   return (

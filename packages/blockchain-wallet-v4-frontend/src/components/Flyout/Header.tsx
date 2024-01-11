@@ -42,7 +42,7 @@ const CloseIconBg = styled.div`
   height: 32px;
   width: 32px;
   border-radius: 50%;
-  background-color: white;
+  background-color: ${(props) => props.theme.grey000};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,8 +92,8 @@ const FlyoutHeader = memo(
 export type Props = {
   children?: React.ReactNode
   'data-e2e': string
-  mode: 'close' | 'back'
-  onClick: () => void
+  mode: 'close' | 'back' | 'none'
+  onClick?: () => void
   position?: 'absolute' | 'relative'
   sticky?: true
 }
