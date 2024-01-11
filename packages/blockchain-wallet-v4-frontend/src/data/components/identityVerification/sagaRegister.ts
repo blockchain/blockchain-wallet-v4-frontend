@@ -59,5 +59,9 @@ export default ({ api, coreSagas, networks }) => {
       actions.saveUserResidentialData.type,
       identityVerificationSagas.saveUserResidentialData
     )
+    yield takeLatest(
+      actions.fetchVerificationSteps.type,
+      identityVerificationSagas.fetchVerificationSteps
+    )
   }
 }

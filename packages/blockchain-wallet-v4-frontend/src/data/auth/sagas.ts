@@ -341,6 +341,8 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.components.dex.fetchUserEligibility())
       yield put(actions.custodial.fetchProductEligibilityForUser())
 
+      yield put(identityVerificationActions.fetchVerificationSteps())
+
       yield take([
         actions.custodial.fetchProductEligibilityForUserSuccess.type,
         actions.custodial.fetchProductEligibilityForUserFailure.type

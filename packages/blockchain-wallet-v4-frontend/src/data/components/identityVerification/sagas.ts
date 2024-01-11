@@ -1,4 +1,3 @@
-import { isEmpty, prop, toUpper } from 'ramda'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
 import { Types } from '@core'
@@ -31,9 +30,9 @@ export const failedResendError = 'Failed to resend the code'
 export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
 export const noCampaignDataError = 'User did not come from campaign'
+const { KYC_STATES, TIERS } = model.profile
 
 export default ({ api, coreSagas, networks }) => {
-  const { KYC_STATES, TIERS } = model.profile
   const {
     createUser,
     fetchUser,
@@ -55,7 +54,8 @@ export default ({ api, coreSagas, networks }) => {
     const { newUser = false } = payload
     const campaign = yield select(selectors.modules.profile.getCampaign)
     try {
-      if (!campaign || isEmpty(campaign)) throw new Error(noCampaignDataError)
+      if (!campaign || Object.keys(campaign ?? {}).length === 0)
+        throw new Error(noCampaignDataError)
       const campaignData = yield call(getCampaignData, campaign)
       yield call(api.registerUserCampaign, campaign.name, campaignData, newUser)
     } catch (e) {
@@ -90,7 +90,7 @@ export default ({ api, coreSagas, networks }) => {
       const tags = (yield select(selectors.modules.profile.getTags)).getOrElse({
         [campaign]: false
       })
-      const isCampaignTagged = prop(campaign, tags)
+      const isCampaignTagged = tags[campaign]
       if (!isCampaignTagged) {
         throw new Error(`${campaign} not tagged.`)
       }
@@ -333,7 +333,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(A.setPreIdvDataFailure(e))
       }
       const { flowType } = yield call(api.fetchKycConfig)
-      const type = FLOW_TYPES[toUpper(flowType)]
+      const type = FLOW_TYPES[flowType.toUpperCase()]
       if (!type) throw wrongFlowTypeError
 
       yield put(A.setKycFlowSuccess(flowType))
@@ -550,6 +550,21 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const fetchVerificationSteps = function* () {
+    try {
+      yield put(A.fetchVerificationStepsLoading())
+      const stepsData = yield call(api.fetchVerificationSteps)
+      yield put(A.fetchVerificationStepsSuccess(stepsData))
+    } catch (e) {
+      yield put(A.fetchVerificationStepsFailure(e))
+      actions.logs.logErrorMessage(
+        logLocation,
+        'fetchVerificationSteps',
+        `Error fetching verification steps: ${e}`
+      )
+    }
+  }
+
   return {
     checkIsNameValid,
     checkKycFlow,
@@ -563,6 +578,7 @@ export default ({ api, coreSagas, networks }) => {
     fetchSupportedCountries,
     fetchSupportedDocuments,
     fetchUserAddress,
+    fetchVerificationSteps,
     goToNextStep,
     goToPrevStep,
     initializeStep,

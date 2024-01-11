@@ -74,6 +74,8 @@ export enum ModalName {
   SANCTIONS_INFO_MODAL = 'SANCTIONS_INFO_MODAL',
   SECOND_PASSWORD_MODAL = 'SECOND_PASSWORD_MODAL',
   SELECT_ADD_BANK_TYPE = 'SELECT_ADD_BANK_TYPE',
+  SELF_ASSESSMENT = 'SELF_ASSESSMENT',
+  SELF_CLASSIFICATION = 'SELF_CLASSIFICATION',
   SEND_BCH_MODAL = 'SEND_BCH_MODAL',
   SEND_BTC_MODAL = 'SEND_BTC_MODAL',
   SEND_CRYPTO_MODAL = 'SEND_CRYPTO_MODAL',
@@ -199,6 +201,7 @@ export type ModalOriginType =
   | 'ResidentialAddress'
   | 'VerifyAddress'
   | RecurringBuyOrigins
+  | ModalName
 
 export type ModalParamPropsType = {
   [key: string]: any
