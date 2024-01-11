@@ -2,12 +2,11 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import styled from 'styled-components'
 
 import { ProductTypes } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import CircularProgressBar from 'components/CircularProgressBar'
-import Flyout, { duration, FlyoutChild, FlyoutWrapper } from 'components/Flyout'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { Analytics, ModalName } from 'data/types'
@@ -15,82 +14,21 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
 import LinkItem from './LinkItem'
-import { ActionButton } from './model'
+import {
+  ActionButton,
+  CloseIconContainer,
+  ContentWrapper,
+  FooterWrapper,
+  HeaderWrapper,
+  LinksWrapper,
+  MAX_STEPS,
+  ProgressRow,
+  ProgressWrapper,
+  TopText,
+  Wrapper
+} from './model'
 import { getData } from './selectors'
 import { COMPLETE_PROFILE_STEPS } from './types'
-
-const MAX_STEPS = 3
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`
-
-const HeaderWrapper = styled(FlyoutWrapper)`
-  height: unset;
-  padding-bottom: 0px;
-`
-
-const ContentWrapper = styled(FlyoutWrapper)`
-  padding-top: 24px;
-`
-
-const TopText = styled(Text)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 7px;
-`
-
-const ProgressRow = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-`
-
-const ProgressWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  width: 40px;
-  min-width: 40px;
-  border-radius: 20px;
-  margin-left: 32px;
-`
-
-const CloseIconContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: ${(props) => props.theme.grey000};
-  backdrop-filter: blur(54.3656px);
-  > span {
-    justify-content: center;
-  }
-`
-
-const CentralContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
-const LinksWrapper = styled(CentralContainer)`
-  padding-top: 26px;
-`
-
-const FooterWrapper = styled(FlyoutWrapper)`
-  flex: 1;
-  justify-content: flex-end;
-  display: flex;
-  flex-direction: column;
-  margin-top: -16px;
-`
 
 class CompleteProfile extends PureComponent<Props, State> {
   constructor(props: Props) {

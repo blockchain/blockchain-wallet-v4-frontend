@@ -30,7 +30,7 @@ const LinkItemContainer = styled.div<{ isComplete: boolean }>`
   cursor: ${(props) => (props.isComplete ? 'default' : 'pointer')};
 `
 
-export const ItemPurple = styled(LinkItemContainer)`
+const ItemPurple = styled(LinkItemContainer)`
   ${(props) =>
     props.isComplete
       ? ''
@@ -41,7 +41,7 @@ export const ItemPurple = styled(LinkItemContainer)`
           }
         `};
 `
-export const ItemBlue = styled(LinkItemContainer)`
+const ItemBlue = styled(LinkItemContainer)`
   ${(props) =>
     props.isComplete
       ? ''
@@ -52,7 +52,7 @@ export const ItemBlue = styled(LinkItemContainer)`
           }
         `};
 `
-export const ItemGreen = styled(LinkItemContainer)`
+const ItemGreen = styled(LinkItemContainer)`
   ${(props) =>
     props.isComplete
       ? ''
@@ -82,16 +82,13 @@ const IconWrapper = styled.div`
     align-self: center;
   }
 `
-export const VerifyIconWrapper = styled(IconWrapper)`
+const PurpleIconWrapper = styled(IconWrapper)`
   background-color: ${(props) => props.theme.purple000};
 `
-export const PurpleIconWrapper = styled(IconWrapper)`
-  background-color: ${(props) => props.theme.purple000};
-`
-export const BlueIconWrapper = styled(IconWrapper)`
+const BlueIconWrapper = styled(IconWrapper)`
   background-color: ${(props) => props.theme.blue000};
 `
-export const GreenIconWrapper = styled(IconWrapper)`
+const GreenIconWrapper = styled(IconWrapper)`
   background-color: ${(props) => props.theme.green000};
 `
 
@@ -115,9 +112,7 @@ export const CentralContainer = styled.div`
   flex-direction: column;
   justify-content: center;
 `
-export const LinksWrapper = styled(CentralContainer)`
-  padding-top: 26px;
-`
+
 export const ActionButton = styled.div`
   display: flex;
   flex-direction: row;
