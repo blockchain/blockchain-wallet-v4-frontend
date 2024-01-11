@@ -9,6 +9,7 @@ import { WalletOptionsType } from './types'
 // general
 export const getOptions = (state: RootState) => state.walletOptions.details
 export const getDomains = (state) => getOptions(state).map((x) => x.domains)
+export const getDomainApi = (state) => getOptions(state).map((x) => x.domains.api)
 export const getWebOptions = (state) =>
   getOptions(state).map(path(['platforms', 'web'])) as RemoteDataType<
     string,

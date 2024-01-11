@@ -88,7 +88,7 @@ const NoFunds = (props: Props) => {
               nature='primary'
               onClick={() => {
                 props.modalActions.closeModal(ModalName.SEND_CRYPTO_MODAL)
-                props.modalActions.showModal(ModalName.SIMPLE_BUY_MODAL, {
+                props.buySellActions.showModal({
                   origin: 'Send'
                 })
               }}
