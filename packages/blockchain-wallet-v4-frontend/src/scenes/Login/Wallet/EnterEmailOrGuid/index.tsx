@@ -29,8 +29,16 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmailOrGuid = (props: Props) => {
-  const { busy, exchangeTabClicked, formValues, invalid, magicLinkData, submitting, walletError } =
-    props
+  const {
+    busy,
+    exchangeTabClicked,
+    formValues,
+    invalid,
+    isMnemonicRecoveryEnabled,
+    magicLinkData,
+    submitting,
+    walletError
+  } = props
   const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
 
   return (
@@ -84,14 +92,16 @@ const EnterEmailOrGuid = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          {/* <LinkContainer to={{ pathname: '/recover', state: { showPhraseStep: true } }}>
-            <Link size='13px' weight={600} data-e2e='loginImportAccount'>
-              <FormattedMessage
-                id='scenes.login.import_your_account'
-                defaultMessage='Import Your Account'
-              />
-            </Link>
-          </LinkContainer> */}
+          {isMnemonicRecoveryEnabled && (
+            <LinkContainer to={{ pathname: '/recover', state: { showPhraseStep: true } }}>
+              <Link size='13px' weight={600} data-e2e='loginImportAccount'>
+                <FormattedMessage
+                  id='scenes.login.import_your_account'
+                  defaultMessage='Import Your Account'
+                />
+              </Link>
+            </LinkContainer>
+          )}
         </LinkRow>
       </WrapperWithPadding>
       <SignupLink platform={magicLinkData?.platform_type} />
