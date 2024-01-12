@@ -61,6 +61,7 @@
         "isReferralRetrievalEnabled": true,
         "isStakingEnabled": true,
         "isStakingWithdrawalEnabled": true,
+        "isMnemonicRecoveryEnabled": true,
         "mergeAndUpgrade": false,
         "nftExplorer": true,
         "recurringBuys": true,
