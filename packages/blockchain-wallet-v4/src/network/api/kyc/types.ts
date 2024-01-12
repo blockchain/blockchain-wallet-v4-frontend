@@ -9,6 +9,7 @@ export type CountryScopeType = keyof typeof CountryScope
 export enum ExtraKYCContext {
   FIAT_DEPOSIT = 'FIAT_DEPOSIT',
   FIAT_WITHDRAW = 'FIAT_WITHDRAW',
+  SELF_CLASSIFICATION = 'SELF_CLASSIFICATION',
   TIER_TWO_VERIFICATION = 'TIER_TWO_VERIFICATION',
   TRADING = 'TRADING'
 }
@@ -28,6 +29,7 @@ export type VerifiedType = {
 export type NodeItem = {
   checked?: boolean
   children?: Array<NodeItem>
+  description?: string
   hint?: string
   id: string
   input?: string

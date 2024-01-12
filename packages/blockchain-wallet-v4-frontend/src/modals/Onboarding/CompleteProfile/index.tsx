@@ -94,7 +94,6 @@ const CompleteProfile = (props) => {
         tier: 2
       })
     )
-    dispatch(modals.closeModal(ModalName.COMPLETE_USER_PROFILE))
 
     trackButtonEvent('KYC_VERIFICATION')
   }
@@ -140,19 +139,26 @@ const CompleteProfile = (props) => {
     dispatch(modals.closeModal(ModalName.COMPLETE_USER_PROFILE))
   }
 
+  const handleSelfClassification = () => {
+    dispatch(modals.showModal(ModalName.SELF_CLASSIFICATION, { origin: 'CompleteProfile' }))
+  }
+
+  const handleSelfAssessment = () => {
+    dispatch(modals.showModal(ModalName.SELF_ASSESSMENT, { origin: 'CompleteProfile' }))
+  }
+
   const getOnClick = (step: COMPLETE_PROFILE_STEPS) => {
     switch (step) {
       case 'KYC_VERIFICATION':
         return startVerification
-
       case 'FINPROMS_ASSESSMENT':
-        return () => {}
+        return handleSelfAssessment
       case 'SELF_CLASSIFICATION':
-        return () => {}
+        return handleSelfClassification
       case 'BUY_CRYPTO':
         return handleBuyCryptoClick
-
       case 'DEPOSIT_CRYPTO':
+        return () => {}
       case 'EMAIL_VERIFICATION':
         // Investigate what to do here, I don't think this appears when modal is called
         return () => {}
