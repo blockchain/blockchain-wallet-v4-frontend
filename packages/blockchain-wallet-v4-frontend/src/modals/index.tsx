@@ -93,7 +93,7 @@ const UnsupportedRegion = React.lazy(() => import('./Onboarding/UnsupportedRegio
 const KycConsentScreen = React.lazy(() => import('./Onboarding/KycVerification/ConsentScreen'))
 // FRICTIONS
 const SelfClassification = React.lazy(() => import('./Onboarding/FinProms/SelfClassification'))
-// const SelfAssessment = React.lazy(() => import('./Onboarding/FinProms/SelfAssessment'))
+const SelfAssessment = React.lazy(() => import('./Onboarding/FinProms/SelfAssessment'))
 
 // MOBILE
 const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'))
@@ -451,9 +451,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SELF_CLASSIFICATION) ? (
           <SelfClassification />
         ) : null}
-        {/* {props.modals.find((modal) => modal.type === ModalName.SELF_ASSESSMENT) ? (
+        {props.modals.find((modal) => modal.type === ModalName.SELF_ASSESSMENT) ? (
           <SelfAssessment />
-        ) : null} */}
+        ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />
       </>

@@ -63,6 +63,7 @@ export type NodeTextType = {
 
 export type HeaderType = {
   description?: string
+  imageUrl?: string
   title: string
 }
 

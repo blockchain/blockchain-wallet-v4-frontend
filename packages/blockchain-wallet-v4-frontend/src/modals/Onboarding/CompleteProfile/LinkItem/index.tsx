@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
+import { useCountDown } from 'hooks'
 
-import { useCountdownTo } from '../countdownTo'
 import { ResponseShape } from '../types'
 import {
   ActionButton,
@@ -18,9 +18,9 @@ type Props = {
 } & Omit<ResponseShape, 'id' | 'action'>
 
 const CountdownTo = ({ countdownDate }) => {
-  const countdown = useCountdownTo(countdownDate)
+  const countdown = useCountDown(new Date(countdownDate), 0, 'hh:mm:ss')
 
-  return <span>{countdown}</span>
+  return <span>{countdown.timer}</span>
 }
 
 const LinkItem = ({ iconUrl, metadata, onClick, status, subtitle, title }: Props) => {
@@ -33,9 +33,10 @@ const LinkItem = ({ iconUrl, metadata, onClick, status, subtitle, title }: Props
 
   return (
     <ItemButton
-      disabled={hasCountdown || isDisabled || isPending}
+      // disabled={hasCountdown || isDisabled || isPending}
       status={status}
-      onClick={isIdle ? onClick : () => {}}
+      // onClick={isIdle ? onClick : () => {}}
+      onClick={onClick}
     >
       <ButtonContent>
         <IconWrapper>
