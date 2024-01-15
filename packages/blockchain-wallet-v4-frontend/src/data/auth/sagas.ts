@@ -350,6 +350,16 @@ export default ({ api, coreSagas, networks }) => {
       const { data: userEligibility }: RemoteDataType<string, ProductEligibilityForUser> =
         yield select(selectors.custodial.getProductEligibilityForUser)
 
+      const existingUserCountryCode = (yield select(
+        selectors.modules.profile.getUserCountryCode
+      )).getOrElse(undefined)
+      const { ipCountry } = yield select(selectors.auth.getProductAuthMetadata)
+
+      // TODO: FRICTIONS - temporary solution
+      const isUserInUk = [existingUserCountryCode, ipCountry].some((val) => val === 'GB')
+      if (isUserInUk) {
+        return yield put(actions.router.push('/continue-on-phone'))
+      }
       // Bakkt related flag - if enabled, user needs to continue on phone
       if (userEligibility?.useExternalTradingAccount?.enabled && !isSofi) {
         return yield put(actions.router.push('/continue-on-phone'))
@@ -396,9 +406,6 @@ export default ({ api, coreSagas, networks }) => {
           //   actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_SUCCESS,
           //   actionTypes.core.kvStore.unifiedCredentials.FETCH_METADATA_UNIFIED_CREDENTIALS_FAILURE
           // ])
-          const existingUserCountryCode = (yield select(
-            selectors.modules.profile.getUserCountryCode
-          )).getOrElse('US')
           yield fork(createExchangeUser, existingUserCountryCode)
         }
       }

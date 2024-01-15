@@ -95,6 +95,7 @@ export const determineAuthenticationFlow = function* (
 
     // check if merge and upgrade flows are enabled and execute them if needed
     yield call(checkAndExecuteMergeAndUpgradeFlows, productAuthenticatingInto, authMagicLink)
+    const productAuthMetadata = yield select(selectors.auth.getProductAuthMetadata)
 
     // detect if device/session verification is required or can be bypassed
     // if device/session checks are not required, determine which product specific
@@ -102,7 +103,6 @@ export const determineAuthenticationFlow = function* (
     switch (true) {
       // EXCHANGE AUTHENTICATION AND DEVICE VERIFICATION
       case productAuthenticatingInto === ProductAuthOptions.EXCHANGE:
-        const { redirect } = yield select(selectors.auth.getProductAuthMetadata)
         // determine if we need to verify the login attempt from another device or
         // continue login from the same device
         if (!skipSessionCheck) {
@@ -130,9 +130,9 @@ export const determineAuthenticationFlow = function* (
           yield put(actions.auth.setMagicLinkInfo(authMagicLink))
           yield put(
             actions.auth.setProductAuthMetadata({
+              ...productAuthMetadata,
               platform: platformType,
               product: ProductAuthOptions.EXCHANGE,
-              redirect,
               sessionIdMobile
             })
           )
@@ -166,6 +166,7 @@ export const determineAuthenticationFlow = function* (
           yield put(actions.auth.setMagicLinkInfo(authMagicLink))
           yield put(
             actions.auth.setProductAuthMetadata({
+              ...productAuthMetadata,
               platform: PlatformTypes.WEB, // TODO: probably dont hardcode the platform
               product: ProductAuthOptions.WALLET
             })
