@@ -121,6 +121,7 @@ const SignupForm = (props: Props) => {
 
   const passwordValue = formValues?.password || ''
   const referralValue = formValues?.referral || ''
+  const userSelectedUK = formValues?.country === 'GB'
   const isUSStateUnsupported = bakktRedirectUSStates.includes(formValues?.state)
 
   const showReferralError =
@@ -286,7 +287,7 @@ const SignupForm = (props: Props) => {
             />
           </FieldWithoutTopRadius>
         ) : null}
-        {isUSStateUnsupported && (
+        {(isUSStateUnsupported || userSelectedUK) && (
           <FormItem>
             <ContinueOnPhone setShowModal={setShowModal} />
           </FormItem>
