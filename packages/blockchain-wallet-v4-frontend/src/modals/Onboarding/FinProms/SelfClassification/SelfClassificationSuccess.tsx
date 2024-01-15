@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
+import ReactMarkdown from 'react-markdown'
 import { useDispatch, useSelector } from 'react-redux'
-import { AlertCard } from '@blockchain-com/constellation'
 import { Field, getFormValues, reduxForm } from 'redux-form'
 
 import { ExtraQuestionsType, HeaderType, NodeItem, NodeItemTypes, NodeTextType } from '@core/types'
@@ -37,10 +37,15 @@ import {
   TopHeaderTitle
 } from './model'
 
+type Props = {
+  dataRef: React.MutableRefObject<ExtraQuestionsType>
+} & ExtraQuestionsType
+
 const Success = ({
   blocking,
   change,
   context,
+  dataRef,
   error,
   handleSubmit,
   invalid,
@@ -105,7 +110,7 @@ const Success = ({
         })
     )
     if (isChanged) {
-      dispatch(identityVerification.updateExtraKYCQuestions({ blocking, context, nodes }))
+      dataRef.current = { blocking, context, nodes }
     }
   }
 
@@ -120,7 +125,8 @@ const Success = ({
           child.checked = allSelectedItems.includes(child.id)
         })
     )
-    dispatch(identityVerification.updateExtraKYCQuestions({ blocking, context, nodes }))
+
+    dataRef.current = { blocking, context, nodes }
   }
 
   const onChangeInput = (e, value) => {
@@ -146,7 +152,7 @@ const Success = ({
     })
 
     if (isChanged) {
-      dispatch(identityVerification.updateExtraKYCQuestions({ blocking, context, nodes }))
+      dataRef.current = { blocking, context, nodes }
     }
   }
 
@@ -202,7 +208,9 @@ const Success = ({
     return (
       <>
         <FormGroup key={node.id}>
-          <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
+          <QuestionTitle>
+            <ReactMarkdown>{nodeTranslation.title}</ReactMarkdown>
+          </QuestionTitle>
 
           <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
 
@@ -434,14 +442,23 @@ const Success = ({
     )
   }
 
-  // TODO: FRICTIONS - this is not updating correctly the `change` property
+  const updateSingleCheckbox = (nodeId) => {
+    const newNodes = nodes.map((node) =>
+      node.id === nodeId ? { ...node, checked: !node.checked } : node
+    )
+
+    dataRef.current = { blocking, context, nodes: newNodes }
+  }
+
   const renderSingleCheckbox = (node: NodeItem) => {
     return (
       <LabelItem htmlFor={node.id} key={`checkbox-${node.id}`}>
         <FormItem>
           <CheckBoxContainer>
             <CenterField>
-              <CheckBoxText>{node.text}</CheckBoxText>
+              <Text size='12px' color='grey600'>
+                <ReactMarkdown>{node.text}</ReactMarkdown>
+              </Text>
             </CenterField>
             <CenterField>
               <Field
@@ -450,7 +467,7 @@ const Success = ({
                 value={node.id}
                 component={CheckBox}
                 type='checkbox'
-                onChange={() => updateItem(node.id, node.id)}
+                onChange={() => updateSingleCheckbox(node.id)}
                 data-testId={`text-box-${node.id}`}
               />
             </CenterField>
@@ -458,7 +475,6 @@ const Success = ({
         </FormItem>
       </LabelItem>
     )
-    return <div>NODE SINGLE_CHECKBOX</div>
   }
 
   return (
@@ -522,6 +538,6 @@ const Success = ({
   )
 }
 
-export default reduxForm<{}, ExtraQuestionsType>({
+export default reduxForm<{}, Props>({
   form: 'SelfClassification'
 })(Success)

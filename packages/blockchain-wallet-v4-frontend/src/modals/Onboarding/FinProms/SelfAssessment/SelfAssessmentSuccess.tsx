@@ -4,14 +4,7 @@ import { useSelector } from 'react-redux'
 import { Field, getFormValues, reduxForm } from 'redux-form'
 
 import { HeaderType, NodeItem, NodeItemTypes, NodeTextType } from '@core/types'
-import {
-  BlockchainLoader,
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  Text
-} from 'blockchain-info-components'
+import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import CheckBox from 'components/Form/CheckBox'
 import FormGroup from 'components/Form/FormGroup'

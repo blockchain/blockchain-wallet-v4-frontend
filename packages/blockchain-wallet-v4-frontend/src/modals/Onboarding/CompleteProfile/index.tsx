@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
+import { push } from 'connected-react-router'
 
 import { getDomainApi } from '@core/redux/walletOptions/selectors'
 import { ProductTypes } from '@core/types'
@@ -147,6 +148,10 @@ const CompleteProfile = (props) => {
     dispatch(modals.showModal(ModalName.SELF_ASSESSMENT, { origin: 'CompleteProfile' }))
   }
 
+  const handleEmailVerification = () => {
+    dispatch(push('/security-center/basic'))
+  }
+
   const getOnClick = (step: COMPLETE_PROFILE_STEPS) => {
     handleClose()
     switch (step) {
@@ -161,8 +166,8 @@ const CompleteProfile = (props) => {
       case 'BUY_CRYPTO':
         return handleBuyCryptoClick()
       case 'EMAIL_VERIFICATION':
-        // Investigate what to do here, I don't think this appears when modal is called
-        return () => {}
+        // TODO: FRICTIONS Investigate what to do here, I don't think this appears when modal is called
+        return handleEmailVerification()
 
       default:
         return startVerification()
