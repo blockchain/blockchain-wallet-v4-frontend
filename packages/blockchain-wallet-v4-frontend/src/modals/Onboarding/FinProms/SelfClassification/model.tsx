@@ -1,3 +1,4 @@
+import { AlertCard } from '@blockchain-com/constellation'
 import { Form } from 'redux-form'
 import styled from 'styled-components'
 
@@ -132,4 +133,14 @@ export const CenterField = styled.div`
 
 export const LabelItem = styled.label`
   cursor: pointer;
+`
+
+export const AlertWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: ${(props) => props.theme.grey000};
 `

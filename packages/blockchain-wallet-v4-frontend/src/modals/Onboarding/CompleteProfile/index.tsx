@@ -69,7 +69,7 @@ const CompleteProfile = (props) => {
     // )
 
     setTimeout(() => {
-      props.close()
+      props.close(ModalName.COMPLETE_USER_PROFILE)
     }, duration)
   }
 
@@ -148,23 +148,24 @@ const CompleteProfile = (props) => {
   }
 
   const getOnClick = (step: COMPLETE_PROFILE_STEPS) => {
+    handleClose()
     switch (step) {
       case 'KYC_VERIFICATION':
-        return startVerification
+        return startVerification()
       case 'FINPROMS_ASSESSMENT':
-        return handleSelfAssessment
+        return handleSelfAssessment()
       case 'SELF_CLASSIFICATION':
-        return handleSelfClassification
-      case 'BUY_CRYPTO':
-        return handleBuyCryptoClick
+        return handleSelfClassification()
       case 'DEPOSIT_CRYPTO':
-        return () => {}
+        return handleLinkBankOrCardClick()
+      case 'BUY_CRYPTO':
+        return handleBuyCryptoClick()
       case 'EMAIL_VERIFICATION':
         // Investigate what to do here, I don't think this appears when modal is called
         return () => {}
 
       default:
-        return startVerification
+        return startVerification()
     }
   }
 
@@ -254,7 +255,7 @@ const CompleteProfile = (props) => {
                       iconUrl={iconUrl}
                       key={id}
                       metadata={metadata}
-                      onClick={getOnClick(id)}
+                      onClick={() => getOnClick(id)}
                       status={status}
                       subtitle={subtitle}
                       title={title}

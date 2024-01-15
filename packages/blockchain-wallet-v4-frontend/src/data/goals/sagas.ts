@@ -1062,6 +1062,8 @@ export default ({ api, coreSagas, networks }) => {
     const isSofiAuth = yield select(selectors.auth.getIsSofi)
     const isSofi = isSofiSignup || isSofiAuth
 
+    // TODO: FRICTIONS - if user missing things, call the 'COMPLETE_USER_PROFILE' modal
+
     if (
       current < 2 &&
       !hasCowboysTag &&
@@ -1073,7 +1075,7 @@ export default ({ api, coreSagas, networks }) => {
         actions.goals.addInitialModal({
           data: { origin },
           key: 'kycUpgradeRequiredNotice',
-          name: ModalName.VERIFY_NOTICE_MODAL
+          name: ModalName.COMPLETE_USER_PROFILE
         })
       )
     }

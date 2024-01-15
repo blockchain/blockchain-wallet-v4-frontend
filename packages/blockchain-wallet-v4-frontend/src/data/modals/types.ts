@@ -201,6 +201,7 @@ export type ModalOriginType =
   | 'ResidentialAddress'
   | 'VerifyAddress'
   | RecurringBuyOrigins
+  | ModalName
 
 export type ModalParamPropsType = {
   [key: string]: any

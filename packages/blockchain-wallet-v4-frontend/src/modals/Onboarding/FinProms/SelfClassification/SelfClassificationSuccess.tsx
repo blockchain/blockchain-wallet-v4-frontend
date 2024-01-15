@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
+import { AlertCard } from '@blockchain-com/constellation'
 import { Field, getFormValues, reduxForm } from 'redux-form'
 
 import { ExtraQuestionsType, HeaderType, NodeItem, NodeItemTypes, NodeTextType } from '@core/types'
@@ -20,6 +21,7 @@ import {
 } from '../../KycVerification/ExtraFields/model'
 import { SpinnerWrapper } from '../../KycVerification/UserAddress/UserAddress.model'
 import {
+  AlertWrapper,
   CenterField,
   CheckBoxContainer,
   CheckBoxText,
@@ -419,9 +421,49 @@ const Success = ({
     )
   }
 
+  const renderNodeInfo = (node: NodeItem) => {
+    return (
+      <AlertWrapper>
+        <Text size='14px' weight={600}>
+          {node.text}
+        </Text>
+        <Text size='12px' weight={500} color='grey900'>
+          {node.description}
+        </Text>
+      </AlertWrapper>
+    )
+  }
+
+  // TODO: FRICTIONS - this is not updating correctly the `change` property
+  const renderSingleCheckbox = (node: NodeItem) => {
+    return (
+      <LabelItem htmlFor={node.id} key={`checkbox-${node.id}`}>
+        <FormItem>
+          <CheckBoxContainer>
+            <CenterField>
+              <CheckBoxText>{node.text}</CheckBoxText>
+            </CenterField>
+            <CenterField>
+              <Field
+                name={node.id}
+                id={node.id}
+                value={node.id}
+                component={CheckBox}
+                type='checkbox'
+                onChange={() => updateItem(node.id, node.id)}
+                data-testId={`text-box-${node.id}`}
+              />
+            </CenterField>
+          </CheckBoxContainer>
+        </FormItem>
+      </LabelItem>
+    )
+    return <div>NODE SINGLE_CHECKBOX</div>
+  }
+
   return (
     <CustomForm onSubmit={handleSubmit}>
-      <FlyoutWrapper style={{ paddingTop: '20px' }}>
+      <FlyoutWrapper>
         {error && (
           <ErrorTextContainer>
             <ErrorText>
@@ -446,9 +488,17 @@ const Success = ({
                 ? RenderDropDownBasedQuestion(node)
                 : RenderSingleSelectionQuestion(node)
             }
+            if (node.type === NodeItemTypes.INFO) {
+              return renderNodeInfo(node)
+            }
+            if (node.type === NodeItemTypes.SINGLE_CHECKBOX) {
+              return renderSingleCheckbox(node)
+            }
             if (node.type === NodeItemTypes.OPEN_ENDED) {
               return RenderTextBoxQuestion(node)
             }
+            // TODO: FRICTIONS REMOVE
+            // console.log('ERROR: NOT RENDERING NODE OF TYPE', node.type, { node })
             return null
           })}
 

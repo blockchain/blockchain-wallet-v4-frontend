@@ -47,6 +47,8 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
       dataRef.current = response.data
       setModalQuestions(response.data)
     } catch (e) {
+      // TODO: FRICTIONS check what to do here
+      // eslint-disable-next-line no-console
       console.error(e)
     }
     setLoading(false)
@@ -56,6 +58,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
 
   const handleSubmit = async () => {
     setLoading(true)
+    goToNextStep()
     try {
       const response = await axios.put(`${api}/nabu-gateway/handhold/quiz`, dataRef.current, {
         headers: { 'Content-Type': 'application/json', authorization: `Bearer ${nabuToken}` }
@@ -63,6 +66,8 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
       setModalQuestions(QUESTIONS_INITIAL)
       setResultData(response.data as QuizSubmitResult)
     } catch (e) {
+      // TODO: FRICTIONS check what to do here
+      // eslint-disable-next-line no-console
       console.error(e)
     }
     setLoading(false)
@@ -79,7 +84,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
     // )
 
     setTimeout(() => {
-      close()
+      close('SELF_ASSESSMENT')
     }, duration)
   }
 
@@ -90,8 +95,8 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
 
   const { introPage, pages } = modalQuestions
 
-  const isLastPage = step === pages.length
-  const showResultScreen = !!resultData?.status
+  const isLastPage = step === pages.length - 1
+  const showResultScreen = step === pages.length && !!resultData?.status
   const showAssessment = !isLoading && modalQuestions && !showResultScreen
 
   return (

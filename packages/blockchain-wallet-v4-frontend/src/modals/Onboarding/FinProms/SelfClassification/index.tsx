@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux'
 import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import FlyoutContent from 'components/Flyout/Content'
+import { modals } from 'data/actions'
 import { identityVerification } from 'data/components/actions'
 import { getKYCExtraSteps } from 'data/components/identityVerification/selectors'
 import { ModalName } from 'data/types'
@@ -10,6 +12,7 @@ import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading, LoadingTextEnum } from '../../../components'
+import { Header } from '../Header'
 import SelfClassificationSuccess from './SelfClassificationSuccess'
 
 const SelfClassification = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
@@ -21,9 +24,12 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
 
   const handleClose = () => {
     setShow(false)
+    dispatch(
+      modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: ModalName.SELF_CLASSIFICATION })
+    )
 
     setTimeout(() => {
-      close('SELF_CLASSIFICATION')
+      close(ModalName.SELF_CLASSIFICATION)
     }, duration)
   }
 
@@ -43,6 +49,8 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
 
   useEffect(() => {
     // When the questionnaire is done, it returns an empty string and a 204 status
+    // Not sure if I can discern if it has already been completed and the user is getting here by
+    // mistake or not.
     // @ts-ignore
     if (extraKYCResponse === '') {
       handleClose()
@@ -61,7 +69,10 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
       <FlyoutChild>
         {(isLoading || isNotAsked) && <Loading text={LoadingTextEnum.LOADING} />}
         {!isLoading && extraKYCResponse && (
-          <SelfClassificationSuccess {...extraKYCResponse} onSubmit={handleSubmit} />
+          <>
+            <Header text='Self Classification Questionaire' onClickBack={handleClose} />
+            <SelfClassificationSuccess {...extraKYCResponse} onSubmit={handleSubmit} />
+          </>
         )}
       </FlyoutChild>
     </Flyout>
