@@ -1,12 +1,9 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useMemo } from 'react'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
 import FlyoutFooter from 'components/Flyout/Footer'
-import { modals } from 'data/actions'
-import { ModalName } from 'data/types'
 
+import { FinalPageContent, ResultsWrapper } from './model'
 import RetryInPill from './RetryInPill'
 import { QuizSubmitResult } from './types'
 
@@ -34,67 +31,70 @@ const STATUS_ELEMENTS = {
 
 const LEARN_MORE_LINK = 'https://www.blockchain.com/en/learning-portal/bitcoin-faq'
 
-const SelfAssessmentFinalPage = ({ nextRetryDate, status }: QuizSubmitResult) => {
-  const dispatch = useDispatch()
+type Props = {
+  handleClose: () => void
+} & QuizSubmitResult
 
-  const onClick = () => {
-    dispatch(modals.closeModal(ModalName.SELF_ASSESSMENT))
-  }
-
+const SelfAssessmentFinalPage = ({ handleClose, nextRetryDate = '', status }: Props) => {
   const { iconColor, iconName, subtitle, title } = STATUS_ELEMENTS[status]
 
   const isSuccess = status === 'SUCCESS'
   const isRetryNow = status === 'RETRY'
   const isRetryLater = status === 'RETRY_LATER' && nextRetryDate
 
+  const nextDate = useMemo(() => new Date(nextRetryDate), [nextRetryDate])
+
   return (
-    <FlyoutWrapper>
-      <Icon color={iconColor} name={iconName} size='88px' />
-      <Text size='20px' weight={600} lineHeight='30px' color='grey900'>
-        {title}
-      </Text>
-      <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
-        {subtitle}
-      </Text>
-      {isRetryNow && (
-        <>
-          <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
-            To learn more about this please see{' '}
-            <Link href={LEARN_MORE_LINK} target='_blank'>
-              here
-            </Link>
-          </Text>
-          <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
-            If you fail to pass after two attempts, you&apos;ll have to wait 24 hours before trying
-            again.
-          </Text>
-        </>
-      )}
-      {isRetryLater && (
-        <>
-          <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
-            In the meantime, click the{' '}
-            <Link href={LEARN_MORE_LINK} target='_blank'>
-              Take 2 minutes to learn more
-            </Link>{' '}
-            link to study up.
-          </Text>
-          <RetryInPill date={new Date(nextRetryDate)} />
-        </>
-      )}
+    <ResultsWrapper>
+      <FinalPageContent>
+        <Icon color={iconColor} name={iconName} size='88px' />
+        <Text size='20px' weight={600} lineHeight='30px' color='grey900'>
+          {title}
+        </Text>
+        <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
+          {subtitle}
+        </Text>
+        {isRetryNow && (
+          <>
+            <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
+              To learn more about this please see{' '}
+              <Link href={LEARN_MORE_LINK} target='_blank'>
+                here
+              </Link>
+              .
+            </Text>
+            <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
+              If you fail to pass after two attempts, you&apos;ll have to wait 24 hours before
+              trying again.
+            </Text>
+          </>
+        )}
+        {isRetryLater && (
+          <>
+            <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
+              In the meantime, click the{' '}
+              <Link href={LEARN_MORE_LINK} target='_blank'>
+                Take 2 minutes to learn more
+              </Link>{' '}
+              link to study up.
+            </Text>
+            <RetryInPill date={nextDate} />
+          </>
+        )}
+      </FinalPageContent>
       <FlyoutFooter collapsed>
         <Button
           data-e2e='submitKYCExtraQuestionsForm'
           height='48px'
           size='16px'
           nature='primary'
-          onClick={onClick}
+          onClick={handleClose}
           fullwidth
         >
           {isRetryLater ? 'Back to Dashboard' : 'Continue'}
         </Button>
       </FlyoutFooter>
-    </FlyoutWrapper>
+    </ResultsWrapper>
   )
 }
 

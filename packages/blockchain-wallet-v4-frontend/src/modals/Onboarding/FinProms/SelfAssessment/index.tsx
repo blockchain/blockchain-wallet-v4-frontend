@@ -5,6 +5,7 @@ import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 
 import { getDomainApi } from '@core/redux/walletOptions/selectors'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { modals } from 'data/actions'
 import { getUserApiToken } from 'data/modules/profile/selectors'
 import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
@@ -24,7 +25,6 @@ const QUESTIONS_INITIAL = {
 const ENDPOINT = 'nabu-gateway/onboarding/quiz'
 
 // TODO: FRICTIONS - REMOVE TEST STATUSES
-
 const RETRY = {
   nextRetryDate: '2024-01-16T05:19:52.219259Z',
   status: 'RETRY'
@@ -42,6 +42,7 @@ const SUCCESS = {
 const FAILED = { status: 'FAILED' }
 
 const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
+  const dispatch = useDispatch()
   const api = useSelector(getDomainApi).getOrElse('')
   const nabuToken = useSelector(getUserApiToken)
 
@@ -107,8 +108,12 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
     //   })
     // )
 
+    dispatch(
+      modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: ModalName.SELF_ASSESSMENT })
+    )
+
     setTimeout(() => {
-      close('SELF_ASSESSMENT')
+      close(ModalName.SELF_ASSESSMENT)
     }, duration)
   }
 
@@ -146,8 +151,9 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
           )}
           {showResultScreen && (
             <SelfAssessmentFinalPage
+              handleClose={handleClose}
               status={resultData.status}
-              nextRetryDate={resultData.nextRetryDate}
+              nextRetryDate={resultData.nextRetryDate ?? ''}
             />
           )}
         </Wrapper>

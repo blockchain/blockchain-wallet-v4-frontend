@@ -49,6 +49,7 @@ export const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding: 40px;
 `
 export const TopText = styled(Text)`
   display: flex;
@@ -156,4 +157,25 @@ export const StyledAnchor = styled.a`
   text-align: center;
   border: 1px solid ${(props) => props.theme.grey100};
   border-radius: 0.5rem;
+`
+
+export const ResultsWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+`
+
+export const FinalPageContent = styled.div`
+  margin-top: 4rem;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+
+  > span {
+    margin-bottom: 1.5rem;
+  }
 `

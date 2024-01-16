@@ -5,7 +5,7 @@ import { Field, getFormValues, reduxForm } from 'redux-form'
 
 import { HeaderType, NodeItem, NodeItemTypes, NodeTextType } from '@core/types'
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
+import FlyoutContent from 'components/Flyout/Content'
 import CheckBox from 'components/Form/CheckBox'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
@@ -476,20 +476,14 @@ const Success = ({
 
   return (
     <CustomForm onSubmit={handleSubmit}>
-      <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
-        {introPage?.header && RenderHeader(introPage?.header)}
-        {!introPage?.header && (
-          <TopText color='grey800' size='20px' weight={600}>
-            <LeftTopCol>
-              <FormattedMessage
-                id='identityverification.extra_fields.title'
-                defaultMessage='Use of Account Information'
-              />
-            </LeftTopCol>
-          </TopText>
-        )}
-      </FlyoutWrapper>
-      <FlyoutWrapper style={{ paddingTop: '20px' }}>
+      {/* <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}> */}
+      {introPage?.header && RenderHeader(introPage?.header)}
+      {!introPage?.header && (
+        <TopText color='grey800' size='20px' weight={600}>
+          <LeftTopCol>Question #{step + 1}</LeftTopCol>
+        </TopText>
+      )}
+      <FlyoutContent mode='top'>
         {error && (
           <ErrorTextContainer>
             <ErrorText>
@@ -519,27 +513,28 @@ const Success = ({
             }
             return null
           })}
+      </FlyoutContent>
 
-        {introPage?.footer?.length > 0 ? (
-          RenderFooter(introPage?.footer)
-        ) : (
-          <Button
-            data-e2e='submitKYCExtraQuestionsForm'
-            height='48px'
-            size='16px'
-            nature='primary'
-            type='submit'
-            fullwidth
-            disabled={disabled || !validateMultiSelectNodes()}
-          >
-            {submitting ? (
-              <HeartbeatLoader height='16px' width='16px' color='white' />
-            ) : (
-              <FormattedMessage id='buttons.next' defaultMessage='Next' />
-            )}
-          </Button>
-        )}
-      </FlyoutWrapper>
+      {introPage?.footer?.length > 0 ? (
+        RenderFooter(introPage?.footer)
+      ) : (
+        <Button
+          data-e2e='submitKYCExtraQuestionsForm'
+          height='48px'
+          size='16px'
+          nature='primary'
+          type='submit'
+          fullwidth
+          disabled={disabled || !validateMultiSelectNodes()}
+        >
+          {submitting ? (
+            <HeartbeatLoader height='16px' width='16px' color='white' />
+          ) : (
+            <FormattedMessage id='buttons.next' defaultMessage='Next' />
+          )}
+        </Button>
+      )}
+      {/* </FlyoutWrapper> */}
     </CustomForm>
   )
 }
