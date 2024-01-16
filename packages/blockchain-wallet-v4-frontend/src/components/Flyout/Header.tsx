@@ -92,8 +92,8 @@ const FlyoutHeader = memo(
 export type Props = {
   children?: React.ReactNode
   'data-e2e': string
-  mode: 'close' | 'back'
-  onClick: () => void
+  mode: 'close' | 'back' | 'none'
+  onClick?: () => void
   position?: 'absolute' | 'relative'
   sticky?: true
 }

@@ -440,11 +440,6 @@ const Success = ({
         <FormItem>
           <CheckBoxContainer>
             <CenterField>
-              <Text size='12px' color='grey600'>
-                <ReactMarkdown>{node.text}</ReactMarkdown>
-              </Text>
-            </CenterField>
-            <CenterField>
               <Field
                 name={node.id}
                 id={node.id}
@@ -455,6 +450,11 @@ const Success = ({
                 onChange={() => updateSingleCheckbox(node.id)}
                 data-testId={`text-box-${node.id}`}
               />
+            </CenterField>
+            <CenterField>
+              <Text size='12px' color='grey600'>
+                <ReactMarkdown>{node.text}</ReactMarkdown>
+              </Text>
             </CenterField>
           </CheckBoxContainer>
         </FormItem>

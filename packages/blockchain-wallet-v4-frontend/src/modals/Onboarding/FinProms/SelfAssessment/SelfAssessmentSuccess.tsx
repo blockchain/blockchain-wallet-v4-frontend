@@ -5,7 +5,13 @@ import { Field, getFormValues, reduxForm } from 'redux-form'
 
 import { HeaderType, NodeItem, NodeItemTypes, NodeTextType } from '@core/types'
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import FlyoutContent from 'components/Flyout/Content'
+import { FlyoutWrapper } from 'components/Flyout'
+import {
+  FlyoutContainer,
+  FlyoutContent,
+  FlyoutFooter,
+  FlyoutHeader
+} from 'components/Flyout/Layout'
 import CheckBox from 'components/Form/CheckBox'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
@@ -475,67 +481,77 @@ const Success = ({
   }
 
   return (
-    <CustomForm onSubmit={handleSubmit}>
-      {/* <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}> */}
-      {introPage?.header && RenderHeader(introPage?.header)}
-      {!introPage?.header && (
-        <TopText color='grey800' size='20px' weight={600}>
-          <LeftTopCol>Question #{step + 1}</LeftTopCol>
-        </TopText>
-      )}
-      <FlyoutContent mode='top'>
-        {error && (
-          <ErrorTextContainer>
-            <ErrorText>
-              <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
-              Error: {error}
-            </ErrorText>
-          </ErrorTextContainer>
+    <FlyoutContainer>
+      <CustomForm onSubmit={handleSubmit}>
+        {!introPage?.header && (
+          <FlyoutHeader mode='none' data-e2e='SelfAssessmentSuccess'>
+            <TopText color='grey800' size='20px' weight={600}>
+              <LeftTopCol>
+                <FormattedMessage
+                  id='identityverification.extra_fields.title'
+                  defaultMessage='Use of Account Information'
+                />
+              </LeftTopCol>
+            </TopText>
+          </FlyoutHeader>
         )}
+        <FlyoutContent mode={introPage?.header ? 'middle' : 'top'}>
+          <FlyoutWrapper>
+            {introPage?.header && RenderHeader(introPage?.header)}
+            {error && (
+              <ErrorTextContainer>
+                <ErrorText>
+                  <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
+                  Error: {error}
+                </ErrorText>
+              </ErrorTextContainer>
+            )}
 
-        {nodes &&
-          nodes.map((node) => {
-            if (node.type === NodeItemTypes.MULTIPLE_SELECTION) {
-              return node.isDropdown
-                ? RenderDropDownBasedQuestion(node)
-                : renderCheckBoxBasedQuestion(node)
-            }
-            if (
-              node.type === NodeItemTypes.SINGLE_SELECTION ||
-              node.type === NodeItemTypes.SELECTION
-            ) {
-              return node.isDropdown
-                ? RenderDropDownBasedQuestion(node)
-                : RenderSingleSelectionQuestion(node)
-            }
-            if (node.type === NodeItemTypes.OPEN_ENDED) {
-              return RenderTextBoxQuestion(node)
-            }
-            return null
-          })}
-      </FlyoutContent>
-
-      {introPage?.footer?.length > 0 ? (
-        RenderFooter(introPage?.footer)
-      ) : (
-        <Button
-          data-e2e='submitKYCExtraQuestionsForm'
-          height='48px'
-          size='16px'
-          nature='primary'
-          type='submit'
-          fullwidth
-          disabled={disabled || !validateMultiSelectNodes()}
-        >
-          {submitting ? (
-            <HeartbeatLoader height='16px' width='16px' color='white' />
+            {nodes &&
+              nodes.map((node) => {
+                if (node.type === NodeItemTypes.MULTIPLE_SELECTION) {
+                  return node.isDropdown
+                    ? RenderDropDownBasedQuestion(node)
+                    : renderCheckBoxBasedQuestion(node)
+                }
+                if (
+                  node.type === NodeItemTypes.SINGLE_SELECTION ||
+                  node.type === NodeItemTypes.SELECTION
+                ) {
+                  return node.isDropdown
+                    ? RenderDropDownBasedQuestion(node)
+                    : RenderSingleSelectionQuestion(node)
+                }
+                if (node.type === NodeItemTypes.OPEN_ENDED) {
+                  return RenderTextBoxQuestion(node)
+                }
+                return null
+              })}
+          </FlyoutWrapper>
+        </FlyoutContent>
+        <FlyoutFooter collapsed>
+          {introPage?.footer?.length > 0 ? (
+            RenderFooter(introPage?.footer)
           ) : (
-            <FormattedMessage id='buttons.next' defaultMessage='Next' />
+            <Button
+              data-e2e='submitKYCExtraQuestionsForm'
+              height='48px'
+              size='16px'
+              nature='primary'
+              type='submit'
+              fullwidth
+              disabled={disabled || !validateMultiSelectNodes()}
+            >
+              {submitting ? (
+                <HeartbeatLoader height='16px' width='16px' color='white' />
+              ) : (
+                <FormattedMessage id='buttons.next' defaultMessage='Next' />
+              )}
+            </Button>
           )}
-        </Button>
-      )}
-      {/* </FlyoutWrapper> */}
-    </CustomForm>
+        </FlyoutFooter>
+      </CustomForm>
+    </FlyoutContainer>
   )
 }
 
