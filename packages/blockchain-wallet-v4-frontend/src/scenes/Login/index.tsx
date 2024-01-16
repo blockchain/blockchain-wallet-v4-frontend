@@ -224,9 +224,6 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  isMnemonicRecoveryEnabled: selectors.core.walletOptions
-    .getMnemonicRecoveryEnabled(state)
-    .getOrElse(false) as boolean,
   isSofi: selectors.auth.getIsSofi(state),
   jwtToken: selectors.auth.getJwtToken(state),
   magicLinkData: selectors.auth.getMagicLinkData(state),

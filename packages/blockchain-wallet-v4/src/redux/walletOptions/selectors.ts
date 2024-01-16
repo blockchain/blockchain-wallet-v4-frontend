@@ -163,10 +163,6 @@ export const getSecureEmailSmsUpdate = (state: RootState) =>
 export const getDexProductEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'dex']))
 
-// dex feature flag
-export const getMnemonicRecoveryEnabled = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'isMnemonicRecoveryEnabled']))
-
 // staking feature flag
 export const getIsStakingEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isStakingEnabled']))
