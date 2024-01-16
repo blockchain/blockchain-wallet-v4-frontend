@@ -1,9 +1,9 @@
 import React from 'react'
 
+import { ResponseShape } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { useCountDown } from 'hooks'
 
-import { ResponseShape } from '../types'
 import {
   ActionButton,
   ButtonContent,

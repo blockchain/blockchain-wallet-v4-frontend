@@ -6,6 +6,7 @@ import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 import { getDomainApi } from '@core/redux/walletOptions/selectors'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { modals } from 'data/actions'
+import { identityVerification } from 'data/components/actions'
 import { getUserApiToken } from 'data/modules/profile/selectors'
 import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
@@ -107,7 +108,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
     //     properties: { current_step_completed: String(data.currentStep) }
     //   })
     // )
-
+    dispatch(identityVerification.fetchVerificationSteps())
     dispatch(
       modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: ModalName.SELF_ASSESSMENT })
     )
@@ -121,6 +122,16 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
     getModalData()
     setShow(true)
   }, [])
+
+  useEffect(() => {
+    // When the questionnaire is done, it returns an empty string and a 204 status
+    // Not sure if I can discern if it has already been completed and the user is getting here by
+    // mistake or not.
+    // @ts-ignore
+    if (modalQuestions === '') {
+      handleClose()
+    }
+  }, [modalQuestions])
 
   const { introPage, pages } = modalQuestions
 

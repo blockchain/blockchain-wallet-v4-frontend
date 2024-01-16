@@ -1,10 +1,7 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
 import { Image } from 'blockchain-info-components'
-
-import { COMPLETE_PROFILE_STEPS } from '../types'
 
 export const ImageName = {
   BUY_CRYPTO: <Image name='cart-green' />,

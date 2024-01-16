@@ -38,6 +38,10 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
 
   const handleClose = () => {
     setShow(false)
+    dispatch(identityVerification.fetchVerificationSteps())
+    dispatch(
+      modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: ModalName.SELF_CLASSIFICATION })
+    )
 
     setTimeout(() => {
       close(ModalName.SELF_CLASSIFICATION)

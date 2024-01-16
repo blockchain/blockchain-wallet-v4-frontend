@@ -550,6 +550,21 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const fetchVerificationSteps = function* () {
+    try {
+      yield put(A.fetchVerificationStepsLoading())
+      const stepsData = yield call(api.fetchVerificationSteps)
+      yield put(A.fetchVerificationStepsSuccess(stepsData))
+    } catch (e) {
+      yield put(A.fetchVerificationStepsFailure(e))
+      actions.logs.logErrorMessage(
+        logLocation,
+        'fetchVerificationSteps',
+        `Error fetching verification steps: ${e}`
+      )
+    }
+  }
+
   return {
     checkIsNameValid,
     checkKycFlow,
@@ -563,6 +578,7 @@ export default ({ api, coreSagas, networks }) => {
     fetchSupportedCountries,
     fetchSupportedDocuments,
     fetchUserAddress,
+    fetchVerificationSteps,
     goToNextStep,
     goToPrevStep,
     initializeStep,

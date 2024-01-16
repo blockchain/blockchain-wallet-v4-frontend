@@ -375,14 +375,22 @@ export default ({
       url: nabuUrl
     })
 
+  const fetchVerificationSteps = () =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/onboarding/handhold',
+      url: nabuUrl
+    })
+
   return {
-    approveAccountReset,
     // checkIsValidReferralCode,
+    approveAccountReset,
     createExchangeUser,
     createLinkAccountId,
     createOrGetUser,
     exchangeResetPassword,
     exchangeSignIn,
+    fetchVerificationSteps,
     finaliseLinking,
     findUserAddress,
     generateRetailToken,

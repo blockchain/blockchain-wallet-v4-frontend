@@ -44,3 +44,6 @@ export const isProveFlow = (state: RootState) => {
 
   return kycFlows.nextFlow.includes(PROVE)
 }
+
+export const getVerificationSteps = (state: RootState) =>
+  state.components.identityVerification.verificationSteps
