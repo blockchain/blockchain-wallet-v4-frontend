@@ -21,6 +21,8 @@ const QUESTIONS_INITIAL = {
   pages: []
 }
 
+const ENDPOINT = 'nabu-gateway/onboarding/quiz'
+
 const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
   const api = useSelector(getDomainApi).getOrElse('')
   const nabuToken = useSelector(getUserApiToken)
@@ -41,10 +43,9 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
   const getModalData = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(`${api}/nabu-gateway/onboarding/quiz`, {
+      const response = await axios.get(`${api}/${ENDPOINT}`, {
         headers: { 'Content-Type': 'application/json', authorization: `Bearer ${nabuToken}` }
       })
-      dataRef.current = response.data
       setModalQuestions(response.data)
     } catch (e) {
       // TODO: FRICTIONS check what to do here
@@ -60,10 +61,15 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
     setLoading(true)
     goToNextStep()
     try {
-      const response = await axios.put(`${api}/nabu-gateway/handhold/quiz`, dataRef.current, {
+      const response = await axios.put(`${api}/${ENDPOINT}`, dataRef.current, {
         headers: { 'Content-Type': 'application/json', authorization: `Bearer ${nabuToken}` }
       })
       setModalQuestions(QUESTIONS_INITIAL)
+      // TODO: FRICTIONS haven't checked it works correctly each status
+      // {
+      //   "status": "SUCCESS", "RETRY", "RETRY_LATER", "FAILED",
+      //   "nextRetryDate": "2023..."
+      // }
       setResultData(response.data as QuizSubmitResult)
     } catch (e) {
       // TODO: FRICTIONS check what to do here

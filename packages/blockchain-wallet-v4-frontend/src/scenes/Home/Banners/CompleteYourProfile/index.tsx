@@ -32,6 +32,8 @@ const Column = styled.div`
   flex: 1;
 `
 
+// TODO: FRICTIONS - max steps & steps completition come from TOTAL and SUCCESS steps from nabu-gateway/onboarding/handhold
+// We could potentially store it someplace in redux for it to be rechecked each time a step is completed I gues
 const CompleteYourProfile = ({
   analyticsActions,
   buySellActions,

@@ -166,9 +166,7 @@ const CompleteProfile = (props) => {
       case 'BUY_CRYPTO':
         return handleBuyCryptoClick()
       case 'EMAIL_VERIFICATION':
-        // TODO: FRICTIONS Investigate what to do here, I don't think this appears when modal is called
         return handleEmailVerification()
-
       default:
         return startVerification()
     }

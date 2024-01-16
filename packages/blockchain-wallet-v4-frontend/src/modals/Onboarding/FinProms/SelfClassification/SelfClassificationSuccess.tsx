@@ -429,6 +429,8 @@ const Success = ({
     )
   }
 
+  // TODO: FRICTIONS - this somehow should take into account the style.
+  // "style": "EXPANDABLE" | "PLAIN" | "WARNING" | "ERROR" | "NOTICE" | "SUCCESS"
   const renderNodeInfo = (node: NodeItem) => {
     return (
       <AlertWrapper>
@@ -450,6 +452,7 @@ const Success = ({
     dataRef.current = { blocking, context, nodes: newNodes }
   }
 
+  // TODO: FRITCIONS - SHOULD NOT ENABLE FORM SUBMISSION WITH THIS UNCHECKED
   const renderSingleCheckbox = (node: NodeItem) => {
     return (
       <LabelItem htmlFor={node.id} key={`checkbox-${node.id}`}>

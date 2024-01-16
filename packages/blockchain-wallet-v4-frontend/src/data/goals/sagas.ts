@@ -1063,6 +1063,7 @@ export default ({ api, coreSagas, networks }) => {
     const isSofi = isSofiSignup || isSofiAuth
 
     // TODO: FRICTIONS - if user missing things, call the 'COMPLETE_USER_PROFILE' modal
+    // Endpoint to call will be a GET to /nabu-gateway/uk-frictions/state
 
     if (
       current < 2 &&
