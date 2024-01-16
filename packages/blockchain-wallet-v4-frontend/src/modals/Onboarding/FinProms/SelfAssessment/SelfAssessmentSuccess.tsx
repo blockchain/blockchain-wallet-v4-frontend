@@ -115,7 +115,6 @@ const Success = ({
     )
     if (isChanged) {
       dataRef.current.pages[step].nodes = nodes
-      // dispatch(identityVerification.updateExtraKYCQuestions({ blocking, context, nodes }))
     }
   }
 
@@ -132,7 +131,6 @@ const Success = ({
     )
 
     dataRef.current.pages[step].nodes = nodes
-    // dispatch(identityVerification.updateExtraKYCQuestions({ blocking, context, nodes }))
   }
 
   const onChangeInput = (e, value) => {

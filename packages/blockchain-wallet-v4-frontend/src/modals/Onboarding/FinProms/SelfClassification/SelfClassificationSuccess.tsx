@@ -12,7 +12,6 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
-import { identityVerification } from 'data/components/actions'
 import { required, validFormat } from 'services/forms'
 
 import {
@@ -53,7 +52,6 @@ const Success = ({
   submitting
 }) => {
   const formValues = useSelector(getFormValues('SelfClassification')) ?? {}
-  const dispatch = useDispatch()
   const disabled = invalid || submitting
 
   if (submitting) {
@@ -452,7 +450,7 @@ const Success = ({
     dataRef.current = { blocking, context, nodes: newNodes }
   }
 
-  // TODO: FRITCIONS - SHOULD NOT ENABLE FORM SUBMISSION WITH THIS UNCHECKED
+  // TODO: FRICTIONS - SHOULD NOT ENABLE FORM SUBMISSION WITH THIS UNCHECKED
   const renderSingleCheckbox = (node: NodeItem) => {
     return (
       <LabelItem htmlFor={node.id} key={`checkbox-${node.id}`}>
@@ -469,6 +467,7 @@ const Success = ({
                 id={node.id}
                 value={node.id}
                 component={CheckBox}
+                validate={required}
                 type='checkbox'
                 onChange={() => updateSingleCheckbox(node.id)}
                 data-testId={`text-box-${node.id}`}
