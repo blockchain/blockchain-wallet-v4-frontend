@@ -42,7 +42,7 @@ const CloseIconBg = styled.div`
   height: 32px;
   width: 32px;
   border-radius: 50%;
-  background-color: white;
+  background-color: ${(props) => props.theme.grey000};
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,7 +1,7 @@
 import { Form } from 'redux-form'
 import styled from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { Link, Text } from 'blockchain-info-components'
 
 export const Label = styled.label`
   font-size: 16px;
@@ -50,16 +50,6 @@ export const CustomForm = styled(Form)`
   display: flex;
   flex-direction: column;
 `
-export const TopText = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-`
-export const LeftTopCol = styled.div`
-  display: flex;
-  align-items: left;
-`
 export const TopHeader = styled(Text)`
   display: flex;
   align-items: center;
@@ -87,8 +77,8 @@ export const QuestionTitle = styled(Text)`
   display: flex;
   color: ${(props) => props.theme.grey900};
   font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 20px;
+  line-height: 30px;
 `
 export const QuestionDescription = styled(Text)`
   margin: 4px 0 12px 0;
@@ -150,7 +140,7 @@ export const FooterWrapper = styled.div`
   text-align: center;
 `
 
-export const StyledAnchor = styled.a`
+export const StyledAnchor = styled(Link)`
   box-sizing: border-box;
   height: 3rem;
   text-align: center;

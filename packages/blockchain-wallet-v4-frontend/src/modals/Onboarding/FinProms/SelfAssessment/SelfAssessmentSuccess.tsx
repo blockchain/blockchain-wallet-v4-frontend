@@ -34,19 +34,18 @@ import {
   FooterWrapper,
   Label,
   LabelItem,
-  LeftTopCol,
   QuestionDescription,
   QuestionTitle,
   StyledAnchor,
   TopHeader,
   TopHeaderDescription,
-  TopHeaderTitle,
-  TopText
+  TopHeaderTitle
 } from './model'
 import { IntroPageType, SelfAssessmentType } from './types'
 
 type Props = {
   dataRef: React.MutableRefObject<SelfAssessmentType>
+  handleClose: () => void
   introPage: IntroPageType | {}
   nodes: any
   step: number
@@ -56,6 +55,7 @@ const Success = ({
   change,
   dataRef,
   error,
+  handleClose,
   handleSubmit,
   introPage,
   invalid,
@@ -214,7 +214,9 @@ const Success = ({
         <FormGroup key={node.id}>
           <QuestionTitle>{nodeTranslation.title}</QuestionTitle>
 
-          <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
+          {nodeTranslation.instructions && (
+            <QuestionDescription>{nodeTranslation.instructions}</QuestionDescription>
+          )}
 
           <FormItem>
             {node.children &&
@@ -331,7 +333,7 @@ const Success = ({
           style={{ marginBottom: '10px', marginRight: '4px' }}
         />
       )}
-      <TopHeaderTitle>{header.title}</TopHeaderTitle>
+      {header.title && <TopHeaderTitle>{header.title}</TopHeaderTitle>}
       {header.description && <TopHeaderDescription>{header.description}</TopHeaderDescription>}
     </TopHeader>
   )
@@ -484,16 +486,7 @@ const Success = ({
     <FlyoutContainer>
       <CustomForm onSubmit={handleSubmit}>
         {!introPage?.header && (
-          <FlyoutHeader mode='none' data-e2e='SelfAssessmentSuccess'>
-            <TopText color='grey800' size='20px' weight={600}>
-              <LeftTopCol>
-                <FormattedMessage
-                  id='identityverification.extra_fields.title'
-                  defaultMessage='Use of Account Information'
-                />
-              </LeftTopCol>
-            </TopText>
-          </FlyoutHeader>
+          <FlyoutHeader mode='close' data-e2e='SelfAssessmentSuccess' onClick={handleClose} />
         )}
         <FlyoutContent mode={introPage?.header ? 'middle' : 'top'}>
           <FlyoutWrapper>

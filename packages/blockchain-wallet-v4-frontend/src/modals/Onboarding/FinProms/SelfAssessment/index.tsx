@@ -139,6 +139,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
               dataRef={dataRef}
               step={step}
               onSubmit={isLastPage ? handleSubmit : goToNextStep}
+              handleClose={handleClose}
             />
           )}
           {showResultScreen && (
