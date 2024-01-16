@@ -1,23 +1,14 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import FlyoutFooter from 'components/Flyout/Footer'
 import { modals } from 'data/actions'
+import { ModalName } from 'data/types'
 
 import RetryInPill from './RetryInPill'
 import { QuizSubmitResult } from './types'
-
-const getIcon = (status) => {
-  return status === 'SUCCESS'
-    ? {
-        iconColor: 'success',
-        iconName: 'checkmark-circle-filled',
-        title: 'Congratulations! You aced it!'
-      }
-    : { iconColor: 'error', iconName: 'close-circle', title: "You didn't pass" }
-}
 
 const STATUS_ELEMENTS = {
   RETRY: {
@@ -41,12 +32,14 @@ const STATUS_ELEMENTS = {
   }
 }
 
+const LEARN_MORE_LINK = 'https://www.blockchain.com/en/learning-portal/bitcoin-faq'
+
 const SelfAssessmentFinalPage = ({ nextRetryDate, status }: QuizSubmitResult) => {
   const dispatch = useDispatch()
 
-  const onContinue = () => {}
-
-  const onGoback = () => {}
+  const onClick = () => {
+    dispatch(modals.closeModal(ModalName.SELF_ASSESSMENT))
+  }
 
   const { iconColor, iconName, subtitle, title } = STATUS_ELEMENTS[status]
 
@@ -55,7 +48,7 @@ const SelfAssessmentFinalPage = ({ nextRetryDate, status }: QuizSubmitResult) =>
   const isRetryLater = status === 'RETRY_LATER' && nextRetryDate
 
   return (
-    <>
+    <FlyoutWrapper>
       <Icon color={iconColor} name={iconName} size='88px' />
       <Text size='20px' weight={600} lineHeight='30px' color='grey900'>
         {title}
@@ -66,7 +59,10 @@ const SelfAssessmentFinalPage = ({ nextRetryDate, status }: QuizSubmitResult) =>
       {isRetryNow && (
         <>
           <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
-            To learn more about this please see LINK
+            To learn more about this please see{' '}
+            <Link href={LEARN_MORE_LINK} target='_blank'>
+              here
+            </Link>
           </Text>
           <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
             If you fail to pass after two attempts, you&apos;ll have to wait 24 hours before trying
@@ -77,7 +73,11 @@ const SelfAssessmentFinalPage = ({ nextRetryDate, status }: QuizSubmitResult) =>
       {isRetryLater && (
         <>
           <Text size='16px' weight={500} lineHeight='24px' color='grey600'>
-            In the meantime, tap the &quot;Take 2 minutes to learn more&quot; button to study up.
+            In the meantime, click the{' '}
+            <Link href={LEARN_MORE_LINK} target='_blank'>
+              Take 2 minutes to learn more
+            </Link>{' '}
+            link to study up.
           </Text>
           <RetryInPill date={new Date(nextRetryDate)} />
         </>
@@ -88,13 +88,13 @@ const SelfAssessmentFinalPage = ({ nextRetryDate, status }: QuizSubmitResult) =>
           height='48px'
           size='16px'
           nature='primary'
-          type='submit'
+          onClick={onClick}
           fullwidth
         >
           {isRetryLater ? 'Back to Dashboard' : 'Continue'}
         </Button>
       </FlyoutFooter>
-    </>
+    </FlyoutWrapper>
   )
 }
 

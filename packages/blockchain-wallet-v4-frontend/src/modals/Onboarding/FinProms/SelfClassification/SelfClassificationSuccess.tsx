@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import ReactMarkdown from 'react-markdown'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Field, getFormValues, reduxForm } from 'redux-form'
 
-import { ExtraQuestionsType, HeaderType, NodeItem, NodeItemTypes, NodeTextType } from '@core/types'
+import { ExtraQuestionsType, NodeItem, NodeItemTypes, NodeTextType } from '@core/types'
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import CheckBox from 'components/Form/CheckBox'
@@ -315,19 +315,6 @@ const Success = ({
     )
   }
 
-  const RenderHeader = (header: HeaderType) => (
-    <TopHeader color='grey800' size='20px' weight={600}>
-      <Icon
-        name='user'
-        size='27px'
-        color='blue600'
-        style={{ marginBottom: '10px', marginRight: '4px' }}
-      />
-      <TopHeaderTitle>{header.title}</TopHeaderTitle>
-      {header.description && <TopHeaderDescription>{header.description}</TopHeaderDescription>}
-    </TopHeader>
-  )
-
   const RenderDropDownBasedQuestion = (node: NodeItem) => {
     const questionElements = GetNodeQuestionElements(node)
 
@@ -450,7 +437,6 @@ const Success = ({
     dataRef.current = { blocking, context, nodes: newNodes }
   }
 
-  // TODO: FRICTIONS - SHOULD NOT ENABLE FORM SUBMISSION WITH THIS UNCHECKED
   const renderSingleCheckbox = (node: NodeItem) => {
     return (
       <LabelItem htmlFor={node.id} key={`checkbox-${node.id}`}>

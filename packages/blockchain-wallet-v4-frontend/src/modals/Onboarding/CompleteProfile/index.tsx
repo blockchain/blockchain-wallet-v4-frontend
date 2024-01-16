@@ -153,7 +153,6 @@ const CompleteProfile = (props) => {
   }
 
   const getOnClick = (step: COMPLETE_PROFILE_STEPS) => {
-    handleClose()
     switch (step) {
       case 'KYC_VERIFICATION':
         return startVerification()
