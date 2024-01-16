@@ -5,6 +5,7 @@ import { Field, getFormValues, reduxForm } from 'redux-form'
 
 import { HeaderType, NodeItem, NodeItemTypes, NodeTextType } from '@core/types'
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   FlyoutContainer,
   FlyoutContent,
@@ -482,7 +483,6 @@ const Success = ({
   return (
     <FlyoutContainer>
       <CustomForm onSubmit={handleSubmit}>
-        {introPage?.header && RenderHeader(introPage?.header)}
         {!introPage?.header && (
           <FlyoutHeader mode='none' data-e2e='SelfAssessmentSuccess'>
             <TopText color='grey800' size='20px' weight={600}>
@@ -496,35 +496,38 @@ const Success = ({
           </FlyoutHeader>
         )}
         <FlyoutContent mode={introPage?.header ? 'middle' : 'top'}>
-          {error && (
-            <ErrorTextContainer>
-              <ErrorText>
-                <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
-                Error: {error}
-              </ErrorText>
-            </ErrorTextContainer>
-          )}
+          <FlyoutWrapper>
+            {introPage?.header && RenderHeader(introPage?.header)}
+            {error && (
+              <ErrorTextContainer>
+                <ErrorText>
+                  <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
+                  Error: {error}
+                </ErrorText>
+              </ErrorTextContainer>
+            )}
 
-          {nodes &&
-            nodes.map((node) => {
-              if (node.type === NodeItemTypes.MULTIPLE_SELECTION) {
-                return node.isDropdown
-                  ? RenderDropDownBasedQuestion(node)
-                  : renderCheckBoxBasedQuestion(node)
-              }
-              if (
-                node.type === NodeItemTypes.SINGLE_SELECTION ||
-                node.type === NodeItemTypes.SELECTION
-              ) {
-                return node.isDropdown
-                  ? RenderDropDownBasedQuestion(node)
-                  : RenderSingleSelectionQuestion(node)
-              }
-              if (node.type === NodeItemTypes.OPEN_ENDED) {
-                return RenderTextBoxQuestion(node)
-              }
-              return null
-            })}
+            {nodes &&
+              nodes.map((node) => {
+                if (node.type === NodeItemTypes.MULTIPLE_SELECTION) {
+                  return node.isDropdown
+                    ? RenderDropDownBasedQuestion(node)
+                    : renderCheckBoxBasedQuestion(node)
+                }
+                if (
+                  node.type === NodeItemTypes.SINGLE_SELECTION ||
+                  node.type === NodeItemTypes.SELECTION
+                ) {
+                  return node.isDropdown
+                    ? RenderDropDownBasedQuestion(node)
+                    : RenderSingleSelectionQuestion(node)
+                }
+                if (node.type === NodeItemTypes.OPEN_ENDED) {
+                  return RenderTextBoxQuestion(node)
+                }
+                return null
+              })}
+          </FlyoutWrapper>
         </FlyoutContent>
         <FlyoutFooter collapsed>
           {introPage?.footer?.length > 0 ? (

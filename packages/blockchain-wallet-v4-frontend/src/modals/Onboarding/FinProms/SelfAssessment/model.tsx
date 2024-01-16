@@ -49,7 +49,6 @@ export const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 40px;
 `
 export const TopText = styled(Text)`
   display: flex;
