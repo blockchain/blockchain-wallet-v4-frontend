@@ -26,20 +26,6 @@ const QUESTIONS_INITIAL = {
 const ENDPOINT = 'nabu-gateway/onboarding/quiz'
 
 // TODO: FRICTIONS - REMOVE TEST STATUSES
-const RETRY = {
-  nextRetryDate: '2024-01-16T05:19:52.219259Z',
-  status: 'RETRY'
-}
-
-const RETRY_LATER = {
-  nextRetryDate: '2024-01-16T21:19:52.219259Z',
-  status: 'RETRY_LATER'
-}
-
-const SUCCESS = {
-  status: 'SUCCESS'
-}
-
 const FAILED = { status: 'FAILED' }
 
 const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
@@ -85,11 +71,6 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
       const response = await axios.put(`${api}/${ENDPOINT}`, dataRef.current, {
         headers: { 'Content-Type': 'application/json', authorization: `Bearer ${nabuToken}` }
       })
-      // TODO: FRICTIONS thoroughly check each status is correctly displayed
-      // {
-      //   "status": "SUCCESS", "RETRY", "RETRY_LATER", "FAILED",
-      //   "nextRetryDate": "2023..."
-      // }
       setResultData(response.data)
     } catch (e) {
       // TODO: FRICTIONS check what to do here

@@ -31,13 +31,11 @@ const LinkItem = ({ iconUrl, metadata, onClick, status, subtitle, title }: Props
 
   const hasCountdown = !!metadata?.countdownDate
 
-  // TODO: FRICTIONS - Revert this testing thing
   return (
     <ItemButton
-      // disabled={hasCountdown || isDisabled || isPending}
+      disabled={hasCountdown || isDisabled || isPending}
       status={status}
-      // onClick={isIdle ? onClick : () => {}}
-      onClick={onClick}
+      onClick={isIdle ? onClick : () => {}}
     >
       <ButtonContent>
         <IconWrapper>

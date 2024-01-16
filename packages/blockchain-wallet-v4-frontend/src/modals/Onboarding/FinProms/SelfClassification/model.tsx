@@ -135,7 +135,7 @@ export const LabelItem = styled.label`
   cursor: pointer;
 `
 
-export const AlertWrapper = styled.div`
+export const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

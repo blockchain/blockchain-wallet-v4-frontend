@@ -20,20 +20,17 @@ import {
 } from '../../KycVerification/ExtraFields/model'
 import { SpinnerWrapper } from '../../KycVerification/UserAddress/UserAddress.model'
 import {
-  AlertWrapper,
   CenterField,
   CheckBoxContainer,
   CheckBoxText,
   CustomForm,
   ErrorText,
   ErrorTextContainer,
+  InfoWrapper,
   Label,
   LabelItem,
   QuestionDescription,
-  QuestionTitle,
-  TopHeader,
-  TopHeaderDescription,
-  TopHeaderTitle
+  QuestionTitle
 } from './model'
 
 type Props = {
@@ -418,14 +415,14 @@ const Success = ({
   // "style": "EXPANDABLE" | "PLAIN" | "WARNING" | "ERROR" | "NOTICE" | "SUCCESS"
   const renderNodeInfo = (node: NodeItem) => {
     return (
-      <AlertWrapper>
+      <InfoWrapper>
         <Text size='14px' weight={600}>
           {node.text}
         </Text>
         <Text size='12px' weight={500} color='grey900'>
           {node.description}
         </Text>
-      </AlertWrapper>
+      </InfoWrapper>
     )
   }
 
@@ -501,8 +498,6 @@ const Success = ({
             if (node.type === NodeItemTypes.OPEN_ENDED) {
               return RenderTextBoxQuestion(node)
             }
-            // TODO: FRICTIONS REMOVE
-            // console.log('ERROR: NOT RENDERING NODE OF TYPE', node.type, { node })
             return null
           })}
 
