@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import axios from 'axios'
 import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 
