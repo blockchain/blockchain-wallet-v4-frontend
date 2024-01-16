@@ -135,7 +135,7 @@ export const LabelItem = styled.label`
   cursor: pointer;
 `
 
-export const InfoWrapper = styled.div`
+export const InfoWrapper = styled.div<{ type?: string }>`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -143,4 +143,5 @@ export const InfoWrapper = styled.div`
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
   background-color: ${(props) => props.theme.grey000};
+  border: ${(props) => (props.type === 'WARNING' ? '1px solid #D46A00' : 'none')};
 `

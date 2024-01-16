@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { differenceInMilliseconds } from 'date-fns'
 import { call, delay, put, select, take } from 'redux-saga/effects'
+import { call as typedCall } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
@@ -607,6 +608,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           })
         )
         yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))
+        return
+      }
+
+      const steps = yield* typedCall(api.fetchVerificationSteps)
+      if (steps.items[steps.items.length - 1].status === 'DISABLED') {
+        yield put(
+          actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: 'BuySellInit' })
+        )
+        yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))
+
         return
       }
 
