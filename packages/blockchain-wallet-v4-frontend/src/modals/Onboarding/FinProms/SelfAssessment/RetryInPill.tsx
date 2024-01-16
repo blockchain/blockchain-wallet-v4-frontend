@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { Text } from 'blockchain-info-components'
 import { useCountDown } from 'hooks'
 
+import { useCountdownTo } from '../../CompleteProfile/countdownTo'
+
 const PillWrapper = styled.div`
   border: 1px solid ${(props) => props.theme.blue600};
   border-radius: 32px;
@@ -11,7 +13,7 @@ const PillWrapper = styled.div`
 `
 
 const RetryInPill = ({ date }) => {
-  const { timer } = useCountDown(new Date(date), 0, 'hh:mm:ss')
+  const timer = useCountdownTo(date)
 
   return (
     <PillWrapper>
