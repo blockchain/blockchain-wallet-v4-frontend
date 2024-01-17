@@ -18,6 +18,8 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import { Loading, LoadingTextEnum } from '../../../components'
 import { Header } from '../Header'
 import SelfClassificationSuccess from './SelfClassificationSuccess'
+import { GenericNabuError } from 'components/GenericNabuError'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 
 const FORM_CONTEXT = 'SELF_CLASSIFICATION'
 
@@ -32,9 +34,10 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
     nodes: []
   })
 
-  const { data: extraKYCResponse, isLoading, isNotAsked } = useRemote(getKYCExtraSteps)
+  const { data: extraKYCResponse, isLoading, isNotAsked, error } = useRemote(getKYCExtraSteps)
 
   const [show, setShow] = useState(false)
+  const [showError, setShowError] = useState('')
 
   const handleClose = () => {
     setShow(false)
@@ -53,6 +56,10 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
   }
 
   const handleSubmit = async () => {
+    if (dataRef.current.nodes.length === 0 && extraKYCResponse) {
+      dataRef.current = extraKYCResponse
+    }
+
     // The catch here is that is sends a put to the very same endpoint, saves, and doing a get retrieves the new fields.
     // So we need to wait for the PUT to end before doing a new fetch.
     // Using dispatch(identityVerification.saveKYCExtraQuestions()) did not work because it does not wait
@@ -66,9 +73,7 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
       )
       dispatch(identityVerification.fetchExtraKYC(FORM_CONTEXT))
     } catch (e) {
-      // TODO: FRICTIONS check what to do here
-      // eslint-disable-next-line no-console
-      console.error(e)
+      setShowError(e.message)
     }
   }
 
@@ -87,6 +92,9 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
     }
   }, [extraKYCResponse])
 
+  const showLoading = isLoading || isNotAsked
+  const hasSomeError = !isLoading && (showError || !!error)
+
   return (
     <Flyout
       position={position}
@@ -97,7 +105,15 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
       data-e2e='selfClassificationModal'
     >
       <FlyoutChild>
-        {(isLoading || isNotAsked) && <Loading text={LoadingTextEnum.LOADING} />}
+        {showLoading && <Loading text={LoadingTextEnum.LOADING} />}
+        {hasSomeError && (
+          <FlyoutOopsError
+            action={'close'}
+            data-e2e={'selfClassificationError'}
+            errorMessage={showError ?? error}
+            handler={handleClose}
+          />
+        )}
         {!isLoading && extraKYCResponse && (
           <>
             <Header text='Self Classification Questionaire' onClickBack={handleClose} />

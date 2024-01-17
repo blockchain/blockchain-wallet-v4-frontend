@@ -415,13 +415,15 @@ const Success = ({
   // "style": "EXPANDABLE" | "PLAIN" | "WARNING" | "ERROR" | "NOTICE" | "SUCCESS"
   const renderNodeInfo = (node: NodeItem) => {
     return (
-      <InfoWrapper>
+      <InfoWrapper colorScheme={node.style}>
         <Text size='14px' weight={600}>
-          {node.text}
+          <ReactMarkdown linkTarget='_blank'>{node.text}</ReactMarkdown>
         </Text>
-        <Text size='12px' weight={500} color='grey900'>
-          {node.description}
-        </Text>
+        {node.description && (
+          <Text size='12px' weight={500} color='grey900'>
+            <ReactMarkdown linkTarget='_blank'>{node.description}</ReactMarkdown>
+          </Text>
+        )}
       </InfoWrapper>
     )
   }
