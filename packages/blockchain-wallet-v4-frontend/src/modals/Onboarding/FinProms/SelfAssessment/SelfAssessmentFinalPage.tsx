@@ -35,13 +35,13 @@ type Props = {
   handleClose: () => void
 } & QuizSubmitResult
 
-const SelfAssessmentFinalPage = ({ handleClose, nextRetryDate = '', status }: Props) => {
+const SelfAssessmentFinalPage = ({ countdownDate = '', handleClose, status }: Props) => {
   const { iconColor, iconName, subtitle, title } = STATUS_ELEMENTS[status]
 
   const isRetryNow = status === 'RETRY'
-  const isRetryLater = status === 'RETRY_LATER' && nextRetryDate
+  const isRetryLater = status === 'RETRY_LATER' && countdownDate
 
-  const nextDate = useMemo(() => new Date(nextRetryDate), [nextRetryDate])
+  const nextDate = useMemo(() => new Date(countdownDate), [countdownDate])
 
   return (
     <FlyoutContainer>

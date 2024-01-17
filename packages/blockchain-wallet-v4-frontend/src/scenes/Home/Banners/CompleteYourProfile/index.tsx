@@ -42,7 +42,7 @@ const CompleteYourProfile = () => {
     dispatch(buySell.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY }))
   }, [])
 
-  const itemsLength = verificationSteps?.items.length ?? 0
+  const itemsLength = verificationSteps?.items?.length ?? 0
   const completedSteps =
     verificationSteps?.items?.filter((step) => step.status === 'COMPLETED').length ?? 0
 

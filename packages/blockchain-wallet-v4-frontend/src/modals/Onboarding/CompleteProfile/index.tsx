@@ -132,7 +132,7 @@ const CompleteProfile = (props) => {
     dispatch(buySell.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY }))
   }, [])
 
-  const itemsLength = handholdData?.items.length ?? 0
+  const itemsLength = handholdData?.items?.length ?? 0
   const completedSteps =
     handholdData?.items?.filter((step) => step.status === 'COMPLETED').length ?? 0
 

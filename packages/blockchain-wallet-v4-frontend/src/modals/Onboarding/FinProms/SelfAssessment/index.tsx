@@ -137,7 +137,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
             <SelfAssessmentFinalPage
               handleClose={handleClose}
               status={resultData.status}
-              nextRetryDate={resultData.nextRetryDate ?? ''}
+              countdownDate={resultData.countdownDate ?? ''}
             />
           )}
         </Wrapper>
