@@ -93,31 +93,6 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
   const showLoading = isLoading || isNotAsked
   const hasSomeError = !isLoading && (showError || !!error)
 
-  // This is a hack to make default values return from BE to work.
-  // TODO: implement handing of default values instead
-  const modifiedExtraKYCResponse = extraKYCResponse
-    ? {
-        ...extraKYCResponse,
-        nodes: extraKYCResponse.nodes.map((node) => {
-          if (node.type === 'SINGLE_SELECTION') {
-            return node.children
-              ? {
-                  ...node,
-                  children: node?.children?.map((child) => {
-                    return {
-                      ...child,
-                      checked: false
-                    }
-                  })
-                }
-              : node
-          }
-
-          return node
-        })
-      }
-    : undefined
-
   return (
     <Flyout
       position={position}
@@ -137,11 +112,11 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
             handler={handleClose}
           />
         )}
-        {!isLoading && modifiedExtraKYCResponse && (
+        {!isLoading && extraKYCResponse && (
           <>
             <Header text='Self Classification Questionaire' onClickBack={handleClose} />
             <SelfClassificationSuccess
-              {...modifiedExtraKYCResponse}
+              {...extraKYCResponse}
               onSubmit={handleSubmit}
               dataRef={dataRef}
             />
