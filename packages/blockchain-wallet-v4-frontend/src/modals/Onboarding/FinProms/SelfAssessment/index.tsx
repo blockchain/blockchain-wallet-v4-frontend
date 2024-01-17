@@ -25,9 +25,6 @@ const QUESTIONS_INITIAL = {
 
 const ENDPOINT = 'nabu-gateway/onboarding/quiz'
 
-// TODO: FRICTIONS - REMOVE TEST STATUSES
-const FAILED = { status: 'FAILED' }
-
 const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
   const dispatch = useDispatch()
   const api = useSelector(getDomainApi).getOrElse('')
@@ -83,12 +80,6 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
   const handleClose = () => {
     setShow(false)
 
-    // dispatch(
-    //   trackEvent({
-    //     key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_CLOSED,
-    //     properties: { current_step_completed: String(data.currentStep) }
-    //   })
-    // )
     dispatch(identityVerification.fetchVerificationSteps())
     dispatch(
       modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: ModalName.SELF_ASSESSMENT })

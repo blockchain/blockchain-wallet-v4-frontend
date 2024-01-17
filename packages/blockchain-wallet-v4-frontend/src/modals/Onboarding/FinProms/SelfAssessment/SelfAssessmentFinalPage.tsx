@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout/Layout'
-import { modals } from 'data/actions'
 
 import { FinalPageContent, ResultsWrapper } from './model'
 import RetryInPill from './RetryInPill'
@@ -40,7 +38,6 @@ type Props = {
 const SelfAssessmentFinalPage = ({ handleClose, nextRetryDate = '', status }: Props) => {
   const { iconColor, iconName, subtitle, title } = STATUS_ELEMENTS[status]
 
-  const isSuccess = status === 'SUCCESS'
   const isRetryNow = status === 'RETRY'
   const isRetryLater = status === 'RETRY_LATER' && nextRetryDate
 

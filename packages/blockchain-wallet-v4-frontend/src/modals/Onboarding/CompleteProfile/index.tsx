@@ -33,41 +33,16 @@ const CompleteProfile = (props) => {
 
   const data = useSelector(getData)
 
-  const {
-    data: handholdData,
-    hasData: hasHandholdData,
-    isLoading,
-    isNotAsked
-  } = useRemote(getVerificationSteps)
+  const { data: handholdData, isLoading, isNotAsked } = useRemote(getVerificationSteps)
 
   const [show, setShow] = useState(false)
 
   const handleClose = () => {
     setShow(false)
 
-    // dispatch(
-    //   trackEvent({
-    //     key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_CLOSED,
-    //     properties: { current_step_completed: String(data.currentStep) }
-    //   })
-    // )
-
     setTimeout(() => {
       props.close(ModalName.COMPLETE_USER_PROFILE)
     }, duration)
-  }
-
-  const trackButtonEvent = (eventType: COMPLETE_PROFILE_STEPS) => {
-    // dispatch(
-    //   trackEvent({
-    //     key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_BUTTON_CLICKED,
-    //     properties: {
-    //       button_clicked: isButtonClick,
-    //       current_step_completed: String(data.currentStep),
-    //       item: eventType
-    //     }
-    //   })
-    // )
   }
 
   const startVerification = () => {
@@ -78,8 +53,6 @@ const CompleteProfile = (props) => {
         tier: 2
       })
     )
-
-    trackButtonEvent('KYC_VERIFICATION')
   }
 
   const startAddingCards = () => {
@@ -93,7 +66,6 @@ const CompleteProfile = (props) => {
   }
 
   const handleLinkBankOrCardClick = () => {
-    trackButtonEvent('BUY_CRYPTO')
     if (data.isVerifiedId) {
       startAddingCards()
     } else {
@@ -117,7 +89,6 @@ const CompleteProfile = (props) => {
           tier: 2
         })
       )
-      trackButtonEvent('KYC_VERIFICATION')
     }
 
     dispatch(modals.closeModal(ModalName.COMPLETE_USER_PROFILE))
@@ -137,18 +108,18 @@ const CompleteProfile = (props) => {
 
   const getOnClick = (step: COMPLETE_PROFILE_STEPS) => {
     switch (step) {
+      case 'EMAIL_VERIFICATION':
+        return handleEmailVerification()
       case 'KYC_VERIFICATION':
         return startVerification()
-      case 'FINPROMS_ASSESSMENT':
-        return handleSelfAssessment()
       case 'SELF_CLASSIFICATION':
         return handleSelfClassification()
+      case 'FINPROMS_ASSESSMENT':
+        return handleSelfAssessment()
       case 'DEPOSIT_CRYPTO':
         return handleLinkBankOrCardClick()
       case 'BUY_CRYPTO':
         return handleBuyCryptoClick()
-      case 'EMAIL_VERIFICATION':
-        return handleEmailVerification()
       default:
         return startVerification()
     }
@@ -156,16 +127,9 @@ const CompleteProfile = (props) => {
 
   useEffect(() => {
     setShow(true)
-    if (!hasHandholdData) dispatch(identityVerification.fetchVerificationSteps())
+    dispatch(identityVerification.fetchVerificationSteps())
     dispatch(buySell.fetchCards(false))
     dispatch(buySell.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY }))
-
-    // dispatch(
-    //   trackEvent({
-    //     key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_VIEWED,
-    //     properties: { current_step_completed: String(data.currentStep) }
-    //   })
-    // )
   }, [])
 
   const itemsLength = handholdData?.items.length ?? 0
@@ -241,8 +205,8 @@ const CompleteProfile = (props) => {
                       iconUrl={iconUrl}
                       key={id}
                       metadata={metadata}
-                      onClick={() => getOnClick(id)}
-                      status={status}
+                      onClick={() => getOnClick(id as COMPLETE_PROFILE_STEPS)}
+                      status={status as 'IDLE' | 'PENDING' | 'COMPLETED' | 'DISABLED'}
                       subtitle={subtitle}
                       title={title}
                     />
