@@ -42,12 +42,6 @@ const CompleteYourProfile = () => {
     dispatch(buySell.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY }))
   }, [])
 
-  const itemsLength = verificationSteps?.items?.length ?? 0
-  const completedSteps =
-    verificationSteps?.items?.filter((step) => step.status === 'COMPLETED').length ?? 0
-
-  const percentage = itemsLength ? (completedSteps / itemsLength) * 100 : 0
-
   const handleClick = useCallback(() => {
     dispatch(
       modals.showModal(ModalName.COMPLETE_USER_PROFILE, {
@@ -59,6 +53,14 @@ const CompleteYourProfile = () => {
   const onCloseClick = () => {
     dispatch(cache.announcementDismissed(ANNOUNCEMENTS.COMPLETE_PROFILE))
   }
+
+  if (verificationSteps === '') return null
+
+  const itemsLength = verificationSteps?.items?.length ?? 0
+  const completedSteps =
+    verificationSteps?.items?.filter((step) => step.status === 'COMPLETED').length ?? 0
+
+  const percentage = itemsLength ? (completedSteps / itemsLength) * 100 : 0
 
   return (
     <Wrapper>
