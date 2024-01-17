@@ -5,6 +5,7 @@ import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 
 import { getDomainApi } from '@core/redux/walletOptions/selectors'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { modals } from 'data/actions'
 import { identityVerification } from 'data/components/actions'
 import { getUserApiToken } from 'data/modules/profile/selectors'
@@ -16,7 +17,6 @@ import { Wrapper } from './model'
 import SelfAssessmentFinalPage from './SelfAssessmentFinalPage'
 import SelfAssessment from './SelfAssessmentSuccess'
 import { IntroPageType, QuizSubmitResult, SelfAssessmentType } from './types'
-import { FlyoutOopsError } from 'components/Flyout/Errors'
 
 const QUESTIONS_INITIAL = {
   blocking: false,
