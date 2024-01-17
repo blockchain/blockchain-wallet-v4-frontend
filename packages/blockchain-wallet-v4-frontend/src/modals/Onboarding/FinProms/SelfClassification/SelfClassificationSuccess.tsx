@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import ReactMarkdown from 'react-markdown'
-import { useSelector } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { Field, getFormValues, reduxForm } from 'redux-form'
 
 import { ExtraQuestionsType, NodeItem, NodeItemTypes, NodeTextType } from '@core/types'
@@ -523,6 +523,19 @@ const Success = ({
   )
 }
 
-export default reduxForm<{}, Props>({
-  form: 'SelfClassification'
-})(Success)
+export default connect((_, ownProps: Props) => ({
+  initialValues: ownProps.nodes.reduce((acc, node) => {
+    if (node.type === 'SINGLE_SELECTION') {
+      return {
+        ...acc,
+        [node.id]: node.children?.find((child) => child.checked)?.id
+      }
+    }
+
+    return acc
+  }, {})
+}))(
+  reduxForm<{}, Props>({
+    form: 'SelfClassification'
+  })(Success)
+)
