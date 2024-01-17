@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout/Layout'
-import { modals } from 'data/actions'
 
 import { FinalPageContent, ResultsWrapper } from './model'
 import RetryInPill from './RetryInPill'
@@ -37,14 +35,13 @@ type Props = {
   handleClose: () => void
 } & QuizSubmitResult
 
-const SelfAssessmentFinalPage = ({ handleClose, nextRetryDate = '', status }: Props) => {
+const SelfAssessmentFinalPage = ({ countdownDate = '', handleClose, status }: Props) => {
   const { iconColor, iconName, subtitle, title } = STATUS_ELEMENTS[status]
 
-  const isSuccess = status === 'SUCCESS'
   const isRetryNow = status === 'RETRY'
-  const isRetryLater = status === 'RETRY_LATER' && nextRetryDate
+  const isRetryLater = status === 'RETRY_LATER' && countdownDate
 
-  const nextDate = useMemo(() => new Date(nextRetryDate), [nextRetryDate])
+  const nextDate = useMemo(() => new Date(countdownDate), [countdownDate])
 
   return (
     <FlyoutContainer>

@@ -13,6 +13,6 @@ export type SelfAssessmentType = Omit<ExtraQuestionsType, 'nodes' | 'context'> &
 }
 
 export type QuizSubmitResult = {
-  nextRetryDate?: string
+  countdownDate?: string
   status: 'SUCCESS' | 'RETRY' | 'RETRY_LATER' | 'FAILED'
 }

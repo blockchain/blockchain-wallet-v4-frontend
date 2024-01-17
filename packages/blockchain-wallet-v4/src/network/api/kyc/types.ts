@@ -37,6 +37,7 @@ export type NodeItem = {
   input?: string
   instructions?: string
   isDropdown?: boolean
+  style?: string
   text: string
   type: string
 }

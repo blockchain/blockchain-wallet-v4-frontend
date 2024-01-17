@@ -38,13 +38,12 @@ const ErrorText = styled(Text)`
 `
 
 const Failure = (props: Props) => {
-  let text = <FormattedMessage id='buttons.close' defaultMessage='Close' />
-  switch (props.action) {
-    case 'retry':
-    default:
-      text = <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
-      break
-  }
+  const text =
+    props.action === 'retry' ? (
+      <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
+    ) : (
+      <FormattedMessage id='buttons.close' defaultMessage='Close' />
+    )
 
   const message =
     typeof props.errorMessage === 'string'

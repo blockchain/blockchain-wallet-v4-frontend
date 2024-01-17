@@ -5,6 +5,7 @@ import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 
 import { getDomainApi } from '@core/redux/walletOptions/selectors'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { modals } from 'data/actions'
 import { identityVerification } from 'data/components/actions'
 import { getUserApiToken } from 'data/modules/profile/selectors'
@@ -25,9 +26,6 @@ const QUESTIONS_INITIAL = {
 
 const ENDPOINT = 'nabu-gateway/onboarding/quiz'
 
-// TODO: FRICTIONS - REMOVE TEST STATUSES
-const FAILED = { status: 'FAILED' }
-
 const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
   const dispatch = useDispatch()
   const api = useSelector(getDomainApi).getOrElse('')
@@ -36,6 +34,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
   const [step, setStep] = useState(-1)
   const [show, setShow] = useState(false)
   const [isLoading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState()
   const [modalQuestions, setModalQuestions] = useState<SelfAssessmentType>(QUESTIONS_INITIAL)
   const [resultData, setResultData] = useState<QuizSubmitResult>({} as QuizSubmitResult)
 
@@ -55,9 +54,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
       dataRef.current = response.data // This is to have the ref populated beforehand
       setModalQuestions(response.data)
     } catch (e) {
-      // TODO: FRICTIONS check what to do here
-      // eslint-disable-next-line no-console
-      console.error(e)
+      setErrorMessage(e.message)
     }
     setLoading(false)
   }
@@ -73,9 +70,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
       })
       setResultData(response.data)
     } catch (e) {
-      // TODO: FRICTIONS check what to do here
-      // eslint-disable-next-line no-console
-      console.error(e)
+      setErrorMessage(e.message)
     }
     setLoading(false)
   }
@@ -83,12 +78,6 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
   const handleClose = () => {
     setShow(false)
 
-    // dispatch(
-    //   trackEvent({
-    //     key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_CLOSED,
-    //     properties: { current_step_completed: String(data.currentStep) }
-    //   })
-    // )
     dispatch(identityVerification.fetchVerificationSteps())
     dispatch(
       modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: ModalName.SELF_ASSESSMENT })
@@ -119,6 +108,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
   const isLastPage = step === pages?.length - 1
   const showResultScreen = !isLoading && !!resultData?.status
   const showAssessment = !isLoading && modalQuestions && !showResultScreen
+  const showError = !isLoading && errorMessage
 
   return (
     <Flyout
@@ -132,6 +122,14 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
       <FlyoutChild>
         <Wrapper>
           {isLoading && <Loading text={LoadingTextEnum.LOADING} />}
+          {showError && (
+            <FlyoutOopsError
+              errorMessage={errorMessage}
+              data-e2e='SelfAssessmentError'
+              action='close'
+              handler={handleClose}
+            />
+          )}
           {showAssessment && (
             <SelfAssessment
               introPage={step < 0 ? introPage : {}}
@@ -146,7 +144,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
             <SelfAssessmentFinalPage
               handleClose={handleClose}
               status={resultData.status}
-              nextRetryDate={resultData.nextRetryDate ?? ''}
+              countdownDate={resultData.countdownDate ?? ''}
             />
           )}
         </Wrapper>
