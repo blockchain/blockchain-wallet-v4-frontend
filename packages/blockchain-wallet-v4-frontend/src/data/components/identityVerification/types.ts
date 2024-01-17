@@ -104,7 +104,7 @@ export interface IdentityVerificationState {
   userAddresses: RemoteDataType<string, FindAddressResponse>
   userRetrieveAddress: RemoteDataType<string, RetrieveAddress>
   verificationStep: StepsType | null
-  verificationSteps: RemoteDataType<string, VerificationStepsType>
+  verificationSteps: RemoteDataType<string, VerificationStepsType | ''>
 }
 
 export type InfoAndResidentialFormValuesType = {
