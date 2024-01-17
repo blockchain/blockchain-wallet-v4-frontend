@@ -134,6 +134,7 @@ const CompleteProfile = (props) => {
   }, [])
 
   if (handholdData === '') {
+    dispatch(custodial.fetchProductEligibilityForUser())
     dispatch(modals.closeModal(ModalName.COMPLETE_USER_PROFILE))
     return null
   }
