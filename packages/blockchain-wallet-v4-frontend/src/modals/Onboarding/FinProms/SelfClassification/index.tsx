@@ -6,6 +6,7 @@ import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 import { getDomainApi } from '@core/redux/walletOptions/selectors'
 import { ExtraQuestionsType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import FlyoutContent from 'components/Flyout/Content'
 import { modals } from 'data/actions'
 import { identityVerification } from 'data/components/actions'
 import { getKYCExtraSteps } from 'data/components/identityVerification/selectors'
@@ -17,6 +18,8 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import { Loading, LoadingTextEnum } from '../../../components'
 import { Header } from '../Header'
 import SelfClassificationSuccess from './SelfClassificationSuccess'
+import { GenericNabuError } from 'components/GenericNabuError'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 
 const FORM_CONTEXT = 'SELF_CLASSIFICATION'
 
@@ -31,9 +34,10 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
     nodes: []
   })
 
-  const { data: extraKYCResponse, isLoading, isNotAsked } = useRemote(getKYCExtraSteps)
+  const { data: extraKYCResponse, isLoading, isNotAsked, error } = useRemote(getKYCExtraSteps)
 
   const [show, setShow] = useState(false)
+  const [showError, setShowError] = useState('')
 
   const handleClose = () => {
     setShow(false)
@@ -69,9 +73,7 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
       )
       dispatch(identityVerification.fetchExtraKYC(FORM_CONTEXT))
     } catch (e) {
-      // TODO: FRICTIONS check what to do here
-      // eslint-disable-next-line no-console
-      console.error(e)
+      setShowError(e.message)
     }
   }
 
@@ -90,6 +92,9 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
     }
   }, [extraKYCResponse])
 
+  const showLoading = isLoading || isNotAsked
+  const hasSomeError = !isLoading && (showError || !!error)
+
   return (
     <Flyout
       position={position}
@@ -100,7 +105,15 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
       data-e2e='selfClassificationModal'
     >
       <FlyoutChild>
-        {(isLoading || isNotAsked) && <Loading text={LoadingTextEnum.LOADING} />}
+        {showLoading && <Loading text={LoadingTextEnum.LOADING} />}
+        {hasSomeError && (
+          <FlyoutOopsError
+            action={'close'}
+            data-e2e={'selfClassificationError'}
+            errorMessage={showError ?? error}
+            handler={handleClose}
+          />
+        )}
         {!isLoading && extraKYCResponse && (
           <>
             <Header text='Self Classification Questionaire' onClickBack={handleClose} />
