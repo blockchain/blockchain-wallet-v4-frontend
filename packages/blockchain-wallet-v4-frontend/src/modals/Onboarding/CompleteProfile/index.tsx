@@ -133,6 +133,11 @@ const CompleteProfile = (props) => {
     dispatch(custodial.fetchProductEligibilityForUser())
   }, [])
 
+  if (handholdData === '') {
+    dispatch(modals.closeModal(ModalName.COMPLETE_USER_PROFILE))
+    return null
+  }
+
   const itemsLength = handholdData?.items?.length ?? 0
   const completedSteps =
     handholdData?.items?.filter((step) => step.status === 'COMPLETED').length ?? 0
