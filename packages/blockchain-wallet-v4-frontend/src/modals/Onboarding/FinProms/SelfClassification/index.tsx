@@ -6,7 +6,7 @@ import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 import { getDomainApi } from '@core/redux/walletOptions/selectors'
 import { ExtraQuestionsType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import FlyoutContent from 'components/Flyout/Content'
+import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { modals } from 'data/actions'
 import { identityVerification } from 'data/components/actions'
 import { getKYCExtraSteps } from 'data/components/identityVerification/selectors'
@@ -18,8 +18,6 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import { Loading, LoadingTextEnum } from '../../../components'
 import { Header } from '../Header'
 import SelfClassificationSuccess from './SelfClassificationSuccess'
-import { GenericNabuError } from 'components/GenericNabuError'
-import { FlyoutOopsError } from 'components/Flyout/Errors'
 
 const FORM_CONTEXT = 'SELF_CLASSIFICATION'
 
@@ -34,7 +32,7 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
     nodes: []
   })
 
-  const { data: extraKYCResponse, isLoading, isNotAsked, error } = useRemote(getKYCExtraSteps)
+  const { data: extraKYCResponse, error, isLoading, isNotAsked } = useRemote(getKYCExtraSteps)
 
   const [show, setShow] = useState(false)
   const [showError, setShowError] = useState('')
@@ -95,6 +93,31 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
   const showLoading = isLoading || isNotAsked
   const hasSomeError = !isLoading && (showError || !!error)
 
+  // This is a hack to make default values return from BE to work.
+  // TODO: implement handing of default values instead
+  const modifiedExtraKYCResponse = extraKYCResponse
+    ? {
+        ...extraKYCResponse,
+        nodes: extraKYCResponse.nodes.map((node) => {
+          if (node.type === 'SINGLE_SELECTION') {
+            return node.children
+              ? {
+                  ...node,
+                  children: node?.children?.map((child) => {
+                    return {
+                      ...child,
+                      checked: false
+                    }
+                  })
+                }
+              : node
+          }
+
+          return node
+        })
+      }
+    : undefined
+
   return (
     <Flyout
       position={position}
@@ -108,17 +131,17 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
         {showLoading && <Loading text={LoadingTextEnum.LOADING} />}
         {hasSomeError && (
           <FlyoutOopsError
-            action={'close'}
-            data-e2e={'selfClassificationError'}
+            action='close'
+            data-e2e='selfClassificationError'
             errorMessage={showError ?? error}
             handler={handleClose}
           />
         )}
-        {!isLoading && extraKYCResponse && (
+        {!isLoading && modifiedExtraKYCResponse && (
           <>
             <Header text='Self Classification Questionaire' onClickBack={handleClose} />
             <SelfClassificationSuccess
-              {...extraKYCResponse}
+              {...modifiedExtraKYCResponse}
               onSubmit={handleSubmit}
               dataRef={dataRef}
             />

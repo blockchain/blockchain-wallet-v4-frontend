@@ -2033,7 +2033,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     // show sanctions for buy
     if (products?.buy?.reasonNotEligible) {
-      if (products.buy.reasonNotEligible.reason === 'NOT_ELIGIBLE') {
+      if (products.buy.reasonNotEligible.reason === 'FRICTION_REQUIRED') {
         const steps = yield* typedCall(api.fetchVerificationSteps)
         if (steps !== '' && steps.items[steps.items.length - 1].status === 'DISABLED') {
           yield put(
@@ -2062,7 +2062,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
     // show sanctions for sell
     if (products?.sell?.reasonNotEligible && orderType === OrderType.SELL) {
-      if (products.sell.reasonNotEligible.reason === 'NOT_ELIGIBLE') {
+      if (products.sell.reasonNotEligible.reason === 'FRICTION_REQUIRED') {
         const steps = yield* typedCall(api.fetchVerificationSteps)
         if (steps !== '' && steps.items[steps.items.length - 1].status === 'DISABLED') {
           yield put(

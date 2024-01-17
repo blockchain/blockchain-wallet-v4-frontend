@@ -600,7 +600,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         return
       }
 
-      if (products.swap.reasonNotEligible.reason === 'NOT_ELIGIBLE') {
+      if (products.swap.reasonNotEligible.reason === 'FRICTION_REQUIRED') {
         const steps = yield* typedCall(api.fetchVerificationSteps)
         if (steps !== '' && steps.items[steps.items.length - 1].status === 'DISABLED') {
           yield put(
