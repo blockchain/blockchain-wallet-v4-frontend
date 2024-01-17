@@ -7,7 +7,7 @@ import { COMPLETE_PROFILE_STEPS, ProductTypes } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import CircularProgressBar from 'components/CircularProgressBar'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { modals } from 'data/actions'
+import { custodial, modals } from 'data/actions'
 import { buySell, identityVerification } from 'data/components/actions'
 import { getVerificationSteps } from 'data/components/identityVerification/selectors'
 import { ModalName } from 'data/types'
@@ -130,6 +130,7 @@ const CompleteProfile = (props) => {
     dispatch(identityVerification.fetchVerificationSteps())
     dispatch(buySell.fetchCards(false))
     dispatch(buySell.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY }))
+    dispatch(custodial.fetchProductEligibilityForUser())
   }, [])
 
   const itemsLength = handholdData?.items?.length ?? 0
