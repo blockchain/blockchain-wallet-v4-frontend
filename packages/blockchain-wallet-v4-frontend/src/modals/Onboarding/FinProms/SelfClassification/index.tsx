@@ -53,6 +53,10 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
   }
 
   const handleSubmit = async () => {
+    if (dataRef.current.nodes.length === 0 && extraKYCResponse) {
+      dataRef.current = extraKYCResponse
+    }
+
     // The catch here is that is sends a put to the very same endpoint, saves, and doing a get retrieves the new fields.
     // So we need to wait for the PUT to end before doing a new fetch.
     // Using dispatch(identityVerification.saveKYCExtraQuestions()) did not work because it does not wait

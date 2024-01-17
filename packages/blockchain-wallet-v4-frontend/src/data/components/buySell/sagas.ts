@@ -2035,7 +2035,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (products?.buy?.reasonNotEligible) {
       if (products.buy.reasonNotEligible.reason === 'NOT_ELIGIBLE') {
         const steps = yield* typedCall(api.fetchVerificationSteps)
-        if (steps.items[steps.items.length - 1].status === 'DISABLED') {
+        if (steps !== '' && steps.items[steps.items.length - 1].status === 'DISABLED') {
           yield put(
             actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: 'BuySellInit' })
           )
@@ -2064,7 +2064,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (products?.sell?.reasonNotEligible && orderType === OrderType.SELL) {
       if (products.sell.reasonNotEligible.reason === 'NOT_ELIGIBLE') {
         const steps = yield* typedCall(api.fetchVerificationSteps)
-        if (steps.items[steps.items.length - 1].status === 'DISABLED') {
+        if (steps !== '' && steps.items[steps.items.length - 1].status === 'DISABLED') {
           yield put(
             actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: 'BuySellInit' })
           )

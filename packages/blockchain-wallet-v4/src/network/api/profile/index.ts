@@ -377,7 +377,7 @@ export default ({
       url: nabuUrl
     })
 
-  const fetchVerificationSteps = (): VerificationStepsType =>
+  const fetchVerificationSteps = (): VerificationStepsType | '' =>
     authorizedGet({
       contentType: 'application/json',
       endPoint: '/onboarding/handhold',

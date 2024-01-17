@@ -600,13 +600,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         return
       }
 
-      const steps = yield* typedCall(api.fetchVerificationSteps)
-      if (steps.items[steps.items.length - 1].status === 'DISABLED') {
-        yield put(
-          actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: 'BuySellInit' })
-        )
+      if (products.swap.reasonNotEligible.reason === 'NOT_ELIGIBLE') {
+        const steps = yield* typedCall(api.fetchVerificationSteps)
+        if (steps !== '' && steps.items[steps.items.length - 1].status === 'DISABLED') {
+          yield put(
+            actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: 'BuySellInit' })
+          )
 
-        return
+          return
+        }
       }
 
       const message =
