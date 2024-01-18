@@ -1,22 +1,19 @@
 import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
+import { getCurrency } from '@core/redux/settings/selectors'
 import { ProductTypes } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import CircularProgressBar from 'components/CircularProgressBar'
-import { actions, selectors } from 'data'
+import { cache, modals } from 'data/actions'
+import { buySell, identityVerification } from 'data/components/actions'
+import { getVerificationSteps } from 'data/components/identityVerification/selectors'
 import { ModalName } from 'data/modals/types'
-import { RootState } from 'data/rootReducer'
-import { Analytics } from 'data/types'
 
 import ANNOUNCEMENTS from '../constants'
 import { BannerButton, CloseLink, IconWrapper, Wrapper } from '../styles'
-import { getData } from './selectors'
-
-const MAX_STEPS = 3
 
 const Row = styled.div`
   display: flex;
@@ -32,34 +29,38 @@ const Column = styled.div`
   flex: 1;
 `
 
-const CompleteYourProfile = ({
-  analyticsActions,
-  buySellActions,
-  cacheActions,
-  data,
-  fiatCurrency,
-  modalActions
-}: Props) => {
-  useEffect(() => {
-    buySellActions.fetchCards(false)
-    buySellActions.fetchPaymentMethods(fiatCurrency)
-    buySellActions.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY })
-  }, [fiatCurrency, buySellActions])
+const CompleteYourProfile = () => {
+  const dispatch = useDispatch()
 
-  const { currentStep } = data
-  const percentage = currentStep ? (currentStep / MAX_STEPS) * 100 : 0
+  const verificationSteps = useSelector(getVerificationSteps).getOrElse({ items: [] })
+  const fiatCurrency = useSelector(getCurrency).getOrElse('USD')
+
+  useEffect(() => {
+    dispatch(identityVerification.fetchVerificationSteps())
+    dispatch(buySell.fetchCards(false))
+    dispatch(buySell.fetchPaymentMethods(fiatCurrency))
+    dispatch(buySell.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY }))
+  }, [])
 
   const handleClick = useCallback(() => {
-    modalActions.showModal(ModalName.COMPLETE_USER_PROFILE, {
-      origin: 'SideNav'
-    })
-    analyticsActions.trackEvent({
-      key: Analytics.ONBOARDING_COMPLETE_PROFILE_BANNER_CLICKED,
-      properties: {
-        current_step_completed: String(currentStep)
-      }
-    })
-  }, [modalActions])
+    dispatch(
+      modals.showModal(ModalName.COMPLETE_USER_PROFILE, {
+        origin: 'SideNav'
+      })
+    )
+  }, [])
+
+  const onCloseClick = () => {
+    dispatch(cache.announcementDismissed(ANNOUNCEMENTS.COMPLETE_PROFILE))
+  }
+
+  if (verificationSteps === '') return null
+
+  const itemsLength = verificationSteps?.items?.length ?? 0
+  const completedSteps =
+    verificationSteps?.items?.filter((step) => step.status === 'COMPLETED').length ?? 0
+
+  const percentage = itemsLength ? (completedSteps / itemsLength) * 100 : 0
 
   return (
     <Wrapper>
@@ -67,7 +68,7 @@ const CompleteYourProfile = ({
         <IconWrapper>
           <CircularProgressBar percentage={percentage} strokeWidth={12}>
             <Text size='16px' color='blue600' weight={600}>
-              {`${currentStep}/${MAX_STEPS}`}
+              {`${completedSteps}/${itemsLength}`}
             </Text>
           </CircularProgressBar>
         </IconWrapper>
@@ -98,30 +99,11 @@ const CompleteYourProfile = ({
         <FormattedMessage id='modals.send.banner.get_started' defaultMessage='Get Started' />
       </BannerButton>
 
-      <CloseLink
-        data-e2e='newCoinCloseButton'
-        onClick={() => cacheActions.announcementDismissed(ANNOUNCEMENTS.COMPLETE_PROFILE)}
-      >
+      <CloseLink data-e2e='completeYourProfileClose' onClick={onCloseClick}>
         <Icon size='20px' color='grey400' name='close-circle' />
       </CloseLink>
     </Wrapper>
   )
 }
 
-const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
-  fiatCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  cacheActions: bindActionCreators(actions.cache, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type Props = ConnectedProps<typeof connector>
-
-export default connector(CompleteYourProfile)
+export default CompleteYourProfile

@@ -2,7 +2,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import { ExtraQuestionsType, FindAddressResponse, KycFlowsType, RetrieveAddress } from '@core/types'
+import {
+  ExtraQuestionsType,
+  FindAddressResponse,
+  KycFlowsType,
+  RetrieveAddress,
+  VerificationStepsType
+} from '@core/types'
 
 import { EMAIL_STEPS } from './model'
 import {
@@ -30,7 +36,8 @@ const initialState: IdentityVerificationState = {
   supportedDocuments: Remote.NotAsked,
   userAddresses: Remote.NotAsked,
   userRetrieveAddress: Remote.NotAsked,
-  verificationStep: null
+  verificationStep: null,
+  verificationSteps: Remote.NotAsked
 }
 
 const identityVerificationSlice = createSlice({
@@ -82,7 +89,16 @@ const identityVerificationSlice = createSlice({
     fetchUserAddressSuccess: (state, action: PayloadAction<FindAddressResponse>) => {
       state.userAddresses = Remote.Success(action.payload)
     },
-
+    fetchVerificationSteps: (state) => {},
+    fetchVerificationStepsFailure: (state, action: PayloadAction<string>) => {
+      state.verificationSteps = Remote.Failure(action.payload)
+    },
+    fetchVerificationStepsLoading: (state) => {
+      state.verificationSteps = Remote.Loading
+    },
+    fetchVerificationStepsSuccess: (state, action: PayloadAction<VerificationStepsType>) => {
+      state.verificationSteps = Remote.Success(action.payload)
+    },
     getPreIdvData: () => {},
     goToNextStep: () => {},
     goToPrevStep: () => {},

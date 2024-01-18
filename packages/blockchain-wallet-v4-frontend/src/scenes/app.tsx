@@ -99,6 +99,7 @@ const App = ({
   isCoinViewV2Enabled,
   isDebitCardEnabled,
   isDexEnabled,
+  isMnemonicRecoveryEnabled,
   isNftExplorerEnabled,
   isProveEnabled,
   persistor,
@@ -180,11 +181,13 @@ const App = ({
                                 component={MobileLogin}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                               />
-                              <AuthLayout
-                                path='/recover'
-                                component={RecoverWallet}
-                                pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
-                              />
+                              {isMnemonicRecoveryEnabled && (
+                                <AuthLayout
+                                  path='/recover'
+                                  component={RecoverWallet}
+                                  pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
+                                />
+                              )}
                               <AuthLayout
                                 path='/reset-2fa'
                                 component={ResetWallet2fa}
@@ -393,6 +396,9 @@ const mapStateToProps = (state) => ({
     .getOrElse(false),
   isDexEnabled: selectors.core.walletOptions
     .getDexProductEnabled(state)
+    .getOrElse(false) as boolean,
+  isMnemonicRecoveryEnabled: selectors.core.walletOptions
+    .getMnemonicRecoveryEnabled(state)
     .getOrElse(false) as boolean,
   isNftExplorerEnabled: selectors.core.walletOptions
     .getNftExplorer(state)

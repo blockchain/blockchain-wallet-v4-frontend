@@ -1,71 +1,71 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 
+import { ResponseShape } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 
-import { COMPLETE_PROFILE_STEPS } from '../types'
+import { useCountdownTo } from '../countdownTo'
 import {
   ActionButton,
+  ButtonContent,
   CentralContainer,
-  IconColors,
-  ImageName,
-  LinkExplanation,
-  LinkTitle,
-  MainContainer,
-  MainIconWrapper,
+  IconWrapper,
+  ItemButton,
   MainSection
 } from './model'
 
-const LinkItem = ({ isComplete, isKycPending, onClick, type }: Props) => {
-  const ItemContainer = MainContainer[type]
-  const IconWrapper = MainIconWrapper[type]
+type Props = {
+  onClick: () => void
+} & Omit<ResponseShape, 'id' | 'action'>
+
+const CountdownTo = ({ countdownDate }) => {
+  const countdown = useCountdownTo(countdownDate)
+
+  return <span>{countdown}</span>
+}
+
+const LinkItem = ({ iconUrl, metadata, onClick, status, subtitle, title }: Props) => {
+  const isComplete = status === 'COMPLETED'
+  const isPending = status === 'PENDING' // Only KYC can be in this state
+  const isIdle = status === 'IDLE'
+  const isDisabled = status === 'DISABLED'
+
+  const hasCountdown = !!metadata?.countdownDate
+
   return (
-    <ItemContainer onClick={isComplete ? () => {} : onClick} isComplete={isComplete}>
-      <IconWrapper>{ImageName[type]}</IconWrapper>
-      <MainSection>
-        <CentralContainer>
+    <ItemButton
+      disabled={hasCountdown || isDisabled || isPending}
+      status={status}
+      onClick={isIdle ? onClick : () => {}}
+    >
+      <ButtonContent>
+        <IconWrapper>
+          <img src={iconUrl} alt='' />
+        </IconWrapper>
+        <MainSection>
           <Text size='14px' weight={600} lineHeight='20px' color='grey900'>
-            {LinkTitle[type]}
+            {title}
           </Text>
-        </CentralContainer>
-        <CentralContainer>
           <Text
             size='12px'
             weight={500}
             lineHeight='20px'
             color={isComplete ? 'green600' : 'grey600'}
           >
-            {isKycPending ? (
-              <>
-                <FormattedMessage id='copy.processing' defaultMessage='Processing' />
-                ...
-              </>
-            ) : isComplete ? (
-              <FormattedMessage id='copy.complete' defaultMessage='Complete' />
-            ) : (
-              LinkExplanation[type]
-            )}
+            {subtitle}
+            {hasCountdown && <CountdownTo countdownDate={metadata.countdownDate} />}
           </Text>
+        </MainSection>
+        <CentralContainer>
+          <ActionButton>
+            {isComplete && <Image name='checkmark-circle-green' />}
+            {isPending && <Icon name='pending' size='24px' />}
+            {isIdle && <Icon name='chevron-right' size='24px' color='blue600' />}
+            {isDisabled && <Icon name='chevron-right' size='24px' />}
+          </ActionButton>
         </CentralContainer>
-      </MainSection>
-      <CentralContainer>
-        <ActionButton>
-          {isComplete ? (
-            <Image name='checkmark-circle-green' />
-          ) : (
-            <Icon name='chevron-right' size='24px' color={IconColors[type]} />
-          )}
-        </ActionButton>
-      </CentralContainer>
-    </ItemContainer>
+      </ButtonContent>
+    </ItemButton>
   )
-}
-
-type Props = {
-  isComplete: boolean
-  isKycPending?: boolean
-  onClick: () => void
-  type: COMPLETE_PROFILE_STEPS
 }
 
 export default LinkItem

@@ -1,275 +1,233 @@
-import React, { PureComponent } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, compose, Dispatch } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { push } from 'connected-react-router'
 
-import { ProductTypes } from '@core/types'
+import { COMPLETE_PROFILE_STEPS, ProductTypes } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import CircularProgressBar from 'components/CircularProgressBar'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { actions, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
-import { Analytics, ModalName } from 'data/types'
+import { custodial, modals } from 'data/actions'
+import { buySell, identityVerification } from 'data/components/actions'
+import { getVerificationSteps } from 'data/components/identityVerification/selectors'
+import { ModalName } from 'data/types'
+import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import { ModalPropsType } from '../../types'
+import { Loading, LoadingTextEnum } from '../../components'
 import LinkItem from './LinkItem'
 import {
-  ActionButton,
   CloseIconContainer,
   ContentWrapper,
-  FooterWrapper,
   HeaderWrapper,
   LinksWrapper,
-  MAX_STEPS,
   ProgressRow,
   ProgressWrapper,
   TopText,
   Wrapper
 } from './model'
 import { getData } from './selectors'
-import { COMPLETE_PROFILE_STEPS } from './types'
 
-class CompleteProfile extends PureComponent<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = { show: false }
-  }
+const CompleteProfile = (props) => {
+  const dispatch = useDispatch()
 
-  componentDidMount() {
-    /* eslint-disable */
-    this.setState({ show: true })
-    /* eslint-enable */
-    this.props.buySellActions.fetchCards(false)
-    this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
-    this.props.buySellActions.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY })
+  const data = useSelector(getData)
 
-    const { currentStep } = this.props.data
-    this.props.analyticsActions.trackEvent({
-      key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_VIEWED,
-      properties: { current_step_completed: String(currentStep) }
-    })
-  }
+  const { data: handholdData, isLoading, isNotAsked } = useRemote(getVerificationSteps)
 
-  handleClose = () => {
-    this.setState({ show: false })
-    const { currentStep } = this.props.data
-    this.props.analyticsActions.trackEvent({
-      key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_CLOSED,
-      properties: { current_step_completed: String(currentStep) }
-    })
+  const [show, setShow] = useState(false)
+
+  const handleClose = () => {
+    setShow(false)
+
     setTimeout(() => {
-      this.props.close()
+      props.close(ModalName.COMPLETE_USER_PROFILE)
     }, duration)
   }
 
-  startVerification = () => {
-    this.props.identityVerificationActions.verifyIdentity({
-      needMoreInfo: false,
-      origin: 'CompleteProfile',
-      tier: 2
-    })
-    this.props.modalActions.closeModal(ModalName.COMPLETE_USER_PROFILE)
-    this.trackButtonEvent(COMPLETE_PROFILE_STEPS.VERIFY, false)
-  }
-
-  startAddingCards = () => {
-    this.props.buySellActions.showModal({ origin: 'CompleteProfile' })
-    this.props.buySellActions.setFiatCurrency(this.props.fiatCurrency || 'USD')
-    this.props.buySellActions.setStep({
-      step: 'DETERMINE_CARD_PROVIDER'
-    })
-    this.props.modalActions.closeModal(ModalName.COMPLETE_USER_PROFILE)
-  }
-
-  handleLinkBankOrCardClick = () => {
-    const { data } = this.props
-    const { isVerifiedId } = data
-
-    this.trackButtonEvent(COMPLETE_PROFILE_STEPS.LINK_PAYMENT, false)
-
-    if (isVerifiedId) {
-      this.startAddingCards()
-    } else {
-      this.startVerification()
-    }
-  }
-
-  handleBuyCryptoClick = (isButtonClick: boolean) => {
-    const { data } = this.props
-    const { isBankOrCardLinked, isVerifiedId } = data
-
-    if (!isButtonClick) {
-      this.trackButtonEvent(COMPLETE_PROFILE_STEPS.BUY_CRYPTO, false)
-    }
-
-    if (isBankOrCardLinked) {
-      this.props.buySellActions.showModal({ origin: 'CompleteProfile' })
-      this.props.buySellActions.setFiatCurrency(this.props.fiatCurrency || 'USD')
-      this.trackButtonEvent(COMPLETE_PROFILE_STEPS.BUY_CRYPTO, isButtonClick)
-    } else if (isVerifiedId) {
-      this.startAddingCards()
-      return
-    } else {
-      this.props.identityVerificationActions.verifyIdentity({
+  const startVerification = () => {
+    dispatch(
+      identityVerification.verifyIdentity({
         needMoreInfo: false,
         origin: 'CompleteProfile',
         tier: 2
       })
-      this.trackButtonEvent(COMPLETE_PROFILE_STEPS.VERIFY, false)
-    }
-    this.props.modalActions.closeModal(ModalName.COMPLETE_USER_PROFILE)
-  }
-
-  trackButtonEvent = (eventType: COMPLETE_PROFILE_STEPS, isButtonClick: boolean) => {
-    const { currentStep } = this.props.data
-    this.props.analyticsActions.trackEvent({
-      key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_BUTTON_CLICKED,
-      properties: {
-        button_clicked: isButtonClick,
-        current_step_completed: String(currentStep),
-        item: eventType
-      }
-    })
-  }
-
-  render() {
-    const { data } = this.props
-    const { currentStep, isBankOrCardLinked, isBuyCrypto, isKycPending, isVerifiedId } = data
-    const percentage = currentStep ? (currentStep / MAX_STEPS) * 100 : 0
-
-    return (
-      <Flyout
-        {...this.props}
-        isOpen={this.state.show}
-        onClose={this.handleClose}
-        data-e2e='completeProfileModal'
-      >
-        <FlyoutChild>
-          <Wrapper>
-            <HeaderWrapper>
-              <TopText color='grey800' size='20px' weight={600}>
-                <ProgressRow>
-                  <ProgressWrapper>
-                    <CircularProgressBar percentage={percentage} strokeWidth={12}>
-                      <Text size='16px' color='blue600' weight={600}>
-                        {`${currentStep}/${MAX_STEPS}`}
-                      </Text>
-                    </CircularProgressBar>
-                  </ProgressWrapper>
-                </ProgressRow>
-                <CloseIconContainer>
-                  <Icon
-                    cursor
-                    data-e2e='completeProfileCloseModalIcon'
-                    name='close'
-                    size='20px'
-                    color='grey600'
-                    role='button'
-                    onClick={this.handleClose}
-                  />
-                </CloseIconContainer>
-              </TopText>
-              <Text size='12px' color='grey600' weight={500} style={{ textAlign: 'center' }}>
-                <FormattedMessage
-                  id='modal.complete_profile.note'
-                  defaultMessage='Your steps towards owning the future.'
-                />
-              </Text>
-            </HeaderWrapper>
-            <ContentWrapper>
-              <Text
-                size='24px'
-                weight={600}
-                color='grey900'
-                style={{ flex: 1, textAlign: 'center' }}
-              >
-                <FormattedMessage
-                  id='scenes.home.banner.complete_your_profile.complete_your_profile'
-                  defaultMessage='Complete Your Profile.'
-                />
-              </Text>
-              <Text
-                size='24px'
-                weight={600}
-                color='grey900'
-                style={{ flex: 1, textAlign: 'center' }}
-              >
-                <FormattedMessage
-                  id='scenes.home.banner.complete_your_profile.buy_crypto_today'
-                  defaultMessage='Buy Crypto Today.'
-                />
-              </Text>
-              <Text
-                size='16px'
-                weight={500}
-                color='grey900'
-                style={{ flex: 1, marginTop: '8px', textAlign: 'center' }}
-              >
-                <FormattedMessage
-                  id='modal.complete_profile.finish_settings'
-                  defaultMessage='Finish setting up your Blockchain.com Account and start buying crypto today.'
-                />
-              </Text>
-
-              <LinksWrapper>
-                <LinkItem
-                  onClick={this.startVerification}
-                  isComplete={isVerifiedId}
-                  isKycPending={isKycPending}
-                  type={COMPLETE_PROFILE_STEPS.VERIFY}
-                />
-
-                <LinkItem
-                  onClick={this.handleLinkBankOrCardClick}
-                  isComplete={isBankOrCardLinked}
-                  type={COMPLETE_PROFILE_STEPS.LINK_PAYMENT}
-                />
-
-                <LinkItem
-                  onClick={() => this.handleBuyCryptoClick(true)}
-                  isComplete={isBuyCrypto}
-                  type={COMPLETE_PROFILE_STEPS.BUY_CRYPTO}
-                />
-              </LinksWrapper>
-            </ContentWrapper>
-
-            <FooterWrapper>
-              <ActionButton
-                currentStep={currentStep}
-                onClick={() => this.handleBuyCryptoClick(false)}
-              />
-            </FooterWrapper>
-          </Wrapper>
-        </FlyoutChild>
-      </Flyout>
     )
   }
+
+  const startAddingCards = () => {
+    dispatch(buySell.showModal({ origin: 'CompleteProfile' }))
+    dispatch(
+      buySell.setStep({
+        step: 'DETERMINE_CARD_PROVIDER'
+      })
+    )
+    dispatch(modals.closeModal(ModalName.COMPLETE_USER_PROFILE))
+  }
+
+  const handleLinkBankOrCardClick = () => {
+    if (data.isVerifiedId) {
+      startAddingCards()
+    } else {
+      startVerification()
+    }
+  }
+
+  const handleBuyCryptoClick = () => {
+    const { isBankOrCardLinked, isVerifiedId } = data
+
+    if (isBankOrCardLinked) {
+      dispatch(buySell.showModal({ origin: 'CompleteProfile' }))
+    } else if (isVerifiedId) {
+      startAddingCards()
+      return
+    } else {
+      dispatch(
+        identityVerification.verifyIdentity({
+          needMoreInfo: false,
+          origin: 'CompleteProfile',
+          tier: 2
+        })
+      )
+    }
+
+    dispatch(modals.closeModal(ModalName.COMPLETE_USER_PROFILE))
+  }
+
+  const handleSelfClassification = () => {
+    dispatch(modals.showModal(ModalName.SELF_CLASSIFICATION, { origin: 'CompleteProfile' }))
+  }
+
+  const handleSelfAssessment = () => {
+    dispatch(modals.showModal(ModalName.SELF_ASSESSMENT, { origin: 'CompleteProfile' }))
+  }
+
+  const handleEmailVerification = () => {
+    dispatch(push('/security-center/basic'))
+  }
+
+  const getOnClick = (step: COMPLETE_PROFILE_STEPS) => {
+    switch (step) {
+      case 'EMAIL_VERIFICATION':
+        return handleEmailVerification()
+      case 'KYC_VERIFICATION':
+        return startVerification()
+      case 'SELF_CLASSIFICATION':
+        return handleSelfClassification()
+      case 'FINPROMS_ASSESSMENT':
+        return handleSelfAssessment()
+      case 'DEPOSIT_CRYPTO':
+        return handleLinkBankOrCardClick()
+      case 'BUY_CRYPTO':
+        return handleBuyCryptoClick()
+      default:
+        return startVerification()
+    }
+  }
+
+  useEffect(() => {
+    setShow(true)
+    dispatch(identityVerification.fetchVerificationSteps())
+    dispatch(buySell.fetchCards(false))
+    dispatch(buySell.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY }))
+    dispatch(custodial.fetchProductEligibilityForUser())
+  }, [])
+
+  if (handholdData === '') {
+    dispatch(custodial.fetchProductEligibilityForUser())
+    dispatch(modals.closeModal(ModalName.COMPLETE_USER_PROFILE))
+    return null
+  }
+
+  const itemsLength = handholdData?.items?.length ?? 0
+  const completedSteps =
+    handholdData?.items?.filter((step) => step.status === 'COMPLETED').length ?? 0
+
+  const percentage = itemsLength > 0 ? (completedSteps / itemsLength) * 100 : 0
+
+  return (
+    <Flyout {...props} isOpen={show} onClose={handleClose} data-e2e='completeProfileModal'>
+      <FlyoutChild>
+        <Wrapper>
+          {(isLoading || isNotAsked) && <Loading text={LoadingTextEnum.LOADING} />}
+          {!isLoading && (
+            <>
+              <HeaderWrapper>
+                <TopText color='grey800' size='20px' weight={600}>
+                  <ProgressRow>
+                    <ProgressWrapper>
+                      <CircularProgressBar percentage={percentage} strokeWidth={12}>
+                        <Text size='16px' color='blue600' weight={600}>
+                          {`${completedSteps}/${itemsLength}`}
+                        </Text>
+                      </CircularProgressBar>
+                    </ProgressWrapper>
+                  </ProgressRow>
+                  <CloseIconContainer>
+                    <Icon
+                      cursor
+                      data-e2e='completeProfileCloseModalIcon'
+                      name='close'
+                      size='20px'
+                      color='grey600'
+                      role='button'
+                      onClick={handleClose}
+                    />
+                  </CloseIconContainer>
+                </TopText>
+                <Text size='12px' color='grey600' weight={500} style={{ textAlign: 'center' }}>
+                  <FormattedMessage
+                    id='modal.complete_profile.note'
+                    defaultMessage='Your steps towards owning the future.'
+                  />
+                </Text>
+              </HeaderWrapper>
+              <ContentWrapper>
+                <Text
+                  size='24px'
+                  weight={600}
+                  color='grey900'
+                  style={{ flex: 1, textAlign: 'center' }}
+                >
+                  <FormattedMessage
+                    id='scenes.home.banner.complete_your_profile.complete_your_profile'
+                    defaultMessage='Complete Your Profile.'
+                  />
+                </Text>
+                <Text
+                  size='16px'
+                  weight={500}
+                  color='grey900'
+                  style={{ flex: 1, marginTop: '8px', textAlign: 'center' }}
+                >
+                  <FormattedMessage
+                    id='modal.complete_profile.finish_settings'
+                    defaultMessage='Finish setting up your Blockchain.com Account and start buying crypto today.'
+                  />
+                </Text>
+
+                <LinksWrapper>
+                  {handholdData?.items.map(({ iconUrl, id, metadata, status, subtitle, title }) => (
+                    <LinkItem
+                      iconUrl={iconUrl}
+                      key={id}
+                      metadata={metadata}
+                      onClick={() => getOnClick(id as COMPLETE_PROFILE_STEPS)}
+                      status={status as 'IDLE' | 'PENDING' | 'COMPLETED' | 'DISABLED'}
+                      subtitle={subtitle}
+                      title={title}
+                    />
+                  ))}
+                </LinksWrapper>
+              </ContentWrapper>
+            </>
+          )}
+        </Wrapper>
+      </FlyoutChild>
+    </Flyout>
+  )
 }
 
-const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
-  fiatCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  identityVerificationActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-const enhance = compose(
-  ModalEnhancer(ModalName.COMPLETE_USER_PROFILE, { transition: duration }),
-  connector
+export default ModalEnhancer(ModalName.COMPLETE_USER_PROFILE, { transition: duration })(
+  CompleteProfile
 )
-
-export type Props = ModalPropsType & ConnectedProps<typeof connector>
-type State = { show: boolean }
-
-export default enhance(CompleteProfile)
