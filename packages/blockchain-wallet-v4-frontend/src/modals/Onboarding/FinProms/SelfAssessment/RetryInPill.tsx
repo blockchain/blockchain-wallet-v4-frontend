@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { useCountDown } from 'hooks'
 
 import { useCountdownTo } from '../../CompleteProfile/countdownTo'
 

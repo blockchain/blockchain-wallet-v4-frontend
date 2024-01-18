@@ -92,6 +92,8 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
 
   const showLoading = isLoading || isNotAsked
   const hasSomeError = !isLoading && (showError || !!error)
+  const showQuestion =
+    !hasSomeError && extraKYCResponse && Object.keys(extraKYCResponse ?? {}).length
 
   return (
     <Flyout
@@ -112,7 +114,7 @@ const SelfClassification = ({ close, position, total, userClickedOutside }: Moda
             handler={handleClose}
           />
         )}
-        {!isLoading && extraKYCResponse && (
+        {showQuestion && (
           <>
             <Header text='Self Classification Questionaire' onClickBack={handleClose} />
             <SelfClassificationSuccess

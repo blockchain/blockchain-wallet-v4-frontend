@@ -1,4 +1,3 @@
-import { AlertCard } from '@blockchain-com/constellation'
 import { Form } from 'redux-form'
 import styled from 'styled-components'
 
@@ -11,70 +10,13 @@ export const Label = styled.label`
   display: block;
   color: ${(props) => props.theme.grey900};
 `
-const SpinnerWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-`
 
-export const FullNameContainer = styled.div`
-  justify-content: space-between;
-  display: flex;
-  flex-direction: row;
-`
-
-export const CaptionContainer = styled.div`
-  margin-top: 8px;
-  display: flex;
-  flex-direction: row;
-`
-export const Caption = styled(Text)`
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 150%;
-  color: ${(props) => props.theme.grey600};
-`
 export const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
   flex-direction: column;
 `
-export const TopText = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-`
-export const LeftTopCol = styled.div`
-  display: flex;
-  align-items: left;
-`
-export const TopHeader = styled(Text)`
-  display: flex;
-  align-items: left;
-  margin-bottom: 16px;
-  flex-direction: column;
-`
-export const TopHeaderTitle = styled.div`
-  display: flex;
-  align-items: left;
-`
-export const TopHeaderDescription = styled(Text)`
-  margin: 10px 0 0 0;
-  display: flex;
-  color: ${(props) => props.theme.grey600};
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
-`
-export const ErrorTextContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-`
+
 export const QuestionTitle = styled(Text)`
   display: flex;
   color: ${(props) => props.theme.grey900};
@@ -102,6 +44,12 @@ export const ErrorText = styled(Text)`
   margin-bottom: 16px;
 `
 
+export const ErrorTextContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+`
+
 export const CheckBoxContainer = styled.div`
   max-height: 6rem;
   margin: 4px 0;
@@ -121,10 +69,7 @@ export const CheckBoxText = styled(Text)`
   padding: 0.25rem 0;
   color: ${(props) => props.theme.grey900};
 `
-export const DropdownStyled = styled.div`
-  z-index: 9;
-  background-color: ${(props) => props.theme.white};
-`
+
 export const CenterField = styled.div`
   display: flex;
   flex-direction: column;

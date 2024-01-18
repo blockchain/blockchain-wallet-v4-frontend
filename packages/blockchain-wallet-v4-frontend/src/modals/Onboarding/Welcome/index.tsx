@@ -1,73 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import Flyout, { duration, FlyoutWrapper } from 'components/Flyout'
+import Flyout, { duration } from 'components/Flyout'
 import { buySell } from 'data/components/actions'
 import { getCryptoCurrency } from 'data/components/buySell/selectors'
 import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
-
-const CustomFlyoutWrapper = styled(FlyoutWrapper)`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 40px;
-
-  span {
-    margin-left: 8px;
-  }
-`
-const ContentContainer = styled(Column)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 70px;
-  padding: 40px;
-  text-align: center;
-`
-const IconBackground = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  background-color: ${(props) => props.theme.blue000};
-  border-radius: 48px;
-`
-
-const Title = styled(Text)`
-  margin: 26px 0 13px;
-`
-
-const ContentTextWrapper = styled(Text)`
-  margin-bottom: 50px;
-`
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin-top: 5px;
-  & > :first-child {
-    margin-bottom: 15px;
-  }
-`
+import {
+  ButtonWrapper,
+  ContentContainer,
+  ContentTextWrapper,
+  CustomFlyoutWrapper,
+  Header,
+  IconBackground,
+  Title
+} from './WelcomeModal.styles'
 
 const WelcomeContainer = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
   const dispatch = useDispatch()
