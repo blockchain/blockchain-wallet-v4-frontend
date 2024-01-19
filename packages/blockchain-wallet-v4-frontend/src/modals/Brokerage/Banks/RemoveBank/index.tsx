@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { compose } from 'redux'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { ModalName } from 'data/types'
@@ -43,6 +42,6 @@ const RemoveBankFlyout = (props: RemoveBankModalProps & ModalPropsType) => {
   )
 }
 
-const enhance = compose(ModalEnhancer(ModalName.REMOVE_BANK_MODAL, { transition: duration }))
-
-export default enhance(RemoveBankFlyout)
+export default ModalEnhancer(ModalName.REMOVE_BANK_MODAL, { transition: duration })(
+  RemoveBankFlyout
+)

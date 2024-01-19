@@ -46,10 +46,10 @@ export const BaseEntry = styled.div`
 export const Entry = ({ leftText, rightText }: { leftText: string; rightText: string }) => (
   <BaseEntry>
     <Text size='16px' color='grey900' weight={600}>
-      {rightText}
+      {leftText}
     </Text>
     <Text size='16px' color='grey600' weight={600}>
-      {leftText}
+      {rightText}
     </Text>
   </BaseEntry>
 )

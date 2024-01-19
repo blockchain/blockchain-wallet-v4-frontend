@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { compose } from 'redux'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { ModalName } from 'data/types'
@@ -43,6 +42,4 @@ const BankDetails = (props: BankDetailsModalProps & ModalPropsType) => {
   )
 }
 
-const enhance = compose(ModalEnhancer(ModalName.BANK_DETAILS_MODAL, { transition: duration }))
-
-export default enhance(BankDetails)
+export default ModalEnhancer(ModalName.BANK_DETAILS_MODAL, { transition: duration })(BankDetails)
