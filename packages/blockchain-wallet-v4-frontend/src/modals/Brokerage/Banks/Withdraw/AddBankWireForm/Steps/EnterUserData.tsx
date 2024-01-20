@@ -8,12 +8,14 @@ import FlyoutFooter from 'components/Flyout/Footer'
 import FormLabel from 'components/Form/FormLabel'
 import NumberBox from 'components/Form/NumberBox'
 import TextBox from 'components/Form/TextBox'
-import { required, validBankName, validRoutingNumber } from 'services/forms'
+import { maxLength, required, validRoutingNumber } from 'services/forms'
 
 import { Header } from '../Header'
 import { WIRE_BANK_FORM } from './constants'
 import { FieldsWrapper } from './StepsStyles'
 import { StepProps, WireBankFormType } from './StepsTypes'
+
+const validBankName = maxLength(35)
 
 const EnterUserData = ({ onClickBack, onNextStep }: StepProps) => {
   const { accountNumber, bankName, hasIntermediaryBank, routingNumber } = useSelector((state) =>
@@ -65,6 +67,7 @@ const EnterUserData = ({ onClickBack, onNextStep }: StepProps) => {
             data-e2e='bankName'
             name='bankName'
             validate={[required, validBankName]}
+            errorBottom
           />
         </div>
 
@@ -85,6 +88,7 @@ const EnterUserData = ({ onClickBack, onNextStep }: StepProps) => {
             data-e2e='routingNumber'
             name='routingNumber'
             validate={[required, validRoutingNumber]}
+            errorBottom
           />
         </div>
         <div>
@@ -102,6 +106,7 @@ const EnterUserData = ({ onClickBack, onNextStep }: StepProps) => {
             name='accountNumber'
             noLastPass
             validate={[required]}
+            errorBottom
           />
         </div>
 
@@ -158,6 +163,10 @@ const EnterUserData = ({ onClickBack, onNextStep }: StepProps) => {
   )
 }
 
-export default reduxForm<{}, StepProps>({ destroyOnUnmount: false, form: 'addWireBank' })(
-  EnterUserData
-)
+export default reduxForm<{}, StepProps>({
+  destroyOnUnmount: false,
+  form: 'addWireBank',
+  initialValues: {
+    hasIntermediaryBank: 'NO'
+  }
+})(EnterUserData)

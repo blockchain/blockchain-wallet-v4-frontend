@@ -93,7 +93,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = ({
               <ItemWrapper key={beneficiary.id} onClick={() => onBankClick(beneficiary)}>
                 <StandardRow
                   icon={<Image name={getBankLogoImageName(beneficiary.agent)} />}
-                  topLeftText={beneficiary.name}
+                  topLeftText={beneficiary.agent.name}
                   topRightText={beneficiary.address}
                   bottomLeftText={
                     availableAmount && (

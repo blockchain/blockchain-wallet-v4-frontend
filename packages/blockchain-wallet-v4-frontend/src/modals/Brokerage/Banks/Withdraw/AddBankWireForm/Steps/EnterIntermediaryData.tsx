@@ -8,12 +8,14 @@ import FlyoutFooter from 'components/Flyout/Footer'
 import FormLabel from 'components/Form/FormLabel'
 import NumberBox from 'components/Form/NumberBox'
 import TextBox from 'components/Form/TextBox'
-import { required, validBankName, validRoutingNumber } from 'services/forms'
+import { maxLength, required, validRoutingNumber } from 'services/forms'
 
 import { Header } from '../Header'
 import { WIRE_BANK_FORM } from './constants'
 import { FieldsWrapper } from './StepsStyles'
 import { StepProps, WireBankFormType } from './StepsTypes'
+
+const validBankName = maxLength(35)
 
 const EnterIntermediaryBank = ({ onClickBack, onNextStep }: StepProps) => {
   const { intermediaryAccountNumber, intermediaryBankName, intermediaryRoutingNumber } =
@@ -59,6 +61,7 @@ const EnterIntermediaryBank = ({ onClickBack, onNextStep }: StepProps) => {
             name='intermediaryBankName'
             noLastPass
             validate={[required, validBankName]}
+            errorBottom
           />
         </div>
         <div>
@@ -75,6 +78,7 @@ const EnterIntermediaryBank = ({ onClickBack, onNextStep }: StepProps) => {
             name='intermediaryRoutingNumber'
             noLastPass
             validate={[required, validRoutingNumber]}
+            errorBottom
           />
         </div>
         <div>
@@ -92,6 +96,7 @@ const EnterIntermediaryBank = ({ onClickBack, onNextStep }: StepProps) => {
             name='intermediaryAccountNumber'
             noLastPass
             validate={[required]}
+            errorBottom
           />
         </div>
       </FieldsWrapper>

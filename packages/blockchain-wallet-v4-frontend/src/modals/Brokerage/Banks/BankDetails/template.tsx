@@ -5,6 +5,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { getCurrency } from '@core/redux/settings/selectors'
+import { BSPaymentTypes } from '@core/types'
 import { Button, HeartbeatLoader, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { modals } from 'data/actions'
@@ -130,10 +131,17 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = ({
           weight={500}
           style={{ marginTop: '40px', textAlign: 'center' }}
         >
-          <FormattedMessage
-            id='modals.brokerage.bank_preview.disclaimer'
-            defaultMessage='This account can be used for buys, sells & withdrawals.'
-          />
+          {bankType === BSPaymentTypes.BANK_ACCOUNT ? (
+            <FormattedMessage
+              id='modals.brokerage.bank_preview.disclaimer_wires'
+              defaultMessage='This account can be used for withdrawals only.'
+            />
+          ) : (
+            <FormattedMessage
+              id='modals.brokerage.bank_preview.disclaimer'
+              defaultMessage='This account can be used for buys, sells & withdrawals.'
+            />
+          )}
         </Text>
       </DisclaimerWrapper>
       <BankFlyoutWrapper>

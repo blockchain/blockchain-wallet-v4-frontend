@@ -49,7 +49,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.deleteSavedBank>) {
     try {
       yield put(actions.form.startSubmit('linkedBanks'))
-      yield put(actions.modals.closeModal(ModalName.REMOVE_BANK_MODAL))
       yield call(api.deleteSavedAccount, bankId, bankType)
       if (bankType === 'banktransfer') {
         yield put(A.fetchBankTransferAccounts())
@@ -62,7 +61,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         ])
       }
       yield put(actions.modals.closeModal(ModalName.BANK_DETAILS_MODAL))
+      yield put(actions.modals.closeModal(ModalName.REMOVE_BANK_MODAL))
       yield put(actions.form.stopSubmit('linkedBanks'))
+      yield put(actions.form.destroy('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
     } catch (e) {
       const error = errorHandler(e)

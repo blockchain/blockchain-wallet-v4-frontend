@@ -901,8 +901,8 @@ const BankWire = ({
     </Col>
     <Col style={{ width: '100%' }}>
       <Content>
-        <Value asTitle>{beneficiary.name}</Value>
-        <Title asValue>{beneficiary.agent.account}</Title>
+        <Value asTitle>{beneficiary.agent.name}</Value>
+        <Title asValue>Wire Account ending in {beneficiary.address.slice(-4)}</Title>
 
         {type === 'DEPOSIT' && (
           <CartridgeContainer>
