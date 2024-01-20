@@ -6,9 +6,8 @@ import { Field, formValueSelector, reduxForm } from 'redux-form'
 import { Button, Text } from 'blockchain-info-components'
 import FlyoutFooter from 'components/Flyout/Footer'
 import FormLabel from 'components/Form/FormLabel'
-import NumberBox from 'components/Form/NumberBox'
 import TextBox from 'components/Form/TextBox'
-import { maxLength, required, validRoutingNumber } from 'services/forms'
+import { maxLength, onlyNumbers, required, validRoutingNumber } from 'services/forms'
 
 import { Header } from '../Header'
 import { WIRE_BANK_FORM } from './constants'
@@ -83,11 +82,11 @@ const EnterUserData = ({ onClickBack, onNextStep }: StepProps) => {
             bank&apos;s ACH routing number
           </Text>
           <Field
-            component={NumberBox}
+            component={TextBox}
             placeholder='Enter 9-digit Routing Number'
             data-e2e='routingNumber'
             name='routingNumber'
-            validate={[required, validRoutingNumber]}
+            validate={[required, onlyNumbers, validRoutingNumber]}
             errorBottom
           />
         </div>
@@ -99,13 +98,13 @@ const EnterUserData = ({ onClickBack, onNextStep }: StepProps) => {
             />
           </FormLabel>
           <Field
-            component={NumberBox}
+            component={TextBox}
             type='number'
             placeholder='Enter account number'
             data-e2e='accountNumber'
             name='accountNumber'
             noLastPass
-            validate={[required]}
+            validate={[required, onlyNumbers]}
             errorBottom
           />
         </div>
