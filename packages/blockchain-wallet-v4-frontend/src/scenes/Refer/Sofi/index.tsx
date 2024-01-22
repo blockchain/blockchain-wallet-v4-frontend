@@ -15,6 +15,8 @@ const SofiReferralComponent: React.FC<RouteComponentProps> = ({ location }) => {
     const viewParam = searchParams.get('buy')
     if (viewParam) {
       redirectTo += `?code=${viewParam}`
+    } else {
+      redirectTo += `?ref=sofi`
     }
   }
 
