@@ -142,7 +142,7 @@ const DragAndDrop = (props: Props) => {
     }
   }
 
-  const openUploader = (e) => {
+  const openUploader = (_) => {
     if (inputFile && inputFile.current && inputFile.current !== undefined) {
       inputFile.current.click()
     }

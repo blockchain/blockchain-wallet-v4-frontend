@@ -1,4 +1,4 @@
-import { CoinType, Erc20CoinType, WalletFiatEnum, WalletFiatType } from '@core/types'
+import { CoinType, Erc20CoinType, WalletFiatType } from '@core/types'
 
 export type CoinCheckHookHelpers = {
   isBCH: (coin: CoinType) => boolean

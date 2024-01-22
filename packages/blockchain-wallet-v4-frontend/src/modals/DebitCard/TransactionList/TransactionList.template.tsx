@@ -12,9 +12,7 @@ import { Props } from './TransactionList'
 
 const TransactionList = (props: Props) => {
   const { close } = props
-  const { data, isLoading, isNotAsked } = useRemote(
-    selectors.components.debitCard.getCardTransactions
-  )
+  const { data } = useRemote(selectors.components.debitCard.getCardTransactions)
 
   const [show, setShow] = useState(true)
 
@@ -32,11 +30,9 @@ const TransactionList = (props: Props) => {
           <FormattedMessage id='modals.transaction_list.title' defaultMessage='All Activity' />
         </FlyoutHeader>
         <FlyoutContent mode='top'>
-          <>
-            {data?.map((d) => (
-              <div key={d.id}>{d.id}</div>
-            ))}
-          </>
+          {data?.map((d) => (
+            <div key={d.id}>{d.id}</div>
+          ))}
         </FlyoutContent>
       </FlyoutContainer>
     </Flyout>

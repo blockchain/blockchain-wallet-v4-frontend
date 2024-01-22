@@ -22,7 +22,7 @@ export const insufficientFunds = (value, allValues, props) => {
   return getEffectiveBalance(props) > 0 ? undefined : <InsufficientFundsMessage />
 }
 
-export const invalidAmount = (value, allValues, props) => {
+export const invalidAmount = (value) => {
   const valueBch = prop('coin', value)
   const valueSatoshi = Exchange.convertCoinToCoin({
     baseToStandard: false,

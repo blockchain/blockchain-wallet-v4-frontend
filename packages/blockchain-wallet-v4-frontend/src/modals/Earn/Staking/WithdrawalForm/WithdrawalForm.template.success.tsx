@@ -14,13 +14,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Exchange } from '@core'
 import { convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
 import { formatFiat } from '@core/exchange/utils'
-import {
-  CoinType,
-  EarnAccountBalanceResponseType,
-  EarnBalanceType,
-  FiatType,
-  RatesType
-} from '@core/types'
+import { CoinType, EarnBalanceType, FiatType, RatesType } from '@core/types'
 import { Button, SpinningLoader } from 'blockchain-info-components'
 import AmountFieldInput from 'components/Form/AmountFieldInput'
 import { StakingWithdrawalFormType } from 'data/types'
@@ -45,7 +39,7 @@ import { validate } from './WithdrawalForm.validation'
 
 const WithdrawalForm: React.FC<Props & InjectedFormProps<{}, Props>> = (props) => {
   const dispatch = useDispatch()
-  const { analyticsActions, earnActions, formActions } = getActions(dispatch)
+  const { earnActions, formActions } = getActions(dispatch)
   const [percentageOfBalance, setPercentageOfBalance] = useState(0)
 
   const {

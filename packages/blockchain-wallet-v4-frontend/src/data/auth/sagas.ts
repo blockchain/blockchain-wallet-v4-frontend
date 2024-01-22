@@ -1,5 +1,4 @@
 import base64url from 'base64url'
-import Login from 'blockchain-wallet-v4-frontend/src/scenes/Login'
 import { find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { all, call, fork, put, select, take } from 'redux-saga/effects'
@@ -19,7 +18,6 @@ import {
   ExchangeAuthOriginType,
   ExchangeErrorCodes,
   LoginRoutinePayloadType,
-  ModalName,
   ProductEligibilityForUser
 } from 'data/types'
 import walletSagas from 'data/wallet/sagas'
@@ -45,6 +43,8 @@ import {
   ProductAuthOptions
 } from './types'
 
+const LOGIN_FORM = 'login'
+
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
   const { createExchangeUser, createUser, waitForUserData } = profileSagas({
@@ -62,8 +62,6 @@ export default ({ api, coreSagas, networks }) => {
   })
   const { saveGoals } = goalSagas({ api, coreSagas, networks })
   const { generateCaptchaToken, startCoinWebsockets } = miscSagas()
-
-  const LOGIN_FORM = 'login'
 
   const authNabu = function* (firstLogin?: boolean) {
     yield put(
@@ -371,9 +369,6 @@ export default ({ api, coreSagas, networks }) => {
 
       const createExchangeUserFlag = (yield select(
         selectors.core.walletOptions.getCreateExchangeUserOnSignupOrLogin
-      )).getOrElse(false)
-      const associateBeforeEmailVerification = (yield select(
-        selectors.core.walletOptions.getAssociateSofiBeforeEmailVerification
       )).getOrElse(false)
 
       if (!isAccountReset && !recovery && createExchangeUserFlag) {

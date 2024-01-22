@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
 import { add, equals, hasPath, identity, includes, isNil, nth, path, pathOr, prop } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
-import { all, call, put, race, select, take } from 'redux-saga/effects'
+import { call, put, race, select, take } from 'redux-saga/effects'
 
 import { Exchange, utils } from '@core'
 import { APIType } from '@core/network/api'

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { scaleTime, TimeDomain } from '@visx/scale'
+import { scaleTime } from '@visx/scale'
 import { extent } from 'd3-array'
 
 export const useTimeScale = <DATA extends unknown = unknown>({
