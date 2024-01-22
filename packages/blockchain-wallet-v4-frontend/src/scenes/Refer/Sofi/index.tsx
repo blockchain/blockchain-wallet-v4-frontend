@@ -8,21 +8,22 @@ const SofiReferralComponent: React.FC<RouteComponentProps> = ({ location }) => {
   )
 
   let redirectTo = ''
+  let queryString = ''
+
   if (hasAllRequiredJwtParams) {
     redirectTo = '/sofi'
+    queryString = location.search
   } else {
     redirectTo = 'https://blockchainwallet.page.link/buysofi'
     const viewParam = searchParams.get('buy')
     if (viewParam) {
-      redirectTo += `?code=${viewParam}`
+      queryString = `?code=${viewParam}`
     } else {
-      redirectTo += `?ref=sofi`
+      queryString = '?ref=sofi'
     }
   }
 
-  redirectTo += location.search
-
-  return <Redirect to={redirectTo} />
+  return <Redirect to={redirectTo + queryString} />
 }
 
 export default SofiReferralComponent
