@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios'
-import { type } from 'os'
 
 import { SofiMigrationStatusResponseType } from '@core/network/api/sofi/types'
 import type {

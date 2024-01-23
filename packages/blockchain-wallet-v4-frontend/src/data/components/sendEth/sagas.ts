@@ -169,7 +169,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       switch (action.meta.field) {
         case 'from':
           const fromPayload = payload as SendEthFormFromActionType['payload']
-          let source
           switch (fromPayload.type) {
             case 'ACCOUNT':
               yield put(A.initialized(coin))

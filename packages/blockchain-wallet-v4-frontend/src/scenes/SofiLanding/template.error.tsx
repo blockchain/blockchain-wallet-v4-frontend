@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { selectors } from 'data'
 import { useRemote } from 'hooks'
@@ -15,10 +15,6 @@ const ContentWrapper = styled.div`
 `
 
 const SofiErrorLanding = () => {
-  const { data, error, isLoading, isNotAsked } = useRemote(
-    selectors.modules.profile.getSofiUserData
-  )
-
   return (
     <Wrapper>
       <ContentWrapper>

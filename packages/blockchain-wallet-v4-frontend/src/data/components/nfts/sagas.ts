@@ -8,12 +8,7 @@ import { all, call, put, select } from 'redux-saga/effects'
 import { Exchange, Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import {
-  GasCalculationOperations,
-  GasDataI,
-  NftAsset,
-  NftTemplateParams
-} from '@core/network/api/nfts/types'
+import { GasCalculationOperations, GasDataI, NftAsset } from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
   cancelNftOrder,
@@ -875,7 +870,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const handleRouterChange = function* (action) {
     if (action.payload.location.pathname.includes('/nfts/')) {
       const url = new URL(window.location.href)
-      const [hash, query] = url.href.split('#')[1].split('?')
+      const [, query] = url.href.split('#')[1].split('?')
       // @ts-ignore
       const params = Object.fromEntries(new URLSearchParams(query))
 

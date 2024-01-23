@@ -15,7 +15,7 @@ export default {
     },
     nextStep: () => {},
     previousStep: () => {},
-    submitData: (files) => {}
+    submitData: (_) => {}
   },
   component: UploadAndVerify,
   decorators: [

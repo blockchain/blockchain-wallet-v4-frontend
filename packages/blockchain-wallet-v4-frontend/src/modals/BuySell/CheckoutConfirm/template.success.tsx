@@ -220,7 +220,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
       properties: {}
     })
 
-    const { bankAccounts, cards, sbBalances } = props.data.getOrElse({} as SuccessStateType)
+    const { bankAccounts, sbBalances } = props.data.getOrElse({} as SuccessStateType)
 
     const inputCurrency = props.quoteSummaryViewModel.fiatCode as WalletFiatType
 
