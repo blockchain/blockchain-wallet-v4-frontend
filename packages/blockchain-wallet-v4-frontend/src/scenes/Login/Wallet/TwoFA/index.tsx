@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -15,6 +15,7 @@ import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { auth } from 'data/actions'
 import { trackEvent } from 'data/analytics/slice'
+import { getAuthType } from 'data/auth/selectors'
 import { ProductAuthOptions } from 'data/auth/types'
 import { Analytics, ExchangeErrorCodes } from 'data/types'
 import { required } from 'services/forms'
@@ -45,7 +46,6 @@ const ResponsiveRow = styled(Row)`
 
 const TwoFAWallet = (props: Props) => {
   const {
-    authType,
     busy,
     exchangeError,
     formValues,
@@ -63,6 +63,9 @@ const TwoFAWallet = (props: Props) => {
     walletError?.toLowerCase().includes('account deactivated')
   const sanctionedRegionError = exchangeError === ExchangeErrorCodes.NOT_ACCEPTABLE
   const twoFactorError = walletError?.toLowerCase().includes('authentication code')
+
+  const authType = useSelector(getAuthType)
+
   const twoFAType = getTwoFaType(authType)
 
   const dispatch = useDispatch()

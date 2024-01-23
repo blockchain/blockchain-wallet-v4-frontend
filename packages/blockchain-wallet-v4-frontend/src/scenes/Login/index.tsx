@@ -8,14 +8,12 @@ import Form from 'components/Form/Form'
 import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import {
-  AlertsState,
   Analytics,
   ExchangeErrorCodes,
   LoginFormType,
   LoginSteps,
   PlatformTypes,
-  ProductAuthOptions,
-  UnifiedAccountRedirectType
+  ProductAuthOptions
 } from 'data/types'
 
 import UrlNoticeBar from './components/UrlNoticeBar'
@@ -213,13 +211,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
 const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
-  alerts: selectors.alerts.selectAlerts(state) as AlertsState,
-  authType: selectors.auth.getAuthType(state) as number,
   cache: selectors.cache.getCache(state),
   data: getData(state),
   exchangeLoginDataR: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
-  initialRedirect: selectors.goals.getInitialRedirect(state) as UnifiedAccountRedirectType,
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
