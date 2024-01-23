@@ -134,7 +134,7 @@ const BankWire = ({
     </Col>
     <Col style={{ width: '100%' }}>
       <Content>
-        <Value asTitle>{beneficiary.agent.name}</Value>
+        <Value asTitle>{beneficiary.name}</Value>
         <Title asValue>{beneficiary.agent.account}</Title>
 
         {type === 'DEPOSIT' && (
