@@ -48,10 +48,6 @@ const Checkout = (props: Props) => {
   )
   const buySellGoal = goals.find((goal) => goal.name === 'buySell')
 
-  const modalOrigin = useSelector((state: RootState) =>
-    selectors.components.buySell.getOrigin(state)
-  )
-
   const methodRef = useRef<string>()
 
   const handleSubmit = () => {

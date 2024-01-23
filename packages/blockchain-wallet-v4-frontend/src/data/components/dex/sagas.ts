@@ -16,7 +16,7 @@ import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
-import { DexSwapForm, DexSwapSide, DexSwapSteps } from './types'
+import { DexSwapForm, DexSwapSteps } from './types'
 import { getValidSwapAmount } from './utils'
 import { parseRawTx } from './utils/parseRawTx'
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { bindActionCreators, compose } from 'redux'
 
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import FirstStep from './FirstStep'

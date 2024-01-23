@@ -7,14 +7,7 @@ import { clearSubmitErrors, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
 import { coinToString, formatFiat } from '@core/exchange/utils'
-import {
-  BSOrderActionType,
-  BSPairType,
-  CoinfigType,
-  CoinType,
-  PaymentValue,
-  RatesType
-} from '@core/types'
+import { BSOrderActionType, BSPairType, CoinType, PaymentValue, RatesType } from '@core/types'
 import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Value } from 'components/Flyout'

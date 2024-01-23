@@ -2,7 +2,7 @@ import React, { ReactElement, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { BeneficiaryType, NabuSymbolNumberType } from '@core/types'
+import { BeneficiaryType } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'

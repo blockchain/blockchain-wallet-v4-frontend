@@ -1,4 +1,4 @@
-import { contains, toUpper } from 'ramda'
+import { toUpper } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'

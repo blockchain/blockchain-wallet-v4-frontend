@@ -43,8 +43,7 @@ import {
   EarnTransactionType,
   PendingTransactionType,
   RewardsDepositFormType,
-  StakingDepositFormType,
-  StakingWithdrawalFormType
+  StakingDepositFormType
 } from './types'
 
 const PASSIVE_REWARDS_DEPOSIT_FORM = 'passiveRewardsDepositForm'

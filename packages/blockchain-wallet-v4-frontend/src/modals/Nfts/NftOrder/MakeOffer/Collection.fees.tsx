@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -10,7 +9,6 @@ import { Flex } from 'components/Flex'
 
 import { RightAlign } from '../../components'
 import { Props as OwnProps } from '..'
-import { NftMakeOfferFormValues } from '.'
 
 const Fees: React.FC<Props> = (props: Props) => {
   const { orderFlow } = props

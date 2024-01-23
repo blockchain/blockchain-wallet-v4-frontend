@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { addDays, format } from 'date-fns'
-import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
