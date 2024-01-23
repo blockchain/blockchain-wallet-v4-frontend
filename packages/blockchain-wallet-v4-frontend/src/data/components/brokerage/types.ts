@@ -19,39 +19,38 @@ export enum OBEntityType {
   SAFE_CONNECT_UK = 'Safeconnect(UK)'
 }
 
-export type YodleeAttributesType = {
-  fastlinkParams: {
-    configName: 'Verification'
-  }
-  fastlinkUrl: string
-  token: string
-  tokenExpiresAt: string
-}
-
 export type FastLinkType = {
-  attributes: YodleeAttributesType
+  attributes: {
+    fastlinkParams: {
+      configName: 'Verification'
+    }
+    fastlinkUrl: string
+    token: string
+    tokenExpiresAt: string
+  }
   id: string
   partner: BankPartners.YODLEE
 }
 
 export type OBType = {
-  attributes: OBAttributesType
+  attributes: {
+    entity: OBEntityType
+    institutions: OBInstitution[]
+  }
   id: string
   partner: BankPartners.YAPILY
 }
 
-export type PlaidAttributesType = {
-  link_token: string
-  tokenExpiresAt: string
+type PlaidType = {
+  attributes: {
+    link_token: string
+    tokenExpiresAt: string
+  }
+  id: string
+  partner: BankPartners.PLAID
 }
 
-export type BankCredentialsType = {
-  id: string
-} & (
-  | { attributes: OBAttributesType; partner: BankPartners.YAPILY }
-  | { attributes: PlaidAttributesType; partner: BankPartners.PLAID }
-  | { attributes: YodleeAttributesType; partner: BankPartners.YODLEE }
-)
+export type BankCredentialsType = OBType | FastLinkType | PlaidType
 
 interface OBCountryType {
   countryCode2: string
@@ -71,10 +70,6 @@ export interface OBInstitution {
   id: string
   media: OBMediaType[]
   name: string
-}
-interface OBAttributesType {
-  entity: OBEntityType
-  institutions: OBInstitution[]
 }
 
 export enum BankStatusType {

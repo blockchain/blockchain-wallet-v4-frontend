@@ -7,8 +7,7 @@ import styled from 'styled-components'
 import { fiatToString } from '@core/exchange/utils'
 import { BSPaymentMethodsType, BSPaymentTypes, WalletFiatEnum } from '@core/types'
 import { Coin } from '@core/utils'
-import { Box, Button, Image, Text } from 'blockchain-info-components'
-import { Expanded, Flex } from 'components/Flex'
+import { Button, Image } from 'blockchain-info-components'
 import { StandardRow } from 'components/Rows'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { modals } from 'data/actions'
@@ -29,6 +28,17 @@ const CustomSettingComponent = styled(SettingComponent)`
 
 const StyledSettingsContainer = styled(SettingContainer)`
   border-bottom: none;
+`
+
+const ItemsWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 430px;
+  row-gap: 1rem;
+`
+
+const ItemWrapper = styled.div`
+  border: 1px solid ${(props) => props.theme.grey100};
+  border-radius: 0.5rem;
 `
 
 const Success: React.FC<Props> = ({ bankAccounts, paymentMethods }) => {
@@ -61,15 +71,15 @@ const Success: React.FC<Props> = ({ bankAccounts, paymentMethods }) => {
     )
   }
 
-  const bankLimit = paymentMethods?.methods.find(
-    (method) => method.type === BSPaymentTypes.BANK_TRANSFER
-  )?.limits
-
-  const walletBeneficiaries = bankAccounts.filter((account) => account.currency in WalletFiatEnum)
-
-  const isEligible = paymentMethods.methods.some(
+  const foundBankTransfer = paymentMethods.methods.find(
     (method) => method.type === BSPaymentTypes.BANK_TRANSFER
   )
+
+  const isEligible = !!foundBankTransfer
+
+  const bankLimit = foundBankTransfer?.limits
+
+  const walletBeneficiaries = bankAccounts.filter((account) => account.currency in WalletFiatEnum)
 
   return (
     <StyledSettingsContainer>
@@ -77,7 +87,7 @@ const Success: React.FC<Props> = ({ bankAccounts, paymentMethods }) => {
         <CustomSettingHeader>
           <FormattedMessage id='scenes.settings.linked_banks' defaultMessage='Linked Banks' />
         </CustomSettingHeader>
-        <div>
+        <ItemsWrapper>
           {!walletBeneficiaries.length && (
             <StandardRow
               topLeftText={
@@ -98,68 +108,35 @@ const Success: React.FC<Props> = ({ bankAccounts, paymentMethods }) => {
             />
           )}
           {walletBeneficiaries.map((account) => {
+            const type = account.details?.bankAccountType?.toLowerCase()
+            const accountType = type ? type.charAt(0).toUpperCase() + type.slice(1) : undefined
+
             return (
-              <Box
-                key={account.id}
-                onClick={() => handleShowBankClick(account)}
-                data-e2e={`bankAccountRow-${account.id}`}
-                isMethod
-                isMobile={media.mobile}
-                style={{ width: '430px' }}
-              >
-                <Flex style={{ width: '100%' }} gap={8}>
-                  <Flex alignItems='center'>
-                    <Image name={getBankLogoImageName(account.details?.bankName)} />
-                  </Flex>
-
-                  <Expanded style={{ minWidth: 0 }}>
-                    <Flex flexDirection='column'>
-                      <Flex justifyContent='space-between'>
-                        <Text
-                          size='16px'
-                          color='grey800'
-                          weight={600}
-                          style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}
-                        >
-                          {account.details?.bankName}
-                        </Text>
-
-                        <Text size='14px' color='grey600' weight={500} capitalize>
-                          ***{account.details.accountNumber}
-                        </Text>
-                      </Flex>
-
-                      <Flex justifyContent='space-between'>
-                        <Text size='14px' color='grey600' weight={500} capitalize>
-                          {bankLimit && (
-                            <FormattedMessage
-                              id='modals.simplebuy.card_limits'
-                              defaultMessage='{limitAmount} Limit'
-                              values={{
-                                limitAmount: fiatToString({
-                                  unit: account.currency,
-                                  value: convertBaseToStandard(Coin.FIAT, bankLimit.max)
-                                })
-                              }}
-                            />
-                          )}
-                        </Text>
-
-                        <Text size='14px' color='grey600' weight={500} capitalize>
-                          {account.details?.bankAccountType?.toLowerCase()}
-                        </Text>
-                      </Flex>
-                    </Flex>
-                  </Expanded>
-                </Flex>
-              </Box>
+              <ItemWrapper key={account.id} onClick={() => handleShowBankClick(account)}>
+                <StandardRow
+                  icon={<Image name={getBankLogoImageName(account.details?.bankName)} />}
+                  topLeftText={account.details?.bankName}
+                  topRightText={`***${account.details.accountNumber}`}
+                  bottomLeftText={
+                    bankLimit && (
+                      <FormattedMessage
+                        id='modals.simplebuy.card_limits'
+                        defaultMessage='{limitAmount} Limit'
+                        values={{
+                          limitAmount: fiatToString({
+                            unit: account.currency,
+                            value: convertBaseToStandard(Coin.FIAT, bankLimit.max)
+                          })
+                        }}
+                      />
+                    )
+                  }
+                  bottomRightText={accountType}
+                />
+              </ItemWrapper>
             )
           })}
-        </div>
+        </ItemsWrapper>
       </SettingSummary>
       {isEligible && (
         <CustomSettingComponent>

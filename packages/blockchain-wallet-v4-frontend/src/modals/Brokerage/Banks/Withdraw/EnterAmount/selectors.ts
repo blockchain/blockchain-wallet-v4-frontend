@@ -4,7 +4,6 @@ import { Remote } from '@core'
 import { CrossBorderLimits, ExtractSuccess, InvitationsType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BankTransferAccountType } from 'data/types'
 
 import { OwnProps } from '.'
 
@@ -18,9 +17,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     ownProps.fiatCurrency,
     state
   )
-  let defaultMethod = selectors.components.brokerage.getAccount(state) as
-    | BankTransferAccountType
-    | undefined
+  let defaultMethod = selectors.components.brokerage.getAccount(state)
   let bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
   const invitations: InvitationsType = selectors.core.settings.getInvitations(state).getOrElse({

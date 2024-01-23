@@ -29,7 +29,7 @@ const LinkedWireBanks = () => {
 
   if (isLoading) return <Loading />
   if (hasError || isNotAsked || !data) return null
-  return <Success {...(data as DataType)} />
+  return <Success beneficiaries={data.beneficiaries} paymentMethods={data.paymentMethods} />
 }
 
 export default LinkedWireBanks

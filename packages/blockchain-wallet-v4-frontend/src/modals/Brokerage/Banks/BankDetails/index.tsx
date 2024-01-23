@@ -8,13 +8,22 @@ import { ModalPropsType } from '../../../types'
 import Template from './template'
 import { BankDetailsModalProps } from './types'
 
-const BankDetails = (props: BankDetailsModalProps & ModalPropsType) => {
+const BankDetails = ({
+  accountId,
+  accountNumber,
+  accountType,
+  bankName,
+  bankType,
+  close,
+  position,
+  total
+}: BankDetailsModalProps & ModalPropsType) => {
   const [show, setShow] = useState(false)
 
   const handleClose = () => {
     setShow(false)
     setTimeout(() => {
-      props.close()
+      close()
     }, duration)
   }
 
@@ -22,12 +31,16 @@ const BankDetails = (props: BankDetailsModalProps & ModalPropsType) => {
     setShow(true)
   }, [])
 
-  if (!props.accountId) return null
-
-  const { accountId, accountNumber, accountType, bankName, bankType } = props
+  if (!accountId) return null
 
   return (
-    <Flyout {...props} onClose={handleClose} isOpen={show} data-e2e='bankDetailsModal'>
+    <Flyout
+      total={total}
+      position={position}
+      onClose={handleClose}
+      isOpen={show}
+      data-e2e='bankDetailsModal'
+    >
       <FlyoutChild>
         <Template
           handleClose={handleClose}
