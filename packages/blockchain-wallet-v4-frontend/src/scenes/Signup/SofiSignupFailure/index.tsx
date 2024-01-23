@@ -1,13 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
-import { actions, selectors } from 'data'
-import { useRemote } from 'hooks'
-import { isMobile } from 'services/styles'
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -17,15 +13,6 @@ const ContentWrapper = styled.div`
 `
 
 const MigrationError = () => {
-  // Add check here to make sure that there is wallet data
-  // route should navigate to login if there's no wallet data
-
-  const {
-    data: isMigrated,
-    hasError: isAssociatedError,
-    isLoading: isAssociatedLoading
-  } = useRemote(selectors.modules.profile.getSofiAssociateNabuUserStatus)
-
   return (
     <Wrapper>
       <ContentWrapper>
