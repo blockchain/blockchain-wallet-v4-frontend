@@ -21,91 +21,76 @@ const IconWrapper = styled.div`
   border-radius: 50%;
 `
 
-const VerifyEmail = ({
-  email,
-  isMetadataRecovery,
-  isSofi,
-  resendEmail,
-  skipVerification
-}: Props) => {
+const VerifyEmail = ({ isMetadataRecovery, isSofi, resendEmail, skipVerification }: Props) => {
   return (
-    <>
-      <Wrapper isSofi={isSofi}>
-        <ContentWrapper>
-          <IconWrapper>
-            <Icon color='white' name='email' size='24px' />
-          </IconWrapper>
-          <Text
-            size='20px'
-            weight={600}
-            color='black'
-            style={{ marginTop: '8px' }}
-            lineHeight='1.5'
-          >
-            <FormattedMessage id='scenes.verifyemail.title' defaultMessage='Verify Your Email' />
-          </Text>
-          <Text
-            color='grey900'
-            style={{ marginTop: '8px' }}
-            size='16px'
-            weight={500}
-            lineHeight='1.5'
-          >
+    <Wrapper isSofi={isSofi}>
+      <ContentWrapper>
+        <IconWrapper>
+          <Icon color='white' name='email' size='24px' />
+        </IconWrapper>
+        <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }} lineHeight='1.5'>
+          <FormattedMessage id='scenes.verifyemail.title' defaultMessage='Verify Your Email' />
+        </Text>
+        <Text
+          color='grey900'
+          style={{ marginTop: '8px' }}
+          size='16px'
+          weight={500}
+          lineHeight='1.5'
+        >
+          <FormattedMessage
+            id='scenes.verifyemail.description_1'
+            defaultMessage='Check your email and click the button or link to verify your email address.'
+          />
+        </Text>
+        <Text
+          color='grey900'
+          style={{ marginTop: '20px' }}
+          size='16px'
+          weight={600}
+          lineHeight='1.5'
+        >
+          <FormattedMessage
+            id='scenes.verifyemail.description_2'
+            defaultMessage='Come back here after verifying your email.'
+          />
+        </Text>
+        <Button
+          data-e2e='verifyEmail'
+          fullwidth
+          height='48px'
+          nature='light'
+          onClick={resendEmail}
+          style={{ marginBottom: '5px', marginTop: '32px' }}
+        >
+          <Text color='blue600' size='16px' weight={600}>
             <FormattedMessage
-              id='scenes.verifyemail.description_1'
-              defaultMessage='Check your email and click the button or link to verify your email address.'
+              id='components.EmailVerification.sendemailagain'
+              defaultMessage='Send Again'
             />
           </Text>
-          <Text
-            color='grey900'
-            style={{ marginTop: '20px' }}
-            size='16px'
+        </Button>
+        {isMetadataRecovery && (
+          <Link
+            onClick={skipVerification}
+            size='14px'
+            style={{ marginTop: '16px' }}
             weight={600}
-            lineHeight='1.5'
+            data-e2e='verifyEmailLater'
+            color='blue600'
           >
             <FormattedMessage
-              id='scenes.verifyemail.description_2'
-              defaultMessage='Come back here after verifying your email.'
+              id='scenes.verifyemail.do_it_later'
+              defaultMessage='I’ll Do This Later.'
             />
-          </Text>
-          <Button
-            data-e2e='verifyEmail'
-            fullwidth
-            height='48px'
-            nature='light'
-            onClick={resendEmail}
-            style={{ marginBottom: '5px', marginTop: '32px' }}
-          >
-            <Text color='blue600' size='16px' weight={600}>
-              <FormattedMessage
-                id='components.EmailVerification.sendemailagain'
-                defaultMessage='Send Again'
-              />
-            </Text>
-          </Button>
-          {isMetadataRecovery && (
-            <Link
-              onClick={skipVerification}
-              size='14px'
-              style={{ marginTop: '16px' }}
-              weight={600}
-              data-e2e='verifyEmailLater'
-              color='blue600'
-            >
-              <FormattedMessage
-                id='scenes.verifyemail.do_it_later'
-                defaultMessage='I’ll Do This Later.'
-              />
-            </Link>
-          )}
-        </ContentWrapper>
-      </Wrapper>
-    </>
+          </Link>
+        )}
+      </ContentWrapper>
+    </Wrapper>
   )
 }
 
 type Props = {
-  email: string
   isMetadataRecovery: boolean
   isSofi?: boolean
   resendEmail: () => void
