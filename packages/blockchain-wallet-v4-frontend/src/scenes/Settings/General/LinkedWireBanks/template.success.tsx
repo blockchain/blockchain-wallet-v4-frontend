@@ -1,18 +1,28 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { BSPaymentMethodType, BSPaymentTypes, WalletFiatEnum, WalletFiatType } from '@core/types'
+import {
+  BeneficiariesType,
+  BeneficiaryType,
+  BSPaymentMethodsType,
+  BSPaymentMethodType,
+  BSPaymentTypes,
+  WalletFiatEnum,
+  WalletFiatType
+} from '@core/types'
 import { Box, Image, Text } from 'blockchain-info-components'
 import { SettingContainer, SettingSummary } from 'components/Setting'
+import { modals } from 'data/actions'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { ModalName } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
 
 import { CardDetails, Child } from '../styles'
-import { Props as OwnProps, SuccessStateType } from '.'
 
 const BankIconWrapper = styled.div`
   margin-right: 14px;
@@ -34,10 +44,37 @@ const getAvailableAmountForCurrency = (
   return null
 }
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  const walletBeneficiaries = props.beneficiaries.filter(
+type Props = {
+  beneficiaries: BeneficiariesType
+  paymentMethods: BSPaymentMethodsType
+}
+
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = ({
+  beneficiaries,
+  paymentMethods
+}) => {
+  const dispatch = useDispatch()
+
+  const walletBeneficiaries = beneficiaries.filter(
     (beneficiary) => beneficiary.currency in WalletFiatEnum
   )
+
+  const onBankClick = (beneficiary: BeneficiaryType) => {
+    dispatch(
+      modals.showModal(
+        ModalName.BANK_DETAILS_MODAL,
+        {
+          origin: 'SettingsGeneral'
+        },
+        {
+          accountId: beneficiary.id,
+          accountNumber: beneficiary.address,
+          accountType: 'Wire',
+          bankType: BSPaymentTypes.BANK_ACCOUNT
+        }
+      )
+    )
+  }
 
   if (!walletBeneficiaries.length) return <SettingContainer />
 
@@ -47,11 +84,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         <div>
           {walletBeneficiaries.map((beneficiary) => {
             const availableAmount = getAvailableAmountForCurrency(
-              props.paymentMethods.methods,
+              paymentMethods.methods,
               beneficiary.currency as WalletFiatType
             )
             return (
-              <Box style={{ width: '430px' }} isMobile={media.mobile} key={beneficiary.id}>
+              <Box
+                style={{ width: '430px' }}
+                isMobile={media.mobile}
+                key={beneficiary.id}
+                onClick={() => onBankClick(beneficiary)}
+              >
                 <Child>
                   <BankIconWrapper>
                     <Image name={getBankLogoImageName(beneficiary.agent)} />
@@ -93,5 +135,4 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   )
 }
 
-type Props = OwnProps & SuccessStateType
 export default reduxForm<{}, Props>({ form: 'linkedBanks' })(Success)

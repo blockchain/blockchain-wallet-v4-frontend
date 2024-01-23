@@ -5,15 +5,21 @@ import sagas from './sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const {
+    associateSofiUserLogin,
+    associateSofiUserSignup,
     authAndRouteToExchangeAction,
     clearSession,
     createUser,
+    fetchSofiUserStatus,
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,
     fetchUserRiskSettings,
+    initiateSofiLanding,
     linkFromExchangeAccount,
     linkToExchangeAccount,
+    migrateSofiUser,
+    redirectAfterAssociation,
     shareWalletAddressesWithExchange,
     signIn
   } = sagas({
@@ -26,6 +32,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.SIGN_IN, signIn)
     yield takeLatest(AT.CLEAR_SESSION, clearSession)
     yield takeLatest(AT.CREATE_USER, createUser)
+    yield takeLatest(AT.FETCH_SOFI_USER_STATUS, fetchSofiUserStatus)
     yield takeLatest(AT.FETCH_USER, fetchUser)
     yield takeLatest(AT.FETCH_TIERS, fetchTiers)
     yield takeLatest(AT.FETCH_USER_RISK_SETTINGS, fetchUserRiskSettings)
@@ -36,5 +43,10 @@ export default ({ api, coreSagas, networks }) => {
     // @ts-ignore
     yield takeLatest(AT.LINK_TO_EXCHANGE_ACCOUNT, linkToExchangeAccount)
     yield takeLatest(AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE, shareWalletAddressesWithExchange)
+    yield takeLatest(AT.MIGRATE_SOFI_USER, migrateSofiUser)
+    yield takeLatest(AT.INITIATE_SOFI_LANDING, initiateSofiLanding)
+    yield takeLatest(AT.ASSOCIATE_SOFI_USER_LOGIN, associateSofiUserLogin)
+    yield takeLatest(AT.ASSOCIATE_SOFI_USER_SIGNUP, associateSofiUserSignup)
+    yield takeLatest(AT.SOFI_REDIRECT_AFTER_EMAIL_VERIFICATION, redirectAfterAssociation)
   }
 }

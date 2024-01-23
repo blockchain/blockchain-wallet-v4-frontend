@@ -1,36 +1,34 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
 import { Image } from 'blockchain-info-components'
 
-import { COMPLETE_PROFILE_STEPS } from '../types'
-
 export const ImageName = {
-  [COMPLETE_PROFILE_STEPS.VERIFY]: <Image name='identification' />,
-  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: <Image name='bank-empty-blue' />,
-  [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: <Image name='cart-green' />
+  BUY_CRYPTO: <Image name='cart-green' />,
+  KYC_VERIFICATION: <Image name='identification' />
 }
 
 export const IconColors = {
-  [COMPLETE_PROFILE_STEPS.VERIFY]: 'purple500',
-  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: 'blue600',
-  [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: 'green600'
+  BUY_CRYPTO: 'green600',
+  KYC_VERIFICATION: 'purple500'
 }
 
-const LinkItemContainer = styled.div<{ isComplete: boolean }>`
-  display: flex;
-  flex-direction: row;
+export const ItemButton = styled.button<{ isComplete?: boolean; status: string }>`
   border: 1px solid ${(props) => props.theme.grey100};
-  border: ${(props) => (props.isComplete ? 'none' : `1px solid ${(props) => props.theme.grey100}`)};
   box-sizing: border-box;
   border-radius: 12px;
   padding: 16px 24px;
   margin-bottom: 16px;
-  cursor: ${(props) => (props.isComplete ? 'default' : 'pointer')};
+  cursor: ${(props) => (props.status === 'IDLE' ? 'pointer' : 'cursor')};
+  background-color: ${(props) => (props.status === 'DISABLED' ? props.theme.grey100 : 'inherit')};
 `
 
-export const ItemPurple = styled(LinkItemContainer)`
+export const ButtonContent = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const ItemPurple = styled(ItemButton)`
   ${(props) =>
     props.isComplete
       ? ''
@@ -41,7 +39,7 @@ export const ItemPurple = styled(LinkItemContainer)`
           }
         `};
 `
-export const ItemBlue = styled(LinkItemContainer)`
+const ItemBlue = styled(ItemButton)`
   ${(props) =>
     props.isComplete
       ? ''
@@ -52,7 +50,7 @@ export const ItemBlue = styled(LinkItemContainer)`
           }
         `};
 `
-export const ItemGreen = styled(LinkItemContainer)`
+const ItemGreen = styled(ItemButton)`
   ${(props) =>
     props.isComplete
       ? ''
@@ -65,12 +63,11 @@ export const ItemGreen = styled(LinkItemContainer)`
 `
 
 export const MainContainer = {
-  [COMPLETE_PROFILE_STEPS.VERIFY]: ItemPurple,
-  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: ItemBlue,
-  [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: ItemGreen
+  BUY_CRYPTO: ItemGreen,
+  KYC_VERIFICATION: ItemPurple
 }
 
-const IconWrapper = styled.div`
+export const IconWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -82,91 +79,32 @@ const IconWrapper = styled.div`
     align-self: center;
   }
 `
-export const VerifyIconWrapper = styled(IconWrapper)`
+const PurpleIconWrapper = styled(IconWrapper)`
   background-color: ${(props) => props.theme.purple000};
 `
-export const PurpleIconWrapper = styled(IconWrapper)`
-  background-color: ${(props) => props.theme.purple000};
-`
-export const BlueIconWrapper = styled(IconWrapper)`
+const BlueIconWrapper = styled(IconWrapper)`
   background-color: ${(props) => props.theme.blue000};
 `
-export const GreenIconWrapper = styled(IconWrapper)`
+const GreenIconWrapper = styled(IconWrapper)`
   background-color: ${(props) => props.theme.green000};
 `
 
-export const MainIconWrapper = {
-  [COMPLETE_PROFILE_STEPS.VERIFY]: PurpleIconWrapper,
-  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: BlueIconWrapper,
-  [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: GreenIconWrapper
-}
-
 export const MainSection = styled.div`
   display: flex;
-  flex-direction: row;
-  margin-left: 22px;
-  margin-right: 12px;
+  margin-left: 1rem;
+  margin-right: 1rem;
   min-height: 36px;
   flex: 1;
   justify-content: space-between;
+  align-items: center;
 `
 export const CentralContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
 `
-export const LinksWrapper = styled(CentralContainer)`
-  padding-top: 26px;
-`
+
 export const ActionButton = styled.div`
   display: flex;
   flex-direction: row;
 `
-
-export const LinkTitle = {
-  [COMPLETE_PROFILE_STEPS.VERIFY]: (
-    <FormattedMessage
-      id='modal.complete_profile.verify_your_account'
-      defaultMessage='Verify your account'
-    />
-  ),
-  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: (
-    <FormattedMessage
-      id='modal.complete_profile.link_a_payment_method'
-      defaultMessage='Link a Payment Method'
-    />
-  ),
-  [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: (
-    <FormattedMessage id='buttons.buy_crypto' defaultMessage='Buy Crypto' />
-  )
-}
-
-export const LinkExplanation = {
-  [COMPLETE_PROFILE_STEPS.VERIFY]: (
-    <FormattedMessage
-      id='modal.complete_profile.minutes'
-      defaultMessage='{time} Minutes'
-      values={{
-        time: 3
-      }}
-    />
-  ),
-  [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: (
-    <FormattedMessage
-      id='modal.complete_profile.minutes'
-      defaultMessage='{time} Minutes'
-      values={{
-        time: 2
-      }}
-    />
-  ),
-  [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: (
-    <FormattedMessage
-      id='modal.complete_profile.seconds'
-      defaultMessage='{time} Seconds'
-      values={{
-        time: 10
-      }}
-    />
-  )
-}

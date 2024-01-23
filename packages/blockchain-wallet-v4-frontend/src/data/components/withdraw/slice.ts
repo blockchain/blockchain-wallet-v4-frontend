@@ -78,7 +78,9 @@ const withdrawSlice = createSlice({
     ) => {},
     handleWithdrawMaxAmountClick: (state, action: PayloadAction<{ amount: number }>) => {},
     handleWithdrawMinAmountClick: (state, action: PayloadAction<{ amount: number }>) => {},
-
+    setFiatCurrency: (state, action: PayloadAction<WalletFiatType>) => {
+      state.fiatCurrency = action.payload
+    },
     setStep: (state, action: PayloadAction<WithdrawStepActionsPayload>) => {
       switch (action.payload.step) {
         case WithdrawStepEnum.ENTER_AMOUNT:

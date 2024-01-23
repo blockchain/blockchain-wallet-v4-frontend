@@ -43,6 +43,10 @@ const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
 const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
+const SofiLanding = React.lazy(() => import('./SofiLanding'))
+const SofiSignupSuccess = React.lazy(() => import('./Signup/SofiSignupSuccess'))
+const SofiSignupFailure = React.lazy(() => import('./Signup/SofiSignupFailure'))
+const SofiVerify = React.lazy(() => import('./Signup/components/SofiVerifySsn'))
 const Prove = React.lazy(() => import('./Prove'))
 // need to be authed to see this, but uses public layout
 const ContinueOnPhone = React.lazy(() => import('./ContinueOnPhone'))
@@ -53,6 +57,9 @@ const UploadDocumentsSuccess = React.lazy(() => import('./UploadDocuments/Succes
 const VerifyAccountRecovery = React.lazy(() => import('./RecoverWallet/EmailAuthLanding'))
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
+
+// TEST
+const ContinueOnMobile = React.lazy(() => import('./Login/Sofi/ContinueOnMobile'))
 
 // DEX
 const Dex = React.lazy(() => import('./Dex'))
@@ -92,6 +99,7 @@ const App = ({
   isCoinViewV2Enabled,
   isDebitCardEnabled,
   isDexEnabled,
+  isMnemonicRecoveryEnabled,
   isNftExplorerEnabled,
   isProveEnabled,
   persistor,
@@ -117,6 +125,9 @@ const App = ({
     url: `${apiUrl}/nft-market-api/graphql/`
   })
 
+  const isSofi = window.location.pathname === '/sofi'
+
+  const sofiParams = isSofi && window.location.search
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
@@ -170,11 +181,13 @@ const App = ({
                                 component={MobileLogin}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
                               />
-                              <AuthLayout
-                                path='/recover'
-                                component={RecoverWallet}
-                                pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
-                              />
+                              {isMnemonicRecoveryEnabled && (
+                                <AuthLayout
+                                  path='/recover'
+                                  component={RecoverWallet}
+                                  pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
+                                />
+                              )}
                               <AuthLayout
                                 path='/reset-2fa'
                                 component={ResetWallet2fa}
@@ -189,6 +202,46 @@ const App = ({
                                 path='/setup-two-factor'
                                 component={TwoStepVerification}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Setup 2FA`}
+                              />
+                              <AuthLayout
+                                path='/signup/sofi'
+                                component={Signup}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+                              />
+                              <AuthLayout
+                                path='/signup/sofi'
+                                component={Signup}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+                              />
+                              <AuthLayout
+                                path='/login/sofi'
+                                component={Login}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Login`}
+                              />
+                              <AuthLayout
+                                path='/sofi'
+                                component={SofiLanding}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+                              />
+                              <AuthLayout
+                                path='/sofi-success'
+                                component={SofiSignupSuccess}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+                              />
+                              <AuthLayout
+                                path='/sofi-error'
+                                component={SofiSignupFailure}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+                              />
+                              <AuthLayout
+                                path='/sofi-verify'
+                                component={SofiVerify}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+                              />
+                              <AuthLayout
+                                path='/sofi-mobile'
+                                component={ContinueOnMobile}
+                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
                               />
                               <AuthLayout
                                 path='/signup'
@@ -308,6 +361,7 @@ const App = ({
                                 removeContentPadding
                                 hasUkBanner
                               />
+                              {isSofi && window.location.replace(`/#/sofi${sofiParams}`)}
                               {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                             </Switch>
                           </Suspense>
@@ -342,6 +396,9 @@ const mapStateToProps = (state) => ({
     .getOrElse(false),
   isDexEnabled: selectors.core.walletOptions
     .getDexProductEnabled(state)
+    .getOrElse(false) as boolean,
+  isMnemonicRecoveryEnabled: selectors.core.walletOptions
+    .getMnemonicRecoveryEnabled(state)
     .getOrElse(false) as boolean,
   isNftExplorerEnabled: selectors.core.walletOptions
     .getNftExplorer(state)

@@ -37,10 +37,10 @@ const Row = styled.div`
   `}
 `
 
-const SignUpLink = (props) => {
-  const hideSignupLink =
-    props.platform === PlatformTypes.ANDROID || props.platform === PlatformTypes.IOS
-  return hideSignupLink ? null : (
+const SignUpLink = ({ platform }: { platform?: PlatformTypes }) => {
+  if (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS) return null
+
+  return (
     <SubCard>
       <LinkContainer data-e2e='signupLink' to='/signup'>
         <Row>

@@ -12,11 +12,17 @@ import { Image } from 'blockchain-info-components'
 import { UkBanner } from 'components/Banner'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ProductAuthMetadata, ProductSignupMetadata } from 'data/types'
+import {
+  ProductAuthMetadata,
+  ProductSignupMetadata,
+  RegisteringFailureType,
+  RegisteringSuccessType
+} from 'data/types'
 
 import BuyGoal from './BuyGoal'
 import Header from './components/Header'
 import SignupCard from './components/SignupCard'
+import SofiSignupCard from './components/SofiSignupCard'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
 import { GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
 
@@ -53,6 +59,7 @@ const UKHeaderWrapper = styled.div`
   position: absolute;
   width: 100vw;
   top: 0;
+  z-index: 2;
 `
 
 export const SIGNUP_FORM = 'register'
@@ -118,7 +125,7 @@ class SignupContainer extends React.PureComponent<
   }
 
   render() {
-    const { bakktRedirectUSStates, formValues, goals, isLoadingR, productAuthMetadata } = this.props
+    const { formValues, goals, isLoadingR, productAuthMetadata } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
     const isUserInUK = productAuthMetadata?.ipCountry === 'GB'
     const userSelectedUK = formValues?.country === 'GB'
@@ -130,6 +137,7 @@ class SignupContainer extends React.PureComponent<
     const signupInitialValues = (email ? { email } : {}) as SignupFormInitValuesType
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
     const isBuyGoal = !!find(propEq('name', 'buySell'), goals)
+    const isSofi = window.location.hash.includes('sofi')
 
     const subviewProps = {
       isFormSubmitting,
@@ -152,11 +160,14 @@ class SignupContainer extends React.PureComponent<
           </UKHeaderWrapper>
         )}
         <SignupWrapper>
+          {isSofi && <SofiSignupCard {...subviewProps} />}
           {isLatam && <Header />}
           {isLinkAccountGoal && <ExchangeLinkGoal {...subviewProps} />}
           {isBuyGoal && <BuyGoal {...subviewProps} />}
-          {!isLinkAccountGoal && !isBuyGoal && !isLatam && <SignupCard {...subviewProps} />}
-          {!isLinkAccountGoal && !isBuyGoal && isLatam && (
+          {!isLinkAccountGoal && !isBuyGoal && !isLatam && !isSofi && (
+            <SignupCard {...subviewProps} />
+          )}
+          {!isLinkAccountGoal && !isBuyGoal && !isSofi && isLatam && (
             <LatamWrapper>
               <SignupCard {...subviewProps} />
               <LatamPhone>
@@ -184,6 +195,10 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   isValidReferralCode: selectors.signup.getIsValidReferralCode(state),
   language: selectors.preferences.getLanguage(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
+  registering: selectors.signup.getRegistering(state) as RemoteDataType<
+    RegisteringFailureType,
+    RegisteringSuccessType
+  >,
   search: selectors.router.getSearch(state) as string,
   signupMetadata: selectors.signup.getProductSignupMetadata(state) as ProductSignupMetadata
 })
@@ -191,6 +206,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch),
   signupActions: bindActionCreators(actions.signup, dispatch),
   websocketActions: bindActionCreators(actions.ws, dispatch)
 })
@@ -207,6 +223,7 @@ type LinkStatePropsType = {
   isValidReferralCode?: boolean
   language: string
   productAuthMetadata: ProductAuthMetadata
+  registering: RemoteDataType<RegisteringFailureType, RegisteringSuccessType>
   search: string
   signupMetadata: ProductSignupMetadata
 }

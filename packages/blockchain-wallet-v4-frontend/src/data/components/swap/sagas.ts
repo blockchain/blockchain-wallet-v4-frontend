@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { differenceInMilliseconds } from 'date-fns'
 import { call, delay, put, select, take } from 'redux-saga/effects'
+import { call as typedCall } from 'typed-redux-saga'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
@@ -556,14 +557,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       return
     }
 
-    yield put(
-      actions.modals.showModal(ModalName.SWAP_MODAL, {
-        baseCurrency,
-        counterCurrency,
-        origin
-      })
-    )
-
     const latestPendingOrder = S.getLatestPendingSwapTrade(yield select())
 
     // get current user tier
@@ -591,8 +584,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
             origin: 'BuySellInit'
           })
         )
-        // close swap Modal
-        yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))
         return
       }
     }
@@ -606,8 +597,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
             origin: 'BuySellInit'
           })
         )
-        yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))
         return
+      }
+
+      if (products.swap.reasonNotEligible.reason === 'NOT_ELIGIBLE') {
+        const steps = yield* typedCall(api.fetchVerificationSteps)
+        if (steps !== '' && steps.items[steps.items.length - 1].status === 'DISABLED') {
+          yield put(
+            actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, { origin: 'BuySellInit' })
+          )
+
+          return
+        }
       }
 
       const message =
@@ -622,9 +623,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           sanctionsType
         })
       )
-      yield put(actions.modals.closeModal(ModalName.SWAP_MODAL))
       return
     }
+
+    yield put(
+      actions.modals.showModal(ModalName.SWAP_MODAL, {
+        baseCurrency,
+        counterCurrency,
+        origin
+      })
+    )
 
     if (latestPendingOrder) {
       yield put(

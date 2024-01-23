@@ -21,10 +21,16 @@ const IconWrapper = styled.div`
   border-radius: 50%;
 `
 
-const VerifyEmail = ({ email, isMetadataRecovery, resendEmail, skipVerification }: Props) => {
+const VerifyEmail = ({
+  email,
+  isMetadataRecovery,
+  isSofi,
+  resendEmail,
+  skipVerification
+}: Props) => {
   return (
     <>
-      <Wrapper>
+      <Wrapper isSofi={isSofi}>
         <ContentWrapper>
           <IconWrapper>
             <Icon color='white' name='email' size='24px' />
@@ -46,14 +52,22 @@ const VerifyEmail = ({ email, isMetadataRecovery, resendEmail, skipVerification 
             lineHeight='1.5'
           >
             <FormattedMessage
-              id='scenes.verifyemail.description'
-              defaultMessage='We sent a verification email to <b>{email}</b>. Please click the link in the email to continue.'
-              values={{
-                email
-              }}
+              id='scenes.verifyemail.description_1'
+              defaultMessage='Check your email and click the button or link to verify your email address.'
             />
           </Text>
-
+          <Text
+            color='grey900'
+            style={{ marginTop: '20px' }}
+            size='16px'
+            weight={600}
+            lineHeight='1.5'
+          >
+            <FormattedMessage
+              id='scenes.verifyemail.description_2'
+              defaultMessage='Come back here after verifying your email.'
+            />
+          </Text>
           <Button
             data-e2e='verifyEmail'
             fullwidth
@@ -93,6 +107,7 @@ const VerifyEmail = ({ email, isMetadataRecovery, resendEmail, skipVerification 
 type Props = {
   email: string
   isMetadataRecovery: boolean
+  isSofi?: boolean
   resendEmail: () => void
   skipVerification: () => void
 }

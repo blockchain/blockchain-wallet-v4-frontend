@@ -1,13 +1,17 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch, useSelector } from 'react-redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import Form from 'components/Form/Form'
+import { getRedirectBackToStep } from 'data/components/brokerage/selectors'
+import { deleteSavedBank } from 'data/components/brokerage/slice'
+import { DeleteBankEndpointTypes } from 'data/types'
 
-import { LinkDispatchPropsType, LinkStatePropsType, OwnProps } from '.'
+import { RemoveBankModalProps } from './types'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -38,18 +42,32 @@ const LeftTopCol = styled.div`
   align-items: center;
 `
 
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+type Props = {
+  entityType: DeleteBankEndpointTypes
+  handleClose: () => void
+} & Omit<RemoveBankModalProps, 'bankType'>
 
-const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  const bankAccountName =
-    props.account && 'details' in props.account
-      ? `${props.account.details?.bankName} ${props.account.details?.accountNumber || ''}`
-      : `bank account`
+const Template: React.FC<InjectedFormProps<{}, Props> & Props> = ({
+  accountId,
+  accountNumber,
+  bankName,
+  entityType,
+  handleClose,
+  submitting
+}) => {
+  const dispatch = useDispatch()
+
+  const redirectBackToStep = useSelector(getRedirectBackToStep)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(deleteSavedBank({ bankId: accountId, bankType: entityType }))
+  }
 
   return (
     <Wrapper>
       <RemoveBankFlyout>
-        {props.redirectBackToStep ? (
+        {redirectBackToStep ? (
           <TopText color='grey800' size='20px' weight={600}>
             <LeftTopCol>
               <Icon
@@ -60,7 +78,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 color='grey600'
                 role='button'
                 style={{ marginRight: '8px' }}
-                onClick={props.handleClose}
+                onClick={handleClose}
               />
               <Text color='grey800' size='24px' weight={600}>
                 <FormattedMessage id='buttons.back' defaultMessage='Back' />
@@ -76,11 +94,11 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               size='20px'
               color='grey600'
               role='button'
-              onClick={props.handleClose}
+              onClick={handleClose}
             />
           </CloseContainer>
         )}
-        <CustomForm onSubmit={props.handleSubmit}>
+        <CustomForm onSubmit={handleSubmit}>
           <Icon name='alert-filled' color='orange400' size='52px' style={{ display: 'block' }} />
           <Text color='grey800' size='24px' weight={600} style={{ marginTop: '32px' }}>
             <FormattedMessage
@@ -96,10 +114,8 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           >
             <FormattedMessage
               id='modals.brokerage.remove_bank.description'
-              defaultMessage="You're about to remove your {bankAccount}"
-              values={{
-                bankAccount: bankAccountName
-              }}
+              defaultMessage="You're about to remove your {bankName} account ending in {accountNumber}"
+              values={{ accountNumber, bankName }}
             />
           </Text>
           <Button
@@ -108,10 +124,10 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             height='48px'
             nature='light'
             data-e2e='removeLinkedBank'
-            disabled={props.submitting}
+            disabled={submitting}
             type='submit'
           >
-            {props.submitting ? (
+            {submitting ? (
               <HeartbeatLoader color='blue100' height='20px' width='20px' />
             ) : (
               <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
@@ -123,8 +139,8 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             height='48px'
             nature='light'
             data-e2e='cancelRemoveOfLinkedBank'
-            disabled={props.submitting}
-            onClick={props.handleClose}
+            disabled={submitting}
+            onClick={handleClose}
             style={{ marginTop: '16px' }}
             type='button'
           >

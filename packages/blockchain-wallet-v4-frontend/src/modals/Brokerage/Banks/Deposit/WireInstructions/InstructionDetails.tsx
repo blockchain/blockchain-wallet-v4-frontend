@@ -1,9 +1,7 @@
 import React from 'react'
-import { AlertCard } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { Icon } from 'blockchain-info-components'
-import { DisplayIcon, DisplaySubTitle, DisplayTitle } from 'components/BuySell'
+import { Text } from 'blockchain-info-components'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
 
@@ -36,21 +34,9 @@ const BottomInfoContainer = styled.div`
     }
   }
 `
-const BottomRow = styled.div`
-  display: flex;
+const BottomRow = styled.div<{ $items: number }>`
+  display: ${(props) => (props.$items > 0 ? 'flex' : 'none')};
   flex-direction: row;
-
-  > div.constellation {
-    width: 100%;
-    background: ${(props) => props.theme.grey100} !important;
-  }
-`
-const BottomMultiRowContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  color: ${(props) => props.theme.grey800};
-  margin-left: 16px;
 `
 const Entries = styled.div`
   background-color: ${(props) => props.theme.grey000};
@@ -75,17 +61,34 @@ const EntryValue = styled.div`
   line-height: 1.5;
 `
 
+const NoticeWrapper = styled.div`
+  flex: 1;
+  padding: 1rem 1rem 0 1rem;
+  background-color: ${(props) => props.theme.grey000};
+  border-radius: 0.5rem;
+  border: 1px solid #d46a00;
+
+  ul {
+    padding-inline-start: 1.5rem;
+  }
+`
+
 type Props = OwnProps &
   SuccessStateType & {
     onClickBack: () => void
   }
 
-export const InstructionDetails = (props: Props) => {
+export const InstructionDetails = ({ account, onClickBack }: Props) => {
+  const { content, currency } = account
+
+  const footerActions = content.footers.filter((footer) => footer.actions)
+  const footerNotices = content.footers.filter((footer) => !footer.actions)
+
   return (
     <FlyoutWrapper>
-      <Header currency={props.account.currency} onClickBack={props.onClickBack} />
+      <Header currency={currency} onClickBack={onClickBack} />
 
-      {props.account.content.sections.map((section) => (
+      {content.sections.map((section) => (
         <div key={section.name}>
           <SectionTitle>{section.name}</SectionTitle>
           <Entries>
@@ -103,29 +106,26 @@ export const InstructionDetails = (props: Props) => {
       ))}
 
       <BottomInfoContainer>
-        {props.account.content.footers.map((footer) => {
-          if (footer.actions) {
-            return (
-              <ActionFooter key={footer.id} message={footer.message} actions={footer.actions} />
-            )
-          }
+        {footerActions.map((footer) => (
+          <ActionFooter key={footer.id} message={footer.message} actions={footer.actions!} />
+        ))}
 
-          return footer.isImportant ? (
-            <BottomRow key={footer.id}>
-              <AlertCard variant='warning' content={footer.message} title={footer.title} />
-            </BottomRow>
-          ) : (
-            <BottomRow key={footer.id}>
-              <DisplayIcon>
-                <Icon size='18px' color='grey800' name='pending' />
-              </DisplayIcon>
-              <BottomMultiRowContainer>
-                <DisplayTitle>{footer.title}</DisplayTitle>
-                <DisplaySubTitle>{footer.message}</DisplaySubTitle>
-              </BottomMultiRowContainer>
-            </BottomRow>
-          )
-        })}
+        <BottomRow $items={footerNotices.length}>
+          <NoticeWrapper>
+            <Text size='14px' weight={600}>
+              <span style={{ color: '#D46A00' }}>Important Information</span>
+            </Text>
+            <ul>
+              {footerNotices.map((footer) => (
+                <li key={footer.id}>
+                  <Text size='12px' weight={500} color='grey900'>
+                    {footer.message}
+                  </Text>
+                </li>
+              ))}
+            </ul>
+          </NoticeWrapper>
+        </BottomRow>
       </BottomInfoContainer>
     </FlyoutWrapper>
   )

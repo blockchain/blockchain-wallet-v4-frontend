@@ -20,9 +20,15 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   // We don't want to direct the user to /select-product
   // rather take them straight to home screen of the wallet
   static getDerivedStateFromProps(nextProps) {
-    const { createExchangeUserFlag, hasCowboyTag, isEmailVerified, signupCountry, signupMetadata } =
-      nextProps
-    const { signupRedirect } = signupMetadata
+    const {
+      associateSofiBeforeEmailVerification,
+      createExchangeUserFlag,
+      hasCowboyTag,
+      isEmailVerified,
+      signupCountry,
+      signupMetadata
+    } = nextProps
+    const { isSofi, signupRedirect } = signupMetadata
     if (isEmailVerified) {
       if (hasCowboyTag) {
         // When the user has the COWBOYS_2022 tag set from the backend we want to skip
@@ -30,6 +36,12 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
         nextProps.routerActions.push('/home')
         nextProps.saveGoal('cowboys2022', { firstLogin: true })
         nextProps.runGoals()
+      } else if (isSofi) {
+        if (associateSofiBeforeEmailVerification) {
+          nextProps.profileActions.sofiRedirectAfterEmailVerification()
+        } else {
+          nextProps.profileActions.associateSofiUserSignup()
+        }
       } else if (
         createExchangeUserFlag &&
         signupRedirect !== SignupRedirectTypes.WALLET_HOME &&
@@ -64,12 +76,14 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
 
   render() {
     const isMetadataRecovery = Remote.Success.is(this.props.isMetadataRecoveryR)
+    const { isSofi } = this.props.signupMetadata
     return (
       <VerifyEmail
         {...this.props}
         resendEmail={this.onResendEmail}
         skipVerification={this.skipVerification}
         isMetadataRecovery={isMetadataRecovery}
+        isSofi={isSofi}
       />
     )
   }
@@ -77,6 +91,9 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = (state) => ({
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
+  associateSofiBeforeEmailVerification: selectors.core.walletOptions
+    .getAssociateSofiBeforeEmailVerification(state)
+    .getOrElse(false),
   createExchangeUserFlag: selectors.core.walletOptions
     .getCreateExchangeUserOnSignupOrLogin(state)
     .getOrElse(false),
@@ -91,6 +108,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   miscActions: bindActionCreators(actions.core.data.misc, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
   runGoals: () => dispatch(actions.goals.runGoals()),
   saveGoal: (name, data) => dispatch(actions.goals.saveGoal({ data, name })),

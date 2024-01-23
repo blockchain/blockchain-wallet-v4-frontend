@@ -169,7 +169,7 @@ export default ({ api, coreSagas, networks }) => {
       }
     } catch (e) {
       if (e.message !== REFERRAL_ERROR_MESSAGE) {
-        yield put(actions.signup.registerFailure(undefined))
+        yield put(actions.signup.registerFailure(e))
         yield put(actions.auth.loginFailure(e))
         yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
         yield put(actions.alerts.displayError(C.REGISTER_ERROR))
@@ -383,8 +383,11 @@ export default ({ api, coreSagas, networks }) => {
     const product = queryParams.get('product') as ProductAuthOptions
     const platform = queryParams.get('platform') as PlatformTypes
     const signupRedirect = queryParams.get('redirect') as SignupRedirectTypes
+    const pathname = yield select(selectors.router.getPathname)
+    const isSofi = pathname.includes('sofi')
     yield put(
       actions.signup.setProductSignupMetadata({
+        isSofi,
         platform,
         product,
         referrerUsername,

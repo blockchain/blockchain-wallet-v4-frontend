@@ -139,7 +139,7 @@ export const getDefaultPaymentMethod = createSelector(
             return (
               method.currency === lastOrder.inputCurrency &&
               method.currency === fiatCurrency &&
-              (sbBalances[method?.currency]?.available || 0) > 0
+              Number(sbBalances[method?.currency]?.available ?? 0) > 0
             )
           })
         case BSPaymentTypes.LINK_BANK:
@@ -171,7 +171,7 @@ export const hasFiatBalances = (state: RootState) => {
   const fiatBalances = Object.keys(state.components.buySell.balances.data).filter(
     (currency) =>
       currency in FiatTypeEnum &&
-      (state.components.buySell.balances.data[currency]?.available || 0) > 0
+      Number(state.components.buySell.balances.data[currency]?.available ?? 0) > 0
   )
   return fiatBalances.length > 0
 }

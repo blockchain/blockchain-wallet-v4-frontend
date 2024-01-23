@@ -143,6 +143,9 @@ const authSlice = createSlice({
     ) => {
       state.exchangeAuth.exchangeAccountFailure = action.payload
     },
+    setIsSofi: (state, action: PayloadAction<AuthStateType['isSofi']>) => {
+      state.isSofi = action.payload
+    },
     setJwtToken: (state, action: PayloadAction<AuthStateType['exchangeAuth']['jwtToken']>) => {
       state.exchangeAuth.jwtToken = action.payload
     },
@@ -159,6 +162,7 @@ const authSlice = createSlice({
       const { ipCountry, platform, product, redirect, sessionIdMobile, userType } = action.payload
       state.productAuthMetadata = {
         ipCountry,
+
         platform: platform?.toUpperCase() as PlatformTypes,
         product: product?.toUpperCase() as ProductAuthOptions,
         redirect,

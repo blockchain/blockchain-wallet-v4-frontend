@@ -8,7 +8,7 @@ import { selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { useDefer3rdPartyScript } from 'hooks'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import { media } from 'services/styles'
+import { isMobile, media } from 'services/styles'
 
 import Modals from '../../modals'
 import Footer from './components/Footer'
@@ -16,6 +16,8 @@ import Header from './components/Header'
 
 const qsParams = new URLSearchParams(window.location.hash)
 const isLatam = qsParams.has('latam')
+const isSofi = window.location.hash.includes('sofi')
+const isSofiOnMobile = isSofi && isMobile()
 
 const FooterContainer = styled.div`
   display: flex;
@@ -36,6 +38,8 @@ const Wrapper = styled.div<{ authProduct?: string }>`
       ? props.theme.exchangeLogin
       : isLatam
       ? '#04001F'
+      : isSofiOnMobile
+      ? 'white'
       : props.theme.grey900};
   height: auto;
   min-height: 100%;
@@ -66,6 +70,9 @@ const ContentContainer = styled.div`
   max-width: 100%;
   box-sizing: border-box;
   margin: 0 16px;
+  ${media.mobile`
+  margin: 0;
+`}
 `
 
 const AuthLayoutContainer = ({
@@ -105,15 +112,17 @@ const AuthLayoutContainer = ({
             <ContentContainer>
               <Component {...matchProps} />
             </ContentContainer>
-            <FooterContainer>
-              <Footer
-                authProduct={authProduct}
-                formValues={formValues}
-                platform={platform}
-                path={path}
-                unified={unified}
-              />
-            </FooterContainer>
+            {!isSofiOnMobile && (
+              <FooterContainer>
+                <Footer
+                  authProduct={authProduct}
+                  formValues={formValues}
+                  platform={platform}
+                  path={path}
+                  unified={unified}
+                />
+              </FooterContainer>
+            )}
           </Wrapper>
         </ErrorBoundary>
       )}

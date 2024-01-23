@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import {
   SettingContainer,
@@ -10,7 +10,9 @@ import {
 } from 'components/Setting'
 import { selectors } from 'data'
 
-const WalletVersion = (props: Props) => {
+const WalletVersion = () => {
+  const walletVersion = useSelector(selectors.core.wallet.getVersion)
+
   return (
     <SettingContainer>
       <SettingSummary>
@@ -20,18 +22,10 @@ const WalletVersion = (props: Props) => {
             defaultMessage='Wallet Version'
           />
         </SettingHeader>
-        <SettingDescription>{props.version}</SettingDescription>
+        <SettingDescription>{walletVersion}</SettingDescription>
       </SettingSummary>
     </SettingContainer>
   )
 }
 
-const mapStateToProps = (state) => ({
-  version: selectors.core.wallet.getVersion(state) as string
-})
-
-const connector = connect(mapStateToProps)
-
-type Props = ConnectedProps<typeof connector>
-
-export default connector(WalletVersion)
+export default WalletVersion

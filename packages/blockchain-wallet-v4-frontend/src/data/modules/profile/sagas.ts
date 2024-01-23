@@ -1,8 +1,10 @@
 import sha256 from 'crypto-js/sha256'
 import { differenceInMilliseconds, subSeconds } from 'date-fns'
+import { query } from 'express'
 import { compose, equals, prop, sortBy, tail } from 'ramda'
 import { stopSubmit } from 'redux-form'
 import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
+import Cookies from 'universal-cookie'
 
 import { Remote } from '@core'
 import { ExtractSuccess, WalletOptionsType } from '@core/types'
@@ -10,13 +12,14 @@ import { actions, actionTypes, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
 import { sendMessageToMobile } from 'data/auth/sagas.mobile'
 import { Analytics, AuthMagicLink, ModalName, PlatformTypes, ProductAuthOptions } from 'data/types'
+import { isNabuError, NabuError } from 'services/errors'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import * as S from './selectors'
-import { ExchangeAuthOriginType, UserDataType } from './types'
+import { ExchangeAuthOriginType, SofiUserMigrationStatus, UserDataType } from './types'
 
 export const logLocation = 'modules/profile/sagas'
 export const userRequiresRestoreError = 'User restored'
@@ -260,9 +263,17 @@ export default ({ api, coreSagas, networks }) => {
 
   const generateAuthCredentials = function* () {
     const retailToken = yield call(generateRetailToken)
+    const { isSofi } = yield select(selectors.signup.getProductSignupMetadata)
+    const cookies = new Cookies()
+    const partnerReferralCodeFromCookie = cookies.get('partnerReferralCode')
     const { token: nabuLifetimeToken, userId: nabuUserId } = yield call(
       api.createOrGetUser,
-      retailToken
+      retailToken,
+      isSofi
+        ? 'SOFI_MIGRATION'
+        : partnerReferralCodeFromCookie === 'sofi'
+        ? 'SOFI_MIGRATION'
+        : partnerReferralCodeFromCookie
     )
     // write to both to support legacy mobile clients
     // TODO: in future, consider just writing to unifiedCredentials entry
@@ -682,11 +693,231 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const initiateSofiLanding = function* () {
+    yield put(A.fetchSofiMigrationStatusLoading())
+    try {
+      const url = window.location.href
+      const queryParams = new URLSearchParams(yield select(selectors.router.getSearch))
+      const sofiLinkDataFromStore = yield select(S.getSofiLinkData)
+      const {
+        aesCiphertext: aesCiphertextFromStore,
+        aesIV: aesIVFromStore,
+        aesTag: aesTagFromStore,
+        aesKeyCiphertext: aesKeyCiphertextFromStore
+      } = sofiLinkDataFromStore
+
+      function getQueryParamCaseInsensitive(url, paramName) {
+        // Create URLSearchParams object from the URL
+        const normalizedParamName = paramName.toLowerCase()
+        // Iterate over all query parameters
+        for (const [key, value] of queryParams) {
+          if (key.toLowerCase() === normalizedParamName) {
+            return value
+          }
+        }
+        // If the parameter is not found, return null or undefined
+        return null
+      }
+
+      const aesCiphertext =
+        (getQueryParamCaseInsensitive(url, 'aesCiphertext') as string) ||
+        (aesCiphertextFromStore as string)
+      const aesIV =
+        (getQueryParamCaseInsensitive(url, 'aesIV') as string) || (aesIVFromStore as string)
+      const aesTag =
+        (getQueryParamCaseInsensitive(url, 'aesTag') as string) || (aesTagFromStore as string)
+      const aesKeyCiphertext =
+        (getQueryParamCaseInsensitive(url, 'aesKeyCipherText') as string) ||
+        (aesKeyCiphertextFromStore as string)
+      // if there are no params in url, just `/sofi`
+      // redirect them to login page
+      if (!aesCiphertext || !aesIV || !aesTag || !aesKeyCiphertext) {
+        return yield put(actions.router.replace('/login'))
+      }
+      yield put(A.setSofiLinkData({ aesCiphertext, aesIV, aesTag, aesKeyCiphertext }))
+
+      // call is user migrated api before loading page
+      const response = yield call(
+        api.sofiMigrationStatusJwt,
+        aesIV,
+        aesCiphertext,
+        aesTag,
+        aesKeyCiphertext
+      )
+
+      let sofiUserState = response.sofiJwtPayload?.state
+      let sofiUserCountry = response.sofiJwtPayload?.country || 'US'
+      if (!sofiUserState) {
+        yield put(A.fetchSofiMigrationStatusFailure('missing US state'))
+        return yield put(actions.router.push('/sofi'))
+      }
+      if (sofiUserState.substring(0, 2) !== 'US') {
+        sofiUserState = 'US-' + sofiUserState
+      }
+
+      yield put(actions.router.push('/sofi'))
+
+      yield put(
+        A.fetchSofiMigrationStatusSuccess({
+          ...response,
+          sofiJwtPayload: {
+            ...response.sofiJwtPayload,
+            country: sofiUserCountry,
+            state: sofiUserState
+          }
+        })
+      )
+    } catch (e) {
+      //TODO add error handling
+      yield put(A.fetchSofiMigrationStatusFailure(e))
+      yield put(actions.router.push('/sofi'))
+    }
+
+    // also save information retrieved from response in redux
+    // so we can use it for signup information
+  }
+
+  const fetchSofiUserStatus = function* () {
+    try {
+      yield call(waitForUserData)
+      const response = yield call(api.sofiMigrationStatusNabuToken)
+      yield put(A.setSofiUserStatus(response.migrationStatus))
+
+      if (response.migrationStatus === 'SUCCESS') {
+        yield put(A.setSofiMigratedBalances(response?.balances))
+        return true
+      }
+
+      if (response.migrationStatus === 'PENDING') {
+        yield put(A.setSofiMigratedBalances(response?.balances))
+      }
+      // i don't think i want to dot his
+      // if (response.migrationStatus === 'AWAITING_USER') {
+      //   return true
+      // }
+      if (response?.migrationStatus === 'FAILURE' || !response?.migrationStatus) {
+        return true
+      }
+    } catch (error) {
+      return false
+    }
+    yield delay(7000)
+    return yield call(fetchSofiUserStatus)
+  }
+
+  const migrateSofiUser = function* () {
+    yield put(A.migrateSofiUserLoading())
+    try {
+      const { sofiSSN } = yield select(selectors.form.getFormValues('verifySofiSsn'))
+      const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
+      // TODO commenting out for now, will use
+      // mock response for now
+
+      const response = yield call(api.migrateSofiUser, sofiSSN, nabuSessionToken)
+
+      const userStatusResponse = yield call(api.sofiMigrationStatusNabuToken)
+
+      if (userStatusResponse.migrationStatus === SofiUserMigrationStatus.SUCCESS) {
+        yield put(A.setSofiMigratedBalances(userStatusResponse.balances))
+      }
+      if (userStatusResponse.migrationStatus === SofiUserMigrationStatus.PENDING) {
+        yield put(A.setSofiMigratedBalances(userStatusResponse?.balances))
+        yield put(A.fetchSofiUserStatus())
+      }
+      yield put(A.migrateSofiUserSuccess(response))
+      yield put(A.setSofiUserStatus(response.migration_status))
+    } catch (e) {
+      yield put(
+        A.migrateSofiUserFailure({
+          id: e.id,
+          message: e.message,
+          title: e.title
+        })
+      )
+    }
+  }
+
+  const redirectAfterAssociation = function* () {
+    const bakktRedirectStates = (yield select(
+      selectors.core.walletOptions.getBakktRedirectUSStates
+    )).getOrElse([])
+    const { sofiJwtPayload } = (yield select(selectors.modules.profile.getSofiUserData)).getOrElse(
+      {}
+    )
+    const { state: sofiUserState } = sofiJwtPayload
+    const bakktRedirect = bakktRedirectStates.includes(sofiUserState)
+    if (bakktRedirect) {
+      yield put(actions.router.push('/sofi-mobile'))
+    } else {
+      yield put(actions.router.push('/sofi-verify'))
+    }
+  }
+
+  const associateSofiUserSignup = function* () {
+    const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
+
+    const associateBeforeEmailVerification = (yield select(
+      selectors.core.walletOptions.getAssociateSofiBeforeEmailVerification
+    )).getOrElse(false)
+
+    const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
+    yield put(A.associateSofiUserLoading())
+    try {
+      yield call(
+        api.associateNabuUser,
+        aesIV,
+        aesCiphertext,
+        aesTag,
+        aesKeyCiphertext,
+        nabuSessionToken
+      )
+
+      if (associateBeforeEmailVerification) {
+        yield put(actions.router.push('/verify-email-step'))
+      } else {
+        yield call(redirectAfterAssociation)
+      }
+      yield put(A.associateSofiUserSuccess(true))
+
+      //TODO do we need to handle a success?
+    } catch (e) {
+      yield put(A.associateSofiUserFailure(e))
+      yield put(actions.router.push('/sofi-error'))
+    }
+  }
+
+  const associateSofiUserLogin = function* () {
+    const { aesIV, aesCiphertext, aesTag, aesKeyCiphertext } = yield select(S.getSofiLinkData)
+
+    const nabuSessionToken = (yield select(selectors.modules.profile.getApiToken)).getOrFail()
+    yield put(A.associateSofiUserLoading())
+    try {
+      yield call(
+        api.associateNabuUser,
+        aesIV,
+        aesCiphertext,
+        aesTag,
+        aesKeyCiphertext,
+        nabuSessionToken
+      )
+      yield put(A.associateSofiUserSuccess(true))
+      yield call(redirectAfterAssociation)
+
+      //TODO do we need to handle a success?
+    } catch (e) {
+      yield put(A.associateSofiUserFailure(e))
+      yield put(actions.router.push('/sofi-error'))
+    }
+  }
+
   return {
+    associateSofiUserLogin,
+    associateSofiUserSignup,
     authAndRouteToExchangeAction,
     clearSession,
     createExchangeUser,
     createUser,
+    fetchSofiUserStatus,
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,
@@ -695,10 +926,13 @@ export default ({ api, coreSagas, networks }) => {
     generateExchangeAuthCredentials,
     generateRetailToken,
     getCampaignData,
+    initiateSofiLanding,
     isTier2,
     linkFromExchangeAccount,
     linkToExchangeAccount,
+    migrateSofiUser,
     recoverUser,
+    redirectAfterAssociation,
     renewApiSockets,
     renewSession,
     renewUser,

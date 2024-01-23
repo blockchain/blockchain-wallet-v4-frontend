@@ -4,7 +4,7 @@ import { RootState } from 'data/rootReducer'
 
 import { NetworkType } from './types'
 
-const getConfig = (state: RootState) => state.networkConfig.config
+export const getConfig = (state: RootState) => state.networkConfig.config
 
 export const getEvmCompatibleCoins = createSelector([getConfig], (configR) =>
   configR

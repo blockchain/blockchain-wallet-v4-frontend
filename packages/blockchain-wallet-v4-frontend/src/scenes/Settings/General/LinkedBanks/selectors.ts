@@ -1,12 +1,23 @@
 import { lift } from 'ramda'
 
-import { BSPaymentTypes, ExtractSuccess, InvitationsType } from '@core/types'
+import {
+  BSPaymentMethodsType,
+  BSPaymentTypes,
+  ExtractSuccess,
+  InvitationsType,
+  RemoteDataType
+} from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { BankTransferAccountType } from 'data/types'
 
-const getData = (state: RootState) => {
+type SuccessType = {
+  bankAccounts: BankTransferAccountType[]
+  paymentMethods: BSPaymentMethodsType
+}
+
+const getData = (state: RootState): RemoteDataType<string, SuccessType> => {
   const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
-
   const paymentMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
 
   // TODO: Remove this when Open Banking gets rolled out 100%

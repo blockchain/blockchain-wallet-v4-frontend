@@ -91,6 +91,9 @@ const EarnOnboarding = React.lazy(() => import('./Onboarding/Earn'))
 // SOLO onboarding
 const UnsupportedRegion = React.lazy(() => import('./Onboarding/UnsupportedRegion'))
 const KycConsentScreen = React.lazy(() => import('./Onboarding/KycVerification/ConsentScreen'))
+// FRICTIONS
+const SelfClassification = React.lazy(() => import('./Onboarding/FinProms/SelfClassification'))
+const SelfAssessment = React.lazy(() => import('./Onboarding/FinProms/SelfAssessment'))
 
 // MOBILE
 const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'))
@@ -147,9 +150,15 @@ const AddBankYapily = React.lazy(() => import('./Brokerage/Banks/AddBankYapily')
 const AddBankYodlee = React.lazy(() => import('./Brokerage/Banks/AddBankYodlee'))
 const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
 const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
+const SelectAddBank = React.lazy(() => import('./Brokerage/Banks/SelectAddBank'))
 
 // TAX CENTER
 const GenerateReport = React.lazy(() => import('./TaxCenter/GenerateReport'))
+
+// SOFI
+const SofiWelcome = React.lazy(() => import('./Sofi/Welcome'))
+const SofiMigratedBalances = React.lazy(() => import('./Sofi/MigratedBalances'))
+const SofiVerifyID = React.lazy(() => import('./Sofi/Verify'))
 
 const Modals = (props: Props) => {
   return (
@@ -318,6 +327,15 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SIGN_MESSAGE_MODAL) ? (
           <SignMessage />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SOFI_BLOCKCHAIN_WELCOME) ? (
+          <SofiWelcome />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SOFI_MIGRATED_BALANCES) ? (
+          <SofiMigratedBalances />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SOFI_VERIFY_ID) ? (
+          <SofiVerifyID />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
         {props.modals.find((modal) => modal.type === ModalName.TERMINATE_CARD) ? (
@@ -426,6 +444,15 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.US_PATRIOTIC_ACT) ? (
           <ViewUsPatrioticActFlyout />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SELECT_ADD_BANK_TYPE) ? (
+          <SelectAddBank />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SELF_CLASSIFICATION) ? (
+          <SelfClassification />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SELF_ASSESSMENT) ? (
+          <SelfAssessment />
         ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />

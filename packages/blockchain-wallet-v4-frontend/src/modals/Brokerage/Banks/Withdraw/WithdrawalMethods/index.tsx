@@ -73,7 +73,7 @@ const WithdrawalMethods: Props = ({ fiatCurrency, handleClose }) => {
       // off of the deposit wire instructions
       dispatch(
         actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.WIRE_INSTRUCTIONS
+          dwStep: BankDWStepType.ADD_WIRE_BANK
         })
       )
     } else {

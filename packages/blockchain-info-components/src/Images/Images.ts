@@ -37,6 +37,7 @@ import barChart from './img/bar-chart.svg'
 import blockchainIcon from './img/bc-icon.svg'
 import blockchainLogo from './img/bc-logo.svg'
 import blockchainLogoCircle from './img/bc-logo-circle.svg'
+import blockchainSofiLogo from './img/bc-sofi-logo.svg'
 import bgBannerPattern from './img/bg-banner-pattern.svg'
 import bgBannerPatternLg from './img/bg-banner-pattern-lg.svg'
 import bgModalGradient from './img/bg-modal-gradient.svg'
@@ -120,7 +121,10 @@ import googlePay from './img/google-pay-icon.svg'
 import googlePlayBadge from './img/google-play-badge.svg'
 import greyVerified from './img/grey-verified.svg'
 import identification from './img/identification.svg'
+import identificationCircle from './img/identification-circle.svg'
+import identificationCircleBlack from './img/identification-circle-black.svg'
 import identityVerification from './img/identity-verification.svg'
+import identityVerificationPending from './img/identity-verification-pending.svg'
 import instagram from './img/instagram.svg'
 import interest from './img/interest.svg'
 import introHand from './img/intro-hand.png'
@@ -128,6 +132,7 @@ import latamSignupPhone from './img/latam-signup-phone.svg'
 import lockOpen from './img/lock-open.svg'
 import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
+import mobile from './img/mobile.svg'
 import money from './img/money.png'
 import nft from './img/nft.png'
 import nftcollections from './img/nfts/collections.png'
@@ -144,6 +149,8 @@ import nftNothingHere from './img/nfts/nft-nothing-here.svg'
 import nftPurchase from './img/nfts/nft-purchase.svg'
 import nftnouns from './img/nfts/nouns.png'
 import nftpainthyperlink from './img/nfts/paint-hyperlink.png'
+import noBalance from './img/no-balance.svg'
+import offline from './img/offline.svg'
 import opensea from './img/opensea.png'
 import percentLightBlueCircle from './img/percent-light-blue-circle.svg'
 import percentWhiteCircle from './img/percent-white-circle.svg'
@@ -164,6 +171,9 @@ import send from './img/send.svg'
 import sendCrypto from './img/send-crypto.svg'
 import sendNoFundsPromo from './img/send-no-funds-promo.svg'
 import smartphone from './img/smartphone.png'
+import sofiBlockchainMigration from './img/sofi-blockchain-migration.svg'
+import sofiFinishMigration from './img/sofi-finish-migration.svg'
+import sofiMigrationPending from './img/sofi-migration-pending.svg'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import ssBcLogo from './img/ss-bc-logo.svg'
 import subtractCheckCircle from './img/subtract-check-circle.png'
@@ -239,6 +249,7 @@ const Images = {
   'blockchain-logo': blockchainLogo,
   'blockchain-logo-circle': blockchainLogoCircle,
   'blockchain-silver': blockchainSilver,
+  'blockchain-sofi-logo': blockchainSofiLogo,
   'blue-verified': blueVerified,
   'btc-clock': btcClock,
   'btc-graph': btcGraph,
@@ -304,7 +315,10 @@ const Images = {
   'google-play-badge': googlePlayBadge,
   'grey-verified': greyVerified,
   identification,
+  'identification-circle': identificationCircle,
+  'identification-circle-black': identificationCircleBlack,
   'identity-verification': identityVerification,
+  'identity-verification-pending': identityVerificationPending,
   instagram,
   interest,
   'intro-card': introCard,
@@ -313,6 +327,7 @@ const Images = {
   'lock-open': lockOpen,
   'logo-loader': logoLoader,
   'mastercard-logo': mastercardLogo,
+  mobile,
   money,
   nft,
   'nft-collections': nftcollections,
@@ -323,6 +338,8 @@ const Images = {
   'nft-nouns': nftnouns,
   'nft-paint-hyperlink': nftpainthyperlink,
   'nft-purchase': nftPurchase,
+  'no-balance': noBalance,
+  offline,
   'onboarding-active-rewards': onboardingActiveRewards,
   'onboarding-earn': onboardingEarn,
   'onboarding-passive-rewards': onboardingPassiveRewards,
@@ -353,6 +370,9 @@ const Images = {
   'send-no-funds': sendNoFundsPromo,
   'sesocio-to-blockchain-logo': ssBcLogo,
   smartphone,
+  'sofi-blockchain-migration': sofiBlockchainMigration,
+  'sofi-finish-migration': sofiFinishMigration,
+  'sofi-migration-pending': sofiMigrationPending,
   'source-of-wealth': sourceOfWealth,
   'subtract-check-circle': subtractCheckCircle,
   swap,

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -12,6 +13,8 @@ import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
+import { auth } from 'data/actions'
+import { trackEvent } from 'data/analytics/slice'
 import { ProductAuthOptions } from 'data/auth/types'
 import { Analytics, ExchangeErrorCodes } from 'data/types'
 import { required } from 'services/forms'
@@ -42,8 +45,6 @@ const ResponsiveRow = styled(Row)`
 
 const TwoFAWallet = (props: Props) => {
   const {
-    analyticsActions,
-    authActions,
     authType,
     busy,
     exchangeError,
@@ -57,52 +58,57 @@ const TwoFAWallet = (props: Props) => {
   } = props
 
   const accountLocked =
-    walletError &&
-    (walletError.toLowerCase().includes('this account has been locked') ||
-      walletError.toLowerCase().includes('account is locked') ||
-      walletError.toLowerCase().includes('account deactivated'))
-  const sanctionedRegionError = exchangeError && exchangeError === ExchangeErrorCodes.NOT_ACCEPTABLE
-  const twoFactorError = walletError && walletError.toLowerCase().includes('authentication code')
-  const { product } = productAuthMetadata
+    walletError?.toLowerCase().includes('this account has been locked') ||
+    walletError?.toLowerCase().includes('account is locked') ||
+    walletError?.toLowerCase().includes('account deactivated')
+  const sanctionedRegionError = exchangeError === ExchangeErrorCodes.NOT_ACCEPTABLE
+  const twoFactorError = walletError?.toLowerCase().includes('authentication code')
+  const twoFAType = getTwoFaType(authType)
+
+  const dispatch = useDispatch()
+
   const handleSmsResend = () => {
     const email =
-      product === ProductAuthOptions.EXCHANGE ? formValues?.exchangeEmail : formValues.email
-    authActions.resendSmsCode({ email, guid: formValues?.guid })
+      productAuthMetadata.product === ProductAuthOptions.EXCHANGE
+        ? formValues?.exchangeEmail
+        : formValues.email
+    dispatch(auth.resendSmsCode({ email, guid: formValues?.guid }))
   }
 
   useEffect(() => {
-    const twoFAType = getTwoFaType(authType)
-    analyticsActions.trackEvent({
-      key: Analytics.LOGIN_2FA_PAGE_VIEWED,
-      properties: {
-        '2fa_type': twoFAType,
-        device_origin: product,
-        originalTimestamp: new Date().toISOString()
-      }
-    })
+    dispatch(
+      trackEvent({
+        key: Analytics.LOGIN_2FA_PAGE_VIEWED,
+        properties: {
+          '2fa_type': twoFAType,
+          device_origin: productAuthMetadata.product,
+          originalTimestamp: new Date().toISOString()
+        }
+      })
+    )
   }, [])
 
   return (
     <LoginWrapper>
       <WrapperWithPadding>
         <BackArrowHeader
-          {...props}
+          formValues={formValues}
           handleBackArrowClick={handleBackArrowClickWallet}
           marginTop='28px'
           platform={magicLinkData?.platform_type}
           product={props.productAuthMetadata.product}
         />
-        {authType > 0 && (
+        {twoFAType && (
           <FormGroup>
             <FormItem>
               <FormLabel htmlFor='code'>
-                {authType === 1 && (
+                {twoFAType === 'YUBIKEY' && (
                   <FormattedMessage
                     id='scenes.login.yubikey_verify'
                     defaultMessage='Verify with your Yubikey'
                   />
                 )}
-                {(authType === 4 || authType === 5) &&
+                {twoFAType === 'SMS' &&
                   (isMobile() ? (
                     <FormattedMessage
                       id='scenes.logins.twofa.enter_code.mobile_width'

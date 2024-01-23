@@ -24,6 +24,7 @@ import {
   BrokerageModalOriginType,
   BSCheckoutFormValuesType,
   CustodialSanctionsEnum,
+  DeleteBankEndpointTypes,
   ModalName,
   ProductEligibilityForUser,
   VerifyIdentityOriginType
@@ -44,16 +45,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const deleteSavedBank = function* ({ payload: bankId }: ReturnType<typeof A.deleteSavedBank>) {
+  const deleteSavedBank = function* ({
+    payload: { bankId, bankType = 'banktransfer' }
+  }: ReturnType<typeof A.deleteSavedBank>) {
     try {
       yield put(actions.form.startSubmit('linkedBanks'))
-      yield call(api.deleteSavedAccount, bankId, 'banktransfer')
-      yield put(A.fetchBankTransferAccounts())
-      yield take([A.fetchBankTransferAccountsSuccess.type, A.fetchBankTransferAccountsError.type])
+      yield put(actions.modals.closeModal(ModalName.REMOVE_BANK_MODAL))
+      yield call(api.deleteSavedAccount, bankId, bankType)
+      if (bankType === 'banktransfer') {
+        yield put(A.fetchBankTransferAccounts())
+        yield take([A.fetchBankTransferAccountsSuccess.type, A.fetchBankTransferAccountsError.type])
+      } else {
+        yield put(actions.custodial.fetchCustodialBeneficiaries({}))
+        yield take([
+          actions.custodial.fetchCustodialBeneficiariesSuccess.type,
+          actions.custodial.fetchCustodialBeneficiariesFailure.type
+        ])
+      }
+      yield put(actions.modals.closeModal(ModalName.BANK_DETAILS_MODAL))
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
-      yield put(actions.modals.closeModal(ModalName.BANK_DETAILS_MODAL))
-      yield put(actions.modals.closeModal(ModalName.REMOVE_BANK_MODAL))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('linkedBanks', { _error: error }))
@@ -293,6 +304,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.handleDepositFiatClick>) {
     const isUserTier2 = yield call(isTier2)
     if (!isUserTier2) {
+      yield put(
+        actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+          origin: BrokerageModalOriginType.DEPOSIT_BUTTON
+        })
+      )
       return
     }
     // Verify identity before deposit if TIER 2
@@ -309,7 +325,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
     yield put(
       actions.components.brokerage.showModal({
-        modalType: 'BANK_DEPOSIT_MODAL',
+        modalType: ModalName.BANK_DEPOSIT_MODAL,
         origin: BrokerageModalOriginType.DEPOSIT_BUTTON
       })
     )
@@ -370,6 +386,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
     const isUserTier2 = yield call(isTier2)
     if (!isUserTier2) {
+      yield put(
+        actions.modals.showModal(ModalName.UPGRADE_NOW_SILVER_MODAL, {
+          origin: BrokerageModalOriginType.WITHDRAWAL
+        })
+      )
       return
     }
     // Verify identity before deposit if TIER 2
@@ -387,10 +408,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.form.destroy('brokerageTx'))
     yield put(actions.components.withdraw.showModal({ fiatCurrency: payload }))
 
-    const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
-      yield select()
-    )
-    const bankTransferAccounts = bankTransferAccountsR.getOrElse([])
+    const bankTransferAccounts = selectors.components.brokerage
+      .getBankTransferAccounts(yield select())
+      .getOrElse([])
     if (bankTransferAccounts.length) {
       yield put(
         actions.components.brokerage.setBankDetails({

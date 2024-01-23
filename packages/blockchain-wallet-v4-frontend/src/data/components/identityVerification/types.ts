@@ -5,7 +5,8 @@ import {
   KycFlowsType,
   NabuAddressType,
   RemoteDataType,
-  RetrieveAddress
+  RetrieveAddress,
+  VerificationStepsType
 } from '@core/types'
 
 export const STEPS = {
@@ -103,6 +104,7 @@ export interface IdentityVerificationState {
   userAddresses: RemoteDataType<string, FindAddressResponse>
   userRetrieveAddress: RemoteDataType<string, RetrieveAddress>
   verificationStep: StepsType | null
+  verificationSteps: RemoteDataType<string, VerificationStepsType | ''>
 }
 
 export type InfoAndResidentialFormValuesType = {

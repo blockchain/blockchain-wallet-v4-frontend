@@ -157,3 +157,93 @@ export const fetchUserRiskSettingsSuccess = (userRiskSettings): ProfileActionTyp
   payload: { userRiskSettings },
   type: AT.FETCH_USER_RISK_SETTINGS_SUCCESS
 })
+
+export const fetchSofiMigrationStatus = () => ({
+  type: AT.FETCH_SOFI_MIGRATION_STATUS
+})
+
+export const fetchSofiMigrationStatusLoading = () => ({
+  type: AT.FETCH_SOFI_MIGRATION_STATUS_LOADING
+})
+
+export const fetchSofiMigrationStatusSuccess = (data) => ({
+  payload: data,
+  type: AT.FETCH_SOFI_MIGRATION_STATUS_SUCCESS
+})
+
+export const fetchSofiMigrationStatusFailure = (error) => ({
+  payload: { error },
+  type: AT.FETCH_SOFI_MIGRATION_STATUS_FAILURE
+})
+
+export const migrateSofiUser = () => ({
+  type: AT.MIGRATE_SOFI_USER
+})
+
+export const migrateSofiUserLoading = () => ({
+  type: AT.MIGRATE_SOFI_USER_LOADING
+})
+
+export const migrateSofiUserSuccess = (migrationStatus) => ({
+  payload: { migrationStatus },
+  type: AT.MIGRATE_SOFI_USER_SUCCESS
+})
+
+export const migrateSofiUserFailure = (error) => ({
+  payload: { error },
+  type: AT.MIGRATE_SOFI_USER_FAILURE
+})
+
+export const initiateSofiLanding = () => ({
+  type: AT.INITIATE_SOFI_LANDING
+})
+
+export const setSofiLinkData = (linkData) => ({
+  payload: { linkData },
+  type: AT.SET_SOFI_LINK_DATA
+})
+
+export const associateSofiUserSignup = () => ({
+  type: AT.ASSOCIATE_SOFI_USER_SIGNUP
+})
+
+export const associateSofiUserLogin = () => ({
+  type: AT.ASSOCIATE_SOFI_USER_LOGIN
+})
+
+export const associateSofiUserLoading = () => ({
+  type: AT.ASSOCIATE_SOFI_USER_LOADING
+})
+
+export const associateSofiUserSuccess = (boolean) => ({
+  payload: { boolean },
+  type: AT.ASSOCIATE_SOFI_USER_SUCCESS
+})
+
+export const associateSofiUserFailure = (error) => ({
+  payload: { error },
+  type: AT.ASSOCIATE_SOFI_USER_FAILURE
+})
+
+export const fetchSofiUserStatus = () => ({
+  type: AT.FETCH_SOFI_USER_STATUS
+})
+
+export const setSofiUserStatusFromPolling = (sofiUserStatus) => ({
+  payload: { sofiUserStatus },
+  type: AT.SET_SOFI_USER_STATUS_FROM_POLLING
+})
+
+export const setSofiMigratedBalances = (balances) => ({
+  payload: { balances },
+  type: AT.SET_SOFI_MIGRATED_BALANCES
+})
+
+export const sofiRedirectAfterEmailVerification = () => ({
+  type: AT.SOFI_REDIRECT_AFTER_EMAIL_VERIFICATION
+})
+
+export const setSofiUserStatus = (sofiUserStatus) => ({
+  payload: { sofiUserStatus },
+  type: AT.SET_SOFI_USER_STATUS
+})

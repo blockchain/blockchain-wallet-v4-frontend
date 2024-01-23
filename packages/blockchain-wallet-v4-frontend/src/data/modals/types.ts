@@ -73,6 +73,9 @@ export enum ModalName {
   RESIDENTIAL_ADDRESS_MODAL = 'RESIDENTIAL_ADDRESS_MODAL',
   SANCTIONS_INFO_MODAL = 'SANCTIONS_INFO_MODAL',
   SECOND_PASSWORD_MODAL = 'SECOND_PASSWORD_MODAL',
+  SELECT_ADD_BANK_TYPE = 'SELECT_ADD_BANK_TYPE',
+  SELF_ASSESSMENT = 'SELF_ASSESSMENT',
+  SELF_CLASSIFICATION = 'SELF_CLASSIFICATION',
   SEND_BCH_MODAL = 'SEND_BCH_MODAL',
   SEND_BTC_MODAL = 'SEND_BTC_MODAL',
   SEND_CRYPTO_MODAL = 'SEND_CRYPTO_MODAL',
@@ -86,6 +89,9 @@ export enum ModalName {
   SIGN_MESSAGE_MODAL = 'SIGN_MESSAGE_MODAL',
   SIMPLE_BUY_MODAL = 'SIMPLE_BUY_MODAL',
   SKIP_TWOFA_CONFIRMATION_WARNING = 'SKIP_TWOFA_CONFIRMATION_WARNING',
+  SOFI_BLOCKCHAIN_WELCOME = 'SOFI_BLOCKCHAIN_WELCOME',
+  SOFI_MIGRATED_BALANCES = 'SOFI_MIGRATED_BALANCES',
+  SOFI_VERIFY_ID = 'SOFI_VERIFY_ID',
   STAKING_MODAL = 'STAKING_MODAL',
   SUPPORT_MODAL = 'SUPPORT_MODAL',
   SWAP_MODAL = 'SWAP_MODAL',
@@ -176,6 +182,9 @@ export type ModalOriginType =
   | 'BuySellStatus'
   | 'BuySellOrderSummary'
   | 'RecommendedImportedSweep'
+  | 'SofiFinishMigration'
+  | 'SofiMigration'
+  | 'SofiWelcomeGoal'
   | 'Swap'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'
@@ -192,6 +201,7 @@ export type ModalOriginType =
   | 'ResidentialAddress'
   | 'VerifyAddress'
   | RecurringBuyOrigins
+  | ModalName
 
 export type ModalParamPropsType = {
   [key: string]: any

@@ -21,6 +21,8 @@ import RewardsBanner from './RewardsBanner'
 import Sanctions from './Sanctions'
 import { getData } from './selectors'
 import ServicePriceUnavailable from './ServicePriceUnavailable'
+import SofiFinishMigrationBanner from './SofiFinishMigrationBanner'
+import SofiMigration from './SofiMigrationBanner'
 import StakingBanner from './StakingBanner'
 
 const BannerWrapper = styled.div`
@@ -42,6 +44,8 @@ const BANNER_DICT = {
   sanctions: <Sanctions />,
   sbOrder: <BSOrderBanner />,
   servicePriceUnavailable: <ServicePriceUnavailable />,
+  sofiFinishMigration: <SofiFinishMigrationBanner />,
+  sofiMigration: <SofiMigration />,
   staking: <StakingBanner />
 }
 

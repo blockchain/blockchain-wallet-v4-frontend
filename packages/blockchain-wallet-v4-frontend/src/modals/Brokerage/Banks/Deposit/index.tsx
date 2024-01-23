@@ -14,6 +14,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import { BROKERAGE_INELIGIBLE, Loading, LoadingTextEnum } from '../../../components'
 import Rejected from '../../../components/Rejected'
 import { ModalPropsType } from '../../../types'
+import AddBankWireForm from '../Withdraw/AddBankWireForm'
 import Authorize from './Authorize'
 import BankList from './BankList'
 import Confirm from './Confirm'
@@ -192,6 +193,11 @@ class Deposit extends PureComponent<Props, State> {
             {this.props.step === BankDWStepType.WIRE_INSTRUCTIONS && (
               <FlyoutChild>
                 <WireInstructions {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === BankDWStepType.ADD_WIRE_BANK && (
+              <FlyoutChild>
+                <AddBankWireForm />
               </FlyoutChild>
             )}
             {this.props.step === BankDWStepType.DEPOSIT_CONNECT && (
