@@ -7,7 +7,14 @@ import { clearSubmitErrors, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
 import { coinToString, formatFiat } from '@core/exchange/utils'
-import { BSOrderActionType, BSPairType, CoinType, PaymentValue, RatesType } from '@core/types'
+import {
+  BSOrderActionType,
+  BSPairType,
+  CoinfigType,
+  CoinType,
+  PaymentValue,
+  RatesType
+} from '@core/types'
 import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Value } from 'components/Flyout'
@@ -345,74 +352,72 @@ class PreviewSell extends PureComponent<
             </RowItem>
 
             {account.type !== SwapBaseCounterTypes.CUSTODIAL && (
-              <>
-                <RowItem>
-                  <RowItemContainer>
-                    <TopRow>
-                      <RowIcon>
-                        <RowText>
-                          <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
-                        </RowText>
-                        <IconWrapper>
-                          <Icon
-                            name='question-in-circle-filled'
-                            size='16px'
-                            color={this.state.isSetNetworkFee ? 'blue600' : 'grey300'}
-                            onClick={() => this.toggleNetworkFeeToolTip()}
-                          />
-                        </IconWrapper>
-                      </RowIcon>
-                      <RowText data-e2e='sbTransactionFee'>
-                        <RowTextWrapper>
-                          {counterCoinTicker}
-                          {formatFiat(feeInFiat)}
-                          <AdditionalText>
-                            {coinToString({
-                              unit: {
-                                symbol: account.baseCoin
-                              },
-                              value: convertBaseToStandard(
-                                account.baseCoin,
-                                this.networkFee(payment, account)
-                              )
-                            })}
-                          </AdditionalText>
-                        </RowTextWrapper>
+              <RowItem>
+                <RowItemContainer>
+                  <TopRow>
+                    <RowIcon>
+                      <RowText>
+                        <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
                       </RowText>
-                    </TopRow>
-                    {this.state.isSetNetworkFee && (
-                      <ToolTipText>
-                        <Text size='12px' weight={500} color='grey600'>
-                          <TextGroup inline>
-                            <Text size='14px'>
-                              <FormattedMessage
-                                id='modals.simplebuy.confirm.network_fees'
-                                defaultMessage='Network fees are set by the {coin} network.'
-                                values={{ coin: baseCoinTicker }}
-                              />
-                            </Text>
-                            <Link
-                              href={
-                                isErc20
-                                  ? 'https://support.blockchain.com/hc/en-us/articles/360061258732'
-                                  : 'https://support.blockchain.com/hc/en-us/articles/360061672651'
-                              }
-                              size='14px'
-                              rel='noopener noreferrer'
-                              target='_blank'
-                            >
-                              <FormattedMessage
-                                id='modals.simplebuy.confirm.learn_more_about_fees'
-                                defaultMessage='Learn more about fees'
-                              />
-                            </Link>
-                          </TextGroup>
-                        </Text>
-                      </ToolTipText>
-                    )}
-                  </RowItemContainer>
-                </RowItem>
-              </>
+                      <IconWrapper>
+                        <Icon
+                          name='question-in-circle-filled'
+                          size='16px'
+                          color={this.state.isSetNetworkFee ? 'blue600' : 'grey300'}
+                          onClick={() => this.toggleNetworkFeeToolTip()}
+                        />
+                      </IconWrapper>
+                    </RowIcon>
+                    <RowText data-e2e='sbTransactionFee'>
+                      <RowTextWrapper>
+                        {counterCoinTicker}
+                        {formatFiat(feeInFiat)}
+                        <AdditionalText>
+                          {coinToString({
+                            unit: {
+                              symbol: account.baseCoin
+                            },
+                            value: convertBaseToStandard(
+                              account.baseCoin,
+                              this.networkFee(payment, account)
+                            )
+                          })}
+                        </AdditionalText>
+                      </RowTextWrapper>
+                    </RowText>
+                  </TopRow>
+                  {this.state.isSetNetworkFee && (
+                    <ToolTipText>
+                      <Text size='12px' weight={500} color='grey600'>
+                        <TextGroup inline>
+                          <Text size='14px'>
+                            <FormattedMessage
+                              id='modals.simplebuy.confirm.network_fees'
+                              defaultMessage='Network fees are set by the {coin} network.'
+                              values={{ coin: baseCoinTicker }}
+                            />
+                          </Text>
+                          <Link
+                            href={
+                              isErc20
+                                ? 'https://support.blockchain.com/hc/en-us/articles/360061258732'
+                                : 'https://support.blockchain.com/hc/en-us/articles/360061672651'
+                            }
+                            size='14px'
+                            rel='noopener noreferrer'
+                            target='_blank'
+                          >
+                            <FormattedMessage
+                              id='modals.simplebuy.confirm.learn_more_about_fees'
+                              defaultMessage='Learn more about fees'
+                            />
+                          </Link>
+                        </TextGroup>
+                      </Text>
+                    </ToolTipText>
+                  )}
+                </RowItemContainer>
+              </RowItem>
             )}
             <RowItem>
               <RowText>

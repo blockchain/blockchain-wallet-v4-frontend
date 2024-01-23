@@ -82,7 +82,7 @@ const SofiSignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
               </Text>
             </CardTitle>
 
-            <SofiSignupForm {...props} setShowModal={setShowModal} />
+            <SofiSignupForm {...props} />
           </PaddingWrapper>
           <Bottom />
         </Card>

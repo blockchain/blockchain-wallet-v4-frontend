@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
-import useShowConversionAlert from 'blockchain-wallet-v4-frontend/src/hooks/useShowBalanceConversionAlert'
 import { format } from 'date-fns'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -16,6 +15,7 @@ import {
   getSellCounterAmount
 } from 'data/components/buySell/model'
 
+import useShowConversionAlert from '../../../hooks/useShowBalanceConversionAlert'
 import { BuyOrSell } from '../model'
 import { Props } from '.'
 import { Amount, DisclaimerText, TopText, Wrapper } from './SellOrderSumary.styles'
