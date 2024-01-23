@@ -33,17 +33,13 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
 
   const [step, setStep] = useState(-1)
   const [show, setShow] = useState(false)
-  const [isLoading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState()
   const [modalQuestions, setModalQuestions] = useState<SelfAssessmentType>(QUESTIONS_INITIAL)
   const [resultData, setResultData] = useState<QuizSubmitResult>({} as QuizSubmitResult)
 
   // Here we hold the ref to the form to send it later without re-rendering extra times
-  const dataRef = useRef<SelfAssessmentType>({
-    blocking: false,
-    introPage: {} as IntroPageType,
-    pages: []
-  })
+  const dataRef = useRef<SelfAssessmentType>(QUESTIONS_INITIAL)
 
   const getModalData = async () => {
     setLoading(true)
@@ -106,9 +102,9 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
   const { introPage, pages } = modalQuestions
 
   const isLastPage = step === pages?.length - 1
-  const showResultScreen = !isLoading && !!resultData?.status
-  const showAssessment = !isLoading && modalQuestions && !showResultScreen
-  const showError = !isLoading && errorMessage
+  const showResultScreen = !loading && !!resultData?.status
+  const showError = !loading && errorMessage
+  const showAssessment = !loading && modalQuestions && !showResultScreen && !showError
 
   return (
     <Flyout
@@ -121,7 +117,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
     >
       <FlyoutChild>
         <Wrapper>
-          {isLoading && <Loading text={LoadingTextEnum.LOADING} />}
+          {loading && <Loading text={LoadingTextEnum.LOADING} />}
           {showError && (
             <FlyoutOopsError
               errorMessage={errorMessage}
@@ -133,7 +129,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
           {showAssessment && (
             <SelfAssessment
               introPage={step < 0 ? introPage : {}}
-              nodes={pages[step]?.nodes}
+              nodes={pages[step]?.nodes ?? []}
               dataRef={dataRef}
               step={step}
               onSubmit={isLastPage ? handleSubmit : goToNextStep}

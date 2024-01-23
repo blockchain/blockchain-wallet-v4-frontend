@@ -1,4 +1,4 @@
-import { BSPaymentMethodsType, BSPaymentTypes, TermType } from '@core/types'
+import { BSPaymentMethodsType, BSPaymentTypes } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -6,45 +6,25 @@ const { KYC_STATES } = model.profile
 
 type ReturnData = {
   isBankOrCardLinked: boolean
-  isBuyCrypto: boolean
-  isKycPending: boolean
-  isVerifiedId: boolean
+  isKycVerified: boolean
 }
 
 export const getData = (state: RootState): ReturnData => {
-  const userData = selectors.modules.profile.getUserData(state).getOrElse({
-    kycState: undefined,
-    tiers: { current: 0 }
-  })
-
-  const isKycPending = [KYC_STATES.PENDING, KYC_STATES.UNDER_REVIEW].includes(userData.kycState)
-
+  const userData = selectors.modules.profile.getUserData(state).getOrElse({ kycState: undefined })
   const isKycVerified = userData.kycState === KYC_STATES.VERIFIED
 
-  // user have some cards or banks linked
-  const cards = selectors.components.buySell.getBSCards(state).getOrElse([])
+  // Check if user has cards or banks linked
+  const hasLinkedCards = selectors.components.buySell.getBSCards(state).getOrElse([]).length > 0
   const paymentMethods = selectors.components.buySell
     .getBSPaymentMethods(state)
     .getOrElse({} as BSPaymentMethodsType)
-  const isAnyBankLinked =
-    paymentMethods?.methods?.length > 0 &&
-    paymentMethods.methods.find(
-      (method) => method.eligible && method.type === BSPaymentTypes.LINK_BANK
-    )
-  const isBankOrCardLinked = !!(cards.length > 0 || isAnyBankLinked)
-
-  // user accumulated amount all the time
-  const accumulatedTrades = selectors.components.buySell.getAccumulatedTrades(state).getOrElse([])
-
-  const isBuyCrypto =
-    Number(
-      accumulatedTrades?.find((accumulated) => accumulated.termType === TermType.ALL)?.amount?.value
-    ) > 0 ?? false
+  const hasLinkedBank = paymentMethods?.methods?.some(
+    (method) => method.eligible && method.type === BSPaymentTypes.LINK_BANK
+  )
+  const isBankOrCardLinked = hasLinkedCards || hasLinkedBank
 
   return {
     isBankOrCardLinked,
-    isBuyCrypto,
-    isKycPending,
-    isVerifiedId: isKycVerified
+    isKycVerified
   }
 }
