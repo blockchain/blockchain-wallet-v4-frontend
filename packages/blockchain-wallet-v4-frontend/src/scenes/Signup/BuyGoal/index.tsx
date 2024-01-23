@@ -71,56 +71,54 @@ const BuyGoal = (props: InjectedFormProps<{}> & SubviewProps) => {
   }, [])
 
   return (
-    <>
-      <CardsWrapper>
-        <BuyCard>
-          <PaddingWrapper>
-            <CardHeader>
-              <Text size='24px' color='textBlack' weight={600}>
+    <CardsWrapper>
+      <BuyCard>
+        <PaddingWrapper>
+          <CardHeader>
+            <Text size='24px' color='textBlack' weight={600}>
+              <FormattedMessage
+                defaultMessage='Sign Up to Continue Your Crypto Purchase.'
+                id='scenes.register.simplebuy.signup'
+              />
+            </Text>
+          </CardHeader>
+          {showBuyHeader && isCoinDataLoaded && (
+            <>
+              <BuyItemWrapper>
+                <AmountWrapper>
+                  <SimpleWrapper>
+                    <Text size='16px' color='grey400' weight={500}>
+                      {Currencies[fiatCurrency].units[fiatCurrency].symbol}
+                    </Text>
+                    <Amount size='16px' color='black' weight={500}>
+                      {amount}
+                    </Amount>
+                  </SimpleWrapper>
+                </AmountWrapper>
+                <CryptoWrapper>
+                  <Icon color={crypto} name={crypto} size='24px' weight={400} />
+                  <Text capitalize color='black' size='16px' weight={500}>
+                    {window.coins[crypto].coinfig.name}
+                  </Text>
+                  <Text color='grey400' size='16px' uppercase weight={500}>
+                    {crypto}
+                  </Text>
+                </CryptoWrapper>
+              </BuyItemWrapper>
+
+              <Text size='14px' color='grey600' weight={500}>
                 <FormattedMessage
-                  defaultMessage='Sign Up to Continue Your Crypto Purchase.'
-                  id='scenes.register.simplebuy.signup'
+                  id='scenes.register.simplebuy.change'
+                  defaultMessage='You will be able to change your amount later.'
                 />
               </Text>
-            </CardHeader>
-            {showBuyHeader && isCoinDataLoaded && (
-              <>
-                <BuyItemWrapper>
-                  <AmountWrapper>
-                    <SimpleWrapper>
-                      <Text size='16px' color='grey400' weight={500}>
-                        {Currencies[fiatCurrency].units[fiatCurrency].symbol}
-                      </Text>
-                      <Amount size='16px' color='black' weight={500}>
-                        {amount}
-                      </Amount>
-                    </SimpleWrapper>
-                  </AmountWrapper>
-                  <CryptoWrapper>
-                    <Icon color={crypto} name={crypto} size='24px' weight={400} />
-                    <Text capitalize color='black' size='16px' weight={500}>
-                      {window.coins[crypto].coinfig.name}
-                    </Text>
-                    <Text color='grey400' size='16px' uppercase weight={500}>
-                      {crypto}
-                    </Text>
-                  </CryptoWrapper>
-                </BuyItemWrapper>
-
-                <Text size='14px' color='grey600' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.simplebuy.change'
-                    defaultMessage='You will be able to change your amount later.'
-                  />
-                </Text>
-              </>
-            )}
-            <SignupForm {...props} />
-          </PaddingWrapper>
-          <LoginLink />
-        </BuyCard>
-      </CardsWrapper>
-    </>
+            </>
+          )}
+          <SignupForm {...props} />
+        </PaddingWrapper>
+        <LoginLink />
+      </BuyCard>
+    </CardsWrapper>
   )
 }
 
