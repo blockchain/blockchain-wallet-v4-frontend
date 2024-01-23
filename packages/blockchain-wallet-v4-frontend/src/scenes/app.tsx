@@ -387,7 +387,7 @@ const mapStateToProps = (state) => ({
   isActiveRewardsEnabled: selectors.core.walletOptions
     .getActiveRewardsEnabled(state)
     .getOrElse(false) as boolean,
-  isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
+  isAuthenticated: selectors.auth.isAuthenticated(state),
   isCoinViewV2Enabled: selectors.core.walletOptions
     .getCoinViewV2(state)
     .getOrElse(false) as boolean,
