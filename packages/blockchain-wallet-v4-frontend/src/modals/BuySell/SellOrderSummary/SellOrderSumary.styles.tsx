@@ -2,6 +2,12 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
+export const DisclaimerText = styled(Text)`
+  padding: 1rem 1.75rem;
+  font-size: 14px;
+  color: ${(props) => props.theme.grey600};
+`
+
 export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
