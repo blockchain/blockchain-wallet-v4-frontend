@@ -1,9 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
+import { getMnemonicRecoveryEnabled } from '@core/redux/walletOptions/selectors'
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
@@ -29,17 +31,11 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmailOrGuid = (props: Props) => {
-  const {
-    busy,
-    exchangeTabClicked,
-    formValues,
-    invalid,
-    isMnemonicRecoveryEnabled,
-    magicLinkData,
-    submitting,
-    walletError
-  } = props
-  const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
+  const { busy, exchangeTabClicked, formValues, invalid, magicLinkData, submitting, walletError } =
+    props
+  const guidError = walletError?.toLowerCase().includes('unknown wallet id')
+
+  const isMnemonicRecoveryEnabled = useSelector(getMnemonicRecoveryEnabled).getOrElse(false)
 
   return (
     <LoginWrapper>
