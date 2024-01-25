@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { reduxForm } from 'redux-form'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
 import Form from 'components/Form/Form'
@@ -130,7 +130,6 @@ const Login = (props: Props) => {
     busy, // TODO see if we still need busy
     exchangeError,
     exchangeTabClicked,
-    isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
     walletError,
     ...props,
     handleBackArrowClickExchange,
@@ -139,7 +138,7 @@ const Login = (props: Props) => {
     walletTabClicked
   }
 
-  const { isMobileViewLogin } = loginProps
+  const isMobileViewLogin = platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS
 
   const getComponentByStep = () => {
     switch (step) {
@@ -185,18 +184,16 @@ const Login = (props: Props) => {
         return <SofiSuccess />
 
       case LoginSteps.ENTER_EMAIL_GUID:
-      default:
-        return product === ProductAuthOptions.EXCHANGE ? (
+      default: {
+        const Component =
+          product === ProductAuthOptions.EXCHANGE ? ExchangeEnterEmail : WalletEnterEmailOrGuid
+        return (
           <>
             {!isMobileViewLogin && <UrlNoticeBar />}
-            <ExchangeEnterEmail {...loginProps} />
-          </>
-        ) : (
-          <>
-            {!isMobileViewLogin && <UrlNoticeBar />}
-            <WalletEnterEmailOrGuid {...loginProps} />
+            <Component {...loginProps} />
           </>
         )
+      }
     }
   }
 
@@ -209,13 +206,6 @@ const mapStateToProps = (state) => ({
   data: getData(state),
   exchangeLoginDataR: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
-  initialValues: {
-    step: LoginSteps.ENTER_EMAIL_GUID
-  },
-  isMnemonicRecoveryEnabled: selectors.core.walletOptions
-    .getMnemonicRecoveryEnabled(state)
-    .getOrElse(false) as boolean,
-  isSofi: selectors.auth.getIsSofi(state),
   jwtToken: selectors.auth.getJwtToken(state),
   magicLinkData: selectors.auth.getMagicLinkData(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
@@ -238,17 +228,21 @@ type OwnProps = {
   exchangeTabClicked?: () => void
   handleBackArrowClickExchange: () => void
   handleBackArrowClickWallet: () => void
-  invalid: boolean
-  isMobileViewLogin?: boolean
-  pristine: boolean
   setStep: (step: LoginSteps) => void
-  submitting: boolean
   walletError?: string
   walletTabClicked?: () => void
 }
 
-export type Props = ConnectedProps<typeof connector> & OwnProps
+export type Props = ConnectedProps<typeof connector> & InjectedFormProps<{}, OwnProps> & OwnProps
 
-const enhance = compose<React.ComponentType>(reduxForm({ form: LOGIN_FORM }), connector)
+const enhance = compose<React.ComponentType>(
+  reduxForm({
+    form: LOGIN_FORM,
+    initialValues: {
+      step: LoginSteps.ENTER_EMAIL_GUID
+    }
+  }),
+  connector
+)
 
 export default enhance(Login)
