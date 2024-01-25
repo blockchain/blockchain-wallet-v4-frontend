@@ -1,12 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
-import { bindActionCreators } from 'redux'
+import { change } from 'redux-form'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { actions } from 'data'
+import { auth } from 'data/actions'
 import { LOGIN_FORM } from 'data/auth/model'
 import { AuthUserType, LoginSteps } from 'data/types'
 
@@ -23,10 +23,11 @@ const SignUpText = styled(Text)`
   }
 `
 
-const InstitutionalPortal = (props) => {
+const InstitutionalPortal = () => {
+  const dispatch = useDispatch()
   const institutionalPortalFooterClick = () => {
-    props.authActions.setProductAuthMetadata({ userType: AuthUserType.INSTITUTIONAL })
-    props.formActions.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL)
+    dispatch(auth.setProductAuthMetadata({ userType: AuthUserType.INSTITUTIONAL }))
+    dispatch(change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL))
   }
   return (
     <LinkContainer to='/login?product=exchange&userType=institutional'>
@@ -45,9 +46,5 @@ const InstitutionalPortal = (props) => {
     </LinkContainer>
   )
 }
-const mapDispatchToProps = (dispatch) => ({
-  authActions: bindActionCreators(actions.auth, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
-})
 
-export default connect(null, mapDispatchToProps)(InstitutionalPortal)
+export default InstitutionalPortal
