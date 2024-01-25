@@ -8,7 +8,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { coinToString, fiatToString } from '@core/exchange/utils'
-import { getFiatTransformAlertEnabled } from '@core/redux/walletOptions/selectors'
+import { getFiatEntityRemediationAlert } from '@core/redux/walletOptions/selectors'
 import {
   AddressTypesType,
   CoinfigType,
@@ -38,7 +38,7 @@ const Wrapper = styled.div`
   z-index: 2;
   margin-right: 30px;
 
-  ${media.laptopL`
+  ${media.laptop`
     width: auto;
     margin-right: 0px;
   `}
@@ -52,6 +52,11 @@ const FiatNoticeWrapper = styled(Wrapper)`
   padding: 1rem;
   background-color: ${(props) => props.theme.grey000};
   border-radius: 0.5rem;
+
+  ${media.laptop`
+    width: auto;
+    margin-right: 0px;
+  `}
 `
 
 const DisplayContainer = styled.div<{ isItem?: boolean }>`
@@ -378,11 +383,11 @@ class WalletBalanceDropdown extends Component<Props> {
   }
 
   render() {
-    const { coin, data, fiatTransformAlertEnabled } = this.props
+    const { coin, data, showFiatEntityRemediationAlert } = this.props
     const { coinfig } = window.coins[coin]
 
-    const showChangeAlert =
-      fiatTransformAlertEnabled && this.showFiatTransformAlert(this.props, coinfig)
+    const showConversionDisclaimer =
+      showFiatEntityRemediationAlert && this.showFiatTransformAlert(this.props, coinfig)
 
     return data.cata({
       Failure: (e) => <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>,
@@ -409,7 +414,7 @@ class WalletBalanceDropdown extends Component<Props> {
               />
             </Wrapper>
 
-            {showChangeAlert && (
+            {showConversionDisclaimer && (
               <FiatNoticeWrapper>
                 <Text
                   weight={600}
@@ -422,8 +427,7 @@ class WalletBalanceDropdown extends Component<Props> {
                 </Text>
                 <Text size='12px' color='grey900'>
                   Your {coinfig.name} ({coin}) balance will be converted to USDC daily at 12:00 am
-                  UTC. To avoid any inconvenience, buy crypto or initiate a withdrawal before the
-                  specified time.
+                  UTC. To avoid any inconvenience buy crypto before the specified time.
                 </Text>
               </FiatNoticeWrapper>
             )}
@@ -436,7 +440,7 @@ class WalletBalanceDropdown extends Component<Props> {
 
 const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps),
-  fiatTransformAlertEnabled: getFiatTransformAlertEnabled(state),
+  showFiatEntityRemediationAlert: getFiatEntityRemediationAlert(state),
   userLegalEntity: getUserLegalEntity(state)
 })
 
