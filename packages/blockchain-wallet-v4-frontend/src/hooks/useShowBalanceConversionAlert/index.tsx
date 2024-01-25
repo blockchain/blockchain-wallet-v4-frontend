@@ -1,14 +1,14 @@
 import { useSelector } from 'react-redux'
 
-import { getFiatTransformAlertEnabled } from '@core/redux/walletOptions/selectors'
+import { getFiatEntityRemediationAlert } from '@core/redux/walletOptions/selectors'
 import { CoinfigType } from '@core/types'
 import { getUserLegalEntity } from 'data/modules/profile/selectors'
 
-const useShowConversionAlert = (coinfig: CoinfigType) => {
-  const fiatTransformAlertEnabled = useSelector(getFiatTransformAlertEnabled)
+export const useShowConversionAlert = (coinfig: CoinfigType) => {
+  const showFiatEntityRemediationAlert = useSelector(getFiatEntityRemediationAlert)
   const userLegalEntity = useSelector(getUserLegalEntity)
 
-  if (!fiatTransformAlertEnabled || coinfig.type.name !== 'FIAT') return false
+  if (!showFiatEntityRemediationAlert || coinfig.type.name !== 'FIAT') return false
   // Non BC_US with USD balance
   const NON_BC_US_WITH_USD = userLegalEntity !== 'BC_US' && coinfig.displaySymbol === 'USD'
   // Non BC_LT/BC_LT_2 with EUR/GBP balance
@@ -17,5 +17,3 @@ const useShowConversionAlert = (coinfig: CoinfigType) => {
 
   return NON_BC_US_WITH_USD || ANY_BC_LT_WITH_EUR_GBP
 }
-
-export default useShowConversionAlert

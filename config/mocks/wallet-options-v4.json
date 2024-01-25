@@ -87,7 +87,7 @@
         "walletConnect": true,
         "walletDebitCardEnabled": true,
         "proveEnabled": true,
-        "fiatTransformAlertEnabled": true
+        "showFiatEntityRemediationAlert": true
       }
     }
   },
