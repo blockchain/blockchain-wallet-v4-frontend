@@ -14,8 +14,8 @@ import {
   getSellBaseAmount,
   getSellCounterAmount
 } from 'data/components/buySell/model'
+import { useShowConversionAlert } from 'hooks'
 
-import useShowConversionAlert from '../../../hooks/useShowBalanceConversionAlert'
 import { BuyOrSell } from '../model'
 import { Props } from '.'
 import { Amount, DisclaimerText, TopText, Wrapper } from './SellOrderSumary.styles'

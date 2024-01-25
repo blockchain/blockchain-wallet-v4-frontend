@@ -1,10 +1,10 @@
 import React from 'react'
-import useShowConversionAlert from 'blockchain-wallet-v4-frontend/src/hooks/useShowBalanceConversionAlert'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
+import { useShowConversionAlert } from 'hooks'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { ActionFooter } from './ActionFooter'

@@ -5,7 +5,8 @@ import { addDays, format } from 'date-fns'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType } from '@core/types'
+import { getFeatureFlagAvailableToTradeWithdraw } from '@core/redux/walletOptions/selectors'
+import { CoinfigType, FiatType } from '@core/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import AvailabilityRows from 'components/Brokerage/AvailabilityRows'
 import {
@@ -16,6 +17,7 @@ import {
   FlyoutSubHeader
 } from 'components/Flyout/Layout'
 import { CheckoutRow } from 'components/Rows'
+import { brokerage } from 'data/components/actions'
 import {
   BankDWStepType,
   BankPartners,
@@ -23,9 +25,7 @@ import {
   BrokerageTxFormValuesType,
   DepositTerms
 } from 'data/types'
-import { getFeatureFlagAvailableToTradeWithdraw } from '@core/redux/walletOptions/selectors'
-import { brokerage } from 'data/components/actions'
-import useShowConversionAlert from '../../../../../hooks/useShowBalanceConversionAlert'
+import { useShowConversionAlert } from 'hooks'
 
 // Auto margin top so it gets pushed to the bottom
 const FiatNoticeWrapper = styled.div`
@@ -63,7 +63,7 @@ const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
 
   const { coinfig } = defaultMethod?.currency
     ? window.coins[defaultMethod.currency]
-    : { coinfig: undefined }
+    : { coinfig: {} as CoinfigType }
 
   const targetCoinName = coinfig?.name
 

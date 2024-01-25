@@ -4,8 +4,7 @@ import { getFiatEntityRemediationAlert } from '@core/redux/walletOptions/selecto
 import { CoinfigType } from '@core/types'
 import { getUserLegalEntity } from 'data/modules/profile/selectors'
 
-const useShowConversionAlert = (coinfig?: CoinfigType) => {
-  if (!coinfig) return false
+export const useShowConversionAlert = (coinfig: CoinfigType) => {
   const showFiatEntityRemediationAlert = useSelector(getFiatEntityRemediationAlert)
   const userLegalEntity = useSelector(getUserLegalEntity)
 
@@ -18,5 +17,3 @@ const useShowConversionAlert = (coinfig?: CoinfigType) => {
 
   return NON_BC_US_WITH_USD || ANY_BC_LT_WITH_EUR_GBP
 }
-
-export default useShowConversionAlert
