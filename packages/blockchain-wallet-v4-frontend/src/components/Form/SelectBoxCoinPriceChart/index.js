@@ -1,11 +1,9 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 
 import SelectBox from '../SelectBox'
-import { getCoins } from './selectors'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -43,8 +41,7 @@ const SelectBoxCoin = styled(SelectBox)`
   }
 `
 
-const renderItem = (props) => {
-  const { text, value } = props
+const renderItem = ({ text, value }) => {
   const coinValue = value || 'BTC'
   return (
     <HeaderWrapper>
@@ -56,8 +53,7 @@ const renderItem = (props) => {
   )
 }
 
-const renderDisplay = (props, children) => {
-  const { value } = props
+const renderDisplay = ({ value }, children) => {
   const coinValue = value || 'BTC'
   const e2eTag = `${coinValue}CurrencyOption`
 
@@ -71,24 +67,27 @@ const renderDisplay = (props, children) => {
   )
 }
 
+const COINS = [
+  { text: 'Bitcoin', value: 'BTC' },
+  { text: 'Ether', value: 'ETH' },
+  { text: 'Bitcoin Cash', value: 'BCH' },
+  { text: 'Stellar', value: 'XLM' }
+]
+
 class SelectBoxCoinPriceChart extends React.PureComponent {
   render() {
-    const { coins, ...rest } = this.props
-    const elements = [{ group: '', items: coins }]
+    const elements = [{ group: '', items: COINS }]
 
     return (
       <SelectBoxCoin
         elements={elements}
         templateDisplay={renderDisplay}
         templateItem={renderItem}
-        {...rest}
+        coins={COINS}
+        {...this.props}
       />
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  coins: getCoins(state, ownProps)
-})
-
-export default connect(mapStateToProps)(SelectBoxCoinPriceChart)
+export default SelectBoxCoinPriceChart

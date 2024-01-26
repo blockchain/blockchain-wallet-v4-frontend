@@ -1,39 +1,34 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect } from 'react-redux'
 
 import SelectBox from '../SelectBox'
 
+const ACCOUNT_TYPES = [
+  {
+    text: (
+      <FormattedMessage
+        id='components.form.selectboxbankaccounttype.checking'
+        defaultMessage='Checking'
+      />
+    ),
+    value: 'checking'
+  },
+
+  {
+    text: (
+      <FormattedMessage
+        id='components.form.selectboxbankaccounttype.savings'
+        defaultMessage='Savings'
+      />
+    ),
+    value: 'savings'
+  }
+]
 class SelectBoxBankAccountType extends React.PureComponent {
   render() {
-    const { accountTypes, ...rest } = this.props
-    const elements = [{ group: '', items: accountTypes }]
-    return <SelectBox elements={elements} {...rest} />
+    const elements = [{ group: '', items: ACCOUNT_TYPES }]
+    return <SelectBox elements={elements} {...this.props} />
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  accountTypes: [
-    {
-      text: (
-        <FormattedMessage
-          id='components.form.selectboxbankaccounttype.checking'
-          defaultMessage='Checking'
-        />
-      ),
-      value: 'checking'
-    },
-
-    {
-      text: (
-        <FormattedMessage
-          id='components.form.selectboxbankaccounttype.savings'
-          defaultMessage='Savings'
-        />
-      ),
-      value: 'savings'
-    }
-  ]
-})
-
-export default connect(mapStateToProps)(SelectBoxBankAccountType)
+export default SelectBoxBankAccountType
