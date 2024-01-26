@@ -52,7 +52,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  amount: string
   beneficiary?: BeneficiaryType
   fiatCurrency: WalletFiatType
   handleClose: () => void

@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -10,6 +11,7 @@ import { ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
 import Form from 'components/Form/Form'
+import { getAmount } from 'data/components/withdraw/selectors'
 import { WithdrawCheckoutFormValuesType, WithdrawStepEnum } from 'data/types'
 import { useSardineContext } from 'hooks'
 
@@ -50,6 +52,8 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
   const userCountryCode = props.userData?.address?.country || 'default'
   const [sardineContextIsReady, sardineContext] = useSardineContext('WITHDRAWAL')
 
+  const amount = useSelector(getAmount) ?? 0
+
   return (
     <Form
       onSubmit={(e) => {
@@ -87,7 +91,7 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
         </Top>
         <AmountContainer>
           <CoinDisplay color='grey800' size='32px' weight={600} coin={props.fiatCurrency}>
-            {props.amount}
+            {amount}
           </CoinDisplay>
         </AmountContainer>
       </FlyoutWrapper>
@@ -120,7 +124,7 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
           {fiatToString({
             digits: 0,
             unit: props.fiatCurrency || ('USD' as FiatType),
-            value: props.amount
+            value: amount
           })}
         </Value>
       </Row>
