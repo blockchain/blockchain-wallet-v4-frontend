@@ -6,6 +6,7 @@ import { ThemeProvider as ConstellationTP } from '@blockchain-com/constellation'
 import { ConnectedRouter } from 'connected-react-router'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
+import Cookies from 'universal-cookie'
 import { createClient, Provider as UrqlProvider } from 'urql'
 
 import { WalletOptionsType } from '@core/types'
@@ -47,6 +48,7 @@ const SofiLanding = React.lazy(() => import('./SofiLanding'))
 const SofiSignupSuccess = React.lazy(() => import('./Signup/SofiSignupSuccess'))
 const SofiSignupFailure = React.lazy(() => import('./Signup/SofiSignupFailure'))
 const SofiVerify = React.lazy(() => import('./Signup/components/SofiVerifySsn'))
+const SofiReferral = React.lazy(() => import('./Refer/Sofi'))
 const Prove = React.lazy(() => import('./Prove'))
 // need to be authed to see this, but uses public layout
 const ContinueOnPhone = React.lazy(() => import('./ContinueOnPhone'))
@@ -66,11 +68,7 @@ const Dex = React.lazy(() => import('./Dex'))
 
 // NFTs
 const NftsView = React.lazy(() => import('./Nfts/View'))
-const NftsFirehose = React.lazy(() => import('./Nfts/Firehose'))
-const NftsCollection = React.lazy(() => import('./Nfts/Collection/Collection'))
 const NftsAsset = React.lazy(() => import('./Nfts/AssetViewOnly'))
-const NftsAddress = React.lazy(() => import('./Nfts/Address/Address'))
-const NftsSettings = React.lazy(() => import('./Nfts/Settings'))
 
 // WALLET
 const Addresses = React.lazy(() => import('./Settings/Addresses'))
@@ -104,7 +102,7 @@ const App = ({
   isProveEnabled,
   persistor,
   store,
-  userData
+  userDataId
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
   // parse and log UTMs
@@ -121,13 +119,29 @@ const App = ({
     }
   })
 
+  // effect for handling partner referrals
+  useEffect(() => {
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const referral = urlParams.get('ref')
+    if (referral) {
+      const cookies = new Cookies()
+      cookies.set('partnerReferralCode', referral, {
+        domain: '.blockchain.com',
+        path: '/'
+      })
+    }
+  }, [])
+
   const client = createClient({
     url: `${apiUrl}/nft-market-api/graphql/`
   })
 
   const isSofi = window.location.pathname === '/sofi'
+  const isReferral = window.location.pathname === '/refer/sofi'
 
   const sofiParams = isSofi && window.location.search
+  const referralParams = isReferral && window.location.search
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
@@ -144,6 +158,7 @@ const App = ({
                             <Switch>
                               {/* Unauthenticated Wallet routes */}
                               <Route path='/app-error' component={AppError} />
+                              <Route path='/refer/sofi' component={SofiReferral} exact />
                               <AuthLayout
                                 path='/account-recovery'
                                 component={VerifyAccountRecovery}
@@ -202,11 +217,6 @@ const App = ({
                                 path='/setup-two-factor'
                                 component={TwoStepVerification}
                                 pageTitle={`${BLOCKCHAIN_TITLE} | Setup 2FA`}
-                              />
-                              <AuthLayout
-                                path='/signup/sofi'
-                                component={Signup}
-                                pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
                               />
                               <AuthLayout
                                 path='/signup/sofi'
@@ -362,11 +372,13 @@ const App = ({
                                 hasUkBanner
                               />
                               {isSofi && window.location.replace(`/#/sofi${sofiParams}`)}
+                              {isReferral &&
+                                window.location.replace(`/#/refer/sofi${referralParams}`)}
                               {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                             </Switch>
                           </Suspense>
                         </ConnectedRouter>
-                        <SiftScience userId={userData.id} />
+                        <SiftScience userId={userDataId} />
                       </UrqlProvider>
                     </MediaContextProvider>
                   </PersistGate>
@@ -387,7 +399,7 @@ const mapStateToProps = (state) => ({
   isActiveRewardsEnabled: selectors.core.walletOptions
     .getActiveRewardsEnabled(state)
     .getOrElse(false) as boolean,
-  isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
+  isAuthenticated: selectors.auth.isAuthenticated(state),
   isCoinViewV2Enabled: selectors.core.walletOptions
     .getCoinViewV2(state)
     .getOrElse(false) as boolean,
@@ -404,7 +416,7 @@ const mapStateToProps = (state) => ({
     .getNftExplorer(state)
     .getOrElse(false) as boolean,
   isProveEnabled: selectors.core.walletOptions.getProveEnabled(state).getOrElse(false) as boolean,
-  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
+  userDataId: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType).id
 })
 
 const connector = connect(mapStateToProps)

@@ -12,12 +12,14 @@ import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
+import { getIsSofi } from 'data/auth/selectors'
 import { getChannelPrivKeyForQrData } from 'data/cache/selectors'
+import { getInitialRedirect } from 'data/goals/selectors'
 import { ProductAuthOptions, UnifiedAccountRedirectType } from 'data/types'
 import { required } from 'services/forms'
 import { isMobile, media } from 'services/styles'
 
-import { Props as OwnProps } from '../..'
+import { Props } from '../..'
 import BackArrowHeader from '../../components/BackArrowHeader'
 import NeedHelpLink from '../../components/NeedHelpLink'
 import ProductTabMenu from '../../components/ProductTabMenu'
@@ -71,15 +73,13 @@ const SettingsGoalText = styled.div`
   margin: 36px 0 24px;
 `
 
-const EnterPasswordWallet = (props: OwnProps) => {
+const EnterPasswordWallet = (props: Props) => {
   const {
     busy,
     exchangeTabClicked,
     formValues,
     handleBackArrowClickWallet,
-    initialRedirect,
     invalid,
-    isSofi,
     magicLinkData,
     productAuthMetadata,
     submitting,
@@ -87,6 +87,8 @@ const EnterPasswordWallet = (props: OwnProps) => {
   } = props
 
   const qrData = useSelector(getChannelPrivKeyForQrData)
+  const isSofi = useSelector(getIsSofi)
+  const initialRedirect = useSelector(getInitialRedirect) as UnifiedAccountRedirectType
 
   const passwordError = walletError?.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =

@@ -23,7 +23,6 @@ import {
   BrokerageModalOriginType,
   BSCheckoutFormValuesType,
   CustodialSanctionsEnum,
-  DeleteBankEndpointTypes,
   ModalName,
   ProductEligibilityForUser,
   VerifyIdentityOriginType

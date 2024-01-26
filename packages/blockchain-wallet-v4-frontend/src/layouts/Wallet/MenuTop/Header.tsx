@@ -1,11 +1,9 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Navbar } from 'components/Navbar'
 import { PrimaryNavItem } from 'components/Navbar/Navbar'
-import { selectors } from 'data'
 import { Analytics, ModalName } from 'data/types'
-import { useRemote } from 'hooks'
 
 import { Props } from '.'
 
@@ -14,10 +12,9 @@ type OwnProps = Props & {
 }
 
 const Header = (props: OwnProps) => {
-  const { data } = useRemote(selectors.modules.profile.getCurrentTier)
-  const isGoldVerified = useMemo(() => data === 2, [data])
   const {
     analyticsActions,
+    currentTier,
     featureFlags,
     history,
     invitations,
@@ -31,6 +28,9 @@ const Header = (props: OwnProps) => {
     settingsActions,
     walletDebitCardEnabled
   } = props
+
+  const isGoldVerified = currentTier === 2
+
   const refreshCallback = useCallback(() => {
     refreshActions.refreshClicked()
   }, [refreshActions])

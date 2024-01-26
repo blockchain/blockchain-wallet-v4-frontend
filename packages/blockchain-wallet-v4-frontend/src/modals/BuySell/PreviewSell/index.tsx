@@ -181,6 +181,19 @@ class PreviewSell extends PureComponent<
     }))
   }
 
+  showFiatTransformAlert = (coinfig: CoinfigType) => {
+    const { showFiatEntityRemediationAlert, userLegalEntity } = this.props
+    if (!showFiatEntityRemediationAlert || coinfig.type.name !== 'FIAT') return false
+
+    // Non BC_US with USD balance
+    const NON_BC_US_WITH_USD = userLegalEntity !== 'BC_US' && coinfig.displaySymbol === 'USD'
+    // Non BC_LT/BC_LT_2 with EUR/GBP balance
+    const ANY_BC_LT_WITH_EUR_GBP =
+      !userLegalEntity?.includes('BC_LT') && ['EUR', 'GBP'].includes(coinfig.displaySymbol)
+
+    return NON_BC_US_WITH_USD || ANY_BC_LT_WITH_EUR_GBP
+  }
+
   render() {
     const { clearErrors, error, quoteR } = this.props
 
@@ -204,6 +217,8 @@ class PreviewSell extends PureComponent<
         const { coinfig } = window.coins[counterCoinTicker]
         const isErc20 = coinfig.type.erc20Address
         const incomingCoinName = coinfig.name ?? counterCoinTicker
+
+        const showConversionDisclaimer = this.showFiatTransformAlert(coinfig)
 
         return (
           <CustomForm onSubmit={this.handleSubmit}>
@@ -337,74 +352,72 @@ class PreviewSell extends PureComponent<
             </RowItem>
 
             {account.type !== SwapBaseCounterTypes.CUSTODIAL && (
-              <>
-                <RowItem>
-                  <RowItemContainer>
-                    <TopRow>
-                      <RowIcon>
-                        <RowText>
-                          <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
-                        </RowText>
-                        <IconWrapper>
-                          <Icon
-                            name='question-in-circle-filled'
-                            size='16px'
-                            color={this.state.isSetNetworkFee ? 'blue600' : 'grey300'}
-                            onClick={() => this.toggleNetworkFeeToolTip()}
-                          />
-                        </IconWrapper>
-                      </RowIcon>
-                      <RowText data-e2e='sbTransactionFee'>
-                        <RowTextWrapper>
-                          {counterCoinTicker}
-                          {formatFiat(feeInFiat)}
-                          <AdditionalText>
-                            {coinToString({
-                              unit: {
-                                symbol: account.baseCoin
-                              },
-                              value: convertBaseToStandard(
-                                account.baseCoin,
-                                this.networkFee(payment, account)
-                              )
-                            })}
-                          </AdditionalText>
-                        </RowTextWrapper>
+              <RowItem>
+                <RowItemContainer>
+                  <TopRow>
+                    <RowIcon>
+                      <RowText>
+                        <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
                       </RowText>
-                    </TopRow>
-                    {this.state.isSetNetworkFee && (
-                      <ToolTipText>
-                        <Text size='12px' weight={500} color='grey600'>
-                          <TextGroup inline>
-                            <Text size='14px'>
-                              <FormattedMessage
-                                id='modals.simplebuy.confirm.network_fees'
-                                defaultMessage='Network fees are set by the {coin} network.'
-                                values={{ coin: baseCoinTicker }}
-                              />
-                            </Text>
-                            <Link
-                              href={
-                                isErc20
-                                  ? 'https://support.blockchain.com/hc/en-us/articles/360061258732'
-                                  : 'https://support.blockchain.com/hc/en-us/articles/360061672651'
-                              }
-                              size='14px'
-                              rel='noopener noreferrer'
-                              target='_blank'
-                            >
-                              <FormattedMessage
-                                id='modals.simplebuy.confirm.learn_more_about_fees'
-                                defaultMessage='Learn more about fees'
-                              />
-                            </Link>
-                          </TextGroup>
-                        </Text>
-                      </ToolTipText>
-                    )}
-                  </RowItemContainer>
-                </RowItem>
-              </>
+                      <IconWrapper>
+                        <Icon
+                          name='question-in-circle-filled'
+                          size='16px'
+                          color={this.state.isSetNetworkFee ? 'blue600' : 'grey300'}
+                          onClick={() => this.toggleNetworkFeeToolTip()}
+                        />
+                      </IconWrapper>
+                    </RowIcon>
+                    <RowText data-e2e='sbTransactionFee'>
+                      <RowTextWrapper>
+                        {counterCoinTicker}
+                        {formatFiat(feeInFiat)}
+                        <AdditionalText>
+                          {coinToString({
+                            unit: {
+                              symbol: account.baseCoin
+                            },
+                            value: convertBaseToStandard(
+                              account.baseCoin,
+                              this.networkFee(payment, account)
+                            )
+                          })}
+                        </AdditionalText>
+                      </RowTextWrapper>
+                    </RowText>
+                  </TopRow>
+                  {this.state.isSetNetworkFee && (
+                    <ToolTipText>
+                      <Text size='12px' weight={500} color='grey600'>
+                        <TextGroup inline>
+                          <Text size='14px'>
+                            <FormattedMessage
+                              id='modals.simplebuy.confirm.network_fees'
+                              defaultMessage='Network fees are set by the {coin} network.'
+                              values={{ coin: baseCoinTicker }}
+                            />
+                          </Text>
+                          <Link
+                            href={
+                              isErc20
+                                ? 'https://support.blockchain.com/hc/en-us/articles/360061258732'
+                                : 'https://support.blockchain.com/hc/en-us/articles/360061672651'
+                            }
+                            size='14px'
+                            rel='noopener noreferrer'
+                            target='_blank'
+                          >
+                            <FormattedMessage
+                              id='modals.simplebuy.confirm.learn_more_about_fees'
+                              defaultMessage='Learn more about fees'
+                            />
+                          </Link>
+                        </TextGroup>
+                      </Text>
+                    </ToolTipText>
+                  )}
+                </RowItemContainer>
+              </RowItem>
             )}
             <RowItem>
               <RowText>
@@ -450,6 +463,18 @@ class PreviewSell extends PureComponent<
             </RowItem>
             <Border />
             <FlyoutWrapper>
+              {showConversionDisclaimer && (
+                <DisclaimerText>
+                  <FormattedMessage
+                    id='modals.simplebuy.confirm.conversion_legalese'
+                    defaultMessage='Your {coinName} ({symbol}) balance will be converted to USDC daily at 12:00 am UTC. To avoid any inconvenience , buy crypto or initiate a withdrawal before the specified time.'
+                    values={{
+                      coinName: incomingCoinName,
+                      symbol: COUNTER
+                    }}
+                  />
+                </DisclaimerText>
+              )}
               <DisclaimerText>
                 <FormattedMessage
                   id='modals.simplebuy.confirm.sell_description'
@@ -517,7 +542,10 @@ const mapStateToProps = (state: RootState) => {
     payment: selectors.components.buySell.getPayment(state).getOrElse(undefined),
     quoteR: selectors.components.buySell.getSellQuote(state),
     rates: selectors.core.data.misc.getRatesSelector(coin, state).getOrElse({} as RatesType),
-    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType)
+    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType),
+    showFiatEntityRemediationAlert:
+      selectors.core.walletOptions.getFiatEntityRemediationAlert(state),
+    userLegalEntity: selectors.modules.profile.getUserLegalEntity(state)
   }
 }
 

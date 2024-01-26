@@ -23,7 +23,7 @@ import {
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { EarnStepMetaData, PendingTransactionType, PendingWithdrawalsType } from 'data/types'
+import { EarnStepMetaData, PendingTransactionType } from 'data/types'
 
 import { EDDMessageContainer } from '../Staking.model'
 import { OwnProps as ParentProps } from '.'
@@ -65,7 +65,6 @@ const AccountSummary: React.FC<Props> = (props) => {
     stakingLimits,
     stakingRates,
     stepMetadata,
-    totalBondingDeposits,
     walletCurrency
   } = props
 

@@ -7,7 +7,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { isMobile } from 'services/styles'
 
 import { SubviewProps } from '../../types'
-import { Card, CardTitle, CardWrapper, InfoItem, InfoTitle } from '..'
+import { Card, CardTitle, CardWrapper } from '..'
 import QRsModal, { QRModalType } from '../SignupForm/QRsModal'
 import SofiSignupForm from '../SofiSignupForm'
 
@@ -82,7 +82,7 @@ const SofiSignupCard = (props: InjectedFormProps<{}> & SubviewProps) => {
               </Text>
             </CardTitle>
 
-            <SofiSignupForm {...props} setShowModal={setShowModal} />
+            <SofiSignupForm {...props} />
           </PaddingWrapper>
           <Bottom />
         </Card>

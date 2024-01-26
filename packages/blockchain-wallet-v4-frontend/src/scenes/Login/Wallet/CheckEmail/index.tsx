@@ -1,11 +1,13 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
+import { selectAlerts } from 'data/alerts/selectors'
 import { trackEvent } from 'data/analytics/slice'
+import { getIsSofi } from 'data/auth/selectors'
 import { Analytics, LoginSteps } from 'data/types'
 import { VERIFY_EMAIL_SENT_ERROR } from 'services/alerts'
 import { media } from 'services/styles'
@@ -39,6 +41,9 @@ const CheckEmail = (props: Props) => {
   const [disabled, setDisabled] = useState<boolean>(true)
   const [sentState, setSentState] = useState<'checkEmail' | 'sent'>('sent')
 
+  const alerts = useSelector(selectAlerts)
+  const isSofi = useSelector(getIsSofi)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -63,7 +68,7 @@ const CheckEmail = (props: Props) => {
     )
   }, [])
 
-  const hasErrorAlert = props.alerts.find((alert) => alert.message === VERIFY_EMAIL_SENT_ERROR)
+  const hasErrorAlert = alerts.find((alert) => alert.message === VERIFY_EMAIL_SENT_ERROR)
 
   return (
     <LoginWrapper>
@@ -71,7 +76,7 @@ const CheckEmail = (props: Props) => {
         <BackArrowHeader
           {...props}
           handleBackArrowClick={() => {
-            if (props.isSofi) {
+            if (isSofi) {
               props.setStep(LoginSteps.SOFI_EMAIL)
             } else {
               props.handleBackArrowClickWallet()

@@ -86,7 +86,8 @@
         "useVgsProvider": true,
         "walletConnect": true,
         "walletDebitCardEnabled": true,
-        "proveEnabled": true
+        "proveEnabled": true,
+        "showFiatEntityRemediationAlert": true
       }
     }
   },

@@ -4,22 +4,22 @@ import styled from 'styled-components'
 
 import { Link, Text } from 'blockchain-info-components'
 
-const TermsContainer = styled.div<{ inline?: boolean; isCentered?: boolean }>`
+const TermsContainer = styled.div<{ inline?: boolean }>`
   & > * {
     display: ${(props) => (props.inline ? 'inline' : 'inline-block')};
   }
-  ${(props) =>
-    props.isCentered &&
-    `
-    text-align: center;
-  `};
 `
-const Terms = (props) => {
-  const { company, isCentered = null, recovery, sofi } = props
+
+type Props = {
+  company?: string
+  recovery?: boolean
+}
+
+const Terms = ({ company, recovery }: Props) => {
   switch (company) {
     case 'blockchain-kyc':
       return (
-        <TermsContainer isCentered={isCentered}>
+        <TermsContainer>
           <Text size='12px' weight={400}>
             <FormattedMessage
               id='scenes.register.registerform.blockchainkyc.read'
@@ -55,7 +55,7 @@ const Terms = (props) => {
       )
     case 'sofi':
       return (
-        <TermsContainer style={{ paddingLeft: '4px' }} isCentered={isCentered} inline>
+        <TermsContainer style={{ paddingLeft: '4px' }} inline>
           <Text color='grey800' size='12px' weight={500}>
             <FormattedMessage
               id='scenes.register.registerform.blockchain.read_1'
@@ -93,7 +93,7 @@ const Terms = (props) => {
       )
     case 'sofi-bakkt':
       return (
-        <TermsContainer style={{ paddingLeft: '4px' }} isCentered={isCentered} inline>
+        <TermsContainer style={{ paddingLeft: '4px' }} inline>
           <Text color='grey800' size='12px' weight={500}>
             <FormattedMessage
               id='scenes.register.registerform.blockchain.bakkt'
@@ -117,7 +117,7 @@ const Terms = (props) => {
       )
     default:
       return (
-        <TermsContainer style={{ paddingLeft: recovery ? 0 : '4px' }} isCentered={isCentered}>
+        <TermsContainer style={{ paddingLeft: recovery ? 0 : '4px' }}>
           {recovery ? (
             <Text color='grey800' size='12px' weight={500} style={{ margin: '4px 0' }}>
               <FormattedMessage

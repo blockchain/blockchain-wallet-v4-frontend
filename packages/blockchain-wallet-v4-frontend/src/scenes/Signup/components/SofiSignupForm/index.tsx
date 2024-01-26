@@ -63,13 +63,11 @@ const SofiSignupForm = (props: Props) => {
     bakktRedirectUSStates,
     formActions,
     formValues,
-    goals,
     initialValues,
     invalid,
     isFormSubmitting,
     onSignupSubmit,
-    routerActions,
-    setShowModal
+    routerActions
   } = props
 
   const { sofiJwtPayload } = useSelector(selectors.modules.profile.getSofiUserData).getOrElse(
@@ -244,6 +242,6 @@ const SofiSignupForm = (props: Props) => {
   )
 }
 
-type Props = InjectedFormProps<{}> & SubviewProps & { setShowModal?: (e) => void }
+type Props = InjectedFormProps<{}> & SubviewProps
 
 export default SofiSignupForm

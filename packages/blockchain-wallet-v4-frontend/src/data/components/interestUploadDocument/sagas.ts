@@ -1,4 +1,4 @@
-import { call, delay, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'

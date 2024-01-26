@@ -262,6 +262,7 @@ const Success = ({
                         <Field
                           name={item.id}
                           errorBottom
+                          pattern={item.regex}
                           validate={isOptional ? null : required}
                           component={TextBox}
                           placeholder={GetInputPlaceholder(item)}
@@ -334,7 +335,7 @@ const Success = ({
     }
 
     // BE will provide id to contains OPTIONAL in any children
-    const isOptional = node.children && node.children.some((item) => item.id.includes('UNDEFINED'))
+    const isOptional = node?.children?.some((item) => item.id.includes('UNDEFINED'))
 
     return (
       <FormGroup key={node.id}>

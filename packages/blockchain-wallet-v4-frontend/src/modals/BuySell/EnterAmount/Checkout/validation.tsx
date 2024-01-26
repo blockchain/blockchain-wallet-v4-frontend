@@ -9,7 +9,6 @@ import {
   SwapUserLimitsType
 } from '@core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { components } from 'data/model'
 import { BSCheckoutFormValuesType, SwapAccountType } from 'data/types'
 
 import { Props } from './template.success'

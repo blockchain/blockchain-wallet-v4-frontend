@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
 
 import { Image, Link, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
@@ -9,7 +9,7 @@ import { getData } from '../selectors'
 import { SofiRow } from './styles'
 
 export const SofiBanner = ({ userLoggedOut = false }: { userLoggedOut?: boolean }) => {
-  const { country, ipCountry, signupCountry } = useSelector(getData)
+  const { country, ipCountry, signupCountry } = useSelector(getData, shallowEqual)
   const sofiUserStatus = useSelector(selectors.modules.profile.getSofiUserMigrationStatus)
   const userCountry = country !== undefined ? country : ipCountry
   const hideBanner = userCountry !== 'US' && signupCountry !== 'US'

@@ -1,7 +1,7 @@
 import { ExtraQuestionsType, NodeType } from '@core/types'
 
 export type IntroPageType = {
-  footer: { action?: { type: string; url: string }; text: string; type: string }[]
+  footer: Array<{ action?: { type: string; url: string }; text: string; type: string }>
   header: { description: string; imageUrl: string; title: string }
 }
 
@@ -9,7 +9,7 @@ export type Page = { nodes: NodeType }
 
 export type SelfAssessmentType = Omit<ExtraQuestionsType, 'nodes' | 'context'> & {
   introPage: IntroPageType
-  pages: Page[]
+  pages: Array<Page>
 }
 
 export type QuizSubmitResult = {

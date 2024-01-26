@@ -30,7 +30,7 @@ export const insufficientFunds = (value, allValues, props) => {
   return effectiveBalance > 0 && DUST <= effectiveBalance ? undefined : <InsufficientFundsMessage />
 }
 
-export const invalidAmount = (value, allValues, props) => {
+export const invalidAmount = (value) => {
   const valueBtc = prop('coin', value)
   const valueSatoshi = Exchange.convertCoinToCoin({
     baseToStandard: false,
@@ -40,7 +40,7 @@ export const invalidAmount = (value, allValues, props) => {
   return valueSatoshi > 0 ? undefined : <InvalidAmountMessage />
 }
 
-export const minimumAmount = (value, allValues, props) => {
+export const minimumAmount = (value) => {
   const valueBtc = prop('coin', value)
   const valueSatoshi = Exchange.convertCoinToCoin({
     baseToStandard: false,
@@ -64,8 +64,7 @@ export const maximumAmount = (value, allValues, props) => {
 export const minimumFeePerByte = (value, allValues, props) =>
   value && parseInt(value) >= props.minFeePerByte ? undefined : <MinimumFeeMessage />
 
-export const minimumOneSatoshi = (value, allValues, props) =>
-  value >= 1 ? undefined : <MinimumOneSatoshiMessage />
+export const minimumOneSatoshi = (value) => (value >= 1 ? undefined : <MinimumOneSatoshiMessage />)
 
 export const maximumFeePerByte = (value, allValues, props) =>
   value && parseInt(value) <= props.maxFeePerByte ? undefined : <MaximumFeeMessage />

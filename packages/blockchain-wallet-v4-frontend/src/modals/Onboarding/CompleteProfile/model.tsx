@@ -57,11 +57,9 @@ export const CloseIconContainer = styled.div`
   }
 `
 
-export const CentralContainer = styled.div`
+export const LinksWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-`
-export const LinksWrapper = styled(CentralContainer)`
   padding-top: 26px;
 `

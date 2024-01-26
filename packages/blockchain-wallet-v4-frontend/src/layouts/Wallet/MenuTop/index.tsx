@@ -13,10 +13,7 @@ import Header from './Header'
 const HeaderContainer = (props: Props) => <Header {...props} />
 
 const mapStateToProps = (state: RootState) => ({
-  currenTier: lift(
-    (currentTier: ExtractSuccess<ReturnType<typeof selectors.modules.profile.getCurrentTier>>) =>
-      currentTier
-  )(selectors.modules.profile.getCurrentTier(state)),
+  currentTier: selectors.modules.profile.getCurrentTier(state).getOrElse(0),
   featureFlags: selectors.core.walletOptions
     .getFeatureFlags(state)
     .getOrElse({} as { [key in string]: boolean }),

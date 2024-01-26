@@ -9,7 +9,7 @@ import { promptForInput } from 'services/sagas'
 const { toCashAddr } = utils.bch
 const GAP_LIMIT = 20
 
-export default ({ coreSagas, networks }) => {
+export default ({ networks }) => {
   const logLocation = 'modules/addressesBch/sagas'
 
   const editBchAccountLabel = function* (action) {

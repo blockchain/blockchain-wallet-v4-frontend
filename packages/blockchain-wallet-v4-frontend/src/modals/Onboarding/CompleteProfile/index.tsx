@@ -15,6 +15,7 @@ import { useRemote } from 'hooks'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading, LoadingTextEnum } from '../../components'
+import { ModalPropsType } from '../../types'
 import LinkItem from './LinkItem'
 import {
   CloseIconContainer,
@@ -28,10 +29,10 @@ import {
 } from './model'
 import { getData } from './selectors'
 
-const CompleteProfile = (props) => {
+const CompleteProfile = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
   const dispatch = useDispatch()
 
-  const data = useSelector(getData)
+  const { isBankOrCardLinked, isKycVerified } = useSelector(getData)
 
   const { data: handholdData, isLoading, isNotAsked } = useRemote(getVerificationSteps)
 
@@ -41,7 +42,7 @@ const CompleteProfile = (props) => {
     setShow(false)
 
     setTimeout(() => {
-      props.close(ModalName.COMPLETE_USER_PROFILE)
+      close(ModalName.COMPLETE_USER_PROFILE)
     }, duration)
   }
 
@@ -66,7 +67,7 @@ const CompleteProfile = (props) => {
   }
 
   const handleLinkBankOrCardClick = () => {
-    if (data.isVerifiedId) {
+    if (isKycVerified) {
       startAddingCards()
     } else {
       startVerification()
@@ -74,11 +75,9 @@ const CompleteProfile = (props) => {
   }
 
   const handleBuyCryptoClick = () => {
-    const { isBankOrCardLinked, isVerifiedId } = data
-
     if (isBankOrCardLinked) {
       dispatch(buySell.showModal({ origin: 'CompleteProfile' }))
-    } else if (isVerifiedId) {
+    } else if (isKycVerified) {
       startAddingCards()
       return
     } else {
@@ -146,7 +145,14 @@ const CompleteProfile = (props) => {
   const percentage = itemsLength > 0 ? (completedSteps / itemsLength) * 100 : 0
 
   return (
-    <Flyout {...props} isOpen={show} onClose={handleClose} data-e2e='completeProfileModal'>
+    <Flyout
+      total={total}
+      position={position}
+      userClickedOutside={userClickedOutside}
+      isOpen={show}
+      onClose={handleClose}
+      data-e2e='completeProfileModal'
+    >
       <FlyoutChild>
         <Wrapper>
           {(isLoading || isNotAsked) && <Loading text={LoadingTextEnum.LOADING} />}
@@ -212,8 +218,8 @@ const CompleteProfile = (props) => {
                       iconUrl={iconUrl}
                       key={id}
                       metadata={metadata}
-                      onClick={() => getOnClick(id as COMPLETE_PROFILE_STEPS)}
-                      status={status as 'IDLE' | 'PENDING' | 'COMPLETED' | 'DISABLED'}
+                      onClick={() => getOnClick(id)}
+                      status={status}
                       subtitle={subtitle}
                       title={title}
                     />
