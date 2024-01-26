@@ -6,6 +6,7 @@ import { ThemeProvider as ConstellationTP } from '@blockchain-com/constellation'
 import { ConnectedRouter } from 'connected-react-router'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
+import Cookies from 'universal-cookie'
 import { createClient, Provider as UrqlProvider } from 'urql'
 
 import { WalletOptionsType } from '@core/types'
@@ -117,6 +118,20 @@ const App = ({
       nonce: window.nonce
     }
   })
+
+  // effect for handling partner referrals
+  useEffect(() => {
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const referral = urlParams.get('ref')
+    if (referral) {
+      const cookies = new Cookies()
+      cookies.set('partnerReferralCode', referral, {
+        domain: '.blockchain.com',
+        path: '/'
+      })
+    }
+  }, [])
 
   const client = createClient({
     url: `${apiUrl}/nft-market-api/graphql/`
