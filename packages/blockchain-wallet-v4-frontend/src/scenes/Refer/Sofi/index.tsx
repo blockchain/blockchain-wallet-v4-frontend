@@ -1,13 +1,16 @@
-import React from 'react'
-import { Redirect, RouteComponentProps } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 
 const SofiReferralComponent: React.FC<RouteComponentProps> = ({ location }) => {
-  const searchParams = new URLSearchParams(location.search)
-  const viewParam = searchParams.get('buy')
-  const queryString = viewParam ? `?code=${viewParam}` : '?ref=sofi'
-  const redirectTo = `https://blockchainwallet.page.link/buysofi${queryString}`
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+    const viewParam = searchParams.get('buy')
+    const queryString = viewParam ? `?code=${viewParam}` : '?ref=sofi'
 
-  return <Redirect to={redirectTo} />
+    window.location.href = `https://blockchainwallet.page.link/buysofi${queryString}`
+  }, [location])
+
+  return null
 }
 
 export default SofiReferralComponent
