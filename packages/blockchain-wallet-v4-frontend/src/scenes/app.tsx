@@ -47,6 +47,7 @@ const SofiLanding = React.lazy(() => import('./SofiLanding'))
 const SofiSignupSuccess = React.lazy(() => import('./Signup/SofiSignupSuccess'))
 const SofiSignupFailure = React.lazy(() => import('./Signup/SofiSignupFailure'))
 const SofiVerify = React.lazy(() => import('./Signup/components/SofiVerifySsn'))
+const SofiReferral = React.lazy(() => import('./Refer/Sofi'))
 const Prove = React.lazy(() => import('./Prove'))
 // need to be authed to see this, but uses public layout
 const ContinueOnPhone = React.lazy(() => import('./ContinueOnPhone'))
@@ -122,8 +123,10 @@ const App = ({
   })
 
   const isSofi = window.location.pathname === '/sofi'
+  const isReferral = window.location.pathname === '/refer/sofi'
 
   const sofiParams = isSofi && window.location.search
+  const referralParams = isReferral && window.location.search
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
@@ -140,6 +143,7 @@ const App = ({
                             <Switch>
                               {/* Unauthenticated Wallet routes */}
                               <Route path='/app-error' component={AppError} />
+                              <Route path='/refer/sofi' component={SofiReferral} exact />
                               <AuthLayout
                                 path='/account-recovery'
                                 component={VerifyAccountRecovery}
@@ -353,6 +357,8 @@ const App = ({
                                 hasUkBanner
                               />
                               {isSofi && window.location.replace(`/#/sofi${sofiParams}`)}
+                              {isReferral &&
+                                window.location.replace(`/#/refer/sofi${referralParams}`)}
                               {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                             </Switch>
                           </Suspense>
