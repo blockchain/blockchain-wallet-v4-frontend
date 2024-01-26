@@ -101,7 +101,7 @@ const App = ({
   isProveEnabled,
   persistor,
   store,
-  userData
+  userDataId
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
   // parse and log UTMs
@@ -363,7 +363,7 @@ const App = ({
                             </Switch>
                           </Suspense>
                         </ConnectedRouter>
-                        <SiftScience userId={userData.id} />
+                        <SiftScience userId={userDataId} />
                       </UrqlProvider>
                     </MediaContextProvider>
                   </PersistGate>
@@ -401,7 +401,7 @@ const mapStateToProps = (state) => ({
     .getNftExplorer(state)
     .getOrElse(false) as boolean,
   isProveEnabled: selectors.core.walletOptions.getProveEnabled(state).getOrElse(false) as boolean,
-  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
+  userDataId: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType).id
 })
 
 const connector = connect(mapStateToProps)
