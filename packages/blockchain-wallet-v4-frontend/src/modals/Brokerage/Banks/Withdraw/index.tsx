@@ -84,11 +84,7 @@ const Withdraw = ({ close, position, total, userClickedOutside }: ModalPropsType
           />
         )}
         {step === WithdrawStepEnum.CONFIRM_WITHDRAW && (
-          <ConfirmWithdraw
-            beneficiary={beneficiary}
-            fiatCurrency={fiatCurrency}
-            handleClose={handleClose}
-          />
+          <ConfirmWithdraw beneficiary={beneficiary} fiatCurrency={fiatCurrency} />
         )}
         {step === WithdrawStepEnum.WITHDRAWAL_DETAILS && (
           <WithdrawalDetails fiatCurrency={fiatCurrency} handleClose={handleClose} />

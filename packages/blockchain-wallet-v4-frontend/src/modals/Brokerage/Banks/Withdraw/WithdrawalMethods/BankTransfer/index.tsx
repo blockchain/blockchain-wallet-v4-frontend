@@ -14,7 +14,7 @@ import {
 } from 'components/BuySell'
 import { SuccessCartridge } from 'components/Cartridge'
 
-import { getSubTitleByCurrency } from './utils'
+import { getSubTitleByCurrency } from './getSubTitleByCurrency'
 
 const DisplayTitleBank = styled(DisplayTitle)`
   margin-bottom: 2px;
