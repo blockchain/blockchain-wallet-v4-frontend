@@ -543,8 +543,9 @@ const mapStateToProps = (state: RootState) => {
     quoteR: selectors.components.buySell.getSellQuote(state),
     rates: selectors.core.data.misc.getRatesSelector(coin, state).getOrElse({} as RatesType),
     ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType),
-    showFiatEntityRemediationAlert:
-      selectors.core.walletOptions.getFiatEntityRemediationAlert(state),
+    showFiatEntityRemediationAlert: selectors.core.walletOptions
+      .getFiatEntityRemediationAlert(state)
+      .getOrElse('false'),
     userLegalEntity: selectors.modules.profile.getUserLegalEntity(state)
   }
 }

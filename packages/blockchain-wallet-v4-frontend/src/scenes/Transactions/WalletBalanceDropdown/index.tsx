@@ -440,7 +440,7 @@ class WalletBalanceDropdown extends Component<Props> {
 
 const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps),
-  showFiatEntityRemediationAlert: getFiatEntityRemediationAlert(state),
+  showFiatEntityRemediationAlert: getFiatEntityRemediationAlert(state).getOrElse(false),
   userLegalEntity: getUserLegalEntity(state)
 })
 
