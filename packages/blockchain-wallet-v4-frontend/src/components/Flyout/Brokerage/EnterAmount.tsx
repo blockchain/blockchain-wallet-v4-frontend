@@ -373,9 +373,7 @@ const EnterAmount = ({
                   convertBaseToStandard('FIAT', withdrawableBalance || paymentMethod.limits.max)
                 )
                 // record max click withdrawal
-                if (onMaxButtonClicked) {
-                  onMaxButtonClicked()
-                }
+                onMaxButtonClicked?.()
               }}
             />
           </Padding>

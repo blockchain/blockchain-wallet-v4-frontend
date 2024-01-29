@@ -52,14 +52,14 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
   const userCountryCode = props.userData?.address?.country || 'default'
   const [sardineContextIsReady, sardineContext] = useSardineContext('WITHDRAWAL')
 
-  const amount = useSelector(getAmount) ?? 0
+  const amount = useSelector(getAmount) ?? '0'
 
   return (
     <Form
       onSubmit={(e) => {
         e.preventDefault()
         props.withdrawActions.handleCustodyWithdraw({
-          amount: props.formValues.amount,
+          amount,
           beneficiary: props.beneficiary || props.defaultMethod || null,
           fiatCurrency: props.fiatCurrency
         })
@@ -113,7 +113,11 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
           <FormattedMessage id='copy.fee' defaultMessage='Fee' />
         </Text>
         <Value>
-          {props.fees.value} {props.fiatCurrency}
+          {fiatToString({
+            digits: 2,
+            unit: props.fiatCurrency,
+            value: props.fees.value
+          })}
         </Value>
       </Row>
       <Row>
@@ -122,8 +126,8 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
         </Text>
         <Value>
           {fiatToString({
-            digits: 0,
-            unit: props.fiatCurrency || ('USD' as FiatType),
+            digits: 2,
+            unit: props.fiatCurrency,
             value: amount
           })}
         </Value>
