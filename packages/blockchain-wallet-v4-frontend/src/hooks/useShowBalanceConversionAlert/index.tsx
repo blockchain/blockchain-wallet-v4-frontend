@@ -5,7 +5,7 @@ import { CoinfigType } from '@core/types'
 import { getUserLegalEntity } from 'data/modules/profile/selectors'
 
 export const useShowConversionAlert = (coinfig: CoinfigType) => {
-  const showFiatEntityRemediationAlert = useSelector(getFiatEntityRemediationAlert)
+  const showFiatEntityRemediationAlert = useSelector(getFiatEntityRemediationAlert).getOrElse(false)
   const userLegalEntity = useSelector(getUserLegalEntity)
 
   if (!showFiatEntityRemediationAlert || coinfig.type.name !== 'FIAT') return false
