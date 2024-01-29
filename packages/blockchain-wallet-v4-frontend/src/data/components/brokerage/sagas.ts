@@ -608,7 +608,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       { settlementRequest: { amount, product: ProductTypes.SIMPLEBUY } }
     )
 
-    const { reason, settlementType } = status.attributes?.settlementResponse
+    const { reason, settlementType } = status.attributes?.settlementResponse ?? {}
 
     if (settlementType === 'UNAVAILABLE' || reason === 'REQUIRES_UPDATE') {
       yield put(
