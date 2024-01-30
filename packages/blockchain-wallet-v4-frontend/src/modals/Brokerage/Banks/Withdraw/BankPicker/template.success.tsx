@@ -1,16 +1,20 @@
 import React, { ReactElement, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { AlertCard } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
+import { BeneficiaryType } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Bank, BankWire } from 'components/Flyout/model'
-import { WithdrawStepEnum } from 'data/types'
+import { brokerage, withdraw } from 'data/components/actions'
+import { BankTransferAccountType, WithdrawStepEnum } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
-import { Props as OwnProps, SuccessStateType } from '.'
+import { BankPickerProps } from '.'
+import { BankPickerSelectorProps } from './selectors'
 
 const Top = styled.div`
   display: flex;
@@ -22,24 +26,45 @@ const AlertWrapper = styled(FlyoutWrapper)`
   }
 `
 
-const getLinkedBankIcon = (bankName: string): ReactElement => (
+type Props = BankPickerProps & BankPickerSelectorProps
+
+const getLinkedBankIcon = (bankName: string) => (
   <Image name={getBankLogoImageName(bankName)} height='48px' />
 )
 
-const Success = (props: Props) => {
-  const {
-    bankTransferAccounts,
-    beneficiaries,
-    brokerageActions,
-    defaultMethod,
-    fiatCurrency,
-    withdrawActions
-  } = props
+const Success = ({
+  bankTransferAccounts,
+  beneficiaries,
+  beneficiary,
+  defaultMethod,
+  fiatCurrency
+}: Props) => {
   const [showAlert, setShowAlert] = useState(true)
+  const dispatch = useDispatch()
 
   const withdrawalDisabled = bankTransferAccounts.find(
     (account) => account.capabilities?.withdrawal?.enabled === false
   )
+
+  const changeStep = (account?: BankTransferAccountType, beneficiary?: BeneficiaryType) => {
+    dispatch(brokerage.setBankDetails({ account }))
+    dispatch(
+      withdraw.setStep({
+        beneficiary,
+        fiatCurrency,
+        step: WithdrawStepEnum.ENTER_AMOUNT
+      })
+    )
+  }
+
+  const onAddNew = () => {
+    dispatch(
+      withdraw.setStep({
+        fiatCurrency,
+        step: WithdrawStepEnum.WITHDRAWAL_METHODS
+      })
+    )
+  }
 
   return (
     <div>
@@ -53,12 +78,7 @@ const Success = (props: Props) => {
             color='grey600'
             role='button'
             style={{ marginRight: '8px' }}
-            onClick={() =>
-              withdrawActions.setStep({
-                fiatCurrency,
-                step: WithdrawStepEnum.ENTER_AMOUNT
-              })
-            }
+            onClick={() => changeStep()}
           />
           <Text color='grey800' size='20px' weight={600}>
             <FormattedMessage id='scenes.settings.linked_banks' defaultMessage='Linked Banks' />
@@ -89,44 +109,22 @@ const Success = (props: Props) => {
             isActive={account.id === defaultMethod?.id}
             icon={getLinkedBankIcon(account.details.bankName)}
             isDisabled={account.capabilities?.withdrawal?.enabled === false}
-            onClick={() => {
-              brokerageActions.setBankDetails({ account })
-              withdrawActions.setStep({
-                beneficiary: undefined,
-                fiatCurrency: props.fiatCurrency,
-                step: WithdrawStepEnum.ENTER_AMOUNT
-              })
-            }}
+            onClick={() => changeStep(account)}
           />
         )
       })}
-      {beneficiaries.map((beneficiary) => {
+      {beneficiaries.map((localBeneficiary) => {
         return (
           <BankWire
-            key={beneficiary.id}
-            beneficiary={beneficiary}
-            isActive={props.beneficiary?.id === beneficiary.id}
-            onClick={() => {
-              brokerageActions.setBankDetails({ account: undefined })
-              withdrawActions.setStep({
-                beneficiary,
-                fiatCurrency,
-                step: WithdrawStepEnum.ENTER_AMOUNT
-              })
-            }}
+            key={localBeneficiary.id}
+            beneficiary={localBeneficiary}
+            isActive={beneficiary?.id === localBeneficiary.id}
+            onClick={() => changeStep(undefined, localBeneficiary)}
             type='WITHDRAWAL'
           />
         )
       })}
-      <AddNewButton
-        data-e2e='DepositAddNewPaymentMethod'
-        onClick={() => {
-          withdrawActions.setStep({
-            fiatCurrency,
-            step: WithdrawStepEnum.WITHDRAWAL_METHODS
-          })
-        }}
-      >
+      <AddNewButton data-e2e='DepositAddNewPaymentMethod' onClick={onAddNew}>
         <Text color='blue600' size='16px' weight={600}>
           <FormattedMessage id='buttons.add_new' defaultMessage='+ Add New' />
         </Text>
@@ -134,7 +132,5 @@ const Success = (props: Props) => {
     </div>
   )
 }
-
-type Props = OwnProps & SuccessStateType
 
 export default Success

@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const Loading = () => {
+const WithdrawLoading = () => {
   return (
     <Wrapper>
       <SpinningLoader />
@@ -24,4 +24,4 @@ const Loading = () => {
   )
 }
 
-export default Loading
+export default WithdrawLoading

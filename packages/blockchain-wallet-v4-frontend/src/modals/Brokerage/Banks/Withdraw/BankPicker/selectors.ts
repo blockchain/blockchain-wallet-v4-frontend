@@ -1,13 +1,30 @@
 import { lift } from 'ramda'
 
 import Remote from '@core/remote'
-import { ExtractSuccess, InvitationsType } from '@core/types'
+import {
+  BeneficiariesType,
+  BeneficiaryType,
+  ExtractSuccess,
+  InvitationsType,
+  RemoteDataType
+} from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { BankTransferAccountType } from 'data/types'
 
-import { OwnProps } from '.'
+import { BankPickerProps } from '.'
 
-const getData = (state: RootState, ownProps: OwnProps) => {
+export type BankPickerSelectorProps = {
+  bankTransferAccounts: BankTransferAccountType[]
+  beneficiaries: BeneficiariesType
+  defaultBeneficiary?: BeneficiaryType
+  defaultMethod?: BankTransferAccountType
+}
+
+const getData = (
+  state: RootState,
+  ownProps: Pick<BankPickerProps, 'fiatCurrency'>
+): RemoteDataType<string, BankPickerSelectorProps> => {
   let bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
   let defaultMethodR = selectors.components.brokerage.getAccount(state)
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P

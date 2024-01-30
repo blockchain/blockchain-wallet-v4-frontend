@@ -14,8 +14,8 @@ import {
 } from 'data/types'
 import { useRemote } from 'hooks'
 
+import WithdrawLoading from '../WithdrawLoading'
 import getData from './selectors'
-import Loading from './template.loading'
 import Success from './template.success'
 
 const WithdrawalMethods: Props = ({ fiatCurrency, handleClose }) => {
@@ -94,7 +94,7 @@ const WithdrawalMethods: Props = ({ fiatCurrency, handleClose }) => {
 
   if (hasError)
     return <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
-  if (!data || isLoading || isNotAsked) return <Loading />
+  if (!data || isLoading || isNotAsked) return <WithdrawLoading />
 
   return (
     <Success

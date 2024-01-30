@@ -25,8 +25,8 @@ import {
   WithdrawStepEnum
 } from 'data/types'
 
+import WithdrawLoading from '../WithdrawLoading'
 import getData from './selectors'
-import Loading from './template.loading'
 
 const EnterAmountContainer = (props: Props) => {
   useEffect(() => {
@@ -133,8 +133,8 @@ const EnterAmountContainer = (props: Props) => {
     Failure: () => (
       <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
     ),
-    Loading: () => <Loading />,
-    NotAsked: () => <Loading />,
+    Loading: () => <WithdrawLoading />,
+    NotAsked: () => <WithdrawLoading />,
     Success: (val) => {
       const { crossBorderLimits, formErrors } = val
       const bankTransferMethod = val.paymentMethods.methods.find((method) => {

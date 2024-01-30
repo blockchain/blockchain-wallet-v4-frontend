@@ -9,8 +9,8 @@ import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { WithdrawStepEnum } from 'data/types'
 
+import WithdrawLoading from '../WithdrawLoading'
 import { getData } from './selectors'
-import Loading from './template.loading'
 import Success from './template.success'
 
 class ConfirmWithdraw extends PureComponent<Props> {
@@ -33,8 +33,8 @@ class ConfirmWithdraw extends PureComponent<Props> {
       Failure: () => (
         <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={this.errorCallback} />
       ),
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
+      Loading: () => <WithdrawLoading />,
+      NotAsked: () => <WithdrawLoading />,
       Success: (val) => <Success {...val} {...this.props} />
     })
   }
