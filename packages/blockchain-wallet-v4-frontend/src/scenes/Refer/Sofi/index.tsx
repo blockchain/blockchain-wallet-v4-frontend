@@ -44,18 +44,15 @@ const SofiReferralComponent: React.FC = () => {
       const aesIV = getQueryParamCaseInsensitive(url, 'aesIV') as string
       const aesTag = getQueryParamCaseInsensitive(url, 'aesTag') as string
       const aesKeyCiphertext = getQueryParamCaseInsensitive(url, 'aesKeyCipherText') as string
-      const response = await axios.get(
-        `${api}/nabu-gateway/sofi/user-migration-status?api_code=1770d5d9-bcea-4d28-ad21-6cbd5be018a8`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'X-SoFi-AES-IV': aesIV,
-            'X-SoFi-AES-Key-Ciphertext': aesKeyCiphertext,
-            'X-SoFi-AES-Tag': aesTag,
-            'X-SoFi-JWT-AES-Ciphertext': aesCiphertext
-          }
+      const response = await axios.get(`${api}/nabu-gateway/sofi/user-migration-status`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-SoFi-AES-IV': aesIV,
+          'X-SoFi-AES-Key-Ciphertext': aesKeyCiphertext,
+          'X-SoFi-AES-Tag': aesTag,
+          'X-SoFi-JWT-AES-Ciphertext': aesCiphertext
         }
-      )
+      })
       migrationStatus = response.data.migrationStatus
     }
 
