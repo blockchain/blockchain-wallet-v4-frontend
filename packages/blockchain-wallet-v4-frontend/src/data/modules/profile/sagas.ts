@@ -270,7 +270,7 @@ export default ({ api, coreSagas, networks }) => {
       isSofi
         ? 'SOFI_MIGRATION'
         : partnerReferralCodeFromCookie === 'sofi'
-        ? 'SOFI_MIGRATION'
+        ? 'SOFI_ANONYMOUS'
         : partnerReferralCodeFromCookie
     )
     // write to both to support legacy mobile clients
