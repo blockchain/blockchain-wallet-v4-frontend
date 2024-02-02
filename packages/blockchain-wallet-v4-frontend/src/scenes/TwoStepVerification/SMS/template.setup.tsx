@@ -53,7 +53,7 @@ const SMSSetup = (props: Props) => {
             >
               <FormattedMessage
                 id='scenes.security.twostepverification.sms.entermobile'
-                defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.'
+                defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent. By entering your mobile number, you agree to receive 2FA messages to verify your Account at Blockchain.com. Message and data rates may apply.'
               />
             </Text>
             <Field name='verificationCode' component={TextBox} validate={[required]} />
@@ -96,7 +96,7 @@ const SMSSetup = (props: Props) => {
             >
               <FormattedMessage
                 id='scenes.security.twostepverification.sms.entermobile'
-                defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.'
+                defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent. By entering your mobile number, you agree to receive 2FA messages to verify your Account at Blockchain.com. Message and data rates may apply.'
               />
             </Text>
 
