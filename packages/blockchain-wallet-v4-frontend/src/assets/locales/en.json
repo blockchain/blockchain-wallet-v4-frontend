@@ -2506,7 +2506,7 @@
   "scenes.security.twostepverification.loading.title": "Two-Factor Authentication",
   "scenes.security.twostepverification.mobile.title": "Two-Factor Authentication - Mobile Phone Number",
   "scenes.security.twostepverification.sms.entercode": "Enter your verification code below and click submit.",
-  "scenes.security.twostepverification.sms.entermobile": "Enter your mobile number and click Get Code. A verification code will be sent.",
+  "scenes.security.twostepverification.sms.entermobile": "Enter your mobile number and click Get Code. A verification code will be sent. By entering your mobile number, you agree to receive 2FA messages to verify your Account at Blockchain.com. Message and data rates may apply.",
   "scenes.security.twostepverification.yubi.step1": "1. Insert the Yubikey into your computer's USB port.",
   "scenes.security.twostepverification.yubi.step2": "2. Pair your Yubikey.",
   "scenes.security.twostepverification.yubi.submit": "Submit",
