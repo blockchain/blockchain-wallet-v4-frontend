@@ -59,7 +59,7 @@ const SofiReferralComponent: React.FC = () => {
     if (hasAllRequiredJwtParams && migrationStatus === SofiUserMigrationStatus.AWAITING_USER) {
       dispatch(actions.router.push(`/sofi${search}`))
     } else {
-      const viewParam = searchParams.get('buy')
+      const viewParam = searchParams.get('buy')?.toUpperCase()
       const queryString = viewParam ? `?code=${viewParam}&ref=sofi` : '?ref=sofi'
 
       window.location.href = `https://blockchainwallet.page.link/buysofi${queryString}`
