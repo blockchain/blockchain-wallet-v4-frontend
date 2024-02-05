@@ -27,19 +27,6 @@ const Withdraw = ({ close, position, total, userClickedOutside }: ModalPropsType
   const step = useSelector(selectors.components.withdraw.getStep)
   const kycState = useSelector(getUserKYCState).getOrElse('NONE')
 
-  const [show, setShow] = useState(false)
-
-  useEffect(() => {
-    setShow(true)
-  }, [])
-
-  const handleClose = () => {
-    setShow(false)
-    setTimeout(() => {
-      close()
-    }, duration)
-  }
-
   const isUserRejectedOrExpired = kycState === 'REJECTED' || kycState === 'EXPIRED'
   if (isUserRejectedOrExpired) {
     return (
@@ -47,11 +34,11 @@ const Withdraw = ({ close, position, total, userClickedOutside }: ModalPropsType
         position={position}
         userClickedOutside={userClickedOutside}
         total={total}
-        onClose={handleClose}
-        isOpen={show}
+        onClose={close}
+        isOpen
         data-e2e='custodyWithdrawModal'
       >
-        <Rejected handleClose={handleClose} />
+        <Rejected handleClose={close} />
       </Flyout>
     )
   }
@@ -60,37 +47,29 @@ const Withdraw = ({ close, position, total, userClickedOutside }: ModalPropsType
       position={position}
       userClickedOutside={userClickedOutside}
       total={total}
-      onClose={handleClose}
-      isOpen={show}
+      onClose={close}
+      isOpen
       data-e2e='custodyWithdrawModal'
     >
       <FlyoutChild>
         {step === WithdrawStepEnum.LOADING && <WithdrawLoading />}
         {step === WithdrawStepEnum.ENTER_AMOUNT && (
-          <EnterAmount
-            fiatCurrency={fiatCurrency}
-            beneficiary={beneficiary}
-            handleClose={handleClose}
-          />
+          <EnterAmount fiatCurrency={fiatCurrency} beneficiary={beneficiary} handleClose={close} />
         )}
         {step === WithdrawStepEnum.WITHDRAWAL_METHODS && (
-          <WithdrawalMethods fiatCurrency={fiatCurrency} handleClose={handleClose} />
+          <WithdrawalMethods fiatCurrency={fiatCurrency} handleClose={close} />
         )}
         {step === WithdrawStepEnum.BANK_PICKER && (
-          <BankPicker
-            fiatCurrency={fiatCurrency}
-            beneficiary={beneficiary}
-            handleClose={handleClose}
-          />
+          <BankPicker fiatCurrency={fiatCurrency} handleClose={close} />
         )}
         {step === WithdrawStepEnum.CONFIRM_WITHDRAW && (
           <ConfirmWithdraw beneficiary={beneficiary} fiatCurrency={fiatCurrency} />
         )}
         {step === WithdrawStepEnum.WITHDRAWAL_DETAILS && (
-          <WithdrawalDetails fiatCurrency={fiatCurrency} handleClose={handleClose} />
+          <WithdrawalDetails fiatCurrency={fiatCurrency} handleClose={close} />
         )}
         {step === WithdrawStepEnum.INELIGIBLE && <DataError message={INELIGIBLE_ERROR} />}
-        {step === WithdrawStepEnum.ON_HOLD && <OnHold handleClose={handleClose} />}
+        {step === WithdrawStepEnum.ON_HOLD && <OnHold handleClose={close} />}
       </FlyoutChild>
     </Flyout>
   )

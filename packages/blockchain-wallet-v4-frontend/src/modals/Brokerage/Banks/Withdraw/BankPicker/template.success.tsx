@@ -1,6 +1,6 @@
-import React, { ReactElement, useState } from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AlertCard } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
@@ -10,6 +10,7 @@ import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Bank, BankWire } from 'components/Flyout/model'
 import { brokerage, withdraw } from 'data/components/actions'
+import { getBeneficiary } from 'data/components/withdraw/selectors'
 import { BankTransferAccountType, WithdrawStepEnum } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
@@ -32,19 +33,15 @@ const getLinkedBankIcon = (bankName: string) => (
   <Image name={getBankLogoImageName(bankName)} height='48px' />
 )
 
-const Success = ({
-  bankTransferAccounts,
-  beneficiaries,
-  beneficiary,
-  defaultMethod,
-  fiatCurrency
-}: Props) => {
+const Success = ({ bankTransferAccounts, beneficiaries, defaultMethod, fiatCurrency }: Props) => {
   const [showAlert, setShowAlert] = useState(true)
   const dispatch = useDispatch()
 
   const withdrawalDisabled = bankTransferAccounts.find(
     (account) => account.capabilities?.withdrawal?.enabled === false
   )
+
+  const beneficiary = useSelector(getBeneficiary)
 
   const changeStep = (account?: BankTransferAccountType, beneficiary?: BeneficiaryType) => {
     dispatch(brokerage.setBankDetails({ account }))
@@ -106,7 +103,7 @@ const Success = ({
             key={account.id}
             bankDetails={account.details}
             text={account.details.bankName}
-            isActive={account.id === defaultMethod?.id}
+            isActive={!beneficiary && account.id === defaultMethod?.id}
             icon={getLinkedBankIcon(account.details.bankName)}
             isDisabled={account.capabilities?.withdrawal?.enabled === false}
             onClick={() => changeStep(account)}

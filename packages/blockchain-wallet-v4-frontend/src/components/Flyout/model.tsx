@@ -971,7 +971,7 @@ const getBrokerageLimits = (props: DepositBrokerageLimits | WithdrawalBrokerageL
       props.withdrawableBalance &&
       props.minWithdrawAmount
     ? {
-        max: (Number(props.withdrawableBalance) - Number(props.fee || '0')).toString(),
+        max: (Number(props.withdrawableBalance) - Number(props.fee ?? 0)).toString(),
         min: props.minWithdrawAmount
       }
     : { max: '0', min: '0' }
