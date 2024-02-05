@@ -120,7 +120,7 @@ const Success = ({
             size='20px'
             color='grey600'
             role='button'
-            onClick={() => handleClose()}
+            onClick={handleClose}
           />
         </TopText>
       </WrapperHeader>
