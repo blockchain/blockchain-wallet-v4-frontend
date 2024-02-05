@@ -10,7 +10,7 @@ import { getFiatCurrency } from 'data/components/withdraw/selectors'
 import { getUserApiToken } from 'data/modules/profile/selectors'
 import { BankDWStepType } from 'data/types'
 
-import Loading from '../EnterAmount/template.loading'
+import WithdrawLoading from '../WithdrawLoading'
 import ConfirmData from './Steps/ConfirmData'
 import { WIRE_BANK_FORM } from './Steps/constants'
 import EnterIntermediaryBank from './Steps/EnterIntermediaryData'
@@ -120,7 +120,7 @@ const AddWireBank = () => {
         return <ConfirmData onNextStep={() => onSubmit()} onClickBack={() => setStep(prevStep)} />
       }
       case 'LOADING':
-        return <Loading />
+        return <WithdrawLoading />
       case 'SUCCESS':
         return <Success bankName={formValues?.bankName ?? ''} fiatCurrency={fiatCurrency} />
       case 'FAILURE':

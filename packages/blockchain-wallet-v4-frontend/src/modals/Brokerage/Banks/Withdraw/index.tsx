@@ -13,11 +13,11 @@ import Rejected from '../../../components/Rejected'
 import { ModalPropsType } from '../../../types'
 import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
-import Loading from './ConfirmWithdraw/template.loading'
 import EnterAmount from './EnterAmount'
 import OnHold from './OnHold'
 import WithdrawalDetails from './WithdrawalDetails'
 import WithdrawalMethods from './WithdrawalMethods'
+import WithdrawLoading from './WithdrawLoading'
 
 const INELIGIBLE_ERROR = { message: BROKERAGE_INELIGIBLE }
 
@@ -65,7 +65,7 @@ const Withdraw = ({ close, position, total, userClickedOutside }: ModalPropsType
       data-e2e='custodyWithdrawModal'
     >
       <FlyoutChild>
-        {step === WithdrawStepEnum.LOADING && <Loading />}
+        {step === WithdrawStepEnum.LOADING && <WithdrawLoading />}
         {step === WithdrawStepEnum.ENTER_AMOUNT && (
           <EnterAmount
             fiatCurrency={fiatCurrency}
