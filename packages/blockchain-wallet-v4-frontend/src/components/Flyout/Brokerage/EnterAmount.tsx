@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { FormErrors, InjectedFormProps, reduxForm, stopAsyncValidation } from 'redux-form'
@@ -211,7 +211,7 @@ const ErrorMessage = ({ error, orderType }) => {
     return <>{error?.amount}</>
   }
 
-  return <></>
+  return null
 }
 
 const Amount = memoizer((props: AmountProps) => {
@@ -283,7 +283,6 @@ const PreviewButton = ({ invalid, orderType, paymentAccount, pristine, submittin
     type='submit'
     fullwidth
     disabled={invalid || pristine || submitting || !paymentAccount}
-    onClick={() => {}}
   >
     {submitting ? (
       <HeartbeatLoader height='16px' width='16px' color='white' />
@@ -298,6 +297,7 @@ const PreviewButton = ({ invalid, orderType, paymentAccount, pristine, submittin
 )
 
 const EnterAmount = ({
+  change,
   crossBorderLimits,
   fee,
   fiatCurrency,
@@ -325,6 +325,11 @@ const EnterAmount = ({
   })
 
   const showError = !!formErrors
+
+  // If fees changes, reset just in case previous amount would be now be over any limit
+  useEffect(() => {
+    change('amount', undefined)
+  }, [fee])
 
   return (
     <CustomForm onSubmit={handleSubmit}>
@@ -370,7 +375,7 @@ const EnterAmount = ({
                 formActions.change(
                   'brokerageTx',
                   'amount',
-                  convertBaseToStandard('FIAT', withdrawableBalance || paymentMethod.limits.max)
+                  convertBaseToStandard('FIAT', minMaxLimits.max)
                 )
                 // record max click withdrawal
                 onMaxButtonClicked?.()

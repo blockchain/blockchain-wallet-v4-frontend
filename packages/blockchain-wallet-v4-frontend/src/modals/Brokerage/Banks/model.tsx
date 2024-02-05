@@ -17,32 +17,29 @@ import { Col, Title, Value } from 'components/Flyout'
 import { BankDetails } from 'data/types'
 import { formatTextAmount } from 'services/forms'
 
-export const ActiveToggle = ({ isActive }: { isActive: boolean }): ReactElement => {
+export const ActiveToggle = ({ isActive }: { isActive: boolean }) => {
+  if (isActive) {
+    return (
+      <Icon
+        name='checkmark-circle-filled'
+        size='24px'
+        color='green600'
+        role='button'
+        style={{ justifyContent: 'flex-start' }}
+      />
+    )
+  }
   return (
-    <>
-      {isActive ? (
-        <Icon
-          name='checkmark-circle-filled'
-          size='24px'
-          color='green600'
-          role='button'
-          style={{ justifyContent: 'flex-start' }}
-        />
-      ) : (
-        <Image
-          name='circle-empty'
-          width='24px'
-          height='24px'
-          style={{ justifyContent: 'flex-start' }}
-        />
-      )}
-    </>
+    <Image
+      name='circle-empty'
+      width='24px'
+      height='24px'
+      style={{ justifyContent: 'flex-start' }}
+    />
   )
 }
 
-const RightArrowIcon = styled(Icon)<{
-  disabled?: boolean
-}>`
+const RightArrowIcon = styled(Icon)<{ disabled?: boolean }>`
   transform: rotate(180deg);
   ${(props) =>
     props.disabled &&
@@ -191,8 +188,7 @@ const DepositOrWithdrawal = (props: {
 }
 
 const normalizeAmount = (value, prevValue) => {
-  // eslint-disable-next-line no-restricted-globals
-  if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
+  if (Number.isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
   return formatTextAmount(value, true)
 }
 

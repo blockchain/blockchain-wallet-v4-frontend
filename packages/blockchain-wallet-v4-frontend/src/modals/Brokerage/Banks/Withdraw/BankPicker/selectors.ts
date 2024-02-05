@@ -17,7 +17,6 @@ import { BankPickerProps } from '.'
 export type BankPickerSelectorProps = {
   bankTransferAccounts: BankTransferAccountType[]
   beneficiaries: BeneficiariesType
-  defaultBeneficiary?: BeneficiaryType
   defaultMethod?: BankTransferAccountType
 }
 
@@ -37,24 +36,19 @@ const getData = (
     bankTransferAccountsR = Remote.Success([])
   }
   const beneficiariesR = selectors.custodial.getBeneficiaries(state)
-  const defaultBeneficiaryR = selectors.custodial.getDefaultBeneficiary(
-    ownProps.fiatCurrency,
-    state
-  )
+
   return lift(
     (
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
-      beneficiaries: ExtractSuccess<typeof beneficiariesR>,
-      defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>
+      beneficiaries: ExtractSuccess<typeof beneficiariesR>
     ) => ({
       bankTransferAccounts: bankTransferAccounts.filter(
         (value) => value.currency === ownProps.fiatCurrency
       ),
       beneficiaries: beneficiaries.filter((value) => value.currency === ownProps.fiatCurrency),
-      defaultBeneficiary,
       defaultMethod: defaultMethodR
     })
-  )(bankTransferAccountsR, beneficiariesR, defaultBeneficiaryR)
+  )(bankTransferAccountsR, beneficiariesR)
 }
 
 export default getData

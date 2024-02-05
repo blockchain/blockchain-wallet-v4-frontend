@@ -35,14 +35,12 @@ const BankPicker = ({ fiatCurrency, handleClose }: Props) => {
       fiatCurrency={fiatCurrency}
       bankTransferAccounts={data.bankTransferAccounts}
       beneficiaries={data.beneficiaries}
-      defaultBeneficiary={data.defaultBeneficiary}
       defaultMethod={data.defaultMethod}
     />
   )
 }
 
 export type BankPickerProps = {
-  beneficiary?: BeneficiaryType
   fiatCurrency: WalletFiatType
 }
 

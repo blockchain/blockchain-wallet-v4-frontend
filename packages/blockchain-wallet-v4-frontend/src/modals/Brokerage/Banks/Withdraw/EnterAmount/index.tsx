@@ -110,9 +110,7 @@ const EnterAmountContainer = (props: Props) => {
         step: WithdrawStepEnum.BANK_PICKER
       })
     } else {
-      props.buySellActions.setStep({
-        step: 'KYC_REQUIRED'
-      })
+      props.buySellActions.setStep({ step: 'KYC_REQUIRED' })
     }
   }
 
@@ -171,23 +169,24 @@ const EnterAmountContainer = (props: Props) => {
       // Connecting the paymentAccount to the submit handler here because there's some nasty logic
       // above here to determine the account being used to withdraw to. This should all ideally be refactored
       const submitter = handleSubmit(paymentAccount)
+
       return (
         <EnterAmount
-          onSubmit={submitter}
-          initialValues={{ currency: props.fiatCurrency }}
+          crossBorderLimits={crossBorderLimits}
           fee={val.fees.minorValue}
           fiatCurrency={props.fiatCurrency}
+          formActions={props.formActions}
+          formErrors={formErrors}
           handleBack={props.handleClose}
           handleMethodClick={handleBankSelection}
+          initialValues={{ currency: props.fiatCurrency }}
+          minWithdrawAmount={val.minAmount.minorValue}
+          onMaxButtonClicked={handleMaxButtonClicked}
+          onSubmit={submitter}
           orderType={BrokerageOrderType.WITHDRAW}
           paymentAccount={paymentAccount}
           paymentMethod={selectedPaymentMethod}
           withdrawableBalance={val.withdrawableBalance}
-          minWithdrawAmount={val.minAmount.minorValue}
-          crossBorderLimits={crossBorderLimits}
-          formErrors={formErrors}
-          formActions={props.formActions}
-          onMaxButtonClicked={handleMaxButtonClicked}
         />
       )
     }
