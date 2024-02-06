@@ -27,11 +27,7 @@ const PairingCode = () => {
   const dispatch = useDispatch()
 
   const onShowCode = () => {
-    dispatch(
-      modals.showModal(ModalName.PAIRING_CODE_MODAL, {
-        origin: 'SettingsPage'
-      })
-    )
+    dispatch(modals.showModal(ModalName.PAIRING_CODE_MODAL, { origin: 'SettingsPage' }))
   }
 
   return (
