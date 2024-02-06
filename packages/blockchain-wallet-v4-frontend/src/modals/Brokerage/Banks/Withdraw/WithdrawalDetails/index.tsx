@@ -87,9 +87,7 @@ const WithdrawalDetails = ({ fiatCurrency, handleClose }: Props) => {
             <FormattedMessage
               id='modals.withdraw.success'
               defaultMessage='Success! We are withdrawing the cash from your {currency} Wallet now. The funds should be in your bank in 1-3 business days.'
-              values={{
-                currency: fiatCurrency
-              }}
+              values={{ currency: fiatCurrency }}
             />
           )}
         </SubTitle>

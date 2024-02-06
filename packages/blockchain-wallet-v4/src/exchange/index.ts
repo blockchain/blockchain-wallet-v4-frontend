@@ -2,7 +2,7 @@
 import { BigNumber } from 'bignumber.js'
 import { path, prop } from 'ramda'
 
-import { CoinType, FiatType, RatesType, WalletFiatType } from '@core/types'
+import { CoinType, FiatType, RatesType } from '@core/types'
 
 import Currencies, { FiatCurrenciesType } from './currencies'
 import { formatCoin, getLang } from './utils'

@@ -150,7 +150,7 @@ export const checkCrossBorderLimit = (
     return false
   }
 
-  const { value: availableAmount } = crossBorderLimits?.current?.available
+  const { value: availableAmount } = crossBorderLimits?.current?.available ?? {}
   const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
 
   const showError = Number(amount) > Number(availableAmountInBase)

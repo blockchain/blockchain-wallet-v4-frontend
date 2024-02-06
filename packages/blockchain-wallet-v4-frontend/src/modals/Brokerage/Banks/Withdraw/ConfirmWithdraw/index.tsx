@@ -1,60 +1,58 @@
-import React, { PureComponent } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
-import { Remote } from '@core'
-import { BeneficiaryType, ExtractSuccess, WalletFiatType } from '@core/types'
+import { BeneficiaryType, WalletFiatType } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions } from 'data'
+import { withdraw } from 'data/components/actions'
+import { getFeeForCurrency } from 'data/components/withdraw/selectors'
 import { RootState } from 'data/rootReducer'
 import { WithdrawStepEnum } from 'data/types'
+import { useRemote } from 'hooks'
 
 import WithdrawLoading from '../WithdrawLoading'
-import { getData } from './selectors'
 import Success from './template.success'
 
-class ConfirmWithdraw extends PureComponent<Props> {
-  componentDidMount() {
-    if (!Remote.Success.is(this.props.data)) {
-      this.props.withdrawActions.fetchWithdrawalFees({})
+const ConfirmWithdraw = ({ beneficiary, fiatCurrency }: ConfirmWithdrawProps) => {
+  const dispatch = useDispatch()
+
+  const { data, error, isLoading, isNotAsked } = useRemote((state: RootState) =>
+    getFeeForCurrency(state, fiatCurrency)
+  )
+
+  useEffect(() => {
+    if (isNotAsked) {
+      dispatch(withdraw.fetchWithdrawalFees({}))
     }
+  }, [])
+
+  const onClickBack = () => {
+    dispatch(
+      actions.components.withdraw.setStep({
+        beneficiary,
+        fiatCurrency,
+        step: WithdrawStepEnum.ENTER_AMOUNT
+      })
+    )
   }
 
-  errorCallback() {
-    this.props.withdrawActions.setStep({
-      beneficiary: this.props.beneficiary,
-      fiatCurrency: this.props.fiatCurrency,
-      step: WithdrawStepEnum.ENTER_AMOUNT
-    })
-  }
+  if (isLoading || isNotAsked || !data) return <WithdrawLoading />
+  if (error)
+    return <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={onClickBack} />
 
-  render() {
-    return this.props.data.cata({
-      Failure: () => (
-        <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={this.errorCallback} />
-      ),
-      Loading: () => <WithdrawLoading />,
-      NotAsked: () => <WithdrawLoading />,
-      Success: (val) => <Success {...val} {...this.props} />
-    })
-  }
+  return (
+    <Success
+      fees={data}
+      beneficiary={beneficiary}
+      fiatCurrency={fiatCurrency}
+      onClickBack={onClickBack}
+    />
+  )
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
-  data: getData(state, ownProps)
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type OwnProps = {
+export type ConfirmWithdrawProps = {
   beneficiary?: BeneficiaryType
   fiatCurrency: WalletFiatType
 }
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(ConfirmWithdraw)
+export default ConfirmWithdraw

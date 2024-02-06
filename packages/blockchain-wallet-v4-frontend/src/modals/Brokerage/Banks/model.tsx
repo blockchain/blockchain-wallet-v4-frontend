@@ -15,9 +15,8 @@ import { GreyCartridge, OrangeCartridge, SuccessCartridge } from 'components/Car
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Col, Title, Value } from 'components/Flyout'
 import { BankDetails } from 'data/types'
-import { formatTextAmount } from 'services/forms'
 
-export const ActiveToggle = ({ isActive }: { isActive: boolean }) => {
+const ActiveToggle = ({ isActive }: { isActive: boolean }) => {
   if (isActive) {
     return (
       <Icon
@@ -187,9 +186,4 @@ const DepositOrWithdrawal = (props: {
   )
 }
 
-const normalizeAmount = (value, prevValue) => {
-  if (Number.isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
-  return formatTextAmount(value, true)
-}
-
-export { Bank, BankWire, DepositOrWithdrawal, normalizeAmount, RightArrowIcon }
+export { Bank, BankWire, DepositOrWithdrawal }
