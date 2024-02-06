@@ -12,9 +12,8 @@ import { FlyoutWrapper, Row, Value } from 'components/Flyout'
 import Form from 'components/Form/Form'
 import { withdraw } from 'data/components/actions'
 import { brokerage } from 'data/components/selectors'
-import { getAmount, getFeeForCurrency } from 'data/components/withdraw/selectors'
+import { getAmount } from 'data/components/withdraw/selectors'
 import { getUserCountryCode } from 'data/modules/profile/selectors'
-import { RootState } from 'data/rootReducer'
 import { WithdrawCheckoutFormValuesType } from 'data/types'
 import { useSardineContext } from 'hooks'
 
@@ -58,7 +57,6 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
 
   const userCountryCode = useSelector(getUserCountryCode).getOrElse('default')
   const defaultMethod = useSelector(brokerage.getAccount)
-  const feesR = useSelector((state: RootState) => getFeeForCurrency(state, props.fiatCurrency))
   const amount = useSelector(getAmount) ?? '0'
 
   const onSubmit = (e) => {
@@ -71,9 +69,7 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
       })
     )
     if (sardineContextIsReady) {
-      sardineContext.updateConfig({
-        flow: 'WITHDRAWAL'
-      })
+      sardineContext.updateConfig({ flow: 'WITHDRAWAL' })
     }
   }
 

@@ -16,12 +16,12 @@ import Success from './template.success'
 const ConfirmWithdraw = ({ beneficiary, fiatCurrency }: ConfirmWithdrawProps) => {
   const dispatch = useDispatch()
 
-  const { data, error, hasData, isLoading, isNotAsked } = useRemote((state: RootState) =>
+  const { data, error, isLoading, isNotAsked } = useRemote((state: RootState) =>
     getFeeForCurrency(state, fiatCurrency)
   )
 
   useEffect(() => {
-    if (!hasData) {
+    if (isNotAsked) {
       dispatch(withdraw.fetchWithdrawalFees({}))
     }
   }, [])
