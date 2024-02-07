@@ -1,20 +1,21 @@
 import React, { useCallback, useEffect } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { connect, ConnectedProps, useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
 import { BSPaymentTypes } from '@core/network/api/buySell/types'
 import {
   BeneficiaryType,
   BSPaymentMethodType,
-  CrossBorderLimitsPayload,
   ExtractSuccess,
   WalletAccountEnum,
   WalletFiatType
 } from '@core/types'
 import { EnterAmount } from 'components/Flyout/Brokerage'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
-import { actions, selectors } from 'data'
+import { selectors } from 'data'
+import { custodial } from 'data/actions'
+import { trackEvent } from 'data/analytics/slice'
+import { brokerage, buySell, withdraw } from 'data/components/actions'
 import { RootState } from 'data/rootReducer'
 import {
   Analytics,
@@ -29,6 +30,8 @@ import WithdrawLoading from '../WithdrawLoading'
 import getData from './selectors'
 
 const EnterAmountContainer = (props: Props) => {
+  const dispatch = useDispatch()
+
   useEffect(() => {
     let paymentMethod: BSPaymentTypes | 'ALL' = 'ALL'
     if (props.defaultMethod) {
@@ -44,87 +47,100 @@ const EnterAmountContainer = (props: Props) => {
     }
     // We need to make this call each time we load the enter amount component
     // because the bank wires and ach have different min/max/fees
-    props.withdrawActions.fetchWithdrawalFees({ paymentMethod })
+    dispatch(withdraw.fetchWithdrawalFees({ paymentMethod }))
 
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.brokerageActions.fetchBankTransferAccounts()
-      props.custodialActions.fetchCustodialBeneficiaries({ currency: props.fiatCurrency })
-      props.withdrawActions.fetchWithdrawalLock({})
+      dispatch(brokerage.fetchBankTransferAccounts())
+      dispatch(custodial.fetchCustodialBeneficiaries({ currency: props.fiatCurrency }))
+      dispatch(withdraw.fetchWithdrawalLock({}))
     }
 
     // cross border limits
     const fromAccount = WalletAccountEnum.CUSTODIAL
     const toAccount = WalletAccountEnum.NON_CUSTODIAL
-    props.withdrawActions.fetchCrossBorderLimits({
-      fromAccount,
-      inputCurrency: props.fiatCurrency,
-      outputCurrency: props.fiatCurrency,
-      toAccount
-    } as CrossBorderLimitsPayload)
+
+    dispatch(
+      withdraw.fetchCrossBorderLimits({
+        fromAccount,
+        inputCurrency: props.fiatCurrency,
+        outputCurrency: props.fiatCurrency,
+        toAccount
+      })
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.fiatCurrency])
 
   const errorCallback = useCallback(() => {
-    props.custodialActions.fetchCustodialBeneficiaries({ currency: props.fiatCurrency })
+    dispatch(custodial.fetchCustodialBeneficiaries({ currency: props.fiatCurrency }))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.fiatCurrency])
 
   const handleSubmit =
     (paymentAccount: BankTransferAccountType | BeneficiaryType | undefined) => () => {
       if (!paymentAccount) return
-      const { analyticsActions, fiatCurrency, formValues } = props
+      const { fiatCurrency, formValues } = props
       const { amount } = formValues
 
-      analyticsActions.trackEvent({
-        key: Analytics.DEPOSIT_WITHDRAWAL_CLIENTS_WITHDRAWAL_AMOUNT_ENTERED,
-        properties: {
-          amount: Number(amount),
-          currency: fiatCurrency,
-          withdrawal_method: 'agent' in paymentAccount ? 'BANK_ACCOUNT' : 'BANK_TRANSFER'
-        }
-      })
+      dispatch(
+        trackEvent({
+          key: Analytics.DEPOSIT_WITHDRAWAL_CLIENTS_WITHDRAWAL_AMOUNT_ENTERED,
+          properties: {
+            amount: Number(amount),
+            currency: fiatCurrency,
+            withdrawal_method: 'agent' in paymentAccount ? 'BANK_ACCOUNT' : 'BANK_TRANSFER'
+          }
+        })
+      )
 
       // BANK_ACCOUNT type
       if ('agent' in paymentAccount) {
-        props.withdrawActions.setStep({
-          amount,
-          beneficiary: paymentAccount,
-          step: WithdrawStepEnum.CONFIRM_WITHDRAW
-        })
+        dispatch(
+          withdraw.setStep({
+            amount,
+            beneficiary: paymentAccount,
+            step: WithdrawStepEnum.CONFIRM_WITHDRAW
+          })
+        )
       }
 
       // BANK_TRANSFER type
       if ('partner' in paymentAccount) {
-        props.withdrawActions.setStep({
-          amount,
-          defaultMethod: paymentAccount,
-          step: WithdrawStepEnum.CONFIRM_WITHDRAW
-        })
+        dispatch(
+          withdraw.setStep({
+            amount,
+            defaultMethod: paymentAccount,
+            step: WithdrawStepEnum.CONFIRM_WITHDRAW
+          })
+        )
       }
     }
 
   const handleBankSelection = () => {
-    if (props.userData.tiers.current === 2) {
-      props.withdrawActions.setStep({
-        fiatCurrency: props.fiatCurrency,
-        step: WithdrawStepEnum.BANK_PICKER
-      })
+    if (props.userCurrentTier === 2) {
+      dispatch(
+        withdraw.setStep({
+          fiatCurrency: props.fiatCurrency,
+          step: WithdrawStepEnum.BANK_PICKER
+        })
+      )
     } else {
-      props.buySellActions.setStep({ step: 'KYC_REQUIRED' })
+      dispatch(buySell.setStep({ step: 'KYC_REQUIRED' }))
     }
   }
 
   const handleMaxButtonClicked = () => {
-    const { analyticsActions, defaultMethod, fiatCurrency, formValues } = props
+    const { defaultMethod, fiatCurrency, formValues } = props
 
-    analyticsActions.trackEvent({
-      key: Analytics.DEPOSIT_WITHDRAWAL_CLIENTS_WITHDRAWAL_AMOUNT_MAX_CLICKED,
-      properties: {
-        amount_currency: Number(formValues.amount),
-        currency: fiatCurrency,
-        withdrawal_method: defaultMethod ? 'BANK_ACCOUNT' : 'BANK_TRANSFER'
-      }
-    })
+    dispatch(
+      trackEvent({
+        key: Analytics.DEPOSIT_WITHDRAWAL_CLIENTS_WITHDRAWAL_AMOUNT_MAX_CLICKED,
+        properties: {
+          amount_currency: Number(formValues.amount),
+          currency: fiatCurrency,
+          withdrawal_method: defaultMethod ? 'BANK_ACCOUNT' : 'BANK_TRANSFER'
+        }
+      })
+    )
   }
 
   return props.data.cata({
@@ -175,7 +191,6 @@ const EnterAmountContainer = (props: Props) => {
           crossBorderLimits={crossBorderLimits}
           fee={val.fees.minorValue}
           fiatCurrency={props.fiatCurrency}
-          formActions={props.formActions}
           formErrors={formErrors}
           handleBack={props.handleClose}
           handleMethodClick={handleBankSelection}
@@ -197,19 +212,10 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps),
   defaultMethod: selectors.components.brokerage.getAccount(state),
   formValues: selectors.form.getFormValues('brokerageTx')(state) as WithdrawCheckoutFormValuesType,
-  userData: selectors.modules.profile.getUserData(state).getOrFail('Unknown user')
+  userCurrentTier: selectors.modules.profile.getCurrentTier(state).getOrElse(0)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  custodialActions: bindActionCreators(actions.custodial, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(mapStateToProps)
 
 export type OwnProps = {
   beneficiary?: BeneficiaryType
