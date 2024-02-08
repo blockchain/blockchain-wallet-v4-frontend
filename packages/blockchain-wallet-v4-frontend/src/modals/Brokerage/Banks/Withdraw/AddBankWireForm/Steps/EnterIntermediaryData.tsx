@@ -17,7 +17,7 @@ const validBankName = maxLength(35)
 
 const EnterIntermediaryBank = ({ invalid, onClickBack, onNextStep }: StepFormProps) => {
   const handleNext = () => {
-    if (invalid) return undefined
+    if (invalid) return
     onNextStep()
   }
 
