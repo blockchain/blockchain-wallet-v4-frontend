@@ -85,11 +85,10 @@ type AnalyticsKey =
   | NftsEvents
   | OnboardingAndVerificationEvents
   | PlaidClientEvents
-  | SellEvents
-  | SofiEvents
-  | ExchangePromoEvents
   | RecommendedSweepEvents
+  | SellEvents
   | SendCryptoEvents
+  | SofiEvents
   | SpinnerEvents
   | SwapEvents
   | TaxCenterEvents
@@ -98,6 +97,7 @@ type AnalyticsKey =
 
 const Analytics = {
   ...AccountRecoveryEvents,
+  ...BuyEvents,
   ...ClientErrorEvents,
   ...CoinViewEvents,
   ...CowboysPromoEvents,
@@ -108,17 +108,16 @@ const Analytics = {
   ...MiscEvents,
   ...NftsEvents,
   ...OnboardingAndVerificationEvents,
-  ...RecommendedSweepEvents,
   ...PlaidClientEvents,
+  ...RecommendedSweepEvents,
+  ...SellEvents,
   ...SendCryptoEvents,
-  ...SpinnerEvents,
   ...SofiEvents,
+  ...SpinnerEvents,
   ...SwapEvents,
   ...TaxCenterEvents,
   ...ViewAndClickEvents,
-  ...WalletEarnEvents,
-  ...BuyEvents,
-  ...SellEvents
+  ...WalletEarnEvents
 }
 
 // event properties
