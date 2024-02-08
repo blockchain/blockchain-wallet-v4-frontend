@@ -20,8 +20,7 @@ const EnterAmountContainer = ({
   buySellActions,
   data,
   defaultMethod,
-  fiatCurrency,
-  formActions
+  fiatCurrency
 }: Props) => {
   useEffect(() => {
     if (fiatCurrency && !Remote.Success.is(data)) {
@@ -117,7 +116,6 @@ const EnterAmountContainer = ({
           paymentMethod={paymentMethod}
           crossBorderLimits={crossBorderLimits}
           formErrors={formErrors}
-          formActions={formActions}
         />
       ) : (
         <FlyoutOopsError
