@@ -25,12 +25,17 @@ import {
   WithdrawCheckoutFormValuesType,
   WithdrawStepEnum
 } from 'data/types'
+import { useRemote } from 'hooks'
 
 import WithdrawLoading from '../WithdrawLoading'
 import getData from './selectors'
 
 const EnterAmountContainer = (props: Props) => {
   const dispatch = useDispatch()
+
+  const { data, error, isLoading, isNotAsked } = useRemote((state: RootState) =>
+    getData(state, props)
+  )
 
   useEffect(() => {
     let paymentMethod: BSPaymentTypes | 'ALL' = 'ALL'
@@ -143,69 +148,56 @@ const EnterAmountContainer = (props: Props) => {
     )
   }
 
-  return props.data.cata({
-    Failure: () => (
-      <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
-    ),
-    Loading: () => <WithdrawLoading />,
-    NotAsked: () => <WithdrawLoading />,
-    Success: (val) => {
-      const { crossBorderLimits, formErrors } = val
-      const bankTransferMethod = val.paymentMethods.methods.find((method) => {
-        return method.type === BSPaymentTypes.BANK_TRANSFER
-      })
+  if (isLoading || isNotAsked || !data) return <WithdrawLoading />
 
-      const bankAccountMethod = val.paymentMethods.methods.find((method) => {
-        return method.type === BSPaymentTypes.BANK_ACCOUNT
-      })
+  if (error)
+    return <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
 
-      const eligiblePaymentMethod = bankTransferMethod || bankAccountMethod
+  const {
+    crossBorderLimits,
+    defaultBeneficiary,
+    defaultMethod,
+    fees,
+    formErrors,
+    minAmount,
+    paymentMethods,
+    withdrawableBalance
+  } = data
 
-      if (!eligiblePaymentMethod) {
-        return <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
-      }
-
-      // Since payment method type needs to match with the payment account that we're using here
-      // so we need to first check for the defaultMethod which is a BANK_TRANSFER type and then check
-      // for beneficiary type which is a BANK_ACCOUNT type. It's worth noting that we also pass
-      // these in a specific order "val.defaultMethod || props.beneficiary || val.defaultBeneficiary"
-      // as the paymentAccount in the EnterAmount component which is necessary
-      let selectedPaymentMethod: BSPaymentMethodType = eligiblePaymentMethod
-      if (val.defaultMethod && bankTransferMethod) {
-        selectedPaymentMethod = bankTransferMethod
-      } else if ((props.beneficiary || val.defaultBeneficiary) && bankAccountMethod) {
-        selectedPaymentMethod = bankAccountMethod
-      }
-
-      let paymentAccount = val.defaultMethod || props.beneficiary || val.defaultBeneficiary
-      if (!paymentAccount || paymentAccount.currency !== props.fiatCurrency) {
-        paymentAccount = undefined
-      }
-
-      // Connecting the paymentAccount to the submit handler here because there's some nasty logic
-      // above here to determine the account being used to withdraw to. This should all ideally be refactored
-      const submitter = handleSubmit(paymentAccount)
-
-      return (
-        <EnterAmount
-          crossBorderLimits={crossBorderLimits}
-          fee={val.fees.minorValue}
-          fiatCurrency={props.fiatCurrency}
-          formErrors={formErrors}
-          handleBack={props.handleClose}
-          handleMethodClick={handleBankSelection}
-          initialValues={{ currency: props.fiatCurrency }}
-          minWithdrawAmount={val.minAmount.minorValue}
-          onMaxButtonClicked={handleMaxButtonClicked}
-          onSubmit={submitter}
-          orderType={BrokerageOrderType.WITHDRAW}
-          paymentAccount={paymentAccount}
-          paymentMethod={selectedPaymentMethod}
-          withdrawableBalance={val.withdrawableBalance}
-        />
-      )
-    }
+  const selectedPaymentMethod = paymentMethods.methods.find((method) => {
+    return method.type === BSPaymentTypes.BANK_ACCOUNT
   })
+
+  if (!selectedPaymentMethod) {
+    return <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
+  }
+
+  let paymentAccount = defaultMethod || props.beneficiary || defaultBeneficiary
+  if (!paymentAccount || paymentAccount.currency !== props.fiatCurrency) {
+    paymentAccount = undefined
+  }
+
+  // Connecting the paymentAccount to the submit handler here because there's some nasty logic
+  // above here to determine the account being used to withdraw to. This should all ideally be refactored
+  const submitter = handleSubmit(paymentAccount)
+
+  return (
+    <EnterAmount
+      crossBorderLimits={crossBorderLimits}
+      fee={fees.minorValue}
+      fiatCurrency={props.fiatCurrency}
+      formErrors={formErrors}
+      handleBack={props.handleClose}
+      handleMethodClick={handleBankSelection}
+      minWithdrawAmount={minAmount.minorValue}
+      onMaxButtonClicked={handleMaxButtonClicked}
+      onSubmit={submitter}
+      orderType={BrokerageOrderType.WITHDRAW}
+      paymentAccount={paymentAccount}
+      paymentMethod={selectedPaymentMethod}
+      withdrawableBalance={withdrawableBalance}
+    />
+  )
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
