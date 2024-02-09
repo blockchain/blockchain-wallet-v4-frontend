@@ -1,19 +1,13 @@
-// Exchange Promo Events
-export type Events =
-  | 'Exchange Awareness Prompt Clicked'
-  | 'Exchange Awareness Prompt Dismissed'
-  | 'Exchange Awareness Prompt Shown'
-
-type Clicked = {
-  key: 'Exchange Awareness Prompt Clicked'
-  properties: {
-    current_origin: 'Wallet-Prompt'
-    sso_user: boolean
-  }
+export enum ExchangePromoEvents {
+  EXCHANGE_AWARENESS_PROMPT_CLICKED = 'Exchange Awareness Prompt Clicked',
+  EXCHANGE_AWARENESS_PROMPT_DISMISSED = 'Exchange Awareness Prompt Dismissed',
+  EXCHANGE_AWARENESS_PROMPT_SHOWN = 'Exchange Awareness Prompt Shown'
 }
 
-type Dismissed = {
-  key: 'Exchange Awareness Prompt Dismissed'
+type ClickedOrDismissed = {
+  key:
+    | ExchangePromoEvents.EXCHANGE_AWARENESS_PROMPT_DISMISSED
+    | ExchangePromoEvents.EXCHANGE_AWARENESS_PROMPT_CLICKED
   properties: {
     current_origin: 'Wallet-Prompt'
     sso_user: boolean
@@ -21,13 +15,8 @@ type Dismissed = {
 }
 
 type Shown = {
-  key: 'Exchange Awareness Prompt Shown'
-  properties: {
-    current_origin: 'Wallet-Prompt'
-    sso_user: boolean
-    user_eligible_for_prompt: true
-  }
+  key: ExchangePromoEvents.EXCHANGE_AWARENESS_PROMPT_SHOWN
+  properties: ClickedOrDismissed['properties'] & { user_eligible_for_prompt: true }
 }
 
-// track event actions to be used inside codebase when we do trigger event
-export type TrackEventAction = Clicked | Dismissed | Shown
+export type ExchangePromoActions = ClickedOrDismissed | Shown

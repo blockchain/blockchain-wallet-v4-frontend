@@ -1,5 +1,4 @@
-// Log in Events
-export enum Events {
+export enum LoginEvents {
   LOGIN_2FA_PAGE_VIEWED = '2fa Page Viewed',
   LOGIN_CLICKED = 'Login Clicked',
   LOGIN_DEVICE_VERIFIED = 'Device Verified',
@@ -23,10 +22,7 @@ export enum Events {
   LOGIN_VIEWED = 'Login Viewed'
 }
 
-type LoginActions = {
-  key: Events
+export type LoginActions = {
+  key: LoginEvents
   properties: {}
 }
-
-// track event actions to be used inside codebase when we do trigger event
-export type TrackEventAction = LoginActions

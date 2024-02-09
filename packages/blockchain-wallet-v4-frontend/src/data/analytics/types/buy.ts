@@ -1,4 +1,4 @@
-export enum Events {
+export enum BuyEvents {
   BUY_AMOUNT_SCREEN_BACK_CLICKED = 'Buy Amount Screen Back Clicked',
   BUY_AMOUNT_SCREEN_NEXT_CLICKED = 'Buy Amount Screen Next Clicked',
   BUY_AMOUNT_SCREEN_VIEWED = 'Buy Amount Screen Viewed',
@@ -20,7 +20,7 @@ export enum Events {
 }
 
 type BuyAmountScreenNextClicked = {
-  key: Events.BUY_AMOUNT_SCREEN_NEXT_CLICKED
+  key: BuyEvents.BUY_AMOUNT_SCREEN_NEXT_CLICKED
   properties: {
     input_amount?: string
     input_currency: string
@@ -30,16 +30,16 @@ type BuyAmountScreenNextClicked = {
 }
 
 type BuyPaymentMethodChanged = {
-  key: Events.BUY_PAYMENT_METHOD_CHANGED
+  key: BuyEvents.BUY_PAYMENT_METHOD_CHANGED
   properties: {
     payment_type: string
   }
 }
 
-export type TrackEventAction =
+export type BuyActions =
   | BuyAmountScreenNextClicked
   | BuyPaymentMethodChanged
   | {
-      key: Exclude<Events, BuyAmountScreenNextClicked['key'] | BuyPaymentMethodChanged['key']>
+      key: Exclude<BuyEvents, BuyAmountScreenNextClicked['key'] | BuyPaymentMethodChanged['key']>
       properties: {}
     }

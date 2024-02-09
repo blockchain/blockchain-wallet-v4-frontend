@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Experiments } from '@core/network/api/experiments/types'
 import { actions, selectors } from 'data'
-import { ExchangeAuthOriginType } from 'data/types'
+import { Analytics, ExchangeAuthOriginType } from 'data/types'
 
 import ExchangePromo from './ExchangePromo'
 
@@ -80,7 +80,7 @@ const ExchangePromoContainer = () => {
   const onClick = () => {
     dispatch(
       actions.analytics.trackEvent({
-        key: 'Exchange Awareness Prompt Clicked',
+        key: Analytics.EXCHANGE_AWARENESS_PROMPT_CLICKED,
         properties: {
           current_origin: 'Wallet-Prompt',
           sso_user: !!isUnified
@@ -95,7 +95,7 @@ const ExchangePromoContainer = () => {
   const onClose = () => {
     dispatch(
       actions.analytics.trackEvent({
-        key: 'Exchange Awareness Prompt Dismissed',
+        key: Analytics.EXCHANGE_AWARENESS_PROMPT_DISMISSED,
         properties: {
           current_origin: 'Wallet-Prompt',
           sso_user: !!isUnified
@@ -112,7 +112,7 @@ const ExchangePromoContainer = () => {
     if (showCard) {
       dispatch(
         actions.analytics.trackEvent({
-          key: 'Exchange Awareness Prompt Shown',
+          key: Analytics.EXCHANGE_AWARENESS_PROMPT_SHOWN,
           properties: {
             current_origin: 'Wallet-Prompt',
             sso_user: !!isUnified,

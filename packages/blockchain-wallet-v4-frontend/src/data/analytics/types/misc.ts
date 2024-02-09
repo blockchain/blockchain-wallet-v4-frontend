@@ -1,5 +1,4 @@
-// Misc Wallet Events
-export enum Events {
+export enum MiscEvents {
   CREATE_YOUR_ACCOUNT_VIEWED = 'Create Your Account Viewed',
   CUSTOMER_SUPPORT_CLICKED = 'Customer Support Clicked',
   SIGNUP_VIEWED = 'Signup Viewed',
@@ -7,10 +6,7 @@ export enum Events {
   WRONG_RECEIVE_CACHE = 'Wrong Receive Cache'
 }
 
-type MiscTrackEventAction = {
-  key: Events
+export type MiscActions = {
+  key: MiscEvents
   properties: {}
 }
-
-// track event actions to be used inside codebase when we do trigger event
-export type TrackEventAction = MiscTrackEventAction
