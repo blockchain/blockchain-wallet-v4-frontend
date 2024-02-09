@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 
 import DataError from 'components/DataError'
@@ -13,11 +13,11 @@ import Rejected from '../../../components/Rejected'
 import { ModalPropsType } from '../../../types'
 import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
-import Loading from './ConfirmWithdraw/template.loading'
 import EnterAmount from './EnterAmount'
 import OnHold from './OnHold'
 import WithdrawalDetails from './WithdrawalDetails'
 import WithdrawalMethods from './WithdrawalMethods'
+import WithdrawLoading from './WithdrawLoading'
 
 const INELIGIBLE_ERROR = { message: BROKERAGE_INELIGIBLE }
 
@@ -27,20 +27,10 @@ const Withdraw = ({ close, position, total, userClickedOutside }: ModalPropsType
   const step = useSelector(selectors.components.withdraw.getStep)
   const kycState = useSelector(getUserKYCState).getOrElse('NONE')
 
-  const [show, setShow] = useState(false)
-
-  useEffect(() => {
-    setShow(true)
-  }, [])
-
-  const handleClose = () => {
-    setShow(false)
-    setTimeout(() => {
-      close()
-    }, duration)
-  }
-
   const isUserRejectedOrExpired = kycState === 'REJECTED' || kycState === 'EXPIRED'
+
+  const handleClose = useCallback(() => close(), [])
+
   if (isUserRejectedOrExpired) {
     return (
       <Flyout
@@ -48,7 +38,7 @@ const Withdraw = ({ close, position, total, userClickedOutside }: ModalPropsType
         userClickedOutside={userClickedOutside}
         total={total}
         onClose={handleClose}
-        isOpen={show}
+        isOpen
         data-e2e='custodyWithdrawModal'
       >
         <Rejected handleClose={handleClose} />
@@ -61,11 +51,11 @@ const Withdraw = ({ close, position, total, userClickedOutside }: ModalPropsType
       userClickedOutside={userClickedOutside}
       total={total}
       onClose={handleClose}
-      isOpen={show}
+      isOpen
       data-e2e='custodyWithdrawModal'
     >
       <FlyoutChild>
-        {step === WithdrawStepEnum.LOADING && <Loading />}
+        {step === WithdrawStepEnum.LOADING && <WithdrawLoading />}
         {step === WithdrawStepEnum.ENTER_AMOUNT && (
           <EnterAmount
             fiatCurrency={fiatCurrency}
@@ -77,11 +67,7 @@ const Withdraw = ({ close, position, total, userClickedOutside }: ModalPropsType
           <WithdrawalMethods fiatCurrency={fiatCurrency} handleClose={handleClose} />
         )}
         {step === WithdrawStepEnum.BANK_PICKER && (
-          <BankPicker
-            fiatCurrency={fiatCurrency}
-            beneficiary={beneficiary}
-            handleClose={handleClose}
-          />
+          <BankPicker fiatCurrency={fiatCurrency} handleClose={handleClose} />
         )}
         {step === WithdrawStepEnum.CONFIRM_WITHDRAW && (
           <ConfirmWithdraw beneficiary={beneficiary} fiatCurrency={fiatCurrency} />

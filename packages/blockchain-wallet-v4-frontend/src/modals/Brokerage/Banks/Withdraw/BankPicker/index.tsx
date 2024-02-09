@@ -1,60 +1,49 @@
-import React, { PureComponent } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
-import { BeneficiaryType, ExtractSuccess, WalletFiatType } from '@core/types'
+import { BeneficiaryType, WalletFiatType } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
-import { actions } from 'data'
+import { custodial } from 'data/actions'
+import { fetchBankTransferAccounts } from 'data/components/brokerage/slice'
 import { RootState } from 'data/rootReducer'
+import { useRemote } from 'hooks'
 
-import Loading from '../EnterAmount/template.loading'
+import WithdrawLoading from '../WithdrawLoading'
 import getData from './selectors'
 import Success from './template.success'
 
-class BankPicker extends PureComponent<Props> {
-  componentDidMount() {
-    if (!Remote.Success.is(this.props.data)) {
-      this.props.custodialActions.fetchCustodialBeneficiaries({ currency: this.props.fiatCurrency })
-      this.props.brokerageActions.fetchBankTransferAccounts()
+const BankPicker = ({ fiatCurrency, handleClose }: Props) => {
+  const dispatch = useDispatch()
+
+  const { data, error, isLoading, isNotAsked } = useRemote((state: RootState) =>
+    getData(state, { fiatCurrency })
+  )
+
+  useEffect(() => {
+    if (!Remote.Success.is(data)) {
+      dispatch(custodial.fetchCustodialBeneficiaries({ currency: fiatCurrency }))
+      dispatch(fetchBankTransferAccounts())
     }
-  }
+  }, [])
 
-  render() {
-    return this.props.data.cata({
-      Failure: () => (
-        <FlyoutOopsError
-          action='close'
-          data-e2e='withdrawReload'
-          handler={this.props.handleClose}
-        />
-      ),
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) => <Success {...this.props} {...val} />
-    })
-  }
+  if (error)
+    return <FlyoutOopsError action='close' data-e2e='withdrawReload' handler={handleClose} />
+  if (!data || isLoading || isNotAsked) return <WithdrawLoading />
+  return (
+    <Success
+      fiatCurrency={fiatCurrency}
+      bankTransferAccounts={data.bankTransferAccounts}
+      beneficiaries={data.beneficiaries}
+      defaultMethod={data.defaultMethod}
+    />
+  )
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
-  data: getData(state, ownProps)
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  custodialActions: bindActionCreators(actions.custodial, dispatch),
-  withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type OwnProps = {
-  beneficiary?: BeneficiaryType
+export type BankPickerProps = {
   fiatCurrency: WalletFiatType
-  handleClose: () => void
 }
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(BankPicker)
+type Props = BankPickerProps & { handleClose: () => void }
+
+export default BankPicker

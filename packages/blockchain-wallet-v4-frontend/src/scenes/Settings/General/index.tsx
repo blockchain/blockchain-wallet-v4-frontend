@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
+import { getPairingCodeFlag } from '@core/redux/walletOptions/selectors'
 import { Text } from 'blockchain-info-components'
 import MenuHeader from 'components/MenuHeader'
-import { selectors } from 'data'
 
 import About from './About'
 import LinkedBanks from './LinkedBanks'
@@ -22,9 +22,10 @@ const Title = styled(Text)`
 `
 
 const General = () => {
-  const showPairingCode = useSelector(selectors.core.walletOptions.getPairingCodeFlag).getOrElse(
-    false
-  )
+  const showPairingCode = useSelector(
+    getPairingCodeFlag,
+    (prev, next) => prev.data === next.data
+  ).getOrElse(false)
 
   return (
     <section>

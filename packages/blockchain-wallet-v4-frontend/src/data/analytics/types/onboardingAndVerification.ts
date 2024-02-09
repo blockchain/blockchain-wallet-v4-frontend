@@ -18,6 +18,7 @@ export enum Events {
   ONBOARDING_PRE_VERIFICATION_CTA_CLICKED = 'Pre Verification CTA Clicked',
   ONBOARDING_PRE_VERIFICATION_DISMISSED = 'Pre Verification Dismissed',
   ONBOARDING_PRE_VERIFICATION_VIEWED = 'Pre Verification Viewed',
+  ONBOARDING_QUIZ_STARTED = 'Onboarding Quiz Started',
   ONBOARDING_SIGNED_UP = 'Signed Up',
   ONBOARDING_SIGNUP_CLICKED = 'Sign Up Clicked',
   ONBOARDING_SIGNUP_COUNTRY_SELECTED = 'Sign Up Country Selected',
@@ -107,7 +108,7 @@ type EmailVerificationSkippedAction = {
 type EmailVerifiedAction = {
   key: Events.ONBOARDING_EMAIL_VERIFIED
   properties: {
-    email_changed: Boolean
+    email_changed: boolean
   }
 }
 
@@ -183,21 +184,21 @@ type SignUpClickedAction = {
 type CountrySelectedAction = {
   key: Events.ONBOARDING_SIGNUP_COUNTRY_SELECTED
   properties: {
-    country: String
+    country: string
   }
 }
 
 type CountryStateSelectedAction = {
   key: Events.ONBOARDING_SIGNUP_COUNTRY_STATE_SELECTED
   properties: {
-    country_state: String
+    country_state: string
   }
 }
 
 type SignedUpAction = {
   key: Events.ONBOARDING_SIGNED_UP
   properties: {
-    is_from_linking: Boolean
+    is_from_linking: boolean
   }
 }
 
@@ -245,8 +246,8 @@ type VerificationSubmissionFailedAction = {
 type WalletSignedUpAction = {
   key: Events.ONBOARDING_WALLET_SIGNED_UP
   properties: {
-    country: String
-    country_state: String
+    country: string
+    country_state: string
     device_origin: string
     unified?: boolean
   }
@@ -320,41 +321,47 @@ type AccountInfoScreenSubmitted = {
   properties: {}
 }
 
+type OnboardingQuizStarted = {
+  key: Events.ONBOARDING_QUIZ_STARTED
+  properties: {}
+}
+
 // track event actions to be used inside codebase when we do trigger event
 export type TrackEventAction =
-  | AddressEnteredAction
-  | AccountInfoScreenViewed
   | AccountInfoScreenSubmitted
+  | AccountInfoScreenViewed
+  | AddressEnteredAction
+  | CompleteProfileBannerClickedAction
+  | CompleteProfileDismissAction
+  | CompleteProfileModalButtonClickedAction
+  | CompleteProfileModalViewedAction
+  | CountrySelectedAction
+  | CountryStateSelectedAction
   | EmailVerificationRequestAction
   | EmailVerificationSkippedAction
   | EmailVerifiedAction
   | ExchangeSignedUpAction
   | GetMoreAccessWhenYouVerify
   | ManualVerificationRequiredAction
-  | CompleteProfileDismissAction
-  | CompleteProfileModalViewedAction
-  | CompleteProfileModalButtonClickedAction
-  | CompleteProfileBannerClickedAction
+  | OnboardingQuizStarted
   | PersonalInformationEnteredAction
-  | SignUpClickedAction
-  | CountrySelectedAction
-  | CountryStateSelectedAction
-  | SignedUpAction
-  | TradingLimitsViewed
-  | TradingLimitsDismissed
-  | TradingLimitsVerifiedCtaClicked
-  | TradingLimitsBasicCtaClicked
   | PreVerificationCtaClicked
   | PreVerificationDismissed
   | PreVerificationViewed
+  | SignedUpAction
+  | SignUpClickedAction
+  | TradingLimitsBasicCtaClicked
+  | TradingLimitsDismissed
+  | TradingLimitsVerifiedCtaClicked
+  | TradingLimitsViewed
   | UpgradeVerificationClickedAction
   | VerificationCompletedAction
-  | VerificationRejectedAction
-  | VerificationStartedAction
-  | VerificationSubmissionFailedAction
   | VerificationNowCtaClicked
   | VerificationNowDismissed
   | VerificationNowViewed
+  | VerificationRejectedAction
+  | VerificationStartedAction
+  | VerificationSubmissionFailedAction
   | WalletSignedUpAction
 
 // shared types
@@ -375,6 +382,6 @@ type ProductFlowProperties = BasePayload & {
 // analytics properties to be used for analytics queue typing
 export type AnalyticsProperties =
   | BasePayload
-  | CurrentStepProperties
   | ButtonClickProperties
+  | CurrentStepProperties
   | ProductFlowProperties

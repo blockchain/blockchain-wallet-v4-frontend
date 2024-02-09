@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { FormErrors, InjectedFormProps, reduxForm, stopAsyncValidation } from 'redux-form'
@@ -167,15 +167,7 @@ const LimitSection = ({ fee = '0', fiatCurrency, limitAmount, orderType }: Limit
 // to type without running validation on every keystroke. It waits 750 ms after
 // the user has stopped typing to run validation and manually dispatches the error
 // if needed. This makes for a nice error UX when typing
-const debounceValidate = (
-  limits,
-  crossBorderLimits,
-  orderType,
-  fiatCurrency,
-  bankText,
-  formActions,
-  dispatch
-) =>
+const debounceValidate = (limits, crossBorderLimits, orderType, fiatCurrency, bankText, dispatch) =>
   debounce((event, newValue) => {
     // check cross border limits
     const limitError = checkCrossBorderLimit(
@@ -183,14 +175,13 @@ const debounceValidate = (
       newValue,
       orderType,
       fiatCurrency,
-      bankText,
-      formActions
+      bankText
     )
     if (limitError) {
       dispatch(stopAsyncValidation('brokerageTx', limitError))
     }
 
-    const error = minMaxAmount(limits, orderType, fiatCurrency, newValue, bankText, formActions)
+    const error = minMaxAmount(limits, orderType, fiatCurrency, newValue, bankText)
     if (error) {
       dispatch(stopAsyncValidation('brokerageTx', error))
     }
@@ -211,7 +202,7 @@ const ErrorMessage = ({ error, orderType }) => {
     return <>{error?.amount}</>
   }
 
-  return <></>
+  return null
 }
 
 const Amount = memoizer((props: AmountProps) => {
@@ -236,7 +227,6 @@ const Amount = memoizer((props: AmountProps) => {
           props.orderType,
           props.fiatCurrency,
           props.bankText,
-          props.formActions,
           dispatch
         )}
       />
@@ -283,7 +273,6 @@ const PreviewButton = ({ invalid, orderType, paymentAccount, pristine, submittin
     type='submit'
     fullwidth
     disabled={invalid || pristine || submitting || !paymentAccount}
-    onClick={() => {}}
   >
     {submitting ? (
       <HeartbeatLoader height='16px' width='16px' color='white' />
@@ -298,10 +287,10 @@ const PreviewButton = ({ invalid, orderType, paymentAccount, pristine, submittin
 )
 
 const EnterAmount = ({
+  change,
   crossBorderLimits,
   fee,
   fiatCurrency,
-  formActions,
   formErrors,
   handleBack,
   handleMethodClick,
@@ -325,6 +314,11 @@ const EnterAmount = ({
   })
 
   const showError = !!formErrors
+
+  // If fees changes, reset just in case previous amount would be now be over any limit
+  useEffect(() => {
+    change('amount', undefined)
+  }, [fee])
 
   return (
     <CustomForm onSubmit={handleSubmit}>
@@ -355,7 +349,6 @@ const EnterAmount = ({
               orderType={orderType}
               crossBorderLimits={crossBorderLimits}
               showError={showError}
-              formActions={formActions}
               bankText={
                 orderType === BrokerageOrderType.DEPOSIT ? renderBankFullName(paymentAccount) : ''
               }
@@ -367,11 +360,7 @@ const EnterAmount = ({
             <MaxButton
               type={orderType === BrokerageOrderType.DEPOSIT ? 'Deposit' : 'Withdrawal'}
               onClick={() => {
-                formActions.change(
-                  'brokerageTx',
-                  'amount',
-                  convertBaseToStandard('FIAT', withdrawableBalance || paymentMethod.limits.max)
-                )
+                change('amount', convertBaseToStandard('FIAT', minMaxLimits.max))
                 // record max click withdrawal
                 onMaxButtonClicked?.()
               }}
@@ -403,7 +392,6 @@ export type OwnProps = {
   crossBorderLimits: CrossBorderLimits
   fiatCurrency: FiatType
   // formErrors: FormErrors<{ amount?: 'ABOVE_MAX' | 'BELOW_MIN' | false }, string> | undefined
-  formActions: typeof actions.form
   formErrors: FormErrors<{}, string> | undefined
   handleBack: () => void
   handleMethodClick: () => void

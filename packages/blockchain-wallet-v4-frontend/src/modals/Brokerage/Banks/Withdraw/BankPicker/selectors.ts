@@ -1,13 +1,29 @@
 import { lift } from 'ramda'
 
 import Remote from '@core/remote'
-import { ExtractSuccess, InvitationsType } from '@core/types'
+import {
+  BeneficiariesType,
+  BeneficiaryType,
+  ExtractSuccess,
+  InvitationsType,
+  RemoteDataType
+} from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { BankTransferAccountType } from 'data/types'
 
-import { OwnProps } from '.'
+import { BankPickerProps } from '.'
 
-const getData = (state: RootState, ownProps: OwnProps) => {
+export type BankPickerSelectorProps = {
+  bankTransferAccounts: BankTransferAccountType[]
+  beneficiaries: BeneficiariesType
+  defaultMethod?: BankTransferAccountType
+}
+
+const getData = (
+  state: RootState,
+  ownProps: Pick<BankPickerProps, 'fiatCurrency'>
+): RemoteDataType<string, BankPickerSelectorProps> => {
   let bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
   let defaultMethodR = selectors.components.brokerage.getAccount(state)
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
@@ -20,24 +36,19 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     bankTransferAccountsR = Remote.Success([])
   }
   const beneficiariesR = selectors.custodial.getBeneficiaries(state)
-  const defaultBeneficiaryR = selectors.custodial.getDefaultBeneficiary(
-    ownProps.fiatCurrency,
-    state
-  )
+
   return lift(
     (
       bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
-      beneficiaries: ExtractSuccess<typeof beneficiariesR>,
-      defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>
+      beneficiaries: ExtractSuccess<typeof beneficiariesR>
     ) => ({
       bankTransferAccounts: bankTransferAccounts.filter(
         (value) => value.currency === ownProps.fiatCurrency
       ),
       beneficiaries: beneficiaries.filter((value) => value.currency === ownProps.fiatCurrency),
-      defaultBeneficiary,
       defaultMethod: defaultMethodR
     })
-  )(bankTransferAccountsR, beneficiariesR, defaultBeneficiaryR)
+  )(bankTransferAccountsR, beneficiariesR)
 }
 
 export default getData

@@ -7,9 +7,10 @@ import { getDomainApi } from '@core/redux/walletOptions/selectors'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { modals } from 'data/actions'
+import { trackEvent } from 'data/analytics/slice'
 import { identityVerification } from 'data/components/actions'
 import { getUserApiToken } from 'data/modules/profile/selectors'
-import { ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading, LoadingTextEnum } from '../../../components'
@@ -31,7 +32,7 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
   const api = useSelector(getDomainApi).getOrElse('')
   const nabuToken = useSelector(getUserApiToken)
 
-  const [step, setStep] = useState(-1)
+  const [step, setStep] = useState(-1) // This is to show the intro page first
   const [show, setShow] = useState(false)
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState()
@@ -88,6 +89,17 @@ const SelfAssessmentModal = ({ close, position, total, userClickedOutside }: Mod
     getModalData()
     setShow(true)
   }, [])
+
+  useEffect(() => {
+    if (step === 0) {
+      dispatch(
+        trackEvent({
+          key: Analytics.ONBOARDING_QUIZ_STARTED,
+          properties: {}
+        })
+      )
+    }
+  }, [step])
 
   useEffect(() => {
     // When the questionnaire is done, it returns an empty string and a 204 status

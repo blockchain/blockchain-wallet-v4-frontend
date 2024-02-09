@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Remote } from '@core'
+import { getAddPlaidPaymentProvider } from '@core/redux/walletOptions/selectors'
 import { WalletFiatType } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { actions } from 'data'
@@ -14,13 +15,14 @@ import {
 } from 'data/types'
 import { useRemote } from 'hooks'
 
+import WithdrawLoading from '../WithdrawLoading'
 import getData from './selectors'
-import Loading from './template.loading'
 import Success from './template.success'
 
 const WithdrawalMethods: Props = ({ fiatCurrency, handleClose }) => {
   const dispatch = useDispatch()
   const { data, hasError, isLoading, isNotAsked } = useRemote(getData)
+  const plaidEnabled = useSelector(getAddPlaidPaymentProvider).getOrElse(false)
 
   useEffect(() => {
     if (fiatCurrency && !Remote.Success.is(data)) {
@@ -35,7 +37,7 @@ const WithdrawalMethods: Props = ({ fiatCurrency, handleClose }) => {
   }, [dispatch])
 
   const bankTransferCallback = useCallback(() => {
-    const ACHProvider = data?.plaidEnabled
+    const ACHProvider = plaidEnabled
       ? ModalName.ADD_BANK_PLAID_MODAL
       : ModalName.ADD_BANK_YODLEE_MODAL
     dispatch(actions.components.brokerage.setupBankTransferProvider())
@@ -56,10 +58,10 @@ const WithdrawalMethods: Props = ({ fiatCurrency, handleClose }) => {
         step: WithdrawStepEnum.ENTER_AMOUNT
       })
     )
-  }, [data?.plaidEnabled, dispatch, fiatCurrency])
+  }, [plaidEnabled, dispatch, fiatCurrency])
 
   const bankWireCallback = useCallback(() => {
-    if (data?.userData.tiers.current === 2) {
+    if (data?.userTier === 2) {
       dispatch(
         actions.components.brokerage.showModal({
           modalType: 'BANK_DEPOSIT_MODAL',
@@ -90,11 +92,11 @@ const WithdrawalMethods: Props = ({ fiatCurrency, handleClose }) => {
         step: WithdrawStepEnum.ENTER_AMOUNT
       })
     )
-  }, [data?.userData.tiers, dispatch, fiatCurrency])
+  }, [data?.userTier, dispatch, fiatCurrency])
 
   if (hasError)
     return <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
-  if (!data || isLoading || isNotAsked) return <Loading />
+  if (!data || isLoading || isNotAsked) return <WithdrawLoading />
 
   return (
     <Success

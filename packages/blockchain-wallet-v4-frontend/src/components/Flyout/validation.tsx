@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { AlertButton } from 'blockchain-wallet-v4-frontend/src/modals/components'
+import { change } from 'redux-form'
 
 import { fiatToString } from '@core/exchange/utils'
 import { CrossBorderLimits, FiatType } from '@core/types'
@@ -15,8 +16,7 @@ export const minMaxAmount = (
   orderType: BrokerageOrderType,
   fiatCurrency: FiatType,
   amount: string,
-  bankText: string,
-  formActions
+  bankText: string
 ) => {
   const max = convertBaseToStandard('FIAT', limits.max)
   const min = convertBaseToStandard('FIAT', limits.min)
@@ -44,7 +44,7 @@ export const minMaxAmount = (
         <>
           <AlertButton
             onClick={() => {
-              formActions.change(BROKERAGE_FORM, 'amount', max)
+              change(BROKERAGE_FORM, 'amount', max)
             }}
           >
             {orderType === BrokerageOrderType.DEPOSIT ? (
@@ -111,7 +111,7 @@ export const minMaxAmount = (
         <>
           <AlertButton
             onClick={() => {
-              formActions.change(BROKERAGE_FORM, 'amount', min)
+              change(BROKERAGE_FORM, 'amount', min)
             }}
           >
             <FormattedMessage
@@ -143,14 +143,13 @@ export const checkCrossBorderLimit = (
   amount: string,
   orderType: BrokerageOrderType,
   fiatCurrency: FiatType,
-  bankText: string,
-  formActions
+  bankText: string
 ) => {
   if (!crossBorderLimits?.current) {
     return false
   }
 
-  const { value: availableAmount } = crossBorderLimits?.current?.available
+  const { value: availableAmount } = crossBorderLimits?.current?.available ?? {}
   const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
 
   const showError = Number(amount) > Number(availableAmountInBase)
@@ -166,7 +165,7 @@ export const checkCrossBorderLimit = (
         <>
           <AlertButton
             onClick={() => {
-              formActions.change(BROKERAGE_FORM, 'amount', effectiveLimit?.limit.value.toString())
+              change(BROKERAGE_FORM, 'amount', effectiveLimit?.limit.value.toString())
             }}
           >
             <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
