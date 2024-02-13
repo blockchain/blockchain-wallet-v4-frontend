@@ -81,8 +81,8 @@ const UkDisclaimerText = styled.p`
 `
 
 const PriceChart = () => {
-  const isUserFromUK = useSelector(getUserCountry)?.country === 'UK'
-  const isIpFromUK = useSelector(getUserCountry)?.ipCountry === 'UK'
+  const isUserFromUK = useSelector(getUserCountry)?.country === 'GB'
+  const isIpFromUK = useSelector(getUserCountry)?.ipCountry === 'GB'
 
   return (
     <Wrapper>
