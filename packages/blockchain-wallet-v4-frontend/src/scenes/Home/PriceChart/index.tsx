@@ -66,9 +66,7 @@ const Footer = styled(Row)`
 
 const UkDisclaimerText = styled.p`
   font-size: 14px;
-
   padding: 8px;
-
   text-align: center;
   margin-top: 16px;
 
@@ -105,12 +103,12 @@ const PriceChart = () => {
       {(isUserFromUK || isIpFromUK) && (
         <UkDisclaimerText>
           <FormattedMessage
-            id='finprom.prices.disclaimer'
+            id='home.pricechart.finprom.disclaimer'
             defaultMessage='Real-time data is obtained from multiple sources and may sometimes be delayed due to system performance issues. Past performance is not indicative of future results. Find out more about various crypto assets and their risks {link}.'
             values={{
               link: (
                 <Link href='https://support.blockchain.com/hc/en-us/articles/10857167024156-Various-Cryptoassets-and-Their-Risks-'>
-                  <FormattedMessage id='finprom.prices.disclaimer.here' defaultMessage='here' />
+                  <FormattedMessage id=' home.pricechart.finprom.here' defaultMessage='here' />
                 </Link>
               )
             }}
