@@ -1,6 +1,10 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
+import { Link } from 'blockchain-info-components'
+import { getData as getUserCountry } from 'components/Banner/selectors'
 import { media } from 'services/styles'
 
 import Actions from './Actions'
@@ -60,7 +64,26 @@ const Footer = styled(Row)`
   justify-content: flex-end;
 `
 
+const UkDisclaimerText = styled.p`
+  font-size: 14px;
+
+  padding: 8px;
+
+  text-align: center;
+  margin-top: 16px;
+
+  a {
+    color: #0c6cf2;
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 14px;
+  }
+`
+
 const PriceChart = () => {
+  const isUserFromUK = useSelector(getUserCountry)?.country === 'UK'
+  const isIpFromUK = useSelector(getUserCountry)?.ipCountry === 'UK'
+
   return (
     <Wrapper>
       <Header>
@@ -79,6 +102,21 @@ const PriceChart = () => {
       <Footer>
         <TimeFilter />
       </Footer>
+      {(isUserFromUK || isIpFromUK) && (
+        <UkDisclaimerText>
+          <FormattedMessage
+            id='finprom.prices.disclaimer'
+            defaultMessage='Real-time data is obtained from multiple sources and may sometimes be delayed due to system performance issues. Past performance is not indicative of future results. Find out more about various crypto assets and their risks {link}.'
+            values={{
+              link: (
+                <Link href='https://support.blockchain.com/hc/en-us/articles/10857167024156-Various-Cryptoassets-and-Their-Risks-'>
+                  <FormattedMessage id='finprom.prices.disclaimer.here' defaultMessage='here' />
+                </Link>
+              )
+            }}
+          />
+        </UkDisclaimerText>
+      )}
     </Wrapper>
   )
 }
