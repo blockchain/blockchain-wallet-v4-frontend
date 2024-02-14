@@ -3,17 +3,17 @@ import { BuyActions, BuyEvents } from './buy'
 import { CoinViewActions, CoinViewEvents } from './coinView'
 import { CowboysPromoActions, CowboysPromoEvents } from './cowboysPromo'
 import {
-  AnalyticsProperties as DepositWithdrawalClientProperties,
-  Events as DepositWithdrawalClientEvents,
-  TrackEventAction as DepositWithdrawalClientEventAction
+  DepositWithdrawalClientEventActions,
+  DepositWithdrawalClientEvents,
+  DepositWithdrawalClientProperties
 } from './depositWithdrawalClient'
 import { DexActions, DexEvents } from './dexEvents'
 import { ClientErrorActions, ClientErrorEvents } from './errors'
 import { ExchangePromoActions, ExchangePromoEvents } from './exchangePromo'
 import {
-  AnalyticsProperties as InterestClientProperties,
-  Events as InterestClientEvents,
-  TrackEventAction as InterestClientTrackEventAction
+  InterestClientActions,
+  InterestClientEvents,
+  InterestClientProperties
 } from './interestClient'
 import { LoginActions, LoginEvents } from './login'
 import { MiscActions, MiscEvents } from './misc'
@@ -29,7 +29,7 @@ import { SellActions, SellEvents } from './sell'
 import { SendCryptoActions, SendCryptoEvents } from './sendCrypto'
 import { SofiActions, SofiEvents } from './sofi'
 import { SpinnerActions, SpinnerEvents } from './spinner'
-import { Events as SwapEvents, TrackEventAction as SwapTrackEventAction } from './swap'
+import { SwapActions, SwapEvents } from './swap'
 import { TaxCenterActions, TaxCenterEvents } from './taxCenter'
 import {
   ViewAndClickActions,
@@ -104,10 +104,10 @@ type TrackEventAction =
   | BuyActions
   | ClientErrorActions
   | CowboysPromoActions
-  | DepositWithdrawalClientEventAction
+  | DepositWithdrawalClientEventActions
   | DexActions
   | ExchangePromoActions
-  | InterestClientTrackEventAction
+  | InterestClientActions
   | LoginActions
   | MiscActions
   | NftsTrackEventActions
@@ -118,7 +118,7 @@ type TrackEventAction =
   | SendCryptoActions
   | SofiActions
   | SpinnerActions
-  | SwapTrackEventAction
+  | SwapActions
   | TaxCenterActions
   | CoinViewActions
   | ViewAndClickActions

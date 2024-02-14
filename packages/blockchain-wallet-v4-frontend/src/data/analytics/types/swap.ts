@@ -1,4 +1,4 @@
-export enum Events {
+export enum SwapEvents {
   FAB_SWAP_CLICKED = 'FAB Swap Clicked',
   PRICES_PAGE_SWAP_CLICKED = 'Prices Page Swap Clicked',
   PRICE_GRAPH_SWAP_CLICKED = 'Price Graph Swap Clicked',
@@ -20,7 +20,7 @@ export enum Events {
 }
 
 type SwapAccountsSelected = {
-  key: Events.SWAP_ACCOUNTS_SELECTED
+  key: SwapEvents.SWAP_ACCOUNTS_SELECTED
   properties: {
     input_currency: string
     input_type: string
@@ -31,17 +31,17 @@ type SwapAccountsSelected = {
 }
 
 type swapEarnRewardsButtonActions = {
-  key: Events.SWAP_EARN_REWARDS_BUTTON_CLICKED | Events.SWAP_EARN_REWARDS_BUTTON_VIEWED
+  key: SwapEvents.SWAP_EARN_REWARDS_BUTTON_CLICKED | SwapEvents.SWAP_EARN_REWARDS_BUTTON_VIEWED
   properties: {
     currency: string
     device: string
   }
 }
 
-export type TrackEventAction =
+export type SwapActions =
   | SwapAccountsSelected
   | swapEarnRewardsButtonActions
   | {
-      key: Exclude<Events, SwapAccountsSelected['key'] | swapEarnRewardsButtonActions['key']>
+      key: Exclude<SwapEvents, SwapAccountsSelected['key'] | swapEarnRewardsButtonActions['key']>
       properties: {}
     }

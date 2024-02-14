@@ -1,5 +1,5 @@
 // Interest Client Events
-export enum Events {
+export enum InterestClientEvents {
   ACTIVE_REWARDS_CLIENT_DEPOSIT_AMOUNT_ENTERED = 'Active Rewards Deposit Amount Entered',
   ACTIVE_REWARDS_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED = 'Active Rewards Deposit Max Amount Clicked',
   ACTIVE_REWARDS_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED = 'Active Rewards Deposit Min Amount Clicked',
@@ -18,9 +18,9 @@ type AccountType = 'TRADING' | 'USERKEY'
 
 type DepositAmountEnteredAction = {
   key:
-    | Events.ACTIVE_REWARDS_CLIENT_DEPOSIT_AMOUNT_ENTERED
-    | Events.INTEREST_CLIENT_DEPOSIT_AMOUNT_ENTERED
-    | Events.STAKING_CLIENT_DEPOSIT_AMOUNT_ENTERED
+    | InterestClientEvents.ACTIVE_REWARDS_CLIENT_DEPOSIT_AMOUNT_ENTERED
+    | InterestClientEvents.INTEREST_CLIENT_DEPOSIT_AMOUNT_ENTERED
+    | InterestClientEvents.STAKING_CLIENT_DEPOSIT_AMOUNT_ENTERED
   properties: {
     amount: number
     amount_currency: string
@@ -34,12 +34,12 @@ type DepositAmountEnteredAction = {
 }
 type DepositMinMaxAmountClickedAction = {
   key:
-    | Events.ACTIVE_REWARDS_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
-    | Events.INTEREST_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
-    | Events.STAKING_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
-    | Events.ACTIVE_REWARDS_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
-    | Events.INTEREST_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
-    | Events.STAKING_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
+    | InterestClientEvents.ACTIVE_REWARDS_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
+    | InterestClientEvents.INTEREST_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
+    | InterestClientEvents.STAKING_CLIENT_DEPOSIT_MAX_AMOUNT_CLICKED
+    | InterestClientEvents.ACTIVE_REWARDS_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
+    | InterestClientEvents.INTEREST_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
+    | InterestClientEvents.STAKING_CLIENT_DEPOSIT_MIN_AMOUNT_CLICKED
   properties: {
     amount_currency: string
     currency: string
@@ -49,14 +49,14 @@ type DepositMinMaxAmountClickedAction = {
 
 type ClientSubmitInformationClickedAction = {
   key:
-    | Events.ACTIVE_REWARDS_CLIENT_SUBMIT_INFORMATION_CLICKED
-    | Events.INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED
-    | Events.STAKING_CLIENT_SUBMIT_INFORMATION_CLICKED
+    | InterestClientEvents.ACTIVE_REWARDS_CLIENT_SUBMIT_INFORMATION_CLICKED
+    | InterestClientEvents.INTEREST_CLIENT_SUBMIT_INFORMATION_CLICKED
+    | InterestClientEvents.STAKING_CLIENT_SUBMIT_INFORMATION_CLICKED
   properties: {}
 }
 
 // track event actions to be used inside codebase when we do trigger event
-export type TrackEventAction =
+export type InterestClientActions =
   | DepositAmountEnteredAction
   | DepositMinMaxAmountClickedAction
   | ClientSubmitInformationClickedAction
@@ -65,32 +65,10 @@ export type TrackEventAction =
 type BasePayload = {
   originalTimestamp: string
 }
-type DepositAmountEnteredProperties = BasePayload & {
-  amount: number
-  amount_currency: string
-  currency: string
-  from_account_type: AccountType
-  input_amount: number
-  interest_rate: number
-  output_amount: number
-}
-type DepositMaxAmountClickedProperties = BasePayload & {
-  amount_currency: string
-  currency: string
-  from_account_type: AccountType
-}
-type DepositMinAmountClickedProperties = BasePayload & {
-  amount_currency: string
-  currency: string
-  from_account_type: AccountType
-}
-// nothing to be passed beside base properties
-type ClientSubmitInformationClickedProperties = BasePayload
+
+type DepositAmountProperties =
+  | DepositAmountEnteredAction['properties']
+  | DepositMinMaxAmountClickedAction['properties']
 
 // analytics properties to be used for analytics queue typing
-export type AnalyticsProperties =
-  | BasePayload
-  | ClientSubmitInformationClickedProperties
-  | DepositAmountEnteredProperties
-  | DepositMaxAmountClickedProperties
-  | DepositMinAmountClickedProperties
+export type InterestClientProperties = BasePayload | (BasePayload & DepositAmountProperties)
