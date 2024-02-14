@@ -30,16 +30,8 @@ type SwapAccountsSelected = {
   }
 }
 
-type SwapEarnRewardsButtonClick = {
-  key: Events.SWAP_EARN_REWARDS_BUTTON_CLICKED
-  properties: {
-    currency: string
-    device: string
-  }
-}
-
-type SwapEarnRewardsButtonView = {
-  key: Events.SWAP_EARN_REWARDS_BUTTON_VIEWED
+type swapEarnRewardsButtonActions = {
+  key: Events.SWAP_EARN_REWARDS_BUTTON_CLICKED | Events.SWAP_EARN_REWARDS_BUTTON_VIEWED
   properties: {
     currency: string
     device: string
@@ -48,14 +40,8 @@ type SwapEarnRewardsButtonView = {
 
 export type TrackEventAction =
   | SwapAccountsSelected
-  | SwapEarnRewardsButtonClick
-  | SwapEarnRewardsButtonView
+  | swapEarnRewardsButtonActions
   | {
-      key: Exclude<
-        Events,
-        | SwapAccountsSelected['key']
-        | SwapEarnRewardsButtonClick['key']
-        | SwapEarnRewardsButtonView['key']
-      >
+      key: Exclude<Events, SwapAccountsSelected['key'] | swapEarnRewardsButtonActions['key']>
       properties: {}
     }

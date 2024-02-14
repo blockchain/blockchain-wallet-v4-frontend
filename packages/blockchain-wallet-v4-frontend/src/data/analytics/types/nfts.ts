@@ -1,5 +1,5 @@
 // NFTs Events
-export enum Events {
+export enum NftsEvents {
   NFT_ACCEPT_OFFER_CLICKED = 'NFT Accept Offer Clicked',
   NFT_ACCEPT_OFFER_SUCCESS_FAIL = 'NFT Accept Offer Success/Fail',
   NFT_ACTIVITY_CANCEL_CLICKED = 'NFT Activity Cancel Clicked',
@@ -55,13 +55,13 @@ type SaleType = 'FIXED_PRICE' | 'TIME_AUCTION'
 
 type Type = 'DROP-OFF' | 'FAILED' | 'SUCCESS'
 
-type AcceptOfferClickedAction = {
-  key: Events.NFT_ACCEPT_OFFER_CLICKED
-  properties: {}
-}
-
 type AcceptOfferSuccessFailAction = {
-  key: Events.NFT_ACCEPT_OFFER_SUCCESS_FAIL
+  key:
+    | NftsEvents.NFT_ACCEPT_OFFER_SUCCESS_FAIL
+    | NftsEvents.NFT_BUY_SUCCESS_FAIL
+    | NftsEvents.NFT_CANCEL_OFFER_SUCCESS_FAIL
+    | NftsEvents.NFT_OFFER_SUCCESS_FAIL
+    | NftsEvents.NFT_SELL_ITEM_SUCCESS_FAIL
   properties: {
     amount: number
     amount_usd: number
@@ -71,26 +71,16 @@ type AcceptOfferSuccessFailAction = {
   }
 }
 
-type ActivityCancelClickedAction = {
-  key: Events.NFT_ACTIVITY_CANCEL_CLICKED
-  properties: {}
-}
-
 type ActivityChartEngagedAction = {
-  key: Events.NFT_ACTIVITY_CHART_ENGAGED
+  key: NftsEvents.NFT_ACTIVITY_CHART_ENGAGED
   properties: {
     currency: string
     time_interval: object
   }
 }
 
-type AmountEnteredSwitchedAction = {
-  key: Events.NFT_AMOUNT_ENTERED_SWITCHED
-  properties: {}
-}
-
 type AssetClickedAction = {
-  key: Events.NFT_ASSET_CLICKED
+  key: NftsEvents.NFT_ASSET_CLICKED
   properties: {
     collection_name: string
     contract_address: string
@@ -99,7 +89,7 @@ type AssetClickedAction = {
 }
 
 type AttributesClickedAction = {
-  key: Events.NFT_ATTRIBUTES_CLICKED
+  key: NftsEvents.NFT_ATTRIBUTES_CLICKED
   properties: {
     background: object
     clothes: object
@@ -109,60 +99,23 @@ type AttributesClickedAction = {
 }
 
 type BuyNowClickedAction = {
-  key: Events.NFT_BUY_NOW_CLICKED
+  key: NftsEvents.NFT_BUY_NOW_CLICKED
   properties: {
     collection: string
     collection_id: string
   }
 }
 
-type BuyOnOpenSeaClickedAction = {
-  key: Events.NFT_BUY_ON_OPENSEA_CLICKED
-  properties: {}
-}
-
-type BuySuccessFailAction = {
-  key: Events.NFT_BUY_SUCCESS_FAIL
-  properties: {
-    amount: number
-    amount_usd: number
-    currency: string
-    error_message?: string
-    type: Type
-  }
-}
-
-type CancelListingClickedAction = {
-  key: Events.NFT_CANCEL_LISTING_CLICKED
-  properties: {}
-}
-
 type CancelListingSuccessFailAction = {
-  key: Events.NFT_CANCEL_LISTING_SUCCESS_FAIL
+  key: NftsEvents.NFT_CANCEL_LISTING_SUCCESS_FAIL
   properties: {
-    error_message?: string
-    type: Type
-  }
-}
-
-type CancelOfferClickedAction = {
-  key: Events.NFT_CANCEL_OFFER_CLICKED
-  properties: {}
-}
-
-type CancelOfferSuccessFailAction = {
-  key: Events.NFT_CANCEL_OFFER_SUCCESS_FAIL
-  properties: {
-    amount: number
-    amount_usd: number
-    currency: string
     error_message?: string
     type: Type
   }
 }
 
 type ClickedAction = {
-  key: Events.NFT_NFT_CLICKED
+  key: NftsEvents.NFT_NFT_CLICKED
   properties: {
     collection_name: string
     image_logo: boolean
@@ -170,36 +123,16 @@ type ClickedAction = {
   }
 }
 
-type CloseAndViewItemClickedAction = {
-  key: Events.NFT_CLOSE_AND_VIEW_ITEM_CLICKED
-  properties: {}
-}
-
-type ContractAddressClickedAction = {
-  key: Events.NFT_CONTRACT_ADDRESS_CLICKED
-  properties: {}
-}
-
 type EnteredAmountAction = {
-  key: Events.NFT_ENTERED_AMOUNT
+  key: NftsEvents.NFT_ENTERED_AMOUNT
   properties: {
     currency: string
     input_amount: number
   }
 }
 
-type ExplorerClickedAction = {
-  key: Events.NFT_EXPLORER_CLICKED
-  properties: {}
-}
-
-type FilterClearAllClickedAction = {
-  key: Events.NFT_FILTER_CLEAR_ALL_CLICKED
-  properties: {}
-}
-
 type FilterListingTypeAction = {
-  key: Events.NFT_FILTER_LISTING_TYPE
+  key: NftsEvents.NFT_FILTER_LISTING_TYPE
   properties: {
     buy_only: TurnOffOn
     lazy_minted: TurnOffOn
@@ -208,7 +141,7 @@ type FilterListingTypeAction = {
 }
 
 type FilterPriceAppliedAction = {
-  key: Events.NFT_FILTER_PRICE_APPLIED
+  key: NftsEvents.NFT_FILTER_PRICE_APPLIED
   properties: {
     currency: string
     max_amount: number
@@ -217,34 +150,14 @@ type FilterPriceAppliedAction = {
 }
 
 type FilterRemovedAction = {
-  key: Events.NFT_FILTER_REMOVED
+  key: NftsEvents.NFT_FILTER_REMOVED
   properties: {
     filter_characteristic: string
   }
 }
 
-type GetStartedClickedAction = {
-  key: Events.NFT_GET_STARTED_CLICKED
-  properties: {}
-}
-
-type GoToPortfolioClickedAction = {
-  key: Events.NFT_GO_TO_PORTFOLIO_CLICKED
-  properties: {}
-}
-
-type LeftMenuClosedAction = {
-  key: Events.NFT_LEFT_MENU_CLOSED
-  properties: {}
-}
-
-type LeftMenuExpandedAction = {
-  key: Events.NFT_LEFT_MENU_EXPANDED
-  properties: {}
-}
-
 type ListingSuccessFailAction = {
-  key: Events.NFT_LISTING_SUCCESS_FAIL
+  key: NftsEvents.NFT_LISTING_SUCCESS_FAIL
   properties: {
     currency: string
     end_price?: number
@@ -256,72 +169,16 @@ type ListingSuccessFailAction = {
   }
 }
 
-type LoadMoreClickedAction = {
-  key: Events.NFT_LOAD_MORE_CLICKED
-  properties: {}
-}
-
-type MakeAnOfferClickedAction = {
-  key: Events.NFT_MAKE_AN_OFFER_CLICKED
-  properties: {}
-}
-
-type MAkeOfferWithClickedAction = {
-  key: Events.NFT_MAKE_OFFER_WITH_CLICKED
-  properties: {}
-}
-
-type MakeAnOfferViewedAction = {
-  key: Events.NFT_MAKE_AN_OFFER_VIEWED
-  properties: {}
-}
-
 type MarkForSaleAction = {
-  key: Events.NFT_MARK_FOR_SALE
+  key: NftsEvents.NFT_MARK_FOR_SALE
   properties: {
     collection: string
     collection_id: string
   }
 }
 
-type MoreClickedAction = {
-  key: Events.NFT_MORE_CLICKED
-  properties: {}
-}
-
-type OfferSuccessFailAction = {
-  key: Events.NFT_OFFER_SUCCESS_FAIL
-  properties: {
-    amount: number
-    amount_usd: number
-    currency: string
-    error_message?: string
-    type: Type
-  }
-}
-
-type OwnerClickedAction = {
-  key: Events.NFT_OWNER_CLICKED
-  properties: {}
-}
-
-type RecentlyListedClickedAction = {
-  key: Events.NFT_RECENTLY_LISTED_CLICKED
-  properties: {}
-}
-
-type RefreshMetadataClickedAction = {
-  key: Events.NFT_REFRESH_METADATA_CLICKED
-  properties: {}
-}
-
-type ReturnToMarketplaceClickedAction = {
-  key: Events.NFT_RETURN_TO_MARKETPLACE_CLICKED
-  properties: {}
-}
-
 type SellItemClickedAction = {
-  key: Events.NFT_SELL_ITEM_CLICKED
+  key: NftsEvents.NFT_SELL_ITEM_CLICKED
   properties: {
     amount: number
     collection: string
@@ -330,37 +187,16 @@ type SellItemClickedAction = {
   }
 }
 
-type SellItemSuccessFailAction = {
-  key: Events.NFT_SELL_ITEM_SUCCESS_FAIL
-  properties: {
-    amount: number
-    amount_usd: number
-    currency: string
-    error_message?: string
-    type: Type
-  }
-}
-
 type SendSuccessFailAction = {
-  key: Events.NFT_SEND_SUCCESS_FAIL
+  key: NftsEvents.NFT_SEND_SUCCESS_FAIL
   properties: {
     error_message?: string
     type: Type
   }
-}
-
-type ShareClickedAction = {
-  key: Events.NFT_SHARE_CLICKED
-  properties: {}
-}
-
-type TransferClickedAction = {
-  key: Events.NFT_TRANSFER_CLICKED
-  properties: {}
 }
 
 type TransferSuccessFailAction = {
-  key: Events.NFT_TRANSFER_SUCCESS_FAIL
+  key: NftsEvents.NFT_TRANSFER_SUCCESS_FAIL
   properties: {
     collection_name: string
     contract_address: string
@@ -371,61 +207,53 @@ type TransferSuccessFailAction = {
   }
 }
 
-type ViewButtonViewedAction = {
-  key: Events.NFT_VIEW_BUTTON_VIEWED
+type NFTGenericActions = {
+  key:
+    | NftsEvents.NFT_CANCEL_OFFER_CLICKED
+    | NftsEvents.NFT_CANCEL_LISTING_CLICKED
+    | NftsEvents.NFT_CLOSE_AND_VIEW_ITEM_CLICKED
+    | NftsEvents.NFT_CONTRACT_ADDRESS_CLICKED
+    | NftsEvents.NFT_EXPLORER_CLICKED
+    | NftsEvents.NFT_FILTER_CLEAR_ALL_CLICKED
+    | NftsEvents.NFT_BUY_ON_OPENSEA_CLICKED
+    | NftsEvents.NFT_ACCEPT_OFFER_CLICKED
+    | NftsEvents.NFT_ACTIVITY_CANCEL_CLICKED
+    | NftsEvents.NFT_AMOUNT_ENTERED_SWITCHED
+    | NftsEvents.NFT_GET_STARTED_CLICKED
+    | NftsEvents.NFT_GO_TO_PORTFOLIO_CLICKED
+    | NftsEvents.NFT_LEFT_MENU_CLOSED
+    | NftsEvents.NFT_LEFT_MENU_EXPANDED
+    | NftsEvents.NFT_LOAD_MORE_CLICKED
+    | NftsEvents.NFT_MAKE_AN_OFFER_CLICKED
+    | NftsEvents.NFT_MAKE_OFFER_WITH_CLICKED
+    | NftsEvents.NFT_MAKE_AN_OFFER_VIEWED
+    | NftsEvents.NFT_MORE_CLICKED
+    | NftsEvents.NFT_OWNER_CLICKED
+    | NftsEvents.NFT_RECENTLY_LISTED_CLICKED
+    | NftsEvents.NFT_REFRESH_METADATA_CLICKED
+    | NftsEvents.NFT_RETURN_TO_MARKETPLACE_CLICKED
+    | NftsEvents.NFT_SHARE_CLICKED
+    | NftsEvents.NFT_TRANSFER_CLICKED
+    | NftsEvents.NFT_VIEW_BUTTON_VIEWED
+    | NftsEvents.NFT_VIEW_SUBMITTED_OFFER_CLICKED
   properties: {}
 }
 
-type ViewSubmittedOfferClickedAction = {
-  key: Events.NFT_VIEW_SUBMITTED_OFFER_CLICKED
-  properties: {}
-}
-
-export type TrackEventAction =
+export type NftsTrackEventActions =
   | AcceptOfferSuccessFailAction
-  | AcceptOfferClickedAction
-  | ActivityCancelClickedAction
   | ActivityChartEngagedAction
-  | AmountEnteredSwitchedAction
   | AssetClickedAction
   | AttributesClickedAction
   | BuyNowClickedAction
-  | BuyOnOpenSeaClickedAction
-  | BuySuccessFailAction
   | CancelListingSuccessFailAction
-  | CancelOfferSuccessFailAction
-  | CancelListingClickedAction
-  | CancelOfferClickedAction
   | ClickedAction
-  | CloseAndViewItemClickedAction
-  | ContractAddressClickedAction
   | EnteredAmountAction
-  | ExplorerClickedAction
-  | FilterClearAllClickedAction
   | FilterListingTypeAction
   | FilterPriceAppliedAction
   | FilterRemovedAction
-  | GetStartedClickedAction
-  | GoToPortfolioClickedAction
-  | LeftMenuClosedAction
-  | LeftMenuExpandedAction
   | ListingSuccessFailAction
-  | LoadMoreClickedAction
-  | MakeAnOfferClickedAction
-  | MAkeOfferWithClickedAction
-  | MakeAnOfferViewedAction
   | MarkForSaleAction
-  | MoreClickedAction
-  | OfferSuccessFailAction
-  | OwnerClickedAction
-  | RecentlyListedClickedAction
-  | RefreshMetadataClickedAction
-  | ReturnToMarketplaceClickedAction
   | SellItemClickedAction
-  | SellItemSuccessFailAction
   | SendSuccessFailAction
-  | ShareClickedAction
-  | TransferClickedAction
   | TransferSuccessFailAction
-  | ViewButtonViewedAction
-  | ViewSubmittedOfferClickedAction
+  | NFTGenericActions

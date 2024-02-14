@@ -17,17 +17,14 @@ import {
 } from './interestClient'
 import { LoginActions, LoginEvents } from './login'
 import { MiscActions, MiscEvents } from './misc'
-import { Events as NftsEvents, TrackEventAction as NftsTrackEventAction } from './nfts'
+import { NftsEvents, NftsTrackEventActions } from './nfts'
 import {
-  AnalyticsProperties as OnboardingAndVerificationAnalyticsProperties,
-  Events as OnboardingAndVerificationEvents,
-  TrackEventAction as OnboardingAndVerificationTrackEventAction
+  OnboardingAndVerificationActions,
+  OnboardingAndVerificationAnalyticsProperties,
+  OnboardingAndVerificationEvents
 } from './onboardingAndVerification'
-import { PlaidClientactions, PlaidClientEvents } from './plaid'
-import {
-  Events as RecommendedSweepEvents,
-  TrackEventAction as RecommendedSweepTrackEventAction
-} from './recommendedimportsweep'
+import { PlaidClientActions, PlaidClientEvents } from './plaid'
+import { RecommendedSweepActions, RecommendedSweepEvents } from './recommendedimportsweep'
 import { SellActions, SellEvents } from './sell'
 import { SendCryptoActions, SendCryptoEvents } from './sendCrypto'
 import { SofiActions, SofiEvents } from './sofi'
@@ -39,10 +36,7 @@ import {
   ViewAndClickAnalyticsProperties,
   ViewAndClickEvents
 } from './viewAndClick'
-import {
-  Events as WalletEarnEvents,
-  TrackEventAction as WalletEarnTrackEventAction
-} from './walletEarnClientEvents'
+import { WalletEarnActions, WalletEarnEvents } from './walletEarnClientEvents'
 
 const TRACK_EVENT = 'trackEvent'
 
@@ -116,10 +110,10 @@ type TrackEventAction =
   | InterestClientTrackEventAction
   | LoginActions
   | MiscActions
-  | NftsTrackEventAction
-  | OnboardingAndVerificationTrackEventAction
-  | RecommendedSweepTrackEventAction
-  | PlaidClientactions
+  | NftsTrackEventActions
+  | OnboardingAndVerificationActions
+  | RecommendedSweepActions
+  | PlaidClientActions
   | SellActions
   | SendCryptoActions
   | SofiActions
@@ -128,7 +122,7 @@ type TrackEventAction =
   | TaxCenterActions
   | CoinViewActions
   | ViewAndClickActions
-  | WalletEarnTrackEventAction
+  | WalletEarnActions
 
 type AnalyticsTraits = {
   country?: string

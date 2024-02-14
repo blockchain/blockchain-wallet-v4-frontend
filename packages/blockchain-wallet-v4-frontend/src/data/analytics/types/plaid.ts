@@ -25,4 +25,4 @@ type PlaidClickedOutside = {
   }
 }
 
-export type PlaidClientactions = PlaidClickedOutside | PlaidLinkingError
+export type PlaidClientActions = PlaidClickedOutside | PlaidLinkingError

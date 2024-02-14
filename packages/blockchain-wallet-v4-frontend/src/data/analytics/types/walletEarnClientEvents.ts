@@ -1,4 +1,4 @@
-export enum Events {
+export enum WalletEarnEvents {
   // DETAIL: User visualises the successful transfer of a deposit.
   WALLET_ACTIVE_REWARDS_DEPOSIT_SUCCESS_VIEWED = 'Wallet Active Rewards Deposit Success Viewed',
   // ADD: User clicks on transfer on the deposit page.\
@@ -78,35 +78,35 @@ export enum Events {
 // EARN HOMEPAGE
 type WalletRewardsEarn = {
   key:
-    | Events.WALLET_REWARDS_DETAIL_CLICKED
-    | Events.WALLET_STAKING_DETAIL_CLICKED
-    | Events.WALLET_ACTIVE_REWARDS_DETAIL_CLICKED
-    | Events.WALLET_STAKING_WARNING_CONTINUE_CLICKED
-    | Events.WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED
-    | Events.WALLET_REWARDS_TRANSACTION_HISTORY_DOWNLOAD_CLICKED
+    | WalletEarnEvents.WALLET_REWARDS_DETAIL_CLICKED
+    | WalletEarnEvents.WALLET_STAKING_DETAIL_CLICKED
+    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_DETAIL_CLICKED
+    | WalletEarnEvents.WALLET_STAKING_WARNING_CONTINUE_CLICKED
+    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED
+    | WalletEarnEvents.WALLET_REWARDS_TRANSACTION_HISTORY_DOWNLOAD_CLICKED
   properties: {
     currency: string
   }
 }
 
 type WalletRewardsTransactionHistoryClicked = {
-  key: Events.WALLET_REWARDS_TRANSACTION_HISTORY_CLICKED
+  key: WalletEarnEvents.WALLET_REWARDS_TRANSACTION_HISTORY_CLICKED
   properties: {}
 }
 
 // DETAIL
 type WalletRewardsDetail = {
   key:
-    | Events.WALLET_REWARDS_DETAIL_BUY_CLICKED
-    | Events.WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED
-    | Events.WALLET_STAKING_DETAIL_DEPOSIT_CLICKED
-    | Events.WALLET_ACTIVE_REWARDS_DETAIL_DEPOSIT_CLICKED
-    | Events.WALLET_REWARDS_DETAIL_VIEWED
-    | Events.WALLET_STAKING_DETAIL_VIEWED
-    | Events.WALLET_STAKING_DEPOSIT_SUCCESS_VIEWED
-    | Events.WALLET_ACTIVE_REWARDS_DETAIL_VIEWED
-    | Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_GET_STARTED_CLICKED
-    | Events.WALLET_ACTIVE_REWARDS_DEPOSIT_SUCCESS_VIEWED
+    | WalletEarnEvents.WALLET_REWARDS_DETAIL_BUY_CLICKED
+    | WalletEarnEvents.WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED
+    | WalletEarnEvents.WALLET_STAKING_DETAIL_DEPOSIT_CLICKED
+    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_DETAIL_DEPOSIT_CLICKED
+    | WalletEarnEvents.WALLET_REWARDS_DETAIL_VIEWED
+    | WalletEarnEvents.WALLET_STAKING_DETAIL_VIEWED
+    | WalletEarnEvents.WALLET_STAKING_DEPOSIT_SUCCESS_VIEWED
+    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_DETAIL_VIEWED
+    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_GET_STARTED_CLICKED
+    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_DEPOSIT_SUCCESS_VIEWED
   properties: {
     currency: string
   }
@@ -114,21 +114,21 @@ type WalletRewardsDetail = {
 
 type WalletActiveRewardsLearning = {
   key:
-    | Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_CLICKED
-    | Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_VIEWED
+    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_CLICKED
+    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_VIEWED
   properties: {}
 }
 
 // ADD
 type WalletRewardsDepositChangeWalletClicked = {
-  key: Events.WALLET_REWARDS_DEPOSIT_CHANGE_WALLET_CLICKED
+  key: WalletEarnEvents.WALLET_REWARDS_DEPOSIT_CHANGE_WALLET_CLICKED
   properties: {
     currency: string
   }
 }
 
 type WalletRewardsDepositTransferClicked = {
-  key: Events.WALLET_REWARDS_DEPOSIT_TRANSFER_CLICKED
+  key: WalletEarnEvents.WALLET_REWARDS_DEPOSIT_TRANSFER_CLICKED
   properties: {
     amount: number
     amount_usd: number
@@ -139,8 +139,8 @@ type WalletRewardsDepositTransferClicked = {
 
 type WalleRewardsDepositTransfer = {
   key:
-    | Events.WALLET_ACTIVE_REWARDS_DEPOSIT_TRANSFER_CLICKED
-    | Events.WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED
+    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_DEPOSIT_TRANSFER_CLICKED
+    | WalletEarnEvents.WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED
   properties: {
     amount: string
     amount_usd: string
@@ -151,9 +151,9 @@ type WalleRewardsDepositTransfer = {
 
 type WalletRewardsDeposit = {
   key:
-    | Events.WALLET_REWARDS_DEPOSIT_VIEWED
-    | Events.WALLET_STAKING_DEPOSIT_VIEWED
-    | Events.WALLET_ACTIVE_REWARDS_DEPOSIT_VIEWED
+    | WalletEarnEvents.WALLET_REWARDS_DEPOSIT_VIEWED
+    | WalletEarnEvents.WALLET_STAKING_DEPOSIT_VIEWED
+    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_DEPOSIT_VIEWED
   properties: {
     currency?: string
     path?: string
@@ -165,7 +165,7 @@ type WalletRewardsDeposit = {
 }
 
 type WalletRewardsSubmitInformationClicked = {
-  key: Events.WALLET_REWARDS_SUBMIT_INFORMATION_CLICKED
+  key: WalletEarnEvents.WALLET_REWARDS_SUBMIT_INFORMATION_CLICKED
   properties: {
     currency: string
     origin: 'SAVINGS_CONFIRMATION' | 'SAVINGS_PAGE'
@@ -175,16 +175,16 @@ type WalletRewardsSubmitInformationClicked = {
 // WITHDRAW
 type WalletWithdraw = {
   key:
-    | Events.WALLET_REWARDS_WITHDRAW_CHANGE_WALLET_CLICKED
-    | Events.WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED
-    | Events.WALLET_ACTIVE_REWARDS_WITHDRAWAL_REQUESTED_VIEWED
+    | WalletEarnEvents.WALLET_REWARDS_WITHDRAW_CHANGE_WALLET_CLICKED
+    | WalletEarnEvents.WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED
+    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_WITHDRAWAL_REQUESTED_VIEWED
   properties: {
     currency: string
   }
 }
 
 type WalletRewardsWithdrawTransferClicked = {
-  key: Events.WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED
+  key: WalletEarnEvents.WALLET_REWARDS_WITHDRAW_TRANSFER_CLICKED
   properties: {
     amount: string
     amount_usd: string
@@ -194,7 +194,7 @@ type WalletRewardsWithdrawTransferClicked = {
 }
 
 type WalletActiveRewardsWithdrawTransferClicked = {
-  key: Events.WALLET_ACTIVE_REWARDS_WITHDRAW_TRANSFER_CLICKED
+  key: WalletEarnEvents.WALLET_ACTIVE_REWARDS_WITHDRAW_TRANSFER_CLICKED
   properties: {
     amount: string
     amount_usd: string
@@ -206,23 +206,23 @@ type WalletActiveRewardsWithdrawTransferClicked = {
 // BUY
 type WalletBuy = {
   key:
-    | Events.WALLET_BUY_EARN_REWARDS_CLICKED
-    | Events.WALLET_BUY_EARN_REWARDS_VIEWED
-    | Events.WALLET_EARN_COMPARE_PRODUCTS_CLICKED
+    | WalletEarnEvents.WALLET_BUY_EARN_REWARDS_CLICKED
+    | WalletEarnEvents.WALLET_BUY_EARN_REWARDS_VIEWED
+    | WalletEarnEvents.WALLET_EARN_COMPARE_PRODUCTS_CLICKED
   properties: {}
 }
 
-export type TrackEventAction =
-  | WalletRewardsEarn
-  | WalletRewardsDetail
-  | WalletActiveRewardsLearning
+export type WalletEarnActions =
   | WalleRewardsDepositTransfer
-  | WalletRewardsDeposit
-  | WalletWithdraw
+  | WalletActiveRewardsLearning
   | WalletActiveRewardsWithdrawTransferClicked
   | WalletBuy
-  | WalletRewardsTransactionHistoryClicked
+  | WalletRewardsDeposit
   | WalletRewardsDepositChangeWalletClicked
   | WalletRewardsDepositTransferClicked
+  | WalletRewardsDetail
+  | WalletRewardsEarn
   | WalletRewardsSubmitInformationClicked
+  | WalletRewardsTransactionHistoryClicked
   | WalletRewardsWithdrawTransferClicked
+  | WalletWithdraw
