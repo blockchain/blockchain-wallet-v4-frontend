@@ -76,34 +76,14 @@ export enum Events {
 }
 
 // EARN HOMEPAGE
-type WalletRewardsDetailClicked = {
-  key: Events.WALLET_REWARDS_DETAIL_CLICKED
-  properties: {
-    currency: string
-  }
-}
-type WalletStakingDetailClicked = {
-  key: Events.WALLET_STAKING_DETAIL_CLICKED
-  properties: {
-    currency: string
-  }
-}
-type WalletActiveRewardsDetailClicked = {
-  key: Events.WALLET_ACTIVE_REWARDS_DETAIL_CLICKED
-  properties: {
-    currency: string
-  }
-}
-
-type WalletStakingWarningContinueClicked = {
-  key: Events.WALLET_STAKING_WARNING_CONTINUE_CLICKED
-  properties: {
-    currency: string
-  }
-}
-
-type WalletActiveRewardsWarningContinueClicked = {
-  key: Events.WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED
+type WalletRewardsEarn = {
+  key:
+    | Events.WALLET_REWARDS_DETAIL_CLICKED
+    | Events.WALLET_STAKING_DETAIL_CLICKED
+    | Events.WALLET_ACTIVE_REWARDS_DETAIL_CLICKED
+    | Events.WALLET_STAKING_WARNING_CONTINUE_CLICKED
+    | Events.WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED
+    | Events.WALLET_REWARDS_TRANSACTION_HISTORY_DOWNLOAD_CLICKED
   properties: {
     currency: string
   }
@@ -114,92 +94,29 @@ type WalletRewardsTransactionHistoryClicked = {
   properties: {}
 }
 
-type WalletRewardsTransactionHistoryDownloadClicked = {
-  key: Events.WALLET_REWARDS_TRANSACTION_HISTORY_DOWNLOAD_CLICKED
-  properties: {
-    currency: string
-  }
-}
-
 // DETAIL
-type WalletRewardsDetailBuyClicked = {
-  key: Events.WALLET_REWARDS_DETAIL_BUY_CLICKED
+type WalletRewardsDetail = {
+  key:
+    | Events.WALLET_REWARDS_DETAIL_BUY_CLICKED
+    | Events.WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED
+    | Events.WALLET_STAKING_DETAIL_DEPOSIT_CLICKED
+    | Events.WALLET_ACTIVE_REWARDS_DETAIL_DEPOSIT_CLICKED
+    | Events.WALLET_REWARDS_DETAIL_VIEWED
+    | Events.WALLET_STAKING_DETAIL_VIEWED
+    | Events.WALLET_STAKING_DEPOSIT_SUCCESS_VIEWED
+    | Events.WALLET_ACTIVE_REWARDS_DETAIL_VIEWED
+    | Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_GET_STARTED_CLICKED
+    | Events.WALLET_ACTIVE_REWARDS_DEPOSIT_SUCCESS_VIEWED
   properties: {
     currency: string
   }
 }
 
-type WalletRewardsDetailDepositClicked = {
-  key: Events.WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED
-  properties: {
-    currency: string
-  }
-}
-
-type WalletStakingDetailDepositClicked = {
-  key: Events.WALLET_STAKING_DETAIL_DEPOSIT_CLICKED
-  properties: {
-    currency: string
-  }
-}
-
-type WalletActiveRewardsDetailDepositClicked = {
-  key: Events.WALLET_ACTIVE_REWARDS_DETAIL_DEPOSIT_CLICKED
-  properties: {
-    currency: string
-  }
-}
-
-type WalletRewardsDetailViewed = {
-  key: Events.WALLET_REWARDS_DETAIL_VIEWED
-  properties: {
-    currency: string
-  }
-}
-
-type WalletStakingDetailViewed = {
-  key: Events.WALLET_STAKING_DETAIL_VIEWED
-  properties: {
-    currency: string
-  }
-}
-
-type WalletStakingDepositSuccessViewed = {
-  key: Events.WALLET_STAKING_DEPOSIT_SUCCESS_VIEWED
-  properties: {
-    currency: string
-  }
-}
-
-type WalletActiveRewardsDetailViewed = {
-  key: Events.WALLET_ACTIVE_REWARDS_DETAIL_VIEWED
-  properties: {
-    currency: string
-  }
-}
-
-type WalletActiveRewardsLearningClicked = {
-  key: Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_CLICKED
+type WalletActiveRewardsLearning = {
+  key:
+    | Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_CLICKED
+    | Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_VIEWED
   properties: {}
-}
-
-type WalletActiveRewardsLearningGetStartedClicked = {
-  key: Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_GET_STARTED_CLICKED
-  properties: {
-    currency: string
-  }
-}
-
-type WalletActiveRewardsLearningViewed = {
-  key: Events.WALLET_ACTIVE_REWARDS_LEARNING_PAGE_VIEWED
-  properties: {}
-}
-
-type WalletActiveRewardsDepositSuccessViewed = {
-  key: Events.WALLET_ACTIVE_REWARDS_DEPOSIT_SUCCESS_VIEWED
-  properties: {
-    currency: string
-  }
 }
 
 // ADD
@@ -220,8 +137,10 @@ type WalletRewardsDepositTransferClicked = {
   }
 }
 
-type WalletActiveRewardsDepositTransferClicked = {
-  key: Events.WALLET_ACTIVE_REWARDS_DEPOSIT_TRANSFER_CLICKED
+type WalleRewardsDepositTransfer = {
+  key:
+    | Events.WALLET_ACTIVE_REWARDS_DEPOSIT_TRANSFER_CLICKED
+    | Events.WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED
   properties: {
     amount: string
     amount_usd: string
@@ -230,42 +149,11 @@ type WalletActiveRewardsDepositTransferClicked = {
   }
 }
 
-type WalletStakingDepositTransferClicked = {
-  key: Events.WALLET_STAKING_DEPOSIT_TRANSFER_CLICKED
-  properties: {
-    amount: string
-    amount_usd: string
-    currency: string
-    type: 'TRADING' | 'USERKEY'
-  }
-}
-
-type WalletRewardsDepositViewed = {
-  key: Events.WALLET_REWARDS_DEPOSIT_VIEWED
-  properties: {
-    currency?: string
-    path?: string
-    referrer?: string
-    search?: string
-    title?: string
-    url?: string
-  }
-}
-
-type WalletStakingDepositViewed = {
-  key: Events.WALLET_STAKING_DEPOSIT_VIEWED
-  properties: {
-    currency?: string
-    path?: string
-    referrer?: string
-    search?: string
-    title?: string
-    url?: string
-  }
-}
-
-type WalletActiveRewardsDepositViewed = {
-  key: Events.WALLET_ACTIVE_REWARDS_DEPOSIT_VIEWED
+type WalletRewardsDeposit = {
+  key:
+    | Events.WALLET_REWARDS_DEPOSIT_VIEWED
+    | Events.WALLET_STAKING_DEPOSIT_VIEWED
+    | Events.WALLET_ACTIVE_REWARDS_DEPOSIT_VIEWED
   properties: {
     currency?: string
     path?: string
@@ -285,15 +173,11 @@ type WalletRewardsSubmitInformationClicked = {
 }
 
 // WITHDRAW
-type WalletRewardsWithdrawChangeWalletClicked = {
-  key: Events.WALLET_REWARDS_WITHDRAW_CHANGE_WALLET_CLICKED
-  properties: {
-    currency: string
-  }
-}
-
-type WalletRewardsWithdrawMaxAmountClicked = {
-  key: Events.WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED
+type WalletWithdraw = {
+  key:
+    | Events.WALLET_REWARDS_WITHDRAW_CHANGE_WALLET_CLICKED
+    | Events.WALLET_REWARDS_WITHDRAW_MAX_AMOUNT_CLICKED
+    | Events.WALLET_ACTIVE_REWARDS_WITHDRAWAL_REQUESTED_VIEWED
   properties: {
     currency: string
   }
@@ -319,62 +203,26 @@ type WalletActiveRewardsWithdrawTransferClicked = {
   }
 }
 
-type WalletActiveRewardsWithdrawalRequestedViewed = {
-  key: Events.WALLET_ACTIVE_REWARDS_WITHDRAWAL_REQUESTED_VIEWED
-  properties: {
-    currency: string
-  }
-}
-
 // BUY
-type WalletBuyEarnRewardsClicked = {
-  key: Events.WALLET_BUY_EARN_REWARDS_CLICKED
-  properties: {}
-}
-
-type WalletBuyEarnRewardsViewed = {
-  key: Events.WALLET_BUY_EARN_REWARDS_VIEWED
-  properties: {}
-}
-
-type WalletEarnCompareProductsClicked = {
-  key: Events.WALLET_EARN_COMPARE_PRODUCTS_CLICKED
+type WalletBuy = {
+  key:
+    | Events.WALLET_BUY_EARN_REWARDS_CLICKED
+    | Events.WALLET_BUY_EARN_REWARDS_VIEWED
+    | Events.WALLET_EARN_COMPARE_PRODUCTS_CLICKED
   properties: {}
 }
 
 export type TrackEventAction =
-  | WalletActiveRewardsDepositSuccessViewed
-  | WalletActiveRewardsDepositTransferClicked
-  | WalletActiveRewardsDepositViewed
-  | WalletActiveRewardsDetailClicked
-  | WalletActiveRewardsDetailDepositClicked
-  | WalletActiveRewardsDetailViewed
-  | WalletActiveRewardsLearningClicked
-  | WalletActiveRewardsLearningGetStartedClicked
-  | WalletActiveRewardsLearningViewed
-  | WalletActiveRewardsWarningContinueClicked
-  | WalletActiveRewardsWithdrawalRequestedViewed
+  | WalletRewardsEarn
+  | WalletRewardsDetail
+  | WalletActiveRewardsLearning
+  | WalleRewardsDepositTransfer
+  | WalletRewardsDeposit
+  | WalletWithdraw
   | WalletActiveRewardsWithdrawTransferClicked
-  | WalletBuyEarnRewardsClicked
-  | WalletBuyEarnRewardsViewed
-  | WalletEarnCompareProductsClicked
-  | WalletRewardsDetailClicked
+  | WalletBuy
   | WalletRewardsTransactionHistoryClicked
-  | WalletRewardsTransactionHistoryDownloadClicked
-  | WalletRewardsDetailBuyClicked
-  | WalletRewardsDetailDepositClicked
-  | WalletRewardsDetailViewed
   | WalletRewardsDepositChangeWalletClicked
   | WalletRewardsDepositTransferClicked
-  | WalletRewardsDepositViewed
   | WalletRewardsSubmitInformationClicked
-  | WalletRewardsWithdrawChangeWalletClicked
-  | WalletRewardsWithdrawMaxAmountClicked
   | WalletRewardsWithdrawTransferClicked
-  | WalletStakingDepositSuccessViewed
-  | WalletStakingDepositTransferClicked
-  | WalletStakingDepositViewed
-  | WalletStakingDetailClicked
-  | WalletStakingDetailDepositClicked
-  | WalletStakingDetailViewed
-  | WalletStakingWarningContinueClicked

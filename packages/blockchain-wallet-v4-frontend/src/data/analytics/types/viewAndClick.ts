@@ -1,4 +1,3 @@
-// View and Click Events
 export enum ViewAndClickEvents {
   BANNER_REWARDS_CLICKED = 'Banner Rewards Clicked',
   BANNER_REWARDS_VIEWED = 'Banner Rewards Viewed',
