@@ -7,11 +7,8 @@ import {
   Events as DepositWithdrawalClientEvents,
   TrackEventAction as DepositWithdrawalClientEventAction
 } from './depositWithdrawalClient'
-import { Events as DexEvents, TrackEventAction as DexEventAction } from './dexEvents'
-import {
-  Events as ClientErrorEvents,
-  TrackEventAction as ClientErrorTrackEventAction
-} from './errors'
+import { DexActions, DexEvents } from './dexEvents'
+import { ClientErrorActions, ClientErrorEvents } from './errors'
 import { ExchangePromoActions, ExchangePromoEvents } from './exchangePromo'
 import {
   AnalyticsProperties as InterestClientProperties,
@@ -36,14 +33,11 @@ import { SendCryptoActions, SendCryptoEvents } from './sendCrypto'
 import { SofiActions, SofiEvents } from './sofi'
 import { SpinnerActions, SpinnerEvents } from './spinner'
 import { Events as SwapEvents, TrackEventAction as SwapTrackEventAction } from './swap'
+import { TaxCenterActions, TaxCenterEvents } from './taxCenter'
 import {
-  Events as TaxCenterEvents,
-  TrackEventAction as TaxCenterTrackEventAction
-} from './taxCenter'
-import {
-  AnalyticsProperties as ViewAndClickAnalyticsProperties,
-  Events as ViewAndClickEvents,
-  TrackEventAction as ViewAndClickTrackEventAction
+  ViewAndClickActions,
+  ViewAndClickAnalyticsProperties,
+  ViewAndClickEvents
 } from './viewAndClick'
 import {
   Events as WalletEarnEvents,
@@ -114,10 +108,10 @@ type AnalyticsProperties =
 type TrackEventAction =
   | AccountRecoveryActions
   | BuyActions
-  | ClientErrorTrackEventAction
+  | ClientErrorActions
   | CowboysPromoActions
   | DepositWithdrawalClientEventAction
-  | DexEventAction
+  | DexActions
   | ExchangePromoActions
   | InterestClientTrackEventAction
   | LoginActions
@@ -131,9 +125,9 @@ type TrackEventAction =
   | SofiActions
   | SpinnerActions
   | SwapTrackEventAction
-  | TaxCenterTrackEventAction
+  | TaxCenterActions
   | CoinViewActions
-  | ViewAndClickTrackEventAction
+  | ViewAndClickActions
   | WalletEarnTrackEventAction
 
 type AnalyticsTraits = {
