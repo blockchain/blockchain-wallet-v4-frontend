@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Image, Link } from 'blockchain-info-components'
-import Announcements from 'components/Announcements'
+import { ServiceAnnouncement } from 'components/Announcements'
 import { Brand, Public } from 'components/Navbar'
 import { isMobile, media } from 'services/styles'
 
@@ -73,7 +73,7 @@ const Header = (props) => {
           </AuthBrand>
         </NavbarBrandStyled>
       </NavbarStyled>
-      <Announcements type='service' alertArea='public' />
+      <ServiceAnnouncement alertArea='public' />
     </>
   )
 }

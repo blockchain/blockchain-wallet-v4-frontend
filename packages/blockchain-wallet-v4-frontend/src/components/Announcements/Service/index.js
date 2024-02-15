@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { Remote } from '@core'
 import { actions } from 'data'
 
-import { getData } from './selectors'
+import { getData } from './selectors.js'
 import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {
@@ -48,7 +48,9 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 ServiceAnnouncement.propTypes = {
-  alertArea: PropTypes.oneOf(['public', 'request', 'send', 'swap', 'wallet']).isRequired
+  alertArea: PropTypes.oneOf(['public', 'request', 'send', 'swap', 'wallet']).isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
+  currentCoin: PropTypes.string // - used in selector.js
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ServiceAnnouncement)
