@@ -53,22 +53,9 @@ type Props = {
   balance: number
   coin: string
   coinTicker: string
-  large: boolean
 }
 
-export const CoinBalanceWrapper = ({ balance, coin, coinTicker, large }: Props) => {
-  if (large) {
-    return (
-      <CoinBalanceMain>
-        <CoinDisplay coin={coin} cursor='pointer' mobileSize='14px' size='18px' weight={400}>
-          {balance}
-        </CoinDisplay>
-        <FiatDisplay coin={coin} cursor='pointer' mobileSize='14px' size='18px' weight={400}>
-          {balance}
-        </FiatDisplay>
-      </CoinBalanceMain>
-    )
-  }
+export const CoinBalanceWrapper = ({ balance, coin, coinTicker }: Props) => {
   return (
     <LinkContainer to={`/coins/${coin}`}>
       <CoinBalanceSwitchable>
@@ -81,14 +68,7 @@ export const CoinBalanceWrapper = ({ balance, coin, coinTicker, large }: Props) 
   )
 }
 
-export const LoadingBalance = ({ coinTicker, large }: Pick<Props, 'coinTicker' | 'large'>) => {
-  if (large) {
-    return (
-      <BalanceSkeleton>
-        <SkeletonRectangle width='170px' height='12px' />
-      </BalanceSkeleton>
-    )
-  }
+export const LoadingBalance = ({ coinTicker }: { coinTicker: string }) => {
   return (
     <CoinSkeletonWrapper>
       <Text size='12px' weight={600} color='grey800'>

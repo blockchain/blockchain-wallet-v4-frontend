@@ -1,10 +1,9 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { lift } from 'ramda'
 import { bindActionCreators } from 'redux'
 
-import { ExtractSuccess, InvitationsType } from '@core/types'
+import { InvitationsType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
