@@ -8,7 +8,6 @@ import * as fundRecovery from './fundRecovery/selectors'
 import * as identityVerification from './identityVerification/selectors'
 import * as interest from './interest/selectors'
 import * as interestUploadDocument from './interestUploadDocument/selectors'
-import * as layoutWallet from './layoutWallet/selectors'
 import * as manageAddresses from './manageAddresses/selectors'
 import * as nfts from './nfts/selectors'
 import * as priceChart from './priceChart/selectors'
@@ -45,7 +44,6 @@ export {
   identityVerification,
   interest,
   interestUploadDocument,
-  layoutWallet,
   manageAddresses,
   nfts,
   priceChart,

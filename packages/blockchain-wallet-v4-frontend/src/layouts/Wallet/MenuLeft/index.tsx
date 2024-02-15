@@ -1,43 +1,62 @@
 import React from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
 
-import { ExtractSuccess } from '@core/types'
-import { actions } from 'data'
+import { getCurrentTier } from 'data/modules/profile/selectors'
+import { media } from 'services/styles'
 
-import { getData } from './selectors'
-import Failure from './template.failure'
-import Loading from './template.loading'
-import MenuLeft from './template.success'
+import Balances from './Balances'
+import FundsOnHold from './FundsOnHold'
+import Navigation from './Navigation'
 
-class MenuLeftContainer extends React.PureComponent<Props> {
-  render() {
-    const { data } = this.props
-
-    return data.cata({
-      Failure: () => <Failure />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) => <MenuLeft {...val} {...this.props} />
-    })
+export const Container = styled.div`
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  justify-content: space-between;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  padding: 8px;
+  overflow: scroll;
+  box-sizing: border-box;
+  background: ${(props) => props.theme.white};
+  transition: left 0.3s ease-in-out;
+  z-index: 11;
+  ::-webkit-scrollbar {
+    display: none;
   }
+
+  ${media.atLeastTablet`
+    display: flex;
+    flex: 0 0 250px;
+    position: relative;
+    top: 0;
+    left: 0;
+  `}
+`
+
+const Overflow = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 600px;
+  height: 100%;
+`
+
+const MenuLeft = () => {
+  const { data: currentTier } = useSelector(getCurrentTier, (prev, next) => prev.data === next.data)
+  const isTier2 = currentTier >= 2
+
+  return (
+    <Container>
+      <Balances />
+      {isTier2 && <FundsOnHold />}
+      <Overflow>
+        <Navigation />
+      </Overflow>
+    </Container>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  data: getData(state)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-
-export type Props = ConnectedProps<typeof connector> & {
-  domains?: any
-  menuOpened?: boolean
-}
-
-export default connector(MenuLeftContainer)
+export default MenuLeft
