@@ -1,56 +1,44 @@
 import React, { useCallback, useEffect } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { FiatType } from '@core/types'
+import { getCurrency } from '@core/redux/settings/selectors'
 import WithdrawalLockHold from 'components/Brokerage/WithdrawalLockHold'
-import { actions, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
+import { modals } from 'data/actions'
+import { withdraw } from 'data/components/actions'
+import { getWithdrawalLocks } from 'data/components/withdraw/selectors'
 import { ModalName, WithdrawStepEnum } from 'data/types'
+import { useRemote } from 'hooks'
 
-import getData from './selectors'
+export const FundsOnHoldContainer = () => {
+  const { data, hasError, isLoading, isNotAsked } = useRemote(getWithdrawalLocks)
 
-export const FundsOnHoldContainer = (props: Props) => {
+  const { data: walletCurrency } = useSelector(getCurrency)
+
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    props.withdrawActions.fetchWithdrawalLock({ currency: props.walletCurrency })
-  }, [props.walletCurrency, props.withdrawActions])
+    dispatch(withdraw.fetchWithdrawalLock({ currency: walletCurrency }))
+  }, [walletCurrency])
 
   const handleClick = useCallback(() => {
-    props.modalActions.showModal(ModalName.CUSTODY_WITHDRAW_MODAL, {
-      origin: 'SideNav'
-    })
-    props.withdrawActions.setStep({
-      step: WithdrawStepEnum.ON_HOLD
-    })
+    dispatch(
+      modals.showModal(ModalName.CUSTODY_WITHDRAW_MODAL, {
+        origin: 'SideNav'
+      })
+    )
+    dispatch(withdraw.setStep({ step: WithdrawStepEnum.ON_HOLD }))
   }, [])
 
-  return props.data.cata({
-    Failure: () => null,
-    Loading: () => null,
-    NotAsked: () => null,
-    Success: (val) => (
-      <WithdrawalLockHold
-        {...val.withdrawalLocks.totalLocked}
-        handleClick={handleClick}
-        mode='flyout'
-      />
-    )
-  })
+  if (isLoading || isNotAsked || !data || hasError) return null
+
+  return (
+    <WithdrawalLockHold
+      amount={data.totalLocked.amount}
+      currency={data.totalLocked.currency}
+      handleClick={handleClick}
+      mode='flyout'
+    />
+  )
 }
 
-const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
-  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD') as FiatType
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type SuccessStateType = ReturnType<typeof getData>
-export type Props = ConnectedProps<typeof connector>
-
-export default connector(FundsOnHoldContainer)
+export default FundsOnHoldContainer
