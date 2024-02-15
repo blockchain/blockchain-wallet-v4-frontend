@@ -1,5 +1,5 @@
 // Cowboys Promo Events
-export enum Events {
+export enum CowboysPromoEvents {
   BLOCKCHAIN_COM_LOG_IN_CLICKED = 'Blockchain Com Log In Clicked',
   BLOCKCHAIN_COM_LOG_IN_VIEWED = 'Blockchain Com Log In Viewed',
   BLOCKCHAIN_COM_SIGN_UP_CLICKED = 'Blockchain Com Sign Up Clicked',
@@ -33,44 +33,21 @@ export enum Events {
 type AnnouncementType = 'get_tickets' | 'signed_up'
 
 type CowboysActions = {
-  key:
-    | Events.BLOCKCHAIN_COM_LOG_IN_CLICKED
-    | Events.BLOCKCHAIN_COM_LOG_IN_VIEWED
-    | Events.BLOCKCHAIN_COM_SIGN_UP_CLICKED
-    | Events.BLOCKCHAIN_COM_SIGN_UP_SUBMITTED
-    | Events.BLOCKCHAIN_COM_SIGN_UP_VIEWED
-    | Events.COWBOYS_ADDRESS_CONFIRMED
-    | Events.COWBOYS_ADDRESS_VIEWED
-    | Events.COWBOYS_BUY_CRYPTO_CLICKED
-    | Events.COWBOYS_EMAIL_COMPLETE
-    | Events.COWBOYS_EMAIL_ENTERED
-    | Events.COWBOYS_EMAIL_FAILED
-    | Events.COWBOYS_LEARN_MORE_CLICKED
-    | Events.COWBOYS_PERSONAL_INFO_CONFIRMED
-    | Events.COWBOYS_PERSONAL_INFO_VIEWED
-    | Events.COWBOYS_RAFFLE_INTERSTITIAL_BUY_CRYPTO_CLICKED
-    | Events.COWBOYS_RAFFLE_INTERSTITIAL_CLOSED
-    | Events.COWBOYS_RAFFLE_INTERSTITIAL_VIEWED
-    | Events.COWBOYS_REFER_FRIENDS_ANNOUNCEMENT_CLICKED
-    | Events.COWBOYS_VERIFY_EMAIL_ANNOUNCEMENT_CLICKED
-    | Events.COWBOYS_VERIFY_IDENTITY_ANNOUNCEMENT_CLICKED
-    | Events.COWBOYS_VERIFY_IDENTITY_INTERSTITIAL_CLOSED
-    | Events.COWBOYS_VERIFY_IDENTITY_INTERSTITIAL_VERIFY_ID_CLICKED
-    | Events.COWBOYS_VERIFY_IDENTITY_INTERSTITIAL_VIEWED
-    | Events.COWBOYS_WELCOME_INTERSTITIAL_CLOSED
-    | Events.COWBOYS_WELCOME_INTERSTITIAL_CONTINUE_CLICKED
-    | Events.COWBOYS_WELCOME_INTERSTITIAL_VIEWED
+  key: Exclude<
+    CowboysPromoEvents,
+    CowboysCompleteSignUpAnnouncementClicked['key'] | CowboysLandingViewed['key']
+  >
   properties: {}
 }
 
 type CowboysCompleteSignUpAnnouncementClicked = {
-  key: Events.COWBOYS_COMPLETE_SIGN_UP_ANNOUCEMENT_CLICKED
+  key: CowboysPromoEvents.COWBOYS_COMPLETE_SIGN_UP_ANNOUCEMENT_CLICKED
   properties: {
     type: AnnouncementType
   }
 }
 type CowboysLandingViewed = {
-  key: Events.COWBOYS_LANDING_VIEWED
+  key: CowboysPromoEvents.COWBOYS_LANDING_VIEWED
   properties: {
     origin: string
     utm_medium: string
@@ -80,7 +57,7 @@ type CowboysLandingViewed = {
 }
 
 // track event actions to be used inside codebase when we do trigger event
-export type TrackEventAction =
+export type CowboysPromoActions =
   | CowboysActions
   | CowboysCompleteSignUpAnnouncementClicked
   | CowboysLandingViewed

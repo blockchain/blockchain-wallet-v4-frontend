@@ -1,4 +1,4 @@
-export enum Events {
+export enum TaxCenterEvents {
   TAX_CENTER_CLICKED = 'Wallet Tax Center Clicked',
   TAX_CENTER_LINK_EXCHANGE_CLICKED = 'Exchange Tax Center Clicked',
   TAX_CENTER_MORE_INFO_CLICKED = 'Tax Center More Info Clicked',
@@ -14,22 +14,25 @@ type OriginTaxCenter = 'SETTINGS' | 'EXCHANGE_TAX_CENTER' | 'WALLET_TAX_CENTER'
 
 type TimePeriod = 'ALL_TIME' | string
 
-type TaxCenterClickedAction = {
-  key: Events.TAX_CENTER_CLICKED
+type TaxCenterInfoActions = {
+  key:
+    | TaxCenterEvents.TAX_CENTER_CLICKED
+    | TaxCenterEvents.TAX_CENTER_MORE_INFO_CLICKED
+    | TaxCenterEvents.TAX_CENTER_LINK_EXCHANGE_CLICKED
   properties: {
     origin: OriginTaxCenter
   }
 }
 
 type TaxPartnerWebsiteClickedAction = {
-  key: Events.TAX_CENTER_PARTNER_CLICKED
+  key: TaxCenterEvents.TAX_CENTER_PARTNER_CLICKED
   properties: {
     partner: Partner
   }
 }
 
 type TaxCenterViewedAction = {
-  key: Events.TAX_CENTER_VIEWED
+  key: TaxCenterEvents.TAX_CENTER_VIEWED
   properties: {
     path: string
     referrer: string
@@ -39,41 +42,16 @@ type TaxCenterViewedAction = {
   }
 }
 
-type TaxCenterMoreInfoClickedAction = {
-  key: Events.TAX_CENTER_MORE_INFO_CLICKED
-  properties: {
-    origin: OriginTaxCenter
-  }
-}
-
-type TaxCenterReportExportClickedAction = {
-  key: Events.TAX_CENTER_REPORT_EXPORT_CLICKED
+type TaxCenterExportReportAction = {
+  key: TaxCenterEvents.TAX_CENTER_REPORT_EXPORT_CLICKED | TaxCenterEvents.TAX_CENTER_REPORT_CLICKED
   properties: {
     origin: OriginTaxCenter
     time_period: TimePeriod
   }
 }
 
-type TaxCenterReportClickedAction = {
-  key: Events.TAX_CENTER_REPORT_CLICKED
-  properties: {
-    origin: OriginTaxCenter
-    time_period: TimePeriod
-  }
-}
-
-type TaxCenterExchangeClickedAction = {
-  key: Events.TAX_CENTER_LINK_EXCHANGE_CLICKED
-  properties: {
-    origin: OriginTaxCenter
-  }
-}
-
-export type TrackEventAction =
-  | TaxCenterClickedAction
+export type TaxCenterActions =
+  | TaxCenterExportReportAction
+  | TaxCenterInfoActions
   | TaxCenterViewedAction
   | TaxPartnerWebsiteClickedAction
-  | TaxCenterMoreInfoClickedAction
-  | TaxCenterReportExportClickedAction
-  | TaxCenterReportClickedAction
-  | TaxCenterExchangeClickedAction

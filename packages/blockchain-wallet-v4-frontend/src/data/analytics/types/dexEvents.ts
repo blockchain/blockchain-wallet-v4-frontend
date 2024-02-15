@@ -1,6 +1,6 @@
 import { DexPosition } from 'data/components/dex/types'
 
-export enum Events {
+export enum DexEvents {
   DEX_COUNTRY_INELIGIBLE_VIEWED = 'DEX Country Ineligible Viewed',
   DEX_ONBOARDING_VIEWED = 'DEX Onboarding Viewed',
   DEX_SETTINGS_OPENED = 'DEX Settings Opened',
@@ -38,107 +38,58 @@ type SwapQuoteProperties = {
   venue: string
 }
 
-type DexCountryIneligibleViewed = {
-  key: Events.DEX_COUNTRY_INELIGIBLE_VIEWED
-  properties: {}
-}
-
-type DexOnboardingViewed = {
-  key: Events.DEX_ONBOARDING_VIEWED
-  properties: {}
-}
-
-type DexSettingsOpened = {
-  key: Events.DEX_SETTINGS_OPENED
-  properties: {}
-}
-
-type DexSlippageChanged = {
-  key: Events.DEX_SLIPPAGE_CHANGED
-  properties: {}
-}
-
 type DexSwapAmountEntered = {
-  key: Events.DEX_SWAP_AMOUNT_ENTERED
+  key: DexEvents.DEX_SWAP_AMOUNT_ENTERED
   properties: {
     currency: string
     position: DexPosition
   }
 }
 
-type DexSwapApproveTokenClicked = {
-  key: Events.DEX_SWAP_APPROVE_TOKEN_CLICKED
-  properties: {}
-}
-
-type DexSwapApproveTokenConfirmed = {
-  key: Events.DEX_SWAP_APPROVE_TOKEN_CONFIRMED
-  properties: {}
-}
-
-type DexSwapConfirmedClicked = {
-  key: Events.DEX_SWAP_CONFIRMED_CLICKED
-  properties: SwapQuoteProperties
-}
-
-type DexSwapDetailExpanded = {
-  key: Events.DEX_SWAP_DETAIL_EXPANDED
-  properties: {}
-}
-
-type DexSwapFailedViewed = {
-  key: Events.DEX_SWAP_FAILED_VIEWED
-  properties: {}
-}
-
-type DexSwapInputOpened = {
-  key: Events.DEX_SWAP_INPUT_OPENED
-  properties: {}
-}
-
-type DexSwapOutputNotFound = {
-  key: Events.DEX_SWAP_OUTPUT_NOT_FOUND
-  properties: {
-    text_searched: string
-  }
-}
-
-type DexSwapOutputOpened = {
-  key: Events.DEX_SWAP_OUTPUT_OPENED
-  properties: {}
-}
-
 type DexSwapOutputSelected = {
-  key: Events.DEX_SWAP_OUTPUT_SELECTED
+  key: DexEvents.DEX_SWAP_OUTPUT_SELECTED
   properties: {
     output_currency: string
   }
 }
 
 type DexSwapPreviewViewed = {
-  key: Events.DEX_SWAP_PREVIEW_VIEWED
+  key: DexEvents.DEX_SWAP_PREVIEW_VIEWED
   properties: SwapQuoteProperties
 }
 
-type DexSwappingViewed = {
-  key: Events.DEX_SWAPPING_VIEWED
+type DexSwapConfirmedClicked = {
+  key: DexEvents.DEX_SWAP_CONFIRMED_CLICKED
+  properties: SwapQuoteProperties
+}
+
+type DexSwapOutputNotFound = {
+  key: DexEvents.DEX_SWAP_OUTPUT_NOT_FOUND
+  properties: {
+    text_searched: string
+  }
+}
+
+type DexAction = {
+  key:
+    | DexEvents.DEX_COUNTRY_INELIGIBLE_VIEWED
+    | DexEvents.DEX_ONBOARDING_VIEWED
+    | DexEvents.DEX_SETTINGS_OPENED
+    | DexEvents.DEX_SLIPPAGE_CHANGED
+    | DexEvents.DEX_SWAP_APPROVE_TOKEN_CLICKED
+    | DexEvents.DEX_SWAP_APPROVE_TOKEN_CONFIRMED
+    | DexEvents.DEX_SWAP_DETAIL_EXPANDED
+    | DexEvents.DEX_SWAP_FAILED_VIEWED
+    | DexEvents.DEX_SWAP_INPUT_OPENED
+    | DexEvents.DEX_SWAP_OUTPUT_OPENED
+    | DexEvents.DEX_SWAPPING_VIEWED
   properties: {}
 }
 
-export type TrackEventAction =
-  | DexCountryIneligibleViewed
-  | DexOnboardingViewed
-  | DexSettingsOpened
-  | DexSlippageChanged
+export type DexActions =
+  | DexAction
   | DexSwapAmountEntered
-  | DexSwapApproveTokenClicked
-  | DexSwapApproveTokenConfirmed
   | DexSwapConfirmedClicked
-  | DexSwapDetailExpanded
-  | DexSwapFailedViewed
-  | DexSwapInputOpened
   | DexSwapOutputNotFound
-  | DexSwapOutputOpened
   | DexSwapOutputSelected
   | DexSwapPreviewViewed
-  | DexSwappingViewed
