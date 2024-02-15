@@ -1,36 +1,112 @@
 import React from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { concat, prop } from 'ramda'
-import { bindActionCreators, compose } from 'redux'
+import { FormattedMessage } from 'react-intl'
+import { useDispatch, useSelector } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
+import styled from 'styled-components'
 
-import { actions, selectors } from 'data'
+import { Icon, Text } from 'blockchain-info-components'
+import { isKycVerificationEnabled } from 'data/custodial/selectors'
+import { authAndRouteToExchangeAction } from 'data/modules/profile/actions'
+import { ExchangeAuthOriginType } from 'data/types'
+import { Destination, MenuIcon, MenuItem, Separator, Wrapper } from 'layouts/Wallet/components'
 
-import { Props as OwnProps } from '../template.success'
-import Navigation from './template'
+import CoinList from './CoinList'
 
-const NavigationContainer = (props: Props) => {
-  const { domains } = props
+const PortfolioSeparator = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 16px;
+  margin-bottom: 4px;
+  width: calc(100% - 16px);
+  box-sizing: content-box;
+`
 
-  return <Navigation {...props} exchangeUrl={concat(prop('exchange', domains), '/trade')} />
+const SeparatorWrapper = styled.div<{ margin?: string }>`
+  width: calc(100% - 32px);
+  margin: ${(props) => (props.margin ? props.margin : '8px 16px')};
+  box-sizing: border-box;
+`
+const ExchangeNav = styled.div`
+  display: flex;
+  justify-content: flex-start;
+`
+const ExchangeMenuItem = styled(MenuItem)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const Divider = ({ margin }: { margin?: string }) => (
+  <SeparatorWrapper margin={margin}>
+    <Separator />
+  </SeparatorWrapper>
+)
+
+const ExchangeNavItem = () => {
+  return (
+    <>
+      <ExchangeNav>
+        <MenuIcon
+          className='icon'
+          name='blockchain-logo'
+          style={{ marginLeft: '-2px' }}
+          size='21px'
+        />
+        <Destination style={{ marginLeft: '2px' }}>
+          <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
+        </Destination>
+      </ExchangeNav>
+      <Icon name='open-in-new-tab' color='grey600' cursor size='16px' />
+    </>
+  )
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.components.layoutWallet, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch),
-  profileActions: bindActionCreators(actions.modules.profile, dispatch)
-})
+const Navigation = () => {
+  const dispatch = useDispatch()
 
-const mapStateToProps = (state) => ({
-  coinList: selectors.balances.getTotalWalletBalancesSorted(state),
-  isKycVerificationEnabled: selectors.custodial.isKycVerificationEnabled(state)
-})
+  const kycVerificationEnabled = useSelector(isKycVerificationEnabled)
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+  return (
+    <Wrapper>
+      <Divider />
+      <LinkContainer to='/home' activeClassName='active'>
+        <MenuItem data-e2e='dashboardLink'>
+          <MenuIcon className='icon' name='home' size='24px' />
+          <Destination>
+            <FormattedMessage id='copy.home' defaultMessage='Home' />
+          </Destination>
+        </MenuItem>
+      </LinkContainer>
+      <PortfolioSeparator>
+        <Text color='grey600' lineHeight='20px' weight={600} size='14px'>
+          <FormattedMessage id='copy.portfolio' defaultMessage='Portfolio' />
+        </Text>
+        <Divider />
+      </PortfolioSeparator>
+      <CoinList />
+      <Divider margin='0 16px 8px 16px' />
+      <LinkContainer to='/airdrops' activeClassName='active'>
+        <MenuItem data-e2e='airdropLink' className='airdrop'>
+          <MenuIcon className='icon' name='parachute' size='24px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.airdrops'
+              defaultMessage='Airdrops'
+            />
+          </Destination>
+        </MenuItem>
+      </LinkContainer>
+      {kycVerificationEnabled && (
+        <ExchangeMenuItem
+          data-e2e='exchangeLink'
+          onClick={() => dispatch(authAndRouteToExchangeAction(ExchangeAuthOriginType.SideMenu))}
+        >
+          <ExchangeNavItem />
+        </ExchangeMenuItem>
+      )}
+    </Wrapper>
+  )
+}
 
-const enhance = compose(connector)
-
-export type Props = OwnProps & ConnectedProps<typeof connector>
-
-export default enhance(NavigationContainer)
+export default Navigation

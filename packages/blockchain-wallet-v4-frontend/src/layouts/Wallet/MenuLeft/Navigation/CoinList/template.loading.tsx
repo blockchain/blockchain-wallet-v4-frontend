@@ -22,7 +22,7 @@ const LoadingTextDark = styled(SkeletonRectangle)`
   border-radius: 10px;
 `
 
-const Loading: React.FC<Props> = () => {
+const Loading = () => {
   return (
     <>
       {[1, 2, 3].map((i) => (
@@ -34,7 +34,5 @@ const Loading: React.FC<Props> = () => {
     </>
   )
 }
-
-type Props = {}
 
 export default Loading

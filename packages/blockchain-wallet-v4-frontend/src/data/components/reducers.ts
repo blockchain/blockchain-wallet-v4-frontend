@@ -8,7 +8,6 @@ import { fundRecoveryReducer } from './fundRecovery/reducers'
 import { identityVerificationReducer } from './identityVerification/slice'
 import { interestReducer } from './interest/slice'
 import { reducer as interestUploadDocumentReducer } from './interestUploadDocument/slice'
-import { layoutWalletReducer as layoutWallet } from './layoutWallet/slice'
 import manageAddresses from './manageAddresses/reducers'
 import { nftsReducer } from './nfts/slice'
 import { priceChartReducer } from './priceChart/slice'
@@ -41,7 +40,6 @@ const componentReducer = combineReducers({
   identityVerification: identityVerificationReducer,
   interest: interestReducer,
   interestUploadDocument: interestUploadDocumentReducer,
-  layoutWallet,
   manageAddresses,
   nfts: nftsReducer,
   priceChart: priceChartReducer,
