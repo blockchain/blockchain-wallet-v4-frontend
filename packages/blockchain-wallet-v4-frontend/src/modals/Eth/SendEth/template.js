@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
-import Announcements from 'components/Announcements'
+import { ServiceAnnouncement } from 'components/Announcements'
 
 const SendHeader = styled(ModalHeader)`
   border-bottom: 0;
@@ -23,7 +23,7 @@ const SendEth = (props) => (
         values={{ coinDisplayName: props.coinDisplayName }}
       />
     </SendHeader>
-    <Announcements type='service' alertArea='send' currentCoin={props.coin} />
+    <ServiceAnnouncement alertArea='send' currentCoin={props.coin} />
     <ModalBody>{props.children}</ModalBody>
   </Modal>
 )

@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
-import Announcements from 'components/Announcements'
+import { ServiceAnnouncement } from 'components/Announcements'
 
 const SendHeader = styled(ModalHeader)`
   border-bottom: 0;
@@ -18,7 +18,7 @@ const SendBtc = (props) => (
     <SendHeader icon='send' onClose={props.closeAll}>
       <FormattedMessage id='modals.sendbitcoin.title' defaultMessage='Send Bitcoin' />
     </SendHeader>
-    <Announcements type='service' alertArea='send' currentCoin='BTC' />
+    <ServiceAnnouncement alertArea='send' currentCoin='BTC' />
     <ModalBody>{props.children}</ModalBody>
   </Modal>
 )
