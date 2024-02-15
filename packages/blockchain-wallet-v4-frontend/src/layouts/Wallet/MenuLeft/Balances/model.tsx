@@ -7,9 +7,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
-import { Props as OwnProps } from './WalletBalance/Balance/template.success'
-
-export const CoinBalanceMain = styled.div`
+const CoinBalanceMain = styled.div`
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -51,37 +49,50 @@ export const BalancesWrapper = styled.div`
   }
 `
 
-export const CoinBalanceWrapper = (props: OwnProps) => {
-  return props.large ? (
-    <CoinBalanceMain>
-      <CoinDisplay coin={props.coin} cursor='pointer' mobileSize='14px' size='18px' weight={400}>
-        {props.balance}
-      </CoinDisplay>
-      <FiatDisplay coin={props.coin} cursor='pointer' mobileSize='14px' size='18px' weight={400}>
-        {props.balance}
-      </FiatDisplay>
-    </CoinBalanceMain>
-  ) : (
-    <LinkContainer to={`/coins/${props.coin}`}>
+type Props = {
+  balance: number
+  coin: string
+  coinTicker: string
+  large: boolean
+}
+
+export const CoinBalanceWrapper = ({ balance, coin, coinTicker, large }: Props) => {
+  if (large) {
+    return (
+      <CoinBalanceMain>
+        <CoinDisplay coin={coin} cursor='pointer' mobileSize='14px' size='18px' weight={400}>
+          {balance}
+        </CoinDisplay>
+        <FiatDisplay coin={coin} cursor='pointer' mobileSize='14px' size='18px' weight={400}>
+          {balance}
+        </FiatDisplay>
+      </CoinBalanceMain>
+    )
+  }
+  return (
+    <LinkContainer to={`/coins/${coin}`}>
       <CoinBalanceSwitchable>
-        <CoinNameText>{props.coinTicker ?? props.coin}</CoinNameText>
-        <SwitchableDisplay size='12px' weight={500} coin={props.coin} hideCoinTicker>
-          {props.balance}
+        <CoinNameText>{coinTicker ?? coin}</CoinNameText>
+        <SwitchableDisplay size='12px' weight={500} coin={coin} hideCoinTicker>
+          {balance}
         </SwitchableDisplay>
       </CoinBalanceSwitchable>
     </LinkContainer>
   )
 }
 
-export const LoadingBalance = (props) => {
-  return props.large ? (
-    <BalanceSkeleton>
-      <SkeletonRectangle width='170px' height='12px' />
-    </BalanceSkeleton>
-  ) : (
+export const LoadingBalance = ({ coinTicker, large }: Pick<Props, 'coinTicker' | 'large'>) => {
+  if (large) {
+    return (
+      <BalanceSkeleton>
+        <SkeletonRectangle width='170px' height='12px' />
+      </BalanceSkeleton>
+    )
+  }
+  return (
     <CoinSkeletonWrapper>
       <Text size='12px' weight={600} color='grey800'>
-        {props.coinTicker}
+        {coinTicker}
       </Text>
       <SkeletonRectangle width='40px' height='12px' />
     </CoinSkeletonWrapper>
