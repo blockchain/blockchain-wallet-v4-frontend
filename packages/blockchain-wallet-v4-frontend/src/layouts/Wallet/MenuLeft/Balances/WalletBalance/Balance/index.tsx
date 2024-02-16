@@ -10,7 +10,7 @@ import { LoadingBalance } from '../../model'
 import Error from './template.error'
 import Success from './template.success'
 
-const Balance = ({ coin, coinTicker, large }: Props) => {
+const Balance = ({ coin, coinTicker }: Props) => {
   const dispatch = useDispatch()
   const { data, hasError, isLoading, isNotAsked } = useRemote(
     selectors.balances.getCoinTotalBalance(coin)
@@ -24,18 +24,17 @@ const Balance = ({ coin, coinTicker, large }: Props) => {
   }
 
   if (isLoading || isNotAsked || !data) {
-    return <LoadingBalance large={large} coinTicker={coinTicker} />
+    return <LoadingBalance coinTicker={coinTicker} />
   }
 
   if (hasError) return <Error onRefresh={handleRefresh} />
 
-  return <Success balance={data} large={large} coin={coin} coinTicker={coinTicker} />
+  return <Success balance={data} coin={coin} coinTicker={coinTicker} />
 }
 
 export type Props = {
   coin: CoinType
   coinTicker: string
-  large?: boolean
 }
 
 export default Balance
