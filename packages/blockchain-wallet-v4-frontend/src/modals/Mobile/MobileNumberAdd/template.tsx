@@ -27,7 +27,6 @@ const MobileNumberAdd = ({
   submitting
 }: InjectedFormProps<{}, MobileModalProps> & MobileModalProps) => {
   const countryCode = useSelector(getUserCountryCode).getOrElse('US')
-
   return (
     <Form onSubmit={handleSubmit}>
       <ModalHeader icon='mobile' onClose={handleClose}>
@@ -47,7 +46,7 @@ const MobileNumberAdd = ({
           <Text size='14px' weight={400} style={spacing('pr-5')}>
             <FormattedMessage
               id='modals.mobilenumberchange.mobile'
-              defaultMessage='Mobile number: '
+              defaultMessage='Mobile number:'
             />
           </Text>
           <Field
@@ -55,7 +54,7 @@ const MobileNumberAdd = ({
             validate={[validMobileNumber, required]}
             component={PhoneNumberBox}
             errorBottom
-            countyCode={countryCode}
+            countryCode={countryCode}
           />
         </MobileNumber>
       </ModalBody>
