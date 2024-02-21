@@ -19,7 +19,7 @@ const DEFAULTS = {
 
 class TransferEthContainer extends React.PureComponent<Props> {
   componentDidMount() {
-    this.props.transferEthActions.initialized({
+    this.props.transferEthActions.transferEthInitialized({
       from: this.props.legacyEthAddr,
       type: 'LEGACY'
     })
