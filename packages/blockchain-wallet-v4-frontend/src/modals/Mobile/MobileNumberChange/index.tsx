@@ -14,7 +14,7 @@ const ChangeMobileNumberModal = ({ close, position, total }) => {
   const dispatch = useDispatch()
 
   const smsNumberNew = useSelector((state) =>
-    formValueSelector('mobileNumberAdd')(state, 'mobileNumber')
+    formValueSelector('mobileNumberChange')(state, 'mobileNumber')
   )
 
   const handleClose = () => {
