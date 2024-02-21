@@ -2,22 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { CoinType, TimeRange } from '@core/types'
 
-const initialState = {
+import { CoinPayload, PriceChartType, TimePayload } from './types'
+
+const initialState: PriceChartType = {
   coin: 'BTC',
   time: TimeRange.ALL
-}
-
-type CoinPayload = {
-  coin: CoinType
-}
-
-type InitializedPayload = {
-  coin: CoinType
-  time: TimeRange
-}
-
-type TimePayload = {
-  time: TimeRange
 }
 
 const priceChartSlice = createSlice({
@@ -32,7 +21,7 @@ const priceChartSlice = createSlice({
     },
     initialized: {
       prepare: (coin: CoinType, time: TimeRange) => ({ payload: { coin, time } }),
-      reducer: (state, action: PayloadAction<InitializedPayload>) => {
+      reducer: (state, action: PayloadAction<PriceChartType>) => {
         state.coin = action.payload.coin
         state.time = action.payload.time
       }

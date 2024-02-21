@@ -23,7 +23,7 @@ class SettingsContainer extends React.PureComponent {
       !equals(prevProps.newLanguage, newLanguage)
     ) {
       this.props.settingsActions.updateLanguage(newLanguage)
-      this.props.preferencesActions.setLanguage(newLanguage, true)
+      this.props.preferencesActions.setLanguage({ language: newLanguage, showAlert: true })
     }
   }
 

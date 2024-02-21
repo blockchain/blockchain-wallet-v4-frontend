@@ -1477,27 +1477,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.preferences.SET_LINK_HANDLING: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-
-        analytics.push(AnalyticsKey.CRYPTO_LINK_HANDLING_CLICKED, {
-          properties: {
-            originalTimestamp: getOriginalTimestamp()
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-
-        break
-      }
       case AT.wallet.MANAGE_WALLET_SELECTION: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
