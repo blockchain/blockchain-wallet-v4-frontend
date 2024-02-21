@@ -1,5 +1,6 @@
 import React from 'react'
 import { isValidBIC, isValidIBAN } from 'ibantools'
+import { isValidNumber } from 'libphonenumber-js'
 import { all, any, equals, gt, prop, propOr } from 'ramda'
 
 import { utils } from '@core'
@@ -218,3 +219,6 @@ export const validRoutingNumber = (value) =>
 
 export const maxLength = (length) => (value) =>
   value?.length > length && <span>Can&apos;t be more than {length} characters long</span>
+
+export const validMobileNumber = (value) =>
+  isValidNumber(value) ? undefined : <M.InvalidMobileNumber />
