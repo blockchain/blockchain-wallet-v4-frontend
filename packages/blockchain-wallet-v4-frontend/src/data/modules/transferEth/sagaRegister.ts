@@ -8,6 +8,6 @@ export default ({ coreSagas, networks }) => {
 
   return function* transferEthSaga() {
     yield takeLatest(actions.confirmTransferEth, transferEthSagas.confirmTransferEth)
-    yield takeLatest(actions.transferEthInitialized, transferEthSagas.initialized)
+    yield takeLatest(actions.transferEthInitialized, transferEthSagas.transferEthInitialized)
   }
 }
