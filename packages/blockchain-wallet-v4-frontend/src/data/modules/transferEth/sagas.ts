@@ -11,7 +11,9 @@ import { actions as A } from './transferEthSlice'
 export const logLocation = 'modules/transferEth/sagas'
 
 export default ({ coreSagas, networks }) => {
-  const initialized = function* ({ payload }: ReturnType<typeof A.transferEthInitialized>) {
+  const transferEthInitialized = function* ({
+    payload
+  }: ReturnType<typeof A.transferEthInitialized>) {
     try {
       yield put(A.transferEthPaymentUpdatedLoading())
       let payment: EthPaymentType = coreSagas.payment.eth.create({ network: networks.eth })
@@ -51,6 +53,6 @@ export default ({ coreSagas, networks }) => {
 
   return {
     confirmTransferEth,
-    initialized
+    transferEthInitialized
   }
 }
