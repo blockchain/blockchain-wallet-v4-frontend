@@ -73,9 +73,12 @@ const WithdrawalMethods: Props = ({ fiatCurrency, handleClose }) => {
       // TODO: implement Withdrawal version of wire instructions so we
       // have more control over look/feel/interactions instead of piggy packing
       // off of the deposit wire instructions
+
+      const isUserFromUS = data?.userCountryCode === 'US'
+
       dispatch(
         actions.components.brokerage.setDWStep({
-          dwStep: BankDWStepType.ADD_WIRE_BANK
+          dwStep: isUserFromUS ? BankDWStepType.ADD_WIRE_BANK : BankDWStepType.WIRE_INSTRUCTIONS
         })
       )
     } else {

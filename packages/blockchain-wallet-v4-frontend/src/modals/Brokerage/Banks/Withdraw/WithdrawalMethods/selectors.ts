@@ -7,6 +7,7 @@ import { RootState } from 'data/rootReducer'
 
 type SuccessStateType = {
   paymentMethods: BSPaymentMethodsType
+  userCountryCode: string
   userTier: TIER_TYPES
 }
 
@@ -18,20 +19,22 @@ const getData = (state: RootState): RemoteDataType<string, SuccessStateType> => 
   } as InvitationsType)
 
   const userTier = selectors.modules.profile.getCurrentTier(state)
+  const userCountryCode = selectors.modules.profile.getUserCountryCode(state)
 
   const filterPaymentMethods = (methods) => {
     return methods.filter((m) => m.type === BSPaymentTypes.BANK_ACCOUNT || m.currency === 'USD')
   }
 
-  return lift((paymentMethods, userTier) => ({
+  return lift((paymentMethods, userTier, userCountryCode) => ({
     paymentMethods: invitations.openBanking
       ? paymentMethods
       : {
           ...paymentMethods,
           methods: filterPaymentMethods(paymentMethods.methods)
         },
+    userCountryCode,
     userTier
-  }))(paymentMethodsR, userTier)
+  }))(paymentMethodsR, userTier, userCountryCode)
 }
 
 export default getData
