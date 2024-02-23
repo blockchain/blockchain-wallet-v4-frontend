@@ -21,7 +21,7 @@
     "wallet"
   ],
   "engines": {
-    "node": ">= 14.16",
+    "node": ">= 18",
     "yarn": ">= 1.22"
   },
   "workspaces": [
@@ -162,7 +162,7 @@
     "hoist-non-react-statics": "3.3.2",
     "html-replace-webpack-plugin": "2.6.0",
     "html-webpack-plugin": "5.5.0",
-    "husky": "9.0.1",
+    "husky": "^9.0.11",
     "identity-obj-proxy": "3.0.0",
     "istanbul": "0.4.5",
     "jest": "27.0.6",
