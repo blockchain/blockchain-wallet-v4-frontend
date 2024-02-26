@@ -1,42 +1,27 @@
 import React from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { prop } from 'ramda'
-import { bindActionCreators } from 'redux'
+import { useSelector } from 'react-redux'
 
-import { actions, selectors } from 'data'
+import { Wrapper } from 'components/Balances'
+import { selectors } from 'data'
 
-import Template from './template'
+import { BalancesWrapper } from '../model'
+import Balance from './Balance'
+import PendingBSTransactions from './PendingBSTransactions'
 
-class WalletBalanceContainer extends React.PureComponent<Props> {
-  render() {
-    const { coins, preferencesActions, totalBalancesDropdown } = this.props
-    const isActive = prop('wallet', totalBalancesDropdown)
-    return (
-      <Template
-        isActive={isActive}
-        coins={coins}
-        handleToggle={() =>
-          preferencesActions.setTotalBalancesDropdown({
-            key: 'wallet',
-            val: !isActive
-          })
-        }
-      />
-    )
-  }
+const WalletBalance = () => {
+  const coins = useSelector(selectors.balances.getTotalWalletBalancesSorted).getOrElse([])
+  const isActive = useSelector(selectors.preferences.getTotalBalancesDropdown)?.wallet
+
+  return (
+    <Wrapper>
+      <PendingBSTransactions />
+      <BalancesWrapper className={isActive ? 'active' : ''}>
+        {coins.map((coin) => (
+          <Balance coin={coin.symbol} coinTicker={coin.symbol} key={coin.symbol} />
+        ))}
+      </BalancesWrapper>
+    </Wrapper>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  coins: selectors.balances.getTotalWalletBalancesSorted(state).getOrElse([]),
-  totalBalancesDropdown: selectors.preferences.getTotalBalancesDropdown(state)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type Props = ConnectedProps<typeof connector>
-
-export default connector(WalletBalanceContainer)
+export default WalletBalance

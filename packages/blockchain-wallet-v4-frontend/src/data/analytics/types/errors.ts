@@ -1,4 +1,4 @@
-export enum Events {
+export enum ClientErrorEvents {
   CLIENT_ERROR = 'Client Error'
 }
 
@@ -37,9 +37,7 @@ export type ClientErrorProperties = {
 
 export type PartialClientErrorProperties = Partial<ClientErrorProperties>
 
-export type ClientErrorAction = {
-  key: Events.CLIENT_ERROR
+export type ClientErrorActions = {
+  key: ClientErrorEvents.CLIENT_ERROR
   properties: ClientErrorProperties
 }
-
-export type TrackEventAction = ClientErrorAction

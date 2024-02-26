@@ -1,69 +1,40 @@
 import React from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { toLower } from 'ramda'
-import { bindActionCreators } from 'redux'
+import { useDispatch } from 'react-redux'
 
-import { CoinType, ExtractSuccess } from '@core/types'
-import { actions } from 'data'
+import { fetchErc20Data } from '@core/redux/data/eth/actions'
+import { CoinType } from '@core/types'
+import { actions, selectors } from 'data'
+import { useRemote } from 'hooks'
 
 import { LoadingBalance } from '../../model'
-import { getData } from './selectors'
 import Error from './template.error'
 import Success from './template.success'
 
-class Balance extends React.PureComponent<Props> {
-  handleRefresh = () => {
-    const { coin } = this.props
-    const { coinfig } = window.coins[coin]
-    if (coinfig.type.erc20Address) {
-      this.props.ethActions.fetchErc20Data(coin)
+const Balance = ({ coin, coinTicker }: Props) => {
+  const dispatch = useDispatch()
+  const { data, hasError, isLoading, isNotAsked } = useRemote(
+    selectors.balances.getCoinTotalBalance(coin)
+  )
+  const handleRefresh = () => {
+    if (window.coins?.[coin]?.coinfig?.type.erc20Address) {
+      dispatch(fetchErc20Data(coin))
     } else {
-      const coinLower = toLower(coin)
-      this.props[`${coinLower}Actions`].fetchData()
+      dispatch(actions.core.data[coin].fetchData())
     }
   }
 
-  render() {
-    const { coin, coinTicker, data, large } = this.props
-
-    return data.cata({
-      Failure: () => <Error onRefresh={this.handleRefresh} />,
-      Loading: () => <LoadingBalance large={large} coinTicker={coinTicker} />,
-      NotAsked: () => <LoadingBalance large={large} coinTicker={coinTicker} />,
-      Success: (value) => (
-        // @ts-ignore
-        <Success
-          {...this.props}
-          balance={value}
-          large={large}
-          coin={coin}
-          coinTicker={coinTicker}
-        />
-      )
-    })
+  if (isLoading || isNotAsked || !data) {
+    return <LoadingBalance coinTicker={coinTicker} />
   }
+
+  if (hasError) return <Error onRefresh={handleRefresh} />
+
+  return <Success balance={data} coin={coin} coinTicker={coinTicker} />
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  bchActions: bindActionCreators(actions.core.data.bch, dispatch),
-  btcActions: bindActionCreators(actions.core.data.btc, dispatch),
-  ethActions: bindActionCreators(actions.core.data.eth, dispatch),
-  stxActions: bindActionCreators(actions.core.data.stx, dispatch),
-  xlmActions: bindActionCreators(actions.core.data.xlm, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type OwnProps = {
+export type Props = {
   coin: CoinType
   coinTicker: string
-  large: boolean
 }
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(Balance)
+export default Balance

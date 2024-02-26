@@ -5,7 +5,7 @@ import { replace } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import Alerts from 'components/Alerts'
-import Announcements from 'components/Announcements'
+import { ServiceAnnouncement, StaticAnnouncement } from 'components/Announcements'
 import { SofiBanner, UkBanner, UkFooterBanner } from 'components/Banner'
 import { CowboysCardComponent } from 'components/Card/CowboysCard'
 import ExchangePromo from 'components/Card/ExchangePromo'
@@ -70,8 +70,8 @@ const WalletLayout: Props = ({
           <MenuTop />
           <SofiBanner />
           <UkBanner />
-          <Announcements type='service' alertArea='wallet' />
-          <Announcements type='static' />
+          <ServiceAnnouncement alertArea='wallet' />
+          <StaticAnnouncement />
         </Nav>
         <Container>
           {hideMenu ? null : <MenuLeft />}

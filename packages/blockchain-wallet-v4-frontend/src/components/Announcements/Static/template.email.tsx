@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import PropTypes from 'prop-types'
 import styled, { css, keyframes } from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
@@ -42,9 +41,13 @@ const EmailSentNotification = styled(Text)<{ className?: string }>`
   `}
 `
 
-const EmailReminder = (props) => {
-  const { email, emailReminded, onEmailResend } = props
+type Props = {
+  email: string
+  emailReminded: boolean
+  onEmailResend: () => void
+}
 
+const EmailReminder = ({ email, emailReminded, onEmailResend }: Props) => {
   return (
     <>
       <ItemWrapper>
@@ -75,7 +78,7 @@ const EmailReminder = (props) => {
         </EmailSentNotification>
       </ItemWrapper>
       <ItemWrapper>
-        <Action color='white' size='14px' onClick={() => onEmailResend(email)}>
+        <Action color='white' size='14px' onClick={onEmailResend}>
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder.resend'
             defaultMessage='Resend Email'
@@ -95,12 +98,6 @@ const EmailReminder = (props) => {
       </ItemWrapper>
     </>
   )
-}
-
-EmailReminder.propTypes = {
-  email: PropTypes.string.isRequired,
-  emailReminded: PropTypes.bool,
-  onEmailResend: PropTypes.func.isRequired
 }
 
 export default EmailReminder

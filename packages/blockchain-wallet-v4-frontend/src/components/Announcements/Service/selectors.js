@@ -1,5 +1,3 @@
-import { includes, keys, prop } from 'ramda'
-
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
@@ -13,16 +11,15 @@ export const getData = createDeepEqualSelector(
   (announcementsR, announcementCached, language, ownProps) => {
     const { alertArea, currentCoin } = ownProps
     const announcements = announcementsR.getOrElse({})
-    const announcement = prop(alertArea, announcements)
-    if (keys(announcement).length) {
-      const announcement = announcements[alertArea]
-      const cachedState = announcementCached && announcementCached[announcement.id]
-      const showAnnouncement = prop('coins', announcement)
-        ? includes(currentCoin, prop('coins', announcement))
-        : !(cachedState && cachedState.dismissed)
+    const announcement = announcements[alertArea] ?? {}
+    if (Object.keys(announcement).length) {
+      const cachedState = announcementCached?.[announcement.id]
+      const showAnnouncement = announcement.coin
+        ? announcement?.coin?.includes(currentCoin)
+        : !cachedState?.dismissed
       return {
         announcements,
-        collapsed: cachedState && cachedState.collapsed,
+        collapsed: !!cachedState?.collapsed,
         language,
         showAnnouncement
       }

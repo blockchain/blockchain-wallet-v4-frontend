@@ -2,7 +2,7 @@ export enum SpinnerEvents {
   SPINNER_TIMED_OUT = 'Spinner Timed Out'
 }
 
-export type SpinnerEventAction = {
+export type SpinnerActions = {
   key: SpinnerEvents
   properties: {
     endpoint: string

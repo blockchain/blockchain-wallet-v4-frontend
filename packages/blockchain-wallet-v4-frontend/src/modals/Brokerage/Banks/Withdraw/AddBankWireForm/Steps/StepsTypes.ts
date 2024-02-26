@@ -1,3 +1,5 @@
+import { InjectedFormProps } from 'redux-form'
+
 export type WireBankFormType = {
   acceptDetails: boolean
   accountNumber: string
@@ -21,3 +23,5 @@ export type StepProps = {
   onClickBack: () => void
   onNextStep: () => void
 }
+
+export type StepFormProps = InjectedFormProps<{}, StepProps> & StepProps

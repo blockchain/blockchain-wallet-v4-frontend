@@ -1,4 +1,4 @@
-export enum Events {
+export enum SellEvents {
   COIN_VIEW_SELL_CLICKED = 'Coin View Sell Clicked',
   FAB_SELL_CLICKED = 'FAB Sell Clicked',
   PRICES_PAGE_SELL_CLICKED = 'Prices Page Sell Clicked',
@@ -16,7 +16,7 @@ export enum Events {
   SELL_PRICE_TOOLTIP_CLICKED = 'Sell Price Tooltip Clicked'
 }
 
-export type TrackEventAction = {
-  key: Events
+export type SellActions = {
+  key: SellEvents
   properties: {}
 }
