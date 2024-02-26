@@ -245,6 +245,11 @@ type OnboardingGenericActions = {
   properties: {}
 }
 
+type OnboardingQuizStarted = {
+  key: OnboardingAndVerificationEvents.ONBOARDING_QUIZ_STARTED
+  properties: {}
+}
+
 // track event actions to be used inside codebase when we do trigger event
 export type OnboardingAndVerificationActions =
   | CompleteProfileGenericAction

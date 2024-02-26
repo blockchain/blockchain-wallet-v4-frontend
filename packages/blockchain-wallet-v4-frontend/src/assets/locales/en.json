@@ -1,4 +1,5 @@
 {
+  " home.pricechart.finprom.here": "here",
   "addCardCheckoutDotCom.creditCardInfoCard.button": "Learn More",
   "addCardCheckoutDotCom.creditCardInfoCard.content": "Many credit cards don’t support crypto purchases. Debit cards usually work best.",
   "addCardCheckoutDotCom.creditCardInfoCard.title": "Did you know?",
@@ -905,6 +906,7 @@
   "home.banners.stakingBanner.body": "Stake your ETH today to earn {rate}% and unlock 10x lower staking fees through 2022!",
   "home.banners.stakingBanner.buyCrypto.title": "Start Earning",
   "home.banners.stakingBanner.title": "Earn up to {rate}% by staking ETH",
+  "home.pricechart.finprom.disclaimer": "Real-time data is obtained from multiple sources and may sometimes be delayed due to system performance issues. Past performance is not indicative of future results. Find out more about various crypto assets and their risks {link}.",
   "identityverification.add_my_address": "Add My Address",
   "identityverification.extra_fields.title": "Use of Account Information",
   "identityverification.failure.content2": "If you want to learn more about our verification process. Visit our",
