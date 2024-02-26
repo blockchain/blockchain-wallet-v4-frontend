@@ -9,7 +9,7 @@ import createSagaMiddleware from 'redux-saga'
 import { all, fork } from 'redux-saga/effects'
 
 import formReducer from 'data/form/reducers'
-import { preferencesReducer } from 'data/preferences/preferencesSlice'
+import { preferencesReducer } from 'data/preferences/slice'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 

@@ -1,6 +1,6 @@
 import { takeLatest } from 'redux-saga/effects'
 
-import { actions } from './preferencesSlice'
+import { actions } from './slice'
 import sagas from './sagas'
 
 export default () => {
