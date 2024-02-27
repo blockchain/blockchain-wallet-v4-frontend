@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { prop, toLower } from 'ramda'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { Text } from 'blockchain-info-components'
 
-import 'react-intl-tel-input/dist/libphonenumber.js'
 import 'react-intl-tel-input/dist/main.css'
 
 const IntlTelInput = React.lazy(() => import('react-intl-tel-input'))
@@ -16,9 +14,7 @@ const Container = styled.div`
   > :first-child {
     width: 100%;
   }
-  .iti-arrow {
-    right: -8px;
-  }
+
   input {
     width: 100%;
     height: 48px;
@@ -56,28 +52,33 @@ class PhoneNumberBox extends React.Component {
     }
   }
 
-  changeHandler = (status, value, countryData, number, id) => {
+  changeHandler = (status, value, countryData, number) => {
     this.props.input.onChange(number)
   }
 
-  blurHandler = (status, value, countryData, number, id) => {
+  blurHandler = (status, value, countryData, number) => {
     this.props.input.onBlur(number)
   }
 
   bindTel = (ref) => {
-    const tel = prop('tel', ref)
-    if (tel) this.tel = tel
+    if (ref?.tel) this.tel = ref.tel
   }
 
   render() {
     const field = this.props
-    const { defaultValue, disabled, errorBottom, input, meta } = field
+    const {
+      countryCode: countryCodeField,
+      defaultValue,
+      disabled,
+      errorBottom,
+      input,
+      meta
+    } = field
     const { error, touched, warning } = meta
-    const countryCodeField = prop('countryCode', field)
     const upperCountryCode = Remote.is(countryCodeField)
       ? countryCodeField.getOrElse('US')
       : countryCodeField || 'US'
-    const countryCode = upperCountryCode && toLower(upperCountryCode)
+    const countryCode = upperCountryCode?.toLowerCase()
 
     return (
       <Container>
@@ -91,8 +92,6 @@ class PhoneNumberBox extends React.Component {
           defaultCountry={countryCode}
           preferredCountries={['us', 'gb']}
           css={['intl-tel-input', 'form-control']}
-          utilsScript='libphonenumber.js'
-          placeholder='555-555-5555'
         />
         {touched && error && (
           <Error size='12px' weight={500} color='error' errorBottom={errorBottom}>
@@ -110,7 +109,7 @@ class PhoneNumberBox extends React.Component {
 }
 
 PhoneNumberBox.propTypes = {
-  countryCode: PropTypes.object.isRequired
+  countryCode: PropTypes.string
 }
 
 export default PhoneNumberBox

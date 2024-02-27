@@ -18786,6 +18786,11 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+libphonenumber-js-utils@^8.10.5:
+  version "8.10.5"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js-utils/-/libphonenumber-js-utils-8.10.5.tgz#778cb7633c94e2524f08c3109a7450095b4e6727"
+  integrity sha512-VxpwgrAGps1p5avOVQVBTCpUQwkrJZqptV2DoTimY3VXTzm0EetbT73sWVTkg8FmreVmM2qwwFl7yqymdOkFug==
+
 libphonenumber-js@0.4.40:
   version "0.4.40"
   resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-0.4.40.tgz#17baa1dedfed46ab9579f7c4c5da01c5c7167208"
@@ -22408,12 +22413,13 @@ react-inspector@^5.1.0:
     is-dom "^1.0.0"
     prop-types "^15.0.0"
 
-react-intl-tel-input@5.0.7:
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/react-intl-tel-input/-/react-intl-tel-input-5.0.7.tgz#05fa5ee9be3abfb6a9baae2f58f1042c5ae54211"
-  integrity sha512-MFr6FKEvbaKF42Y9nMUDtLkGIbKD+BKyyOOMDXcBqTIERKl6HDzDNpLjumnBeJIBQuH511Q7pDqde4xSPml2ow==
+react-intl-tel-input@8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/react-intl-tel-input/-/react-intl-tel-input-8.2.0.tgz#9e830fbe3bcca5aa5e8cdd84bac80da13e3ab389"
+  integrity sha512-fuIrd+rk2GTXj9Ff1qnSAIjwKkOb37xcTHjsQ4CcJZUma533pOOFtQxIhPYFA0qFRmblzclhP+Pn7EfiA38Eqg==
   dependencies:
     classnames "^2.2.5"
+    libphonenumber-js-utils "^8.10.5"
     prop-types "^15.6.1"
     react-style-proptype "^3.0.0"
     underscore.deferred "^0.4.0"
