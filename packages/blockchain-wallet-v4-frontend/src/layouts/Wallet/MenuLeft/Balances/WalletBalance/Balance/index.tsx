@@ -15,6 +15,7 @@ const Balance = ({ coin, coinTicker }: Props) => {
   const { data, hasError, isLoading, isNotAsked } = useRemote(
     selectors.balances.getCoinTotalBalance(coin)
   )
+
   const handleRefresh = () => {
     if (window.coins?.[coin]?.coinfig?.type.erc20Address) {
       dispatch(fetchErc20Data(coin))
@@ -23,7 +24,7 @@ const Balance = ({ coin, coinTicker }: Props) => {
     }
   }
 
-  if (isLoading || isNotAsked || !data) {
+  if (isLoading || isNotAsked || typeof data !== 'number') {
     return <LoadingBalance coinTicker={coinTicker} />
   }
 
