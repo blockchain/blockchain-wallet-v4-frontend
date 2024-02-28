@@ -1,8 +1,6 @@
-import React, { FC, ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 import { useIdleTimer } from 'react-idle-timer'
-import { connect, ConnectedProps } from 'react-redux'
-import { replace } from 'ramda'
-import { bindActionCreators, Dispatch } from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Alerts from 'components/Alerts'
 import { ServiceAnnouncement, StaticAnnouncement } from 'components/Announcements'
@@ -11,27 +9,30 @@ import { CowboysCardComponent } from 'components/Card/CowboysCard'
 import ExchangePromo from 'components/Card/ExchangePromo'
 import { SupportChatForGoldUserOnly } from 'components/SupportChat'
 import Tooltips from 'components/Tooltips'
-import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import Modals from '../../../modals'
 import MenuLeft from '../MenuLeft'
 import MenuTop from '../MenuTop'
-import Page from '../Page'
-import { Container, Content, Nav, Wrapper } from './WalletLayout.styles'
+import { Container, Content, Nav, PageContent, Wrapper } from './WalletLayout.styles'
+import { modals } from 'data/actions'
+import { RootState } from 'data/rootReducer'
+import { getAutoLogoutTime } from '@core/redux/wallet/selectors'
 
-const WalletLayout: Props = ({
+const WalletLayout = ({
   approvalDate,
-  autoLogoutTimeLength,
   center = false,
   children,
   hasUkBanner,
   hideMenu = false,
-  modalActions,
   pathname,
   removeContentPadding
-}) => {
+}: Props) => {
+  const dispatch = useDispatch()
+
+  const autoLogoutTimeLength = useSelector((state: RootState) => getAutoLogoutTime(state)) as number
+
   useIdleTimer({
     element: document,
     events: [
@@ -50,10 +51,12 @@ const WalletLayout: Props = ({
     eventsThrottle: 5_000, // throttle event detection to 5 seconds
     onIdle: () => {
       const idleTimeInMinutes = autoLogoutTimeLength / 60_000
-      modalActions.showModal(ModalName.AUTO_DISCONNECTION_MODAL, {
-        duration: idleTimeInMinutes,
-        origin: 'Unknown'
-      })
+      dispatch(
+        modals.showModal(ModalName.AUTO_DISCONNECTION_MODAL, {
+          duration: idleTimeInMinutes,
+          origin: 'Unknown'
+        })
+      )
     },
     timeout: autoLogoutTimeLength
   })
@@ -74,13 +77,13 @@ const WalletLayout: Props = ({
           <StaticAnnouncement />
         </Nav>
         <Container>
-          {hideMenu ? null : <MenuLeft />}
+          {!hideMenu && <MenuLeft />}
           <Content
             center={center}
             removeContentPadding={removeContentPadding}
-            data-e2e={`page${replace(/\//g, '-', pathname)}`}
+            data-e2e={`page${pathname.replace(/\//g, '-')}`}
           >
-            <Page center={center}>{children}</Page>
+            <PageContent center={center}>{children}</PageContent>
             {hasUkBanner && <UkFooterBanner approvalDate={approvalDate} />}
           </Content>
         </Container>
@@ -90,26 +93,14 @@ const WalletLayout: Props = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  autoLogoutTimeLength: selectors.core.wallet.getAutoLogoutTime(state) as number
-})
+type Props = {
+  approvalDate?: string
+  center?: boolean
+  children: ReactElement
+  hasUkBanner?: boolean
+  hideMenu?: boolean
+  pathname: string
+  removeContentPadding?: boolean
+}
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type Props = FC<
-  {
-    approvalDate?: string
-    center?: boolean
-    children: ReactElement
-    hasUkBanner?: boolean
-    hideMenu?: boolean
-    pathname: string
-    removeContentPadding?: boolean
-  } & ConnectedProps<typeof connector>
->
-
-export default connector(WalletLayout)
+export default WalletLayout

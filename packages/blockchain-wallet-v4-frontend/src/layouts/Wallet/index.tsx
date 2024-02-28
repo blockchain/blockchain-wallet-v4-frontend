@@ -7,7 +7,7 @@ import { isAuthenticated } from 'data/auth/selectors'
 
 import { COIN_APPROVAL_DATE } from './coinApprovalDates'
 import Loading from './template.loading'
-import { WalletLayout } from './WalletLayout'
+import WalletLayout from './WalletLayout'
 
 const WalletLayoutContainer: FC<Props> = ({
   approvalDate,
