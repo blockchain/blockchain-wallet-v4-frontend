@@ -6,9 +6,9 @@ import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { capitalizeFirstLetter } from 'services/forms'
 
-import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
+import { LinkStatePropsType, Props as OwnProps } from '.'
 
-export type Props = OwnProps & SuccessStateType & LinkStatePropsType
+export type Props = OwnProps & LinkStatePropsType
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
@@ -42,9 +42,12 @@ const Subcontent = styled(Text)`
   text-align: center;
 `
 
-const Unsupported: React.FC<Props> = (props) => {
-  const { paymentAccountEligible } = props.eligibility
-
+const Unsupported: React.FC<Props> = ({
+  eligibility: { paymentAccountEligible },
+  fiatCurrency,
+  handleClose,
+  orderType
+}) => {
   return (
     <Top>
       <CloseIcon
@@ -53,7 +56,7 @@ const Unsupported: React.FC<Props> = (props) => {
         size='20px'
         color='grey600'
         role='button'
-        onClick={props.handleClose}
+        onClick={handleClose}
       />
       <Container>
         <Image
@@ -66,12 +69,10 @@ const Unsupported: React.FC<Props> = (props) => {
           <FormattedMessage
             id='modals.simplebuy.unsupported-title-order'
             defaultMessage='{order} Crypto Coming Soon for'
-            values={{
-              order: capitalizeFirstLetter(props.orderType)
-            }}
+            values={{ order: capitalizeFirstLetter(orderType) }}
           />{' '}
           {paymentAccountEligible ? (
-            props.fiatCurrency
+            fiatCurrency
           ) : (
             <FormattedMessage
               id='modals.simplebuy.fiataccountineligible'
@@ -81,22 +82,16 @@ const Unsupported: React.FC<Props> = (props) => {
         </Title>
         <Subcontent color='grey600' weight={500}>
           {paymentAccountEligible ? (
-            <>
-              <FormattedMessage
-                id='modals.simplebuy.unsupported-subcontent'
-                defaultMessage="Currently we don't support buying crypto with {currency}."
-                values={{
-                  currency: props.fiatCurrency
-                }}
-              />
-            </>
+            <FormattedMessage
+              id='modals.simplebuy.unsupported-subcontent'
+              defaultMessage="Currently we don't support buying crypto with {currency}."
+              values={{ currency: fiatCurrency }}
+            />
           ) : (
-            <>
-              <FormattedMessage
-                id='modals.simplebuy.unsupported-subcontent-1'
-                defaultMessage="Well this is awkward. We don't support buying crypto yet for your region."
-              />
-            </>
+            <FormattedMessage
+              id='modals.simplebuy.unsupported-subcontent-1'
+              defaultMessage="Well this is awkward. We don't support buying crypto yet for your region."
+            />
           )}
           <FormattedMessage
             id='modals.simplebuy.unsupported-subcontent-2'
@@ -108,7 +103,7 @@ const Unsupported: React.FC<Props> = (props) => {
           height='48px'
           size='16px'
           nature='primary'
-          onClick={props.handleClose}
+          onClick={handleClose}
           fullwidth
         >
           <FormattedMessage id='buttons.ok' defaultMessage='OK' />

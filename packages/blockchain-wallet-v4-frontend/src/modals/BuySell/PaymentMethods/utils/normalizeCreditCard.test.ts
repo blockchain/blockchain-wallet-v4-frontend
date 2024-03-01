@@ -1,4 +1,4 @@
-import { normalizeCreditCard } from './index'
+import { normalizeCreditCard } from './normalizeCreditCard'
 
 describe('normalizeCreditCard', () => {
   it('should normalize a cc number', () => {

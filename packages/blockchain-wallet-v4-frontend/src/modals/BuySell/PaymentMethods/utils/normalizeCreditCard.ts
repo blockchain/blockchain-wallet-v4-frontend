@@ -1,4 +1,4 @@
-import { DEFAULT_CARD_FORMAT, getCardTypeByValue } from '../../model'
+import { getCardTypeByValueOrDefault } from '../model'
 
 export const normalizeCreditCard = (
   value: string,
@@ -6,10 +6,7 @@ export const normalizeCreditCard = (
 ): string | undefined => {
   if (!value) return value
 
-  const { format, maxCardNumberLength } = getCardTypeByValue(value) || {
-    format: DEFAULT_CARD_FORMAT,
-    maxCardNumberLength: 16
-  }
+  const { format, maxCardNumberLength } = getCardTypeByValueOrDefault(value)
 
   if (value.replace(/[^\d]/g, '').length > maxCardNumberLength) {
     return previousValue
