@@ -1,19 +1,3 @@
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
-
-import { BSPaymentMethodType, BSPaymentTypes, WalletCurrencyType } from '@core/types'
-import { Icon, Image } from 'blockchain-info-components'
-
-const IconContainer = styled.div`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: ${(props) => props.theme.blue000};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
 // https://github.com/medipass/react-credit-card-input/blob/master/src/utils/formatter.js
 const DEFAULT_CVC_LENGTH = 3
 const DEFAULT_CARD_MAX = 16
@@ -131,54 +115,11 @@ export const CARD_TYPES: CardType[] = [
   }
 ]
 
-export const getCardTypeByValueOrDefault = (value) => {
-  if (!value) return CARD_DEFAULTS
-  return CARD_TYPES.find((cardType) => cardType.startPattern.test(value)) ?? CARD_DEFAULTS
-}
-
 export const getCardLogoOrDefault = (cardNameType?: CardNameType) => {
   if (!cardNameType) return DEFAULT_CARD_SVG_LOGO
   return CARD_TYPES.find((card) => card.type === cardNameType)?.logo ?? DEFAULT_CARD_SVG_LOGO
 }
 
-export const getIcon = (
-  value: BSPaymentMethodType | { type: BSPaymentTypes.BANK_TRANSFER }
-): ReactElement => {
-  switch (value.type) {
-    case BSPaymentTypes.BANK_TRANSFER:
-    case BSPaymentTypes.LINK_BANK:
-      return <Image name='bank' height='48px' />
-    case BSPaymentTypes.BANK_ACCOUNT:
-      return (
-        <IconContainer>
-          <Icon size='18px' color='blue600' name='arrow-down' />
-        </IconContainer>
-      )
-    case BSPaymentTypes.PAYMENT_CARD:
-      return (
-        <IconContainer>
-          <Icon size='18px' color='blue600' name='credit-card-sb' />
-        </IconContainer>
-      )
-    case BSPaymentTypes.USER_CARD: {
-      const { card } = value
-      if (!card) return <></>
-
-      return (
-        <img
-          alt='Credit Card Logo'
-          height='18px'
-          width='auto'
-          src={getCardLogoOrDefault(card.type)}
-        />
-      )
-    }
-    case BSPaymentTypes.FUNDS:
-      return <Icon size='32px' color='USD' name={value.currency as WalletCurrencyType} />
-    default:
-      return <Image name='blank-card' />
-  }
-}
 export type CardNameType =
   | 'AMEX'
   | 'DANKORT'

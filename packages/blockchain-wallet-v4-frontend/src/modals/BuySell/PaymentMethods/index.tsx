@@ -10,7 +10,7 @@ import { useRemote } from 'hooks'
 
 import Loading from '../template.loading'
 import Methods from './Methods'
-import getData from './selectors'
+import getData, { PaymentMethodsSelectorType } from './selectors'
 import Unsupported from './template.unsupported'
 
 const PaymentMethods = (props) => {
@@ -50,12 +50,12 @@ const PaymentMethods = (props) => {
 
   if (isLoading || isNotAsked || !data) return <Loading />
 
-  const isUserEligible = props.paymentMethods.methods?.find((method) => method.limits.max !== '0')
+  const isUserEligible = data.paymentMethods.methods?.find((method) => method.limits.max !== '0')
 
-  return isUserEligible ? <Methods {...props} /> : <Unsupported {...props} />
+  return isUserEligible ? <Methods {...data} {...props} /> : <Unsupported {...data} {...props} />
 }
 
-export type LinkStatePropsType = ReturnType<typeof getData>['data'] & {
+export type LinkStatePropsType = PaymentMethodsSelectorType & {
   fiatCurrency: undefined | FiatType
 }
 export type Props = {

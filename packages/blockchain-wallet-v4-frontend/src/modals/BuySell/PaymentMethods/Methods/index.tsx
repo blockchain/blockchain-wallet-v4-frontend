@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
-import { getIcon } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 
 import {
   BSPaymentMethodType,
@@ -20,6 +19,7 @@ import { getEnterAmountStepType } from 'data/components/buySell/utils'
 import { useSardineContext } from 'hooks'
 
 import { LinkStatePropsType, Props as OwnProps } from '../index'
+import { getIcon } from '../utils/getIcon'
 import { getType } from '../utils/getType'
 import { BankWireCard } from './BankWireCard'
 import LinkBank from './LinkBank'

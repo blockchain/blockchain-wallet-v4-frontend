@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { getCardLogoOrDefault } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 import { addWeeks, format, isToday } from 'date-fns'
+import { getCardLogoOrDefault } from 'modals/BuySell/PaymentMethods/model'
 import styled, { css } from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'

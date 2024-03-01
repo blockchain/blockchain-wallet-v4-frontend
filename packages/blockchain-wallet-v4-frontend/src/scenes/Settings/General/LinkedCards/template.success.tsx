@@ -2,7 +2,7 @@ import React, { memo, SyntheticEvent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { IconCreditCard, PaletteColors } from '@blockchain-com/constellation'
-import { getCardLogoOrDefault } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
+import { getCardLogoOrDefault } from 'modals/BuySell/PaymentMethods/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
