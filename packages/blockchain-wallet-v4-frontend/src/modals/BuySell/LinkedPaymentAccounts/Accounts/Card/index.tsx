@@ -6,7 +6,6 @@ import React, {
   useMemo
 } from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import { BSPaymentMethodType } from '@core/types'
@@ -14,23 +13,12 @@ import { Coin } from '@core/utils'
 import { Icon } from 'blockchain-info-components'
 import { MultiRowContainer } from 'components/BuySell'
 import { Flex } from 'components/Flex'
-import { Title, Value } from 'components/Flyout'
 import { Padding } from 'components/Padding'
 import { Tag } from 'components/Tag'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { NabuError } from 'services/errors'
 
-import { DisplayContainer, DisplayIcon } from './Card.styles'
-
-const StyledValue = styled(Value)`
-  text-transform: capitalize;
-`
-
-const StyledTitle = styled(Title)`
-  color: ${(p) => p.theme.grey600};
-  font-size: 14px;
-  font-weight: 500;
-`
+import { DisplayContainer, DisplayIcon, StyledTitle, StyledValue } from './Card.styles'
 
 type Props = {
   icon: ReactElement
@@ -66,19 +54,7 @@ const Card: React.FC<Props> = ({
     })
   }, [currency, limits])
 
-  const handleOnClickNabuErrorInfoIcon: MouseEventHandler<HTMLDivElement> = useCallback(
-    (event) => {
-      event.preventDefault()
-      event.stopPropagation()
-
-      if (!nabuError || !onClickNabuErrorInfo) return
-
-      onClickNabuErrorInfo(nabuError)
-    },
-    [nabuError, onClickNabuErrorInfo]
-  )
-
-  const handleOnKeyPressNabuErrorInfoIcon: KeyboardEventHandler<HTMLDivElement> = useCallback(
+  const handleNabuError = useCallback(
     (event) => {
       event.preventDefault()
       event.stopPropagation()
@@ -130,9 +106,7 @@ const Card: React.FC<Props> = ({
               <FormattedMessage
                 id='modals.simplebuy.card_with_limits'
                 defaultMessage='{limitAmount} Limit'
-                values={{
-                  limitAmount
-                }}
+                values={{ limitAmount }}
               />
             )}
           </StyledTitle>
@@ -150,8 +124,8 @@ const Card: React.FC<Props> = ({
               <div
                 role='button'
                 tabIndex={-1}
-                onClick={handleOnClickNabuErrorInfoIcon}
-                onKeyPress={handleOnKeyPressNabuErrorInfoIcon}
+                onClick={handleNabuError}
+                onKeyPress={handleNabuError}
               >
                 <Icon name='info' size='12px' color='grey600' />
               </div>
