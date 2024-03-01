@@ -4,15 +4,15 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 import { BSPaymentTypes } from '@core/types'
 
-import { BankWireCard, BankWireCardComponent } from '.'
+import { BankWireCard, BankWireCardProps } from '.'
 
 export default {
   component: BankWireCard,
   decorators: [(Story) => <IntlProvider locale='en'>{Story()}</IntlProvider>],
   title: 'modals/BuySell/PaymentMethods/BankWireCard'
-} as ComponentMeta<BankWireCardComponent>
+} as ComponentMeta<React.FC<BankWireCardProps>>
 
-const Template: ComponentStory<BankWireCardComponent> = (args) => <BankWireCard {...args} />
+const Template: ComponentStory<React.FC<BankWireCardProps>> = (args) => <BankWireCard {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
