@@ -142,6 +142,7 @@ const App = ({
 
   const sofiParams = isSofi && window.location.search
   const referralParams = isReferral && window.location.search
+  const approvalDate = '4 March 2024'
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
@@ -329,21 +330,21 @@ const App = ({
                                 path='/airdrops'
                                 component={Airdrops}
                                 hasUkBanner
-                                approvalDate='October 7 2023'
+                                approvalDate={approvalDate}
                               />
                               <WalletLayout path='/exchange' component={TheExchange} />
                               <WalletLayout
                                 path='/home'
                                 component={Home}
                                 hasUkBanner
-                                approvalDate='October 7 2023'
+                                approvalDate={approvalDate}
                               />
                               <WalletLayout
                                 path='/earn'
                                 component={Earn}
                                 exact
                                 hasUkBanner
-                                approvalDate='October 7 2023'
+                                approvalDate={approvalDate}
                               />
                               <WalletLayout path='/earn/history' component={EarnHistory} />
                               {isActiveRewardsEnabled && (
@@ -360,7 +361,7 @@ const App = ({
                                 path='/prices'
                                 component={Prices}
                                 hasUkBanner
-                                approvalDate='October 7 2023'
+                                approvalDate={approvalDate}
                               />
                               <WalletLayout path='/tax-center' component={TaxCenter} />
                               <WalletLayout
