@@ -105,6 +105,8 @@ const App = ({
   userDataId
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : AuthLoading
+  const approvalDate = '4 March 2024'
+
   // parse and log UTMs
   useEffect(() => {
     const utm = utmParser()
@@ -329,21 +331,21 @@ const App = ({
                                 path='/airdrops'
                                 component={Airdrops}
                                 hasUkBanner
-                                approvalDate='October 7 2023'
+                                approvalDate={approvalDate}
                               />
                               <WalletLayout path='/exchange' component={TheExchange} />
                               <WalletLayout
                                 path='/home'
                                 component={Home}
                                 hasUkBanner
-                                approvalDate='October 7 2023'
+                                approvalDate={approvalDate}
                               />
                               <WalletLayout
                                 path='/earn'
                                 component={Earn}
                                 exact
                                 hasUkBanner
-                                approvalDate='October 7 2023'
+                                approvalDate={approvalDate}
                               />
                               <WalletLayout path='/earn/history' component={EarnHistory} />
                               {isActiveRewardsEnabled && (
@@ -360,7 +362,7 @@ const App = ({
                                 path='/prices'
                                 component={Prices}
                                 hasUkBanner
-                                approvalDate='October 7 2023'
+                                approvalDate={approvalDate}
                               />
                               <WalletLayout path='/tax-center' component={TaxCenter} />
                               <WalletLayout
