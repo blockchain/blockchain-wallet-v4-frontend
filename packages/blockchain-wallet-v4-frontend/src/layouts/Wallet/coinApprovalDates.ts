@@ -1,4 +1,4 @@
 export const COIN_APPROVAL_DATE = {
-  BTC: '7 October 2023',
-  GBP: '7 October 2023'
+  BTC: '4 March 2024',
+  GBP: '4 March 2024'
 }
