@@ -2871,7 +2871,7 @@
   "tooltip.copied": "Copied!",
   "tooltip.transaction.pending.eth": "Your transaction is currently pending. You can attempt to resend it with a higher fee.",
   "txlist.change.tooltip.description": "This change address belongs to your wallet",
-  "uk.footer.banner.title": "This Financial Promotion has been approved by Helford Capital Partners LLP on {approvalDate}.",
+  "uk.footer.banner.title": "This Financial Promotion has been approved by Englebert Ltd on {approvalDate}.",
   "viewInterestAccountFlyout.addButton.description": "Add {coin} to Rewards Account",
   "viewInterestAccountFlyout.addButton.title": "Add {coin}",
   "viewInterestAccountFlyout.withdrawButton.description": "Withdraw {coin} from Rewards Account",
