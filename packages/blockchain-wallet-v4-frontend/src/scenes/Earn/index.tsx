@@ -119,8 +119,8 @@ const Earn = () => {
           <Text weight={500} size='14px' italic style={{ marginBottom: 16 }}>
             Real-time data is obtained from multiple sources and may sometimes be delayed due to
             system performance issues. Past performance is not a reliable indicator of future
-            results. APYs are always indicative based on past performance and are not guaranteed.
-            Find out more about Staking and Rewards as well as the risks{' '}
+            results. APYs are based on past performance and are not guaranteed. Find out more about
+            various crypto assets and their risks{' '}
             <Link
               size='14px'
               href='https://support.blockchain.com/hc/en-us/articles/10857163796380-Staking-and-Rewards-what-are-the-risks'
