@@ -150,6 +150,7 @@ export type BankDetails = {
   bankAccountType: string
   bankName: string
   routingNumber: string
+  sortCode?: string
 }
 
 interface BankTransferAccountAttrs {

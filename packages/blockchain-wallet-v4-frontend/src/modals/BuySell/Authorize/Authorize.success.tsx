@@ -1,105 +1,45 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { defaultTo, filter, path } from 'ramda'
-import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
 
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import { buySell } from 'data/components/actions'
 import { getFiatFromPair } from 'data/components/buySell/model'
-import { BankTransferAccountType } from 'data/types'
+import { BankTransferAccountType, BuyQuoteStateType } from 'data/types'
 
-import { Props as _P, SuccessStateType } from '.'
+import { DropdownItem } from './DropDownItem'
+import { BackContainer, Bottom, InfoText, InfoTitle, Wrapper } from './styles'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`
-const BackContainer = styled(Text)`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  font-weight: 600;
-  font-size: 20px;
-`
-const DropdownTitleRow = styled.div<{ isPaymentInformation?: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  padding: ${(props) => (props.isPaymentInformation ? '0 40px' : 'auto')};
-  /* chevorn icon rotation */
-  > span:last-child {
-    size: 10px;
-    transition: transform 0.2s;
-    color: ${(props) => props.theme.grey600};
-    &.active {
-      transform: rotate(180deg);
-    }
-  }
-`
-const InfoTitle = styled(Title)`
-  font-weight: 600;
-  line-height: 1.5;
-  color: ${(props) => props.theme.grey900};
-`
-
-const InfoDropdown = styled.div`
-  max-height: 0;
-  margin-top: 0;
-  overflow: hidden;
-  transition: max-height, margin-top 0.3s;
-  &.isToggled {
-    max-height: 100%;
-    margin-top: 12px;
-  }
-`
-const InfoText = styled(Title)`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${(props) => props.theme.grey600};
-  line-height: 1.5;
-`
-const Bottom = styled(FlyoutWrapper)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
-`
-const DropdownRow = styled(Row)<{ isPaymentInformation?: boolean }>`
-  padding: ${(props) => (props.isPaymentInformation ? '16px 0' : 'auto')};
-`
-
-const DropdownItem = ({ bodyText, isPaymentInformation, titleText }) => {
-  const [isToggled, handleToggle] = useState(false)
-  return (
-    <DropdownRow isPaymentInformation={isPaymentInformation}>
-      <DropdownTitleRow
-        isPaymentInformation={isPaymentInformation}
-        onClick={() => handleToggle(!isToggled)}
-      >
-        <InfoTitle>{titleText}</InfoTitle>
-        <Icon name='chevron-down' className={isToggled ? 'active' : ''} />
-      </DropdownTitleRow>
-      <InfoDropdown className={isToggled ? 'isToggled' : ''}>
-        <InfoText>{bodyText}</InfoText>
-      </InfoDropdown>
-    </DropdownRow>
-  )
+type Props = {
+  bankAccounts: BankTransferAccountType[]
+  handleClose: () => void
+  quote: BuyQuoteStateType
 }
 
-const Success = (props: Props) => {
-  const { bankAccounts, buySellActions, quote } = props
-  const counterAmount = props.quote.amount
-  const counterCurrency = getFiatFromPair(props.quote.pair)
-  const [bankAccount] = filter(
-    (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === quote.paymentMethodId,
-    defaultTo([])(bankAccounts)
-  )
-  const entity = path(['attributes', 'entity'], bankAccount)
-  const entityName = entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'SafeConnect (UAB)'
+const Success = ({ bankAccounts, handleClose, quote }: Props) => {
+  const dispatch = useDispatch()
+
+  const counterAmount = quote.amount
+  const counterCurrency = getFiatFromPair(quote.pairObject.pair)
+  const bankAccount = bankAccounts.find(
+    (bank) => bank.state === 'ACTIVE' && bank.id === quote.paymentMethodId
+  )!
+
+  const { attributes, details } = bankAccount ?? {}
+
+  const entityName = attributes?.entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'SafeConnect (UAB)'
+
+  const onApprove = () => {
+    dispatch(
+      buySell.confirmOrder({
+        paymentMethodId: bankAccount.id,
+        quoteState: quote
+      })
+    )
+  }
 
   return (
     <Wrapper>
@@ -147,7 +87,7 @@ const Success = (props: Props) => {
                   defaultMessage='Payer Name'
                 />
               </InfoText>
-              <InfoTitle>{path(['details', 'accountName'], bankAccount)}</InfoTitle>
+              <InfoTitle>{details?.accountName}</InfoTitle>
             </Row>
             <Row>
               <InfoText>
@@ -156,7 +96,7 @@ const Success = (props: Props) => {
                   defaultMessage='Sort Code'
                 />
               </InfoText>
-              <InfoTitle>{path(['details', 'sortCode'], bankAccount)}</InfoTitle>
+              <InfoTitle>{details?.sortCode}</InfoTitle>
             </Row>
             <Row>
               <InfoText>
@@ -165,7 +105,7 @@ const Success = (props: Props) => {
                   defaultMessage='Account Number'
                 />
               </InfoText>
-              <InfoTitle>{path(['details', 'accountNumber'], bankAccount)}</InfoTitle>
+              <InfoTitle>{details?.accountNumber}</InfoTitle>
             </Row>
             <Row>
               <InfoText>
@@ -183,7 +123,7 @@ const Success = (props: Props) => {
                   defaultMessage='Bank Name'
                 />
               </InfoText>
-              <InfoTitle>{path(['details', 'bankName'], bankAccount)}</InfoTitle>
+              <InfoTitle>{details?.bankName}</InfoTitle>
             </Row>
           </>
         }
@@ -299,17 +239,13 @@ const Success = (props: Props) => {
       <Row />
       <Bottom>
         <Button
+          disabled={!!bankAccount?.id}
           nature='primary'
           data-e2e='obApprove'
           type='submit'
           fullwidth
           height='48px'
-          onClick={() => {
-            buySellActions.confirmOrder({
-              paymentMethodId: bankAccount.id,
-              quoteState: quote
-            })
-          }}
+          onClick={onApprove}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />
         </Button>
@@ -321,7 +257,7 @@ const Success = (props: Props) => {
           height='48px'
           color='red400'
           style={{ marginTop: '16px' }}
-          onClick={() => props.handleClose()}
+          onClick={handleClose}
         >
           <FormattedMessage id='copy.deny' defaultMessage='Deny' />
         </Button>
@@ -329,7 +265,5 @@ const Success = (props: Props) => {
     </Wrapper>
   )
 }
-
-export type Props = Omit<_P, 'data'> & SuccessStateType
 
 export default Success

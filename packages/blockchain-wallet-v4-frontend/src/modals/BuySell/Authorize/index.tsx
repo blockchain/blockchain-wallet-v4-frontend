@@ -1,44 +1,20 @@
 import React from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { useSelector } from 'react-redux'
 
-import { ExtractSuccess } from '@core/types'
 import DataError from 'components/DataError'
-import { actions, selectors } from 'data'
-import { RootState } from 'data/rootReducer'
-import { BankTransferAccountType } from 'data/types'
+import { getBankTransferAccounts } from 'data/components/brokerage/selectors'
+import { getBuyQuote } from 'data/components/buySell/selectors'
+import { useRemote } from 'hooks'
 
-import { getData } from './selectors'
-import Success from './template.success'
+import Success from './Authorize.success'
 
-const Authorize = ({ data, ...props }: Props) => {
-  return data.cata({
-    Failure: (e) => <DataError message={{ message: e }} />,
-    Loading: () => <></>,
-    NotAsked: () => <></>,
-    Success: (val) => <Success {...props} {...val} />
-  })
+const Authorize = ({ handleClose }: { handleClose: () => void }) => {
+  const { data, error, isLoading, isNotAsked } = useRemote(getBuyQuote)
+  const bankAccounts = useSelector(getBankTransferAccounts).getOrElse([])
+
+  if (error) return <DataError message={{ message: error }} />
+  if (isLoading || isNotAsked || !data) return null
+  return <Success bankAccounts={bankAccounts} quote={data} handleClose={handleClose} />
 }
 
-const mapStateToProps = (state: RootState) => ({
-  bankAccounts: selectors.components.brokerage
-    .getBankTransferAccounts(state)
-    .getOrElse([] as Array<BankTransferAccountType>),
-  data: getData(state)
-})
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-type OwnProps = {
-  handleClose: () => void
-}
-
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-
-export type Props = OwnProps & ConnectedProps<typeof connector>
-
-export default connector(Authorize)
+export default Authorize
