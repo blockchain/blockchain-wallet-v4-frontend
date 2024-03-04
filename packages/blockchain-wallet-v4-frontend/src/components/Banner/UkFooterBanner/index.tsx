@@ -17,7 +17,7 @@ export const UkFooterBanner = ({ approvalDate }: { approvalDate?: string }) => {
       <span>
         <FormattedMessage
           id='uk.footer.banner.title'
-          defaultMessage='This Financial Promotion has been approved by Helford Capital Partners LLP on {approvalDate}.'
+          defaultMessage='This Financial Promotion has been approved by Englebert Ltd on {approvalDate}.'
           values={{ approvalDate }}
         />
       </span>
