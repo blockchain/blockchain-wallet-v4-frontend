@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { combineReducers, createStore } from 'redux'
 
-import UpgradeToGold from './template'
+import UpgradeToGold from '.'
 
 const store = createStore(combineReducers({}))
 
