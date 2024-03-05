@@ -1,8 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'
+import { getMagicLinkDataPlatformType } from 'data/auth/selectors'
 import { PlatformTypes, ProductAuthOptions } from 'data/auth/types'
 
 const TabWrapper = styled.div`
@@ -29,6 +31,7 @@ const ProductTab = styled.div<{
   background-color: ${(props) =>
     !props.isActive || props.hideWalletTab ? props.theme.grey000 : 'none'};
 `
+
 const ProductIcon = styled(Image)`
   margin-right: 12px;
 `
@@ -37,15 +40,15 @@ const ProductTabMenu = ({
   active,
   onExchangeTabClick,
   onWalletTabClick,
-  platform,
   product
 }: {
   active: ProductAuthOptions
   onExchangeTabClick?: () => void
   onWalletTabClick?: () => void
-  platform?: PlatformTypes
   product?: ProductAuthOptions
 }) => {
+  const platform = useSelector(getMagicLinkDataPlatformType)
+
   const isWalletActive = active === ProductAuthOptions.WALLET
   // if webview is being opened from exchange mobile app
   // want to hide the wallet tab

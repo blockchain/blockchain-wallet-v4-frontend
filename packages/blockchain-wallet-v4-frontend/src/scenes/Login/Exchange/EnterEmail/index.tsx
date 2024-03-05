@@ -26,14 +26,13 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmail = (props: Props) => {
-  const { busy, formValues, invalid, magicLinkData, submitting, walletTabClicked } = props
+  const { busy, formValues, invalid, submitting, walletTabClicked } = props
 
   return (
     <LoginWrapper>
       <ProductTabMenu
         active={ProductAuthOptions.EXCHANGE}
         onWalletTabClick={walletTabClicked}
-        platform={magicLinkData?.platform_type}
         product={ProductAuthOptions.EXCHANGE}
       />
       <WrapperWithPadding>
@@ -74,7 +73,7 @@ const EnterEmail = (props: Props) => {
           </ActionButton>
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink platform={magicLinkData?.platform_type} />
+      <SignupLink />
     </LoginWrapper>
   )
 }
