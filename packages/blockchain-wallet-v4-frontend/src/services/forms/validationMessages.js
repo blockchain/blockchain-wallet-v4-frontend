@@ -177,3 +177,7 @@ export const ValueIsEqualToMaxMessage = () => (
 export const InvalidFormat = () => (
   <FormattedMessage id='formhelper.invalidformat' defaultMessage='Invalid Format' />
 )
+
+export const InvalidMobileNumber = () => (
+  <FormattedMessage id='formhelper.invalidmobilenumber' defaultMessage='Invalid mobile number' />
+)
