@@ -3,30 +3,13 @@ import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { SkeletonRectangle, Text } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
-const CoinBalanceMain = styled.div`
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  padding-right: 15px;
-  > div:last-child {
-    margin-left: 10px;
-    > div {
-      color: ${(props) => props.theme.blue900};
-    }
-  }
-`
 const CoinBalanceSwitchable = styled.div`
   display: flex;
   justify-content: space-between;
 `
 
-const BalanceSkeleton = styled.div`
-  margin-top: 4px;
-`
 const CoinSkeletonWrapper = styled.div`
   display: flex;
   align-items: center;
