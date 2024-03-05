@@ -59,7 +59,7 @@ const AddWireBank = () => {
     data: { api }
   } = useSelector(getDomains)
 
-  const alreadyLinked = useRef(false)
+  const errorInfo = useRef<{ message?: string; title?: string }>({})
 
   const resetForm = () => {
     dispatch(destroy(WIRE_BANK_FORM))
@@ -99,8 +99,8 @@ const AddWireBank = () => {
       })
       setStep('SUCCESS')
       dispatch(custodial.fetchCustodialBeneficiaries({ currency: fiatCurrency }))
-    } catch (error) {
-      alreadyLinked.current = error.dataFields.description.includes('already exists')
+    } catch ({ message, title }) {
+      errorInfo.current = { message, title }
       setStep('FAILURE')
     }
   }
@@ -124,7 +124,7 @@ const AddWireBank = () => {
       case 'SUCCESS':
         return <Success bankName={formValues?.bankName ?? ''} fiatCurrency={fiatCurrency} />
       case 'FAILURE':
-        return <Failure alreadyLinked={alreadyLinked.current} />
+        return <Failure title={errorInfo.current.title} message={errorInfo.current.message} />
       case 'USER_INFO':
       default: {
         const nextStep =

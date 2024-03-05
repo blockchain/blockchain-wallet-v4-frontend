@@ -13,7 +13,7 @@ import { Header } from '../Header'
 import { WIRE_BANK_FORM } from './constants'
 import { FinalStatusWrapper } from './StepsStyles'
 
-const Failure = ({ alreadyLinked }: { alreadyLinked: boolean }) => {
+const Failure = ({ message, title }: { message?: string; title?: string }) => {
   const dispatch = useDispatch()
   const openModals = useSelector(getModals)
 
@@ -32,12 +32,11 @@ const Failure = ({ alreadyLinked }: { alreadyLinked: boolean }) => {
         <Header />
         <Icon color='error' name='close-circle' size='3rem' />
         <Text size='20px' weight={600} color='grey900'>
-          Unable to add bank account
+          {title ?? 'Unable to add bank account'}
         </Text>
         <Text size='16px' weight={500} color='grey600'>
-          {alreadyLinked
-            ? 'This account number is already linked. Please try linking another account'
-            : 'There was a problem adding your bank account details. Please try to again or add a different payment method.'}
+          {message ??
+            'There was a problem adding your bank account details. Please try to again or add a different payment method.'}
         </Text>
       </FinalStatusWrapper>
       <FlyoutFooter collapsed>
