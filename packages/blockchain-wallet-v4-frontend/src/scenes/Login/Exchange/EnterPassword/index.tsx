@@ -12,7 +12,9 @@ import FormLabel from 'components/Form/FormLabel'
 import PasswordBox from 'components/Form/PasswordBox'
 import { Wrapper } from 'components/Public'
 import { trackEvent } from 'data/analytics/slice'
+import { getExchangeLogin } from 'data/auth/selectors'
 import { Analytics, ExchangeErrorCodes, ProductAuthOptions } from 'data/types'
+import { useRemote } from 'hooks'
 import { required } from 'services/forms'
 import { media } from 'services/styles'
 
@@ -33,7 +35,6 @@ const LoginWrapper = styled(Wrapper)`
 const EnterPasswordExchange = (props: Props) => {
   const {
     cache,
-    exchangeError,
     formValues,
     handleBackArrowClickExchange,
     invalid,
@@ -45,12 +46,14 @@ const EnterPasswordExchange = (props: Props) => {
 
   const dispatch = useDispatch()
 
+  const { error: exchangeError } = useRemote(getExchangeLogin)
+
   useEffect(() => {
     dispatch(
       trackEvent({
         key: Analytics.LOGIN_PASSWORD_INPUT_PAGE_ENTERED,
         properties: {
-          device_origin: productAuthMetadata?.product || 'WEB',
+          device_origin: productAuthMetadata?.product ?? 'WEB',
           originalTimestamp: new Date().toISOString()
         }
       })

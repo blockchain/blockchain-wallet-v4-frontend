@@ -12,9 +12,10 @@ import FormLabel from 'components/Form/FormLabel'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { trackEvent } from 'data/analytics/slice'
-import { getAuthType } from 'data/auth/selectors'
+import { getAuthType, getExchangeLogin } from 'data/auth/selectors'
 import { ProductAuthOptions } from 'data/auth/types'
 import { Analytics, ExchangeErrorCodes } from 'data/types'
+import { useRemote } from 'hooks'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { isMobile, media } from 'services/styles'
@@ -36,7 +37,6 @@ const TwoFAExchange = (props: Props) => {
   const {
     busy,
     cache,
-    exchangeError,
     formValues,
     handleBackArrowClickExchange,
     invalid,
@@ -44,6 +44,9 @@ const TwoFAExchange = (props: Props) => {
     productAuthMetadata,
     submitting
   } = props
+
+  const { error: exchangeError } = useRemote(getExchangeLogin)
+
   const twoFactorError = exchangeError === ExchangeErrorCodes.WRONG_2FA
 
   const dispatch = useDispatch()
