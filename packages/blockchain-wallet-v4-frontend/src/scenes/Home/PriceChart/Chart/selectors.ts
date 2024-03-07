@@ -7,14 +7,12 @@ import { selectors } from 'data'
 export const getData = createDeepEqualSelector(
   [
     selectors.core.settings.getCurrency,
-    selectors.preferences.getPriceChart,
+    selectors.components.priceChart.getTime,
     selectors.components.priceChart.getCoin,
     selectors.core.data.misc.getPriceIndexSeries
   ],
-  (currencyR, priceChartPreferences, coin, priceIndexSeriesDataR) => {
+  (currencyR, time, coin, priceIndexSeriesDataR) => {
     const currency = currencyR.getOrElse('USD')
-    const cacheCoin = priceChartPreferences.coin
-    const cacheTime = priceChartPreferences.time ?? TimeRange.MONTH
 
     const transform = (priceIndexSeriesData) => ({
       coin,
@@ -22,8 +20,8 @@ export const getData = createDeepEqualSelector(
     })
     return {
       cache: {
-        coin: cacheCoin,
-        time: cacheTime
+        coin,
+        time: time ?? TimeRange.MONTH
       },
       currency,
       data: lift(transform)(priceIndexSeriesDataR)

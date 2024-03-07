@@ -20,18 +20,7 @@ export default () => {
     }
   }
 
-  const setLinkHandling = function () {
-    // Register BTC links
-    // @ts-ignore
-    window.navigator.registerProtocolHandler('bitcoin', '/#/open/%s', 'Blockchain')
-
-    // Register BCH links
-    // @ts-ignore
-    window.navigator.registerProtocolHandler('web+bitcoincash', '/#/open/%s', 'Blockchain')
-  }
-
   return {
-    setLanguage,
-    setLinkHandling
+    setLanguage
   }
 }

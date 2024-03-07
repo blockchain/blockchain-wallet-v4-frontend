@@ -75,7 +75,7 @@ export default () => {
       const cookieLang = cookies.get('clang')
       const lang = urlLang?.language || cookieLang
       if (lang) {
-        yield put(actions.preferences.setLanguage(lang, false))
+        yield put(actions.preferences.setLanguage({ language: lang, showAlert: false }))
       }
     } catch (e) {
       // do nothing, app will fallback to english

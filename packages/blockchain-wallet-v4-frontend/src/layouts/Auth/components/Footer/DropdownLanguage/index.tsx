@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Cookies from 'universal-cookie'
 
 import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
-import { setLanguage } from 'data/preferences/actions'
+import { preferences } from 'data/actions'
 import { getLanguage } from 'data/preferences/selectors'
 import { languagesSortedByName as languages } from 'services/locales'
 
@@ -13,7 +13,7 @@ const DropdownLanguage = ({ color, size }: { color: string; size: string }) => {
 
   const handleClick = (selectedLanguage) => {
     const cookies = new Cookies()
-    dispatch(setLanguage(selectedLanguage.language, true))
+    dispatch(preferences.setLanguage({ language: selectedLanguage.language, showAlert: true }))
     cookies.set('clang', selectedLanguage.language, {
       domain: '.blockchain.com',
       path: '/'

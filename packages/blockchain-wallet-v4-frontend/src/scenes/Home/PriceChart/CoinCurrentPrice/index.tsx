@@ -1,14 +1,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
+import { getCoin } from 'data/components/priceChart/selectors'
 import { priceTicker } from 'data/components/selectors'
-import { getPriceChart } from 'data/preferences/selectors'
 
 import Loading from './template.loading'
 import Success from './template.success'
 
 const CoinCurrentPrice = () => {
-  const { coin = 'BTC' } = useSelector(getPriceChart)
+  const coin = useSelector(getCoin) ?? 'BTC'
   const data = useSelector((state) => priceTicker.getData(state, coin))
 
   return data.cata({
