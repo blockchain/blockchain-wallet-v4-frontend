@@ -231,8 +231,7 @@ const TaxCenter = ({
         <Text size='14px' weight={500} color='grey700'>
           <FormattedMessage
             id='scenes.tax.center.card.service.cointracker.description'
-            defaultMessage='If your crypto activity is high and you have multiple wallets beyond Blockchain.com, Cointracker is fully supported in the US, Australia, UK, Canada and also provides capital gains reports for users around the World. Blockchain.com users get free tax reports for up to 500 transactions with CoinTracker.
-            '
+            defaultMessage='We have partnered with CoinTracker to simplify your tax reporting. CoinTracker is fully supported in the US, Australia, UK, Canada and also provides capital gains reports for users around the World. New users from Blockchain.com get 10% off all tax plans'
           />
         </Text>
         <VisitButton
