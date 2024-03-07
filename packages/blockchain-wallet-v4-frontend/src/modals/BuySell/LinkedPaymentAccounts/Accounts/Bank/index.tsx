@@ -67,9 +67,7 @@ const Bank = ({ icon, onClick, text, value }: Props) => {
               <FormattedMessage
                 id='modals.simplebuy.band_item_with_limits'
                 defaultMessage='{limitAmount} Limit'
-                values={{
-                  limitAmount
-                }}
+                values={{ limitAmount }}
               />
             )}
           </StyledTitle>
