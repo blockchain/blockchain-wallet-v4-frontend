@@ -1,0 +1,5 @@
+{
+  "packages/*/src/**/*.{js,ts,tsx}": ["eslint --fix", "yarn jest --bail --findRelatedTests --passWithNoTests"],
+  "packages/*/src/**/*.{js,tsx}": ["stylelint './packages/*/src/**/*.{js,tsx}'"],
+  "packages/**/!(*package).json": ["eslint --fix"]
+}
