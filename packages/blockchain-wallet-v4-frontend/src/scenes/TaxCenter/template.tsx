@@ -204,7 +204,7 @@ const TaxCenter = ({
         <Text size='14px' weight={500} color='grey700'>
           <FormattedMessage
             id='scenes.tax.center.card.service.turboTax.description2'
-            defaultMessage='If you’re new to crypto and don’t have much crypto activity, TurboTax helps navigate the complexity of crypto taxes. Save time by auto-importing crypto activity, plus specialized experts are available year round and can even do your taxes for you, start to finish.'
+            defaultMessage='TurboTax has crypto taxes covered. Save time and hassle by importing up to 20k crypto transactions, plus an expert in investment taxes can help or even prepare your return from start to finish.'
           />
         </Text>
 
