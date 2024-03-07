@@ -5,28 +5,28 @@ on:
     branches:
       - development
 
+env:
+  HUSKY: 0
+
 jobs:
   pull-request:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.16]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Install node.js v${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - name: Install node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version-file: './.nvmrc'
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn
+        run: yarn --frozen-lockfile
 
-#     Non-working command
-#      - name: Deploy storybook - base components
-#        run: yarn storybook:base
+      #     Non-working command
+      #      - name: Deploy storybook - base components
+      #        run: yarn storybook:base
 
       - name: Deploy storybook - wallet
         run: yarn storybook:deploy-wallet --ci
