@@ -18,7 +18,7 @@ jobs:
       - name: Install node.js
         uses: actions/setup-node@v4
         with:
-          node-version-file: './nvmrc'
+          node-version: 16
 
       - name: Get node version
         id: node
