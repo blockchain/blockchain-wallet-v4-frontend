@@ -27,6 +27,26 @@
   "workspaces": [
     "packages/*"
   ],
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged && node ./scripts/commitHook.js",
+      "pre-push": "node ./scripts/checkForCircularDeps.js"
+    }
+  },
+  "lint-staged": {
+    "packages/*/src/**/*.{js,ts,tsx}": [
+      "eslint --fix",
+      "yarn jest --bail --findRelatedTests --passWithNoTests"
+    ],
+    "packages/*/src/**/*.{js,tsx}": [
+      "stylelint './packages/*/src/**/*.{js,tsx}'"
+    ],
+    "packages/**/!(*package).json": [
+      "eslint --fix"
+    ]
+  },
+  "postinstall": "rm -rf node_modules/@types/react-native",
   "scripts": {
     "analyze": "yarn workspace blockchain-wallet-v4-frontend analyze",
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
@@ -76,8 +96,7 @@
     "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test:update",
     "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
     "release": "release-it",
-    "vet": "yarn lint:fix && yarn lint:css && yarn test",
-    "postinstall": "husky"
+    "vet": "yarn lint:fix && yarn lint:css && yarn test"
   },
   "devDependencies": {
     "@babel/cli": "7.14.8",
@@ -162,14 +181,14 @@
     "hoist-non-react-statics": "3.3.2",
     "html-replace-webpack-plugin": "2.6.0",
     "html-webpack-plugin": "5.5.0",
-    "husky": "^9.0.11",
+    "husky": "3.0.5",
     "identity-obj-proxy": "3.0.0",
     "istanbul": "0.4.5",
     "jest": "27.0.6",
     "jest-cli": "27.0.6",
     "jest-css-modules": "2.1.0",
     "jest-fetch-mock": "3.0.3",
-    "lint-staged": "15.2.2",
+    "lint-staged": "10.5.4",
     "madge": "5.0.1",
     "mock-socket": "9.0.3",
     "node-polyfill-webpack-plugin": "1.1.4",
