@@ -18,7 +18,7 @@ jobs:
       - name: Install node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 14.16
+          node-version-file: './nvmrc'
 
       - name: Get node version
         id: node
@@ -35,10 +35,6 @@ jobs:
 
       - name: Install dependencies
         run: yarn --frozen-lockfile
-
-      #     Non-working command
-      #      - name: Deploy storybook - base components
-      #        run: yarn storybook:base
 
       - name: Deploy storybook - wallet
         run: yarn storybook:deploy-wallet --ci

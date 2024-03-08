@@ -1,2 +1,0 @@
-yarn lint-staged --allow-empty
-node ./scripts/commitHook.js
