@@ -2169,7 +2169,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const switchFix = function* ({ payload }: ReturnType<typeof A.switchFix>) {
     yield put(actions.form.change(FORM_BS_CHECKOUT, 'fix', payload.fix))
-    yield put(actions.preferences.setBSCheckoutFix(payload.orderType, payload.fix))
+    yield put(
+      actions.preferences.setBSCheckoutFix({ fix: payload.fix, orderType: payload.orderType })
+    )
     const newAmount = new BigNumber(payload.amount).isGreaterThan(0) ? payload.amount : undefined
     yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', newAmount))
     yield put(actions.form.focus(FORM_BS_CHECKOUT, 'amount'))

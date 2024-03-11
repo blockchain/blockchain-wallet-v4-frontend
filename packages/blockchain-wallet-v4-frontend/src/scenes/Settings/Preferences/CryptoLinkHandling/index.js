@@ -13,6 +13,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 import { actions } from 'data'
+import { AnalyticsKey } from 'middleware/analyticsMiddleware/types'
 import { isBrowserSafari } from 'services/browser'
 
 const isSafari = isBrowserSafari()
@@ -32,7 +33,18 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
 
   onEnableClick = () => {
     this.setState((prevState) => ({ warningDisplayed: !prevState.warningDisplayed }))
-    this.props.preferencesActions.setLinkHandling()
+    // Register BTC links
+    // @ts-ignore
+    window.navigator.registerProtocolHandler('bitcoin', '/#/open/%s', 'Blockchain')
+
+    // Register BCH links
+    // @ts-ignore
+    window.navigator.registerProtocolHandler('web+bitcoincash', '/#/open/%s', 'Blockchain')
+
+    this.props.analyticsActions.trackEvent({
+      key: AnalyticsKey.CRYPTO_LINK_HANDLING_CLICKED,
+      properties: {}
+    })
   }
 
   render() {
@@ -78,7 +90,7 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
                         <a
                           href='https://caniuse.com/?search=registerProtocolHandler'
                           target='_blank'
-                          rel='noopener noreferrrer noreferrer'
+                          rel='noopener noreferrer'
                         >
                           {msg}
                         </a>
@@ -96,7 +108,7 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
 export default connect(null, mapDispatchToProps)(CryptoLinkHandlingContainer)

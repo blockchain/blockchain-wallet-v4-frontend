@@ -37,7 +37,7 @@
   "lint-staged": {
     "packages/*/src/**/*.{js,ts,tsx}": [
       "eslint --fix",
-      "yarn test --bail --findRelatedTests"
+      "yarn jest --bail --findRelatedTests --passWithNoTests"
     ],
     "packages/*/src/**/*.{js,tsx}": [
       "stylelint './packages/*/src/**/*.{js,tsx}'"

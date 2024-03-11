@@ -9,7 +9,7 @@ import createSagaMiddleware from 'redux-saga'
 import { all, fork } from 'redux-saga/effects'
 
 import formReducer from 'data/form/reducers'
-import { preferencesReducer } from 'data/preferences/reducers'
+import { preferencesReducer } from 'data/preferences/slice'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 
@@ -45,11 +45,13 @@ export const TestBed = ({ children, initialRoutes, store, withRouter }) => (
   </Provider>
 )
 
+/* eslint-disable react/forbid-prop-types */
 TestBed.propTypes = {
   initialRoutes: PropTypes.array,
   store: PropTypes.any.isRequired,
   withRouter: PropTypes.bool
 }
+/* eslint-enable react/forbid-prop-types */
 
 TestBed.defaultProps = {
   initialRoutes: ['/'],

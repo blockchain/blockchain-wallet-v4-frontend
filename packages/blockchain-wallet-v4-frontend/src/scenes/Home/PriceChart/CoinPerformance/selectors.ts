@@ -3,12 +3,12 @@ import { lift } from 'ramda'
 import { ExtractSuccess, TimeRange } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
-import { PriceChartPreferenceType } from 'data/preferences/types'
+import { PriceChartType } from 'data/components/priceChart/types'
 import { RootState } from 'data/rootReducer'
 
 export const getData = createDeepEqualSelector(
   [
-    (state: RootState, priceChart: PriceChartPreferenceType) =>
+    (state: RootState, priceChart: PriceChartType) =>
       selectors.core.data.misc.getPriceChange(
         priceChart.coin ?? 'BTC',
         priceChart.time ?? TimeRange.MONTH,

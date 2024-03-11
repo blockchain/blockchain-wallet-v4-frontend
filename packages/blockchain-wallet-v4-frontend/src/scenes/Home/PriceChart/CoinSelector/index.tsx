@@ -4,8 +4,8 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import SelectBoxCoinPriceChart from 'components/Form/SelectBoxCoinPriceChart'
+import { getCoin } from 'data/components/priceChart/selectors'
 import { coinClicked } from 'data/components/priceChart/slice'
-import { getPriceChart } from 'data/preferences/selectors'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
 const CoinSelector = ({ initialize }) => {
   const dispatch = useDispatch()
-  const { coin = 'BTC' } = useSelector(getPriceChart)
+  const coin = useSelector(getCoin) ?? 'BTC'
 
   useEffect(() => {
     initialize({ coin })

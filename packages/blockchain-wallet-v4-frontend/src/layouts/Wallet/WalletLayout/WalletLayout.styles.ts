@@ -47,4 +47,18 @@ const Content = styled.div<{ center?: boolean; removeContentPadding?: boolean }>
   `}
 `
 
-export { Container, Content, Nav, Wrapper }
+const PageContent = styled.div<{ center: boolean }>`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: ${({ center = false }) => (center ? 'center' : 'flex-start')};
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  > div {
+    box-sizing: border-box;
+  }
+`
+
+export { PageContent, Container, Content, Nav, Wrapper }

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
-import { getPriceChart } from 'data/preferences/selectors'
+import { getCoin, getTime } from 'data/components/priceChart/selectors'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
 
@@ -20,9 +20,10 @@ const Wrapper = styled.div`
 `
 
 const CoinPerformance = () => {
-  const priceChart = useSelector(getPriceChart)
+  const coin = useSelector(getCoin)
+  const time = useSelector(getTime)
 
-  const data = useSelector((state: RootState) => getData(state, priceChart))
+  const data = useSelector((state: RootState) => getData(state, { coin, time }))
   return (
     <Wrapper>
       {data.cata({

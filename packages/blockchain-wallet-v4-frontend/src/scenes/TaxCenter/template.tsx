@@ -204,7 +204,7 @@ const TaxCenter = ({
         <Text size='14px' weight={500} color='grey700'>
           <FormattedMessage
             id='scenes.tax.center.card.service.turboTax.description2'
-            defaultMessage='If you’re new to crypto and don’t have much crypto activity, TurboTax helps navigate the complexity of crypto taxes. Save time by auto-importing crypto activity, plus specialized experts are available year round and can even do your taxes for you, start to finish.'
+            defaultMessage='TurboTax has crypto taxes covered. Save time and hassle by importing up to 20k crypto transactions, plus an expert in investment taxes can help or even prepare your return from start to finish.'
           />
         </Text>
 
@@ -231,8 +231,7 @@ const TaxCenter = ({
         <Text size='14px' weight={500} color='grey700'>
           <FormattedMessage
             id='scenes.tax.center.card.service.cointracker.description'
-            defaultMessage='If your crypto activity is high and you have multiple wallets beyond Blockchain.com, Cointracker is fully supported in the US, Australia, UK, Canada and also provides capital gains reports for users around the World. Blockchain.com users get free tax reports for up to 500 transactions with CoinTracker.
-            '
+            defaultMessage='We have partnered with CoinTracker to simplify your tax reporting. CoinTracker is fully supported in the US, Australia, UK, Canada and also provides capital gains reports for users around the World. New users from Blockchain.com get 10% off all tax plans'
           />
         </Text>
         <VisitButton
