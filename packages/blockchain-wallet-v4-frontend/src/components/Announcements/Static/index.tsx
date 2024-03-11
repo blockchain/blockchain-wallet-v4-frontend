@@ -37,7 +37,7 @@ const StaticAnnouncementsContainer = () => {
     }, 3000)
   }
 
-  if (!emailVerified) return null
+  if (emailVerified) return null
 
   return (
     <Wrapper>
