@@ -5,25 +5,20 @@ import { destroy } from 'redux-form'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import FlyoutFooter from 'components/Flyout/Footer'
 import { modals } from 'data/actions'
-import { setDWStep } from 'data/components/brokerage/slice'
 import { getModals } from 'data/modals/selectors'
-import { BankDWStepType, ModalName } from 'data/types'
+import { ModalName } from 'data/types'
 
 import { Header } from '../Header'
 import { WIRE_BANK_FORM } from './constants'
 import { FinalStatusWrapper } from './StepsStyles'
+import { getFiatCurrency } from 'data/components/brokerage/selectors'
 
 const Failure = ({ message, title }: { message?: string; title?: string }) => {
   const dispatch = useDispatch()
-  const openModals = useSelector(getModals)
 
   const onConfirm = () => {
     dispatch(destroy(WIRE_BANK_FORM))
-    if (openModals.find((m) => m.props.origin === 'AddBankModalSettings')) {
-      dispatch(modals.closeModal(ModalName.BANK_DEPOSIT_MODAL))
-    } else {
-      dispatch(setDWStep({ dwStep: BankDWStepType.DEPOSIT_METHODS }))
-    }
+    dispatch(modals.closeModal(ModalName.BANK_DEPOSIT_MODAL))
   }
 
   return (
