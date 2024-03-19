@@ -4,6 +4,7 @@ import { includes } from 'ramda'
 
 import Currencies from '@core/exchange/currencies'
 import DataError from 'components/DataError'
+import { coinClicked } from 'data/components/priceChart/slice'
 import { Analytics } from 'data/types'
 import { useRemote } from 'hooks'
 
@@ -36,6 +37,9 @@ const AccountSummaryContainer = (props: PropsType) => {
   useEffect(() => {
     earnActions.fetchActiveRewardsLimits()
     earnActions.fetchPendingActiveRewardsTransactions({ coin })
+    if (coin !== 'BTC') {
+      dispatch(coinClicked(coin))
+    }
   }, [])
 
   useEffect(() => {
@@ -52,15 +56,15 @@ const AccountSummaryContainer = (props: PropsType) => {
   useEffect(() => {
     const isTransactionsToggledAutomatically: boolean | undefined =
       data &&
-      data.pendingTransactions.length < PENDING_TRANSACTIONS_MAX &&
-      data.pendingTransactions.length > 0
+      data?.pendingTransactions.length < PENDING_TRANSACTIONS_MAX &&
+      data?.pendingTransactions.length > 0
 
     if (isTransactionsToggledAutomatically) {
       setIsTransactionsToggled(true)
     } else {
       setIsTransactionsToggled(false)
     }
-  }, [data?.pendingTransactions])
+  }, [data])
 
   const handleEDDSubmitInfo = () => {
     interestUploadActions.showModal({ origin: 'EarnPage' })
