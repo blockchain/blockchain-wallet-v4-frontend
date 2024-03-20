@@ -557,7 +557,7 @@ const renderBankText = (
 ): string | ReactElement => {
   if ('agent' in value) {
     // BeneficiaryType
-    return value.name
+    return value.agent.bankName ?? value.name
   }
   if ('details' in value && value.details?.bankName) {
     // BankTransferAccountType | BSPaymentMethodType
@@ -901,7 +901,7 @@ const BankWire = ({
     </Col>
     <Col style={{ width: '100%' }}>
       <Content>
-        <Value asTitle>{beneficiary.name}</Value>
+        <Value asTitle>{beneficiary.agent.bankName ?? beneficiary.name}</Value>
         <Title asValue>Wire Account ending in {beneficiary.address.slice(-4)}</Title>
 
         {type === 'DEPOSIT' && (
