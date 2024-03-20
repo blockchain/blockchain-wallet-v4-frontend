@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Button, Flex, SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { CoinType } from '@core/types'
-import { Icon, Image } from 'blockchain-info-components'
+import { ActiveRewardsIcon, Icon } from 'blockchain-info-components'
 import { FlyoutWrapper as Header } from 'components/Flyout'
 
 import { Bottom, Top, WarningContainer, Wrapper } from './Warning.styles'
@@ -37,7 +37,7 @@ const Warning = ({
     </Header>
     <Top>
       <Flex alignItems='center' flexDirection='column' gap={16}>
-        <Image name='btc-graph' size='68px' />
+        <ActiveRewardsIcon coin={coin} type='WARNING' />
         <Text color={SemanticColors.title} textAlign='center' variant='title3'>
           <FormattedMessage
             defaultMessage='Active Rewards considerations'
@@ -46,10 +46,11 @@ const Warning = ({
         </Text>
         <Text color={SemanticColors.body} textAlign='center' variant='body1'>
           <FormattedMessage
-            defaultMessage='Price movements may result in a reduction of your BTC balance.{br}{br} Once subscribed, assets are locked until the following week and subject to market volatility.'
+            defaultMessage='Price movements may result in a reduction of your {coin} balance.{br}{br} Once subscribed, assets are locked until the following week and subject to market volatility.'
             id='modals.active-rewards.warning.content.subtitle'
             values={{
-              br: <br />
+              br: <br />,
+              coin
             }}
           />
         </Text>

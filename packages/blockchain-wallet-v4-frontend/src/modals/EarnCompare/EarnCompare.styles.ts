@@ -8,6 +8,8 @@ export const CustomModal = styled(Modal)`
   max-width: 1087px;
   margin: 32px;
   padding: 24px;
+  max-height: 90vh;
+  overflow-y: auto;
 `
 export const TableContainer = styled.div`
   padding: 24px;

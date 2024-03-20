@@ -20,7 +20,13 @@ import { TableRowPropsType } from './TableRow/TableRow.types'
 
 const EarnCompare = ({ closeAll }: OwnProps) => {
   const { data } = useRemote(getRemote)
-  const { maxActiveRate = '- ', maxPassiveRate = '- ', maxStakingRate = '- ' } = data || {}
+  const {
+    activeRewards = [],
+    maxActiveRate = '- ',
+    maxPassiveRate = '- ',
+    maxStakingRate = '- ',
+    staking = []
+  } = data || {}
 
   const handleClose = () => {
     closeAll()
@@ -43,7 +49,7 @@ const EarnCompare = ({ closeAll }: OwnProps) => {
       </Padding>
       <Padding bottom={1}>
         <TableContainer>
-          {tableData({ maxActiveRate, maxPassiveRate, maxStakingRate }).map(
+          {tableData({ activeRewards, maxActiveRate, maxPassiveRate, maxStakingRate, staking }).map(
             ({
               activeInfo,
               hasBorder,

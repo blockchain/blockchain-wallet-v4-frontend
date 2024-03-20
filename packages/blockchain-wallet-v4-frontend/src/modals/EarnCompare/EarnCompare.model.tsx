@@ -17,9 +17,11 @@ import { TableRowPropsType } from './TableRow/TableRow.types'
 import TableTopTitle from './TableTopTitle'
 
 export const tableData = ({
+  activeRewards,
   maxActiveRate,
   maxPassiveRate,
-  maxStakingRate
+  maxStakingRate,
+  staking
 }: TableDataPropsType): TableRowPropsType[] => [
   // row0 top titles
   {
@@ -103,16 +105,24 @@ export const tableData = ({
   // row2 Assets
   {
     activeInfo: (
-      <Flex alignItems='center' gap={8}>
-        <Icon name='BTC' size='24px' /> Bitcoin
+      <Flex flexDirection='column' gap={8}>
+        {activeRewards.map((coin) => (
+          <Flex alignItems='center' gap={8} key={`${coin + Math.random()} active`}>
+            <Icon name={coin} size='24px' /> {window.coins[coin].coinfig.name}
+          </Flex>
+        ))}
       </Flex>
     ),
     hasBorder: true,
     key: 'modals.earn-compare.table.active.row2.info',
     passiveInfo: <FormattedMessage defaultMessage='All' id='copy.all' />,
     stakingInfo: (
-      <Flex alignItems='center' gap={8}>
-        <Icon name='ETH' size='24px' /> Ethereum
+      <Flex flexDirection='column' gap={8}>
+        {staking.map((coin) => (
+          <Flex alignItems='center' gap={8} key={`${coin + Math.random()} active`}>
+            <Icon name={coin} size='24px' /> {window.coins[coin].coinfig.name}
+          </Flex>
+        ))}
       </Flex>
     ),
     title: <FormattedMessage defaultMessage='Assets' id='copy.assets' />

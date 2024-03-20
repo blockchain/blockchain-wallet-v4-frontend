@@ -90,6 +90,7 @@ import dexVerificationCheck from './img/dex/verification-check.svg'
 import bars from './img/earn/bars.svg'
 import btcClock from './img/earn/btc-clock.svg'
 import btcGraph from './img/earn/btc-graph.svg'
+import earnClock from './img/earn/clock.svg'
 import earnActivityEmpty from './img/earn/earn-activity-empty.svg'
 import earnEmpty from './img/earn/earn-empty.svg'
 import ethLocked from './img/earn/eth-locked.svg'
@@ -293,6 +294,7 @@ const Images = {
   'dex-token-allowance': dexTokenAllowance,
   'dex-verification-check': dexVerificationCheck,
   'earn-activity-empty': earnActivityEmpty,
+  'earn-clock': earnClock,
   'earn-empty': earnEmpty,
   'email-error': emailError,
   'email-success': emailSuccess,

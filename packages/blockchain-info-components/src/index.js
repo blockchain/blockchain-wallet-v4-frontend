@@ -18,7 +18,7 @@ export {
   TextAreaInput,
   TextInput
 } from './Form'
-export { CoinAccountIcon, Icon } from './Icons'
+export { ActiveRewardsIcon, CoinAccountIcon, Icon } from './Icons'
 export { Background, Image } from './Images'
 export { Link } from './Links'
 export {
