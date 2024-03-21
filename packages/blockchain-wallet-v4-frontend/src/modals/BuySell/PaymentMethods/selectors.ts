@@ -1,9 +1,33 @@
 import { lift } from 'ramda'
 
-import { BSPaymentTypes, ExtractSuccess, FiatType, InvitationsType } from '@core/types'
+import {
+  BSBalancesType,
+  BSCardType,
+  BSPairType,
+  BSPaymentMethodsType,
+  BSPaymentTypes,
+  FiatEligibleType,
+  FiatType,
+  InvitationsType,
+  RemoteDataType
+} from '@core/types'
 import { selectors } from 'data'
+import { BankTransferAccountType } from 'data/types'
 
-const getData = (state) => {
+export type PaymentMethodsSelectorType = {
+  applePayEnabled: boolean
+  balances: BSBalancesType
+  bankTransferAccounts: BankTransferAccountType[]
+  cards: BSCardType[]
+  eligibility: FiatEligibleType
+  googlePayEnabled: boolean
+  isInternalTester: boolean
+  pairs: BSPairType
+  paymentMethods: BSPaymentMethodsType
+  walletCurrency: FiatType
+}
+
+const getData = (state): RemoteDataType<string, PaymentMethodsSelectorType> => {
   const balancesR = selectors.components.buySell.getBSBalances(state)
   const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
   const cardsR = selectors.components.buySell.getBSCards(state)
@@ -21,16 +45,16 @@ const getData = (state) => {
 
   return lift(
     (
-      applePayEnabled: Boolean,
-      balances: ExtractSuccess<typeof balancesR>,
-      bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
-      cards: ExtractSuccess<typeof cardsR>,
-      eligibility: ExtractSuccess<typeof eligibilityR>,
-      googlePayEnabled: ExtractSuccess<typeof googlePayEnabledR>,
-      isInternalTester: ExtractSuccess<typeof isInternalTesterR>,
-      pairs: ExtractSuccess<typeof pairsR>,
-      paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
-      walletCurrency: FiatType
+      applePayEnabled,
+      balances,
+      bankTransferAccounts,
+      cards,
+      eligibility,
+      googlePayEnabled,
+      isInternalTester,
+      pairs,
+      paymentMethods,
+      walletCurrency
     ) => ({
       applePayEnabled,
       balances,

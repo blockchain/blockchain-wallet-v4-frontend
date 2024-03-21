@@ -2,10 +2,7 @@ import React, { memo, SyntheticEvent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
 import { IconCreditCard, PaletteColors } from '@blockchain-com/constellation'
-import {
-  CARD_TYPES,
-  DEFAULT_CARD_SVG_LOGO
-} from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
+import { getCardLogoOrDefault } from 'modals/BuySell/PaymentMethods/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -82,19 +79,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = ({
           />
         )}
         {activeCards.map((card) => {
-          const cardType = CARD_TYPES.find(
-            (cardType) => cardType.type === (card.card ? card.card.type : '')
-          )
-
           if (card.state !== 'ACTIVE') return
 
+          const cardLogo = getCardLogoOrDefault(card.card.type)
           const cardLabel = (card?.card.label && card?.card.label.toLowerCase()) || card?.card.type
 
           return (
             <Box isMobile={media.mobile} key={card.id} style={{ width: '430px' }}>
               <Flex style={{ width: '100%' }} gap={8}>
                 <Flex alignItems='center'>
-                  <CardImg src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO} />
+                  <CardImg src={cardLogo} />
                 </Flex>
 
                 <Expanded style={{ minWidth: 0 }}>

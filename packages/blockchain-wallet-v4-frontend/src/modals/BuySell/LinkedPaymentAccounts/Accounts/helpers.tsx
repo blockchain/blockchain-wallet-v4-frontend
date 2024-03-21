@@ -5,7 +5,7 @@ import { BSPaymentMethodType, BSPaymentTypes, WalletCurrencyType } from '@core/t
 import { Icon, Image } from 'blockchain-info-components'
 import { getBankLogoImageName } from 'services/images'
 
-import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from '../../PaymentMethods/model'
+import { getCardLogoOrDefault } from '../../PaymentMethods/model'
 import { IconContainer } from './AccountsStyles'
 
 export const getType = (value: BSPaymentMethodType) => {
@@ -66,16 +66,14 @@ export const getIcon = (value: BSPaymentMethodType): ReactElement => {
       )
     case BSPaymentTypes.USER_CARD: {
       const { card } = value
-      if (!card) {
-        return <></>
-      }
-      const cardType = CARD_TYPES.find((cc) => cc.type === card.type)
+      if (!card) return <></>
+
       return (
         <img
           alt='Credit Card Type'
           height='18px'
           width='auto'
-          src={cardType?.logo ?? DEFAULT_CARD_SVG_LOGO}
+          src={getCardLogoOrDefault(card.type)}
         />
       )
     }

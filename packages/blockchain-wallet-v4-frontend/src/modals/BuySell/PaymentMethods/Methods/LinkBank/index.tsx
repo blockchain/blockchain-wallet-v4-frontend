@@ -23,7 +23,6 @@ const DisplayIconBank = styled(DisplayIcon)`
 type Props = {
   icon: ReactElement
   onClick: (string) => void
-  text: ReactElement | string
   value: BSPaymentMethodType
 }
 
