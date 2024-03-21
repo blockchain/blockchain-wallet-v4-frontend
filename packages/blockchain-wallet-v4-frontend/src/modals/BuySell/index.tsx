@@ -234,7 +234,7 @@ class BuySell extends PureComponent<Props, State> {
           )}
           {this.props.step === 'AUTHORIZE_PAYMENT' && (
             <FlyoutChild>
-              <Authorize {...this.props} handleClose={this.handleClose} />
+              <Authorize handleClose={this.handleClose} />
             </FlyoutChild>
           )}
           {this.props.step === 'CHECKOUT_CONFIRM' && (
