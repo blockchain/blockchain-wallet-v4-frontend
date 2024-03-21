@@ -133,7 +133,7 @@ export type LoginApiErrorType =
 
 // TODO: define missing types and determine if all of these types are needed/used
 export type ExchangeLoginSuccessType = {}
-export type ExchangeLoginFailureType = any
+export type ExchangeLoginFailureType = ExchangeErrorCodes
 export type ExchangeResetPasswordSuccessType = any
 
 export type ProductAuthMetadata = {

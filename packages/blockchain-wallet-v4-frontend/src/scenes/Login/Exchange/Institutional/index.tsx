@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch } from 'react-redux'
 import { push } from 'connected-react-router'
 import { clearFields, Field } from 'redux-form'
 import styled from 'styled-components'
@@ -13,8 +14,10 @@ import PasswordBox from 'components/Form/PasswordBox'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { LOGIN_FORM } from 'data/auth/model'
+import { getExchangeLogin } from 'data/auth/selectors'
 import { ProductAuthOptions } from 'data/auth/types'
 import { ExchangeErrorCodes } from 'data/types'
+import { useRemote } from 'hooks'
 import { required, validEmail } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
@@ -44,7 +47,6 @@ const BackArrow = styled.div`
 const InstitutionalPortal = (props: Props) => {
   const {
     busy,
-    exchangeError,
     formValues,
     handleBackArrowClickExchange,
     invalid,
@@ -53,15 +55,20 @@ const InstitutionalPortal = (props: Props) => {
     submitting
   } = props
 
+  const { error: exchangeError } = useRemote(getExchangeLogin)
+
+  const dispatch = useDispatch()
+
   const passwordError = exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
 
   const backArrowClick = () => {
     handleBackArrowClickExchange()
-    push('/login?product=exchange')
+    dispatch(push('/login?product=exchange'))
   }
   useEffect(() => {
     clearFields(LOGIN_FORM, false, false, 'exchangeEmail')
   }, [])
+
   return (
     <LoginWrapper>
       <WrapperWithPadding>

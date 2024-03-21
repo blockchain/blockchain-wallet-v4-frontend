@@ -15,9 +15,10 @@ import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
 import { auth } from 'data/actions'
 import { trackEvent } from 'data/analytics/slice'
-import { getAuthType } from 'data/auth/selectors'
+import { getAuthType, getExchangeLogin } from 'data/auth/selectors'
 import { ProductAuthOptions } from 'data/auth/types'
 import { Analytics, ExchangeErrorCodes } from 'data/types'
+import { useRemote } from 'hooks'
 import { required } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { isMobile, media } from 'services/styles'
@@ -44,10 +45,11 @@ const ResponsiveRow = styled(Row)`
   `}
 `
 
+const LOCKED_MESSAGES = ['this account has been locked', 'account is locked', 'account deactivated']
+
 const TwoFAWallet = (props: Props) => {
   const {
     busy,
-    exchangeError,
     formValues,
     handleBackArrowClickWallet,
     invalid,
@@ -57,10 +59,9 @@ const TwoFAWallet = (props: Props) => {
     walletError
   } = props
 
-  const accountLocked =
-    walletError?.toLowerCase().includes('this account has been locked') ||
-    walletError?.toLowerCase().includes('account is locked') ||
-    walletError?.toLowerCase().includes('account deactivated')
+  const { error: exchangeError } = useRemote(getExchangeLogin)
+
+  const accountLocked = LOCKED_MESSAGES.some((m) => walletError?.toLowerCase().includes(m))
   const sanctionedRegionError = exchangeError === ExchangeErrorCodes.NOT_ACCEPTABLE
   const twoFactorError = walletError?.toLowerCase().includes('authentication code')
 
