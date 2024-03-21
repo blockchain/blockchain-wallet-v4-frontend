@@ -143,7 +143,7 @@ const Login = (props: Props) => {
   const getComponentByStep = () => {
     switch (step) {
       case LoginSteps.SOFI_EMAIL:
-        return <Email {...loginProps} />
+        return <Email busy={busy} invalid={props.invalid} submitting={props.submitting} />
       case LoginSteps.INSTITUTIONAL_PORTAL:
         return <InstitutionalPortal {...loginProps} />
       case LoginSteps.ENTER_PASSWORD_EXCHANGE:
@@ -179,7 +179,7 @@ const Login = (props: Props) => {
       case LoginSteps.CHECK_EMAIL:
         return <CheckEmail {...loginProps} handleSubmit={handleSubmit} />
       case LoginSteps.VERIFY_MAGIC_LINK:
-        return <VerifyMagicLink {...loginProps} />
+        return <VerifyMagicLink />
       case LoginSteps.SOFI_SUCCESS:
         return <SofiSuccess />
 

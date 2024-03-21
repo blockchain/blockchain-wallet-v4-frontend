@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
-import { Field } from 'redux-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { push } from 'connected-react-router'
+import { Field, formValueSelector, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { SofiMigrationStatusResponseType } from '@core/network/api/sofi/types'
@@ -10,12 +11,12 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import TextBox from 'components/Form/TextBox'
 import { Wrapper } from 'components/Public'
-import { RootState } from 'data/rootReducer'
+import { LOGIN_FORM } from 'data/auth/model'
+import { getSofiUserData } from 'data/modules/profile/selectors'
 import { required, validEmail } from 'services/forms'
 import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
-import { Props } from '../..'
 import { ActionButton, LinkRow, LoginFormLabel, SoFiWrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
@@ -42,23 +43,32 @@ const HelperText = styled(Text)`
   color: ${(props) => props.theme.grey600};
 `
 
-const Email = (props: Props) => {
-  const { busy, formValues, invalid, routerActions, submitting } = props
+type Props = {
+  busy: boolean
+} & Pick<InjectedFormProps, 'invalid' | 'submitting'>
 
-  const { sofiJwtPayload } = useSelector((state: RootState) => state.profile.sofiData).getOrElse(
+const Email = ({ busy, invalid, submitting }: Props) => {
+  const dispatch = useDispatch()
+  const { sofiJwtPayload } = useSelector(getSofiUserData).getOrElse(
     {}
   ) as SofiMigrationStatusResponseType
 
+  const sofiLoginEmail = useSelector((state) =>
+    formValueSelector(LOGIN_FORM)(state, 'sofiLoginEmail')
+  )
+
+  const onBack = () => dispatch(push('/sofi'))
+
   useEffect(() => {
     if (!sofiJwtPayload) {
-      routerActions.push('/sofi-error')
+      dispatch(push('/sofi-error'))
     }
   }, [])
 
   return (
     <LoginWrapper>
       <SoFiWrapperWithPadding>
-        <BackArrow onClick={() => routerActions.push('/sofi')}>
+        <BackArrow onClick={onBack}>
           <Icon
             data-e2e='signupBack'
             name='arrow-back'
@@ -131,7 +141,7 @@ const Email = (props: Props) => {
             nature='primary'
             fullwidth
             height='48px'
-            disabled={submitting || invalid || busy || !formValues?.sofiLoginEmail}
+            disabled={submitting || invalid || busy || !sofiLoginEmail}
             data-e2e='loginButton'
             style={{ marginBottom: '16px' }}
           >
