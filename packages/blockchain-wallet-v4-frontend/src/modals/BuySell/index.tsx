@@ -171,10 +171,7 @@ class BuySell extends PureComponent<Props, State> {
           )}
           {this.props.step === 'UPDATE_SECURITY_CODE' && (
             <FlyoutChild>
-              <UpdateSecurityCode
-                backToEnterAmount={this.backToEnterAmount}
-                handleClose={this.handleClose}
-              />
+              <UpdateSecurityCode backToEnterAmount={this.backToEnterAmount} />
             </FlyoutChild>
           )}
           {this.props.step === 'CRYPTO_SELECTION' && (
