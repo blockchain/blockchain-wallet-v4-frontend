@@ -373,8 +373,9 @@ const AccountSummary: React.FC<SuccessPropsType> = ({
             </Text>
             <Text color={SemanticColors.title} variant='caption1'>
               <FormattedMessage
-                defaultMessage="Withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled in approximately end of January 2023. Until then, BTC assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
+                defaultMessage="Withdrawals for Active Rewards are not yet enabled. Weekly withdrawal functionality is being finalized and will be enabled in approximately end of January 2023. Until then, {coin} assets in Active Rewards Accounts will be re-subscribed to each week's strategy."
                 id='modals.active-rewards.account-summary.withdrawals-warning'
+                values={{ coin }}
               />
             </Text>
           </WarningContainer>
