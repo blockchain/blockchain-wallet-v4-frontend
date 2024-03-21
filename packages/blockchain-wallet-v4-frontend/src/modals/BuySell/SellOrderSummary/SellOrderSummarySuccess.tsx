@@ -73,33 +73,28 @@ const Success: React.FC<Props> = ({ handleClose }) => {
           <Value data-e2e='sbCreated'>{format(new Date(sellOrder.createdAt), 'PPpp')}</Value>
         </Row>
 
-        <>
-          {sellOrder.state !== 'FAILED' && (
-            <Row>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.summary.rate'
-                  defaultMessage='Exchange Rate'
-                />
-              </Title>
-              <Value data-e2e='sbRate'>
-                {fiatToString({
-                  unit: sellCounterCurrency,
-                  value: sellOrder.priceFunnel.price
-                })}{' '}
-                / 1 {sellBaseCurrency}
-              </Value>
-            </Row>
-          )}
+        {sellOrder.state !== 'FAILED' && (
           <Row>
             <Title>
-              <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+              <FormattedMessage id='modals.simplebuy.summary.rate' defaultMessage='Exchange Rate' />
             </Title>
-            <Value data-e2e='sbPurchasing'>
-              {sellBaseAmount} of {sellBaseCurrency}
+            <Value data-e2e='sbRate'>
+              {fiatToString({
+                unit: sellCounterCurrency,
+                value: sellOrder.priceFunnel.price
+              })}{' '}
+              / 1 {sellBaseCurrency}
             </Value>
           </Row>
-        </>
+        )}
+        <Row>
+          <Title>
+            <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+          </Title>
+          <Value data-e2e='sbPurchasing'>
+            {sellBaseAmount} of {sellBaseCurrency}
+          </Value>
+        </Row>
         {sellOrder.priceFunnel.outputMoney !== '0' && sellOrder.state !== 'FAILED' && (
           <Row>
             <Title>

@@ -219,7 +219,7 @@ class BuySell extends PureComponent<Props, State> {
           )}
           {this.props.step === '3DS_HANDLER_CHECKOUTDOTCOM' && (
             <FlyoutChild>
-              <ThreeDSHandlerCheckoutDotCom {...this.props} handleClose={this.handleClose} />
+              <ThreeDSHandlerCheckoutDotCom />
             </FlyoutChild>
           )}
           {this.props.step === '3DS_HANDLER_STRIPE' && (
