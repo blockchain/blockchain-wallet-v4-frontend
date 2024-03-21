@@ -21,8 +21,7 @@ jobs:
 
       - name: Get node version
         id: node
-        run: |
-          echo "::set-output name=version::$(node -v)"
+        run: echo "version=$(node -v)" >> "$GITHUB_OUTPUT"
 
       - name: Get node_modules cache
         uses: actions/cache@v4

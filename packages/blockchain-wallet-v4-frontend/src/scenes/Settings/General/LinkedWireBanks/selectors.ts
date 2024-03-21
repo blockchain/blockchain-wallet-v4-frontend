@@ -1,11 +1,6 @@
 import { lift } from 'ramda'
 
-import {
-  BeneficiariesType,
-  BSPaymentMethodsType,
-  ExtractSuccess,
-  RemoteDataType
-} from '@core/types'
+import { BeneficiariesType, BSPaymentMethodsType, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

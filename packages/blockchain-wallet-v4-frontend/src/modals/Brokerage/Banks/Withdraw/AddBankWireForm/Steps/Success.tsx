@@ -5,13 +5,14 @@ import { destroy } from 'redux-form'
 import { WalletFiatType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import FlyoutFooter from 'components/Flyout/Footer'
-import { components, modals } from 'data/actions'
+import { modals } from 'data/actions'
 import { getModals } from 'data/modals/selectors'
 import { ModalName, WithdrawStepEnum } from 'data/types'
 
 import { Header } from '../Header'
 import { WIRE_BANK_FORM } from './constants'
 import { FinalStatusWrapper } from './StepsStyles'
+import { withdraw } from 'data/components/actions'
 
 type Props = { bankName: string; fiatCurrency: WalletFiatType }
 
@@ -25,7 +26,7 @@ const Success = ({ bankName, fiatCurrency }: Props) => {
 
     if (!openModals.find((m) => m.props.origin === 'AddBankModalSettings')) {
       dispatch(
-        components.withdraw.setStep({
+        withdraw.setStep({
           fiatCurrency,
           step: WithdrawStepEnum.BANK_PICKER
         })
