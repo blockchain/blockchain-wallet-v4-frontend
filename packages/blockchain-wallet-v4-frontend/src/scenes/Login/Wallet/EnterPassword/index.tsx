@@ -80,7 +80,6 @@ const EnterPasswordWallet = (props: Props) => {
     formValues,
     handleBackArrowClickWallet,
     invalid,
-    magicLinkData,
     productAuthMetadata,
     submitting,
     walletError
@@ -112,7 +111,6 @@ const EnterPasswordWallet = (props: Props) => {
             <BackArrowHeader
               formValues={formValues}
               handleBackArrowClick={handleBackArrowClickWallet}
-              platform={magicLinkData?.platform_type}
               marginTop='28px'
             />
           )}

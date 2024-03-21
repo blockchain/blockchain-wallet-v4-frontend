@@ -1,9 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
+import { getMagicLinkDataPlatformType } from 'data/auth/selectors'
 import { PlatformTypes } from 'data/types'
 import { media } from 'services/styles'
 
@@ -37,7 +39,9 @@ const Row = styled.div`
   `}
 `
 
-const SignUpLink = ({ platform }: { platform?: PlatformTypes }) => {
+const SignUpLink = () => {
+  const platform = useSelector(getMagicLinkDataPlatformType)
+
   if (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS) return null
 
   return (

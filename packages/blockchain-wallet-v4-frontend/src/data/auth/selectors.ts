@@ -50,6 +50,10 @@ export function getMagicLinkData(state: RootState): AuthStateType['magicLinkData
   return state.auth.magicLinkData
 }
 
+export function getMagicLinkDataPlatformType(state: RootState) {
+  return state.auth.magicLinkData?.platform_type
+}
+
 export function getManifest(state: RootState): AuthStateType['manifestFile'] {
   return state.auth.manifestFile
 }

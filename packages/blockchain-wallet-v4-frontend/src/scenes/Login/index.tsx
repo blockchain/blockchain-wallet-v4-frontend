@@ -207,7 +207,6 @@ const mapStateToProps = (state) => ({
   exchangeLoginDataR: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
   jwtToken: selectors.auth.getJwtToken(state),
-  magicLinkData: selectors.auth.getMagicLinkData(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
   walletLoginDataR: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })

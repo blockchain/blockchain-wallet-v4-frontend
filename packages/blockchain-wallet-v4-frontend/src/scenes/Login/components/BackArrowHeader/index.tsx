@@ -1,8 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
+import { getMagicLinkDataPlatformType } from 'data/auth/selectors'
 import { LoginFormType, LoginSteps, PlatformTypes, ProductAuthOptions } from 'data/auth/types'
 import { isMobile } from 'services/styles'
 
@@ -29,7 +31,6 @@ type Props = {
   handleBackArrowClick: () => void
   hideGuid?: boolean
   marginTop?: string
-  platform?: PlatformTypes
   product?: ProductAuthOptions
 }
 
@@ -38,9 +39,10 @@ const BackArrowHeader = ({
   handleBackArrowClick,
   hideGuid,
   marginTop,
-  platform,
   product
 }: Props) => {
+  const platform = useSelector(getMagicLinkDataPlatformType)
+
   const isExchangeLogin = product === ProductAuthOptions.EXCHANGE
   const email = isExchangeLogin
     ? formValues.exchangeEmail

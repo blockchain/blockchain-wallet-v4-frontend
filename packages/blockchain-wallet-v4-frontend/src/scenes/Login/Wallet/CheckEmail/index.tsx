@@ -149,7 +149,7 @@ const CheckEmail = (props: Props) => {
           )}
         </Button>
       </WrapperWithPadding>
-      <SignupLink platform={props.magicLinkData?.platform_type} />
+      <SignupLink />
     </LoginWrapper>
   )
 }

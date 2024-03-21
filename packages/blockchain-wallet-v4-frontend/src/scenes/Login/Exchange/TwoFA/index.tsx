@@ -35,12 +35,10 @@ const LoginWrapper = styled(Wrapper)`
 const TwoFAExchange = (props: Props) => {
   const {
     busy,
-    cache,
     exchangeError,
     formValues,
     handleBackArrowClickExchange,
     invalid,
-    magicLinkData,
     productAuthMetadata,
     submitting
   } = props
@@ -71,7 +69,6 @@ const TwoFAExchange = (props: Props) => {
           formValues={formValues}
           handleBackArrowClick={handleBackArrowClickExchange}
           hideGuid
-          platform={magicLinkData?.platform_type}
         />
         <FormGroup>
           <FormItem>
@@ -129,11 +126,10 @@ const TwoFAExchange = (props: Props) => {
             origin='2FA'
             platform={productAuthMetadata.platform}
             product={ProductAuthOptions.EXCHANGE}
-            unified={cache.unifiedAccount}
           />
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink platform={magicLinkData?.platform_type} />
+      <SignupLink />
     </LoginWrapper>
   )
 }

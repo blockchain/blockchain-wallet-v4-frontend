@@ -32,12 +32,10 @@ const LoginWrapper = styled(Wrapper)`
 
 const EnterPasswordExchange = (props: Props) => {
   const {
-    cache,
     exchangeError,
     formValues,
     handleBackArrowClickExchange,
     invalid,
-    magicLinkData,
     productAuthMetadata,
     submitting,
     walletTabClicked
@@ -65,7 +63,6 @@ const EnterPasswordExchange = (props: Props) => {
       <ProductTabMenu
         active={ProductAuthOptions.EXCHANGE}
         onWalletTabClick={walletTabClicked}
-        platform={magicLinkData?.platform_type}
         product={ProductAuthOptions.EXCHANGE}
       />
       <WrapperWithPadding>
@@ -74,7 +71,6 @@ const EnterPasswordExchange = (props: Props) => {
           handleBackArrowClick={handleBackArrowClickExchange}
           hideGuid
           marginTop='28px'
-          platform={magicLinkData?.platform_type}
           product={ProductAuthOptions.EXCHANGE}
         />
         <FormGroup>
@@ -131,11 +127,10 @@ const EnterPasswordExchange = (props: Props) => {
             origin='PASSWORD'
             platform={productAuthMetadata.platform}
             product={ProductAuthOptions.EXCHANGE}
-            unified={cache.unifiedAccount}
           />
         </CenteredColumn>
       </WrapperWithPadding>
-      <SignupLink platform={magicLinkData?.platform_type} />
+      <SignupLink />
     </LoginWrapper>
   )
 }

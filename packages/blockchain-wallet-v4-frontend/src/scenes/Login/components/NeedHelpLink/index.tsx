@@ -1,15 +1,18 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { Link } from 'blockchain-info-components'
 import { trackEvent } from 'data/analytics/slice'
 import { Analytics } from 'data/analytics/types'
+import { getUnifiedAccountStatus } from 'data/cache/selectors'
 import { PlatformTypes, ProductAuthOptions } from 'data/types'
 
-const NeedHelpLink = ({ origin, platform, product, unified }: Props) => {
+const NeedHelpLink = ({ origin, platform, product }: Props) => {
   const dispatch = useDispatch()
+
+  const unified = useSelector(getUnifiedAccountStatus)
 
   const onClick = () => {
     dispatch(
@@ -40,7 +43,6 @@ type Props = {
   origin: string
   platform?: PlatformTypes
   product: ProductAuthOptions
-  unified?: boolean
 }
 
 export default NeedHelpLink
