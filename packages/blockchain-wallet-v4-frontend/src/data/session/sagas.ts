@@ -1,7 +1,6 @@
 import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
-import { Analytics } from 'data/types'
 import * as C from 'services/alerts'
 
 export default ({ api }) => {
@@ -15,15 +14,6 @@ export default ({ api }) => {
 
   const logout = function* () {
     try {
-      yield put(
-        actions.analytics.trackEvent({
-          key: Analytics.LOGIN_SIGNED_OUT,
-          properties: {
-            origin: 'SETTINGS',
-            site_redirect: 'WALLET'
-          }
-        })
-      )
       yield put(actions.modules.profile.clearSession())
       yield put(actions.middleware.webSocket.rates.stopSocket())
       yield put(actions.middleware.webSocket.coins.stopSocket())

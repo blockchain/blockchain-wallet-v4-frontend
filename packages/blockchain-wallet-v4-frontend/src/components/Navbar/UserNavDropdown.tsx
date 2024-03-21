@@ -1,12 +1,19 @@
 import React, { useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { NavLink } from 'react-router-dom'
 import { IconUser, PaletteColors } from '@blockchain-com/constellation'
+import styled from 'styled-components'
 
 import { Destination } from 'layouts/Wallet/components'
 import { useOnClickOutside } from 'services/misc'
 
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from './Dropdown'
-import { DropdownNavLink, NavButton } from './Navbar'
+import { NavButton } from './NavbarButtons'
+
+const DropdownNavLink = styled(NavLink)`
+  padding: 0 !important;
+  text-decoration: none;
+`
 
 export const userNavItems = ({
   isKycVerificationEnabled,

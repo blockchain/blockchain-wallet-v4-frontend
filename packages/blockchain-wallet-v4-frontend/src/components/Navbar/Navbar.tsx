@@ -1,24 +1,36 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import {
   Flex,
   IconClose,
   IconMenu,
-  IconRefresh,
   Padding,
   PaletteColors,
   Text
 } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { Button, Image } from 'blockchain-info-components'
+import {
+  getReferralEnabled,
+  getReferralRetrievalEnabled
+} from '@core/redux/walletOptions/selectors'
+import { Image } from 'blockchain-info-components'
 import { RoundedBadge } from 'components/Badge'
 import FabButton from 'components/FabButton'
+import { modals } from 'data/actions'
+import { trackEvent } from 'data/analytics/slice'
+import { getReferralInformation } from 'data/components/referral/selectors'
+import { isKycVerificationEnabled as getKyCVerificationEnabled } from 'data/custodial/selectors'
+import { ModalName } from 'data/modals/types'
+import { getCurrentTier } from 'data/modules/profile/selectors'
+import { Analytics } from 'data/types'
 import { media, useMedia } from 'services/styles'
 
 import MobileDropdown from './MobileDropdown'
 import MobileNav from './MobileNav'
+import { NavButton, ReceiveButton, RefreshButton, SendButton, StyledButton } from './NavbarButtons'
 import UserNavDropdown, { userNavItems } from './UserNavDropdown'
 
 export type PrimaryNavItem = {
@@ -63,11 +75,6 @@ export const NavLeft = styled.div`
 export const NavRight = styled.div`
   display: flex;
   align-items: center;
-`
-
-export const DropdownNavLink = styled(NavLink)`
-  padding: 0 !important;
-  text-decoration: none;
 `
 
 const ListStyles = styled.ul`
@@ -131,12 +138,6 @@ const PrimaryNavItems = styled(ListStyles)`
   }
 `
 
-const StyledButton = styled(Button)`
-  padding: 0 12px;
-  min-width: 32px;
-  border-radius: 4px;
-`
-
 const SecondaryNavItems = styled(ListStyles)`
   cursor: pointer;
 
@@ -159,54 +160,50 @@ const SecondaryNavItems = styled(ListStyles)`
   }
 `
 
-export const NavButton = styled(Button)`
-  display: flex;
-  align-items: center;
-  position: relative;
-  transition: color 0.3s;
-  background: transparent;
-  min-width: auto;
-  width: auto;
-  padding: 0;
-  border: 0;
-
-  &:hover {
-    background-color: transparent;
-  }
-`
-
 const Navbar = ({
-  fabClickHandler,
-  isKycVerificationEnabled,
-  isReferralAvailable,
-  isReferralRetrievalEnabled,
   limitsClickHandler,
   logoutClickHandler,
   primaryNavItems,
-  receiveClickHandler,
   referAFriendHandler,
-  refreshClickHandler,
-  sendClickHandler,
   taxCenterClickHandler,
   trackEventCallback
 }: Props) => {
   const [isMobileNavOpen, setMobileNav] = useState(false)
   const isMobile = useMedia('mobile')
   const isTablet = useMedia('tablet')
+  const dispatch = useDispatch()
+
+  const isKycVerificationEnabled = useSelector(getKyCVerificationEnabled)
+  const isReferralRetrievalEnabled = useSelector(getReferralRetrievalEnabled).getOrElse(
+    false
+  ) as boolean
+  const hasReferralInformation = useSelector(getReferralInformation)
+  const isReferralEnabled = useSelector(getReferralEnabled).getOrElse(false) as boolean
+
+  const currentTier = useSelector(getCurrentTier).getOrElse(0)
+  const isGoldVerified = currentTier === 2
+
+  const isReferralAvailable = !!hasReferralInformation && isGoldVerified && isReferralEnabled
 
   const closeMobileNavOpenSendCallback = useCallback(() => {
     setMobileNav(false)
-    sendClickHandler()
+    dispatch(modals.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Header' }))
   }, [])
 
   const closeMobileNavOpenReceiveCallback = useCallback(() => {
     setMobileNav(false)
-    receiveClickHandler()
+    dispatch(modals.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'FeaturesTopNav' }))
   }, [])
 
   const closeMobileNavOpenTradeCallback = useCallback(() => {
     setMobileNav(false)
-    fabClickHandler()
+    dispatch(
+      trackEvent({
+        key: Analytics.FAB_CLICKED,
+        properties: {}
+      })
+    )
+    dispatch(modals.showModal(ModalName.TRADE_MODAL, { origin: 'Header' }))
   }, [])
 
   const closeMobileNavCallback = useCallback(() => {
@@ -218,29 +215,11 @@ const Navbar = ({
 
   const secondaryNavItems = [
     {
-      component: () => (
-        <StyledButton
-          data-e2e='sendButton'
-          nature='empty-blue'
-          onClick={closeMobileNavOpenSendCallback}
-          small
-        >
-          <FormattedMessage id='buttons.send' defaultMessage='Send' />
-        </StyledButton>
-      ),
+      component: () => <SendButton onClick={closeMobileNavOpenSendCallback} />,
       name: 'Send'
     },
     {
-      component: () => (
-        <StyledButton
-          data-e2e='receiveButton'
-          nature='empty-blue'
-          onClick={closeMobileNavOpenReceiveCallback}
-          small
-        >
-          <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
-        </StyledButton>
-      ),
+      component: () => <ReceiveButton onClick={closeMobileNavOpenReceiveCallback} />,
       name: 'Receive'
     },
     {
@@ -249,15 +228,11 @@ const Navbar = ({
       name: 'Trade'
     },
     {
-      component: () => <MobileDropdown />,
+      component: MobileDropdown,
       name: 'mobile-app'
     },
     {
-      component: () => (
-        <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
-          <IconRefresh color={PaletteColors['grey-400']} size='small' />
-        </NavButton>
-      ),
+      component: RefreshButton,
       name: 'Refresh'
     },
     {
@@ -395,17 +370,10 @@ const Navbar = ({
 }
 
 type Props = {
-  fabClickHandler: () => void
-  isKycVerificationEnabled: boolean
-  isReferralAvailable: boolean
-  isReferralRetrievalEnabled: boolean
   limitsClickHandler: () => void
   logoutClickHandler: () => void
   primaryNavItems: Array<PrimaryNavItem>
-  receiveClickHandler: () => void
   referAFriendHandler: () => void
-  refreshClickHandler: () => void
-  sendClickHandler: () => void
   taxCenterClickHandler: () => void
   trackEventCallback: (eventName: string) => void
 }
