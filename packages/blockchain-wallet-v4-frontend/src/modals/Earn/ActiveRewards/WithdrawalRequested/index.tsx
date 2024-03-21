@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { Button, IconCloseCircle, SemanticColors, Text } from '@blockchain-com/constellation'
 
 import { CoinType } from '@core/types'
-import { Image } from 'blockchain-info-components'
+import { ActiveRewardsIcon } from 'blockchain-info-components'
 import { actions } from 'data'
 import { Analytics } from 'data/types'
 
@@ -34,7 +34,7 @@ const WithdrawalRequested = ({ coin, handleClose }: OwnProps) => {
         <IconCloseCircle color={SemanticColors.muted} onClick={handleClose} size='medium' />
       </Top>
       <Middle>
-        <Image name='btc-clock' size='72px' />
+        <ActiveRewardsIcon coin={coin} type='SUBMITTED' />
         <TextContainer>
           <Text color={SemanticColors.title} textAlign='center' variant='title3'>
             <FormattedMessage

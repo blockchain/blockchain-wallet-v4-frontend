@@ -67,8 +67,9 @@ const Withdrawal = ({
           <Padding all={1}>
             <Text color={SemanticColors.title} variant='caption1'>
               <FormattedMessage
-                defaultMessage='Requesting a withdrawal from your Active Rewards Account will send your total balance to your Bitcoin Trading Account.'
+                defaultMessage='Requesting a withdrawal from your Active Rewards Account will send your total balance to your {coinName} Trading Account.'
                 id='modals.active-rewards.withdrawal.total-balance-message'
+                values={{ coinName: window.coins[coin].coinfig.name }}
               />
             </Text>
           </Padding>
