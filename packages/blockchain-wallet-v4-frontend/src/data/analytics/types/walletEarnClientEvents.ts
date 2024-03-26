@@ -17,8 +17,6 @@ export enum WalletEarnEvents {
   WALLET_ACTIVE_REWARDS_LEARNING_PAGE_GET_STARTED_CLICKED = 'Wallet Active Rewards Warning Continue Viewed',
   // LEARNING: User view active rewards learning page.
   WALLET_ACTIVE_REWARDS_LEARNING_PAGE_VIEWED = 'Wallet Active Rewards Warning Continue Viewed',
-  // Active Rewards Modal: User clicks continue button
-  WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED = 'Wallet Active Rewards Warning Continue Clicked',
   // WITHDRAW: User clicks on transfer on the active rewards withdrawal page.
   WALLET_ACTIVE_REWARDS_WITHDRAWAL_REQUESTED_VIEWED = 'Wallet Active Rewards Withdrawal Requested Viewed',
   // WITHDRAW: User clicks on transfer on the active rewards withdrawal page.
@@ -82,7 +80,6 @@ type WalletRewardsEarn = {
     | WalletEarnEvents.WALLET_STAKING_DETAIL_CLICKED
     | WalletEarnEvents.WALLET_ACTIVE_REWARDS_DETAIL_CLICKED
     | WalletEarnEvents.WALLET_STAKING_WARNING_CONTINUE_CLICKED
-    | WalletEarnEvents.WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED
     | WalletEarnEvents.WALLET_REWARDS_TRANSACTION_HISTORY_DOWNLOAD_CLICKED
   properties: {
     currency: string
