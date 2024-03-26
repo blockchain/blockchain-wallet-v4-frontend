@@ -34,7 +34,7 @@ const WithdrawalRequested = ({ coin, handleClose }: OwnProps) => {
         <IconCloseCircle color={SemanticColors.muted} onClick={handleClose} size='medium' />
       </Top>
       <Middle>
-        <ActiveRewardsIcon coin={coin} type='SUBMITTED' />
+        <ActiveRewardsIcon coin={coin} />
         <TextContainer>
           <Text color={SemanticColors.title} textAlign='center' variant='title3'>
             <FormattedMessage
