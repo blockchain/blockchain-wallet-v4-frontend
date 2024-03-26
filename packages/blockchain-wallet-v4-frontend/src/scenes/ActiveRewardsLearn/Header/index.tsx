@@ -34,7 +34,7 @@ const Header = () => {
     dispatch(
       actions.components.interest.showActiveRewardsModal({
         coin,
-        step: 'WARNING'
+        step: 'DEPOSIT'
       })
     )
     dispatch(

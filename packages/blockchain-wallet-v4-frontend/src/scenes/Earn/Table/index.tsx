@@ -34,8 +34,8 @@ const TableContainer = (props: Props) => {
   const handleClick = (coin: CoinType, product: EarnProductsType) => {
     const {
       WALLET_ACTIVE_REWARDS_DETAIL_CLICKED,
-      WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED,
       WALLET_REWARDS_DETAIL_CLICKED,
+      WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED,
       WALLET_STAKING_DETAIL_CLICKED,
       WALLET_STAKING_WARNING_CONTINUE_CLICKED
     } = Analytics
@@ -57,12 +57,12 @@ const TableContainer = (props: Props) => {
         analyticsActions.trackEvent({
           key: hasBalance
             ? WALLET_ACTIVE_REWARDS_DETAIL_CLICKED
-            : WALLET_ACTIVE_REWARDS_WARNING_CONTINUE_CLICKED,
+            : WALLET_REWARDS_DETAIL_DEPOSIT_CLICKED,
           properties: { currency: coin }
         })
         earnActions.showActiveRewardsModal({
           coin,
-          step: hasBalance ? 'ACCOUNT_SUMMARY' : 'WARNING'
+          step: hasBalance ? 'ACCOUNT_SUMMARY' : 'DEPOSIT'
         })
         break
       }
