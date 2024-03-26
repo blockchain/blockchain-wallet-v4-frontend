@@ -93,7 +93,6 @@ export enum ActiveRewardsSteps {
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
   'NO_BALANCE',
-  'WARNING',
   'WITHDRAWAL',
   'WITHDRAWAL_REQUESTED'
 }

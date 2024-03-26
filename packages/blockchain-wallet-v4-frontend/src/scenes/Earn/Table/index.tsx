@@ -62,7 +62,7 @@ const TableContainer = (props: Props) => {
         })
         earnActions.showActiveRewardsModal({
           coin,
-          step: hasBalance ? 'ACCOUNT_SUMMARY' : 'WARNING'
+          step: hasBalance ? 'ACCOUNT_SUMMARY' : 'DEPOSIT'
         })
         break
       }

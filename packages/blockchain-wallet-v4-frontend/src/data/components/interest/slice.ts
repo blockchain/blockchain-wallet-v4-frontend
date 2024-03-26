@@ -48,7 +48,7 @@ const initialState: InterestState = {
   activeRewardsRates: Remote.NotAsked,
   activeRewardsStep: {
     data: {},
-    name: 'WARNING'
+    name: 'DEPOSIT'
   },
   activeRewardsTransactionsNextPage: null,
   afterTransaction: Remote.NotAsked,

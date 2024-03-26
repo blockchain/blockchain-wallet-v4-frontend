@@ -14,7 +14,6 @@ import NoBalance from '../NoBalance'
 import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
 import DepositSuccess from './DepositSuccess'
-import Warning from './Warning'
 import Withdrawal from './WithdrawalForm'
 import WithdrawalRequested from './WithdrawalRequested'
 
@@ -58,11 +57,6 @@ const ActiveRewards = ({ close, position, total, userClickedOutside }: ModalProp
       data-e2e='activeRewardsModal'
       total={total}
     >
-      {step.name === 'WARNING' && (
-        <FlyoutChild>
-          <Warning handleClose={handleClose} coin={coin} />
-        </FlyoutChild>
-      )}
       {step.name === 'NO_BALANCE' && (
         <FlyoutChild>
           <NoBalance handleClose={handleClose} walletCurrency={walletCurrency} />
