@@ -74,7 +74,6 @@ https://github.com/release-it/release-it#github-releases
 `GITHUB_TOKEN` should be saved as `RELEASE_IT_TOKEN` instead in your bash_profile or wherever you keep env variables
 
 You'll need git changelog to generate the history since the last release:
-`npm install -g changelog`
 
 #### Release Steps
 
