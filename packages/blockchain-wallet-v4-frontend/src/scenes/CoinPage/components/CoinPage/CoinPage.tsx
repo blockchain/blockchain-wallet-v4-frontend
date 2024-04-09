@@ -36,7 +36,6 @@ export const CoinPage: CoinPageComponent = ({
 
             <ChartWrapper>{chart}</ChartWrapper>
           </Flex>
-
           {about}
           {activity}
         </Flex>

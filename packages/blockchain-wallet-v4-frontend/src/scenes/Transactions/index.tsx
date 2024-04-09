@@ -28,6 +28,7 @@ import { media } from 'services/styles'
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
 import RecurringBuys from './RecurringBuys'
+import { RiskInvestment } from './RiskInvestment'
 import { getData } from './selectors'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
@@ -147,6 +148,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       currency,
       hasTxResults,
       interestEligible,
+      isCustodialCoin,
       isGoldTier,
       isInvited,
       isSearchEntered,
@@ -319,6 +321,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 sourceType={sourceType}
               />
             ))}
+          {isCustodialCoin && <RiskInvestment coin={coin} />}
         </LazyLoadContainer>
       </SceneWrapper>
     )
@@ -338,22 +341,23 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
   }
+  const isCustodialCoin = selectors.core.data.coins.getCustodialCoins().includes(coin)
+
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return {
       ...baseActions,
       fetchData: () => dispatch(actions.core.data.eth.fetchErc20Data(coin)),
       initTxs: () => dispatch(actions.components.ethTransactions.initializedErc20(coin)),
+      isCustodialCoin,
       loadMoreTxs: () => dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
     }
   }
-  if (
-    selectors.core.data.coins.getCustodialCoins().includes(coin) ||
-    selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)
-  ) {
+  if (isCustodialCoin || selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
     return {
       ...baseActions,
       fetchData: () => {},
       initTxs: () => dispatch(actions.components.coinTransactions.initialized(coin)),
+      isCustodialCoin,
       loadMoreTxs: () => dispatch(actions.components.coinTransactions.loadMore(coin))
     }
   }
@@ -364,6 +368,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
       fetchData: () => {},
       initTxs: () =>
         dispatch(actions.components.fiatTransactions.initialized(coin as WalletFiatType)),
+      isCustodialCoin,
       loadMoreTxs: () =>
         dispatch(actions.components.fiatTransactions.loadMore(coin as WalletFiatType))
     }
@@ -372,6 +377,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
     ...baseActions,
     fetchData: () => dispatch(actions.core.data[toLower(coin)].fetchData()),
     initTxs: () => dispatch(actions.components[`${toLower(coin)}Transactions`].initialized()),
+    isCustodialCoin,
     loadMoreTxs: () => dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
     setAddressArchived: (address) => dispatch(actions.core.wallet.setAddressArchived(address, true))
   }
