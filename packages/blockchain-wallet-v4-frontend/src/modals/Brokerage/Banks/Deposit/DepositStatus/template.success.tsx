@@ -117,7 +117,10 @@ const Success: React.FC<Props> = ({ defaultMethod, formValues, handleClose }) =>
               <FormattedMessage
                 id='modals.brokerage.deposit_success.wait_description'
                 defaultMessage='While we wait for your bank to send the cash, here’s early access to {amount} in your {currency} Cash Account so you can buy crypto right away.'
-                values={messageValue}
+                values={{
+                  amount: messageValue,
+                  currency: coin
+                }}
               />
             )}
           </DescriptionText>
