@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Button as ConstellationButton } from '@blockchain-com/constellation'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 import { ListContainer } from './Lines.styles'
 
@@ -20,7 +20,7 @@ export const Lines = ({ lines }: Props) => {
   return (
     <div>
       <ListContainer isCollapsed={isCollapsed}>
-        <ul className={`list ${isCollapsed ? 'collapsed' : 'expanded'}`}>
+        <ul>
           {lines.map((line) => (
             <li key={line}>
               <Text size='14px' weight={500} color='grey900' lineHeight='150%'>

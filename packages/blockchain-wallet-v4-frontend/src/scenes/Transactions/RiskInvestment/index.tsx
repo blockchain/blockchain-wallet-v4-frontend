@@ -1,12 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import {
-  IconChevronDown,
-  IconChevronDownV2,
-  IconChevronUp,
-  IconChevronUpV2,
-  PaletteColors
-} from '@blockchain-com/constellation'
+import { IconChevronDownV2, IconChevronUpV2 } from '@blockchain-com/constellation'
 
 import { AllCoinsType, Text } from 'blockchain-info-components'
 

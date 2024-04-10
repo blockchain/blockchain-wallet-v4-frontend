@@ -15,8 +15,3 @@ export const ListContainer = styled.div<{
           max-height: 200px;
         `}
 `
-
-export const ListItem = styled.li`
-  list-style: none;
-  overflow: hidden;
-`
