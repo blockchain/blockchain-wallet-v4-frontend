@@ -114,6 +114,8 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const userData = selectors.modules.profile.getUserData(state)
   const current = userData?.data?.tiers?.current || 0
   const isGoldTier = current >= 2
+  const signupCountry = selectors.signup.getSignupCountry(state)
+  const loginMetadata = selectors.auth.getProductAuthMetadata(state)
 
   return createSelector(
     [
@@ -136,6 +138,11 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
             )
           : []
 
+      const ipCountry = loginMetadata?.ipCountry
+      const country = userData.data?.address?.country
+      const userCountry = country !== undefined ? country : ipCountry
+      const showRiskInvestments = userCountry === 'GB' || signupCountry === 'GB'
+
       return {
         coin,
         currency: currencyR.getOrElse(''),
@@ -148,6 +155,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
+        showRiskInvestments,
         sourceType,
         stakingEligible: stakingEligibleR.getOrElse({})
       }
