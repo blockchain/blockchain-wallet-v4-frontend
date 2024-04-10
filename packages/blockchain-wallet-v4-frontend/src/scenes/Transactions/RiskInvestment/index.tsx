@@ -12,8 +12,7 @@ type Props = {
   coin: AllCoinsType
 }
 
-export const RiskInvestment = (props: Props) => {
-  const { coin } = props
+export const RiskInvestment = ({ coin }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const toggleExpanded = () => {

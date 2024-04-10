@@ -19,7 +19,7 @@ export const Lines = ({ lines }: Props) => {
 
   return (
     <div>
-      <ListContainer isCollapsed={isCollapsed}>
+      <ListContainer $isCollapsed={isCollapsed}>
         <ul>
           {lines.map((line) => (
             <li key={line}>
