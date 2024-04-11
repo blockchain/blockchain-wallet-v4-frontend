@@ -295,6 +295,13 @@ const App = ({
                                   pageTitle={`${BLOCKCHAIN_TITLE} | Verify Device`}
                                 />
                               )}
+                              {isProveEnabled && (
+                                <AuthLayout
+                                  path='/prove/bcpay/instant-link/callback'
+                                  component={Prove}
+                                  pageTitle={`${BLOCKCHAIN_TITLE} | Verify Device`}
+                                />
+                              )}
                               {/* DEX routes */}
                               {isDexEnabled && (
                                 <DexLayout
