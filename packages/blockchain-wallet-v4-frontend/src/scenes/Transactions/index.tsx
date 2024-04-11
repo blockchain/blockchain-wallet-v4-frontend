@@ -28,6 +28,7 @@ import { media } from 'services/styles'
 import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
 import RecurringBuys from './RecurringBuys'
+import { RiskInvestment } from './RiskInvestment'
 import { getData } from './selectors'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
@@ -152,6 +153,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       isSearchEntered,
       loadMoreTxs,
       pages,
+      showRiskInvestments,
       sourceType,
       stakingEligible
     } = this.props
@@ -319,6 +321,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 sourceType={sourceType}
               />
             ))}
+          {showRiskInvestments && <RiskInvestment coin={coin} />}
         </LazyLoadContainer>
       </SceneWrapper>
     )
@@ -338,6 +341,8 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
   }
+  const isCustodialCoin = selectors.core.data.coins.getCustodialCoins().includes(coin)
+
   if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return {
       ...baseActions,
@@ -346,10 +351,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
       loadMoreTxs: () => dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
     }
   }
-  if (
-    selectors.core.data.coins.getCustodialCoins().includes(coin) ||
-    selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)
-  ) {
+  if (isCustodialCoin || selectors.core.data.coins.getDynamicSelfCustodyCoins().includes(coin)) {
     return {
       ...baseActions,
       fetchData: () => {},

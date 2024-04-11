@@ -1,0 +1,931 @@
+[
+  {
+    "coin": "AAVE",
+    "coin_name": "Aave",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "ADA",
+    "coin_name": "Cardano",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Staked Asset Risks",
+        "description": "Staked crypto assets are locked on the relevant blockchain protocol to secure the network and earn rewards. This may present some risks:",
+        "lines": [
+          "Slashing Risk: Staking may result in losses if the network penalises your validator for malfeasance, whether intentional or due to software issues.",
+          "Liquidity Risk: Some protocols lock staked assets for specific periods, limiting quick access or sale.",
+          "APY Not Guaranteed: Staking y yields are determined by the protocol and may vary over time.",
+          "Protocol Risks: Changes or updates to staking protocols can introduce new vulnerability or unforeseen outcomes."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "ALGO",
+    "coin_name": "Algorand",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Staked Asset Risks",
+        "description": "Staked crypto assets are locked on the relevant blockchain protocol to secure the network and earn rewards. This may present some risks:",
+        "lines": [
+          "Slashing Risk: Staking may result in losses if the network penalises your validator for malfeasance, whether intentional or due to software issues.",
+          "Liquidity Risk: Some protocols lock staked assets for specific periods, limiting quick access or sale.",
+          "APY Not Guaranteed: Staking y yields are determined by the protocol and may vary over time.",
+          "Protocol Risks: Changes or updates to staking protocols can introduce new vulnerability or unforeseen outcomes."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "APE",
+    "coin_name": "ApeCoin",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "AVAX",
+    "coin_name": "Avalanche C-Chain",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "BAT",
+    "coin_name": "Basic Attention Token",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "BCH",
+    "coin_name": "Bitcoin Cash",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "BNT",
+    "coin_name": "Bancor",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "DeFi Risks",
+        "description": "Decentralised Finance (or ‘DeFi’) assets are linked to special financial applications and protocols, all working on a network that is not controlled by a single group or person:.",
+        "lines": [
+          "Smart Contract Risk: DeFi relies on smart contracts. Even minor coding errors can lead to significant losses due to contract exploitation.",
+          "Regulatory Risk: DeFi operates without intermediaries, make it vulnerable to new regulations that can affect its use, value, or legality.",
+          "Rug-Pulls & Exit Scams: Anonymously launched DeFi projects increase the risk of developers abandoning the project, leaving investors with worthless tokens.",
+          "Data & Oracle Risk: DeFi relies on external data sources that may be manipulated or inaccurate, leading to financial risks."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "BTC",
+    "coin_name": "Bitcoin",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "cEUR",
+    "coin_name": "CeloEuro",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Stablecoin Risks",
+        "description": "‘Stablecoin’ is a term used for crypto assets that claim their value is linked to certain reserve assets such as fiat currency. They are also known as ‘Asset Referenced Tokens’ or ‘ARTs’. ARTs may use a range of ways to maintain stability, each with their own risks.",
+        "lines": [
+          "Counterparty Risk: In cases where an ART is collateral-backed, it depends on a third party to maintain the collateral; that party can become insolvent or fail to maintain the required collateral.",
+          "Redemption Risk: The ability to redeem an asset for its underlying collateral may not function as expected, especially during market volatility or network issues.",
+          "Collateral Risk: The value of the collateral, which may include other crypto assets, may fluctuate, impacting the stability of the ART.",
+          "FX Risk: Many ARTs are denominated in fiat currencies (e.g., US Dollars), exposing you to movements in fiat exchange rates.",
+          "Algorithm Risk: ARTs relying on algorithms for stability may experience algorithm failure, resulting in a loss of value and stability."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "CHZ",
+    "coin_name": "Chiliz",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "COMP",
+    "coin_name": "Compound",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "DeFi Risks",
+        "description": "Decentralised Finance (or ‘DeFi’) assets are linked to special financial applications and protocols, all working on a network that is not controlled by a single group or person:.",
+        "lines": [
+          "Smart Contract Risk: DeFi relies on smart contracts. Even minor coding errors can lead to significant losses due to contract exploitation.",
+          "Regulatory Risk: DeFi operates without intermediaries, make it vulnerable to new regulations that can affect its use, value, or legality.",
+          "Rug-Pulls & Exit Scams: Anonymously launched DeFi projects increase the risk of developers abandoning the project, leaving investors with worthless tokens.",
+          "Data & Oracle Risk: DeFi relies on external data sources that may be manipulated or inaccurate, leading to financial risks."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "CRV",
+    "coin_name": "Curve DAO Token",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "DeFi Risks",
+        "description": "Decentralised Finance (or ‘DeFi’) assets are linked to special financial applications and protocols, all working on a network that is not controlled by a single group or person:.",
+        "lines": [
+          "Smart Contract Risk: DeFi relies on smart contracts. Even minor coding errors can lead to significant losses due to contract exploitation.",
+          "Regulatory Risk: DeFi operates without intermediaries, make it vulnerable to new regulations that can affect its use, value, or legality.",
+          "Rug-Pulls & Exit Scams: Anonymously launched DeFi projects increase the risk of developers abandoning the project, leaving investors with worthless tokens.",
+          "Data & Oracle Risk: DeFi relies on external data sources that may be manipulated or inaccurate, leading to financial risks."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "DAI",
+    "coin_name": "Dai",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Stablecoin Risks",
+        "description": "‘Stablecoin’ is a term used for crypto assets that claim their value is linked to certain reserve assets such as fiat currency. They are also known as ‘Asset Referenced Tokens’ or ‘ARTs’. ARTs may use a range of ways to maintain stability, each with their own risks.",
+        "lines": [
+          "Counterparty Risk: In cases where an ART is collateral-backed, it depends on a third party to maintain the collateral; that party can become insolvent or fail to maintain the required collateral.",
+          "Redemption Risk: The ability to redeem an asset for its underlying collateral may not function as expected, especially during market volatility or network issues.",
+          "Collateral Risk: The value of the collateral, which may include other crypto assets, may fluctuate, impacting the stability of the ART.",
+          "FX Risk: Many ARTs are denominated in fiat currencies (e.g., US Dollars), exposing you to movements in fiat exchange rates.",
+          "Algorithm Risk: ARTs relying on algorithms for stability may experience algorithm failure, resulting in a loss of value and stability."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "DOGE",
+    "coin_name": "Dogecoin",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Meme Coin Risks",
+        "description": "‘Meme coins’ are crypto assets whose value is primarily driven by community interest and online trends.",
+        "lines": [
+          "Volatility Risk: Meme coins experience extreme and unpredictable price fluctuations influenced by social media trends, celebrity endorsements, and speculative trading.",
+          "Lack of Utility: Meme coins often lack intrinsic value and utility, relying on community interest and online trends.",
+          "Market Manipulation: Meme coins are susceptible to market manipulation, including 'pump-and-dump' schemes.",
+          "Lack of Transparency: Limited information about development teams and financials makes it challenging to assess meme coins accurately.",
+          "Emotional Investing: Strong emotional reactions can lead to impulsive decisions, amplifying losses."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "DOT",
+    "coin_name": "Pokadot",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Staked Asset Risks",
+        "description": "Staked crypto assets are locked on the relevant blockchain protocol to secure the network and earn rewards. This may present some risks:",
+        "lines": [
+          "Slashing Risk: Staking may result in losses if the network penalises your validator for malfeasance, whether intentional or due to software issues.",
+          "Liquidity Risk: Some protocols lock staked assets for specific periods, limiting quick access or sale.",
+          "APY Not Guaranteed: Staking y yields are determined by the protocol and may vary over time.",
+          "Protocol Risks: Changes or updates to staking protocols can introduce new vulnerability or unforeseen outcomes."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "ENJ",
+    "coin_name": "Enjin Coin",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "ETC",
+    "coin_name": "Ethereum Classic",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "ETH",
+    "coin_name": "Ethereum",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Staked Asset Risks",
+        "description": "Staked crypto assets are locked on the relevant blockchain protocol to secure the network and earn rewards. This may present some risks:",
+        "lines": [
+          "Slashing Risk: Staking may result in losses if the network penalises your validator for malfeasance, whether intentional or due to software issues.",
+          "Liquidity Risk: Some protocols lock staked assets for specific periods, limiting quick access or sale.",
+          "APY Not Guaranteed: Staking y yields are determined by the protocol and may vary over time.",
+          "Protocol Risks: Changes or updates to staking protocols can introduce new vulnerability or unforeseen outcomes."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "GRT",
+    "coin_name": "The Graph",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Staked Asset Risks",
+        "description": "Staked crypto assets are locked on the relevant blockchain protocol to secure the network and earn rewards. This may present some risks:",
+        "lines": [
+          "Slashing Risk: Staking may result in losses if the network penalises your validator for malfeasance, whether intentional or due to software issues.",
+          "Liquidity Risk: Some protocols lock staked assets for specific periods, limiting quick access or sale.",
+          "APY Not Guaranteed: Staking y yields are determined by the protocol and may vary over time.",
+          "Protocol Risks: Changes or updates to staking protocols can introduce new vulnerability or unforeseen outcomes."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "LINK",
+    "coin_name": "Chainlink",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Staked Asset Risks",
+        "description": "Staked crypto assets are locked on the relevant blockchain protocol to secure the network and earn rewards. This may present some risks:",
+        "lines": [
+          "Slashing Risk: Staking may result in losses if the network penalises your validator for malfeasance, whether intentional or due to software issues.",
+          "Liquidity Risk: Some protocols lock staked assets for specific periods, limiting quick access or sale.",
+          "APY Not Guaranteed: Staking y yields are determined by the protocol and may vary over time.",
+          "Protocol Risks: Changes or updates to staking protocols can introduce new vulnerability or unforeseen outcomes."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "LTC",
+    "coin_name": "Litecoin",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "MAVIA",
+    "coin_name": "Heroes of Mavia",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "MKR",
+    "coin_name": "Maker",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "DeFi Risks",
+        "description": "Decentralised Finance (or ‘DeFi’) assets are linked to special financial applications and protocols, all working on a network that is not controlled by a single group or person:.",
+        "lines": [
+          "Smart Contract Risk: DeFi relies on smart contracts. Even minor coding errors can lead to significant losses due to contract exploitation.",
+          "Regulatory Risk: DeFi operates without intermediaries, make it vulnerable to new regulations that can affect its use, value, or legality.",
+          "Rug-Pulls & Exit Scams: Anonymously launched DeFi projects increase the risk of developers abandoning the project, leaving investors with worthless tokens.",
+          "Data & Oracle Risk: DeFi relies on external data sources that may be manipulated or inaccurate, leading to financial risks."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "NEAR",
+    "coin_name": "NEAR Protocol",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Staked Asset Risks",
+        "description": "Staked crypto assets are locked on the relevant blockchain protocol to secure the network and earn rewards. This may present some risks:",
+        "lines": [
+          "Slashing Risk: Staking may result in losses if the network penalises your validator for malfeasance, whether intentional or due to software issues.",
+          "Liquidity Risk: Some protocols lock staked assets for specific periods, limiting quick access or sale.",
+          "APY Not Guaranteed: Staking y yields are determined by the protocol and may vary over time.",
+          "Protocol Risks: Changes or updates to staking protocols can introduce new vulnerability or unforeseen outcomes."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "ONDO",
+    "coin_name": "Ondo",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "DeFi Risks",
+        "description": "Decentralised Finance (or ‘DeFi’) assets are linked to special financial applications and protocols, all working on a network that is not controlled by a single group or person:.",
+        "lines": [
+          "Smart Contract Risk: DeFi relies on smart contracts. Even minor coding errors can lead to significant losses due to contract exploitation.",
+          "Regulatory Risk: DeFi operates without intermediaries, make it vulnerable to new regulations that can affect its use, value, or legality.",
+          "Rug-Pulls & Exit Scams: Anonymously launched DeFi projects increase the risk of developers abandoning the project, leaving investors with worthless tokens.",
+          "Data & Oracle Risk: DeFi relies on external data sources that may be manipulated or inaccurate, leading to financial risks."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "SNX",
+    "coin_name": "Synthetix",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "DeFi Risks",
+        "description": "Decentralised Finance (or ‘DeFi’) assets are linked to special financial applications and protocols, all working on a network that is not controlled by a single group or person:.",
+        "lines": [
+          "Smart Contract Risk: DeFi relies on smart contracts. Even minor coding errors can lead to significant losses due to contract exploitation.",
+          "Regulatory Risk: DeFi operates without intermediaries, make it vulnerable to new regulations that can affect its use, value, or legality.",
+          "Rug-Pulls & Exit Scams: Anonymously launched DeFi projects increase the risk of developers abandoning the project, leaving investors with worthless tokens.",
+          "Data & Oracle Risk: DeFi relies on external data sources that may be manipulated or inaccurate, leading to financial risks."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "SOL",
+    "coin_name": "Solana",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Staked Asset Risks",
+        "description": "Staked crypto assets are locked on the relevant blockchain protocol to secure the network and earn rewards. This may present some risks:",
+        "lines": [
+          "Slashing Risk: Staking may result in losses if the network penalises your validator for malfeasance, whether intentional or due to software issues.",
+          "Liquidity Risk: Some protocols lock staked assets for specific periods, limiting quick access or sale.",
+          "APY Not Guaranteed: Staking y yields are determined by the protocol and may vary over time.",
+          "Protocol Risks: Changes or updates to staking protocols can introduce new vulnerability or unforeseen outcomes."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "STRK",
+    "coin_name": "Starknet",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "STX",
+    "coin_name": "Stacks",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "SUSHI",
+    "coin_name": "Sushiswap",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "DeFi Risks",
+        "description": "Decentralised Finance (or ‘DeFi’) assets are linked to special financial applications and protocols, all working on a network that is not controlled by a single group or person:.",
+        "lines": [
+          "Smart Contract Risk: DeFi relies on smart contracts. Even minor coding errors can lead to significant losses due to contract exploitation.",
+          "Regulatory Risk: DeFi operates without intermediaries, make it vulnerable to new regulations that can affect its use, value, or legality.",
+          "Rug-Pulls & Exit Scams: Anonymously launched DeFi projects increase the risk of developers abandoning the project, leaving investors with worthless tokens.",
+          "Data & Oracle Risk: DeFi relies on external data sources that may be manipulated or inaccurate, leading to financial risks."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "TON",
+    "coin_name": "The Open Network",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "TRX",
+    "coin_name": "TRON",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Staked Asset Risks",
+        "description": "Staked crypto assets are locked on the relevant blockchain protocol to secure the network and earn rewards. This may present some risks:",
+        "lines": [
+          "Slashing Risk: Staking may result in losses if the network penalises your validator for malfeasance, whether intentional or due to software issues.",
+          "Liquidity Risk: Some protocols lock staked assets for specific periods, limiting quick access or sale.",
+          "APY Not Guaranteed: Staking y yields are determined by the protocol and may vary over time.",
+          "Protocol Risks: Changes or updates to staking protocols can introduce new vulnerability or unforeseen outcomes."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "UNI",
+    "coin_name": "Uniswap",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "DeFi Risks",
+        "description": "Decentralised Finance (or ‘DeFi’) assets are linked to special financial applications and protocols, all working on a network that is not controlled by a single group or person:.",
+        "lines": [
+          "Smart Contract Risk: DeFi relies on smart contracts. Even minor coding errors can lead to significant losses due to contract exploitation.",
+          "Regulatory Risk: DeFi operates without intermediaries, make it vulnerable to new regulations that can affect its use, value, or legality.",
+          "Rug-Pulls & Exit Scams: Anonymously launched DeFi projects increase the risk of developers abandoning the project, leaving investors with worthless tokens.",
+          "Data & Oracle Risk: DeFi relies on external data sources that may be manipulated or inaccurate, leading to financial risks."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "USDC",
+    "coin_name": "USD Coin",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Stablecoin Risks",
+        "description": "‘Stablecoin’ is a term used for crypto assets that claim their value is linked to certain reserve assets such as fiat currency. They are also known as ‘Asset Referenced Tokens’ or ‘ARTs’. ARTs may use a range of ways to maintain stability, each with their own risks.",
+        "lines": [
+          "Counterparty Risk: In cases where an ART is collateral-backed, it depends on a third party to maintain the collateral; that party can become insolvent or fail to maintain the required collateral.",
+          "Redemption Risk: The ability to redeem an asset for its underlying collateral may not function as expected, especially during market volatility or network issues.",
+          "Collateral Risk: The value of the collateral, which may include other crypto assets, may fluctuate, impacting the stability of the ART.",
+          "FX Risk: Many ARTs are denominated in fiat currencies (e.g., US Dollars), exposing you to movements in fiat exchange rates.",
+          "Algorithm Risk: ARTs relying on algorithms for stability may experience algorithm failure, resulting in a loss of value and stability."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "USDT",
+    "coin_name": "Tether",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Stablecoin Risks",
+        "description": "‘Stablecoin’ is a term used for crypto assets that claim their value is linked to certain reserve assets such as fiat currency. They are also known as ‘Asset Referenced Tokens’ or ‘ARTs’. ARTs may use a range of ways to maintain stability, each with their own risks.",
+        "lines": [
+          "Counterparty Risk: In cases where an ART is collateral-backed, it depends on a third party to maintain the collateral; that party can become insolvent or fail to maintain the required collateral.",
+          "Redemption Risk: The ability to redeem an asset for its underlying collateral may not function as expected, especially during market volatility or network issues.",
+          "Collateral Risk: The value of the collateral, which may include other crypto assets, may fluctuate, impacting the stability of the ART.",
+          "FX Risk: Many ARTs are denominated in fiat currencies (e.g., US Dollars), exposing you to movements in fiat exchange rates.",
+          "Algorithm Risk: ARTs relying on algorithms for stability may experience algorithm failure, resulting in a loss of value and stability."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "WBTC",
+    "coin_name": "Wrapped Bitcoin",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Wrapped Token Risks",
+        "description": "Wrapped crypto assets are tokenised representations of other crypto assets. They typically built to facilitate compatibility and interaction across multiple blockchain protocols.",
+        "lines": [
+          "Smart Contract Risk: Vulnerabilities in smart contracts can be exploited, potentially leading to a loss of funds for wrapped tokens.",
+          "Collateral Risk: The mechanisms ensuring collateralisation may fail, affecting the value of wrapped tokens.",
+          "Bridging Risk: Technical issues in integration layers can hamper the transfer and utilisation of wrapped tokens across different blockchain ecosystems.",
+          "Regulatory Risk: Changes in regulations may impact the value or legality of wrapped tokens.",
+          "Pricing Disparity: Market inefficiencies or liquidity issues can cause the price of wrapped assets to diverge from their underlying assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "XLM",
+    "coin_name": "Stellar",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "XRP",
+    "coin_name": "Ripple",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "XTZ",
+    "coin_name": "Tezos",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "YFI",
+    "coin_name": "Yearn.finance",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "DeFi Risks",
+        "description": "Decentralised Finance (or ‘DeFi’) assets are linked to special financial applications and protocols, all working on a network that is not controlled by a single group or person:.",
+        "lines": [
+          "Smart Contract Risk: DeFi relies on smart contracts. Even minor coding errors can lead to significant losses due to contract exploitation.",
+          "Regulatory Risk: DeFi operates without intermediaries, make it vulnerable to new regulations that can affect its use, value, or legality.",
+          "Rug-Pulls & Exit Scams: Anonymously launched DeFi projects increase the risk of developers abandoning the project, leaving investors with worthless tokens.",
+          "Data & Oracle Risk: DeFi relies on external data sources that may be manipulated or inaccurate, leading to financial risks."
+        ]
+      }
+    ]
+  },
+  {
+    "coin": "ZETA",
+    "coin_name": "ZetaChain",
+    "sections": [
+      {
+        "title": "Crypto Asset Risks",
+        "description": "Here are some common risks to understand before investing:",
+        "lines": [
+          "Investment Risk: Crypto asset performance can be volatile, with value dropping as quickly as it can rise. You should be prepared to lose all the money you invest.",
+          "No Protections: Crypto assets are generally unregulated. You will not have access to financial compensation schemes or ombudsman services in the event something goes wrong with your investments.",
+          "Complex: Crypto assets are complex. Do your own research before investing. If something sounds too good to be true, it likely is.",
+          "Diversification: Putting all your money in a single type of investment is risky. It is good practice not to investment more than 10% of your money in high-risk investments such as crypto assets."
+        ]
+      },
+      {
+        "title": "Wrapped Token Risks",
+        "description": "Wrapped crypto assets are tokenised representations of other crypto assets. They typically built to facilitate compatibility and interaction across multiple blockchain protocols.",
+        "lines": [
+          "Smart Contract Risk: Vulnerabilities in smart contracts can be exploited, potentially leading to a loss of funds for wrapped tokens.",
+          "Collateral Risk: The mechanisms ensuring collateralisation may fail, affecting the value of wrapped tokens.",
+          "Bridging Risk: Technical issues in integration layers can hamper the transfer and utilisation of wrapped tokens across different blockchain ecosystems.",
+          "Regulatory Risk: Changes in regulations may impact the value or legality of wrapped tokens.",
+          "Pricing Disparity: Market inefficiencies or liquidity issues can cause the price of wrapped assets to diverge from their underlying assets."
+        ]
+      }
+    ]
+  }
+]
