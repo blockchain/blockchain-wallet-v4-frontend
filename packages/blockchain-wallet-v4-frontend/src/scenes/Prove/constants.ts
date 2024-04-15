@@ -6,7 +6,7 @@ export const VFP_STORE_URL = '/nabu-gateway/onboarding/prove/possession/instant-
 export const TEXT_ELEMENTS = (isBcPay: boolean) => ({
   error: {
     description: isBcPay
-      ? 'Return to the Blockchain.com Pay to get a new one and continue with the verification process by closing this tab.'
+      ? 'Close this tab, and return to Blockchain.com Pay to get a new link and continue with the verification process.'
       : 'Return to the Blockchain.com App to get a new one and continue with the verification process.',
     iconProps: {
       color: 'error',
