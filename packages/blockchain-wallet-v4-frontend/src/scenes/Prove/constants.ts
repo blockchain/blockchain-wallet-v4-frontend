@@ -16,7 +16,7 @@ export const TEXT_ELEMENTS = (isBcPay: boolean) => ({
   },
   verified: {
     description: isBcPay
-      ? 'Return to the Blockchain.com Pay by closing this tab.'
+      ? 'Close this tab, and return to Blockchain.com Pay to continue with the verification process.'
       : 'Return to the Blockchain.com App to continue with the verification process.',
     iconProps: {
       color: 'success',
