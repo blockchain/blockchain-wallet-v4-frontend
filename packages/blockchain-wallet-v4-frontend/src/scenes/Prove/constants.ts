@@ -3,10 +3,11 @@ export const LINK_BACK_TO_APP =
 
 export const VFP_STORE_URL = '/nabu-gateway/onboarding/prove/possession/instant-link/vfp-store'
 
-export const TEXT_ELEMENTS = {
+export const TEXT_ELEMENTS = (isBcPay: boolean) => ({
   error: {
-    description:
-      'Return to the Blockchain.com App to get a new one and continue with the verification process.',
+    description: isBcPay
+      ? 'Close this tab, and return to Blockchain.com Pay to get a new link and continue with the verification process.'
+      : 'Return to the Blockchain.com App to get a new one and continue with the verification process.',
     iconProps: {
       color: 'error',
       name: 'close-circle'
@@ -14,11 +15,13 @@ export const TEXT_ELEMENTS = {
     title: 'Your link has expired'
   },
   verified: {
-    description: 'Return to the Blockchain.com App to continue with the verification process.',
+    description: isBcPay
+      ? 'Close this tab, and return to Blockchain.com Pay to continue with the verification process.'
+      : 'Return to the Blockchain.com App to continue with the verification process.',
     iconProps: {
       color: 'success',
       name: 'checkmark-circle-filled'
     },
     title: 'Your device is verified!'
   }
-}
+})

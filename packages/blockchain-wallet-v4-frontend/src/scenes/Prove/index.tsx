@@ -21,6 +21,7 @@ const ContentWrapper = styled.div`
 
 const Prove: React.FC<ProveProps> = ({ location: { pathname, search } }) => {
   const isExpired = pathname.includes('/expired')
+  const isBCPay = pathname.includes('/bcpay')
 
   const [proveStatus, setProveStatus] = useState<ProveStates>(isExpired ? 'error' : 'loading')
 
@@ -47,7 +48,7 @@ const Prove: React.FC<ProveProps> = ({ location: { pathname, search } }) => {
 
   if (proveStatus === 'loading') return <SpinningLoader />
 
-  const { description, iconProps, title } = TEXT_ELEMENTS[proveStatus]
+  const { description, iconProps, title } = TEXT_ELEMENTS(isBCPay)[proveStatus]
 
   return (
     <Wrapper>
@@ -69,14 +70,16 @@ const Prove: React.FC<ProveProps> = ({ location: { pathname, search } }) => {
           />
         </Text>
       </ContentWrapper>
-      <Link href={LINK_BACK_TO_APP}>
-        <Button data-e2e='back-to-app' fullwidth style={{ marginTop: '1rem' }}>
-          <FormattedMessage
-            id='scenes.prove.back'
-            defaultMessage='Go back to the Blockchain.com App'
-          />
-        </Button>
-      </Link>
+      {!isBCPay && (
+        <Link href={LINK_BACK_TO_APP}>
+          <Button data-e2e='back-to-app' fullwidth style={{ marginTop: '1rem' }}>
+            <FormattedMessage
+              id='scenes.prove.back'
+              defaultMessage='Go back to the Blockchain.com App'
+            />
+          </Button>
+        </Link>
+      )}
     </Wrapper>
   )
 }
