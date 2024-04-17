@@ -22,7 +22,7 @@ const ContentWrapper = styled.div`
 const Prove: React.FC<ProveProps> = ({ location: { pathname, search } }) => {
   const isExpired = pathname.includes('/expired')
   const product = new URLSearchParams(search).get('product')
-  const isBCPay = !!product && product === 'bcpay'
+  const isBCPay = !!product && product === 'bc_pay'
 
   const [proveStatus, setProveStatus] = useState<ProveStates>(isExpired ? 'error' : 'loading')
 
