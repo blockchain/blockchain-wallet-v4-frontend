@@ -26,6 +26,8 @@ import {
   DepositTerms
 } from 'data/types'
 import { useShowConversionAlert } from 'hooks'
+import { Padding } from '@blockchain-com/constellation'
+import { MoreInfoContainer } from './MoreInfoContainer'
 
 // Auto margin top so it gets pushed to the bottom
 const FiatNoticeWrapper = styled.div`
@@ -82,22 +84,22 @@ const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
 
   const amount = formValues?.amount ?? 0
 
+  const formattedAmount = fiatToString({
+    unit: defaultMethod?.currency ?? ('USD' as FiatType),
+    value: amount
+  })
+
+  const bankAccount = getBankFormatted(defaultMethod)
+
   return (
     <FlyoutContainer>
       <FlyoutHeader data-e2e='confirmDepositBackButton' mode='back' onClick={backButtonClick}>
         <FormattedMessage id='modals.brokerage.confirm_deposit' defaultMessage='Confirm Deposit' />
       </FlyoutHeader>
-      <FlyoutSubHeader
-        data-e2e='depositConfirmAmount'
-        title={fiatToString({
-          unit: defaultMethod?.currency as FiatType,
-          value: amount
-        })}
-        subTitle=''
-      />
+      <FlyoutSubHeader data-e2e='depositConfirmAmount' title={formattedAmount} subTitle='' />
       <FlyoutContent mode='top'>
         <CheckoutRow
-          text={getBankFormatted(defaultMethod)}
+          text={bankAccount}
           title={<FormattedMessage id='copy.from' defaultMessage='From' />}
         />
         <CheckoutRow
@@ -116,14 +118,38 @@ const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
           />
         )}
         <CheckoutRow
-          text={fiatToString({
-            digits: 0,
-            unit: defaultMethod?.currency || ('USD' as FiatType),
-            value: amount
-          })}
+          text={formattedAmount}
           title={<FormattedMessage id='copy.total' defaultMessage='Total' />}
         />
         {availableToTradeWithdraw && <AvailabilityRows depositTerms={depositTerms} />}
+
+        <MoreInfoContainer
+          teaser={
+            <FormattedMessage
+              id='modals.deposit.confirm.by_placing_this_order'
+              defaultMessage='By placing this order, you authorize Blockchain.com, Inc. to debit {totalAmount} from your bank account.'
+              values={{ totalAmount: formattedAmount }}
+            />
+          }
+          text={
+            <>
+              <Padding bottom={1}>
+                <FormattedMessage
+                  id='modals.deposit.confirm.you_authorize_blockchain'
+                  defaultMessage='You authorize Blockchain.com, Inc. to debit your {paymentAccount} account for up to {totalAmount} via Bank Transfer (ACH) and, if necessary, to initiate credit entries/adjustments for any debits made in error to your account at the financial institution where you hold your account. You acknowledge that the origination of ACH transactions to your account complies with the provisions of U.S. law. You agree that this authorization cannot be revoked. The debit will post to your bank account within 1-2 business days of you authorizing this transfer.'
+                  values={{ paymentAccount: bankAccount, totalAmount: formattedAmount }}
+                />
+              </Padding>
+              <Padding bottom={1}>
+                <FormattedMessage
+                  id='modals.deposit.confirm.your_deposit_will_be_credited'
+                  defaultMessage='Your deposit will be credited to your Blockchain.com account within 2-4 business days at the rate shown at the time of your purchase. You can withdraw these funds from your Blockchain.com account {withdrawalLockDays} days after Blockchain.com receives funds from your financial institution.'
+                  values={{ withdrawalLockDays: 3 }}
+                />
+              </Padding>
+            </>
+          }
+        />
 
         {showConversionDisclaimer && (
           <FiatNoticeWrapper>
