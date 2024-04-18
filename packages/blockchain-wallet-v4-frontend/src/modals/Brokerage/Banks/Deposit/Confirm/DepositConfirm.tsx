@@ -156,7 +156,7 @@ const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
                 <FormattedMessage
                   id='modals.deposit.confirm.your_deposit_will_be_credited'
                   defaultMessage='Your deposit will be credited to your Blockchain.com account within 2-4 business days at the rate shown at the time of your purchase. You can withdraw these funds from your Blockchain.com account {withdrawalLockDays} days after Blockchain.com receives funds from your financial institution.'
-                  values={{ withdrawalLockDays: 3 }}
+                  values={{ withdrawalLockDays: depositTerms?.withdrawalLockDays ?? 3 }}
                 />
               </Padding>
             </>
