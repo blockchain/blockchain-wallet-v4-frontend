@@ -136,8 +136,20 @@ const Success = ({ defaultMethod, depositTerms, formValues }: Props) => {
               <Padding bottom={1}>
                 <FormattedMessage
                   id='modals.deposit.confirm.you_authorize_blockchain'
-                  defaultMessage='You authorize Blockchain.com, Inc. to debit your {paymentAccount} account for up to {totalAmount} via Bank Transfer (ACH) and, if necessary, to initiate credit entries/adjustments for any debits made in error to your account at the financial institution where you hold your account. You acknowledge that the origination of ACH transactions to your account complies with the provisions of U.S. law. You agree that this authorization cannot be revoked. The debit will post to your bank account within 1-2 business days of you authorizing this transfer.'
+                  defaultMessage='You authorize Blockchain.com, Inc. to debit your {paymentAccount} account for up to {totalAmount} via Bank Transfer (ACH) and, if necessary, to initiate credit entries/adjustments for any debits made in error to your account at the financial institution where you hold your account.'
                   values={{ paymentAccount: bankAccount, totalAmount: formattedAmount }}
+                />
+                <br />
+
+                <FormattedMessage
+                  id='modals.deposit.confirm.acknowledge_origin'
+                  defaultMessage='You acknowledge that the origination of ACH transactions to your account complies with the provisions of U.S. law.'
+                />
+              </Padding>
+              <Padding bottom={1}>
+                <FormattedMessage
+                  id='modals.deposit.confirm.agree_cannot_revoke'
+                  defaultMessage='You agree that this authorization cannot be revoked. The debit will post to your bank account within 1-2 business days of you authorizing this transfer.'
                 />
               </Padding>
               <Padding bottom={1}>
