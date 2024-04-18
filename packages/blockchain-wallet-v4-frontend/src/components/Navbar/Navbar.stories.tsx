@@ -54,10 +54,8 @@ const PrimaryNavItems = [
 
 export const Default = Template.bind({})
 Default.args = {
-  fabClickHandler: () => {},
   limitsClickHandler: () => {},
   logoutClickHandler: () => {},
   primaryNavItems: PrimaryNavItems,
-  referAFriendHandler: () => {},
-  refreshClickHandler: () => {}
+  referAFriendHandler: () => {}
 }

@@ -10,7 +10,8 @@ import styled from 'styled-components'
 import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { Flex } from 'components/Flex'
 import AppSwitcher from 'components/Navbar/AppSwitcher'
-import { Logo, NavButton, NavContainer, NavLeft, NavRight } from 'components/Navbar/Navbar'
+import { Logo, NavContainer, NavLeft, NavRight } from 'components/Navbar/Navbar'
+import { NavButton } from 'components/Navbar/NavbarButtons'
 import UserNavDropdown from 'components/Navbar/UserNavDropdown'
 import { actions } from 'data'
 import { Analytics, ModalName } from 'data/types'
@@ -122,19 +123,19 @@ const NftsHeader: React.FC<Props> = ({
         <AppSwitcher />
       </NavLeft>
       <NavCenter>
-        {isTablet ? null : (
-          <NavLinkButton to='/nfts/view' onClick={trackExploreClicked}>
-            <Text size='14px' weight={600}>
-              <FormattedMessage id='copy.home' defaultMessage='Home' />
-            </Text>
-          </NavLinkButton>
-        )}
-        {isTablet ? null : (
-          <NavLinkButton to='/nfts/explore' onClick={trackExploreClicked}>
-            <Text size='14px' weight={600}>
-              <FormattedMessage id='copy.explore' defaultMessage='Explore' />
-            </Text>
-          </NavLinkButton>
+        {!isTablet && (
+          <>
+            <NavLinkButton to='/nfts/view' onClick={trackExploreClicked}>
+              <Text size='14px' weight={600}>
+                <FormattedMessage id='copy.home' defaultMessage='Home' />
+              </Text>
+            </NavLinkButton>
+            <NavLinkButton to='/nfts/explore' onClick={trackExploreClicked}>
+              <Text size='14px' weight={600}>
+                <FormattedMessage id='copy.explore' defaultMessage='Explore' />
+              </Text>
+            </NavLinkButton>
+          </>
         )}
         <NftsSearch />
       </NavCenter>

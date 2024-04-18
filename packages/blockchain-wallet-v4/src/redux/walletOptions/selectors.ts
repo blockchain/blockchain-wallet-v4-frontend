@@ -147,6 +147,9 @@ export const getAppleAndGooglePayPromoBannerEnabled = (state: RootState) =>
 export const getReferralEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isReferralEnabled']))
 
+export const getReferralRetrievalEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isReferralRetrievalEnabled']))
+
 // show login button redirect for exchange mobile
 // will take user out of webview into native signin
 export const getExchangeMobileDuplicateAccountRedirect = (state: RootState) =>
