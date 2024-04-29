@@ -11,7 +11,7 @@ type Props = {
 }
 
 export const Lines = ({ lines }: Props) => {
-  const [isCollapsed, setIsCollapsed] = useState(true)
+  const [isCollapsed, setIsCollapsed] = useState(false)
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed)
