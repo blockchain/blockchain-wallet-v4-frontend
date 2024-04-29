@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { getCurrency } from '@core/redux/settings/selectors'
 import { getCoinViewV2 } from '@core/redux/walletOptions/selectors'
 import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
+import { getData as getUserCountry } from 'components/Banner/selectors'
 
 import { Props as _P, SuccessStateType as _S } from '.'
 import { getTableColumns } from './Table'
@@ -27,9 +28,12 @@ export const TableBodyWrapper = styled.div`
 
 const PricesTable = (props: Props) => {
   const isCoinViewV2Enabled = useSelector(getCoinViewV2).getOrElse(false) as boolean
+  const isUserFromUK = useSelector(getUserCountry)?.country === 'GB'
+  const isIpFromUK = useSelector(getUserCountry)?.ipCountry === 'GB'
   const textFilter = useSelector((state) => formValueSelector('prices')(state, 'textFilter'))
   const walletCurrency = useSelector(getCurrency).getOrElse('USD')
-
+  const isUkUser = isUserFromUK || isIpFromUK
+  
   const {
     analyticsActions,
     buySellActions,
@@ -46,6 +50,7 @@ const PricesTable = (props: Props) => {
       buySellActions,
       formActions,
       isCoinViewV2Enabled,
+      isUkUser,
       modalActions,
       routerActions,
       swapActions,

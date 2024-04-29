@@ -12,6 +12,7 @@ export const getTableColumns =
     buySellActions,
     formActions,
     isCoinViewV2Enabled,
+    isUkUser,
     modalActions,
     routerActions,
     swapActions,
@@ -19,7 +20,7 @@ export const getTableColumns =
   }: TableColumnsType) =>
   () =>
     [
-      getNameColumn(modalActions, routerActions, isCoinViewV2Enabled),
+      getNameColumn(modalActions, routerActions, isCoinViewV2Enabled, isUkUser),
       getPriceColumn(walletCurrency),
       getPriceChangeColumn(),
       getMarketCapColumn(walletCurrency),

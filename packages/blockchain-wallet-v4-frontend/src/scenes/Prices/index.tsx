@@ -148,6 +148,7 @@ export type TableColumnsType = {
   buySellActions: ReturnType<typeof mapDispatchToProps>['buySellActions']
   formActions: ReturnType<typeof mapDispatchToProps>['formActions']
   isCoinViewV2Enabled: boolean
+  isUkUser: boolean
   modalActions: ReturnType<typeof mapDispatchToProps>['modalActions']
   routerActions: ReturnType<typeof mapDispatchToProps>['routerActions']
   swapActions: ReturnType<typeof mapDispatchToProps>['swapActions']
