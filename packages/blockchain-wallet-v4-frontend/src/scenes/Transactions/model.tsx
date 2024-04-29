@@ -13,9 +13,7 @@ const PriceChangeText = styled(Text)`
   color: ${(props) => props.theme.grey600};
 `
 
-const PriceChangeColoredText = styled.span<{
-  movement: PriceMovementDirType
-}>`
+const PriceChangeColoredText = styled.span<{ movement: PriceMovementDirType }>`
   font-weight: 600;
   color: ${(props) =>
     props.movement === 'down'
