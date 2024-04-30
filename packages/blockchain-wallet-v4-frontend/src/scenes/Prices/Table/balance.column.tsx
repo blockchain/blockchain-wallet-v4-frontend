@@ -46,4 +46,3 @@ export const getBalanceColumn = () => ({
   }
 })
 
-export default getBalanceColumn

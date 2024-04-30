@@ -1,41 +1,25 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps, useSelector } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import { BaseFieldProps, Field, reduxForm } from 'redux-form'
-import styled from 'styled-components'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { reduxForm } from 'redux-form'
 
 import { ExtractSuccess } from '@core/types'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { getData as getUserCountry } from 'components/Banner/selectors'
 import TextBox from 'components/Form/TextBox'
 import { PageTitle, SceneWrapper, StickyHeader, SubTitle, Title } from 'components/Layout'
-import { actions, selectors } from 'data'
 
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import PricesTable from './template.success'
-
-const TextFilterWrapper = styled.div`
-  display: flex;
-  position: relative;
-  width: 300px;
-`
-const IconField = styled(Field)<BaseFieldProps & { height: string; placeholder: string }>`
-  div > input {
-    padding-left: 40px;
-  }
-`
-const SearchIconWrapper = styled.div`
-  position: absolute;
-  top: 12px;
-  left: 10px;
-`
+import { IconField, SearchIconWrapper, TextFilterWrapper } from './styles'
+import { useRemote } from 'hooks'
+import { prices } from 'data/actions'
 
 const Scene = ({ children }) => {
-  const isUserFromUK = useSelector(getUserCountry)?.country === 'GB'
-  const isSignupFromUk = useSelector(getUserCountry)?.signupCountry === 'GB'
+  const { country, signupCountry } = useSelector(getUserCountry, shallowEqual)
+  const isUkUser = [country, signupCountry].some((code) => code === 'GB')
 
   return (
     <SceneWrapper>
@@ -56,7 +40,7 @@ const Scene = ({ children }) => {
                 />
               </Text>
             </SubTitle>
-            {(isUserFromUK || isSignupFromUk) && (
+            {isUkUser && (
               <SubTitle>
                 <Text color='grey600' size='14px' weight={500}>
                   Real-time data is obtained from multiple sources and may sometimes be delayed due
@@ -94,67 +78,38 @@ const Scene = ({ children }) => {
   )
 }
 
-const PricesContainer = (props: OwnProps) => {
-  const { priceActions, rowDataR, ...rest } = props
+const PricesContainer = () => {
+  const { data, isLoading, isNotAsked, error } = useRemote(getData)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    priceActions.fetchCoinPrices()
-    priceActions.fetchCoinPricesPreviousDay()
+    dispatch(prices.fetchCoinPrices())
+    dispatch(prices.fetchCoinPricesPreviousDay())
   }, [])
 
-  return rowDataR.cata({
-    Failure: () => (
+  if (error) {
+    return (
       <Scene>
         <Failure />
       </Scene>
-    ),
-    Loading: () => (
+    )
+  }
+
+  if (isLoading || isNotAsked || !data) {
+    return (
       <Scene>
         <Loading />
-      </Scene>
-    ),
-    NotAsked: () => (
-      <Scene>
-        <Loading />
-      </Scene>
-    ),
-    Success: (val) => (
-      <Scene>
-        <PricesTable data={val} {...rest} />
       </Scene>
     )
-  })
+  }
+
+  return (
+    <Scene>
+      <PricesTable data={data} />
+    </Scene>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  rowDataR: getData(state)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  priceActions: bindActionCreators(actions.prices, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch),
-  swapActions: bindActionCreators(actions.components.swap, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-const enhance = compose(reduxForm({ form: 'prices' }), connector)
-
-export type TableColumnsType = {
-  analyticsActions: ReturnType<typeof mapDispatchToProps>['analyticsActions']
-  buySellActions: ReturnType<typeof mapDispatchToProps>['buySellActions']
-  formActions: ReturnType<typeof mapDispatchToProps>['formActions']
-  isCoinViewV2Enabled: boolean
-  isUkUser: boolean
-  modalActions: ReturnType<typeof mapDispatchToProps>['modalActions']
-  routerActions: ReturnType<typeof mapDispatchToProps>['routerActions']
-  swapActions: ReturnType<typeof mapDispatchToProps>['swapActions']
-  walletCurrency: ReturnType<typeof selectors.core.settings.getCurrency>
-}
-type OwnProps = ConnectedProps<typeof connector>
-export type Props = Omit<OwnProps, 'priceActions' | 'rowDataR'>
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export default enhance(PricesContainer) as React.ComponentClass
+export default reduxForm({ form: 'prices' })(PricesContainer)

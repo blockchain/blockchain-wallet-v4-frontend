@@ -1,15 +1,19 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { shallowEqual, useSelector } from 'react-redux'
 
 import { fiatToString } from '@core/exchange/utils'
 import { CellHeaderText, CellText } from 'components/Table'
+import { getWalletCurrency } from 'data/components/interest/selectors'
 
-import { TableColumnsType } from '..'
+const PriceCell = ({ row: { original: values } }) => {
+  const walletCurrency = useSelector(getWalletCurrency, shallowEqual).getOrElse('USD')
 
-export const getPriceColumn = (walletCurrency: TableColumnsType['walletCurrency']) => ({
-  Cell: ({ row: { original: values } }) => {
-    return <CellText>{fiatToString({ unit: walletCurrency, value: values.price })}</CellText>
-  },
+  return <CellText>{fiatToString({ unit: walletCurrency, value: values.price })}</CellText>
+}
+
+export const getPriceColumn = () => ({
+  Cell: PriceCell,
   Header: () => (
     <CellHeaderText>
       <FormattedMessage id='copy.price' defaultMessage='Price' />

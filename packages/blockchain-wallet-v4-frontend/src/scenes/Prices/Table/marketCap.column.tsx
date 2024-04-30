@@ -5,12 +5,17 @@ import BigNumber from 'bignumber.js'
 import { fiatToString } from '@core/exchange/utils'
 import { CellHeaderText, CellText } from 'components/Table'
 
-import { TableColumnsType } from '..'
+import { shallowEqual, useSelector } from 'react-redux'
+import { getWalletCurrency } from 'data/components/interest/selectors'
 
-export const getMarketCapColumn = (walletCurrency: TableColumnsType['walletCurrency']) => ({
-  Cell: ({ row: { original: values } }) => (
-    <CellText>{fiatToString({ unit: walletCurrency, value: values.marketCap })}</CellText>
-  ),
+const MarketCapCell = ({ row: { original: values } }) => {
+  const walletCurrency = useSelector(getWalletCurrency, shallowEqual).getOrElse('USD')
+
+  return <CellText>{fiatToString({ unit: walletCurrency, value: values.marketCap })}</CellText>
+}
+
+export const getMarketCapColumn = () => ({
+  Cell: MarketCapCell,
   Header: () => (
     <CellHeaderText>
       <FormattedMessage id='copy.market)_cap' defaultMessage='Market Cap' />

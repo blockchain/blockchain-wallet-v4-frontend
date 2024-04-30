@@ -1,17 +1,20 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
 import { useGlobalFilter, useSortBy, useTable } from 'react-table'
 import { formValueSelector } from 'redux-form'
 import styled from 'styled-components'
 
-import { getCurrency } from '@core/redux/settings/selectors'
 import { getCoinViewV2 } from '@core/redux/walletOptions/selectors'
 import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
-import { getData as getUserCountry } from 'components/Banner/selectors'
 
-import { Props as _P, SuccessStateType as _S } from '.'
-import { getTableColumns } from './Table'
+import { SuccessStateType as _S } from '.'
+import { getNameColumn } from './Table/name.column'
+import { getPriceColumn } from './Table/price.column'
+import { getPriceChangeColumn } from './Table/priceChange.column'
+import { getActionsColumn } from './Table/actions.column'
+import { getBalanceColumn } from './Table/balance.column'
+import { getMarketCapColumn } from './Table/marketCap.column'
 
 const NoResultsWrapper = styled.div`
   display: flex;
@@ -26,36 +29,19 @@ export const TableBodyWrapper = styled.div`
   overflow: hidden;
 `
 
-const PricesTable = (props: Props) => {
-  const isCoinViewV2Enabled = useSelector(getCoinViewV2).getOrElse(false) as boolean
-  const isUserFromUK = useSelector(getUserCountry)?.country === 'GB'
-  const isIpFromUK = useSelector(getUserCountry)?.ipCountry === 'GB'
+const PricesTable = ({ data }) => {
+  const isCoinViewV2Enabled = useSelector(getCoinViewV2, shallowEqual).getOrElse(false) as boolean
   const textFilter = useSelector((state) => formValueSelector('prices')(state, 'textFilter'))
-  const walletCurrency = useSelector(getCurrency).getOrElse('USD')
-  const isUkUser = isUserFromUK || isIpFromUK
-  
-  const {
-    analyticsActions,
-    buySellActions,
-    data,
-    formActions,
-    modalActions,
-    routerActions,
-    swapActions
-  } = props
 
   const columns = useMemo(
-    getTableColumns({
-      analyticsActions,
-      buySellActions,
-      formActions,
-      isCoinViewV2Enabled,
-      isUkUser,
-      modalActions,
-      routerActions,
-      swapActions,
-      walletCurrency
-    }),
+    () => [
+      getNameColumn(),
+      getPriceColumn(),
+      getPriceChangeColumn(),
+      getMarketCapColumn(),
+      getBalanceColumn(),
+      getActionsColumn()
+    ],
     [isCoinViewV2Enabled]
   )
 
@@ -120,11 +106,7 @@ const PricesTable = (props: Props) => {
                         {column.render('Header')}
                         <div>
                           {column.isSorted ? (
-                            column.isSortedDesc ? (
-                              <HeaderToggle>▾</HeaderToggle>
-                            ) : (
-                              <HeaderToggle>▴</HeaderToggle>
-                            )
+                            <HeaderToggle>{column.isSortedDesc ? '▾' : '▴'}</HeaderToggle>
                           ) : (
                             ''
                           )}
@@ -155,7 +137,5 @@ const PricesTable = (props: Props) => {
     </TableWrapper>
   )
 }
-
-type Props = _P & { data: _S }
 
 export default PricesTable

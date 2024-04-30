@@ -3,10 +3,14 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon } from 'blockchain-info-components'
+import { getData as getUserCountry } from 'components/Banner/selectors'
 import { CellHeaderText, CellText } from 'components/Table'
 import { ModalName } from 'data/types'
 
-import { TableColumnsType } from '..'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { getCoinViewV2 } from '@core/redux/walletOptions/selectors'
+import { modals } from 'data/actions'
+import { push } from 'connected-react-router'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -23,31 +27,37 @@ const CellWrapper = styled(HeaderWrapper)`
   }
 `
 
-export const getNameColumn = (
-  modalActions: TableColumnsType['modalActions'],
-  routerActions: TableColumnsType['routerActions'],
-  isCoinViewV2Enabled: boolean,
-  isUkUser: boolean
-) => ({
-  Cell: ({ row: { original: values } }) => {
-    return (
-      <CellWrapper
-        onClick={() => {
-          if (isCoinViewV2Enabled || isUkUser) {
-            routerActions.push(`/coins/${values.coin}`)
-          } else {
-            modalActions.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
+const NameCell = ({ row: { original: values } }) => {
+  const dispatch = useDispatch()
+
+  const { country, signupCountry } = useSelector(getUserCountry, shallowEqual)
+  const isCoinViewV2Enabled = useSelector(getCoinViewV2, shallowEqual).getOrElse(false) as boolean
+  
+  const isUkUser = [country, signupCountry].some((code) => code === 'GB')
+
+  return (
+    <CellWrapper
+      onClick={() => {
+        if (isCoinViewV2Enabled || isUkUser) {
+          dispatch(push(`/coins/${values.coin}`))
+        } else {
+          dispatch(
+            modals.showModal(ModalName.REQUEST_CRYPTO_MODAL, {
               origin: 'Prices',
               preselectedCoin: values.coin
             })
-          }
-        }}
-      >
-        <Icon name={values.coin} size='32px' color={values.coin} />
-        <CellText>{values.name}</CellText>
-      </CellWrapper>
-    )
-  },
+          )
+        }
+      }}
+    >
+      <Icon name={values.coin} size='32px' color={values.coin} />
+      <CellText>{values.name}</CellText>
+    </CellWrapper>
+  )
+}
+
+export const getNameColumn = () => ({
+  Cell: NameCell,
   Header: () => (
     <HeaderWrapper>
       <CellHeaderText>
@@ -58,5 +68,3 @@ export const getNameColumn = (
   accessor: 'name',
   sortType: 'alphanumeric'
 })
-
-export default getNameColumn
