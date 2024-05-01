@@ -51,6 +51,7 @@ export type DexBcdcFee = {
 
 export type DexQuote = {
   bcdcFee: DexBcdcFee
+  bcdcFeePercentage: number
   buyAmount: DexBuyAmount
   buyTokenFee: number
   price: number

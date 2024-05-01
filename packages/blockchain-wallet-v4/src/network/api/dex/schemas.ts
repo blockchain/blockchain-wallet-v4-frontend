@@ -72,6 +72,7 @@ const DexBcdcFeeSchema: z.ZodSchema<DexBcdcFee, z.ZodTypeDef, unknown> = z.objec
 
 const DexQuoteSchema: z.ZodSchema<DexQuote, z.ZodTypeDef, unknown> = z.object({
   bcdcFee: DexBcdcFeeSchema,
+  bcdcFeePercentage: stringToPositiveFloat,
   buyAmount: DexBuyAmountSchema,
   buyTokenFee: stringToPositiveFloat,
   price: stringToPositiveFloat,

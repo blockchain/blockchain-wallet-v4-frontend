@@ -160,7 +160,9 @@ export const QuoteDetails = ({
                     coin: props.swapQuote.quote.sellAmount.symbol,
                     value: Exchange.convertCoinToCoin({
                       coin: props.swapQuote.quote.sellAmount.symbol,
-                      value: (props.swapQuote.quote.sellAmount.amount / 100) * 0.9
+                      value:
+                        (props.swapQuote.quote.sellAmount.amount / 100) *
+                        props.swapQuote.quote.bcdcFeePercentage
                     })
                   })}
                 </FiatDisplay>
