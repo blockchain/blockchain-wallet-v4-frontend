@@ -21,7 +21,7 @@ import type {
 // TODO: Move somewhere to utils
 const stringToPositiveFloat = z.preprocess(
   (v) => parseFloat(z.string().parse(v)),
-  z.number().positive()
+  z.number().nonnegative()
 )
 
 export const listSchema = <T>(
