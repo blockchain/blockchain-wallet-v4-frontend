@@ -1553,6 +1553,7 @@
   "modals.requestcrypto.coinselect.title": "Receive Crypto",
   "modals.requestcrypto.showaddress.memo_required": "If you send funds without the {coin} Memo Text, your funds will be lost and not credited to your account. Please send only {coin} to this address.",
   "modals.requestcrypto.showaddress.title": "Scan or Share",
+  "modals.requestcrypto.trx.warning": "Use this address only to receive or deposit TRX. Lost funds cannot be recovered.",
   "modals.requesteth.erc20.qrcode": "Ask the sender to scan this QR code with their PAX wallet",
   "modals.requesteth.erc20.shareaddress": "Share this address with others, and they can send you PAX directly to your wallet. Your request address will not change.",
   "modals.requesteth.qrcode": "Ask the sender to scan this QR code with their ETH wallet",
