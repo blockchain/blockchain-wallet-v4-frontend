@@ -16,9 +16,17 @@ export default ({ apiUrl, get, horizonUrl }) => {
 
   const getXlmFees = () =>
     get({
-      endPoint: '/mempool/fees/xlm',
+      endPoint: '/currency/xlm/fees/xlm',
+      ignoreQueryParams: true,
       url: apiUrl
-    })
+    }).then((response) => ({
+      limits: {
+        max: parseInt(response.LIMITS.max, 10),
+        min: parseInt(response.LIMITS.min, 10)
+      },
+      priority: parseInt(response.HIGH, 10),
+      regular: parseInt(response.NORMAL, 10)
+    }))
 
   const pushXlmTx = (tx) => server.submitTransaction(tx)
 
