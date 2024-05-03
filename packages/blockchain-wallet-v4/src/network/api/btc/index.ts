@@ -15,9 +15,17 @@ export default ({ apiUrl, get, post, rootUrl }) => {
 
   const getBtcFees = () =>
     get({
-      endPoint: '/mempool/fees',
+      endPoint: '/currency/btc/fees/btc?network=BTC',
+      ignoreQueryParams: true,
       url: apiUrl
-    })
+    }).then((response) => ({
+      limits: {
+        max: parseInt(response.LIMITS.max, 10),
+        min: parseInt(response.LIMITS.min, 10)
+      },
+      priority: parseInt(response.HIGH, 10),
+      regular: parseInt(response.NORMAL, 10)
+    }))
 
   const pushBtcTx = (txHex) =>
     post({

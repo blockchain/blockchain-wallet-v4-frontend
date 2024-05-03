@@ -71,9 +71,17 @@ export default ({ apiUrl, get, post }) => {
 
   const getBchFees = () =>
     get({
-      endPoint: '/mempool/fees/bch',
+      endPoint: '/currency/btc/fees/btc?network=BCH',
+      ignoreQueryParams: true,
       url: apiUrl
-    })
+    }).then((response) => ({
+      limits: {
+        max: parseInt(response.LIMITS.max, 10),
+        min: parseInt(response.LIMITS.min, 10)
+      },
+      priority: parseInt(response.HIGH, 10),
+      regular: parseInt(response.NORMAL, 10)
+    }))
 
   return {
     fetchBchData,

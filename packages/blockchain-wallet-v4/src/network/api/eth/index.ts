@@ -32,12 +32,21 @@ export default ({ apiUrl, get, openSeaApi, post }) => {
 
   // https://docs.ethers.io/v5/api/providers/provider/#Provider-getGasPrice
   const getEthFees = (contractAddress) => {
-    const baseUrl = '/mempool/fees/eth'
+    const baseUrl = '/currency/evm/fees/ETH'
     return get({
-      endPoint: contractAddress ? `${baseUrl}?contractAddress=${contractAddress}` : baseUrl,
+      endPoint: contractAddress ? `${baseUrl}?identifier=${contractAddress}` : baseUrl,
       ignoreQueryParams: true,
       url: apiUrl
-    })
+    }).then((response) => ({
+      gasLimit: parseInt(response.gasLimit, 10),
+      gasLimitContract: parseInt(response.gasLimitContract, 10),
+      limits: {
+        max: Math.round(parseInt(response.LIMITS.max, 10) / 1e9),
+        min: Math.round(parseInt(response.LIMITS.min, 10) / 1e9)
+      },
+      priority: Math.round(parseInt(response.NORMAL, 10) / 1e9),
+      regular: Math.round(parseInt(response.LOW, 10) / 1e9)
+    }))
   }
 
   // https://docs.ethers.io/v5/api/providers/provider/#Provider-sendTransaction
