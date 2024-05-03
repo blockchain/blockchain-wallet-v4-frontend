@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import styled from 'styled-components'
 
 import { utils } from '@core'
 import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
@@ -14,71 +13,20 @@ import { NetworkWarning, NetworkWarningVariant } from 'components/NetworkWarning
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { actions, selectors } from 'data'
 import { SwapBaseCounterTypes } from 'data/types'
-
+import {
+  AddressDisplay,
+  AddressWrapper,
+  AlertWrapper,
+  ButtonsWrapper,
+  InfoContainer,
+  QRCodeContainer,
+  Wrapper
+} from './styled'
 import { Props as OwnProps } from '../index'
 import { ClipboardWrapper } from '../model'
 import { RequestSteps } from '../types'
 
 const { formatAddr, hasPrefix } = utils.bch
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`
-const AddressWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 40px;
-  border-bottom: ${(props) => `1px solid ${props.theme.grey000}`};
-  &:first-child {
-    border-top: ${(props) => `1px solid ${props.theme.grey000}`};
-  }
-`
-const AddressDisplay = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  overflow-wrap: anywhere;
-  word-break: break-all;
-  hyphens: none;
-`
-const InfoContainer = styled.div`
-  background: ${(props) => props.theme.grey000};
-  margin: 16px 40px 0px 40px;
-  padding: 16px;
-  border-radius: 8px;
-`
-const QRCodeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 40px 0 36px;
-  width: 100%;
-`
-const ButtonsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0 40px 40px;
-
-  & > :last-child {
-    margin-top: 16px;
-  }
-`
-const AlertWrapper = styled.div`
-  flex-direction: column;
-  display: flex;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-`
 
 class RequestShowAddress extends React.PureComponent<Props> {
   componentDidMount() {
@@ -215,7 +163,17 @@ class RequestShowAddress extends React.PureComponent<Props> {
           })}
         </QRCodeContainer>
         <ButtonsWrapper>
-          <NetworkWarning coin={selectedAccount.coin} variant={NetworkWarningVariant.RECEIVE} />
+          {selectedAccount.coin === 'TRX' ? (
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.requestcrypto.trx.warning'
+                defaultMessage='Use this address only to receive or deposit TRX. Lost funds cannot be recovered.'
+                values={{ coin: selectedAccount.coin }}
+              />
+            </Text>
+          ) : (
+            <NetworkWarning coin={selectedAccount.coin} variant={NetworkWarningVariant.RECEIVE} />
+          )}
 
           <Button
             data-e2e='copyRequestLink'
