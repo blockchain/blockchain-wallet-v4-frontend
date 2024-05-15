@@ -8,6 +8,7 @@ import alertOrange from './img/alert-orange.svg'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import applePay from './img/apple-pay-icon.svg'
 import arrowLeft from './img/arrow-left.svg'
+import arrowRightCircle from './img/arrow-right-circle.svg'
 import bank from './img/bank.svg'
 import bankEmpty from './img/bank-empty.svg'
 import bankEmptyBlue from './img/bank-empty-blue.svg'
@@ -178,6 +179,7 @@ import sofiMigrationPending from './img/sofi-migration-pending.svg'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import ssBcLogo from './img/ss-bc-logo.svg'
 import subtractCheckCircle from './img/subtract-check-circle.png'
+import superAppIcon from './img/super-app-icon.svg'
 import swap from './img/swap.svg'
 import swapBlue from './img/swap-blue.svg'
 import swapSuccess from './img/swap-success.svg'
@@ -210,6 +212,7 @@ const Images = {
   'apple-app-store-badge': appleAppStoreBadge,
   'apple-pay': applePay,
   'arrow-left': arrowLeft,
+  'arrow-right-circle': arrowRightCircle,
   'backgorund-modal-gradient': bgModalGradient,
   bank,
   'bank-empty': bankEmpty,
@@ -377,6 +380,7 @@ const Images = {
   'sofi-migration-pending': sofiMigrationPending,
   'source-of-wealth': sourceOfWealth,
   'subtract-check-circle': subtractCheckCircle,
+  'super-app-icon': superAppIcon,
   swap,
   'swap-blue': swapBlue,
   'swap-success': swapSuccess,

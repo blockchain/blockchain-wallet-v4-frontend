@@ -11,6 +11,7 @@ import { ExchangeAuthOriginType } from 'data/types'
 import { Destination, MenuIcon, MenuItem, Separator, Wrapper } from 'layouts/Wallet/components'
 
 import CoinList from './CoinList'
+import SuperAppLink from './SuperAppLink'
 
 const PortfolioSeparator = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ const ExchangeMenuItem = styled(MenuItem)`
   align-items: center;
 `
 
-const Divider = ({ margin }: { margin?: string }) => (
+export const Divider = ({ margin }: { margin?: string }) => (
   <SeparatorWrapper margin={margin}>
     <Separator />
   </SeparatorWrapper>
@@ -69,6 +70,7 @@ const Navigation = () => {
 
   return (
     <Wrapper>
+      <SuperAppLink />
       <Divider />
       <LinkContainer to='/home' activeClassName='active'>
         <MenuItem data-e2e='dashboardLink'>
