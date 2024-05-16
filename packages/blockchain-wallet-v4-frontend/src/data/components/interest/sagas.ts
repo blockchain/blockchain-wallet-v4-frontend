@@ -1077,7 +1077,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           .getOrElse(null)
         let transaction
         if (typeof hotWalletAddress !== 'string') {
-          console.error('Unable to retreive hotwallet address; falling back to deposit and sweep.')
+          console.error('Unable to retrieve hotwallet address; falling back to deposit and sweep.')
           transaction = yield call(buildAndPublishPayment, coin, payment, depositAddress)
         } else {
           // build and publish payment to network

@@ -101,11 +101,16 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const updateSwapOrder = (id: string, action: 'DEPOSIT_SENT' | 'CANCEL'): SwapQuoteType =>
+  const updateSwapOrder = (
+    id: string,
+    action: 'DEPOSIT_SENT' | 'CANCEL',
+    depositTxHash?: string
+  ): SwapQuoteType =>
     authorizedPost({
       contentType: 'application/json',
       data: {
-        action
+        action,
+        depositTxHash
       },
       endPoint: `/custodial/trades/${id}`,
       url: nabuUrl

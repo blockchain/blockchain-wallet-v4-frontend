@@ -400,8 +400,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // @ts-ignore
         const payment = paymentGetOrElse(from.coin, paymentR)
         try {
-          yield call(buildAndPublishPayment, payment.coin, payment, sellOrderDepositAddress)
-          yield call(api.updateSwapOrder, sellOrder.id, 'DEPOSIT_SENT')
+          const transaction = yield call(
+            buildAndPublishPayment,
+            payment.coin,
+            payment,
+            sellOrderDepositAddress
+          )
+          const depositTxHash = transaction?.txId ?? undefined
+          yield call(api.updateSwapOrder, sellOrder.id, 'DEPOSIT_SENT', depositTxHash)
         } catch (e) {
           yield call(api.updateSwapOrder, sellOrder.id, 'CANCEL')
           throw e
