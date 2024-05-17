@@ -5,6 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
+import SuperAppLink from 'components/Navbar/SuperAppLink'
 import { isKycVerificationEnabled } from 'data/custodial/selectors'
 import { authAndRouteToExchangeAction } from 'data/modules/profile/actions'
 import { ExchangeAuthOriginType } from 'data/types'
@@ -37,7 +38,7 @@ const ExchangeMenuItem = styled(MenuItem)`
   align-items: center;
 `
 
-const Divider = ({ margin }: { margin?: string }) => (
+export const Divider = ({ margin }: { margin?: string }) => (
   <SeparatorWrapper margin={margin}>
     <Separator />
   </SeparatorWrapper>
@@ -69,6 +70,7 @@ const Navigation = () => {
 
   return (
     <Wrapper>
+      <SuperAppLink />
       <Divider />
       <LinkContainer to='/home' activeClassName='active'>
         <MenuItem data-e2e='dashboardLink'>

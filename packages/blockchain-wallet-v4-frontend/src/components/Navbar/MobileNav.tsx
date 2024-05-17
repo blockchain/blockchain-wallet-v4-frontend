@@ -8,6 +8,7 @@ import { Button, Text } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout/Layout'
 
 import { PrimaryNavItem } from './Navbar'
+import SuperAppLink from './SuperAppLink'
 
 const MobileNavList = styled.ul`
   margin: 0;
@@ -65,6 +66,7 @@ const MobileNav = ({ handleClose, location, primaryNavItems, userNavItems }: Pro
     >
       <FlyoutContainer>
         <FlyoutContent mode='top'>
+          <SuperAppLink />
           <MobileNavList>
             {primaryNavItems.map((item: PrimaryNavItem) => (
               <StyledLi key={item.e2e} selected={location.pathname.includes(item.dest)}>
