@@ -3,19 +3,19 @@ import { FormattedMessage } from 'react-intl'
 import { useSelector } from 'react-redux'
 import Cookies from 'universal-cookie'
 
+import { getIsSuperAppEnabled } from '@core/redux/walletOptions/selectors'
 import { Image, Text } from 'blockchain-info-components'
 
 import { Divider } from '../index'
-import { getData } from './selectors'
 import { Container, TextContainer } from './styles'
 
 const SuperAppLink = () => {
-  const { isSuperAppEnabled } = useSelector(getData)
+  const isSuperAppEnabled = useSelector(getIsSuperAppEnabled)
   const cookies = new Cookies()
-  const hasSuperAppAccess = cookies.get('has_access')
+  const hasSuperAppAccess = cookies.get('wallet_v5_ui_available')
 
   const handleClick = () => {
-    cookies.set('opt_out', 'false', { path: '/' })
+    cookies.set('opt_out_wallet_v5_ui', 'false', { path: '/' })
     window.location.reload()
   }
 

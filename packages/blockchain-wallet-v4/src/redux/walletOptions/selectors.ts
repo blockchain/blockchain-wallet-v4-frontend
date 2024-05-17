@@ -172,7 +172,7 @@ export const getMnemonicRecoveryEnabled = (state: RootState) =>
 export const getIsStakingEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isStakingEnabled']))
 
-// staking feature flag
+// Super app link out feature flag
 export const getIsSuperAppEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'isSuperAppEnabled']))
 
