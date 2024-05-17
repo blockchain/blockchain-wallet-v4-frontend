@@ -16,7 +16,7 @@ export const Divider = () => (
 )
 
 const SuperAppLink = () => {
-  const isSuperAppEnabled = useSelector(getIsSuperAppEnabled)
+  const isSuperAppEnabled = useSelector(getIsSuperAppEnabled).getOrElse(false)
   const cookies = new Cookies()
   const hasSuperAppAccess = cookies.get('wallet_v5_ui_available')
 
