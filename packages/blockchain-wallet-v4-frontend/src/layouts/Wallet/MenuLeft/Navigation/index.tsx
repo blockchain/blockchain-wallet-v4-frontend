@@ -5,13 +5,13 @@ import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
+import SuperAppLink from 'components/Navbar/SuperAppLink'
 import { isKycVerificationEnabled } from 'data/custodial/selectors'
 import { authAndRouteToExchangeAction } from 'data/modules/profile/actions'
 import { ExchangeAuthOriginType } from 'data/types'
 import { Destination, MenuIcon, MenuItem, Separator, Wrapper } from 'layouts/Wallet/components'
 
 import CoinList from './CoinList'
-import SuperAppLink from './SuperAppLink'
 
 const PortfolioSeparator = styled.div`
   display: flex;
