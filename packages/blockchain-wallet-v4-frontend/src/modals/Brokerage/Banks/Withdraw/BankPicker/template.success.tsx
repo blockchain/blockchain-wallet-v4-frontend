@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
 import { AlertCard } from '@blockchain-com/constellation'
@@ -11,7 +11,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Bank, BankWire } from 'components/Flyout/model'
 import { withdraw } from 'data/components/actions'
 import { getBeneficiary } from 'data/components/withdraw/selectors'
-import { WithdrawStepEnum } from 'data/types'
+import { BankTransferAccountType, WithdrawStepEnum } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
 import { BankPickerProps } from '.'
@@ -28,8 +28,6 @@ const AlertWrapper = styled(FlyoutWrapper)`
     width: 100% !important;
   }
 `
-
-const noOp = () => {}
 
 type Props = BankPickerProps & BankPickerSelectorProps
 
@@ -51,6 +49,18 @@ const Success = ({ bankTransferAccounts, beneficiaries, fiatCurrency }: Props) =
       withdraw.setStep({
         beneficiary,
         fiatCurrency,
+        step: WithdrawStepEnum.ENTER_AMOUNT
+      })
+    )
+  }
+
+  const updateSelectedPaymentMethodAndStep = (
+    defaultBankTransferType?: BankTransferAccountType
+  ) => {
+    dispatch(
+      withdraw.setStep({
+        fiatCurrency,
+        selectedDefaultMethod: defaultBankTransferType,
         step: WithdrawStepEnum.ENTER_AMOUNT
       })
     )
@@ -104,10 +114,10 @@ const Success = ({ bankTransferAccounts, beneficiaries, fiatCurrency }: Props) =
           key={account.id}
           bankDetails={account.details}
           text={account.details.bankName}
-          isActive={false} // Not selectable on withdrawals so safe to asume shouldn't be active
+          isActive={beneficiary?.id === account.id}
           icon={getLinkedBankIcon(account.details.bankName)}
           isDisabled={account.capabilities?.withdrawal?.enabled === false}
-          onClick={noOp}
+          onClick={() => updateSelectedPaymentMethodAndStep(account)}
         />
       ))}
       {beneficiaries.map((localBeneficiary) => (

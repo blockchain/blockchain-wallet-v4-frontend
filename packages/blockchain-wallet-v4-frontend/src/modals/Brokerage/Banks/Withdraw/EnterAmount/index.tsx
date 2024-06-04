@@ -3,13 +3,7 @@ import { connect, ConnectedProps, useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
 import { BSPaymentTypes } from '@core/network/api/buySell/types'
-import {
-  BeneficiaryType,
-  BSPaymentMethodType,
-  ExtractSuccess,
-  WalletAccountEnum,
-  WalletFiatType
-} from '@core/types'
+import { BeneficiaryType, ExtractSuccess, WalletAccountEnum, WalletFiatType } from '@core/types'
 import { EnterAmount } from 'components/Flyout/Brokerage'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { selectors } from 'data'
@@ -165,14 +159,17 @@ const EnterAmountContainer = (props: Props) => {
   } = data
 
   const selectedPaymentMethod = paymentMethods.methods.find((method) => {
-    return method.type === BSPaymentTypes.BANK_ACCOUNT
+    return (
+      method.type === BSPaymentTypes.BANK_ACCOUNT || method.type === BSPaymentTypes.BANK_TRANSFER
+    )
   })
 
   if (!selectedPaymentMethod) {
     return <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
   }
 
-  let paymentAccount = defaultMethod || props.beneficiary || defaultBeneficiary
+  let paymentAccount =
+    props.selectedDefaultMethod || defaultMethod || props.beneficiary || defaultBeneficiary
   if (!paymentAccount || paymentAccount.currency !== props.fiatCurrency) {
     paymentAccount = undefined
   }
@@ -213,6 +210,7 @@ export type OwnProps = {
   beneficiary?: BeneficiaryType
   fiatCurrency: WalletFiatType
   handleClose: () => void
+  selectedDefaultMethod?: BankTransferAccountType
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | false }

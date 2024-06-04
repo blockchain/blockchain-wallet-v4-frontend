@@ -86,6 +86,7 @@ const withdrawSlice = createSlice({
         case WithdrawStepEnum.ENTER_AMOUNT:
           state.beneficiary = action.payload.beneficiary
           state.fiatCurrency = action.payload.fiatCurrency
+          state.selectedDefaultMethod = action.payload.selectedDefaultMethod
           state.step = action.payload.step
           break
         case WithdrawStepEnum.WITHDRAWAL_METHODS:
