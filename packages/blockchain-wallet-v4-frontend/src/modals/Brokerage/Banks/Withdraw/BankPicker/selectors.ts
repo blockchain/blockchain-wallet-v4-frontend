@@ -1,13 +1,6 @@
 import { lift } from 'ramda'
 
-import Remote from '@core/remote'
-import {
-  BeneficiariesType,
-  BeneficiaryType,
-  ExtractSuccess,
-  InvitationsType,
-  RemoteDataType
-} from '@core/types'
+import { BeneficiariesType, ExtractSuccess, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankTransferAccountType } from 'data/types'
@@ -24,17 +17,17 @@ const getData = (
   state: RootState,
   ownProps: Pick<BankPickerProps, 'fiatCurrency'>
 ): RemoteDataType<string, BankPickerSelectorProps> => {
-  let bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
-  let defaultMethodR = selectors.components.brokerage.getAccount(state)
+  const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
+  const defaultMethodR = selectors.components.brokerage.getAccount(state)
   // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
-  const invitations: InvitationsType = selectors.core.settings.getInvitations(state).getOrElse({
-    openBanking: false
-  } as InvitationsType)
+  // const invitations: InvitationsType = selectors.core.settings.getInvitations(state).getOrElse({
+  //   openBanking: false
+  // } as InvitationsType)
 
-  if (!invitations.openBanking && ownProps.fiatCurrency !== 'USD') {
-    defaultMethodR = undefined
-    bankTransferAccountsR = Remote.Success([])
-  }
+  // if (!invitations.openBanking && ownProps.fiatCurrency !== 'USD') {
+  //   defaultMethodR = undefined
+  //   bankTransferAccountsR = Remote.Success([])
+  // }
   const beneficiariesR = selectors.custodial.getBeneficiaries(state)
 
   return lift(

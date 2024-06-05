@@ -7,7 +7,7 @@ import {
   BSPaymentMethodsType,
   CrossBorderLimits,
   ExtractSuccess,
-  InvitationsType,
+  // InvitationsType,
   NabuSymbolNumberType,
   RemoteDataType
 } from '@core/types'
@@ -42,12 +42,12 @@ const getData = (
   )
   let defaultMethod = selectors.components.brokerage.getAccount(state)
   let bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
-  // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
-  const invitations: InvitationsType = selectors.core.settings.getInvitations(state).getOrElse({
-    openBanking: false
-  } as InvitationsType)
+  // // TODO: Remove this when ach deposits withdrawals gets rolled out hundo P
+  // const invitations: InvitationsType = selectors.core.settings.getInvitations(state).getOrElse({
+  //   openBanking: false
+  // } as InvitationsType)
 
-  if (!invitations.openBanking && ownProps.fiatCurrency !== 'USD') {
+  if (ownProps.fiatCurrency !== 'USD') {
     defaultMethod = undefined
     bankTransferAccountsR = Remote.Success([])
   }
@@ -68,6 +68,10 @@ const getData = (
     .getCrossBorderLimits(state)
     .getOrElse({} as CrossBorderLimits)
   const formErrors = selectors.form.getFormAsyncErrors('brokerageTx')(state)
+
+  if (ownProps.selectedDefaultMethod) {
+    defaultMethod = ownProps.selectedDefaultMethod
+  }
 
   return lift(
     (

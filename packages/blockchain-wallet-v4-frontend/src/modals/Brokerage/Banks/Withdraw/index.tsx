@@ -23,6 +23,7 @@ const INELIGIBLE_ERROR = { message: BROKERAGE_INELIGIBLE }
 
 const Withdraw = ({ close, position, total, userClickedOutside }: ModalPropsType) => {
   const beneficiary = useSelector(selectors.components.withdraw.getBeneficiary)
+  const selectedDefaultMethod = useSelector(selectors.components.withdraw.getSelectedDefaultMethod)
   const fiatCurrency = useSelector(selectors.components.withdraw.getFiatCurrency)
   const step = useSelector(selectors.components.withdraw.getStep)
   const kycState = useSelector(getUserKYCState).getOrElse('NONE')
@@ -60,6 +61,7 @@ const Withdraw = ({ close, position, total, userClickedOutside }: ModalPropsType
           <EnterAmount
             fiatCurrency={fiatCurrency}
             beneficiary={beneficiary}
+            selectedDefaultMethod={selectedDefaultMethod}
             handleClose={handleClose}
           />
         )}

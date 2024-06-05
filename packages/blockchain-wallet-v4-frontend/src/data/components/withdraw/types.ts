@@ -32,6 +32,7 @@ export type WithdrawStepActionsPayload =
   | {
       beneficiary?: BeneficiaryType
       fiatCurrency: WalletFiatType
+      selectedDefaultMethod?: BankTransferAccountType
       step: WithdrawStepEnum.ENTER_AMOUNT
       transferAccount?: BankTransferAccountType
     }
@@ -61,6 +62,7 @@ export type WithdrawState = {
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   feesAndMinAmount: RemoteDataType<string, WithdrawalMinsAndFeesResponse>
   fiatCurrency: WalletFiatType
+  selectedDefaultMethod?: BankTransferAccountType
   step: WithdrawStepEnum
   withdrawLocks: RemoteDataType<string, WithdrawalLockResponseType>
   withdrawal?: WithdrawResponseType

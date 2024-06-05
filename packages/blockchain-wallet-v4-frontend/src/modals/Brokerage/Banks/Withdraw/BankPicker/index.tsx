@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { Remote } from '@core'
-import { BeneficiaryType, WalletFiatType } from '@core/types'
+import { WalletFiatType } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
 import { custodial } from 'data/actions'
 import { fetchBankTransferAccounts } from 'data/components/brokerage/slice'
