@@ -2040,6 +2040,8 @@
   "scene.earn.earnrate-upto": "Earning up to {earnRate}%",
   "scene.nav,banner.uk.description1": "Don't invest unless you're prepared to lose all the money you invest. This is a high-risk investment and you should not expect to be protected if something goes wrong.",
   "scene.nav,banner.uk.description2": "Take 2 mins to learn more",
+  "scene.wallet.menu.new": "NEW",
+  "scene.wallet.menu.try-new-wallet": "Try the new wallet",
   "sceners.reset.2fa_skip_header": "Continue without 2FA?",
   "scenes.accountrecovery.verified": "Account recovery started!",
   "scenes.airdrop.enrolled": "Enrolled",
