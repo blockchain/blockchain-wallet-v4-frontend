@@ -503,7 +503,8 @@ const DynamicRoutingWrapper = () => {
     })
 
     if (availableUI) {
-      // TODO: Route to v5
+      // TODO: Dynamically select between login, login-staging, login-..., etc.
+      window.location.href = 'https://login-staging.blockchain.com/beta'
       return
     }
 
