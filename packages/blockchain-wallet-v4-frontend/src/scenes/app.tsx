@@ -472,10 +472,12 @@ const DynamicRoutingWrapper = () => {
       cookies.set('canary_position', `${canaryPosition}`, { domain: '.blockchain.com', path: '/' })
     }
 
-    // OBTAIN THE THRESHOLD
-    const threshold = Number(process.env.DYNAMIC_ROUTING_THRESHOLD ?? '0')
+    // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
+    const threshold = 20
 
     // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
+    // @ts-ignore
+    // eslint-disable-next-line
     if (threshold === 0) {
       cookies.set('wallet_v5_ui_available', 'false', { domain: '.blockchain.com', path: '/' })
       // eslint-disable-next-line
@@ -503,8 +505,8 @@ const DynamicRoutingWrapper = () => {
     })
 
     if (availableUI) {
-      // TODO: Dynamically select between login, login-staging, login-..., etc.
-      window.location.href = 'https://login-staging.blockchain.com/beta'
+      // Using **WALLET_V5_LINK** as a fallback for webpack builder.
+      window.location.href = process.env.WALLET_V5_URL ?? '**WALLET_V5_LINK**'
       return
     }
 
