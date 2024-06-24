@@ -435,6 +435,13 @@ const DynamicRoutingWrapper = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // TODO: If feature flag dynamicRoutingWalletV5 is false or undefined, setLoading(false); return; end;
+    const dynamicRoutingWalletV5 = false
+    if (!dynamicRoutingWalletV5) {
+      setLoading(false)
+      return
+    }
+
     // OBTAIN FULL PATH BY COMBINING PATHNAME AND HASH (CLIENT-ONLY ROUTING)
     const fullPath = (window.location.pathname + window.location.hash).toLowerCase()
     const excluded = [
