@@ -161,7 +161,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
           // Note: using an obvious redirection issue
           replacement: process.env.DYNAMIC_ROUTING_WALLET_V5
             ? process.env.DYNAMIC_ROUTING_WALLET_V5
-            : ''
+            : envConfig.DYNAMIC_ROUTING_WALLET_V5
         },
         {
           pattern: '**APP_VERSION**',
