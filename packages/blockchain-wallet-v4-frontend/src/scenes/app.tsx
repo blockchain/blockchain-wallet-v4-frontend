@@ -9,12 +9,12 @@ import { PersistGate } from 'redux-persist/integration/react'
 import Cookies from 'universal-cookie'
 import { createClient, Provider as UrqlProvider } from 'urql'
 
+import { getDynamicRoutingWalletV5 } from '@core/redux/walletOptions/selectors'
 import { WalletOptionsType } from '@core/types'
 import { NabuErrorDeepLinkHandler } from 'components/NabuErrorDeepLinkHandler'
 import SiftScience from 'components/SiftScience'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
-import { getDynamicRoutingWalletV5 } from '@core/redux/walletOptions/selectors'
 import { useDefer3rdPartyScript } from 'hooks'
 import AuthLayout from 'layouts/Auth'
 import AuthLoading from 'layouts/Auth/template.loading'
@@ -92,7 +92,6 @@ const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const App = ({
   apiUrl,
-  dynamicRoutingWalletV5,
   history,
   isActiveRewardsEnabled,
   isAuthenticated,
@@ -400,9 +399,6 @@ const mapStateToProps = (state) => ({
   apiUrl: selectors.core.walletOptions.getDomains(state).getOrElse({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
-  dynamicRoutingWalletV5: selectors.core.walletOptions
-    .getDynamicRoutingWalletV5(state)
-    .getOrElse(false),
   isActiveRewardsEnabled: selectors.core.walletOptions
     .getActiveRewardsEnabled(state)
     .getOrElse(false) as boolean,
