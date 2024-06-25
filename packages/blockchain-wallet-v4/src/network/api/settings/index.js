@@ -34,15 +34,6 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const secureUpdateEmail = (guid, sharedKey, email, nabuSessionToken) =>
-    updateSettingsAuthorized(guid, sharedKey, 'secure-update-email', email, nabuSessionToken)
-
-  const secureUpdateMobile = (guid, sharedKey, mobile, nabuSessionToken) =>
-    updateSettingsAuthorized(guid, sharedKey, 'secure-update-sms', mobile, nabuSessionToken)
-
-  // leaving old unsecured enpoints in because above is wrapped in feature flag
-  // in case somethig needs to be rolled back
-
   const updateEmail = (guid, sharedKey, email) =>
     updateSettings(guid, sharedKey, 'update-email', email)
 
@@ -124,8 +115,6 @@ export default ({ authorizedPut, nabuUrl, post, rootUrl }) => {
     getGoogleAuthenticatorSecretUrl,
     getSettings,
     resendVerifyEmail,
-    secureUpdateEmail,
-    secureUpdateMobile,
     sendConfirmationCodeEmail,
     sendEmailConfirmation,
     updateAuthType,
