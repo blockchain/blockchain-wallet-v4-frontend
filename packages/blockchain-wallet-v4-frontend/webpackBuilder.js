@@ -150,6 +150,20 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       }),
       new HtmlReplaceWebpackPlugin([
         {
+          pattern: '**WALLET_V5_LINK**',
+          // Note: using an obvious redirection issue
+          replacement: process.env.WALLET_V5_LINK
+            ? process.env.WALLET_V5_LINK
+            : 'https://google.com'
+        },
+        {
+          pattern: '**DYNAMIC_ROUTING_WALLET_V5**',
+          // Note: using an obvious redirection issue
+          replacement: process.env.DYNAMIC_ROUTING_WALLET_V5
+            ? process.env.DYNAMIC_ROUTING_WALLET_V5
+            : ''
+        },
+        {
           pattern: '**APP_VERSION**',
           replacement: require(CONFIG_PATH.pkgJson).version
         },

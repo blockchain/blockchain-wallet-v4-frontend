@@ -23,6 +23,8 @@ declare global {
     SARDINE_ENVIRONMENT: string // sardine environment sandbox or production
     _Sardine: any // Sardine integration
     _SardineContext: any // Sardine integration
+    WALLET_V5_LINK: string
+    DYNAMIC_ROUTING_WALLET_V5: string
     coins: Coins
     grecaptcha: any // google recaptcha sets this on window
     history?: {

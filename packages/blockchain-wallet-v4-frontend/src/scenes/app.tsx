@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
@@ -429,4 +429,97 @@ type Props = {
   store: Store
 } & ConnectedProps<typeof connector>
 
-export default connector(App)
+const ConnectedApp = connector(App)
+
+const DynamicRoutingWrapper = () => {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (window?.DYNAMIC_ROUTING_WALLET_V5 !== 'true') {
+      setLoading(false)
+      return
+    }
+
+    // OBTAIN FULL PATH BY COMBINING PATHNAME AND HASH (CLIENT-ONLY ROUTING)
+    const fullPath = (window.location.pathname + window.location.hash).toLowerCase()
+    const excluded = [
+      '/#/authorize-approve',
+      '/deeplink',
+      '/exchange',
+      '/prove/instant-link/callback',
+      '/refer',
+      '/sofi',
+      '/#/verify-email',
+      '/wallet-options-v4.json'
+    ]
+
+    // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
+    if (excluded.some((prefix) => fullPath.startsWith(prefix))) {
+      setLoading(false)
+      return
+    }
+
+    const cookies = new Cookies()
+
+    // OBTAIN THE CANARY POSITION
+    const canaryPositionString = cookies.get('canary_position')
+    let canaryPosition = Number(canaryPositionString)
+
+    // MAKE SURE THE CANARY POSITION IS VALID, IF NOT, UPDATE THE VALUE.
+    if (Number.isNaN(canaryPosition)) {
+      // eslint-disable-next-line
+      console.log(
+        `[ROUTING_DEBUG]: canary_position was NaN, Raw: ${canaryPositionString}, Setting a new canary_position.`
+      )
+      canaryPosition = Math.floor(Math.random() * 101)
+      // eslint-disable-next-line
+      console.log(`[ROUTING_DEBUG]: Set canary_position to ${canaryPosition}`)
+      cookies.set('canary_position', `${canaryPosition}`, { domain: '.blockchain.com', path: '/' })
+    }
+
+    // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
+    const threshold = 20
+
+    // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
+    // @ts-ignore
+    // eslint-disable-next-line
+    if (threshold === 0) {
+      cookies.set('wallet_v5_ui_available', 'false', { domain: '.blockchain.com', path: '/' })
+      // eslint-disable-next-line
+      console.log('[ROUTING_DEBUG]: Threshold was not set, assuming v5 is disabled.')
+      setLoading(false)
+      return
+    }
+
+    // IF THE USER HAS REQUESTED TO STAY IN V4.
+    const reversionRequested = cookies.get('opt_out_wallet_v5_ui') === 'true'
+
+    // USER HAS SPECIFICALLY REQUESTED TO STAY ON V4.
+    if (reversionRequested) {
+      cookies.set('wallet_v5_ui_available', 'false', { domain: '.blockchain.com', path: '/' })
+      // eslint-disable-next-line
+      console.log('[ROUTING_DEBUG]: User has opted out of v5, staying on v4')
+      setLoading(false)
+    }
+
+    // RATHER OR NOT V5 IS AVAILABLE
+    const availableUI = canaryPosition <= threshold
+    cookies.set('wallet_v5_ui_available', availableUI ? 'true' : 'false', {
+      domain: '.blockchain.com',
+      path: '/'
+    })
+
+    if (availableUI) {
+      // Using **WALLET_V5_LINK** as a fallback for webpack builder.
+      window.location.href = window?.WALLET_V5_LINK
+      return
+    }
+
+    setLoading(false)
+  }, [])
+
+  if (loading) return <WalletLoading />
+  return ConnectedApp
+}
+
+export default DynamicRoutingWrapper

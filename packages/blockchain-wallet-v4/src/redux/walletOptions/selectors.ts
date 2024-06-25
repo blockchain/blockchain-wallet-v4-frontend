@@ -242,3 +242,7 @@ export const getFiatEntityRemediationAlert = (state: RootState) =>
 // sofi associate before email verification
 export const getAssociateSofiBeforeEmailVerification = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'sofiAssociateUserBeforeEmailVerification']))
+
+// routing for v5
+export const getDynamicRoutingWalletV5 = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'dynamicRoutingWalletV5']))
