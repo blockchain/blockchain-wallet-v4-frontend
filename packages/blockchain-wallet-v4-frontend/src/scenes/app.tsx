@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { connect, ConnectedProps, Provider } from 'react-redux'
+import { connect, ConnectedProps, Provider, useSelector } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { ThemeProvider as ConstellationTP } from '@blockchain-com/constellation'
 import { ConnectedRouter } from 'connected-react-router'
@@ -14,6 +14,7 @@ import { NabuErrorDeepLinkHandler } from 'components/NabuErrorDeepLinkHandler'
 import SiftScience from 'components/SiftScience'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
+import { getDynamicRoutingWalletV5 } from '@core/redux/walletOptions/selectors'
 import { useDefer3rdPartyScript } from 'hooks'
 import AuthLayout from 'layouts/Auth'
 import AuthLoading from 'layouts/Auth/template.loading'
@@ -91,6 +92,7 @@ const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const App = ({
   apiUrl,
+  dynamicRoutingWalletV5,
   history,
   isActiveRewardsEnabled,
   isAuthenticated,
@@ -398,6 +400,9 @@ const mapStateToProps = (state) => ({
   apiUrl: selectors.core.walletOptions.getDomains(state).getOrElse({
     api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
+  dynamicRoutingWalletV5: selectors.core.walletOptions
+    .getDynamicRoutingWalletV5(state)
+    .getOrElse(false),
   isActiveRewardsEnabled: selectors.core.walletOptions
     .getActiveRewardsEnabled(state)
     .getOrElse(false) as boolean,
@@ -433,10 +438,9 @@ const ConnectedApp = connector(App)
 
 const DynamicRoutingWrapper = () => {
   const [loading, setLoading] = useState(true)
+  const dynamicRoutingWalletV5 = useSelector(getDynamicRoutingWalletV5)
 
   useEffect(() => {
-    // TODO: If feature flag dynamicRoutingWalletV5 is false or undefined, setLoading(false); return; end;
-    const dynamicRoutingWalletV5 = false
     if (!dynamicRoutingWalletV5) {
       setLoading(false)
       return
@@ -488,7 +492,7 @@ const DynamicRoutingWrapper = () => {
     if (threshold === 0) {
       cookies.set('wallet_v5_ui_available', 'false', { domain: '.blockchain.com', path: '/' })
       // eslint-disable-next-line
-      console.log("[ROUTING_DEBUG]: Threshold was not set, assuming v5 is disabled.")
+      console.log('[ROUTING_DEBUG]: Threshold was not set, assuming v5 is disabled.')
       setLoading(false)
       return
     }
@@ -500,7 +504,7 @@ const DynamicRoutingWrapper = () => {
     if (reversionRequested) {
       cookies.set('wallet_v5_ui_available', 'false', { domain: '.blockchain.com', path: '/' })
       // eslint-disable-next-line
-      console.log("[ROUTING_DEBUG]: User has opted out of v5, staying on v4")
+      console.log('[ROUTING_DEBUG]: User has opted out of v5, staying on v4')
       setLoading(false)
     }
 
