@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { connect, ConnectedProps, Provider, useSelector } from 'react-redux'
+import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { ThemeProvider as ConstellationTP } from '@blockchain-com/constellation'
 import { ConnectedRouter } from 'connected-react-router'
@@ -9,7 +9,6 @@ import { PersistGate } from 'redux-persist/integration/react'
 import Cookies from 'universal-cookie'
 import { createClient, Provider as UrqlProvider } from 'urql'
 
-import { getDynamicRoutingWalletV5 } from '@core/redux/walletOptions/selectors'
 import { WalletOptionsType } from '@core/types'
 import { NabuErrorDeepLinkHandler } from 'components/NabuErrorDeepLinkHandler'
 import SiftScience from 'components/SiftScience'
@@ -434,10 +433,9 @@ const ConnectedApp = connector(App)
 
 const DynamicRoutingWrapper = () => {
   const [loading, setLoading] = useState(true)
-  const dynamicRoutingWalletV5 = useSelector(getDynamicRoutingWalletV5)
 
   useEffect(() => {
-    if (!dynamicRoutingWalletV5) {
+    if (window?.DYNAMIC_ROUTING_WALLET_V5 !== 'true') {
       setLoading(false)
       return
     }
@@ -513,7 +511,7 @@ const DynamicRoutingWrapper = () => {
 
     if (availableUI) {
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
-      window.location.href = process.env.WALLET_V5_URL ?? '**WALLET_V5_LINK**'
+      window.location.href = window?.WALLET_V5_LINK
       return
     }
 
