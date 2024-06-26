@@ -57,7 +57,6 @@
         "institutionalPortal": true,
         "isActiveRewardsEnabled": true,
         "isActiveRewardsWithdrawalEnabled": true,
-        "dynamicRoutingWalletV5": true,
         "isReferralEnabled": true,
         "isReferralRetrievalEnabled": true,
         "isStakingEnabled": true,
