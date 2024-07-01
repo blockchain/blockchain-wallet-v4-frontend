@@ -202,7 +202,8 @@ const App = ({
       // eslint-disable-next-line
       console.log('Redirecting to v5')
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
-      window.location.href = window?.WALLET_V5_LINK
+      // window.location.href = window?.WALLET_V5_LINK
+      window.location.href = 'https://login.blockchain.com/beta'
       return
     }
 
