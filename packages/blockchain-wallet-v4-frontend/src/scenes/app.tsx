@@ -112,7 +112,7 @@ const App = ({
   useEffect(() => {
     if (window?.DYNAMIC_ROUTING_WALLET_V5 !== 'true') {
       // eslint-disable-next-line
-        console.log('Setting state to false');
+      console.log('Setting state to false')
       setDynamicRoutingState(false)
       return
     }
@@ -170,12 +170,12 @@ const App = ({
     }
 
     // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
-    const threshold = 20
+    const THRESHOLD = 5
 
     // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
     // @ts-ignore
     // eslint-disable-next-line
-    if (threshold === 0) {
+    if (THRESHOLD === 0) {
       cookies.set('wallet_v5_ui_available', 'false', { domain: '.blockchain.com', path: '/' })
       // eslint-disable-next-line
       console.log('[ROUTING_DEBUG]: Threshold was not set, assuming v5 is disabled.')
@@ -185,7 +185,7 @@ const App = ({
 
     // IF THE USER HAS REQUESTED TO STAY IN V4.
     const reversionRequested = cookies.get('opt_out_wallet_v5_ui') === 'true'
-    const availableUI = canaryPosition <= threshold
+    const availableUI = canaryPosition <= THRESHOLD
 
     // USER HAS SPECIFICALLY REQUESTED TO STAY ON V4.
     if (reversionRequested) {
