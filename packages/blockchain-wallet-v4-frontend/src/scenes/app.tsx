@@ -110,9 +110,19 @@ const App = ({
   const [isDynamicRoutingInProgress, setDynamicRoutingState] = useState<boolean>(true)
 
   useEffect(() => {
-    if (window?.DYNAMIC_ROUTING_WALLET_V5 !== 'true') {
+    // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
+    const THRESHOLD = 5
+
+    // GET REFERENCE TO BROWSER COOKIES
+    const cookies = new Cookies()
+
+    // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
+    // @ts-ignore
+    // eslint-disable-next-line
+    if (THRESHOLD === 0) {
+      cookies.set('wallet_v5_ui_available', 'false', { domain: '.blockchain.com', path: '/' })
       // eslint-disable-next-line
-      console.log('Setting state to false')
+      console.log('[ROUTING_DEBUG]: Threshold was not set, assuming v5 is disabled.')
       setDynamicRoutingState(false)
       return
     }
@@ -123,9 +133,6 @@ const App = ({
     // SPLIT IT INTO PARTS TO HANDLE LANGUAGE DETECTION
     const pathSegments = fullPath.split('/').filter(Boolean)
     const firstSegment = pathSegments[0]?.toLowerCase()
-
-    // GET REFERENCE TO BROWSER COOKIES
-    const cookies = new Cookies()
 
     // IF LANGUAGE EXISTS, REMOVE IT FROM THE PATH, NOT NEEDED FOR DYNAMIC ROUTING.
     if (languages.some((lang) => lang.language.toLowerCase() === firstSegment)) {
@@ -167,20 +174,6 @@ const App = ({
       // eslint-disable-next-line
       console.log(`[ROUTING_DEBUG]: Set canary_position to ${canaryPosition}`)
       cookies.set('canary_position', `${canaryPosition}`, { domain: '.blockchain.com', path: '/' })
-    }
-
-    // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
-    const THRESHOLD = 5
-
-    // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
-    // @ts-ignore
-    // eslint-disable-next-line
-    if (THRESHOLD === 0) {
-      cookies.set('wallet_v5_ui_available', 'false', { domain: '.blockchain.com', path: '/' })
-      // eslint-disable-next-line
-      console.log('[ROUTING_DEBUG]: Threshold was not set, assuming v5 is disabled.')
-      setDynamicRoutingState(false)
-      return
     }
 
     // IF THE USER HAS REQUESTED TO STAY IN V4.
