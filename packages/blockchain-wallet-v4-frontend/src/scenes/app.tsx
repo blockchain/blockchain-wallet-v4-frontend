@@ -137,7 +137,7 @@ const App = ({
     // IF LANGUAGE EXISTS, REMOVE IT FROM THE PATH, NOT NEEDED FOR DYNAMIC ROUTING.
     if (languages.some((lang) => lang.language.toLowerCase() === firstSegment)) {
       // UPDATE LANGUAGE COOKIE SO THAT V5 LOADS THE CORRECT LANGUAGE
-      cookies.set('clang', firstSegment.toLowerCase(), { path: '/' })
+      cookies.set('clang', firstSegment.toLowerCase(), { domain: '.blockchain.com', path: '/' })
       // Remove the first segment and join the remaining segments
       pathSegments.shift()
       fullPath = `/${pathSegments.join('/')}`
