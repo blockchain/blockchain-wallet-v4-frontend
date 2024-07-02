@@ -111,7 +111,7 @@ const App = ({
 
   useEffect(() => {
     // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
-    const THRESHOLD = 5
+    const THRESHOLD = 10
 
     // GET REFERENCE TO BROWSER COOKIES
     const cookies = new Cookies()
@@ -202,8 +202,7 @@ const App = ({
       // eslint-disable-next-line
       console.log('Redirecting to v5')
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
-      // window.location.href = window?.WALLET_V5_LINK
-      window.location.href = 'https://login.blockchain.com/beta'
+      window.location.href = window?.WALLET_V5_LINK
       return
     }
 
