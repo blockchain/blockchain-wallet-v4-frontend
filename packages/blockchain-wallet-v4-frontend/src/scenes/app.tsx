@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useMemo, useState } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
@@ -110,10 +110,14 @@ const App = ({
   const [isDynamicRoutingInProgress, setDynamicRoutingState] = useState<boolean>(true)
 
   useEffect(() => {
+    const domain = '.blockchain.com' // 'localhost' // '.blockchain.com';
+
     // GET REFERENCE TO BROWSER COOKIES
     const cookies = new Cookies()
-
-    cookies.set('opt_out_wallet_v5_ui', { domain: 'login.blockchain.com', expires: new Date(0) })
+    cookies.remove('opt_out_wallet_v5_ui', { domain: 'login.blockchain.com' })
+    languages.forEach(({ language }) => {
+      cookies.remove('opt_out_wallet_v5_ui', { domain, path: `/${language}` })
+    })
     // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
     const THRESHOLD = 15
 
@@ -121,7 +125,6 @@ const App = ({
     setTimeout(() => {
       // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
       // @ts-ignore
-      // eslint-disable-next-line
       if (THRESHOLD === 0) {
         cookies.set('wallet_v5_ui_available', 'false', { domain: '.blockchain.com', path: '/' })
         // eslint-disable-next-line
@@ -139,8 +142,16 @@ const App = ({
 
       // IF LANGUAGE EXISTS, REMOVE IT FROM THE PATH, NOT NEEDED FOR DYNAMIC ROUTING.
       if (languages.some((lang) => lang.language.toLowerCase() === firstSegment)) {
+        // HACK TO ENSURE CORRECT DOMAIN/PATH SET
+        languages.forEach(({ language }) => {
+          cookies.remove('clang', { domain, path: `/${language}` })
+        })
+
         // UPDATE LANGUAGE COOKIE SO THAT V5 LOADS THE CORRECT LANGUAGE
-        cookies.set('clang', firstSegment.toLowerCase(), { domain: '.blockchain.com', path: '/' })
+        cookies.set('clang', firstSegment.toLowerCase(), {
+          domain,
+          path: '/'
+        })
         // Remove the first segment and join the remaining segments
         pathSegments.shift()
         fullPath = `/${pathSegments.join('/')}`
@@ -177,7 +188,7 @@ const App = ({
         // eslint-disable-next-line
         console.log(`[ROUTING_DEBUG]: Set canary_position to ${canaryPosition}`)
         cookies.set('canary_position', `${canaryPosition}`, {
-          domain: '.blockchain.com',
+          domain,
           path: '/'
         })
       }
@@ -189,7 +200,7 @@ const App = ({
       // USER HAS SPECIFICALLY REQUESTED TO STAY ON V4.
       if (reversionRequested) {
         cookies.set('wallet_v5_ui_available', availableUI ? 'true' : 'false', {
-          domain: '.blockchain.com',
+          domain,
           path: '/'
         })
         // eslint-disable-next-line
@@ -200,7 +211,7 @@ const App = ({
 
       // RATHER OR NOT V5 IS AVAILABLE
       cookies.set('wallet_v5_ui_available', availableUI ? 'true' : 'false', {
-        domain: '.blockchain.com',
+        domain,
         path: '/'
       })
 
@@ -254,166 +265,187 @@ const App = ({
   const sofiParams = isSofi && window.location.search
   const referralParams = isReferral && window.location.search
 
-  const RoutingStack = (
-    <Switch>
-      {/* Unauthenticated Wallet routes */}
-      <Route path='/app-error' component={AppError} />
-      <Route path='/refer/sofi' component={SofiReferral} exact />
-      <AuthLayout
-        path='/account-recovery'
-        component={VerifyAccountRecovery}
-        pageTitle={`${BLOCKCHAIN_TITLE} | Recovery`}
-      />
-      <AuthLayout
-        path='/continue-on-phone'
-        component={ContinueOnPhone}
-        pageTitle={`${BLOCKCHAIN_TITLE} | Continue on your phone`}
-      />
-      <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
-      <AuthLayout path='/help' component={Help} pageTitle={`${BLOCKCHAIN_TITLE} | Help`} />
-      <AuthLayout
-        path='/help-exchange'
-        component={HelpExchange}
-        pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
-      />
-      <AuthLayout path='/login' component={Login} pageTitle={`${BLOCKCHAIN_TITLE} | Login`} />
-      <AuthLayout path='/logout' component={Logout} />
-      <AuthLayout
-        path='/select-product'
-        component={ProductPicker}
-        pageTitle={`${BLOCKCHAIN_TITLE} | Product Select`}
-      />
-      <AuthLayout
-        path='/mobile-login'
-        component={MobileLogin}
-        pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
-      />
-      {isMnemonicRecoveryEnabled && (
+  const RoutingStack = useMemo(
+    () => (
+      <Switch>
+        {/* Unauthenticated Wallet routes */}
+        <Route path='/app-error' component={AppError} />
+        <Route path='/refer/sofi' component={SofiReferral} exact />
         <AuthLayout
-          path='/recover'
-          component={RecoverWallet}
-          pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
+          path='/account-recovery'
+          component={VerifyAccountRecovery}
+          pageTitle={`${BLOCKCHAIN_TITLE} | Recovery`}
         />
-      )}
-      <AuthLayout
-        path='/reset-2fa'
-        component={ResetWallet2fa}
-        pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
-      />
-      <AuthLayout
-        path='/reset-two-factor'
-        component={ResetWallet2faToken}
-        pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
-      />
-      <AuthLayout
-        path='/setup-two-factor'
-        component={TwoStepVerification}
-        pageTitle={`${BLOCKCHAIN_TITLE} | Setup 2FA`}
-      />
-      <AuthLayout
-        path='/signup/sofi'
-        component={Signup}
-        pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
-      />
-      <AuthLayout
-        path='/login/sofi'
-        component={Login}
-        pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Login`}
-      />
-      <AuthLayout
-        path='/sofi'
-        component={SofiLanding}
-        pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
-      />
-      <AuthLayout
-        path='/sofi-success'
-        component={SofiSignupSuccess}
-        pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
-      />
-      <AuthLayout
-        path='/sofi-error'
-        component={SofiSignupFailure}
-        pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
-      />
-      <AuthLayout
-        path='/sofi-verify'
-        component={SofiVerify}
-        pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
-      />
-      <AuthLayout
-        path='/sofi-mobile'
-        component={ContinueOnMobile}
-        pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
-      />
-      <AuthLayout path='/signup' component={Signup} pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`} />
-      <AuthLayout
-        path='/verify-email'
-        component={VerifyEmailToken}
-        pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
-      />
-      <AuthLayout path='/upload-document/success' component={UploadDocumentsSuccess} exact />
-      <AuthLayout path='/upload-document/:token' component={UploadDocuments} />
-      <AuthLayout path='/upload-document-card/:token' component={UploadDocumentsForDebitCards} />
-      <AuthLayout path='/wallet' component={Login} pageTitle={`${BLOCKCHAIN_TITLE} | Login`} />
-      <AuthLayout
-        path='/verify-email-step'
-        component={VerifyEmail}
-        pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
-      />
-      {isProveEnabled && (
         <AuthLayout
-          path='/prove/instant-link/callback'
-          component={Prove}
-          pageTitle={`${BLOCKCHAIN_TITLE} | Verify Device`}
+          path='/continue-on-phone'
+          component={ContinueOnPhone}
+          pageTitle={`${BLOCKCHAIN_TITLE} | Continue on your phone`}
         />
-      )}
-      {/* DEX routes */}
-      {isDexEnabled && (
-        <DexLayout path='/dex' exact component={Dex} pageTitle={`${BLOCKCHAIN_TITLE} | DEX`} />
-      )}
-      {/* NFT Explorer routes */}
-      {isNftExplorerEnabled && (
-        <NftsLayout path='/nfts/assets/:contract/:id' exact component={NftsAsset} />
-      )}
-      <Route exact path='/nfts'>
-        <Redirect to='/nfts/view' />
-      </Route>
-      {isNftExplorerEnabled && (
-        <NftsLayout
-          path='/nfts/view'
-          exact
-          component={NftsView}
-          pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
+        <AuthLayout path='/authorize-approve' component={AuthorizeLogin} />
+        <AuthLayout path='/help' component={Help} pageTitle={`${BLOCKCHAIN_TITLE} | Help`} />
+        <AuthLayout
+          path='/help-exchange'
+          component={HelpExchange}
+          pageTitle={`${BLOCKCHAIN_TITLE} | Help`}
         />
-      )}
-      {/* Authenticated Wallet routes */}
-      {isDebitCardEnabled && <WalletLayout path='/debit-card' component={DebitCard} />}
-      <WalletLayout path='/airdrops' component={Airdrops} hasUkBanner approvalDate={approvalDate} />
-      <WalletLayout path='/exchange' component={TheExchange} />
-      <WalletLayout path='/home' component={Home} hasUkBanner approvalDate={approvalDate} />
-      <WalletLayout path='/earn' component={Earn} exact hasUkBanner approvalDate={approvalDate} />
-      <WalletLayout path='/earn/history' component={EarnHistory} />
-      {isActiveRewardsEnabled && (
-        <WalletLayout path='/earn/active-rewards-learn' component={ActiveRewardsLearn} />
-      )}
-      <WalletLayout path='/security-center' component={SecurityCenter} />
-      <WalletLayout path='/settings/addresses' component={Addresses} />
-      <WalletLayout path='/settings/general' component={General} />
-      <WalletLayout path='/settings/preferences' component={Preferences} />
-      <WalletLayout path='/prices' component={Prices} hasUkBanner approvalDate={approvalDate} />
-      <WalletLayout path='/tax-center' component={TaxCenter} />
-      <WalletLayout
-        path='/coins/:coin'
-        component={isCoinViewV2Enabled ? CoinPage : Transactions}
-        hideMenu={isCoinViewV2Enabled}
-        center={isCoinViewV2Enabled}
-        removeContentPadding
-        hasUkBanner
-      />
-      {isSofi && window.location.replace(`/#/sofi${sofiParams}`)}
-      {isReferral && window.location.replace(`/#/refer/sofi${referralParams}`)}
-      {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
-    </Switch>
+        <AuthLayout path='/login' component={Login} pageTitle={`${BLOCKCHAIN_TITLE} | Login`} />
+        <AuthLayout path='/logout' component={Logout} />
+        <AuthLayout
+          path='/select-product'
+          component={ProductPicker}
+          pageTitle={`${BLOCKCHAIN_TITLE} | Product Select`}
+        />
+        <AuthLayout
+          path='/mobile-login'
+          component={MobileLogin}
+          pageTitle={`${BLOCKCHAIN_TITLE} | Login`}
+        />
+        {isMnemonicRecoveryEnabled && (
+          <AuthLayout
+            path='/recover'
+            component={RecoverWallet}
+            pageTitle={`${BLOCKCHAIN_TITLE} | Recover`}
+          />
+        )}
+        <AuthLayout
+          path='/reset-2fa'
+          component={ResetWallet2fa}
+          pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
+        />
+        <AuthLayout
+          path='/reset-two-factor'
+          component={ResetWallet2faToken}
+          pageTitle={`${BLOCKCHAIN_TITLE} | Reset 2FA`}
+        />
+        <AuthLayout
+          path='/setup-two-factor'
+          component={TwoStepVerification}
+          pageTitle={`${BLOCKCHAIN_TITLE} | Setup 2FA`}
+        />
+        <AuthLayout
+          path='/signup/sofi'
+          component={Signup}
+          pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+        />
+        <AuthLayout
+          path='/login/sofi'
+          component={Login}
+          pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Login`}
+        />
+        <AuthLayout
+          path='/sofi'
+          component={SofiLanding}
+          pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+        />
+        <AuthLayout
+          path='/sofi-success'
+          component={SofiSignupSuccess}
+          pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+        />
+        <AuthLayout
+          path='/sofi-error'
+          component={SofiSignupFailure}
+          pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+        />
+        <AuthLayout
+          path='/sofi-verify'
+          component={SofiVerify}
+          pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+        />
+        <AuthLayout
+          path='/sofi-mobile'
+          component={ContinueOnMobile}
+          pageTitle={`${BLOCKCHAIN_TITLE} | SoFi Signup`}
+        />
+        <AuthLayout path='/signup' component={Signup} pageTitle={`${BLOCKCHAIN_TITLE} | Sign up`} />
+        <AuthLayout
+          path='/verify-email'
+          component={VerifyEmailToken}
+          pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
+        />
+        <AuthLayout path='/upload-document/success' component={UploadDocumentsSuccess} exact />
+        <AuthLayout path='/upload-document/:token' component={UploadDocuments} />
+        <AuthLayout path='/upload-document-card/:token' component={UploadDocumentsForDebitCards} />
+        <AuthLayout path='/wallet' component={Login} pageTitle={`${BLOCKCHAIN_TITLE} | Login`} />
+        <AuthLayout
+          path='/verify-email-step'
+          component={VerifyEmail}
+          pageTitle={`${BLOCKCHAIN_TITLE} | Verify Email`}
+        />
+        {isProveEnabled && (
+          <AuthLayout
+            path='/prove/instant-link/callback'
+            component={Prove}
+            pageTitle={`${BLOCKCHAIN_TITLE} | Verify Device`}
+          />
+        )}
+        {/* DEX routes */}
+        {isDexEnabled && (
+          <DexLayout path='/dex' exact component={Dex} pageTitle={`${BLOCKCHAIN_TITLE} | DEX`} />
+        )}
+        {/* NFT Explorer routes */}
+        {isNftExplorerEnabled && (
+          <NftsLayout path='/nfts/assets/:contract/:id' exact component={NftsAsset} />
+        )}
+        <Route exact path='/nfts'>
+          <Redirect to='/nfts/view' />
+        </Route>
+        {isNftExplorerEnabled && (
+          <NftsLayout
+            path='/nfts/view'
+            exact
+            component={NftsView}
+            pageTitle={`${BLOCKCHAIN_TITLE} | NFT Explorer`}
+          />
+        )}
+        {/* Authenticated Wallet routes */}
+        {isDebitCardEnabled && <WalletLayout path='/debit-card' component={DebitCard} />}
+        <WalletLayout
+          path='/airdrops'
+          component={Airdrops}
+          hasUkBanner
+          approvalDate={approvalDate}
+        />
+        <WalletLayout path='/exchange' component={TheExchange} />
+        <WalletLayout path='/home' component={Home} hasUkBanner approvalDate={approvalDate} />
+        <WalletLayout path='/earn' component={Earn} exact hasUkBanner approvalDate={approvalDate} />
+        <WalletLayout path='/earn/history' component={EarnHistory} />
+        {isActiveRewardsEnabled && (
+          <WalletLayout path='/earn/active-rewards-learn' component={ActiveRewardsLearn} />
+        )}
+        <WalletLayout path='/security-center' component={SecurityCenter} />
+        <WalletLayout path='/settings/addresses' component={Addresses} />
+        <WalletLayout path='/settings/general' component={General} />
+        <WalletLayout path='/settings/preferences' component={Preferences} />
+        <WalletLayout path='/prices' component={Prices} hasUkBanner approvalDate={approvalDate} />
+        <WalletLayout path='/tax-center' component={TaxCenter} />
+        <WalletLayout
+          path='/coins/:coin'
+          component={isCoinViewV2Enabled ? CoinPage : Transactions}
+          hideMenu={isCoinViewV2Enabled}
+          center={isCoinViewV2Enabled}
+          removeContentPadding
+          hasUkBanner
+        />
+        {isSofi && window.location.replace(`/#/sofi${sofiParams}`)}
+        {isReferral && window.location.replace(`/#/refer/sofi${referralParams}`)}
+        {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
+      </Switch>
+    ),
+    [
+      isActiveRewardsEnabled,
+      isAuthenticated,
+      isCoinViewV2Enabled,
+      isDebitCardEnabled,
+      isDexEnabled,
+      isMnemonicRecoveryEnabled,
+      isNftExplorerEnabled,
+      isProveEnabled,
+      isReferral,
+      isSofi,
+      referralParams,
+      sofiParams
+    ]
   )
 
   return (
