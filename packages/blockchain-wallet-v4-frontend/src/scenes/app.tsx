@@ -119,7 +119,7 @@ const App = ({
       cookies.remove('opt_out_wallet_v5_ui', { domain, path: `/${language}` })
     })
     // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
-    const THRESHOLD = 15
+    const THRESHOLD = 30
 
     // temporary hack and will be removed in next version
     setTimeout(() => {
