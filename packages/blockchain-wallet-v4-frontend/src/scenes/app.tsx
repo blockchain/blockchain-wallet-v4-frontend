@@ -429,7 +429,7 @@ const App = ({
                       <UrqlProvider value={client}>
                         <ConnectedRouter history={history}>
                           <Suspense fallback={<Loading />}>
-                            {isDynamicRoutingInProgress ? RoutingStack : <Loading />}
+                            {isDynamicRoutingInProgress ? <Loading /> : RoutingStack}
                           </Suspense>
                         </ConnectedRouter>
                         <SiftScience userId={userDataId} />
