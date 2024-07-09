@@ -17,11 +17,10 @@ export const Divider = () => (
 
 const SuperAppLink = () => {
   const isSuperAppEnabled = useSelector(getIsSuperAppEnabled).getOrElse(false)
-  const cookies = new Cookies()
-  const hasSuperAppAccess = cookies.get('wallet_v5_ui_available')
+  const hasSuperAppAccess = localStorage.getItem('wallet_v5_ui_available') === 'true'
 
   const handleClick = () => {
-    cookies.set('opt_out_wallet_v5_ui', 'false', { domain: '.blockchain.com', path: '/' })
+    localStorage.set('opt_out_wallet_v5_ui', false)
     window.location.reload()
   }
 

@@ -110,121 +110,118 @@ const App = ({
   const [isDynamicRoutingInProgress, setDynamicRoutingState] = useState<boolean>(true)
 
   useEffect(() => {
-    const domain = '.blockchain.com' // 'localhost' // '.blockchain.com';
-
-    // GET REFERENCE TO BROWSER COOKIES
+    // Used to get cached values from old implementation, if they exist.
     const cookies = new Cookies()
-    cookies.remove('opt_out_wallet_v5_ui', { domain: 'login.blockchain.com' })
-    languages.forEach(({ language }) => {
-      cookies.remove('opt_out_wallet_v5_ui', { domain, path: `/${language}` })
-    })
+    const cache = {
+      canary_position: cookies.get('canary_position'),
+      opt_out_wallet_v5_ui: cookies.get('opt_out_wallet_v5_ui')
+    }
+
+    // Update localStorage cache with current values, if exists.
+    if (localStorage.getItem('canary_position') === null && cache.canary_position) {
+      localStorage.setItem('canary_position', `${cache.canary_position}`)
+    }
+
+    // Update localStorage cache with current values, if exists.
+    if (localStorage.getItem('opt_out_wallet_v5_ui') === null && cache.opt_out_wallet_v5_ui) {
+      localStorage.setItem('opt_out_wallet_v5_ui', cache.opt_out_wallet_v5_ui)
+    }
+
     // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
-    const THRESHOLD = 15
+    const THRESHOLD = 30
 
-    // temporary hack and will be removed in next version
-    setTimeout(() => {
-      // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
-      // @ts-ignore
-      if (THRESHOLD === 0) {
-        cookies.set('wallet_v5_ui_available', 'false', { domain: '.blockchain.com', path: '/' })
-        // eslint-disable-next-line
+    // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
+    // @ts-ignore
+    if (THRESHOLD === 0) {
+      localStorage.setItem('wallet_v5_ui_available', 'false')
+      // eslint-disable-next-line
         console.log('[ROUTING_DEBUG]: Threshold was not set, assuming v5 is disabled.')
-        setDynamicRoutingState(false)
-        return
-      }
+      setDynamicRoutingState(false)
+      return
+    }
 
-      // OBTAIN FULL PATH BY COMBINING PATHNAME AND HASH (CLIENT-ONLY ROUTING)
-      let fullPath = (window.location.pathname + window.location.hash).toLowerCase()
+    // OBTAIN FULL PATH BY COMBINING PATHNAME AND HASH (CLIENT-ONLY ROUTING)
+    let fullPath = (window.location.pathname + window.location.hash).toLowerCase()
 
-      // SPLIT IT INTO PARTS TO HANDLE LANGUAGE DETECTION
-      const pathSegments = fullPath.split('/').filter(Boolean)
-      const firstSegment = pathSegments[0]?.toLowerCase()
+    // SPLIT IT INTO PARTS TO HANDLE LANGUAGE DETECTION
+    const pathSegments = fullPath.split('/').filter(Boolean)
+    const firstSegment = pathSegments[0]?.toLowerCase()
 
-      // IF LANGUAGE EXISTS, REMOVE IT FROM THE PATH, NOT NEEDED FOR DYNAMIC ROUTING.
-      if (languages.some((lang) => lang.language.toLowerCase() === firstSegment)) {
-        // HACK TO ENSURE CORRECT DOMAIN/PATH SET
-        languages.forEach(({ language }) => {
-          cookies.remove('clang', { domain, path: `/${language}` })
-        })
-
-        // UPDATE LANGUAGE COOKIE SO THAT V5 LOADS THE CORRECT LANGUAGE
-        cookies.set('clang', firstSegment.toLowerCase(), {
-          domain,
-          path: '/'
-        })
-        // Remove the first segment and join the remaining segments
-        pathSegments.shift()
-        fullPath = `/${pathSegments.join('/')}`
-      }
-
-      const excluded = [
-        '/#/authorize-approve',
-        '/deeplink',
-        '/exchange',
-        '/prove/instant-link/callback',
-        '/refer',
-        '/sofi',
-        '/#/verify-email',
-        '/wallet-options-v4.json'
-      ]
-
-      // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
-      if (excluded.some((prefix) => fullPath.startsWith(prefix))) {
-        setDynamicRoutingState(false)
-        return
-      }
-
-      // OBTAIN THE CANARY POSITION
-      const canaryPositionString = cookies.get('canary_position')
-      let canaryPosition = Number(canaryPositionString)
-
-      // MAKE SURE THE CANARY POSITION IS VALID, IF NOT, UPDATE THE VALUE.
-      if (Number.isNaN(canaryPosition)) {
-        // eslint-disable-next-line
-        console.log(
-          `[ROUTING_DEBUG]: canary_position was NaN, Raw: ${canaryPositionString}, Setting a new canary_position.`
-        )
-        canaryPosition = Math.floor(Math.random() * 101)
-        // eslint-disable-next-line
-        console.log(`[ROUTING_DEBUG]: Set canary_position to ${canaryPosition}`)
-        cookies.set('canary_position', `${canaryPosition}`, {
-          domain,
-          path: '/'
-        })
-      }
-
-      // IF THE USER HAS REQUESTED TO STAY IN V4.
-      const reversionRequested = cookies.get('opt_out_wallet_v5_ui') === 'true'
-      const availableUI = canaryPosition <= THRESHOLD
-
-      // USER HAS SPECIFICALLY REQUESTED TO STAY ON V4.
-      if (reversionRequested) {
-        cookies.set('wallet_v5_ui_available', availableUI ? 'true' : 'false', {
-          domain,
-          path: '/'
-        })
-        // eslint-disable-next-line
-        console.log('[ROUTING_DEBUG]: User has opted out of v5, staying on v4')
-        setDynamicRoutingState(false)
-        return
-      }
-
-      // RATHER OR NOT V5 IS AVAILABLE
-      cookies.set('wallet_v5_ui_available', availableUI ? 'true' : 'false', {
-        domain,
-        path: '/'
+    // IF LANGUAGE EXISTS, REMOVE IT FROM THE PATH, NOT NEEDED FOR DYNAMIC ROUTING.
+    if (languages.some((lang) => lang.language.toLowerCase() === firstSegment)) {
+      // HACK TO ENSURE CORRECT DOMAIN/PATH SET
+      languages.forEach(({ language }) => {
+        cookies.remove('clang', { domain: '.blockchain.com', path: `/${language}` })
       })
 
-      if (availableUI) {
-        // eslint-disable-next-line
-        console.log('Redirecting to v5')
-        // Using **WALLET_V5_LINK** as a fallback for webpack builder.
-        window.location.href = window?.WALLET_V5_LINK
-        return
-      }
+      // UPDATE LANGUAGE COOKIE SO THAT V5 LOADS THE CORRECT LANGUAGE
+      cookies.set('clang', firstSegment.toLowerCase(), {
+        domain: '.blockchain.com',
+        path: '/'
+      })
+      // Remove the first segment and join the remaining segments
+      pathSegments.shift()
+      fullPath = `/${pathSegments.join('/')}`
+    }
 
+    const excluded = [
+      '/#/authorize-approve',
+      '/deeplink',
+      '/exchange',
+      '/prove/instant-link/callback',
+      '/refer',
+      '/sofi',
+      '/#/verify-email',
+      '/wallet-options-v4.json'
+    ]
+
+    // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
+    if (excluded.some((prefix) => fullPath.startsWith(prefix))) {
       setDynamicRoutingState(false)
-    }, 10)
+      return
+    }
+
+    // OBTAIN THE CANARY POSITION
+    const canaryPositionString = localStorage.getItem('canary_position')
+    let canaryPosition = Number(canaryPositionString)
+
+    // MAKE SURE THE CANARY POSITION IS VALID, IF NOT, UPDATE THE VALUE.
+    if (Number.isNaN(canaryPosition)) {
+      // eslint-disable-next-line
+        console.log(
+        `[ROUTING_DEBUG]: canary_position was NaN, Raw: ${canaryPositionString}, Setting a new canary_position.`
+      )
+      canaryPosition = Math.floor(Math.random() * 101)
+      // eslint-disable-next-line
+        console.log(`[ROUTING_DEBUG]: Set canary_position to ${canaryPosition}`)
+      localStorage.set('canary_position', `${canaryPosition}`)
+    }
+
+    // IF THE USER HAS REQUESTED TO STAY IN V4.
+    const reversionRequested = localStorage.getItem('opt_out_wallet_v5_ui') === 'true'
+    const availableUI = canaryPosition <= THRESHOLD
+
+    // USER HAS SPECIFICALLY REQUESTED TO STAY ON V4.
+    if (reversionRequested) {
+      localStorage.setItem('wallet_v5_ui_available', availableUI ? 'true' : 'false')
+      // eslint-disable-next-line
+        console.log('[ROUTING_DEBUG]: User has opted out of v5, staying on v4')
+      setDynamicRoutingState(false)
+      return
+    }
+
+    // RATHER OR NOT V5 IS AVAILABLE
+    localStorage.setItem('wallet_v5_ui_available', availableUI ? 'true' : 'false')
+
+    if (availableUI) {
+      // eslint-disable-next-line
+        console.log('Redirecting to v5')
+      // Using **WALLET_V5_LINK** as a fallback for webpack builder.
+      window.location.href = window?.WALLET_V5_LINK
+      return
+    }
+
+    setDynamicRoutingState(false)
   }, [])
 
   // parse and log UTMs
