@@ -124,7 +124,7 @@ const App = ({
 
     // Update localStorage cache with current values, if exists.
     if (localStorage.getItem('opt_out_wallet_v5_ui') === null && cache.opt_out_wallet_v5_ui) {
-      localStorage.setItem('opt_out_wallet_v5_ui', cache.opt_out_wallet_v5_ui)
+      localStorage.setItem('opt_out_wallet_v5_ui', JSON.stringify(cache.opt_out_wallet_v5_ui))
     }
 
     // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
@@ -135,7 +135,7 @@ const App = ({
     if (THRESHOLD === 0) {
       localStorage.setItem('wallet_v5_ui_available', 'false')
       // eslint-disable-next-line
-        console.log('[ROUTING_DEBUG]: Threshold was not set, assuming v5 is disabled.')
+      console.log('[ROUTING_DEBUG]: Threshold was not set, assuming v5 is disabled.')
       setDynamicRoutingState(false)
       return
     }
@@ -188,12 +188,12 @@ const App = ({
     // MAKE SURE THE CANARY POSITION IS VALID, IF NOT, UPDATE THE VALUE.
     if (Number.isNaN(canaryPosition)) {
       // eslint-disable-next-line
-        console.log(
+      console.log(
         `[ROUTING_DEBUG]: canary_position was NaN, Raw: ${canaryPositionString}, Setting a new canary_position.`
       )
       canaryPosition = Math.floor(Math.random() * 101)
       // eslint-disable-next-line
-        console.log(`[ROUTING_DEBUG]: Set canary_position to ${canaryPosition}`)
+      console.log(`[ROUTING_DEBUG]: Set canary_position to ${canaryPosition}`)
       localStorage.set('canary_position', `${canaryPosition}`)
     }
 
@@ -205,7 +205,7 @@ const App = ({
     if (reversionRequested) {
       localStorage.setItem('wallet_v5_ui_available', availableUI ? 'true' : 'false')
       // eslint-disable-next-line
-        console.log('[ROUTING_DEBUG]: User has opted out of v5, staying on v4')
+      console.log('[ROUTING_DEBUG]: User has opted out of v5, staying on v4')
       setDynamicRoutingState(false)
       return
     }
@@ -215,7 +215,7 @@ const App = ({
 
     if (availableUI) {
       // eslint-disable-next-line
-        console.log('Redirecting to v5')
+      console.log('Redirecting to v5')
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
       window.location.href = window?.WALLET_V5_LINK
       return

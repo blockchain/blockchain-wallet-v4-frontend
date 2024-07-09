@@ -20,7 +20,7 @@ const SuperAppLink = () => {
   const hasSuperAppAccess = localStorage.getItem('wallet_v5_ui_available') === 'true'
 
   const handleClick = () => {
-    localStorage.set('opt_out_wallet_v5_ui', false)
+    localStorage.setItem('opt_out_wallet_v5_ui', 'false')
     window.location.reload()
   }
 
