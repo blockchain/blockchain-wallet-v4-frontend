@@ -185,16 +185,23 @@ const App = ({
     const canaryPositionString = localStorage.getItem('canary_position')
     let canaryPosition = Number(canaryPositionString)
 
+    const setCanaryPosition = () => {
+      canaryPosition = Math.floor(Math.random() * 101)
+      localStorage.setItem('canary_position', `${canaryPosition}`)
+    }
+
+    // IF THE CANARY POSITION DOES NOT EXIST, GENERATE A NEW ONE.
+    if (canaryPositionString === null || canaryPositionString === undefined) setCanaryPosition()
+
     // MAKE SURE THE CANARY POSITION IS VALID, IF NOT, UPDATE THE VALUE.
     if (Number.isNaN(canaryPosition)) {
       // eslint-disable-next-line
       console.log(
         `[ROUTING_DEBUG]: canary_position was NaN, Raw: ${canaryPositionString}, Setting a new canary_position.`
       )
-      canaryPosition = Math.floor(Math.random() * 101)
+      setCanaryPosition()
       // eslint-disable-next-line
       console.log(`[ROUTING_DEBUG]: Set canary_position to ${canaryPosition}`)
-      localStorage.set('canary_position', `${canaryPosition}`)
     }
 
     // IF THE USER HAS REQUESTED TO STAY IN V4.
