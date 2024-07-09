@@ -21,7 +21,7 @@ const SuperAppLink = () => {
   const hasSuperAppAccess = cookies.get('wallet_v5_ui_available')
 
   const handleClick = () => {
-    cookies.set('opt_out_wallet_v5_ui', 'false', { domain: '.blockchain.com', path: '/' })
+    localStorage.setItem('wallet_v5_ui_available', 'false')
     window.location.reload()
   }
 
