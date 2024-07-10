@@ -629,6 +629,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             everypay: {
               customerUrl: paymentSuccessLink
             },
+            isAsync: true,
             paymentContact: address
               ? {
                   city: address.locality,
@@ -727,6 +728,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               customerUrl: paymentSuccessLink
             },
             googlePayPayload: token,
+            isAsync: true,
             paymentContact: address
               ? {
                   city: address.locality,
