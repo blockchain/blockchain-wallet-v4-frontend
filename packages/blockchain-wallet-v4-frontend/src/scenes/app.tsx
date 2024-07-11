@@ -172,6 +172,7 @@ const App = ({
       '/refer',
       '/sofi',
       '/#/verify-email',
+      '/#/login?product=exchange',
       '/wallet-options-v4.json'
     ]
 
