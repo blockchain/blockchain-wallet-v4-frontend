@@ -446,9 +446,12 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.startLogoutTimer())
       yield call(startCoinWebsockets)
       // store guid and email in cache for future login
-      yield put(actions.cache.guidEntered(guid))
       if (email) {
         yield put(actions.cache.emailStored(email))
+        localStorage.setItem('loginIdentifier', email)
+      } else if (guid) {
+        yield put(actions.cache.guidEntered(guid))
+        localStorage.setItem('loginIdentifier', guid)
       }
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
@@ -851,6 +854,7 @@ export default ({ api, coreSagas, networks }) => {
         case guidFromQueryParams !== null && emailFromQueryParams !== null:
           yield put(actions.router.push(DEFAULT_WALLET_LOGIN))
           yield put(actions.cache.emailStored(emailFromQueryParams))
+          localStorage.setItem('loginIdentifier', emailFromQueryParams)
           yield put(actions.cache.guidStored(guidFromQueryParams))
           yield put(actions.form.change(LOGIN_FORM, 'guid', guidFromQueryParams))
           yield put(actions.form.change(LOGIN_FORM, 'email', emailFromQueryParams))
