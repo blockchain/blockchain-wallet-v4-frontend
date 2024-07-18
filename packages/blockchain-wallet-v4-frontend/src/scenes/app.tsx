@@ -173,7 +173,9 @@ const App = ({
       '/sofi',
       '/#/verify-email',
       '/#/login?product=exchange',
-      '/wallet-options-v4.json'
+      '/wallet-options-v4.json',
+      '/#/prove',
+      '/#/reset-two-factor'
     ]
 
     // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
