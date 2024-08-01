@@ -57,7 +57,7 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
             <Text color='grey900' size='24px' weight={600}>
               <FormattedMessage
                 id='scenes.securitysettings.basicsecurity.seceretphrase.title'
-                defaultMessage='Secret Private Key Recovery Phrase'
+                defaultMessage='Recovery Phrase'
               />
             </Text>
           </Header>
@@ -95,7 +95,7 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
           <Text color='grey600' size='14px' weight={500} lineHeight='1.5'>
             <FormattedMessage
               id='modals.recoveryphrase.backupyourwallet.content.three_update'
-              defaultMessage='3. NEVER share your Secret Private Key Recovery Phrase with anyone.'
+              defaultMessage='3. NEVER share your Recovery Phrase with anyone.'
             />
           </Text>
           <Text
@@ -107,7 +107,7 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
           >
             <FormattedMessage
               id='modals.recoveryphrase.backupyourwallet.content.warning'
-              defaultMessage='Warning: If someone has your Secret Private Key Recovery Phrase they will have access to your DeFi Wallet and can withdraw funds.'
+              defaultMessage='Warning: If someone has your Recovery Phrase they will have access to your DeFi Wallet and can withdraw funds.'
             />
           </Text>
           <WarningContent>
@@ -121,7 +121,7 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
             <Text color='error' weight={600} style={{ marginLeft: '20px' }}>
               <FormattedMessage
                 id='modals.recoveryphrase.backupyourwallet.content.warningtwo_new'
-                defaultMessage='Blockchain.com will never ask to view or receive your Secret Private Key Recovery Phrase.'
+                defaultMessage='Blockchain.com will never ask to view or receive your Recovery Phrase.'
               />
             </Text>
           </WarningContent>
@@ -138,7 +138,7 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
           >
             <FormattedMessage
               id='modals.recoveryphrase.backupyourwallet.viewsecretphrase'
-              defaultMessage='View Secret Private Key Recovery Phrase'
+              defaultMessage='View Recovery Phrase'
             />
           </Button>
           <Button

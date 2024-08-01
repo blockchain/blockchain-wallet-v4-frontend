@@ -501,7 +501,7 @@ const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.mnemonic_verify_success_new'
-          defaultMessage='Your Secret Private Key Recovery Phrase has been verified!'
+          defaultMessage='Your Recovery Phrase has been verified!'
         />
       )
     case C.MOBILE_CODE_SENT_ERROR:

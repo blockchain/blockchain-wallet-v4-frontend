@@ -66,7 +66,7 @@ const BchImportedAddresses = (props) => {
           <SubTitleHeader>
             <FormattedMessage
               id='scenes.settings.addresses.bch.importedaddresses.desc'
-              defaultMessage='Imported funds are not protected by your Secret Private Key Recovery Phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
+              defaultMessage='Imported funds are not protected by your Recovery Phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
             />
           </SubTitleHeader>
         </div>
