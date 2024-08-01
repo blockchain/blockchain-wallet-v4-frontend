@@ -633,7 +633,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             paymentContact: address
               ? {
                   city: address.locality,
-                  country: address.country,
+                  country: address.countryCode,
                   email: address.emailAddress,
                   firstname: address.givenName,
                   lastname: address.familyName,
