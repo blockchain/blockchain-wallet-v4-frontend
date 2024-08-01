@@ -200,7 +200,7 @@ const SecurityCenter = (props) => {
                   {!isMobile() && (
                     <FormattedMessage
                       id='scenes.securitycenter.steps.step3.savephrase'
-                      defaultMessage='Save Secret Private Key Recovery Phrase'
+                      defaultMessage='Save Recovery Phrase'
                     />
                   )}
                 </StepText>

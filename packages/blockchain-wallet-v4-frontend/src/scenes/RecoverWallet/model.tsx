@@ -33,7 +33,7 @@ export const placeholder = () => {
   return (
     <FormattedMessage
       id='scenes.recover.firststep.placeholder'
-      defaultMessage='Enter your secret private key recovery phrase'
+      defaultMessage='Enter your recovery phrase'
     />
   )
 }

@@ -127,7 +127,7 @@ const Success = ({
           <Description>
             <FormattedMessage
               id='scenes.settings.addresses.btc.importedaddresses.success.description1'
-              defaultMessage='Imported funds are not protected by your Secret Private Key Recovery Phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
+              defaultMessage='Imported funds are not protected by your Recovery Phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
             />
           </Description>
         </div>

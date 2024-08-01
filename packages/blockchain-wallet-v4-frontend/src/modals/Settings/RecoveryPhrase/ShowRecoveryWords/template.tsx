@@ -52,14 +52,14 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
           <Text color='grey800' size='20px' weight={600}>
             <FormattedMessage
               id='modals.recoveryphrase.firstsetwords.header_new'
-              defaultMessage='Secret Private Key Recovery Phrase'
+              defaultMessage='Recovery Phrase'
             />
           </Text>
         </Header>
         <Text color='grey600' weight={500}>
           <FormattedMessage
             id='modals.recoveryphrase.firstsetwords.body_new'
-            defaultMessage='Carefully write down these 12 words in order. Do not email or screenshot your Secret Private Key Recovery Phrase.'
+            defaultMessage='Carefully write down these 12 words in order. Do not email or screenshot your Recovery Phrase.'
           />
         </Text>
       </FlyoutWrapper>

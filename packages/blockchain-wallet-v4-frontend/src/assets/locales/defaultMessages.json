@@ -255,7 +255,7 @@
         "id": "components.alerts.message_sign_error"
       },
       {
-        "defaultMessage": "Your Secret Private Key Recovery Phrase has been verified!",
+        "defaultMessage": "Your Recovery Phrase has been verified!",
         "id": "components.alerts.mnemonic_verify_success_new"
       },
       {
@@ -2605,7 +2605,7 @@
         "id": "modals.transfereth.title1"
       },
       {
-        "defaultMessage": "As we leave our beta program we want to make sure your Secret Private Key Recovery Phrase is compatible with other Ethereum wallets.",
+        "defaultMessage": "As we leave our beta program we want to make sure your Recovery Phrase is compatible with other Ethereum wallets.",
         "id": "modals.transfereth.para1_new"
       },
       {
@@ -3435,7 +3435,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Secret Private Key Recovery Phrase",
+        "defaultMessage": "Recovery Phrase",
         "id": "scenes.securitysettings.basicsecurity.seceretphrase.title"
       },
       {
@@ -3455,19 +3455,19 @@
         "id": "modals.recoveryphrase.backupyourwallet.content.two"
       },
       {
-        "defaultMessage": "3. NEVER share your Secret Private Key Recovery Phrase with anyone.",
+        "defaultMessage": "3. NEVER share your Recovery Phrase with anyone.",
         "id": "modals.recoveryphrase.backupyourwallet.content.three_update"
       },
       {
-        "defaultMessage": "Warning: If someone has your Secret Private Key Recovery Phrase they will have access to your Private Key Wallet and can withdraw funds.",
+        "defaultMessage": "Warning: If someone has your Recovery Phrase they will have access to your Private Key Wallet and can withdraw funds.",
         "id": "modals.recoveryphrase.backupyourwallet.content.warning"
       },
       {
-        "defaultMessage": "Blockchain.com will never ask to view or receive your Secret Private Key Recovery Phrase.",
+        "defaultMessage": "Blockchain.com will never ask to view or receive your Recovery Phrase.",
         "id": "modals.recoveryphrase.backupyourwallet.content.warningtwo_new"
       },
       {
-        "defaultMessage": "View Secret Private Key Recovery Phrase",
+        "defaultMessage": "View Recovery Phrase",
         "id": "modals.recoveryphrase.backupyourwallet.viewsecretphrase"
       },
       {
@@ -3480,11 +3480,11 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Secret Private Key Recovery Phrase",
+        "defaultMessage": "Recovery Phrase",
         "id": "modals.recoveryphrase.firstsetwords.header_new"
       },
       {
-        "defaultMessage": "Carefully write down these 12 words in order. Do not email or screenshot your Secret Private Key Recovery Phrase.",
+        "defaultMessage": "Carefully write down these 12 words in order. Do not email or screenshot your Recovery Phrase.",
         "id": "modals.recoveryphrase.firstsetwords.body_new"
       },
       {
@@ -5881,7 +5881,7 @@
         "id": "scenes.help.forgotpassword"
       },
       {
-        "defaultMessage": "Use your 12 word Secret Private Key Recovery Phrase to access your Wallet.",
+        "defaultMessage": "Use your 12 word Recovery Phrase to access your Wallet.",
         "id": "scenes.help.password.explain_phrase"
       },
       {
@@ -6692,7 +6692,7 @@
         "id": "scenes.register.backupphrase1"
       },
       {
-        "defaultMessage": "Secret Private Key Recovery Phrase",
+        "defaultMessage": "Recovery Phrase",
         "id": "scenes.securitysettings.basicsecurity.secretrecoveryphrase.title"
       },
       {
@@ -6892,7 +6892,7 @@
         "id": "scenes.settings.addresses.btc.importedaddresses.success.title"
       },
       {
-        "defaultMessage": "Imported funds are not protected by your Secret Private Key Recovery Phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
+        "defaultMessage": "Imported funds are not protected by your Recovery Phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
         "id": "scenes.settings.addresses.btc.importedaddresses.success.description1"
       },
       {
@@ -11243,7 +11243,7 @@
         "id": "scenes.recover.firststep.warning"
       },
       {
-        "defaultMessage": "Your Secret Private Key Recovery Phrase",
+        "defaultMessage": "Your Recovery Phrase",
         "id": "scenes.recover.firststep.mnemonic1"
       },
       {
@@ -11559,7 +11559,7 @@
         "id": "scenes.securitysettings.advanced.secondpasswordwallet.settings.set"
       },
       {
-        "defaultMessage": "We highly recommend you backup your wallet's Secret Private Key Recovery Phrase before setting a second password.",
+        "defaultMessage": "We highly recommend you backup your wallet's Recovery Phrase before setting a second password.",
         "id": "scenes.securitysettings.advanced.secondpasswordwallet.settings.phrase_warning"
       },
       {
@@ -11717,11 +11717,11 @@
         "id": "scenes.securitysettings.advanced.walletpassword.title"
       },
       {
-        "defaultMessage": "Your password is never shared with Blockchain or stored on our servers. We cannot access or reset your password. The only way to restore your wallet is through your Secret Private Key Recovery Phrase .",
+        "defaultMessage": "Your password is never shared with Blockchain or stored on our servers. We cannot access or reset your password. The only way to restore your wallet is through your Recovery Phrase .",
         "id": "scenes.securitysettings.advanced.walletpassword.description_one"
       },
       {
-        "defaultMessage": "Make sure you write down your Secret Private Key Recovery Phrasewhich is the only way to restore access to your wallet in the event of a lost password.",
+        "defaultMessage": "Make sure you write down your Recovery Phrase which is the only way to restore access to your wallet in the event of a lost password.",
         "id": "scenes.securitysettings.advanced.walletpassword.description_two"
       }
     ],
@@ -12059,15 +12059,15 @@
         "id": "scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds"
       },
       {
-        "defaultMessage": "Secret Private Key Recovery Phrase",
+        "defaultMessage": "Recovery Phrase",
         "id": "scenes.securitysettings.basicsecurity.seceretphrase.title"
       },
       {
-        "defaultMessage": "Your Secret Recovery Phrase is needed to recover your wallet in case the password is lost. Please write these 12 words down, in order, and keep them somewhere safe offline. The secret recovery phrase gives you (or anyone who has it) a way to restore your wallet and access your funds. In the event that you lose your password or our service is unavailable, this will be your safety net.",
+        "defaultMessage": "Your Recovery Phrase is needed to recover your wallet in case the password is lost. Please write these 12 words down, in order, and keep them somewhere safe offline. The recovery phrase gives you (or anyone who has it) a way to restore your wallet and access your funds. In the event that you lose your password or our service is unavailable, this will be your safety net.",
         "id": "scenes.securitysettings.basicsecurity.recoveryphrase.description"
       },
       {
-        "defaultMessage": "Never share your secret phrase with anyone. Blockchain.com will never ask you for this information.",
+        "defaultMessage": "Never share your Recovery Phrase with anyone. Blockchain.com will never ask you for this information.",
         "id": "scenes.securitysettings.basicsecurity.recoveryphrase.warning"
       }
     ],
@@ -12113,7 +12113,7 @@
         "id": "scenes.securitycenter.steps.step2.verify"
       },
       {
-        "defaultMessage": "Save Secret Private Key Recovery Phrase",
+        "defaultMessage": "Save Recovery Phrase",
         "id": "scenes.securitycenter.steps.step3.savephrase"
       }
     ],
@@ -12130,7 +12130,7 @@
         "id": "scenes.settings.addresses.bch.importedaddresses.title"
       },
       {
-        "defaultMessage": "Imported funds are not protected by your Secret Private Key Recovery Phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
+        "defaultMessage": "Imported funds are not protected by your Recovery Phrase. To ensure these funds are secured, please transfer them directly into your wallet.",
         "id": "scenes.settings.addresses.bch.importedaddresses.desc"
       },
       {

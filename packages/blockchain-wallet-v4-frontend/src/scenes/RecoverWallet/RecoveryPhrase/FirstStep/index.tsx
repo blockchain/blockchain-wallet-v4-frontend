@@ -65,7 +65,7 @@ const FirstStep = (props: Props) => {
           >
             <FormattedMessage
               id='scenes.recovery.title'
-              defaultMessage='Input your secret private key recovery phrase'
+              defaultMessage='Input your recovery phrase'
             />
           </Text>
           <Text
@@ -77,7 +77,7 @@ const FirstStep = (props: Props) => {
           >
             <FormattedMessage
               id='scenes.reovery.subtitle'
-              defaultMessage='Your 12 word Secret Private Key Recovery Phrase grants access to your account. Please input it in the order specified.'
+              defaultMessage='Your 12 word Recovery Phrase grants access to your account. Please input it in the order specified.'
             />
           </Text>
           <Field
@@ -88,7 +88,7 @@ const FirstStep = (props: Props) => {
             disableSpellcheck
             name='mnemonic'
             validate={[required, validMnemonic]}
-            placeholder='Enter your secret private key recovery phrase'
+            placeholder='Enter your recovery phrase'
           />
         </FormBody>
         <Text
