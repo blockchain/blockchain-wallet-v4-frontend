@@ -112,6 +112,8 @@ const App = ({
   useEffect(() => {
     // Used to get cached values from old implementation, if they exist.
     const cookies = new Cookies()
+    const optOut = localStorage.getItem('opt_out_wallet_v5_ui')
+    const optOutDate = localStorage.getItem('opt_out_date')
     const cache = {
       canary_position: cookies.get('canary_position'),
       opt_out_wallet_v5_ui: cookies.get('opt_out_wallet_v5_ui')
@@ -123,8 +125,12 @@ const App = ({
     }
 
     // Update localStorage cache with current values, if exists.
-    if (localStorage.getItem('opt_out_wallet_v5_ui') === null && cache.opt_out_wallet_v5_ui) {
+    if (optOut === null && cache.opt_out_wallet_v5_ui) {
       localStorage.setItem('opt_out_wallet_v5_ui', JSON.stringify(cache.opt_out_wallet_v5_ui))
+    }
+
+    if (optOut && optOutDate === null) {
+      localStorage.setItem('opt_out_date', new Date().toISOString())
     }
 
     // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
