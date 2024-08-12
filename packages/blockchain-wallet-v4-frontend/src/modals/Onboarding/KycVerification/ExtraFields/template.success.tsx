@@ -394,7 +394,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                           }
                           placeholder={GetInputPlaceholder(item)}
                           onChange={onChangeInput}
-                          countryIsUS={false}
+                          countryIsUS={props.countryCode === 'US'}
                           parse={item.type === NodeItemTypes.OPEN_ENDED ? undefined : objectToDOB}
                           format={
                             item.type === NodeItemTypes.OPEN_ENDED
