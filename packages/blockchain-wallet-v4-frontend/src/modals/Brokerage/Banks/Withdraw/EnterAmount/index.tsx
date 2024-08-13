@@ -174,6 +174,10 @@ const EnterAmountContainer = (props: Props) => {
     paymentAccount = undefined
   }
 
+  if (props.beneficiary && paymentAccount && paymentAccount.id !== props.beneficiary?.id) {
+    paymentAccount = props.beneficiary
+  }
+
   // Connecting the paymentAccount to the submit handler here because there's some nasty logic
   // above here to determine the account being used to withdraw to. This should all ideally be refactored
   const submitter = handleSubmit(paymentAccount)
