@@ -90,6 +90,10 @@ const DebitCard = React.lazy(() => import('./DebitCard'))
 
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
+const removeHash = (path: string) => {
+  return path.startsWith('/#') ? path.slice(2) : path
+}
+
 const App = ({
   apiUrl,
   history,
@@ -268,7 +272,7 @@ const App = ({
       console.log('Redirecting to v5')
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
       if (useFullPathForRedirect.some((prefix) => fullPath.startsWith(prefix))) {
-        window.location.href = `${window?.WALLET_V5_LINK + fullPath}`
+        window.location.href = `${window?.WALLET_V5_LINK + removeHash(fullPath)}`
       } else {
         window.location.href = window?.WALLET_V5_LINK
       }
