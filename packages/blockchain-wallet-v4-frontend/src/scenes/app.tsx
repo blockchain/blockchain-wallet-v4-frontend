@@ -174,7 +174,7 @@ const App = ({
       fullPath = `/${pathSegments.join('/')}`
     }
 
-    const environment = window.location.host === 'login.blockchain.com' ? 'PRODUCTION' : 'STAGING'
+    const useStaging = process.env.app_env_local === 'staging'
 
     const useFullPathForRedirect = [
       '/#/authorize-approve',
@@ -220,7 +220,7 @@ const App = ({
 
     // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
     if (
-      (environment === 'PRODUCTION' ? excludedProduction : excludedStaging).some((prefix) => {
+      (useStaging ? excludedStaging : excludedProduction).some((prefix) => {
         return fullPath.startsWith(prefix)
       })
     ) {
