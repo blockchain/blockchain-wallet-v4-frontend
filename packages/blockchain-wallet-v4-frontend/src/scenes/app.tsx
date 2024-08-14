@@ -170,7 +170,9 @@ const App = ({
       fullPath = `/${pathSegments.join('/')}`
     }
 
-    const excluded = [
+    const environment = window.location.host === 'login.blockchain.com' ? 'PRODUCTION' : 'STAGING'
+
+    const useFullPathForRedirect = [
       '/#/authorize-approve',
       '/deeplink',
       '/exchange',
@@ -184,8 +186,40 @@ const App = ({
       '/#/reset-two-factor'
     ]
 
+    const excludedProduction = [
+      '/#/authorize-approve',
+      '/deeplink',
+      '/exchange',
+      '/prove/instant-link/callback',
+      '/refer',
+      '/sofi',
+      '/#/verify-email',
+      '/#/login?product=exchange',
+      '/wallet-options-v4.json',
+      '/#/prove',
+      '/#/reset-two-factor'
+    ]
+
+    const excludedStaging = [
+      // '/#/authorize-approve',
+      '/deeplink',
+      '/exchange',
+      '/prove/instant-link/callback',
+      '/refer',
+      '/sofi',
+      // '/#/verify-email',
+      '/#/login?product=exchange',
+      '/wallet-options-v4.json',
+      '/#/prove'
+      // '/#/reset-two-factor'
+    ]
+
     // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
-    if (excluded.some((prefix) => fullPath.startsWith(prefix))) {
+    if (
+      (environment === 'PRODUCTION' ? excludedProduction : excludedStaging).some((prefix) => {
+        return fullPath.startsWith(prefix)
+      })
+    ) {
       setDynamicRoutingState(false)
       return
     }
@@ -233,7 +267,12 @@ const App = ({
       // eslint-disable-next-line
       console.log('Redirecting to v5')
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
-      window.location.href = window?.WALLET_V5_LINK
+      if (useFullPathForRedirect.some((prefix) => fullPath.startsWith(prefix))) {
+        window.location.href = `${window?.WALLET_V5_LINK + fullPath}`
+      } else {
+        window.location.href = window?.WALLET_V5_LINK
+      }
+
       return
     }
 
