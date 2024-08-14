@@ -94,7 +94,7 @@ const removeHash = (path: string) => {
   return path.startsWith('/#') ? path.slice(2) : path
 }
 
-const useStaging = window.location.host === 'https://login-staging.blockchain.com'
+const useStaging = window.location.host === 'login-staging.blockchain.com'
 
 const useFullPathForRedirect = [
   '/#/authorize-approve',
