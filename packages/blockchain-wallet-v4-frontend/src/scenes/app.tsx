@@ -90,6 +90,54 @@ const DebitCard = React.lazy(() => import('./DebitCard'))
 
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
+const removeHash = (path: string) => {
+  return path.startsWith('/#') ? path.slice(2) : path
+}
+
+const useStaging = process.env?.app_env_local === 'staging'
+
+const useFullPathForRedirect = [
+  '/#/authorize-approve',
+  '/deeplink',
+  '/exchange',
+  '/prove/instant-link/callback',
+  '/refer',
+  '/sofi',
+  '/#/verify-email',
+  '/#/login?product=exchange',
+  '/wallet-options-v4.json',
+  '/#/prove',
+  '/#/reset-two-factor'
+]
+
+const excludedProduction = [
+  '/#/authorize-approve',
+  '/deeplink',
+  '/exchange',
+  '/prove/instant-link/callback',
+  '/refer',
+  '/sofi',
+  '/#/verify-email',
+  '/#/login?product=exchange',
+  '/wallet-options-v4.json',
+  '/#/prove',
+  '/#/reset-two-factor'
+]
+
+const excludedStaging = [
+  // '/#/authorize-approve',
+  '/deeplink',
+  '/exchange',
+  '/prove/instant-link/callback',
+  '/refer',
+  '/sofi',
+  // '/#/verify-email',
+  '/#/login?product=exchange',
+  '/wallet-options-v4.json',
+  '/#/prove'
+  // '/#/reset-two-factor'
+]
+
 const App = ({
   apiUrl,
   history,
@@ -170,22 +218,12 @@ const App = ({
       fullPath = `/${pathSegments.join('/')}`
     }
 
-    const excluded = [
-      '/#/authorize-approve',
-      '/deeplink',
-      '/exchange',
-      '/prove/instant-link/callback',
-      '/refer',
-      '/sofi',
-      '/#/verify-email',
-      '/#/login?product=exchange',
-      '/wallet-options-v4.json',
-      '/#/prove',
-      '/#/reset-two-factor'
-    ]
-
     // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
-    if (excluded.some((prefix) => fullPath.startsWith(prefix))) {
+    if (
+      (useStaging ? excludedStaging : excludedProduction).some((prefix) => {
+        return fullPath.startsWith(prefix)
+      })
+    ) {
       setDynamicRoutingState(false)
       return
     }
@@ -233,7 +271,12 @@ const App = ({
       // eslint-disable-next-line
       console.log('Redirecting to v5')
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
-      window.location.href = window?.WALLET_V5_LINK
+      if (useFullPathForRedirect.some((prefix) => fullPath.startsWith(prefix))) {
+        window.location.href = `${window?.WALLET_V5_LINK + removeHash(fullPath)}`
+      } else {
+        window.location.href = window?.WALLET_V5_LINK
+      }
+
       return
     }
 
