@@ -174,7 +174,7 @@ const App = ({
       fullPath = `/${pathSegments.join('/')}`
     }
 
-    const useStaging = process.env.app_env_local === 'staging'
+    const useStaging = process.env?.app_env_local === 'staging'
 
     const useFullPathForRedirect = [
       '/#/authorize-approve',
