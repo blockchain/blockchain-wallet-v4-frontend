@@ -94,6 +94,50 @@ const removeHash = (path: string) => {
   return path.startsWith('/#') ? path.slice(2) : path
 }
 
+const useStaging = process.env?.app_env_local === 'staging'
+
+const useFullPathForRedirect = [
+  '/#/authorize-approve',
+  '/deeplink',
+  '/exchange',
+  '/prove/instant-link/callback',
+  '/refer',
+  '/sofi',
+  '/#/verify-email',
+  '/#/login?product=exchange',
+  '/wallet-options-v4.json',
+  '/#/prove',
+  '/#/reset-two-factor'
+]
+
+const excludedProduction = [
+  '/#/authorize-approve',
+  '/deeplink',
+  '/exchange',
+  '/prove/instant-link/callback',
+  '/refer',
+  '/sofi',
+  '/#/verify-email',
+  '/#/login?product=exchange',
+  '/wallet-options-v4.json',
+  '/#/prove',
+  '/#/reset-two-factor'
+]
+
+const excludedStaging = [
+  // '/#/authorize-approve',
+  '/deeplink',
+  '/exchange',
+  '/prove/instant-link/callback',
+  '/refer',
+  '/sofi',
+  // '/#/verify-email',
+  '/#/login?product=exchange',
+  '/wallet-options-v4.json',
+  '/#/prove'
+  // '/#/reset-two-factor'
+]
+
 const App = ({
   apiUrl,
   history,
@@ -173,50 +217,6 @@ const App = ({
       pathSegments.shift()
       fullPath = `/${pathSegments.join('/')}`
     }
-
-    const useStaging = process.env?.app_env_local === 'staging'
-
-    const useFullPathForRedirect = [
-      '/#/authorize-approve',
-      '/deeplink',
-      '/exchange',
-      '/prove/instant-link/callback',
-      '/refer',
-      '/sofi',
-      '/#/verify-email',
-      '/#/login?product=exchange',
-      '/wallet-options-v4.json',
-      '/#/prove',
-      '/#/reset-two-factor'
-    ]
-
-    const excludedProduction = [
-      '/#/authorize-approve',
-      '/deeplink',
-      '/exchange',
-      '/prove/instant-link/callback',
-      '/refer',
-      '/sofi',
-      '/#/verify-email',
-      '/#/login?product=exchange',
-      '/wallet-options-v4.json',
-      '/#/prove',
-      '/#/reset-two-factor'
-    ]
-
-    const excludedStaging = [
-      // '/#/authorize-approve',
-      '/deeplink',
-      '/exchange',
-      '/prove/instant-link/callback',
-      '/refer',
-      '/sofi',
-      // '/#/verify-email',
-      '/#/login?product=exchange',
-      '/wallet-options-v4.json',
-      '/#/prove'
-      // '/#/reset-two-factor'
-    ]
 
     // IF ANY PATHS MATCH THE EXCLUSIONS, RENDER THE APP.
     if (
