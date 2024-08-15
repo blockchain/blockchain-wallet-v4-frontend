@@ -196,7 +196,7 @@ const App = ({
 
     // OBTAIN FULL PATH BY COMBINING PATHNAME AND HASH (CLIENT-ONLY ROUTING)
     let fullPath = (window.location.pathname + window.location.hash).toLowerCase()
-    let fullPathCaseSensitive = (window.location.pathname + window.location.hash).toLowerCase()
+    const fullPathCaseSensitive = window.location.pathname + window.location.hash
 
     // SPLIT IT INTO PARTS TO HANDLE LANGUAGE DETECTION
     const pathSegments = fullPath.split('/').filter(Boolean)
