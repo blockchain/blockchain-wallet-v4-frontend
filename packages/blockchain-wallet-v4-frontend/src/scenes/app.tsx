@@ -93,6 +93,7 @@ const BLOCKCHAIN_TITLE = 'Blockchain.com'
 const removeHash = (path: string) => {
   if (path.startsWith('/#')) return path.slice(2)
   if (path.endsWith('#/')) return path.slice(0, -2)
+  if (path.includes('/#/')) return path.replace('/#/', '/')
   return path
 }
 
