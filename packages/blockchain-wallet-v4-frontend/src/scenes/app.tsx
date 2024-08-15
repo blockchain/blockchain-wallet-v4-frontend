@@ -196,6 +196,7 @@ const App = ({
 
     // OBTAIN FULL PATH BY COMBINING PATHNAME AND HASH (CLIENT-ONLY ROUTING)
     let fullPath = (window.location.pathname + window.location.hash).toLowerCase()
+    let fullPathCaseSensitive = (window.location.pathname + window.location.hash).toLowerCase()
 
     // SPLIT IT INTO PARTS TO HANDLE LANGUAGE DETECTION
     const pathSegments = fullPath.split('/').filter(Boolean)
@@ -272,7 +273,7 @@ const App = ({
       console.log('Redirecting to v5')
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
       if (useFullPathForRedirect.some((prefix) => fullPath.startsWith(prefix))) {
-        window.location.href = `${window?.WALLET_V5_LINK + removeHash(fullPath)}`
+        window.location.href = `${window?.WALLET_V5_LINK + removeHash(fullPathCaseSensitive)}`
       } else {
         window.location.href = window?.WALLET_V5_LINK
       }
