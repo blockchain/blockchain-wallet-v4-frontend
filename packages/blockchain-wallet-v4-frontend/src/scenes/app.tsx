@@ -91,7 +91,10 @@ const DebitCard = React.lazy(() => import('./DebitCard'))
 const BLOCKCHAIN_TITLE = 'Blockchain.com'
 
 const removeHash = (path: string) => {
-  return path.startsWith('/#') ? path.slice(2) : path
+  if (path.startsWith('/#')) return path.slice(2)
+  if (path.endsWith('#/')) return path.slice(0, -2)
+  if (path.includes('/#/')) return path.replace('/#/', '/')
+  return path
 }
 
 const useStaging = window.location.host === 'login-staging.blockchain.com'
@@ -107,7 +110,9 @@ const useFullPathForRedirect = [
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
   '/#/prove',
-  '/#/reset-two-factor'
+  '/#/reset-two-factor',
+  '/forgot-password',
+  '/import-wallet'
 ]
 
 const excludedProduction = [
@@ -126,7 +131,7 @@ const excludedProduction = [
 
 const excludedStaging = [
   // '/#/authorize-approve',
-  '/deeplink',
+  // '/deeplink',
   '/exchange',
   '/prove/instant-link/callback',
   '/refer',
