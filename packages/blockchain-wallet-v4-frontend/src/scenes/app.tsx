@@ -111,6 +111,7 @@ const useFullPathForRedirect = [
   '/wallet-options-v4.json',
   '/#/prove',
   '/#/reset-two-factor',
+  '/#/open',
   '/forgot-password',
   '/import-wallet'
 ]
@@ -126,7 +127,8 @@ const excludedProduction = [
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
   '/#/prove',
-  '/#/reset-two-factor'
+  '/#/reset-two-factor',
+  '/#/open'
 ]
 
 const excludedStaging = [
@@ -139,8 +141,9 @@ const excludedStaging = [
   // '/#/verify-email',
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
-  '/#/prove'
+  '/#/prove',
   // '/#/reset-two-factor'
+  '/#/open'
 ]
 
 const App = ({
