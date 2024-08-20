@@ -572,7 +572,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield take(actionTypes.core.data.btc.FETCH_BTC_DATA_SUCCESS)
       const addressesR = yield select(selectors.core.common.btc.getActiveAddresses)
-      console.log(addressesR)
       const addresses = addressesR.getOrElse([]).filter(prop('priv'))
       const hasEffectiveBalances: ImportedBtcAddressList = []
       // eslint-disable-next-line no-restricted-syntax
