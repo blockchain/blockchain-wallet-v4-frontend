@@ -277,7 +277,13 @@ export default ({ api }: { api: APIType }) => {
       }
       // process txs further for report
       // eslint-disable-next-line
-      const processedTxList = yield call(__processReportTxs, ethAddress, fullTxList, startDate, endDate)
+      const processedTxList = yield call(
+        __processReportTxs,
+        ethAddress,
+        fullTxList,
+        startDate,
+        endDate
+      )
       yield put(A.fetchTransactionHistorySuccess(processedTxList))
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
