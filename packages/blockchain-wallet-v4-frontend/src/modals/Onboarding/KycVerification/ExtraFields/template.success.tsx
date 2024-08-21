@@ -13,8 +13,10 @@ import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
+import DateInputBox from 'components/Form/DateInputBox'
+
 import { model } from 'data'
-import { required, validFormat } from 'services/forms'
+import { required, validFormat, ageOverEighteen } from 'services/forms'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { GetInputPlaceholder, GetNodeQuestionElements } from './model'
@@ -155,6 +157,26 @@ const LabelItem = styled.label`
   cursor: pointer;
 `
 
+const addTrailingZero = (text: string) => (text.length >= 2 ? text : `0${text}`)
+
+const objectToDOB = ({ date = '', month = '', year = '' }) =>
+  `${year}-${month}-${addTrailingZero(date)}`
+
+const DOBToObject =
+  (name) =>
+  (value = '') => {
+    const [year = '', month = '', date = ''] = value.split('-')
+    const parsedDate = addTrailingZero(date)
+    const parsedFullDate = [year, month, parsedDate].join('-')
+
+    return {
+      currentTarget: { name, value: parsedFullDate },
+      date: parsedDate,
+      month,
+      year
+    }
+  }
+
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const disabled = props.invalid || props.submitting
 
@@ -235,6 +257,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   }
 
   const onChangeInput = (e, value) => {
+    console.log({ e, value })
     const itemId = e.currentTarget.name
 
     const { blocking, context, nodes } = props.extraSteps
@@ -346,8 +369,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         </FormGroup>
 
         {formValue &&
-          node.children &&
-          node.children.map(
+          node?.children?.map(
             (child) =>
               child.children &&
               formValue === child.id && (
@@ -367,9 +389,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                           name={item.id}
                           errorBottom
                           validate={isOptional ? null : required}
-                          component={TextBox}
+                          component={
+                            item.type === NodeItemTypes.OPEN_ENDED ? TextBox : DateInputBox
+                          }
                           placeholder={GetInputPlaceholder(item)}
                           onChange={onChangeInput}
+                          countryIsUS={props.countryCode === 'US'}
+                          parse={item.type === NodeItemTypes.OPEN_ENDED ? undefined : objectToDOB}
+                          format={
+                            item.type === NodeItemTypes.OPEN_ENDED
+                              ? undefined
+                              : DOBToObject(item.id)
+                          }
                         />
                       </FormItem>
                     )
@@ -528,6 +559,30 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
+  const RenderDateQuestion = (node) => {
+    const displayInstructions = node?.instructions?.length > 0
+
+    return (
+      <FormGroup key={node.id}>
+        <QuestionTitle>{node.text}</QuestionTitle>
+
+        {displayInstructions && <QuestionDescription>{node.instructions}</QuestionDescription>}
+
+        <FormItem key={node.id} style={{ marginBottom: '10px' }}>
+          <Field
+            name={node.id}
+            validate={[required, ageOverEighteen]}
+            component={DateInputBox}
+            fullwidth
+            label
+            placeholder={GetInputPlaceholder(node)}
+            onChange={onChangeInput}
+          />
+        </FormItem>
+      </FormGroup>
+    )
+  }
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
@@ -571,6 +626,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             if (node.type === NodeItemTypes.OPEN_ENDED) {
               return RenderTextBoxQuestion(node)
             }
+            if (node.type === NodeItemTypes.DATE_SELECTION) {
+              return RenderDateQuestion(node)
+            }
+            console.log('UNRECOGNIZED NODE_TYPE', node.type)
             return null
           })}
 
