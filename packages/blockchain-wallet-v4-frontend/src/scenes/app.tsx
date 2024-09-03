@@ -190,7 +190,7 @@ const App = ({
     }
 
     // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
-    const THRESHOLD = 30
+    const THRESHOLD = 60
 
     // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
     // @ts-ignore
