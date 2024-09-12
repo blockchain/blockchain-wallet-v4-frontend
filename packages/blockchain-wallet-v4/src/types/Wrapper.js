@@ -149,7 +149,7 @@ export const fromEncPayload = curry((password, payload) => {
   const wrapper = {
     password,
     payload: JSON.stringify(payload),
-    payload_checksum: Crypto.SHA256(JSON.stringify(payload), { asHex: true }),
+    payload_checksum: Crypto ? Crypto.SHA256(JSON.stringify(payload), { asHex: true }) : undefined,
     pbkdf2Iterations,
     version
   }
