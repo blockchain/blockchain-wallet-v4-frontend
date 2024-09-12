@@ -8,6 +8,13 @@ import * as Options from './Options'
 import Type from './Type'
 import * as Wallet from './Wallet'
 
+let _window = {}
+if (typeof window === 'undefined' || !window) _window = {}
+else _window = window
+
+// Global Crypto object
+const { Crypto } = _window
+
 const PAYLOAD_VERSION = crypto.SUPPORTED_ENCRYPTION_VERSION
 
 /* Wrapper :: {
@@ -142,6 +149,7 @@ export const fromEncPayload = curry((password, payload) => {
   const wrapper = {
     password,
     payload: JSON.stringify(payload),
+    payload_checksum: Crypto.SHA256(JSON.stringify(payload), { asHex: true }),
     pbkdf2Iterations,
     version
   }
