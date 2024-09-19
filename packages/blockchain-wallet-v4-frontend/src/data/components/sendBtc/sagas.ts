@@ -120,7 +120,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       actions.analytics.trackEvent({
         key: Analytics.BITPAY_INVOICE_VALID,
         properties: {
-          coin: 'BCH'
+          coin: 'BTC'
         }
       })
     )
