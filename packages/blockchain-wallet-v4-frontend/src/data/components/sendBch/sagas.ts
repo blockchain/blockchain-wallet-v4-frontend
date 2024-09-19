@@ -101,6 +101,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         title: C.BITPAY_CONFIRM_TITLE
       })
     )
+    yield put(
+      actions.analytics.trackEvent({
+        key: Analytics.BITPAY_INVOICE_VALID,
+        properties: {
+          coin: 'BCH'
+        }
+      })
+    )
+
     const { canceled } = yield race({
       canceled: take(actions.modals.closeModal.type),
       response: take(actionTypes.wallet.SUBMIT_CONFIRMATION)
@@ -116,6 +125,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         name: 'paymentProtocol'
       })
     )
+
     return yield put(actions.goals.runGoals())
   }
 
