@@ -4,7 +4,8 @@ export enum MiscEvents {
   SIGNUP_VIEWED = 'Signup Viewed',
   WRONG_CHANGE_CACHE = 'Wrong Change Cache',
   WRONG_RECEIVE_CACHE = 'Wrong Receive Cache',
-  BITPAY_LINK = 'Bitpay Deeplink detected'
+  BITPAY_LINK = 'Bitpay Deeplink detected',
+  BITPAY_INVOICE_VALID = 'Bitpay invoice'
 }
 
 export type MiscActions = {
