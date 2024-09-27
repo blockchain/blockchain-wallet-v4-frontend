@@ -7,7 +7,7 @@ import { ServiceAnnouncement, StaticAnnouncement } from 'components/Announcement
 import { SofiBanner, UkBanner, UkFooterBanner } from 'components/Banner'
 import { CowboysCardComponent } from 'components/Card/CowboysCard'
 import ExchangePromo from 'components/Card/ExchangePromo'
-import { SupportChatForGoldUserOnly } from 'components/SupportChat'
+import { SupportChatForGoldUserOnly } from 'components/SupportChat/components/SupportChatForGoldUserOnly'
 import Tooltips from 'components/Tooltips'
 import { ModalName } from 'data/types'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'

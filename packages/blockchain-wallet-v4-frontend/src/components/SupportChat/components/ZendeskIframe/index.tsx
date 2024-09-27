@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { AbsoluteWrapper, Iframe, RelativeWrapper } from './ZendeskIframe.styles'
-import { ZendeskIframeComponent } from './ZendeskIframe.types'
+import { ZendeskIframeProps } from './ZendeskIframe.types'
 
-export const ZendeskIframe: ZendeskIframeComponent = ({ id, isOpen, src }) => {
+export const ZendeskIframe = ({ id, isOpen, src }: ZendeskIframeProps) => {
   return (
     <RelativeWrapper>
       <AbsoluteWrapper isOpen={isOpen}>
