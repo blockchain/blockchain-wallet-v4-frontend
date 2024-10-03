@@ -136,14 +136,14 @@ const excludedStaging = [
   // '/deeplink',
   '/exchange',
   '/prove/instant-link/callback',
-  '/refer',
+  // '/refer',
   '/sofi',
   // '/#/verify-email',
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
-  '/#/prove',
+  '/#/prove'
   // '/#/reset-two-factor'
-  '/#/open'
+  // '/#/open'
 ]
 
 const App = ({
@@ -190,7 +190,7 @@ const App = ({
     }
 
     // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
-    const THRESHOLD = 60
+    const THRESHOLD = 100
 
     // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
     // @ts-ignore
