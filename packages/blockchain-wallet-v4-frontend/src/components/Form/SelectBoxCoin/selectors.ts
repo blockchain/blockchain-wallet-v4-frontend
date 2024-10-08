@@ -14,7 +14,8 @@ export const getData = (state) => {
           (products.includes('PrivateKey') ||
             products.includes('CustodialWalletBalance') ||
             products.includes('DynamicSelfCustody')) &&
-          coinfig.type.name !== 'FIAT'
+          coinfig.type.name !== 'FIAT' &&
+          !coinfig.categories.some((cat) => cat?.id === 'MEME')
         )
       })
       .map((coinfig) => ({ text: coinfig.name, value: coinfig.symbol }))

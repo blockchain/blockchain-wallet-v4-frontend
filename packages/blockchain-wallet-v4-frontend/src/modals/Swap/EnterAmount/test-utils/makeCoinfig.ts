@@ -1,4 +1,5 @@
 export const makeCoinfig = () => ({
+  categories: [],
   displaySymbol: '',
   name: '',
   precision: 10,
