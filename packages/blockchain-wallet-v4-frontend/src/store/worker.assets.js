@@ -18,9 +18,12 @@ addEventListener('message', ({ data }) => {
       let assets = {}
       const supportedCoins = custodialAssets.currencies.concat(erc20Assets.currencies)
 
-      supportedCoins.forEach((coin) => {
-        assets[coin.symbol] = { coinfig: coin }
-      })
+      supportedCoins
+        .filter((coin) => !coin.categories.some((cat) => cat?.id === 'MEME'))
+        .forEach((coin) => {
+          console.log('coin', coin)
+          assets[coin.symbol] = { coinfig: coin }
+        })
 
       assets.MATIC.coinfig.type.logoPngUrl = assets['MATIC.MATIC'].coinfig.type.logoPngUrl
       assets.STX.coinfig.products.push('DynamicSelfCustody')

@@ -3,6 +3,7 @@ import * as selectors from './selectors'
 const COINS_STUB: Window['coins'] = {
   USDC: {
     coinfig: {
+      categories: [],
       displaySymbol: 'USDC',
       name: 'USD Coin',
       precision: 6,
