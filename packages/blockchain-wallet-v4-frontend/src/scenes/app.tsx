@@ -117,18 +117,18 @@ const useFullPathForRedirect = [
 ]
 
 const excludedProduction = [
-  '/#/authorize-approve',
-  '/deeplink',
+  // '/#/authorize-approve',
+  // '/deeplink',
   '/exchange',
   '/prove/instant-link/callback',
-  '/refer',
+  // '/refer',
   '/sofi',
-  '/#/verify-email',
+  // '/#/verify-email',
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
   '/#/prove',
-  '/#/reset-two-factor',
-  '/#/open'
+  '/#/reset-two-factor'
+  // '/#/open'
 ]
 
 const excludedStaging = [
@@ -136,7 +136,7 @@ const excludedStaging = [
   // '/deeplink',
   '/exchange',
   '/prove/instant-link/callback',
-  '/refer',
+  // '/refer',
   '/sofi',
   // '/#/verify-email',
   '/#/login?product=exchange',
