@@ -128,7 +128,11 @@ const excludedProduction = [
   '/wallet-options-v4.json',
   '/#/prove',
   '/#/reset-two-factor',
-  '/#/open'
+  '/#/open',
+  '/login?product=wallet&platform=ios',
+  '/login?product=wallet&platform=android',
+  '/signup/product=exchange&platform=ios',
+  '/signup/product=exchange&platform=android'
 ]
 
 const excludedStaging = [
@@ -141,9 +145,13 @@ const excludedStaging = [
   // '/#/verify-email',
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
-  '/#/prove'
+  '/#/prove',
   // '/#/reset-two-factor'
-  // '/#/open'
+  // '/#/open',
+  '/login?product=wallet&platform=ios',
+  '/login?product=wallet&platform=android',
+  '/signup/product=exchange&platform=ios',
+  '/signup/product=exchange&platform=android'
 ]
 
 const App = ({
