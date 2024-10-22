@@ -77,6 +77,7 @@ export const getData = (state: RootState, { side }: OwnProps) => {
   }, {}) as unknown as { [key in CoinType]: Array<SwapAccountType> }
 
   let filteredAccounts = Object.keys(accountsForSide).reduce((prevValue, curValue: CoinType) => {
+    if (!accountsForSide[curValue]) return prevValue
     return prevValue.concat(accountsForSide[curValue])
   }, [] as Array<SwapAccountType>)
 

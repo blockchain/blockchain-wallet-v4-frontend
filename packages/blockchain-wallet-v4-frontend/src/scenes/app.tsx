@@ -128,22 +128,38 @@ const excludedProduction = [
   '/wallet-options-v4.json',
   '/#/prove',
   '/#/reset-two-factor',
-  '/#/open'
+  '/#/open',
+  '/login?product=wallet&platform=ios',
+  '/login?product=wallet&platform=android',
+  '/signup/product=exchange&platform=ios',
+  '/signup/product=exchange&platform=android',
+  '/#/login?product=wallet&platform=ios',
+  '/#/login?product=wallet&platform=android',
+  '/#/signup/product=exchange&platform=ios',
+  '/#/signup/product=exchange&platform=android'
 ]
 
 const excludedStaging = [
   // '/#/authorize-approve',
   // '/deeplink',
   '/exchange',
-  '/prove/instant-link/callback',
-  '/refer',
+  // '/prove/instant-link/callback',
+  // '/refer',
   '/sofi',
   // '/#/verify-email',
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
   '/#/prove',
   // '/#/reset-two-factor'
-  '/#/open'
+  // '/#/open',
+  '/login?product=wallet&platform=ios',
+  '/login?product=wallet&platform=android',
+  '/signup/product=exchange&platform=ios',
+  '/signup/product=exchange&platform=android',
+  '/#/login?product=wallet&platform=ios',
+  '/#/login?product=wallet&platform=android',
+  '/#/signup/product=exchange&platform=ios',
+  '/#/signup/product=exchange&platform=android'
 ]
 
 const App = ({
@@ -190,7 +206,7 @@ const App = ({
     }
 
     // OBTAIN THE THRESHOLD - STATICALLY SET, DECIDED BY TEAM.
-    const THRESHOLD = 60
+    const THRESHOLD = 100
 
     // THE DYNAMIC ROUTING IS DISABLED, SEND TO V4
     // @ts-ignore
