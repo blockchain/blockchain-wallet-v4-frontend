@@ -132,11 +132,7 @@ const excludedProduction = [
   '/login?product=wallet&platform=ios',
   '/login?product=wallet&platform=android',
   '/signup/product=exchange&platform=ios',
-  '/signup/product=exchange&platform=android',
-  '/#/login?product=wallet&platform=ios',
-  '/#/login?product=wallet&platform=android',
-  '/#/signup/product=exchange&platform=ios',
-  '/#/signup/product=exchange&platform=android'
+  '/signup/product=exchange&platform=android'
 ]
 
 const excludedStaging = [
@@ -155,11 +151,7 @@ const excludedStaging = [
   '/login?product=wallet&platform=ios',
   '/login?product=wallet&platform=android',
   '/signup/product=exchange&platform=ios',
-  '/signup/product=exchange&platform=android',
-  '/#/login?product=wallet&platform=ios',
-  '/#/login?product=wallet&platform=android',
-  '/#/signup/product=exchange&platform=ios',
-  '/#/signup/product=exchange&platform=android'
+  '/signup/product=exchange&platform=android'
 ]
 
 const App = ({
