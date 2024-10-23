@@ -149,7 +149,7 @@ const excludedStaging = [
   '/exchange',
   // '/prove/instant-link/callback',
   // '/refer',
-  '/sofi',
+
   // '/#/verify-email',
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
@@ -163,8 +163,7 @@ const excludedStaging = [
   '/#/login?product=wallet&platform=ios',
   '/#/login?product=wallet&platform=android',
   '/#/signup/product=exchange&platform=ios',
-  '/#/signup/product=exchange&platform=android',
-  '/#/sofi'
+  '/#/signup/product=exchange&platform=android'
 ]
 
 const App = ({
