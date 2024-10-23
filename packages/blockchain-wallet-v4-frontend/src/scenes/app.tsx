@@ -113,7 +113,9 @@ const useFullPathForRedirect = [
   '/#/reset-two-factor',
   '/#/open',
   '/forgot-password',
-  '/import-wallet'
+  '/import-wallet',
+  '/auth',
+  '#/auth'
 ]
 
 const excludedProduction = [
