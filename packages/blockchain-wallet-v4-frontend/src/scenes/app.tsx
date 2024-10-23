@@ -115,7 +115,8 @@ const useFullPathForRedirect = [
   '/forgot-password',
   '/import-wallet',
   '/auth',
-  '#/auth'
+  '/#/auth',
+  '/#/sofi'
 ]
 
 const excludedProduction = [
@@ -138,7 +139,8 @@ const excludedProduction = [
   '/#/login?product=wallet&platform=ios',
   '/#/login?product=wallet&platform=android',
   '/#/signup/product=exchange&platform=ios',
-  '/#/signup/product=exchange&platform=android'
+  '/#/signup/product=exchange&platform=android',
+  '/#/sofi'
 ]
 
 const excludedStaging = [
@@ -161,7 +163,8 @@ const excludedStaging = [
   '/#/login?product=wallet&platform=ios',
   '/#/login?product=wallet&platform=android',
   '/#/signup/product=exchange&platform=ios',
-  '/#/signup/product=exchange&platform=android'
+  '/#/signup/product=exchange&platform=android',
+  '/#/sofi'
 ]
 
 const App = ({
@@ -296,7 +299,7 @@ const App = ({
 
     if (availableUI) {
       // eslint-disable-next-line
-      console.log('Redirecting to v5')
+      console.log('Redirecting to v5', fullPathCaseSensitive)
       // Using **WALLET_V5_LINK** as a fallback for webpack builder.
       if (useFullPathForRedirect.some((prefix) => fullPath.startsWith(prefix))) {
         window.location.href = `${window?.WALLET_V5_LINK + removeHash(fullPathCaseSensitive)}`
