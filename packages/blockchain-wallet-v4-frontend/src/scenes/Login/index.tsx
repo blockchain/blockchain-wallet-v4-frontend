@@ -7,21 +7,13 @@ import { RemoteDataType } from '@core/types'
 import Form from 'components/Form/Form'
 import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
-import {
-  Analytics,
-  ExchangeErrorCodes,
-  LoginFormType,
-  LoginSteps,
-  PlatformTypes,
-  ProductAuthOptions
-} from 'data/types'
+import { Analytics, LoginFormType, LoginSteps, PlatformTypes, ProductAuthOptions } from 'data/types'
 
 import UrlNoticeBar from './components/UrlNoticeBar'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
 import InstitutionalPortal from './Exchange/Institutional'
 import TwoFAExchange from './Exchange/TwoFA'
-import { getData } from './selectors'
 // SOFI Login
 import Email from './Sofi/Email'
 import SofiSuccess from './Sofi/Success'
@@ -108,16 +100,9 @@ const Login = (props: Props) => {
     })
   }, [])
 
-  const { exchangeLoginDataR, formValues, productAuthMetadata, walletLoginDataR } = props
+  const { formValues, productAuthMetadata, walletLoginDataR } = props
   const { platform, product } = productAuthMetadata
   const step = formValues?.step ?? LoginSteps.ENTER_EMAIL_GUID
-
-  const { exchangeError } = exchangeLoginDataR.cata({
-    Failure: (val) => ({ busy: false, exchangeError: val }),
-    Loading: () => ({ busy: true, exchangeError: null }),
-    NotAsked: () => ({ busy: false, exchangeError: null }),
-    Success: () => ({ busy: false, exchangeError: null })
-  })
 
   const { busy, walletError } = walletLoginDataR.cata({
     Failure: (val) => ({ busy: false, walletError: val }),
@@ -128,7 +113,6 @@ const Login = (props: Props) => {
 
   const loginProps = {
     busy, // TODO see if we still need busy
-    exchangeError,
     exchangeTabClicked,
     walletError,
     ...props,
@@ -203,10 +187,7 @@ const Login = (props: Props) => {
 const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
   cache: selectors.cache.getCache(state),
-  data: getData(state),
-  exchangeLoginDataR: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
-  jwtToken: selectors.auth.getJwtToken(state),
   magicLinkData: selectors.auth.getMagicLinkData(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
   walletLoginDataR: selectors.auth.getLogin(state) as RemoteDataType<any, any>
@@ -224,7 +205,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   busy?: boolean
-  exchangeError?: ExchangeErrorCodes
   exchangeTabClicked?: () => void
   handleBackArrowClickExchange: () => void
   handleBackArrowClickWallet: () => void
