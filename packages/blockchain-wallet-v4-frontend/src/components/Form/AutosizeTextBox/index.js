@@ -22,58 +22,56 @@ const getErrorState = ({ invalid, touched }) => {
   return touched && invalid ? 'invalid' : 'initial'
 }
 
-class AutosizeTextBox extends React.Component {
-  render() {
-    const {
-      autoComplete,
-      autoFocus,
-      borderRightNone,
-      center,
-      className,
-      disabled,
-      errorBottom,
-      hideError,
-      input,
-      maxLength,
-      meta,
-      noLastPass,
-      placeholder,
-      pointerToLeft
-    } = this.props
-    const { active, error, initial, touched, warning } = meta
-    const errorState = getErrorState(meta)
+export const AutosizeTextBox = (props) => {
+  const {
+    autoComplete,
+    autoFocus,
+    borderRightNone,
+    center,
+    className,
+    disabled,
+    errorBottom,
+    hideError,
+    input,
+    maxLength,
+    meta,
+    noLastPass,
+    placeholder,
+    pointerToLeft
+  } = props
+  const { active, error, initial, touched, warning } = meta
+  const errorState = getErrorState(meta)
 
-    return (
-      <Container className={className}>
-        <AutosizeTextInput
-          {...input}
-          autoFocus={autoFocus}
-          autoComplete={autoComplete}
-          borderRightNone={borderRightNone}
-          active={active}
-          disabled={disabled}
-          errorState={errorState}
-          initial={initial}
-          placeholder={placeholder}
-          center={center}
-          noLastPass={noLastPass}
-          maxLength={maxLength}
-          pointerToLeft={pointerToLeft}
-          data-e2e={this.props['data-e2e']}
-        />
-        {touched && error && !hideError && (
-          <Error size='12px' weight={500} color='error' errorBottom={errorBottom}>
-            {error}
-          </Error>
-        )}
-        {touched && !error && warning && (
-          <Error size='12px' weight={500} color='error' errorBottom={errorBottom}>
-            {warning}
-          </Error>
-        )}
-      </Container>
-    )
-  }
+  return (
+    <Container className={className}>
+      <AutosizeTextInput
+        {...input}
+        autoFocus={autoFocus}
+        autoComplete={autoComplete}
+        borderRightNone={borderRightNone}
+        active={active}
+        disabled={disabled}
+        errorState={errorState}
+        initial={initial}
+        placeholder={placeholder}
+        center={center}
+        noLastPass={noLastPass}
+        maxLength={maxLength}
+        pointerToLeft={pointerToLeft}
+        data-e2e={props['data-e2e']}
+      />
+      {touched && error && !hideError && (
+        <Error size='12px' weight={500} color='error' errorBottom={errorBottom}>
+          {error}
+        </Error>
+      )}
+      {touched && !error && warning && (
+        <Error size='12px' weight={500} color='error' errorBottom={errorBottom}>
+          {warning}
+        </Error>
+      )}
+    </Container>
+  )
 }
 
 export default AutosizeTextBox
