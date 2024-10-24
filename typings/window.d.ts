@@ -20,10 +20,13 @@ declare global {
     // build injected recaptcha key
     SARDINE_CLIENT_ID: string
     // build injected sardine access key
-    SARDINE_ENVIRONMENT: string // sardine environment sandbox or production
-    _Sardine: any // Sardine integration
-    _SardineContext: any // Sardine integration
+    SARDINE_ENVIRONMENT: string
+    // Sardine integration
     WALLET_V5_LINK: string
+    // sardine environment sandbox or production
+    _Sardine: any
+    // Sardine integration
+    _SardineContext: any
     coins: Coins
     grecaptcha: any // google recaptcha sets this on window
     history?: {
