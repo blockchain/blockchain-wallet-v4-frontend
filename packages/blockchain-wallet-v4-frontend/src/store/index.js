@@ -12,7 +12,7 @@ import Worker from 'web-worker'
 import { v4 as uuidv4 } from 'uuid'
 
 import { coreMiddleware } from '@core'
-import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network'
+import { createWalletApi, HorizonStreamingService, Socket } from '@core/network'
 import { serializer } from '@core/types'
 import { actions, rootReducer, rootSaga, selectors, model } from 'data'
 import { isBrowserSupported } from 'services/browser'
@@ -89,11 +89,6 @@ const configuredStore = async function () {
     options,
     url: `${socketUrl}/coins`
   })
-  const ratesSocket = new ApiSocket({
-    maxReconnects: 3,
-    options,
-    url: `${socketUrl}/nabu-gateway/markets/quotes`
-  })
   const xlmStreamingService = new HorizonStreamingService({
     url: horizonUrl
   })
@@ -142,7 +137,6 @@ const configuredStore = async function () {
       routerMiddleware(history),
       coreMiddleware.kvStore({ api, isAuthenticated, kvStorePath: 'wallet.kvstore' }),
       streamingXlm(xlmStreamingService, api),
-      webSocketRates(ratesSocket),
       webSocketCoins(coinsSocket),
       coreMiddleware.walletSync({ api, isAuthenticated, walletPath: 'wallet.payload' }),
       analyticsMiddleware()
@@ -168,8 +162,7 @@ const configuredStore = async function () {
     api,
     coinsSocket,
     networks,
-    options,
-    ratesSocket
+    options
   })
 
   store.dispatch(actions.goals.defineGoals())

@@ -14,7 +14,6 @@ import { logsReducer as logs } from './logs/slice'
 import { miscReducer as misc } from './misc/slice'
 import { modalReducer } from './modals/slice'
 import profile from './modules/profile/reducers'
-import rates from './modules/rates/reducers'
 import securityCenter from './modules/settings/reducers'
 import { transferEthReducer } from './modules/transferEth/transferEthSlice'
 import { networkConfigReducer as networkConfig } from './networkConfig/slice'
@@ -40,7 +39,6 @@ const rootReducer = {
   preferences: preferencesReducer,
   prices,
   profile,
-  rates,
   remoteConfig,
   securityCenter,
   session,
