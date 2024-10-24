@@ -19,7 +19,7 @@ import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
-import { ProductEligibilityForUser, SofiUserMigrationStatus } from 'data/types'
+import { Analytics, ProductEligibilityForUser, SofiUserMigrationStatus } from 'data/types'
 import * as C from 'services/alerts'
 
 import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
@@ -224,6 +224,14 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.goals.saveGoal({ data, name: 'paymentProtocol' }))
       yield put(actions.router.push('/wallet'))
       yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
+      yield put(
+        actions.analytics.trackEvent({
+          key: Analytics.BITPAY_LINK,
+          properties: {
+            coin: isBchPayPro ? 'BCH' : 'BTC'
+          }
+        })
+      )
     } else {
       // BTC payments
       const { address } = bip21Payload
