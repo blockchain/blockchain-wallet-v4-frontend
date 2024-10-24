@@ -149,7 +149,6 @@ const excludedStaging = [
   '/exchange',
   // '/prove/instant-link/callback',
   // '/refer',
-
   // '/#/verify-email',
   '/#/login?product=exchange',
   '/wallet-options-v4.json',
@@ -221,10 +220,18 @@ const App = ({
       setDynamicRoutingState(false)
       return
     }
-
-    // OBTAIN FULL PATH BY COMBINING PATHNAME AND HASH (CLIENT-ONLY ROUTING)
-    let fullPath = (window.location.pathname + window.location.hash).toLowerCase()
-    const fullPathCaseSensitive = window.location.pathname + window.location.hash
+    let fullPath
+    let fullPathCaseSensitive
+    if (window.location.hash && window.location.hash !== '#/') {
+      // OBTAIN FULL PATH BY COMBINING PATHNAME AND HASH (CLIENT-ONLY ROUTING)
+      fullPath = (window.location.pathname + window.location.hash).toLowerCase()
+      fullPathCaseSensitive = window.location.pathname + window.location.hash
+    } else {
+      // OBTAIN FULL PATH BY COMBINING PATHNAME AND SEARCH QUERY, TO DEAL WITH HASH ROUTING
+      // ADDING HASH AT THE END OF THE PATH IF THERE ISN'T ONE
+      fullPath = (window.location.pathname + window.location.search).toLowerCase()
+      fullPathCaseSensitive = window.location.pathname + window.location.search
+    }
 
     // SPLIT IT INTO PARTS TO HANDLE LANGUAGE DETECTION
     const pathSegments = fullPath.split('/').filter(Boolean)
