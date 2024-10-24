@@ -31,8 +31,7 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmailOrGuid = (props: Props) => {
-  const { busy, exchangeTabClicked, formValues, invalid, magicLinkData, submitting, walletError } =
-    props
+  const { busy, exchangeTabClicked, formValues, invalid, submitting, walletError } = props
   const guidError = walletError?.toLowerCase().includes('unknown wallet id')
 
   const isMnemonicRecoveryEnabled = useSelector(getMnemonicRecoveryEnabled).getOrElse(false)
@@ -100,7 +99,7 @@ const EnterEmailOrGuid = (props: Props) => {
           )}
         </LinkRow>
       </WrapperWithPadding>
-      <SignupLink platform={magicLinkData?.platform_type} />
+      <SignupLink />
     </LoginWrapper>
   )
 }
