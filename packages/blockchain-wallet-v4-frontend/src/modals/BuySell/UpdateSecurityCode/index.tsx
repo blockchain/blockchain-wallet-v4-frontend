@@ -31,9 +31,8 @@ import { useRemote } from 'hooks'
 import { isNabuError } from 'services/errors'
 
 import Loading from '../template.loading'
-import { UpdateSecurityCodeComponent } from './types'
 
-const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) => {
+const UpdateSecurityCode = ({ backToEnterAmount }: { backToEnterAmount: () => void }) => {
   const dispatch = useDispatch()
   const [cvv, setCvv] = useState<string | null>(null)
   const { data: order } = useRemote(selectors.components.buySell.getBSOrder)
@@ -52,10 +51,6 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
     }
   }
 
-  const errorCallback = () => {
-    backToEnterAmount()
-  }
-
   useEffect(() => {
     return () => {
       dispatch(actions.components.buySell.cvvStatusReset())
@@ -64,14 +59,14 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
 
   if (error) {
     if (isNabuError(error)) {
-      return <GenericNabuErrorFlyout error={error} onDismiss={errorCallback} />
+      return <GenericNabuErrorFlyout error={error} onDismiss={backToEnterAmount} />
     }
 
     return (
       <FlyoutOopsError
         action='retry'
         data-e2e='sbUpdateSecurityCodeSectionAgain'
-        handler={errorCallback}
+        handler={backToEnterAmount}
       />
     )
   }
@@ -146,9 +141,7 @@ const UpdateSecurityCode: UpdateSecurityCodeComponent = ({ backToEnterAmount }) 
                   <FormattedMessage
                     id='modals.simplebuy.card_ending_in'
                     defaultMessage='Card Ending in {lastFour}'
-                    values={{
-                      lastFour: method.card?.number
-                    }}
+                    values={{ lastFour: method.card?.number }}
                   />
                 }
               />
