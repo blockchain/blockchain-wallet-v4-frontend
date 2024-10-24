@@ -1,79 +1,67 @@
-import React, { PureComponent } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { Remote } from '@core'
-import { BSOrderActionType, BSPairType, FiatType, RemoteDataType } from '@core/types'
+import { BSOrderActionType, BSPairType, FiatType } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout/Errors'
-import { actions, selectors } from 'data'
+import { selectors } from 'data'
+import { brokerage, buySell } from 'data/components/actions'
 import { getEnterAmountStepType } from 'data/components/buySell/utils'
-import { RootState } from 'data/rootReducer'
+import { useRemote } from 'hooks'
 
 import Loading from '../template.loading'
-import getData from './selectors'
-import Success from './template.success'
+import Methods from './Methods'
+import getData, { PaymentMethodsSelectorType } from './selectors'
+import Unsupported from './template.unsupported'
 
-class PaymentMethods extends PureComponent<Props> {
-  componentDidMount() {
-    if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
-      this.props.buySellActions.fetchFiatEligible(this.props.fiatCurrency)
-      this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
-      this.props.buySellActions.fetchCards(false)
-      this.props.brokerageActions.fetchBankTransferAccounts()
+const PaymentMethods = (props) => {
+  const { data, error, isLoading, isNotAsked } = useRemote(getData)
+  const fiatCurrency = useSelector(selectors.components.buySell.getFiatCurrency) ?? 'USD'
+  const dispatch = useDispatch()
+
+  const errorCallback = () => {
+    dispatch(
+      buySell.setStep({
+        cryptoCurrency: 'BTC',
+        fiatCurrency,
+        pair: props.pair,
+        step: getEnterAmountStepType(props.orderType)
+      })
+    )
+  }
+
+  useEffect(() => {
+    if (isNotAsked || error) {
+      dispatch(buySell.fetchFiatEligible(fiatCurrency))
+      dispatch(buySell.fetchPaymentMethods(fiatCurrency))
+      dispatch(buySell.fetchCards(false))
+      dispatch(brokerage.fetchBankTransferAccounts())
     }
+  }, [])
+
+  if (error) {
+    return (
+      <FlyoutOopsError
+        action='retry'
+        handler={errorCallback}
+        data-e2e='sbTryCurrencySelectionAgain'
+      />
+    )
   }
 
-  errorCallback() {
-    this.props.buySellActions.setStep({
-      cryptoCurrency: 'BTC',
-      fiatCurrency: this.props.fiatCurrency || 'USD',
-      pair: this.props.pair,
-      step: getEnterAmountStepType(this.props.orderType)
-    })
-  }
+  if (isLoading || isNotAsked || !data) return <Loading />
 
-  render() {
-    return this.props.data.cata({
-      Failure: () => (
-        <FlyoutOopsError
-          action='retry'
-          handler={this.errorCallback}
-          data-e2e='sbTryCurrencySelectionAgain'
-        />
-      ),
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) => <Success {...val} {...this.props} />
-    })
-  }
+  const isUserEligible = data.paymentMethods.methods?.find((method) => method.limits.max !== '0')
+
+  return isUserEligible ? <Methods {...data} {...props} /> : <Unsupported {...data} {...props} />
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: getData(state),
-  fiatCurrency: selectors.components.buySell.getFiatCurrency(state)
-})
-
-export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type OwnProps = {
+export type LinkStatePropsType = PaymentMethodsSelectorType & {
+  fiatCurrency: undefined | FiatType
+}
+export type Props = {
   handleClose: () => void
   orderType: BSOrderActionType
   pair: BSPairType
 }
 
-export type SuccessStateType = ReturnType<typeof getData>['data']
-
-export type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: undefined | FiatType
-}
-export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
-export type Props = OwnProps & ConnectedProps<typeof connector>
-
-export default connector(PaymentMethods)
+export default PaymentMethods

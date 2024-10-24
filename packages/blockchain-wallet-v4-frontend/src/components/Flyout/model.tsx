@@ -1,10 +1,7 @@
 import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
-import {
-  CARD_TYPES,
-  DEFAULT_CARD_SVG_LOGO
-} from 'blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/model'
 import { addWeeks, format, isToday } from 'date-fns'
+import { getCardLogoOrDefault } from 'modals/BuySell/PaymentMethods/model'
 import styled, { css } from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -725,17 +722,7 @@ const getIcon = (method: BSPaymentMethodType | undefined, disabled?: boolean): R
 
   switch (method.type) {
     case BSPaymentTypes.USER_CARD:
-      const cardType = CARD_TYPES.find(
-        (card) => card.type === (method.card ? method.card.type : '')
-      )
-      return (
-        <img
-          height='18px'
-          width='auto'
-          src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
-          alt=''
-        />
-      )
+      return <img height='18px' width='auto' src={getCardLogoOrDefault(method.card?.type)} alt='' />
     case BSPaymentTypes.FUNDS:
       return <Icon size='32px' color='USD' name={method.currency as WalletCurrencyType} />
     case BSPaymentTypes.BANK_TRANSFER:

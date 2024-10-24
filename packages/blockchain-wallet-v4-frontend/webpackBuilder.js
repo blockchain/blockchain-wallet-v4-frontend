@@ -89,6 +89,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       hooks: path.resolve(__dirname, 'src/hooks/'),
       layouts: path.resolve(__dirname, 'src/layouts/'),
       middleware: path.resolve(__dirname, 'src/middleware/'),
+      modals: path.resolve(__dirname, 'src/modals/'),
       providers: path.resolve(__dirname, 'src/providers/'),
       services: path.resolve(__dirname, 'src/services/'),
       utils: path.resolve(__dirname, 'src/utils/')
