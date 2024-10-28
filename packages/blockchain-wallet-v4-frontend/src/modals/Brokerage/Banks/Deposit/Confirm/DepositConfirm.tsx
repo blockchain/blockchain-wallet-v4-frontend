@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch, useSelector } from 'react-redux'
+import { Padding } from '@blockchain-com/constellation'
 import { addDays, format } from 'date-fns'
 import styled from 'styled-components'
 
@@ -26,7 +27,7 @@ import {
   DepositTerms
 } from 'data/types'
 import { useShowConversionAlert } from 'hooks'
-import { Padding } from '@blockchain-com/constellation'
+
 import { MoreInfoContainer } from './MoreInfoContainer'
 
 // Auto margin top so it gets pushed to the bottom

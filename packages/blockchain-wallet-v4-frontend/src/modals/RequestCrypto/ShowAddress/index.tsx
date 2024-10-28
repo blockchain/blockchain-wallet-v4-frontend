@@ -13,6 +13,10 @@ import { NetworkWarning, NetworkWarningVariant } from 'components/NetworkWarning
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { actions, selectors } from 'data'
 import { SwapBaseCounterTypes } from 'data/types'
+
+import { Props as OwnProps } from '../index'
+import { ClipboardWrapper } from '../model'
+import { RequestSteps } from '../types'
 import {
   AddressDisplay,
   AddressWrapper,
@@ -22,9 +26,6 @@ import {
   QRCodeContainer,
   Wrapper
 } from './styled'
-import { Props as OwnProps } from '../index'
-import { ClipboardWrapper } from '../model'
-import { RequestSteps } from '../types'
 
 const { formatAddr, hasPrefix } = utils.bch
 

@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react'
 import { useIdleTimer } from 'react-idle-timer'
 import { useDispatch, useSelector } from 'react-redux'
 
+import { getAutoLogoutTime } from '@core/redux/wallet/selectors'
 import Alerts from 'components/Alerts'
 import { ServiceAnnouncement, StaticAnnouncement } from 'components/Announcements'
 import { SofiBanner, UkBanner, UkFooterBanner } from 'components/Banner'
@@ -9,6 +10,8 @@ import { CowboysCardComponent } from 'components/Card/CowboysCard'
 import ExchangePromo from 'components/Card/ExchangePromo'
 import { SupportChatForGoldUserOnly } from 'components/SupportChat'
 import Tooltips from 'components/Tooltips'
+import { modals } from 'data/actions'
+import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
@@ -16,9 +19,6 @@ import Modals from '../../../modals'
 import MenuLeft from '../MenuLeft'
 import MenuTop from '../MenuTop'
 import { Container, Content, Nav, PageContent, Wrapper } from './WalletLayout.styles'
-import { modals } from 'data/actions'
-import { RootState } from 'data/rootReducer'
-import { getAutoLogoutTime } from '@core/redux/wallet/selectors'
 
 const WalletLayout = ({
   approvalDate,

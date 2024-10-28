@@ -8,15 +8,14 @@ import { HeaderType, NodeItem, NodeItemTypes, NodeTextType } from '@core/types'
 import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import CheckBox from 'components/Form/CheckBox'
+import DateInputBox from 'components/Form/DateInputBox'
 import Form from 'components/Form/Form'
 import FormGroup from 'components/Form/FormGroup'
 import FormItem from 'components/Form/FormItem'
 import SelectBox from 'components/Form/SelectBox'
 import TextBox from 'components/Form/TextBox'
-import DateInputBox from 'components/Form/DateInputBox'
-
 import { model } from 'data'
-import { required, validFormat, ageOverEighteen } from 'services/forms'
+import { ageOverEighteen, required, validFormat } from 'services/forms'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { GetInputPlaceholder, GetNodeQuestionElements } from './model'
@@ -257,7 +256,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   }
 
   const onChangeInput = (e, value) => {
-    console.log({ e, value })
     const itemId = e.currentTarget.name
 
     const { blocking, context, nodes } = props.extraSteps
@@ -629,7 +627,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             if (node.type === NodeItemTypes.DATE_SELECTION) {
               return RenderDateQuestion(node)
             }
-            console.log('UNRECOGNIZED NODE_TYPE', node.type)
             return null
           })}
 

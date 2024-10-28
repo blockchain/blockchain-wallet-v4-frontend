@@ -1,7 +1,8 @@
-import { Padding, Button, Text } from '@blockchain-com/constellation'
-import { FlyoutWrapper } from 'components/Flyout'
 import React, { FC, ReactNode, useState } from 'react'
+import { Button, Padding, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
+
+import { FlyoutWrapper } from 'components/Flyout'
 
 const Container = styled(FlyoutWrapper)`
   display: flex;

@@ -76,11 +76,14 @@ const decryptBufferWithKey = (payload, iv, key, options) => {
   return decryptedBytes.toString('utf8')
 }
 
+// sha256 :: Buffer -> Buffer
+export const sha256 = (data) => crypto.createHash('sha256').update(data).digest()
+
 // hashNTimes :: Integer -> String -> String
 export const hashNTimes = curry((iterations, data) => {
   assert(iterations > 0, '`iterations` must be a number greater than 0')
   let result = data
-  for (let i = 1; i <= iterations; i++) {
+  for (let i = 1; i <= iterations; i += 1) {
     result = sha256(result)
   }
   return result
@@ -122,9 +125,6 @@ export const decryptDataWithKey = curry((data, key) => {
   // @ts-ignore
   return decryptBufferWithKey(payload, iv, key)
 })
-
-// sha256 :: Buffer -> Buffer
-export const sha256 = (data) => crypto.createHash('sha256').update(data).digest()
 
 // generateMnemonic :: Api -> Promise String
 export const generateMnemonic = (api) => {
