@@ -151,9 +151,7 @@ const excludedProduction = [
   // '/#/sofi'
 ]
 
-const excludedStaging = [
-    '/wallet-options-v4.json'
-]
+const excludedStaging = ['/wallet-options-v4.json']
 
 const App = ({
   apiUrl,
@@ -284,27 +282,6 @@ const App = ({
       return
     }
 
-    // RATHER OR NOT V5 IS AVAILABLE
-    localStorage.setItem('wallet_v5_ui_available', availableUI ? 'true' : 'false')
-
-    if (availableUI) {
-      const redirectUrl = removeHash(fullPath)
-      // eslint-disable-next-line
-      console.log('xx', 'Redirecting to v5', redirectUrl)
-      // Using **WALLET_V5_LINK** as a fallback for webpack builder.
-      if (useFullPathForRedirect.some((prefix) => fullPath.toLowerCase().startsWith(prefix))) {
-        // eslint-disable-next-line
-        console.log('xx', `${window?.WALLET_V5_LINK + redirectUrl}`, 'using full path for redirect')
-        window.location.href = window?.WALLET_V5_LINK + redirectUrl
-      } else {
-        // eslint-disable-next-line
-        console.log('xx', window?.WALLET_V5_LINK, 'not using full path for redirect')
-        window.location.href = window?.WALLET_V5_LINK
-      }
-
-      return
-    }
-
     setDynamicRoutingState(false)
   }, [])
 
@@ -312,7 +289,7 @@ const App = ({
   useEffect(() => {
     const utm = utmParser()
     sessionStorage.setItem(UTM, JSON.stringify(utm))
-    getTracking({ url: apiUrl })
+    // getTracking({ url: apiUrl })
   }, [apiUrl])
 
   // lazy load google tag manager

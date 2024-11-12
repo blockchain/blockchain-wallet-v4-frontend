@@ -126,7 +126,7 @@ const RecoverWalletContainer = (props: Props) => {
 
 const mapStateToProps = (state) => ({
   accountRecoveryData: selectors.signup.getAccountRecoveryMagicLinkData(state),
-  accountRecoveryV2Flag: selectors.core.walletOptions.getAccountRecoveryV2(state).getOrElse(false),
+  accountRecoveryV2Flag: selectors.core.walletOptions.getAccountRecoveryV2(state).getOrElse(true),
   alerts: selectors.alerts.selectAlerts(state) as AlertsState,
   cachedEmail: selectors.cache.getEmail(state),
   cachedGuid: selectors.cache.getStoredGuid(state),
