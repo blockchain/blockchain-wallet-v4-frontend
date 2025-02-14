@@ -154,7 +154,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
           // Note: using an obvious redirection issue
           replacement: process.env.WALLET_V5_LINK
             ? process.env.WALLET_V5_LINK
-            : 'https://google.com'
+            : 'https://login-staging.blockchain.com/beta'
         },
         {
           pattern: '**APP_VERSION**',
