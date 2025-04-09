@@ -4,7 +4,8 @@ import { AddressMap, Wallet, Wrapper } from '../../types'
 import * as Actions from './actions'
 import walletReducer from './reducers'
 
-const wrapperFixture = require('../../types/__mocks__/wrapper.v4')
+
+const wrapperFixture = jest.mock('../../types/__mocks__/wrapper.v4')
 
 describe('reducers', () => {
   describe('wallet', () => {
@@ -12,7 +13,7 @@ describe('reducers', () => {
 
     it('should handle SET_WRAPPER', () => {
       const action = Actions.setWrapper(wrapped)
-      const next = walletReducer(void 0, action)
+      const next = walletReducer(0, action)
       expect(next).toEqual(wrapped)
     })
 

@@ -61,4 +61,4 @@ const PageContent = styled.div<{ center: boolean }>`
   }
 `
 
-export { PageContent, Container, Content, Nav, Wrapper }
+export { Container, Content, Nav, PageContent, Wrapper }

@@ -6,6 +6,7 @@ import * as QuoteSummaryViewModel from './quoteSummaryViewModel'
 const makeCoins = (): Coins => ({
   BTC: {
     coinfig: {
+      categories: [],
       displaySymbol: 'BTC',
       name: 'Bitcoin',
       precision: 8,
@@ -22,6 +23,7 @@ const makeCoins = (): Coins => ({
   },
   USD: {
     coinfig: {
+      categories: [],
       displaySymbol: 'USD',
       name: 'US Dollar',
       precision: 2,

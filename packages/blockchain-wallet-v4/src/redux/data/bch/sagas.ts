@@ -41,6 +41,23 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const __processTxs = function* (txs) {
+    // Page == Remote ([Tx])
+    // Remote(wallet)
+    const wallet = yield select(walletSelectors.getWallet)
+    const walletR = Remote.of(wallet)
+    const accountList = (yield select(getAccountsList)).getOrElse([])
+    const txNotes = (yield select(getBchTxNotes)).getOrElse({})
+
+    // transformTx :: wallet -> Tx
+    // ProcessPage :: wallet -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, txList, txNotes) =>
+      map(transformTx.bind(undefined, wallet.getOrFail(MISSING_WALLET), [], txNotes), txList)
+    // ProcessRemotePage :: Page -> Page
+    const processedTxs = ProcessTxs(walletR, txs, txNotes)
+    return addFromToAccountNames(wallet, accountList, processedTxs)
+  }
+
   const fetchTransactions = function* (action) {
     try {
       const { payload } = action
@@ -93,23 +110,6 @@ export default ({ api }: { api: APIType }) => {
       const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
-  }
-
-  const __processTxs = function* (txs) {
-    // Page == Remote ([Tx])
-    // Remote(wallet)
-    const wallet = yield select(walletSelectors.getWallet)
-    const walletR = Remote.of(wallet)
-    const accountList = (yield select(getAccountsList)).getOrElse([])
-    const txNotes = (yield select(getBchTxNotes)).getOrElse({})
-
-    // transformTx :: wallet -> Tx
-    // ProcessPage :: wallet -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, txList, txNotes) =>
-      map(transformTx.bind(undefined, wallet.getOrFail(MISSING_WALLET), [], txNotes), txList)
-    // ProcessRemotePage :: Page -> Page
-    const processedTxs = ProcessTxs(walletR, txs, txNotes)
-    return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
   const fetchTransactionHistory = function* ({ payload }) {

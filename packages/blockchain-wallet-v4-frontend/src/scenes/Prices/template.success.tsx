@@ -7,8 +7,8 @@ import styled from 'styled-components'
 
 import { getCurrency } from '@core/redux/settings/selectors'
 import { getCoinViewV2 } from '@core/redux/walletOptions/selectors'
-import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
 import { getData as getUserCountry } from 'components/Banner/selectors'
+import { CellText, HeaderText, HeaderToggle, TableWrapper } from 'components/Table'
 
 import { Props as _P, SuccessStateType as _S } from '.'
 import { getTableColumns } from './Table'
@@ -33,7 +33,7 @@ const PricesTable = (props: Props) => {
   const textFilter = useSelector((state) => formValueSelector('prices')(state, 'textFilter'))
   const walletCurrency = useSelector(getCurrency).getOrElse('USD')
   const isUkUser = isUserFromUK || isIpFromUK
-  
+
   const {
     analyticsActions,
     buySellActions,
