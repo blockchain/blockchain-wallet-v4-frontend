@@ -1,9 +1,7 @@
 import coins from './coins/sagas'
-import rates from './rates/sagas'
 import xlm from './xlm/sagas'
 
-export default ({ api, coinsSocket, ratesSocket }) => ({
-  rates: rates({ api, ratesSocket }),
+export default ({ api, coinsSocket }) => ({
   sds: coins({ api, coinsSocket }),
   xlm: xlm()
 })

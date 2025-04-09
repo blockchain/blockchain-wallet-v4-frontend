@@ -28,11 +28,6 @@ let renewSessionTask = null
 let renewUserTask = null
 
 export default ({ api, coreSagas, networks }) => {
-  const renewApiSockets = function* () {
-    yield put(actions.middleware.webSocket.rates.stopSocket())
-    yield put(actions.middleware.webSocket.rates.startSocket())
-  }
-
   const waitForUserId = function* () {
     const userCredentials = yield select(
       selectors.core.kvStore.unifiedCredentials.getUnifiedOrLegacyNabuEntry
@@ -177,7 +172,6 @@ export default ({ api, coreSagas, networks }) => {
       )
       yield put(A.setApiTokenSuccess(apiToken))
       yield call(fetchUser)
-      yield call(renewApiSockets)
       const expiresIn = Math.abs(
         differenceInMilliseconds(subSeconds(new Date(expiresAt), 5), new Date())
       )
@@ -931,7 +925,6 @@ export default ({ api, coreSagas, networks }) => {
     migrateSofiUser,
     recoverUser,
     redirectAfterAssociation,
-    renewApiSockets,
     renewSession,
     renewUser,
     setSession,
