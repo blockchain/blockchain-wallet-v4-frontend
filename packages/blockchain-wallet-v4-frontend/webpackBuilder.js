@@ -127,21 +127,11 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   plugins: concat(
     [
       new webpack.DefinePlugin({
-        'process.env.FIREBASE_API_KEY': JSON.stringify(
-          process.env.FIREBASE_API_KEY || envConfig.FIREBASE_API_KEY
-        ),
-        'process.env.FIREBASE_APP_ID': JSON.stringify(
-          process.env.FIREBASE_APP_ID || envConfig.FIREBASE_APP_ID
-        ),
-        'process.env.FIREBASE_MEASUREMENT_ID': JSON.stringify(
-          process.env.FIREBASE_MEASUREMENT_ID || envConfig.FIREBASE_MEASUREMENT_ID
-        ),
-        'process.env.FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(
-          process.env.FIREBASE_MESSAGING_SENDER_ID || envConfig.FIREBASE_MESSAGING_SENDER_ID
-        ),
-        'process.env.FIREBASE_PROJECT_ID': JSON.stringify(
-          process.env.FIREBASE_PROJECT_ID || envConfig.FIREBASE_PROJECT_ID
-        )
+        'process.env.FIREBASE_API_KEY': JSON.stringify(envConfig.FIREBASE_API_KEY),
+        'process.env.FIREBASE_APP_ID': JSON.stringify(envConfig.FIREBASE_APP_ID),
+        'process.env.FIREBASE_MEASUREMENT_ID': JSON.stringify(envConfig.FIREBASE_MEASUREMENT_ID),
+        'process.env.FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(envConfig.FIREBASE_MESSAGING_SENDER_ID),
+        'process.env.FIREBASE_PROJECT_ID': JSON.stringify(envConfig.FIREBASE_PROJECT_ID)
       }),
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
